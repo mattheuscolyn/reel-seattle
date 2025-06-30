@@ -12,7 +12,7 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0",
     "X-AMC-Vendor-Key": AMC_API_KEY,
 }
-CSV_FILENAME = "showtimes.csv"
+CSV_FILENAME = "public/showtimes.csv"
 
 # Geolocation and search radius
 SEATTLE_LAT, SEATTLE_LON = 47.6062, -122.3321
