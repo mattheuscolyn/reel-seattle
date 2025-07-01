@@ -320,7 +320,7 @@
 
 .sticky-movie-header {
   position: sticky;
-  top: 134px;
+  top: var(--sticky-header-top, 150px);
   z-index: 50;
   background: #111;
   padding-top: 6px;
@@ -330,31 +330,43 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
+  border-bottom: 2px solid #222;
 }
 
 .sticky-date-header {
   position: sticky;
-  top: 204px;
+  top: var(--sticky-date-header-top, 220px);
   z-index: 40;
   background: #111;
   padding-top: 2px;
   padding-bottom: 2px;
   box-shadow: 0 2px 8px #000a;
+  border-top: 1px solid #222;
 }
 
 .sticky-theater-header {
   position: sticky;
-  top: 236px;
+  top: var(--sticky-theater-header-top, 252px);
+  left: 0;
   z-index: 30;
   background: #111;
   padding-top: 1px;
   padding-bottom: 1px;
+  border-top: 1px solid #222;
 }
 
-.dropdown-menu, .sort-menu {
+.dropdown-menu {
+  z-index: 10000;
+}
+
+.sort-menu {
   z-index: 9999;
 }
 
-.sort-dropdown, .dropdown-multiselect {
+.sort-dropdown {
   z-index: 9999;
+}
+
+.dropdown-multiselect {
+  z-index: 10000;
 }

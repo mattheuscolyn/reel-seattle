@@ -47,6 +47,22 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    function setStickyHeaderTop() {
+      const mainHeader = document.querySelector('.main-header');
+      const stickyControls = document.querySelector('.sticky-controls');
+      if (mainHeader && stickyControls) {
+        const offset = mainHeader.offsetHeight + stickyControls.offsetHeight - 8;
+        document.documentElement.style.setProperty('--sticky-header-top', offset + 'px');
+        document.documentElement.style.setProperty('--sticky-date-header-top', (offset + 60) + 'px'); // 60px estimate for movie header
+        document.documentElement.style.setProperty('--sticky-theater-header-top', (offset + 92) + 'px'); // 32px estimate for date header
+      }
+    }
+    setStickyHeaderTop();
+    window.addEventListener('resize', setStickyHeaderTop);
+    return () => window.removeEventListener('resize', setStickyHeaderTop);
+  }, []);
+
   const filtered = showtimes.filter(row =>
     (selectedTheaters.length === 0 || selectedTheaters.includes(row.Theater)) &&
     (selectedDates.length === 0 || selectedDates.includes(row.Date))
