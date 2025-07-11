@@ -37,6 +37,8 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add data/
+        git add public/data/
+        git add public/showtimes.csv
+        git add public/indieshowtimes.csv
         git commit -m "Daily showtime data update $(date +%Y-%m-%d)" || exit 0
         git push 
