@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Papa from 'papaparse';
 import './App.css';
 
-const CSV_URL = process.env.NODE_ENV === 'development' ? '/showtimes_history.csv' : './showtimes_history.csv';
+const CSV_URL = process.env.NODE_ENV === 'development' ? '/data/showtimes_history.csv' : './data/showtimes_history.csv';
 
 function uniqueSorted(arr) {
   return Array.from(new Set(arr)).sort();
