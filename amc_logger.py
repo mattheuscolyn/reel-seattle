@@ -95,7 +95,10 @@ def scrape_amc():
                     showtime["movieName"],
                     showtime.get("runTime", "Unknown"),
                     showtime.get("isAlmostSoldOut"),
-                    showtime.get("media", {}).get("posterDynamic")
+                    showtime.get("media", {}).get("posterDynamic"),
+                    "",  # first_seen_date
+                    "",  # last_updated
+                    ""   # source
                 ])
         time.sleep(1)  # Avoid hitting API rate limits
     return results
@@ -127,7 +130,7 @@ def main():
     all_rows = past_rows + future_rows
     with open(CSV_FILENAME, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["Date", "Time", "Theater", "Film", "Runtime", "isAlmostSoldOut", "posterDynamic"])
+        writer.writerow(["Date", "Time", "Theater", "Film", "Runtime", "isAlmostSoldOut", "posterDynamic", "first_seen_date", "last_updated", "source"])
         writer.writerows(all_rows)
 
     print(f"Updated {CSV_FILENAME} with {len(future_rows)} new/future showtimes. Total rows: {len(all_rows)}")
