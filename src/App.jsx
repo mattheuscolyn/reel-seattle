@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import Papa from 'papaparse';
 import './App.css';
 
@@ -25,6 +25,30 @@ const SORT_OPTIONS = [
 ];
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('showtimes'); // 'showtimes' or 'double-feature'
+
+  return (
+    <div className="app-container">
+      <nav className="main-nav">
+        <button 
+          className={`nav-button ${currentPage === 'showtimes' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('showtimes')}
+        >
+          Showtimes
+        </button>
+        <button 
+          className={`nav-button ${currentPage === 'double-feature' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('double-feature')}
+        >
+          Double Feature Planner
+        </button>
+      </nav>
+      {currentPage === 'showtimes' ? <ShowtimesPage /> : <DoubleFeaturePage />}
+    </div>
+  );
+}
+
+function ShowtimesPage() {
   const [showtimes, setShowtimes] = useState([]);
   const [theaters, setTheaters] = useState([]);
   const [dates, setDates] = useState([]);
@@ -63,10 +87,23 @@ function App() {
     return () => window.removeEventListener('resize', setStickyHeaderTop);
   }, []);
 
-  const filtered = showtimes.filter(row =>
-    (selectedTheaters.length === 0 || selectedTheaters.includes(row.Theater)) &&
-    (selectedDates.length === 0 || selectedDates.includes(row.Date))
-  );
+  const filtered = showtimes.filter(row => {
+    // Filter by theater
+    if (selectedTheaters.length > 0 && !selectedTheaters.includes(row.Theater)) {
+      return false;
+    }
+    // Filter by date - if no dates selected, default to today or future
+    if (selectedDates.length === 0) {
+      if (!isTodayOrFuture(row.Date)) {
+        return false;
+      }
+    } else {
+      if (!selectedDates.includes(row.Date)) {
+        return false;
+      }
+    }
+    return true;
+  });
 
   // Group by film, then by date, then by theater
   const movies = Object.values(filtered.reduce((acc, row) => {
@@ -84,21 +121,6 @@ function App() {
     acc[key].showtimes[row.Date][row.Theater].push(row.Time);
     return acc;
   }, {}));
-
-  // Calculate showtime count for each movie (based on filters)
-  const movieShowtimeCounts = movies.map(movie => {
-    let count = 0;
-    Object.entries(movie.showtimes).forEach(([date, theatersObj]) => {
-      if (selectedDates.length === 0 || selectedDates.includes(date)) {
-        Object.entries(theatersObj).forEach(([theater, times]) => {
-          if (selectedTheaters.length === 0 || selectedTheaters.includes(theater)) {
-            count += times.length;
-          }
-        });
-      }
-    });
-    return count;
-  });
 
   // Sort movies based on selected sort
   const sortedMovies = [...movies].sort((a, b) => {
@@ -129,7 +151,7 @@ function App() {
   });
 
   return (
-    <div className="app-container">
+    <>
       <h1 className="main-header">Showtimes</h1>
       <div className="sticky-controls">
         <div className="filters">
@@ -161,7 +183,463 @@ function App() {
           ))}
         </div>
       )}
-    </div>
+    </>
+  );
+}
+
+function DoubleFeaturePage() {
+  const [showtimes, setShowtimes] = useState([]);
+  const [theaters, setTheaters] = useState([]);
+  const [dates, setDates] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Filter state
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTheaters, setSelectedTheaters] = useState([]);
+  const [earliestStartTime, setEarliestStartTime] = useState('');
+  const [earliestEndTime, setEarliestEndTime] = useState('');
+  const [movieFilterType, setMovieFilterType] = useState('none'); // 'none', 'whitelist', 'blacklist'
+  const [selectedMovies, setSelectedMovies] = useState([]);
+  
+  // Results
+  const [results, setResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+
+  useEffect(() => {
+    Papa.parse(CSV_URL, {
+      download: true,
+      header: true,
+      complete: (results) => {
+        const data = results.data.filter(row => row.Date && row.Film);
+        setShowtimes(data);
+        const uniqueTheaters = uniqueSorted(data.map(r => r.Theater));
+        const uniqueDates = uniqueSorted(data.map(r => r.Date).filter(isTodayOrFuture));
+        setTheaters(uniqueTheaters);
+        setDates(uniqueDates);
+        
+        // Group movies for the movie selector
+        const moviesMap = data.reduce((acc, row) => {
+          if (!acc[row.Film]) {
+            acc[row.Film] = {
+              film: row.Film,
+              runtime: row.Runtime,
+              poster: row.posterDynamic,
+            };
+          }
+          return acc;
+        }, {});
+        setMovies(Object.values(moviesMap));
+        
+        if (uniqueDates.length > 0 && !selectedDate) {
+          setSelectedDate(uniqueDates[0]);
+        }
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  // Parse time string (e.g., "7:30PM") to minutes since midnight
+  const parseTimeToMinutes = (timeStr) => {
+    if (!timeStr) return null;
+    const match = timeStr.match(/(\d+):(\d+)(AM|PM)/i);
+    if (!match) return null;
+    let hours = parseInt(match[1]);
+    const minutes = parseInt(match[2]);
+    const period = match[3].toUpperCase();
+    if (period === 'PM' && hours !== 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+    return hours * 60 + minutes;
+  };
+
+  // Format minutes to time string
+  const formatMinutesToTime = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
+    return `${displayHours}:${mins.toString().padStart(2, '0')}${period}`;
+  };
+
+  // Calculate end time of a movie
+  const getMovieEndTime = (startTimeStr, runtimeStr) => {
+    const startMinutes = parseTimeToMinutes(startTimeStr);
+    if (startMinutes === null) return null;
+    const runtime = parseInt(runtimeStr);
+    if (isNaN(runtime)) return null;
+    return startMinutes + runtime;
+  };
+
+  // Filter movies based on current filters (date, theaters, time)
+  const filteredMovies = useMemo(() => {
+    if (!selectedDate) return [];
+    
+    let filtered = showtimes.filter(row => {
+      // Must match selected date
+      if (row.Date !== selectedDate) return false;
+      
+      // Must match selected theaters (if any selected)
+      if (selectedTheaters.length > 0 && !selectedTheaters.includes(row.Theater)) return false;
+      
+      // Must have runtime data
+      if (!row.Runtime || row.Runtime === 'Unknown') return false;
+      
+      return true;
+    });
+
+    // Apply time filters
+    if (earliestStartTime) {
+      const earliestStart = parseTimeToMinutes(earliestStartTime);
+      if (earliestStart !== null) {
+        filtered = filtered.filter(row => {
+          const start = parseTimeToMinutes(row.Time);
+          return start !== null && start >= earliestStart;
+        });
+      }
+    }
+
+    if (earliestEndTime) {
+      const earliestEnd = parseTimeToMinutes(earliestEndTime);
+      if (earliestEnd !== null) {
+        filtered = filtered.filter(row => {
+          const end = getMovieEndTime(row.Time, row.Runtime);
+          return end !== null && end >= earliestEnd;
+        });
+      }
+    }
+
+    // Get unique movies from filtered showtimes
+    const moviesMap = filtered.reduce((acc, row) => {
+      if (!acc[row.Film]) {
+        acc[row.Film] = {
+          film: row.Film,
+          runtime: row.Runtime,
+          poster: row.posterDynamic,
+        };
+      }
+      return acc;
+    }, {});
+
+    return Object.values(moviesMap);
+  }, [selectedDate, selectedTheaters, earliestStartTime, earliestEndTime, showtimes]);
+
+  // Clear selected movies if they're no longer in the filtered list
+  useEffect(() => {
+    if (selectedMovies.length > 0 && filteredMovies.length > 0) {
+      const validMovies = selectedMovies.filter(movie => 
+        filteredMovies.some(fm => fm.film === movie)
+      );
+      if (validMovies.length !== selectedMovies.length) {
+        setSelectedMovies(validMovies);
+      }
+    } else if (selectedMovies.length > 0 && filteredMovies.length === 0) {
+      // Clear all selections if no movies match filters
+      setSelectedMovies([]);
+    }
+  }, [filteredMovies]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Calculate movie popularity (total showtimes across all theaters)
+  const getMoviePopularity = (filmName) => {
+    return showtimes.filter(row => row.Film === filmName).length;
+  };
+
+  const findDoubleFeatures = () => {
+    setIsSearching(true);
+    
+    // Use setTimeout to allow UI to update before heavy computation
+    setTimeout(() => {
+      if (!selectedDate) {
+        setResults([]);
+        setIsSearching(false);
+        return;
+      }
+
+    // Filter showtimes by date and theaters
+    let filtered = showtimes.filter(row => {
+      if (row.Date !== selectedDate) return false;
+      if (selectedTheaters.length > 0 && !selectedTheaters.includes(row.Theater)) return false;
+      if (!row.Runtime || row.Runtime === 'Unknown') return false; // Skip movies without runtime
+      
+      // Apply movie filter
+      if (movieFilterType === 'whitelist' && selectedMovies.length > 0) {
+        if (!selectedMovies.includes(row.Film)) return false;
+      } else if (movieFilterType === 'blacklist' && selectedMovies.length > 0) {
+        if (selectedMovies.includes(row.Film)) return false;
+      }
+      
+      return true;
+    });
+
+    // Apply time filters
+    if (earliestStartTime) {
+      const earliestStart = parseTimeToMinutes(earliestStartTime);
+      if (earliestStart !== null) {
+        filtered = filtered.filter(row => {
+          const start = parseTimeToMinutes(row.Time);
+          return start !== null && start >= earliestStart;
+        });
+      }
+    }
+
+    if (earliestEndTime) {
+      const earliestEnd = parseTimeToMinutes(earliestEndTime);
+      if (earliestEnd !== null) {
+        filtered = filtered.filter(row => {
+          const end = getMovieEndTime(row.Time, row.Runtime);
+          return end !== null && end >= earliestEnd;
+        });
+      }
+    }
+
+    // Group by theater and film
+    const byTheater = {};
+    filtered.forEach(row => {
+      if (!byTheater[row.Theater]) byTheater[row.Theater] = {};
+      if (!byTheater[row.Theater][row.Film]) {
+        byTheater[row.Theater][row.Film] = {
+          film: row.Film,
+          runtime: parseInt(row.Runtime),
+          poster: row.posterDynamic,
+          showtimes: []
+        };
+      }
+      const timeMinutes = parseTimeToMinutes(row.Time);
+      if (timeMinutes !== null) {
+        byTheater[row.Theater][row.Film].showtimes.push({
+          time: row.Time,
+          timeMinutes: timeMinutes
+        });
+      }
+    });
+
+    // Find all valid double feature pairs
+    const pairs = [];
+    Object.entries(byTheater).forEach(([theater, films]) => {
+      const filmList = Object.values(films);
+      for (let i = 0; i < filmList.length; i++) {
+        for (let j = i + 1; j < filmList.length; j++) {
+          const movieA = filmList[i];
+          const movieB = filmList[j];
+          
+          // Try all combinations of showtimes
+          movieA.showtimes.forEach(showtimeA => {
+            movieB.showtimes.forEach(showtimeB => {
+              // Check if A -> B works
+              const endA = showtimeA.timeMinutes + movieA.runtime;
+              const startB = showtimeB.timeMinutes;
+              if (startB > endA) {
+                const gap = startB - endA;
+                if (gap < 60) { // Less than 1 hour gap
+                  pairs.push({
+                    theater,
+                    movieA: { ...movieA, showtime: showtimeA.time },
+                    movieB: { ...movieB, showtime: showtimeB.time },
+                    gap,
+                    popularity: getMoviePopularity(movieA.film) + getMoviePopularity(movieB.film)
+                  });
+                }
+              }
+              
+              // Check if B -> A works
+              const endB = showtimeB.timeMinutes + movieB.runtime;
+              const startA = showtimeA.timeMinutes;
+              if (startA > endB) {
+                const gap = startA - endB;
+                if (gap < 60) {
+                  pairs.push({
+                    theater,
+                    movieA: { ...movieB, showtime: showtimeB.time },
+                    movieB: { ...movieA, showtime: showtimeA.time },
+                    gap,
+                    popularity: getMoviePopularity(movieA.film) + getMoviePopularity(movieB.film)
+                  });
+                }
+              }
+            });
+          });
+        }
+      }
+    });
+
+    // Sort: first by popularity (desc), then by gap (asc), then by movie pairing
+    pairs.sort((a, b) => {
+      if (b.popularity !== a.popularity) {
+        return b.popularity - a.popularity;
+      }
+      if (a.gap !== b.gap) {
+        return a.gap - b.gap;
+      }
+      // Same pairing, sort by first movie name
+      const aKey = `${a.movieA.film}-${a.movieB.film}`;
+      const bKey = `${b.movieA.film}-${b.movieB.film}`;
+      return aKey.localeCompare(bKey);
+    });
+
+    setResults(pairs);
+    setIsSearching(false);
+    }, 0);
+  };
+
+  const handleSearch = () => {
+    findDoubleFeatures();
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <>
+      <h1 className="main-header">Double Feature Planner</h1>
+      <div className="double-feature-controls">
+        <div className="double-feature-filters">
+          <div className="filter-group">
+            <label>Date</label>
+            <select 
+              value={selectedDate} 
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="filter-select"
+            >
+              {dates.map(date => (
+                <option key={date} value={date}>{date}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="filter-group">
+            <label>Theaters</label>
+            <DropdownMultiSelect
+              label="Select Theaters"
+              options={theaters}
+              selected={selectedTheaters}
+              setSelected={setSelectedTheaters}
+            />
+          </div>
+
+          <div className="filter-group">
+            <label>Earliest Start Time (optional)</label>
+            <input
+              type="text"
+              placeholder="e.g., 7:30PM"
+              value={earliestStartTime}
+              onChange={(e) => setEarliestStartTime(e.target.value)}
+              className="filter-input"
+            />
+          </div>
+
+          <div className="filter-group">
+            <label>Earliest End Time (optional)</label>
+            <input
+              type="text"
+              placeholder="e.g., 10:00PM"
+              value={earliestEndTime}
+              onChange={(e) => setEarliestEndTime(e.target.value)}
+              className="filter-input"
+            />
+          </div>
+
+          <div className="filter-group">
+            <label>Movie Filter</label>
+            <select 
+              value={movieFilterType} 
+              onChange={(e) => {
+                setMovieFilterType(e.target.value);
+                if (e.target.value === 'none') setSelectedMovies([]);
+              }}
+              className="filter-select"
+            >
+              <option value="none">None</option>
+              <option value="whitelist">Whitelist</option>
+              <option value="blacklist">Blacklist</option>
+            </select>
+          </div>
+
+          {movieFilterType !== 'none' && (
+            <div className="filter-group">
+              <label>{movieFilterType === 'whitelist' ? 'Include Movies' : 'Exclude Movies'}</label>
+              {filteredMovies.length === 0 ? (
+                <div style={{color: '#aaa', fontSize: '14px', padding: '10px 14px'}}>
+                  No movies match your current filters. Adjust date, theaters, or time filters.
+                </div>
+              ) : (
+                <DropdownMultiSelect
+                  label={`Select Movies (${selectedMovies.length})`}
+                  options={filteredMovies.map(m => m.film)}
+                  selected={selectedMovies}
+                  setSelected={setSelectedMovies}
+                />
+              )}
+            </div>
+          )}
+        </div>
+        <div className="search-button-container">
+          <button 
+            onClick={handleSearch}
+            disabled={isSearching || !selectedDate}
+            className="search-button"
+          >
+            {isSearching ? (
+              <>
+                <span className="loading-spinner"></span>
+                Searching...
+              </>
+            ) : (
+              'Find Double Features'
+            )}
+          </button>
+        </div>
+      </div>
+
+      <div className="double-feature-results">
+        {results.length > 0 && (
+          <h2 style={{marginBottom: '24px', fontSize: '1.5rem'}}>
+            {results.length} Double Feature Option{results.length !== 1 ? 's' : ''} Found
+          </h2>
+        )}
+        {isSearching ? (
+          <div className="search-loading">
+            <span className="loading-spinner-large"></span>
+            <div style={{color: '#aaa', fontSize: '1.1rem', marginTop: '16px'}}>Searching for double features...</div>
+          </div>
+        ) : results.length === 0 ? (
+          <div style={{color: '#aaa', fontSize: '1.1rem'}}>
+            No double features found matching your criteria. Try adjusting your filters and click "Find Double Features" again.
+          </div>
+        ) : (
+          <div className="double-feature-list">
+            {results.map((result, idx) => {
+              return (
+                <div key={idx} className="double-feature-card">
+                  <div className="double-feature-header">
+                    <h3 className="double-feature-theater">{result.theater}</h3>
+                    <div className="double-feature-gap">Gap: {result.gap} min</div>
+                  </div>
+                  <div className="double-feature-movies">
+                    <div className="double-feature-movie">
+                      <img className="double-feature-poster" src={result.movieA.poster} alt={result.movieA.film} />
+                      <div className="double-feature-movie-info">
+                        <div className="double-feature-movie-title">{result.movieA.film}</div>
+                        <div className="double-feature-movie-time">{result.movieA.showtime}</div>
+                        <div className="double-feature-movie-runtime">{result.movieA.runtime} min</div>
+                      </div>
+                    </div>
+                    <div className="double-feature-arrow">→</div>
+                    <div className="double-feature-movie">
+                      <img className="double-feature-poster" src={result.movieB.poster} alt={result.movieB.film} />
+                      <div className="double-feature-movie-info">
+                        <div className="double-feature-movie-title">{result.movieB.film}</div>
+                        <div className="double-feature-movie-time">{result.movieB.showtime}</div>
+                        <div className="double-feature-movie-runtime">{result.movieB.runtime} min</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
