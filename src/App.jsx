@@ -42,6 +42,9 @@ function App() {
         >
           Double Feature Planner
         </button>
+        <a className="nav-button nav-link" href="/marathon/">
+          Marathon Planner
+        </a>
       </nav>
       {currentPage === 'showtimes' ? <ShowtimesPage /> : <DoubleFeaturePage />}
     </div>

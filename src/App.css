@@ -403,6 +403,30 @@
   border-color: #fff;
 }
 
+.nav-link {
+  text-decoration: none;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+@media (max-width: 640px) {
+  .main-nav {
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .nav-button {
+    padding: 10px 14px;
+    font-size: 14px;
+    flex: 1 1 auto;
+    min-width: calc(50% - 8px);
+    text-align: center;
+  }
+  .nav-link {
+    flex: 1 1 100%;
+  }
+}
+
 /* Double Feature Page */
 .double-feature-controls {
   margin-bottom: 32px;
