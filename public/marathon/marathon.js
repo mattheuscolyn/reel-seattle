@@ -45,11 +45,11 @@
   }
 
   function minutesToLabel(totalMin) {
-    const h = totalMin % 1440;
+    const h = Math.floor(totalMin / 60) % 24;
+    const mins = totalMin % 60;
     const meridiem = h < 12 ? 'AM' : 'PM';
     let display = h % 12;
     if (display === 0) display = 12;
-    const mins = totalMin % 60;
     return `${display}:${mins.toString().padStart(2, '0')} ${meridiem}`;
   }
 

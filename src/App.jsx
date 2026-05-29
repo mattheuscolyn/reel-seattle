@@ -74,7 +74,7 @@ function MarathonPage() {
   return (
     <iframe
       className="marathon-frame"
-      src="/marathon/"
+      src="/marathon/index.html"
       title="Marathon Planner"
     />
   );
