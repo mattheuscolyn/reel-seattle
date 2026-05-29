@@ -90,6 +90,21 @@
     return chain.map((s) => s.id).join(',');
   }
 
+  function countPreferred(films, preferred) {
+    if (!preferred.size) return 0;
+    return films.filter((f) => preferred.has(f)).length;
+  }
+
+  function compareByUserSort(a, b, sortBy) {
+    if (sortBy === 'count-desc') {
+      return b.movie_count - a.movie_count || a.total_span_min - b.total_span_min;
+    }
+    if (sortBy === 'gap') {
+      return a.gap_time_min - b.gap_time_min || a.total_span_min - b.total_span_min;
+    }
+    return a.total_span_min - b.total_span_min || b.movie_count - a.movie_count;
+  }
+
   function filterChains(chains, preferredMovies) {
     if (!preferredMovies.length) return chains;
     const preferred = new Set(preferredMovies);
@@ -116,14 +131,17 @@
     return { deduped, counts: countObj };
   }
 
-  function summarizeChain(chain, alternates, theater) {
+  function summarizeChain(chain, alternates, theater, preferredMovies) {
     const first = chain[0];
     const last = chain[chain.length - 1];
     const totalSpan = last.end_min - first.start_min;
     const filmRuntime = chain.reduce((sum, s) => sum + s.runtime, 0);
     const gapTime = totalSpan - filmRuntime;
+    const films = chain.map((s) => s.film);
+    const preferredCount = countPreferred(films, new Set(preferredMovies || []));
     return {
       movie_count: chain.length,
+      preferred_count: preferredCount,
       total_span_min: totalSpan,
       total_span_label: formatDuration(totalSpan),
       film_runtime_min: filmRuntime,
@@ -135,7 +153,7 @@
       end: minutesToLabel(last.end_min),
       start_min: first.start_min,
       end_min: last.end_min,
-      films: chain.map((s) => s.film),
+      films,
       movies: chain.map((s) => ({
         film: s.film,
         time: s.time,
@@ -262,7 +280,7 @@
 
     const { deduped, counts } = dedupeByFilmLineup(unique);
     const options = deduped.map((c) =>
-      summarizeChain(c, counts[filmsKey(c)] || 1, theater),
+      summarizeChain(c, counts[filmsKey(c)] || 1, theater, filters.preferred_movies),
     );
     const maxMovies = options.reduce((m, o) => Math.max(m, o.movie_count), 0);
     const posters = buildPosters(rows);
@@ -342,9 +360,11 @@
         ? `Excluding ${filters.blacklist.length} title${filters.blacklist.length === 1 ? '' : 's'}`
         : 'No blacklisted titles';
     const preferredNote =
-      filters.preferred_movies.length
-        ? `Requires ≥1 of ${filters.preferred_movies.length} preferred`
-        : 'No preferred-movie filter';
+      filters.preferred_movies.length === 1
+        ? 'Requires 1 preferred title'
+        : filters.preferred_movies.length > 1
+          ? `Requires ≥1 of ${filters.preferred_movies.length} preferred · sorted by most included`
+          : 'No preferred-movie filter';
     const finishBy = getFinishByMin();
     const finishNote =
       finishBy != null ? `Done by ${minutesToLabel(finishBy)}` : 'No finish-time limit';
@@ -383,9 +403,16 @@
     if (finishBy != null) options = options.filter((o) => o.end_min <= finishBy);
 
     const maxN = options.reduce((m, o) => Math.max(m, o.movie_count), 0);
+    const sortBy = document.getElementById('sort-by').value;
+    const preferMultiple = PREFERRED.size > 1;
     const best = [...options]
       .filter((o) => o.movie_count === maxN)
-      .sort((a, b) => a.total_span_min - b.total_span_min)[0];
+      .sort((a, b) => {
+        if (preferMultiple && b.preferred_count !== a.preferred_count) {
+          return b.preferred_count - a.preferred_count;
+        }
+        return compareByUserSort(a, b, sortBy);
+      })[0];
     const el = document.getElementById('hero');
     if (!best) {
       const limitNote =
@@ -427,13 +454,10 @@
     if (q) filtered = filtered.filter((o) => o.films.some((f) => f.toLowerCase().includes(q)));
 
     filtered.sort((a, b) => {
-      if (sortBy === 'count-desc') {
-        return b.movie_count - a.movie_count || a.total_span_min - b.total_span_min;
+      if (PREFERRED.size > 1 && b.preferred_count !== a.preferred_count) {
+        return b.preferred_count - a.preferred_count;
       }
-      if (sortBy === 'gap') {
-        return a.gap_time_min - b.gap_time_min || a.total_span_min - b.total_span_min;
-      }
-      return a.total_span_min - b.total_span_min || b.movie_count - a.movie_count;
+      return compareByUserSort(a, b, sortBy);
     });
 
     page = 0;
