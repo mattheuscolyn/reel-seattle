@@ -17,6 +17,20 @@ function isTodayOrFuture(dateStr) {
   return date >= today;
 }
 
+function isShowtimeCanceled(row) {
+  const value = row?.isCanceled;
+  if (value == null || value === '') return false;
+  const normalized = String(value).trim().toLowerCase();
+  return normalized === 'true' || normalized === '1' || normalized === 'yes';
+}
+
+function showtimeSlot(row) {
+  return {
+    time: row.Time,
+    premiumFormat: (row.premiumFormat || '').trim(),
+  };
+}
+
 const SORT_OPTIONS = [
   { value: 'showtimes-desc', label: 'Showtimes (Most to Least)' },
   { value: 'showtimes-asc', label: 'Showtimes (Least to Most)' },
@@ -25,10 +39,10 @@ const SORT_OPTIONS = [
 ];
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('showtimes'); // 'showtimes' or 'double-feature'
+  const [currentPage, setCurrentPage] = useState('showtimes');
 
   return (
-    <div className="app-container">
+    <div className={`app-container${currentPage === 'marathon' ? ' marathon-active' : ''}`}>
       <nav className="main-nav">
         <button 
           className={`nav-button ${currentPage === 'showtimes' ? 'active' : ''}`}
@@ -42,12 +56,27 @@ function App() {
         >
           Double Feature Planner
         </button>
-        <a className="nav-button nav-link" href="/marathon/">
+        <button
+          className={`nav-button ${currentPage === 'marathon' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('marathon')}
+        >
           Marathon Planner
-        </a>
+        </button>
       </nav>
-      {currentPage === 'showtimes' ? <ShowtimesPage /> : <DoubleFeaturePage />}
+      {currentPage === 'showtimes' && <ShowtimesPage />}
+      {currentPage === 'double-feature' && <DoubleFeaturePage />}
+      {currentPage === 'marathon' && <MarathonPage />}
     </div>
+  );
+}
+
+function MarathonPage() {
+  return (
+    <iframe
+      className="marathon-frame"
+      src="/marathon/"
+      title="Marathon Planner"
+    />
   );
 }
 
@@ -65,7 +94,7 @@ function ShowtimesPage() {
       download: true,
       header: true,
       complete: (results) => {
-        const data = results.data.filter(row => row.Date && row.Film);
+        const data = results.data.filter(row => row.Date && row.Film && !isShowtimeCanceled(row));
         setShowtimes(data);
         setTheaters(uniqueSorted(data.map(r => r.Theater)));
         setDates(uniqueSorted(data.map(r => r.Date).filter(isTodayOrFuture)));
@@ -91,6 +120,7 @@ function ShowtimesPage() {
   }, []);
 
   const filtered = showtimes.filter(row => {
+    if (isShowtimeCanceled(row)) return false;
     // Filter by theater
     if (selectedTheaters.length > 0 && !selectedTheaters.includes(row.Theater)) {
       return false;
@@ -121,7 +151,7 @@ function ShowtimesPage() {
     }
     if (!acc[key].showtimes[row.Date]) acc[key].showtimes[row.Date] = {};
     if (!acc[key].showtimes[row.Date][row.Theater]) acc[key].showtimes[row.Date][row.Theater] = [];
-    acc[key].showtimes[row.Date][row.Theater].push(row.Time);
+    acc[key].showtimes[row.Date][row.Theater].push(showtimeSlot(row));
     return acc;
   }, {}));
 
@@ -214,7 +244,7 @@ function DoubleFeaturePage() {
       download: true,
       header: true,
       complete: (results) => {
-        const data = results.data.filter(row => row.Date && row.Film);
+        const data = results.data.filter(row => row.Date && row.Film && !isShowtimeCanceled(row));
         setShowtimes(data);
         const uniqueTheaters = uniqueSorted(data.map(r => r.Theater));
         const uniqueDates = uniqueSorted(data.map(r => r.Date).filter(isTodayOrFuture));
@@ -796,8 +826,13 @@ function CollapsibleMovieCard({ movie, selectedDates, selectedTheaters }) {
                   <div key={theater} style={{marginLeft: 18, marginBottom: 8}}>
                     <div className="sticky-theater-header" style={{fontWeight: 600, fontSize: 15, marginBottom: 3}}>{theater}</div>
                     <div className="showtimes">
-                      {times.map((time, i) => (
-                        <span className="showtime-pill" key={time + i}>{time}</span>
+                      {times.map((slot, i) => (
+                        <span className="showtime-pill" key={slot.time + (slot.premiumFormat || '') + i}>
+                          {slot.time}
+                          {slot.premiumFormat ? (
+                            <span className="premium-format-tag">{slot.premiumFormat}</span>
+                          ) : null}
+                        </span>
                       ))}
                     </div>
                   </div>

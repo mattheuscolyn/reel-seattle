@@ -40,5 +40,6 @@ jobs:
         git add public/data/
         git add public/showtimes.csv
         git add public/indieshowtimes.csv
+        git add public/marathon/
         git commit -m "Daily showtime data update $(date +%Y-%m-%d)" || exit 0
         git push 

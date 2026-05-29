@@ -9,6 +9,7 @@ This system automatically scrapes showtimes from indie theaters and AMC theaters
 - `amc_logger.py` - Scrapes AMC theaters via API
 - `daily_processor.py` - Processes and consolidates daily data
 - `run_daily_scraping.py` - Master script that runs everything
+- `scripts/marathon/find_marathons.py` - Exports AMC showtimes into `public/marathon/marathon_showtimes.json` for the marathon planner (see `scripts/marathon/README.md`; also runs at end of `daily_processor.py`)
 
 ### Data Files (created automatically)
 - `public/showtimes.csv` - Latest AMC showtimes
@@ -76,9 +77,11 @@ python daily_processor.py
 
 ### showtimes_history.csv
 ```csv
-Date,Time,Theater,Film,Runtime,isAlmostSoldOut,posterDynamic,first_seen_date,last_updated,source
-07/11/2025,7:00 PM,SIFF Film Center,Year of the Fox,97,None,https://...,2024-01-15,2024-01-16,indie
+Date,Time,Theater,Film,Runtime,isAlmostSoldOut,posterDynamic,isCanceled,premiumFormat,hasTrailers,maximumIntendedAttendance,first_seen_date,last_updated,source
+07/11/2025,7:00 PM,SIFF Film Center,Year of the Fox,97,None,https://...,,,,,2024-01-15,2024-01-16,indie
 ```
+
+**AMC restate:** Each scrape replaces AMC rows for **today and future** in history (dropped showtimes disappear). Past AMC days are never removed. Indie showtimes still merge incrementally.
 
 ### movies_announcements.csv
 ```csv

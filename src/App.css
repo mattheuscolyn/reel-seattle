@@ -142,6 +142,9 @@
 }
 
 .showtime-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: #222;
   color: #fff;
   border-radius: 16px;
@@ -155,6 +158,18 @@
 
 .showtime-pill:hover {
   background: #444;
+}
+
+.premium-format-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0a0a0c;
+  background: #e8ff47;
+  border-radius: 6px;
+  padding: 2px 6px;
+  line-height: 1.2;
 }
 
 .dropdown-multiselect {
@@ -403,10 +418,18 @@
   border-color: #fff;
 }
 
-.nav-link {
-  text-decoration: none;
-  display: inline-block;
-  line-height: 1.2;
+.app-container.marathon-active {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.marathon-frame {
+  display: block;
+  width: 100%;
+  min-height: calc(100vh - 100px);
+  border: none;
+  background: #050508;
 }
 
 @media (max-width: 640px) {
@@ -419,11 +442,8 @@
     padding: 10px 14px;
     font-size: 14px;
     flex: 1 1 auto;
-    min-width: calc(50% - 8px);
+    min-width: calc(33% - 8px);
     text-align: center;
-  }
-  .nav-link {
-    flex: 1 1 100%;
   }
 }
 
