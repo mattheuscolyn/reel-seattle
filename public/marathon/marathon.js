@@ -165,6 +165,25 @@
       .filter(Boolean);
   }
 
+  function getFinishByMin() {
+    const raw = document.getElementById('finish-by').value;
+    if (!raw) return null;
+    return Number(raw);
+  }
+
+  function initFinishBySelect() {
+    const sel = document.getElementById('finish-by');
+    const prev = sel.value;
+    sel.innerHTML = '<option value="">No limit</option>';
+    for (let m = DAY_START; m <= DAY_END; m += 30) {
+      const opt = document.createElement('option');
+      opt.value = String(m);
+      opt.textContent = minutesToLabel(m);
+      sel.appendChild(opt);
+    }
+    if (prev && [...sel.options].some((o) => o.value === prev)) sel.value = prev;
+  }
+
   function getActiveFilters() {
     return {
       blacklist: parseTitleList(document.getElementById('blacklist-input').value),
@@ -326,9 +345,13 @@
       filters.preferred_movies.length
         ? `Requires ≥1 of ${filters.preferred_movies.length} preferred`
         : 'No preferred-movie filter';
+    const finishBy = getFinishByMin();
+    const finishNote =
+      finishBy != null ? `Done by ${minutesToLabel(finishBy)}` : 'No finish-time limit';
     root.innerHTML = `
       <span class="pill">${blacklistNote}</span>
       <span class="pill">${preferredNote}</span>
+      <span class="pill">${finishNote}</span>
     `;
   }
 
@@ -355,18 +378,25 @@
   }
 
   function renderHero() {
-    const maxN = DATA.max_movies_in_one_day;
-    const best = [...DATA.options]
+    const finishBy = getFinishByMin();
+    let options = DATA.options;
+    if (finishBy != null) options = options.filter((o) => o.end_min <= finishBy);
+
+    const maxN = options.reduce((m, o) => Math.max(m, o.movie_count), 0);
+    const best = [...options]
       .filter((o) => o.movie_count === maxN)
       .sort((a, b) => a.total_span_min - b.total_span_min)[0];
     const el = document.getElementById('hero');
     if (!best) {
-      el.innerHTML = '<p>No marathon options for this date and theater.</p>';
+      const limitNote =
+        finishBy != null ? ` ending by ${minutesToLabel(finishBy)}` : '';
+      el.innerHTML = `<p>No marathon options for this date and theater${limitNote}.</p>`;
       return;
     }
+    const limitPrefix = finishBy != null ? `Best ${maxN}-film schedule before ${minutesToLabel(finishBy)}` : `Longest day: ${maxN} unique films`;
     el.innerHTML = `
       <div>
-        <h2>Longest day: ${maxN} unique films</h2>
+        <h2>${limitPrefix}</h2>
         <p>Tightest ${maxN}-film schedule — ${best.total_span_label} door-to-door (${best.start} → ${best.end}).</p>
         <div class="hero-stats">
           <div class="hero-stat"><strong>${best.film_runtime_label}</strong><span>Screen time</span></div>
@@ -385,9 +415,14 @@
     const maximalOnly = document.getElementById('maximal-only').value === '1';
     const sortBy = document.getElementById('sort-by').value;
     const q = document.getElementById('search').value.trim().toLowerCase();
-    const maxCount = DATA.max_movies_in_one_day;
+    const finishBy = getFinishByMin();
+    const withinFinish = (o) => finishBy == null || o.end_min <= finishBy;
+    const maxCount = maximalOnly
+      ? DATA.options.filter(withinFinish).reduce((m, o) => Math.max(m, o.movie_count), 0)
+      : DATA.max_movies_in_one_day;
 
     filtered = DATA.options.filter((o) => o.movie_count >= minMovies);
+    if (finishBy != null) filtered = filtered.filter(withinFinish);
     if (maximalOnly) filtered = filtered.filter((o) => o.movie_count === maxCount);
     if (q) filtered = filtered.filter((o) => o.films.some((f) => f.toLowerCase().includes(q)));
 
@@ -490,6 +525,8 @@
 
   function render() {
     applyFilters();
+    updatePills(getActiveFilters());
+    renderHero();
     renderCards();
   }
 
@@ -502,8 +539,8 @@
     DAY_RANGE = DAY_END - DAY_START;
     updateContextLabel();
     updateSummaryStats();
+    initFinishBySelect();
     updateMinMoviesSelect();
-    renderHero();
     render();
   }
 
@@ -600,7 +637,7 @@
     recompute();
   }
 
-  ['min-movies', 'maximal-only', 'sort-by'].forEach((id) =>
+  ['min-movies', 'maximal-only', 'sort-by', 'finish-by'].forEach((id) =>
     document.getElementById(id).addEventListener('change', render),
   );
   document.getElementById('search').addEventListener('input', () => {

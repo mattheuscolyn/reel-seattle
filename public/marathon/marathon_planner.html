@@ -134,7 +134,7 @@
     }
     .control { display: flex; flex-direction: column; gap: 0.3rem; }
     .control label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    select, input[type="search"] {
+    select, input[type="search"], input[type="time"] {
       background: var(--surface-2);
       border: 1px solid var(--border);
       color: var(--text);
@@ -569,6 +569,12 @@
       <div class="control">
         <label for="plan-theater">Theater</label>
         <select id="plan-theater"></select>
+      </div>
+      <div class="control">
+        <label for="finish-by">Finish by</label>
+        <select id="finish-by">
+          <option value="">No limit</option>
+        </select>
       </div>
       <div class="control">
         <label>Min movies</label>
