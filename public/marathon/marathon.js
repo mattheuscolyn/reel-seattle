@@ -183,16 +183,27 @@
       .filter(Boolean);
   }
 
+  function applyDayWindow(dayWindow) {
+    const dw = dayWindow || {};
+    DAY_START = Number(dw.start_min) || 600;
+    DAY_END = Number(dw.end_min) || 1440;
+    DAY_RANGE = DAY_END - DAY_START;
+  }
+
   function getFinishByMin() {
-    const raw = document.getElementById('finish-by').value;
+    const sel = document.getElementById('finish-by');
+    if (!sel) return null;
+    const raw = sel.value;
     if (!raw) return null;
     return Number(raw);
   }
 
   function initFinishBySelect() {
     const sel = document.getElementById('finish-by');
+    if (!sel) return;
     const prev = sel.value;
     sel.innerHTML = '<option value="">No limit</option>';
+    if (DAY_END < DAY_START) return;
     for (let m = DAY_START; m <= DAY_END; m += 30) {
       const opt = document.createElement('option');
       opt.value = String(m);
@@ -558,9 +569,7 @@
     DATA = data;
     POSTERS = DATA.posters || {};
     PREFERRED = new Set(DATA.preferred_movies || []);
-    DAY_START = DATA.day_window.start_min;
-    DAY_END = DATA.day_window.end_min;
-    DAY_RANGE = DAY_END - DAY_START;
+    applyDayWindow(DATA.day_window);
     updateContextLabel();
     updateSummaryStats();
     initFinishBySelect();
@@ -650,6 +659,9 @@
     SOURCE = source;
     document.getElementById('loading').style.display = 'none';
     document.getElementById('app').classList.add('ready');
+
+    applyDayWindow(source.day_window);
+    initFinishBySelect();
 
     const stored = loadStoredFilters();
     const blacklist = stored?.blacklist ?? source.blacklist ?? [];
