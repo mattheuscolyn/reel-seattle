@@ -2,6 +2,8 @@
 
 A Seattle-area movie planning app: browse current showtimes, plan double features, and explore AMC marathon schedules.
 
+**Planned:** a [unified planner](docs/unified-planner-design.md) will replace the separate Double Feature and Marathon tools (design doc PR 60; implementation PRs 61–66).
+
 ## Features
 
 - **Showtimes** — filter by theater and date; movie cards with poster, runtime, and showtimes

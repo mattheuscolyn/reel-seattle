@@ -12,7 +12,7 @@ This system automatically scrapes showtimes from indie theaters and AMC theaters
 - `reel_seattle/adapters/amc.py` - AMC API source adapter (fetch, allowlist, legacy CSV conversion)
 - `daily_processor.py` - Processes and consolidates daily data
 - `run_daily_scraping.py` - Master script that runs everything
-- `scripts/marathon/find_marathons.py` - Exports AMC showtimes into `public/marathon/marathon_showtimes.json` for the marathon planner (see `scripts/marathon/README.md`; also runs at end of `daily_processor.py`)
+- `scripts/marathon/find_marathons.py` - Exports AMC showtimes into `public/marathon/marathon_showtimes.json` for the marathon planner (see `scripts/marathon/README.md`; also runs at end of `daily_processor.py`). **Legacy:** the planned [unified React planner](docs/unified-planner-design.md) will read `showtimes_current.json` directly; this export remains until the iframe is removed (PR 66).
 
 ### Data Files (created automatically)
 - `public/showtimes.csv` - Latest AMC showtimes

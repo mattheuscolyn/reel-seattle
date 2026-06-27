@@ -2,6 +2,8 @@
 
 Quick checks after frontend PRs. Automated checks need no browser; manual checks confirm UI behavior.
 
+**Unified planner:** technical design is in [unified-planner-design.md](./unified-planner-design.md). Add a `/planner` section here when PR 62 lands.
+
 ## Automated (no browser)
 
 Before manual QA, check whether local `public/` data is fresh enough to trust:
