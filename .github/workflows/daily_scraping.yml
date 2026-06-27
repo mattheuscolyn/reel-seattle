@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests beautifulsoup4
+        pip install -r requirements.txt
         
     - name: Set up AMC API key
       env:
@@ -37,7 +37,15 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add public/data/
+        git add data/history/showtimes_history.csv
+        git add data/daily_logs/
+        git add data/theaters.json
+        git add public/data/showtimes_current.json
+        git add public/data/pipeline_report.json
+        git add public/data/theaters.json
+        git add public/data/movies_announcements.csv
+        git add public/data/newly_announced.csv
+        git add public/data/newly_added_current.json
         git add public/showtimes.csv
         git add public/indieshowtimes.csv
         git add public/marathon/

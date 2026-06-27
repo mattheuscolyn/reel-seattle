@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/showtime/v1.0.0.json",
+  "title": "Reel Seattle Showtime (stub)",
+  "description": "Stub schema for normalized showtime records. Will be completed when showtimes_current.json is implemented (Phase 1, PR 7).",
+  "type": "object",
+  "required": ["schema_version"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this artifact was built."
+    },
+    "timezone": {
+      "type": "string",
+      "description": "Default timezone for show dates (America/Los_Angeles)."
+    },
+    "window": {
+      "type": "object",
+      "description": "Inclusive date range covered by this artifact.",
+      "properties": {
+        "start_date": { "type": "string", "format": "date" },
+        "end_date": { "type": "string", "format": "date" }
+      }
+    },
+    "showtimes": {
+      "type": "array",
+      "description": "Normalized showtime slots.",
+      "items": { "$ref": "#/$defs/showtime_record" }
+    }
+  },
+  "$defs": {
+    "showtime_record": {
+      "type": "object",
+      "description": "Target shape for a single showtime after normalization.",
+      "required": [
+        "id",
+        "date",
+        "time",
+        "time_display",
+        "theater_id",
+        "showtime_film_key",
+        "film_title",
+        "status",
+        "source"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable hash of theater_id, date, time, and showtime_film_key."
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Show date (ISO 8601)."
+        },
+        "time": {
+          "type": "string",
+          "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+          "description": "Start time in 24-hour HH:MM."
+        },
+        "time_display": {
+          "type": "string",
+          "description": "12-hour display string (e.g. 7:30 PM)."
+        },
+        "theater_id": {
+          "type": "string",
+          "description": "Reference to theaters.json id."
+        },
+        "showtime_film_key": {
+          "type": "string",
+          "description": "Deterministic slug from normalized title; provisional until film_id (TMDB) in Phase 3."
+        },
+        "film_id": {
+          "type": ["string", "null"],
+          "description": "Reserved for Phase 3 authority-backed film identity (e.g. tmdb:12345)."
+        },
+        "film_title": {
+          "type": "string",
+          "description": "Display title as shown by the theater."
+        },
+        "runtime_min": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "description": "Runtime in minutes; null if unknown."
+        },
+        "poster_url": {
+          "type": ["string", "null"],
+          "format": "uri",
+          "description": "HTTPS poster URL or null."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "canceled", "sold_out"]
+        },
+        "format_tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Normalized premium format tokens (imax, dolby, etc.)."
+        },
+        "ticket_url": {
+          "type": ["string", "null"],
+          "format": "uri"
+        },
+        "source": {
+          "type": "string",
+          "description": "Adapter id (amc, siff, beacon)."
+        },
+        "source_showtime_id": {
+          "type": ["string", "null"],
+          "description": "Vendor showtime or screening id."
+        },
+        "first_seen_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "last_seen_at": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    }
+  }
+}

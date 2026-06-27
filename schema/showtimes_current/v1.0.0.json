@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/showtimes_current/v1.0.0.json",
+  "title": "Reel Seattle Current Showtimes",
+  "description": "Lean client artifact covering today through today + 14 days. Emitted by daily_processor.py after history is updated.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "timezone",
+    "window",
+    "sources_included",
+    "sources",
+    "stats",
+    "theaters",
+    "films",
+    "showtimes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this artifact was built (America/Los_Angeles)."
+    },
+    "timezone": {
+      "type": "string",
+      "const": "America/Los_Angeles"
+    },
+    "window": {
+      "type": "object",
+      "required": ["start_date", "end_date"],
+      "additionalProperties": false,
+      "properties": {
+        "start_date": { "type": "string", "format": "date" },
+        "end_date": { "type": "string", "format": "date" }
+      }
+    },
+    "sources_included": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["amc", "siff", "beacon"]
+      },
+      "uniqueItems": true
+    },
+    "sources": {
+      "type": "object",
+      "required": ["amc", "siff", "beacon"],
+      "additionalProperties": false,
+      "properties": {
+        "amc": { "$ref": "#/$defs/source_freshness" },
+        "siff": { "$ref": "#/$defs/source_freshness" },
+        "beacon": { "$ref": "#/$defs/source_freshness" }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "required": ["showtime_count", "film_count", "theater_count"],
+      "additionalProperties": false,
+      "properties": {
+        "showtime_count": { "type": "integer", "minimum": 0 },
+        "film_count": { "type": "integer", "minimum": 0 },
+        "theater_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "theaters": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/theater_snapshot" }
+    },
+    "films": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/film_ref" }
+    },
+    "showtimes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/showtime_record" }
+    }
+  },
+  "$defs": {
+    "source_freshness": {
+      "type": "object",
+      "required": [
+        "status",
+        "showtime_count",
+        "film_count",
+        "theater_count",
+        "last_successful_run"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["success", "stale", "empty", "failed"]
+        },
+        "showtime_count": { "type": "integer", "minimum": 0 },
+        "film_count": { "type": "integer", "minimum": 0 },
+        "theater_count": { "type": "integer", "minimum": 0 },
+        "last_successful_run": { "type": ["string", "null"], "format": "date" }
+      }
+    },
+    "theater_snapshot": {
+      "type": "object",
+      "required": ["id", "name", "aliases", "source", "enabled", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "name": { "type": "string", "minLength": 1 },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "source": {
+          "type": "string",
+          "enum": ["amc", "siff", "beacon"]
+        },
+        "source_external_id": { "type": ["string", "null"] },
+        "enabled": { "type": "boolean" },
+        "type": {
+          "type": "string",
+          "enum": ["chain", "indie", "rep", "festival"]
+        },
+        "city": { "type": "string" },
+        "neighborhood": { "type": "string" },
+        "timezone": { "type": "string" }
+      }
+    },
+    "film_ref": {
+      "type": "object",
+      "required": ["showtime_film_key", "title"],
+      "additionalProperties": false,
+      "properties": {
+        "showtime_film_key": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "runtime_min": { "type": ["integer", "null"], "minimum": 1 },
+        "poster_url": { "type": ["string", "null"], "format": "uri" }
+      }
+    },
+    "showtime_record": {
+      "type": "object",
+      "required": [
+        "id",
+        "date",
+        "time",
+        "time_display",
+        "theater_id",
+        "showtime_film_key",
+        "film_title",
+        "runtime_min",
+        "poster_url",
+        "status",
+        "format_tags",
+        "ticket_url",
+        "source",
+        "source_showtime_id",
+        "attributes",
+        "first_seen_at",
+        "last_seen_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable hash of theater_id, date, time, and showtime_film_key."
+        },
+        "date": { "type": "string", "format": "date" },
+        "time": {
+          "type": "string",
+          "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+        },
+        "time_display": { "type": "string", "minLength": 1 },
+        "theater_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "showtime_film_key": { "type": "string", "minLength": 1 },
+        "film_title": { "type": "string", "minLength": 1 },
+        "runtime_min": { "type": ["integer", "null"], "minimum": 1 },
+        "poster_url": { "type": ["string", "null"], "format": "uri" },
+        "status": {
+          "type": "string",
+          "enum": ["active", "sold_out"]
+        },
+        "format_tags": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "ticket_url": { "type": ["string", "null"], "format": "uri" },
+        "source": {
+          "type": "string",
+          "enum": ["amc", "siff", "beacon"]
+        },
+        "source_showtime_id": { "type": ["string", "null"] },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "first_seen_at": { "type": ["string", "null"], "format": "date" },
+        "last_seen_at": { "type": ["string", "null"], "format": "date" }
+      }
+    }
+  }
+}

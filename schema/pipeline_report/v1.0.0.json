@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/pipeline_report/v1.0.0.json",
+  "title": "Reel Seattle Pipeline Report",
+  "description": "Daily observability report for the showtime processing pipeline.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "status",
+    "window",
+    "sources",
+    "totals",
+    "messages"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["success", "failed"]
+    },
+    "window": {
+      "type": "object",
+      "required": ["start_date", "end_date"],
+      "additionalProperties": false,
+      "properties": {
+        "start_date": { "type": "string", "format": "date" },
+        "end_date": { "type": "string", "format": "date" }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "required": ["amc", "siff", "beacon"],
+      "additionalProperties": false,
+      "properties": {
+        "amc": { "$ref": "#/$defs/source_report" },
+        "siff": { "$ref": "#/$defs/source_report" },
+        "beacon": { "$ref": "#/$defs/source_report" }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "required": ["showtime_count", "film_count", "theater_count"],
+      "additionalProperties": false,
+      "properties": {
+        "showtime_count": { "type": "integer", "minimum": 0 },
+        "film_count": { "type": "integer", "minimum": 0 },
+        "theater_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "messages": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "$defs": {
+    "source_report": {
+      "type": "object",
+      "required": [
+        "status",
+        "showtime_count",
+        "film_count",
+        "theater_count",
+        "last_successful_run",
+        "warnings",
+        "errors"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["success", "stale", "empty", "failed"]
+        },
+        "showtime_count": { "type": "integer", "minimum": 0 },
+        "film_count": { "type": "integer", "minimum": 0 },
+        "theater_count": { "type": "integer", "minimum": 0 },
+        "last_successful_run": { "type": ["string", "null"], "format": "date" },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "errors": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

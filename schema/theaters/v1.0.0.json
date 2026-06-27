@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/theaters/v1.0.0.json",
+  "title": "Reel Seattle Theater Registry",
+  "description": "Canonical list of theaters supported by Reel Seattle. Authored in data/theaters.json and deployed as public/data/theaters.json.",
+  "type": "object",
+  "required": ["schema_version", "updated_at", "theaters"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "Semantic version of this document shape (e.g. 1.0.0).",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Date the registry was last edited (ISO 8601 date).",
+      "format": "date"
+    },
+    "theaters": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/theater" }
+    }
+  },
+  "$defs": {
+    "theater": {
+      "type": "object",
+      "required": ["id", "name", "aliases", "source", "enabled", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable kebab-case identifier. Never rename once showtimes reference it.",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Canonical display name shown in the app and written to showtime records.",
+          "minLength": 1
+        },
+        "aliases": {
+          "type": "array",
+          "description": "Alternate names from scrapers or historical data. Matched case-insensitively after trim.",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "source": {
+          "type": "string",
+          "description": "Adapter that ingests this theater (amc, siff, beacon, etc.).",
+          "enum": ["amc", "siff", "beacon"]
+        },
+        "source_external_id": {
+          "type": ["string", "null"],
+          "description": "Vendor-specific ID (e.g. AMC API theatre id). Used for API calls; null until populated."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "When false, scrapers and the processor should skip this theater. No code reads this field yet."
+        },
+        "type": {
+          "type": "string",
+          "description": "Venue category for UX and filtering.",
+          "enum": ["chain", "indie", "rep", "festival"]
+        },
+        "city": {
+          "type": "string",
+          "description": "Primary city for display and future map features."
+        },
+        "neighborhood": {
+          "type": "string",
+          "description": "Neighborhood or district within the city."
+        },
+        "timezone": {
+          "type": "string",
+          "description": "IANA timezone for showtime date interpretation.",
+          "default": "America/Los_Angeles"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "source": { "const": "amc" } },
+            "required": ["source"]
+          },
+          "then": {
+            "required": ["source_external_id"]
+          }
+        }
+      ]
+    }
+  }
+}

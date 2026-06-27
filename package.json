@@ -8,12 +8,16 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "marathon": "python scripts/marathon/find_marathons.py"
+    "marathon": "python scripts/marathon/find_marathons.py",
+    "test:frontend": "node --test tests/frontend/**/*.test.mjs",
+    "check:dist": "node scripts/check_dist_artifacts.mjs",
+    "check:data-freshness": "node scripts/check_local_data_freshness.mjs",
+    "smoke:frontend": "node scripts/smoke_check_frontend.mjs"
   },
   "dependencies": {
-    "papaparse": "^5.5.3",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/newly_added_current/v1.0.0.json",
+  "title": "Reel Seattle Newly Added Current",
+  "description": "Recently announced film+theater pairs visible in the current showtimes window.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "days_back",
+    "entries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "days_back": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "required": [
+        "showtime_film_key",
+        "film_title",
+        "theater_id",
+        "theater_name",
+        "first_announced_date",
+        "last_seen_date"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "showtime_film_key": { "type": "string", "minLength": 1 },
+        "film_title": { "type": "string", "minLength": 1 },
+        "theater_id": { "type": "string", "minLength": 1 },
+        "theater_name": { "type": "string", "minLength": 1 },
+        "first_announced_date": { "type": "string", "format": "date" },
+        "last_seen_date": { "type": "string", "format": "date" }
+      }
+    }
+  }
+}

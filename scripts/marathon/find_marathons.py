@@ -1,25 +1,32 @@
 #!/usr/bin/env python3
 """
-Export AMC showtimes from showtimes_history.csv for the marathon planner UI.
+Export AMC showtimes from showtimes_current.json for the marathon planner UI.
 The browser computes marathon options for the selected date and theater.
 
-Edit BLACKLIST and PREFERRED_MOVIES below, then run after scraping (or npm run marathon).
+Edit BLACKLIST and PREFERRED_MOVIES below, then run after daily processing (or npm run marathon).
 """
 
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import re
 import shutil
+import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = ROOT.parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from reel_seattle.normalize import format_date_csv, parse_iso_date, parse_time
+
 # ---------------------------------------------------------------------------
-# Hardcode titles exactly as they appear in the CSV "Film" column (case-sensitive).
+# Hardcode titles exactly as they appear in showtimes_current film_title (case-sensitive).
 # ---------------------------------------------------------------------------
 
 BLACKLIST: list[str] = [
@@ -44,11 +51,12 @@ DEPLOY_SUBDIR: str = "marathon"
 
 # ---------------------------------------------------------------------------
 
-ROOT = Path(__file__).resolve().parent
-PROJECT_ROOT = ROOT.parent.parent
 PUBLIC_DIR = PROJECT_ROOT / "public"
 STATIC_DIR = ROOT / "static"
-SHOWTIMES_HISTORY_CSV = PUBLIC_DIR / "data" / "showtimes_history.csv"
+SHOWTIMES_CURRENT_JSON = PROJECT_ROOT / "public" / "data" / "showtimes_current.json"
+# Preferred export metadata key; source_csv kept for marathon UI backward compatibility.
+MARATHON_SOURCE_BASENAME = SHOWTIMES_CURRENT_JSON.name
+MARATHON_SOURCE_RELATIVE = "public/data/showtimes_current.json"
 DEFAULT_THEATER = "AMC Pacific Place 11"
 JSON_ALL_OUT = ROOT / "marathon_options_all.json"
 
@@ -152,71 +160,112 @@ def parse_showtime_date(date_str: str) -> datetime.date:
     return datetime(year, month, day).date()
 
 
-def is_amc_row(row: dict[str, str]) -> bool:
-    if row.get("source", "").strip().lower() == "amc":
-        return True
-    return row.get("Theater", "").strip().startswith("AMC ")
+def load_showtimes_current_artifact(path: Path) -> dict:
+    """Load and parse the current-window showtimes artifact."""
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Malformed showtimes current artifact: {path} ({exc})") from exc
 
 
-def is_truthy_flag(value: str) -> bool:
-    return str(value).strip().lower() in ("true", "1", "yes")
+def build_theater_name_index(artifact: dict) -> dict[str, str]:
+    index: dict[str, str] = {}
+    for entry in artifact.get("theaters", []):
+        if not isinstance(entry, dict):
+            continue
+        theater_id = str(entry.get("id", "")).strip()
+        theater_name = str(entry.get("name", "")).strip()
+        if theater_id and theater_name:
+            index[theater_id] = theater_name
+    return index
 
 
-def load_amc_showtimes_from_history(
-    path: Path,
+def marathon_date_from_iso(iso_date: str) -> str | None:
+    parsed = parse_iso_date(iso_date)
+    if parsed is None:
+        return None
+    return format_date_csv(parsed)
+
+
+def load_amc_showtimes_from_current(
+    artifact: dict,
     *,
-    future_only: bool = True,
+    skip_stats: dict[str, int] | None = None,
 ) -> list[Showtime]:
-    today = datetime.now().date()
+    """Build marathon showtimes from showtimes_current.json AMC rows."""
+    theater_names = build_theater_name_index(artifact)
+    stats = skip_stats if skip_stats is not None else {}
     rows: list[Showtime] = []
-    with path.open(newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for i, row in enumerate(reader):
-            if not is_amc_row(row):
-                continue
-            if is_truthy_flag(row.get("isCanceled", "")):
-                continue
-            date_str = row.get("Date", "").strip()
-            if not date_str:
-                continue
-            try:
-                show_date = parse_showtime_date(date_str)
-            except ValueError:
-                continue
-            if future_only and show_date < today:
-                continue
-            runtime_raw = row.get("Runtime", "").strip()
-            if not runtime_raw or runtime_raw == "Unknown":
-                continue
-            try:
-                runtime = int(runtime_raw)
-            except ValueError:
-                continue
-            time_str = row.get("Time", "").strip()
-            if not time_str:
-                continue
-            try:
-                start = parse_time_to_minutes(time_str)
-            except ValueError:
-                continue
-            poster = (row.get("posterDynamic") or "").strip()
-            rows.append(
-                Showtime(
-                    id=i,
-                    date=date_str,
-                    time=time_str,
-                    theater=row["Theater"].strip(),
-                    film=row["Film"].strip(),
-                    runtime=runtime,
-                    poster=poster,
-                    start_min=start,
-                    end_min=start + runtime,
-                )
+
+    for i, row in enumerate(artifact.get("showtimes", [])):
+        if not isinstance(row, dict):
+            stats["invalid_row"] = stats.get("invalid_row", 0) + 1
+            continue
+
+        if row.get("source") != "amc":
+            stats["non_amc"] = stats.get("non_amc", 0) + 1
+            continue
+
+        if str(row.get("status", "")).strip().lower() == "canceled":
+            stats["canceled"] = stats.get("canceled", 0) + 1
+            continue
+
+        runtime_raw = row.get("runtime_min")
+        if runtime_raw is None:
+            stats["missing_runtime"] = stats.get("missing_runtime", 0) + 1
+            continue
+        try:
+            runtime = int(runtime_raw)
+        except (TypeError, ValueError):
+            stats["missing_runtime"] = stats.get("missing_runtime", 0) + 1
+            continue
+        if runtime <= 0:
+            stats["missing_runtime"] = stats.get("missing_runtime", 0) + 1
+            continue
+
+        parsed_time = parse_time(row.get("time")) or parse_time(row.get("time_display"))
+        if parsed_time is None:
+            stats["missing_time"] = stats.get("missing_time", 0) + 1
+            continue
+
+        marathon_date = marathon_date_from_iso(str(row.get("date", "")))
+        if marathon_date is None:
+            stats["missing_date"] = stats.get("missing_date", 0) + 1
+            continue
+
+        theater_id = str(row.get("theater_id", "")).strip()
+        theater_name = theater_names.get(theater_id, "")
+        if not theater_name:
+            stats["missing_theater"] = stats.get("missing_theater", 0) + 1
+            continue
+
+        film = str(row.get("film_title", "")).strip()
+        if not film:
+            stats["missing_film"] = stats.get("missing_film", 0) + 1
+            continue
+
+        time_display = str(row.get("time_display", "")).strip() or parsed_time.time_display
+        poster = str(row.get("poster_url") or "").strip()
+        start_min = parsed_time.minutes_since_midnight
+
+        rows.append(
+            Showtime(
+                id=i,
+                date=marathon_date,
+                time=time_display,
+                theater=theater_name,
+                film=film,
+                runtime=runtime,
+                poster=poster,
+                start_min=start_min,
+                end_min=start_min + runtime,
             )
+        )
+
     return rows
 
 
-def build_showtimes_export(showtimes: list[Showtime]) -> dict:
+def build_showtimes_export(showtimes: list[Showtime], *, source_name: str) -> dict:
     dates = sorted({s.date for s in showtimes}, key=lambda d: parse_showtime_date(d))
     theaters = sorted({s.theater for s in showtimes})
     default_date = dates[0] if dates else ""
@@ -227,7 +276,9 @@ def build_showtimes_export(showtimes: list[Showtime]) -> dict:
     )
     return {
         "generated_at": datetime.now().isoformat(timespec="seconds"),
-        "source_csv": SHOWTIMES_HISTORY_CSV.name,
+        # Legacy key — marathon UI may read source_csv; prefer source_file for new code.
+        "source_csv": source_name,
+        "source_file": MARATHON_SOURCE_RELATIVE,
         "blacklist": BLACKLIST,
         "preferred_movies": PREFERRED_MOVIES,
         "day_window": {"start_min": DAY_START_MIN, "end_min": DAY_END_MIN},
@@ -252,14 +303,25 @@ def build_showtimes_export(showtimes: list[Showtime]) -> dict:
     }
 
 
-def export_marathon_planner(base: Path | None = None) -> dict[str, Path]:
+def export_marathon_planner(
+    base: Path | None = None,
+    *,
+    current_path: Path | None = None,
+) -> dict[str, Path]:
     """Build marathon_showtimes.json and copy static UI into public/marathon."""
-    if not SHOWTIMES_HISTORY_CSV.exists():
-        raise FileNotFoundError(f"Showtimes history not found: {SHOWTIMES_HISTORY_CSV}")
-    showtimes = load_amc_showtimes_from_history(SHOWTIMES_HISTORY_CSV)
-    payload = build_showtimes_export(showtimes)
+    path = current_path or SHOWTIMES_CURRENT_JSON
+    if not path.exists():
+        raise FileNotFoundError(
+            f"Showtimes current artifact not found: {path}. Run daily_processor.py first."
+        )
+
+    artifact = load_showtimes_current_artifact(path)
+    skip_stats: dict[str, int] = {}
+    showtimes = load_amc_showtimes_from_current(artifact, skip_stats=skip_stats)
+    payload = build_showtimes_export(showtimes, source_name=path.name)
     target_base = base if base is not None else PUBLIC_DIR
-    return write_deploy_bundle(payload, target_base)
+    paths = write_deploy_bundle(payload, target_base)
+    return paths, skip_stats
 
 
 def can_follow(prev: Showtime, nxt: Showtime, films_seen: set[str]) -> bool:
@@ -377,7 +439,8 @@ def build_payload(
     max_movies = max((o["movie_count"] for o in options), default=0)
     return {
         "generated_at": datetime.now().isoformat(timespec="seconds"),
-        "source_csv": SHOWTIMES_HISTORY_CSV.name,
+        "source_csv": MARATHON_SOURCE_BASENAME,
+        "source_file": MARATHON_SOURCE_RELATIVE,
         "date": date,
         "blacklist": BLACKLIST,
         "preferred_movies": PREFERRED_MOVIES,
@@ -404,7 +467,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    paths = export_marathon_planner()
+    paths, skip_stats = export_marathon_planner()
     payload_path = paths["showtimes"]
     payload = json.loads(payload_path.read_text(encoding="utf-8"))
 
@@ -456,7 +519,14 @@ def main() -> None:
         JSON_ALL_OUT.write_text(json.dumps(all_payload), encoding="utf-8")
         print(f"Wrote {JSON_ALL_OUT.name} ({len(unique_chains)} combos)")
 
-    print(f"Loaded {len(payload['showtimes'])} future AMC showtimes")
+    exported_count = len(payload["showtimes"])
+    if exported_count == 0:
+        print("Loaded 0 AMC showtimes from showtimes_current.json")
+    else:
+        print(f"Loaded {exported_count} AMC showtimes from showtimes_current.json")
+    if skip_stats:
+        parts = ", ".join(f"{key}={value}" for key, value in sorted(skip_stats.items()))
+        print(f"  Skipped rows: {parts}")
     print(f"  {len(payload['dates'])} dates, {len(payload['theaters'])} theaters")
     rel = paths["index"].relative_to(PROJECT_ROOT)
     print(f"Wrote deploy files to {rel.parent}/")

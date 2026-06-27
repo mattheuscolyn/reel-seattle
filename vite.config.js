@@ -7,11 +7,15 @@ import react from '@vitejs/plugin-react'
 const ROOT = fileURLToPath(new URL('.', import.meta.url))
 const PUBLIC_DIR = join(ROOT, 'public')
 
-/** Archived scrape CSVs (~GB). Kept in repo but not needed on GitHub Pages. */
+/** Archived scrape CSVs (~GB). Kept in repo but not shipped to GitHub Pages. */
 const PUBLIC_SKIP = ['data/daily_logs']
+
+/** Legacy full history CSV — canonical copy lives under data/history/, not in dist/. */
+const PUBLIC_SKIP_FILES = ['data/showtimes_history.csv']
 
 function shouldSkipPublicPath(relPath) {
   const normalized = relPath.replace(/\\/g, '/')
+  if (PUBLIC_SKIP_FILES.includes(normalized)) return true
   return PUBLIC_SKIP.some(
     (skip) => normalized === skip || normalized.startsWith(`${skip}/`),
   )
@@ -46,18 +50,22 @@ function selectivePublicCopy() {
   }
 }
 
-/** Serve public/marathon/index.html for /marathon/ (avoid SPA fallback to React). */
-function marathonStaticRoute() {
+/** In dev/preview, React owns /marathon/; standalone UI stays at /marathon/index.html. */
+function marathonSpaRoute() {
+  const handler = (req, _res, next) => {
+    const path = req.url?.split('?')[0] ?? ''
+    if (path === '/marathon/') {
+      req.url = '/'
+    }
+    next()
+  }
   return {
-    name: 'marathon-static-route',
+    name: 'marathon-spa-route',
     configureServer(server) {
-      server.middlewares.use((req, _res, next) => {
-        const path = req.url?.split('?')[0] ?? ''
-        if (path === '/marathon' || path === '/marathon/') {
-          req.url = '/marathon/index.html'
-        }
-        next()
-      })
+      server.middlewares.use(handler)
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(handler)
     },
   }
 }
@@ -66,7 +74,7 @@ function marathonStaticRoute() {
 export default defineConfig(({ command }) => ({
   plugins: [
     react(),
-    marathonStaticRoute(),
+    marathonSpaRoute(),
     command === 'build' && selectivePublicCopy(),
   ].filter(Boolean),
   publicDir: command === 'serve' ? 'public' : false,
