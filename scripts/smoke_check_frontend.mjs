@@ -30,6 +30,7 @@ const FORBIDDEN_PATHS = ['data/showtimes_history.csv', 'data/daily_logs'];
 const BUNDLE_MUST_INCLUDE = [
   'showtimes_current.json',
   'pipeline_report.json',
+  '/planner',
   '/double-feature',
   '/marathon',
 ];

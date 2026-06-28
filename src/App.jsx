@@ -4,6 +4,7 @@ import { ShowtimesDataProvider } from './hooks/useShowtimesData.js';
 import { PipelineReportProvider } from './hooks/usePipelineReport.js';
 import DoubleFeaturePage from './pages/DoubleFeaturePage.jsx';
 import MarathonPage from './pages/MarathonPage.jsx';
+import PlannerPage from './pages/PlannerPage.jsx';
 import ShowtimesPage from './pages/ShowtimesPage.jsx';
 import { isMarathonRoute, MARATHON_ROUTE } from './utils/routes.js';
 
@@ -22,20 +23,27 @@ function AppShell() {
           Showtimes
         </NavLink>
         <NavLink
+          to="/planner"
+          className={({ isActive }) => `nav-button${isActive ? ' active' : ''}`}
+        >
+          Planner
+        </NavLink>
+        <NavLink
           to="/double-feature"
           className={({ isActive }) => `nav-button${isActive ? ' active' : ''}`}
         >
-          Double Feature Planner
+          Double Feature
         </NavLink>
         <NavLink
           to={MARATHON_ROUTE}
           className={({ isActive }) => `nav-button${isActive ? ' active' : ''}`}
         >
-          Marathon Planner
+          Marathon
         </NavLink>
       </nav>
       <Routes>
         <Route path="/" element={<ShowtimesPage />} />
+        <Route path="/planner" element={<PlannerPage />} />
         <Route path="/double-feature" element={<DoubleFeaturePage />} />
         <Route path={MARATHON_ROUTE} element={<MarathonPage />} />
         <Route path={`${MARATHON_ROUTE}/`} element={<MarathonPage />} />
