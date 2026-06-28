@@ -1672,3 +1672,224 @@
   line-height: 1.4;
   color: #888;
 }
+
+.planner-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 24px;
+  color: #aaa;
+}
+
+.planner-results-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.planner-results-count {
+  margin: 0;
+  color: #999;
+  font-size: 0.95rem;
+}
+
+.planner-truncated-notice {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255, 183, 77, 0.08);
+  border: 1px solid rgba(255, 183, 77, 0.25);
+  color: #ddd;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.planner-empty-state {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.planner-empty-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.planner-empty-suggestion {
+  margin: 0;
+  color: #aaa;
+  line-height: 1.5;
+}
+
+.planner-show-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.planner-show-more {
+  background: #111;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.planner-show-more:hover {
+  border-color: #777;
+  background: #181818;
+}
+
+.planner-show-more:focus-visible {
+  outline: 2px solid #90caf9;
+  outline-offset: 2px;
+}
+
+.planner-card-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.planner-commitment-summary {
+  margin: 0;
+  color: #aaa;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.planner-card-stats--detailed {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.planner-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.planner-timeline-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.planner-timeline-track {
+  position: relative;
+  height: 42px;
+  border-radius: 10px;
+  background: #0a0a0a;
+  border: 1px solid #222;
+  overflow: hidden;
+}
+
+.planner-timeline-segment {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  min-width: 2px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.planner-timeline-segment--film {
+  background: linear-gradient(180deg, #5c6bc0, #3949ab);
+  border: 1px solid rgba(144, 202, 249, 0.35);
+}
+
+.planner-timeline-segment--gap {
+  background: repeating-linear-gradient(
+    -45deg,
+    #222,
+    #222 4px,
+    #333 4px,
+    #333 8px
+  );
+  border: 1px dashed #444;
+}
+
+.planner-timeline-segment-label {
+  display: none;
+}
+
+.planner-gap-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 2px 0;
+}
+
+.planner-gap-line {
+  flex: 1;
+  height: 1px;
+  background: #333;
+}
+
+.planner-gap-label {
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #888;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #151515;
+  border: 1px solid #2a2a2a;
+}
+
+.planner-format-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.planner-format-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #bbb;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 999px;
+  padding: 3px 8px;
+}
+
+@media (max-width: 768px) {
+  .planner-card-stats--detailed {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-timeline-track {
+    height: 36px;
+  }
+
+  .planner-commitment-summary {
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .planner-show-more {
+    width: 100%;
+  }
+
+  .planner-gap-label {
+    font-size: 0.75rem;
+  }
+}

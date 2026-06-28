@@ -10,6 +10,9 @@ import { formatMinutesToTime, parseTimeToMinutes } from './timeUtils.js';
 /** Default max gap for 2-film mode (legacy Double Feature uses gap < 60). */
 export const DEFAULT_TWO_FILM_MAX_GAP_MINUTES = DEFAULT_DOUBLE_FEATURE_MAX_GAP_MINUTES - 1;
 
+/** Number of planner results shown before "Show more". */
+export const PLANNER_RESULTS_PAGE_SIZE = 20;
+
 /** UI options for the film-count control on `/planner`. */
 export const FILM_COUNT_OPTIONS = [
   { value: 2, label: '2' },
@@ -256,4 +259,165 @@ export function formatPlannerSharedFiltersSummary(filters) {
   if (filters.lastFilm) parts.push(`last: ${filters.lastFilm}`);
   if (filters.sort) parts.push(`sort: ${formatPlannerSortLabel(filters.sort)}`);
   return parts.length > 0 ? parts.join(' · ') : 'shared planner filters';
+}
+
+/**
+ * @param {number | null | undefined} gapMin
+ * @returns {string}
+ */
+export function formatGapBetweenLabel(gapMin) {
+  if (gapMin == null || !Number.isFinite(gapMin)) return 'Unknown gap';
+  if (gapMin <= 0) return 'Back-to-back';
+  if (gapMin === 1) return '1 min gap';
+  return `${gapMin} min gap`;
+}
+
+/**
+ * @param {number} index
+ * @param {number} total
+ * @returns {string}
+ */
+export function formatMovieSequenceLabel(index, total) {
+  return `Film ${index + 1} of ${total}`;
+}
+
+/**
+ * Human-readable commitment lines for a schedule card header.
+ *
+ * @param {object} schedule
+ */
+export function formatPlannerCommitmentLines(schedule) {
+  const summary = formatPlannerScheduleSummary(schedule);
+  return {
+    starts: `Starts ${summary.startTime}`,
+    ends: `Ends ${summary.endTime}`,
+    total: `${summary.totalSpan} total`,
+    movies: `${summary.filmRuntime} movies`,
+    gaps: `${summary.totalGap} gaps`,
+  };
+}
+
+/**
+ * Build proportional timeline segments from first start to last end.
+ *
+ * @param {object} schedule
+ * @returns {{ segments: object[], startLabel: string, endLabel: string, totalSpanMin: number }}
+ */
+export function buildTimelineSegments(schedule) {
+  const movies = schedule?.movies ?? [];
+  if (movies.length === 0) {
+    return { segments: [], startLabel: '', endLabel: '', totalSpanMin: 0 };
+  }
+
+  const startMin = schedule.startMin ?? movies[0].startMin;
+  const endMin = schedule.endMin ?? movies[movies.length - 1].endMin;
+  const totalSpanMin = endMin - startMin;
+  if (!Number.isFinite(totalSpanMin) || totalSpanMin <= 0) {
+    return { segments: [], startLabel: '', endLabel: '', totalSpanMin: 0 };
+  }
+
+  const segments = [];
+  for (let i = 0; i < movies.length; i += 1) {
+    const movie = movies[i];
+    const filmStart = movie.startMin - startMin;
+    segments.push({
+      type: 'film',
+      key: `film-${i}`,
+      label: movie.film,
+      durationMin: movie.runtime,
+      leftPct: (filmStart / totalSpanMin) * 100,
+      widthPct: (movie.runtime / totalSpanMin) * 100,
+    });
+
+    if (i < movies.length - 1) {
+      const next = movies[i + 1];
+      const gapMin = next.startMin - movie.endMin;
+      segments.push({
+        type: 'gap',
+        key: `gap-${i}`,
+        label: formatGapBetweenLabel(gapMin),
+        durationMin: gapMin,
+        leftPct: ((movie.endMin - startMin) / totalSpanMin) * 100,
+        widthPct: Math.max(0, (gapMin / totalSpanMin) * 100),
+      });
+    }
+  }
+
+  return {
+    segments,
+    startLabel: formatPlannerTimeLabel(startMin),
+    endLabel: formatPlannerTimeLabel(endMin),
+    totalSpanMin,
+  };
+}
+
+/**
+ * Flat sequence of film rows and interstitial gaps for card rendering.
+ *
+ * @param {object} schedule
+ */
+export function buildMovieSequenceItems(schedule) {
+  const movies = schedule?.movies ?? [];
+  const items = [];
+
+  for (let i = 0; i < movies.length; i += 1) {
+    items.push({ type: 'film', movie: movies[i], index: i, total: movies.length });
+    if (i < movies.length - 1) {
+      const gapMin = movies[i + 1].startMin - movies[i].endMin;
+      items.push({
+        type: 'gap',
+        gapMin,
+        label: formatGapBetweenLabel(gapMin),
+      });
+    }
+  }
+
+  return items;
+}
+
+/**
+ * @param {object} movie
+ * @returns {string[]}
+ */
+export function getMovieFormatTags(movie) {
+  if (Array.isArray(movie?.formatTags) && movie.formatTags.length > 0) {
+    return movie.formatTags;
+  }
+  const premium = String(movie?.premiumFormat ?? '').trim();
+  if (!premium) return [];
+  return premium
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
+/**
+ * @param {number} visibleCount
+ * @param {number} totalCount
+ * @returns {string}
+ */
+export function formatVisibleResultsLabel(visibleCount, totalCount) {
+  const noun = totalCount === 1 ? 'plan' : 'plans';
+  if (visibleCount >= totalCount) {
+    return `Showing ${totalCount} ${noun}`;
+  }
+  return `Showing ${visibleCount} of ${totalCount} ${noun}`;
+}
+
+/**
+ * @param {object|null|undefined} meta
+ * @param {number} displayedCount
+ * @returns {string}
+ */
+export function formatPlannerTruncatedMessage(meta, displayedCount) {
+  if (!meta?.truncated) return '';
+  return `The search engine capped results at ${displayedCount} plans. Try narrowing theaters, time windows, or required movies for more focused results.`;
+}
+
+export function getPlannerEmptyStateMessage() {
+  return 'No movie plans found matching your criteria.';
+}
+
+export function getPlannerEmptyStateSuggestion() {
+  return 'Try widening your time window, clearing required movies, or choosing fewer movies.';
 }

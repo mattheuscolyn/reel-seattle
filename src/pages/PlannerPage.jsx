@@ -12,8 +12,13 @@ import {
   formatFilmListInput,
   formatPlannerResultsHeading,
   formatPlannerSharedFiltersSummary,
+  formatPlannerTruncatedMessage,
+  formatVisibleResultsLabel,
   getMaxGapHelperText,
+  getPlannerEmptyStateMessage,
+  getPlannerEmptyStateSuggestion,
   parseFilmListInput,
+  PLANNER_RESULTS_PAGE_SIZE,
   PLANNER_SORT_OPTIONS,
 } from '../utils/plannerDisplay.js';
 import {
@@ -33,6 +38,7 @@ export default function PlannerPage() {
   const [isSearching, setIsSearching] = useState(false);
   const [hasSearchRun, setHasSearchRun] = useState(false);
   const [copyLinkStatus, setCopyLinkStatus] = useState('idle');
+  const [visibleResultCount, setVisibleResultCount] = useState(PLANNER_RESULTS_PAGE_SIZE);
 
   const theaters = useMemo(
     () => (rows.length === 0 ? [] : uniqueSorted(rows.map((row) => row.Theater))),
@@ -179,6 +185,7 @@ export default function PlannerPage() {
 
     setHasSearchRun(true);
     setIsSearching(true);
+    setVisibleResultCount(PLANNER_RESULTS_PAGE_SIZE);
 
     setTimeout(() => {
       const filters = buildPlannerSearchFilters(plannerState);
@@ -213,7 +220,15 @@ export default function PlannerPage() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <h1 className="main-header">Movie Planner</h1>
+        <div className="planner-loading-state">
+          <span className="loading-spinner-large"></span>
+          <p>Loading showtimes for planning...</p>
+        </div>
+      </>
+    );
   }
 
   if (error) {
@@ -483,10 +498,22 @@ export default function PlannerPage() {
 
       <div className="double-feature-results planner-results">
         {results.length > 0 && (
-          <h2 className="double-feature-results-heading">
-            {formatPlannerResultsHeading(results.length, filmCount)}
-            {searchMeta?.truncated ? ' (showing first results)' : ''}
-          </h2>
+          <div className="planner-results-summary">
+            <h2 className="double-feature-results-heading">
+              {formatPlannerResultsHeading(results.length, filmCount)}
+            </h2>
+            <p className="planner-results-count">
+              {formatVisibleResultsLabel(
+                Math.min(visibleResultCount, results.length),
+                results.length,
+              )}
+            </p>
+            {searchMeta?.truncated ? (
+              <p className="planner-truncated-notice" role="status">
+                {formatPlannerTruncatedMessage(searchMeta, results.length)}
+              </p>
+            ) : null}
+          </div>
         )}
 
         {isSearching ? (
@@ -495,9 +522,9 @@ export default function PlannerPage() {
             <div className="search-loading-text">Searching for movie plans...</div>
           </div>
         ) : hasSearchRun && results.length === 0 ? (
-          <div className="double-feature-empty-state">
-            No movie plans found matching your criteria. Try adjusting your filters and click
-            &quot;Find plans&quot; again.
+          <div className="double-feature-empty-state planner-empty-state">
+            <p className="planner-empty-title">{getPlannerEmptyStateMessage()}</p>
+            <p className="planner-empty-suggestion">{getPlannerEmptyStateSuggestion()}</p>
           </div>
         ) : !hasSearchRun ? (
           <div className="planner-prompt">
@@ -506,14 +533,31 @@ export default function PlannerPage() {
               : 'Select filters above and click "Find plans" to generate schedules.'}
           </div>
         ) : (
-          <div className="double-feature-list planner-result-list">
-            {results.map((schedule, index) => (
-              <PlannerResultCard
-                key={`${schedule.theater_id || schedule.theater}-${schedule.movies.map((m) => `${m.showtime_film_key}@${m.time}`).join('|')}-${schedule.startMin}-${index}`}
-                schedule={schedule}
-              />
-            ))}
-          </div>
+          <>
+            <div className="double-feature-list planner-result-list">
+              {results.slice(0, visibleResultCount).map((schedule, index) => (
+                <PlannerResultCard
+                  key={`${schedule.theater_id || schedule.theater}-${schedule.movies.map((m) => `${m.showtime_film_key}@${m.time}`).join('|')}-${schedule.startMin}-${index}`}
+                  schedule={schedule}
+                />
+              ))}
+            </div>
+            {visibleResultCount < results.length ? (
+              <div className="planner-show-more-wrap">
+                <button
+                  type="button"
+                  className="planner-show-more"
+                  onClick={() =>
+                    setVisibleResultCount((count) =>
+                      Math.min(count + PLANNER_RESULTS_PAGE_SIZE, results.length),
+                    )
+                  }
+                >
+                  Show more results ({results.length - visibleResultCount} remaining)
+                </button>
+              </div>
+            ) : null}
+          </>
         )}
       </div>
     </>

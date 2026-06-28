@@ -2,7 +2,17 @@
 
 Quick checks after frontend PRs. Automated checks need no browser; manual checks confirm UI behavior.
 
-**Unified planner:** technical design is in [unified-planner-design.md](./unified-planner-design.md). Add a `/planner` section here when PR 62 lands.
+**Unified planner:** technical design is in [unified-planner-design.md](./unified-planner-design.md). `/planner` is the unified same-theater planner (PR 62–64).
+
+Optional automated Planner browser QA (Playwright, no repo dependency):
+
+```bash
+npm run dev
+npx --yes -p playwright playwright install chromium
+npx --yes -p playwright node scripts/qa_planner_browser.mjs http://localhost:5173
+```
+
+Checks filters, shared URL restore, timeline cards, pagination, max mode, legacy routes, and forbidden data fetches.
 
 ## Automated (no browser)
 
@@ -80,6 +90,20 @@ Checks section visibility, card/count parity, responsive overflow at 375/768/120
 - [ ] Search returns results or shows the empty state
 - [ ] Result cards show theater, both films, start/end times, runtimes, gap minutes, total schedule time, posters/placeholders, and tight vs comfortable gap labels
 - [ ] Result cards are readable at 375px, 768px, and 1200px widths (no horizontal overflow; mobile stack looks correct)
+- [ ] Invalid query params do not break the page
+
+### Planner (`/planner`)
+
+- [ ] Page loads without console errors
+- [ ] Basic filters work: date, theaters, film count, start after, finish by
+- [ ] Advanced filters expand/collapse and affect results (gaps, include/exclude, first/last, sort)
+- [ ] **Copy share link** copies the current URL; shows temporary feedback
+- [ ] Shared `/planner?...` URL restores controls and shows a prompt (no auto-search)
+- [ ] Search returns polished result cards with timeline, gap rows, posters/placeholders, and format tags when available
+- [ ] **Show more results** appears when more than 20 plans match
+- [ ] Truncated/capped results show an explanatory notice when applicable
+- [ ] Empty state suggests relaxing filters
+- [ ] Result cards are readable at 375px, 768px, and 1200px widths
 - [ ] Invalid query params do not break the page
 
 ### Marathon (`/marathon`)

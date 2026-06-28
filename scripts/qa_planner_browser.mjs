@@ -97,9 +97,17 @@ async function auditResultCard(page, minFilms = 2) {
   if (badge?.includes('film')) pass(`Result shows film count badge: ${badge.trim()}`);
   else fail('Result missing film count badge');
 
-  for (const stat of ['Start', 'End', 'Total span', 'Gap time']) {
-    const label = card.locator('.planner-stat-label', { hasText: stat });
-    const value = card.locator('.planner-stat-label', { hasText: stat }).locator('..').locator('.planner-stat-value');
+  if (await card.locator('.planner-timeline-track').count()) {
+    pass('Result timeline appears');
+  } else {
+    fail('Result missing timeline');
+  }
+
+  for (const stat of ['Total', 'Movies', 'Gaps']) {
+    const value = card
+      .locator('.planner-stat-label', { hasText: stat })
+      .locator('..')
+      .locator('.planner-stat-value');
     const text = await value.textContent();
     if (text?.trim() && text.trim() !== 'Unknown') pass(`Result stat ${stat}: ${text.trim()}`);
     else fail(`Result missing or invalid stat: ${stat}`);
@@ -109,6 +117,12 @@ async function auditResultCard(page, minFilms = 2) {
   const filmCount = await films.count();
   if (filmCount >= minFilms) pass(`Result has ${filmCount} film row(s)`);
   else fail(`Expected >= ${minFilms} films, got ${filmCount}`);
+
+  if ((await card.locator('.planner-gap-row').count()) >= Math.max(0, minFilms - 1)) {
+    pass('Result shows inter-film gap rows');
+  } else if (minFilms > 1) {
+    fail('Result missing gap rows');
+  }
 
   for (let i = 0; i < Math.min(filmCount, 3); i += 1) {
     const row = films.nth(i);
@@ -121,15 +135,7 @@ async function auditResultCard(page, minFilms = 2) {
       (await row.locator('.poster-placeholder').count()) > 0;
     if (hasPoster) pass(`Film ${i + 1} has poster or placeholder`);
     else fail(`Film ${i + 1} missing poster/placeholder`);
-
-    const runtime = await row.locator('dt', { hasText: 'Runtime' }).locator('..').locator('dd').textContent();
-    if (runtime?.includes('min')) pass(`Film ${i + 1} runtime shown`);
-    else fail(`Film ${i + 1} missing runtime`);
   }
-
-  const footer = await card.locator('.double-feature-total-value').textContent();
-  if (footer?.trim()) pass(`Result footer total: ${footer.trim()}`);
-  else fail('Result missing film runtime total');
 
   return true;
 }
@@ -183,15 +189,77 @@ async function checkEmptyState(page) {
   await page.fill('#planner-finish-by', '8:00AM');
   await clickFindPlans(page);
 
-  const empty = await page.locator('.double-feature-empty-state');
+  const empty = page.locator('.planner-empty-state, .double-feature-empty-state');
   if (await empty.isVisible()) {
     pass('Impossible constraints show empty state');
     const text = await empty.textContent();
     if (text?.includes('No movie plans found')) pass('Empty state copy is clear');
     else fail(`Empty state copy unexpected: ${text}`);
+    if (text?.includes('widening your time window')) pass('Empty state suggests relaxing filters');
+    else fail('Empty state missing suggestion text');
   } else {
     fail('Impossible constraints did not show empty state');
   }
+}
+
+async function checkAdvancedAndShareFlow(page) {
+  await page.goto(`${BASE}/planner`, { waitUntil: 'networkidle' });
+  await page.locator('.planner-advanced-toggle').click();
+  await page.waitForSelector('#planner-min-gap', { timeout: 5000 });
+  pass('Advanced filters panel opens');
+
+  if (await page.locator('.double-feature-copy-link').count()) {
+    pass('Copy share link button exists');
+  } else {
+    fail('Copy share link button missing');
+  }
+
+  await page.goto(`${BASE}/planner?count=3&start=12%3A00PM&advanced=1`, { waitUntil: 'networkidle' });
+  if (await page.locator('.double-feature-url-prompt').isVisible()) {
+    pass('Shared URL prompt appears');
+  } else {
+    fail('Shared URL prompt missing');
+  }
+
+  await page.locator('.double-feature-run-search').click();
+  await page.waitForTimeout(1500);
+  const cards = await page.locator('.planner-result-card').count();
+  const empty = await page.locator('.planner-empty-state, .double-feature-empty-state').isVisible();
+  if (cards > 0 || empty) pass('Shared URL search runs');
+  else fail('Shared URL search produced no UI state');
+}
+
+async function checkPaginationAndMaxMode(page) {
+  await page.goto(`${BASE}/planner`, { waitUntil: 'networkidle' });
+  await page.selectOption('#planner-film-count', '2');
+  await clickFindPlans(page);
+
+  const totalCards = await page.locator('.planner-result-card').count();
+  if (totalCards > 20) {
+    if (await page.locator('.planner-show-more').isVisible()) {
+      pass('Show more button appears when results exceed page size');
+      await page.locator('.planner-show-more').click();
+      await page.waitForTimeout(300);
+      const afterMore = await page.locator('.planner-result-card').count();
+      if (afterMore > 20) pass('Show more reveals additional results');
+      else fail('Show more did not reveal additional results');
+    } else {
+      fail('Show more button missing for large result set');
+    }
+  } else {
+    note('Fewer than 21 results; pagination not exercised');
+  }
+
+  await page.selectOption('#planner-film-count', 'max');
+  await clickFindPlans(page);
+  const maxCard = page.locator('.planner-result-card').first();
+  if ((await maxCard.count()) === 0) {
+    note('Max mode returned no schedules on default date');
+    return;
+  }
+  const filmRows = await maxCard.locator('.planner-film-row').count();
+  if (filmRows > 4) pass(`Max mode schedule shows ${filmRows} films`);
+  else note(`Max mode top schedule has ${filmRows} films on this date`);
 }
 
 async function checkInitialPrompt(page) {
@@ -267,8 +335,9 @@ async function main() {
 
   page.on('console', (msg) => {
     const text = msg.text();
-    if (msg.type() === 'error' && !text.includes('favicon')) {
-      fail(`Console error: ${text}`);
+    const onPlanner = page.url().includes('/planner');
+    if (msg.type() === 'error' && onPlanner && !text.includes('favicon')) {
+      fail(`Planner console error: ${text.slice(0, 120)}`);
     }
     if (msg.type() === 'warning') note(`Console warning: ${text}`);
   });
@@ -299,6 +368,8 @@ async function main() {
 
     await checkTimeFilters(page);
     await checkEmptyState(page);
+    await checkAdvancedAndShareFlow(page);
+    await checkPaginationAndMaxMode(page);
 
     for (const width of WIDTHS) {
       await checkResponsivePlanner(page, width);
