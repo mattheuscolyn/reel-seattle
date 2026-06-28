@@ -12,7 +12,15 @@ npx --yes -p playwright playwright install chromium
 npx --yes -p playwright node scripts/qa_planner_browser.mjs http://localhost:5173
 ```
 
-Checks filters, shared URL restore, timeline cards, pagination, max mode, legacy routes, and forbidden data fetches.
+Parity audit (PR 66A — discovers scenarios from current data, data + browser checks):
+
+```bash
+npx --yes -p playwright node scripts/qa_planner_parity.mjs http://localhost:5173
+```
+
+See [planner-parity-qa.md](./planner-parity-qa.md) for audit results and PR 66 recommendation.
+
+Checks filters, shared URL restore, timeline cards, pagination, max mode, legacy routes, discovered parity scenarios, and forbidden data fetches.
 
 ## Automated (no browser)
 
@@ -108,6 +116,11 @@ Checks section visibility, card/count parity, responsive overflow at 375/768/120
 - [ ] Empty state suggests relaxing filters
 - [ ] Result cards are readable at 375px, 768px, and 1200px widths
 - [ ] Invalid query params do not break the page
+
+### Planner parity audit (PR 66A)
+
+- [ ] Run `node scripts/qa_planner_parity.mjs http://localhost:5173` — passes with discovered scenarios
+- [ ] Review [planner-parity-qa.md](./planner-parity-qa.md) for current scenario table and gap list
 
 ### Marathon (`/marathon`)
 

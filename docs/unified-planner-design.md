@@ -512,11 +512,34 @@ Acceptance criteria:
 - [x] `/double-feature` and `/marathon` show migration banners with Try Planner links
 - [x] `buildPlannerPathFromDoubleFeature()` tested; `end` param intentionally omitted
 - [x] Existing Double Feature share URLs unchanged on legacy page
-- [ ] PR 66: optional redirects and asset removal after parity QA
 
-### PR 66 — Remove obsolete standalone marathon assets
+### PR 66A — Parity QA audit (checkpoint, no deletion)
 
-**Scope:** Delete iframe stack after parity QA.
+**Scope:** Document parity evidence; dynamic scenario discovery; expanded QA scripts. **No redirects or deletions.**
+
+Acceptance criteria:
+
+- [x] `docs/planner-parity-qa.md` with scenarios, gaps, and recommendation
+- [x] `scripts/lib/plannerParityScenarios.mjs` discovers scenarios from current data
+- [x] `scripts/qa_planner_parity.mjs` data + browser audit
+- [x] Browser QA uses discovered scenarios (not brittle hardcoded dates)
+
+See [planner-parity-qa.md](./planner-parity-qa.md) for **Option 2** recommendation: hide legacy nav + DF redirect, keep routes, no deletion.
+
+### PR 66 — Legacy route migration (redirect / hide nav; no deletion)
+
+**Scope:** Redirect Double Feature; hide legacy nav; keep Marathon iframe and all legacy code/assets.
+
+Acceptance criteria:
+
+- [ ] Redirect `/double-feature` → `buildPlannerPathFromDoubleFeature()` mapped `/planner?count=2`
+- [ ] Nav: Showtimes + Planner only (legacy routes direct-access)
+- [ ] Keep `/marathon` iframe + banner
+- [ ] **Do not** delete `public/marathon/`, engines, or stop JSON generation
+
+### PR 66B (future) — Remove obsolete standalone marathon assets
+
+**Scope:** Delete iframe stack after preferred-film parity or explicit sign-off.
 
 Acceptance criteria:
 

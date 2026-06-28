@@ -132,8 +132,10 @@ export function parsePlannerTimeInput(value) {
  * @param {string} [options.lastFilm]
  */
 export function buildPlannerSearchFilters({
-  date,
+  date = '',
+  selectedDate = '',
   theaters,
+  selectedTheaters,
   filmCount,
   startAfter,
   finishBy,
@@ -145,6 +147,12 @@ export function buildPlannerSearchFilters({
   firstFilm = '',
   lastFilm = '',
 }) {
+  const resolvedDate = String(date || selectedDate || '').trim();
+  const resolvedTheaters = Array.isArray(theaters)
+    ? theaters
+    : Array.isArray(selectedTheaters)
+      ? selectedTheaters
+      : [];
   const safeCount =
     filmCount === 'max'
       ? 'max'
@@ -165,8 +173,8 @@ export function buildPlannerSearchFilters({
   }
 
   const filters = {
-    date,
-    theaters: Array.isArray(theaters) ? theaters : [],
+    date: resolvedDate,
+    theaters: resolvedTheaters,
     filmCount: safeCount,
     startAfterMin: parsePlannerTimeInput(startAfter),
     finishByMin: parsePlannerTimeInput(finishBy),

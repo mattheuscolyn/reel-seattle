@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 /**
- * Interactive browser QA for /planner (PR 62).
+ * Interactive browser QA for /planner (PR 62+).
  * Usage: node scripts/qa_planner_browser.mjs [baseUrl]
+ *
+ * Uses ~2GB heap for scenario discovery on full showtimes_current.json.
  */
 import { chromium } from 'playwright';
+import { discoverPlannerParityScenarios, pickBrowserEligibleScenario } from './lib/plannerParityScenarios.mjs';
 
 const BASE = process.argv[2] || 'http://localhost:5173';
 const WIDTHS = [375, 768, 1200];
+
+const { scenarios } = discoverPlannerParityScenarios();
 
 const results = { pass: [], fail: [], notes: [] };
 
@@ -70,13 +75,22 @@ async function checkFiltersPopulated(page) {
 }
 
 async function clickFindPlans(page) {
-  await page.locator('.search-button', { hasText: 'Find plans' }).click();
+  await page.waitForFunction(
+    () => !document.querySelector('.planner-loading-state'),
+    { timeout: 20000 },
+  );
+  const promptBtn = page.locator('.double-feature-run-search');
+  if (await promptBtn.isVisible()) {
+    await promptBtn.click();
+  } else {
+    await page.locator('.search-button', { hasText: 'Find plans' }).click();
+  }
   await page.waitForFunction(
     () =>
       document.querySelector('.planner-result-list') ||
       document.querySelector('.double-feature-empty-state') ||
-      document.querySelector('.search-loading') === null,
-    { timeout: 15000 },
+      document.querySelector('.planner-empty-state'),
+    { timeout: 20000 },
   );
   await page.waitForTimeout(300);
 }
@@ -140,11 +154,62 @@ async function auditResultCard(page, minFilms = 2) {
   return true;
 }
 
-async function runSearchMode(page, filmCountValue, label, minFilms) {
-  await page.selectOption('#planner-film-count', String(filmCountValue));
-  await page.fill('#planner-start-after', '');
-  await page.fill('#planner-finish-by', '');
+async function selectPlannerDate(page, scenario) {
+  const csvDate = scenario?.csvDate ?? scenario?.date;
+  if (!csvDate) return false;
+  try {
+    await page.selectOption('#planner-date', csvDate);
+    return true;
+  } catch {
+    note(`Could not select planner date ${csvDate}; using default`);
+    return false;
+  }
+}
+
+async function runPlannerScenarioSearch(page, scenario, filmCount) {
+  if (!scenario?.csvDate) return false;
+  const params = new URLSearchParams();
+  params.set('date', scenario.csvDate);
+  if (scenario.theater && !scenario.theater.startsWith('(')) {
+    params.append('theaters', scenario.theater);
+  }
+  params.set('count', String(filmCount));
+  await page.goto(`${BASE}/planner?${params.toString()}`, { waitUntil: 'networkidle' });
+  await page.waitForSelector('#planner-date', { timeout: 20000 });
   await clickFindPlans(page);
+  return true;
+}
+
+async function selectTheater(page, theaterName) {
+  if (!theaterName || theaterName.startsWith('(')) return;
+  const btn = page.locator('.planner-controls .dropdown-btn').first();
+  await btn.click();
+  const option = page.locator('.planner-controls .dropdown-option', { hasText: theaterName });
+  if ((await option.count()) === 0) {
+    note(`Theater option not found: ${theaterName}`);
+    await page.keyboard.press('Escape');
+    return;
+  }
+  await option.first().click();
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(150);
+}
+
+async function applyDiscoveredScenario(page, scenario) {
+  if (!scenario) return;
+  await selectPlannerDate(page, scenario);
+  await selectTheater(page, scenario.theater);
+}
+
+async function runSearchMode(page, filmCountValue, label, minFilms, scenario = null) {
+  if (scenario) {
+    await runPlannerScenarioSearch(page, scenario, filmCountValue);
+  } else {
+    await page.selectOption('#planner-film-count', String(filmCountValue));
+    await page.fill('#planner-start-after', '');
+    await page.fill('#planner-finish-by', '');
+    await clickFindPlans(page);
+  }
 
   const empty = await page.locator('.double-feature-empty-state').isVisible().catch(() => false);
   const hasResults = await page.locator('.planner-result-card').count();
@@ -165,6 +230,8 @@ async function runSearchMode(page, filmCountValue, label, minFilms) {
 }
 
 async function checkTimeFilters(page) {
+  await page.goto(`${BASE}/planner`, { waitUntil: 'networkidle' });
+  await page.waitForSelector('#planner-start-after', { timeout: 15000 });
   await page.fill('#planner-start-after', '12:00PM');
   await page.fill('#planner-finish-by', '11:00PM');
   const startVal = await page.inputValue('#planner-start-after');
@@ -230,9 +297,16 @@ async function checkAdvancedAndShareFlow(page) {
 }
 
 async function checkPaginationAndMaxMode(page) {
+  const paginationScenario = pickBrowserEligibleScenario(scenarios.pagination ?? scenarios.twoFilm);
+  const maxScenario = pickBrowserEligibleScenario(scenarios.maxMode ?? scenarios.marathonAmc);
+
   await page.goto(`${BASE}/planner`, { waitUntil: 'networkidle' });
-  await page.selectOption('#planner-film-count', '2');
-  await clickFindPlans(page);
+  if (paginationScenario) {
+    await runPlannerScenarioSearch(page, paginationScenario, 2);
+  } else {
+    await page.selectOption('#planner-film-count', '2');
+    await clickFindPlans(page);
+  }
 
   const totalCards = await page.locator('.planner-result-card').count();
   if (totalCards > 20) {
@@ -250,8 +324,12 @@ async function checkPaginationAndMaxMode(page) {
     note('Fewer than 21 results; pagination not exercised');
   }
 
-  await page.selectOption('#planner-film-count', 'max');
-  await clickFindPlans(page);
+  if (maxScenario) {
+    await runPlannerScenarioSearch(page, maxScenario, 'max');
+  } else {
+    await page.selectOption('#planner-film-count', 'max');
+    await clickFindPlans(page);
+  }
   const maxCard = page.locator('.planner-result-card').first();
   if ((await maxCard.count()) === 0) {
     note('Max mode returned no schedules on default date');
@@ -388,10 +466,22 @@ async function main() {
     await checkNav(page);
     await checkFiltersPopulated(page);
 
-    const got2 = await runSearchMode(page, '2', '2-film mode', 2);
-    await runSearchMode(page, '3', '3-film mode', 3);
-    await runSearchMode(page, '4', '4-film mode', 4);
-    await runSearchMode(page, 'max', 'Max mode', 2);
+    const twoScenario = pickBrowserEligibleScenario(scenarios.twoFilm ?? scenarios.doubleFeatureParity);
+    const threeScenario = pickBrowserEligibleScenario(scenarios.threeFilm ?? twoScenario);
+    const fourScenario = pickBrowserEligibleScenario(scenarios.fourFilm ?? twoScenario);
+    const maxScenario = pickBrowserEligibleScenario(scenarios.maxMode ?? twoScenario);
+    const paginationScenario = pickBrowserEligibleScenario(scenarios.pagination);
+
+    if (twoScenario) {
+      note(`Using discovered 2-film scenario: ${twoScenario.theater} on ${twoScenario.date}`);
+    } else {
+      note('No browser-eligible 2-film scenario (past dates filtered in UI); using default date');
+    }
+
+    const got2 = await runSearchMode(page, '2', '2-film mode', 2, twoScenario);
+    await runSearchMode(page, '3', '3-film mode', 3, threeScenario);
+    await runSearchMode(page, '4', '4-film mode', 4, fourScenario);
+    await runSearchMode(page, 'max', 'Max mode', 2, maxScenario);
 
     if (!got2) note('2-film schedules unavailable on first date; other modes may still be valid');
 

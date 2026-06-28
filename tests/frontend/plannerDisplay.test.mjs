@@ -69,6 +69,16 @@ test('parsePlannerTimeInput accepts valid times and rejects invalid input', () =
   assert.equal(parsePlannerTimeInput('not-a-time'), null);
 });
 
+test('buildPlannerSearchFilters accepts planner page state field names', () => {
+  const filters = buildPlannerSearchFilters({
+    selectedDate: '06/28/2026',
+    selectedTheaters: ['AMC Southcenter 16'],
+    filmCount: 2,
+  });
+  assert.equal(filters.date, '06/28/2026');
+  assert.deepEqual(filters.theaters, ['AMC Southcenter 16']);
+});
+
 test('buildPlannerSearchFilters applies double-feature max gap for 2-film mode only', () => {
   const twoFilm = buildPlannerSearchFilters({
     date: '06/27/2026',
