@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import DropdownMultiSelect from '../components/DropdownMultiSelect.jsx';
 import PlannerResultCard from '../components/PlannerResultCard.jsx';
 import { useShowtimesData } from '../hooks/useShowtimesData.js';
@@ -8,20 +9,30 @@ import { findSchedules } from '../utils/plannerEngine.js';
 import {
   buildPlannerSearchFilters,
   FILM_COUNT_OPTIONS,
+  formatFilmListInput,
   formatPlannerResultsHeading,
+  formatPlannerSharedFiltersSummary,
+  getMaxGapHelperText,
+  parseFilmListInput,
+  PLANNER_SORT_OPTIONS,
 } from '../utils/plannerDisplay.js';
+import {
+  decodePlannerFilters,
+  encodePlannerFilters,
+  hasActivePlannerQuery,
+  intersectWithOptions,
+  plannerFiltersDiffer,
+} from '../utils/plannerUrlState.js';
+import { copyTextToClipboard, getShareUrlFromLocation } from '../utils/shareLinkUtils.js';
 
 export default function PlannerPage() {
   const { rows, loading, error } = useShowtimesData();
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTheaters, setSelectedTheaters] = useState([]);
-  const [filmCount, setFilmCount] = useState(2);
-  const [startAfter, setStartAfter] = useState('');
-  const [finishBy, setFinishBy] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
   const [results, setResults] = useState([]);
   const [searchMeta, setSearchMeta] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
   const [hasSearchRun, setHasSearchRun] = useState(false);
+  const [copyLinkStatus, setCopyLinkStatus] = useState('idle');
 
   const theaters = useMemo(
     () => (rows.length === 0 ? [] : uniqueSorted(rows.map((row) => row.Theater))),
@@ -35,7 +46,133 @@ export default function PlannerPage() {
     [rows],
   );
 
-  const effectiveDate = selectedDate || dates[0] || '';
+  const decoded = useMemo(() => decodePlannerFilters(searchParams), [searchParams]);
+  const selectedDate = decoded.selectedDate;
+  const effectiveDate = dates.includes(selectedDate) ? selectedDate : dates[0] || '';
+  const selectedTheaters = useMemo(
+    () => intersectWithOptions(decoded.selectedTheaters, theaters),
+    [decoded.selectedTheaters, theaters],
+  );
+  const filmCount = decoded.filmCount;
+  const startAfter = decoded.startAfter;
+  const finishBy = decoded.finishBy;
+  const minGapMin = decoded.minGapMin;
+  const maxGapMin = decoded.maxGapMin;
+  const maxGapExplicit = decoded.maxGapExplicit;
+  const includeFilms = decoded.includeFilms;
+  const excludeFilms = decoded.excludeFilms;
+  const firstFilm = decoded.firstFilm;
+  const lastFilm = decoded.lastFilm;
+  const sort = decoded.sort;
+  const advancedOpen = decoded.advancedOpen;
+
+  const plannerState = useMemo(
+    () => ({
+      selectedDate: effectiveDate,
+      selectedTheaters,
+      filmCount,
+      startAfter,
+      finishBy,
+      minGapMin,
+      maxGapMin,
+      maxGapExplicit,
+      includeFilms,
+      excludeFilms,
+      firstFilm,
+      lastFilm,
+      sort,
+      advancedOpen,
+    }),
+    [
+      effectiveDate,
+      selectedTheaters,
+      filmCount,
+      startAfter,
+      finishBy,
+      minGapMin,
+      maxGapMin,
+      maxGapExplicit,
+      includeFilms,
+      excludeFilms,
+      firstFilm,
+      lastFilm,
+      sort,
+      advancedOpen,
+    ],
+  );
+
+  const updateUrlFilters = (partial, { replace = true } = {}) => {
+    const current = decodePlannerFilters(searchParams);
+    const nextParams = encodePlannerFilters({ ...current, ...partial });
+    if (plannerFiltersDiffer(nextParams, searchParams)) {
+      setSearchParams(nextParams, { replace });
+    }
+  };
+
+  const showUrlLoadedPrompt = useMemo(
+    () =>
+      !hasSearchRun &&
+      !isSearching &&
+      hasActivePlannerQuery({
+        selectedDate,
+        selectedTheaters,
+        filmCount,
+        startAfter,
+        finishBy,
+        minGapMin,
+        maxGapMin,
+        maxGapExplicit,
+        includeFilms,
+        excludeFilms,
+        firstFilm,
+        lastFilm,
+        sort,
+      }),
+    [
+      hasSearchRun,
+      isSearching,
+      selectedDate,
+      selectedTheaters,
+      filmCount,
+      startAfter,
+      finishBy,
+      minGapMin,
+      maxGapMin,
+      maxGapExplicit,
+      includeFilms,
+      excludeFilms,
+      firstFilm,
+      lastFilm,
+      sort,
+    ],
+  );
+
+  useEffect(() => {
+    if (dates.length === 0 && theaters.length === 0) return;
+
+    const prunedDate = dates.includes(selectedDate) ? selectedDate : '';
+    const prunedTheaters = intersectWithOptions(decoded.selectedTheaters, theaters);
+
+    if (
+      prunedDate !== selectedDate ||
+      prunedTheaters.length !== decoded.selectedTheaters.length
+    ) {
+      const nextParams = encodePlannerFilters({
+        ...decoded,
+        selectedDate: prunedDate,
+        selectedTheaters: prunedTheaters,
+      });
+      if (plannerFiltersDiffer(nextParams, searchParams)) {
+        setSearchParams(nextParams, { replace: true });
+      }
+    }
+  }, [dates, theaters, decoded, selectedDate, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    if (copyLinkStatus === 'idle') return undefined;
+    const timer = setTimeout(() => setCopyLinkStatus('idle'), 2500);
+    return () => clearTimeout(timer);
+  }, [copyLinkStatus]);
 
   const findPlans = () => {
     if (!effectiveDate) return;
@@ -44,19 +181,35 @@ export default function PlannerPage() {
     setIsSearching(true);
 
     setTimeout(() => {
-      const filters = buildPlannerSearchFilters({
-        date: effectiveDate,
-        theaters: selectedTheaters,
-        filmCount,
-        startAfter,
-        finishBy,
+      const filters = buildPlannerSearchFilters(plannerState);
+      const { schedules, meta } = findSchedules({
+        rows,
+        filters,
+        sort: sort || undefined,
       });
-
-      const { schedules, meta } = findSchedules({ rows, filters });
       setResults(schedules);
       setSearchMeta(meta);
       setIsSearching(false);
     }, 0);
+  };
+
+  const handleCopyShareLink = async () => {
+    const params = encodePlannerFilters(plannerState);
+    const url = getShareUrlFromLocation({
+      origin: window.location.origin,
+      pathname: window.location.pathname,
+      search: params.toString() ? `?${params.toString()}` : '',
+    });
+    const { ok } = await copyTextToClipboard(url);
+    setCopyLinkStatus(ok ? 'copied' : 'error');
+  };
+
+  const handleMaxGapChange = (value) => {
+    const trimmed = value.trim();
+    updateUrlFilters({
+      maxGapMin: trimmed,
+      maxGapExplicit: trimmed !== '',
+    });
   };
 
   if (loading) {
@@ -96,7 +249,7 @@ export default function PlannerPage() {
             <select
               id="planner-date"
               value={effectiveDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
+              onChange={(e) => updateUrlFilters({ selectedDate: e.target.value })}
               className="filter-select"
             >
               {dates.map((date) => (
@@ -113,7 +266,7 @@ export default function PlannerPage() {
               label="Select Theaters"
               options={theaters}
               selected={selectedTheaters}
-              setSelected={setSelectedTheaters}
+              setSelected={(value) => updateUrlFilters({ selectedTheaters: value })}
             />
           </div>
 
@@ -124,7 +277,9 @@ export default function PlannerPage() {
               value={filmCount}
               onChange={(e) => {
                 const next = e.target.value;
-                setFilmCount(next === 'max' ? 'max' : Number(next));
+                updateUrlFilters({
+                  filmCount: next === 'max' ? 'max' : Number(next),
+                });
               }}
               className="filter-select"
             >
@@ -143,7 +298,7 @@ export default function PlannerPage() {
               type="text"
               placeholder="e.g., 2:00PM"
               value={startAfter}
-              onChange={(e) => setStartAfter(e.target.value)}
+              onChange={(e) => updateUrlFilters({ startAfter: e.target.value })}
               className="filter-input"
             />
           </div>
@@ -155,27 +310,174 @@ export default function PlannerPage() {
               type="text"
               placeholder="e.g., 10:00PM"
               value={finishBy}
-              onChange={(e) => setFinishBy(e.target.value)}
+              onChange={(e) => updateUrlFilters({ finishBy: e.target.value })}
               className="filter-input"
             />
           </div>
         </div>
 
-        <div className="search-button-container">
+        <div className="planner-advanced-section">
           <button
-            onClick={findPlans}
-            disabled={isSearching || !effectiveDate}
-            className="search-button"
+            type="button"
+            className="planner-advanced-toggle"
+            aria-expanded={advancedOpen}
+            onClick={() => updateUrlFilters({ advancedOpen: !advancedOpen })}
           >
-            {isSearching ? (
-              <>
-                <span className="loading-spinner"></span>
-                Finding plans...
-              </>
-            ) : (
-              'Find plans'
-            )}
+            Advanced filters
+            <span className="planner-advanced-toggle-icon">{advancedOpen ? '▾' : '▸'}</span>
           </button>
+
+          {advancedOpen ? (
+            <div className="planner-advanced-panel double-feature-filters">
+              <div className="filter-group">
+                <label htmlFor="planner-min-gap">Minimum gap (minutes)</label>
+                <input
+                  id="planner-min-gap"
+                  type="number"
+                  min="0"
+                  step="1"
+                  placeholder="e.g., 15"
+                  value={minGapMin}
+                  onChange={(e) => updateUrlFilters({ minGapMin: e.target.value })}
+                  className="filter-input"
+                />
+              </div>
+
+              <div className="filter-group">
+                <label htmlFor="planner-max-gap">Maximum gap (minutes)</label>
+                <input
+                  id="planner-max-gap"
+                  type="number"
+                  min="0"
+                  step="1"
+                  placeholder={filmCount === 2 ? `Default ${59}` : 'No limit'}
+                  value={maxGapMin}
+                  onChange={(e) => handleMaxGapChange(e.target.value)}
+                  className="filter-input"
+                />
+                <p className="planner-field-hint">{getMaxGapHelperText(filmCount)}</p>
+              </div>
+
+              <div className="filter-group">
+                <label htmlFor="planner-include">Required movies</label>
+                <input
+                  id="planner-include"
+                  type="text"
+                  placeholder="Comma-separated titles"
+                  value={formatFilmListInput(includeFilms)}
+                  onChange={(e) =>
+                    updateUrlFilters({ includeFilms: parseFilmListInput(e.target.value) })
+                  }
+                  className="filter-input"
+                />
+              </div>
+
+              <div className="filter-group">
+                <label htmlFor="planner-exclude">Excluded movies</label>
+                <input
+                  id="planner-exclude"
+                  type="text"
+                  placeholder="Comma-separated titles"
+                  value={formatFilmListInput(excludeFilms)}
+                  onChange={(e) =>
+                    updateUrlFilters({ excludeFilms: parseFilmListInput(e.target.value) })
+                  }
+                  className="filter-input"
+                />
+              </div>
+
+              <div className="filter-group">
+                <label htmlFor="planner-first">Preferred first movie</label>
+                <input
+                  id="planner-first"
+                  type="text"
+                  placeholder="Film title"
+                  value={firstFilm}
+                  onChange={(e) => updateUrlFilters({ firstFilm: e.target.value })}
+                  className="filter-input"
+                />
+              </div>
+
+              <div className="filter-group">
+                <label htmlFor="planner-last">Preferred last movie</label>
+                <input
+                  id="planner-last"
+                  type="text"
+                  placeholder="Film title"
+                  value={lastFilm}
+                  onChange={(e) => updateUrlFilters({ lastFilm: e.target.value })}
+                  className="filter-input"
+                />
+              </div>
+
+              <div className="filter-group">
+                <label htmlFor="planner-sort">Sort results by</label>
+                <select
+                  id="planner-sort"
+                  value={sort}
+                  onChange={(e) => updateUrlFilters({ sort: e.target.value })}
+                  className="filter-select"
+                >
+                  {PLANNER_SORT_OPTIONS.map((option) => (
+                    <option key={option.value || 'default'} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          ) : null}
+        </div>
+
+        <div className="search-button-container">
+          <div className="double-feature-action-buttons">
+            <button
+              onClick={findPlans}
+              disabled={isSearching || !effectiveDate}
+              className="search-button"
+            >
+              {isSearching ? (
+                <>
+                  <span className="loading-spinner"></span>
+                  Finding plans...
+                </>
+              ) : (
+                'Find plans'
+              )}
+            </button>
+            <button
+              type="button"
+              className="double-feature-copy-link"
+              onClick={handleCopyShareLink}
+            >
+              Copy share link
+            </button>
+          </div>
+          <div
+            className={`double-feature-copy-link-status${
+              copyLinkStatus === 'error' ? ' double-feature-copy-link-status--error' : ''
+            }`}
+            aria-live="polite"
+          >
+            {copyLinkStatus === 'copied' ? 'Link copied' : null}
+            {copyLinkStatus === 'error' ? 'Could not copy link' : null}
+          </div>
+          {showUrlLoadedPrompt ? (
+            <div className="double-feature-url-prompt" role="status">
+              <p>
+                Planner settings loaded from the URL ({formatPlannerSharedFiltersSummary(decoded)}).
+                Click &quot;Find plans&quot; to generate results.
+              </p>
+              <button
+                type="button"
+                className="double-feature-run-search"
+                onClick={findPlans}
+                disabled={isSearching || !effectiveDate}
+              >
+                Find plans from shared filters
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
 
@@ -199,7 +501,9 @@ export default function PlannerPage() {
           </div>
         ) : !hasSearchRun ? (
           <div className="planner-prompt">
-            Select filters above and click &quot;Find plans&quot; to generate schedules.
+            {showUrlLoadedPrompt
+              ? 'Shared planner filters are ready. Click "Find plans from shared filters" above.'
+              : 'Select filters above and click "Find plans" to generate schedules.'}
           </div>
         ) : (
           <div className="double-feature-list planner-result-list">

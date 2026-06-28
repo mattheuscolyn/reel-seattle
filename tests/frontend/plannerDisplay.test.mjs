@@ -3,10 +3,14 @@ import assert from 'node:assert/strict';
 import {
   buildPlannerSearchFilters,
   formatFilmCountLabel,
+  formatFilmListInput,
   formatPlannerMovieDisplay,
   formatPlannerResultsHeading,
   formatPlannerScheduleSummary,
+  formatPlannerSharedFiltersSummary,
+  formatPlannerSortLabel,
   formatPlannerTimeLabel,
+  parseFilmListInput,
   parsePlannerTimeInput,
 } from '../../src/utils/plannerDisplay.js';
 
@@ -43,6 +47,15 @@ test('buildPlannerSearchFilters applies double-feature max gap for 2-film mode o
   assert.equal(twoFilm.startAfterMin, 840);
   assert.equal(twoFilm.finishByMin, 1320);
 
+  const twoFilmOverride = buildPlannerSearchFilters({
+    date: '06/27/2026',
+    theaters: [],
+    filmCount: 2,
+    maxGapMin: '30',
+    maxGapExplicit: true,
+  });
+  assert.equal(twoFilmOverride.maxGapMin, 30);
+
   const threeFilm = buildPlannerSearchFilters({
     date: '06/27/2026',
     theaters: [],
@@ -61,6 +74,23 @@ test('buildPlannerSearchFilters applies double-feature max gap for 2-film mode o
   });
   assert.equal(maxMode.filmCount, 'max');
   assert.equal(maxMode.maxGapMin, null);
+});
+
+test('parseFilmListInput and formatFilmListInput round-trip titles', () => {
+  assert.deepEqual(parseFilmListInput('Toy Story 5, Sinners'), ['Toy Story 5', 'Sinners']);
+  assert.equal(formatFilmListInput(['Toy Story 5', 'Sinners']), 'Toy Story 5, Sinners');
+});
+
+test('formatPlannerSortLabel and shared summary helpers', () => {
+  assert.equal(formatPlannerSortLabel('shortest_span'), 'Shortest total span');
+  assert.equal(formatPlannerSortLabel(''), 'Default');
+  const summary = formatPlannerSharedFiltersSummary({
+    selectedDate: '06/27/2026',
+    filmCount: 'max',
+    sort: 'most_films',
+  });
+  assert.match(summary, /06\/27\/2026/);
+  assert.match(summary, /As many as possible/);
 });
 
 test('formatPlannerScheduleSummary formats theater span and gap metrics', () => {

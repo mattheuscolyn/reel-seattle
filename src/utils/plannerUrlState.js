@@ -1,0 +1,202 @@
+import { PLANNER_SORT_MODES } from './plannerEngine.js';
+import { intersectWithOptions, normalizePlannerTime } from './doubleFeatureUrlState.js';
+
+export { intersectWithOptions };
+
+const VALID_FILM_COUNTS = new Set(['2', '3', '4', 'max']);
+
+function toSearchParams(searchParamsInput) {
+  if (typeof searchParamsInput === 'string') {
+    const query = searchParamsInput.startsWith('?')
+      ? searchParamsInput.slice(1)
+      : searchParamsInput;
+    return new URLSearchParams(query);
+  }
+  return searchParamsInput;
+}
+
+function readMultiParam(searchParams, key) {
+  return searchParams
+    .getAll(key)
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
+
+function readOptionalText(value) {
+  if (value == null) return '';
+  return String(value).trim();
+}
+
+function normalizeFilmCount(value) {
+  const trimmed = readOptionalText(value);
+  if (!trimmed) return 2;
+  if (VALID_FILM_COUNTS.has(trimmed)) return trimmed === 'max' ? 'max' : Number(trimmed);
+  const n = Number(trimmed);
+  if (n === 2 || n === 3 || n === 4) return n;
+  return 2;
+}
+
+function parseGapMinutes(value) {
+  const trimmed = readOptionalText(value);
+  if (!trimmed) return '';
+  const n = Number(trimmed);
+  if (!Number.isFinite(n) || n < 0 || !Number.isInteger(n)) return '';
+  return String(n);
+}
+
+function normalizeSort(value) {
+  const trimmed = readOptionalText(value);
+  if (!trimmed) return '';
+  return PLANNER_SORT_MODES.includes(trimmed) ? trimmed : '';
+}
+
+function normalizeAdvancedFlag(value) {
+  const trimmed = readOptionalText(value).toLowerCase();
+  return trimmed === '1' || trimmed === 'true' || trimmed === 'yes';
+}
+
+/**
+ * Decode planner filter state from URLSearchParams.
+ */
+export function decodePlannerFilters(searchParamsInput) {
+  const searchParams = toSearchParams(searchParamsInput);
+
+  return {
+    selectedDate: readOptionalText(searchParams.get('date')),
+    selectedTheaters: readMultiParam(searchParams, 'theaters'),
+    filmCount: normalizeFilmCount(searchParams.get('count')),
+    startAfter: normalizePlannerTime(searchParams.get('start')),
+    finishBy: normalizePlannerTime(searchParams.get('finish')),
+    minGapMin: parseGapMinutes(searchParams.get('mingap')),
+    maxGapMin: parseGapMinutes(searchParams.get('maxgap')),
+    maxGapExplicit: searchParams.has('maxgap'),
+    includeFilms: readMultiParam(searchParams, 'movies'),
+    excludeFilms: readMultiParam(searchParams, 'exclude'),
+    firstFilm: readOptionalText(searchParams.get('first')),
+    lastFilm: readOptionalText(searchParams.get('last')),
+    sort: normalizeSort(searchParams.get('sort')),
+    advancedOpen:
+      normalizeAdvancedFlag(searchParams.get('advanced')) ||
+      searchParams.has('mingap') ||
+      searchParams.has('maxgap') ||
+      readMultiParam(searchParams, 'movies').length > 0 ||
+      readMultiParam(searchParams, 'exclude').length > 0 ||
+      readOptionalText(searchParams.get('first')) !== '' ||
+      readOptionalText(searchParams.get('last')) !== '' ||
+      normalizeSort(searchParams.get('sort')) !== '',
+  };
+}
+
+/**
+ * Encode planner filters into URLSearchParams. Defaults are omitted.
+ */
+export function encodePlannerFilters({
+  selectedDate = '',
+  selectedTheaters = [],
+  filmCount = 2,
+  startAfter = '',
+  finishBy = '',
+  minGapMin = '',
+  maxGapMin = '',
+  maxGapExplicit = false,
+  includeFilms = [],
+  excludeFilms = [],
+  firstFilm = '',
+  lastFilm = '',
+  sort = '',
+  advancedOpen = false,
+} = {}) {
+  const params = new URLSearchParams();
+  const trimmedDate = readOptionalText(selectedDate);
+
+  if (trimmedDate) params.set('date', trimmedDate);
+
+  for (const theater of selectedTheaters) {
+    const trimmed = readOptionalText(theater);
+    if (trimmed) params.append('theaters', trimmed);
+  }
+
+  const count = filmCount === 'max' ? 'max' : Number(filmCount);
+  if (count === 3 || count === 4 || count === 'max') {
+    params.set('count', String(count));
+  }
+
+  const start = normalizePlannerTime(startAfter);
+  if (start) params.set('start', start);
+
+  const finish = normalizePlannerTime(finishBy);
+  if (finish) params.set('finish', finish);
+
+  const minGap = parseGapMinutes(minGapMin);
+  if (minGap !== '') params.set('mingap', minGap);
+
+  if (maxGapExplicit) {
+    const maxGap = parseGapMinutes(maxGapMin);
+    if (maxGap !== '') params.set('maxgap', maxGap);
+  }
+
+  for (const film of includeFilms) {
+    const trimmed = readOptionalText(film);
+    if (trimmed) params.append('movies', trimmed);
+  }
+
+  for (const film of excludeFilms) {
+    const trimmed = readOptionalText(film);
+    if (trimmed) params.append('exclude', trimmed);
+  }
+
+  const first = readOptionalText(firstFilm);
+  if (first) params.set('first', first);
+
+  const last = readOptionalText(lastFilm);
+  if (last) params.set('last', last);
+
+  const safeSort = normalizeSort(sort);
+  if (safeSort && safeSort !== 'earliest_start') {
+    params.set('sort', safeSort);
+  }
+
+  if (advancedOpen) params.set('advanced', '1');
+
+  return params;
+}
+
+export function buildPlannerSearchString(filters) {
+  const query = encodePlannerFilters(filters).toString();
+  return query ? `?${query}` : '';
+}
+
+export function plannerFiltersDiffer(encodedParams, currentParams) {
+  return encodedParams.toString() !== currentParams.toString();
+}
+
+/** True when URL contains meaningful planner filter params. */
+export function hasActivePlannerQuery({
+  selectedDate = '',
+  selectedTheaters = [],
+  filmCount = 2,
+  startAfter = '',
+  finishBy = '',
+  minGapMin = '',
+  maxGapMin = '',
+  maxGapExplicit = false,
+  includeFilms = [],
+  excludeFilms = [],
+  firstFilm = '',
+  lastFilm = '',
+  sort = '',
+} = {}) {
+  if (readOptionalText(selectedDate)) return true;
+  if (selectedTheaters.length > 0) return true;
+  if (filmCount === 3 || filmCount === 4 || filmCount === 'max') return true;
+  if (readOptionalText(startAfter)) return true;
+  if (readOptionalText(finishBy)) return true;
+  if (parseGapMinutes(minGapMin) !== '') return true;
+  if (maxGapExplicit) return true;
+  if (includeFilms.length > 0) return true;
+  if (excludeFilms.length > 0) return true;
+  if (readOptionalText(firstFilm)) return true;
+  if (readOptionalText(lastFilm)) return true;
+  if (normalizeSort(sort)) return true;
+  return false;
+}
