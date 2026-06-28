@@ -24,21 +24,23 @@ function AppShell() {
         </NavLink>
         <NavLink
           to="/planner"
-          className={({ isActive }) => `nav-button${isActive ? ' active' : ''}`}
+          className={({ isActive }) =>
+            `nav-button nav-button--primary${isActive ? ' active' : ''}`
+          }
         >
           Planner
         </NavLink>
         <NavLink
           to="/double-feature"
-          className={({ isActive }) => `nav-button${isActive ? ' active' : ''}`}
+          className={({ isActive }) => `nav-button nav-button--legacy${isActive ? ' active' : ''}`}
         >
-          Double Feature
+          Legacy: Double Feature
         </NavLink>
         <NavLink
           to={MARATHON_ROUTE}
-          className={({ isActive }) => `nav-button${isActive ? ' active' : ''}`}
+          className={({ isActive }) => `nav-button nav-button--legacy${isActive ? ' active' : ''}`}
         >
-          Marathon
+          Legacy: Marathon
         </NavLink>
       </nav>
       <Routes>

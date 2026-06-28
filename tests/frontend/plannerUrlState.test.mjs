@@ -1,10 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  buildMarathonPlannerLink,
+  buildPlannerPathFromDoubleFeature,
   buildPlannerSearchString,
   decodePlannerFilters,
   encodePlannerFilters,
   hasActivePlannerQuery,
+  mapDoubleFeatureFiltersToPlanner,
   plannerFiltersDiffer,
 } from '../../src/utils/plannerUrlState.js';
 
@@ -133,4 +136,57 @@ test('plannerFiltersDiffer compares encoded params', () => {
   const b = encodePlannerFilters({ selectedDate: '06/28/2026' });
   assert.equal(plannerFiltersDiffer(a, b), true);
   assert.equal(plannerFiltersDiffer(a, a), false);
+});
+
+test('mapDoubleFeatureFiltersToPlanner preserves safe params and sets 2-film mode', () => {
+  const params = mapDoubleFeatureFiltersToPlanner({
+    selectedDate: '06/27/2026',
+    selectedTheaters: ['The Beacon'],
+    earliestStartTime: '2:00PM',
+    earliestEndTime: '10:00PM',
+    movieFilterType: 'whitelist',
+    selectedMovies: ['Toy Story 5'],
+  });
+
+  assert.equal(params.get('date'), '06/27/2026');
+  assert.deepEqual(params.getAll('theaters'), ['The Beacon']);
+  assert.equal(params.get('start'), '2:00PM');
+  assert.equal(params.get('finish'), null);
+  assert.equal(params.get('end'), null);
+  assert.deepEqual(params.getAll('movies'), ['Toy Story 5']);
+  assert.equal(params.get('advanced'), '1');
+});
+
+test('mapDoubleFeatureFiltersToPlanner omits Double Feature end param', () => {
+  const params = mapDoubleFeatureFiltersToPlanner({
+    selectedDate: '06/27/2026',
+    earliestEndTime: '10:00PM',
+    movieFilterType: 'none',
+    selectedMovies: [],
+  });
+  assert.equal(params.get('finish'), null);
+});
+
+test('buildPlannerPathFromDoubleFeature maps share URL params with count=2', () => {
+  const path = buildPlannerPathFromDoubleFeature(
+    'date=06/27/2026&theaters=The+Beacon&start=2%3A00PM&movies=Toy+Story+5',
+  );
+  assert.match(path, /^\/planner\?/);
+  assert.match(path, /count=2/);
+  assert.match(path, /date=06%2F27%2F2026/);
+  assert.match(path, /theaters=The\+Beacon/);
+  assert.match(path, /start=2%3A00PM/);
+  assert.match(path, /movies=Toy\+Story\+5/);
+  assert.doesNotMatch(path, /finish=/);
+  assert.doesNotMatch(path, /end=/);
+});
+
+test('buildPlannerPathFromDoubleFeature maps blacklist exclude films', () => {
+  const path = buildPlannerPathFromDoubleFeature('exclude=Sinners');
+  assert.match(path, /count=2/);
+  assert.match(path, /exclude=Sinners/);
+});
+
+test('buildMarathonPlannerLink points to max mode', () => {
+  assert.equal(buildMarathonPlannerLink(), '/planner?count=max');
 });

@@ -80,6 +80,8 @@ Checks section visibility, card/count parity, responsive overflow at 375/768/120
 
 ### Double Feature (`/double-feature`)
 
+- [ ] Page loads without console errors
+- [ ] **Legacy migration banner** appears with link to `/planner?count=2` (preserves current DF URL params where safe)
 - [ ] Page loads with a clean URL when using defaults (no shared-link prompt)
 - [ ] Date, theater, time, and movie filter controls update the URL
 - [ ] **Copy share link** copies the current URL with planner params; shows temporary “Link copied” feedback
@@ -95,6 +97,7 @@ Checks section visibility, card/count parity, responsive overflow at 375/768/120
 ### Planner (`/planner`)
 
 - [ ] Page loads without console errors
+- [ ] Nav shows **Planner** as primary; legacy tools labeled **Legacy: Double Feature** / **Legacy: Marathon**
 - [ ] Basic filters work: date, theaters, film count, start after, finish by
 - [ ] Advanced filters expand/collapse and affect results (gaps, include/exclude, first/last, sort)
 - [ ] **Copy share link** copies the current URL; shows temporary feedback
@@ -109,6 +112,7 @@ Checks section visibility, card/count parity, responsive overflow at 375/768/120
 ### Marathon (`/marathon`)
 
 - [ ] React shell loads; marathon iframe appears
+- [ ] **Legacy migration banner** appears with link to `/planner?count=max`
 - [ ] Status banner appears when AMC data is stale, empty, or unavailable (hidden when AMC is current with showtimes)
 - [ ] Banner copy is understandable and does not block the iframe
 - [ ] Standalone UI loads at `/marathon/index.html`

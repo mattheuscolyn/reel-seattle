@@ -1,5 +1,9 @@
 import { PLANNER_SORT_MODES } from './plannerEngine.js';
-import { intersectWithOptions, normalizePlannerTime } from './doubleFeatureUrlState.js';
+import {
+  decodeDoubleFeatureFilters,
+  intersectWithOptions,
+  normalizePlannerTime,
+} from './doubleFeatureUrlState.js';
 
 export { intersectWithOptions };
 
@@ -199,4 +203,55 @@ export function hasActivePlannerQuery({
   if (readOptionalText(lastFilm)) return true;
   if (normalizeSort(sort)) return true;
   return false;
+}
+
+/**
+ * Map Double Feature filter state to planner URL params for migration links.
+ *
+ * Double Feature `end` filters individual showtime end times (earliest end), not the
+ * schedule finish-by time used by Planner/Marathon. It is intentionally omitted here.
+ *
+ * @param {object} doubleFeatureFilters - Output of decodeDoubleFeatureFilters
+ * @returns {URLSearchParams}
+ */
+export function mapDoubleFeatureFiltersToPlanner(doubleFeatureFilters = {}) {
+  const includeFilms =
+    doubleFeatureFilters.movieFilterType === 'whitelist'
+      ? doubleFeatureFilters.selectedMovies ?? []
+      : [];
+  const excludeFilms =
+    doubleFeatureFilters.movieFilterType === 'blacklist'
+      ? doubleFeatureFilters.selectedMovies ?? []
+      : [];
+
+  return encodePlannerFilters({
+    selectedDate: doubleFeatureFilters.selectedDate ?? '',
+    selectedTheaters: doubleFeatureFilters.selectedTheaters ?? [],
+    filmCount: 2,
+    startAfter: doubleFeatureFilters.earliestStartTime ?? '',
+    finishBy: '',
+    includeFilms,
+    excludeFilms,
+    advancedOpen: includeFilms.length > 0 || excludeFilms.length > 0,
+  });
+}
+
+/**
+ * Build a /planner path from Double Feature URL query params.
+ * Always includes count=2 so migration links are explicit.
+ *
+ * @param {URLSearchParams|string} searchParamsInput
+ * @returns {string}
+ */
+export function buildPlannerPathFromDoubleFeature(searchParamsInput) {
+  const dfFilters = decodeDoubleFeatureFilters(searchParamsInput);
+  const params = mapDoubleFeatureFiltersToPlanner(dfFilters);
+  if (!params.has('count')) params.set('count', '2');
+  const query = params.toString();
+  return query ? `/planner?${query}` : '/planner?count=2';
+}
+
+/** Planner link for Marathon legacy page migration. */
+export function buildMarathonPlannerLink() {
+  return '/planner?count=max';
 }

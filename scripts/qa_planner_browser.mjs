@@ -40,7 +40,7 @@ async function checkNav(page) {
   for (let i = 0; i < count; i += 1) {
     labels.push((await links.nth(i).textContent())?.trim());
   }
-  for (const expected of ['Showtimes', 'Planner', 'Double Feature', 'Marathon']) {
+  for (const expected of ['Showtimes', 'Planner', 'Legacy: Double Feature', 'Legacy: Marathon']) {
     if (labels.includes(expected)) pass(`Nav includes ${expected}`);
     else fail(`Nav missing ${expected} (got: ${labels.join(', ')})`);
   }
@@ -299,17 +299,46 @@ async function checkResponsivePlanner(page, width) {
   }
 }
 
+async function checkLegacyMigrationBanners(page) {
+  await page.goto(`${BASE}/double-feature`, { waitUntil: 'networkidle' });
+  if (await page.locator('.legacy-tool-banner').isVisible()) {
+    pass('Double Feature legacy banner appears');
+  } else {
+    fail('Double Feature legacy banner missing');
+  }
+
+  const dfLink = page.locator('.legacy-tool-banner-link', { hasText: 'Try Planner for 2 movies' });
+  const dfHref = await dfLink.getAttribute('href');
+  if (dfHref?.includes('/planner') && dfHref.includes('count=2')) {
+    pass(`Double Feature Try Planner link: ${dfHref}`);
+  } else {
+    fail(`Double Feature Try Planner link wrong: ${dfHref}`);
+  }
+
+  await page.goto(`${BASE}/marathon/`, { waitUntil: 'networkidle' });
+  if (await page.locator('.legacy-tool-banner').isVisible()) {
+    pass('Marathon legacy banner appears');
+  } else {
+    fail('Marathon legacy banner missing');
+  }
+
+  const marathonLink = page.locator('.legacy-tool-banner-link', { hasText: 'Try Planner' });
+  const marathonHref = await marathonLink.getAttribute('href');
+  if (marathonHref?.includes('/planner') && marathonHref.includes('count=max')) {
+    pass(`Marathon Try Planner link: ${marathonHref}`);
+  } else {
+    fail(`Marathon Try Planner link wrong: ${marathonHref}`);
+  }
+}
+
 async function checkLegacyRoutes(page) {
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
   await page.waitForSelector('.movie-list, h1.main-header', { timeout: 15000 });
   pass('Showtimes page loads');
 
-  await page.goto(`${BASE}/double-feature`, { waitUntil: 'networkidle' });
-  await page.waitForSelector('h1.main-header', { timeout: 15000 });
-  const dfHeader = await page.locator('h1.main-header').textContent();
-  if (dfHeader?.includes('Double Feature')) pass('Double Feature page loads');
-  else fail(`Double Feature header wrong: ${dfHeader}`);
+  await checkLegacyMigrationBanners(page);
 
+  await page.goto(`${BASE}/double-feature`, { waitUntil: 'networkidle' });
   const findBtn = page.locator('.search-button', { hasText: 'Find Double Features' });
   if (await findBtn.count()) {
     await findBtn.click();

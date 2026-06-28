@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import DropdownMultiSelect from '../components/DropdownMultiSelect.jsx';
 import DoubleFeatureResultCard from '../components/DoubleFeatureResultCard.jsx';
+import LegacyToolBanner from '../components/LegacyToolBanner.jsx';
 import { useShowtimesData } from '../hooks/useShowtimesData.js';
 import { uniqueSorted } from '../utils/arrayUtils.js';
 import { isTodayOrFuture } from '../utils/dateUtils.js';
@@ -18,6 +19,7 @@ import {
   intersectWithOptions,
 } from '../utils/doubleFeatureUrlState.js';
 import { copyTextToClipboard, getShareUrlFromLocation } from '../utils/shareLinkUtils.js';
+import { buildPlannerPathFromDoubleFeature } from '../utils/plannerUrlState.js';
 
 export default function DoubleFeaturePage() {
   const { rows, loading, error } = useShowtimesData();
@@ -175,6 +177,11 @@ export default function DoubleFeaturePage() {
     setCopyLinkStatus(ok ? 'copied' : 'error');
   };
 
+  const plannerMigrationLink = useMemo(
+    () => buildPlannerPathFromDoubleFeature(searchParams),
+    [searchParams],
+  );
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -199,6 +206,12 @@ export default function DoubleFeaturePage() {
 
   return (
     <>
+      <LegacyToolBanner
+        label="New unified Planner available"
+        message="The unified Planner can now find 2-movie plans, longer marathons, advanced filters, and shareable links. Double Feature is still available during the transition."
+        linkTo={plannerMigrationLink}
+        linkText="Try Planner for 2 movies"
+      />
       <h1 className="main-header">Double Feature Planner</h1>
       <div className="double-feature-controls">
         <div className="double-feature-filters">

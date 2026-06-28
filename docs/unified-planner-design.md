@@ -436,9 +436,9 @@ Omit params when equal to defaults (same pattern as `encodeDoubleFeatureFilters`
 | PR 62 | `/planner` | **Launch** new page; add nav entry (“Planner” or “Planner (new)”) |
 | PR 62–64 | `/double-feature` | **Keep** unchanged |
 | PR 62–64 | `/marathon` | **Keep** iframe |
-| PR 65 | `/double-feature` | **Redirect** to `/planner?count=2` with param mapping; or soft banner “Try the new Planner” |
-| PR 65 | `/marathon` | Redirect to `/planner?count=max` **or** keep iframe with deprecation banner until QA passes |
-| PR 65 | Old DF share URLs | Redirect preserves `date`, `theaters`, `start`, `movies`, `exclude` |
+| PR 65 | `/double-feature` | **Soft banner** + “Try Planner for 2 movies” link; route and shared URLs preserved (no auto-redirect) |
+| PR 65 | `/marathon` | **Soft banner** + “Try Planner” link to `count=max`; iframe remains |
+| PR 65 | Old DF share URLs | `buildPlannerPathFromDoubleFeature()` maps `date`, `theaters`, `start`, `movies`, `exclude`; **`end` not mapped** (semantic mismatch) |
 | Transition | `/marathon/index.html` | **Remain accessible** for bookmarks |
 | Transition | `marathon_showtimes.json` | **Keep emitting** while iframe exists |
 | PR 66 | `public/marathon/` | **Delete** after parity QA: 2-film AMC, 4+ film day, finish-by, blacklist/preferred, SIFF 2-film day |
@@ -502,16 +502,17 @@ Acceptance criteria:
 - [ ] Empty / truncated states with clear copy
 - [ ] Optional: alternate showtime count badge
 
-### PR 65 — Legacy route migration / redirects
+### PR 65 — Legacy route migration prep (soft banners)
 
-**Scope:** Nav consolidation, redirects, deprecation banners.
+**Scope:** Nav consolidation, legacy banners, Double Feature → Planner URL helper. **No automatic redirects.**
 
 Acceptance criteria:
 
-- [ ] `/double-feature` → `/planner?count=2` redirect (preserve query params)
-- [ ] Nav shows single **Planner** entry (or primary Planner + legacy sublinks temporarily)
-- [ ] Marathon route redirects or shows deprecation banner with link to `/planner`
-- [ ] `docs/frontend-smoke-check.md` updated with `/planner` checklist
+- [x] Nav shows **Planner** as primary; legacy tools labeled in nav
+- [x] `/double-feature` and `/marathon` show migration banners with Try Planner links
+- [x] `buildPlannerPathFromDoubleFeature()` tested; `end` param intentionally omitted
+- [x] Existing Double Feature share URLs unchanged on legacy page
+- [ ] PR 66: optional redirects and asset removal after parity QA
 
 ### PR 66 — Remove obsolete standalone marathon assets
 
