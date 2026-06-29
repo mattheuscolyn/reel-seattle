@@ -25,7 +25,7 @@ export default function DropdownMultiSelect({ label, options, selected, setSelec
   const labelText = selected.length === 0 ? label : `${label} (${selected.length})`;
 
   return (
-    <div className="dropdown-multiselect" ref={ref}>
+    <div className={`dropdown-multiselect${open ? ' is-open' : ''}`} ref={ref}>
       <button
         className={`dropdown-btn${open ? ' open' : ''}`}
         type="button"

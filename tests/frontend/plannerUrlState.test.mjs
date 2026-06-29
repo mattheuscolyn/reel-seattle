@@ -55,26 +55,26 @@ test('encodePlannerFilters encodes include and exclude movie arrays', () => {
     includeFilms: ['Toy Story 5', 'Sinners'],
     excludeFilms: ['Jackass: Best and Last'],
   });
-  assert.deepEqual(params.getAll('movies'), ['Toy Story 5', 'Sinners']);
-  assert.deepEqual(params.getAll('exclude'), ['Jackass: Best and Last']);
+  assert.equal(params.get('movies'), 'Toy Story 5, Sinners');
+  assert.equal(params.get('exclude'), 'Jackass: Best and Last');
 });
 
 test('decodePlannerFilters decodes include and exclude movie arrays', () => {
   const decoded = decodePlannerFilters('movies=Toy+Story+5&exclude=Sinners');
-  assert.deepEqual(decoded.includeFilms, ['Toy Story 5']);
-  assert.deepEqual(decoded.excludeFilms, ['Sinners']);
+  assert.equal(decoded.includeFilms, 'Toy Story 5');
+  assert.equal(decoded.excludeFilms, 'Sinners');
 });
 
 test('encodePlannerFilters encodes preferred film arrays', () => {
   const params = encodePlannerFilters({
     preferredFilms: ['Toy Story 5', 'Sinners'],
   });
-  assert.deepEqual(params.getAll('preferred'), ['Toy Story 5', 'Sinners']);
+  assert.equal(params.get('preferred'), 'Toy Story 5, Sinners');
 });
 
 test('decodePlannerFilters decodes preferred film arrays', () => {
   const decoded = decodePlannerFilters('preferred=Toy+Story+5&preferred=Sinners');
-  assert.deepEqual(decoded.preferredFilms, ['Toy Story 5', 'Sinners']);
+  assert.equal(decoded.preferredFilms, 'Toy Story 5, Sinners');
 });
 
 test('decodePlannerFilters opens advanced panel when preferred is present', () => {
@@ -84,16 +84,16 @@ test('decodePlannerFilters opens advanced panel when preferred is present', () =
 
 test('buildPlannerSearchString round-trips preferred films', () => {
   const query = buildPlannerSearchString({
-    preferredFilms: ['Toy Story 5', 'Sinners'],
+    preferredFilms: 'Toy Story 5, Sinners',
     filmCount: 'max',
   });
   const decoded = decodePlannerFilters(query);
-  assert.deepEqual(decoded.preferredFilms, ['Toy Story 5', 'Sinners']);
+  assert.equal(decoded.preferredFilms, 'Toy Story 5, Sinners');
   assert.equal(decoded.filmCount, 'max');
 });
 
 test('hasActivePlannerQuery detects preferred films', () => {
-  assert.equal(hasActivePlannerQuery({ preferredFilms: ['Sinners'] }), true);
+  assert.equal(hasActivePlannerQuery({ preferredFilms: 'Sinners' }), true);
 });
 
 test('buildPlannerPathFromDoubleFeature does not emit preferred films', () => {
@@ -277,6 +277,17 @@ test('normalizePlannerTime rejects invalid compact times', () => {
   assert.equal(normalizePlannerTime('7ish'), '');
 });
 
+test('encodePlannerFilters preserves partial planner times while typing', () => {
+  const params = encodePlannerFilters({ startAfter: '2:00', finishBy: '10:' });
+  assert.equal(params.get('start'), '2:00');
+  assert.equal(params.get('finish'), '10:');
+});
+
+test('encodePlannerFilters preserves trailing comma in film list text', () => {
+  const params = encodePlannerFilters({ includeFilms: 'The Dark Knight, ' });
+  assert.equal(params.get('movies'), 'The Dark Knight, ');
+});
+
 test('buildMarathonPlannerLink points to max mode', () => {
   assert.equal(buildMarathonPlannerLink(), '/planner?count=max');
 });
@@ -296,7 +307,7 @@ test('buildPlannerPathFromMarathon maps preferred films to repeatable params', (
     preferredMovies: ['Disclosure Day'],
   });
   const decoded = decodePlannerFilters(path.split('?')[1]);
-  assert.deepEqual(decoded.preferredFilms, ['Disclosure Day']);
+  assert.deepEqual(decoded.preferredFilms, 'Disclosure Day');
   assert.equal(decoded.filmCount, 'max');
   assert.equal(decoded.advancedOpen, true);
   assert.match(path, /from=marathon/);
@@ -308,8 +319,8 @@ test('buildPlannerPathFromMarathon maps blacklist to exclude params', () => {
     preferredMovies: ['Sinners'],
   });
   const decoded = decodePlannerFilters(path.split('?')[1]);
-  assert.deepEqual(decoded.excludeFilms, ['Project Hail Mary']);
-  assert.deepEqual(decoded.preferredFilms, ['Sinners']);
+  assert.deepEqual(decoded.excludeFilms, 'Project Hail Mary');
+  assert.equal(decoded.preferredFilms, 'Sinners');
   assert.equal(decoded.advancedOpen, true);
 });
 

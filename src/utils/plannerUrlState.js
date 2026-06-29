@@ -20,6 +20,32 @@ function readMultiParam(searchParams, key) {
     .filter(Boolean);
 }
 
+function readFilmListText(searchParams, key) {
+  const values = searchParams.getAll(key);
+  if (values.length === 0) return '';
+  if (values.length === 1) return values[0];
+  return values
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .join(', ');
+}
+
+function writeFilmListText(value) {
+  if (value == null) return '';
+  if (typeof value === 'string') return value;
+  if (Array.isArray(value)) {
+    return value
+      .map((film) => String(film).trim())
+      .filter(Boolean)
+      .join(', ');
+  }
+  return '';
+}
+
+function hasFilmListText(value) {
+  return readOptionalText(writeFilmListText(value)) !== '';
+}
+
 function readOptionalText(value) {
   if (value == null) return '';
   return String(value).trim();
@@ -70,14 +96,14 @@ export function decodePlannerFilters(searchParamsInput) {
     selectedDate: readOptionalText(searchParams.get('date')),
     selectedTheaters: readMultiParam(searchParams, 'theaters'),
     filmCount: normalizeFilmCount(searchParams.get('count')),
-    startAfter: normalizePlannerTime(searchParams.get('start')),
-    finishBy: normalizePlannerTime(searchParams.get('finish')),
+    startAfter: readOptionalText(searchParams.get('start')),
+    finishBy: readOptionalText(searchParams.get('finish')),
     minGapMin: parseGapMinutes(searchParams.get('mingap')),
     maxGapMin: parseGapMinutes(searchParams.get('maxgap')),
     maxGapExplicit: searchParams.has('maxgap'),
-    includeFilms: readMultiParam(searchParams, 'movies'),
-    excludeFilms: readMultiParam(searchParams, 'exclude'),
-    preferredFilms: readMultiParam(searchParams, 'preferred'),
+    includeFilms: readFilmListText(searchParams, 'movies'),
+    excludeFilms: readFilmListText(searchParams, 'exclude'),
+    preferredFilms: readFilmListText(searchParams, 'preferred'),
     firstFilm: readOptionalText(searchParams.get('first')),
     lastFilm: readOptionalText(searchParams.get('last')),
     sort: normalizeSort(searchParams.get('sort')),
@@ -85,9 +111,9 @@ export function decodePlannerFilters(searchParamsInput) {
       normalizeAdvancedFlag(searchParams.get('advanced')) ||
       searchParams.has('mingap') ||
       searchParams.has('maxgap') ||
-      readMultiParam(searchParams, 'movies').length > 0 ||
-      readMultiParam(searchParams, 'exclude').length > 0 ||
-      readMultiParam(searchParams, 'preferred').length > 0 ||
+      readFilmListText(searchParams, 'movies') !== '' ||
+      readFilmListText(searchParams, 'exclude') !== '' ||
+      readFilmListText(searchParams, 'preferred') !== '' ||
       readOptionalText(searchParams.get('first')) !== '' ||
       readOptionalText(searchParams.get('last')) !== '' ||
       normalizeSort(searchParams.get('sort')) !== '',
@@ -106,9 +132,9 @@ export function encodePlannerFilters({
   minGapMin = '',
   maxGapMin = '',
   maxGapExplicit = false,
-  includeFilms = [],
-  excludeFilms = [],
-  preferredFilms = [],
+  includeFilms = '',
+  excludeFilms = '',
+  preferredFilms = '',
   firstFilm = '',
   lastFilm = '',
   sort = '',
@@ -129,10 +155,10 @@ export function encodePlannerFilters({
     params.set('count', String(count));
   }
 
-  const start = normalizePlannerTime(startAfter);
+  const start = readOptionalText(startAfter);
   if (start) params.set('start', start);
 
-  const finish = normalizePlannerTime(finishBy);
+  const finish = readOptionalText(finishBy);
   if (finish) params.set('finish', finish);
 
   const minGap = parseGapMinutes(minGapMin);
@@ -143,20 +169,14 @@ export function encodePlannerFilters({
     if (maxGap !== '') params.set('maxgap', maxGap);
   }
 
-  for (const film of includeFilms) {
-    const trimmed = readOptionalText(film);
-    if (trimmed) params.append('movies', trimmed);
-  }
+  const include = writeFilmListText(includeFilms);
+  if (include) params.set('movies', include);
 
-  for (const film of excludeFilms) {
-    const trimmed = readOptionalText(film);
-    if (trimmed) params.append('exclude', trimmed);
-  }
+  const exclude = writeFilmListText(excludeFilms);
+  if (exclude) params.set('exclude', exclude);
 
-  for (const film of preferredFilms) {
-    const trimmed = readOptionalText(film);
-    if (trimmed) params.append('preferred', trimmed);
-  }
+  const preferred = writeFilmListText(preferredFilms);
+  if (preferred) params.set('preferred', preferred);
 
   const first = readOptionalText(firstFilm);
   if (first) params.set('first', first);
@@ -193,9 +213,9 @@ export function hasActivePlannerQuery({
   minGapMin = '',
   maxGapMin = '',
   maxGapExplicit = false,
-  includeFilms = [],
-  excludeFilms = [],
-  preferredFilms = [],
+  includeFilms = '',
+  excludeFilms = '',
+  preferredFilms = '',
   firstFilm = '',
   lastFilm = '',
   sort = '',
@@ -207,9 +227,9 @@ export function hasActivePlannerQuery({
   if (readOptionalText(finishBy)) return true;
   if (parseGapMinutes(minGapMin) !== '') return true;
   if (maxGapExplicit) return true;
-  if (includeFilms.length > 0) return true;
-  if (excludeFilms.length > 0) return true;
-  if (preferredFilms.length > 0) return true;
+  if (hasFilmListText(includeFilms)) return true;
+  if (hasFilmListText(excludeFilms)) return true;
+  if (hasFilmListText(preferredFilms)) return true;
   if (readOptionalText(firstFilm)) return true;
   if (readOptionalText(lastFilm)) return true;
   if (normalizeSort(sort)) return true;
@@ -239,7 +259,7 @@ export function mapDoubleFeatureFiltersToPlanner(doubleFeatureFilters = {}) {
     selectedDate: doubleFeatureFilters.selectedDate ?? '',
     selectedTheaters: doubleFeatureFilters.selectedTheaters ?? [],
     filmCount: 2,
-    startAfter: doubleFeatureFilters.earliestStartTime ?? '',
+    startAfter: normalizePlannerTime(doubleFeatureFilters.earliestStartTime ?? ''),
     finishBy: '',
     includeFilms,
     excludeFilms,

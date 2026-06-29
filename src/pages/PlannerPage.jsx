@@ -10,7 +10,6 @@ import { findSchedules } from '../utils/plannerEngine.js';
 import {
   buildPlannerSearchFilters,
   FILM_COUNT_OPTIONS,
-  formatFilmListInput,
   formatPlannerResultsHeading,
   formatPlannerSharedFiltersSummary,
   formatPlannerTruncatedMessage,
@@ -18,7 +17,6 @@ import {
   getMaxGapHelperText,
   getPlannerEmptyStateMessage,
   getPlannerEmptyStateSuggestion,
-  parseFilmListInput,
   PLANNER_RESULTS_PAGE_SIZE,
   PLANNER_SORT_OPTIONS,
 } from '../utils/plannerDisplay.js';
@@ -79,7 +77,8 @@ export default function PlannerPage() {
   useEffect(() => {
     if (searchParams.get('from') !== 'marathon') return;
 
-    const hadMigratedFilters = decoded.excludeFilms.length > 0 || decoded.preferredFilms.length > 0;
+    const hadMigratedFilters =
+      decoded.excludeFilms.trim() !== '' || decoded.preferredFilms.trim() !== '';
     setMarathonArrivalNotice(
       hadMigratedFilters
         ? 'Marathon has moved into Planner. Your saved film filters were applied; use Find plans to search.'
@@ -89,7 +88,7 @@ export default function PlannerPage() {
     const nextParams = new URLSearchParams(searchParams);
     nextParams.delete('from');
     setSearchParams(nextParams, { replace: true });
-  }, [searchParams, decoded.excludeFilms.length, decoded.preferredFilms.length, setSearchParams]);
+  }, [searchParams, decoded.excludeFilms, decoded.preferredFilms, setSearchParams]);
 
   const plannerState = useMemo(
     () => ({
@@ -159,6 +158,7 @@ export default function PlannerPage() {
         maxGapExplicit,
         includeFilms,
         excludeFilms,
+        preferredFilms,
         firstFilm,
         lastFilm,
         sort,
@@ -430,10 +430,8 @@ export default function PlannerPage() {
                   id="planner-include"
                   type="text"
                   placeholder="Comma-separated titles"
-                  value={formatFilmListInput(includeFilms)}
-                  onChange={(e) =>
-                    updateUrlFilters({ includeFilms: parseFilmListInput(e.target.value) })
-                  }
+                  value={includeFilms}
+                  onChange={(e) => updateUrlFilters({ includeFilms: e.target.value })}
                   className="filter-input"
                 />
                 <p className="planner-field-hint">Every listed movie must appear in the plan.</p>
@@ -445,10 +443,8 @@ export default function PlannerPage() {
                   id="planner-preferred"
                   type="text"
                   placeholder="Comma-separated titles"
-                  value={formatFilmListInput(preferredFilms)}
-                  onChange={(e) =>
-                    updateUrlFilters({ preferredFilms: parseFilmListInput(e.target.value) })
-                  }
+                  value={preferredFilms}
+                  onChange={(e) => updateUrlFilters({ preferredFilms: e.target.value })}
                   className="filter-input"
                 />
                 <p className="planner-field-hint">
@@ -462,10 +458,8 @@ export default function PlannerPage() {
                   id="planner-exclude"
                   type="text"
                   placeholder="Comma-separated titles"
-                  value={formatFilmListInput(excludeFilms)}
-                  onChange={(e) =>
-                    updateUrlFilters({ excludeFilms: parseFilmListInput(e.target.value) })
-                  }
+                  value={excludeFilms}
+                  onChange={(e) => updateUrlFilters({ excludeFilms: e.target.value })}
                   className="filter-input"
                 />
               </div>

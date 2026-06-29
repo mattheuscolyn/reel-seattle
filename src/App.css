@@ -438,6 +438,7 @@
   background: var(--color-surface-overlay);
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow-sm);
+  overflow: visible;
 }
 
 .filters {
@@ -447,6 +448,7 @@
   align-items: flex-end;
   justify-content: center;
   padding-left: 0;
+  overflow: visible;
 }
 
 .filters > div {
@@ -882,6 +884,11 @@
   display: inline-block;
   min-width: 0;
   z-index: var(--z-dropdown);
+}
+
+.dropdown-multiselect.is-open,
+.sort-dropdown.is-open {
+  z-index: var(--z-dropdown-open);
 }
 
 .dropdown-btn,

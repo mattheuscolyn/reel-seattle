@@ -216,9 +216,9 @@ export function buildPlannerSearchFilters({
     finishByMin: parsePlannerTimeInput(finishBy),
     minGapMin: parsedMinGap,
     maxGapMin: effectiveMaxGap,
-    includeFilms: Array.isArray(includeFilms) ? includeFilms : [],
-    excludeFilms: Array.isArray(excludeFilms) ? excludeFilms : [],
-    preferredFilms: Array.isArray(preferredFilms) ? preferredFilms : [],
+    includeFilms: parseFilmListInput(includeFilms),
+    excludeFilms: parseFilmListInput(excludeFilms),
+    preferredFilms: parseFilmListInput(preferredFilms),
     firstFilm: firstFilm ? String(firstFilm).trim() : null,
     lastFilm: lastFilm ? String(lastFilm).trim() : null,
   };
@@ -298,10 +298,14 @@ export function formatPlannerSharedFiltersSummary(filters) {
   }
   if (filters.startAfter) parts.push(`start after ${filters.startAfter}`);
   if (filters.finishBy) parts.push(`finish by ${filters.finishBy}`);
-  if (filters.includeFilms?.length) parts.push(`${filters.includeFilms.length} required film(s)`);
-  if (filters.excludeFilms?.length) parts.push(`${filters.excludeFilms.length} excluded film(s)`);
-  if (filters.preferredFilms?.length) {
-    parts.push(`${filters.preferredFilms.length} preferred film(s)`);
+  if (parseFilmListInput(filters.includeFilms).length) {
+    parts.push(`${parseFilmListInput(filters.includeFilms).length} required film(s)`);
+  }
+  if (parseFilmListInput(filters.excludeFilms).length) {
+    parts.push(`${parseFilmListInput(filters.excludeFilms).length} excluded film(s)`);
+  }
+  if (parseFilmListInput(filters.preferredFilms).length) {
+    parts.push(`${parseFilmListInput(filters.preferredFilms).length} preferred film(s)`);
   }
   if (filters.firstFilm) parts.push(`first: ${filters.firstFilm}`);
   if (filters.lastFilm) parts.push(`last: ${filters.lastFilm}`);

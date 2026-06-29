@@ -18,7 +18,7 @@ export default function SortDropdown({ sort, setSort }) {
   const labelText = SORT_OPTIONS.find((opt) => opt.value === sort)?.label || 'Sort';
 
   return (
-    <div className="sort-dropdown" ref={ref}>
+    <div className={`sort-dropdown${open ? ' is-open' : ''}`} ref={ref}>
       <button
         className={`sort-btn${open ? ' open' : ''}`}
         type="button"
