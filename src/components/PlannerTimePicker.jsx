@@ -1,99 +1,187 @@
-import { useMemo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { formatMinutesToTime, parseTimeToMinutes } from '../utils/timeUtils.js';
+import {
+  formatPlannerCompactTime,
+  parsePlannerTimeParts,
+  PLANNER_TIME_HOURS,
+  PLANNER_TIME_MINUTES,
+  PLANNER_TIME_PERIODS,
+} from '../utils/plannerTimePicker.js';
 
-const HOURS = Array.from({ length: 12 }, (_, index) => String(index + 1));
-const MINUTES = ['00', '15', '30', '45'];
-const PERIODS = ['AM', 'PM'];
+const ITEM_HEIGHT = 40;
+const VISIBLE_ROWS = 3;
+const COLUMN_HEIGHT = ITEM_HEIGHT * VISIBLE_ROWS;
 
-function parseCompactTime(value) {
-  if (!value) {
-    return { hour: '', minute: '', period: '' };
-  }
-  const match = String(value).match(/(\d+):(\d+)(AM|PM)/i);
-  if (!match) {
-    return { hour: '', minute: '', period: '' };
-  }
-  return {
-    hour: String(parseInt(match[1], 10)),
-    minute: match[2].padStart(2, '0'),
-    period: match[3].toUpperCase(),
+function TimeScrollColumn({ label, options, value, onChange }) {
+  const listRef = useRef(null);
+  const isProgrammaticScrollRef = useRef(false);
+
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const index = Math.max(0, options.indexOf(value));
+    isProgrammaticScrollRef.current = true;
+    list.scrollTop = index * ITEM_HEIGHT;
+    const frame = requestAnimationFrame(() => {
+      isProgrammaticScrollRef.current = false;
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [options, value]);
+
+  const handleScroll = () => {
+    if (isProgrammaticScrollRef.current) return;
+
+    const list = listRef.current;
+    if (!list) return;
+
+    const index = Math.min(
+      options.length - 1,
+      Math.max(0, Math.round(list.scrollTop / ITEM_HEIGHT)),
+    );
+    const snapped = index * ITEM_HEIGHT;
+    if (Math.abs(list.scrollTop - snapped) > 1) {
+      isProgrammaticScrollRef.current = true;
+      list.scrollTop = snapped;
+      requestAnimationFrame(() => {
+        isProgrammaticScrollRef.current = false;
+      });
+    }
+
+    const next = options[index];
+    if (next !== value) {
+      onChange(next);
+    }
   };
-}
 
-function toCompactTime(hour, minute, period) {
-  if (!hour || !minute || !period) return '';
-  const compact = `${hour}:${minute}${period}`;
-  return parseTimeToMinutes(compact) !== null ? compact : '';
+  return (
+    <div className="planner-time-scroll-column">
+      <div className="planner-time-scroll-label" aria-hidden="true">
+        {label}
+      </div>
+      <div className="planner-time-scroll-window" style={{ height: COLUMN_HEIGHT }}>
+        <ul
+          className="planner-time-scroll-list"
+          ref={listRef}
+          onScroll={handleScroll}
+          role="listbox"
+          aria-label={label}
+        >
+          <li className="planner-time-scroll-spacer" aria-hidden="true" />
+          {options.map((option) => (
+            <li
+              key={option}
+              className={`planner-time-scroll-item${option === value ? ' is-selected' : ''}`}
+              role="option"
+              aria-selected={option === value}
+            >
+              {option}
+            </li>
+          ))}
+          <li className="planner-time-scroll-spacer" aria-hidden="true" />
+        </ul>
+      </div>
+    </div>
+  );
 }
 
 export default function PlannerTimePicker({ id, label, value, onChange, optionalHint }) {
-  const parts = useMemo(() => parseCompactTime(value), [value]);
+  const committedParts = parsePlannerTimeParts(value);
+  const [draft, setDraft] = useState(committedParts);
+  const [dirty, setDirty] = useState(false);
 
-  const updatePart = (patch) => {
-    const next = { ...parts, ...patch };
-    onChange(toCompactTime(next.hour, next.minute, next.period));
+  useEffect(() => {
+    setDraft(parsePlannerTimeParts(value));
+    setDirty(false);
+  }, [value]);
+
+  const draftCompact = formatPlannerCompactTime(draft.hour, draft.minute, draft.period);
+  const hasCommittedValue = Boolean(value);
+  const hasPendingChange = dirty && draftCompact !== value;
+
+  const updateDraft = (patch) => {
+    setDraft((current) => ({ ...current, ...patch }));
+    setDirty(true);
   };
 
-  const clearTime = () => onChange('');
+  const applyDraft = () => {
+    if (!draftCompact) return;
+    onChange(draftCompact);
+    setDirty(false);
+  };
+
+  const clearTime = () => {
+    onChange('');
+    setDraft(parsePlannerTimeParts(''));
+    setDirty(false);
+  };
 
   return (
-    <div className="filter-group planner-time-picker">
-      <label htmlFor={`${id}-hour`}>{label}</label>
-      <div className="planner-time-picker-controls">
-        <select
-          id={`${id}-hour`}
-          className="filter-select planner-time-select"
-          value={parts.hour}
-          onChange={(event) => updatePart({ hour: event.target.value })}
-          aria-label={`${label} hour`}
-        >
-          <option value="">Hr</option>
-          {HOURS.map((hour) => (
-            <option key={hour} value={hour}>
-              {hour}
-            </option>
-          ))}
-        </select>
-        <span className="planner-time-separator">:</span>
-        <select
-          id={`${id}-minute`}
-          className="filter-select planner-time-select"
-          value={parts.minute}
-          onChange={(event) => updatePart({ minute: event.target.value })}
-          aria-label={`${label} minute`}
-        >
-          <option value="">Min</option>
-          {MINUTES.map((minute) => (
-            <option key={minute} value={minute}>
-              {minute}
-            </option>
-          ))}
-        </select>
-        <select
-          id={`${id}-period`}
-          className="filter-select planner-time-select"
-          value={parts.period}
-          onChange={(event) => updatePart({ period: event.target.value })}
-          aria-label={`${label} AM or PM`}
-        >
-          <option value="">—</option>
-          {PERIODS.map((period) => (
-            <option key={period} value={period}>
-              {period}
-            </option>
-          ))}
-        </select>
-        {value ? (
-          <button type="button" className="planner-time-clear" onClick={clearTime}>
-            Clear
-          </button>
-        ) : null}
+    <div className="filter-group planner-time-picker" id={id}>
+      <div className="planner-time-picker-header">
+        <span className="planner-time-picker-label" id={`${id}-label`}>
+          {label}
+        </span>
+        {hasCommittedValue ? (
+          <span className="planner-time-picker-current" aria-live="polite">
+            {formatMinutesToTime(parseTimeToMinutes(value))}
+          </span>
+        ) : (
+          <span className="planner-time-picker-current planner-time-picker-current--empty">
+            Not set
+          </span>
+        )}
       </div>
+
+      <div
+        className="planner-time-scroll-picker"
+        role="group"
+        aria-labelledby={`${id}-label`}
+      >
+        <div className="planner-time-scroll-highlight" aria-hidden="true" />
+        <TimeScrollColumn
+          label="Hour"
+          options={PLANNER_TIME_HOURS}
+          value={draft.hour}
+          onChange={(hour) => updateDraft({ hour })}
+        />
+        <TimeScrollColumn
+          label="Minute"
+          options={PLANNER_TIME_MINUTES}
+          value={draft.minute}
+          onChange={(minute) => updateDraft({ minute })}
+        />
+        <TimeScrollColumn
+          label="AM or PM"
+          options={PLANNER_TIME_PERIODS}
+          value={draft.period}
+          onChange={(period) => updateDraft({ period })}
+        />
+      </div>
+
+      <div className="planner-time-picker-actions">
+        <button
+          type="button"
+          className="planner-time-action planner-time-action--apply"
+          onClick={applyDraft}
+          disabled={!draftCompact || !hasPendingChange}
+          aria-label={`Set ${label}`}
+        >
+          Set time
+        </button>
+        <button
+          type="button"
+          className="planner-time-action planner-time-action--clear"
+          onClick={clearTime}
+          disabled={!hasCommittedValue && !dirty}
+          aria-label={`Clear ${label}`}
+        >
+          Clear
+        </button>
+      </div>
+
       {optionalHint ? <p className="planner-field-hint">{optionalHint}</p> : null}
-      {value ? (
-        <p className="planner-time-preview" aria-live="polite">
-          Selected: {formatMinutesToTime(parseTimeToMinutes(value))}
-        </p>
+      {hasPendingChange ? (
+        <p className="planner-field-hint">Press Set time to apply {draftCompact}.</p>
       ) : null}
     </div>
   );
