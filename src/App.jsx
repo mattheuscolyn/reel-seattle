@@ -1,56 +1,74 @@
+import { useEffect } from 'react';
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
+import { APP_NAV_LINKS } from './appNav.js';
 import { ShowtimesDataProvider } from './hooks/useShowtimesData.js';
 import { PipelineReportProvider } from './hooks/usePipelineReport.js';
-import DoubleFeaturePage from './pages/DoubleFeaturePage.jsx';
-import MarathonPage from './pages/MarathonPage.jsx';
+import DoubleFeatureRedirect from './pages/DoubleFeatureRedirect.jsx';
+import MarathonRedirect from './pages/MarathonRedirect.jsx';
 import PlannerPage from './pages/PlannerPage.jsx';
+import RecentlyAddedPage from './pages/RecentlyAddedPage.jsx';
 import ShowtimesPage from './pages/ShowtimesPage.jsx';
-import { isMarathonRoute, MARATHON_ROUTE } from './utils/routes.js';
+import { MARATHON_ROUTE, RECENTLY_ADDED_ROUTE } from './utils/routes.js';
+
+function useAppShellOffset() {
+  const location = useLocation();
+
+  useEffect(() => {
+    function updateShellOffset() {
+      const shell = document.querySelector('.app-shell-header');
+      if (shell) {
+        document.documentElement.style.setProperty(
+          '--app-shell-offset',
+          `${shell.offsetHeight}px`,
+        );
+      }
+    }
+
+    updateShellOffset();
+    window.addEventListener('resize', updateShellOffset);
+    return () => window.removeEventListener('resize', updateShellOffset);
+  }, [location.pathname]);
+}
 
 function AppShell() {
-  const location = useLocation();
-  const marathonActive = isMarathonRoute(location.pathname);
+  useAppShellOffset();
 
   return (
-    <div className={`app-container${marathonActive ? ' marathon-active' : ''}`}>
-      <nav className="main-nav">
-        <NavLink
-          to="/"
-          end
-          className={({ isActive }) => `nav-button${isActive ? ' active' : ''}`}
-        >
-          Showtimes
-        </NavLink>
-        <NavLink
-          to="/planner"
-          className={({ isActive }) =>
-            `nav-button nav-button--primary${isActive ? ' active' : ''}`
-          }
-        >
-          Planner
-        </NavLink>
-        <NavLink
-          to="/double-feature"
-          className={({ isActive }) => `nav-button nav-button--legacy${isActive ? ' active' : ''}`}
-        >
-          Legacy: Double Feature
-        </NavLink>
-        <NavLink
-          to={MARATHON_ROUTE}
-          className={({ isActive }) => `nav-button nav-button--legacy${isActive ? ' active' : ''}`}
-        >
-          Legacy: Marathon
-        </NavLink>
-      </nav>
-      <Routes>
-        <Route path="/" element={<ShowtimesPage />} />
-        <Route path="/planner" element={<PlannerPage />} />
-        <Route path="/double-feature" element={<DoubleFeaturePage />} />
-        <Route path={MARATHON_ROUTE} element={<MarathonPage />} />
-        <Route path={`${MARATHON_ROUTE}/`} element={<MarathonPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+    <div className="app-container">
+      <header className="app-shell-header">
+        <div className="app-shell-brand">
+          <NavLink to="/" className="app-wordmark" end>
+            Reel Seattle
+          </NavLink>
+          <p className="app-tagline">Seattle movie showtimes &amp; planning</p>
+        </div>
+        <nav className="main-nav" aria-label="Main">
+          {APP_NAV_LINKS.map(({ to, label, end, primary }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={end}
+              className={({ isActive }) =>
+                `nav-button${primary ? ' nav-button--primary' : ''}${isActive ? ' active' : ''}`
+              }
+            >
+              {label}
+            </NavLink>
+          ))}
+        </nav>
+      </header>
+      <main className="app-main">
+        <Routes>
+          <Route path="/" element={<ShowtimesPage />} />
+          <Route path={RECENTLY_ADDED_ROUTE} element={<RecentlyAddedPage />} />
+          <Route path="/planner" element={<PlannerPage />} />
+          <Route path="/double-feature" element={<DoubleFeatureRedirect />} />
+          <Route path={MARATHON_ROUTE} element={<MarathonRedirect />} />
+          <Route path={`${MARATHON_ROUTE}/`} element={<MarathonRedirect />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
     </div>
   );
 }

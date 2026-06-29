@@ -6,7 +6,6 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { rowsFromShowtimesCurrent } from '../../src/showtimesAdapter.js';
-import { findDoubleFeaturePairs } from '../../src/utils/doubleFeatureEngine.js';
 import { buildPlannerSearchFilters } from '../../src/utils/plannerDisplay.js';
 import { findSchedules } from '../../src/utils/plannerEngine.js';
 
@@ -99,7 +98,6 @@ export function discoverPlannerParityScenarios(dataPath = DEFAULT_DATA_PATH) {
 
   const scenarios = {
     twoFilm: null,
-    doubleFeatureParity: null,
     threeFilm: null,
     fourFilm: null,
     maxMode: null,
@@ -131,37 +129,6 @@ export function discoverPlannerParityScenarios(dataPath = DEFAULT_DATA_PATH) {
         'twoFilm',
         summarizeScenario({ csvDate, theater, filmCount: 2, result: result2 }),
       );
-    }
-
-    if (result2.schedules.length >= 3) {
-      const dfPairs = findDoubleFeaturePairs(rows, {
-        selectedDate: csvDate,
-        selectedTheaters: [theater],
-      });
-      if (dfPairs.length >= 3) {
-        const gapsOk = result2.schedules.every((schedule) => {
-          const movies = schedule.movies ?? [];
-          for (let i = 1; i < movies.length; i += 1) {
-            const gap = movies[i].startMin - movies[i - 1].endMin;
-            if (gap > 59) return false;
-          }
-          return true;
-        });
-        considerScenario(
-          scenarios,
-          'doubleFeatureParity',
-          summarizeScenario({
-            csvDate,
-            theater,
-            filmCount: 2,
-            result: result2,
-            extra: {
-              doubleFeatureCount: dfPairs.length,
-              maxGapWithin59: gapsOk,
-            },
-          }),
-        );
-      }
     }
 
     if (uniqueFilms >= 3) {
@@ -286,7 +253,6 @@ export function discoverPlannerParityScenarios(dataPath = DEFAULT_DATA_PATH) {
 export function pickBrowserScenario(scenarios) {
   const ordered = [
     scenarios.twoFilm,
-    scenarios.doubleFeatureParity,
     scenarios.threeFilm,
     scenarios.fourFilm,
     scenarios.maxMode,

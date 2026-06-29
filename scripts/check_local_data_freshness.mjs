@@ -26,11 +26,6 @@ const ARTIFACTS = {
     path: join(ROOT, 'public/data/newly_added_current.json'),
     required: true,
   },
-  marathon: {
-    label: 'marathon_showtimes.json',
-    path: join(ROOT, 'public/marathon/marathon_showtimes.json'),
-    required: false,
-  },
 };
 
 const SOURCE_ORDER = ['amc', 'siff', 'beacon'];
@@ -203,26 +198,7 @@ function summarizeNewlyAddedCurrent(artifact) {
   };
 }
 
-function summarizeMarathonShowtimes(artifact) {
-  if (!artifact || typeof artifact !== 'object') {
-    return {
-      line: '- marathon_showtimes.json: present but unreadable shape',
-      count: null,
-      malformed: true,
-    };
-  }
-
-  const showtimes = Array.isArray(artifact.showtimes) ? artifact.showtimes : [];
-  const generated = artifact.generated_at ? ` (generated ${artifact.generated_at})` : '';
-  return {
-    line: `- marathon_showtimes.json: ${showtimes.length} AMC marathon showtimes${generated}`,
-    count: showtimes.length,
-    generatedAt: artifact.generated_at ?? null,
-    malformed: false,
-  };
-}
-
-function collectWarnings({ showtimes, pipeline, newlyAdded, marathon }) {
+function collectWarnings({ showtimes, pipeline, newlyAdded }) {
   const warnings = [];
 
   const amcPipeline = pipeline.sources?.amc;
@@ -249,14 +225,6 @@ function collectWarnings({ showtimes, pipeline, newlyAdded, marathon }) {
     warnings.push('showtimes_current.json does not include AMC in sources_included.');
   }
 
-  if (!marathon) {
-    warnings.push('marathon_showtimes.json is missing; Marathon QA may be incomplete locally.');
-  } else if (marathon.malformed) {
-    warnings.push('marathon_showtimes.json has an unexpected shape.');
-  } else if (marathon.count === 0) {
-    warnings.push('marathon_showtimes.json contains 0 marathon showtimes.');
-  }
-
   if (showtimes.count === 0) {
     warnings.push('showtimes_current.json contains 0 showtimes.');
   }
@@ -270,11 +238,9 @@ function collectWarnings({ showtimes, pipeline, newlyAdded, marathon }) {
   }
 
   const uniqueWarnings = [...new Set(warnings)];
-  if (
-    uniqueWarnings.some((warning) => /amc|marathon/i.test(warning))
-  ) {
+  if (uniqueWarnings.some((warning) => /amc/i.test(warning))) {
     uniqueWarnings.push(
-      'Local AMC data appears stale or empty. Manual Marathon QA may not reflect the latest GitHub/deployed data.',
+      'Local AMC data appears stale or empty. Manual Planner QA may not reflect the latest GitHub/deployed data.',
     );
   }
 
@@ -285,16 +251,14 @@ function main() {
   const showtimesArtifact = readJsonArtifact(ARTIFACTS.showtimes);
   const pipelineArtifact = readJsonArtifact(ARTIFACTS.pipeline);
   const newlyAddedArtifact = readJsonArtifact(ARTIFACTS.newlyAdded);
-  const marathonArtifact = readJsonArtifact(ARTIFACTS.marathon);
 
   const showtimes = summarizeShowtimesCurrent(showtimesArtifact);
   const pipeline = summarizePipelineReport(pipelineArtifact);
   const newlyAdded = newlyAddedArtifact
     ? summarizeNewlyAddedCurrent(newlyAddedArtifact)
     : null;
-  const marathon = marathonArtifact ? summarizeMarathonShowtimes(marathonArtifact) : null;
 
-  const warnings = collectWarnings({ showtimes, pipeline, newlyAdded, marathon });
+  const warnings = collectWarnings({ showtimes, pipeline, newlyAdded });
 
   console.log('Local data freshness:');
   console.log(showtimes.line);
@@ -303,11 +267,6 @@ function main() {
     console.log(newlyAdded.line);
   } else {
     console.log('- newly_added_current.json: not found');
-  }
-  if (marathon) {
-    console.log(marathon.line);
-  } else {
-    console.log('- marathon_showtimes.json: not found');
   }
 
   if (warnings.length > 0) {

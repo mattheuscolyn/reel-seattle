@@ -16,7 +16,7 @@ import {
 } from './timeUtils.js';
 
 /** Default maximum gap (minutes) aligned with legacy Double Feature behavior. */
-export const DEFAULT_DOUBLE_FEATURE_MAX_GAP_MINUTES = 60;
+export const TWO_FILM_EXCLUSIVE_GAP_CEILING_MINUTES = 60;
 
 export const PLANNER_SORT_MODES = [
   'earliest_start',

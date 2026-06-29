@@ -6,48 +6,72 @@ on:
     - cron: '0 6 * * *'
   workflow_dispatch:  # Allow manual triggering
 
+permissions:
+  contents: write
+
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        
-    - name: Set up AMC API key
-      env:
-        AMC_API_KEY: ${{ secrets.AMC_API_KEY }}
-      run: |
-        echo "AMC_API_KEY=$AMC_API_KEY" >> $GITHUB_ENV
-        
-    - name: Run daily scraping
-      run: python run_daily_scraping.py
-      
-    - name: Commit and push changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add data/history/showtimes_history.csv
-        git add data/daily_logs/
-        git add data/theaters.json
-        git add public/data/showtimes_current.json
-        git add public/data/pipeline_report.json
-        git add public/data/theaters.json
-        git add public/data/movies_announcements.csv
-        git add public/data/newly_announced.csv
-        git add public/data/newly_added_current.json
-        git add public/showtimes.csv
-        git add public/indieshowtimes.csv
-        git add public/marathon/
-        git commit -m "Daily showtime data update $(date +%Y-%m-%d)" || exit 0
-        git push 
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Set up AMC API key
+        env:
+          AMC_API_KEY: ${{ secrets.AMC_API_KEY }}
+        run: |
+          echo "AMC_API_KEY=$AMC_API_KEY" >> $GITHUB_ENV
+
+      - name: Run daily scraping
+        run: python run_daily_scraping.py
+
+      - name: Validate emitted JSON artifacts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          artifacts = [
+              "public/data/showtimes_current.json",
+              "public/data/pipeline_report.json",
+              "public/data/newly_added_current.json",
+          ]
+          for rel in artifacts:
+              path = Path(rel)
+              if not path.is_file():
+                  raise SystemExit(f"missing artifact: {rel}")
+              json.loads(path.read_text(encoding="utf-8"))
+          print("JSON artifacts OK")
+          PY
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/history/showtimes_history.csv
+          git add data/daily_logs/
+          git add data/theaters.json
+          git add public/data/showtimes_current.json
+          git add public/data/pipeline_report.json
+          git add public/data/theaters.json
+          git add public/data/movies_announcements.csv
+          git add public/data/newly_announced.csv
+          git add public/data/newly_added_current.json
+          git add public/showtimes.csv
+          git add public/indieshowtimes.csv
+          git add public/marathon/
+          git commit -m "Daily showtime data update $(date +%Y-%m-%d)" || exit 0
+          git push

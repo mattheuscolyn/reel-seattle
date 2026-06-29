@@ -50,33 +50,9 @@ function selectivePublicCopy() {
   }
 }
 
-/** In dev/preview, React owns /marathon/; standalone UI stays at /marathon/index.html. */
-function marathonSpaRoute() {
-  const handler = (req, _res, next) => {
-    const path = req.url?.split('?')[0] ?? ''
-    if (path === '/marathon/') {
-      req.url = '/'
-    }
-    next()
-  }
-  return {
-    name: 'marathon-spa-route',
-    configureServer(server) {
-      server.middlewares.use(handler)
-    },
-    configurePreviewServer(server) {
-      server.middlewares.use(handler)
-    },
-  }
-}
-
 // https://vite.dev/config/
 export default defineConfig(({ command }) => ({
-  plugins: [
-    react(),
-    marathonSpaRoute(),
-    command === 'build' && selectivePublicCopy(),
-  ].filter(Boolean),
+  plugins: [react(), command === 'build' && selectivePublicCopy()].filter(Boolean),
   publicDir: command === 'serve' ? 'public' : false,
   base: '/',
 }))

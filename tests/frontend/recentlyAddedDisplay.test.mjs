@@ -13,6 +13,10 @@ import {
   formatFirstAnnouncedLabel,
   formatRecentlyAddedSectionCount,
   formatRecentlyAddedSubtitle,
+  formatRecentlyAddedTotalLabel,
+  formatRecentlyAddedViewAllLabel,
+  RECENTLY_ADDED_PREVIEW_LIMIT,
+  sliceRecentlyAddedFilms,
 } from '../../src/utils/recentlyAddedDisplay.js';
 import { rowsFromShowtimesCurrent } from '../../src/showtimesAdapter.js';
 
@@ -112,4 +116,29 @@ test('buildRecentlyAddedSection returns count and subtitle', () => {
   assert.equal(section.countLabel, '2 films');
   assert.equal(section.films.length, 2);
   assert.match(section.subtitle, /last 7 days/);
+});
+
+test('RECENTLY_ADDED_PREVIEW_LIMIT is a positive integer', () => {
+  assert.equal(typeof RECENTLY_ADDED_PREVIEW_LIMIT, 'number');
+  assert.ok(RECENTLY_ADDED_PREVIEW_LIMIT > 0);
+});
+
+test('sliceRecentlyAddedFilms preserves sort order and respects limit', () => {
+  const films = buildRecentlyAddedFilms(miniArtifact, miniRows);
+
+  assert.deepEqual(sliceRecentlyAddedFilms(films, 1), [films[0]]);
+  assert.deepEqual(sliceRecentlyAddedFilms(films, 4), films);
+  assert.deepEqual(sliceRecentlyAddedFilms(films, null), films);
+});
+
+test('formatRecentlyAddedTotalLabel handles singular and plural', () => {
+  assert.equal(formatRecentlyAddedTotalLabel(1), '1 recently added');
+  assert.equal(formatRecentlyAddedTotalLabel(23), '23 recently added');
+  assert.equal(formatRecentlyAddedTotalLabel(0), null);
+});
+
+test('formatRecentlyAddedViewAllLabel handles singular and plural', () => {
+  assert.equal(formatRecentlyAddedViewAllLabel(1), 'View recently added');
+  assert.equal(formatRecentlyAddedViewAllLabel(23), 'View all 23 recently added');
+  assert.equal(formatRecentlyAddedViewAllLabel(0), null);
 });

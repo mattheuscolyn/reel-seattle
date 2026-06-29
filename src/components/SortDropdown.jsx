@@ -32,13 +32,15 @@ export default function SortDropdown({ sort, setSort }) {
         <div className="sort-menu" role="listbox">
           {SORT_OPTIONS.map((opt) => (
             <button
-              className="sort-option"
+              className={`sort-option${sort === opt.value ? ' sort-option--selected' : ''}`}
               key={opt.value}
+              type="button"
+              role="option"
+              aria-selected={sort === opt.value}
               onClick={() => {
                 setSort(opt.value);
                 setOpen(false);
               }}
-              style={{ fontWeight: sort === opt.value ? 700 : 400 }}
             >
               {opt.label}
             </button>

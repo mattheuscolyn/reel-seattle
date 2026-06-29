@@ -1,14 +1,8 @@
 import { PLANNER_SORT_MODES } from './plannerEngine.js';
-import {
-  decodeDoubleFeatureFilters,
-  intersectWithOptions,
-  normalizePlannerTime,
-} from './doubleFeatureUrlState.js';
-
-export { intersectWithOptions };
+import { parseTimeToMinutes } from './timeUtils.js';
+import { decodeDoubleFeatureFilters } from './legacyDoubleFeatureUrlMigration.js';
 
 const VALID_FILM_COUNTS = new Set(['2', '3', '4', 'max']);
-
 function toSearchParams(searchParamsInput) {
   if (typeof searchParamsInput === 'string') {
     const query = searchParamsInput.startsWith('?')
@@ -31,8 +25,15 @@ function readOptionalText(value) {
   return String(value).trim();
 }
 
-function normalizeFilmCount(value) {
-  const trimmed = readOptionalText(value);
+/** Trim optional planner time; invalid compact times decode to empty. */
+export function normalizePlannerTime(value) {
+  if (value == null) return '';
+  const trimmed = String(value).trim();
+  if (!trimmed) return '';
+  return parseTimeToMinutes(trimmed) !== null ? trimmed : '';
+}
+
+function normalizeFilmCount(value) {  const trimmed = readOptionalText(value);
   if (!trimmed) return 2;
   if (VALID_FILM_COUNTS.has(trimmed)) return trimmed === 'max' ? 'max' : Number(trimmed);
   const n = Number(trimmed);
@@ -76,6 +77,7 @@ export function decodePlannerFilters(searchParamsInput) {
     maxGapExplicit: searchParams.has('maxgap'),
     includeFilms: readMultiParam(searchParams, 'movies'),
     excludeFilms: readMultiParam(searchParams, 'exclude'),
+    preferredFilms: readMultiParam(searchParams, 'preferred'),
     firstFilm: readOptionalText(searchParams.get('first')),
     lastFilm: readOptionalText(searchParams.get('last')),
     sort: normalizeSort(searchParams.get('sort')),
@@ -85,6 +87,7 @@ export function decodePlannerFilters(searchParamsInput) {
       searchParams.has('maxgap') ||
       readMultiParam(searchParams, 'movies').length > 0 ||
       readMultiParam(searchParams, 'exclude').length > 0 ||
+      readMultiParam(searchParams, 'preferred').length > 0 ||
       readOptionalText(searchParams.get('first')) !== '' ||
       readOptionalText(searchParams.get('last')) !== '' ||
       normalizeSort(searchParams.get('sort')) !== '',
@@ -105,6 +108,7 @@ export function encodePlannerFilters({
   maxGapExplicit = false,
   includeFilms = [],
   excludeFilms = [],
+  preferredFilms = [],
   firstFilm = '',
   lastFilm = '',
   sort = '',
@@ -149,6 +153,11 @@ export function encodePlannerFilters({
     if (trimmed) params.append('exclude', trimmed);
   }
 
+  for (const film of preferredFilms) {
+    const trimmed = readOptionalText(film);
+    if (trimmed) params.append('preferred', trimmed);
+  }
+
   const first = readOptionalText(firstFilm);
   if (first) params.set('first', first);
 
@@ -186,6 +195,7 @@ export function hasActivePlannerQuery({
   maxGapExplicit = false,
   includeFilms = [],
   excludeFilms = [],
+  preferredFilms = [],
   firstFilm = '',
   lastFilm = '',
   sort = '',
@@ -199,6 +209,7 @@ export function hasActivePlannerQuery({
   if (maxGapExplicit) return true;
   if (includeFilms.length > 0) return true;
   if (excludeFilms.length > 0) return true;
+  if (preferredFilms.length > 0) return true;
   if (readOptionalText(firstFilm)) return true;
   if (readOptionalText(lastFilm)) return true;
   if (normalizeSort(sort)) return true;
@@ -249,6 +260,93 @@ export function buildPlannerPathFromDoubleFeature(searchParamsInput) {
   if (!params.has('count')) params.set('count', '2');
   const query = params.toString();
   return query ? `/planner?${query}` : '/planner?count=2';
+}
+
+/** localStorage key used by the legacy Marathon iframe UI (`public/marathon/marathon.js`). */
+export const MARATHON_FILTER_STORAGE_KEY = 'marathon-planner-filters';
+
+/**
+ * Parse legacy Marathon filter JSON from localStorage.
+ * Shape: `{ blacklist: string[], preferred_movies: string[] }`
+ *
+ * @param {string|object|null|undefined} raw
+ * @returns {{ blacklist: string[], preferredMovies: string[] }|null}
+ */
+export function parseMarathonStoredFilters(raw) {
+  if (raw == null || raw === '') return null;
+  try {
+    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    if (!parsed || typeof parsed !== 'object') return null;
+    return {
+      blacklist: Array.isArray(parsed.blacklist)
+        ? parsed.blacklist.map((title) => String(title).trim()).filter(Boolean)
+        : [],
+      preferredMovies: Array.isArray(parsed.preferred_movies)
+        ? parsed.preferred_movies.map((title) => String(title).trim()).filter(Boolean)
+        : [],
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Read legacy Marathon filters from localStorage (browser only).
+ *
+ * @param {Storage|null|undefined} storage
+ * @returns {{ blacklist: string[], preferredMovies: string[] }|null}
+ */
+export function readMarathonStoredFilters(storage) {
+  if (!storage || typeof storage.getItem !== 'function') return null;
+  try {
+    return parseMarathonStoredFilters(storage.getItem(MARATHON_FILTER_STORAGE_KEY));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Map legacy Marathon filter state to planner URL params for migration redirects.
+ *
+ * @param {{ blacklist?: string[], preferredMovies?: string[] }|null|undefined} marathonFilters
+ * @returns {URLSearchParams}
+ */
+export function mapMarathonFiltersToPlanner(marathonFilters = null) {
+  const blacklist = marathonFilters?.blacklist ?? [];
+  const preferredMovies = marathonFilters?.preferredMovies ?? [];
+  const hasAdvancedFilters = blacklist.length > 0 || preferredMovies.length > 0;
+
+  const params = encodePlannerFilters({
+    filmCount: 'max',
+    excludeFilms: blacklist,
+    preferredFilms: preferredMovies,
+    advancedOpen: hasAdvancedFilters,
+  });
+  params.set('from', 'marathon');
+  return params;
+}
+
+/**
+ * Build a /planner path for Marathon legacy route redirects.
+ * Reads localStorage when no explicit filters or storage object is passed.
+ *
+ * @param {Storage|{ blacklist?: string[], preferredMovies?: string[] }|null|undefined} storedFiltersOrStorage
+ * @returns {string}
+ */
+export function buildPlannerPathFromMarathon(storedFiltersOrStorage) {
+  let filters = null;
+  if (storedFiltersOrStorage == null) {
+    filters = readMarathonStoredFilters(
+      typeof localStorage !== 'undefined' ? localStorage : null,
+    );
+  } else if (typeof storedFiltersOrStorage.getItem === 'function') {
+    filters = readMarathonStoredFilters(storedFiltersOrStorage);
+  } else {
+    filters = storedFiltersOrStorage;
+  }
+
+  const params = mapMarathonFiltersToPlanner(filters);
+  return `/planner?${params.toString()}`;
 }
 
 /** Planner link for Marathon legacy page migration. */

@@ -21,7 +21,6 @@ const REQUIRED_FILES = [
   'data/pipeline_report.json',
   'data/newly_added_current.json',
   'data/theaters.json',
-  'marathon/marathon_showtimes.json',
   'marathon/index.html',
 ];
 

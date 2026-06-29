@@ -7,6 +7,7 @@ import {
   formatFilmCountLabel,
   formatFilmListInput,
   formatGapBetweenLabel,
+  formatGapMinutes,
   formatMovieSequenceLabel,
   formatPlannerMovieDisplay,
   formatPlannerResultsHeading,
@@ -15,6 +16,8 @@ import {
   formatPlannerSortLabel,
   formatPlannerTimeLabel,
   formatPlannerTruncatedMessage,
+  formatRuntimeMinutes,
+  formatScheduleDuration,
   formatVisibleResultsLabel,
   getPlannerEmptyStateSuggestion,
   parseFilmListInput,
@@ -79,7 +82,7 @@ test('buildPlannerSearchFilters accepts planner page state field names', () => {
   assert.deepEqual(filters.theaters, ['AMC Southcenter 16']);
 });
 
-test('buildPlannerSearchFilters applies double-feature max gap for 2-film mode only', () => {
+test('buildPlannerSearchFilters applies 2-film default max gap for 2-film mode only', () => {
   const twoFilm = buildPlannerSearchFilters({
     date: '06/27/2026',
     theaters: ['AMC Pacific Place 11'],
@@ -119,6 +122,16 @@ test('buildPlannerSearchFilters applies double-feature max gap for 2-film mode o
   });
   assert.equal(maxMode.filmCount, 'max');
   assert.equal(maxMode.maxGapMin, null);
+});
+
+test('buildPlannerSearchFilters passes preferred films to engine filters', () => {
+  const filters = buildPlannerSearchFilters({
+    selectedDate: '06/27/2026',
+    selectedTheaters: [],
+    filmCount: 'max',
+    preferredFilms: ['Toy Story 5', 'Sinners'],
+  });
+  assert.deepEqual(filters.preferredFilms, ['Toy Story 5', 'Sinners']);
 });
 
 test('parseFilmListInput and formatFilmListInput round-trip titles', () => {
@@ -220,4 +233,21 @@ test('empty state and sequence label helpers', () => {
   assert.match(getPlannerEmptyStateSuggestion(), /widening your time window/);
   assert.equal(formatMovieSequenceLabel(0, 4), 'Film 1 of 4');
   assert.equal(PLANNER_RESULTS_PAGE_SIZE, 20);
+});
+
+test('formatScheduleDuration formats total duration under 1 hour', () => {
+  assert.equal(formatScheduleDuration(45), '45m');
+  assert.equal(formatScheduleDuration(0), '0m');
+});
+
+test('formatScheduleDuration formats total duration over 1 hour', () => {
+  assert.equal(formatScheduleDuration(272), '4h 32m');
+  assert.equal(formatScheduleDuration(120), '2h');
+});
+
+test('display formatters fall back for missing values', () => {
+  assert.equal(formatScheduleDuration(null), 'Unknown');
+  assert.equal(formatScheduleDuration(undefined), 'Unknown');
+  assert.equal(formatRuntimeMinutes(null), 'Unknown');
+  assert.equal(formatGapMinutes(null), 'Unknown');
 });

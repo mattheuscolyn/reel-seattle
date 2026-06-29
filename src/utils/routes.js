@@ -1,10 +1,5 @@
-/** Canonical React route for the Marathon tab (no trailing slash). */
+/** Canonical route for the full Recently Added list (linked from Showtimes preview). */
+export const RECENTLY_ADDED_ROUTE = '/recently-added';
+
+/** Canonical React route for legacy Marathon bookmarks (redirects to Planner). */
 export const MARATHON_ROUTE = '/marathon';
-
-/** Standalone marathon planner HTML loaded inside the React iframe. */
-export const MARATHON_IFRAME_SRC = '/marathon/index.html';
-
-/** True when pathname is the React marathon route (with or without trailing slash). */
-export function isMarathonRoute(pathname) {
-  return pathname === MARATHON_ROUTE || pathname === `${MARATHON_ROUTE}/`;
-}

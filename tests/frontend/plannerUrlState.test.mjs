@@ -3,13 +3,18 @@ import assert from 'node:assert/strict';
 import {
   buildMarathonPlannerLink,
   buildPlannerPathFromDoubleFeature,
+  buildPlannerPathFromMarathon,
   buildPlannerSearchString,
   decodePlannerFilters,
   encodePlannerFilters,
   hasActivePlannerQuery,
   mapDoubleFeatureFiltersToPlanner,
+  mapMarathonFiltersToPlanner,
+  normalizePlannerTime,
+  parseMarathonStoredFilters,
   plannerFiltersDiffer,
 } from '../../src/utils/plannerUrlState.js';
+import { decodeDoubleFeatureFilters } from '../../src/utils/legacyDoubleFeatureUrlMigration.js';
 
 test('encodePlannerFilters encodes basic filters', () => {
   const params = encodePlannerFilters({
@@ -58,6 +63,42 @@ test('decodePlannerFilters decodes include and exclude movie arrays', () => {
   const decoded = decodePlannerFilters('movies=Toy+Story+5&exclude=Sinners');
   assert.deepEqual(decoded.includeFilms, ['Toy Story 5']);
   assert.deepEqual(decoded.excludeFilms, ['Sinners']);
+});
+
+test('encodePlannerFilters encodes preferred film arrays', () => {
+  const params = encodePlannerFilters({
+    preferredFilms: ['Toy Story 5', 'Sinners'],
+  });
+  assert.deepEqual(params.getAll('preferred'), ['Toy Story 5', 'Sinners']);
+});
+
+test('decodePlannerFilters decodes preferred film arrays', () => {
+  const decoded = decodePlannerFilters('preferred=Toy+Story+5&preferred=Sinners');
+  assert.deepEqual(decoded.preferredFilms, ['Toy Story 5', 'Sinners']);
+});
+
+test('decodePlannerFilters opens advanced panel when preferred is present', () => {
+  const decoded = decodePlannerFilters('preferred=Sinners');
+  assert.equal(decoded.advancedOpen, true);
+});
+
+test('buildPlannerSearchString round-trips preferred films', () => {
+  const query = buildPlannerSearchString({
+    preferredFilms: ['Toy Story 5', 'Sinners'],
+    filmCount: 'max',
+  });
+  const decoded = decodePlannerFilters(query);
+  assert.deepEqual(decoded.preferredFilms, ['Toy Story 5', 'Sinners']);
+  assert.equal(decoded.filmCount, 'max');
+});
+
+test('hasActivePlannerQuery detects preferred films', () => {
+  assert.equal(hasActivePlannerQuery({ preferredFilms: ['Sinners'] }), true);
+});
+
+test('buildPlannerPathFromDoubleFeature does not emit preferred films', () => {
+  const path = buildPlannerPathFromDoubleFeature('movies=Sinners&exclude=Jackass');
+  assert.doesNotMatch(path, /preferred=/);
 });
 
 test('encodePlannerFilters encodes first and last film anchors', () => {
@@ -185,8 +226,120 @@ test('buildPlannerPathFromDoubleFeature maps blacklist exclude films', () => {
   const path = buildPlannerPathFromDoubleFeature('exclude=Sinners');
   assert.match(path, /count=2/);
   assert.match(path, /exclude=Sinners/);
+  assert.match(path, /advanced=1/);
+});
+
+test('buildPlannerPathFromDoubleFeature maps movies with advanced=1', () => {
+  const path = buildPlannerPathFromDoubleFeature('movies=Sinners');
+  assert.match(path, /count=2/);
+  assert.match(path, /movies=Sinners/);
+  assert.match(path, /advanced=1/);
+});
+
+test('buildPlannerPathFromDoubleFeature omits mode-only filter without films', () => {
+  const path = buildPlannerPathFromDoubleFeature('filter=whitelist');
+  assert.match(path, /count=2/);
+  assert.doesNotMatch(path, /filter=/);
+  assert.doesNotMatch(path, /advanced=/);
+});
+
+test('buildPlannerPathFromDoubleFeature drops invalid start time on migration', () => {
+  const path = buildPlannerPathFromDoubleFeature('date=06/28/2026&start=7ish');
+  assert.match(path, /date=06%2F28%2F2026/);
+  assert.doesNotMatch(path, /start=/);
+});
+
+test('decodeDoubleFeatureFilters decodes legacy share URL fields', () => {
+  const decoded = decodeDoubleFeatureFilters(
+    'date=06/26/2026&theaters=SIFF+Cinema+Downtown&start=7%3A30PM&movies=Sinners',
+  );
+  assert.equal(decoded.selectedDate, '06/26/2026');
+  assert.deepEqual(decoded.selectedTheaters, ['SIFF Cinema Downtown']);
+  assert.equal(decoded.earliestStartTime, '7:30PM');
+  assert.equal(decoded.movieFilterType, 'whitelist');
+  assert.deepEqual(decoded.selectedMovies, ['Sinners']);
+});
+
+test('decodeDoubleFeatureFilters prefers exclude when both movie params present', () => {
+  const decoded = decodeDoubleFeatureFilters('movies=Alpha&exclude=Beta');
+  assert.equal(decoded.movieFilterType, 'blacklist');
+  assert.deepEqual(decoded.selectedMovies, ['Beta']);
+});
+
+test('decodeDoubleFeatureFilters restores movie filter mode without films', () => {
+  const decoded = decodeDoubleFeatureFilters('filter=whitelist');
+  assert.equal(decoded.movieFilterType, 'whitelist');
+  assert.deepEqual(decoded.selectedMovies, []);
+});
+
+test('normalizePlannerTime rejects invalid compact times', () => {
+  assert.equal(normalizePlannerTime('7:30PM'), '7:30PM');
+  assert.equal(normalizePlannerTime('7ish'), '');
 });
 
 test('buildMarathonPlannerLink points to max mode', () => {
   assert.equal(buildMarathonPlannerLink(), '/planner?count=max');
+});
+
+test('buildPlannerPathFromMarathon redirects to max mode with from=marathon', () => {
+  const storage = { getItem: () => null };
+  const path = buildPlannerPathFromMarathon(storage);
+  assert.match(path, /^\/planner\?/);
+  assert.match(path, /count=max/);
+  assert.match(path, /from=marathon/);
+  assert.doesNotMatch(path, /advanced=/);
+});
+
+test('buildPlannerPathFromMarathon maps preferred films to repeatable params', () => {
+  const path = buildPlannerPathFromMarathon({
+    blacklist: [],
+    preferredMovies: ['Disclosure Day'],
+  });
+  const decoded = decodePlannerFilters(path.split('?')[1]);
+  assert.deepEqual(decoded.preferredFilms, ['Disclosure Day']);
+  assert.equal(decoded.filmCount, 'max');
+  assert.equal(decoded.advancedOpen, true);
+  assert.match(path, /from=marathon/);
+});
+
+test('buildPlannerPathFromMarathon maps blacklist to exclude params', () => {
+  const path = buildPlannerPathFromMarathon({
+    blacklist: ['Project Hail Mary'],
+    preferredMovies: ['Sinners'],
+  });
+  const decoded = decodePlannerFilters(path.split('?')[1]);
+  assert.deepEqual(decoded.excludeFilms, ['Project Hail Mary']);
+  assert.deepEqual(decoded.preferredFilms, ['Sinners']);
+  assert.equal(decoded.advancedOpen, true);
+});
+
+test('parseMarathonStoredFilters reads legacy localStorage shape', () => {
+  const parsed = parseMarathonStoredFilters(
+    JSON.stringify({
+      blacklist: ['Project Hail Mary'],
+      preferred_movies: ['Sinners'],
+    }),
+  );
+  assert.deepEqual(parsed.blacklist, ['Project Hail Mary']);
+  assert.deepEqual(parsed.preferredMovies, ['Sinners']);
+});
+
+test('buildPlannerPathFromMarathon handles malformed localStorage safely', () => {
+  const storage = { getItem: () => '{not json' };
+  const path = buildPlannerPathFromMarathon(storage);
+  assert.match(path, /count=max/);
+  assert.match(path, /from=marathon/);
+});
+
+test('mapMarathonFiltersToPlanner includes advanced=1 only when filters exist', () => {
+  const empty = mapMarathonFiltersToPlanner(null);
+  assert.equal(empty.get('advanced'), null);
+  assert.equal(empty.get('from'), 'marathon');
+
+  const withFilters = mapMarathonFiltersToPlanner({
+    blacklist: ['Sinners'],
+    preferredMovies: [],
+  });
+  assert.equal(withFilters.get('advanced'), '1');
+  assert.deepEqual(withFilters.getAll('exclude'), ['Sinners']);
 });

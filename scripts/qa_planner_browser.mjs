@@ -45,7 +45,7 @@ async function checkNav(page) {
   for (let i = 0; i < count; i += 1) {
     labels.push((await links.nth(i).textContent())?.trim());
   }
-  for (const expected of ['Showtimes', 'Planner', 'Legacy: Double Feature', 'Legacy: Marathon']) {
+  for (const expected of ['Showtimes', 'Planner']) {
     if (labels.includes(expected)) pass(`Nav includes ${expected}`);
     else fail(`Nav missing ${expected} (got: ${labels.join(', ')})`);
   }
@@ -79,7 +79,7 @@ async function clickFindPlans(page) {
     () => !document.querySelector('.planner-loading-state'),
     { timeout: 20000 },
   );
-  const promptBtn = page.locator('.double-feature-run-search');
+  const promptBtn = page.locator('.planner-run-search');
   if (await promptBtn.isVisible()) {
     await promptBtn.click();
   } else {
@@ -88,7 +88,7 @@ async function clickFindPlans(page) {
   await page.waitForFunction(
     () =>
       document.querySelector('.planner-result-list') ||
-      document.querySelector('.double-feature-empty-state') ||
+      document.querySelector('.planner-empty-state') ||
       document.querySelector('.planner-empty-state'),
     { timeout: 20000 },
   );
@@ -103,7 +103,7 @@ async function auditResultCard(page, minFilms = 2) {
   pass(`Found ${cardCount} result card(s)`);
   const card = cards.first();
 
-  const theater = await card.locator('.double-feature-theater').textContent();
+  const theater = await card.locator('.planner-result-theater').textContent();
   if (theater?.trim()) pass(`Result shows theater: ${theater.trim()}`);
   else fail('Result missing theater');
 
@@ -140,15 +140,32 @@ async function auditResultCard(page, minFilms = 2) {
 
   for (let i = 0; i < Math.min(filmCount, 3); i += 1) {
     const row = films.nth(i);
-    const title = await row.locator('.double-feature-film-title').textContent();
+    const title = await row.locator('.planner-film-title').textContent();
     if (title?.trim()) pass(`Film ${i + 1} title: ${title.trim()}`);
     else fail(`Film ${i + 1} missing title`);
 
     const hasPoster =
-      (await row.locator('.double-feature-poster').count()) > 0 ||
+      (await row.locator('.planner-film-poster').count()) > 0 ||
       (await row.locator('.poster-placeholder').count()) > 0;
     if (hasPoster) pass(`Film ${i + 1} has poster or placeholder`);
     else fail(`Film ${i + 1} missing poster/placeholder`);
+  }
+
+  const shareBtn = card.locator('.planner-share-lineup');
+  if ((await shareBtn.count()) > 0) pass('Result card has Share lineup button');
+  else fail('Result missing Share lineup button');
+
+  await shareBtn.click({ force: true });
+  await page.waitForTimeout(400);
+  const shareStatus = await card.locator('.planner-share-lineup-status').textContent();
+  if (
+    shareStatus?.includes('Copied') ||
+    shareStatus?.includes('Shared') ||
+    shareStatus?.includes('Could not share')
+  ) {
+    pass(`Share lineup shows feedback: ${shareStatus.trim()}`);
+  } else {
+    fail(`Share lineup missing feedback after click: "${shareStatus}"`);
   }
 
   return true;
@@ -211,7 +228,7 @@ async function runSearchMode(page, filmCountValue, label, minFilms, scenario = n
     await clickFindPlans(page);
   }
 
-  const empty = await page.locator('.double-feature-empty-state').isVisible().catch(() => false);
+  const empty = await page.locator('.planner-empty-state').isVisible().catch(() => false);
   const hasResults = await page.locator('.planner-result-card').count();
 
   if (hasResults > 0) {
@@ -245,7 +262,7 @@ async function checkTimeFilters(page) {
   await page.selectOption('#planner-film-count', '2');
   await clickFindPlans(page);
   const hasResults = (await page.locator('.planner-result-card').count()) > 0;
-  const empty = await page.locator('.double-feature-empty-state').isVisible().catch(() => false);
+  const empty = await page.locator('.planner-empty-state').isVisible().catch(() => false);
   if (hasResults || empty) pass('Search with time filters completes');
   else fail('Search with time filters produced no UI state');
 }
@@ -256,7 +273,7 @@ async function checkEmptyState(page) {
   await page.fill('#planner-finish-by', '8:00AM');
   await clickFindPlans(page);
 
-  const empty = page.locator('.planner-empty-state, .double-feature-empty-state');
+  const empty = page.locator('.planner-empty-state');
   if (await empty.isVisible()) {
     pass('Impossible constraints show empty state');
     const text = await empty.textContent();
@@ -275,23 +292,38 @@ async function checkAdvancedAndShareFlow(page) {
   await page.waitForSelector('#planner-min-gap', { timeout: 5000 });
   pass('Advanced filters panel opens');
 
-  if (await page.locator('.double-feature-copy-link').count()) {
+  if (await page.locator('#planner-preferred').count()) {
+    pass('Preferred films control is present');
+  } else {
+    fail('Preferred films control missing');
+  }
+
+  await page.goto(`${BASE}/planner?count=max&preferred=Sinners&advanced=1`, {
+    waitUntil: 'networkidle',
+  });
+  if (await page.locator('#planner-preferred').inputValue()) {
+    pass('Preferred films restore from shared URL');
+  } else {
+    fail('Preferred films missing from shared URL restore');
+  }
+
+  if (await page.locator('.planner-copy-link').count()) {
     pass('Copy share link button exists');
   } else {
     fail('Copy share link button missing');
   }
 
   await page.goto(`${BASE}/planner?count=3&start=12%3A00PM&advanced=1`, { waitUntil: 'networkidle' });
-  if (await page.locator('.double-feature-url-prompt').isVisible()) {
+  if (await page.locator('.planner-url-prompt').isVisible()) {
     pass('Shared URL prompt appears');
   } else {
     fail('Shared URL prompt missing');
   }
 
-  await page.locator('.double-feature-run-search').click();
+  await page.locator('.planner-run-search').click();
   await page.waitForTimeout(1500);
   const cards = await page.locator('.planner-result-card').count();
-  const empty = await page.locator('.planner-empty-state, .double-feature-empty-state').isVisible();
+  const empty = await page.locator('.planner-empty-state, .planner-empty-state').isVisible();
   if (cards > 0 || empty) pass('Shared URL search runs');
   else fail('Shared URL search produced no UI state');
 }
@@ -379,33 +411,27 @@ async function checkResponsivePlanner(page, width) {
 
 async function checkLegacyMigrationBanners(page) {
   await page.goto(`${BASE}/double-feature`, { waitUntil: 'networkidle' });
-  if (await page.locator('.legacy-tool-banner').isVisible()) {
-    pass('Double Feature legacy banner appears');
+  if (page.url().includes('/planner')) {
+    pass(`Double Feature redirects to Planner: ${page.url()}`);
   } else {
-    fail('Double Feature legacy banner missing');
+    fail(`Double Feature did not redirect to Planner: ${page.url()}`);
+  }
+  if (page.url().includes('count=2')) {
+    pass('Double Feature redirect includes count=2');
+  } else {
+    fail(`Double Feature redirect missing count=2: ${page.url()}`);
   }
 
-  const dfLink = page.locator('.legacy-tool-banner-link', { hasText: 'Try Planner for 2 movies' });
-  const dfHref = await dfLink.getAttribute('href');
-  if (dfHref?.includes('/planner') && dfHref.includes('count=2')) {
-    pass(`Double Feature Try Planner link: ${dfHref}`);
+  await page.goto(`${BASE}/marathon`, { waitUntil: 'networkidle' });
+  if (page.url().includes('/planner') && page.url().includes('count=max')) {
+    pass(`Marathon redirects to Planner max mode: ${page.url()}`);
   } else {
-    fail(`Double Feature Try Planner link wrong: ${dfHref}`);
+    fail(`Marathon did not redirect to Planner max mode: ${page.url()}`);
   }
-
-  await page.goto(`${BASE}/marathon/`, { waitUntil: 'networkidle' });
-  if (await page.locator('.legacy-tool-banner').isVisible()) {
-    pass('Marathon legacy banner appears');
+  if (await page.locator('.planner-arrival-notice').isVisible()) {
+    pass('Marathon migration notice appears on Planner');
   } else {
-    fail('Marathon legacy banner missing');
-  }
-
-  const marathonLink = page.locator('.legacy-tool-banner-link', { hasText: 'Try Planner' });
-  const marathonHref = await marathonLink.getAttribute('href');
-  if (marathonHref?.includes('/planner') && marathonHref.includes('count=max')) {
-    pass(`Marathon Try Planner link: ${marathonHref}`);
-  } else {
-    fail(`Marathon Try Planner link wrong: ${marathonHref}`);
+    fail('Marathon migration notice missing on Planner');
   }
 }
 
@@ -416,22 +442,30 @@ async function checkLegacyRoutes(page) {
 
   await checkLegacyMigrationBanners(page);
 
-  await page.goto(`${BASE}/double-feature`, { waitUntil: 'networkidle' });
-  const findBtn = page.locator('.search-button', { hasText: 'Find Double Features' });
-  if (await findBtn.count()) {
-    await findBtn.click();
-    await page.waitForTimeout(800);
-    const hasResults = (await page.locator('.double-feature-card').count()) > 0;
-    const hasEmpty = await page.locator('.double-feature-empty-state').isVisible().catch(() => false);
-    if (hasResults || hasEmpty) pass('Double Feature search runs');
-    else fail('Double Feature search produced no UI state');
+  await page.goto(`${BASE}/double-feature?date=06%2F28%2F2026`, { waitUntil: 'networkidle' });
+  if (page.url().includes('/planner') && page.url().includes('date=06')) {
+    pass('Double Feature shared URL redirects to Planner with date param');
+  } else {
+    fail(`Double Feature shared URL redirect failed: ${page.url()}`);
+  }
+  const plannerFindBtn = page.locator('.search-button', { hasText: 'Find plans' });
+  if (await plannerFindBtn.count()) {
+    pass('Planner controls appear after Double Feature redirect');
+  } else {
+    fail('Planner controls missing after Double Feature redirect');
   }
 
-  await page.goto(`${BASE}/marathon/`, { waitUntil: 'networkidle' });
-  await page.waitForSelector('iframe', { timeout: 15000 });
-  const iframeSrc = await page.locator('iframe').getAttribute('src');
-  if (iframeSrc?.includes('marathon')) pass(`Marathon iframe present (${iframeSrc})`);
-  else fail('Marathon iframe missing');
+  await page.goto(`${BASE}/marathon`, { waitUntil: 'networkidle' });
+  if (page.url().includes('/planner') && page.url().includes('count=max')) {
+    pass(`Marathon redirects to Planner: ${page.url()}`);
+  } else {
+    fail(`Marathon redirect failed: ${page.url()}`);
+  }
+  if (await plannerFindBtn.count()) {
+    pass('Planner controls appear after Marathon redirect');
+  } else {
+    fail('Planner controls missing after Marathon redirect');
+  }
 }
 
 async function main() {
@@ -466,7 +500,7 @@ async function main() {
     await checkNav(page);
     await checkFiltersPopulated(page);
 
-    const twoScenario = pickBrowserEligibleScenario(scenarios.twoFilm ?? scenarios.doubleFeatureParity);
+    const twoScenario = pickBrowserEligibleScenario(scenarios.twoFilm);
     const threeScenario = pickBrowserEligibleScenario(scenarios.threeFilm ?? twoScenario);
     const fourScenario = pickBrowserEligibleScenario(scenarios.fourFilm ?? twoScenario);
     const maxScenario = pickBrowserEligibleScenario(scenarios.maxMode ?? twoScenario);

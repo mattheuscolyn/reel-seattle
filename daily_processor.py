@@ -1,6 +1,5 @@
 import csv
 import os
-import subprocess
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -542,16 +541,6 @@ def main():
         reference_date=reference_date,
     )
     print(f"  {len(newly_added_artifact['entries'])} entries in current window")
-    
-    print("Updating marathon planner showtimes...")
-    try:
-        marathon_script = Path(__file__).resolve().parent / "scripts" / "marathon" / "find_marathons.py"
-        if marathon_script.exists():
-            subprocess.run([sys.executable, str(marathon_script)], check=False)
-        else:
-            print(f"  Skipped: {marathon_script} not found")
-    except OSError as exc:
-        print(f"  Marathon export failed: {exc}")
 
     print(f"Daily processing complete. Processed {len(history_data)} total showtimes, {len(new_movies)} newly announced movies")
 

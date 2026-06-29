@@ -1,4 +1,4 @@
-# Planner Legacy Parity QA Audit (PR 66A)
+# Planner Legacy Parity QA Audit (PR 66A / updated PR 67A)
 
 **Audit date:** 2026-06-27  
 **Data artifact:** `public/data/showtimes_current.json`  
@@ -7,7 +7,7 @@
 **Showtimes:** 4,939 | **Films:** 68 | **Theaters:** 13  
 **Sources:** AMC, Beacon, SIFF
 
-This audit compares the unified `/planner` against legacy **Double Feature** (`/double-feature`) and **Marathon** (`/marathon`) before any redirects or deletions in PR 66.
+**Historical note:** This audit originally compared the unified `/planner` against legacy Double Feature and Marathon tools before PR 66 redirects. As of **PR 67B**, the Double Feature UI, engine, and utility modules (`doubleFeatureUrlState.js`, `doubleFeatureDisplay.js`) have been removed. Planner is the source of truth; `/double-feature` remains as a redirect with migration helpers in `legacyDoubleFeatureUrlMigration.js` and `plannerUrlState.js`.
 
 Automated discovery: `node scripts/lib/plannerParityScenarios.mjs` (via `discoverPlannerParityScenarios`)  
 Full parity QA: `node scripts/qa_planner_parity.mjs http://localhost:5173`  
@@ -21,8 +21,7 @@ Discovered from live `showtimes_current.json` on 2026-06-27:
 
 | Scenario | Date | Theater | Film count | Min results | Notes |
 |----------|------|---------|------------|-------------|-------|
-| 2-film Planner | 2026-06-28 | AMC Southcenter 16 | 2 | 194 | Browser-eligible; DF parity reference |
-| Double Feature parity | 2026-06-28 | AMC Southcenter 16 | 2 | 194 (Planner) / 437 (DF pairs) | Same date/theater; counts differ by design |
+| 2-film Planner | 2026-06-28 | AMC Southcenter 16 | 2 | 194 | Browser-eligible |
 | 3-film Planner | 2026-06-27 | AMC Alderwood Mall 16 | 3 | 200 | Engine cap at 200 |
 | 4-film Planner | 2026-06-27 | AMC Alderwood Mall 16 | 4 | 200 | Top schedule has 4 films |
 | Max mode | 2026-06-27 | AMC Alderwood Mall 16 | max | 200 | Top schedule has **7 films** |
@@ -32,35 +31,31 @@ Discovered from live `showtimes_current.json` on 2026-06-27:
 
 Scenarios are **discovered dynamically** from `showtimes_current.json` (prefers today-or-future dates for browser QA). Re-run `node scripts/qa_planner_parity.mjs --data-only` after data refresh.
 
-Marathon iframe defaults (`marathon_showtimes.json`): **AMC Pacific Place 11** on **06/27/2026** with 4,802 AMC showtimes.
+Marathon iframe defaults (`marathon_showtimes.json`, **removed PR 66B-2**): historically **AMC Pacific Place 11** on **06/27/2026**.
 
 ---
 
-## 2. Double Feature parity
+## 2. Double Feature migration (redirect-only, PR 67A)
+
+Legacy Double Feature UI and `doubleFeatureEngine.js` have been removed. `/double-feature` redirects to `/planner?count=2` via `buildPlannerPathFromDoubleFeature()`.
 
 ### Verified
 
 | Check | Result |
 |-------|--------|
-| Same date/theater search | Pass — both tools search AMC Alderwood Mall 16 on 2026-06-27 |
-| Planner 2-film schedules valid | Pass — 141 deduplicated lineups |
-| 59-minute default max gap | Pass — all inter-film gaps ≤ 59 min (Planner uses 59; DF uses gap &lt; 60) |
+| Planner 2-film schedules valid | Pass — deduplicated lineups with default max gap ≤ 59 min |
 | Migration link preserves `date`, `theaters`, `start`, `movies`, `exclude`, `count=2` | Pass — `buildPlannerPathFromDoubleFeature()` tested |
-| `end` not mapped to `finish` | Pass — documented; DF `end` filters individual showtime end times |
-| Old DF shared links load legacy page | Pass — no auto-redirect in PR 65/66A |
-| Result cards: theater, films, times, gap, poster, share URL | Pass — Planner cards + timeline meet or exceed DF card info |
+| `end` not mapped to `finish` | Pass — documented; DF `end` filtered individual showtime end times |
+| Result cards: theater, films, times, timeline, poster | Pass — Planner cards meet or exceed legacy card info |
 
 ### Known gaps
 
 | Gap | Severity | Notes |
 |-----|----------|-------|
-| `buildPlannerSearchFilters` date field mismatch (fixed PR 66A) | **High (fixed)** | `PlannerPage` passed `selectedDate` but helper expected `date`, causing empty browser searches. Fixed via alias support. |
-| Result count differs | Low | DF returns more **showtime-level pairs**; Planner returns fewer **deduplicated lineups**. Functional parity, not count parity. |
-| Sort order differs | Low | DF: popularity → gap → title. Planner: earliest start by default; advanced sort available. |
-| DF `end` filter | Medium | Not migrated to Planner `finish`. Users relying on `end` must stay on Double Feature or manually adjust. |
-| Popularity ranking | Low | DF boosts popular films; Planner has no popularity sort yet. |
+| DF `end` filter | Medium | Not migrated to Planner `finish`. Users relying on `end` must manually set Planner advanced filters after redirect. |
+| Mode-only `filter=whitelist\|blacklist` without film lists | Low | Redirect drops filter mode when no `movies`/`exclude` values are present. |
 
-**Double Feature parity verdict:** **Ready for redirect** with documented `end` exception. Planner is a superset for 2-film planning except the `end` semantic.
+**Double Feature migration verdict:** Redirect is safe for most shared links. Document the `end` param exception.
 
 ---
 
@@ -70,27 +65,29 @@ Marathon iframe defaults (`marathon_showtimes.json`): **AMC Pacific Place 11** o
 
 | Check | Result |
 |-------|--------|
-| Marathon iframe loads | Pass — `/marathon/index.html` + `marathon_showtimes.json` |
+| `/marathon` React redirect | Pass — `/planner?count=max&from=marathon` |
+| Static stub `/marathon/index.html` | Pass — redirects to Planner; optional localStorage migration |
 | Planner max mode long schedules | Pass — 7-film schedule at AMC Alderwood; 6 films at Pacific Place |
 | Planner `finish by` filter | Pass — basic filter works on long schedules (browser QA) |
 | Excluded movies | Pass — Planner advanced `exclude` approximates Marathon blacklist |
-| Required movies | Partial — Planner `include` requires **all** listed films; Marathon **preferred** requires **≥1** |
+| Required movies | Pass — Planner `include` requires **all** listed films |
+| Preferred movies | Pass — Planner `preferred` requires **≥1** (Marathon parity) |
 | Long schedule cards/timeline | Pass — timeline readable for multi-film results |
 | Share long-schedule URL | Pass — copy share link + shared URL restore |
-| Marathon iframe multi-film | Pass — iframe loads with current AMC data |
+| Share lineup (PR 70) | Pass — per-card text + filter URL via Web Share or clipboard |
 
 ### Known gaps
 
 | Gap | Severity | Notes |
 |-----|----------|-------|
-| Preferred vs required semantics | Medium | Marathon preferred (OR) ≠ Planner include (AND). Engine supports `preferredFilms` but UI does not expose it. |
+| Preferred vs required semantics | **Resolved (Phase C)** — Planner advanced panel exposes `preferred` (OR) separate from required `movies` (AND) |
 | Result ordering | Low | Exact ordering need not match; Marathon has preferred-count boost |
 | Alternate showtime counts | Low | Marathon shows alternate start times per film; Planner shows one lineup per card |
 | Hero “longest day” | Low | Marathon iframe highlights longest span; Planner uses sort modes instead |
 | Auto-recompute | Low | Marathon recomputes on filter change; Planner uses manual Find plans + shared URL prompt |
 | AMC-only Marathon data | N/A | By design — Planner advantage for non-AMC |
 
-**Marathon parity verdict:** **Ready for soft migration** (banner + max-mode link). Not ready for Marathon **deletion** until preferred-film UX parity or documented workaround.
+**Marathon parity verdict:** **Ready for soft migration** (banner + max-mode link). Preferred-film UX parity is now covered in Planner; Marathon **deletion** can wait for iframe UX gaps (hero summary, alternates, auto-recompute) or explicit sign-off.
 
 ---
 
@@ -102,7 +99,7 @@ Marathon iframe defaults (`marathon_showtimes.json`): **AMC Pacific Place 11** o
 | The Beacon | beacon | (fewer showtimes; verify on future dates) |
 
 **Planner uses `showtimes_current.json` and supports all current sources (AMC, SIFF, Beacon).**  
-**Marathon remains AMC-only** while iframe-backed on `marathon_showtimes.json`.
+**Marathon (post PR 66B-2):** Redirect-only; Planner max mode uses full `showtimes_current.json` (AMC + SIFF + Beacon).
 
 This is the primary long-term reason to replace Marathon with Planner.
 
@@ -124,10 +121,9 @@ This is the primary long-term reason to replace Marathon with Planner.
 2. 2-film and max-mode cards + timeline  
 3. Show More when >20 results  
 4. Shared URL restore  
-5. Legacy banners on DF and Marathon  
-6. Double Feature search still runs  
-7. Marathon iframe loads  
-8. No forbidden fetches  
+5. `/double-feature` redirect to Planner with mapped params  
+6. `/marathon` redirect to Planner max mode  
+7. No forbidden fetches  
 
 ---
 
@@ -139,27 +135,31 @@ This is the primary long-term reason to replace Marathon with Planner.
 
 ### Ready for deletion?
 
-**No** — Marathon iframe still adds value for preferred-film UX and AMC power users. Double Feature fallback remains useful for `end` filter users.
+**Done (PR 66B-2)** — Legacy Marathon iframe app, `marathon_showtimes.json` export, and related tests removed. `/marathon` redirects to Planner; static stub remains at `public/marathon/index.html`.
+
+**Done (PR 67A)** — Legacy Double Feature page, result card, `doubleFeatureEngine.js`, and related tests removed. `/double-feature` redirect and migration helpers remain.
+
+**Done (PR 67B)** — Removed `doubleFeatureUrlState.js` and `doubleFeatureDisplay.js`; migration decode in `legacyDoubleFeatureUrlMigration.js`; display formatters in `plannerDisplay.js`.
+
+**Done (PR 68)** — Renamed Planner UI CSS from `.double-feature-*` to `.planner-*`; renamed `TWO_FILM_EXCLUSIVE_GAP_CEILING_MINUTES` constant.
 
 ### Needs another polish PR?
 
-**Optional, not blocking** — expose Marathon-style **preferred movies** (OR semantics) in Planner advanced panel using existing `preferredFilms` engine support.
+**Optional feature PRs** — Recently Added collapse/page split; share a specific Planner lineup card.
 
 ---
 
 ## 7. Suggested PR 66 final action
 
-**Recommendation: Option 2 — Redirect + hide legacy nav, keep direct legacy routes, no deletion.**
+**PR 66 (done):** Redirect Double Feature; hide legacy nav; keep Marathon iframe.
 
-| Action | Include in PR 66? |
-|--------|-------------------|
-| Redirect `/double-feature` → mapped `/planner?count=2` | Yes |
-| Hide “Legacy:” nav items (routes remain direct-access) | Yes |
-| Keep `/marathon` with banner (no redirect) | Yes |
-| Delete `public/marathon/`, DF page, engines | **No** — defer until preferred-film parity or explicit product sign-off |
-| Stop `marathon_showtimes.json` generation | **No** |
+**PR 66B-1 (done):** `/marathon` → `/planner?count=max` with localStorage filter migration.
 
-After PR 66, monitor shared Double Feature links with `end` param and Marathon preferred-movie users before full deletion PR.
+**PR 66B-2 (done):** Deleted legacy Marathon assets; stopped `marathon_showtimes.json` generation; kept redirect stub.
+
+**PR 67A (done):** Deleted legacy Double Feature UI/engine; kept `/double-feature` redirect and migration helpers.
+
+After PR 67A, monitor shared Double Feature links with `end` param.
 
 ---
 
@@ -168,8 +168,7 @@ After PR 66, monitor shared Double Feature links with `end` param and Marathon p
 - [ ] Run `npm run check:data-freshness` before audit
 - [ ] Run `node scripts/qa_planner_parity.mjs http://localhost:5173`
 - [ ] Run `node scripts/qa_planner_browser.mjs http://localhost:5173`
-- [ ] Spot-check Double Feature shared URL with `end=` still works on legacy page
-- [ ] Spot-check Marathon iframe finds multi-film schedule at Pacific Place on today’s date
-- [ ] Spot-check SIFF 2-film search in Planner (Marathon cannot do this)
+- [ ] Spot-check Double Feature shared URL with `end=` redirects to Planner without `finish` (legacy `end` is not migrated)
+- [ ] Spot-check SIFF 2-film search in Planner
 
 See also [frontend-smoke-check.md](./frontend-smoke-check.md).

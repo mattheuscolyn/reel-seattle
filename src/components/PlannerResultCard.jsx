@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import PosterImage from './PosterImage.jsx';
 import PlannerTimeline from './PlannerTimeline.jsx';
 import {
@@ -8,6 +9,8 @@ import {
   formatPlannerScheduleSummary,
   getMovieFormatTags,
 } from '../utils/plannerDisplay.js';
+import { formatPlannerLineupShareText } from '../utils/plannerShare.js';
+import { shareTextWithFallback } from '../utils/shareLinkUtils.js';
 
 function FormatTags({ movie }) {
   const tags = getMovieFormatTags(movie);
@@ -29,28 +32,31 @@ function FilmRow({ movie, index, total }) {
 
   return (
     <div className="planner-film-row">
-      <div className="double-feature-film">
-        <div className="double-feature-film-poster-wrap">
+      <div className="planner-film">
+        <div className="planner-film-poster-wrap">
           <PosterImage
             src={movie?.poster}
             alt={display.film}
-            className="double-feature-poster"
+            className="planner-film-poster"
           />
-          <span className="double-feature-film-label">{formatMovieSequenceLabel(index, total)}</span>
+          <span className="planner-film-label">{formatMovieSequenceLabel(index, total)}</span>
         </div>
-        <div className="double-feature-film-details">
-          <h4 className="double-feature-film-title">{display.film}</h4>
+        <div className="planner-film-details">
+          <h4 className="planner-film-title">{display.film}</h4>
+          <p className="planner-film-time-range">
+            {display.startTime} – {display.endTime} · {display.runtime}
+          </p>
           <FormatTags movie={movie} />
-          <dl className="double-feature-film-meta">
-            <div className="double-feature-film-meta-row">
+          <dl className="planner-film-meta">
+            <div className="planner-film-meta-row">
               <dt>Start</dt>
               <dd>{display.startTime}</dd>
             </div>
-            <div className="double-feature-film-meta-row">
+            <div className="planner-film-meta-row">
               <dt>Ends</dt>
               <dd>{display.endTime}</dd>
             </div>
-            <div className="double-feature-film-meta-row">
+            <div className="planner-film-meta-row">
               <dt>Runtime</dt>
               <dd>{display.runtime}</dd>
             </div>
@@ -71,28 +77,76 @@ function GapRow({ label }) {
   );
 }
 
-export default function PlannerResultCard({ schedule }) {
+export default function PlannerResultCard({ schedule, filterShareUrl = '' }) {
+  const [shareStatus, setShareStatus] = useState('idle');
   const summary = formatPlannerScheduleSummary(schedule);
   const commitment = formatPlannerCommitmentLines(schedule);
   const sequenceItems = buildMovieSequenceItems(schedule);
   const movies = schedule?.movies ?? [];
 
+  useEffect(() => {
+    if (shareStatus === 'idle') return undefined;
+    const timer = setTimeout(() => setShareStatus('idle'), 2500);
+    return () => clearTimeout(timer);
+  }, [shareStatus]);
+
+  const handleShareLineup = async () => {
+    const text = formatPlannerLineupShareText(schedule, { filterUrl: filterShareUrl });
+    if (!text) {
+      setShareStatus('error');
+      return;
+    }
+
+    const result = await shareTextWithFallback({
+      title: `${summary.theater} movie plan`,
+      text,
+    });
+
+    if (result.method === 'cancelled') return;
+
+    if (!result.ok) {
+      setShareStatus('error');
+      return;
+    }
+
+    setShareStatus(result.method === 'share' ? 'shared' : 'copied');
+  };
+
   return (
     <article
-      className="double-feature-card planner-result-card"
+      className="planner-result-card"
       aria-label={`${summary.theater}: ${movies.length} films`}
     >
-      <header className="double-feature-card-header">
+      <header className="planner-result-card-header">
         <div className="planner-card-heading">
-          <h3 className="double-feature-theater">{summary.theater}</h3>
+          <h3 className="planner-result-theater">{summary.theater}</h3>
           <p className="planner-commitment-summary">
             <span>{commitment.starts}</span>
             <span aria-hidden="true"> · </span>
             <span>{commitment.ends}</span>
           </p>
         </div>
-        <div className="double-feature-card-badges">
+        <div className="planner-result-card-badges">
           <span className="planner-film-count-badge">{summary.filmCountLabel} films</span>
+          <div className="planner-result-card-actions">
+            <button
+              type="button"
+              className="planner-share-lineup"
+              onClick={handleShareLineup}
+            >
+              Share lineup
+            </button>
+            <div
+              className={`planner-share-lineup-status${
+                shareStatus === 'error' ? ' planner-share-lineup-status--error' : ''
+              }`}
+              aria-live="polite"
+            >
+              {shareStatus === 'shared' ? 'Shared' : null}
+              {shareStatus === 'copied' ? 'Copied' : null}
+              {shareStatus === 'error' ? 'Could not share' : null}
+            </div>
+          </div>
         </div>
       </header>
 

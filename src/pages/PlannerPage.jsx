@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import DataStatePanel from '../components/DataStatePanel.jsx';
 import DropdownMultiSelect from '../components/DropdownMultiSelect.jsx';
 import PlannerResultCard from '../components/PlannerResultCard.jsx';
 import { useShowtimesData } from '../hooks/useShowtimesData.js';
@@ -25,10 +26,11 @@ import {
   decodePlannerFilters,
   encodePlannerFilters,
   hasActivePlannerQuery,
-  intersectWithOptions,
   plannerFiltersDiffer,
 } from '../utils/plannerUrlState.js';
-import { copyTextToClipboard, getShareUrlFromLocation } from '../utils/shareLinkUtils.js';
+import { intersectWithOptions } from '../utils/showtimesUrlState.js';
+import { buildPlannerFilterShareUrl } from '../utils/plannerShare.js';
+import { copyTextToClipboard } from '../utils/shareLinkUtils.js';
 
 export default function PlannerPage() {
   const { rows, loading, error } = useShowtimesData();
@@ -39,6 +41,7 @@ export default function PlannerPage() {
   const [hasSearchRun, setHasSearchRun] = useState(false);
   const [copyLinkStatus, setCopyLinkStatus] = useState('idle');
   const [visibleResultCount, setVisibleResultCount] = useState(PLANNER_RESULTS_PAGE_SIZE);
+  const [marathonArrivalNotice, setMarathonArrivalNotice] = useState(null);
 
   const theaters = useMemo(
     () => (rows.length === 0 ? [] : uniqueSorted(rows.map((row) => row.Theater))),
@@ -67,10 +70,26 @@ export default function PlannerPage() {
   const maxGapExplicit = decoded.maxGapExplicit;
   const includeFilms = decoded.includeFilms;
   const excludeFilms = decoded.excludeFilms;
+  const preferredFilms = decoded.preferredFilms;
   const firstFilm = decoded.firstFilm;
   const lastFilm = decoded.lastFilm;
   const sort = decoded.sort;
   const advancedOpen = decoded.advancedOpen;
+
+  useEffect(() => {
+    if (searchParams.get('from') !== 'marathon') return;
+
+    const hadMigratedFilters = decoded.excludeFilms.length > 0 || decoded.preferredFilms.length > 0;
+    setMarathonArrivalNotice(
+      hadMigratedFilters
+        ? 'Marathon has moved into Planner. Your saved film filters were applied; use Find plans to search.'
+        : 'Marathon has moved into Planner. Use max mode to build the longest movie day available.',
+    );
+
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete('from');
+    setSearchParams(nextParams, { replace: true });
+  }, [searchParams, decoded.excludeFilms.length, decoded.preferredFilms.length, setSearchParams]);
 
   const plannerState = useMemo(
     () => ({
@@ -84,6 +103,7 @@ export default function PlannerPage() {
       maxGapExplicit,
       includeFilms,
       excludeFilms,
+      preferredFilms,
       firstFilm,
       lastFilm,
       sort,
@@ -100,12 +120,21 @@ export default function PlannerPage() {
       maxGapExplicit,
       includeFilms,
       excludeFilms,
+      preferredFilms,
       firstFilm,
       lastFilm,
       sort,
       advancedOpen,
     ],
   );
+
+  const filterShareUrl = useMemo(() => {
+    if (typeof window === 'undefined') return '';
+    return buildPlannerFilterShareUrl(plannerState, {
+      origin: window.location.origin,
+      pathname: window.location.pathname,
+    });
+  }, [plannerState]);
 
   const updateUrlFilters = (partial, { replace = true } = {}) => {
     const current = decodePlannerFilters(searchParams);
@@ -147,6 +176,7 @@ export default function PlannerPage() {
       maxGapExplicit,
       includeFilms,
       excludeFilms,
+      preferredFilms,
       firstFilm,
       lastFilm,
       sort,
@@ -201,13 +231,7 @@ export default function PlannerPage() {
   };
 
   const handleCopyShareLink = async () => {
-    const params = encodePlannerFilters(plannerState);
-    const url = getShareUrlFromLocation({
-      origin: window.location.origin,
-      pathname: window.location.pathname,
-      search: params.toString() ? `?${params.toString()}` : '',
-    });
-    const { ok } = await copyTextToClipboard(url);
+    const { ok } = await copyTextToClipboard(filterShareUrl);
     setCopyLinkStatus(ok ? 'copied' : 'error');
   };
 
@@ -221,44 +245,71 @@ export default function PlannerPage() {
 
   if (loading) {
     return (
-      <>
-        <h1 className="main-header">Movie Planner</h1>
-        <div className="planner-loading-state">
-          <span className="loading-spinner-large"></span>
-          <p>Loading showtimes for planning...</p>
-        </div>
-      </>
+      <div className="page-content">
+        <header className="page-hero">
+          <h1 className="main-header page-title">Movie Planner</h1>
+        </header>
+        <DataStatePanel
+          variant="loading"
+          title="Loading showtimes"
+          message="Preparing showtime data for planning…"
+        />
+      </div>
     );
   }
 
   if (error) {
     return (
-      <>
-        <h1 className="main-header">Movie Planner</h1>
-        <div>{error}</div>
-      </>
+      <div className="page-content">
+        <header className="page-hero">
+          <h1 className="main-header page-title">Movie Planner</h1>
+        </header>
+        <DataStatePanel variant="error" title="Could not load planner data" message={error} />
+      </div>
     );
   }
 
   if (dates.length === 0) {
     return (
-      <>
-        <h1 className="main-header">Movie Planner</h1>
-        <div>No dates are available for planning.</div>
-      </>
+      <div className="page-content">
+        <header className="page-hero">
+          <h1 className="main-header page-title">Movie Planner</h1>
+        </header>
+        <DataStatePanel
+          variant="empty"
+          title="No planning dates available"
+          message="Showtime data may be stale or empty. Try again after the next refresh."
+        />
+      </div>
     );
   }
 
   return (
-    <>
-      <h1 className="main-header">Movie Planner</h1>
-      <p className="planner-intro">
-        Plan same-theater movie schedules across AMC, SIFF, and Beacon. Choose your filters, then
-        click Find plans.
-      </p>
+    <div className="page-content">
+      <header className="page-hero">
+        <h1 className="main-header page-title">Movie Planner</h1>
+        <p className="planner-intro page-subtitle">
+          Plan same-theater schedules across AMC, SIFF, and Beacon. Set your filters, then click
+          Find plans.
+        </p>
+      </header>
 
-      <div className="double-feature-controls planner-controls">
-        <div className="double-feature-filters">
+      {marathonArrivalNotice && (
+        <aside className="planner-arrival-notice" role="status" aria-live="polite">
+          <p className="planner-arrival-notice-message">{marathonArrivalNotice}</p>
+          <button
+            type="button"
+            className="planner-arrival-notice-dismiss"
+            onClick={() => setMarathonArrivalNotice(null)}
+            aria-label="Dismiss Marathon migration notice"
+          >
+            Dismiss
+          </button>
+        </aside>
+      )}
+
+      <div className="planner-controls">
+        <div className="planner-filters">
           <div className="filter-group">
             <label htmlFor="planner-date">Date</label>
             <select
@@ -343,7 +394,7 @@ export default function PlannerPage() {
           </button>
 
           {advancedOpen ? (
-            <div className="planner-advanced-panel double-feature-filters">
+            <div className="planner-advanced-panel planner-filters">
               <div className="filter-group">
                 <label htmlFor="planner-min-gap">Minimum gap (minutes)</label>
                 <input
@@ -385,6 +436,24 @@ export default function PlannerPage() {
                   }
                   className="filter-input"
                 />
+                <p className="planner-field-hint">Every listed movie must appear in the plan.</p>
+              </div>
+
+              <div className="filter-group">
+                <label htmlFor="planner-preferred">Preferred films</label>
+                <input
+                  id="planner-preferred"
+                  type="text"
+                  placeholder="Comma-separated titles"
+                  value={formatFilmListInput(preferredFilms)}
+                  onChange={(e) =>
+                    updateUrlFilters({ preferredFilms: parseFilmListInput(e.target.value) })
+                  }
+                  className="filter-input"
+                />
+                <p className="planner-field-hint">
+                  Plans should include at least one of these movies.
+                </p>
               </div>
 
               <div className="filter-group">
@@ -445,7 +514,7 @@ export default function PlannerPage() {
         </div>
 
         <div className="search-button-container">
-          <div className="double-feature-action-buttons">
+          <div className="planner-action-buttons">
             <button
               onClick={findPlans}
               disabled={isSearching || !effectiveDate}
@@ -462,15 +531,15 @@ export default function PlannerPage() {
             </button>
             <button
               type="button"
-              className="double-feature-copy-link"
+              className="planner-copy-link"
               onClick={handleCopyShareLink}
             >
               Copy share link
             </button>
           </div>
           <div
-            className={`double-feature-copy-link-status${
-              copyLinkStatus === 'error' ? ' double-feature-copy-link-status--error' : ''
+            className={`planner-copy-link-status${
+              copyLinkStatus === 'error' ? ' planner-copy-link-status--error' : ''
             }`}
             aria-live="polite"
           >
@@ -478,14 +547,14 @@ export default function PlannerPage() {
             {copyLinkStatus === 'error' ? 'Could not copy link' : null}
           </div>
           {showUrlLoadedPrompt ? (
-            <div className="double-feature-url-prompt" role="status">
+            <div className="planner-url-prompt" role="status">
               <p>
                 Planner settings loaded from the URL ({formatPlannerSharedFiltersSummary(decoded)}).
                 Click &quot;Find plans&quot; to generate results.
               </p>
               <button
                 type="button"
-                className="double-feature-run-search"
+                className="planner-run-search"
                 onClick={findPlans}
                 disabled={isSearching || !effectiveDate}
               >
@@ -496,10 +565,10 @@ export default function PlannerPage() {
         </div>
       </div>
 
-      <div className="double-feature-results planner-results">
+      <div className="planner-results">
         {results.length > 0 && (
           <div className="planner-results-summary">
-            <h2 className="double-feature-results-heading">
+            <h2 className="planner-results-heading">
               {formatPlannerResultsHeading(results.length, filmCount)}
             </h2>
             <p className="planner-results-count">
@@ -522,7 +591,7 @@ export default function PlannerPage() {
             <div className="search-loading-text">Searching for movie plans...</div>
           </div>
         ) : hasSearchRun && results.length === 0 ? (
-          <div className="double-feature-empty-state planner-empty-state">
+          <div className="planner-empty-state">
             <p className="planner-empty-title">{getPlannerEmptyStateMessage()}</p>
             <p className="planner-empty-suggestion">{getPlannerEmptyStateSuggestion()}</p>
           </div>
@@ -534,11 +603,12 @@ export default function PlannerPage() {
           </div>
         ) : (
           <>
-            <div className="double-feature-list planner-result-list">
+            <div className="planner-result-list">
               {results.slice(0, visibleResultCount).map((schedule, index) => (
                 <PlannerResultCard
                   key={`${schedule.theater_id || schedule.theater}-${schedule.movies.map((m) => `${m.showtime_film_key}@${m.time}`).join('|')}-${schedule.startMin}-${index}`}
                   schedule={schedule}
+                  filterShareUrl={filterShareUrl}
                 />
               ))}
             </div>
@@ -560,6 +630,6 @@ export default function PlannerPage() {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 }

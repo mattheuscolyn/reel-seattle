@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * Planner legacy parity audit (PR 66A).
+ * Planner parity audit.
  *
- * Discovers stable scenarios from showtimes_current.json, compares Planner
- * against Double Feature / Marathon expectations, and optionally runs browser QA.
+ * Discovers stable scenarios from showtimes_current.json, validates Planner
+ * behavior and legacy route redirects, and optionally runs browser QA.
  *
  * Usage:
  *   node scripts/qa_planner_parity.mjs [--data-only] [baseUrl]
@@ -13,7 +13,6 @@
  * Uses ~2GB heap for scenario discovery on full showtimes_current.json.
  */
 import { chromium } from 'playwright';
-import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
@@ -22,7 +21,6 @@ import {
   pickBrowserEligibleScenario,
 } from './lib/plannerParityScenarios.mjs';
 import { buildPlannerPathFromDoubleFeature } from '../src/utils/plannerUrlState.js';
-import { findDoubleFeaturePairs } from '../src/utils/doubleFeatureEngine.js';
 import { buildPlannerSearchFilters } from '../src/utils/plannerDisplay.js';
 import { findSchedules } from '../src/utils/plannerEngine.js';
 
@@ -62,36 +60,38 @@ function printDataAudit({ scenarios, audit, rows }) {
     console.log(`${key}:`);
     console.log(`  date=${scenario.date} theater=${scenario.theater} filmCount=${scenario.filmCount}`);
     console.log(`  minResults=${scenario.minResults} topFilmCount=${scenario.topFilmCount}`);
-    if (scenario.doubleFeatureCount != null) {
-      console.log(`  doubleFeatureCount=${scenario.doubleFeatureCount} maxGapWithin59=${scenario.maxGapWithin59}`);
-    }
     if (scenario.source) console.log(`  source=${scenario.source}`);
     console.log('');
   }
 
-  const df = scenarios.doubleFeatureParity;
-  if (df) {
-    const dfPairs = findDoubleFeaturePairs(rows, {
-      selectedDate: df.csvDate,
-      selectedTheaters: [df.theater],
-    });
+  const twoFilm = scenarios.twoFilm;
+  if (twoFilm) {
     const planner = findSchedules({
       rows,
       filters: buildPlannerSearchFilters({
-        date: df.csvDate,
-        theaters: [df.theater],
+        date: twoFilm.csvDate,
+        theaters: [twoFilm.theater],
         filmCount: 2,
       }),
     });
-    pass(`Double Feature parity scenario: ${df.theater} on ${df.date}`);
-    note(`Planner 2-film schedules: ${planner.schedules.length}; DF pairs: ${dfPairs.length} (DF counts showtime combos; Planner dedupes lineups)`);
-    if (df.maxGapWithin59) pass('Planner 2-film gaps all <= 59 minutes');
+    pass(`2-film Planner scenario: ${twoFilm.theater} on ${twoFilm.date}`);
+    note(`Planner 2-film schedules: ${planner.schedules.length}`);
+
+    const gapsOk = planner.schedules.every((schedule) => {
+      const movies = schedule.movies ?? [];
+      for (let i = 1; i < movies.length; i += 1) {
+        const gap = movies[i].startMin - movies[i - 1].endMin;
+        if (gap > 59) return false;
+      }
+      return true;
+    });
+    if (gapsOk) pass('Planner 2-film gaps all <= 59 minutes');
     else fail('Planner 2-film gap exceeded 59 minutes');
 
     const migrationPath = buildPlannerPathFromDoubleFeature(
-      `date=${encodeURIComponent(df.csvDate)}&theaters=${encodeURIComponent(df.theater)}&start=12%3A00PM&movies=TestFilm&exclude=OtherFilm`,
+      `date=${encodeURIComponent(twoFilm.csvDate)}&theaters=${encodeURIComponent(twoFilm.theater)}&start=12%3A00PM&movies=TestFilm&exclude=OtherFilm`,
     );
-    if (migrationPath.includes('count=2')) pass('Migration helper sets count=2');
+    if (migrationPath.includes('count=2')) pass('Double Feature migration helper sets count=2');
     else fail('Migration helper missing count=2');
     if (migrationPath.includes('date=') && migrationPath.includes('theaters=')) {
       pass('Migration helper preserves date and theaters');
@@ -103,12 +103,14 @@ function printDataAudit({ scenarios, audit, rows }) {
     } else {
       fail('Migration helper incorrectly maps end param');
     }
+  } else {
+    fail('No 2-film Planner scenario found');
   }
 
   const nonAmc = scenarios.nonAmc;
   if (nonAmc) {
     pass(`Non-AMC Planner scenario: ${nonAmc.theater} (${nonAmc.source})`);
-    note('Marathon iframe is AMC-only; Planner covers SIFF/Beacon via showtimes_current.json');
+    note('Legacy Marathon retired; Planner max mode uses showtimes_current.json');
   } else {
     fail('No non-AMC Planner scenario found');
   }
@@ -118,16 +120,6 @@ function printDataAudit({ scenarios, audit, rows }) {
     pass(`Max-mode scenario: ${max.topFilmCount} films at ${max.theater}`);
   } else {
     fail('No max-mode scenario found');
-  }
-
-  try {
-    const marathon = JSON.parse(
-      readFileSync(join(__dirname, '../public/marathon/marathon_showtimes.json'), 'utf8'),
-    );
-    pass(`Marathon JSON loaded (${marathon.showtimes?.length ?? 0} AMC showtimes)`);
-    note(`Marathon defaults: ${marathon.default_theater} on ${marathon.default_date}`);
-  } catch (error) {
-    fail(`Marathon JSON unavailable: ${error.message}`);
   }
 }
 
@@ -150,7 +142,7 @@ async function clickFindPlans(page) {
     () => !document.querySelector('.planner-loading-state'),
     { timeout: 20000 },
   );
-  const promptBtn = page.locator('.double-feature-run-search');
+  const promptBtn = page.locator('.planner-run-search');
   if (await promptBtn.isVisible()) {
     await promptBtn.click();
   } else {
@@ -159,7 +151,7 @@ async function clickFindPlans(page) {
   await page.waitForFunction(
     () =>
       document.querySelector('.planner-result-list') ||
-      document.querySelector('.double-feature-empty-state') ||
+      document.querySelector('.planner-empty-state') ||
       document.querySelector('.planner-empty-state'),
     { timeout: 20000 },
   );
@@ -171,7 +163,7 @@ async function auditResultCard(page, minFilms = 2) {
   if ((await cards.count()) === 0) return false;
 
   const card = cards.first();
-  if (await card.locator('.double-feature-theater').count()) pass('Result card shows theater');
+  if (await card.locator('.planner-result-theater').count()) pass('Result card shows theater');
   if (await card.locator('.planner-timeline-track').count()) pass('Result timeline appears');
   const films = card.locator('.planner-film-row');
   if ((await films.count()) >= minFilms) pass(`Result card has >= ${minFilms} film rows`);
@@ -179,7 +171,7 @@ async function auditResultCard(page, minFilms = 2) {
 }
 
 async function runBrowserParity(page, scenarios) {
-  const twoFilm = pickBrowserEligibleScenario(scenarios.twoFilm ?? scenarios.doubleFeatureParity);
+  const twoFilm = pickBrowserEligibleScenario(scenarios.twoFilm);
   const maxMode = pickBrowserEligibleScenario(scenarios.maxMode ?? scenarios.marathonAmc);
   const pagination = pickBrowserEligibleScenario(scenarios.pagination);
 
@@ -238,37 +230,40 @@ async function runBrowserParity(page, scenarios) {
   }
 
   await page.goto(`${BASE}/planner?count=3&start=12%3A00PM&advanced=1`, { waitUntil: 'networkidle' });
-  if (await page.locator('.double-feature-url-prompt').isVisible()) {
+  if (await page.locator('.planner-url-prompt').isVisible()) {
     pass('Shared URL restore prompt appears');
-    await page.locator('.double-feature-run-search').click();
+    await page.locator('.planner-run-search').click();
     await page.waitForTimeout(1500);
     pass('Shared URL search runs');
   } else {
     fail('Shared URL restore prompt missing');
   }
 
-  await page.goto(`${BASE}/double-feature`, { waitUntil: 'networkidle' });
-  if (await page.locator('.legacy-tool-banner').isVisible()) pass('Double Feature legacy banner');
-  else fail('Double Feature legacy banner missing');
-  const dfLink = await page.locator('.legacy-tool-banner-link').getAttribute('href');
-  if (dfLink?.includes('count=2')) pass(`Double Feature Try Planner link: ${dfLink}`);
-  else fail(`Double Feature Try Planner link wrong: ${dfLink}`);
+  await page.goto(`${BASE}/planner?count=max&preferred=Sinners`, { waitUntil: 'networkidle' });
+  if (await page.locator('.planner-advanced-panel').isVisible()) {
+    pass('Advanced panel opens when preferred films are in URL');
+  } else {
+    fail('Advanced panel did not open for preferred films URL');
+  }
 
-  await page.locator('.search-button', { hasText: 'Find Double Features' }).click();
-  await page.waitForTimeout(800);
-  const dfResults = await page.locator('.double-feature-card').count();
-  const dfEmpty = await page.locator('.double-feature-empty-state').isVisible().catch(() => false);
-  if (dfResults > 0 || dfEmpty) pass('Double Feature search runs');
-  else fail('Double Feature search produced no UI state');
+  await page.goto(`${BASE}/double-feature?date=06%2F28%2F2026`, { waitUntil: 'networkidle' });
+  if (page.url().includes('/planner') && page.url().includes('count=2')) {
+    pass(`Double Feature redirects to Planner: ${page.url()}`);
+  } else {
+    fail(`Double Feature redirect failed: ${page.url()}`);
+  }
 
-  await page.goto(`${BASE}/marathon/`, { waitUntil: 'networkidle' });
-  if (await page.locator('.legacy-tool-banner').isVisible()) pass('Marathon legacy banner');
-  else fail('Marathon legacy banner missing');
-  const marathonHref = await page.locator('.legacy-tool-banner-link').getAttribute('href');
-  if (marathonHref?.includes('count=max')) pass(`Marathon Try Planner link: ${marathonHref}`);
-  else fail(`Marathon Try Planner link wrong: ${marathonHref}`);
-  await page.waitForSelector('iframe', { timeout: 15000 });
-  pass('Marathon iframe loads');
+  await page.goto(`${BASE}/marathon`, { waitUntil: 'networkidle' });
+  if (page.url().includes('/planner') && page.url().includes('count=max')) {
+    pass(`Marathon redirects to Planner: ${page.url()}`);
+  } else {
+    fail(`Marathon redirect failed: ${page.url()}`);
+  }
+  if (await page.locator('.planner-arrival-notice').isVisible()) {
+    pass('Marathon migration notice appears on Planner');
+  } else {
+    fail('Marathon migration notice missing on Planner');
+  }
 }
 
 async function main() {

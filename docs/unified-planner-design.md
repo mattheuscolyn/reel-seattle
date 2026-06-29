@@ -55,12 +55,14 @@ Users should not need to choose between two overlapping tools or understand AMC-
 **Strengths:** Multi-source, shareable, integrated with app shell.  
 **Limitations:** Pair-only, fixed max gap, no finish-by, no 3+ film plans, no timeline bar.
 
-### Marathon (`/marathon`)
+### Marathon (`/marathon`) — **retired (PR 66B-2)**
 
-| Aspect | Current behavior |
-|--------|------------------|
-| Architecture | **React shell + standalone iframe** (`MarathonPage.jsx` → `public/marathon/index.html` + `marathon.js`) |
-| Data | `public/marathon/marathon_showtimes.json` (AMC subset exported from `showtimes_current.json`) |
+`/marathon` redirects to `/planner?count=max`. Static stub: `public/marathon/index.html`. Former behavior (historical):
+
+| Aspect | Former behavior |
+|--------|-----------------|
+| Architecture | React shell + standalone iframe (`MarathonPage.jsx` → `public/marathon/index.html` + `marathon.js`) |
+| Data | `marathon_showtimes.json` (AMC subset); **Planner now uses `showtimes_current.json`** |
 | Sources | **AMC only** |
 | Film count | **2+** — DFS chain search; min-movies selector (2 … max) |
 | Gap rule | No explicit max gap; any non-overlapping chain with unique films |
@@ -100,15 +102,9 @@ The unified planner MUST use public/data/showtimes_current.json through the exis
 
 Row shape for the engine: legacy adapter rows from `rowsFromShowtimesCurrent()` (see `src/showtimesAdapter.js`), optionally augmented with a thin `plannerRowAdapter` if the engine prefers explicit minute fields at parse time.
 
-### Legacy marathon artifact
+### Legacy marathon artifact — removed (PR 66B-2)
 
-```text
-marathon_showtimes.json should remain only as a temporary legacy artifact while the iframe Marathon page exists.
-```
-
-- Continue generating it via `find_marathons.py` / `daily_processor.py` until PR 66.
-- The unified React planner **must not** fetch or depend on `marathon_showtimes.json`.
-- After iframe removal, stop emitting the file (or gate behind a legacy flag) in a follow-up pipeline PR.
+`marathon_showtimes.json` and `find_marathons.py` export have been removed. The unified React planner reads `showtimes_current.json` only.
 
 ### No new planner JSON artifact (v1)
 
@@ -281,7 +277,7 @@ Display formatting (labels, gap badges, duration strings) belongs in **`plannerD
 | Excluded movies | Yes | **Advanced** | Yes | Maps to `excludeFilms` |
 | Preferred first movie | Yes | **Advanced** | Yes | `firstFilm` anchor |
 | Preferred last movie | Yes | **Advanced** | Yes | `lastFilm` anchor |
-| Preferred movies (≥1) | Yes | **Advanced** | Yes | Marathon `preferredFilms`; affects sort when multiple listed |
+| Preferred movies (≥1) | Yes | **Advanced** | Yes — **exposed in UI (Phase C)** | Marathon `preferredFilms`; URL param `preferred`; affects sort when multiple listed |
 | Sort mode | Logic | **Advanced** | Yes | See §9 |
 | Full preferred order | Yes | **Deferred** | No | e.g. A → B → C constraint satisfaction; v2 |
 | Format filters | Partial (`format_tags`) | **Deferred** | No | Sparse; add when data quality improves |
@@ -412,6 +408,7 @@ Omit params when equal to defaults (same pattern as `encodeDoubleFeatureFilters`
 ### Behavior
 
 - **Copy share link** copies current filter URL (like Double Feature).
+- **Share lineup** (PR 70) on each result card shares a human-readable schedule summary plus the current filter URL via Web Share or clipboard. **Do not** encode individual lineups in the URL.
 - **Do not** encode result schedules in the URL.
 - **v1:** Shared links restore controls and show **Run search** prompt — **do not auto-run** (consistent with Double Feature unless explicitly changed later).
 - Reuse `intersectWithOptions` pattern to prune stale date/theater/film params on load.
@@ -532,22 +529,70 @@ See [planner-parity-qa.md](./planner-parity-qa.md) for **Option 2** recommendati
 
 Acceptance criteria:
 
-- [ ] Redirect `/double-feature` → `buildPlannerPathFromDoubleFeature()` mapped `/planner?count=2`
-- [ ] Nav: Showtimes + Planner only (legacy routes direct-access)
-- [ ] Keep `/marathon` iframe + banner
-- [ ] **Do not** delete `public/marathon/`, engines, or stop JSON generation
+- [x] Redirect `/double-feature` → `buildPlannerPathFromDoubleFeature()` mapped `/planner?count=2`
+- [x] Nav: Showtimes + Planner only (legacy routes direct-access)
+- [x] Keep `/marathon` iframe + banner (superseded by 66B-1 redirect)
+- [ ] **Do not** delete `public/marathon/`, engines, or stop JSON generation (deferred to 66B-2)
 
-### PR 66B (future) — Remove obsolete standalone marathon assets
+### PR 66B-1 — Redirect Marathon into Planner
 
-**Scope:** Delete iframe stack after preferred-film parity or explicit sign-off.
+**Scope:** Redirect `/marathon` to Planner max mode; migrate localStorage filters; keep legacy files.
 
 Acceptance criteria:
 
-- [ ] Remove `public/marathon/` (or reduce to redirect stub if needed for GH Pages)
-- [ ] Remove `MarathonPage` iframe usage; `/marathon` redirects to `/planner`
-- [ ] Stop `marathon_showtimes.json` emit in `daily_processor.py` (or document deferral)
-- [ ] Remove `doubleFeatureEngine.js` / `DoubleFeaturePage` if fully redirected
-- [ ] Full verification suite + manual parity sign-off
+- [x] `/marathon` redirects to `/planner?count=max` via `MarathonRedirect`
+- [x] Migrate `marathon-planner-filters` localStorage to `preferred` / `exclude` params
+- [x] Planner arrival notice when `from=marathon`
+- [x] `public/marathon/index.html` static redirect stub (GH Pages `/marathon/` path)
+- [ ] **Do not** delete `marathon.js`, `marathon_showtimes.json`, or pipeline export
+
+### PR 66B-2 — Remove obsolete standalone marathon assets
+
+**Scope:** Delete iframe stack and pipeline export; keep redirect stub.
+
+Acceptance criteria:
+
+- [x] Remove `public/marathon/marathon.js`, `marathon_showtimes.json`, dead React pages
+- [x] Stop `marathon_showtimes.json` emit in `daily_processor.py`
+- [x] Remove Marathon JSON from dist artifact checks
+- [x] Keep `public/marathon/index.html` redirect stub for GitHub Pages
+- [x] Remove `doubleFeatureEngine.js` / `DoubleFeaturePage` (PR 67A)
+
+### PR 67A — Remove legacy Double Feature UI/engine
+
+**Scope:** Delete orphaned Double Feature page, card, engine, and legacy-only CSS. Keep redirect and migration helpers.
+
+Acceptance criteria:
+
+- [x] Delete `DoubleFeaturePage.jsx`, `DoubleFeatureResultCard.jsx`, `LegacyToolBanner.jsx`, `doubleFeatureEngine.js`
+- [x] Keep `/double-feature` → `DoubleFeatureRedirect` + `buildPlannerPathFromDoubleFeature()`
+- [x] Update parity QA to treat Planner as source of truth (no legacy engine comparison)
+- [x] Deferred utility deletion to PR 67B (completed)
+
+### PR 67B — Decouple and delete legacy Double Feature utility modules
+
+**Scope:** Move redirect migration and display formatters into Planner-owned modules; delete `doubleFeatureUrlState.js` and `doubleFeatureDisplay.js`.
+
+Acceptance criteria:
+
+- [x] `decodeDoubleFeatureFilters` in `legacyDoubleFeatureUrlMigration.js`
+- [x] `normalizePlannerTime` in `plannerUrlState.js`
+- [x] Display formatters in `plannerDisplay.js`
+- [x] `intersectWithOptions` from `showtimesUrlState.js` in PlannerPage
+- [x] Delete `doubleFeatureUrlState.js` and `doubleFeatureDisplay.js`
+- [x] Migrate tests into `plannerUrlState.test.mjs` and `plannerDisplay.test.mjs`
+- [x] CSS rename `.double-feature-*` → `.planner-*` (PR 68)
+
+### PR 68 — Rename Planner CSS and neutral terminology
+
+**Scope:** Cosmetic rename of Planner UI classes and gap constant. No behavior changes.
+
+Acceptance criteria:
+
+- [x] Planner JSX/CSS use `.planner-*` class names only
+- [x] QA scripts updated to new selectors
+- [x] `TWO_FILM_EXCLUSIVE_GAP_CEILING_MINUTES` replaces `DEFAULT_DOUBLE_FEATURE_MAX_GAP_MINUTES`
+- [x] `/double-feature` redirect/migration naming preserved
 
 ### Independent: dist CSV cleanup
 

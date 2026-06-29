@@ -50,3 +50,27 @@ export async function copyTextToClipboard(text) {
     return { ok: false };
   }
 }
+
+/**
+ * Share text via the Web Share API when available, otherwise copy to clipboard.
+ *
+ * @param {{ title?: string, text: string }} payload
+ * @returns {Promise<{ ok: boolean, method: 'share' | 'clipboard' | 'cancelled' | 'none' }>}
+ */
+export async function shareTextWithFallback({ title = '', text }) {
+  if (!text) return { ok: false, method: 'none' };
+
+  if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+    try {
+      await navigator.share({ title, text });
+      return { ok: true, method: 'share' };
+    } catch (error) {
+      if (error?.name === 'AbortError') {
+        return { ok: false, method: 'cancelled' };
+      }
+    }
+  }
+
+  const { ok } = await copyTextToClipboard(text);
+  return { ok, method: ok ? 'clipboard' : 'none' };
+}

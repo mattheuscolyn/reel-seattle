@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  DEFAULT_DOUBLE_FEATURE_MAX_GAP_MINUTES,
+  TWO_FILM_EXCLUSIVE_GAP_CEILING_MINUTES,
   filmMatchesToken,
   findSchedules,
   normalizePlannerFilters,
@@ -362,7 +362,7 @@ test('preserves poster and format metadata in movie output', () => {
   assert.equal(first.premiumFormat, 'IMAX,3D');
 });
 
-test('generalizes double-feature style 2-film schedule with max gap', () => {
+test('generalizes 2-film schedule with default max gap', () => {
   const rows = [
     row({ film: 'Alpha', time: '5:00PM', runtime: '90' }),
     row({ film: 'Beta', time: '7:00PM', runtime: '100' }),
@@ -371,7 +371,7 @@ test('generalizes double-feature style 2-film schedule with max gap', () => {
     rows,
     filters: baseFilters({
       filmCount: 2,
-      maxGapMin: DEFAULT_DOUBLE_FEATURE_MAX_GAP_MINUTES - 1,
+      maxGapMin: TWO_FILM_EXCLUSIVE_GAP_CEILING_MINUTES - 1,
     }),
   });
   assert.equal(result.schedules.length, 1);
@@ -397,6 +397,43 @@ test('preferred films require at least one match', () => {
     filters: baseFilters({ filmCount: 2, preferredFilms: ['Zeta'] }),
   });
   assert.equal(result.schedules.length, 0);
+});
+
+test('preferred films accept schedule containing one of several preferred titles', () => {
+  const rows = [
+    row({ film: 'Alpha', time: '12:00PM', runtime: '60' }),
+    row({ film: 'Beta', time: '1:30PM', runtime: '60' }),
+    row({ film: 'Gamma', time: '3:00PM', runtime: '60' }),
+  ];
+  const result = findSchedules({
+    rows,
+    filters: baseFilters({ filmCount: 2, preferredFilms: ['Beta', 'Zeta'] }),
+  });
+  assert.ok(result.schedules.length > 0);
+  assert.ok(
+    result.schedules.every((schedule) =>
+      schedule.films.some((film) => film === 'Beta' || film === 'Zeta'),
+    ),
+  );
+});
+
+test('include films require every listed movie unlike preferred films', () => {
+  const rows = [
+    row({ film: 'Alpha', time: '12:00PM', runtime: '60' }),
+    row({ film: 'Beta', time: '1:30PM', runtime: '60' }),
+    row({ film: 'Gamma', time: '3:00PM', runtime: '60' }),
+  ];
+  const preferredOnly = findSchedules({
+    rows,
+    filters: baseFilters({ filmCount: 2, preferredFilms: ['Alpha', 'Zeta'] }),
+  });
+  assert.ok(preferredOnly.schedules.length > 0);
+
+  const includeBoth = findSchedules({
+    rows,
+    filters: baseFilters({ filmCount: 2, includeFilms: ['Alpha', 'Zeta'] }),
+  });
+  assert.equal(includeBoth.schedules.length, 0);
 });
 
 test('max mode returns longest achievable chain count only', () => {

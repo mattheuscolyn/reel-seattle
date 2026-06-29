@@ -2,6 +2,9 @@ import { parseIsoDateLocal } from './dateUtils.js';
 import { formatCountLabel } from './showtimesDisplay.js';
 import { daysBackFromArtifact, parseRecentlyAddedEntries } from './recentlyAddedAdapter.js';
 
+/** Default number of films shown in the Showtimes page preview. */
+export const RECENTLY_ADDED_PREVIEW_LIMIT = 4;
+
 function pairKey(filmKey, theaterId) {
   return `${filmKey}\u0000${theaterId}`;
 }
@@ -154,6 +157,36 @@ export function formatRecentlyAddedFilmMeta(film) {
 export function formatRecentlyAddedSectionCount(count) {
   if (!Number.isFinite(count) || count <= 0) return null;
   return count === 1 ? '1 film' : `${count} films`;
+}
+
+/**
+ * @param {number} count
+ */
+export function formatRecentlyAddedTotalLabel(count) {
+  if (!Number.isFinite(count) || count <= 0) return null;
+  return count === 1 ? '1 recently added' : `${count} recently added`;
+}
+
+/**
+ * Return the first N films without changing sort order.
+ *
+ * @param {Array<unknown>} films
+ * @param {number | null | undefined} limit
+ */
+export function sliceRecentlyAddedFilms(films, limit) {
+  if (!Array.isArray(films) || films.length === 0) return [];
+  if (limit == null || !Number.isFinite(limit) || limit <= 0 || films.length <= limit) {
+    return films;
+  }
+  return films.slice(0, limit);
+}
+
+/**
+ * @param {number} total
+ */
+export function formatRecentlyAddedViewAllLabel(total) {
+  if (!Number.isFinite(total) || total <= 0) return null;
+  return total === 1 ? 'View recently added' : `View all ${total} recently added`;
 }
 
 /**

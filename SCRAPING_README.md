@@ -12,7 +12,6 @@ This system automatically scrapes showtimes from indie theaters and AMC theaters
 - `reel_seattle/adapters/amc.py` - AMC API source adapter (fetch, allowlist, legacy CSV conversion)
 - `daily_processor.py` - Processes and consolidates daily data
 - `run_daily_scraping.py` - Master script that runs everything
-- `scripts/marathon/find_marathons.py` - Exports AMC showtimes into `public/marathon/marathon_showtimes.json` for the marathon planner (see `scripts/marathon/README.md`; also runs at end of `daily_processor.py`). **Legacy:** the planned [unified React planner](docs/unified-planner-design.md) will read `showtimes_current.json` directly; this export remains until the iframe is removed (PR 66).
 
 ### Data Files (created automatically)
 - `public/showtimes.csv` - Latest AMC showtimes
@@ -83,7 +82,7 @@ pytest
 
 | Job | Checks |
 |-----|--------|
-| Python tests | `pytest` (adapters, processor, schemas, marathon export) |
+| Python tests | `pytest` (adapters, processor, schemas) |
 | Frontend | `npm run test:frontend`, `npm run build`, `node scripts/check_dist_artifacts.mjs` |
 
 **Deploy** (`.github/workflows/deploy.yml`) builds the site and publishes `dist/` to GitHub Pages. It runs the same frontend build and artifact guard before deploy.
@@ -92,7 +91,7 @@ The artifact guard verifies **`dist/`** contains:
 
 - `404.html` (SPA deep-link fallback)
 - `data/showtimes_current.json`, `data/pipeline_report.json`, `data/theaters.json`
-- `marathon/marathon_showtimes.json`
+- `marathon/index.html` (static redirect stub for legacy `/marathon/` bookmarks)
 
 and forbids shipping **`dist/data/showtimes_history.csv`** or **`dist/data/daily_logs/`**. Total **`dist/data/`** size must stay under 5 MB.
 
@@ -211,8 +210,6 @@ Venues not listed here (e.g. Northwest Film Forum, Grand Illusion) are intention
 ### showtimes_history.csv
 
 **Canonical path:** `data/history/showtimes_history.csv` — read and written by `daily_processor.py`.
-
-**Marathon export (PR 19):** `scripts/marathon/find_marathons.py` reads `public/data/showtimes_current.json`, not history CSV.
 
 **Deploy:** The full history CSV is **not** copied into `dist/` or served to browsers. Canonical history remains in `data/history/showtimes_history.csv` only. The obsolete `public/data/showtimes_history.csv` compatibility copy has been removed and is listed in `.gitignore` so it cannot be accidentally re-committed.
 

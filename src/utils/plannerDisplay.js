@@ -1,14 +1,48 @@
-import {
-  formatGapMinutes,
-  formatRuntimeMinutes,
-  formatScheduleDuration,
-  formatTheaterName,
-} from './doubleFeatureDisplay.js';
-import { DEFAULT_DOUBLE_FEATURE_MAX_GAP_MINUTES } from './plannerEngine.js';
+import { TWO_FILM_EXCLUSIVE_GAP_CEILING_MINUTES } from './plannerEngine.js';
 import { formatMinutesToTime, parseTimeToMinutes } from './timeUtils.js';
 
-/** Default max gap for 2-film mode (legacy Double Feature uses gap < 60). */
-export const DEFAULT_TWO_FILM_MAX_GAP_MINUTES = DEFAULT_DOUBLE_FEATURE_MAX_GAP_MINUTES - 1;
+/** Default max gap for 2-film mode (gap must be below exclusive ceiling). */
+export const DEFAULT_TWO_FILM_MAX_GAP_MINUTES = TWO_FILM_EXCLUSIVE_GAP_CEILING_MINUTES - 1;
+
+/**
+ * @param {number | null | undefined} totalMinutes
+ * @returns {string}
+ */
+export function formatScheduleDuration(totalMinutes) {
+  if (totalMinutes == null || !Number.isFinite(totalMinutes) || totalMinutes < 0) {
+    return 'Unknown';
+  }
+  if (totalMinutes < 60) {
+    return `${totalMinutes}m`;
+  }
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  if (minutes === 0) {
+    return `${hours}h`;
+  }
+  return `${hours}h ${minutes}m`;
+}
+
+export function formatGapMinutes(gapMinutes) {
+  if (gapMinutes == null || !Number.isFinite(gapMinutes)) {
+    return 'Unknown';
+  }
+  return `${gapMinutes} min`;
+}
+
+export function formatRuntimeMinutes(runtime) {
+  if (runtime == null || !Number.isFinite(runtime)) {
+    return 'Unknown';
+  }
+  return `${runtime} min`;
+}
+
+export function formatTheaterName(theater) {
+  if (!theater || (typeof theater === 'string' && !theater.trim())) {
+    return 'Unknown';
+  }
+  return String(theater);
+}
 
 /** Number of planner results shown before "Show more". */
 export const PLANNER_RESULTS_PAGE_SIZE = 20;
@@ -128,6 +162,7 @@ export function parsePlannerTimeInput(value) {
  * @param {boolean} [options.maxGapExplicit]
  * @param {string[]} [options.includeFilms]
  * @param {string[]} [options.excludeFilms]
+ * @param {string[]} [options.preferredFilms]
  * @param {string} [options.firstFilm]
  * @param {string} [options.lastFilm]
  */
@@ -144,6 +179,7 @@ export function buildPlannerSearchFilters({
   maxGapExplicit = false,
   includeFilms = [],
   excludeFilms = [],
+  preferredFilms = [],
   firstFilm = '',
   lastFilm = '',
 }) {
@@ -182,6 +218,7 @@ export function buildPlannerSearchFilters({
     maxGapMin: effectiveMaxGap,
     includeFilms: Array.isArray(includeFilms) ? includeFilms : [],
     excludeFilms: Array.isArray(excludeFilms) ? excludeFilms : [],
+    preferredFilms: Array.isArray(preferredFilms) ? preferredFilms : [],
     firstFilm: firstFilm ? String(firstFilm).trim() : null,
     lastFilm: lastFilm ? String(lastFilm).trim() : null,
   };
@@ -197,7 +234,7 @@ export function buildPlannerSearchFilters({
  */
 export function getMaxGapHelperText(filmCount) {
   if (filmCount === 2) {
-    return `Leave blank to use the double-feature default (${DEFAULT_TWO_FILM_MAX_GAP_MINUTES} min). Enter a value to override.`;
+    return `Leave blank to use the 2-film default (${DEFAULT_TWO_FILM_MAX_GAP_MINUTES} min). Enter a value to override.`;
   }
   return 'Leave blank for no maximum gap between films.';
 }
@@ -263,6 +300,9 @@ export function formatPlannerSharedFiltersSummary(filters) {
   if (filters.finishBy) parts.push(`finish by ${filters.finishBy}`);
   if (filters.includeFilms?.length) parts.push(`${filters.includeFilms.length} required film(s)`);
   if (filters.excludeFilms?.length) parts.push(`${filters.excludeFilms.length} excluded film(s)`);
+  if (filters.preferredFilms?.length) {
+    parts.push(`${filters.preferredFilms.length} preferred film(s)`);
+  }
   if (filters.firstFilm) parts.push(`first: ${filters.firstFilm}`);
   if (filters.lastFilm) parts.push(`last: ${filters.lastFilm}`);
   if (filters.sort) parts.push(`sort: ${formatPlannerSortLabel(filters.sort)}`);
@@ -427,5 +467,5 @@ export function getPlannerEmptyStateMessage() {
 }
 
 export function getPlannerEmptyStateSuggestion() {
-  return 'Try widening your time window, clearing required movies, or choosing fewer movies.';
+  return 'Try widening your time window, clearing required or preferred movies, or choosing fewer movies.';
 }

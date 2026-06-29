@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import CollapsibleMovieCard from '../components/CollapsibleMovieCard.jsx';
+import DataStatePanel from '../components/DataStatePanel.jsx';
 import DropdownMultiSelect from '../components/DropdownMultiSelect.jsx';
 import CurrentWindowSummary from '../components/CurrentWindowSummary.jsx';
 import PipelineStatus from '../components/PipelineStatus.jsx';
 import RecentlyAddedSection from '../components/RecentlyAddedSection.jsx';
 import SortDropdown from '../components/SortDropdown.jsx';
 import { useShowtimesData } from '../hooks/useShowtimesData.js';
+import { RECENTLY_ADDED_PREVIEW_LIMIT } from '../utils/recentlyAddedDisplay.js';
 import { copyTextToClipboard, getShareUrlFromLocation } from '../utils/shareLinkUtils.js';
 import {
   buildShowtimesPageResults,
@@ -73,25 +75,21 @@ export default function ShowtimesPage() {
 
   useEffect(() => {
     function setStickyHeaderTop() {
-      const mainHeader = document.querySelector('.main-header');
+      const shell = document.querySelector('.app-shell-header');
       const stickyControls = document.querySelector('.sticky-controls');
-      if (mainHeader && stickyControls) {
-        const offset = mainHeader.offsetHeight + stickyControls.offsetHeight - 8;
+      if (shell && stickyControls) {
+        const shellHeight = shell.offsetHeight;
+        document.documentElement.style.setProperty('--app-shell-offset', `${shellHeight}px`);
+        const offset = shellHeight + stickyControls.offsetHeight - 8;
         document.documentElement.style.setProperty('--sticky-header-top', `${offset}px`);
         document.documentElement.style.setProperty('--sticky-date-header-top', `${offset + 60}px`);
-
         document.documentElement.style.setProperty('--sticky-theater-header-top', `${offset + 92}px`);
-
       }
-
     }
 
     setStickyHeaderTop();
-
     window.addEventListener('resize', setStickyHeaderTop);
-
     return () => window.removeEventListener('resize', setStickyHeaderTop);
-
   }, []);
 
   useEffect(() => {
@@ -107,65 +105,45 @@ export default function ShowtimesPage() {
   };
 
   return (
-
-    <>
-
-      <h1 className="main-header">Showtimes</h1>
+    <div className="page-content">
+      <header className="page-hero">
+        <h1 className="main-header page-title">Showtimes</h1>
+        <p className="page-subtitle">
+          Browse current Seattle-area showtimes from AMC, SIFF, and The Beacon.
+        </p>
+      </header>
 
       <CurrentWindowSummary />
 
       <PipelineStatus />
 
-      <RecentlyAddedSection />
+      <RecentlyAddedSection limit={RECENTLY_ADDED_PREVIEW_LIMIT} showViewAllLink />
 
       <div className="showtimes-search">
-
         <input
-
           type="search"
-
           className="filter-input showtimes-search-input"
-
           placeholder="Search movies…"
-
           value={searchText}
-
           onChange={(e) => updateUrlFilters({ searchText: e.target.value }, { replace: true })}
-
           aria-label="Search movies"
-
         />
-
       </div>
 
       <div className="sticky-controls">
-
         <div className="filters">
-
           <DropdownMultiSelect
-
             label="Theater"
-
             options={theaters}
-
             selected={selectedTheaters}
-
             setSelected={(value) => updateUrlFilters({ selectedTheaters: value }, { replace: true })}
-
           />
-
           <DropdownMultiSelect
-
             label="Date"
-
             options={dates}
-
             selected={selectedDates}
-
             setSelected={(value) => updateUrlFilters({ selectedDates: value }, { replace: true })}
-
           />
-
         </div>
 
         <div className="sort-row">
@@ -176,11 +154,7 @@ export default function ShowtimesPage() {
         </div>
 
         <div className="showtimes-share-row">
-          <button
-            type="button"
-            className="showtimes-copy-view"
-            onClick={handleCopyCurrentView}
-          >
+          <button type="button" className="showtimes-copy-view" onClick={handleCopyCurrentView}>
             Copy current view
           </button>
           <div
@@ -196,50 +170,39 @@ export default function ShowtimesPage() {
       </div>
 
       {loading ? (
-
-        <div>Loading showtimes...</div>
-
+        <DataStatePanel
+          variant="loading"
+          title="Loading showtimes"
+          message="Fetching the latest Seattle-area showtime data…"
+        />
       ) : error ? (
-
-        <div>{error}</div>
-
+        <DataStatePanel variant="error" title="Could not load showtimes" message={error} />
       ) : rows.length === 0 ? (
-
-        <div>No showtimes are available right now.</div>
-
+        <DataStatePanel
+          variant="empty"
+          title="No showtimes available"
+          message="Check back after the next data refresh, or try again later."
+        />
       ) : (
-
         <div className="movie-list">
-
-          {sortedMovies.length === 0 && (
-
-            <div>No movies match your current filters.</div>
-
-          )}
-
-          {sortedMovies.map((movie, idx) => (
-
-            <CollapsibleMovieCard
-
-              key={movie.film + idx}
-
-              movie={movie}
-
-              selectedDates={selectedDates}
-
-              selectedTheaters={selectedTheaters}
-
+          {sortedMovies.length === 0 ? (
+            <DataStatePanel
+              variant="empty"
+              title="No movies match your filters"
+              message="Try clearing search text or widening your theater and date filters."
             />
-
+          ) : null}
+          {sortedMovies.map((movie, idx) => (
+            <CollapsibleMovieCard
+              key={movie.film + idx}
+              movie={movie}
+              selectedDates={selectedDates}
+              selectedTheaters={selectedTheaters}
+            />
           ))}
-
         </div>
-
       )}
-
-    </>
-
+    </div>
   );
-
 }
 

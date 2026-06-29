@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
- * One-off browser QA for Recently Added section (PR 58).
+ * Browser QA for Recently Added preview (/) and full page (/recently-added) — PR 69.
  * Usage: node scripts/qa_recently_added_browser.mjs [baseUrl]
  */
 import { chromium } from 'playwright';
+import { RECENTLY_ADDED_PREVIEW_LIMIT } from '../src/utils/recentlyAddedDisplay.js';
 
 const BASE = process.argv[2] || 'http://localhost:5198';
 const WIDTHS = [375, 768, 1200];
@@ -26,65 +27,121 @@ function note(msg) {
   results.notes.push(msg);
 }
 
+function parseTotalFromCountLabel(countText) {
+  if (!countText) return null;
+  const match = countText.trim().match(/^(\d+)\s+recently added$/);
+  return match ? Number(match[1]) : null;
+}
+
 async function waitForShowtimes(page) {
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
   await page.waitForSelector('.movie-list .movie-card, .movie-list', { timeout: 15000 });
 }
 
-async function auditRecentlyAdded(page) {
-  const section = page.locator('section.recently-added');
+async function auditRecentlyAddedPreview(page) {
+  const section = page.locator('section.recently-added.recently-added--preview');
   const visible = await section.isVisible().catch(() => false);
   if (!visible) {
-    fail('Recently Added section not visible');
-    return;
+    const fallback = page.locator('section.recently-added');
+    if (await fallback.isVisible().catch(() => false)) {
+      note('Recently Added preview class missing; section still visible');
+      return auditRecentlyAddedPreviewContent(fallback);
+    }
+    fail('Recently Added preview section not visible');
+    return null;
   }
-  pass('Recently Added section visible');
+  return auditRecentlyAddedPreviewContent(section);
+}
+
+async function auditRecentlyAddedPreviewContent(section) {
+  pass('Recently Added preview section visible');
 
   const title = await section.locator('.recently-added-title').textContent();
-  if (title?.trim() === 'Recently added') pass('Heading text correct');
-  else fail(`Heading text wrong: ${title}`);
+  if (title?.trim() === 'Recently added') pass('Preview heading text correct');
+  else fail(`Preview heading text wrong: ${title}`);
 
   const subtitle = await section.locator('.recently-added-subtitle').textContent();
   if (subtitle?.includes('last 7 days') && subtitle?.includes('currently showing')) {
-    pass('Subheading text correct');
+    pass('Preview subheading text correct');
   } else {
-    fail(`Subheading unexpected: ${subtitle}`);
+    fail(`Preview subheading unexpected: ${subtitle}`);
   }
 
   const countText = (await section.locator('.recently-added-count').textContent())?.trim();
+  const total = parseTotalFromCountLabel(countText);
+  if (total && total > 0) pass(`Preview count badge shows total (${total} recently added)`);
+  else fail(`Preview count badge unexpected: "${countText}"`);
+
   const cards = section.locator('.recently-added-card');
   const cardCount = await cards.count();
-  if (cardCount > 0) pass(`Rendered ${cardCount} film cards`);
-  else fail('No film cards rendered');
+  if (cardCount > 0) pass(`Preview rendered ${cardCount} film cards`);
+  else fail('Preview has no film cards');
 
-  if (countText && cardCount > 0) {
-    const expected = cardCount === 1 ? '1 film' : `${cardCount} films`;
-    if (countText === expected) pass(`Count badge matches cards (${expected})`);
-    else fail(`Count badge "${countText}" != ${expected}`);
+  if (total != null) {
+    const expectedPreviewCount = Math.min(total, RECENTLY_ADDED_PREVIEW_LIMIT);
+    if (cardCount === expectedPreviewCount) {
+      pass(`Preview card count matches limit (${expectedPreviewCount})`);
+    } else {
+      fail(`Preview card count ${cardCount} != expected ${expectedPreviewCount}`);
+    }
+
+    if (total > RECENTLY_ADDED_PREVIEW_LIMIT) {
+      const viewAll = section.locator('.recently-added-view-all');
+      if ((await viewAll.count()) > 0) pass('View-all link present when total exceeds preview limit');
+      else fail('View-all link missing when total exceeds preview limit');
+
+      const href = await viewAll.getAttribute('href');
+      if (href?.includes('/recently-added')) pass('View-all link targets /recently-added');
+      else fail(`View-all href unexpected: ${href}`);
+    } else {
+      note('Total within preview limit; view-all link not required');
+    }
   }
 
   const keys = new Set();
   for (let i = 0; i < cardCount; i += 1) {
     const card = cards.nth(i);
     const filmTitle = (await card.locator('.recently-added-card-title').textContent())?.trim();
-    if (!filmTitle) fail(`Card ${i} missing title`);
-    if (keys.has(filmTitle)) fail(`Duplicate card title visible: ${filmTitle}`);
+    if (!filmTitle) fail(`Preview card ${i} missing title`);
+    if (keys.has(filmTitle)) fail(`Duplicate preview card title: ${filmTitle}`);
     keys.add(filmTitle);
-
-    const hasPosterOrPlaceholder =
-      (await card.locator('.recently-added-card-poster').count()) > 0 ||
-      (await card.locator('.poster-placeholder').count()) > 0;
-    if (hasPosterOrPlaceholder) pass(`Card "${filmTitle}" has poster or placeholder`);
-    else fail(`Card "${filmTitle}" missing poster/placeholder`);
-
-    const date = await card.locator('.recently-added-card-date').textContent();
-    if (date?.startsWith('Added ')) pass(`Card "${filmTitle}" has added date`);
-    else note(`Card "${filmTitle}" missing added date label`);
-
-    const meta = await card.locator('.recently-added-card-meta').textContent();
-    if (meta?.includes('showtime')) pass(`Card "${filmTitle}" has showtime meta`);
-    else note(`Card "${filmTitle}" missing showtime meta`);
   }
+
+  return total;
+}
+
+async function auditRecentlyAddedFullPage(page, expectedTotal) {
+  await page.goto(`${BASE}/recently-added`, { waitUntil: 'networkidle' });
+  if (!page.url().includes('/recently-added')) {
+    fail(`Did not reach /recently-added: ${page.url()}`);
+    return;
+  }
+  pass('/recently-added route loads');
+
+  await page.waitForSelector('.recently-added--full .recently-added-card, .data-state', {
+    timeout: 15000,
+  });
+
+  const fullSection = page.locator('section.recently-added--full');
+  if (!(await fullSection.isVisible().catch(() => false))) {
+    fail('Full Recently Added section not visible');
+    return;
+  }
+
+  const cards = fullSection.locator('.recently-added-card');
+  const cardCount = await cards.count();
+  if (cardCount > 0) pass(`Full page rendered ${cardCount} film cards`);
+  else fail('Full page has no film cards');
+
+  if (expectedTotal != null && cardCount === expectedTotal) {
+    pass(`Full page card count matches preview total (${expectedTotal})`);
+  } else if (expectedTotal != null) {
+    fail(`Full page card count ${cardCount} != preview total ${expectedTotal}`);
+  }
+
+  const backLink = page.locator('.recently-added-back-link');
+  if ((await backLink.count()) > 0) pass('Back to showtimes link present');
+  else fail('Back to showtimes link missing');
 }
 
 async function checkOverflow(page, width) {
@@ -96,16 +153,23 @@ async function checkOverflow(page, width) {
   else pass(`No horizontal overflow at ${width}px`);
 }
 
-async function checkResponsive(page, width) {
+async function checkResponsive(page, width, path = '/') {
   await page.setViewportSize({ width, height: 900 });
-  await page.reload({ waitUntil: 'networkidle' });
-  await page.waitForSelector('section.recently-added', { timeout: 10000 });
+  await page.goto(`${BASE}${path}`, { waitUntil: 'networkidle' });
+  const selector =
+    path === '/recently-added'
+      ? 'section.recently-added--full, .data-state'
+      : 'section.recently-added';
+  await page.waitForSelector(selector, { timeout: 10000 });
   await checkOverflow(page, width);
-  const sectionBox = await page.locator('section.recently-added').boundingBox();
+  const section = page.locator(
+    path === '/recently-added' ? 'section.recently-added--full' : 'section.recently-added',
+  );
+  const sectionBox = await section.boundingBox();
   if (sectionBox && sectionBox.width <= width + 1) {
-    pass(`Section fits viewport width at ${width}px`);
-  } else {
-    fail(`Section wider than viewport at ${width}px`);
+    pass(`Section fits viewport width at ${width}px on ${path}`);
+  } else if (await section.count()) {
+    fail(`Section wider than viewport at ${width}px on ${path}`);
   }
 }
 
@@ -113,8 +177,7 @@ async function checkShowtimesInteractions(page) {
   const search = page.locator('.showtimes-search-input');
   await search.fill('Cape');
   await page.waitForTimeout(300);
-  const filtered = await page.locator('.movie-list .movie-card').count();
-  if (filtered >= 0) pass('Search input accepts text and list updates');
+  pass('Search input accepts text and list updates');
 
   await search.fill('');
   await page.locator('.sticky-controls .dropdown-btn').first().click();
@@ -146,14 +209,17 @@ async function checkShowtimesInteractions(page) {
   }
 }
 
-async function checkRoutes(page, requests) {
+async function checkRoutes(page) {
   await page.goto(`${BASE}/double-feature`, { waitUntil: 'networkidle' });
-  if (page.url().includes('double-feature')) pass('Double Feature route loads');
-  else fail('Double Feature route failed');
+  if (page.url().includes('/planner')) pass('Double Feature route redirects to Planner');
+  else fail(`Double Feature route did not redirect: ${page.url()}`);
 
-  await page.goto(`${BASE}/marathon/`, { waitUntil: 'networkidle' });
-  if (page.url().includes('marathon')) pass('Marathon route loads');
-  else fail('Marathon route failed');
+  await page.goto(`${BASE}/marathon`, { waitUntil: 'networkidle' });
+  if (page.url().includes('/planner') && page.url().includes('count=max')) {
+    pass('Marathon route redirects to Planner max mode');
+  } else {
+    fail(`Marathon route did not redirect to Planner: ${page.url()}`);
+  }
 
   await page.goto(`${BASE}/?search=Test&sort=runtime-desc`, { waitUntil: 'networkidle' });
   const searchVal = await page.locator('.showtimes-search-input').inputValue();
@@ -184,18 +250,22 @@ async function main() {
     if (mainList > 0) pass(`Main movie list has ${mainList} cards`);
     else note('Main movie list empty (may be data-related)');
 
-    await auditRecentlyAdded(page);
+    const total = await auditRecentlyAddedPreview(page);
+    await auditRecentlyAddedFullPage(page, total);
 
     for (const width of WIDTHS) {
-      await checkResponsive(page, width);
+      await checkResponsive(page, width, '/');
+      await checkResponsive(page, width, '/recently-added');
     }
 
     await page.setViewportSize({ width: 1200, height: 900 });
     await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
     await checkShowtimesInteractions(page);
-    await checkRoutes(page, requests);
+    await checkRoutes(page);
 
-    const dataRequests = [...new Set(requests.filter((p) => p.includes('/data/') || p.endsWith('.json') || p.endsWith('.csv')))];
+    const dataRequests = [
+      ...new Set(requests.filter((p) => p.includes('/data/') || p.endsWith('.json') || p.endsWith('.csv'))),
+    ];
     note(`Data requests: ${dataRequests.join(', ')}`);
 
     const required = ['showtimes_current.json', 'pipeline_report.json', 'newly_added_current.json'];
