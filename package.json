@@ -11,7 +11,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:frontend": "node --test tests/frontend/**/*.test.mjs",
+    "test:frontend": "node scripts/run_frontend_tests.mjs",
     "check:dist": "node scripts/check_dist_artifacts.mjs",
     "check:data-freshness": "node scripts/check_local_data_freshness.mjs",
     "smoke:frontend": "node scripts/smoke_check_frontend.mjs"
