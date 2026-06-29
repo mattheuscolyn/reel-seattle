@@ -20,30 +20,39 @@ function readMultiParam(searchParams, key) {
     .filter(Boolean);
 }
 
-function readFilmListText(searchParams, key) {
+function readFilmListParam(searchParams, key) {
   const values = searchParams.getAll(key);
-  if (values.length === 0) return '';
-  if (values.length === 1) return values[0];
-  return values
-    .map((value) => value.trim())
-    .filter(Boolean)
-    .join(', ');
-}
-
-function writeFilmListText(value) {
-  if (value == null) return '';
-  if (typeof value === 'string') return value;
-  if (Array.isArray(value)) {
-    return value
-      .map((film) => String(film).trim())
-      .filter(Boolean)
-      .join(', ');
+  if (values.length === 0) return [];
+  if (values.length === 1 && values[0].includes(',')) {
+    return values[0]
+      .split(',')
+      .map((value) => value.trim())
+      .filter(Boolean);
   }
-  return '';
+  return values.map((value) => value.trim()).filter(Boolean);
 }
 
-function hasFilmListText(value) {
-  return readOptionalText(writeFilmListText(value)) !== '';
+function writeFilmListParam(value) {
+  if (value == null) return [];
+  if (Array.isArray(value)) {
+    return value.map((film) => String(film).trim()).filter(Boolean);
+  }
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) return [];
+    if (trimmed.includes(',')) {
+      return trimmed
+        .split(',')
+        .map((part) => part.trim())
+        .filter(Boolean);
+    }
+    return [trimmed];
+  }
+  return [];
+}
+
+function hasFilmListValues(value) {
+  return writeFilmListParam(value).length > 0;
 }
 
 function readOptionalText(value) {
@@ -101,9 +110,9 @@ export function decodePlannerFilters(searchParamsInput) {
     minGapMin: parseGapMinutes(searchParams.get('mingap')),
     maxGapMin: parseGapMinutes(searchParams.get('maxgap')),
     maxGapExplicit: searchParams.has('maxgap'),
-    includeFilms: readFilmListText(searchParams, 'movies'),
-    excludeFilms: readFilmListText(searchParams, 'exclude'),
-    preferredFilms: readFilmListText(searchParams, 'preferred'),
+    includeFilms: readFilmListParam(searchParams, 'movies'),
+    excludeFilms: readFilmListParam(searchParams, 'exclude'),
+    preferredFilms: readFilmListParam(searchParams, 'preferred'),
     firstFilm: readOptionalText(searchParams.get('first')),
     lastFilm: readOptionalText(searchParams.get('last')),
     sort: normalizeSort(searchParams.get('sort')),
@@ -111,9 +120,6 @@ export function decodePlannerFilters(searchParamsInput) {
       normalizeAdvancedFlag(searchParams.get('advanced')) ||
       searchParams.has('mingap') ||
       searchParams.has('maxgap') ||
-      readFilmListText(searchParams, 'movies') !== '' ||
-      readFilmListText(searchParams, 'exclude') !== '' ||
-      readFilmListText(searchParams, 'preferred') !== '' ||
       readOptionalText(searchParams.get('first')) !== '' ||
       readOptionalText(searchParams.get('last')) !== '' ||
       normalizeSort(searchParams.get('sort')) !== '',
@@ -132,9 +138,9 @@ export function encodePlannerFilters({
   minGapMin = '',
   maxGapMin = '',
   maxGapExplicit = false,
-  includeFilms = '',
-  excludeFilms = '',
-  preferredFilms = '',
+  includeFilms = [],
+  excludeFilms = [],
+  preferredFilms = [],
   firstFilm = '',
   lastFilm = '',
   sort = '',
@@ -169,14 +175,17 @@ export function encodePlannerFilters({
     if (maxGap !== '') params.set('maxgap', maxGap);
   }
 
-  const include = writeFilmListText(includeFilms);
-  if (include) params.set('movies', include);
+  for (const film of writeFilmListParam(includeFilms)) {
+    params.append('movies', film);
+  }
 
-  const exclude = writeFilmListText(excludeFilms);
-  if (exclude) params.set('exclude', exclude);
+  for (const film of writeFilmListParam(excludeFilms)) {
+    params.append('exclude', film);
+  }
 
-  const preferred = writeFilmListText(preferredFilms);
-  if (preferred) params.set('preferred', preferred);
+  for (const film of writeFilmListParam(preferredFilms)) {
+    params.append('preferred', film);
+  }
 
   const first = readOptionalText(firstFilm);
   if (first) params.set('first', first);
@@ -213,9 +222,9 @@ export function hasActivePlannerQuery({
   minGapMin = '',
   maxGapMin = '',
   maxGapExplicit = false,
-  includeFilms = '',
-  excludeFilms = '',
-  preferredFilms = '',
+  includeFilms = [],
+  excludeFilms = [],
+  preferredFilms = [],
   firstFilm = '',
   lastFilm = '',
   sort = '',
@@ -227,9 +236,9 @@ export function hasActivePlannerQuery({
   if (readOptionalText(finishBy)) return true;
   if (parseGapMinutes(minGapMin) !== '') return true;
   if (maxGapExplicit) return true;
-  if (hasFilmListText(includeFilms)) return true;
-  if (hasFilmListText(excludeFilms)) return true;
-  if (hasFilmListText(preferredFilms)) return true;
+  if (hasFilmListValues(includeFilms)) return true;
+  if (hasFilmListValues(excludeFilms)) return true;
+  if (hasFilmListValues(preferredFilms)) return true;
   if (readOptionalText(firstFilm)) return true;
   if (readOptionalText(lastFilm)) return true;
   if (normalizeSort(sort)) return true;

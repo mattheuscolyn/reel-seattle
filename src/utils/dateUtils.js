@@ -1,10 +1,54 @@
+/** Parse legacy MM/DD/YYYY into a local Date at midnight. */
+export function parseLegacyDate(dateStr) {
+  if (!dateStr || typeof dateStr !== 'string') return null;
+  const [month, day, year] = dateStr.split('/').map(Number);
+  if (!month || !day || !year) return null;
+  const date = new Date(year, month - 1, day);
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return null;
+  }
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+
 /** Whether a legacy MM/DD/YYYY date string is today or later. */
 export function isTodayOrFuture(dateStr) {
-  const [month, day, year] = dateStr.split('/').map(Number);
-  const date = new Date(year, month - 1, day);
+  const date = parseLegacyDate(dateStr);
+  if (!date) return false;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   return date >= today;
+}
+
+/**
+ * Planner-friendly date label, e.g. "Today · Sun, Jun 29" or "Fri, Jun 27".
+ *
+ * @param {string} dateStr - MM/DD/YYYY
+ * @returns {string}
+ */
+export function formatPlannerDateLabel(dateStr) {
+  const date = parseLegacyDate(dateStr);
+  if (!date) return dateStr;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const weekday = date.toLocaleDateString(undefined, { weekday: 'short' });
+  const monthDay = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+
+  if (date.getTime() === today.getTime()) {
+    return `Today · ${weekday}, ${monthDay}`;
+  }
+  if (date.getTime() === tomorrow.getTime()) {
+    return `Tomorrow · ${weekday}, ${monthDay}`;
+  }
+  return `${weekday}, ${monthDay}`;
 }
 
 /** Parse YYYY-MM-DD as a local calendar date (avoids UTC midnight shifts). */

@@ -649,7 +649,7 @@
 }
 
 .movie-toggle-button {
-  margin-top: var(--space-md);
+  margin-top: 0;
   background: var(--color-surface-raised);
   color: var(--color-text);
   border: 1px solid var(--color-border-strong);
@@ -666,6 +666,35 @@
 .movie-toggle-button:hover {
   border-color: var(--color-accent-border);
   background: var(--color-accent-subtle);
+}
+
+.movie-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+  width: 100%;
+}
+
+.movie-plan-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-planner);
+  color: var(--color-planner);
+  font-size: 0.94rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.movie-plan-link:hover {
+  background: rgba(144, 202, 249, 0.12);
+  color: #fff;
 }
 
 .movie-showtimes-expanded {
@@ -956,6 +985,33 @@
   overflow-y: auto;
 }
 
+.dropdown-bulk-actions {
+  display: flex;
+  gap: var(--space-sm);
+  padding: 0 var(--space-md) var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-xs);
+}
+
+.dropdown-bulk-btn {
+  flex: 1 1 0;
+  background: transparent;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.dropdown-bulk-btn:hover {
+  border-color: var(--color-accent-border);
+  color: var(--color-text);
+  background: var(--color-accent-subtle);
+}
+
 .dropdown-menu::-webkit-scrollbar,
 .sort-menu::-webkit-scrollbar {
   width: 8px;
@@ -1222,7 +1278,244 @@
 }
 
 .planner-controls .planner-filters {
-  margin-bottom: 0;
+  margin-bottom: var(--space-lg);
+}
+
+.planner-filters--primary,
+.planner-filters--films {
+  margin-bottom: var(--space-lg);
+}
+
+.filter-group--film-picker {
+  flex: 1 1 260px;
+  max-width: 360px;
+}
+
+.filter-group-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ccc;
+  text-align: left;
+}
+
+.film-multiselect {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.film-multiselect.is-open {
+  z-index: var(--z-dropdown-open);
+}
+
+.film-multiselect-trigger {
+  width: 100%;
+}
+
+.film-multiselect-menu {
+  min-width: min(100%, 360px);
+  max-height: 360px;
+}
+
+.film-multiselect-search-wrap {
+  padding: 0 var(--space-md) var(--space-sm);
+}
+
+.film-multiselect-search {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 0.92rem;
+}
+
+.film-multiselect-empty {
+  margin: 0;
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  text-align: left;
+}
+
+.film-multiselect-option {
+  gap: var(--space-sm);
+}
+
+.film-multiselect-poster {
+  width: 34px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.film-multiselect-option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  text-align: left;
+}
+
+.film-multiselect-option-title {
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.film-multiselect-option-meta {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.film-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.film-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 4px 8px 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-subtle);
+  border: 1px solid var(--color-accent-border);
+  color: var(--color-text);
+  font-size: 0.84rem;
+}
+
+.film-chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.film-chip-remove {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.film-chip-remove:hover {
+  color: var(--color-text);
+}
+
+.film-manual-entry {
+  text-align: left;
+}
+
+.film-manual-entry-toggle {
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.film-manual-entry-body {
+  margin-top: var(--space-sm);
+}
+
+.planner-time-picker-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.planner-time-select {
+  width: auto;
+  min-width: 72px;
+  flex: 0 0 auto;
+}
+
+.planner-time-separator {
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+
+.planner-time-clear {
+  background: transparent;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 600;
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.planner-time-clear:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.planner-time-preview {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+  text-align: left;
+}
+
+.planner-film-validation {
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  text-align: left;
+}
+
+.planner-film-validation-heading {
+  margin: 0 0 var(--space-sm);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.planner-film-validation-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.planner-film-validation-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.planner-film-validation-item--matched {
+  color: var(--color-success);
+}
+
+.planner-film-validation-item--unmatched {
+  color: var(--color-error);
+}
+
+.planner-film-validation-icon {
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.planner-film-validation-text strong {
+  color: var(--color-text);
 }
 
 .filter-group {

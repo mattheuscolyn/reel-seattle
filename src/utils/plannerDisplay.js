@@ -82,6 +82,9 @@ export function formatPlannerSortLabel(sortValue) {
  */
 export function parseFilmListInput(value) {
   if (value == null) return [];
+  if (Array.isArray(value)) {
+    return value.map((part) => String(part).trim()).filter(Boolean);
+  }
   return String(value)
     .split(',')
     .map((part) => part.trim())

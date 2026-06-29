@@ -129,9 +129,9 @@ test('buildPlannerSearchFilters passes preferred films to engine filters', () =>
     selectedDate: '06/27/2026',
     selectedTheaters: [],
     filmCount: 'max',
-    preferredFilms: 'Toy Story 5, Sinners',
+    preferredFilms: ['sinners', 'materialists'],
   });
-  assert.deepEqual(filters.preferredFilms, ['Toy Story 5', 'Sinners']);
+  assert.deepEqual(filters.preferredFilms, ['sinners', 'materialists']);
 });
 
 test('parseFilmListInput and formatFilmListInput round-trip titles', () => {

@@ -2,11 +2,20 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import DataStatePanel from '../components/DataStatePanel.jsx';
 import DropdownMultiSelect from '../components/DropdownMultiSelect.jsx';
+import FilmMultiSelect from '../components/FilmMultiSelect.jsx';
+import FilmSingleSelect from '../components/FilmSingleSelect.jsx';
+import PlannerFilmValidation from '../components/PlannerFilmValidation.jsx';
 import PlannerResultCard from '../components/PlannerResultCard.jsx';
+import PlannerTimePicker from '../components/PlannerTimePicker.jsx';
 import { useShowtimesData } from '../hooks/useShowtimesData.js';
 import { uniqueSorted } from '../utils/arrayUtils.js';
-import { isTodayOrFuture } from '../utils/dateUtils.js';
+import { formatPlannerDateLabel, isTodayOrFuture } from '../utils/dateUtils.js';
 import { findSchedules } from '../utils/plannerEngine.js';
+import {
+  buildPlannerFilmCatalog,
+  collectPlannerFilmValidationItems,
+  formatUnmatchedFilmSuggestion,
+} from '../utils/plannerFilms.js';
 import {
   buildPlannerSearchFilters,
   FILM_COUNT_OPTIONS,
@@ -78,7 +87,7 @@ export default function PlannerPage() {
     if (searchParams.get('from') !== 'marathon') return;
 
     const hadMigratedFilters =
-      decoded.excludeFilms.trim() !== '' || decoded.preferredFilms.trim() !== '';
+      decoded.excludeFilms.length > 0 || decoded.preferredFilms.length > 0;
     setMarathonArrivalNotice(
       hadMigratedFilters
         ? 'Marathon has moved into Planner. Your saved film filters were applied; use Find plans to search.'
@@ -89,6 +98,33 @@ export default function PlannerPage() {
     nextParams.delete('from');
     setSearchParams(nextParams, { replace: true });
   }, [searchParams, decoded.excludeFilms, decoded.preferredFilms, setSearchParams]);
+
+  const filmCatalog = useMemo(
+    () =>
+      buildPlannerFilmCatalog(rows, {
+        date: effectiveDate,
+        theaters: selectedTheaters,
+      }),
+    [rows, effectiveDate, selectedTheaters],
+  );
+
+  const filmValidationItems = useMemo(
+    () =>
+      collectPlannerFilmValidationItems({
+        includeFilms,
+        excludeFilms,
+        preferredFilms,
+        firstFilm,
+        lastFilm,
+        catalog: filmCatalog,
+      }),
+    [includeFilms, excludeFilms, preferredFilms, firstFilm, lastFilm, filmCatalog],
+  );
+
+  const unmatchedFilmSuggestion = useMemo(
+    () => formatUnmatchedFilmSuggestion(filmValidationItems),
+    [filmValidationItems],
+  );
 
   const plannerState = useMemo(
     () => ({
@@ -309,7 +345,7 @@ export default function PlannerPage() {
       )}
 
       <div className="planner-controls">
-        <div className="planner-filters">
+        <div className="planner-filters planner-filters--primary">
           <div className="filter-group">
             <label htmlFor="planner-date">Date</label>
             <select
@@ -320,7 +356,7 @@ export default function PlannerPage() {
             >
               {dates.map((date) => (
                 <option key={date} value={date}>
-                  {date}
+                  {formatPlannerDateLabel(date)}
                 </option>
               ))}
             </select>
@@ -333,6 +369,7 @@ export default function PlannerPage() {
               options={theaters}
               selected={selectedTheaters}
               setSelected={(value) => updateUrlFilters({ selectedTheaters: value })}
+              showBulkActions
             />
           </div>
 
@@ -357,30 +394,68 @@ export default function PlannerPage() {
             </select>
           </div>
 
-          <div className="filter-group">
-            <label htmlFor="planner-start-after">Start after (optional)</label>
-            <input
-              id="planner-start-after"
-              type="text"
-              placeholder="e.g., 2:00PM"
-              value={startAfter}
-              onChange={(e) => updateUrlFilters({ startAfter: e.target.value })}
-              className="filter-input"
+          <PlannerTimePicker
+            id="planner-start-after"
+            label="Start after (optional)"
+            value={startAfter}
+            onChange={(value) => updateUrlFilters({ startAfter: value })}
+          />
+
+          <PlannerTimePicker
+            id="planner-finish-by"
+            label="Finish by (optional)"
+            value={finishBy}
+            onChange={(value) => updateUrlFilters({ finishBy: value })}
+          />
+        </div>
+
+        <div className="planner-filters planner-filters--films">
+          <div className="filter-group filter-group--film-picker">
+            <span className="filter-group-label" id="planner-include-label">
+              Required movies
+            </span>
+            <FilmMultiSelect
+              id="planner-include"
+              label="Select required movies"
+              films={filmCatalog}
+              selected={includeFilms}
+              setSelected={(value) => updateUrlFilters({ includeFilms: value })}
+              hint="Every selected movie must appear in the plan."
             />
           </div>
 
-          <div className="filter-group">
-            <label htmlFor="planner-finish-by">Finish by (optional)</label>
-            <input
-              id="planner-finish-by"
-              type="text"
-              placeholder="e.g., 10:00PM"
-              value={finishBy}
-              onChange={(e) => updateUrlFilters({ finishBy: e.target.value })}
-              className="filter-input"
+          <div className="filter-group filter-group--film-picker">
+            <span className="filter-group-label" id="planner-preferred-label">
+              Preferred films
+            </span>
+            <FilmMultiSelect
+              id="planner-preferred"
+              label="Select preferred films"
+              films={filmCatalog}
+              selected={preferredFilms}
+              setSelected={(value) => updateUrlFilters({ preferredFilms: value })}
+              hint="Plans should include at least one of these movies."
+            />
+          </div>
+
+          <div className="filter-group filter-group--film-picker">
+            <span className="filter-group-label" id="planner-exclude-label">
+              Excluded movies
+            </span>
+            <FilmMultiSelect
+              id="planner-exclude"
+              label="Select excluded movies"
+              films={filmCatalog}
+              selected={excludeFilms}
+              setSelected={(value) => updateUrlFilters({ excludeFilms: value })}
+              hint="Plans will not include any of these movies."
             />
           </div>
         </div>
+
+        {filmValidationItems.length > 0 ? (
+          <PlannerFilmValidation items={filmValidationItems} />
+        ) : null}
 
         <div className="planner-advanced-section">
           <button
@@ -389,12 +464,32 @@ export default function PlannerPage() {
             aria-expanded={advancedOpen}
             onClick={() => updateUrlFilters({ advancedOpen: !advancedOpen })}
           >
-            Advanced filters
+            More options
             <span className="planner-advanced-toggle-icon">{advancedOpen ? '▾' : '▸'}</span>
           </button>
 
           {advancedOpen ? (
             <div className="planner-advanced-panel planner-filters">
+              <FilmSingleSelect
+                id="planner-first"
+                label="Preferred first movie"
+                films={filmCatalog}
+                value={firstFilm}
+                onChange={(value) => updateUrlFilters({ firstFilm: value })}
+                disabledKeys={lastFilm ? [lastFilm] : []}
+                placeholder="Any first film"
+              />
+
+              <FilmSingleSelect
+                id="planner-last"
+                label="Preferred last movie"
+                films={filmCatalog}
+                value={lastFilm}
+                onChange={(value) => updateUrlFilters({ lastFilm: value })}
+                disabledKeys={firstFilm ? [firstFilm] : []}
+                placeholder="Any last film"
+              />
+
               <div className="filter-group">
                 <label htmlFor="planner-min-gap">Minimum gap (minutes)</label>
                 <input
@@ -422,70 +517,6 @@ export default function PlannerPage() {
                   className="filter-input"
                 />
                 <p className="planner-field-hint">{getMaxGapHelperText(filmCount)}</p>
-              </div>
-
-              <div className="filter-group">
-                <label htmlFor="planner-include">Required movies</label>
-                <input
-                  id="planner-include"
-                  type="text"
-                  placeholder="Comma-separated titles"
-                  value={includeFilms}
-                  onChange={(e) => updateUrlFilters({ includeFilms: e.target.value })}
-                  className="filter-input"
-                />
-                <p className="planner-field-hint">Every listed movie must appear in the plan.</p>
-              </div>
-
-              <div className="filter-group">
-                <label htmlFor="planner-preferred">Preferred films</label>
-                <input
-                  id="planner-preferred"
-                  type="text"
-                  placeholder="Comma-separated titles"
-                  value={preferredFilms}
-                  onChange={(e) => updateUrlFilters({ preferredFilms: e.target.value })}
-                  className="filter-input"
-                />
-                <p className="planner-field-hint">
-                  Plans should include at least one of these movies.
-                </p>
-              </div>
-
-              <div className="filter-group">
-                <label htmlFor="planner-exclude">Excluded movies</label>
-                <input
-                  id="planner-exclude"
-                  type="text"
-                  placeholder="Comma-separated titles"
-                  value={excludeFilms}
-                  onChange={(e) => updateUrlFilters({ excludeFilms: e.target.value })}
-                  className="filter-input"
-                />
-              </div>
-
-              <div className="filter-group">
-                <label htmlFor="planner-first">Preferred first movie</label>
-                <input
-                  id="planner-first"
-                  type="text"
-                  placeholder="Film title"
-                  value={firstFilm}
-                  onChange={(e) => updateUrlFilters({ firstFilm: e.target.value })}
-                  className="filter-input"
-                />
-              </div>
-
-              <div className="filter-group">
-                <label htmlFor="planner-last">Preferred last movie</label>
-                <input
-                  id="planner-last"
-                  type="text"
-                  placeholder="Film title"
-                  value={lastFilm}
-                  onChange={(e) => updateUrlFilters({ lastFilm: e.target.value })}
-                  className="filter-input"
-                />
               </div>
 
               <div className="filter-group">
@@ -587,7 +618,9 @@ export default function PlannerPage() {
         ) : hasSearchRun && results.length === 0 ? (
           <div className="planner-empty-state">
             <p className="planner-empty-title">{getPlannerEmptyStateMessage()}</p>
-            <p className="planner-empty-suggestion">{getPlannerEmptyStateSuggestion()}</p>
+            <p className="planner-empty-suggestion">
+              {unmatchedFilmSuggestion || getPlannerEmptyStateSuggestion()}
+            </p>
           </div>
         ) : !hasSearchRun ? (
           <div className="planner-prompt">

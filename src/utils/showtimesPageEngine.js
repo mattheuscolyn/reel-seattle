@@ -65,6 +65,7 @@ export function groupShowtimesForDisplay(filteredRows) {
       if (!acc[key]) {
         acc[key] = {
           film: row.Film,
+          filmKey: String(row.showtime_film_key ?? '').trim() || row.Film,
           runtime: row.Runtime,
           poster: row.posterDynamic,
           showtimes: {},

@@ -97,3 +97,29 @@ export function formatPlannerLineupShareText(
 
   return lines.join('\n').trimEnd();
 }
+
+/**
+ * Build a /planner deep link pre-filled to plan around one film.
+ *
+ * @param {object} options
+ * @param {string} options.filmKey
+ * @param {string} [options.date]
+ * @param {string[]} [options.theaters]
+ * @param {'preferred' | 'required'} [options.mode]
+ * @returns {string}
+ */
+export function buildPlanWithFilmPath({
+  filmKey,
+  date = '',
+  theaters = [],
+  mode = 'preferred',
+} = {}) {
+  const params = encodePlannerFilters({
+    selectedDate: date,
+    selectedTheaters: theaters,
+    preferredFilms: mode === 'preferred' ? [filmKey] : [],
+    includeFilms: mode === 'required' ? [filmKey] : [],
+  });
+  const query = params.toString();
+  return query ? `/planner?${query}` : '/planner';
+}

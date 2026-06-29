@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function DropdownMultiSelect({ label, options, selected, setSelected }) {
+export default function DropdownMultiSelect({
+  label,
+  options,
+  selected,
+  setSelected,
+  showBulkActions = false,
+}) {
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
@@ -24,6 +30,9 @@ export default function DropdownMultiSelect({ label, options, selected, setSelec
 
   const labelText = selected.length === 0 ? label : `${label} (${selected.length})`;
 
+  const selectAll = () => setSelected([...options]);
+  const clearAll = () => setSelected([]);
+
   return (
     <div className={`dropdown-multiselect${open ? ' is-open' : ''}`} ref={ref}>
       <button
@@ -37,6 +46,16 @@ export default function DropdownMultiSelect({ label, options, selected, setSelec
       </button>
       {open && (
         <div className="dropdown-menu" role="listbox">
+          {showBulkActions && options.length > 0 ? (
+            <div className="dropdown-bulk-actions">
+              <button type="button" className="dropdown-bulk-btn" onClick={selectAll}>
+                Select all
+              </button>
+              <button type="button" className="dropdown-bulk-btn" onClick={clearAll}>
+                Clear all
+              </button>
+            </div>
+          ) : null}
           {options.map((opt) => (
             <label className="dropdown-option" key={opt}>
               <input

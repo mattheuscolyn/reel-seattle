@@ -1,5 +1,8 @@
+import { Link } from 'react-router-dom';
 import { useId, useMemo, useState } from 'react';
 import { buildExpandedFilmSummary, buildFilmCardMetadata } from '../utils/showtimesDisplay.js';
+import { inferPlannerContextFromMovie } from '../utils/plannerFilms.js';
+import { buildPlanWithFilmPath } from '../utils/plannerShare.js';
 import ExpandedFilmDetails from './ExpandedFilmDetails.jsx';
 import PosterImage from './PosterImage.jsx';
 
@@ -18,6 +21,11 @@ export default function CollapsibleMovieCard({ movie, selectedDates, selectedThe
     () => (open ? buildExpandedFilmSummary(movie, filterOptions) : null),
     [open, movie, filterOptions],
   );
+  const planLink = useMemo(() => {
+    const { date, theaters } = inferPlannerContextFromMovie(movie, filterOptions);
+    const filmKey = movie.filmKey || movie.film;
+    return buildPlanWithFilmPath({ filmKey, date, theaters, mode: 'preferred' });
+  }, [movie, filterOptions]);
 
   return (
     <div className="movie-card movie-card--collapsible">
@@ -46,15 +54,20 @@ export default function CollapsibleMovieCard({ movie, selectedDates, selectedThe
             ) : null}
           </div>
         </div>
-        <button
-          type="button"
-          className="movie-toggle-button"
-          onClick={() => setOpen((isOpen) => !isOpen)}
-          aria-expanded={open}
-          aria-controls={detailsId}
-        >
-          {open ? 'Hide Showtimes' : 'Show Showtimes'}
-        </button>
+        <div className="movie-card-actions">
+          <Link to={planLink} className="movie-plan-link">
+            Plan this film
+          </Link>
+          <button
+            type="button"
+            className="movie-toggle-button"
+            onClick={() => setOpen((isOpen) => !isOpen)}
+            aria-expanded={open}
+            aria-controls={detailsId}
+          >
+            {open ? 'Hide Showtimes' : 'Show Showtimes'}
+          </button>
+        </div>
       </div>
       {open ? (
         <div id={detailsId} className="movie-showtimes-expanded">

@@ -20,6 +20,24 @@ When an item in **Work on now** ships, move it to a short **Completed** note at 
 
 ## Work on now
 
+_All items below shipped on main._
+
+## Completed (work on now)
+
+| Item | Status |
+|------|--------|
+| Film multi-select from showtime data (`FilmMultiSelect`) | Shipped |
+| Pre-search film validation (`PlannerFilmValidation`) | Shipped |
+| Film single-select for first / last (`FilmSingleSelect`) | Shipped |
+| Time picker for Start after / Finish by (`PlannerTimePicker`) | Shipped |
+| Filter layout restructure (films promoted, More options for gaps/sort) | Shipped |
+| “Plan this film” deep link from Showtimes | Shipped |
+| Date labels, theater Select all/Clear, manual title fallback | Shipped |
+
+---
+
+## Work on now (archived spec)
+
 These items were approved after the raw-text input fixes (PR #1). They address the main frustration: film filters require exact titles while the app already knows which films are playing.
 
 ### 1. Film multi-select from showtime data (highest priority)
@@ -172,7 +190,7 @@ Defer until **Work on now** is in good shape. These are approved directions, not
 |------|-----------|
 | Fix dropdown z-index on Showtimes filter bar | PR #1 |
 | Fix planner time/film text inputs clearing while typing | PR #1 |
-| Raw comma-separated film text in URL (interim) | PR #1 — superseded by §1 film multi-select when shipped |
+| Film pickers, time picker, validation, layout, Showtimes plan link | Main |
 
 ---
 

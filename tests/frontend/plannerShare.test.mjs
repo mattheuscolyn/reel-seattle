@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  buildPlanWithFilmPath,
   buildPlannerFilterShareUrl,
   formatPlannerLineupShareText,
   PLANNER_LINEUP_SHARE_SITE_NAME,
@@ -130,4 +131,17 @@ test('buildPlannerFilterShareUrl encodes planner state into a share URL', () => 
 
 test('PLANNER_LINEUP_SHARE_SITE_NAME defaults to Reel Seattle', () => {
   assert.equal(PLANNER_LINEUP_SHARE_SITE_NAME, 'Reel Seattle');
+});
+
+test('buildPlanWithFilmPath encodes preferred film deep link', () => {
+  const path = buildPlanWithFilmPath({
+    filmKey: 'sinners',
+    date: '06/29/2026',
+    theaters: ['The Beacon'],
+    mode: 'preferred',
+  });
+  assert.match(path, /^\/planner\?/);
+  assert.match(path, /date=06%2F29%2F2026/);
+  assert.match(path, /preferred=sinners/);
+  assert.match(path, /theaters=The\+Beacon/);
 });

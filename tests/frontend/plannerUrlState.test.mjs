@@ -52,48 +52,53 @@ test('decodePlannerFilters decodes theater arrays', () => {
 
 test('encodePlannerFilters encodes include and exclude movie arrays', () => {
   const params = encodePlannerFilters({
-    includeFilms: ['Toy Story 5', 'Sinners'],
-    excludeFilms: ['Jackass: Best and Last'],
+    includeFilms: ['sinners', 'materialists'],
+    excludeFilms: ['jackass-best-and-last'],
   });
-  assert.equal(params.get('movies'), 'Toy Story 5, Sinners');
-  assert.equal(params.get('exclude'), 'Jackass: Best and Last');
+  assert.deepEqual(params.getAll('movies'), ['sinners', 'materialists']);
+  assert.deepEqual(params.getAll('exclude'), ['jackass-best-and-last']);
 });
 
 test('decodePlannerFilters decodes include and exclude movie arrays', () => {
-  const decoded = decodePlannerFilters('movies=Toy+Story+5&exclude=Sinners');
-  assert.equal(decoded.includeFilms, 'Toy Story 5');
-  assert.equal(decoded.excludeFilms, 'Sinners');
+  const decoded = decodePlannerFilters('movies=sinners&exclude=materialists');
+  assert.deepEqual(decoded.includeFilms, ['sinners']);
+  assert.deepEqual(decoded.excludeFilms, ['materialists']);
 });
 
 test('encodePlannerFilters encodes preferred film arrays', () => {
   const params = encodePlannerFilters({
-    preferredFilms: ['Toy Story 5', 'Sinners'],
+    preferredFilms: ['sinners', 'materialists'],
   });
-  assert.equal(params.get('preferred'), 'Toy Story 5, Sinners');
+  assert.deepEqual(params.getAll('preferred'), ['sinners', 'materialists']);
 });
 
 test('decodePlannerFilters decodes preferred film arrays', () => {
-  const decoded = decodePlannerFilters('preferred=Toy+Story+5&preferred=Sinners');
-  assert.equal(decoded.preferredFilms, 'Toy Story 5, Sinners');
+  const decoded = decodePlannerFilters('preferred=sinners&preferred=materialists');
+  assert.deepEqual(decoded.preferredFilms, ['sinners', 'materialists']);
 });
 
-test('decodePlannerFilters opens advanced panel when preferred is present', () => {
+test('decodePlannerFilters supports legacy comma-separated movie param', () => {
+  const decoded = decodePlannerFilters('movies=sinners,materialists');
+  assert.deepEqual(decoded.includeFilms, ['sinners', 'materialists']);
+});
+
+test('decodePlannerFilters does not open advanced panel for preferred films alone', () => {
   const decoded = decodePlannerFilters('preferred=Sinners');
-  assert.equal(decoded.advancedOpen, true);
+  assert.equal(decoded.advancedOpen, false);
 });
 
 test('buildPlannerSearchString round-trips preferred films', () => {
   const query = buildPlannerSearchString({
-    preferredFilms: 'Toy Story 5, Sinners',
+    preferredFilms: ['sinners', 'materialists'],
     filmCount: 'max',
   });
   const decoded = decodePlannerFilters(query);
-  assert.equal(decoded.preferredFilms, 'Toy Story 5, Sinners');
+  assert.deepEqual(decoded.preferredFilms, ['sinners', 'materialists']);
   assert.equal(decoded.filmCount, 'max');
 });
 
 test('hasActivePlannerQuery detects preferred films', () => {
-  assert.equal(hasActivePlannerQuery({ preferredFilms: 'Sinners' }), true);
+  assert.equal(hasActivePlannerQuery({ preferredFilms: ['sinners'] }), true);
 });
 
 test('buildPlannerPathFromDoubleFeature does not emit preferred films', () => {
@@ -283,9 +288,9 @@ test('encodePlannerFilters preserves partial planner times while typing', () => 
   assert.equal(params.get('finish'), '10:');
 });
 
-test('encodePlannerFilters preserves trailing comma in film list text', () => {
-  const params = encodePlannerFilters({ includeFilms: 'The Dark Knight, ' });
-  assert.equal(params.get('movies'), 'The Dark Knight, ');
+test('encodePlannerFilters preserves trailing comma legacy text as single token', () => {
+  const params = encodePlannerFilters({ includeFilms: ['The Dark Knight,'] });
+  assert.deepEqual(params.getAll('movies'), ['The Dark Knight,']);
 });
 
 test('buildMarathonPlannerLink points to max mode', () => {
@@ -307,7 +312,7 @@ test('buildPlannerPathFromMarathon maps preferred films to repeatable params', (
     preferredMovies: ['Disclosure Day'],
   });
   const decoded = decodePlannerFilters(path.split('?')[1]);
-  assert.deepEqual(decoded.preferredFilms, 'Disclosure Day');
+  assert.deepEqual(decoded.preferredFilms, ['Disclosure Day']);
   assert.equal(decoded.filmCount, 'max');
   assert.equal(decoded.advancedOpen, true);
   assert.match(path, /from=marathon/);
@@ -319,8 +324,8 @@ test('buildPlannerPathFromMarathon maps blacklist to exclude params', () => {
     preferredMovies: ['Sinners'],
   });
   const decoded = decodePlannerFilters(path.split('?')[1]);
-  assert.deepEqual(decoded.excludeFilms, 'Project Hail Mary');
-  assert.equal(decoded.preferredFilms, 'Sinners');
+  assert.deepEqual(decoded.excludeFilms, ['Project Hail Mary']);
+  assert.deepEqual(decoded.preferredFilms, ['Sinners']);
   assert.equal(decoded.advancedOpen, true);
 });
 
