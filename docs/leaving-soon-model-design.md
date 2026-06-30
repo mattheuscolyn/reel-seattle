@@ -1,6 +1,6 @@
 # Leaving Soon — Predictive Feature Design & Data Audit
 
-**Status:** Design audit (no implementation)  
+**Status:** PR B complete (`edbf473`); PR C blocked pending AMC daily-log history  
 **Date:** 2026-06-30  
 **Audience:** Maintainers evaluating whether to ship an AMC “Leaving Soon” signal
 
@@ -400,7 +400,7 @@ Do **not** ship model scores to the browser until PR E passes evaluation. Keep m
 |----|-------|--------|
 | **A** | Design audit (`docs/leaving-soon-model-design.md`) | **Done** |
 | **B** | `scripts/build_amc_film_footprint.py` + tests | **Done** |
-| **C** | Historical label builder + leakage checks | Next |
+| **C** | Historical label builder + leakage checks | **Blocked** — need ≥8–12 weeks of AMC daily logs |
 | **D** | Baseline + logistic regression backtest report | Pending |
 | **E** | `public/data/leaving_soon_current.json` emitter (only if §7 gates pass) | Pending |
 | **F** | Showtimes UI — badge, section, sort | Only if E passes |
@@ -448,6 +448,42 @@ Do **not** ship model scores to the browser until PR E passes evaluation. Keep m
 **Prerequisite:** Accumulate **≥8–12 weeks** of `data/daily_logs/*_amc.json` in git (daily Actions commits) so labels and backtests are meaningful. Re-run `python scripts/build_amc_film_footprint.py` after each batch of new logs.
 
 **Provisional ship bar (not approval to ship UI):** ≥75% precision on a high-confidence Leaving Soon bucket in held-out backtest weeks (see §7).
+
+---
+
+## 12. Milestone status & PR C readiness
+
+### Current milestone (2026-06-30)
+
+| Item | State |
+|------|--------|
+| PR A design audit | Done |
+| PR B footprint derivation | **Done** — commit `edbf473`, pushed; CI + Pages deploy passed |
+| PR C label builder | **Not started** — blocked on snapshot history |
+| Generated outputs | `data/analysis/` gitignored; not committed |
+
+**Blocker:** As of PR B landing, only **one** `data/daily_logs/*_amc.json` file is in the repo. Label building and backtesting need roughly **8–12 weeks** of daily AMC snapshots (via scheduled Actions commits).
+
+**Optional later:** Second **Wednesday PM** AMC scrape to align labels with schedule-extension timing (see §8).
+
+### PR C readiness checklist
+
+Revisit when daily logs have accumulated — do **not** start PR C until the checks below pass:
+
+- [ ] `git ls-files 'data/daily_logs/*_amc.json' | wc -l` ≥ **56** (~8 weeks) or ≥ **84** (~12 weeks)
+- [ ] Snapshot dates span the target window without large gaps (spot-check for failed scrapes)
+- [ ] `python scripts/build_amc_film_footprint.py` succeeds and row count grows with new logs
+- [ ] Footprint output includes multiple `snapshot_date` values (not a single-day trivial run)
+- [ ] Team agrees provisional ship bar (§7: ≥75% precision on high-confidence bucket) still applies
+
+**Regenerate footprint after new logs:**
+
+```bash
+python scripts/build_amc_film_footprint.py
+# output: data/analysis/amc_film_footprint_daily.csv (gitignored)
+```
+
+**When ready:** implement `scripts/build_leaving_soon_labels.py` (PR C), then PR D backtest before any UI work.
 
 ---
 
