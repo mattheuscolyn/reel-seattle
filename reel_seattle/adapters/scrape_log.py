@@ -114,49 +114,43 @@ def write_scrape_daily_log(
     return artifact
 
 
-def load_scrape_daily_log(path: Path | str) -> FetchResult:
-    """Load a normalized raw JSON daily log. Raises ScrapeLogError when malformed."""
-    log_path = Path(path)
-    try:
-        payload = json.loads(log_path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
-        raise ScrapeLogError(f"invalid JSON in {log_path}: {exc}") from exc
-
+def load_scrape_daily_log_payload(payload: Mapping[str, Any], *, label: str = "<payload>") -> FetchResult:
+    """Load a normalized raw JSON daily log from an in-memory envelope."""
     if not isinstance(payload, dict):
-        raise ScrapeLogError(f"expected JSON object in {log_path}")
+        raise ScrapeLogError(f"expected JSON object in {label}")
 
     schema_version = payload.get("schema_version")
     if schema_version != SCRAPE_LOG_SCHEMA_VERSION:
         raise ScrapeLogError(
-            f"unsupported schema_version {schema_version!r} in {log_path}; "
+            f"unsupported schema_version {schema_version!r} in {label}; "
             f"expected {SCRAPE_LOG_SCHEMA_VERSION}"
         )
 
     source = payload.get("source")
     if not isinstance(source, str) or not source:
-        raise ScrapeLogError(f"missing or invalid source in {log_path}")
+        raise ScrapeLogError(f"missing or invalid source in {label}")
 
     records_payload = payload.get("records")
     if not isinstance(records_payload, list):
-        raise ScrapeLogError(f"records must be a list in {log_path}")
+        raise ScrapeLogError(f"records must be a list in {label}")
 
     records: list[RawShowtime] = []
     for index, record in enumerate(records_payload):
         if not isinstance(record, dict):
-            raise ScrapeLogError(f"records[{index}] must be an object in {log_path}")
+            raise ScrapeLogError(f"records[{index}] must be an object in {label}")
         try:
             records.append(record_dict_to_raw_showtime(record))
         except ScrapeLogError as exc:
-            raise ScrapeLogError(f"records[{index}] in {log_path}: {exc}") from exc
+            raise ScrapeLogError(f"records[{index}] in {label}: {exc}") from exc
 
     warnings = payload.get("warnings", [])
     errors = payload.get("errors", [])
     if not isinstance(warnings, list) or not isinstance(errors, list):
-        raise ScrapeLogError(f"warnings/errors must be lists in {log_path}")
+        raise ScrapeLogError(f"warnings/errors must be lists in {label}")
 
     stats_payload = payload.get("stats", {})
     if not isinstance(stats_payload, dict):
-        raise ScrapeLogError(f"stats must be an object in {log_path}")
+        raise ScrapeLogError(f"stats must be an object in {label}")
 
     stats = dict(stats_payload)
     stats.setdefault("record_count", len(records))
@@ -169,6 +163,16 @@ def load_scrape_daily_log(path: Path | str) -> FetchResult:
         warnings=[str(item) for item in warnings],
         errors=[str(item) for item in errors],
     )
+
+
+def load_scrape_daily_log(path: Path | str) -> FetchResult:
+    """Load a normalized raw JSON daily log. Raises ScrapeLogError when malformed."""
+    log_path = Path(path)
+    try:
+        payload = json.loads(log_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ScrapeLogError(f"invalid JSON in {log_path}: {exc}") from exc
+    return load_scrape_daily_log_payload(payload, label=str(log_path))
 
 
 def raw_showtimes_to_legacy_rows(source: str, records: list[RawShowtime]) -> list[dict[str, str]]:

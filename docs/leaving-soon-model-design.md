@@ -1,6 +1,6 @@
 # Leaving Soon — Predictive Feature Design & Data Audit
 
-**Status:** PR B complete (`edbf473`); PR C blocked pending AMC daily-log history  
+**Status:** PR B complete (`edbf473`); PR B2 Git-history extractor ready; PR C unblocked after B2 lands  
 **Date:** 2026-06-30  
 **Audience:** Maintainers evaluating whether to ship an AMC “Leaving Soon” signal
 
@@ -242,8 +242,9 @@ Each `data/daily_logs/YYYY-MM-DD_amc.json` record includes:
 | Data source | Can build v1 labels? |
 |-------------|---------------------|
 | `showtimes_history.csv` alone | **Partial** — good for ended-film retrospectives; **insufficient** for clean forward-horizon labels |
-| `data/daily_logs/` (≥8–12 weeks retained) | **Yes** — primary path |
-| Going forward + backfill | Commit daily logs; optionally backfill from git history |
+| `data/daily_logs/` (≥8–12 weeks retained) | **Yes** — primary path going forward |
+| Git history backfill (`public/data/daily_logs/*_amc_showtimes.csv`) | **Yes** — ~342 snapshots recoverable (2025-07-11 → 2026-06-29) via PR B2 |
+| Going forward + backfill | Commit daily JSON logs; backfill historical footprints from Git |
 
 ---
 
@@ -388,6 +389,39 @@ python scripts/build_amc_film_footprint.py --input-dir data/daily_logs --output 
 
 **Tests:** `tests/analysis/test_amc_footprint.py` with `tests/fixtures/analysis/amc_footprint_mini.json`
 
+### Git-history footprint backfill (PR B2)
+
+**Script:** `scripts/extract_amc_snapshots_from_git.py`  
+**Libraries:** `reel_seattle/analysis/git_amc_snapshots.py`, `reel_seattle/analysis/legacy_amc_csv.py`  
+**Output:** `data/analysis/amc_film_footprint_from_git.csv` (**gitignored**)  
+**Inventory:** `data/analysis/amc_snapshot_inventory.csv` (**gitignored**)
+
+Git commit history retains historical AMC snapshots even when the working tree only has recent `data/daily_logs/*_amc.json` files. A read-only audit found **~342 usable snapshots** from **2025-07-11** through **2026-06-29** (~12 missing days in that span).
+
+**Source precedence (per snapshot date):**
+
+1. `public/data/daily_logs/YYYY-MM-DD_amc_showtimes.csv` — legacy archive (best; point-in-time when filtered)
+2. `public/showtimes.csv` at the matching daily commit — gap-fill (e.g. 2026-05-23 → 2026-05-29)
+3. `data/daily_logs/YYYY-MM-DD_amc.json` — normalized JSON (current/future path)
+
+Legacy archive CSVs include cumulative past rows. The extractor keeps only rows with **`show_date >= snapshot_date`** before footprint derivation.
+
+**Schema caveats:**
+
+- Older archive CSVs (~10 columns) lack `isCanceled`, `premiumFormat`, and AMC `movieId`.
+- Expanded `public/showtimes.csv` (~14 columns) adds status/format fields but still no `movieId`.
+- JSON logs include richer `RawShowtime` fields and `generated_at`; preferred going forward.
+
+**Run:**
+
+```bash
+python scripts/extract_amc_snapshots_from_git.py --every-n 30   # quick sample
+python scripts/extract_amc_snapshots_from_git.py                # full historical run
+python scripts/extract_amc_snapshots_from_git.py --inventory-only
+```
+
+**Tests:** `tests/analysis/test_legacy_amc_csv.py`, `tests/analysis/test_git_amc_snapshots.py`
+
 ### What stays out of `public/data/`
 
 Do **not** ship model scores to the browser until PR E passes evaluation. Keep modeling artifacts under `data/analysis/` or `analysis/` (gitignored via `.gitignore`).
@@ -400,7 +434,8 @@ Do **not** ship model scores to the browser until PR E passes evaluation. Keep m
 |----|-------|--------|
 | **A** | Design audit (`docs/leaving-soon-model-design.md`) | **Done** |
 | **B** | `scripts/build_amc_film_footprint.py` + tests | **Done** |
-| **C** | Historical label builder + leakage checks | **Blocked** — need ≥8–12 weeks of AMC daily logs |
+| **B2** | `scripts/extract_amc_snapshots_from_git.py` + tests | **Ready** |
+| **C** | Historical label builder + leakage checks | **Ready after B2** — Git history supplies ~342 snapshots |
 | **D** | Baseline + logistic regression backtest report | Pending |
 | **E** | `public/data/leaving_soon_current.json` emitter (only if §7 gates pass) | Pending |
 | **F** | Showtimes UI — badge, section, sort | Only if E passes |
@@ -418,13 +453,13 @@ Do **not** ship model scores to the browser until PR E passes evaluation. Keep m
 | **Product fit** | Strong — distinct from “no showtimes” |
 | **With history CSV alone** | **Insufficient** for rigorous Wednesday-extension labels |
 | **With daily logs + footprint table** | **Feasible** for v1 heuristic / logistic model |
-| **With 8–12 weeks of snapshots** | Reasonable first backtest |
+| **With Git-history backfill (~342 snapshots)** | Reasonable first backtest now (PR B2) |
 | **With 6+ months** | Better calibration and segment stability |
 
 ### Biggest blockers / risks
 
 1. **AMC restate overwrites forward snapshots in history** — trajectory is lost unless daily logs are used.
-2. **Sparse daily log history in repo today** — only recent logs locally; need sustained daily commits or git history backfill.
+2. **Sparse daily log history in working tree** — mitigated by PR B2 Git-history extractor (~342 snapshots).
 3. **Wednesday timing** — single 06:00 UTC scrape may miss afternoon update; labels may be noisy until an optional Wed PM run exists.
 4. **Title identity** — `showtime_film_key` may split variants (e.g. sensory screenings); `movieId` would help.
 5. **Class imbalance** — few positives per week; metrics must be precision-focused.
@@ -443,11 +478,11 @@ Do **not** ship model scores to the browser until PR E passes evaluation. Keep m
 
 ## 11. Recommended next PR
 
-**PR C:** `scripts/build_leaving_soon_labels.py` — build Wednesday-extension labels from footprint CSV + daily logs, with explicit leakage guards and event-film exclusion flags.
+**PR C:** `scripts/build_leaving_soon_labels.py` — build Wednesday-extension labels from footprint CSV, with explicit leakage guards and event-film exclusion flags.
 
-**Prerequisite:** Accumulate **≥8–12 weeks** of `data/daily_logs/*_amc.json` in git (daily Actions commits) so labels and backtests are meaningful. Re-run `python scripts/build_amc_film_footprint.py` after each batch of new logs.
+**Prerequisite:** Run PR B2 to generate `data/analysis/amc_film_footprint_from_git.csv` (~342 historical snapshots). Continue committing `data/daily_logs/*_amc.json` via daily Actions for fresh snapshots going forward.
 
-**Provisional ship bar (not approval to ship UI):** ≥75% precision on a high-confidence Leaving Soon bucket in held-out backtest weeks (see §7).
+**Provisional ship bar (not approval to ship UI):** ≥75% precision on a high-confidence Leaving Soon bucket in held-out backtest weeks (see §7). Do not start PR F (UI) until PR D backtest meets this bar.
 
 ---
 
@@ -458,25 +493,34 @@ Do **not** ship model scores to the browser until PR E passes evaluation. Keep m
 | Item | State |
 |------|--------|
 | PR A design audit | Done |
-| PR B footprint derivation | **Done** — commit `edbf473`, pushed; CI + Pages deploy passed |
-| PR C label builder | **Not started** — blocked on snapshot history |
+| PR B footprint derivation | **Done** — commit `edbf473` |
+| PR B2 Git-history extractor | **Ready** — `scripts/extract_amc_snapshots_from_git.py` |
+| PR C label builder | **Not started** — unblocked after B2 footprint CSV is generated |
 | Generated outputs | `data/analysis/` gitignored; not committed |
 
-**Blocker:** As of PR B landing, only **one** `data/daily_logs/*_amc.json` file is in the repo. Label building and backtesting need roughly **8–12 weeks** of daily AMC snapshots (via scheduled Actions commits).
+**Historical snapshots:** Git history recovers **~342** AMC snapshots (2025-07-11 → 2026-06-29) via legacy archive CSVs and daily `public/showtimes.csv` commits. PR C no longer needs to wait 8–12 weeks for new daily JSON logs.
 
 **Optional later:** Second **Wednesday PM** AMC scrape to align labels with schedule-extension timing (see §8).
 
 ### PR C readiness checklist
 
-Revisit when daily logs have accumulated — do **not** start PR C until the checks below pass:
+Start PR C after PR B2 lands and the checks below pass:
 
-- [ ] `git ls-files 'data/daily_logs/*_amc.json' | wc -l` ≥ **56** (~8 weeks) or ≥ **84** (~12 weeks)
-- [ ] Snapshot dates span the target window without large gaps (spot-check for failed scrapes)
-- [ ] `python scripts/build_amc_film_footprint.py` succeeds and row count grows with new logs
-- [ ] Footprint output includes multiple `snapshot_date` values (not a single-day trivial run)
+- [ ] `python scripts/extract_amc_snapshots_from_git.py` succeeds
+- [ ] `data/analysis/amc_film_footprint_from_git.csv` has **≥56** distinct `snapshot_date` values (~8 weeks) — full run yields ~342
+- [ ] Snapshot inventory shows acceptable gaps (audit: **12** missing days over the span)
+- [ ] Footprint row count is non-trivial and grows with full vs sampled runs
 - [ ] Team agrees provisional ship bar (§7: ≥75% precision on high-confidence bucket) still applies
 
-**Regenerate footprint after new logs:**
+**Regenerate historical footprint:**
+
+```bash
+python scripts/extract_amc_snapshots_from_git.py
+# output: data/analysis/amc_film_footprint_from_git.csv (gitignored)
+# inventory: data/analysis/amc_snapshot_inventory.csv (gitignored)
+```
+
+**Regenerate from current JSON logs (ongoing):**
 
 ```bash
 python scripts/build_amc_film_footprint.py
@@ -504,5 +548,10 @@ python scripts/build_amc_film_footprint.py
 | `data/history/showtimes_history.csv` | Historical analysis |
 | `data/daily_logs/2026-06-29_amc.json` | Sample snapshot |
 | `reel_seattle/analysis/amc_footprint.py` | Footprint derivation (PR B) |
+| `reel_seattle/analysis/legacy_amc_csv.py` | Legacy CSV → RawShowtime (PR B2) |
+| `reel_seattle/analysis/git_amc_snapshots.py` | Git snapshot discovery (PR B2) |
 | `scripts/build_amc_film_footprint.py` | Footprint CLI (PR B) |
+| `scripts/extract_amc_snapshots_from_git.py` | Git-history footprint CLI (PR B2) |
 | `tests/analysis/test_amc_footprint.py` | Footprint tests (PR B) |
+| `tests/analysis/test_legacy_amc_csv.py` | Legacy CSV tests (PR B2) |
+| `tests/analysis/test_git_amc_snapshots.py` | Git snapshot tests (PR B2) |

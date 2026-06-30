@@ -410,6 +410,34 @@ def write_footprint_csv(output_path: Path, rows: Sequence[Mapping[str, str]]) ->
         writer.writerows(rows)
 
 
+def build_footprint_from_snapshots(
+    snapshots: Sequence[ParsedSnapshot],
+    output_path: Path,
+    *,
+    registry_path: Path,
+) -> dict[str, Any]:
+    """Derive footprint rows from parsed snapshots and write CSV; return summary stats."""
+    import json
+
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    theater_index = build_theater_index(registry)
+    rows = build_footprint_rows(snapshots, theater_index=theater_index)
+    write_footprint_csv(output_path, rows)
+
+    film_keys = {row["showtime_film_key"] for row in rows}
+    snapshot_dates = {row["snapshot_date"] for row in rows}
+    event_like = sum(1 for row in rows if row["event_like_flag"] == "true")
+
+    return {
+        "snapshot_count": len(snapshots),
+        "row_count": len(rows),
+        "film_count": len(film_keys),
+        "snapshot_dates": sorted(snapshot_dates),
+        "event_like_rows": event_like,
+        "output_path": str(output_path),
+    }
+
+
 def build_footprint_from_logs(
     input_dir: Path,
     output_path: Path,
