@@ -110,6 +110,15 @@ Planner UI uses neutral `.planner-*` CSS class names (PR 68). Browser QA scripts
 - [ ] Page loads without console errors
 - [ ] Nav shows **Showtimes** and **Planner** only (legacy routes are direct-access)
 - [ ] Basic filters work: date, theaters, film count, start after, finish by
+- [ ] **Constraint preview** appears when film count is set and at least one of: required films, first/last film, time constraints, or gap constraints
+- [ ] Preview shows mock timeline with film slots, time boundaries, and gap indicators
+- [ ] Preview displays disclaimer text: "This is a hypothetical preview... click Find plans for real showtimes"
+- [ ] Preview shows anchored/required films with actual titles and posters when selected
+- [ ] Preview shows placeholder slots ("?") for unknown films
+- [ ] Preview warning appears for impossible constraints (e.g., start after >= finish by, tight time window)
+- [ ] Preview legend shows film types and gap constraints when applicable
+- [ ] Preview animates smoothly when appearing/disappearing as filters change
+- [ ] Preview is responsive on 375px, 768px, and desktop widths
 - [ ] Advanced filters expand/collapse and affect results (gaps, required/include, preferred, exclude, first/last, sort)
 - [ ] **Preferred films** accept comma-separated titles; plans must include at least one preferred movie when set
 - [ ] Shared `/planner?count=max&preferred=Movie+A&preferred=Movie+B` restores preferred films and opens advanced panel
