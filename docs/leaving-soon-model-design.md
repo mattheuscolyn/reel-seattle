@@ -1,6 +1,6 @@
 # Leaving Soon — Predictive Feature Design & Data Audit
 
-**Status:** PR B complete (`edbf473`); PR B2 Git-history extractor ready; PR C unblocked after B2 lands  
+**Status:** PR B/B2 complete; PR C label builder ready; PR D backtest pending  
 **Date:** 2026-06-30  
 **Audience:** Maintainers evaluating whether to ship an AMC “Leaving Soon” signal
 
@@ -422,6 +422,52 @@ python scripts/extract_amc_snapshots_from_git.py --inventory-only
 
 **Tests:** `tests/analysis/test_legacy_amc_csv.py`, `tests/analysis/test_git_amc_snapshots.py`
 
+### Leaving Soon labels (PR C)
+
+**Script:** `scripts/build_leaving_soon_labels.py`  
+**Library:** `reel_seattle/analysis/leaving_soon_labels.py`  
+**Input:** `data/analysis/amc_film_footprint_from_git.csv` (default)  
+**Output:** `data/analysis/leaving_soon_labels.csv` (**gitignored**)  
+**Summary:** `data/analysis/leaving_soon_label_summary.json` (**gitignored**)
+
+**v1 label: Wednesday-extension failure (binary)**
+
+For each film at anchor snapshot `T` (default: **Tuesday or Wednesday**):
+
+1. Require active visible showtimes at or after `T` (`min_active_showtimes`, default 1).
+2. `anchor_max_show_date` = furthest show date visible for the film at `T`.
+3. Find the first post-update snapshot after `T`, preferably **Thursday or Friday** within `max_post_update_gap_days` (default 4) after the relevant **Wednesday** booking update.
+4. `post_update_max_show_date` = furthest show date for the film in that snapshot (blank if absent).
+5. `extended_after_update = true` when `post_update_max_show_date > anchor_max_show_date`.
+6. `leaving_soon_label = true` when the film **fails** to extend (`extended_after_update = false`).
+
+**Leakage prevention:** Predictor fields are copied from the **anchor snapshot only**. Post-update fields (`post_update_*`, `extended_after_update`, `leaving_soon_label`) are outcomes for labeling/backtesting — not model inputs.
+
+**Exclusions / non-labeled rows (`label_status`):**
+
+| Status | Meaning |
+|--------|---------|
+| `labeled` | Valid anchor + post-update; binary label assigned |
+| `missing_post_update_snapshot` | No Thu/Fri snapshot within gap after relevant Wednesday |
+| `event_like_excluded` | `event_like_flag` at anchor (default: excluded from training) |
+| `insufficient_current_showtimes` | No active showtimes at/after anchor |
+
+**Limitations:**
+
+- Daily scrape is ~06:00 UTC (~10 PM PT prior evening); Wednesday-morning anchors may still predate the afternoon booking drop. Optional Wed PM scrape remains a future improvement.
+- 12 missing snapshot days in Git history → some anchors cannot be labeled.
+- Legacy CSV snapshots lack `amc_movie_id`; title-key identity may split variants.
+- Films already at zero forward horizon at anchor are excluded.
+
+**Run:**
+
+```bash
+python scripts/build_leaving_soon_labels.py
+python scripts/build_leaving_soon_labels.py --input data/analysis/amc_film_footprint_from_git.csv
+```
+
+**Tests:** `tests/analysis/test_leaving_soon_labels.py` with `tests/fixtures/analysis/leaving_soon_footprint_mini.csv`
+
 ### What stays out of `public/data/`
 
 Do **not** ship model scores to the browser until PR E passes evaluation. Keep modeling artifacts under `data/analysis/` or `analysis/` (gitignored via `.gitignore`).
@@ -434,9 +480,9 @@ Do **not** ship model scores to the browser until PR E passes evaluation. Keep m
 |----|-------|--------|
 | **A** | Design audit (`docs/leaving-soon-model-design.md`) | **Done** |
 | **B** | `scripts/build_amc_film_footprint.py` + tests | **Done** |
-| **B2** | `scripts/extract_amc_snapshots_from_git.py` + tests | **Ready** |
-| **C** | Historical label builder + leakage checks | **Ready after B2** — Git history supplies ~342 snapshots |
-| **D** | Baseline + logistic regression backtest report | Pending |
+| **B2** | `scripts/extract_amc_snapshots_from_git.py` + tests | **Done** |
+| **C** | `scripts/build_leaving_soon_labels.py` + tests | **Ready** |
+| **D** | Baseline + logistic regression backtest report | **Next** |
 | **E** | `public/data/leaving_soon_current.json` emitter (only if §7 gates pass) | Pending |
 | **F** | Showtimes UI — badge, section, sort | Only if E passes |
 
@@ -478,11 +524,16 @@ Do **not** ship model scores to the browser until PR E passes evaluation. Keep m
 
 ## 11. Recommended next PR
 
-**PR C:** `scripts/build_leaving_soon_labels.py` — build Wednesday-extension labels from footprint CSV, with explicit leakage guards and event-film exclusion flags.
+**PR D:** baseline heuristics + logistic regression backtest report from `data/analysis/leaving_soon_labels.csv`, with time-based train/validation/test splits (see §7).
 
-**Prerequisite:** Run PR B2 to generate `data/analysis/amc_film_footprint_from_git.csv` (~342 historical snapshots). Continue committing `data/daily_logs/*_amc.json` via daily Actions for fresh snapshots going forward.
+**Prerequisite:** Run PR B2 + PR C locally:
 
-**Provisional ship bar (not approval to ship UI):** ≥75% precision on a high-confidence Leaving Soon bucket in held-out backtest weeks (see §7). Do not start PR F (UI) until PR D backtest meets this bar.
+```bash
+python scripts/extract_amc_snapshots_from_git.py
+python scripts/build_leaving_soon_labels.py
+```
+
+**Provisional ship bar (not approval to ship UI):** ≥75% precision on a high-confidence Leaving Soon bucket in held-out backtest weeks (see §7). Do not start PR F (UI) until PR D meets this bar.
 
 ---
 
@@ -493,41 +544,28 @@ Do **not** ship model scores to the browser until PR E passes evaluation. Keep m
 | Item | State |
 |------|--------|
 | PR A design audit | Done |
-| PR B footprint derivation | **Done** — commit `edbf473` |
-| PR B2 Git-history extractor | **Ready** — `scripts/extract_amc_snapshots_from_git.py` |
-| PR C label builder | **Not started** — unblocked after B2 footprint CSV is generated |
+| PR B footprint derivation | **Done** — `edbf473` |
+| PR B2 Git-history extractor | **Done** — `f2f639f` |
+| PR C label builder | **Ready** — `scripts/build_leaving_soon_labels.py` |
+| PR D backtest | **Not started** |
 | Generated outputs | `data/analysis/` gitignored; not committed |
-
-**Historical snapshots:** Git history recovers **~342** AMC snapshots (2025-07-11 → 2026-06-29) via legacy archive CSVs and daily `public/showtimes.csv` commits. PR C no longer needs to wait 8–12 weeks for new daily JSON logs.
-
-**Optional later:** Second **Wednesday PM** AMC scrape to align labels with schedule-extension timing (see §8).
 
 ### PR C readiness checklist
 
-Start PR C after PR B2 lands and the checks below pass:
+- [x] `python scripts/extract_amc_snapshots_from_git.py` succeeds (~342 snapshots)
+- [x] `python scripts/build_leaving_soon_labels.py` succeeds
+- [x] Label output includes multiple `anchor_date` values and binary labels
+- [ ] PR D backtest report reviewed against §7 ship bar
 
-- [ ] `python scripts/extract_amc_snapshots_from_git.py` succeeds
-- [ ] `data/analysis/amc_film_footprint_from_git.csv` has **≥56** distinct `snapshot_date` values (~8 weeks) — full run yields ~342
-- [ ] Snapshot inventory shows acceptable gaps (audit: **12** missing days over the span)
-- [ ] Footprint row count is non-trivial and grows with full vs sampled runs
-- [ ] Team agrees provisional ship bar (§7: ≥75% precision on high-confidence bucket) still applies
-
-**Regenerate historical footprint:**
+**Regenerate labels:**
 
 ```bash
-python scripts/extract_amc_snapshots_from_git.py
-# output: data/analysis/amc_film_footprint_from_git.csv (gitignored)
-# inventory: data/analysis/amc_snapshot_inventory.csv (gitignored)
+python scripts/build_leaving_soon_labels.py
+# output: data/analysis/leaving_soon_labels.csv (gitignored)
+# summary: data/analysis/leaving_soon_label_summary.json (gitignored)
 ```
 
-**Regenerate from current JSON logs (ongoing):**
-
-```bash
-python scripts/build_amc_film_footprint.py
-# output: data/analysis/amc_film_footprint_daily.csv (gitignored)
-```
-
-**When ready:** implement `scripts/build_leaving_soon_labels.py` (PR C), then PR D backtest before any UI work.
+**When ready:** implement PR D backtest before any UI work.
 
 ---
 
@@ -552,6 +590,9 @@ python scripts/build_amc_film_footprint.py
 | `reel_seattle/analysis/git_amc_snapshots.py` | Git snapshot discovery (PR B2) |
 | `scripts/build_amc_film_footprint.py` | Footprint CLI (PR B) |
 | `scripts/extract_amc_snapshots_from_git.py` | Git-history footprint CLI (PR B2) |
+| `reel_seattle/analysis/leaving_soon_labels.py` | Label derivation (PR C) |
+| `scripts/build_leaving_soon_labels.py` | Label CLI (PR C) |
+| `tests/analysis/test_leaving_soon_labels.py` | Label tests (PR C) |
 | `tests/analysis/test_amc_footprint.py` | Footprint tests (PR B) |
 | `tests/analysis/test_legacy_amc_csv.py` | Legacy CSV tests (PR B2) |
 | `tests/analysis/test_git_amc_snapshots.py` | Git snapshot tests (PR B2) |
