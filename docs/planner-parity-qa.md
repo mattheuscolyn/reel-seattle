@@ -145,7 +145,7 @@ This is the primary long-term reason to replace Marathon with Planner.
 
 ### Needs another polish PR?
 
-**Optional feature PRs** — Recently Added collapse/page split; share a specific Planner lineup card.
+**Optional v2 polish** — alternate showtime counts per lineup, hero “longest day” highlight, auto-recompute on filter change, share a specific Planner lineup deep link. PR 69 (Recently Added) and PR 70 (Share lineup) are complete.
 
 ---
 

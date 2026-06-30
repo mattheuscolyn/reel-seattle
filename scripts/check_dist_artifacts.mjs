@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Verify production dist/ artifacts after `npm run build`.
- * Blocks shipping showtimes_history.csv or daily_logs/ to GitHub Pages.
+ * Blocks shipping repo-only CSVs (history, announcements) or daily_logs/ to GitHub Pages.
  */
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -21,6 +21,8 @@ const REQUIRED_FILES = [
 
 const FORBIDDEN_PATHS = [
   'data/showtimes_history.csv',
+  'data/movies_announcements.csv',
+  'data/newly_announced.csv',
   'data/daily_logs',
 ];
 

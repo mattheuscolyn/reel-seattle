@@ -442,11 +442,17 @@ async function checkLegacyRoutes(page) {
 
   await checkLegacyMigrationBanners(page);
 
-  await page.goto(`${BASE}/double-feature?date=06%2F28%2F2026`, { waitUntil: 'networkidle' });
-  if (page.url().includes('/planner') && page.url().includes('date=06')) {
-    pass('Double Feature shared URL redirects to Planner with date param');
+  const dfScenario = pickBrowserEligibleScenario(scenarios.twoFilm);
+  if (dfScenario?.csvDate) {
+    const dfDateParam = encodeURIComponent(dfScenario.csvDate);
+    await page.goto(`${BASE}/double-feature?date=${dfDateParam}`, { waitUntil: 'networkidle' });
+    if (page.url().includes('/planner') && page.url().includes('date=')) {
+      pass(`Double Feature shared URL redirects to Planner with date param (${dfScenario.csvDate})`);
+    } else {
+      fail(`Double Feature shared URL redirect failed: ${page.url()}`);
+    }
   } else {
-    fail(`Double Feature shared URL redirect failed: ${page.url()}`);
+    note('No browser-eligible scenario for Double Feature date redirect check');
   }
   const plannerFindBtn = page.locator('.search-button', { hasText: 'Find plans' });
   if (await plannerFindBtn.count()) {

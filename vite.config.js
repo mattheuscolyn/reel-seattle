@@ -10,8 +10,16 @@ const PUBLIC_DIR = join(ROOT, 'public')
 /** Archived scrape CSVs (~GB). Kept in repo but not shipped to GitHub Pages. */
 const PUBLIC_SKIP = ['data/daily_logs']
 
-/** Legacy full history CSV — canonical copy lives under data/history/, not in dist/. */
-const PUBLIC_SKIP_FILES = ['data/showtimes_history.csv']
+/**
+ * Repo-only data files under public/data/ — kept for the Python pipeline but not shipped to dist/.
+ * - showtimes_history.csv: canonical copy lives under data/history/
+ * - movies_announcements.csv / newly_announced.csv: browser uses newly_added_current.json
+ */
+const PUBLIC_SKIP_FILES = [
+  'data/showtimes_history.csv',
+  'data/movies_announcements.csv',
+  'data/newly_announced.csv',
+]
 
 function shouldSkipPublicPath(relPath) {
   const normalized = relPath.replace(/\\/g, '/')

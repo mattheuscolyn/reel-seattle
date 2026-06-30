@@ -165,19 +165,16 @@ Planner UI uses neutral `.planner-*` CSS class names (PR 68). Browser QA scripts
 - [ ] `newly_added_current.json` is requested on `/` or `/recently-added` (one fetch per session in production; cached across routes)
 - [ ] `showtimes_history.csv`, `movies_announcements.csv`, and `newly_announced.csv` are **not** requested
 
-## Announcement CSV deploy audit (PR 58)
+## Announcement CSV deploy audit (PR 58 / PR 59 complete)
 
-After PR 57, the React app uses `newly_added_current.json` only. A post-build audit of `dist/data/` found:
+The React app uses `newly_added_current.json` only. `vite.config.js` `PUBLIC_SKIP_FILES` excludes repo-only CSVs from `dist/`; `npm run check:dist` fails if they appear in the build output.
 
-| File | In `dist/data/`? | Browser fetch? | Runtime code reference? | Smoke/check required? |
+| File | In `public/data/`? | In `dist/data/`? | Browser fetch? | Runtime code reference? |
 | --- | --- | --- | --- | --- |
-| `movies_announcements.csv` | Yes (~512 KB) | No | No | No |
-| `newly_announced.csv` | Yes (~4.5 KB) | No | No | No |
-| `newly_added_current.json` | Yes (~5.5 KB) | Yes (Showtimes preview, `/recently-added`) | Yes | Yes (`check:dist`, `smoke:frontend`) |
-
-**Size impact:** excluding both CSVs from deploy would save ~517 KB (~83% of current `dist/data/` bulk). Files should remain in `public/data/` for the Python pipeline and daily commits.
-
-**Recommended PR 59:** add `data/movies_announcements.csv` and `data/newly_announced.csv` to `PUBLIC_SKIP_FILES` in `vite.config.js` (same pattern as `showtimes_history.csv`). No change to pipeline generation or repo copies.
+| `movies_announcements.csv` | Yes (pipeline) | **No** | No | No |
+| `newly_announced.csv` | Yes (pipeline) | **No** | No | No |
+| `showtimes_history.csv` | No (canonical: `data/history/`) | **No** | No | No |
+| `newly_added_current.json` | Yes | Yes | Yes (Showtimes preview, `/recently-added`) | Yes (`check:dist`, `smoke:frontend`) |
 
 ## When to run
 

@@ -1,10 +1,9 @@
 # Unified Planner — Technical Design
 
-**Status:** Approved design (PR 60)  
-**Codebase reference:** `c042f21`  
-**Audience:** Implementers of PRs 61–66
+**Status:** v1 complete (PRs 60–70); historical design record  
+**Audience:** Maintainers extending Planner or reviewing migration decisions
 
-This document defines how Reel Seattle will replace the separate **Double Feature** and **Marathon** tools with one **unified planner**. It is implementation-oriented: PR 61 should be able to build the pure engine from this spec without product ambiguity.
+This document records how Reel Seattle replaced the separate **Double Feature** and **Marathon** tools with one **unified planner**. The v1 migration (engine, UI, redirects, legacy removal, Recently Added split, Share lineup) is **complete**. Use [planner-parity-qa.md](./planner-parity-qa.md) and [frontend-smoke-check.md](./frontend-smoke-check.md) for ongoing QA; deferred v2 ideas remain in §7 and §13.
 
 ---
 
@@ -442,13 +441,15 @@ Omit params when equal to defaults (same pattern as `encodeDoubleFeatureFilters`
 | PR 66 | `doubleFeatureEngine.js`, DF page | Remove or thin redirect-only shell |
 | PR 66 | `find_marathons.py` export | Stop or gate after iframe removal |
 
-### Parity QA checklist (before PR 66)
+### Parity QA checklist (completed PR 66A)
 
-- [ ] Same date/theater: unified 2-film results ⊇ Double Feature results (modulo max gap default change — document if default max gap becomes unlimited)
-- [ ] AMC busy day: `count=max` ≥ Marathon hero film count
-- [ ] Finish-by filters match Marathon
-- [ ] Blacklist / preferred / include behavior match
-- [ ] SIFF or Beacon 2-film plan findable (regression vs Marathon — Marathon cannot do this today; **new capability**)
+Verified in [planner-parity-qa.md](./planner-parity-qa.md) (2026-06-27 audit; automated via `scripts/qa_planner_parity.mjs`):
+
+- [x] Same date/theater: unified 2-film results ⊇ Double Feature results (2-film default max gap 59 min unless overridden)
+- [x] AMC busy day: `count=max` ≥ former Marathon hero film count
+- [x] Finish-by filters match Marathon
+- [x] Blacklist / preferred / include behavior match
+- [x] SIFF or Beacon 2-film plan findable (**new capability** vs legacy Marathon)
 
 ---
 
@@ -460,10 +461,10 @@ Omit params when equal to defaults (same pattern as `encodeDoubleFeatureFilters`
 
 Acceptance criteria:
 
-- [ ] `src/utils/plannerEngine.js` exports `findSchedules` per input/output contract above
-- [ ] `tests/frontend/plannerEngine.test.mjs` with ≥20 cases: 2-film parity, 3-film chain, finish-by prune, max gap, include/exclude, first/last anchors, empty results, truncation flag
-- [ ] No changes to `/double-feature` or `/marathon` routes
-- [ ] Frontend test suite passes
+- [x] `src/utils/plannerEngine.js` exports `findSchedules` per input/output contract above
+- [x] `tests/frontend/plannerEngine.test.mjs` with ≥20 cases: 2-film parity, 3-film chain, finish-by prune, max gap, include/exclude, first/last anchors, empty results, truncation flag
+- [x] No changes to `/double-feature` or `/marathon` routes (at time of PR 61)
+- [x] Frontend test suite passes
 
 ### PR 62 — New `/planner` React page (basic filters)
 
@@ -471,11 +472,11 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-- [ ] Route `/planner` registered in `App.jsx`; nav link added (legacy links remain)
-- [ ] Filters: date, theaters, film count, start after, finish by, Find plans
-- [ ] Results list (minimal cards OK); no advanced panel yet
-- [ ] `npm run test:frontend`, `smoke:frontend` pass
-- [ ] Manual QA on `/`, `/double-feature`, `/marathon` unchanged
+- [x] Route `/planner` registered in `App.jsx`; nav link added (legacy links remain)
+- [x] Filters: date, theaters, film count, start after, finish by, Find plans
+- [x] Results list (minimal cards OK); no advanced panel yet
+- [x] `npm run test:frontend`, `smoke:frontend` pass
+- [x] Manual QA on `/`, `/double-feature`, `/marathon` unchanged
 
 ### PR 63 — Advanced filters + URL state
 
@@ -483,10 +484,10 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-- [ ] `plannerUrlState.js` encode/decode with tests
-- [ ] Advanced: min/max gap, include/exclude, first/last, preferred, sort
-- [ ] Copy share link + Run search from URL (no auto-run)
-- [ ] URL round-trip tests
+- [x] `plannerUrlState.js` encode/decode with tests
+- [x] Advanced: min/max gap, include/exclude, first/last, preferred, sort
+- [x] Copy share link + Run search from URL (no auto-run)
+- [x] URL round-trip tests
 
 ### PR 64 — Planner result UX polish
 
@@ -494,10 +495,10 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-- [ ] Day timeline or per-film connector (parity with Marathon visual quality)
-- [ ] Responsive at 375 / 768 / 1200 px
-- [ ] Empty / truncated states with clear copy
-- [ ] Optional: alternate showtime count badge
+- [x] Day timeline or per-film connector (parity with Marathon visual quality)
+- [x] Responsive at 375 / 768 / 1200 px
+- [x] Empty / truncated states with clear copy
+- [ ] Optional: alternate showtime count badge (deferred — low priority per parity QA)
 
 ### PR 65 — Legacy route migration prep (soft banners)
 
@@ -532,7 +533,7 @@ Acceptance criteria:
 - [x] Redirect `/double-feature` → `buildPlannerPathFromDoubleFeature()` mapped `/planner?count=2`
 - [x] Nav: Showtimes + Planner only (legacy routes direct-access)
 - [x] Keep `/marathon` iframe + banner (superseded by 66B-1 redirect)
-- [ ] **Do not** delete `public/marathon/`, engines, or stop JSON generation (deferred to 66B-2)
+- [x] Marathon asset deletion deferred to 66B-2 (completed)
 
 ### PR 66B-1 — Redirect Marathon into Planner
 
@@ -544,7 +545,7 @@ Acceptance criteria:
 - [x] Migrate `marathon-planner-filters` localStorage to `preferred` / `exclude` params
 - [x] Planner arrival notice when `from=marathon`
 - [x] `public/marathon/index.html` static redirect stub (GH Pages `/marathon/` path)
-- [ ] **Do not** delete `marathon.js`, `marathon_showtimes.json`, or pipeline export
+- [x] Marathon asset deletion deferred to 66B-2 (completed)
 
 ### PR 66B-2 — Remove obsolete standalone marathon assets
 
@@ -594,9 +595,29 @@ Acceptance criteria:
 - [x] `TWO_FILM_EXCLUSIVE_GAP_CEILING_MINUTES` replaces `DEFAULT_DOUBLE_FEATURE_MAX_GAP_MINUTES`
 - [x] `/double-feature` redirect/migration naming preserved
 
-### Independent: dist CSV cleanup
+### PR 69 — Recently Added preview + full page
 
-Excluding `movies_announcements.csv` and `newly_announced.csv` from `dist/` (~517 KB) is **orthogonal**. Can land anytime via `vite.config.js` `PUBLIC_SKIP_FILES` — see `docs/frontend-smoke-check.md`.
+**Scope:** Showtimes preview (up to 4 films) and `/recently-added` full list from `newly_added_current.json`.
+
+Acceptance criteria:
+
+- [x] `RecentlyAddedSection` preview on Showtimes with view-all link
+- [x] `/recently-added` page (not in main nav)
+- [x] `scripts/qa_recently_added_browser.mjs` browser QA
+
+### PR 70 — Share lineup on Planner result cards
+
+**Scope:** Per-card readable schedule summary + current filter URL via Web Share or clipboard (not lineup-specific deep links).
+
+Acceptance criteria:
+
+- [x] `plannerShare.js` + `PlannerResultCard` Share lineup button
+- [x] Tests in `tests/frontend/plannerShare.test.mjs`
+- [x] Parity QA pass documented in [planner-parity-qa.md](./planner-parity-qa.md)
+
+### Independent: dist CSV cleanup (PR 59)
+
+- [x] `movies_announcements.csv` and `newly_announced.csv` excluded from `dist/` via `vite.config.js` `PUBLIC_SKIP_FILES` (~517 KB deploy savings); repo copies under `public/data/` retained for the Python pipeline. Enforced by `scripts/check_dist_artifacts.mjs`.
 
 ---
 
@@ -605,7 +626,7 @@ Excluding `movies_announcements.csv` and `newly_announced.csv` from `dist/` (~51
 - **No cross-theater travel chains** — each plan is one venue, same day
 - **No external APIs** — client-side search on committed artifacts only
 - **No new JSON artifact** unless profiling proves client search too slow
-- **No deletion of legacy tools** before parity QA (Double Feature + Marathon stay until PR 65/66)
+- **Legacy tool retirement** — completed (redirects only; see §11)
 - **No full preferred-order constraint** in engine v1 (first/last anchors only)
 - **No repeat-film plans** (`allowRepeatFilms` stays false)
 - **No auto-run on shared URLs** in v1 (match Double Feature)
@@ -621,22 +642,22 @@ Excluding `movies_announcements.csv` and `newly_announced.csv` from `dist/` (~51
 | **Filter overload** | Strict default vs advanced split; sensible defaults (`maxGap` null, not 60) |
 | **First/last vs full order** | v1: anchors only; full order deferred to v2 with explicit UX |
 | **Double Feature `end` param** | Do not map to `finish`; document in PR 65 redirect; `end` was showtime-level filter |
-| **Default max gap change** | DF used 60 min; unified default null (unlimited). Consider advanced default 60 or migration note |
+| **Default max gap change** | 2-film mode defaults to 59 min unless `maxgap` explicit; 3/4/max modes have no default cap |
 | **SIFF/Beacon sparse schedules** | Empty results OK; copy: “Try another date or theater” |
 | **Title collisions** | Match on `showtime_film_key` internally |
-| **Marathon iframe parity** | Side-by-side QA on same date/theater before PR 66 |
+| **Marathon iframe parity** | Completed PR 66A; Marathon assets removed PR 66B-2 |
 | **History CSV 78 MB on GitHub** | Unrelated to planner; clone size warning only |
-| **When remove `marathon_showtimes.json`** | PR 66 after iframe removed |
+| **When remove `marathon_showtimes.json`** | Done PR 66B-2 |
 | **Kennewick / unresolved theater_id** | Skip rows without resolvable theater_id in engine pre-filter |
 | **Canceled showtimes** | Exclude consistently (adapter + engine) |
 
-### Open question for PR 62 (product)
+### Resolved: `count=max` semantics (PR 62)
 
-Should **`count=max`** show only longest chains (Marathon maximal) or all chains ≥ 2 sorted by count? **Recommendation:** maximal-only when `count=max`, matching Marathon hero behavior.
+**Decision:** maximal-only when `count=max`, matching Marathon hero behavior.
 
 ---
 
-## Appendix A — File map (future)
+## Appendix A — File map (implemented)
 
 | File | Purpose |
 |------|---------|
@@ -644,17 +665,19 @@ Should **`count=max`** show only longest chains (Marathon maximal) or all chains
 | `src/utils/plannerDisplay.js` | Formatting helpers (PR 62+) |
 | `src/utils/plannerUrlState.js` | URL encode/decode (PR 63) |
 | `src/pages/PlannerPage.jsx` | UI (PR 62+) |
-| `src/components/PlannerResultCard.jsx` | Result card (PR 62/64) |
+| `src/components/PlannerResultCard.jsx` | Result card (PR 62/64/70) |
+| `src/utils/plannerShare.js` | Share lineup text + Web Share (PR 70) |
+| `src/utils/legacyDoubleFeatureUrlMigration.js` | `/double-feature` redirect param decode (PR 67B) |
 | `tests/frontend/plannerEngine.test.mjs` | Engine tests (PR 61) |
 | `tests/frontend/plannerUrlState.test.mjs` | URL tests (PR 63) |
+| `tests/frontend/plannerShare.test.mjs` | Share lineup tests (PR 70) |
 
 ## Appendix B — Related docs
 
-- PR 59 audit (conversation / handoff)
-- `scripts/marathon/README.md` — legacy iframe behavior
-- `docs/frontend-smoke-check.md` — QA checklists
+- [planner-parity-qa.md](./planner-parity-qa.md) — parity audit and migration verdicts
+- [frontend-smoke-check.md](./frontend-smoke-check.md) — manual and automated QA checklists
 - `schema/showtimes_current/v1.0.0.json` — artifact fields
 
 ---
 
-**Next PR:** **PR 61 — Pure `plannerEngine.js` + tests** (no UI).
+**v1 status:** Complete. Optional v2 polish (alternate showtime counts, lineup deep links, auto-recompute) tracked in [planner-parity-qa.md](./planner-parity-qa.md) §6.
