@@ -136,9 +136,37 @@ Reduces duplicate data entry and teaches the Planner entry point.
 
 ---
 
+## Work in progress
+
+### Mock plan preview (filter constraint visualization)
+
+**Status:** Implementation complete, pending production deployment
+
+**Concept:** Use the existing plan result visual (`PlannerResultCard` / `PlannerTimeline` — films as blocks, gaps between) as a **hypothetical preview** of the user's current filters *before* running a search.
+
+See **`docs/mock-plan-preview-implementation.md`** for full implementation details.
+
+**Implementation complete:**
+- ✓ Core preview logic (`plannerConstraintPreview.js`)
+- ✓ Visual timeline component (`PlannerConstraintTimeline.jsx`)
+- ✓ Container with disclaimer (`PlannerConstraintPreview.jsx`)
+- ✓ Integration into PlannerPage
+- ✓ Responsive design (375px, 768px, 1200px)
+- ✓ Impossible constraint warnings
+- ✓ Unit tests (26 test cases)
+- ✓ CSS animations and polish
+
+**Value delivered:**
+- Makes abstract filters tangible before searching
+- Helps users spot impossible combinations early
+- Shows relationship between film count, time windows, and gaps
+- Progressive disclosure (only shows when meaningful constraints are set)
+
+---
+
 ## Future improvements / ideas
 
-Defer until **Work on now** is in good shape. These are approved directions, not committed sprint work.
+Defer until **Work in progress** items ship. These are approved directions, not committed sprint work.
 
 ### Filter & results UX
 

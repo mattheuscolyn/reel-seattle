@@ -4,6 +4,7 @@ import DataStatePanel from '../components/DataStatePanel.jsx';
 import DropdownMultiSelect from '../components/DropdownMultiSelect.jsx';
 import FilmMultiSelect from '../components/FilmMultiSelect.jsx';
 import FilmSingleSelect from '../components/FilmSingleSelect.jsx';
+import PlannerConstraintPreview from '../components/PlannerConstraintPreview.jsx';
 import PlannerFilmValidation from '../components/PlannerFilmValidation.jsx';
 import PlannerResultCard from '../components/PlannerResultCard.jsx';
 import PlannerTimePicker from '../components/PlannerTimePicker.jsx';
@@ -37,6 +38,7 @@ import {
 } from '../utils/plannerUrlState.js';
 import { intersectWithOptions } from '../utils/showtimesUrlState.js';
 import { buildPlannerFilterShareUrl } from '../utils/plannerShare.js';
+import { shouldShowPreview } from '../utils/plannerConstraintPreview.js';
 import { copyTextToClipboard } from '../utils/shareLinkUtils.js';
 
 export default function PlannerPage() {
@@ -537,6 +539,14 @@ export default function PlannerPage() {
             </div>
           ) : null}
         </div>
+
+        {shouldShowPreview(plannerState) ? (
+          <PlannerConstraintPreview
+            filters={plannerState}
+            filmCatalog={filmCatalog}
+            showtimeRows={rows}
+          />
+        ) : null}
 
         <div className="search-button-container">
           <div className="planner-action-buttons">

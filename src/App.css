@@ -2345,6 +2345,295 @@
   display: none;
 }
 
+/* ——— Constraint Preview Container ——— */
+
+.planner-constraint-preview {
+  margin: var(--space-xl) 0;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 2px dashed var(--color-border-strong);
+  animation: fadeInSlide 0.3s ease-out;
+}
+
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.planner-constraint-preview-header {
+  margin-bottom: var(--space-md);
+}
+
+.planner-constraint-preview-title {
+  margin: 0 0 var(--space-xs) 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: 0.01em;
+}
+
+.planner-constraint-preview-description {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.planner-constraint-preview-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-md);
+  border-radius: var(--radius-md);
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.planner-constraint-preview-warning-icon {
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.planner-constraint-preview-warning-text {
+  flex: 1;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: rgb(250, 204, 21);
+}
+
+.planner-constraint-preview-legend {
+  margin-top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.planner-constraint-preview-legend-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.planner-constraint-preview-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.planner-constraint-preview-legend-swatch {
+  display: inline-block;
+  width: 20px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px dashed var(--color-border-strong);
+}
+
+.planner-constraint-preview-legend-swatch--known {
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.25), rgba(99, 102, 241, 0.15));
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.planner-constraint-preview-legend-swatch--any {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-surface),
+    var(--color-surface) 2px,
+    var(--color-bg) 2px,
+    var(--color-bg) 4px
+  );
+  border-color: var(--color-border);
+}
+
+.planner-constraint-preview-legend-label {
+  font-weight: 500;
+}
+
+.planner-constraint-preview-legend-note {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--color-text-subtle);
+  padding-top: var(--space-xs);
+}
+
+@media (max-width: 768px) {
+  .planner-constraint-preview {
+    padding: var(--space-md);
+    margin: var(--space-lg) 0;
+  }
+
+  .planner-constraint-preview-title {
+    font-size: 0.95rem;
+  }
+
+  .planner-constraint-preview-description {
+    font-size: 0.85rem;
+  }
+
+  .planner-constraint-preview-legend-item {
+    font-size: 0.78rem;
+  }
+
+  .planner-constraint-preview-warning {
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .planner-constraint-preview-warning-text {
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .planner-constraint-preview {
+    padding: var(--space-sm);
+  }
+
+  .planner-constraint-preview-title {
+    font-size: 0.9rem;
+  }
+
+  .planner-constraint-preview-description {
+    font-size: 0.82rem;
+  }
+
+  .planner-constraint-preview-legend {
+    gap: var(--space-xs);
+  }
+
+  .planner-constraint-preview-legend-item {
+    font-size: 0.75rem;
+  }
+}
+
+/* ——— Constraint Preview Timeline ——— */
+
+.planner-constraint-preview-timeline {
+  margin: var(--space-md) 0;
+}
+
+.planner-constraint-preview-timeline-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: var(--space-sm);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  opacity: 0.7;
+}
+
+.planner-constraint-preview-timeline-track {
+  position: relative;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  border: 1px dashed var(--color-border);
+  overflow: hidden;
+}
+
+.planner-constraint-preview-timeline-segment {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  min-width: 2px;
+  border-radius: 6px;
+  overflow: hidden;
+  opacity: 0.85;
+}
+
+.planner-constraint-preview-timeline-segment--film {
+  background: linear-gradient(180deg, var(--color-surface-raised), var(--color-surface));
+  border: 2px dashed var(--color-border-strong);
+}
+
+.planner-constraint-preview-timeline-segment--first,
+.planner-constraint-preview-timeline-segment--last {
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.3), rgba(99, 102, 241, 0.2));
+  border-color: rgba(99, 102, 241, 0.5);
+}
+
+.planner-constraint-preview-timeline-segment--required {
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.25), rgba(99, 102, 241, 0.15));
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.planner-constraint-preview-timeline-segment--any {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-surface),
+    var(--color-surface) 3px,
+    var(--color-bg) 3px,
+    var(--color-bg) 6px
+  );
+  border: 2px dashed var(--color-border);
+}
+
+.planner-constraint-preview-timeline-segment--gap {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color-bg),
+    var(--color-bg) 4px,
+    var(--color-surface) 4px,
+    var(--color-surface) 8px
+  );
+  border: 1px dashed var(--color-border);
+  opacity: 0.6;
+}
+
+.planner-constraint-preview-timeline-segment-label {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+  padding: 0 4px;
+  pointer-events: none;
+}
+
+.planner-constraint-preview-timeline-segment:hover {
+  opacity: 1;
+  z-index: 10;
+}
+
+.planner-constraint-preview-timeline-segment:hover .planner-constraint-preview-timeline-segment-label {
+  font-size: 0.7rem;
+}
+
+@media (max-width: 768px) {
+  .planner-constraint-preview-timeline-track {
+    height: 48px;
+  }
+
+  .planner-constraint-preview-timeline-labels {
+    font-size: 0.72rem;
+  }
+
+  .planner-constraint-preview-timeline-segment-label {
+    font-size: 0.6rem;
+  }
+}
+
 .planner-gap-row {
   display: flex;
   align-items: center;
