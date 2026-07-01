@@ -1,7 +1,7 @@
 # Planner UX Roadmap
 
 **Status:** Living document — update as items ship or priorities change  
-**Related:** [unified-planner-design.md](./unified-planner-design.md) (engine & URL contract)  
+**Related:** [product-roadmap.md](./product-roadmap.md) (master tracker) · [unified-planner-design.md](./unified-planner-design.md) (engine & URL contract)  
 **Audience:** Implementers and agents working on Planner / Showtimes UI
 
 This file splits Planner UX work into **work on now** (approved, high-impact, fits current architecture) and **future improvements** (valuable but deferrable). Agents and contributors should read this before starting Planner UI work so effort stays aligned with product intent.

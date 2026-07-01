@@ -935,15 +935,24 @@ python scripts/audit_weekly_leaving_soon_errors.py
 
 **Normal-first-run booking-shape rule (`normal_booking_shape_leaving`):** 95.1% test precision, 12.2% coverage — promising but still fails stability gate.
 
-**Recommendation:** `needs_more_work` — booking-shape features improve held-out precision but **do not fix December** or pass monthly stability. **PR E2 remains blocked.** Next: Identity-C parent-film analysis using forward-collected `source_film_id` / `source_title` (see [film-identity-normalization.md](./film-identity-normalization.md)).
+**Recommendation:** `needs_more_work` — booking-shape features improve held-out precision but **do not fix December** or pass monthly stability. **PR E2 remains blocked.** Identity-C parent-film analysis completed (`9c1e1d7`); did not improve monthly stability — collect forward `source_film_id` before re-evaluation (see [film-identity-normalization.md](./film-identity-normalization.md)).
 
-### PR Identity-A / Identity-B — film source identity (in progress)
+### PR Identity-A / B / C — film source identity (done)
 
-**Identity-A (done, `9785021`):** Variant audit + design doc; no pipeline changes.
+**Identity-A (`9785021`):** Variant audit + design doc; no pipeline changes.
 
-**Identity-B:** Propagate AMC `movieId` as `source_film_id` and exact API title as `source_title` into history CSV and `showtimes_current.json` showtime records (forward-only; legacy rows null/blank). No grouping or Leaving Soon model changes yet.
+**Identity-B (`2534c14`):** Forward-only `source_film_id` / `source_title` in history CSV and `showtimes_current.json`. Legacy rows blank; `showtime_film_key` unchanged.
 
-**Identity-C:** Analysis-only parent identity in weekly labels. CLI `--identity-mode title|parent` on label build and `--identity-mode compare` on baseline evaluation. Does not change public artifacts or frontend.
+**Identity-C (`9c1e1d7`):** Analysis-only `parent_film_key` in weekly labels (`--identity-mode title|parent`; `--identity-mode compare` on evaluation). No public artifacts, no frontend, no PR E2 replacement.
+
+**June 2026 parent-mode evaluation (git footprint; title-based grouping dominant because legacy rows lack `amc_movie_id`):**
+
+| Mode | Test precision (best rule) | Monthly min precision |
+|------|---------------------------|------------------------|
+| `title` (default) | 97.50% | 47.62% |
+| `parent` | 97.37% | 47.62% |
+
+Parent grouping did **not** improve monthly stability or held-out FP count (1 each). **PR E2 and PR F/UI remain deferred.** Re-run parent-mode evaluation after **4–8 weeks** of live AMC `source_film_id` / `movieId` on forward scrapes.
 
 **Regenerate:**
 
@@ -967,7 +976,7 @@ python scripts/audit_weekly_leaving_soon_errors.py
 | **D5** | AMC metadata audit + booking-shape features | **Done** — this pass |
 | **Identity-A** | Film variant audit + design doc | **Done** — `9785021` |
 | **Identity-B** | `source_film_id` / `source_title` in history + current JSON | **Done** — `2534c14` |
-| **Identity-C** | `parent_film_key` analysis-only weekly labels | **This pass** |
+| **Identity-C** | `parent_film_key` analysis-only weekly labels | **Done** — `9c1e1d7` |
 | **Identity-D** | Emit parent/variant fields in `showtimes_current.json` | Next (if evaluation justifies) |
 | **E2** | Replace PR E with weekly rule artifact | **Deferred** — needs monthly stability |
 | **F** | UI | **Deferred** until E2 + product review |

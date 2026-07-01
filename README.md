@@ -53,4 +53,6 @@ npm run smoke:frontend
 
 Manual browser QA checklist: **`docs/frontend-smoke-check.md`**.
 
+Product priorities and backlog: **`docs/product-roadmap.md`**.
+
 Python pipeline and scraping: see **`SCRAPING_README.md`**.
