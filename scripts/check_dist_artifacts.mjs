@@ -23,6 +23,7 @@ const FORBIDDEN_PATHS = [
   'data/showtimes_history.csv',
   'data/movies_announcements.csv',
   'data/newly_announced.csv',
+  'data/leaving_soon_current.json',
   'data/daily_logs',
 ];
 

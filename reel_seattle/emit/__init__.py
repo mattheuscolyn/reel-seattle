@@ -9,6 +9,11 @@ from reel_seattle.emit.current import (
     make_showtime_id,
     write_showtimes_current,
 )
+from reel_seattle.emit.leaving_soon import (
+    LEAVING_SOON_SCHEMA_VERSION,
+    build_leaving_soon_current,
+    write_leaving_soon_current,
+)
 from reel_seattle.emit.newly_added import (
     NEWLY_ADDED_DAYS_BACK,
     NEWLY_ADDED_SCHEMA_VERSION,
@@ -21,13 +26,16 @@ __all__ = [
     "CURRENT_SCHEMA_VERSION",
     "DEFAULT_OUTPUT_PATH",
     "DEFAULT_REGISTRY_PATH",
+    "LEAVING_SOON_SCHEMA_VERSION",
     "NEWLY_ADDED_DAYS_BACK",
     "NEWLY_ADDED_SCHEMA_VERSION",
     "WINDOW_DAYS",
+    "build_leaving_soon_current",
     "build_newly_added_current",
     "build_showtimes_current",
     "filter_recent_announcements",
     "make_showtime_id",
+    "write_leaving_soon_current",
     "write_newly_added_current",
     "write_showtimes_current",
 ]

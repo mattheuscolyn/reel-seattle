@@ -1,0 +1,295 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-30T22:29:01-07:00",
+  "source": "amc",
+  "window": {
+    "start_date": "2026-06-30",
+    "end_date": "2026-07-14"
+  },
+  "method": {
+    "name": "visible_dates_le_1",
+    "description": "Flags non-event AMC films with only one visible show date in the current schedule snapshot.",
+    "evaluated_precision": 0.916,
+    "evaluated_recall": 0.258,
+    "evaluated_coverage": 0.222,
+    "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon."
+  },
+  "stats": {
+    "candidate_film_count": 50,
+    "flagged_film_count": 10
+  },
+  "items": [
+    {
+      "film_key": "couture",
+      "film_title": "Couture",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-06-30",
+      "max_show_date": "2026-06-30",
+      "total_visible_showtimes": 3,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-06-30"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780695674/amc-cdn/content/general/hbuwdgdap8dkuzwyzdpj.jpg",
+      "runtime_min": 103
+    },
+    {
+      "film_key": "david",
+      "film_title": "David",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-01",
+      "max_show_date": "2026-07-01",
+      "total_visible_showtimes": 7,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-07-01"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782139308/amc-cdn/content/general/lvc5roszxnwcd2ddo46a.jpg",
+      "runtime_min": 115
+    },
+    {
+      "film_key": "devil-wears-prada-20th-anniversary-double-feature",
+      "film_title": "The Devil Wears Prada 20th Anniversary Double Feature",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-06-30",
+      "max_show_date": "2026-06-30",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-06-30"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782224649/amc-cdn/content/general/oab9cmtehpuet0adjiak.jpg",
+      "runtime_min": 239
+    },
+    {
+      "film_key": "furious",
+      "film_title": "The Furious",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-06-30",
+      "max_show_date": "2026-06-30",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-06-30"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1776963999/amc-cdn/content/general/frvcepmdpyclfik5ytrc.jpg",
+      "runtime_min": 113
+    },
+    {
+      "film_key": "lego-movie",
+      "film_title": "The Lego Movie",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-13",
+      "max_show_date": "2026-07-13",
+      "total_visible_showtimes": 8,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-07-13"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782139394/amc-cdn/content/general/rf6auwkxugqhjhcdkrsy.jpg",
+      "runtime_min": 101
+    },
+    {
+      "film_key": "minions-monsters-sensory-friendly-screening",
+      "film_title": "Minions & Monsters: Sensory Friendly Screening",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-11",
+      "max_show_date": "2026-07-11",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-07-11"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1781275136/amc-cdn/content/general/psunlo8jsrbnesskgasy.jpg",
+      "runtime_min": 90
+    },
+    {
+      "film_key": "moana-imax-opening-night-fan-event",
+      "film_title": "MOANA IMAX Opening Night Fan Event",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-09",
+      "max_show_date": "2026-07-09",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-09"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1781107638/amc-cdn/content/general/vuba064kyzztcyacpkry.jpg",
+      "runtime_min": 120
+    },
+    {
+      "film_key": "stop-that-train",
+      "film_title": "Stop! That! Train!",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-06-30",
+      "max_show_date": "2026-06-30",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-06-30"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1777663766/amc-cdn/content/general/wctsaikdrxnhagzryxrt.jpg",
+      "runtime_min": 90
+    },
+    {
+      "film_key": "supergirl-sensory-friendly-screening",
+      "film_title": "Supergirl: Sensory Friendly Screening",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-08",
+      "max_show_date": "2026-07-08",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        }
+      ],
+      "show_dates": [
+        "2026-07-08"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780505125/amc-cdn/content/general/xe4ps5j3zjuk7z7o4jdh.jpg",
+      "runtime_min": 108
+    },
+    {
+      "film_key": "welcome-to-the-jungle",
+      "film_title": "Welcome To The Jungle",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-06-30",
+      "max_show_date": "2026-06-30",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-06-30"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780928369/amc-cdn/content/general/vbqc3xfkdraapcgyw8dy.png",
+      "runtime_min": 170
+    }
+  ]
+}

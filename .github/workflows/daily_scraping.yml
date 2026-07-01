@@ -48,6 +48,7 @@ jobs:
               "public/data/showtimes_current.json",
               "public/data/pipeline_report.json",
               "public/data/newly_added_current.json",
+              "public/data/leaving_soon_current.json",
           ]
           for rel in artifacts:
               path = Path(rel)
@@ -70,6 +71,7 @@ jobs:
           git add public/data/movies_announcements.csv
           git add public/data/newly_announced.csv
           git add public/data/newly_added_current.json
+          git add public/data/leaving_soon_current.json
           git add public/showtimes.csv
           git add public/indieshowtimes.csv
           git add public/marathon/

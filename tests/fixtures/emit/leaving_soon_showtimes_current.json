@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-06-26T12:00:00-07:00",
+  "timezone": "America/Los_Angeles",
+  "window": {
+    "start_date": "2026-06-26",
+    "end_date": "2026-07-10"
+  },
+  "sources_included": ["amc"],
+  "sources": {
+    "amc": {
+      "status": "success",
+      "showtime_count": 4,
+      "film_count": 3,
+      "theater_count": 1,
+      "last_successful_run": "2026-06-26"
+    }
+  },
+  "stats": { "showtime_count": 4, "film_count": 3, "theater_count": 1 },
+  "theaters": [
+    {
+      "id": "amc-pacific-place-11",
+      "name": "AMC Pacific Place 11",
+      "aliases": [],
+      "source": "amc",
+      "source_external_id": null,
+      "enabled": true,
+      "type": "chain"
+    }
+  ],
+  "films": [],
+  "showtimes": [
+    {
+      "id": "st1",
+      "date": "2026-06-28",
+      "time": "19:30",
+      "time_display": "7:30 PM",
+      "theater_id": "amc-pacific-place-11",
+      "showtime_film_key": "sinners",
+      "film_title": "Sinners",
+      "runtime_min": 137,
+      "poster_url": "https://example.com/sinners.jpg",
+      "status": "active",
+      "format_tags": [],
+      "ticket_url": null,
+      "source": "amc",
+      "source_showtime_id": null,
+      "attributes": {},
+      "first_seen_at": "2026-06-26",
+      "last_seen_at": "2026-06-26"
+    },
+    {
+      "id": "st2",
+      "date": "2026-06-28",
+      "time": "14:00",
+      "time_display": "2:00 PM",
+      "theater_id": "amc-pacific-place-11",
+      "showtime_film_key": "multi-date-film",
+      "film_title": "Multi Date Film",
+      "runtime_min": 110,
+      "poster_url": null,
+      "status": "active",
+      "format_tags": [],
+      "ticket_url": null,
+      "source": "amc",
+      "source_showtime_id": null,
+      "attributes": {},
+      "first_seen_at": "2026-06-26",
+      "last_seen_at": "2026-06-26"
+    },
+    {
+      "id": "st3",
+      "date": "2026-06-29",
+      "time": "19:00",
+      "time_display": "7:00 PM",
+      "theater_id": "amc-pacific-place-11",
+      "showtime_film_key": "multi-date-film",
+      "film_title": "Multi Date Film",
+      "runtime_min": 110,
+      "poster_url": null,
+      "status": "active",
+      "format_tags": [],
+      "ticket_url": null,
+      "source": "amc",
+      "source_showtime_id": null,
+      "attributes": {},
+      "first_seen_at": "2026-06-26",
+      "last_seen_at": "2026-06-26"
+    },
+    {
+      "id": "st4",
+      "date": "2026-07-05",
+      "time": "13:00",
+      "time_display": "1:00 PM",
+      "theater_id": "amc-pacific-place-11",
+      "showtime_film_key": "opera-event",
+      "film_title": "Met Opera: La Traviata",
+      "runtime_min": 180,
+      "poster_url": null,
+      "status": "active",
+      "format_tags": [],
+      "ticket_url": null,
+      "source": "amc",
+      "source_showtime_id": null,
+      "attributes": {},
+      "first_seen_at": "2026-06-26",
+      "last_seen_at": "2026-06-26"
+    }
+  ]
+}

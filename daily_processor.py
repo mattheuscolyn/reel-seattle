@@ -542,6 +542,19 @@ def main():
     )
     print(f"  {len(newly_added_artifact['entries'])} entries in current window")
 
+    print("Emitting leaving_soon_current.json...")
+    from reel_seattle.emit.leaving_soon import write_leaving_soon_current
+    from reel_seattle.validate import validate_theaters_registry_file
+
+    registry = validate_theaters_registry_file()
+    leaving_soon_artifact = write_leaving_soon_current(
+        current_artifact,
+        registry=registry,
+    )
+    print(
+        f"  {leaving_soon_artifact['stats']['flagged_film_count']} high-confidence risk signals"
+    )
+
     print(f"Daily processing complete. Processed {len(history_data)} total showtimes, {len(new_movies)} newly announced movies")
 
 if __name__ == "__main__":

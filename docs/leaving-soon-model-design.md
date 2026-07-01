@@ -623,16 +623,32 @@ python scripts/evaluate_leaving_soon_baselines.py
 | PR B footprint derivation | **Done** — `edbf473` |
 | PR B2 Git-history extractor | **Done** — `f2f639f` |
 | PR C label builder | **Done** — `9f5a2f8` |
-| PR D baseline evaluation | **Ready** — `scripts/evaluate_leaving_soon_baselines.py` |
-| PR E current artifact | **Review** — cautious proceed only |
-| Generated outputs | `data/analysis/` gitignored; not committed |
+| PR D baseline evaluation | **Done** — `c991d4b` |
+| PR E current artifact | **Done** — `reel_seattle/emit/leaving_soon.py` |
+| Generated outputs | `data/analysis/` gitignored; `public/data/leaving_soon_current.json` committed by daily workflow but excluded from Pages dist until PR F |
+
+### PR E — current artifact (product review)
+
+**Rule:** `visible_dates_le_1` only — non-event AMC films with exactly one visible play date in the current `showtimes_current` window.
+
+**Emit:**
+
+```bash
+python scripts/build_leaving_soon_current.py
+# or via daily_processor.py after showtimes_current
+```
+
+**Output:** `public/data/leaving_soon_current.json` — high-confidence **risk signals**, not guarantees. Method block carries held-out PR D metrics and disclaimer.
+
+**Shipping:** Artifact is committed with daily scraping (same convention as `newly_added_current.json`) but listed in `vite.config.js` `PUBLIC_SKIP_FILES` so it does **not** ship to GitHub Pages until PR F wires frontend consumption.
 
 ### PR E readiness checklist
 
 - [x] PR D report generated locally
 - [x] High-confidence precision ≥ 75% on held-out test
+- [x] Current artifact emitter (`visible_dates_le_1`, AMC-only, event exclusion)
 - [ ] Product review of modest lift (1.16×) and low recall
-- [ ] Agreement on heuristic (`visible_dates_le_1`) and UI copy
+- [ ] Agreement on heuristic and UI copy
 - [ ] Re-run evaluation after new daily snapshots land
 
 **Regenerate evaluation:**
@@ -642,7 +658,13 @@ python scripts/evaluate_leaving_soon_baselines.py
 # outputs: data/analysis/leaving_soon_baseline_report.{json,md}
 ```
 
-**When ready:** optional PR E artifact, then PR F UI only if product accepts tradeoffs.
+**Regenerate current artifact:**
+
+```bash
+python scripts/build_leaving_soon_current.py
+```
+
+**When ready:** PR F UI only if product accepts tradeoffs.
 
 ---
 
@@ -655,6 +677,7 @@ python scripts/evaluate_leaving_soon_baselines.py
 | `reel_seattle/adapters/base.py` | `RawShowtime` |
 | `daily_processor.py` | History restate, emit |
 | `reel_seattle/emit/current.py` | `showtimes_current.json` |
+| `reel_seattle/emit/leaving_soon.py` | `leaving_soon_current.json` (PR E) |
 | `reel_seattle/history_keys.py` | Key enrichment |
 | `reel_seattle/source_freshness.py` | Pipeline metadata |
 | `amc_logger.py` | AMC CLI |
@@ -671,6 +694,8 @@ python scripts/evaluate_leaving_soon_baselines.py
 | `scripts/build_leaving_soon_labels.py` | Label CLI (PR C) |
 | `reel_seattle/analysis/leaving_soon_eval.py` | Baseline evaluation (PR D) |
 | `scripts/evaluate_leaving_soon_baselines.py` | Evaluation CLI (PR D) |
+| `scripts/build_leaving_soon_current.py` | Current artifact CLI (PR E) |
+| `tests/emit/test_leaving_soon.py` | Leaving-soon emit tests (PR E) |
 | `tests/analysis/test_leaving_soon_eval.py` | Evaluation tests (PR D) |
 | `tests/analysis/test_leaving_soon_labels.py` | Label tests (PR C) |
 | `tests/analysis/test_amc_footprint.py` | Footprint tests (PR B) |

@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/leaving_soon_current/v1.0.0.json",
+  "title": "Reel Seattle Leaving Soon Current",
+  "description": "High-confidence AMC leaving-soon risk signals for product review. Not consumed by the frontend until PR F.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "source",
+    "window",
+    "method",
+    "stats",
+    "items"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string",
+      "const": "amc"
+    },
+    "window": {
+      "type": "object",
+      "required": ["start_date", "end_date"],
+      "additionalProperties": false,
+      "properties": {
+        "start_date": { "type": "string", "format": "date" },
+        "end_date": { "type": "string", "format": "date" }
+      }
+    },
+    "method": {
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "evaluated_precision",
+        "evaluated_recall",
+        "evaluated_coverage",
+        "evaluation_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "evaluated_precision": { "type": "number", "minimum": 0, "maximum": 1 },
+        "evaluated_recall": { "type": "number", "minimum": 0, "maximum": 1 },
+        "evaluated_coverage": { "type": "number", "minimum": 0, "maximum": 1 },
+        "evaluation_note": { "type": "string", "minLength": 1 }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "required": ["candidate_film_count", "flagged_film_count"],
+      "additionalProperties": false,
+      "properties": {
+        "candidate_film_count": { "type": "integer", "minimum": 0 },
+        "flagged_film_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/item" }
+    }
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "required": [
+        "film_key",
+        "film_title",
+        "risk_level",
+        "reason",
+        "visible_show_date_count",
+        "min_show_date",
+        "max_show_date",
+        "total_visible_showtimes",
+        "total_visible_theaters",
+        "theaters",
+        "show_dates",
+        "has_primetime",
+        "has_weekend_show"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "film_key": { "type": "string", "minLength": 1 },
+        "film_title": { "type": "string", "minLength": 1 },
+        "risk_level": { "type": "string", "enum": ["high"] },
+        "reason": { "type": "string", "minLength": 1 },
+        "visible_show_date_count": { "type": "integer", "minimum": 1 },
+        "min_show_date": { "type": "string", "format": "date" },
+        "max_show_date": { "type": "string", "format": "date" },
+        "total_visible_showtimes": { "type": "integer", "minimum": 1 },
+        "total_visible_theaters": { "type": "integer", "minimum": 1 },
+        "theaters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["theater_id", "theater_name"],
+            "additionalProperties": false,
+            "properties": {
+              "theater_id": { "type": "string", "minLength": 1 },
+              "theater_name": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "show_dates": {
+          "type": "array",
+          "items": { "type": "string", "format": "date" },
+          "minItems": 1
+        },
+        "has_primetime": { "type": "boolean" },
+        "has_weekend_show": { "type": "boolean" },
+        "poster_url": { "type": ["string", "null"], "format": "uri" },
+        "runtime_min": { "type": ["integer", "null"], "minimum": 1 }
+      }
+    }
+  }
+}

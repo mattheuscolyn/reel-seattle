@@ -18,6 +18,7 @@ THEATERS_SCHEMA_PATH = SCHEMA_DIR / "theaters" / "v1.0.0.json"
 SHOWTIMES_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "showtimes_current" / "v1.0.0.json"
 PIPELINE_REPORT_SCHEMA_PATH = SCHEMA_DIR / "pipeline_report" / "v1.0.0.json"
 NEWLY_ADDED_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "newly_added_current" / "v1.0.0.json"
+LEAVING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "leaving_soon_current" / "v1.0.0.json"
 
 _VALIDATOR_CACHE: dict[Path, Draft202012Validator] = {}
 
@@ -129,6 +130,15 @@ def validate_newly_added_current(
 ) -> None:
     """Validate a newly_added_current artifact."""
     validate_against_schema(artifact, schema_path, label="newly_added_current")
+
+
+def validate_leaving_soon_current(
+    artifact: dict[str, Any],
+    *,
+    schema_path: Path = LEAVING_SOON_CURRENT_SCHEMA_PATH,
+) -> None:
+    """Validate a leaving_soon_current artifact."""
+    validate_against_schema(artifact, schema_path, label="leaving_soon_current")
 
 
 def validate_theaters_registry_file(
