@@ -27,6 +27,16 @@ from reel_seattle.analysis.leaving_soon_eval import (
     split_rows_by_anchor_date,
 )
 from reel_seattle.analysis.leaving_soon_labels import LABEL_STATUS_LABELED
+from reel_seattle.analysis.weekly_leaving_soon_stability import (
+    analyze_weak_months,
+    distinct_films_tagged,
+    enrich_metric_dict,
+    filter_strict_non_event_rows,
+    monthly_precision_summary,
+)
+from reel_seattle.analysis.weekly_leaving_soon_ml import run_weekly_ml_exploration
+
+PR_D2_BASELINE_RULE_ID = "no_current_week_weekend"
 
 FORBIDDEN_PREDICTOR_FIELDS = frozenset(
     {
@@ -64,6 +74,12 @@ ALLOWED_PREDICTOR_FIELDS = frozenset(
         "current_week_showtime_count",
         "current_week_theater_count",
         "current_week_visible_days",
+        "current_week_matinee_showtime_count",
+        "current_week_primetime_showtime_count",
+        "current_week_late_showtime_count",
+        "current_week_weekend_showtime_count",
+        "current_week_weekend_day_count",
+        "current_week_showtime_density",
         "current_week_has_weekend_show",
         "current_week_has_primetime",
         "prior_week_showtime_count",
@@ -72,16 +88,41 @@ ALLOWED_PREDICTOR_FIELDS = frozenset(
         "showtime_count_change_vs_prior_week",
         "theater_count_change_vs_prior_week",
         "visible_days_change_vs_prior_week",
-        "weeks_since_first_seen",
-        "booking_cycles_survived",
+        "showtime_pct_change_vs_prior_week",
+        "theater_pct_change_vs_prior_week",
+        "peak_week_showtime_count_to_date",
+        "peak_week_theater_count_to_date",
         "peak_showtime_count_to_date",
         "peak_theater_count_to_date",
+        "current_showtime_pct_of_peak",
+        "current_theater_pct_of_peak",
+        "weeks_since_peak_showtimes",
+        "weeks_since_peak_theaters",
+        "first_anchor_seen_date",
+        "weeks_since_first_seen",
+        "booking_cycles_seen",
+        "booking_cycles_survived",
+        "weeks_survived_so_far",
+        "is_first_week_observed",
+        "is_new_release_like",
+        "weekday_only_current_week",
+        "single_theater_current_week",
+        "single_day_current_week",
+        "low_showtime_count_bucket",
         "event_like_flag",
         "event_like_reason",
+        "strict_event_like_flag",
+        "strict_event_like_reason",
+        "flag_anniversary_like",
+        "flag_fan_event_like",
+        "flag_sensory_friendly_like",
+        "flag_double_feature_like",
+        "flag_live_encore_like",
+        "flag_classic_rerelease_like",
     }
 )
 
-COVERAGE_FLOORS = (0.05, 0.10, 0.15, 0.20)
+COVERAGE_FLOORS = (0.05, 0.10, 0.15, 0.20, 0.30, 0.40)
 
 
 def _parse_bool(text: str) -> bool:
@@ -98,6 +139,41 @@ def _optional_int(row: Mapping[str, str], field: str) -> int | None:
     if not text:
         return None
     return int(text)
+
+
+def _optional_float(row: Mapping[str, str], field: str) -> float | None:
+    text = str(row.get(field, "")).strip()
+    if not text:
+        return None
+    return float(text)
+
+
+def _weekday_only_current_week(row: Mapping[str, str]) -> bool:
+    return _parse_bool(row.get("weekday_only_current_week", "false"))
+
+
+def _field_pct_le(row: Mapping[str, str], field: str, threshold: float) -> bool:
+    value = _optional_float(row, field)
+    return value is not None and value <= threshold
+
+
+def _not_first_week(row: Mapping[str, str]) -> bool:
+    return not _parse_bool(row.get("is_first_week_observed", "false"))
+
+
+def _trajectory_score(row: Mapping[str, str], threshold: int) -> bool:
+    score = 0
+    if _weekday_only_current_week(row):
+        score += 2
+    if _field_pct_le(row, "current_showtime_pct_of_peak", 0.5):
+        score += 2
+    if _showtime_change_lt(row, 0):
+        score += 2
+    if _current_week_showtimes_le(row, 15):
+        score += 1
+    if _weeks_since_first_seen_ge(row, 4):
+        score += 1
+    return score >= threshold
 
 
 def load_weekly_labeled_rows(path: Path | str) -> list[dict[str, str]]:
@@ -146,7 +222,11 @@ def _visible_days_change_lt(row: Mapping[str, str], threshold: int) -> bool:
 
 
 def _showtime_pct_of_peak_le(row: Mapping[str, str], threshold: float) -> bool:
-    peak = _parse_int(row.get("peak_showtime_count_to_date", "0"))
+    if _field_pct_le(row, "current_showtime_pct_of_peak", threshold):
+        return True
+    peak = _parse_int(row.get("peak_week_showtime_count_to_date", "0")) or _parse_int(
+        row.get("peak_showtime_count_to_date", "0")
+    )
     current = _parse_int(row["current_week_showtime_count"])
     if peak <= 0:
         return False
@@ -154,7 +234,11 @@ def _showtime_pct_of_peak_le(row: Mapping[str, str], threshold: float) -> bool:
 
 
 def _theater_pct_of_peak_le(row: Mapping[str, str], threshold: float) -> bool:
-    peak = _parse_int(row.get("peak_theater_count_to_date", "0"))
+    if _field_pct_le(row, "current_theater_pct_of_peak", threshold):
+        return True
+    peak = _parse_int(row.get("peak_week_theater_count_to_date", "0")) or _parse_int(
+        row.get("peak_theater_count_to_date", "0")
+    )
     current = _parse_int(row["current_week_theater_count"])
     if peak <= 0:
         return False
@@ -310,6 +394,51 @@ def build_weekly_heuristic_catalog() -> list[HeuristicSpec]:
                 lambda row: _current_week_showtimes_le(row, 15)
                 and _current_week_theaters_le(row, 2)
                 and _no_current_week_primetime(row),
+            ),
+            HeuristicSpec(
+                "weekday_only_and_shrinking",
+                "Weekday-only current week AND showtimes down vs prior week.",
+                lambda row: _weekday_only_current_week(row) and _showtime_change_lt(row, 0),
+            ),
+            HeuristicSpec(
+                "weekday_only_and_below_peak_50",
+                "Weekday-only current week AND showtimes <= 50% of peak week.",
+                lambda row: _weekday_only_current_week(row)
+                and _showtime_pct_of_peak_le(row, 0.5),
+            ),
+            HeuristicSpec(
+                "no_weekend_and_mature_ge_4",
+                "No current-week weekend AND weeks since first seen >= 4.",
+                lambda row: _no_current_week_weekend(row)
+                and _weeks_since_first_seen_ge(row, 4),
+            ),
+            HeuristicSpec(
+                "no_weekend_and_below_peak_50",
+                "No current-week weekend AND showtimes <= 50% of peak week.",
+                lambda row: _no_current_week_weekend(row)
+                and _showtime_pct_of_peak_le(row, 0.5),
+            ),
+            HeuristicSpec(
+                "low_theaters_and_shrinking",
+                "Current-week theaters <= 2 AND theaters down vs prior week.",
+                lambda row: _current_week_theaters_le(row, 2)
+                and _theater_change_lt(row, 0),
+            ),
+            HeuristicSpec(
+                "low_footprint_not_first_week",
+                "Low footprint bucket AND not first observed week.",
+                lambda row: _parse_bool(row.get("low_showtime_count_bucket", "false"))
+                and _not_first_week(row),
+            ),
+            HeuristicSpec(
+                "trajectory_score_ge_5",
+                "Trajectory score >= 5 from weekday-only, shrinkage, peak share, maturity.",
+                lambda row: _trajectory_score(row, 5),
+            ),
+            HeuristicSpec(
+                "trajectory_score_ge_6",
+                "Trajectory score >= 6 from weekday-only, shrinkage, peak share, maturity.",
+                lambda row: _trajectory_score(row, 6),
             ),
         ]
     )
@@ -611,8 +740,84 @@ def evaluate_weekly_baselines(
         item for item in held_out_test if item["rule_id"].startswith("tautology_")
     ]
 
+    pr_d2_spec = spec_by_id[PR_D2_BASELINE_RULE_ID]
+    pr_d2_test_metric = evaluate_rule(
+        test,
+        rule_id=pr_d2_spec.rule_id,
+        description=pr_d2_spec.description,
+        predict=pr_d2_spec.predict,
+        period="test",
+    )
+    pr_d2_monthly = monthly_by_rule.get(PR_D2_BASELINE_RULE_ID, [])
+    pr_d2_baseline = enrich_metric_dict(
+        pr_d2_test_metric,
+        test,
+        pr_d2_spec.predict,
+        monthly=pr_d2_monthly,
+    )
+
+    weak_month_analysis: list[dict[str, Any]] = []
+    best_monthly_stability: dict[str, Any] = {}
+    if best_rule_id:
+        best_spec = spec_by_id[best_rule_id]
+        weak_month_analysis = analyze_weak_months(rows, best_spec.predict)
+        best_monthly_stability = monthly_precision_summary(
+            monthly_by_rule.get(best_rule_id, [])
+        )
+        if best_test is not None:
+            best_test_metric = evaluate_rule(
+                test,
+                rule_id=best_rule_id,
+                description=best_spec.description,
+                predict=best_spec.predict,
+                period="test",
+            )
+            best_test = enrich_metric_dict(
+                best_test_metric,
+                test,
+                best_spec.predict,
+                monthly=monthly_by_rule.get(best_rule_id, []),
+            )
+
+    strict_rows = filter_strict_non_event_rows(rows)
+    strict_experiment: dict[str, Any] = {
+        "rows_removed": len(rows) - len(strict_rows),
+        "labeled_rows_after_filter": len(strict_rows),
+        "base_positive_rate_after_filter": round(base_positive_rate(strict_rows), 4),
+    }
+    if strict_rows:
+        strict_test_rows = [
+            row for row in strict_rows if row["anchor_date"] in {r["anchor_date"] for r in test}
+        ]
+        seen_rules: list[str] = []
+        for rule_id in (best_rule_id or PR_D2_BASELINE_RULE_ID, PR_D2_BASELINE_RULE_ID):
+            if not rule_id or rule_id in seen_rules:
+                continue
+            seen_rules.append(rule_id)
+            spec = spec_by_id[rule_id]
+            metric = evaluate_rule(
+                strict_test_rows,
+                rule_id=spec.rule_id,
+                description=spec.description,
+                predict=spec.predict,
+                period="strict_test",
+            )
+            monthly = [
+                item.to_dict()
+                for item in monthly_metric_rows(
+                    strict_rows,
+                    rule_id=spec.rule_id,
+                    description=spec.description,
+                    predict=spec.predict,
+                )
+            ]
+            strict_experiment[rule_id] = enrich_metric_dict(
+                metric, strict_test_rows, spec.predict, monthly=monthly
+            )
+
     return {
         "label_mode": "weekly-extension",
+        "feature_version": "rich-weekly-v2",
         "labeled_rows": len(rows),
         "distinct_films": len({row["showtime_film_key"] for row in rows}),
         "base_positive_rate": round(overall_base, 4),
@@ -624,10 +829,6 @@ def evaluate_weekly_baselines(
             "Event-like films are excluded at label build time by default "
             "(label_status=event_like_excluded); evaluation uses labeled rows only."
         ),
-        "ml_exploration": {
-            "attempted": False,
-            "reason": "scikit-learn is not declared in project dependencies",
-        },
         "predictor_guardrails": {
             "allowed_field_count": len(ALLOWED_PREDICTOR_FIELDS),
             "forbidden_field_count": len(FORBIDDEN_PREDICTOR_FIELDS),
@@ -647,8 +848,16 @@ def evaluate_weekly_baselines(
             "examples": best_examples,
         },
         "coverage_floor_best_rules": coverage_floor_results,
+        "pr_d2_baseline_rule": {
+            "rule_id": PR_D2_BASELINE_RULE_ID,
+            "test": pr_d2_baseline,
+        },
+        "weak_month_analysis": weak_month_analysis,
+        "best_rule_monthly_stability": best_monthly_stability,
+        "strict_event_filter_experiment": strict_experiment,
         "recommendation": recommendation,
     }
+
 
 
 def write_weekly_predictions_csv(
@@ -703,8 +912,9 @@ def write_weekly_predictions_csv(
 
 def render_weekly_markdown_report(report: Mapping[str, Any]) -> str:
     lines = [
-        "# Weekly Leaving Soon baseline evaluation (PR D2)",
+        "# Weekly Leaving Soon baseline evaluation (rich-weekly-v2)",
         "",
+        f"- Feature version: **{report.get('feature_version', 'weekly-extension')}**",
         f"- Label mode: **{report['label_mode']}**",
         f"- Labeled rows: **{report['labeled_rows']}**",
         f"- Distinct films: **{report['distinct_films']}**",
@@ -823,6 +1033,8 @@ def run_weekly_baseline_evaluation(
 ) -> dict[str, Any]:
     rows = load_weekly_labeled_rows(input_path)
     report = evaluate_weekly_baselines(rows)
+    ml_output = json_output.parent / "weekly_leaving_soon_ml_exploration.json"
+    report["ml_exploration"] = run_weekly_ml_exploration(rows, output_path=ml_output)
     json_output.parent.mkdir(parents=True, exist_ok=True)
     json_output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     markdown_output.write_text(render_weekly_markdown_report(report) + "\n", encoding="utf-8")

@@ -55,8 +55,8 @@ def test_weekly_labels_require_current_week_showtimes():
     assert sparse["label_status"] == LABEL_STATUS_INSUFFICIENT_SHOWTIMES
 
 
-def test_weekly_label_fieldnames_include_booking_week_features():
-    assert "current_week_showtime_count" in WEEKLY_LABEL_FIELDNAMES
-    assert "prior_week_showtime_count" in WEEKLY_LABEL_FIELDNAMES
-    assert "gets_following_week_showtimes" in WEEKLY_LABEL_FIELDNAMES
-    assert LABEL_MODE_WEEKLY_EXTENSION == "weekly-extension"
+def test_weekly_label_fieldnames_include_richer_features():
+    assert "current_week_showtime_density" in WEEKLY_LABEL_FIELDNAMES
+    assert "current_showtime_pct_of_peak" in WEEKLY_LABEL_FIELDNAMES
+    assert "strict_event_like_flag" in WEEKLY_LABEL_FIELDNAMES
+    assert "weekday_only_current_week" in WEEKLY_LABEL_FIELDNAMES

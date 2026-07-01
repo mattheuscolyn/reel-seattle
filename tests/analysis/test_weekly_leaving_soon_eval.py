@@ -56,14 +56,13 @@ def test_low_footprint_not_new_flags_leaving_rows():
     assert predict(staying) is False
 
 
-def test_evaluate_weekly_baselines_report_shape():
+def test_evaluate_weekly_baselines_includes_stability_sections():
     rows = load_weekly_labeled_rows(FIXTURES_DIR / "weekly_leaving_soon_labels_mini.csv")
     report = evaluate_weekly_baselines(rows)
-    assert report["label_mode"] == "weekly-extension"
-    assert report["labeled_rows"] == 5
-    assert "coverage_floor_best_rules" in report
-    assert "recommendation" in report
-    assert "tautology_control_test_metrics" in report
+    assert report["feature_version"] == "rich-weekly-v2"
+    assert "pr_d2_baseline_rule" in report
+    assert "weak_month_analysis" in report
+    assert "strict_event_filter_experiment" in report
 
 
 def test_time_aware_split_by_anchor_date():
@@ -71,3 +70,14 @@ def test_time_aware_split_by_anchor_date():
     train, val, test = split_rows_by_anchor_date(rows, train_fraction=0.6, validation_fraction=0.2)
     assert len(train) + len(val) + len(test) == len(rows)
     assert legacy_split(rows) == (train, val, test)
+
+
+def test_ml_feature_vector_uses_anchor_fields_only():
+    from reel_seattle.analysis.weekly_leaving_soon_ml import ML_FEATURE_FIELDS, row_to_features
+
+    rows = load_weekly_labeled_rows(FIXTURES_DIR / "weekly_leaving_soon_labels_mini.csv")
+    row = rows[0]
+    vector = row_to_features(row)
+    assert len(vector) == len(ML_FEATURE_FIELDS)
+    assert "gets_following_week_showtimes" not in ML_FEATURE_FIELDS
+    assert "following_week_showtime_count" not in ML_FEATURE_FIELDS

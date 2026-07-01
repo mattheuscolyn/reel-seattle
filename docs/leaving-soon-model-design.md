@@ -826,6 +826,49 @@ python scripts/evaluate_weekly_leaving_soon_baselines.py
 
 **Tests:** `tests/analysis/test_weekly_leaving_soon_eval.py`
 
+### PR D3 — richer weekly features and stability (done)
+
+**Scope:** Expand anchor-time weekly label features (68 columns), add trajectory/peak/lifecycle/scheduling-shape fields, granular special-screening flags, richer baseline rules, monthly weak-month diagnostics, and strict-event evaluation-only filter experiment. No UI, no PR E replacement, no Wednesday PM scrape.
+
+**New label features (anchor-only):** matinee/primetime/late/weekend showtime counts, weekend day count, showtime density, pct change vs prior week, peak-week footprint, pct of peak, weeks since peak, first anchor seen, booking-cycle lifecycle, weekday-only/single-theater/single-day buckets, `strict_event_like_*` and granular title flags.
+
+**Evaluation additions:** coverage floors through **40%**, PR D2 baseline comparison (`no_current_week_weekend`), weak-month analysis (2025-07, 2025-12, 2026-01), strict-event filter experiment (evaluation-only).
+
+**Results vs PR D2 (2026-07-01, rich-weekly-v2):**
+
+| Metric | PR D2 (`no_current_week_weekend`) | PR D3 best gate rule (`low_footprint_not_first_week`) |
+|--------|-----------------------------------|------------------------------------------------------|
+| Test precision | 80.1% | **91.7%** |
+| Test recall | 86.7% | 48.9% |
+| Test coverage | 43.6% | 21.5% |
+| Test lift | 1.99× | **2.27×** |
+| Test FP / FN | 29 / 18 | 6 / 69 |
+| Monthly precision range | 61.4%–87.8% | **52.2%–95.0%** |
+| Months below 75% | 4 | **2** (2025-12, 2026-03) |
+| Stability pass | No | **No** |
+
+**Coverage floors (validation pick → held-out test):**
+
+| Floor | Best rule | Test precision | Coverage |
+|-------|-----------|----------------|----------|
+| 5–20% | `low_footprint_not_first_week` | 91.7% | 21.5% |
+| 30–40% | `no_current_week_weekend` (PR D2 baseline) | 80.1% | 43.6% |
+
+**Weak-month diagnosis:** December 2025 still weakest (52.2% precision) — limited-run/holiday titles (e.g. Hamnet, event screenings) flagged as low-footprint false positives. January 2026 improved to 80.0% vs PR D2’s 65.6%. July 2025 early-data month at 83.3%.
+
+**Strict-event filter experiment (evaluation-only, not default):** Removing 203 strict-event-like labeled rows → base rate 34.4%. `low_footprint_not_first_week` precision 91.8% but stability still fails (Dec min 48.8%). `no_current_week_weekend` improves lift to 2.15× but 4 months below 75%. **Do not adopt as default label exclusion yet.**
+
+**ML:** scikit-learn available locally; exploratory logistic regression, shallow decision tree, and random forest ran on anchor-time features (outputs in `data/analysis/weekly_leaving_soon_ml_exploration.json`, gitignored). Best ML test precision did not beat `low_footprint_not_first_week`; rules remain preferable for explainability.
+
+**Recommendation:** `needs_more_work` — richer features improved peak precision and reduced FP count, but **monthly stability still fails** and best rule trades recall for precision. **Do not proceed to PR E2.** Refine event filtering and collect more snapshots before artifact replacement. PR F/UI remains deferred.
+
+**Regenerate:**
+
+```bash
+python scripts/build_weekly_leaving_soon_labels.py
+python scripts/evaluate_weekly_leaving_soon_baselines.py
+```
+
 ### Revised roadmap
 
 | PR | Scope | Status |
@@ -834,7 +877,8 @@ python scripts/evaluate_weekly_leaving_soon_baselines.py
 | **D** | `visible_dates_le_1` evaluation | **Invalidated** as ship criterion |
 | **E** | Current tautology artifact | **Review-only** — excluded from Pages |
 | **C2** | Booking-cycle analysis + weekly labels | **Done** — `eb10198` |
-| **D2** | Weekly baseline evaluation | **Done** — this pass |
+| **D2** | Weekly baseline evaluation | **Done** — `2567db1` |
+| **D3** | Richer weekly features + stability analysis | **Done** — this pass |
 | **E2** | Replace PR E with weekly rule artifact | **Deferred** — needs monthly stability |
 | **F** | UI | **Deferred** until E2 + product review |
 
@@ -877,14 +921,18 @@ python scripts/build_weekly_leaving_soon_labels.py
 | `scripts/analyze_amc_booking_cycle.py` | Booking-cycle CLI (PR C2) |
 | `scripts/build_weekly_leaving_soon_labels.py` | Weekly label CLI (PR C2) |
 | `scripts/evaluate_leaving_soon_baselines.py` | Evaluation CLI (PR D) |
-| `reel_seattle/analysis/weekly_leaving_soon_eval.py` | Weekly baseline evaluation (PR D2) |
+| `reel_seattle/analysis/special_screening_flags.py` | Granular title flags (PR D3) |
+| `reel_seattle/analysis/weekly_leaving_soon_stability.py` | Monthly stability diagnostics (PR D3) |
+| `reel_seattle/analysis/weekly_leaving_soon_ml.py` | Optional local ML exploration (PR D3) |
+| `reel_seattle/analysis/weekly_leaving_soon_eval.py` | Weekly baseline evaluation (PR D2/D3) |
 | `scripts/evaluate_weekly_leaving_soon_baselines.py` | Weekly evaluation CLI (PR D2) |
 | `scripts/build_leaving_soon_current.py` | Current artifact CLI (PR E) |
 | `tests/emit/test_leaving_soon.py` | Leaving-soon emit tests (PR E) |
 | `tests/analysis/test_leaving_soon_eval.py` | Evaluation tests (PR D) |
 | `tests/analysis/test_amc_booking_cycle.py` | Booking-cycle tests (PR C2) |
 | `tests/analysis/test_weekly_leaving_soon_labels.py` | Weekly label tests (PR C2) |
-| `tests/analysis/test_weekly_leaving_soon_eval.py` | Weekly evaluation tests (PR D2) |
+| `tests/analysis/test_special_screening_flags.py` | Special-screening flag tests (PR D3) |
+| `tests/analysis/test_weekly_leaving_soon_eval.py` | Weekly evaluation tests (PR D2/D3) |
 | `tests/analysis/test_leaving_soon_labels.py` | Label tests (PR C) |
 | `tests/analysis/test_amc_footprint.py` | Footprint tests (PR B) |
 | `tests/analysis/test_legacy_amc_csv.py` | Legacy CSV tests (PR B2) |

@@ -31,6 +31,7 @@ from reel_seattle.analysis.leaving_soon_labels import (
     load_footprint_rows,
     relevant_wednesday,
 )
+from reel_seattle.analysis.special_screening_flags import flags_to_csv_fields
 
 LABEL_MODE_WEEKLY_EXTENSION = "weekly-extension"
 
@@ -52,6 +53,12 @@ WEEKLY_LABEL_FIELDNAMES = [
     "current_week_showtime_count",
     "current_week_theater_count",
     "current_week_visible_days",
+    "current_week_matinee_showtime_count",
+    "current_week_primetime_showtime_count",
+    "current_week_late_showtime_count",
+    "current_week_weekend_showtime_count",
+    "current_week_weekend_day_count",
+    "current_week_showtime_density",
     "current_week_has_weekend_show",
     "current_week_has_primetime",
     "prior_week_showtime_count",
@@ -60,10 +67,37 @@ WEEKLY_LABEL_FIELDNAMES = [
     "showtime_count_change_vs_prior_week",
     "theater_count_change_vs_prior_week",
     "visible_days_change_vs_prior_week",
-    "weeks_since_first_seen",
-    "booking_cycles_survived",
+    "showtime_pct_change_vs_prior_week",
+    "theater_pct_change_vs_prior_week",
+    "peak_week_showtime_count_to_date",
+    "peak_week_theater_count_to_date",
     "peak_showtime_count_to_date",
     "peak_theater_count_to_date",
+    "current_showtime_pct_of_peak",
+    "current_theater_pct_of_peak",
+    "weeks_since_peak_showtimes",
+    "weeks_since_peak_theaters",
+    "first_anchor_seen_date",
+    "weeks_since_first_seen",
+    "booking_cycles_seen",
+    "booking_cycles_survived",
+    "weeks_survived_so_far",
+    "is_first_week_observed",
+    "is_new_release_like",
+    "weekday_only_current_week",
+    "single_theater_current_week",
+    "single_day_current_week",
+    "low_showtime_count_bucket",
+    "event_like_flag",
+    "event_like_reason",
+    "strict_event_like_flag",
+    "strict_event_like_reason",
+    "flag_anniversary_like",
+    "flag_fan_event_like",
+    "flag_sensory_friendly_like",
+    "flag_double_feature_like",
+    "flag_live_encore_like",
+    "flag_classic_rerelease_like",
     "visible_show_date_count_at_anchor",
     "days_until_anchor_max_show_date",
     "following_week_showtime_count",
@@ -72,8 +106,6 @@ WEEKLY_LABEL_FIELDNAMES = [
     "gets_following_week_showtimes",
     "leaving_soon_label",
     "label_status",
-    "event_like_flag",
-    "event_like_reason",
 ]
 
 
@@ -90,8 +122,13 @@ class WeeklyLabelBuildConfig:
 @dataclass
 class _WeekStats:
     showtime_count: int = 0
+    matinee_showtime_count: int = 0
+    primetime_showtime_count: int = 0
+    late_showtime_count: int = 0
+    weekend_showtime_count: int = 0
     theater_ids: set[str] | None = None
     show_dates: set[date] | None = None
+    weekend_days: set[date] | None = None
     has_weekend_show: bool = False
     has_primetime: bool = False
 
@@ -100,6 +137,8 @@ class _WeekStats:
             self.theater_ids = set()
         if self.show_dates is None:
             self.show_dates = set()
+        if self.weekend_days is None:
+            self.weekend_days = set()
 
     @property
     def theater_count(self) -> int:
@@ -108,6 +147,15 @@ class _WeekStats:
     @property
     def visible_days(self) -> int:
         return len(self.show_dates or set())
+
+    @property
+    def weekend_day_count(self) -> int:
+        return len(self.weekend_days or set())
+
+    @property
+    def showtime_density(self) -> float:
+        days = self.visible_days
+        return self.showtime_count / days if days else 0.0
 
 
 def _parse_date(text: str) -> date:
@@ -160,6 +208,15 @@ def week_stats_for_film_rows(
         stats.showtime_count += active
         stats.show_dates.add(show_date)
         stats.theater_ids.update(_split_theaters(row.get("theater_list", "")))
+        if show_date.weekday() >= 5:
+            stats.weekend_days.add(show_date)
+            stats.weekend_showtime_count += active
+        if _parse_bool(row.get("has_matinee", "false")):
+            stats.matinee_showtime_count += active
+        if _parse_bool(row.get("has_primetime", "false")):
+            stats.primetime_showtime_count += active
+        if _parse_bool(row.get("has_late", "false")):
+            stats.late_showtime_count += active
         stats.has_weekend_show = stats.has_weekend_show or _parse_bool(
             row.get("has_weekend_show", "false")
         )
@@ -167,6 +224,72 @@ def week_stats_for_film_rows(
             row.get("has_primetime", "false")
         )
     return stats
+
+
+def _pct_change(current: int, prior: int) -> str:
+    if prior <= 0:
+        return ""
+    return str(round((current - prior) / prior, 4))
+
+
+def _pct_of_peak(current: int, peak: int) -> str:
+    if peak <= 0:
+        return ""
+    return str(round(current / peak, 4))
+
+
+def _peak_week_stats_to_date(
+    snapshot_dates: Sequence[date],
+    anchor_date: date,
+    film_key: str,
+    row_index: Mapping[date, Mapping[str, Sequence[Mapping[str, str]]]],
+    *,
+    anchor_weekdays: frozenset[int],
+) -> tuple[int, int, date | None]:
+    peak_showtimes = 0
+    peak_theaters = 0
+    peak_anchor: date | None = None
+    for snapshot_date in snapshot_dates:
+        if snapshot_date > anchor_date or snapshot_date.weekday() not in anchor_weekdays:
+            continue
+        week_start_date, week_end_date = current_week_range(snapshot_date)
+        film_rows = row_index.get(snapshot_date, {}).get(film_key, [])
+        stats = week_stats_for_film_rows(
+            film_rows,
+            week_start_date=week_start_date,
+            week_end_date=week_end_date,
+        )
+        if stats.showtime_count > peak_showtimes:
+            peak_showtimes = stats.showtime_count
+            peak_anchor = snapshot_date
+        peak_theaters = max(peak_theaters, stats.theater_count)
+    return peak_showtimes, peak_theaters, peak_anchor
+
+
+def _first_anchor_seen_date(
+    snapshot_dates: Sequence[date],
+    anchor_date: date,
+    film_key: str,
+    row_index: Mapping[date, Mapping[str, Sequence[Mapping[str, str]]]],
+    *,
+    anchor_weekdays: frozenset[int],
+) -> date | None:
+    for snapshot_date in snapshot_dates:
+        if snapshot_date > anchor_date or snapshot_date.weekday() not in anchor_weekdays:
+            continue
+        week_start_date, week_end_date = current_week_range(snapshot_date)
+        stats = week_stats_for_film_rows(
+            row_index.get(snapshot_date, {}).get(film_key, []),
+            week_start_date=week_start_date,
+            week_end_date=week_end_date,
+        )
+        if stats.showtime_count > 0:
+            return snapshot_date
+    return None
+
+
+def _weeks_between(earlier: date, later: date) -> int:
+    return max((later - earlier).days // 7, 0)
 
 
 def _find_prior_anchor_snapshot(
@@ -212,29 +335,6 @@ def _count_prior_booking_cycles(
     return cycles
 
 
-def _peak_counts_to_date(
-    snapshot_dates: Sequence[date],
-    anchor_date: date,
-    film_key: str,
-    row_index: Mapping[date, Mapping[str, Sequence[Mapping[str, str]]]],
-) -> tuple[int, int]:
-    peak_showtimes = 0
-    peak_theaters = 0
-    for snapshot_date in snapshot_dates:
-        if snapshot_date > anchor_date:
-            break
-        film_rows = row_index.get(snapshot_date, {}).get(film_key, [])
-        if not film_rows:
-            continue
-        showtimes = sum(_parse_int(row.get("active_showtime_count", "0")) for row in film_rows)
-        theaters = set()
-        for row in film_rows:
-            theaters.update(_split_theaters(row.get("theater_list", "")))
-        peak_showtimes = max(peak_showtimes, showtimes)
-        peak_theaters = max(peak_theaters, len(theaters))
-    return peak_showtimes, peak_theaters
-
-
 def build_weekly_label_rows(
     rows: Sequence[Mapping[str, str]],
     *,
@@ -273,6 +373,30 @@ def build_weekly_label_rows(
                 week_start_date=current_start,
                 week_end_date=current_end,
             )
+            screening_flags = flags_to_csv_fields(anchor.film_title)
+            booking_cycles = _count_prior_booking_cycles(
+                snapshot_dates, anchor_date, film_key, row_index
+            )
+            first_seen = _first_anchor_seen_date(
+                snapshot_dates,
+                anchor_date,
+                film_key,
+                row_index,
+                anchor_weekdays=cfg.anchor_weekdays,
+            )
+            weeks_since_first = (
+                _weeks_between(first_seen, anchor_date) if first_seen is not None else 0
+            )
+            peak_showtimes, peak_theaters, peak_anchor = _peak_week_stats_to_date(
+                snapshot_dates,
+                anchor_date,
+                film_key,
+                row_index,
+                anchor_weekdays=cfg.anchor_weekdays,
+            )
+            weeks_since_peak = (
+                _weeks_between(peak_anchor, anchor_date) if peak_anchor is not None else ""
+            )
 
             base: dict[str, str] = {
                 "label_mode": LABEL_MODE_WEEKLY_EXTENSION,
@@ -290,6 +414,18 @@ def build_weekly_label_rows(
                 "current_week_showtime_count": str(current_stats.showtime_count),
                 "current_week_theater_count": str(current_stats.theater_count),
                 "current_week_visible_days": str(current_stats.visible_days),
+                "current_week_matinee_showtime_count": str(current_stats.matinee_showtime_count),
+                "current_week_primetime_showtime_count": str(
+                    current_stats.primetime_showtime_count
+                ),
+                "current_week_late_showtime_count": str(current_stats.late_showtime_count),
+                "current_week_weekend_showtime_count": str(
+                    current_stats.weekend_showtime_count
+                ),
+                "current_week_weekend_day_count": str(current_stats.weekend_day_count),
+                "current_week_showtime_density": str(
+                    round(current_stats.showtime_density, 4)
+                ),
                 "current_week_has_weekend_show": (
                     "true" if current_stats.has_weekend_show else "false"
                 ),
@@ -302,14 +438,42 @@ def build_weekly_label_rows(
                 "showtime_count_change_vs_prior_week": "",
                 "theater_count_change_vs_prior_week": "",
                 "visible_days_change_vs_prior_week": "",
-                "weeks_since_first_seen": str(
-                    max(_parse_int(anchor_rows[0].get("snapshots_seen_count_for_film", "1")) - 1, 0)
-                    if anchor_rows
-                    else "0"
+                "showtime_pct_change_vs_prior_week": "",
+                "theater_pct_change_vs_prior_week": "",
+                "peak_week_showtime_count_to_date": str(peak_showtimes),
+                "peak_week_theater_count_to_date": str(peak_theaters),
+                "peak_showtime_count_to_date": str(peak_showtimes),
+                "peak_theater_count_to_date": str(peak_theaters),
+                "current_showtime_pct_of_peak": _pct_of_peak(
+                    current_stats.showtime_count, peak_showtimes
                 ),
-                "booking_cycles_survived": "",
-                "peak_showtime_count_to_date": "",
-                "peak_theater_count_to_date": "",
+                "current_theater_pct_of_peak": _pct_of_peak(
+                    current_stats.theater_count, peak_theaters
+                ),
+                "weeks_since_peak_showtimes": str(weeks_since_peak),
+                "weeks_since_peak_theaters": str(weeks_since_peak),
+                "first_anchor_seen_date": first_seen.isoformat() if first_seen else "",
+                "weeks_since_first_seen": str(weeks_since_first),
+                "booking_cycles_seen": str(booking_cycles),
+                "booking_cycles_survived": str(booking_cycles),
+                "weeks_survived_so_far": str(booking_cycles),
+                "is_first_week_observed": "true" if booking_cycles == 0 else "false",
+                "is_new_release_like": "true" if weeks_since_first <= 1 else "false",
+                "weekday_only_current_week": (
+                    "true" if current_stats.weekend_day_count == 0 else "false"
+                ),
+                "single_theater_current_week": (
+                    "true" if current_stats.theater_count <= 1 else "false"
+                ),
+                "single_day_current_week": (
+                    "true" if current_stats.visible_days <= 1 else "false"
+                ),
+                "low_showtime_count_bucket": (
+                    "true" if current_stats.showtime_count <= 10 else "false"
+                ),
+                "event_like_flag": "true" if anchor.event_like_flag else "false",
+                "event_like_reason": anchor.event_like_reason,
+                **screening_flags,
                 "visible_show_date_count_at_anchor": str(anchor.visible_show_date_count),
                 "days_until_anchor_max_show_date": str(
                     (anchor.max_show_date - anchor_date).days
@@ -320,8 +484,6 @@ def build_weekly_label_rows(
                 "gets_following_week_showtimes": "",
                 "leaving_soon_label": "",
                 "label_status": "",
-                "event_like_flag": "true" if anchor.event_like_flag else "false",
-                "event_like_reason": anchor.event_like_reason,
             }
 
             if prior_anchor is not None:
@@ -344,18 +506,12 @@ def build_weekly_label_rows(
                 base["visible_days_change_vs_prior_week"] = str(
                     current_stats.visible_days - prior_stats.visible_days
                 )
-
-            peak_showtimes, peak_theaters = _peak_counts_to_date(
-                snapshot_dates,
-                anchor_date,
-                film_key,
-                row_index,
-            )
-            base["peak_showtime_count_to_date"] = str(peak_showtimes)
-            base["peak_theater_count_to_date"] = str(peak_theaters)
-            base["booking_cycles_survived"] = str(
-                _count_prior_booking_cycles(snapshot_dates, anchor_date, film_key, row_index)
-            )
+                base["showtime_pct_change_vs_prior_week"] = _pct_change(
+                    current_stats.showtime_count, prior_stats.showtime_count
+                )
+                base["theater_pct_change_vs_prior_week"] = _pct_change(
+                    current_stats.theater_count, prior_stats.theater_count
+                )
 
             if current_stats.showtime_count < cfg.min_current_week_showtimes:
                 base["label_status"] = LABEL_STATUS_INSUFFICIENT_SHOWTIMES
