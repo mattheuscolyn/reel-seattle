@@ -2,8 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   buildMovieSequenceItems,
+  buildPlannerMobileFilterChips,
   buildPlannerSearchFilters,
   buildTimelineSegments,
+  countPlannerAdvancedFilters,
   formatFilmCountLabel,
   formatFilmListInput,
   formatGapBetweenLabel,
@@ -14,6 +16,7 @@ import {
   formatPlannerScheduleSummary,
   formatPlannerSharedFiltersSummary,
   formatPlannerSortLabel,
+  formatPlannerTheaterSummary,
   formatPlannerTimeLabel,
   formatPlannerTruncatedMessage,
   formatRuntimeMinutes,
@@ -149,6 +152,51 @@ test('formatPlannerSortLabel and shared summary helpers', () => {
   });
   assert.match(summary, /06\/27\/2026/);
   assert.match(summary, /As many as possible/);
+});
+
+test('formatPlannerTheaterSummary summarizes theater selection', () => {
+  assert.equal(formatPlannerTheaterSummary([], 5), 'All theaters');
+  assert.equal(formatPlannerTheaterSummary(['AMC A', 'AMC B', 'AMC C', 'AMC D', 'AMC E'], 5), 'All theaters');
+  assert.equal(formatPlannerTheaterSummary(['SIFF Cinema'], 5), 'SIFF Cinema');
+  assert.equal(formatPlannerTheaterSummary(['AMC A', 'SIFF Cinema'], 5), '2 theaters');
+});
+
+test('buildPlannerMobileFilterChips builds compact mobile summary chips', () => {
+  const chips = buildPlannerMobileFilterChips(
+    {
+      selectedDate: '06/27/2026',
+      selectedTheaters: ['AMC Pacific Place 11'],
+      filmCount: 3,
+      startAfter: '2:00PM',
+      finishBy: '10:00PM',
+      includeFilms: ['sinners'],
+      preferredFilms: ['alpha', 'beta'],
+      sort: 'shortest_span',
+    },
+    { theatersTotal: 5, formatDate: (date) => `D:${date}` },
+  );
+
+  assert.deepEqual(
+    chips.map((chip) => chip.key),
+    ['date', 'theaters', 'films', 'start', 'finish', 'required', 'preferred', 'advanced'],
+  );
+  assert.equal(chips.find((chip) => chip.key === 'date')?.value, 'D:06/27/2026');
+  assert.equal(chips.find((chip) => chip.key === 'theaters')?.value, 'AMC Pacific Place 11');
+  assert.equal(chips.find((chip) => chip.key === 'films')?.value, '3 films');
+  assert.equal(chips.find((chip) => chip.key === 'advanced')?.value, '1 option');
+});
+
+test('countPlannerAdvancedFilters counts non-default advanced fields', () => {
+  assert.equal(countPlannerAdvancedFilters({}), 0);
+  assert.equal(
+    countPlannerAdvancedFilters({
+      firstFilm: 'alpha',
+      minGapMin: '15',
+      maxGapExplicit: true,
+      sort: 'most_films',
+    }),
+    4,
+  );
 });
 
 test('formatPlannerScheduleSummary formats theater span and gap metrics', () => {

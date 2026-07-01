@@ -62,12 +62,12 @@ Recorded decisions — do not re-litigate without new data.
 | ID | Item | Theme | Status | Phase | Priority |
 |----|------|-------|--------|-------|----------|
 | **P-01** | Parent/variant film grouping (product) | Identity & UX | **Designed** (analysis done) | 2 | High |
-| **P-02** | Planner time selector UX | Planner mobile | **In progress** (UX-1 implemented) | 1 | High |
+| **P-02** | Planner time selector UX | Planner mobile | **Done** (UX-1 `b55297d`) | 1 | High |
+| **P-07** | iPhone screen-space optimization | Planner mobile | **In progress** (UX-2 implemented) | 1 | High |
 | **P-03** | AMC API exploration | Data expansion | **Investigating** (partial D5) | 4 | Medium |
 | **P-04** | Interactive planner result refinement | Planner advanced | **Not started** | 3 | Medium |
 | **P-05** | Additional metadata integrations | Data expansion | **Not started** | 4 | Low–Medium |
 | **P-06** | Language & caption metadata | Data & filters | **Not started** | 4 | Medium |
-| **P-07** | iPhone screen-space optimization | Planner mobile | **Not started** | 1 | High |
 | **P-08** | Preserve scroll position on filter toggle | Planner mobile | **Not started** | 1 | Medium |
 | **P-09** | AM/PM & next-day / midnight timing | Planner correctness | **Not started** | 1 | Medium |
 | **P-10** | NW Film Forum + Central Cinema scraping | Theater expansion | **Not started** | 5 | Medium |
@@ -114,7 +114,7 @@ Recorded decisions — do not re-litigate without new data.
 
 | Field | Value |
 |-------|--------|
-| **Status** | **In progress** — UX-1 compact picker implemented (32px scroll rows, mobile side-by-side layout) |
+| **Status** | **Done** — UX-1 shipped (`b55297d`) |
 | **User problem** | “Start after” / “Finish by” time picker overlay is **visually heavy and oversized** on mobile; feels clunky vs common time-picker patterns. |
 | **Proposed value** | Smaller, cleaner control; faster selection; consistent with mobile UX best practices. |
 | **Affected areas** | `src/components/PlannerTimePicker.jsx`, `src/pages/PlannerPage.jsx`, `App.css` / planner styles |
@@ -131,12 +131,11 @@ Recorded decisions — do not re-litigate without new data.
 
 | Field | Value |
 |-------|--------|
-| **Status** | Not started |
+| **Status** | **In progress** — UX-2 mobile summary bar + collapsible filters implemented |
 | **User problem** | Mobile planner spends too much vertical space on filters; hard to see a full plan on one screen. |
 | **Proposed value** | User can view a complete plan without excessive scrolling when reasonable (2–3 films). |
-| **Ideas** | Collapsible filters; sticky compact summary bar; filter drawer/sheet; progressive disclosure; compact result cards. |
-| **Dependencies** | P-02 time picker size; mock plan preview already shipped ([mock-plan-preview-implementation.md](./mock-plan-preview-implementation.md)). |
-| **Next action** | Mobile layout audit at 375px; propose filter summary bar + drawer pattern. |
+| **Implemented (UX-2)** | Sticky summary chips; collapse filter panels after Find plans on mobile; Find plans stays visible. |
+| **Remaining** | UX-3 scroll retention; UX-5 result card density. |
 | **Links** | [planner-ux-roadmap.md](./planner-ux-roadmap.md), [frontend-smoke-check.md](./frontend-smoke-check.md) |
 
 ---
@@ -311,4 +310,4 @@ Copy for new tracker items:
 
 | Date | Change |
 |------|--------|
-| 2026-07-01 | Phase 1 UX-1: compact planner time picker (32px scroll rows, mobile 2-col time filters). |
+| 2026-07-01 | Phase 1 UX-2: mobile planner filter summary bar + collapsible filters. |

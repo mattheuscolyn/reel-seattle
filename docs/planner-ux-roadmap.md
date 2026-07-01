@@ -138,15 +138,21 @@ Reduces duplicate data entry and teaches the Planner entry point.
 
 ## Work in progress
 
-### UX-1 — Compact time picker (Phase 1, in progress)
+### UX-1 — Compact time picker (Phase 1, shipped)
+
+**Status:** Shipped (`b55297d`)
+
+**Scope:** Smaller scroll-wheel columns (32px rows), tighter header/actions, mobile 2-column layout for Start after / Finish by.
+
+### UX-2 — Collapsible mobile filters + summary bar (Phase 1, in progress)
 
 **Status:** Implemented on branch — pending commit/QA
 
-**Scope:** Smaller scroll-wheel columns (32px rows vs 40px), tighter header/actions, mobile 2-column layout for Start after / Finish by. URL/state behavior unchanged.
+**Scope:** Mobile-only sticky summary bar with filter chips; collapse full filter panels after Find plans; Find plans / share actions stay visible when collapsed. Local UI state (not URL). Desktop unchanged.
 
-**Files:** `PlannerTimePicker.jsx`, `plannerTimePicker.js`, `App.css`
+**Files:** `PlannerPage.jsx`, `PlannerMobileFilterBar.jsx`, `plannerDisplay.js`, `App.css`
 
-**Remaining Phase 1:** UX-2 collapsible filter panel, UX-3 scroll retention, UX-4 midnight audit, UX-5 result card density.
+**Remaining Phase 1:** UX-3 scroll retention, UX-4 midnight audit, UX-5 result card density.
 
 ### Mock plan preview (filter constraint visualization)
 

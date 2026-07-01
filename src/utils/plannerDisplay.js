@@ -317,6 +317,105 @@ export function formatPlannerSharedFiltersSummary(filters) {
 }
 
 /**
+ * Short theater summary for compact mobile filter chips.
+ *
+ * @param {string[]} selectedTheaters
+ * @param {number} theatersTotal
+ * @returns {string}
+ */
+export function formatPlannerTheaterSummary(selectedTheaters, theatersTotal = 0) {
+  const selected = Array.isArray(selectedTheaters) ? selectedTheaters : [];
+  if (
+    selected.length === 0 ||
+    (theatersTotal > 0 && selected.length >= theatersTotal)
+  ) {
+    return 'All theaters';
+  }
+  if (selected.length === 1) return selected[0];
+  return `${selected.length} theaters`;
+}
+
+/**
+ * Count non-default advanced planner filters for summary chips.
+ *
+ * @param {object} filters
+ * @returns {number}
+ */
+export function countPlannerAdvancedFilters(filters) {
+  let count = 0;
+  if (filters.firstFilm) count += 1;
+  if (filters.lastFilm) count += 1;
+  if (parseGapInput(filters.minGapMin) != null) count += 1;
+  if (filters.maxGapExplicit) count += 1;
+  if (filters.sort) count += 1;
+  return count;
+}
+
+/**
+ * Compact filter chips for the mobile planner summary bar.
+ *
+ * @param {object} filters - Planner filter state
+ * @param {{ theatersTotal?: number, formatDate?: (date: string) => string }} [options]
+ * @returns {{ key: string, label: string, value: string }[]}
+ */
+export function buildPlannerMobileFilterChips(filters, options = {}) {
+  const { theatersTotal = 0, formatDate = (date) => date } = options;
+  const chips = [];
+
+  if (filters.selectedDate) {
+    chips.push({
+      key: 'date',
+      label: 'Date',
+      value: formatDate(filters.selectedDate),
+    });
+  }
+
+  chips.push({
+    key: 'theaters',
+    label: 'Theaters',
+    value: formatPlannerTheaterSummary(filters.selectedTheaters, theatersTotal),
+  });
+
+  const filmCountLabel = formatFilmCountLabel(filters.filmCount);
+  chips.push({
+    key: 'films',
+    label: 'Movies',
+    value: filmCountLabel === 'As many as possible' ? filmCountLabel : `${filmCountLabel} films`,
+  });
+
+  if (filters.startAfter) {
+    chips.push({ key: 'start', label: 'After', value: filters.startAfter });
+  }
+  if (filters.finishBy) {
+    chips.push({ key: 'finish', label: 'By', value: filters.finishBy });
+  }
+
+  const requiredCount = parseFilmListInput(filters.includeFilms).length;
+  const preferredCount = parseFilmListInput(filters.preferredFilms).length;
+  const excludedCount = parseFilmListInput(filters.excludeFilms).length;
+  if (requiredCount > 0) {
+    chips.push({ key: 'required', label: 'Required', value: String(requiredCount) });
+  }
+  if (preferredCount > 0) {
+    chips.push({ key: 'preferred', label: 'Preferred', value: String(preferredCount) });
+  }
+  if (excludedCount > 0) {
+    chips.push({ key: 'excluded', label: 'Excluded', value: String(excludedCount) });
+  }
+
+  const advancedCount = countPlannerAdvancedFilters(filters);
+  if (advancedCount > 0) {
+    chips.push({
+      key: 'advanced',
+      label: 'More',
+      value: advancedCount === 1 ? '1 option' : `${advancedCount} options`,
+    });
+  }
+
+  return chips;
+}
+
+/**
  * @param {number | null | undefined} gapMin
  * @returns {string}
  */

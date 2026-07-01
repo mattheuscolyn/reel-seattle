@@ -1264,6 +1264,74 @@
   margin-bottom: 32px;
 }
 
+.planner-mobile-filter-bar {
+  display: none;
+}
+
+.planner-filter-controls {
+  display: block;
+}
+
+.planner-mobile-filter-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.planner-mobile-filter-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  max-width: 100%;
+  padding: 4px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.planner-mobile-filter-chip-label {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.68rem;
+}
+
+.planner-mobile-filter-chip-value {
+  color: var(--color-text);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.planner-mobile-filter-toggle {
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(144, 202, 249, 0.45);
+  background: rgba(144, 202, 249, 0.12);
+  color: var(--color-planner);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.planner-mobile-filter-toggle:hover {
+  background: rgba(144, 202, 249, 0.22);
+}
+
+.planner-mobile-filter-toggle:focus-visible {
+  outline: 2px solid var(--color-planner);
+  outline-offset: 2px;
+}
+
 .planner-filters {
   display: flex;
   flex-wrap: wrap;
@@ -2042,6 +2110,29 @@
   .planner-time-picker .planner-field-hint {
     font-size: 0.76rem;
     margin-top: 4px;
+  }
+
+  .planner-mobile-filter-bar {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+
+  .planner-filter-controls.is-collapsed-mobile {
+    display: none;
+  }
+
+  .planner-controls .search-button-container {
+    margin-top: 0;
   }
 }
 

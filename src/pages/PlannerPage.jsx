@@ -6,6 +6,7 @@ import FilmMultiSelect from '../components/FilmMultiSelect.jsx';
 import FilmSingleSelect from '../components/FilmSingleSelect.jsx';
 import PlannerConstraintPreview from '../components/PlannerConstraintPreview.jsx';
 import PlannerFilmValidation from '../components/PlannerFilmValidation.jsx';
+import PlannerMobileFilterBar from '../components/PlannerMobileFilterBar.jsx';
 import PlannerResultCard from '../components/PlannerResultCard.jsx';
 import PlannerTimePicker from '../components/PlannerTimePicker.jsx';
 import { useShowtimesData } from '../hooks/useShowtimesData.js';
@@ -19,6 +20,7 @@ import {
 } from '../utils/plannerFilms.js';
 import {
   buildPlannerSearchFilters,
+  buildPlannerMobileFilterChips,
   FILM_COUNT_OPTIONS,
   formatPlannerResultsHeading,
   formatPlannerSharedFiltersSummary,
@@ -51,6 +53,7 @@ export default function PlannerPage() {
   const [copyLinkStatus, setCopyLinkStatus] = useState('idle');
   const [visibleResultCount, setVisibleResultCount] = useState(PLANNER_RESULTS_PAGE_SIZE);
   const [marathonArrivalNotice, setMarathonArrivalNotice] = useState(null);
+  const [mobileFiltersExpanded, setMobileFiltersExpanded] = useState(true);
 
   const theaters = useMemo(
     () => (rows.length === 0 ? [] : uniqueSorted(rows.map((row) => row.Theater))),
@@ -173,6 +176,15 @@ export default function PlannerPage() {
     });
   }, [plannerState]);
 
+  const mobileFilterChips = useMemo(
+    () =>
+      buildPlannerMobileFilterChips(plannerState, {
+        theatersTotal: theaters.length,
+        formatDate: formatPlannerDateLabel,
+      }),
+    [plannerState, theaters.length],
+  );
+
   const updateUrlFilters = (partial, { replace = true } = {}) => {
     const current = decodePlannerFilters(searchParams);
     const nextParams = encodePlannerFilters({ ...current, ...partial });
@@ -265,6 +277,9 @@ export default function PlannerPage() {
       setResults(schedules);
       setSearchMeta(meta);
       setIsSearching(false);
+      if (typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches) {
+        setMobileFiltersExpanded(false);
+      }
     }, 0);
   };
 
@@ -347,6 +362,19 @@ export default function PlannerPage() {
       )}
 
       <div className="planner-controls">
+        <PlannerMobileFilterBar
+          chips={mobileFilterChips}
+          expanded={mobileFiltersExpanded}
+          onToggle={() => setMobileFiltersExpanded((open) => !open)}
+          controlsId="planner-filter-controls"
+        />
+
+        <div
+          id="planner-filter-controls"
+          className={`planner-filter-controls${
+            mobileFiltersExpanded ? '' : ' is-collapsed-mobile'
+          }`}
+        >
         <div className="planner-filters planner-filters--primary">
           <div className="filter-group">
             <label htmlFor="planner-date">Date</label>
@@ -547,6 +575,7 @@ export default function PlannerPage() {
             showtimeRows={rows}
           />
         ) : null}
+        </div>
 
         <div className="search-button-container">
           <div className="planner-action-buttons">
