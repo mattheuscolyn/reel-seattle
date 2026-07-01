@@ -31,7 +31,9 @@ EVALUATED_PRECISION = 0.916
 EVALUATED_RECALL = 0.258
 EVALUATED_COVERAGE = 0.222
 EVALUATION_NOTE = (
-    "Historical held-out backtest only (PR D); not a guarantee of leaving soon."
+    "Historical held-out backtest only (PR D); not a guarantee of leaving soon. "
+    "PR D target and this rule are likely tautological (end-of-visible-schedule); "
+    "do not use for product decisions until weekly-extension labels (PR C2) pass review."
 )
 
 REASON_TEXT = "Only one visible AMC play date remains in the current schedule."

@@ -624,8 +624,9 @@ python scripts/evaluate_leaving_soon_baselines.py
 | PR B2 Git-history extractor | **Done** — `f2f639f` |
 | PR C label builder | **Done** — `9f5a2f8` |
 | PR D baseline evaluation | **Done** — `c991d4b` |
-| PR E current artifact | **Done** — `reel_seattle/emit/leaving_soon.py` |
-| Generated outputs | `data/analysis/` gitignored; `public/data/leaving_soon_current.json` committed by daily workflow but excluded from Pages dist until PR F |
+| PR E current artifact | **Review-only** — tautological rule; excluded from Pages |
+| PR C2 weekly labels | **Done** — booking-cycle analysis + weekly-extension labels |
+| Generated outputs | `data/analysis/` gitignored |
 
 ### PR E — current artifact (product review)
 
@@ -668,6 +669,140 @@ python scripts/build_leaving_soon_current.py
 
 ---
 
+## 13. Product correction — weekly booking target (2026-07-01)
+
+### Why `visible_dates_le_1` is not a valid predictor
+
+The PR D “best” rule `visible_dates_le_1` (only one visible show date at anchor) is **likely a tautology**, not a forecast:
+
+- If a film has **only one visible play date**, it is already at the **end of its visible schedule**.
+- The PR C label (`leaving_soon = true` when `post_update_max_show_date` does not exceed `anchor_max_show_date`) rewards rules that detect **films already at their horizon**.
+- High precision (~92%) is therefore expected: “one date left” ≈ “won’t extend past that date.”
+- Modest lift (1.16×) over a **77.6% base rate** further suggests the rule mostly re-labels the obvious.
+
+**Correct modeling question (weekly):**
+
+> On or shortly after Wednesday, when AMC’s next schedule block is first announced, which currently playing films will also receive showtimes in the **following booking week**?
+
+Reason in **booking weeks**, not remaining visible days.
+
+### What PR C / D / E got wrong
+
+| PR | Issue |
+|----|--------|
+| **C** | Label used **horizon extension** (`post_max > anchor_max`), which correlates with “already at end of schedule” features. |
+| **D** | `visible_dates_le_1` exploited that correlation; precision gate passed but lift was marginal. |
+| **E** | Current artifact applies the same tautological rule to live data — **review-only, not product-ready**. |
+
+**PR E artifact disposition:** Keep `public/data/leaving_soon_current.json` **tracked** (daily workflow convention) and **excluded from Pages `dist/`** until a corrected weekly model exists. Do **not** remove the file yet — useful for comparing tautology vs weekly labels. Do **not** wire frontend (PR F).
+
+### Booking-cycle analysis (PR C2)
+
+**Script:** `scripts/analyze_amc_booking_cycle.py`  
+**Output:** `data/analysis/amc_booking_cycle_report.json` (gitignored)
+
+Full footprint run (2025-07-11 → 2026-06-29, 341 snapshots):
+
+**Any `max_show_date` increase (consecutive snapshots):**
+
+| Weekday observed | Events | Share |
+|------------------|--------|-------|
+| Monday | 394 | 10.7% |
+| **Tuesday** | **1,013** | **27.6%** |
+| Wednesday | 777 | 21.1% |
+| Thursday | 348 | 9.5% |
+| Friday | 314 | 8.5% |
+| Saturday | 394 | 10.7% |
+| Sunday | 435 | 11.8% |
+
+**Week-crossing extensions** (new max show date moves past prior snapshot’s Sunday):
+
+| Weekday observed | Share (dominant) |
+|------------------|------------------|
+| Tuesday | 22.7% dominant |
+| Thursday | ~10.3% |
+
+**Conclusion:** The data **does not** show Thursday as the dominant extension-observation day. Extensions are **diffuse** across weekdays — consistent with **daily horizon creep** in snapshots, not a clean “Wednesday PM drop → Thursday snapshot” signal at `max_show_date` granularity. Scrape timing (~06:00 UTC ≈ prior evening PT) may still miss same-calendar-day Wednesday PM updates, but **Thursday-only anchoring is not strongly supported** by extension counts alone.
+
+**Recommended convention (pragmatic, leakage-safe):**
+
+- **Anchor:** Tuesday pre-update snapshot (features from current booking week only).
+- **Observation:** Thursday snapshot (first Thu/Fri after relevant Wednesday) for **following-week outcome**.
+- Treat Wednesday as the **conceptual** booking anchor; confirm cadence with ongoing analysis, not assumption.
+
+### Corrected weekly label (PR C2)
+
+**Script:** `scripts/build_weekly_leaving_soon_labels.py`  
+**Library:** `reel_seattle/analysis/weekly_leaving_soon_labels.py`  
+**Output:** `data/analysis/weekly_leaving_soon_labels.csv` (gitignored)
+
+**Definition (`weekly-extension` mode):**
+
+- **Anchor:** Tuesday (default) — film must have ≥1 active showtime in the **current** Monday–Sunday booking week.
+- **Outcome:** Thursday post-update snapshot — does the film have **any** showtimes in the **following** Monday–Sunday week?
+- **`leaving_soon_label = true`** only if it **does not** receive following-week showtimes.
+- Avoids tautology: a film can have many visible dates in the current week yet still fail to book the next week.
+
+**First full run summary:**
+
+| Metric | PR C (old) | PR C2 (weekly) |
+|--------|------------|----------------|
+| Labeled rows | 4,930 | **1,811** |
+| Positive rate | 77.6% | **38.0%** |
+| Anchor weekdays | Tue/Wed | **Tue** |
+
+The corrected base rate is **substantially lower** — future evaluation (PR D2) must use this rate, not 77.6%.
+
+### Booking-week features (non-tautological)
+
+Available at Tuesday anchor in `weekly_leaving_soon_labels.csv`:
+
+- `current_week_showtime_count`, `current_week_theater_count`, `current_week_visible_days`
+- `current_week_has_weekend_show`, `current_week_has_primetime`
+- Prior-week counts and deltas (`prior_week_*`, `*_change_vs_prior_week`)
+- `weeks_since_first_seen`, `booking_cycles_survived`
+- `peak_showtime_count_to_date`, `peak_theater_count_to_date`
+
+**Do not use as predictors for weekly model:** `visible_dates_le_1`, `days_until_anchor_max_show_date` alone, post-update fields, following-week outcome columns.
+
+**Forbidden / outcome-only:** `gets_following_week_showtimes`, `following_week_*`, `post_update_*`, `leaving_soon_label`.
+
+### PR D2 evaluation plan
+
+**Script (future):** extend `scripts/evaluate_leaving_soon_baselines.py` or add `evaluate_weekly_leaving_soon_baselines.py`
+
+**Baselines (non-tautological):**
+
+- Current-week showtime / theater count thresholds
+- Shrinkage vs prior week (showtimes, theaters, visible days)
+- `weeks_since_first_seen`, `booking_cycles_survived`
+- Peak-to-current footprint decline
+- Combined weak-footprint rules
+
+**Metrics:** precision (high-confidence “won’t get next week”), recall, coverage, **lift over ~38% base**, monthly stability.
+
+**Splits:** time-aware 60/20/20 by anchor date (same as PR D).
+
+### Revised roadmap
+
+| PR | Scope | Status |
+|----|-------|--------|
+| **C** | Horizon-extension labels | **Superseded** for modeling — kept for comparison |
+| **D** | `visible_dates_le_1` evaluation | **Invalidated** as ship criterion |
+| **E** | Current tautology artifact | **Review-only** — excluded from Pages |
+| **C2** | Booking-cycle analysis + weekly labels | **Done** (this pass) |
+| **D2** | Weekly baseline evaluation | **Next** |
+| **F** | UI | **Deferred** until D2 + product review |
+
+**Regenerate PR C2 artifacts:**
+
+```bash
+python scripts/analyze_amc_booking_cycle.py
+python scripts/build_weekly_leaving_soon_labels.py
+```
+
+---
+
 ## Appendix — Files inspected
 
 | Path | Purpose |
@@ -693,10 +828,16 @@ python scripts/build_leaving_soon_current.py
 | `reel_seattle/analysis/leaving_soon_labels.py` | Label derivation (PR C) |
 | `scripts/build_leaving_soon_labels.py` | Label CLI (PR C) |
 | `reel_seattle/analysis/leaving_soon_eval.py` | Baseline evaluation (PR D) |
+| `reel_seattle/analysis/amc_booking_cycle.py` | Booking-cycle timing analysis (PR C2) |
+| `reel_seattle/analysis/weekly_leaving_soon_labels.py` | Weekly-extension labels (PR C2) |
+| `scripts/analyze_amc_booking_cycle.py` | Booking-cycle CLI (PR C2) |
+| `scripts/build_weekly_leaving_soon_labels.py` | Weekly label CLI (PR C2) |
 | `scripts/evaluate_leaving_soon_baselines.py` | Evaluation CLI (PR D) |
 | `scripts/build_leaving_soon_current.py` | Current artifact CLI (PR E) |
 | `tests/emit/test_leaving_soon.py` | Leaving-soon emit tests (PR E) |
 | `tests/analysis/test_leaving_soon_eval.py` | Evaluation tests (PR D) |
+| `tests/analysis/test_amc_booking_cycle.py` | Booking-cycle tests (PR C2) |
+| `tests/analysis/test_weekly_leaving_soon_labels.py` | Weekly label tests (PR C2) |
 | `tests/analysis/test_leaving_soon_labels.py` | Label tests (PR C) |
 | `tests/analysis/test_amc_footprint.py` | Footprint tests (PR B) |
 | `tests/analysis/test_legacy_amc_csv.py` | Legacy CSV tests (PR B2) |
