@@ -767,21 +767,64 @@ Available at Tuesday anchor in `weekly_leaving_soon_labels.csv`:
 
 **Forbidden / outcome-only:** `gets_following_week_showtimes`, `following_week_*`, `post_update_*`, `leaving_soon_label`.
 
-### PR D2 evaluation plan
+### PR D2 evaluation (done)
 
-**Script (future):** extend `scripts/evaluate_leaving_soon_baselines.py` or add `evaluate_weekly_leaving_soon_baselines.py`
+**Script:** `scripts/evaluate_weekly_leaving_soon_baselines.py`  
+**Library:** `reel_seattle/analysis/weekly_leaving_soon_eval.py`  
+**Input:** `data/analysis/weekly_leaving_soon_labels.csv`  
+**Outputs (gitignored):** `weekly_leaving_soon_baseline_report.{json,md}`, `weekly_leaving_soon_baseline_predictions.csv`
 
-**Baselines (non-tautological):**
+**Approach:**
 
-- Current-week showtime / theater count thresholds
-- Shrinkage vs prior week (showtimes, theaters, visible days)
-- `weeks_since_first_seen`, `booking_cycles_survived`
-- Peak-to-current footprint decline
-- Combined weak-footprint rules
+- Non-tautological heuristics on Tuesday anchor / current-week + prior-history features only.
+- Time-aware 60/20/20 splits by anchor date; monthly precision/coverage.
+- High-confidence selection on validation (`precision ≥ 75%`, `coverage ≥ 5%`, `lift ≥ 1.05`).
+- Coverage-floor reporting at 5%, 10%, 15%, 20%.
+- Tautology controls (`visible_dates_le_1`, `horizon_le_3`) reported separately — not product candidates.
+- Event-like films excluded at label build; evaluation uses labeled rows only.
+- ML skipped: scikit-learn not in project dependencies.
 
-**Metrics:** precision (high-confidence “won’t get next week”), recall, coverage, **lift over ~38% base**, monthly stability.
+**Full run findings (2026-07-01):**
 
-**Splits:** time-aware 60/20/20 by anchor date (same as PR D).
+| Metric | Value |
+|--------|-------|
+| Labeled rows | 1,811 |
+| Corrected base positive rate | **38.0%** |
+| Best validation-gate rule | `no_current_week_weekend` |
+| Held-out test precision | **80.1%** |
+| Held-out test recall | 86.7% |
+| Held-out test coverage | 43.6% |
+| Held-out test lift | **1.99×** |
+| Held-out false positives | 29 |
+| Held-out false negatives | 18 |
+| Monthly stability | **Fail** — Dec 61.4%, Jan 65.6% below 75% gate |
+
+**Coverage floors (all pick `no_current_week_weekend` on validation):** 5%/10%/15%/20% floors → same held-out test metrics as above.
+
+**Tautology controls on weekly labels (comparison only):**
+
+| Rule | Test precision | Coverage | Lift |
+|------|----------------|----------|------|
+| `tautology_visible_dates_le_1` | 97.7% | 13.1% | 2.43× |
+| `tautology_horizon_le_3` | 80.1% | 43.6% | 1.99× |
+
+`no_current_week_weekend` matches tautology `horizon_le_3` on weekly labels — suggests weekend coverage still proxies end-of-run scheduling.
+
+**Higher-precision narrow rules (low coverage):**
+
+- `theater_pct_of_peak_le_025`: 100% precision, 2.1% coverage
+- `low_showtimes_and_shrinking`: 90.0% precision, 17.9% coverage
+
+**Recommendation:** `needs_more_work` — weekly signal is **materially better than PR D** (1.99× lift vs 1.16×) but **monthly precision is unstable**. Do **not** replace PR E artifact or ship UI yet. Collect more snapshots; consider Wednesday PM scrape and richer trajectory features.
+
+**Run:**
+
+```bash
+python scripts/build_weekly_leaving_soon_labels.py
+python scripts/evaluate_weekly_leaving_soon_baselines.py
+```
+
+**Tests:** `tests/analysis/test_weekly_leaving_soon_eval.py`
 
 ### Revised roadmap
 
@@ -790,9 +833,10 @@ Available at Tuesday anchor in `weekly_leaving_soon_labels.csv`:
 | **C** | Horizon-extension labels | **Superseded** for modeling — kept for comparison |
 | **D** | `visible_dates_le_1` evaluation | **Invalidated** as ship criterion |
 | **E** | Current tautology artifact | **Review-only** — excluded from Pages |
-| **C2** | Booking-cycle analysis + weekly labels | **Done** (this pass) |
-| **D2** | Weekly baseline evaluation | **Next** |
-| **F** | UI | **Deferred** until D2 + product review |
+| **C2** | Booking-cycle analysis + weekly labels | **Done** — `eb10198` |
+| **D2** | Weekly baseline evaluation | **Done** — this pass |
+| **E2** | Replace PR E with weekly rule artifact | **Deferred** — needs monthly stability |
+| **F** | UI | **Deferred** until E2 + product review |
 
 **Regenerate PR C2 artifacts:**
 
@@ -833,11 +877,14 @@ python scripts/build_weekly_leaving_soon_labels.py
 | `scripts/analyze_amc_booking_cycle.py` | Booking-cycle CLI (PR C2) |
 | `scripts/build_weekly_leaving_soon_labels.py` | Weekly label CLI (PR C2) |
 | `scripts/evaluate_leaving_soon_baselines.py` | Evaluation CLI (PR D) |
+| `reel_seattle/analysis/weekly_leaving_soon_eval.py` | Weekly baseline evaluation (PR D2) |
+| `scripts/evaluate_weekly_leaving_soon_baselines.py` | Weekly evaluation CLI (PR D2) |
 | `scripts/build_leaving_soon_current.py` | Current artifact CLI (PR E) |
 | `tests/emit/test_leaving_soon.py` | Leaving-soon emit tests (PR E) |
 | `tests/analysis/test_leaving_soon_eval.py` | Evaluation tests (PR D) |
 | `tests/analysis/test_amc_booking_cycle.py` | Booking-cycle tests (PR C2) |
 | `tests/analysis/test_weekly_leaving_soon_labels.py` | Weekly label tests (PR C2) |
+| `tests/analysis/test_weekly_leaving_soon_eval.py` | Weekly evaluation tests (PR D2) |
 | `tests/analysis/test_leaving_soon_labels.py` | Label tests (PR C) |
 | `tests/analysis/test_amc_footprint.py` | Footprint tests (PR B) |
 | `tests/analysis/test_legacy_amc_csv.py` | Legacy CSV tests (PR B2) |
