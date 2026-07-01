@@ -1,6 +1,6 @@
 # Leaving Soon — Predictive Feature Design & Data Audit
 
-**Status:** PR B/B2 complete; PR C label builder ready; PR D backtest pending  
+**Status:** PR B/B2/C complete; PR D baseline evaluation ready; PR E pending review  
 **Date:** 2026-06-30  
 **Audience:** Maintainers evaluating whether to ship an AMC “Leaving Soon” signal
 
@@ -468,6 +468,75 @@ python scripts/build_leaving_soon_labels.py --input data/analysis/amc_film_footp
 
 **Tests:** `tests/analysis/test_leaving_soon_labels.py` with `tests/fixtures/analysis/leaving_soon_footprint_mini.csv`
 
+### Baseline evaluation (PR D)
+
+**Script:** `scripts/evaluate_leaving_soon_baselines.py`  
+**Library:** `reel_seattle/analysis/leaving_soon_eval.py`  
+**Input:** `data/analysis/leaving_soon_labels.csv` (default)  
+**Outputs (gitignored):**
+
+- `data/analysis/leaving_soon_baseline_report.json`
+- `data/analysis/leaving_soon_baseline_report.md`
+- `data/analysis/leaving_soon_baseline_predictions.csv` (best rule)
+
+**Approach:**
+
+- Evaluate explainable heuristics only (no ML training).
+- Predictors: anchor-time footprint fields only (`days_until_anchor_max_show_date`, theater/showtime counts, weekend/primetime flags, etc.).
+- Forbidden predictors: `post_update_*`, `extended_after_update`, `leaving_soon_label`.
+- Time-aware splits by anchor date: **60% train / 20% validation / 20% held-out test**.
+- Select high-confidence rules on validation (`precision ≥ 0.75`, `coverage ≥ 0.05`, `lift ≥ 1.05` over base rate).
+- Report monthly precision/coverage stability.
+
+**Baseline heuristics evaluated:**
+
+- Always positive / always negative
+- Booking horizon thresholds (`horizon_le_N`)
+- Weak footprint (`showtimes_le_N`, `theaters_le_N`, `visible_dates_le_N`)
+- No weekend / no primetime coverage
+- Combined rules (short horizon + low theaters/showtimes/no weekend)
+- Score-style weak-footprint sum with thresholds
+
+**Quality gates (§7):**
+
+| Gate | Result (2026-06-30 full run) |
+|------|------------------------------|
+| High-confidence precision ≥ 0.75 (held-out test) | **Pass** — best rule 91.6% |
+| Coverage ≥ 5% | **Pass** — 22.2% |
+| Lift over base rate (77.6%) | **Marginal** — 1.16× (not +10 pp at equal recall) |
+| Monthly stability | **Mostly pass** — monthly precision 84–99% for best rule |
+| Beat always-positive at equal recall | **Fail** — base rate already ~78% |
+
+**Full historical run findings (2026-06-30):**
+
+| Metric | Value |
+|--------|-------|
+| Labeled rows | 4,930 |
+| Base positive rate | **77.6%** |
+| Best validation rule | `visible_dates_le_1` (only one visible show date at anchor) |
+| Held-out test precision | **91.6%** |
+| Held-out test recall | 25.8% |
+| Held-out test coverage | 22.2% |
+| Held-out test lift | **1.16×** |
+| Held-out false positives | 17 |
+
+**Interpretation:**
+
+- A **high-precision, interpretable subset exists**: films with only one visible show date at anchor are often truly leaving soon.
+- **Lift over the naive always-positive baseline is modest** because most films already fail to extend in this label definition (~78% positive).
+- The 75% precision ship bar is **necessary but not sufficient**; the signal is usable only as a **narrow high-confidence bucket**, not a broad tag.
+- False positives include limited-run anniversary screenings with a single visible date but longer horizons; false negatives include films with short horizons that still extend.
+
+**Recommendation:** `proceed_with_caution` — PR E may prototype a current artifact using `visible_dates_le_1` (or similar), but **do not ship UI (PR F)** until product review accepts low recall and modest lift. Consider label refinement and Wednesday PM scrape before wider rollout.
+
+**Run:**
+
+```bash
+python scripts/evaluate_leaving_soon_baselines.py
+```
+
+**Tests:** `tests/analysis/test_leaving_soon_eval.py`
+
 ### What stays out of `public/data/`
 
 Do **not** ship model scores to the browser until PR E passes evaluation. Keep modeling artifacts under `data/analysis/` or `analysis/` (gitignored via `.gitignore`).
@@ -481,9 +550,9 @@ Do **not** ship model scores to the browser until PR E passes evaluation. Keep m
 | **A** | Design audit (`docs/leaving-soon-model-design.md`) | **Done** |
 | **B** | `scripts/build_amc_film_footprint.py` + tests | **Done** |
 | **B2** | `scripts/extract_amc_snapshots_from_git.py` + tests | **Done** |
-| **C** | `scripts/build_leaving_soon_labels.py` + tests | **Ready** |
-| **D** | Baseline + logistic regression backtest report | **Next** |
-| **E** | `public/data/leaving_soon_current.json` emitter (only if §7 gates pass) | Pending |
+| **C** | `scripts/build_leaving_soon_labels.py` + tests | **Done** |
+| **D** | `scripts/evaluate_leaving_soon_baselines.py` + tests | **Ready** |
+| **E** | `public/data/leaving_soon_current.json` emitter (only if §7 gates pass) | **Review** — cautious proceed |
 | **F** | Showtimes UI — badge, section, sort | Only if E passes |
 
 **Do not start PR F** until PR D report is reviewed and accepted.
@@ -524,20 +593,27 @@ Do **not** ship model scores to the browser until PR E passes evaluation. Keep m
 
 ## 11. Recommended next PR
 
-**PR D:** baseline heuristics + logistic regression backtest report from `data/analysis/leaving_soon_labels.csv`, with time-based train/validation/test splits (see §7).
+**PR E (optional, cautious):** `public/data/leaving_soon_current.json` emitter applying the best validated heuristic (`visible_dates_le_1` or successor) to the latest AMC footprint — **modeling/pipeline only**, no UI.
 
-**Prerequisite:** Run PR B2 + PR C locally:
+**Prerequisite:** Regenerate labels and re-run evaluation after new daily snapshots:
 
 ```bash
 python scripts/extract_amc_snapshots_from_git.py
 python scripts/build_leaving_soon_labels.py
+python scripts/evaluate_leaving_soon_baselines.py
 ```
 
-**Provisional ship bar (not approval to ship UI):** ≥75% precision on a high-confidence Leaving Soon bucket in held-out backtest weeks (see §7). Do not start PR F (UI) until PR D meets this bar.
+**Do not start PR F (UI)** until product accepts:
+
+- Low recall (~26% on held-out test for best high-confidence rule)
+- Modest lift (1.16×) over an already-high base positive rate
+- Residual false positives on limited-run / anniversary titles
+
+**Provisional ship bar (not approval to ship UI):** ≥75% precision on high-confidence bucket **and** meaningful lift over base rate. PR D shows precision passes but lift is marginal — treat UI as **deferred pending review**, not green-lit.
 
 ---
 
-## 12. Milestone status & PR C readiness
+## 12. Milestone status & PR E readiness
 
 ### Current milestone (2026-06-30)
 
@@ -546,26 +622,27 @@ python scripts/build_leaving_soon_labels.py
 | PR A design audit | Done |
 | PR B footprint derivation | **Done** — `edbf473` |
 | PR B2 Git-history extractor | **Done** — `f2f639f` |
-| PR C label builder | **Ready** — `scripts/build_leaving_soon_labels.py` |
-| PR D backtest | **Not started** |
+| PR C label builder | **Done** — `9f5a2f8` |
+| PR D baseline evaluation | **Ready** — `scripts/evaluate_leaving_soon_baselines.py` |
+| PR E current artifact | **Review** — cautious proceed only |
 | Generated outputs | `data/analysis/` gitignored; not committed |
 
-### PR C readiness checklist
+### PR E readiness checklist
 
-- [x] `python scripts/extract_amc_snapshots_from_git.py` succeeds (~342 snapshots)
-- [x] `python scripts/build_leaving_soon_labels.py` succeeds
-- [x] Label output includes multiple `anchor_date` values and binary labels
-- [ ] PR D backtest report reviewed against §7 ship bar
+- [x] PR D report generated locally
+- [x] High-confidence precision ≥ 75% on held-out test
+- [ ] Product review of modest lift (1.16×) and low recall
+- [ ] Agreement on heuristic (`visible_dates_le_1`) and UI copy
+- [ ] Re-run evaluation after new daily snapshots land
 
-**Regenerate labels:**
+**Regenerate evaluation:**
 
 ```bash
-python scripts/build_leaving_soon_labels.py
-# output: data/analysis/leaving_soon_labels.csv (gitignored)
-# summary: data/analysis/leaving_soon_label_summary.json (gitignored)
+python scripts/evaluate_leaving_soon_baselines.py
+# outputs: data/analysis/leaving_soon_baseline_report.{json,md}
 ```
 
-**When ready:** implement PR D backtest before any UI work.
+**When ready:** optional PR E artifact, then PR F UI only if product accepts tradeoffs.
 
 ---
 
@@ -592,6 +669,9 @@ python scripts/build_leaving_soon_labels.py
 | `scripts/extract_amc_snapshots_from_git.py` | Git-history footprint CLI (PR B2) |
 | `reel_seattle/analysis/leaving_soon_labels.py` | Label derivation (PR C) |
 | `scripts/build_leaving_soon_labels.py` | Label CLI (PR C) |
+| `reel_seattle/analysis/leaving_soon_eval.py` | Baseline evaluation (PR D) |
+| `scripts/evaluate_leaving_soon_baselines.py` | Evaluation CLI (PR D) |
+| `tests/analysis/test_leaving_soon_eval.py` | Evaluation tests (PR D) |
 | `tests/analysis/test_leaving_soon_labels.py` | Label tests (PR C) |
 | `tests/analysis/test_amc_footprint.py` | Footprint tests (PR B) |
 | `tests/analysis/test_legacy_amc_csv.py` | Legacy CSV tests (PR B2) |
