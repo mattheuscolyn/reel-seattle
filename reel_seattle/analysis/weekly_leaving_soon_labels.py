@@ -92,12 +92,23 @@ WEEKLY_LABEL_FIELDNAMES = [
     "event_like_reason",
     "strict_event_like_flag",
     "strict_event_like_reason",
+    "run_segment",
+    "run_type",
     "flag_anniversary_like",
     "flag_fan_event_like",
+    "flag_opening_night_like",
     "flag_sensory_friendly_like",
     "flag_double_feature_like",
+    "flag_live_or_concert_like",
     "flag_live_encore_like",
     "flag_classic_rerelease_like",
+    "flag_holiday_rerelease_like",
+    "flag_anime_event_like",
+    "flag_awards_limited_like",
+    "flag_foreign_limited_like",
+    "flag_family_holiday_like",
+    "flag_special_event_like",
+    "flag_probable_normal_first_run",
     "visible_show_date_count_at_anchor",
     "days_until_anchor_max_show_date",
     "following_week_showtime_count",
@@ -373,7 +384,10 @@ def build_weekly_label_rows(
                 week_start_date=current_start,
                 week_end_date=current_end,
             )
-            screening_flags = flags_to_csv_fields(anchor.film_title)
+            screening_flags = flags_to_csv_fields(
+                anchor.film_title,
+                anchor_date=anchor_date.isoformat(),
+            )
             booking_cycles = _count_prior_booking_cycles(
                 snapshot_dates, anchor_date, film_key, row_index
             )

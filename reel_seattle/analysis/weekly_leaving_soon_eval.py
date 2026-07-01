@@ -35,6 +35,15 @@ from reel_seattle.analysis.weekly_leaving_soon_stability import (
     monthly_precision_summary,
 )
 from reel_seattle.analysis.weekly_leaving_soon_ml import run_weekly_ml_exploration
+from reel_seattle.analysis.weekly_leaving_soon_error_audit import (
+    build_error_audit_rows,
+    summarize_false_positive_audit,
+    write_error_audit_csv,
+)
+from reel_seattle.analysis.weekly_leaving_soon_segments import (
+    evaluate_all_segments,
+    evaluate_segment_aware_rules,
+)
 
 PR_D2_BASELINE_RULE_ID = "no_current_week_weekend"
 
@@ -113,12 +122,23 @@ ALLOWED_PREDICTOR_FIELDS = frozenset(
         "event_like_reason",
         "strict_event_like_flag",
         "strict_event_like_reason",
+        "run_segment",
+        "run_type",
         "flag_anniversary_like",
         "flag_fan_event_like",
+        "flag_opening_night_like",
         "flag_sensory_friendly_like",
         "flag_double_feature_like",
+        "flag_live_or_concert_like",
         "flag_live_encore_like",
         "flag_classic_rerelease_like",
+        "flag_holiday_rerelease_like",
+        "flag_anime_event_like",
+        "flag_awards_limited_like",
+        "flag_foreign_limited_like",
+        "flag_family_holiday_like",
+        "flag_special_event_like",
+        "flag_probable_normal_first_run",
     }
 )
 
@@ -815,9 +835,35 @@ def evaluate_weekly_baselines(
                 metric, strict_test_rows, spec.predict, monthly=monthly
             )
 
+    best_spec = spec_by_id.get(best_rule_id or PR_D2_BASELINE_RULE_ID)
+    segment_analysis: dict[str, Any] = {}
+    segment_aware_experiment: dict[str, Any] = {}
+    error_audit_summary: dict[str, Any] = {}
+    if best_spec is not None:
+        segment_analysis = evaluate_all_segments(
+            rows,
+            rule_id=best_spec.rule_id,
+            description=best_spec.description,
+            predict=best_spec.predict,
+            test_rows=test,
+        )
+        segment_aware_experiment = evaluate_segment_aware_rules(
+            rows,
+            test,
+            base_rule_id=best_spec.rule_id,
+            base_description=best_spec.description,
+            base_predict=best_spec.predict,
+        )
+        audit_rows = build_error_audit_rows(
+            rows,
+            rule_id=best_spec.rule_id,
+            predict=best_spec.predict,
+        )
+        error_audit_summary = summarize_false_positive_audit(audit_rows)
+
     return {
         "label_mode": "weekly-extension",
-        "feature_version": "rich-weekly-v2",
+        "feature_version": "event-segment-v1",
         "labeled_rows": len(rows),
         "distinct_films": len({row["showtime_film_key"] for row in rows}),
         "base_positive_rate": round(overall_base, 4),
@@ -855,6 +901,9 @@ def evaluate_weekly_baselines(
         "weak_month_analysis": weak_month_analysis,
         "best_rule_monthly_stability": best_monthly_stability,
         "strict_event_filter_experiment": strict_experiment,
+        "segment_analysis": segment_analysis,
+        "segment_aware_experiment": segment_aware_experiment,
+        "error_audit_summary": error_audit_summary,
         "recommendation": recommendation,
     }
 
@@ -912,7 +961,7 @@ def write_weekly_predictions_csv(
 
 def render_weekly_markdown_report(report: Mapping[str, Any]) -> str:
     lines = [
-        "# Weekly Leaving Soon baseline evaluation (rich-weekly-v2)",
+        "# Weekly Leaving Soon baseline evaluation",
         "",
         f"- Feature version: **{report.get('feature_version', 'weekly-extension')}**",
         f"- Label mode: **{report['label_mode']}**",
@@ -992,6 +1041,30 @@ def render_weekly_markdown_report(report: Mapping[str, Any]) -> str:
     else:
         lines.append("No rule met high-confidence gates on validation.")
 
+    audit = report.get("error_audit_summary")
+    if audit:
+        lines.extend(
+            [
+                "",
+                "## Error audit summary (all labeled rows)",
+                "",
+                f"- False positives: **{audit.get('false_positive_count', 0)}**",
+                f"- False negatives: **{audit.get('false_negative_count', 0)}**",
+                f"- Top FP run types: **{audit.get('by_run_type', {})}**",
+            ]
+        )
+
+    segment_aware = report.get("segment_aware_experiment", {}).get("rules", {})
+    if segment_aware:
+        lines.extend(["", "## Segment-aware rules (evaluation-only, held-out test)", ""])
+        for rule_id, metrics in segment_aware.items():
+            stability = metrics.get("monthly_stability", {})
+            lines.append(
+                f"- `{rule_id}`: precision **{metrics.get('precision', 0):.1%}**, "
+                f"recall **{metrics.get('recall', 0):.1%}**, coverage **{metrics.get('coverage', 0):.1%}**, "
+                f"monthly min **{stability.get('min_precision', 0):.1%}**"
+            )
+
     lines.extend(["", "## Tautology controls (not product candidates)", ""])
     for item in report.get("tautology_control_test_metrics", []):
         if item["true_positives"] + item["false_positives"] == 0:
@@ -1035,6 +1108,19 @@ def run_weekly_baseline_evaluation(
     report = evaluate_weekly_baselines(rows)
     ml_output = json_output.parent / "weekly_leaving_soon_ml_exploration.json"
     report["ml_exploration"] = run_weekly_ml_exploration(rows, output_path=ml_output)
+
+    best_rule_id = report["best_high_confidence_rule"]["rule_id"] or PR_D2_BASELINE_RULE_ID
+    catalog = {spec.rule_id: spec for spec in build_weekly_heuristic_catalog()}
+    audit_spec = catalog.get(best_rule_id)
+    audit_output = json_output.parent / "weekly_leaving_soon_error_audit.csv"
+    if audit_spec is not None:
+        audit_rows = build_error_audit_rows(
+            rows,
+            rule_id=audit_spec.rule_id,
+            predict=audit_spec.predict,
+        )
+        write_error_audit_csv(audit_output, audit_rows)
+        report["error_audit_path"] = str(audit_output)
     json_output.parent.mkdir(parents=True, exist_ok=True)
     json_output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     markdown_output.write_text(render_weekly_markdown_report(report) + "\n", encoding="utf-8")

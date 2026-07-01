@@ -59,7 +59,10 @@ def test_low_footprint_not_new_flags_leaving_rows():
 def test_evaluate_weekly_baselines_includes_stability_sections():
     rows = load_weekly_labeled_rows(FIXTURES_DIR / "weekly_leaving_soon_labels_mini.csv")
     report = evaluate_weekly_baselines(rows)
-    assert report["feature_version"] == "rich-weekly-v2"
+    assert report["feature_version"] == "event-segment-v1"
+    assert "segment_analysis" in report
+    assert "segment_aware_experiment" in report
+    assert "error_audit_summary" in report
     assert "pr_d2_baseline_rule" in report
     assert "weak_month_analysis" in report
     assert "strict_event_filter_experiment" in report

@@ -869,6 +869,37 @@ python scripts/build_weekly_leaving_soon_labels.py
 python scripts/evaluate_weekly_leaving_soon_baselines.py
 ```
 
+### PR D4 — event/limited-run filtering and December diagnosis (done)
+
+**Scope:** Granular special-screening flags, run-segment classification, false-positive error audit, segment analysis (not blind exclusion), and segment-aware evaluation-only rules. No UI, no PR E replacement, no Wednesday PM scrape.
+
+**New flags (auditable):** `flag_holiday_rerelease_like`, `flag_family_holiday_like`, `flag_opening_night_like`, `flag_live_or_concert_like`, `flag_anime_event_like`, `flag_awards_limited_like`, `flag_foreign_limited_like`, `flag_special_event_like`, `flag_probable_normal_first_run`, plus `run_segment` / `run_type` columns (79 label columns total).
+
+**Error audit (`low_footprint_not_first_week`, all labeled rows):** 97 false positives / 329 false negatives. December 2025 accounts for **22 FPs** (largest month). Run-type breakdown: **77 normal_first_run**, 9 family_holiday, 4 awards_limited, 3 anime, 3 anniversary, 1 holiday_re_release. **Most FPs are not caught by title flags** — the core rule is weak on low-footprint normal runs that briefly extend, not only on obvious special events.
+
+**Segment analysis (same base rule):**
+
+| Segment | Rows | Base rate | Dec 2025 precision | Dec FPs |
+|---------|------|-----------|-------------------|---------|
+| All rows | 1,811 | 38.0% | 52.2% | 22 |
+| Exclude holiday/family | 1,778 | 38.3% | **63.9%** | 13 |
+| Normal first-run only | 1,533 | 34.9% | **66.7%** | 9 |
+| Special/limited only | 259 | 57.5% | 55.6% | 4 |
+
+**Segment-aware rules (evaluation-only, held-out test):** `segment_aware_suppress_special` / `normal_only_low_footprint` reduce test FPs from 6→5 and raise monthly min precision from 52.2%→**66.7%**, but **stability gate still fails** (3 months below 75%). December improves on the full labeled set when holiday titles are excluded, but normal-first-run low-footprint titles (e.g. One Battle After Another) remain problematic.
+
+**Strict-event exclusion (updated flags):** 278 rows removed (was 203 in PR D3). Still does not pass monthly stability.
+
+**Recommendation:** `needs_more_work` — segmentation clarifies that the model works better on normal first-run films and holiday exclusion helps December, but **77% of FPs look like normal first-run** and monthly min precision remains below 75%. **PR E2 remains blocked.** Next: either row-level booking-cycle signals beyond title flags, more snapshot history, or AMC metadata — not UI.
+
+**Regenerate:**
+
+```bash
+python scripts/build_weekly_leaving_soon_labels.py
+python scripts/evaluate_weekly_leaving_soon_baselines.py
+python scripts/audit_weekly_leaving_soon_errors.py
+```
+
 ### Revised roadmap
 
 | PR | Scope | Status |
@@ -878,7 +909,8 @@ python scripts/evaluate_weekly_leaving_soon_baselines.py
 | **E** | Current tautology artifact | **Review-only** — excluded from Pages |
 | **C2** | Booking-cycle analysis + weekly labels | **Done** — `eb10198` |
 | **D2** | Weekly baseline evaluation | **Done** — `2567db1` |
-| **D3** | Richer weekly features + stability analysis | **Done** — this pass |
+| **D3** | Richer weekly features + stability analysis | **Done** — `7f87ca0` |
+| **D4** | Event/limited-run segmentation + error audit | **Done** — this pass |
 | **E2** | Replace PR E with weekly rule artifact | **Deferred** — needs monthly stability |
 | **F** | UI | **Deferred** until E2 + product review |
 
@@ -923,7 +955,9 @@ python scripts/build_weekly_leaving_soon_labels.py
 | `scripts/evaluate_leaving_soon_baselines.py` | Evaluation CLI (PR D) |
 | `reel_seattle/analysis/special_screening_flags.py` | Granular title flags (PR D3) |
 | `reel_seattle/analysis/weekly_leaving_soon_stability.py` | Monthly stability diagnostics (PR D3) |
-| `reel_seattle/analysis/weekly_leaving_soon_ml.py` | Optional local ML exploration (PR D3) |
+| `reel_seattle/analysis/weekly_leaving_soon_error_audit.py` | False-positive error audit (PR D4) |
+| `reel_seattle/analysis/weekly_leaving_soon_segments.py` | Segment analysis + segment-aware rules (PR D4) |
+| `scripts/audit_weekly_leaving_soon_errors.py` | Error audit CLI (PR D4) |
 | `reel_seattle/analysis/weekly_leaving_soon_eval.py` | Weekly baseline evaluation (PR D2/D3) |
 | `scripts/evaluate_weekly_leaving_soon_baselines.py` | Weekly evaluation CLI (PR D2) |
 | `scripts/build_leaving_soon_current.py` | Current artifact CLI (PR E) |
@@ -931,7 +965,8 @@ python scripts/build_weekly_leaving_soon_labels.py
 | `tests/analysis/test_leaving_soon_eval.py` | Evaluation tests (PR D) |
 | `tests/analysis/test_amc_booking_cycle.py` | Booking-cycle tests (PR C2) |
 | `tests/analysis/test_weekly_leaving_soon_labels.py` | Weekly label tests (PR C2) |
-| `tests/analysis/test_special_screening_flags.py` | Special-screening flag tests (PR D3) |
+| `tests/analysis/test_special_screening_flags.py` | Special-screening flag tests (PR D3/D4) |
+| `tests/analysis/test_weekly_leaving_soon_segments.py` | Segment/audit tests (PR D4) |
 | `tests/analysis/test_weekly_leaving_soon_eval.py` | Weekly evaluation tests (PR D2/D3) |
 | `tests/analysis/test_leaving_soon_labels.py` | Label tests (PR C) |
 | `tests/analysis/test_amc_footprint.py` | Footprint tests (PR B) |
