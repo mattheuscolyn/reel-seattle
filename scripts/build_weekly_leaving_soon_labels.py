@@ -11,6 +11,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from reel_seattle.analysis.film_identity import IDENTITY_MODE_PARENT, IDENTITY_MODE_TITLE
 from reel_seattle.analysis.weekly_leaving_soon_labels import (  # noqa: E402
     WEEKLY_LABEL_FIELDNAMES,
     WeeklyLabelBuildConfig,
@@ -87,6 +88,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=True,
         help="Exclude event-like films from labeled training rows",
     )
+    parser.add_argument(
+        "--identity-mode",
+        choices=("title", "parent"),
+        default="title",
+        help="Label grain: per title key (default) or parent film identity",
+    )
     return parser.parse_args(argv)
 
 
@@ -97,19 +104,36 @@ def main(argv: list[str] | None = None) -> int:
         print("Run: python scripts/extract_amc_snapshots_from_git.py")
         return 1
 
+    output = args.output
+    if (
+        args.identity_mode == "parent"
+        and output == Path("data/analysis/weekly_leaving_soon_labels.csv")
+    ):
+        output = Path("data/analysis/weekly_leaving_soon_labels_parent.csv")
+    summary_output = args.summary_output
+    if (
+        args.identity_mode == "parent"
+        and summary_output == Path("data/analysis/weekly_leaving_soon_label_summary.json")
+    ):
+        summary_output = Path("data/analysis/weekly_leaving_soon_label_summary_parent.json")
+
     config = WeeklyLabelBuildConfig(
         anchor_weekdays=args.anchor_days,
         exclude_event_like=args.exclude_event_like,
+        identity_mode=(
+            IDENTITY_MODE_PARENT if args.identity_mode == "parent" else IDENTITY_MODE_TITLE
+        ),
     )
     summary = build_weekly_labels_from_footprint_csv(
         args.input.resolve(),
-        args.output.resolve(),
-        summary_output=None if args.no_summary_file else args.summary_output.resolve(),
+        output.resolve(),
+        summary_output=None if args.no_summary_file else summary_output.resolve(),
         config=config,
     )
 
     print(f"Wrote {summary['output_path']}")
     print(f"  label mode: {summary['label_mode']}")
+    print(f"  identity mode: {summary.get('identity_mode', args.identity_mode)}")
     print(f"  footprint rows: {summary['footprint_row_count']}")
     print(f"  candidate anchor rows: {summary['candidate_anchor_rows']}")
     print(f"  labeled rows: {summary['labeled_rows']}")

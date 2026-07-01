@@ -43,6 +43,57 @@ def _anchor_features(
     return by_snapshot.get(anchor_date, {}).get(film_key)
 
 
+def _anchor_features_multi(
+    by_snapshot: Mapping[date, Mapping[str, FilmAnchorFeatures]],
+    anchor_date: date,
+    film_keys: Sequence[str],
+) -> FilmAnchorFeatures | None:
+    anchors = [by_snapshot.get(anchor_date, {}).get(key) for key in film_keys]
+    anchors = [item for item in anchors if item is not None]
+    if not anchors:
+        return None
+    return FilmAnchorFeatures(
+        snapshot_date=anchor_date,
+        showtime_film_key=film_keys[0],
+        film_title=anchors[0].film_title,
+        min_show_date=min(item.min_show_date for item in anchors),
+        max_show_date=max(item.max_show_date for item in anchors),
+        visible_show_date_count=max(item.visible_show_date_count for item in anchors),
+        total_visible_showtimes=sum(item.total_visible_showtimes for item in anchors),
+        total_visible_theaters=max(item.total_visible_theaters for item in anchors),
+        active_showtime_count=sum(item.active_showtime_count for item in anchors),
+        has_weekend_show=any(item.has_weekend_show for item in anchors),
+        has_primetime=any(item.has_primetime for item in anchors),
+        event_like_flag=any(item.event_like_flag for item in anchors),
+        event_like_reason=next(
+            (item.event_like_reason for item in anchors if item.event_like_flag),
+            "",
+        ),
+    )
+
+
+def _week_stats_at_anchor_multi(
+    anchor_date: date,
+    film_keys: Sequence[str],
+    row_index: Mapping[date, Mapping[str, Sequence[Mapping[str, str]]]],
+) -> _WeekStats:
+    week_start, week_end = current_week_range(anchor_date)
+    merged = _WeekStats()
+    for film_key in film_keys:
+        stats = _week_stats_at_anchor(anchor_date, film_key, row_index)
+        merged.showtime_count += stats.showtime_count
+        merged.matinee_showtime_count += stats.matinee_showtime_count
+        merged.primetime_showtime_count += stats.primetime_showtime_count
+        merged.late_showtime_count += stats.late_showtime_count
+        merged.weekend_showtime_count += stats.weekend_showtime_count
+        merged.theater_ids.update(stats.theater_ids or set())
+        merged.show_dates.update(stats.show_dates or set())
+        merged.weekend_days.update(stats.weekend_days or set())
+        merged.has_weekend_show = merged.has_weekend_show or stats.has_weekend_show
+        merged.has_primetime = merged.has_primetime or stats.has_primetime
+    return merged
+
+
 def _prior_tuesday_anchors(
     anchor_date: date,
     snapshot_dates: Sequence[date],
@@ -76,10 +127,12 @@ def compute_booking_shape_features(
     peak_anchor: date | None,
     first_seen: date | None,
     config: WeeklyLabelBuildConfig | None = None,
+    film_keys: Sequence[str] | None = None,
 ) -> dict[str, str]:
     """Derive non-leaky booking-shape features using anchor-or-earlier snapshots only."""
     cfg = config or WeeklyLabelBuildConfig()
-    anchor_feature = _anchor_features(by_snapshot, anchor_date, film_key)
+    keys = list(film_keys or [film_key])
+    anchor_feature = _anchor_features_multi(by_snapshot, anchor_date, keys)
     current_max_show_date = anchor_feature.max_show_date if anchor_feature else None
 
     prior_week_had_weekend = (
@@ -139,8 +192,8 @@ def compute_booking_shape_features(
         weekday_only_streak = 1
 
     for prior_anchor in reversed(prior_anchors):
-        stats = _week_stats_at_anchor(prior_anchor, film_key, row_index)
-        features = _anchor_features(by_snapshot, prior_anchor, film_key)
+        stats = _week_stats_at_anchor_multi(prior_anchor, keys, row_index)
+        features = _anchor_features_multi(by_snapshot, prior_anchor, keys)
         if consecutive_low > 0 and stats.showtime_count <= LOW_FOOTPRINT_THRESHOLD:
             consecutive_low += 1
         else:
@@ -179,7 +232,7 @@ def compute_booking_shape_features(
                 continue
             if snapshot_date.weekday() not in cfg.anchor_weekdays:
                 continue
-            stats = _week_stats_at_anchor(snapshot_date, film_key, row_index)
+            stats = _week_stats_at_anchor_multi(snapshot_date, keys, row_index)
             if stats.weekend_day_count > 0:
                 opening_weekend_seen = "true"
                 break
@@ -190,7 +243,7 @@ def compute_booking_shape_features(
         for snapshot_date in snapshot_dates:
             if snapshot_date > anchor_date or snapshot_date.weekday() not in cfg.anchor_weekdays:
                 continue
-            stats = _week_stats_at_anchor(snapshot_date, film_key, row_index)
+            stats = _week_stats_at_anchor_multi(snapshot_date, keys, row_index)
             if stats.theater_count >= WIDE_FOOTPRINT_THEATERS:
                 wide_anchor = snapshot_date
                 break

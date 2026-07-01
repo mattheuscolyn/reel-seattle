@@ -1202,6 +1202,73 @@ def render_weekly_markdown_report(report: Mapping[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def compare_weekly_identity_modes(
+    title_rows: Sequence[Mapping[str, str]],
+    parent_rows: Sequence[Mapping[str, str]],
+) -> dict[str, Any]:
+    """Compare weekly baseline metrics between title-key and parent-key label grains."""
+    title_report = evaluate_weekly_baselines(title_rows)
+    parent_report = evaluate_weekly_baselines(parent_rows)
+
+    def _snapshot(report: Mapping[str, Any]) -> dict[str, Any]:
+        best = report.get("best_high_confidence_rule") or {}
+        test = best.get("test") or {}
+        monthly = report.get("best_rule_monthly_stability") or {}
+        audit = report.get("error_audit_summary") or {}
+        return {
+            "labeled_rows": report.get("labeled_rows"),
+            "distinct_films": report.get("distinct_films"),
+            "base_positive_rate": report.get("base_positive_rate"),
+            "best_rule_id": best.get("rule_id"),
+            "precision": test.get("precision"),
+            "recall": test.get("recall"),
+            "coverage": test.get("coverage"),
+            "lift_over_base": test.get("lift_over_base"),
+            "false_positives": test.get("false_positives"),
+            "false_negatives": test.get("false_negatives"),
+            "monthly_min_precision": monthly.get("min_precision"),
+            "months_below_75pct": monthly.get("months_below_75pct"),
+            "december_precision": monthly.get("december_precision"),
+            "false_positive_by_run_type": audit.get("by_run_type", {}),
+        }
+
+    title_snap = _snapshot(title_report)
+    parent_snap = _snapshot(parent_report)
+    return {
+        "title_key": title_snap,
+        "parent_key": parent_snap,
+        "delta": {
+            key: (parent_snap.get(key), title_snap.get(key))
+            for key in (
+                "labeled_rows",
+                "distinct_films",
+                "base_positive_rate",
+                "precision",
+                "recall",
+                "coverage",
+                "false_positives",
+                "false_negatives",
+                "monthly_min_precision",
+                "months_below_75pct",
+                "december_precision",
+            )
+        },
+        "recommendation": {
+            "parent_improves_stability": (
+                (parent_snap.get("months_below_75pct") or 99)
+                < (title_snap.get("months_below_75pct") or 99)
+            ),
+            "parent_reduces_false_positives": (
+                (parent_snap.get("false_positives") or 0)
+                < (title_snap.get("false_positives") or 0)
+            ),
+            "parent_reduces_coverage": (
+                (parent_snap.get("coverage") or 0) < (title_snap.get("coverage") or 0)
+            ),
+        },
+    }
+
+
 def run_weekly_baseline_evaluation(
     input_path: Path,
     *,

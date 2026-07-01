@@ -1,8 +1,23 @@
 # Film identity normalization
 
-**Status:** Identity-A audit complete; **Identity-B** source fields in pipeline (forward-only)  
+**Status:** Identity-A/B complete; **Identity-C** parent identity in analysis-only weekly labels  
 **Date:** 2026-06-30  
-**Related:** [leaving-soon-model-design.md](./leaving-soon-model-design.md), PR D5 (`b71df4a`), PR Identity-A (`9785021`)
+**Related:** [leaving-soon-model-design.md](./leaving-soon-model-design.md), PR D5 (`b71df4a`), PR Identity-A (`9785021`), PR Identity-B (`2534c14`)
+
+---
+
+## Identity-C (implemented): analysis-only parent identity
+
+See `reel_seattle/analysis/film_identity.py` and weekly label CLI `--identity-mode title|parent`.
+
+| Mode | CSV | Labeled rows (Jun 2026 audit) |
+|------|-----|-------------------------------|
+| `title` (default) | `weekly_leaving_soon_labels.csv` | 1811 |
+| `parent` | `weekly_leaving_soon_labels_parent.csv` | 1769 |
+
+Parent aggregation merges variant footprint visible at each Tuesday anchor; outcomes use all variant keys in the parent group. Compare: `evaluate_weekly_leaving_soon_baselines.py --identity-mode compare`.
+
+**June 2026 result:** Parent mode did not improve monthly stability (min precision 47.6%) or held-out FP count (1). Most legacy footprint lacks `amc_movie_id`, so grouping is primarily title-based. Collect forward `source_film_id` before expecting larger gains.
 
 ---
 
@@ -24,7 +39,7 @@ Additive, forward-only fields propagated from AMC scrape logs into history CSV a
 - No parent/variant grouping, frontend changes, or Leaving Soon modeling changes.
 - Historical git snapshots cannot be backfilled with `movieId`.
 
-**Next:** Identity-C — derive `parent_film_key` in analysis-only labels/features using `source_film_id` where available and title normalization otherwise.
+**Next:** Collect forward `source_film_id` on live scrapes; re-run parent-mode evaluation after 4–8 weeks of AMC IDs.
 
 ---
 
@@ -229,8 +244,8 @@ Safest path: **analysis-only parent keys first** so Leaving Soon and audits can 
 | PR | Scope | Status |
 |----|-------|--------|
 | **Identity-A** | This doc + `film_variant_audit.py` + `scripts/audit_film_variants.py` | **Done** (`9785021`) |
-| **Identity-B** | Forward `movieId` + exact `source_title` in history CSV and `showtimes_current.json` | **Done** (this PR) |
-| **Identity-C** | Parent normalization + variant classification in **analysis only** (labels, footprint, Leaving Soon features) | Next |
+| **Identity-B** | `source_film_id` / `source_title` in history CSV and `showtimes_current.json` | **Done** (`2534c14`) |
+| **Identity-C** | `parent_film_key` in analysis-only weekly labels (`--identity-mode parent`) | **Done** (this PR) |
 | **Identity-D** | Emit `parent_film_key`, `screening_variant_type`, `source_film_id` in `showtimes_current.json` | After C validates |
 | **Identity-E** | Frontend grouping (parent card + variant list) | After D |
 | **Identity-F** | Leaving Soon production artifact uses parent identity | After C/D stable |

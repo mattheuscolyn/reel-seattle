@@ -943,6 +943,8 @@ python scripts/audit_weekly_leaving_soon_errors.py
 
 **Identity-B:** Propagate AMC `movieId` as `source_film_id` and exact API title as `source_title` into history CSV and `showtimes_current.json` showtime records (forward-only; legacy rows null/blank). No grouping or Leaving Soon model changes yet.
 
+**Identity-C:** Analysis-only parent identity in weekly labels. CLI `--identity-mode title|parent` on label build and `--identity-mode compare` on baseline evaluation. Does not change public artifacts or frontend.
+
 **Regenerate:**
 
 ```bash
@@ -964,8 +966,9 @@ python scripts/audit_weekly_leaving_soon_errors.py
 | **D4** | Event/limited-run segmentation + error audit | **Done** — `59b4c03` |
 | **D5** | AMC metadata audit + booking-shape features | **Done** — this pass |
 | **Identity-A** | Film variant audit + design doc | **Done** — `9785021` |
-| **Identity-B** | `source_film_id` / `source_title` in history + current JSON | **This pass** |
-| **Identity-C** | `parent_film_key` in analysis-only labels/features | Next |
+| **Identity-B** | `source_film_id` / `source_title` in history + current JSON | **Done** — `2534c14` |
+| **Identity-C** | `parent_film_key` analysis-only weekly labels | **This pass** |
+| **Identity-D** | Emit parent/variant fields in `showtimes_current.json` | Next (if evaluation justifies) |
 | **E2** | Replace PR E with weekly rule artifact | **Deferred** — needs monthly stability |
 | **F** | UI | **Deferred** until E2 + product review |
 

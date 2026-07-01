@@ -11,134 +11,21 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
-from reel_seattle.analysis.special_screening_flags import (
-    classify_run_type,
-    classify_special_screening_flags,
+from reel_seattle.analysis.film_identity import (
+    classify_screening_variant_type,
+    infer_parent_display_title,
+    infer_parent_film_key,
+    is_likely_screening_variant,
 )
 from reel_seattle.normalize import normalize_film_title, showtime_film_key
 
-# Strip from end of title (order matters: longer phrases first).
-_VARIANT_SUFFIX_PATTERNS: tuple[re.Pattern[str], ...] = tuple(
-    re.compile(pattern, re.IGNORECASE)
-    for pattern in (
-        r":\s*sensory\s+friendly(?:\s+screening)?",
-        r"\s+sensory\s+friendly(?:\s+screening)?",
-        r":\s*early\s+access",
-        r"\s+early\s+access",
-        r":\s*fan\s+event",
-        r"\s+fan\s+event",
-        r":\s*opening\s+night(?:\s+fan\s+event)?",
-        r"\s+opening\s+night(?:\s+fan\s+event)?",
-        r":\s*imax\s+opening\s+night(?:\s+fan\s+event)?",
-        r"\s+imax\s+opening\s+night(?:\s+fan\s+event)?",
-        r":\s*double\s+feature",
-        r"\s+double\s+feature",
-        r":\s*\d+(?:st|nd|rd|th)\s+anniversary(?:\s+double\s+feature)?",
-        r"\s+\d+(?:st|nd|rd|th)\s+anniversary(?:\s+double\s+feature)?",
-        r":\s*anniversary",
-        r"\s+anniversary",
-        r":\s*encore",
-        r"\s+encore",
-        r":\s*live(?:\s+in\s+concert)?",
-        r"\s+live(?:\s+in\s+concert)?",
-        r"\s+\(\s*imax\s*\)",
-        r"\s+\(\s*3d\s*\)",
-        r"\s+\(\s*dolby\s+cinema\s*\)",
-        r"\s+-\s*imax\b",
-        r"\s+-\s*3d\b",
-        r"\s+-\s*dolby\s+cinema\b",
-        r":\s*imax\b",
-        r"\s+imax\b",
-        r":\s*3d\b",
-        r"\s+3d\b",
-        r":\s*dolby\s+cinema\b",
-        r"\s+dolby\s+cinema\b",
-        r":\s*reald\s+3d\b",
-        r"\s+reald\s+3d\b",
-        r":\s*open\s+caption(?:\s*\(in\s+english\))?",
-        r"\s+open\s+caption(?:\s*\(in\s+english\))?",
-        r":\s*subtitled\b",
-        r"\s+subtitled\b",
-        r":\s*dubbed\b",
-        r"\s+dubbed\b",
-        r"\s+\(\s*\d{4}\s+event\s*\)",
-        r":\s*\d{4}\s+event\b",
-    )
-)
-
-_FORMAT_ONLY_SUFFIXES = frozenset(
-    {
-        "imax",
-        "3d",
-        "dolby cinema",
-        "reald 3d",
-    }
-)
-
-
-def infer_parent_display_title(title: str) -> str:
-    """Conservatively strip known screening/event/format suffixes for parent inference."""
-    text = normalize_film_title(title) or title.strip()
-    if not text:
-        return ""
-    changed = True
-    while changed:
-        changed = False
-        for pattern in _VARIANT_SUFFIX_PATTERNS:
-            updated = pattern.sub("", text).strip(" :-\u2013\u2014")
-            if updated and updated != text:
-                text = updated
-                changed = True
-                break
-    return text.strip()
-
-
-def infer_parent_film_key(title: str) -> str | None:
-    parent = infer_parent_display_title(title)
-    if not parent:
-        return None
-    return showtime_film_key(parent)
-
-
-def classify_screening_variant_type(title: str) -> str:
-    """Map title to a variant type label for audit columns."""
-    lowered = title.lower()
-    # Check explicit phrases before broad opening_night_like (includes early access).
-    if "early access" in lowered:
-        return "early_access"
-    flags = classify_special_screening_flags(title)
-    if flags.get("sensory_friendly_like"):
-        return "sensory_friendly"
-    if flags.get("opening_night_like"):
-        return "opening_night"
-    if flags.get("fan_event_like"):
-        return "fan_event"
-    if "early access" in lowered:
-        return "early_access"
-    if flags.get("double_feature_like"):
-        return "double_feature"
-    if flags.get("anniversary_like"):
-        return "anniversary"
-    if flags.get("live_or_concert_like"):
-        return "live_encore"
-    if any(token in lowered for token in ("imax", "dolby cinema", "reald 3d", " 3d")):
-        return "format_variant"
-    if flags.get("special_event_like") or classify_run_type(title) != "normal_first_run":
-        return classify_run_type(title)
-    return "none"
-
-
-def is_likely_screening_variant(title: str) -> bool:
-    parent = infer_parent_display_title(title)
-    normalized = normalize_film_title(title) or title.strip()
-    if not parent or parent.casefold() == normalized.casefold():
-        return False
-    variant_type = classify_screening_variant_type(title)
-    if variant_type in {"none", "normal_first_run"}:
-        # Format-only suffix stripping may still indicate a variant.
-        return parent.casefold() != normalized.casefold()
-    return True
-
+# Re-export for backward compatibility (PR Identity-A audit module).
+__all__ = [
+    "classify_screening_variant_type",
+    "infer_parent_display_title",
+    "infer_parent_film_key",
+    "is_likely_screening_variant",
+]
 
 @dataclass
 class TitleRecord:
