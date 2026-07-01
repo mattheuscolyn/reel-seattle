@@ -91,6 +91,21 @@ def test_api_showtime_full_fixture_maps_metadata():
     assert raw.attributes["sell_until_utc"] == "2026-06-28T23:59:00Z"
 
 
+def test_raw_showtime_to_legacy_row_maps_source_identity():
+    payload = json.loads((FIXTURES_DIR / "amc_api_showtime_full.json").read_text(encoding="utf-8"))
+    raw = api_showtime_to_raw(payload, THEATER_NAME)
+    row = raw_showtime_to_legacy_row(raw)
+    assert row["source_film_id"] == "movie-abc123"
+    assert row["source_title"] == "New Future AMC"
+
+
+def test_raw_showtime_to_legacy_row_blank_source_film_id_without_movie_id(api_showtime):
+    raw = api_showtime_to_raw(api_showtime, THEATER_NAME)
+    row = raw_showtime_to_legacy_row(raw)
+    assert row["source_film_id"] == ""
+    assert row["source_title"] == "New Future AMC"
+
+
 def test_raw_showtime_to_legacy_csv_preserves_expected_fields(api_showtime):
     raw = api_showtime_to_raw(api_showtime, THEATER_NAME)
     row = raw_showtime_to_legacy_row(raw)

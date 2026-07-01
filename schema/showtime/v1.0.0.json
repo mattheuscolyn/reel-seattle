@@ -114,6 +114,14 @@
           "type": ["string", "null"],
           "description": "Vendor showtime or screening id."
         },
+        "source_film_id": {
+          "type": ["string", "null"],
+          "description": "Stable vendor film id when available (e.g. AMC movieId)."
+        },
+        "source_title": {
+          "type": ["string", "null"],
+          "description": "Exact source/API title before display normalization."
+        },
         "first_seen_at": {
           "type": "string",
           "format": "date"

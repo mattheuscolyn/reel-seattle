@@ -166,6 +166,38 @@ def test_format_tags_are_normalized(artifact):
     assert sinners["format_tags"] == ["imax", "dolby-cinema"]
 
 
+def test_showtime_emits_source_identity_from_history(theaters_registry):
+    rows = [
+        {
+            **_history_row(REFERENCE),
+            "source_film_id": "movie-abc123",
+            "source_title": "SINNERS",
+        }
+    ]
+    artifact = build_showtimes_current(
+        rows,
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    showtime = artifact["showtimes"][0]
+    assert showtime["source_film_id"] == "movie-abc123"
+    assert showtime["source_title"] == "SINNERS"
+    assert showtime["film_title"] == "Sinners"
+
+
+def test_showtime_source_identity_null_when_missing_id(theaters_registry):
+    artifact = build_showtimes_current(
+        [_history_row(REFERENCE)],
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    showtime = artifact["showtimes"][0]
+    assert showtime["source_film_id"] is None
+    assert showtime["source_title"] == "Sinners"
+
+
 def test_json_shape_includes_required_sections(artifact):
     assert artifact["schema_version"] == CURRENT_SCHEMA_VERSION
     assert artifact["timezone"] == "America/Los_Angeles"

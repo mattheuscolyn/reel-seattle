@@ -15,6 +15,7 @@ import requests
 
 from reel_seattle.adapters.base import FetchContext, FetchResult, RawShowtime
 from reel_seattle.adapters.amc_metadata import extract_showtime_metadata
+from reel_seattle.source_identity import source_film_id_from_raw, source_title_from_raw
 from reel_seattle.amc_allowlist import (
     DEFAULT_REGISTRY_PATH,
     filter_enabled_amc_theaters,
@@ -42,6 +43,8 @@ AMC_CSV_FIELDNAMES = [
     "first_seen_date",
     "last_updated",
     "source",
+    "source_film_id",
+    "source_title",
 ]
 
 
@@ -147,6 +150,8 @@ def raw_showtime_to_legacy_row(raw: RawShowtime) -> dict[str, str]:
             "first_seen_date": "",
             "last_updated": "",
             "source": "",
+            "source_film_id": source_film_id_from_raw(raw),
+            "source_title": source_title_from_raw(raw),
         }
     )
 

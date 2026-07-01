@@ -1,8 +1,30 @@
-# Film identity normalization — investigation (PR Identity-A)
+# Film identity normalization
 
-**Status:** Design / audit only — no schema migration yet  
+**Status:** Identity-A audit complete; **Identity-B** source fields in pipeline (forward-only)  
 **Date:** 2026-06-30  
-**Related:** [leaving-soon-model-design.md](./leaving-soon-model-design.md), PR D5 (`b71df4a`)
+**Related:** [leaving-soon-model-design.md](./leaving-soon-model-design.md), PR D5 (`b71df4a`), PR Identity-A (`9785021`)
+
+---
+
+## Identity-B (implemented): source identity fields
+
+Additive, forward-only fields propagated from AMC scrape logs into history CSV and `showtimes_current.json` showtime records:
+
+| Field | AMC source | History CSV | `showtimes_current.json` |
+|-------|------------|-------------|--------------------------|
+| `source_film_id` | `movieId` → `attributes.movie_id` | `source_film_id` column | showtime-level, nullable |
+| `source_title` | `movieName` → `title_raw` | `source_title` column | showtime-level, nullable |
+
+**Helpers:** `reel_seattle/source_identity.py`  
+**Legacy rows:** `source_film_id` is null when blank; `source_title` falls back to the `Film` column when `source_title` is empty.
+
+**Unchanged:**
+
+- `showtime_film_key` remains title-only.
+- No parent/variant grouping, frontend changes, or Leaving Soon modeling changes.
+- Historical git snapshots cannot be backfilled with `movieId`.
+
+**Next:** Identity-C — derive `parent_film_key` in analysis-only labels/features using `source_film_id` where available and title normalization otherwise.
 
 ---
 
@@ -42,7 +64,7 @@ There is **no fuzzy matching**, cross-source TMDB unification, or parent-title l
 
 | Source | Stable film ID | Notes |
 |--------|----------------|-------|
-| **AMC** | `movieId` in API | Mapped to `attributes.movie_id` in scrape logs since PR D5; **not** emitted in `showtimes_current.json`; legacy CSV/history blank |
+| **AMC** | `movieId` in API | Mapped in scrape logs (PR D5); **forward** into history CSV + `showtimes_current.json` as `source_film_id` (Identity-B). Legacy history blank. |
 | **AMC** | `showtime.id` | Per-showtime only (`source_showtime_id`) |
 | **Beacon** | None observed | Title-based keys |
 | **SIFF** | None observed | Title-based keys; event phrasing in titles (e.g. Ghibli Fest) |
@@ -206,8 +228,8 @@ Safest path: **analysis-only parent keys first** so Leaving Soon and audits can 
 
 | PR | Scope | Status |
 |----|-------|--------|
-| **Identity-A** | This doc + `film_variant_audit.py` + `scripts/audit_film_variants.py` | **This investigation** |
-| **Identity-B** | Forward `movieId` + exact source title in history CSV / scrape logs; optional identity sample dump | Partial (D5 mapped `movieId` in logs) |
+| **Identity-A** | This doc + `film_variant_audit.py` + `scripts/audit_film_variants.py` | **Done** (`9785021`) |
+| **Identity-B** | Forward `movieId` + exact `source_title` in history CSV and `showtimes_current.json` | **Done** (this PR) |
 | **Identity-C** | Parent normalization + variant classification in **analysis only** (labels, footprint, Leaving Soon features) | Next |
 | **Identity-D** | Emit `parent_film_key`, `screening_variant_type`, `source_film_id` in `showtimes_current.json` | After C validates |
 | **Identity-E** | Frontend grouping (parent card + variant list) | After D |

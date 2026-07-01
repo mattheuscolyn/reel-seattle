@@ -31,6 +31,10 @@ from reel_seattle.source_freshness import (
     update_history_evidence,
     empty_history_evidence,
 )
+from reel_seattle.source_identity import (
+    source_film_id_from_history_row,
+    source_title_from_history_row,
+)
 from reel_seattle.validate import validate_showtimes_current, validate_theaters_registry
 
 CURRENT_SCHEMA_VERSION = "1.0.0"
@@ -218,6 +222,8 @@ def build_showtimes_current(
                 "format_tags": format_tags,
                 "ticket_url": None,
                 "source": source,
+                "source_film_id": source_film_id_from_history_row(row),
+                "source_title": source_title_from_history_row(row),
                 "source_showtime_id": None,
                 "attributes": {},
                 "first_seen_at": _metadata_date(row.get("first_seen_date")),
