@@ -2,16 +2,16 @@
  * Compact mobile summary + collapse toggle for planner filters.
  * Hidden on desktop via CSS; desktop always shows full filter panels.
  */
-export default function PlannerMobileFilterBar({
-  chips,
-  expanded,
-  onToggle,
-  controlsId,
-}) {
+import { forwardRef } from 'react';
+
+const PlannerMobileFilterBar = forwardRef(function PlannerMobileFilterBar(
+  { chips, expanded, onToggle, controlsId },
+  ref,
+) {
   if (!chips?.length) return null;
 
   return (
-    <div className="planner-mobile-filter-bar">
+    <div className="planner-mobile-filter-bar" ref={ref}>
       <div className="planner-mobile-filter-summary" id={`${controlsId}-summary`}>
         {chips.map((chip) => (
           <span key={chip.key} className="planner-mobile-filter-chip">
@@ -31,4 +31,6 @@ export default function PlannerMobileFilterBar({
       </button>
     </div>
   );
-}
+});
+
+export default PlannerMobileFilterBar;

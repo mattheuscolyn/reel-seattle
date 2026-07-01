@@ -1262,6 +1262,7 @@
 /* Planner page */
 .planner-controls {
   margin-bottom: 32px;
+  --planner-mobile-sticky-offset: 72px;
 }
 
 .planner-mobile-filter-bar {
@@ -2133,6 +2134,10 @@
 
   .planner-controls .search-button-container {
     margin-top: 0;
+  }
+
+  .planner-results {
+    scroll-margin-top: var(--planner-mobile-sticky-offset);
   }
 }
 

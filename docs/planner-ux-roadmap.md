@@ -144,15 +144,19 @@ Reduces duplicate data entry and teaches the Planner entry point.
 
 **Scope:** Smaller scroll-wheel columns (32px rows), tighter header/actions, mobile 2-column layout for Start after / Finish by.
 
-### UX-2 — Collapsible mobile filters + summary bar (Phase 1, in progress)
+### UX-2 — Collapsible mobile filters + summary bar (Phase 1, shipped)
+
+**Status:** Shipped (`1276a89`)
+
+### UX-3 — Scroll position retention (Phase 1, in progress)
 
 **Status:** Implemented on branch — pending commit/QA
 
-**Scope:** Mobile-only sticky summary bar with filter chips; collapse full filter panels after Find plans; Find plans / share actions stay visible when collapsed. Local UI state (not URL). Desktop unchanged.
+**Scope:** Compensate scroll when mobile filters collapse/expand; scroll to results after Find plans with sticky-bar offset; `prefers-reduced-motion` respected.
 
-**Files:** `PlannerPage.jsx`, `PlannerMobileFilterBar.jsx`, `plannerDisplay.js`, `App.css`
+**Files:** `plannerScroll.js`, `PlannerPage.jsx`, `PlannerMobileFilterBar.jsx`, `App.css`
 
-**Remaining Phase 1:** UX-3 scroll retention, UX-4 midnight audit, UX-5 result card density.
+**Remaining Phase 1:** UX-4 midnight audit, UX-5 result card density.
 
 ### Mock plan preview (filter constraint visualization)
 

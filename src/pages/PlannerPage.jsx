@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import DataStatePanel from '../components/DataStatePanel.jsx';
 import DropdownMultiSelect from '../components/DropdownMultiSelect.jsx';
@@ -42,6 +42,14 @@ import { intersectWithOptions } from '../utils/showtimesUrlState.js';
 import { buildPlannerFilterShareUrl } from '../utils/plannerShare.js';
 import { shouldShowPreview } from '../utils/plannerConstraintPreview.js';
 import { copyTextToClipboard } from '../utils/shareLinkUtils.js';
+import {
+  compensateScrollForLayoutHeightChange,
+  isMobilePlannerViewport,
+  measureDocumentTop,
+  PLANNER_MOBILE_STICKY_SCROLL_OFFSET,
+  runAfterLayout,
+  scrollElementIntoViewWithOffset,
+} from '../utils/plannerScroll.js';
 
 export default function PlannerPage() {
   const { rows, loading, error } = useShowtimesData();
@@ -54,6 +62,11 @@ export default function PlannerPage() {
   const [visibleResultCount, setVisibleResultCount] = useState(PLANNER_RESULTS_PAGE_SIZE);
   const [marathonArrivalNotice, setMarathonArrivalNotice] = useState(null);
   const [mobileFiltersExpanded, setMobileFiltersExpanded] = useState(true);
+  const filterControlsRef = useRef(null);
+  const mobileFilterBarRef = useRef(null);
+  const plannerResultsRef = useRef(null);
+  const pendingScrollToResultsRef = useRef(false);
+  const collapseMetricsRef = useRef(null);
 
   const theaters = useMemo(
     () => (rows.length === 0 ? [] : uniqueSorted(rows.map((row) => row.Theater))),
@@ -260,12 +273,84 @@ export default function PlannerPage() {
     return () => clearTimeout(timer);
   }, [copyLinkStatus]);
 
+  useEffect(() => {
+    if (isSearching || !pendingScrollToResultsRef.current || !isMobilePlannerViewport()) {
+      return;
+    }
+
+    const metrics = collapseMetricsRef.current;
+
+    runAfterLayout(() => {
+      if (metrics && filterControlsRef.current) {
+        compensateScrollForLayoutHeightChange({
+          top: metrics.top,
+          heightBefore: metrics.heightBefore,
+          heightAfter: filterControlsRef.current.offsetHeight,
+          smooth: false,
+        });
+        collapseMetricsRef.current = null;
+      }
+
+      scrollElementIntoViewWithOffset(plannerResultsRef.current, {
+        offset: PLANNER_MOBILE_STICKY_SCROLL_OFFSET,
+        smooth: true,
+      });
+      pendingScrollToResultsRef.current = false;
+    });
+  }, [isSearching, hasSearchRun, results.length]);
+
+  const handleMobileFilterToggle = () => {
+    if (!isMobilePlannerViewport()) {
+      setMobileFiltersExpanded((open) => !open);
+      return;
+    }
+
+    const controlsEl = filterControlsRef.current;
+    if (!controlsEl) {
+      setMobileFiltersExpanded((open) => !open);
+      return;
+    }
+
+    const top = measureDocumentTop(controlsEl);
+    const heightBefore = controlsEl.offsetHeight;
+    const willCollapse = mobileFiltersExpanded;
+
+    setMobileFiltersExpanded(!willCollapse);
+
+    runAfterLayout(() => {
+      compensateScrollForLayoutHeightChange({
+        top,
+        heightBefore,
+        heightAfter: controlsEl.offsetHeight,
+        smooth: false,
+      });
+
+      if (!willCollapse) {
+        scrollElementIntoViewWithOffset(mobileFilterBarRef.current, {
+          offset: 8,
+          smooth: true,
+        });
+      }
+    });
+  };
+
   const findPlans = () => {
     if (!effectiveDate) return;
 
     setHasSearchRun(true);
     setIsSearching(true);
     setVisibleResultCount(PLANNER_RESULTS_PAGE_SIZE);
+
+    if (isMobilePlannerViewport()) {
+      pendingScrollToResultsRef.current = true;
+      const controlsEl = filterControlsRef.current;
+      if (controlsEl) {
+        collapseMetricsRef.current = {
+          top: measureDocumentTop(controlsEl),
+          heightBefore: controlsEl.offsetHeight,
+        };
+      }
+    }
 
     setTimeout(() => {
       const filters = buildPlannerSearchFilters(plannerState);
@@ -277,7 +362,7 @@ export default function PlannerPage() {
       setResults(schedules);
       setSearchMeta(meta);
       setIsSearching(false);
-      if (typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches) {
+      if (isMobilePlannerViewport()) {
         setMobileFiltersExpanded(false);
       }
     }, 0);
@@ -363,14 +448,16 @@ export default function PlannerPage() {
 
       <div className="planner-controls">
         <PlannerMobileFilterBar
+          ref={mobileFilterBarRef}
           chips={mobileFilterChips}
           expanded={mobileFiltersExpanded}
-          onToggle={() => setMobileFiltersExpanded((open) => !open)}
+          onToggle={handleMobileFilterToggle}
           controlsId="planner-filter-controls"
         />
 
         <div
           id="planner-filter-controls"
+          ref={filterControlsRef}
           className={`planner-filter-controls${
             mobileFiltersExpanded ? '' : ' is-collapsed-mobile'
           }`}
@@ -629,7 +716,7 @@ export default function PlannerPage() {
         </div>
       </div>
 
-      <div className="planner-results">
+      <div className="planner-results" ref={plannerResultsRef}>
         {results.length > 0 && (
           <div className="planner-results-summary">
             <h2 className="planner-results-heading">

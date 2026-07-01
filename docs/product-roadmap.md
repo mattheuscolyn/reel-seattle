@@ -63,12 +63,12 @@ Recorded decisions — do not re-litigate without new data.
 |----|------|-------|--------|-------|----------|
 | **P-01** | Parent/variant film grouping (product) | Identity & UX | **Designed** (analysis done) | 2 | High |
 | **P-02** | Planner time selector UX | Planner mobile | **Done** (UX-1 `b55297d`) | 1 | High |
-| **P-07** | iPhone screen-space optimization | Planner mobile | **In progress** (UX-2 implemented) | 1 | High |
+| **P-07** | iPhone screen-space optimization | Planner mobile | **Done** (UX-2 `1276a89`) | 1 | High |
+| **P-08** | Preserve scroll position on filter toggle | Planner mobile | **In progress** (UX-3 implemented) | 1 | Medium |
 | **P-03** | AMC API exploration | Data expansion | **Investigating** (partial D5) | 4 | Medium |
 | **P-04** | Interactive planner result refinement | Planner advanced | **Not started** | 3 | Medium |
 | **P-05** | Additional metadata integrations | Data expansion | **Not started** | 4 | Low–Medium |
 | **P-06** | Language & caption metadata | Data & filters | **Not started** | 4 | Medium |
-| **P-08** | Preserve scroll position on filter toggle | Planner mobile | **Not started** | 1 | Medium |
 | **P-09** | AM/PM & next-day / midnight timing | Planner correctness | **Not started** | 1 | Medium |
 | **P-10** | NW Film Forum + Central Cinema scraping | Theater expansion | **Not started** | 5 | Medium |
 | **P-11** | Current scraping audit | Pipeline reliability | **Investigating** | 5 | Medium |
@@ -131,7 +131,7 @@ Recorded decisions — do not re-litigate without new data.
 
 | Field | Value |
 |-------|--------|
-| **Status** | **In progress** — UX-2 mobile summary bar + collapsible filters implemented |
+| **Status** | **Done** — UX-2 shipped (`1276a89`); UX-5 result density remains |
 | **User problem** | Mobile planner spends too much vertical space on filters; hard to see a full plan on one screen. |
 | **Proposed value** | User can view a complete plan without excessive scrolling when reasonable (2–3 films). |
 | **Implemented (UX-2)** | Sticky summary chips; collapse filter panels after Find plans on mobile; Find plans stays visible. |
@@ -144,11 +144,11 @@ Recorded decisions — do not re-litigate without new data.
 
 | Field | Value |
 |-------|--------|
-| **Status** | Not started |
+| **Status** | **In progress** — UX-3 scroll compensation + post-search scroll-to-results |
 | **User problem** | Collapsing/expanding filters or results **jumps** scroll position — jarring on iPhone. |
-| **Proposed value** | Stable viewport when toggling sections (best practice: preserve anchor or scroll restoration). |
-| **Affected areas** | Planner filter panels, results section, possibly Showtimes filters |
-| **Next action** | Reproduce on device/simulator; apply scroll-anchor or `scroll-margin` / focus management pattern. |
+| **Proposed value** | Stable viewport when toggling sections; controlled scroll to results after Find plans. |
+| **Implemented (UX-3)** | `plannerScroll.js` helpers; collapse height compensation; sticky-offset scroll to results; `prefers-reduced-motion`. |
+| **Caveats** | iOS address-bar resize may still shift viewport slightly; no `scrollRestoration` API override. |
 | **Links** | [planner-ux-roadmap.md](./planner-ux-roadmap.md) |
 
 ---
@@ -310,4 +310,4 @@ Copy for new tracker items:
 
 | Date | Change |
 |------|--------|
-| 2026-07-01 | Phase 1 UX-2: mobile planner filter summary bar + collapsible filters. |
+| 2026-07-01 | Phase 1 UX-3: mobile planner scroll retention on filter collapse and after search. |
