@@ -1,5 +1,5 @@
 import { TWO_FILM_EXCLUSIVE_GAP_CEILING_MINUTES } from './plannerEngine.js';
-import { formatMinutesToTime, parseTimeToMinutes } from './timeUtils.js';
+import { formatMinutesToTime, parsePlannerFilterMinutes, parseTimeToMinutes } from './timeUtils.js';
 
 /** Default max gap for 2-film mode (gap must be below exclusive ceiling). */
 export const DEFAULT_TWO_FILM_MAX_GAP_MINUTES = TWO_FILM_EXCLUSIVE_GAP_CEILING_MINUTES - 1;
@@ -132,7 +132,7 @@ export function formatFilmCountLabel(filmCount) {
  */
 export function formatPlannerTimeLabel(minutes) {
   if (minutes == null || !Number.isFinite(minutes)) return 'Unknown';
-  return formatMinutesToTime(minutes);
+  return formatMinutesToTime(minutes, { showNextDayOffset: true });
 }
 
 /**
@@ -145,7 +145,7 @@ export function parsePlannerTimeInput(value) {
   if (value == null) return null;
   const trimmed = String(value).trim();
   if (!trimmed) return null;
-  return parseTimeToMinutes(trimmed);
+  return parsePlannerFilterMinutes(trimmed);
 }
 
 /**

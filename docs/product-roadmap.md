@@ -64,7 +64,8 @@ Recorded decisions — do not re-litigate without new data.
 | **P-01** | Parent/variant film grouping (product) | Identity & UX | **Designed** (analysis done) | 2 | High |
 | **P-02** | Planner time selector UX | Planner mobile | **Done** (UX-1 `b55297d`) | 1 | High |
 | **P-07** | iPhone screen-space optimization | Planner mobile | **Done** (UX-2 `1276a89`) | 1 | High |
-| **P-08** | Preserve scroll position on filter toggle | Planner mobile | **In progress** (UX-3 implemented) | 1 | Medium |
+| **P-08** | Preserve scroll position on filter toggle | Planner mobile | **Done** (UX-3 `16bfee6`) | 1 | Medium |
+| **P-09** | AM/PM & next-day / midnight timing | Planner correctness | **In progress** (UX-4 implemented) | 1 | Medium |
 | **P-03** | AMC API exploration | Data expansion | **Investigating** (partial D5) | 4 | Medium |
 | **P-04** | Interactive planner result refinement | Planner advanced | **Not started** | 3 | Medium |
 | **P-05** | Additional metadata integrations | Data expansion | **Not started** | 4 | Low–Medium |
@@ -157,12 +158,11 @@ Recorded decisions — do not re-litigate without new data.
 
 | Field | Value |
 |-------|--------|
-| **Status** | Not started |
-| **User problem** | Minor issues when showtimes extend past midnight; AM/PM labels, gaps, and end times may be confusing. |
-| **Proposed value** | Correct timelines, gap math, and labels across midnight boundaries. |
-| **Affected areas** | `plannerEngine.js`, time parsing/display utilities, `PlannerTimePicker`, result cards |
-| **Dependencies** | P-02 time picker behavior |
-| **Next action** | Add test cases for late-night / after-midnight showtimes; audit `time_24h` vs display labels. |
+| **Status** | **In progress** — UX-4 extended minutes + early AM (+1 day) + display suffix |
+| **User problem** | Minor issues when showtimes extend past midnight; AM/PM labels, gaps, and finish-by may be wrong. |
+| **Proposed value** | Correct timelines, gap math, and labels across midnight on a single date row. |
+| **Convention** | AM before 6:00 on same date → +1440 min; end times may exceed 1440; labels show `(+1)` when needed. |
+| **Finish-by** | Early AM finish-by uses same +1440 rule (e.g. finish by 1:30 AM allows next-day endings). |
 | **Links** | [unified-planner-design.md](./unified-planner-design.md), `tests/frontend/planner*.test.mjs` |
 
 ---
@@ -310,4 +310,4 @@ Copy for new tracker items:
 
 | Date | Change |
 |------|--------|
-| 2026-07-01 | Phase 1 UX-3: mobile planner scroll retention on filter collapse and after search. |
+| 2026-07-01 | Phase 1 UX-4: planner midnight/next-day extended minutes and regression tests. |

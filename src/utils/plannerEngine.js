@@ -11,8 +11,8 @@ import { isShowtimeCanceled } from './showtimeFilters.js';
 import {
   formatMinutesToTime,
   getMovieEndTime,
+  parsePlannerShowtimeMinutes,
   parseRuntimeMinutes,
-  parseTimeToMinutes,
 } from './timeUtils.js';
 
 /** Default maximum gap (minutes) aligned with legacy Double Feature behavior. */
@@ -146,11 +146,11 @@ function parseFormatTags(row) {
 function rowToCandidate(row) {
   if (isShowtimeCanceled(row)) return null;
 
-  const startMin = parseTimeToMinutes(row.Time);
+  const startMin = parsePlannerShowtimeMinutes(row.Time);
   const runtime = parseRuntimeMinutes(row.Runtime);
   if (startMin === null || runtime === null) return null;
 
-  const endMin = getMovieEndTime(row.Time, row.Runtime);
+  const endMin = getMovieEndTime(row.Time, row.Runtime, { planner: true });
   if (endMin === null) return null;
 
   const identity = filmIdentityFromRow(row);
@@ -276,8 +276,8 @@ function summarizeChain(chain, filters) {
     gapTimeMin,
     startMin: first.startMin,
     endMin: last.endMin,
-    startLabel: formatMinutesToTime(first.startMin),
-    endLabel: formatMinutesToTime(last.endMin),
+    startLabel: formatMinutesToTime(first.startMin, { showNextDayOffset: true }),
+    endLabel: formatMinutesToTime(last.endMin, { showNextDayOffset: true }),
     preferredMatchCount: countPreferredMatches(chain, filters.preferredFilms),
     alternateCount: 1,
   };

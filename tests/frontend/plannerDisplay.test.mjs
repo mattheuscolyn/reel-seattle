@@ -262,6 +262,29 @@ test('buildTimelineSegments builds proportional film and gap segments', () => {
   assert.equal(fourFilm.segments.filter((s) => s.type === 'gap').length, 3);
 });
 
+test('buildTimelineSegments handles post-midnight schedules with positive gaps', () => {
+  const startMin = 23 * 60 + 30;
+  const firstEnd = startMin + 120;
+  const secondStart = firstEnd + 15;
+  const secondEnd = secondStart + 15;
+  const schedule = {
+    startMin,
+    endMin: secondEnd,
+    movies: [
+      { film: 'Late', startMin, endMin: firstEnd, runtime: 120 },
+      { film: 'After', startMin: secondStart, endMin: secondEnd, runtime: 15 },
+    ],
+  };
+  const timeline = buildTimelineSegments(schedule);
+  assert.equal(timeline.segments[1].durationMin, 15);
+  assert.match(timeline.endLabel, /2:00AM \(\+1\)/);
+});
+
+test('parsePlannerTimeInput applies next-day rule for early AM finish-by times', () => {
+  assert.equal(parsePlannerTimeInput('1:30AM'), 90 + 1440);
+  assert.equal(parsePlannerTimeInput('10:00PM'), 22 * 60);
+});
+
 test('buildMovieSequenceItems interleaves films and gaps', () => {
   const items = buildMovieSequenceItems(sampleTwoFilmSchedule);
   assert.equal(items.length, 3);

@@ -148,15 +148,19 @@ Reduces duplicate data entry and teaches the Planner entry point.
 
 **Status:** Shipped (`1276a89`)
 
-### UX-3 — Scroll position retention (Phase 1, in progress)
+### UX-3 — Scroll position retention (Phase 1, shipped)
+
+**Status:** Shipped (`16bfee6`)
+
+### UX-4 — Midnight / next-day timing (Phase 1, in progress)
 
 **Status:** Implemented on branch — pending commit/QA
 
-**Scope:** Compensate scroll when mobile filters collapse/expand; scroll to results after Find plans with sticky-bar offset; `prefers-reduced-motion` respected.
+**Scope:** Extended planner minutes past midnight; early AM showtimes (+1 day); finish-by filter alignment; display `(+1)` suffix; regression tests.
 
-**Files:** `plannerScroll.js`, `PlannerPage.jsx`, `PlannerMobileFilterBar.jsx`, `App.css`
+**Convention:** Same-date rows treat AM showtimes before 6:00 as next calendar morning (+1440 min). End times may exceed 1440.
 
-**Remaining Phase 1:** UX-4 midnight audit, UX-5 result card density.
+**Remaining Phase 1:** UX-5 result card density.
 
 ### Mock plan preview (filter constraint visualization)
 

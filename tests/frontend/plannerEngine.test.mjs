@@ -6,6 +6,7 @@ import {
   findSchedules,
   normalizePlannerFilters,
 } from '../../src/utils/plannerEngine.js';
+import { parsePlannerFilterMinutes } from '../../src/utils/timeUtils.js';
 
 const DATE = '06/28/2026';
 const THEATER_A = 'Theater A';
@@ -447,4 +448,43 @@ test('max mode returns longest achievable chain count only', () => {
   const counts = new Set(result.schedules.map((s) => s.filmCount));
   assert.equal(counts.size, 1);
   assert.equal([...counts][0], 3);
+});
+
+test('chains across midnight with positive gap between extended end and early AM start', () => {
+  const rows = [
+    row({ film: 'Late', time: '11:30PM', runtime: '120' }),
+    row({ film: 'After', time: '1:45AM', runtime: '15' }),
+  ];
+  const result = findSchedules({ rows, filters: baseFilters() });
+  assert.equal(result.schedules.length, 1);
+  const schedule = result.schedules[0];
+  assert.equal(schedule.gapTimeMin, 15);
+  assert.equal(schedule.movies[0].endMin, 23 * 60 + 30 + 120);
+  assert.match(schedule.endLabel, /2:00AM \(\+1\)/);
+});
+
+test('finishByMin rejects schedules ending after next-day 1:30 AM when finish is 10:00 PM', () => {
+  const rows = [
+    row({ film: 'Late', time: '11:30PM', runtime: '120' }),
+    row({ film: 'After', time: '1:45AM', runtime: '90' }),
+  ];
+  const result = findSchedules({
+    rows,
+    filters: baseFilters({ finishByMin: 22 * 60 }),
+  });
+  assert.equal(result.schedules.length, 0);
+});
+
+test('finishByMin allows next-day 2:00 AM ending when filter uses early AM', () => {
+  const rows = [
+    row({ film: 'Late', time: '11:30PM', runtime: '120' }),
+    row({ film: 'After', time: '1:45AM', runtime: '15' }),
+  ];
+  const finishByMin = parsePlannerFilterMinutes('2:00AM');
+  const result = findSchedules({
+    rows,
+    filters: baseFilters({ finishByMin }),
+  });
+  assert.equal(result.schedules.length, 1);
+  assert.ok(result.schedules[0].endMin <= finishByMin);
 });

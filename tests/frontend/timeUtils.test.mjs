@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import {
   formatMinutesToTime,
   getMovieEndTime,
+  MINUTES_PER_DAY,
+  parsePlannerFilterMinutes,
+  parsePlannerShowtimeMinutes,
   parseRuntimeMinutes,
   parseTimeToMinutes,
 } from '../../src/utils/timeUtils.js';
@@ -70,4 +73,33 @@ test('getMovieEndTime returns null for invalid runtime', () => {
 test('formatMinutesToTime formats midnight and afternoon', () => {
   assert.equal(formatMinutesToTime(0), '12:00AM');
   assert.equal(formatMinutesToTime(19 * 60 + 30), '7:30PM');
+});
+
+test('formatMinutesToTime wraps extended minutes and can show next-day offset', () => {
+  const endMin = 23 * 60 + 30 + 120;
+  assert.equal(endMin, 23 * 60 + 30 + 120);
+  assert.equal(formatMinutesToTime(endMin), '1:30AM');
+  assert.equal(formatMinutesToTime(endMin, { showNextDayOffset: true }), '1:30AM (+1)');
+});
+
+test('getMovieEndTime supports extended end minutes past midnight', () => {
+  const end = getMovieEndTime('11:30PM', '120');
+  assert.equal(end, 23 * 60 + 30 + 120);
+  assert.ok(end > MINUTES_PER_DAY);
+});
+
+test('getMovieEndTime planner mode aligns with parsePlannerShowtimeMinutes', () => {
+  const end = getMovieEndTime('1:45AM', '90', { planner: true });
+  assert.equal(end, parsePlannerShowtimeMinutes('1:45AM') + 90);
+});
+
+test('parsePlannerShowtimeMinutes treats early AM as next day on same date row', () => {
+  assert.equal(parsePlannerShowtimeMinutes('11:30PM'), 23 * 60 + 30);
+  assert.equal(parsePlannerShowtimeMinutes('1:45AM'), 1 * 60 + 45 + MINUTES_PER_DAY);
+  assert.equal(parsePlannerShowtimeMinutes('10:00AM'), 10 * 60);
+});
+
+test('parsePlannerFilterMinutes matches showtime next-day AM rule', () => {
+  assert.equal(parsePlannerFilterMinutes('1:30AM'), 90 + MINUTES_PER_DAY);
+  assert.equal(parsePlannerFilterMinutes('10:00PM'), 22 * 60);
 });
