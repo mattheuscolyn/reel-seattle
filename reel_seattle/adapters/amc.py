@@ -14,6 +14,7 @@ from typing import Any, Callable, Mapping
 import requests
 
 from reel_seattle.adapters.base import FetchContext, FetchResult, RawShowtime
+from reel_seattle.adapters.amc_metadata import extract_showtime_metadata
 from reel_seattle.amc_allowlist import (
     DEFAULT_REGISTRY_PATH,
     filter_enabled_amc_theaters,
@@ -100,6 +101,7 @@ def api_showtime_to_raw(showtime: Mapping[str, Any], theater_name: str) -> RawSh
     """Map one AMC API showtime object to a RawShowtime record."""
     dt = datetime.fromisoformat(str(showtime["showDateTimeLocal"]))
     premium = showtime.get("premiumFormat")
+    metadata = extract_showtime_metadata(showtime)
     return RawShowtime(
         theater_name_raw=theater_name,
         date_raw=dt.strftime("%m/%d/%Y"),
@@ -119,6 +121,7 @@ def api_showtime_to_raw(showtime: Mapping[str, Any], theater_name: str) -> RawSh
             "has_trailers": showtime.get("hasTrailers"),
             "maximum_intended_attendance": showtime.get("maximumIntendedAttendance"),
             "premium_format_raw": premium,
+            **metadata,
         },
     )
 

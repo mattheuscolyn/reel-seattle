@@ -40,12 +40,15 @@ from reel_seattle.analysis.weekly_leaving_soon_error_audit import (
     summarize_false_positive_audit,
     write_error_audit_csv,
 )
+from reel_seattle.analysis.special_screening_flags import assign_row_segment
+from reel_seattle.analysis.amc_metadata_audit import metadata_audit_summary
 from reel_seattle.analysis.weekly_leaving_soon_segments import (
     evaluate_all_segments,
     evaluate_segment_aware_rules,
 )
 
 PR_D2_BASELINE_RULE_ID = "no_current_week_weekend"
+PR_D3_BASELINE_RULE_ID = "low_footprint_not_first_week"
 
 FORBIDDEN_PREDICTOR_FIELDS = frozenset(
     {
@@ -118,6 +121,23 @@ ALLOWED_PREDICTOR_FIELDS = frozenset(
         "single_theater_current_week",
         "single_day_current_week",
         "low_showtime_count_bucket",
+        "max_show_date_stuck_weeks",
+        "consecutive_low_footprint_weeks",
+        "consecutive_no_weekend_weeks",
+        "prior_week_had_weekend",
+        "lost_weekend_vs_prior_week",
+        "lost_theaters_vs_prior_week",
+        "lost_primetime_vs_prior_week",
+        "current_weekend_share",
+        "current_primetime_share",
+        "current_weekday_concentration",
+        "same_theater_only_streak",
+        "weekday_only_streak",
+        "days_since_peak_showtimes",
+        "days_since_peak_theaters",
+        "opening_weekend_seen",
+        "weeks_since_first_wide_footprint",
+        "theater_churn_count",
         "event_like_flag",
         "event_like_reason",
         "strict_event_like_flag",
@@ -179,6 +199,30 @@ def _field_pct_le(row: Mapping[str, str], field: str, threshold: float) -> bool:
 
 def _not_first_week(row: Mapping[str, str]) -> bool:
     return not _parse_bool(row.get("is_first_week_observed", "false"))
+
+
+def _normal_first_run(row: Mapping[str, str]) -> bool:
+    return assign_row_segment(row) == "normal_first_run"
+
+
+def _lost_weekend_vs_prior_week(row: Mapping[str, str]) -> bool:
+    return _parse_bool(row.get("lost_weekend_vs_prior_week", "false"))
+
+
+def _lost_primetime_vs_prior_week(row: Mapping[str, str]) -> bool:
+    return _parse_bool(row.get("lost_primetime_vs_prior_week", "false"))
+
+
+def _consecutive_low_footprint_ge(row: Mapping[str, str], threshold: int) -> bool:
+    return _parse_int(row.get("consecutive_low_footprint_weeks", "0")) >= threshold
+
+
+def _max_show_date_stuck_ge(row: Mapping[str, str], threshold: int) -> bool:
+    return _parse_int(row.get("max_show_date_stuck_weeks", "0")) >= threshold
+
+
+def _low_footprint_not_first_week(row: Mapping[str, str]) -> bool:
+    return _parse_bool(row.get("low_showtime_count_bucket", "false")) and _not_first_week(row)
 
 
 def _trajectory_score(row: Mapping[str, str], threshold: int) -> bool:
@@ -447,8 +491,48 @@ def build_weekly_heuristic_catalog() -> list[HeuristicSpec]:
             HeuristicSpec(
                 "low_footprint_not_first_week",
                 "Low footprint bucket AND not first observed week.",
-                lambda row: _parse_bool(row.get("low_showtime_count_bucket", "false"))
-                and _not_first_week(row),
+                _low_footprint_not_first_week,
+            ),
+            HeuristicSpec(
+                "no_weekend_and_lost_weekend",
+                "No current-week weekend AND lost weekend vs prior week.",
+                lambda row: _no_current_week_weekend(row) and _lost_weekend_vs_prior_week(row),
+            ),
+            HeuristicSpec(
+                "low_footprint_and_consecutive_low_ge_2",
+                "Low footprint AND consecutive low-footprint weeks >= 2.",
+                lambda row: _low_footprint_not_first_week(row)
+                and _consecutive_low_footprint_ge(row, 2),
+            ),
+            HeuristicSpec(
+                "low_footprint_and_max_date_stuck_ge_2",
+                "Low footprint AND max show date stuck >= 2 anchor weeks.",
+                lambda row: _low_footprint_not_first_week(row)
+                and _max_show_date_stuck_ge(row, 2),
+            ),
+            HeuristicSpec(
+                "low_footprint_and_lost_primetime",
+                "Low footprint AND lost primetime vs prior week.",
+                lambda row: _low_footprint_not_first_week(row)
+                and _lost_primetime_vs_prior_week(row),
+            ),
+            HeuristicSpec(
+                "low_footprint_stuck_and_mature",
+                "Low footprint AND max date stuck >= 2 AND weeks since first seen >= 4.",
+                lambda row: _low_footprint_not_first_week(row)
+                and _max_show_date_stuck_ge(row, 2)
+                and _weeks_since_first_seen_ge(row, 4),
+            ),
+            HeuristicSpec(
+                "normal_booking_shape_leaving",
+                "Normal first-run AND low footprint AND booking-shape decline signals.",
+                lambda row: _normal_first_run(row)
+                and _low_footprint_not_first_week(row)
+                and (
+                    _lost_weekend_vs_prior_week(row)
+                    or _consecutive_low_footprint_ge(row, 2)
+                    or _max_show_date_stuck_ge(row, 2)
+                ),
             ),
             HeuristicSpec(
                 "trajectory_score_ge_5",
@@ -776,6 +860,22 @@ def evaluate_weekly_baselines(
         monthly=pr_d2_monthly,
     )
 
+    pr_d3_spec = spec_by_id[PR_D3_BASELINE_RULE_ID]
+    pr_d3_test_metric = evaluate_rule(
+        test,
+        rule_id=pr_d3_spec.rule_id,
+        description=pr_d3_spec.description,
+        predict=pr_d3_spec.predict,
+        period="test",
+    )
+    pr_d3_monthly = monthly_by_rule.get(PR_D3_BASELINE_RULE_ID, [])
+    pr_d3_baseline = enrich_metric_dict(
+        pr_d3_test_metric,
+        test,
+        pr_d3_spec.predict,
+        monthly=pr_d3_monthly,
+    )
+
     weak_month_analysis: list[dict[str, Any]] = []
     best_monthly_stability: dict[str, Any] = {}
     if best_rule_id:
@@ -863,7 +963,7 @@ def evaluate_weekly_baselines(
 
     return {
         "label_mode": "weekly-extension",
-        "feature_version": "event-segment-v1",
+        "feature_version": "booking-shape-v1",
         "labeled_rows": len(rows),
         "distinct_films": len({row["showtime_film_key"] for row in rows}),
         "base_positive_rate": round(overall_base, 4),
@@ -898,6 +998,11 @@ def evaluate_weekly_baselines(
             "rule_id": PR_D2_BASELINE_RULE_ID,
             "test": pr_d2_baseline,
         },
+        "pr_d3_baseline_rule": {
+            "rule_id": PR_D3_BASELINE_RULE_ID,
+            "test": pr_d3_baseline,
+        },
+        "amc_metadata_audit": metadata_audit_summary(),
         "weak_month_analysis": weak_month_analysis,
         "best_rule_monthly_stability": best_monthly_stability,
         "strict_event_filter_experiment": strict_experiment,

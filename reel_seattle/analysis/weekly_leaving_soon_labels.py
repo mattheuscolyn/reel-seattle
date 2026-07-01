@@ -88,6 +88,23 @@ WEEKLY_LABEL_FIELDNAMES = [
     "single_theater_current_week",
     "single_day_current_week",
     "low_showtime_count_bucket",
+    "max_show_date_stuck_weeks",
+    "consecutive_low_footprint_weeks",
+    "consecutive_no_weekend_weeks",
+    "prior_week_had_weekend",
+    "lost_weekend_vs_prior_week",
+    "lost_theaters_vs_prior_week",
+    "lost_primetime_vs_prior_week",
+    "current_weekend_share",
+    "current_primetime_share",
+    "current_weekday_concentration",
+    "same_theater_only_streak",
+    "weekday_only_streak",
+    "days_since_peak_showtimes",
+    "days_since_peak_theaters",
+    "opening_weekend_seen",
+    "weeks_since_first_wide_footprint",
+    "theater_churn_count",
     "event_like_flag",
     "event_like_reason",
     "strict_event_like_flag",
@@ -412,6 +429,33 @@ def build_weekly_label_rows(
                 _weeks_between(peak_anchor, anchor_date) if peak_anchor is not None else ""
             )
 
+            prior_stats: _WeekStats | None = None
+            if prior_anchor is not None:
+                prior_start, prior_end = current_week_range(prior_anchor)
+                prior_rows = row_index.get(prior_anchor, {}).get(film_key, [])
+                prior_stats = week_stats_for_film_rows(
+                    prior_rows,
+                    week_start_date=prior_start,
+                    week_end_date=prior_end,
+                )
+
+            from reel_seattle.analysis.weekly_booking_shape import (  # noqa: PLC0415
+                compute_booking_shape_features,
+            )
+
+            booking_shape = compute_booking_shape_features(
+                anchor_date=anchor_date,
+                film_key=film_key,
+                snapshot_dates=snapshot_dates,
+                row_index=row_index,
+                by_snapshot=by_snapshot,
+                current_stats=current_stats,
+                prior_stats=prior_stats,
+                peak_anchor=peak_anchor,
+                first_seen=first_seen,
+                config=cfg,
+            )
+
             base: dict[str, str] = {
                 "label_mode": LABEL_MODE_WEEKLY_EXTENSION,
                 "anchor_date": anchor_date.isoformat(),
@@ -485,6 +529,7 @@ def build_weekly_label_rows(
                 "low_showtime_count_bucket": (
                     "true" if current_stats.showtime_count <= 10 else "false"
                 ),
+                **booking_shape,
                 "event_like_flag": "true" if anchor.event_like_flag else "false",
                 "event_like_reason": anchor.event_like_reason,
                 **screening_flags,
@@ -500,14 +545,7 @@ def build_weekly_label_rows(
                 "label_status": "",
             }
 
-            if prior_anchor is not None:
-                prior_start, prior_end = current_week_range(prior_anchor)
-                prior_rows = row_index.get(prior_anchor, {}).get(film_key, [])
-                prior_stats = week_stats_for_film_rows(
-                    prior_rows,
-                    week_start_date=prior_start,
-                    week_end_date=prior_end,
-                )
+            if prior_stats is not None:
                 base["prior_week_showtime_count"] = str(prior_stats.showtime_count)
                 base["prior_week_theater_count"] = str(prior_stats.theater_count)
                 base["prior_week_visible_days"] = str(prior_stats.visible_days)

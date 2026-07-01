@@ -168,6 +168,11 @@ Each `data/daily_logs/YYYY-MM-DD_amc.json` record includes:
 | `hasTrailers` | `attributes.has_trailers` |
 | `maximumIntendedAttendance` | `attributes.maximum_intended_attendance` |
 | `id` | `source_showtime_id` |
+| `movieId` | `attributes.movie_id` (PR D5; forward-only) |
+| `movieUrl` | `attributes.movie_url` (PR D5) |
+| `sellUntilDateTimeUtc` | `attributes.sell_until_utc` (PR D5) |
+| `genre` | `attributes.genre` (PR D5) |
+| `rating` | `attributes.mpaa_rating` (PR D5) |
 
 ### Ignored but potentially useful (per AMC v2 docs / public examples)
 
@@ -190,7 +195,7 @@ Each `data/daily_logs/YYYY-MM-DD_amc.json` record includes:
 
 **Recommendation:** Add optional **sample capture** without bloating the repo:
 
-- `tests/fixtures/adapters/amc_api_showtime_full.json` — one redacted full showtime object for adapter tests
+- `tests/fixtures/adapters/amc_api_showtime_full.json` — full showtime object with movieId/sellUntil (PR D5)
 - `data/samples/amc/` — gitignored or size-capped; CI scraper writes **one** weekly tarball to Actions artifacts (not committed)
 - Extend `RawShowtime` / daily log schema incrementally when new fields prove useful
 
@@ -900,6 +905,46 @@ python scripts/evaluate_weekly_leaving_soon_baselines.py
 python scripts/audit_weekly_leaving_soon_errors.py
 ```
 
+### PR D5 — AMC metadata audit and booking-shape features (done)
+
+**Scope:** Audit AMC API field availability, persist low-risk metadata on new scrapes (`movieId`, `sellUntilDateTimeUtc`, `genre`, `rating`, `movieUrl` in scrape-log attributes), add 17 anchor-time booking-shape label columns, and evaluate new booking-shape rules. No UI, no PR E replacement, no Wednesday PM scrape, no production model.
+
+**AMC metadata implemented (forward-only on new scrapes):**
+- `movieId` → `attributes.movie_id` → footprint `amc_movie_id`
+- `sellUntilDateTimeUtc`, `genre`, `rating`, `movieUrl` → scrape-log attributes
+- Full fixture: `tests/fixtures/adapters/amc_api_showtime_full.json`
+- Audit module: `reel_seattle/analysis/amc_metadata_audit.py`
+
+**Recommended future collection (not implemented):** Movies API `releaseDateUtc`, engagement/event category, now-playing vs coming-soon views, auditorium metadata.
+
+**New booking-shape features (anchor-only, 96 label columns):** `max_show_date_stuck_weeks`, `consecutive_low_footprint_weeks`, `consecutive_no_weekend_weeks`, `lost_weekend_vs_prior_week`, `lost_primetime_vs_prior_week`, `current_weekend_share`, `weekday_only_streak`, `theater_churn_count`, etc.
+
+**Results vs PR D3/D4 (`low_footprint_not_first_week`):**
+
+| Metric | PR D3/D4 baseline | PR D5 best (`low_footprint_and_consecutive_low_ge_2`) |
+|--------|-------------------|------------------------------------------------------|
+| Test precision | 91.7% | **97.5%** |
+| Test recall | 48.9% | 28.9% |
+| Test coverage | 21.5% | 11.9% |
+| Test FP / FN | 6 / 69 | **1 / 96** |
+| Monthly min precision | 52.2% | **47.6%** (worse) |
+| Months below 75% | 2 | 1 |
+| Stability pass | No | **No** |
+
+**December 2025:** Precision **47.6%** (11 FPs) — **worse than PR D4’s 52.2%**. Stricter consecutive-low rule trades December stability for higher peak precision.
+
+**Normal-first-run booking-shape rule (`normal_booking_shape_leaving`):** 95.1% test precision, 12.2% coverage — promising but still fails stability gate.
+
+**Recommendation:** `needs_more_work` — booking-shape features improve held-out precision but **do not fix December** or pass monthly stability. **PR E2 remains blocked.** Next: begin collecting `movieId`/sell-until on live scrapes, then evaluate whether metadata reduces normal-first-run FPs after 4–8 weeks of new data.
+
+**Regenerate:**
+
+```bash
+python scripts/build_weekly_leaving_soon_labels.py
+python scripts/evaluate_weekly_leaving_soon_baselines.py
+python scripts/audit_weekly_leaving_soon_errors.py
+```
+
 ### Revised roadmap
 
 | PR | Scope | Status |
@@ -910,7 +955,8 @@ python scripts/audit_weekly_leaving_soon_errors.py
 | **C2** | Booking-cycle analysis + weekly labels | **Done** — `eb10198` |
 | **D2** | Weekly baseline evaluation | **Done** — `2567db1` |
 | **D3** | Richer weekly features + stability analysis | **Done** — `7f87ca0` |
-| **D4** | Event/limited-run segmentation + error audit | **Done** — this pass |
+| **D4** | Event/limited-run segmentation + error audit | **Done** — `59b4c03` |
+| **D5** | AMC metadata audit + booking-shape features | **Done** — this pass |
 | **E2** | Replace PR E with weekly rule artifact | **Deferred** — needs monthly stability |
 | **F** | UI | **Deferred** until E2 + product review |
 
@@ -956,6 +1002,10 @@ python scripts/build_weekly_leaving_soon_labels.py
 | `reel_seattle/analysis/special_screening_flags.py` | Granular title flags (PR D3) |
 | `reel_seattle/analysis/weekly_leaving_soon_stability.py` | Monthly stability diagnostics (PR D3) |
 | `reel_seattle/analysis/weekly_leaving_soon_error_audit.py` | False-positive error audit (PR D4) |
+| `reel_seattle/analysis/weekly_leaving_soon_segments.py` | Segment analysis (PR D4) |
+| `reel_seattle/adapters/amc_metadata.py` | AMC metadata extraction (PR D5) |
+| `reel_seattle/analysis/amc_metadata_audit.py` | AMC metadata audit table (PR D5) |
+| `reel_seattle/analysis/weekly_booking_shape.py` | Booking-shape feature derivation (PR D5) |
 | `reel_seattle/analysis/weekly_leaving_soon_segments.py` | Segment analysis + segment-aware rules (PR D4) |
 | `scripts/audit_weekly_leaving_soon_errors.py` | Error audit CLI (PR D4) |
 | `reel_seattle/analysis/weekly_leaving_soon_eval.py` | Weekly baseline evaluation (PR D2/D3) |
@@ -967,6 +1017,9 @@ python scripts/build_weekly_leaving_soon_labels.py
 | `tests/analysis/test_weekly_leaving_soon_labels.py` | Weekly label tests (PR C2) |
 | `tests/analysis/test_special_screening_flags.py` | Special-screening flag tests (PR D3/D4) |
 | `tests/analysis/test_weekly_leaving_soon_segments.py` | Segment/audit tests (PR D4) |
+| `tests/fixtures/adapters/amc_api_showtime_full.json` | Full AMC showtime fixture (PR D5) |
+| `tests/analysis/test_amc_metadata_audit.py` | AMC metadata tests (PR D5) |
+| `tests/analysis/test_weekly_booking_shape.py` | Booking-shape tests (PR D5) |
 | `tests/analysis/test_weekly_leaving_soon_eval.py` | Weekly evaluation tests (PR D2/D3) |
 | `tests/analysis/test_leaving_soon_labels.py` | Label tests (PR C) |
 | `tests/analysis/test_amc_footprint.py` | Footprint tests (PR B) |

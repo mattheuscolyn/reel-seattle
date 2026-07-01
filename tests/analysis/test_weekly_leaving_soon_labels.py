@@ -60,3 +60,5 @@ def test_weekly_label_fieldnames_include_richer_features():
     assert "current_showtime_pct_of_peak" in WEEKLY_LABEL_FIELDNAMES
     assert "strict_event_like_flag" in WEEKLY_LABEL_FIELDNAMES
     assert "weekday_only_current_week" in WEEKLY_LABEL_FIELDNAMES
+    assert "max_show_date_stuck_weeks" in WEEKLY_LABEL_FIELDNAMES
+    assert "lost_weekend_vs_prior_week" in WEEKLY_LABEL_FIELDNAMES

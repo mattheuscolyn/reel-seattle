@@ -81,6 +81,14 @@ def test_api_showtime_maps_to_raw_showtime(api_showtime):
     assert raw.format_raw == "IMAX"
     assert raw.source_showtime_id == "show-12345"
     assert raw.attributes["maximum_intended_attendance"] == 150
+    assert "movie_id" not in (raw.attributes or {})
+
+
+def test_api_showtime_full_fixture_maps_metadata():
+    payload = json.loads((FIXTURES_DIR / "amc_api_showtime_full.json").read_text(encoding="utf-8"))
+    raw = api_showtime_to_raw(payload, THEATER_NAME)
+    assert raw.attributes["movie_id"] == "movie-abc123"
+    assert raw.attributes["sell_until_utc"] == "2026-06-28T23:59:00Z"
 
 
 def test_raw_showtime_to_legacy_csv_preserves_expected_fields(api_showtime):
