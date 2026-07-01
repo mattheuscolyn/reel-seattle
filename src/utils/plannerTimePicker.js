@@ -4,6 +4,10 @@ export const PLANNER_TIME_HOURS = Array.from({ length: 12 }, (_, index) => Strin
 export const PLANNER_TIME_MINUTES = ['00', '15', '30', '45'];
 export const PLANNER_TIME_PERIODS = ['AM', 'PM'];
 
+/** Scroll-wheel row height (px); keep in sync with `.planner-time-scroll-*` CSS. */
+export const PLANNER_TIME_SCROLL_ITEM_HEIGHT = 32;
+export const PLANNER_TIME_SCROLL_VISIBLE_ROWS = 3;
+
 const DEFAULT_PARTS = {
   hour: '12',
   minute: '00',

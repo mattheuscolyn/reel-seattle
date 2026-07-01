@@ -6,10 +6,12 @@ import {
   PLANNER_TIME_HOURS,
   PLANNER_TIME_MINUTES,
   PLANNER_TIME_PERIODS,
+  PLANNER_TIME_SCROLL_ITEM_HEIGHT,
+  PLANNER_TIME_SCROLL_VISIBLE_ROWS,
 } from '../utils/plannerTimePicker.js';
 
-const ITEM_HEIGHT = 40;
-const VISIBLE_ROWS = 3;
+const ITEM_HEIGHT = PLANNER_TIME_SCROLL_ITEM_HEIGHT;
+const VISIBLE_ROWS = PLANNER_TIME_SCROLL_VISIBLE_ROWS;
 const COLUMN_HEIGHT = ITEM_HEIGHT * VISIBLE_ROWS;
 
 function TimeScrollColumn({ label, options, value, onChange }) {
@@ -116,7 +118,11 @@ export default function PlannerTimePicker({ id, label, value, onChange, optional
   };
 
   return (
-    <div className="filter-group planner-time-picker" id={id}>
+    <div
+      className="filter-group planner-time-picker"
+      id={id}
+      style={{ '--planner-time-item-height': `${ITEM_HEIGHT}px` }}
+    >
       <div className="planner-time-picker-header">
         <span className="planner-time-picker-label" id={`${id}-label`}>
           {label}
@@ -151,7 +157,7 @@ export default function PlannerTimePicker({ id, label, value, onChange, optional
           onChange={(minute) => updateDraft({ minute })}
         />
         <TimeScrollColumn
-          label="AM or PM"
+          label="Period"
           options={PLANNER_TIME_PERIODS}
           value={draft.period}
           onChange={(period) => updateDraft({ period })}

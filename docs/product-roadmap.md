@@ -62,7 +62,7 @@ Recorded decisions — do not re-litigate without new data.
 | ID | Item | Theme | Status | Phase | Priority |
 |----|------|-------|--------|-------|----------|
 | **P-01** | Parent/variant film grouping (product) | Identity & UX | **Designed** (analysis done) | 2 | High |
-| **P-02** | Planner time selector UX | Planner mobile | **Not started** | 1 | High |
+| **P-02** | Planner time selector UX | Planner mobile | **In progress** (UX-1 implemented) | 1 | High |
 | **P-03** | AMC API exploration | Data expansion | **Investigating** (partial D5) | 4 | Medium |
 | **P-04** | Interactive planner result refinement | Planner advanced | **Not started** | 3 | Medium |
 | **P-05** | Additional metadata integrations | Data expansion | **Not started** | 4 | Low–Medium |
@@ -114,7 +114,7 @@ Recorded decisions — do not re-litigate without new data.
 
 | Field | Value |
 |-------|--------|
-| **Status** | Not started |
+| **Status** | **In progress** — UX-1 compact picker implemented (32px scroll rows, mobile side-by-side layout) |
 | **User problem** | “Start after” / “Finish by” time picker overlay is **visually heavy and oversized** on mobile; feels clunky vs common time-picker patterns. |
 | **Proposed value** | Smaller, cleaner control; faster selection; consistent with mobile UX best practices. |
 | **Affected areas** | `src/components/PlannerTimePicker.jsx`, `src/pages/PlannerPage.jsx`, `App.css` / planner styles |
@@ -311,4 +311,4 @@ Copy for new tracker items:
 
 | Date | Change |
 |------|--------|
-| 2026-07-01 | Initial master roadmap; consolidated 12 product ideas; phased plan; decision log |
+| 2026-07-01 | Phase 1 UX-1: compact planner time picker (32px scroll rows, mobile 2-col time filters). |

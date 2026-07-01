@@ -4,6 +4,8 @@ import {
   formatPlannerCompactTime,
   parsePlannerTimeParts,
   PLANNER_TIME_MINUTES,
+  PLANNER_TIME_SCROLL_ITEM_HEIGHT,
+  PLANNER_TIME_SCROLL_VISIBLE_ROWS,
 } from '../../src/utils/plannerTimePicker.js';
 
 test('parsePlannerTimeParts parses compact planner times', () => {
@@ -39,4 +41,14 @@ test('formatPlannerCompactTime builds valid compact times', () => {
 
 test('planner minute options use 15-minute increments', () => {
   assert.deepEqual(PLANNER_TIME_MINUTES, ['00', '15', '30', '45']);
+});
+
+test('planner scroll wheel uses compact row height for mobile-friendly picker', () => {
+  assert.equal(PLANNER_TIME_SCROLL_ITEM_HEIGHT, 32);
+  assert.equal(PLANNER_TIME_SCROLL_VISIBLE_ROWS, 3);
+});
+
+test('formatPlannerCompactTime preserves AM and PM periods', () => {
+  assert.equal(formatPlannerCompactTime('11', '45', 'PM'), '11:45PM');
+  assert.equal(formatPlannerCompactTime('12', '00', 'AM'), '12:00AM');
 });
