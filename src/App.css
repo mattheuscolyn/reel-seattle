@@ -2064,12 +2064,113 @@
 
 @media (max-width: 768px) {
   .planner-result-card-header {
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 10px;
   }
 
   .planner-result-card-badges {
+    align-items: flex-end;
+  }
+
+  .planner-result-card {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .planner-result-list .planner-result-card {
+    gap: 12px;
+  }
+
+  .planner-result-list {
+    gap: 16px;
+  }
+
+  .planner-result-theater {
+    font-size: 1.1rem;
+  }
+
+  .planner-film-count-badge {
+    display: none;
+  }
+
+  .planner-commitment-summary {
+    font-size: 0.84rem;
+  }
+
+  .planner-share-lineup {
+    min-height: 36px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .planner-share-lineup-status {
+    min-height: 0.95rem;
+    font-size: 0.75rem;
+  }
+
+  .planner-film-meta--verbose {
+    display: none;
+  }
+
+  .planner-result-card .planner-film {
+    flex-direction: row;
     align-items: flex-start;
+    gap: 10px;
+  }
+
+  .planner-film-poster {
+    width: 72px;
+    height: 108px;
+    border-radius: 8px;
+    border-width: 1px;
+  }
+
+  .planner-film-poster-wrap {
+    gap: 4px;
+  }
+
+  .planner-film-label {
+    font-size: 0.65rem;
+  }
+
+  .planner-film-details {
+    gap: 6px;
+  }
+
+  .planner-film-title {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .planner-film-time-range {
+    font-size: 0.84rem;
+    margin-bottom: 0;
+  }
+
+  .planner-format-tags {
+    gap: 4px;
+  }
+
+  .planner-format-tag {
+    font-size: 0.66rem;
+    padding: 2px 6px;
+  }
+
+  .planner-film-sequence {
+    gap: 4px;
+  }
+
+  .planner-gap-row {
+    gap: 8px;
+    padding: 0;
+  }
+
+  .planner-gap-label {
+    font-size: 0.72rem;
+    padding: 2px 8px;
   }
 
   .planner-filters {
@@ -2143,16 +2244,16 @@
 
 @media (max-width: 480px) {
   .planner-result-card {
-    padding: 18px;
+    padding: 12px;
   }
 
   .planner-film-poster {
-    width: 88px;
-    height: 132px;
+    width: 64px;
+    height: 96px;
   }
 
-  .planner-film {
-    gap: 12px;
+  .planner-result-card .planner-film {
+    gap: 8px;
   }
 
   .planner-film-meta-row dt {
@@ -2259,13 +2360,23 @@
 }
 
 @media (max-width: 768px) {
-  .planner-card-stats {
-    grid-template-columns: 1fr;
+  .planner-card-stats,
+  .planner-card-stats--detailed {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    padding: 10px 12px;
   }
 
-  .planner-result-card .planner-film {
-    flex-direction: column;
-    align-items: flex-start;
+  .planner-stat {
+    gap: 2px;
+  }
+
+  .planner-stat-label {
+    font-size: 0.68rem;
+  }
+
+  .planner-stat-value {
+    font-size: 0.9rem;
   }
 }
 
@@ -2814,20 +2925,17 @@
 }
 
 @media (max-width: 768px) {
-  .planner-card-stats--detailed {
-    grid-template-columns: 1fr;
+  .planner-timeline {
+    gap: 4px;
   }
 
   .planner-timeline-track {
-    height: 48px;
+    height: 32px;
   }
 
   .planner-timeline-labels {
-    font-size: 0.72rem;
-  }
-
-  .planner-commitment-summary {
-    font-size: 0.88rem;
+    font-size: 0.68rem;
+    gap: 8px;
   }
 }
 

@@ -47,7 +47,7 @@ function FilmRow({ movie, index, total }) {
             {display.startTime} – {display.endTime} · {display.runtime}
           </p>
           <FormatTags movie={movie} />
-          <dl className="planner-film-meta">
+          <dl className="planner-film-meta planner-film-meta--verbose">
             <div className="planner-film-meta-row">
               <dt>Start</dt>
               <dd>{display.startTime}</dd>

@@ -152,15 +152,32 @@ Reduces duplicate data entry and teaches the Planner entry point.
 
 **Status:** Shipped (`16bfee6`)
 
-### UX-4 — Midnight / next-day timing (Phase 1, in progress)
+### UX-4 — Midnight / next-day timing (Phase 1, shipped)
 
-**Status:** Implemented on branch — pending commit/QA
+**Status:** Shipped (`f109025`)
 
 **Scope:** Extended planner minutes past midnight; early AM showtimes (+1 day); finish-by filter alignment; display `(+1)` suffix; regression tests.
 
 **Convention:** Same-date rows treat AM showtimes before 6:00 as next calendar morning (+1440 min). End times may exceed 1440.
 
-**Remaining Phase 1:** UX-5 result card density.
+### UX-5 — Compact result cards & timeline density (Phase 1, shipped)
+
+**Status:** Implemented — pending commit/QA
+
+**Scope:** Mobile-only layout density for `PlannerResultCard` / `PlannerTimeline` — no engine or parsing changes.
+
+**Changes:**
+- Keep film rows **horizontal** on mobile (poster beside details); smaller posters (72×108, 64×96 at 375px).
+- Hide redundant `planner-film-meta--verbose` dl (time-range line retains start/end/runtime).
+- Hide film-count badge on mobile (stats row shows movie runtime).
+- Stat summary: 3-column compact row instead of stacked single column.
+- Timeline track height 32px (was 48px on mobile); tighter gaps.
+- Tighter card padding, sequence gaps, gap-row labels; share button min 36px touch target.
+- Desktop layout unchanged.
+
+**Manual QA:** iPhone 375px — 2–3 film plan visible with less scroll; `(+1)` labels from UX-4 still readable.
+
+**Phase 1 complete** after UX-5 ships.
 
 ### Mock plan preview (filter constraint visualization)
 

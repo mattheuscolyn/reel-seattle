@@ -63,14 +63,13 @@ Recorded decisions — do not re-litigate without new data.
 |----|------|-------|--------|-------|----------|
 | **P-01** | Parent/variant film grouping (product) | Identity & UX | **Designed** (analysis done) | 2 | High |
 | **P-02** | Planner time selector UX | Planner mobile | **Done** (UX-1 `b55297d`) | 1 | High |
-| **P-07** | iPhone screen-space optimization | Planner mobile | **Done** (UX-2 `1276a89`) | 1 | High |
+| **P-07** | iPhone screen-space optimization | Planner mobile | **Done** (UX-2–UX-5) | 1 | High |
 | **P-08** | Preserve scroll position on filter toggle | Planner mobile | **Done** (UX-3 `16bfee6`) | 1 | Medium |
-| **P-09** | AM/PM & next-day / midnight timing | Planner correctness | **In progress** (UX-4 implemented) | 1 | Medium |
+| **P-09** | AM/PM & next-day / midnight timing | Planner correctness | **Done** (UX-4 `f109025`) | 1 | Medium |
 | **P-03** | AMC API exploration | Data expansion | **Investigating** (partial D5) | 4 | Medium |
 | **P-04** | Interactive planner result refinement | Planner advanced | **Not started** | 3 | Medium |
 | **P-05** | Additional metadata integrations | Data expansion | **Not started** | 4 | Low–Medium |
 | **P-06** | Language & caption metadata | Data & filters | **Not started** | 4 | Medium |
-| **P-09** | AM/PM & next-day / midnight timing | Planner correctness | **Not started** | 1 | Medium |
 | **P-10** | NW Film Forum + Central Cinema scraping | Theater expansion | **Not started** | 5 | Medium |
 | **P-11** | Current scraping audit | Pipeline reliability | **Investigating** | 5 | Medium |
 | **P-12** | Leaving Soon re-evaluation | Model (deferred product) | **Deferred** | 6 | Low until gate |
@@ -132,11 +131,11 @@ Recorded decisions — do not re-litigate without new data.
 
 | Field | Value |
 |-------|--------|
-| **Status** | **Done** — UX-2 shipped (`1276a89`); UX-5 result density remains |
-| **User problem** | Mobile planner spends too much vertical space on filters; hard to see a full plan on one screen. |
+| **Status** | **Done** — Phase 1 complete (UX-2 `1276a89`, UX-3 `16bfee6`, UX-5 result density) |
+| **User problem** | Mobile planner spends too much vertical space on filters and results; hard to see a full plan on one screen. |
 | **Proposed value** | User can view a complete plan without excessive scrolling when reasonable (2–3 films). |
-| **Implemented (UX-2)** | Sticky summary chips; collapse filter panels after Find plans on mobile; Find plans stays visible. |
-| **Remaining** | UX-3 scroll retention; UX-5 result card density. |
+| **Implemented** | UX-2: sticky summary chips; collapse filters after Find plans. UX-3: scroll retention. UX-5: compact result cards — horizontal film rows, smaller posters, hide redundant meta, 3-col stat row, shorter timeline. |
+| **Manual QA** | iPhone 375px: 2–3 film plan fits with less scroll; share button ≥36px; `(+1)` labels still visible. |
 | **Links** | [planner-ux-roadmap.md](./planner-ux-roadmap.md), [frontend-smoke-check.md](./frontend-smoke-check.md) |
 
 ---
@@ -145,7 +144,7 @@ Recorded decisions — do not re-litigate without new data.
 
 | Field | Value |
 |-------|--------|
-| **Status** | **In progress** — UX-3 scroll compensation + post-search scroll-to-results |
+| **Status** | **Done** — UX-3 shipped (`16bfee6`) |
 | **User problem** | Collapsing/expanding filters or results **jumps** scroll position — jarring on iPhone. |
 | **Proposed value** | Stable viewport when toggling sections; controlled scroll to results after Find plans. |
 | **Implemented (UX-3)** | `plannerScroll.js` helpers; collapse height compensation; sticky-offset scroll to results; `prefers-reduced-motion`. |
@@ -158,7 +157,7 @@ Recorded decisions — do not re-litigate without new data.
 
 | Field | Value |
 |-------|--------|
-| **Status** | **In progress** — UX-4 extended minutes + early AM (+1 day) + display suffix |
+| **Status** | **Done** — UX-4 shipped (`f109025`) |
 | **User problem** | Minor issues when showtimes extend past midnight; AM/PM labels, gaps, and finish-by may be wrong. |
 | **Proposed value** | Correct timelines, gap math, and labels across midnight on a single date row. |
 | **Convention** | AM before 6:00 on same date → +1440 min; end times may exceed 1440; labels show `(+1)` when needed. |
@@ -310,4 +309,6 @@ Copy for new tracker items:
 
 | Date | Change |
 |------|--------|
+| 2026-07-02 | Phase 1 UX-5: compact mobile result cards and timeline density; Phase 1 complete. |
+| 2026-07-02 | Phase 1 UX-4 shipped (`f109025`): planner midnight/next-day extended minutes. |
 | 2026-07-01 | Phase 1 UX-4: planner midnight/next-day extended minutes and regression tests. |
