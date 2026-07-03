@@ -199,7 +199,30 @@ export function buildExpandedFilmSummary(movie, options = {}, locale = undefined
 }
 
 /**
- * @param {{ showtimes?: Record<string, Record<string, { premiumFormat?: string }[]>> }} movie
+ * Format screening variant type for display as a badge
+ * @param {string} variantType
+ * @returns {string}
+ */
+export function formatVariantLabel(variantType) {
+  if (!variantType || variantType === 'none' || variantType === 'normal_first_run') {
+    return '';
+  }
+  
+  const labels = {
+    sensory_friendly: 'Sensory Friendly',
+    early_access: 'Early Access',
+    opening_night: 'Opening Night',
+    anniversary: 'Anniversary',
+    double_feature: 'Double Feature',
+    format_variant: 'Special Format',
+    anime_special_engagement: 'Special Engagement',
+  };
+  
+  return labels[variantType] || variantType;
+}
+
+/**
+ * @param {{ showtimes?: Record<string, Record<string, { premiumFormat?: string, screeningVariant?: string }[]>> }} movie
  * @param {{ selectedDates?: string[], selectedTheaters?: string[] }} options
  * @returns {string[]}
  */
@@ -212,8 +235,13 @@ export function collectFilmFormats(movie, { selectedDates = [], selectedTheaters
     for (const [theater, slots] of Object.entries(theaters)) {
       if (selectedTheaters.length > 0 && !selectedTheaters.includes(theater)) continue;
       for (const slot of slots) {
-        const label = (slot.premiumFormat || '').trim();
-        if (label) formats.add(label);
+        // Collect premium formats (IMAX, REALD-3D, etc.)
+        const format = (slot.premiumFormat || '').trim();
+        if (format) formats.add(format);
+        
+        // Collect screening variants (Sensory Friendly, etc.)
+        const variantLabel = formatVariantLabel(slot.screeningVariant || '');
+        if (variantLabel) formats.add(variantLabel);
       }
     }
   }

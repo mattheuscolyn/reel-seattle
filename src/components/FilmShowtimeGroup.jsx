@@ -1,3 +1,5 @@
+import { formatVariantLabel } from '../utils/showtimesDisplay.js';
+
 export default function FilmShowtimeGroup({ date, dateHeading, theaters }) {
   return (
     <section className="film-showtime-group" aria-label={`Showtimes for ${date}`}>
@@ -10,17 +12,23 @@ export default function FilmShowtimeGroup({ date, dateHeading, theaters }) {
           <div key={theater} className="film-showtime-theater-block">
             <h4 className="film-showtime-theater-name">{theater}</h4>
             <div className="showtimes film-showtime-pills">
-              {slots.map((slot, index) => (
-                <span
-                  className="showtime-pill"
-                  key={`${slot.time}-${slot.premiumFormat || ''}-${index}`}
-                >
-                  {slot.time}
-                  {slot.premiumFormat ? (
-                    <span className="premium-format-tag">{slot.premiumFormat}</span>
-                  ) : null}
-                </span>
-              ))}
+              {slots.map((slot, index) => {
+                const variantLabel = formatVariantLabel(slot.screeningVariant);
+                return (
+                  <span
+                    className="showtime-pill"
+                    key={`${slot.time}-${slot.premiumFormat || ''}-${slot.screeningVariant || ''}-${index}`}
+                  >
+                    {slot.time}
+                    {slot.premiumFormat ? (
+                      <span className="premium-format-tag">{slot.premiumFormat}</span>
+                    ) : null}
+                    {variantLabel ? (
+                      <span className="premium-format-tag">{variantLabel}</span>
+                    ) : null}
+                  </span>
+                );
+              })}
             </div>
           </div>
         ))}

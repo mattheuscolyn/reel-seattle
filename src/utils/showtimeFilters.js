@@ -9,5 +9,6 @@ export function showtimeSlot(row) {
   return {
     time: row.Time,
     premiumFormat: (row.premiumFormat || '').trim(),
+    screeningVariant: (row.screening_variant_type || '').trim(),
   };
 }
