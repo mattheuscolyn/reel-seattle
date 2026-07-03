@@ -10,7 +10,7 @@ from reel_seattle.analysis.special_screening_flags import (
     classify_run_type,
     classify_special_screening_flags,
 )
-from reel_seattle.normalize import normalize_film_title, showtime_film_key
+from reel_seattle.normalize import normalize_film_title, showtime_film_key, extract_year_hint
 
 IDENTITY_MODE_TITLE = "title"
 IDENTITY_MODE_PARENT = "parent"
@@ -179,6 +179,42 @@ def derive_parent_identity(
             source_film_id=source_id,
         )
 
+    # Use title-based grouping for all films UNLESS the title itself contains a year
+    # (which indicates potential disambiguation is needed, like Moana 2016 vs 2026).
+    # This ensures variants and their base films group together.
+    title_parent_key = infer_parent_film_key(variant_source_title) or showtime_film_key(
+        variant_source_title
+    ) or ""
+    has_year_in_title = bool(extract_year_hint(variant_source_title))
+    
+    # Prioritize title-based grouping for:
+    # 1. Known screening variants (sensory friendly, IMAX, etc.)
+    # 2. Titles without embedded years (won't collide with remakes)
+    if is_special or not has_year_in_title:
+        normalized = normalize_film_title(variant_source_title) or variant_source_title
+        if parent_title.casefold() == normalized.casefold():
+            method = PARENT_METHOD_TITLE_EXACT
+            confidence = CONFIDENCE_HIGH
+        elif is_special:
+            method = PARENT_METHOD_TITLE_VARIANT_STRIP
+            confidence = CONFIDENCE_HIGH
+        else:
+            method = PARENT_METHOD_TITLE_EXACT
+            confidence = CONFIDENCE_HIGH
+        
+        return ParentFilmIdentity(
+            parent_film_key=title_parent_key,
+            parent_display_title=parent_title,
+            variant_source_title=variant_source_title,
+            screening_variant_type=variant_type,
+            is_special_screening=is_special,
+            parent_identity_method=method,
+            parent_identity_confidence=confidence,
+            source_film_id=source_id,
+        )
+
+    # Only use source_film_id-based grouping when title has embedded year
+    # (for disambiguating remakes like Moana 2016 vs 2026)
     if source_id:
         parent_key = parent_film_key_from_source_film_id(source_id)
         return ParentFilmIdentity(
