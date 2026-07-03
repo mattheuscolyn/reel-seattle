@@ -26,7 +26,14 @@ export default function ShowtimesPage() {
   const { rows, loading, error } = useShowtimesData();
   const [searchParams, setSearchParams] = useSearchParams();
   const [copyViewStatus, setCopyViewStatus] = useState('idle');
-  const [filtersExpanded, setFiltersExpanded] = useState(true);
+  
+  // Default to collapsed on mobile (viewport width <= 768px)
+  const [filtersExpanded, setFiltersExpanded] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth > 768;
+    }
+    return true;
+  });
 
   const { theaters, dates } = useMemo(() => buildShowtimesFilterOptions(rows), [rows]);
 
