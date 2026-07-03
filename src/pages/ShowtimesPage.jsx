@@ -26,6 +26,14 @@ export default function ShowtimesPage() {
   const { rows, loading, error } = useShowtimesData();
   const [searchParams, setSearchParams] = useSearchParams();
   const [copyViewStatus, setCopyViewStatus] = useState('idle');
+  
+  // Default to collapsed on mobile (viewport width <= 768px)
+  const [filtersExpanded, setFiltersExpanded] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth > 768;
+    }
+    return true;
+  });
 
   const { theaters, dates } = useMemo(() => buildShowtimesFilterOptions(rows), [rows]);
 
@@ -125,52 +133,72 @@ export default function ShowtimesPage() {
 
       <RecentlyAddedSection limit={RECENTLY_ADDED_PREVIEW_LIMIT} showViewAllLink />
 
-      <div className="showtimes-search">
-        <input
-          type="search"
-          className="filter-input showtimes-search-input"
-          placeholder="Search movies…"
-          value={searchText}
-          onChange={(e) => updateUrlFilters({ searchText: e.target.value }, { replace: true })}
-          aria-label="Search movies"
-        />
-      </div>
-
       <div className="sticky-controls">
-        <div className="filters">
-          <DropdownMultiSelect
-            label="Theater"
-            options={theaters}
-            selected={selectedTheaters}
-            setSelected={(value) => updateUrlFilters({ selectedTheaters: value }, { replace: true })}
-          />
-          <DropdownMultiSelect
-            label="Date"
-            options={dates}
-            selected={selectedDates}
-            setSelected={(value) => updateUrlFilters({ selectedDates: value }, { replace: true })}
-          />
-        </div>
+        <button
+          type="button"
+          className="filters-toggle"
+          onClick={() => setFiltersExpanded(!filtersExpanded)}
+          aria-expanded={filtersExpanded}
+          aria-controls="showtimes-filters"
+        >
+          <span className="filters-toggle-label">
+            {filtersExpanded ? 'Hide' : 'Show'} Filters
+          </span>
+          <span className={`filters-toggle-icon${filtersExpanded ? ' filters-toggle-icon--expanded' : ''}`}>
+            ▼
+          </span>
+        </button>
 
-        <div className="sort-row">
-          <SortDropdown
-            sort={sort}
-            setSort={(value) => updateUrlFilters({ sort: value }, { replace: true })}
-          />
-        </div>
+        <div
+          id="showtimes-filters"
+          className={`filters-panel${filtersExpanded ? ' filters-panel--expanded' : ''}`}
+        >
+          <div className="showtimes-search">
+            <input
+              type="search"
+              className="filter-input showtimes-search-input"
+              placeholder="Search movies…"
+              value={searchText}
+              onChange={(e) => updateUrlFilters({ searchText: e.target.value }, { replace: true })}
+              aria-label="Search movies"
+            />
+          </div>
 
-        <div className="showtimes-share-row">
-          <button type="button" className="showtimes-copy-view" onClick={handleCopyCurrentView}>
-            Copy current view
-          </button>
-          <div
-            className={`copy-link-status${
-              copyViewStatus === 'error' ? ' copy-link-status--error' : ''
-            }`}
-            aria-live="polite"
-          >
-            {copyViewStatus === 'copied' ? 'Link copied' : null}
-            {copyViewStatus === 'error' ? 'Could not copy link' : null}
+          <div className="filters">
+            <DropdownMultiSelect
+              label="Theater"
+              options={theaters}
+              selected={selectedTheaters}
+              setSelected={(value) => updateUrlFilters({ selectedTheaters: value }, { replace: true })}
+            />
+            <DropdownMultiSelect
+              label="Date"
+              options={dates}
+              selected={selectedDates}
+              setSelected={(value) => updateUrlFilters({ selectedDates: value }, { replace: true })}
+            />
+          </div>
+
+          <div className="sort-row">
+            <SortDropdown
+              sort={sort}
+              setSort={(value) => updateUrlFilters({ sort: value }, { replace: true })}
+            />
+          </div>
+
+          <div className="showtimes-share-row">
+            <button type="button" className="showtimes-copy-view" onClick={handleCopyCurrentView}>
+              Copy current view
+            </button>
+            <div
+              className={`copy-link-status${
+                copyViewStatus === 'error' ? ' copy-link-status--error' : ''
+              }`}
+              aria-live="polite"
+            >
+              {copyViewStatus === 'copied' ? 'Link copied' : null}
+              {copyViewStatus === 'error' ? 'Could not copy link' : null}
+            </div>
           </div>
         </div>
       </div>
