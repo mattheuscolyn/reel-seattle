@@ -134,13 +134,58 @@
     },
     "film_ref": {
       "type": "object",
-      "required": ["showtime_film_key", "title"],
+      "required": ["showtime_film_key", "title", "parent_film_key", "parent_display_title", "screening_variant_type", "is_special_screening"],
       "additionalProperties": false,
       "properties": {
         "showtime_film_key": { "type": "string", "minLength": 1 },
         "title": { "type": "string", "minLength": 1 },
         "runtime_min": { "type": ["integer", "null"], "minimum": 1 },
-        "poster_url": { "type": ["string", "null"], "format": "uri" }
+        "poster_url": { "type": ["string", "null"], "format": "uri" },
+        "parent_film_key": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Parent film key for grouping variants (IMAX, Sensory Friendly, etc)."
+        },
+        "parent_display_title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Parent display title after stripping variant suffixes."
+        },
+        "screening_variant_type": {
+          "type": "string",
+          "enum": [
+            "none",
+            "sensory_friendly",
+            "early_access",
+            "opening_night",
+            "fan_event",
+            "double_feature",
+            "anniversary",
+            "format_variant",
+            "live_encore",
+            "normal_first_run",
+            "special_limited_run",
+            "family_holiday_title",
+            "holiday_re_release",
+            "anniversary_re_release",
+            "classic_revival",
+            "concert_live_encore",
+            "anime_special_engagement",
+            "awards_season_limited",
+            "foreign_language_limited",
+            "special_event",
+            "unknown"
+          ],
+          "description": "Classification of the screening variant type."
+        },
+        "is_special_screening": {
+          "type": "boolean",
+          "description": "True if this is a special screening variant of a parent film."
+        },
+        "source_film_id": {
+          "type": ["string", "null"],
+          "description": "Stable vendor film id when available (AMC movieId)."
+        }
       }
     },
     "showtime_record": {
@@ -162,6 +207,10 @@
         "source_showtime_id",
         "source_film_id",
         "source_title",
+        "parent_film_key",
+        "parent_display_title",
+        "screening_variant_type",
+        "is_special_screening",
         "attributes",
         "first_seen_at",
         "last_seen_at"
@@ -208,6 +257,47 @@
         "source_title": {
           "type": ["string", "null"],
           "description": "Exact source/API title before display normalization."
+        },
+        "parent_film_key": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Parent film key for grouping variants (IMAX, Sensory Friendly, etc)."
+        },
+        "parent_display_title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Parent display title after stripping variant suffixes."
+        },
+        "screening_variant_type": {
+          "type": "string",
+          "enum": [
+            "none",
+            "sensory_friendly",
+            "early_access",
+            "opening_night",
+            "fan_event",
+            "double_feature",
+            "anniversary",
+            "format_variant",
+            "live_encore",
+            "normal_first_run",
+            "special_limited_run",
+            "family_holiday_title",
+            "holiday_re_release",
+            "anniversary_re_release",
+            "classic_revival",
+            "concert_live_encore",
+            "anime_special_engagement",
+            "awards_season_limited",
+            "foreign_language_limited",
+            "special_event",
+            "unknown"
+          ],
+          "description": "Classification of the screening variant type."
+        },
+        "is_special_screening": {
+          "type": "boolean",
+          "description": "True if this is a special screening variant of a parent film."
         },
         "attributes": {
           "type": "object",

@@ -35,6 +35,10 @@ from reel_seattle.source_identity import (
     source_film_id_from_history_row,
     source_title_from_history_row,
 )
+from reel_seattle.analysis.film_identity import (
+    build_film_key_identity_map,
+    derive_parent_identity,
+)
 from reel_seattle.validate import validate_showtimes_current, validate_theaters_registry
 
 CURRENT_SCHEMA_VERSION = "1.0.0"
@@ -256,6 +260,52 @@ def build_showtimes_current(
             item["showtime_film_key"],
         )
     )
+
+    # Build parent identity map for all film keys
+    identity_rows = []
+    for showtime in showtimes:
+        film_key = showtime["showtime_film_key"]
+        source_film_id = showtime.get("source_film_id", "")
+        film_title = showtime.get("film_title", "")
+        if film_key and film_title:
+            identity_rows.append({
+                "showtime_film_key": film_key,
+                "film_title": film_title,
+                "amc_movie_id": source_film_id or "",
+            })
+    
+    identity_map = build_film_key_identity_map(identity_rows)
+    
+    # Add parent identity fields to showtimes
+    for showtime in showtimes:
+        film_key = showtime["showtime_film_key"]
+        identity = identity_map.get(film_key)
+        if identity:
+            showtime["parent_film_key"] = identity.parent_film_key
+            showtime["parent_display_title"] = identity.parent_display_title
+            showtime["screening_variant_type"] = identity.screening_variant_type
+            showtime["is_special_screening"] = identity.is_special_screening
+        else:
+            showtime["parent_film_key"] = film_key
+            showtime["parent_display_title"] = showtime["film_title"]
+            showtime["screening_variant_type"] = "none"
+            showtime["is_special_screening"] = False
+    
+    # Add parent identity fields to films
+    for film_key, film_record in films_by_key.items():
+        identity = identity_map.get(film_key)
+        if identity:
+            film_record["parent_film_key"] = identity.parent_film_key
+            film_record["parent_display_title"] = identity.parent_display_title
+            film_record["screening_variant_type"] = identity.screening_variant_type
+            film_record["is_special_screening"] = identity.is_special_screening
+            film_record["source_film_id"] = identity.source_film_id or None
+        else:
+            film_record["parent_film_key"] = film_key
+            film_record["parent_display_title"] = film_record["title"]
+            film_record["screening_variant_type"] = "none"
+            film_record["is_special_screening"] = False
+            film_record["source_film_id"] = None
 
     theaters: list[dict[str, Any]] = []
     for entry in registry.get("theaters", []):

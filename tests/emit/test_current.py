@@ -239,3 +239,155 @@ def test_write_showtimes_current_writes_valid_json(tmp_path, theaters_registry):
     loaded = json.loads(output_path.read_text(encoding="utf-8"))
     assert loaded == artifact
     assert output_path.exists()
+
+
+def test_parent_fields_emitted_for_regular_films(theaters_registry):
+    """Regular films should get parent identity fields."""
+    rows = [_history_row(REFERENCE, film="Sinners")]
+    artifact = build_showtimes_current(
+        rows,
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    
+    film = artifact["films"][0]
+    assert "parent_film_key" in film
+    assert "parent_display_title" in film
+    assert "screening_variant_type" in film
+    assert "is_special_screening" in film
+    assert film["parent_film_key"] == "sinners"
+    assert film["parent_display_title"] == "Sinners"
+    assert film["screening_variant_type"] == "none"
+    assert film["is_special_screening"] is False
+    
+    showtime = artifact["showtimes"][0]
+    assert "parent_film_key" in showtime
+    assert "parent_display_title" in showtime
+    assert "screening_variant_type" in showtime
+    assert "is_special_screening" in showtime
+
+
+def test_variant_films_grouped_by_title_pattern(theaters_registry):
+    """Variant films (IMAX, Sensory Friendly, etc.) should be grouped under parent."""
+    rows = [
+        _history_row(REFERENCE, film="Nosferatu"),
+        _history_row(REFERENCE, film="Nosferatu: Sensory Friendly Screening", time="2:00PM"),
+        _history_row(REFERENCE, film="NOSFERATU IMAX Opening Night Fan Event", time="7:00PM"),
+    ]
+    artifact = build_showtimes_current(
+        rows,
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    
+    assert artifact["stats"]["film_count"] == 3
+    
+    # Find each variant
+    regular = next(f for f in artifact["films"] if f["title"] == "Nosferatu")
+    sensory = next(f for f in artifact["films"] if "Sensory" in f["title"])
+    imax = next(f for f in artifact["films"] if "IMAX" in f["title"])
+    
+    # All should share the same parent
+    assert regular["parent_film_key"] == "nosferatu"
+    assert sensory["parent_film_key"] == "nosferatu"
+    assert imax["parent_film_key"] == "nosferatu"
+    
+    assert regular["parent_display_title"] == "Nosferatu"
+    assert sensory["parent_display_title"] == "Nosferatu"
+    assert imax["parent_display_title"].upper() == "NOSFERATU"
+    
+    # Variants should be marked as special
+    assert regular["is_special_screening"] is False
+    assert sensory["is_special_screening"] is True
+    assert imax["is_special_screening"] is True
+    
+    # Variant types should be classified
+    assert regular["screening_variant_type"] == "none"
+    assert sensory["screening_variant_type"] == "sensory_friendly"
+    assert imax["screening_variant_type"] == "opening_night"
+
+
+def test_source_film_id_used_for_parent_grouping(theaters_registry):
+    """When source_film_id is available, it should be used for high-confidence grouping."""
+    rows = [
+        {
+            **_history_row(REFERENCE, film="Moana"),
+            "source_film_id": "72474",
+            "source_title": "Moana",
+        },
+        {
+            **_history_row(REFERENCE, film="Moana IMAX", time="2:00PM"),
+            "source_film_id": "72474",
+            "source_title": "Moana IMAX",
+        },
+    ]
+    artifact = build_showtimes_current(
+        rows,
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    
+    assert artifact["stats"]["film_count"] == 2
+    
+    regular = next(f for f in artifact["films"] if f["title"] == "Moana")
+    imax = next(f for f in artifact["films"] if "IMAX" in f["title"])
+    
+    # Both should use source_film_id-based parent key
+    assert regular["parent_film_key"] == "amc-movie-72474"
+    assert imax["parent_film_key"] == "amc-movie-72474"
+    assert regular["source_film_id"] == "72474"
+    assert imax["source_film_id"] == "72474"
+
+
+def test_showtime_film_key_unchanged_for_backward_compatibility(theaters_registry):
+    """showtime_film_key should remain title-based for backward compatibility."""
+    rows = [
+        _history_row(REFERENCE, film="Nosferatu: Sensory Friendly Screening"),
+    ]
+    artifact = build_showtimes_current(
+        rows,
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    
+    film = artifact["films"][0]
+    showtime = artifact["showtimes"][0]
+    
+    # showtime_film_key should still be title-based (unchanged)
+    assert film["showtime_film_key"] == "nosferatu-sensory-friendly-screening"
+    assert showtime["showtime_film_key"] == "nosferatu-sensory-friendly-screening"
+    
+    # But parent_film_key should be the parent
+    assert film["parent_film_key"] == "nosferatu"
+    assert showtime["parent_film_key"] == "nosferatu"
+
+
+def test_double_feature_not_auto_merged(theaters_registry):
+    """Double features should not be auto-merged with parent film."""
+    rows = [
+        _history_row(REFERENCE, film="Citizen Kane"),
+        _history_row(REFERENCE, film="Citizen Kane 85th Anniversary Double Feature", time="2:00PM"),
+    ]
+    artifact = build_showtimes_current(
+        rows,
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    
+    assert artifact["stats"]["film_count"] == 2
+    
+    regular = next(f for f in artifact["films"] if f["title"] == "Citizen Kane")
+    double_feature = next(f for f in artifact["films"] if "Double Feature" in f["title"])
+    
+    # Double feature should NOT share parent with regular film
+    # (Low confidence grouping keeps them separate)
+    assert regular["showtime_film_key"] == "citizen-kane"
+    assert "double-feature" in double_feature["showtime_film_key"]
+    assert double_feature["screening_variant_type"] == "double_feature"
+    assert double_feature["is_special_screening"] is True
+
