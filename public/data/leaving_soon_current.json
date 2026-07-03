@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-02T01:45:24-07:00",
+  "generated_at": "2026-07-03T01:54:08-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-02",
-    "end_date": "2026-07-16"
+    "start_date": "2026-07-03",
+    "end_date": "2026-07-17"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,74 +15,10 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 44,
-    "flagged_film_count": 7
+    "candidate_film_count": 39,
+    "flagged_film_count": 3
   },
   "items": [
-    {
-      "film_key": "backrooms",
-      "film_title": "Backrooms",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-02",
-      "max_show_date": "2026-07-02",
-      "total_visible_showtimes": 18,
-      "total_visible_theaters": 5,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-07-02"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1778167868/amc-cdn/content/general/twpdqyws03l9pqne9kgp.jpg",
-      "runtime_min": 105
-    },
-    {
-      "film_key": "death-of-robin-hood",
-      "film_title": "The Death of Robin Hood",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-02",
-      "max_show_date": "2026-07-02",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-07-02"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1779117334/amc-cdn/content/general/wkbudt2hvebpqit55m6z.jpg",
-      "runtime_min": 123
-    },
     {
       "film_key": "minions-monsters-sensory-friendly-screening",
       "film_title": "Minions & Monsters: Sensory Friendly Screening",
@@ -134,78 +70,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1781107638/amc-cdn/content/general/vuba064kyzztcyacpkry.jpg",
       "runtime_min": 120
-    },
-    {
-      "film_key": "odyssey",
-      "film_title": "The Odyssey",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-16",
-      "max_show_date": "2026-07-16",
-      "total_visible_showtimes": 49,
-      "total_visible_theaters": 7,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-factoria-8",
-          "theater_name": "AMC Factoria 8"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-oak-tree-6",
-          "theater_name": "AMC Oak Tree 6"
-        },
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-07-16"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1778176295/amc-cdn/content/general/ajfs16avt8ms2uqhyrx2.png",
-      "runtime_min": 172
-    },
-    {
-      "film_key": "star-wars-the-mandalorian-and-grogu",
-      "film_title": "Star Wars: The Mandalorian and Grogu",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-02",
-      "max_show_date": "2026-07-02",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        }
-      ],
-      "show_dates": [
-        "2026-07-02"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1777914945/amc-cdn/content/general/w7xewp7excf6dnk9qcln.jpg",
-      "runtime_min": 132
     },
     {
       "film_key": "supergirl-sensory-friendly-screening",
