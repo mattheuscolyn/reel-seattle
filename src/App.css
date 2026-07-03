@@ -68,8 +68,7 @@
   padding: var(--space-md) var(--space-lg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: var(--color-surface-overlay);
-  backdrop-filter: blur(14px);
+  background: var(--color-sticky-chrome);
   box-shadow: var(--shadow-sm);
 }
 
@@ -429,8 +428,7 @@
   padding: var(--space-md) var(--space-sm);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background: var(--color-surface-overlay);
-  backdrop-filter: blur(12px);
+  background: var(--color-sticky-chrome);
   box-shadow: var(--shadow-sm);
   overflow: visible;
 }
@@ -645,6 +643,8 @@
 .movie-card--collapsible {
   flex-direction: column;
   gap: 0;
+  isolation: isolate;
+  overflow: hidden;
 }
 
 .movie-card-header {
@@ -1146,26 +1146,27 @@
   position: sticky;
   top: var(--sticky-header-top, 150px);
   z-index: var(--z-sticky-movie);
-  background: #111;
+  background: var(--color-sticky-chrome);
   padding-top: 6px;
   padding-bottom: 6px;
-  box-shadow: 0 2px 8px #000a;
+  box-shadow: 0 1px 0 var(--color-border);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
-  border-bottom: 2px solid #222;
+  border-bottom: 1px solid var(--color-border);
 }
 
+/* Legacy: date/theater sticky tiers — unused since ExpandedFilmDetails refactor; kept for reference. */
 .sticky-date-header {
   position: sticky;
   top: var(--sticky-date-header-top, 220px);
   z-index: var(--z-sticky-date);
-  background: #111;
+  background: var(--color-sticky-chrome);
   padding-top: 2px;
   padding-bottom: 2px;
-  box-shadow: 0 2px 8px #000a;
-  border-top: 1px solid #222;
+  box-shadow: 0 1px 0 var(--color-border);
+  border-top: 1px solid var(--color-border);
 }
 
 .sticky-theater-header {
@@ -1173,10 +1174,10 @@
   top: var(--sticky-theater-header-top, 252px);
   left: 0;
   z-index: var(--z-sticky-theater);
-  background: #111;
+  background: var(--color-sticky-chrome);
   padding-top: 1px;
   padding-bottom: 1px;
-  border-top: 1px solid #222;
+  border-top: 1px solid var(--color-border);
 }
 
 /* Navigation */
@@ -2272,11 +2273,11 @@
     padding: 10px 12px;
     border-radius: var(--radius-md);
     border: 1px solid var(--color-border);
-    background: var(--color-surface);
+    background: var(--color-sticky-chrome);
     box-shadow: var(--shadow-sm);
     position: sticky;
-    top: 0;
-    z-index: 5;
+    top: var(--app-shell-offset, 0px);
+    z-index: var(--z-sticky-controls);
   }
 
   .planner-filter-controls.is-collapsed-mobile {
@@ -3117,13 +3118,13 @@
   }
 }
 
-/* Film Variant List Styles */
+/* Film variant list (parent/variant grouping) */
 .film-variant-list {
   margin-top: var(--space-lg);
   padding: var(--space-md);
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
 }
 
 .film-variant-list-header {
@@ -3132,13 +3133,13 @@
   gap: var(--space-sm);
   margin-bottom: var(--space-md);
   padding-bottom: var(--space-sm);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .film-variant-count {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -3157,14 +3158,14 @@
   flex-direction: column;
   gap: var(--space-xs);
   padding: var(--space-sm);
-  background: white;
+  background: var(--color-surface);
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--color-border);
   transition: border-color 0.2s ease;
 }
 
 .film-variant-item:hover {
-  border-color: rgba(0, 0, 0, 0.12);
+  border-color: var(--color-border-strong);
 }
 
 .film-variant-info {
@@ -3185,9 +3186,10 @@
   padding: 0.125rem 0.5rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--color-primary);
-  background: rgba(22, 119, 255, 0.08);
-  border-radius: 12px;
+  color: var(--color-planner);
+  background: rgba(144, 202, 249, 0.12);
+  border: 1px solid rgba(144, 202, 249, 0.28);
+  border-radius: var(--radius-pill);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -3200,7 +3202,7 @@
 
 .film-variant-theaters {
   font-size: 0.8125rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
 }
 
 .movie-card--has-variants .movie-title::after {
@@ -3209,7 +3211,7 @@
   width: 6px;
   height: 6px;
   margin-left: var(--space-xs);
-  background: var(--color-primary);
+  background: var(--color-planner);
   border-radius: 50%;
   vertical-align: middle;
 }

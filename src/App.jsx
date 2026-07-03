@@ -15,19 +15,29 @@ function useAppShellOffset() {
   const location = useLocation();
 
   useEffect(() => {
+    const shell = document.querySelector('.app-shell-header');
+    if (!shell) return undefined;
+
     function updateShellOffset() {
-      const shell = document.querySelector('.app-shell-header');
-      if (shell) {
-        document.documentElement.style.setProperty(
-          '--app-shell-offset',
-          `${shell.offsetHeight}px`,
-        );
-      }
+      document.documentElement.style.setProperty(
+        '--app-shell-offset',
+        `${shell.offsetHeight}px`,
+      );
     }
 
     updateShellOffset();
     window.addEventListener('resize', updateShellOffset);
-    return () => window.removeEventListener('resize', updateShellOffset);
+
+    let resizeObserver;
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(updateShellOffset);
+      resizeObserver.observe(shell);
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateShellOffset);
+      resizeObserver?.disconnect();
+    };
   }, [location.pathname]);
 }
 

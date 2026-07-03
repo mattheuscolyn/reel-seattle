@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import CollapsibleMovieCard from '../components/CollapsibleMovieCard.jsx';
 import DataStatePanel from '../components/DataStatePanel.jsx';
@@ -87,24 +87,38 @@ export default function ShowtimesPage() {
     [sortedMovies],
   );
 
+  const stickyControlsRef = useRef(null);
+
   useEffect(() => {
-    function setStickyHeaderTop() {
+    function updateStickyOffsets() {
       const shell = document.querySelector('.app-shell-header');
-      const stickyControls = document.querySelector('.sticky-controls');
-      if (shell && stickyControls) {
-        const shellHeight = shell.offsetHeight;
-        document.documentElement.style.setProperty('--app-shell-offset', `${shellHeight}px`);
-        const offset = shellHeight + stickyControls.offsetHeight - 8;
-        document.documentElement.style.setProperty('--sticky-header-top', `${offset}px`);
-        document.documentElement.style.setProperty('--sticky-date-header-top', `${offset + 60}px`);
-        document.documentElement.style.setProperty('--sticky-theater-header-top', `${offset + 92}px`);
-      }
+      const stickyControls = stickyControlsRef.current;
+      if (!shell || !stickyControls) return;
+
+      const shellHeight = shell.offsetHeight;
+      document.documentElement.style.setProperty('--app-shell-offset', `${shellHeight}px`);
+      document.documentElement.style.setProperty(
+        '--sticky-header-top',
+        `${shellHeight + stickyControls.offsetHeight}px`,
+      );
     }
 
-    setStickyHeaderTop();
-    window.addEventListener('resize', setStickyHeaderTop);
-    return () => window.removeEventListener('resize', setStickyHeaderTop);
-  }, []);
+    updateStickyOffsets();
+    window.addEventListener('resize', updateStickyOffsets);
+
+    const shell = document.querySelector('.app-shell-header');
+    let resizeObserver;
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(updateStickyOffsets);
+      if (shell) resizeObserver.observe(shell);
+      if (stickyControlsRef.current) resizeObserver.observe(stickyControlsRef.current);
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateStickyOffsets);
+      resizeObserver?.disconnect();
+    };
+  }, [filtersExpanded]);
 
   useEffect(() => {
     if (copyViewStatus === 'idle') return undefined;
@@ -133,7 +147,7 @@ export default function ShowtimesPage() {
 
       <RecentlyAddedSection limit={RECENTLY_ADDED_PREVIEW_LIMIT} showViewAllLink />
 
-      <div className="sticky-controls">
+      <div className="sticky-controls" ref={stickyControlsRef}>
         <button
           type="button"
           className="filters-toggle"
