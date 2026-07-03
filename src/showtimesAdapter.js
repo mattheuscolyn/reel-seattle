@@ -60,6 +60,10 @@ export function mapCurrentShowtimeToLegacyRow(showtime, theaterNameById) {
     theater_id: showtime.theater_id || '',
     showtime_film_key: showtime.showtime_film_key || '',
     time_24h: showtime.time || '',
+    parent_film_key: showtime.parent_film_key || showtime.showtime_film_key || '',
+    parent_display_title: showtime.parent_display_title || showtime.film_title || '',
+    screening_variant_type: showtime.screening_variant_type || 'none',
+    is_special_screening: showtime.is_special_screening || false,
   };
 }
 

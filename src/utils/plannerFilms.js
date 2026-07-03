@@ -7,6 +7,11 @@ import { isShowtimeCanceled } from './showtimeFilters.js';
  * @property {string} poster
  * @property {number} theaterCount
  * @property {string[]} theaters
+ * @property {string} [parentKey] - Parent film key for grouping
+ * @property {string} [parentTitle] - Parent display title
+ * @property {string} [variantType] - Screening variant type
+ * @property {boolean} [isSpecialScreening] - True if this is a special screening variant
+ * @property {PlannerFilmOption[]} [variants] - Child variants when this is a parent
  */
 
 /**
@@ -37,6 +42,10 @@ export function buildPlannerFilmCatalog(rows, { date = '', theaters = [] } = {})
         title,
         poster: row.posterDynamic || '',
         theaters: new Set(),
+        parentKey: String(row.parent_film_key ?? '').trim() || key,
+        parentTitle: String(row.parent_display_title ?? '').trim() || title,
+        variantType: String(row.screening_variant_type ?? 'none').trim(),
+        isSpecialScreening: Boolean(row.is_special_screening),
       };
       byKey.set(key, entry);
     }
@@ -53,6 +62,10 @@ export function buildPlannerFilmCatalog(rows, { date = '', theaters = [] } = {})
       poster: entry.poster,
       theaterCount: entry.theaters.size,
       theaters: [...entry.theaters].sort(),
+      parentKey: entry.parentKey,
+      parentTitle: entry.parentTitle,
+      variantType: entry.variantType,
+      isSpecialScreening: entry.isSpecialScreening,
     }))
     .sort((a, b) => a.title.localeCompare(b.title));
 }
@@ -269,4 +282,81 @@ export function formatUnmatchedFilmSuggestion(items) {
   if (unmatched.length === 0) return '';
   const labels = unmatched.map((item) => item.label).join(', ');
   return `These filters did not match any showtimes on the selected date: ${labels}. Try picking films from the list or adjusting date/theaters.`;
+}
+
+/**
+ * Group films by parent, adding variants as children to parent entries.
+ *
+ * @param {PlannerFilmOption[]} catalog - Flat catalog of all films
+ * @returns {PlannerFilmOption[]} - Catalog with parent entries containing variants
+ */
+export function groupFilmsByParent(catalog) {
+  if (!Array.isArray(catalog) || catalog.length === 0) return [];
+
+  const byParentKey = new Map();
+  
+  // Group films by parent key
+  for (const film of catalog) {
+    const parentKey = film.parentKey || film.key;
+    
+    if (!byParentKey.has(parentKey)) {
+      byParentKey.set(parentKey, []);
+    }
+    byParentKey.get(parentKey).push(film);
+  }
+  
+  const grouped = [];
+  
+  for (const [parentKey, films] of byParentKey.entries()) {
+    // Sort: non-variants first, then by title
+    films.sort((a, b) => {
+      if (a.isSpecialScreening !== b.isSpecialScreening) {
+        return a.isSpecialScreening ? 1 : -1;
+      }
+      return a.title.localeCompare(b.title);
+    });
+    
+    const parent = films[0];
+    const variants = films.slice(1);
+    
+    // Create parent entry
+    const parentEntry = {
+      ...parent,
+      variants: variants.length > 0 ? variants : undefined,
+      // Aggregate theater counts across all variants
+      theaterCount: films.reduce((sum, f) => sum + f.theaterCount, 0),
+      // Merge theaters from all variants
+      theaters: [...new Set(films.flatMap(f => f.theaters))].sort(),
+    };
+    
+    grouped.push(parentEntry);
+  }
+  
+  // Sort by parent title
+  return grouped.sort((a, b) => (a.parentTitle || a.title).localeCompare(b.parentTitle || b.title));
+}
+
+/**
+ * Get display label for a variant type.
+ *
+ * @param {string} variantType
+ * @returns {string}
+ */
+export function getVariantTypeLabel(variantType) {
+  const labels = {
+    sensory_friendly: 'Sensory Friendly',
+    early_access: 'Early Access',
+    opening_night: 'Opening Night',
+    fan_event: 'Fan Event',
+    double_feature: 'Double Feature',
+    anniversary: 'Anniversary',
+    format_variant: 'Special Format',
+    live_encore: 'Live/Encore',
+    anime_special_engagement: 'Anime Event',
+    awards_season_limited: 'Limited Release',
+    foreign_language_limited: 'Foreign Language',
+    special_event: 'Special Event',
+  };
+  
+  return labels[variantType] || '';
 }
