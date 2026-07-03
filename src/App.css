@@ -3028,3 +3028,116 @@
     min-width: 0;
   }
 }
+
+/* Film Variant List Styles */
+.film-variant-list {
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.film-variant-list-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.film-variant-count {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.film-variant-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.film-variant-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  background: white;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: border-color 0.2s ease;
+}
+
+.film-variant-item:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.film-variant-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.film-variant-title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.film-variant-type-badge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: rgba(22, 119, 255, 0.08);
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.film-variant-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.film-variant-theaters {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.movie-card--has-variants .movie-title::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: var(--space-xs);
+  background: var(--color-primary);
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .film-variant-list {
+    margin-top: var(--space-md);
+    padding: var(--space-sm);
+  }
+
+  .film-variant-item {
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .film-variant-title {
+    font-size: 0.875rem;
+  }
+}
+

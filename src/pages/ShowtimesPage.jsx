@@ -13,6 +13,7 @@ import { copyTextToClipboard, getShareUrlFromLocation } from '../utils/shareLink
 import {
   buildShowtimesPageResults,
   buildShowtimesFilterOptions,
+  groupMoviesByParent,
 } from '../utils/showtimesPageEngine.js';
 import {
   decodeShowtimesFilters,
@@ -71,6 +72,11 @@ export default function ShowtimesPage() {
   const { movies: sortedMovies } = useMemo(
     () => buildShowtimesPageResults(rows, { selectedTheaters, selectedDates, sort, searchText }),
     [rows, selectedTheaters, selectedDates, sort, searchText],
+  );
+
+  const groupedMovies = useMemo(
+    () => groupMoviesByParent(sortedMovies),
+    [sortedMovies],
   );
 
   useEffect(() => {
@@ -185,14 +191,14 @@ export default function ShowtimesPage() {
         />
       ) : (
         <div className="movie-list">
-          {sortedMovies.length === 0 ? (
+          {groupedMovies.length === 0 ? (
             <DataStatePanel
               variant="empty"
               title="No movies match your filters"
               message="Try clearing search text or widening your theater and date filters."
             />
           ) : null}
-          {sortedMovies.map((movie, idx) => (
+          {groupedMovies.map((movie, idx) => (
             <CollapsibleMovieCard
               key={movie.film + idx}
               movie={movie}
