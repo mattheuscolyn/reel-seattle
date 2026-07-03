@@ -20,7 +20,14 @@ When an item in **Work on now** ships, move it to a short **Completed** note at 
 
 ## Work on now
 
-_All items below shipped on main._
+| Item | Status | Note |
+|------|--------|------|
+| **Identity-E2** — Planner parent grouping in film pickers | Not started | Wire `groupFilmsByParent()` in `FilmMultiSelect` / `FilmSingleSelect`; see [product-roadmap.md](./product-roadmap.md) P-01 |
+| **Planner-R1** — Result refinement design doc | Not started | Taxonomy, action model, near-miss definition, mobile wireframes — docs only |
+
+Phase 1 Planner mobile UX and Showtimes mobile filter polish are **complete** (see Completed below).
+
+---
 
 ## Completed (work on now)
 
@@ -33,6 +40,9 @@ _All items below shipped on main._
 | Filter layout restructure (films promoted, More options for gaps/sort) | Shipped |
 | “Plan this film” deep link from Showtimes | Shipped |
 | Date labels, theater Select all/Clear, manual title fallback | Shipped |
+| Showtimes mobile collapsible filters (#6 `03673fd`) | Shipped |
+| Showtimes format/variant badge unification (#7 `c0fab4a`) | Shipped |
+| Showtimes parent/variant film grouping (#5 `3ca2bca`) | Shipped |
 
 ---
 
@@ -138,6 +148,8 @@ Reduces duplicate data entry and teaches the Planner entry point.
 
 ## Work in progress
 
+_Phase 1 Planner mobile UX — **complete** (`cfa1e7f`). Items below are shipped; kept for reference._
+
 ### UX-1 — Compact time picker (Phase 1, shipped)
 
 **Status:** Shipped (`b55297d`)
@@ -162,7 +174,7 @@ Reduces duplicate data entry and teaches the Planner entry point.
 
 ### UX-5 — Compact result cards & timeline density (Phase 1, shipped)
 
-**Status:** Implemented — pending commit/QA
+**Status:** Shipped (`cfa1e7f`)
 
 **Scope:** Mobile-only layout density for `PlannerResultCard` / `PlannerTimeline` — no engine or parsing changes.
 
@@ -177,7 +189,27 @@ Reduces duplicate data entry and teaches the Planner entry point.
 
 **Manual QA:** iPhone 375px — 2–3 film plan visible with less scroll; `(+1)` labels from UX-4 still readable.
 
-**Phase 1 complete** after UX-5 ships.
+**Phase 1 complete** (`cfa1e7f`).
+
+**Next:** Identity-E2 (Planner picker parent grouping) and **Planner-R1** design doc — see [product-roadmap.md](./product-roadmap.md) § Current focus.
+
+### Showtimes mobile filters (#6, shipped)
+
+**Status:** Shipped (`03673fd`)
+
+**Scope:** Collapsible filter bar on mobile Showtimes page; reduces vertical space before scrolling to film cards.
+
+### Showtimes badge unification (#7, shipped)
+
+**Status:** Shipped (`c0fab4a`)
+
+**Scope:** Unified premium format and screening variant badges on Showtimes film rows.
+
+### Showtimes parent/variant grouping (#5, shipped)
+
+**Status:** Shipped (`3ca2bca`, fix `5405d59`)
+
+**Scope:** Parent film cards with variant showtime rows via `groupMoviesByParent()` and `FilmVariantList`. Planner pickers not yet grouped — see Identity-E2.
 
 ### Mock plan preview (filter constraint visualization)
 
@@ -213,6 +245,7 @@ Defer until **Work in progress** items ship. These are approved directions, not 
 
 | Idea | Notes |
 |------|--------|
+| **Planner result refinement (R1–R4)** | Pin/swap/replace films, widen gap, avoid format, near-miss explanations — **design-first**; see P-04 in product roadmap |
 | **Sort in results header** | Sort affects output, not search inputs. Move sort next to results (like Showtimes `SortDropdown`) instead of Advanced. |
 | **Film count segmented control** | `2 \| 3 \| 4 \| Max` pills instead of `<select>` — faster scanning. |
 | **Gap presets** | Chips for min gap (0, 15, 30, 45); “Use default (59 min)” button for 2-film max gap. |
@@ -250,6 +283,7 @@ Defer until **Work in progress** items ship. These are approved directions, not 
 
 - Shared film search component between Showtimes search and Planner film picker  
 - Consistent poster + title presentation across pages  
+- **Identity-E2:** parent-grouped film pickers in Planner (Showtimes already grouped)
 
 ---
 
@@ -260,6 +294,8 @@ Defer until **Work in progress** items ship. These are approved directions, not 
 | Fix dropdown z-index on Showtimes filter bar | PR #1 |
 | Fix planner time/film text inputs clearing while typing | PR #1 |
 | Film pickers, time picker, validation, layout, Showtimes plan link | Main |
+| Phase 1 Planner mobile UX (UX-1–UX-5) | `b55297d` → `cfa1e7f` |
+| Showtimes mobile filters, badges, parent grouping | #5–#7 |
 
 ---
 
