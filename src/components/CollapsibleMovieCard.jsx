@@ -4,6 +4,7 @@ import { buildExpandedFilmSummary, buildFilmCardMetadata } from '../utils/showti
 import { inferPlannerContextFromMovie } from '../utils/plannerFilms.js';
 import { buildPlanWithFilmPath } from '../utils/plannerShare.js';
 import ExpandedFilmDetails from './ExpandedFilmDetails.jsx';
+import FilmVariantList from './FilmVariantList.jsx';
 import PosterImage from './PosterImage.jsx';
 
 export default function CollapsibleMovieCard({ movie, selectedDates, selectedTheaters }) {
@@ -28,7 +29,7 @@ export default function CollapsibleMovieCard({ movie, selectedDates, selectedThe
   }, [movie, filterOptions]);
 
   return (
-    <div className="movie-card movie-card--collapsible">
+    <div className={`movie-card movie-card--collapsible${movie.hasVariants ? ' movie-card--has-variants' : ''}`}>
       <div className="sticky-movie-header movie-card-header">
         <div className="movie-card-summary">
           <PosterImage src={movie.poster} alt={movie.film} className="poster" />
@@ -72,6 +73,9 @@ export default function CollapsibleMovieCard({ movie, selectedDates, selectedThe
       {open ? (
         <div id={detailsId} className="movie-showtimes-expanded">
           <ExpandedFilmDetails summary={expandedSummary} />
+          {movie.variants && movie.variants.length > 0 ? (
+            <FilmVariantList variants={movie.variants} />
+          ) : null}
         </div>
       ) : null}
     </div>

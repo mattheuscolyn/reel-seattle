@@ -69,6 +69,10 @@ export function groupShowtimesForDisplay(filteredRows) {
           runtime: row.Runtime,
           poster: row.posterDynamic,
           showtimes: {},
+          parentKey: String(row.parent_film_key ?? '').trim() || String(row.showtime_film_key ?? '').trim() || row.Film,
+          parentTitle: String(row.parent_display_title ?? '').trim() || row.Film,
+          variantType: String(row.screening_variant_type ?? 'none').trim(),
+          isSpecialScreening: Boolean(row.is_special_screening),
         };
       }
       if (!acc[key].showtimes[row.Date]) acc[key].showtimes[row.Date] = {};
@@ -134,4 +138,50 @@ export function buildShowtimesPageResults(
   const grouped = groupShowtimesForDisplay(filtered);
   const movies = sortGroupedMovies(grouped, sort, selectedDates, selectedTheaters);
   return { movies, filteredRows: filtered };
+}
+
+/**
+ * Group movies by parent, adding variants as a property on parent entries.
+ * Returns movies with parent entries containing a `variants` array.
+ */
+export function groupMoviesByParent(movies) {
+  if (!Array.isArray(movies) || movies.length === 0) return movies;
+
+  const byParentKey = new Map();
+
+  // Group movies by parent key
+  for (const movie of movies) {
+    const parentKey = movie.parentKey || movie.filmKey || movie.film;
+
+    if (!byParentKey.has(parentKey)) {
+      byParentKey.set(parentKey, []);
+    }
+    byParentKey.get(parentKey).push(movie);
+  }
+
+  const grouped = [];
+
+  for (const [parentKey, films] of byParentKey.entries()) {
+    // Sort: non-variants first, then by title
+    films.sort((a, b) => {
+      if (a.isSpecialScreening !== b.isSpecialScreening) {
+        return a.isSpecialScreening ? 1 : -1;
+      }
+      return a.film.localeCompare(b.film);
+    });
+
+    const parent = films[0];
+    const variants = films.slice(1);
+
+    // Create parent entry with variants
+    const parentEntry = {
+      ...parent,
+      variants: variants.length > 0 ? variants : undefined,
+      hasVariants: variants.length > 0,
+    };
+
+    grouped.push(parentEntry);
+  }
+
+  return grouped;
 }
