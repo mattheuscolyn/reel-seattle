@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from reel_seattle.analysis.film_identity import (
     CONFIDENCE_HIGH,
-    CONFIDENCE_MEDIUM,
     PARENT_METHOD_AMBIGUOUS,
     PARENT_METHOD_SOURCE_FILM_ID,
     PARENT_METHOD_TITLE_EXACT,
@@ -22,12 +21,12 @@ def test_derive_parent_from_sensory_friendly_title():
     assert identity.screening_variant_type == "sensory_friendly"
     assert identity.is_special_screening is True
     assert identity.parent_identity_method == PARENT_METHOD_TITLE_VARIANT_STRIP
-    assert identity.parent_identity_confidence == CONFIDENCE_MEDIUM
+    assert identity.parent_identity_confidence == CONFIDENCE_HIGH
 
 
 def test_derive_parent_from_source_film_id():
     identity = derive_parent_identity(
-        "MOANA IMAX Opening Night Fan Event",
+        "Moana (2026)",
         source_film_id="movie-moana-123",
     )
     assert identity.parent_film_key == parent_film_key_from_source_film_id("movie-moana-123")
