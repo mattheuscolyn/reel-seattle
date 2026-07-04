@@ -36,7 +36,7 @@ Work is tagged to a track in prompts, commits, and handoffs.
 | **Developer Data Cockpit** | Internal views, audits, analysis scripts, QA tooling | Not user-facing product |
 | **Next Public Site** | Future consumer site | Design-first; no silent coupling to legacy UI refactors |
 
-**Master references:** [product-roadmap.md](./product-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [SCRAPING_README.md](../SCRAPING_README.md)
+**Master references:** [product-roadmap.md](./product-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [data-artifact-inventory.md](./data-artifact-inventory.md) · [SCRAPING_README.md](../SCRAPING_README.md)
 
 ---
 
@@ -267,6 +267,8 @@ The handoff must include:
 | **Build artifacts** | `dist/` | Usually **no** (local build) |
 | **Analysis cache** | `data/analysis/` | **No** (gitignored) |
 | **Daily logs** | `data/daily_logs/` | Per pipeline workflow only |
+
+Full file-by-file inventory (canonical vs generated vs deployed): [data-artifact-inventory.md](./data-artifact-inventory.md).
 
 **If push rejected:** Stop; report remote-ahead commits; do not auto-rebase without user approval.
 

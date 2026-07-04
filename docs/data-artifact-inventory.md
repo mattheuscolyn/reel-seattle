@@ -1,0 +1,207 @@
+# Reel Seattle — Data Artifact Inventory
+
+**Status:** Living document  
+**Track:** Data Foundation  
+**Purpose:** Clarify which files are canonical, generated, legacy, deployed, or obsolete so daily pipeline work and feature development do not drift.
+
+**Related:** [development-operating-model.md](./development-operating-model.md) · [SCRAPING_README.md](../SCRAPING_README.md) · [product-roadmap.md](./product-roadmap.md)
+
+---
+
+## 1. Canonical authored data
+
+These files define truth in the repo. Edit intentionally; validate before commit.
+
+| Path | Role | Notes |
+|------|------|-------|
+| `data/theaters.json` | Theater registry | Authored canonical copy; synced byte-for-byte to `public/data/theaters.json` by `daily_processor.py` / `reel_seattle/registry_sync.py` |
+| `data/history/showtimes_history.csv` | Showtime archive | Append-only history; restated today+future per source on each daily run; never delete past rows |
+| `schema/*/v1.0.0.json` | JSON Schema contracts | Define public JSON artifact shapes; change only with intentional contract updates |
+
+**Schema files (v1.0.0):**
+
+- `schema/showtimes_current/v1.0.0.json`
+- `schema/pipeline_report/v1.0.0.json`
+- `schema/newly_added_current/v1.0.0.json`
+- `schema/leaving_soon_current/v1.0.0.json`
+- `schema/theaters/v1.0.0.json`
+- `schema/showtime/v1.0.0.json` — stub-level reference schema
+
+**History CSV columns** are enforced in code (`HISTORY_FIELDNAMES` in `daily_processor.py`), not by a separate schema file.
+
+---
+
+## 2. Generated data
+
+Produced by the pipeline or analysis scripts. Do not hand-edit except emergency repair.
+
+| Path | Producer | Committed? |
+|------|----------|------------|
+| `public/data/showtimes_current.json` | `reel_seattle/emit/current.py` | Yes — daily |
+| `public/data/pipeline_report.json` | `reel_seattle/pipeline_report.py` | Yes — daily |
+| `public/data/newly_added_current.json` | `reel_seattle/emit/newly_added.py` | Yes — daily |
+| `public/data/leaving_soon_current.json` | `reel_seattle/emit/leaving_soon.py` | Yes — daily (review-only; not shipped to Pages) |
+| `public/data/theaters.json` | `reel_seattle/registry_sync.py` | Yes — copy of canonical registry |
+| `public/data/movies_announcements.csv` | `daily_processor.py` | Yes — daily |
+| `public/data/newly_announced.csv` | `daily_processor.py` | Yes — daily |
+| `data/analysis/*` | Offline analysis scripts | No — gitignored |
+
+---
+
+## 3. Public data artifacts (`public/data/`)
+
+All files under `public/data/` are pipeline outputs or registry copies consumed locally and/or committed for the daily workflow.
+
+| File | Public site use | Pages (`dist/`) |
+|------|-----------------|-----------------|
+| `showtimes_current.json` | Showtimes + Planner (14-day window) | **Shipped** |
+| `pipeline_report.json` | Showtimes data-status panel | **Shipped** |
+| `newly_added_current.json` | Recently Added section | **Shipped** |
+| `theaters.json` | Theater metadata (via showtimes artifact) | **Shipped** |
+| `leaving_soon_current.json` | Review-only model output | **Not shipped** |
+| `movies_announcements.csv` | Pipeline input/output tracking | **Not shipped** |
+| `newly_announced.csv` | Pipeline intermediate | **Not shipped** |
+
+---
+
+## 4. Deployed Pages artifacts (`dist/`)
+
+`dist/` is **gitignored** and built by `npm run build`. Vite copies `public/` selectively (`vite.config.js` `selectivePublicCopy`).
+
+**Required in `dist/data/`** (enforced by `scripts/check_dist_artifacts.mjs`):
+
+- `dist/data/showtimes_current.json`
+- `dist/data/pipeline_report.json`
+- `dist/data/newly_added_current.json`
+- `dist/data/theaters.json`
+
+**Explicitly forbidden in `dist/`:**
+
+- `dist/data/showtimes_history.csv`
+- `dist/data/movies_announcements.csv`
+- `dist/data/newly_announced.csv`
+- `dist/data/leaving_soon_current.json`
+- `dist/data/daily_logs/`
+
+Also required: `dist/404.html`, `dist/marathon/index.html`.
+
+---
+
+## 5. Legacy compatibility files
+
+Still written and committed by the daily scrape; JSON scrape logs are preferred when present.
+
+| Path | Role |
+|------|------|
+| `public/showtimes.csv` | AMC scrape CSV fallback |
+| `public/indieshowtimes.csv` | SIFF + Beacon indie scrape CSV fallback |
+| `public/marathon/` | Legacy Marathon redirect shell (still checked in dist) |
+
+Ingest order: `data/daily_logs/*.json` preferred → CSV fallback in `daily_processor.py`.
+
+---
+
+## 6. Daily scrape outputs
+
+**Orchestration:** `run_daily_scraping.py` → `webscrapetheaters.py` + `amc_logger.py` → `daily_processor.py`
+
+**Structured scrape logs (preferred ingest):**
+
+```
+data/daily_logs/YYYY-MM-DD_amc.json
+data/daily_logs/YYYY-MM-DD_siff.json
+data/daily_logs/YYYY-MM-DD_beacon.json
+```
+
+**Also updated each daily run:**
+
+- `data/history/showtimes_history.csv`
+- All `public/data/*` artifacts listed above
+- `public/showtimes.csv`, `public/indieshowtimes.csv`
+- `data/theaters.json` (if registry changed)
+- `public/marathon/` (when applicable)
+
+**GitHub Action:** `.github/workflows/daily_scraping.yml` (cron 06:00 UTC + `workflow_dispatch`) auto-commits as `Daily showtime data update YYYY-MM-DD`.
+
+---
+
+## 7. Obsolete paths — do not reintroduce
+
+| Path | Why obsolete |
+|------|--------------|
+| `public/data/showtimes_history.csv` | Canonical history is `data/history/showtimes_history.csv` (gitignored here) |
+| `public/data/daily_logs/` | Scrape logs belong in `data/daily_logs/` |
+
+Both paths are gitignored and fail validation if present.
+
+---
+
+## 8. Do not manually edit
+
+Unless doing scoped emergency repair with owner approval:
+
+- `public/data/*.json` — regenerate via `daily_processor.py`
+- `public/data/*.csv` (announcements) — regenerate via processor
+- `data/history/showtimes_history.csv` — only via processor restate logic
+- `public/showtimes.csv`, `public/indieshowtimes.csv` — only via scrapers/processor
+- `dist/` — always rebuild with `npm run build`; never commit
+
+**Safe to edit intentionally:**
+
+- `data/theaters.json` (then run processor to sync public copy)
+- `schema/*` (with contract tests and emit validation updates)
+- Pipeline/emit code
+
+---
+
+## 9. Expected daily pipeline movement
+
+These files **may change on every scheduled scrape** without a human commit:
+
+- `data/history/showtimes_history.csv`
+- `data/daily_logs/*.json`
+- All committed `public/data/*` artifacts
+- `public/showtimes.csv`, `public/indieshowtimes.csv`
+
+Treat `origin/main` advancing with `Daily showtime data update …` commits as normal. Pull or rebase before pushing local work.
+
+---
+
+## 10. Validation gates
+
+| Gate | When | What it checks |
+|------|------|----------------|
+| `scripts/validate_public_data_artifacts.py` | Daily scrape (pre-commit), CI Python job | Five `public/data/*.json` files exist; JSON Schema via `reel_seattle/validate.py`; `data/theaters.json` byte-matches `public/data/theaters.json`; obsolete paths absent |
+| `reel_seattle/validate.py` | On Python emit write | Schema validation at artifact generation |
+| `scripts/check_dist_artifacts.mjs` | CI frontend job (`npm run build`) | Required/forbidden `dist/` paths; registry sync; JSON parse |
+| `pytest` (`tests/validate/`, `tests/emit/`, golden harness) | CI | Schema and emit contract tests |
+| `.github/workflows/ci.yml` | Push/PR to `main` | pytest + validate script + frontend build + dist check |
+| `.github/workflows/daily_scraping.yml` | Daily cron | Scrape → processor → validate script → auto-commit |
+| `.github/workflows/deploy.yml` | Push + schedule | Build + deploy `dist/` to GitHub Pages |
+
+---
+
+## 11. Recommended Git handling
+
+1. **Do not use `git add .`** — stage intentional paths only.
+2. **Separate commit types when possible:** code/docs commits vs daily generated-data commits.
+3. **Expect remote movement:** if `origin/main` is ahead after a daily scrape, `git pull --rebase origin main` before pushing local work.
+4. **Do not commit `dist/`** — it is gitignored; Pages deploy builds fresh from `public/`.
+5. **Do not commit `data/analysis/`** — gitignored modeling outputs.
+6. **Before pushing data-sensitive work:** run `python scripts/validate_public_data_artifacts.py` locally if `public/data/` changed.
+7. **Restore accidental dist dirt:** `git restore dist/` or rebuild; do not commit local build output.
+
+---
+
+## Quick reference — data flow
+
+```
+Scrapers (AMC API, SIFF, Beacon)
+  → data/daily_logs/*.json  (+ public/*.csv fallbacks)
+  → daily_processor.py
+  → data/history/showtimes_history.csv
+  → reel_seattle/emit/* + pipeline_report + registry_sync
+  → public/data/*.json (+ announcement CSVs)
+  → npm run build (selective copy)
+  → dist/data/ (lean subset → GitHub Pages)
+```
