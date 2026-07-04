@@ -38,25 +38,8 @@ jobs:
       - name: Run daily scraping
         run: python run_daily_scraping.py
 
-      - name: Validate emitted JSON artifacts
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          artifacts = [
-              "public/data/showtimes_current.json",
-              "public/data/pipeline_report.json",
-              "public/data/newly_added_current.json",
-              "public/data/leaving_soon_current.json",
-          ]
-          for rel in artifacts:
-              path = Path(rel)
-              if not path.is_file():
-                  raise SystemExit(f"missing artifact: {rel}")
-              json.loads(path.read_text(encoding="utf-8"))
-          print("JSON artifacts OK")
-          PY
+      - name: Validate public data artifacts
+        run: python scripts/validate_public_data_artifacts.py
 
       - name: Commit and push changes
         run: |

@@ -35,6 +35,9 @@ jobs:
       - name: Run tests
         run: pytest
 
+      - name: Validate public data artifacts
+        run: python scripts/validate_public_data_artifacts.py
+
   frontend:
     name: Frontend build and deploy artifacts
     runs-on: ubuntu-latest
