@@ -133,7 +133,7 @@ export default function ShowtimesPage() {
   };
 
   return (
-    <div className="page-content">
+    <div className="page-content page-content--showtimes">
       <header className="page-hero">
         <h1 className="main-header page-title">Showtimes</h1>
         <p className="page-subtitle">
@@ -141,11 +141,14 @@ export default function ShowtimesPage() {
         </p>
       </header>
 
-      <CurrentWindowSummary />
+      <div className="showtimes-page-meta">
+        <CurrentWindowSummary />
+        <PipelineStatus />
+      </div>
 
-      <PipelineStatus />
-
-      <RecentlyAddedSection limit={RECENTLY_ADDED_PREVIEW_LIMIT} showViewAllLink />
+      <div className="showtimes-recently-added-slot">
+        <RecentlyAddedSection limit={RECENTLY_ADDED_PREVIEW_LIMIT} showViewAllLink />
+      </div>
 
       <div className="sticky-controls" ref={stickyControlsRef}>
         <button

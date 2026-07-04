@@ -383,7 +383,7 @@ export default function PlannerPage() {
 
   if (loading) {
     return (
-      <div className="page-content">
+      <div className="page-content page-content--planner">
         <header className="page-hero">
           <h1 className="main-header page-title">Movie Planner</h1>
         </header>
@@ -398,7 +398,7 @@ export default function PlannerPage() {
 
   if (error) {
     return (
-      <div className="page-content">
+      <div className="page-content page-content--planner">
         <header className="page-hero">
           <h1 className="main-header page-title">Movie Planner</h1>
         </header>
@@ -409,7 +409,7 @@ export default function PlannerPage() {
 
   if (dates.length === 0) {
     return (
-      <div className="page-content">
+      <div className="page-content page-content--planner">
         <header className="page-hero">
           <h1 className="main-header page-title">Movie Planner</h1>
         </header>
@@ -423,7 +423,7 @@ export default function PlannerPage() {
   }
 
   return (
-    <div className="page-content">
+    <div className="page-content page-content--planner">
       <header className="page-hero">
         <h1 className="main-header page-title">Movie Planner</h1>
         <p className="planner-intro page-subtitle">
