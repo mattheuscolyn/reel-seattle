@@ -42,7 +42,7 @@ jobs:
         run: python scripts/validate_public_data_artifacts.py
 
       - name: Validate history CSV
-        run: python scripts/validate_history_csv.py
+        run: python scripts/validate_history_csv.py --strict
 
       - name: Commit and push changes
         run: |
