@@ -12,7 +12,14 @@ import pytest
 
 from reel_seattle.emit.current import build_showtimes_current
 from reel_seattle.normalize import build_theater_index, format_date_csv
-from reel_seattle.pipeline_report import build_pipeline_report, write_pipeline_report
+from reel_seattle.adapters.base import FetchResult
+from reel_seattle.adapters.scrape_log import write_scrape_daily_log
+from reel_seattle.pipeline_report import (
+    SourceScrapeDiagnostics,
+    build_pipeline_report,
+    load_daily_scrape_diagnostics,
+    write_pipeline_report,
+)
 from reel_seattle.source_freshness import (
     build_sources_metadata,
     empty_history_evidence,
@@ -188,3 +195,130 @@ def test_scan_history_source_evidence_single_pass(theaters_registry):
     metadata = build_sources_metadata([], evidence)
     assert metadata["amc"]["status"] == "stale"
     assert metadata["beacon"]["status"] == "stale"
+
+
+def test_build_pipeline_report_without_diagnostics_uses_empty_arrays(theaters_registry):
+    artifact = _build_artifact([_history_row(REFERENCE)], theaters_registry)
+    report = build_pipeline_report(artifact)
+
+    for source in ("amc", "siff", "beacon"):
+        assert report["sources"][source]["warnings"] == []
+        assert report["sources"][source]["errors"] == []
+    validate_pipeline_report(report)
+
+
+def test_build_pipeline_report_forwards_scrape_diagnostics(theaters_registry):
+    artifact = _build_artifact([_history_row(REFERENCE)], theaters_registry)
+    diagnostics = {
+        "amc": SourceScrapeDiagnostics(("adapter warning",), ("adapter error",)),
+        "siff": SourceScrapeDiagnostics(("siff warning",), ()),
+        "beacon": SourceScrapeDiagnostics((), ()),
+    }
+
+    report = build_pipeline_report(artifact, scrape_diagnostics=diagnostics)
+
+    assert report["sources"]["amc"]["warnings"] == ["adapter warning"]
+    assert report["sources"]["amc"]["errors"] == ["adapter error"]
+    assert report["sources"]["siff"]["warnings"] == ["siff warning"]
+    assert report["sources"]["beacon"]["warnings"] == []
+    assert report["sources"]["amc"]["status"] == "success"
+    validate_pipeline_report(report)
+
+
+def test_load_daily_scrape_diagnostics_forwards_log_messages(
+    tmp_path, amc_raw_fixture
+):
+    run_date = "2026-06-26"
+    write_scrape_daily_log(
+        tmp_path / f"{run_date}_amc.json",
+        "amc",
+        FetchResult(
+            records=[amc_raw_fixture],
+            stats={"records_fetched": 1},
+            warnings=["fetch warning"],
+            errors=["fetch error"],
+        ),
+    )
+    write_scrape_daily_log(
+        tmp_path / f"{run_date}_siff.json",
+        "siff",
+        FetchResult(records=[], warnings=["siff warning"], errors=[]),
+    )
+    write_scrape_daily_log(
+        tmp_path / f"{run_date}_beacon.json",
+        "beacon",
+        FetchResult(records=[], warnings=[], errors=[]),
+    )
+
+    diagnostics = load_daily_scrape_diagnostics(run_date, logs_dir=tmp_path)
+
+    assert diagnostics["amc"].warnings == ("fetch warning",)
+    assert diagnostics["amc"].errors == ("fetch error",)
+    assert diagnostics["siff"].warnings == ("siff warning",)
+    assert diagnostics["beacon"].warnings == ()
+    assert diagnostics["beacon"].errors == ()
+
+
+@pytest.fixture
+def amc_raw_fixture():
+    from reel_seattle.adapters.amc import api_showtime_to_raw
+
+    fixture_path = Path(__file__).resolve().parents[1] / "fixtures" / "adapters" / "amc_api_showtime.json"
+    api_showtime = json.loads(fixture_path.read_text(encoding="utf-8"))
+    return api_showtime_to_raw(api_showtime, "AMC Pacific Place 11")
+
+
+def test_load_daily_scrape_diagnostics_warns_on_missing_log(tmp_path):
+    diagnostics = load_daily_scrape_diagnostics("2026-06-26", logs_dir=tmp_path)
+
+    assert len(diagnostics) == 3
+    for source in ("amc", "siff", "beacon"):
+        assert len(diagnostics[source].warnings) == 1
+        assert "No daily scrape log found" in diagnostics[source].warnings[0]
+        assert source in diagnostics[source].warnings[0]
+        assert diagnostics[source].errors == ()
+
+
+def test_load_daily_scrape_diagnostics_derives_amc_allowlist_warnings(tmp_path, amc_raw_fixture):
+    run_date = "2026-06-26"
+    write_scrape_daily_log(
+        tmp_path / f"{run_date}_amc.json",
+        "amc",
+        FetchResult(
+            records=[amc_raw_fixture],
+            stats={
+                "records_fetched": 1,
+                "allowlist_unknown": 2,
+                "allowlist_disabled": 1,
+            },
+        ),
+    )
+
+    diagnostics = load_daily_scrape_diagnostics(run_date, logs_dir=tmp_path)
+
+    assert "AMC allowlist: 2 unknown theaters skipped" in diagnostics["amc"].warnings
+    assert "AMC allowlist: 1 disabled registry matches skipped" in diagnostics["amc"].warnings
+
+
+def test_write_pipeline_report_with_run_date_loads_logs(
+    tmp_path, theaters_registry, amc_raw_fixture
+):
+    artifact = _build_artifact([_history_row(REFERENCE)], theaters_registry)
+    run_date = "2026-06-26"
+    logs_dir = tmp_path / "daily_logs"
+    write_scrape_daily_log(
+        logs_dir / f"{run_date}_amc.json",
+        "amc",
+        FetchResult(records=[amc_raw_fixture], warnings=["loaded warning"], errors=[]),
+    )
+
+    report = write_pipeline_report(
+        artifact,
+        output_path=tmp_path / "pipeline_report.json",
+        run_date=run_date,
+        logs_dir=logs_dir,
+    )
+
+    assert report["sources"]["amc"]["warnings"] == ["loaded warning"]
+    assert "No daily scrape log found" in report["sources"]["siff"]["warnings"][0]
+    validate_pipeline_report(report)

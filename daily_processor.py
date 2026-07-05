@@ -509,7 +509,7 @@ def main():
     current_artifact = write_showtimes_current(history_rows=history_data)
 
     print("Emitting pipeline_report.json...")
-    write_pipeline_report(current_artifact)
+    write_pipeline_report(current_artifact, run_date=today)
 
     print("Syncing public theater registry...")
     from reel_seattle.registry_sync import sync_public_theaters_registry
