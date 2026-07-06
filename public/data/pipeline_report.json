@@ -1,42 +1,45 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-05T01:45:25-07:00",
+  "generated_at": "2026-07-06T03:02:04-07:00",
   "status": "success",
   "window": {
-    "start_date": "2026-07-05",
-    "end_date": "2026-07-19"
+    "start_date": "2026-07-06",
+    "end_date": "2026-07-20"
   },
   "sources": {
     "amc": {
       "status": "success",
-      "showtime_count": 3718,
-      "film_count": 42,
+      "showtime_count": 3395,
+      "film_count": 43,
       "theater_count": 7,
-      "last_successful_run": "2026-07-05",
-      "warnings": [],
+      "last_successful_run": "2026-07-06",
+      "warnings": [
+        "AMC allowlist: 7 unknown theaters skipped",
+        "AMC allowlist: 2 disabled registry matches skipped"
+      ],
       "errors": []
     },
     "siff": {
       "status": "success",
-      "showtime_count": 138,
+      "showtime_count": 125,
       "film_count": 17,
       "theater_count": 3,
-      "last_successful_run": "2026-07-05",
+      "last_successful_run": "2026-07-06",
       "warnings": [],
       "errors": []
     },
     "beacon": {
       "status": "success",
       "showtime_count": 31,
-      "film_count": 19,
+      "film_count": 18,
       "theater_count": 1,
-      "last_successful_run": "2026-07-05",
+      "last_successful_run": "2026-07-06",
       "warnings": [],
       "errors": []
     }
   },
   "totals": {
-    "showtime_count": 3887,
+    "showtime_count": 3551,
     "film_count": 74,
     "theater_count": 11
   },

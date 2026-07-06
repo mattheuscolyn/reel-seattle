@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-05T01:45:30-07:00",
+  "generated_at": "2026-07-06T03:02:10-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-05",
-    "end_date": "2026-07-19"
+    "start_date": "2026-07-06",
+    "end_date": "2026-07-20"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,10 +15,42 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 42,
-    "flagged_film_count": 3
+    "candidate_film_count": 43,
+    "flagged_film_count": 6
   },
   "items": [
+    {
+      "film_key": "citizen-kane-85th-anniversary",
+      "film_title": "Citizen Kane 85th Anniversary",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-08",
+      "max_show_date": "2026-07-08",
+      "total_visible_showtimes": 3,
+      "total_visible_theaters": 3,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-08"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1771352286/amc-cdn/content/general/f6bhenq1ga4hzhomrld9.jpg",
+      "runtime_min": 124
+    },
     {
       "film_key": "minions-monsters-sensory-friendly-screening",
       "film_title": "Minions & Monsters: Sensory Friendly Screening",
@@ -70,6 +102,70 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1781107638/amc-cdn/content/general/vuba064kyzztcyacpkry.jpg",
       "runtime_min": 120
+    },
+    {
+      "film_key": "mob-psycho-100-celebrates-its-10th-anniversary",
+      "film_title": "Mob Psycho 100 Celebrates Its 10th Anniversary",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-20",
+      "max_show_date": "2026-07-20",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-20"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780931799/amc-cdn/content/general/ppo0uunrlwpd8e16vgpa.png",
+      "runtime_min": 122
+    },
+    {
+      "film_key": "sonic-the-hedgehog-3",
+      "film_title": "Sonic The Hedgehog 3",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-20",
+      "max_show_date": "2026-07-20",
+      "total_visible_showtimes": 8,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-07-20"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782139447/amc-cdn/content/general/vinhlkfl0oqoaoamtcwi.jpg",
+      "runtime_min": 110
     },
     {
       "film_key": "supergirl-sensory-friendly-screening",
