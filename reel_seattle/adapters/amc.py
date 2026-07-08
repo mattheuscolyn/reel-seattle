@@ -287,6 +287,8 @@ def fetch_amc_showtimes(
         "allowlist_included": allowlist_stats.included,
         "allowlist_disabled": allowlist_stats.disabled,
         "allowlist_unknown": allowlist_stats.unknown,
+        "allowlist_disabled_theaters": allowlist_stats.disabled_theaters,
+        "allowlist_unknown_theaters": allowlist_stats.unknown_theaters,
         "days_scraped": days_scraped,
         "theaters_scraped": len(allowed_theaters),
         "records_fetched": len(records),

@@ -36,15 +36,41 @@ def _coerce_string_list(value: object) -> list[str]:
     return [str(item) for item in value if str(item).strip()]
 
 
+def _theater_labels(theaters: object) -> list[str]:
+    """Extract human-readable labels (name, else id) from skipped-theater dicts."""
+    if not isinstance(theaters, list):
+        return []
+    labels: list[str] = []
+    for theater in theaters:
+        if not isinstance(theater, dict):
+            continue
+        label = str(theater.get("name") or "").strip() or str(theater.get("id") or "").strip()
+        if label:
+            labels.append(label)
+    return labels
+
+
 def _derived_amc_warnings(stats: Mapping[str, object]) -> list[str]:
-    """Build AMC allowlist warnings from scrape-log stats without scraper changes."""
+    """Build AMC allowlist warnings from scrape-log stats without scraper changes.
+
+    Names are appended when structured ``allowlist_*_theaters`` lists are present;
+    older logs without them fall back to count-only messages.
+    """
     warnings: list[str] = []
     unknown = stats.get("allowlist_unknown")
     if isinstance(unknown, int) and unknown > 0:
-        warnings.append(f"AMC allowlist: {unknown} unknown theaters skipped")
+        labels = _theater_labels(stats.get("allowlist_unknown_theaters"))
+        message = f"AMC allowlist: {unknown} unknown theaters skipped"
+        if labels:
+            message += ": " + ", ".join(labels)
+        warnings.append(message)
     disabled = stats.get("allowlist_disabled")
     if isinstance(disabled, int) and disabled > 0:
-        warnings.append(f"AMC allowlist: {disabled} disabled registry matches skipped")
+        labels = _theater_labels(stats.get("allowlist_disabled_theaters"))
+        message = f"AMC allowlist: {disabled} disabled registry matches skipped"
+        if labels:
+            message += ": " + ", ".join(labels)
+        warnings.append(message)
     return warnings
 
 

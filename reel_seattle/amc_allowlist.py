@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -27,6 +27,8 @@ class AmcAllowlistStats:
     included: int = 0
     disabled: int = 0
     unknown: int = 0
+    unknown_theaters: list[dict[str, str]] = field(default_factory=list)
+    disabled_theaters: list[dict[str, str]] = field(default_factory=list)
 
     def as_message(self) -> str:
         return (
@@ -34,6 +36,18 @@ class AmcAllowlistStats:
             f"{self.disabled} disabled registry matches skipped, "
             f"{self.unknown} unknown theaters skipped"
         )
+
+
+def amc_api_theater_identity(api_theater: Mapping[str, Any]) -> dict[str, str]:
+    """Extract a name/id identity for an AMC API theater for diagnostics."""
+    identity: dict[str, str] = {}
+    name = str(api_theater.get("longName", "")).strip()
+    if name:
+        identity["name"] = name
+    api_id = str(api_theater.get("id", "")).strip()
+    if api_id:
+        identity["id"] = api_id
+    return identity
 
 
 def load_theater_registry(registry_path: Path | str = DEFAULT_REGISTRY_PATH) -> dict[str, Any]:
@@ -125,7 +139,12 @@ def filter_enabled_amc_theaters(
             stats.included += 1
         elif status == "disabled":
             stats.disabled += 1
+            identity = amc_api_theater_identity(api_theater)
+            if entry is not None and entry.get("id"):
+                identity["registry_id"] = str(entry["id"])
+            stats.disabled_theaters.append(identity)
         else:
             stats.unknown += 1
+            stats.unknown_theaters.append(amc_api_theater_identity(api_theater))
 
     return allowed, stats

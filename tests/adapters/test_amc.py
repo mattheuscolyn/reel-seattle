@@ -205,6 +205,12 @@ def test_fetch_uses_injected_api_functions_without_network(registry):
     assert result.stats["allowlist_included"] == 1
     assert result.stats["allowlist_disabled"] == 1
     assert result.stats["allowlist_unknown"] == 1
+    assert result.stats["allowlist_disabled_theaters"] == [
+        {"name": "AMC Kitsap 8", "id": "700", "registry_id": "amc-kitsap-8"}
+    ]
+    assert result.stats["allowlist_unknown_theaters"] == [
+        {"name": "AMC River Park Square 20", "id": "701"}
+    ]
 
 
 def test_adapter_class_delegates_to_helpers(api_showtime):

@@ -131,6 +131,30 @@ def test_unknown_amc_theater_is_skipped_safely(registry):
     assert entry is None
 
 
+def test_unknown_theater_identity_is_captured(registry):
+    _allowed, stats = filter_enabled_amc_theaters(
+        [_api_theater(api_id="701", long_name="AMC River Park Square 20")],
+        registry,
+    )
+    assert stats.unknown == 1
+    assert stats.unknown_theaters == [
+        {"name": "AMC River Park Square 20", "id": "701"}
+    ]
+    assert stats.disabled_theaters == []
+
+
+def test_disabled_theater_identity_includes_registry_id(registry):
+    _allowed, stats = filter_enabled_amc_theaters(
+        [_api_theater(api_id="700", long_name="AMC Kitsap 8")],
+        registry,
+    )
+    assert stats.disabled == 1
+    assert stats.disabled_theaters == [
+        {"name": "AMC Kitsap 8", "id": "700", "registry_id": "amc-kitsap-8"}
+    ]
+    assert stats.unknown_theaters == []
+
+
 def test_disabled_match_by_external_id(registry):
     disabled_registry = {
         **registry,

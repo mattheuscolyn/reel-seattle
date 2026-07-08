@@ -300,6 +300,63 @@ def test_load_daily_scrape_diagnostics_derives_amc_allowlist_warnings(tmp_path, 
     assert "AMC allowlist: 1 disabled registry matches skipped" in diagnostics["amc"].warnings
 
 
+def test_load_daily_scrape_diagnostics_names_amc_skipped_theaters(tmp_path, amc_raw_fixture):
+    run_date = "2026-06-26"
+    write_scrape_daily_log(
+        tmp_path / f"{run_date}_amc.json",
+        "amc",
+        FetchResult(
+            records=[amc_raw_fixture],
+            stats={
+                "records_fetched": 1,
+                "allowlist_unknown": 2,
+                "allowlist_disabled": 2,
+                "allowlist_unknown_theaters": [
+                    {"name": "AMC River Park Square 20", "id": "701"},
+                    {"id": "702"},
+                ],
+                "allowlist_disabled_theaters": [
+                    {"name": "AMC Kitsap 8", "id": "700", "registry_id": "amc-kitsap-8"},
+                    {"name": "AMC Lakewood Mall 12", "id": "800"},
+                ],
+            },
+        ),
+    )
+
+    diagnostics = load_daily_scrape_diagnostics(run_date, logs_dir=tmp_path)
+
+    assert (
+        "AMC allowlist: 2 unknown theaters skipped: AMC River Park Square 20, 702"
+        in diagnostics["amc"].warnings
+    )
+    assert (
+        "AMC allowlist: 2 disabled registry matches skipped: "
+        "AMC Kitsap 8, AMC Lakewood Mall 12" in diagnostics["amc"].warnings
+    )
+
+
+def test_load_daily_scrape_diagnostics_amc_count_only_fallback(tmp_path, amc_raw_fixture):
+    run_date = "2026-06-26"
+    write_scrape_daily_log(
+        tmp_path / f"{run_date}_amc.json",
+        "amc",
+        FetchResult(
+            records=[amc_raw_fixture],
+            stats={
+                "records_fetched": 1,
+                "allowlist_unknown": 2,
+                "allowlist_disabled": 1,
+                "allowlist_unknown_theaters": [],
+            },
+        ),
+    )
+
+    diagnostics = load_daily_scrape_diagnostics(run_date, logs_dir=tmp_path)
+
+    assert "AMC allowlist: 2 unknown theaters skipped" in diagnostics["amc"].warnings
+    assert "AMC allowlist: 1 disabled registry matches skipped" in diagnostics["amc"].warnings
+
+
 def test_write_pipeline_report_with_run_date_loads_logs(
     tmp_path, theaters_registry, amc_raw_fixture
 ):
