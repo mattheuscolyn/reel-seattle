@@ -151,7 +151,7 @@ python daily_processor.py
 
 `data/theaters.json` is the single source of truth for which venues Reel Seattle supports. Each entry describes one physical location (or distinct SIFF screen venue), not a scrape source.
 
-**The registry defines the intended product footprint.** `amc_logger.py` fetches AMC theatres within a 300-mile radius of Seattle, then **filters to enabled AMC registry entries only** (`source == "amc"` and `enabled == true`). Disabled registry theaters (Kitsap, Lakewood) and out-of-scope locations omitted from the registry are skipped. Historical rows for those theaters remain in `showtimes_history.csv`; only future scrape output is limited.
+**The registry defines the intended product footprint.** `amc_logger.py` fetches AMC theatres within a 50-mile (Puget Sound metro) radius of Seattle, then **filters to enabled AMC registry entries only** (`source == "amc"` and `enabled == true`). This radius retains every enabled registry theater (all within ~16 miles) and the intentionally disabled Kitsap/Lakewood matches (within ~32 miles), while excluding out-of-region AMCs such as Portland, Vancouver WA, Spokane, and Burlington/Cascade Mall (~60 miles). Disabled registry theaters (Kitsap, Lakewood) and out-of-scope locations omitted from the registry are skipped. Historical rows for those theaters remain in `showtimes_history.csv`; only future scrape output is limited.
 
 ### Editing the registry
 

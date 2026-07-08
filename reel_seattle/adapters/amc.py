@@ -26,7 +26,10 @@ AMC_BASE_URL = "https://api.amctheatres.com/v2"
 DEFAULT_CSV_PATH = Path("public/showtimes.csv")
 DAYS_AHEAD = 14
 SEATTLE_LAT, SEATTLE_LON = 47.6062, -122.3321
-RADIUS_MILES = 300
+# Puget Sound metro radius. Retains all enabled registry theaters (<=16 mi) plus the
+# intentionally disabled Kitsap/Lakewood matches (<=32 mi), while excluding out-of-region
+# AMCs; the nearest excluded location is Burlington/Cascade Mall at ~60 mi.
+RADIUS_MILES = 50
 
 AMC_CSV_FIELDNAMES = [
     "Date",

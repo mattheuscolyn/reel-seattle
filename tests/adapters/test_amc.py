@@ -243,16 +243,26 @@ def test_build_default_fetch_context_uses_registry(registry, tmp_path, monkeypat
     assert context.theaters_registry["theaters"][0]["name"] == "AMC Pacific Place 11"
 
 
-def test_nearby_filter_keeps_seattle_theaters():
+def test_nearby_filter_keeps_seattle_and_drops_out_of_region():
     nearby = filter_nearby_amc_theaters(
         [
-            _api_theater(api_id="1", long_name="Near"),
+            _api_theater(api_id="1", long_name="AMC Pacific Place 11"),  # downtown Seattle
             {
                 "id": "2",
-                "longName": "Far",
-                "location": {"latitude": 0.0, "longitude": 0.0},
+                "longName": "Kent Station 14",  # ~16 mi, farthest enabled edge
+                "location": {"latitude": 47.3853, "longitude": -122.2337},
+            },
+            {
+                "id": "3",
+                "longName": "AMC River Park Square 20",  # Spokane, ~229 mi
+                "location": {"latitude": 47.6588, "longitude": -117.4241},
+            },
+            {
+                "id": "4",
+                "longName": "AMC CLASSIC Cascade Mall 14",  # Burlington, ~60 mi
+                "location": {"latitude": 48.4758, "longitude": -122.3287},
             },
         ]
     )
-    assert len(nearby) == 1
-    assert nearby[0]["id"] == "1"
+    kept_ids = {theater["id"] for theater in nearby}
+    assert kept_ids == {"1", "2"}
