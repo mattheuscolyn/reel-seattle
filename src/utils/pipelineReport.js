@@ -9,6 +9,21 @@ export const SOURCE_ORDER = ['amc', 'siff', 'beacon'];
 
 export const PIPELINE_STATUS_UNAVAILABLE = 'Data status unavailable';
 
+/** Max warnings/errors shown per source before collapsing into "+N more". */
+export const MAX_SOURCE_DIAGNOSTICS = 3;
+
+/** Coerce a raw warnings/errors array into a capped display list plus overflow count. */
+export function normalizeDiagnostics(items) {
+  if (!Array.isArray(items)) return { shown: [], overflow: 0 };
+  const cleaned = items
+    .filter((item) => typeof item === 'string' && item.trim().length > 0)
+    .map((item) => item.trim());
+  return {
+    shown: cleaned.slice(0, MAX_SOURCE_DIAGNOSTICS),
+    overflow: Math.max(0, cleaned.length - MAX_SOURCE_DIAGNOSTICS),
+  };
+}
+
 /** Map raw pipeline source status to display label. */
 export function formatSourceStatus(status) {
   if (!status || typeof status !== 'string') return 'Unknown';
@@ -90,6 +105,8 @@ function sourceDetailLine(source) {
 export function normalizeSourceReport(sourceKey, source) {
   const label = SOURCE_LABELS[sourceKey] || sourceKey.toUpperCase();
   const status = source?.status ?? null;
+  const warnings = normalizeDiagnostics(source?.warnings);
+  const errors = normalizeDiagnostics(source?.errors);
   return {
     key: sourceKey,
     label,
@@ -100,6 +117,10 @@ export function normalizeSourceReport(sourceKey, source) {
     lastSuccessfulRun: source?.last_successful_run ?? null,
     lastSuccessfulRunDisplay: formatDisplayDate(source?.last_successful_run),
     detail: source ? sourceDetailLine(source) : null,
+    warnings: warnings.shown,
+    warningsOverflow: warnings.overflow,
+    errors: errors.shown,
+    errorsOverflow: errors.overflow,
   };
 }
 

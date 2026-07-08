@@ -8,6 +8,8 @@ import {
   buildSummaryLine,
   formatSourceStatus,
   isValidPipelineReport,
+  MAX_SOURCE_DIAGNOSTICS,
+  normalizeDiagnostics,
   normalizePipelineReport,
   normalizeSourceReport,
   sourceStatusClass,
@@ -54,6 +56,67 @@ test('normalizeSourceReport handles missing source', () => {
   const row = normalizeSourceReport('amc', null);
   assert.equal(row.statusLabel, 'Unknown');
   assert.equal(row.detail, null);
+  assert.deepEqual(row.warnings, []);
+  assert.deepEqual(row.errors, []);
+  assert.equal(row.warningsOverflow, 0);
+  assert.equal(row.errorsOverflow, 0);
+});
+
+test('normalizeSourceReport surfaces warnings for expanded details', () => {
+  const row = normalizeSourceReport('amc', {
+    status: 'success',
+    showtime_count: 4134,
+    warnings: ['AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12'],
+    errors: [],
+  });
+  assert.equal(row.statusLabel, 'Current');
+  assert.equal(row.warnings.length, 1);
+  assert.match(row.warnings[0], /disabled registry matches skipped/);
+  assert.deepEqual(row.errors, []);
+});
+
+test('normalizeSourceReport surfaces errors for expanded details', () => {
+  const row = normalizeSourceReport('siff', {
+    status: 'failed',
+    showtime_count: 0,
+    warnings: [],
+    errors: ['SIFF fetch failed: HTTP 503'],
+  });
+  assert.equal(row.errors.length, 1);
+  assert.match(row.errors[0], /HTTP 503/);
+});
+
+test('normalizeSourceReport ignores blank/non-string diagnostics', () => {
+  const row = normalizeSourceReport('beacon', {
+    status: 'success',
+    warnings: ['  ', '', null, 42, 'real warning'],
+    errors: 'not-an-array',
+  });
+  assert.deepEqual(row.warnings, ['real warning']);
+  assert.deepEqual(row.errors, []);
+});
+
+test('normalizeDiagnostics caps display list and reports overflow', () => {
+  const many = Array.from({ length: MAX_SOURCE_DIAGNOSTICS + 2 }, (_, i) => `warn ${i}`);
+  const result = normalizeDiagnostics(many);
+  assert.equal(result.shown.length, MAX_SOURCE_DIAGNOSTICS);
+  assert.equal(result.overflow, 2);
+});
+
+test('buildSummaryLine stays free of warning/error text', () => {
+  const sources = [
+    normalizeSourceReport('amc', {
+      status: 'success',
+      showtime_count: 4134,
+      warnings: ['AMC allowlist: 2 disabled registry matches skipped'],
+      errors: [],
+    }),
+    normalizeSourceReport('siff', { status: 'success', showtime_count: 100 }),
+  ];
+  const summary = buildSummaryLine(sources);
+  assert.match(summary, /AMC current/);
+  assert.doesNotMatch(summary, /allowlist/i);
+  assert.doesNotMatch(summary, /warning/i);
 });
 
 test('normalizePipelineReport builds summary from fixture', () => {
