@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-07T02:30:13-07:00",
+  "generated_at": "2026-07-08T01:14:21-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-07",
-    "end_date": "2026-07-21"
+    "start_date": "2026-07-08",
+    "end_date": "2026-07-22"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,10 +15,82 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 44,
-    "flagged_film_count": 10
+    "candidate_film_count": 50,
+    "flagged_film_count": 12
   },
   "items": [
+    {
+      "film_key": "alpha-dir-rawail",
+      "film_title": "Alpha (dir. Rawail)",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-08",
+      "max_show_date": "2026-07-08",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-08"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1781102205/amc-cdn/content/general/s50iibajlgfc6l4cvfly.jpg",
+      "runtime_min": 150
+    },
+    {
+      "film_key": "amc-screen-unseen-july-20",
+      "film_title": "AMC Screen Unseen: July 20",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-20",
+      "max_show_date": "2026-07-20",
+      "total_visible_showtimes": 9,
+      "total_visible_theaters": 7,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-07-20"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783444050/amc-cdn/content/general/h6kbtpewmcer1bzz5zkf.jpg",
+      "runtime_min": 106
+    },
     {
       "film_key": "citizen-kane-85th-anniversary",
       "film_title": "Citizen Kane 85th Anniversary",
@@ -52,28 +124,36 @@
       "runtime_min": 124
     },
     {
-      "film_key": "crossing",
-      "film_title": "Crossing",
+      "film_key": "end-of-evangelion-evangelion-30th-movie-fest",
+      "film_title": "The End Of Evangelion (Evangelion 30th Movie Fest)",
       "risk_level": "high",
       "reason": "Only one visible AMC play date remains in the current schedule.",
       "visible_show_date_count": 1,
-      "min_show_date": "2026-07-10",
-      "max_show_date": "2026-07-10",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
+      "min_show_date": "2026-07-22",
+      "max_show_date": "2026-07-22",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 3,
       "theaters": [
         {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
         }
       ],
       "show_dates": [
-        "2026-07-10"
+        "2026-07-22"
       ],
       "has_primetime": true,
       "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782817724/amc-cdn/production/2/movies/84200/84162/Poster/417144R1.jpg",
-      "runtime_min": 121
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818434/amc-cdn/production/2/movies/83900/83872/Poster/041628R1.jpg",
+      "runtime_min": 87
     },
     {
       "film_key": "evangelion-death-true-2-rebirth-evangelion-30th-movie-fest",
@@ -106,6 +186,34 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818626/amc-cdn/production/2/movies/83900/83874/Poster/420340R1.jpg",
       "runtime_min": 98
+    },
+    {
+      "film_key": "furious",
+      "film_title": "The Furious",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-08",
+      "max_show_date": "2026-07-08",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-08"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1776963999/amc-cdn/content/general/frvcepmdpyclfik5ytrc.jpg",
+      "runtime_min": 113
     },
     {
       "film_key": "how-to-train-your-dragon",
@@ -144,28 +252,36 @@
       "runtime_min": 125
     },
     {
-      "film_key": "maddie-s-secret",
-      "film_title": "Maddie's Secret",
+      "film_key": "met-summer-encore-the-merry-widow-2026",
+      "film_title": "Met Summer Encore: The Merry Widow (2026)",
       "risk_level": "high",
       "reason": "Only one visible AMC play date remains in the current schedule.",
       "visible_show_date_count": 1,
-      "min_show_date": "2026-07-10",
-      "max_show_date": "2026-07-10",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
+      "min_show_date": "2026-07-22",
+      "max_show_date": "2026-07-22",
+      "total_visible_showtimes": 5,
+      "total_visible_theaters": 3,
       "theaters": [
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6"
+        },
         {
           "theater_id": "amc-pacific-place-11",
           "theater_name": "AMC Pacific Place 11"
         }
       ],
       "show_dates": [
-        "2026-07-10"
+        "2026-07-22"
       ],
       "has_primetime": true,
       "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782817633/amc-cdn/production/2/movies/82500/82530/Poster/397020R1.jpg",
-      "runtime_min": 98
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782328156/amc-cdn/content/general/o8q8h5ltbhmbrtxdyfg9.jpg",
+      "runtime_min": 158
     },
     {
       "film_key": "minions-monsters-sensory-friendly-screening",
@@ -250,42 +366,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1780931799/amc-cdn/content/general/ppo0uunrlwpd8e16vgpa.png",
       "runtime_min": 122
-    },
-    {
-      "film_key": "sonic-the-hedgehog-3",
-      "film_title": "Sonic The Hedgehog 3",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-20",
-      "max_show_date": "2026-07-20",
-      "total_visible_showtimes": 8,
-      "total_visible_theaters": 4,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-07-20"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782139447/amc-cdn/content/general/vinhlkfl0oqoaoamtcwi.jpg",
-      "runtime_min": 110
     },
     {
       "film_key": "supergirl-sensory-friendly-screening",
