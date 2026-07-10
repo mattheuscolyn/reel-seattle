@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-09T02:31:25-07:00",
+  "generated_at": "2026-07-10T02:22:38-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-09",
-    "end_date": "2026-07-23"
+    "start_date": "2026-07-10",
+    "end_date": "2026-07-24"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 49,
-    "flagged_film_count": 18
+    "candidate_film_count": 42,
+    "flagged_film_count": 8
   },
   "items": [
     {
@@ -68,74 +68,6 @@
       "runtime_min": 106
     },
     {
-      "film_key": "bad-counselors",
-      "film_title": "Bad Counselors",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-23",
-      "max_show_date": "2026-07-23",
-      "total_visible_showtimes": 4,
-      "total_visible_theaters": 4,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-07-23"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1781275351/amc-cdn/content/general/ydnq9flxf1smqrtjjsvw.jpg",
-      "runtime_min": 105
-    },
-    {
-      "film_key": "bleach-thousand-year-blood-war-the-calamity",
-      "film_title": "Bleach: Thousand-Year Blood War - The Calamity",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-09",
-      "max_show_date": "2026-07-09",
-      "total_visible_showtimes": 3,
-      "total_visible_theaters": 3,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-07-09"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780346828/amc-cdn/content/general/hzhvt55dhstwwgmqmeqj.jpg",
-      "runtime_min": 85
-    },
-    {
       "film_key": "end-of-evangelion-evangelion-30th-movie-fest",
       "film_title": "The End Of Evangelion (Evangelion 30th Movie Fest)",
       "risk_level": "high",
@@ -143,7 +75,7 @@
       "visible_show_date_count": 1,
       "min_show_date": "2026-07-22",
       "max_show_date": "2026-07-22",
-      "total_visible_showtimes": 4,
+      "total_visible_showtimes": 6,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -198,158 +130,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818626/amc-cdn/production/2/movies/83900/83874/Poster/420340R1.jpg",
       "runtime_min": 98
-    },
-    {
-      "film_key": "girls-like-girls",
-      "film_title": "Girls Like Girls",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-09",
-      "max_show_date": "2026-07-09",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-07-09"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1779906801/amc-cdn/content/general/vsoiwfjpappn0pc99q1k.jpg",
-      "runtime_min": 95
-    },
-    {
-      "film_key": "hadestown-the-musical",
-      "film_title": "Hadestown: The Musical",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-23",
-      "max_show_date": "2026-07-23",
-      "total_visible_showtimes": 19,
-      "total_visible_theaters": 7,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-factoria-8",
-          "theater_name": "AMC Factoria 8"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-oak-tree-6",
-          "theater_name": "AMC Oak Tree 6"
-        },
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-07-23"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780680445/amc-cdn/content/general/ss7dpnoa4v1tq6nanhqb.jpg",
-      "runtime_min": 141
-    },
-    {
-      "film_key": "i-know-who-you-are",
-      "film_title": "I Know Who You Are",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-09",
-      "max_show_date": "2026-07-09",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-07-09"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782494784/amc-cdn/content/general/ekcvuo312yzgsmewzgrd.jpg",
-      "runtime_min": 142
-    },
-    {
-      "film_key": "lucky-strike",
-      "film_title": "Lucky Strike",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-09",
-      "max_show_date": "2026-07-09",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-07-09"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780954152/amc-cdn/content/general/olqg6bgommmj3xz4j56c.jpg",
-      "runtime_min": 102
-    },
-    {
-      "film_key": "masters-of-the-universe",
-      "film_title": "Masters of the Universe",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-09",
-      "max_show_date": "2026-07-09",
-      "total_visible_showtimes": 4,
-      "total_visible_theaters": 3,
-      "theaters": [
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-07-09"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1777499179/amc-cdn/content/general/ibpur8eq63qotzyp4drs.jpg",
-      "runtime_min": 140
     },
     {
       "film_key": "met-summer-encore-the-merry-widow-2026",
@@ -412,34 +192,6 @@
       "runtime_min": 90
     },
     {
-      "film_key": "moana-imax-opening-night-fan-event",
-      "film_title": "MOANA IMAX Opening Night Fan Event",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-09",
-      "max_show_date": "2026-07-09",
-      "total_visible_showtimes": 2,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-07-09"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1781107638/amc-cdn/content/general/vuba064kyzztcyacpkry.jpg",
-      "runtime_min": 120
-    },
-    {
       "film_key": "mob-psycho-100-celebrates-its-10th-anniversary",
       "film_title": "Mob Psycho 100 Celebrates Its 10th Anniversary",
       "risk_level": "high",
@@ -466,38 +218,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1780931799/amc-cdn/content/general/ppo0uunrlwpd8e16vgpa.png",
       "runtime_min": 122
-    },
-    {
-      "film_key": "motor-city",
-      "film_title": "Motor City",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-23",
-      "max_show_date": "2026-07-23",
-      "total_visible_showtimes": 6,
-      "total_visible_theaters": 3,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-07-23"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780602794/amc-cdn/content/general/mwjou1jtqnd1s1gmef13.jpg",
-      "runtime_min": 103
     },
     {
       "film_key": "sia-nostalgic-for-the-present",
@@ -554,30 +274,6 @@
       "has_weekend_show": false,
       "poster_url": null,
       "runtime_min": 82
-    },
-    {
-      "film_key": "tuner",
-      "film_title": "Tuner",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-09",
-      "max_show_date": "2026-07-09",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        }
-      ],
-      "show_dates": [
-        "2026-07-09"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1775486828/amc-cdn/content/general/tvc4mxre5vvdynajysof.jpg",
-      "runtime_min": 108
     }
   ]
 }
