@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-10T02:22:38-07:00",
+  "generated_at": "2026-07-11T00:44:44-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-10",
-    "end_date": "2026-07-24"
+    "start_date": "2026-07-11",
+    "end_date": "2026-07-25"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 42,
-    "flagged_film_count": 8
+    "candidate_film_count": 41,
+    "flagged_film_count": 9
   },
   "items": [
     {
@@ -190,6 +190,30 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1781275136/amc-cdn/content/general/psunlo8jsrbnesskgasy.jpg",
       "runtime_min": 90
+    },
+    {
+      "film_key": "moana-sensory-friendly-screening",
+      "film_title": "Moana: Sensory Friendly Screening",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-25",
+      "max_show_date": "2026-07-25",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-07-25"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782817735/amc-cdn/production/2/movies/84000/83989/Poster/419382R1.jpg",
+      "runtime_min": 120
     },
     {
       "film_key": "mob-psycho-100-celebrates-its-10th-anniversary",
