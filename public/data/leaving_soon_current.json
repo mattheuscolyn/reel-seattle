@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-11T00:44:44-07:00",
+  "generated_at": "2026-07-12T01:05:44-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-11",
-    "end_date": "2026-07-25"
+    "start_date": "2026-07-12",
+    "end_date": "2026-07-26"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 41,
-    "flagged_film_count": 9
+    "candidate_film_count": 40,
+    "flagged_film_count": 8
   },
   "items": [
     {
@@ -132,6 +132,42 @@
       "runtime_min": 98
     },
     {
+      "film_key": "fifth-element-2026-event-2026",
+      "film_title": "The Fifth Element (2026 Event)",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-26",
+      "max_show_date": "2026-07-26",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-07-26"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1771352136/amc-cdn/content/general/yhmyqpz8wskn0g1rmjrk.jpg",
+      "runtime_min": 131
+    },
+    {
       "film_key": "met-summer-encore-the-merry-widow-2026",
       "film_title": "Met Summer Encore: The Merry Widow (2026)",
       "risk_level": "high",
@@ -162,34 +198,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782328156/amc-cdn/content/general/o8q8h5ltbhmbrtxdyfg9.jpg",
       "runtime_min": 158
-    },
-    {
-      "film_key": "minions-monsters-sensory-friendly-screening",
-      "film_title": "Minions & Monsters: Sensory Friendly Screening",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-11",
-      "max_show_date": "2026-07-11",
-      "total_visible_showtimes": 2,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-07-11"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1781275136/amc-cdn/content/general/psunlo8jsrbnesskgasy.jpg",
-      "runtime_min": 90
     },
     {
       "film_key": "moana-sensory-friendly-screening",
@@ -242,34 +250,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1780931799/amc-cdn/content/general/ppo0uunrlwpd8e16vgpa.png",
       "runtime_min": 122
-    },
-    {
-      "film_key": "sia-nostalgic-for-the-present",
-      "film_title": "Sia: Nostalgic For The Present",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-23",
-      "max_show_date": "2026-07-23",
-      "total_visible_showtimes": 2,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-07-23"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1781755718/amc-cdn/content/general/xscmcacck3fjovore5dg.jpg",
-      "runtime_min": 75
     },
     {
       "film_key": "summer-tour",
