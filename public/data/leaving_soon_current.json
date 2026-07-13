@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-12T01:05:44-07:00",
+  "generated_at": "2026-07-13T01:55:05-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-12",
-    "end_date": "2026-07-26"
+    "start_date": "2026-07-13",
+    "end_date": "2026-07-27"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 40,
-    "flagged_film_count": 8
+    "candidate_film_count": 42,
+    "flagged_film_count": 9
   },
   "items": [
     {
@@ -66,6 +66,42 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1783444050/amc-cdn/content/general/h6kbtpewmcer1bzz5zkf.jpg",
       "runtime_min": 106
+    },
+    {
+      "film_key": "bad-guys-2",
+      "film_title": "The Bad Guys 2",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-27",
+      "max_show_date": "2026-07-27",
+      "total_visible_showtimes": 8,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-07-27"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782139519/amc-cdn/content/general/wicenw9rx70mwmmzpu9i.jpg",
+      "runtime_min": 104
     },
     {
       "film_key": "end-of-evangelion-evangelion-30th-movie-fest",
@@ -130,42 +166,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818626/amc-cdn/production/2/movies/83900/83874/Poster/420340R1.jpg",
       "runtime_min": 98
-    },
-    {
-      "film_key": "fifth-element-2026-event-2026",
-      "film_title": "The Fifth Element (2026 Event)",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-26",
-      "max_show_date": "2026-07-26",
-      "total_visible_showtimes": 4,
-      "total_visible_theaters": 4,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-07-26"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1771352136/amc-cdn/content/general/yhmyqpz8wskn0g1rmjrk.jpg",
-      "runtime_min": 131
     },
     {
       "film_key": "met-summer-encore-the-merry-widow-2026",
@@ -250,6 +250,30 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1780931799/amc-cdn/content/general/ppo0uunrlwpd8e16vgpa.png",
       "runtime_min": 122
+    },
+    {
+      "film_key": "splash-city-with-berner-in-person",
+      "film_title": "Splash City with Berner in-person",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-27",
+      "max_show_date": "2026-07-27",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-07-27"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782760824/amc-cdn/content/general/j0rmn8vkkbhxnvwanoar.jpg",
+      "runtime_min": 123
     },
     {
       "film_key": "summer-tour",
