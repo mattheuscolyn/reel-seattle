@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-13T01:55:05-07:00",
+  "generated_at": "2026-07-14T00:51:24-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-13",
-    "end_date": "2026-07-27"
+    "start_date": "2026-07-14",
+    "end_date": "2026-07-28"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 42,
-    "flagged_film_count": 9
+    "candidate_film_count": 44,
+    "flagged_film_count": 12
   },
   "items": [
     {
@@ -111,7 +111,7 @@
       "visible_show_date_count": 1,
       "min_show_date": "2026-07-22",
       "max_show_date": "2026-07-22",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 7,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -166,6 +166,42 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818626/amc-cdn/production/2/movies/83900/83874/Poster/420340R1.jpg",
       "runtime_min": 98
+    },
+    {
+      "film_key": "lego-movie",
+      "film_title": "The Lego Movie",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-15",
+      "max_show_date": "2026-07-15",
+      "total_visible_showtimes": 8,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-07-15"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782139394/amc-cdn/content/general/rf6auwkxugqhjhcdkrsy.jpg",
+      "runtime_min": 101
     },
     {
       "film_key": "met-summer-encore-the-merry-widow-2026",
@@ -252,6 +288,30 @@
       "runtime_min": 122
     },
     {
+      "film_key": "odyssey-sensory-friendly-screening",
+      "film_title": "The Odyssey : Sensory Friendly Screening",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-22",
+      "max_show_date": "2026-07-22",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        }
+      ],
+      "show_dates": [
+        "2026-07-22"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780585370/amc-cdn/content/general/wjizruiey3ltzoanijaz.png",
+      "runtime_min": 172
+    },
+    {
       "film_key": "splash-city-with-berner-in-person",
       "film_title": "Splash City with Berner in-person",
       "risk_level": "high",
@@ -302,6 +362,34 @@
       "has_weekend_show": false,
       "poster_url": null,
       "runtime_min": 82
+    },
+    {
+      "film_key": "wham-10-days-in-china",
+      "film_title": "WHAM! 10 Days In China",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-28",
+      "max_show_date": "2026-07-28",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-28"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1781755703/amc-cdn/content/general/zijnpsnzjidqtnjdhblu.jpg",
+      "runtime_min": 90
     }
   ]
 }
