@@ -128,6 +128,8 @@ _CATEGORY_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 _ATTR_CATEGORY_HINTS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("sensory_friendly", ("sensoryfriendly", "sensory-friendly", "sensory_friendly")),
     ("q_and_a", ("qanda", "q-and-a")),
+    # Exact-ish product/event codes — not broad capability flags like OPENCAPTION.
+    ("concert_or_event", ("alternativecontent",)),
 )
 
 
@@ -221,7 +223,11 @@ def classify_product_category(
     if not title_blob.strip() and not attribute_codes and not preferred_media_type:
         return "unknown"
 
-    attr_blob = " ".join(code.casefold() for code in attribute_codes)
+    code_set = {code.casefold() for code in attribute_codes}
+    # Exact code match first (e.g. EVENT) before substring needles.
+    if "event" in code_set or "fathom" in code_set:
+        return "concert_or_event"
+    attr_blob = " ".join(sorted(code_set))
     for category, needles in _ATTR_CATEGORY_HINTS:
         if any(needle in attr_blob for needle in needles):
             return category
