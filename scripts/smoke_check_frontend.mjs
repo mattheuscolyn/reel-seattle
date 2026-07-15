@@ -46,6 +46,7 @@ const BUNDLE_MUST_NOT_INCLUDE = [
   'PapaParse',
   'Developer Data Cockpit',
   'vite.cockpit.config',
+  'Theater Registry',
 ];
 
 function fail(message) {

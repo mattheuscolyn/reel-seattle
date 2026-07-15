@@ -11,9 +11,20 @@ body {
 
 .cockpit-shell,
 .cockpit-blocked {
-  max-width: 52rem;
+  max-width: 72rem;
   margin: 0 auto;
   padding: 2rem 1.25rem 3rem;
+}
+
+.cockpit-section {
+  margin: 0 0 2rem;
+  padding-top: 0.25rem;
+  border-top: 1px solid #ccc;
+}
+
+.cockpit-section:first-of-type {
+  border-top: none;
+  padding-top: 0;
 }
 
 .cockpit-header {
@@ -83,10 +94,13 @@ body {
   border: 1px solid #8a1c1c;
   background: #fff5f5;
   padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
 }
 
-.cockpit-error h2 {
+.cockpit-error h2,
+.cockpit-error h3 {
   color: #8a1c1c;
+  margin-top: 0;
 }
 
 .cockpit-error p {
@@ -153,6 +167,67 @@ body {
 .cockpit-blocked p {
   margin: 0;
   color: #444;
+}
+
+.cockpit-registry-summary,
+.cockpit-registry-observations {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 1rem 1.1rem;
+  margin: 0 0 1rem;
+}
+
+.cockpit-registry-counts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.cockpit-count-map ul {
+  margin: 0.25rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.cockpit-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #ccc;
+  background: #fff;
+  margin: 0 0 1rem;
+}
+
+.cockpit-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.cockpit-table th,
+.cockpit-table td {
+  border-bottom: 1px solid #ddd;
+  padding: 0.4rem 0.55rem;
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.cockpit-table th {
+  background: #eee;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 650;
+}
+
+.cockpit-table td:nth-child(6) {
+  white-space: normal;
+  min-width: 8rem;
+}
+
+.cockpit-row--disabled {
+  background: #f3f3f3;
+}
+
+.cockpit-disabled-tag {
+  font-weight: 700;
 }
 
 code {
