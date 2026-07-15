@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/prototypes/amc_movie_products/v1.0.0.json",
+  "title": "AMC Movie Product Observations (Prototype)",
+  "description": "Prototype source-level AMC movie-product observations. Not production, not public, not canonical.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_status",
+    "generated_at",
+    "source",
+    "input",
+    "stats",
+    "products"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "artifact_status": {
+      "type": "string",
+      "const": "prototype"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "const": "amc"
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "path", "audit_generated_at"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "sanitized_audit"
+        },
+        "path": { "type": "string" },
+        "audit_generated_at": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "products",
+        "with_release_id",
+        "without_release_id",
+        "special_presentations"
+      ],
+      "properties": {
+        "products": { "type": "integer", "minimum": 0 },
+        "with_release_id": { "type": "integer", "minimum": 0 },
+        "without_release_id": { "type": "integer", "minimum": 0 },
+        "special_presentations": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "products": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/product" }
+    }
+  },
+  "$defs": {
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "source",
+        "source_film_id",
+        "source_release_id",
+        "source_title",
+        "sortable_title",
+        "runtime_min",
+        "release_date_utc",
+        "earliest_showing_utc",
+        "online_ticket_availability_date_utc",
+        "has_scheduled_showtimes",
+        "genre",
+        "mpaa_rating",
+        "starring_actors_raw",
+        "directors_raw",
+        "synopsis",
+        "distributor_id",
+        "distributor_code",
+        "preferred_media_type",
+        "available_for_a_list",
+        "slug",
+        "website_url",
+        "showtimes_url",
+        "attribute_codes",
+        "media",
+        "presentation",
+        "observed_at",
+        "provenance",
+        "derived_fields"
+      ],
+      "properties": {
+        "schema_version": { "type": "string", "const": "1.0.0" },
+        "source": { "type": "string", "const": "amc" },
+        "source_film_id": { "type": "string", "minLength": 1 },
+        "source_release_id": { "type": ["string", "null"], "minLength": 1 },
+        "source_title": { "type": ["string", "null"] },
+        "sortable_title": { "type": ["string", "null"] },
+        "runtime_min": { "type": ["integer", "null"] },
+        "release_date_utc": { "type": ["string", "null"] },
+        "earliest_showing_utc": { "type": ["string", "null"] },
+        "online_ticket_availability_date_utc": { "type": ["string", "null"] },
+        "has_scheduled_showtimes": { "type": ["boolean", "null"] },
+        "genre": { "type": ["string", "null"] },
+        "mpaa_rating": { "type": ["string", "null"] },
+        "starring_actors_raw": { "type": ["string", "null"] },
+        "directors_raw": { "type": ["string", "null"] },
+        "synopsis": { "type": ["string", "null"] },
+        "distributor_id": { "type": ["string", "null"] },
+        "distributor_code": { "type": ["string", "null"] },
+        "preferred_media_type": { "type": ["string", "null"] },
+        "available_for_a_list": { "type": ["boolean", "null"] },
+        "slug": { "type": ["string", "null"] },
+        "website_url": { "type": ["string", "null"] },
+        "showtimes_url": { "type": ["string", "null"] },
+        "attribute_codes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "media": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "poster_url",
+            "hero_desktop_url",
+            "hero_mobile_url",
+            "trailer_hd_url",
+            "trailer_mp4_url"
+          ],
+          "properties": {
+            "poster_url": { "type": ["string", "null"] },
+            "hero_desktop_url": { "type": ["string", "null"] },
+            "hero_mobile_url": { "type": ["string", "null"] },
+            "trailer_hd_url": { "type": ["string", "null"] },
+            "trailer_mp4_url": { "type": ["string", "null"] }
+          }
+        },
+        "presentation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["category", "is_special_presentation"],
+          "properties": {
+            "category": {
+              "type": "string",
+              "enum": [
+                "standard",
+                "q_and_a",
+                "special_introduction",
+                "sensory_friendly",
+                "open_caption",
+                "dubbed_or_subtitled",
+                "anniversary_or_rerelease",
+                "mystery_screening",
+                "concert_or_event",
+                "marathon_or_multi_feature",
+                "other_special",
+                "unknown"
+              ]
+            },
+            "is_special_presentation": { "type": "boolean" }
+          }
+        },
+        "observed_at": { "type": ["string", "null"] },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_endpoint", "source_audit"],
+          "properties": {
+            "source_endpoint": {
+              "type": "string",
+              "const": "amc_movies_api"
+            },
+            "source_audit": { "type": ["string", "null"] }
+          }
+        },
+        "derived_fields": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

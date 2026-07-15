@@ -45,6 +45,20 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `public/data/movies_announcements.csv` | `daily_processor.py` | Yes — daily |
 | `public/data/newly_announced.csv` | `daily_processor.py` | Yes — daily |
 | `data/analysis/*` | Offline analysis scripts | No — gitignored |
+| `local-output/*` | Manual local tool/prototype outputs | No — gitignored |
+
+### Prototype AMC source observations (not production)
+
+Manual, offline-only artifacts described in [amc-source-observation-prototype.md](./amc-source-observation-prototype.md).
+
+| Path | Role | Status |
+|------|------|--------|
+| `schema/prototypes/amc_movie_products/v1.0.0.json` | Prototype product schema | Authored · **not** a public production contract |
+| `schema/prototypes/amc_release_observations/v1.0.0.json` | Prototype release schema | Authored · **not** a public production contract |
+| `local-output/amc-source-observations/*.json` | Built from sanitized audit JSON | Local/manual · not public · not canonical · not workflow-owned |
+| `tests/fixtures/analysis/amc_source_observations/` | Example-only fixture inputs | Test fixtures · not production data |
+
+No production process consumes these artifacts. Do not ship to Pages.
 
 ---
 
@@ -188,8 +202,9 @@ Treat `origin/main` advancing with `Daily showtime data update …` commits as n
 3. **Expect remote movement:** if `origin/main` is ahead after a daily scrape, `git pull --rebase origin main` before pushing local work.
 4. **Do not commit `dist/`** — it is gitignored; Pages deploy builds fresh from `public/`.
 5. **Do not commit `data/analysis/`** — gitignored modeling outputs.
-6. **Before pushing data-sensitive work:** run `python scripts/validate_public_data_artifacts.py` locally if `public/data/` changed.
-7. **Restore accidental dist dirt:** `git restore dist/` or rebuild; do not commit local build output.
+6. **Do not commit `local-output/` or live audit outputs** — prototype/manual measurement only.
+7. **Before pushing data-sensitive work:** run `python scripts/validate_public_data_artifacts.py` locally if `public/data/` changed.
+8. **Restore accidental dist dirt:** `git restore dist/` or rebuild; do not commit local build output.
 
 ---
 
