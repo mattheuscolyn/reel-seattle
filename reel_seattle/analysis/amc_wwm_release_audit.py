@@ -122,10 +122,12 @@ _CATEGORY_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ),
 )
 
+# Attribute-code hints for *product* types only. Do not treat common capability
+# flags such as OPENCAPTION/CLOSEDCAPTION on ordinary theatrical movies as the
+# primary product category.
 _ATTR_CATEGORY_HINTS: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("sensory_friendly", ("sensory",)),
-    ("open_caption", ("opencap", "open-cap", "caption")),
-    ("q_and_a", ("qanda", "q-and-a", "qa")),
+    ("sensory_friendly", ("sensoryfriendly", "sensory-friendly", "sensory_friendly")),
+    ("q_and_a", ("qanda", "q-and-a")),
 )
 
 

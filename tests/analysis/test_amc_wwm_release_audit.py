@@ -118,6 +118,17 @@ def test_categories_qanda_intro_sensory_unknown():
         )
         == "standard"
     )
+    # Capability flags on ordinary theatrical titles must not force open_caption.
+    assert (
+        classify_product_category(
+            name="The Odyssey",
+            source_title="The Odyssey",
+            attribute_codes=["OPENCAPTION", "CLOSEDCAPTION", "IMAX"],
+            attribute_names=[],
+            preferred_media_type="Theatrical",
+        )
+        == "standard"
+    )
 
 
 def test_offline_grouping_conflicts_and_outputs(tmp_path: Path):
