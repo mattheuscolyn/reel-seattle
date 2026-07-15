@@ -212,45 +212,36 @@ def classify_product_category(
     attribute_names: Sequence[str],
     preferred_media_type: str | None,
 ) -> str:
-    """Audit-only primary product category from names/attributes."""
-    blob = " ".join(
-        part
-        for part in (
-            name or "",
-            source_title or "",
-            " ".join(attribute_codes),
-            " ".join(attribute_names),
-            preferred_media_type or "",
-        )
-        if part
-    )
-    if not blob.strip():
+    """Audit-only primary product category from names/attributes.
+
+    Title patterns use only movie/source titles so common capability attribute
+    *names* such as \"Open Caption\" do not reclassify ordinary theatrical products.
+    """
+    title_blob = " ".join(part for part in (name or "", source_title or "") if part)
+    if not title_blob.strip() and not attribute_codes and not preferred_media_type:
         return "unknown"
 
-    attr_blob = " ".join([*attribute_codes, *attribute_names]).casefold()
+    attr_blob = " ".join(code.casefold() for code in attribute_codes)
     for category, needles in _ATTR_CATEGORY_HINTS:
         if any(needle in attr_blob for needle in needles):
             return category
 
-    for category, pattern in _CATEGORY_PATTERNS:
-        if pattern.search(blob):
-            return category
+    if title_blob.strip():
+        for category, pattern in _CATEGORY_PATTERNS:
+            if pattern.search(title_blob):
+                return category
 
     media = (preferred_media_type or "").casefold()
     if media in {"event", "events"}:
         return "concert_or_event"
 
     # Title has variant markers without a more specific match.
-    lowered = blob.casefold()
-    if any(
-        token in lowered
-        for token in ("special", "premium", "imax", "dolby", "3d", "fan")
-    ) and "q&a" not in lowered:
-        if any(token in lowered for token in ("special", "fan")):
-            return "other_special"
+    lowered = title_blob.casefold()
+    if any(token in lowered for token in ("special", "fan")) and "q&a" not in lowered:
+        return "other_special"
 
     # Default: if no special cues, treat as standard theatrical product.
-    if media in {"", "theatrical"} or media == "theatrical":
+    if media in {"", "theatrical"}:
         return "standard"
     return "unknown"
 
