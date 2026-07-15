@@ -327,6 +327,10 @@ New Movie,AMC Pacific Place,2024-01-16,2024-01-16
    - Click "Daily Showtime Scraping"
    - Click "Run workflow" to test
 
+### Manual AMC IMDb coverage audit
+
+To measure Movies API `imdbId` coverage for distinct AMC movie IDs (without changing production data), run the **AMC IMDb Coverage Audit** workflow (`workflow_dispatch`). See [docs/amc-imdb-coverage-audit.md](docs/amc-imdb-coverage-audit.md).
+
 ## Monitoring
 
 ### Check Recent Activity
