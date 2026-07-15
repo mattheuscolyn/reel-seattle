@@ -1,0 +1,63 @@
+name: AMC Movie Relationship Audit
+
+# Manual measurement of AMC Movies wwmReleaseNumber relationships.
+# Does not modify production artifacts or the daily scrape.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Run AMC wwmReleaseNumber audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Verify AMC_API_KEY secret is available
+        env:
+          AMC_API_KEY: ${{ secrets.AMC_API_KEY }}
+        run: |
+          if [ -z "$AMC_API_KEY" ]; then
+            echo "AMC_API_KEY secret is missing or empty. Configure it in repository secrets."
+            exit 1
+          fi
+          echo "AMC_API_KEY secret is present."
+
+      - name: Run AMC wwmReleaseNumber relationship audit
+        env:
+          AMC_API_KEY: ${{ secrets.AMC_API_KEY }}
+        run: |
+          mkdir -p audit-output
+          python scripts/audit_amc_wwm_release.py \
+            --source auto \
+            --output-dir audit-output \
+            --sleep-seconds 1.0
+
+      - name: Upload audit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: amc-wwm-release-audit
+          path: |
+            audit-output/amc_wwm_release_audit.json
+            audit-output/amc_wwm_release_rows.csv
+            audit-output/amc_wwm_release_groups.csv
+            audit-output/amc_wwm_release_summary.md
+          retention-days: 30
+          if-no-files-found: error
