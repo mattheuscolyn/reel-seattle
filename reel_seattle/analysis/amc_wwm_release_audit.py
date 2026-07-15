@@ -224,10 +224,8 @@ def classify_product_category(
         return "unknown"
 
     code_set = {code.casefold() for code in attribute_codes}
-    # Exact code match first (e.g. EVENT) before substring needles.
-    if "event" in code_set or "fathom" in code_set:
-        return "concert_or_event"
     attr_blob = " ".join(sorted(code_set))
+    # Sensory / presentation-specific product codes win over generic EVENT flags.
     for category, needles in _ATTR_CATEGORY_HINTS:
         if any(needle in attr_blob for needle in needles):
             return category
@@ -236,6 +234,10 @@ def classify_product_category(
         for category, pattern in _CATEGORY_PATTERNS:
             if pattern.search(title_blob):
                 return category
+
+    # Generic event codes apply only after title/product-specific matches.
+    if "event" in code_set or "fathom" in code_set:
+        return "concert_or_event"
 
     media = (preferred_media_type or "").casefold()
     if media in {"event", "events"}:
