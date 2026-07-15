@@ -27,6 +27,18 @@ const FORBIDDEN_PATHS = [
   'data/daily_logs',
 ];
 
+/**
+ * Stable cockpit entry paths that must never ship in the public Pages build.
+ * The developer cockpit uses a separate Vite config and must stay out of dist/.
+ */
+const FORBIDDEN_COCKPIT_PATHS = [
+  'cockpit',
+  'cockpit/index.html',
+  'cockpit.html',
+  'dev-cockpit',
+  'dev-cockpit/index.html',
+];
+
 /** Total bytes under dist/data/ must stay well below accidental history CSV size (~75 MB). */
 const MAX_DATA_DIR_BYTES = 5 * 1024 * 1024;
 
@@ -107,6 +119,21 @@ for (const rel of FORBIDDEN_PATHS) {
   const fullPath = join(DIST, rel);
   if (existsSync(fullPath)) {
     fail(`forbidden artifact present: dist/${rel}`);
+  }
+}
+
+for (const rel of FORBIDDEN_COCKPIT_PATHS) {
+  const fullPath = join(DIST, rel);
+  if (existsSync(fullPath)) {
+    fail(`forbidden cockpit artifact present: dist/${rel}`);
+  }
+}
+
+const distIndexHtml = join(DIST, 'index.html');
+if (existsSync(distIndexHtml)) {
+  const indexHtml = readFileSync(distIndexHtml, 'utf8');
+  if (indexHtml.includes('Developer Data Cockpit') || indexHtml.includes('vite.cockpit.config')) {
+    fail('dist/index.html appears to include the developer cockpit entry');
   }
 }
 

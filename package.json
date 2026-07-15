@@ -9,12 +9,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "cockpit": "vite --config vite.cockpit.config.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "test:frontend": "node scripts/run_frontend_tests.mjs",
     "check:dist": "node scripts/check_dist_artifacts.mjs",
     "check:data-freshness": "node scripts/check_local_data_freshness.mjs",
-    "smoke:frontend": "node scripts/smoke_check_frontend.mjs"
+    "smoke:frontend": "node scripts/smoke_check_frontend.mjs",
+    "smoke:cockpit": "node scripts/smoke_check_cockpit.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

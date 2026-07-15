@@ -24,7 +24,13 @@ const REQUIRED_FILES = [
   'marathon/index.html',
 ];
 
-const FORBIDDEN_PATHS = ['data/showtimes_history.csv', 'data/daily_logs'];
+const FORBIDDEN_PATHS = [
+  'data/showtimes_history.csv',
+  'data/daily_logs',
+  'cockpit',
+  'cockpit/index.html',
+  'cockpit.html',
+];
 
 const BUNDLE_MUST_INCLUDE = [
   'showtimes_current.json',
@@ -34,7 +40,13 @@ const BUNDLE_MUST_INCLUDE = [
   '/marathon',
 ];
 
-const BUNDLE_MUST_NOT_INCLUDE = ['showtimes_history.csv', 'papaparse', 'PapaParse'];
+const BUNDLE_MUST_NOT_INCLUDE = [
+  'showtimes_history.csv',
+  'papaparse',
+  'PapaParse',
+  'Developer Data Cockpit',
+  'vite.cockpit.config',
+];
 
 function fail(message) {
   console.error(`smoke_check_frontend: ${message}`);
