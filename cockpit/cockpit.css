@@ -11,9 +11,13 @@ body {
 
 .cockpit-shell,
 .cockpit-blocked {
-  max-width: 40rem;
+  max-width: 52rem;
   margin: 0 auto;
-  padding: 2rem 1.25rem;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.cockpit-header {
+  margin-bottom: 1.5rem;
 }
 
 .cockpit-local-badge {
@@ -35,23 +39,123 @@ body {
 
 .cockpit-shell h1,
 .cockpit-blocked h1 {
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.35rem;
   font-size: 1.35rem;
   font-weight: 650;
 }
 
 .cockpit-shell h2 {
-  margin: 0 0 1rem;
+  margin: 0 0 0.75rem;
   font-size: 1.1rem;
   font-weight: 600;
 }
 
-.cockpit-note {
-  margin: 0;
+.cockpit-shell h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.cockpit-shell h4 {
+  margin: 0.75rem 0 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.cockpit-source-key {
+  font-weight: 500;
+  color: #555;
+}
+
+.cockpit-loading,
+.cockpit-note,
+.cockpit-empty,
+.cockpit-secondary {
   color: #444;
+}
+
+.cockpit-loading {
+  margin: 0;
+  font-weight: 600;
+}
+
+.cockpit-error {
+  border: 1px solid #8a1c1c;
+  background: #fff5f5;
+  padding: 1rem 1.1rem;
+}
+
+.cockpit-error h2 {
+  color: #8a1c1c;
+}
+
+.cockpit-error p {
+  margin: 0.5rem 0 0;
+}
+
+.cockpit-summary,
+.cockpit-source,
+.cockpit-messages,
+.cockpit-semantics-note {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 1rem 1.1rem;
+  margin: 0 0 1rem;
+}
+
+.cockpit-dl {
+  margin: 0;
+  display: grid;
+  gap: 0.35rem 1rem;
+}
+
+.cockpit-dl > div {
+  display: grid;
+  grid-template-columns: minmax(10rem, 14rem) 1fr;
+  gap: 0.35rem 0.75rem;
+}
+
+.cockpit-dl dt {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.cockpit-dl dd {
+  margin: 0;
+}
+
+.cockpit-diagnostics ul,
+.cockpit-messages ul {
+  margin: 0.25rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.cockpit-diagnostics li,
+.cockpit-messages li {
+  margin: 0.2rem 0;
+}
+
+.cockpit-empty {
+  margin: 0.25rem 0 0;
+  font-style: italic;
+}
+
+.cockpit-semantics-note p {
+  margin: 0 0 0.5rem;
+}
+
+.cockpit-semantics-note p:last-child {
+  margin-bottom: 0;
 }
 
 .cockpit-blocked p {
   margin: 0;
   color: #444;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
 }
