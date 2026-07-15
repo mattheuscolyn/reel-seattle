@@ -47,6 +47,7 @@ const BUNDLE_MUST_NOT_INCLUDE = [
   'Developer Data Cockpit',
   'vite.cockpit.config',
   'Theater Registry',
+  'Showtime Inspection',
 ];
 
 function fail(message) {

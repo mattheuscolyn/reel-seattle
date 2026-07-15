@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { isAllowedCockpitHostname } from './isAllowedCockpitHostname.js';
 import PipelineHealthView from './PipelineHealthView.jsx';
+import ShowtimesInspectionView from './ShowtimesInspectionView.jsx';
 import TheaterRegistryView from './TheaterRegistryView.jsx';
 import {
   loadPipelineReportOnce,
@@ -180,6 +181,7 @@ export default function CockpitApp() {
       <CockpitHeader />
       <PipelineHealthSection />
       <TheaterRegistrySection />
+      <ShowtimesInspectionView />
     </main>
   );
 }

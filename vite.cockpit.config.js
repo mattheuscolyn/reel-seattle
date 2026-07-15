@@ -1,4 +1,5 @@
-import { createReadStream, existsSync } from 'node:fs'
+import { appendFileSync, createReadStream, existsSync } from 'node:fs'
+import { env } from 'node:process'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -18,7 +19,20 @@ const ALLOWED_DATA_ROUTES = Object.freeze({
   '/data/theaters.json': fileURLToPath(
     new URL('./public/data/theaters.json', import.meta.url),
   ),
+  '/data/showtimes_current.json': fileURLToPath(
+    new URL('./public/data/showtimes_current.json', import.meta.url),
+  ),
 })
+
+function logDataRequest(path) {
+  const logPath = env.COCKPIT_DATA_REQUEST_LOG
+  if (!logPath) return
+  try {
+    appendFileSync(logPath, `${path}\n`, 'utf8')
+  } catch {
+    // Smoke instrumentation only — never break the server.
+  }
+}
 
 /**
  * Serve a fixed set of committed public/data artifacts into the cockpit dev server.
@@ -36,6 +50,8 @@ function serveAllowedPublicData() {
           next()
           return
         }
+
+        logDataRequest(path)
 
         const filePath = ALLOWED_DATA_ROUTES[path]
         if (!filePath) {

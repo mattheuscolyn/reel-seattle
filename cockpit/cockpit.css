@@ -230,6 +230,63 @@ body {
   font-weight: 700;
 }
 
+.cockpit-inspect-form {
+  margin: 0 0 1rem;
+}
+
+.cockpit-inspect-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: flex-end;
+}
+
+.cockpit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cockpit-field select,
+.cockpit-field input[type='date'] {
+  font: inherit;
+  font-weight: 400;
+  min-width: 14rem;
+  padding: 0.35rem 0.45rem;
+}
+
+.cockpit-inspect-controls button {
+  font: inherit;
+  padding: 0.4rem 0.75rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.cockpit-inspect-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.cockpit-cell-secondary {
+  margin-top: 0.2rem;
+  color: #555;
+  font-size: 0.8rem;
+  white-space: normal;
+  max-width: 18rem;
+}
+
+.cockpit-inspect-results .cockpit-table td:nth-child(2) {
+  white-space: normal;
+  min-width: 10rem;
+}
+
+.cockpit-note {
+  margin: 0.75rem 0 0;
+  color: #444;
+}
+
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.9em;
