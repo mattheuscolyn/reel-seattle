@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-14T00:51:24-07:00",
+  "generated_at": "2026-07-15T00:55:43-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-14",
-    "end_date": "2026-07-28"
+    "start_date": "2026-07-15",
+    "end_date": "2026-07-29"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 44,
-    "flagged_film_count": 12
+    "candidate_film_count": 47,
+    "flagged_film_count": 17
   },
   "items": [
     {
@@ -68,23 +68,35 @@
       "runtime_min": 106
     },
     {
-      "film_key": "bad-guys-2",
-      "film_title": "The Bad Guys 2",
+      "film_key": "amc-screen-unseen-july-27",
+      "film_title": "AMC Screen Unseen: July 27",
       "risk_level": "high",
       "reason": "Only one visible AMC play date remains in the current schedule.",
       "visible_show_date_count": 1,
       "min_show_date": "2026-07-27",
       "max_show_date": "2026-07-27",
-      "total_visible_showtimes": 8,
-      "total_visible_theaters": 4,
+      "total_visible_showtimes": 7,
+      "total_visible_theaters": 7,
       "theaters": [
         {
           "theater_id": "amc-alderwood-mall-16",
           "theater_name": "AMC Alderwood Mall 16"
         },
         {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8"
+        },
+        {
           "theater_id": "amc-kent-station-14",
           "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
         },
         {
           "theater_id": "amc-southcenter-16",
@@ -98,10 +110,34 @@
       "show_dates": [
         "2026-07-27"
       ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783444004/amc-cdn/content/general/el1f7k5iiral7tex8k53.jpg",
+      "runtime_min": 107
+    },
+    {
+      "film_key": "crossing",
+      "film_title": "Crossing",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-15",
+      "max_show_date": "2026-07-15",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-07-15"
+      ],
       "has_primetime": false,
       "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782139519/amc-cdn/content/general/wicenw9rx70mwmmzpu9i.jpg",
-      "runtime_min": 104
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782817724/amc-cdn/production/2/movies/84200/84162/Poster/417144R1.jpg",
+      "runtime_min": 121
     },
     {
       "film_key": "end-of-evangelion-evangelion-30th-movie-fest",
@@ -166,6 +202,54 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818626/amc-cdn/production/2/movies/83900/83874/Poster/420340R1.jpg",
       "runtime_min": 98
+    },
+    {
+      "film_key": "eyes",
+      "film_title": "The Eyes",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-15",
+      "max_show_date": "2026-07-15",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-15"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783373489/amc-cdn/content/general/ipfycdppeces86rhipal.jpg",
+      "runtime_min": 105
+    },
+    {
+      "film_key": "isolate-thief",
+      "film_title": "The Isolate Thief",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-15",
+      "max_show_date": "2026-07-15",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-15"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783534559/amc-cdn/content/general/c1k0o4epnpd2e1shsnya.jpg",
+      "runtime_min": 95
     },
     {
       "film_key": "lego-movie",
@@ -288,6 +372,42 @@
       "runtime_min": 122
     },
     {
+      "film_key": "my-neighbor-totoro-studio-ghibli-fest-2026",
+      "film_title": "My Neighbor Totoro - Studio Ghibli Fest 2026",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-15",
+      "max_show_date": "2026-07-15",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-07-15"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1778698207/amc-cdn/content/general/nm5biblmnbk0rvtgipjd.jpg",
+      "runtime_min": 94
+    },
+    {
       "film_key": "odyssey-sensory-friendly-screening",
       "film_title": "The Odyssey : Sensory Friendly Screening",
       "risk_level": "high",
@@ -312,6 +432,30 @@
       "runtime_min": 172
     },
     {
+      "film_key": "scary-movie",
+      "film_title": "Scary Movie",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-15",
+      "max_show_date": "2026-07-15",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-15"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1776099480/amc-cdn/content/general/ez9bjyimk6axdm9z1kzo.jpg",
+      "runtime_min": 96
+    },
+    {
       "film_key": "splash-city-with-berner-in-person",
       "film_title": "Splash City with Berner in-person",
       "risk_level": "high",
@@ -333,7 +477,7 @@
       "has_primetime": true,
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782760824/amc-cdn/content/general/j0rmn8vkkbhxnvwanoar.jpg",
-      "runtime_min": 123
+      "runtime_min": 143
     },
     {
       "film_key": "summer-tour",
