@@ -116,6 +116,37 @@ tests/fixtures/analysis/amc_source_observations/input_audit.json
 
 Outputs under `local-output/` and `data/analysis/` remain gitignored.
 
+## Live evaluation (P-13E)
+
+Evaluated against a fresh sanitized relationship-audit artifact:
+
+| Item | Value |
+|------|--------|
+| Workflow | [AMC Movie Relationship Audit #29389600353](https://github.com/mattheuscolyn/reel-seattle/actions/runs/29389600353) |
+| Artifact | `amc-wwm-release-audit` |
+| Audit `generated_at` | `2026-07-14T21:43:15-07:00` |
+| Source scrape | `data/daily_logs/2026-07-14_amc.json` |
+| Products built | **44** (42 with release ID, 2 without) |
+| Release observations | **41** (40 singleton, 1 multi-product, largest 2) |
+
+### Case checks
+
+- **Odyssey `377232`:** members `76238` (standard) + `83988` (sensory_friendly); titles/media/attrs/release dates remain product-specific; runtime shared (172); variation flags match.
+- **Moana:** standard `348229` and sensory `419382` stay on separate releases (no title-based merge).
+- **Missing release:** *The Lego Movie* (`83808`) and *The Bad Guys 2* (`83811`) remain valid products with null `source_release_id` and no release rows.
+- **Categories:** with current audit classifier, sensory/mystery labels are coherent; ordinary theatrical titles are not forced to caption/open-caption categories.
+
+Validation: schema + structural checks passed; rebuild with fixed `--generated-at` was byte-identical; field preservation from allowlisted audit rows had **0** mismatches; conflicting-duplicate fixture still raises.
+
+**Outcome A** — prototype is ready for a durable post-scrape source-catalog *design* task (not yet integrate).
+
+### Remaining limitations
+
+- Presentation categories are audit-derived labels, not canonical identity.
+- Live outputs stay in gitignored `local-input/` / `local-output/` only.
+- Sensory↔release linkage remains inconsistent across titles (Odyssey shares; Moana does not) — by design not “fixed.”
+- Older audit run [#29388915878](https://github.com/mattheuscolyn/reel-seattle/actions/runs/29388915878) had stale EVENT-before-sensory categories; prefer a post-`1135076` audit when evaluating labels.
+
 ## Before daily integration
 
 Would require product approval of:
