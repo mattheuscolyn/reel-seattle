@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-15 (P-16C)  
+**Last updated:** 2026-07-15 (P-16D)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -56,6 +56,7 @@ Public UI must not change merely because new source fields are captured.
 | SIFF/Beacon ingestion audit (P-16A) | `Complete` | [independent-theater-ingestion-audit.md](./independent-theater-ingestion-audit.md) |
 | Indie restatement completeness guard (P-16B) | `Complete` | Partial/structural-empty scrapes cannot wipe future rows |
 | Independent source observation contract (P-16C) | `Complete` | [independent-source-observation-contract.md](./independent-source-observation-contract.md) · v1.0.0 |
+| NWFF ingestion prototype (P-16D) | `Complete` | [nwff-ingestion-prototype.md](./nwff-ingestion-prototype.md) · contract emitter only |
 
 ---
 
@@ -67,9 +68,12 @@ Public UI must not change merely because new source fields are captured.
 | P-16A | SIFF/Beacon ingestion behavior audit | `Complete` | — | Drift documented |
 | P-16B | Guard indie restatement on incomplete scrapes | `Complete` | P-16A | Source-wide conservative retention |
 | P-16C | Shared independent-source observation contract | `Complete` | P-16B | Internal v1.0.0; fixtures for four sources |
+| P-16D | Prototype Northwest Film Forum against observation contract | `Complete` | P-16C | Non-production calendar→contract emitter |
+| — | Prepare NWFF registry + production integration design | `Next` | P-16D | Design only; no production ship until identity/coverage gates pass |
+| — | Align Beacon only where necessary | `Planned` | P-16C | Minimal contract alignment |
+| — | Prototype Central Cinema | `Planned` | P-16C | Independent-theater track |
 | — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
 | — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Next` | P-15A | Parallel AMC track |
-| — | Prototype Northwest Film Forum against observation contract | `Next` | P-16C | Independent-theater track step 3 |
 
 ---
 
@@ -203,13 +207,16 @@ Prefer an extensible structured collection, for example:
 | 1 | Audit SIFF and Beacon ingestion behavior (read-only) | `Complete` (P-16A) |
 | 1b | Guard indie restatement on incomplete scrapes | `Complete` (P-16B) |
 | 2 | Define smallest shared source-observation contract | `Complete` (P-16C) |
-| 3 | Prototype Northwest Film Forum | `Next` |
+| 3 | Prototype Northwest Film Forum | `Complete` (P-16D) |
+| 3b | NWFF registry + production integration design | `Next` |
 | 4 | Align Beacon only where necessary | `Planned` |
 | 5 | Prototype Central Cinema | `Planned` |
 | 6 | Align SIFF carefully | `Planned` |
 | 7 | Integrate one new source at a time | `Planned` |
 
 **P-16C contract:** [independent-source-observation-contract.md](./independent-source-observation-contract.md) (`reel_seattle.ingestion.independent_contract`, version `1.0.0`).
+
+**P-16D prototype:** [nwff-ingestion-prototype.md](./nwff-ingestion-prototype.md) (`reel_seattle.prototypes.nwff`) — emits contract results only; no production integration.
 
 ### Confirmed SIFF/Beacon drift (P-16A)
 
@@ -264,17 +271,21 @@ Shared policy requirements:
 
 **Empty-result rule:** an empty parser result must not automatically erase future data unless the expected page structure and requested range were successfully inspected.
 
-### Northwest Film Forum plan
+### Northwest Film Forum (P-16D complete)
 
-* Calendar as discovery and primary showtime authority.
-* `/films/` slug as likely stable program ID.
-* Each film page fetched once for metadata.
-* Every calendar occurrence retained separately.
-* Enough calendar pages fetched to cover the configured window.
-* Detail-page schedule used as validation or fallback.
-* Disagreements reported rather than combined.
-* Exact source title preserved.
-* Non-film categories excluded only when clearly identified.
+Prototype shipped (non-production). Live findings:
+
+* Calendar pages are week views; `?start=` accepts mid-week dates and shows the containing week.
+* Adjacent weeks can overlap when traversing; occurrences are deduplicated.
+* Calendar `ScreeningEvent` / `data-calendar-item` rows are the showtime authority.
+* `/films/{slug}/` is stable enough for `source_program_id`.
+* Workshops are distinguishable via `calendar__item--workshop` / education paths.
+* No source-owned showtime/performance ID observed → composite fallback.
+* Planned theater ID `northwest-film-forum` is not yet in `data/theaters.json`.
+* Off-site location labels must not silently map to NWFF.
+* Detail-page `<time datetime>` schedules are useful for mismatch warnings only.
+
+Contract gaps: none required for P-16D. Next indie step is **NWFF registry + production integration design** (not automatic production ship).
 
 ### Central Cinema plan
 
@@ -288,7 +299,7 @@ Shared policy requirements:
 * Explicit year-rollover handling.
 * Screening-specific prose retained without broad presentation extraction initially.
 
-Do not implement NWFF or Central until the shared contract exists and SIFF/Beacon dangerous restatement gaps are addressed or explicitly deferred.
+Do not implement Central until the shared contract exists and SIFF/Beacon dangerous restatement gaps are addressed or explicitly deferred. NWFF has a non-production prototype (P-16D); production integration remains gated.
 
 ---
 
@@ -343,10 +354,11 @@ P-15A  AMC Showtimes field audit (capture gap)     ← Complete
 P-16A  SIFF/Beacon ingestion audit                 ← Complete
 P-16B  Indie restatement completeness guard        ← Complete
 P-16C  Independent source observation contract     ← Complete (v1.0.0)
+P-16D  NWFF ingestion prototype                    ← Complete (non-production)
    ↓
 Parallel next:
   • Expand AMC scrape-log capture (attributes/languages/ids)
-  • Prototype NWFF against observation contract (fixtures + live read-only)
+  • NWFF registry + production integration design (gates before ship)
    ↓
 Beacon align → Central prototype → SIFF align → integrate one-by-one
 ```

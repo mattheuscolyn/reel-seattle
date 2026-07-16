@@ -50,7 +50,10 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `audit-output/*` | Manual audit CLI / workflow artifacts | No — gitignored |
 | `schema/ingestion/independent_source_observations/v1.0.0.json` | Internal independent-source observation contract schema | Authored · internal · **not** public |
 | `tests/fixtures/ingestion/independent_contract/` | Contract fixture results (SIFF/Beacon/NWFF/Central) | Test fixtures · not production data |
+| `tests/fixtures/adapters/nwff/` | NWFF HTML fixtures for prototype | Test fixtures · not production data |
 | `reel_seattle/ingestion/` | Shared independent-source observation contract | Library · non-production adapters |
+| `reel_seattle/prototypes/nwff.py` | NWFF contract emitter prototype | Non-production · local/workflow only |
+| `scripts/prototype_nwff_ingestion.py` | NWFF prototype CLI | Fixture or live read-only |
 | `local-output/*` | Manual local tool/prototype outputs | No — gitignored |
 
 ### Durable AMC source catalog (internal; production-generated)
