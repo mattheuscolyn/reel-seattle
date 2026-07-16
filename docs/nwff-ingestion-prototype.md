@@ -4,7 +4,7 @@
 **Contract:** Independent source observation contract `v1.0.0`  
 **Package:** `reel_seattle.prototypes.nwff`  
 **CLI:** `scripts/prototype_nwff_ingestion.py`  
-**Last updated:** 2026-07-15
+**Last updated:** 2026-07-15 (P-16E)
 
 ## Purpose
 
@@ -120,14 +120,27 @@ Writes only under the requested ignored output directory:
 * Detail prose schedule parsing is best-effort diagnostics
 * Live HTML markup drift can cause structural or partial failure
 
+## Production-integration design
+
+Design complete: [nwff-production-integration-design.md](./nwff-production-integration-design.md) (P-16E).
+
+Summary of chosen direction:
+
+* One registry theater: `northwest-film-forum`
+* Accept main venue only; reject off-site/online
+* Contract → validated scrape log (full result + RawShowtime records) → indie restatement
+* Slug identity via history `source_film_id`; no history-schema change for v1
+* 14-day Pacific window; source-wide restatement when `restate_safe`
+* First implementation: **P-16F** (registry + mapping; no daily workflow)
+
 ## Production-integration prerequisites
 
-Before any production NWFF work:
+Before production NWFF ship (see design for details):
 
-1. Add `northwest-film-forum` to the theater registry (or document multi-venue mapping)
-2. Confirm location labeling policy for off-site screenings
-3. Decide whether calendar authority remains sole showtime source
-4. Align SIFF/Beacon adapters to the shared contract (or document intentional gaps)
-5. Design pipeline reporting + restatement slice for the new source
+1. Add `northwest-film-forum` and extend theaters `source` enum with `nwff`
+2. Confirm off-site exclusion (product default: exclude)
+3. Keep calendar as sole showtime authority
+4. Wire pipeline_report / showtimes `source` enums for `nwff`
+5. Soft-fail isolation + stale retention
 
-Do **not** treat this prototype as production-ready ingestion.
+Do **not** treat this prototype alone as production-ready ingestion.

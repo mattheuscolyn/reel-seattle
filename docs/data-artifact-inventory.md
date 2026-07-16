@@ -53,6 +53,8 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `tests/fixtures/adapters/nwff/` | NWFF HTML fixtures for prototype | Test fixtures · not production data |
 | `reel_seattle/ingestion/` | Shared independent-source observation contract | Library · non-production adapters |
 | `reel_seattle/prototypes/nwff.py` | NWFF contract emitter prototype | Non-production · local/workflow only |
+| `docs/nwff-ingestion-prototype.md` | NWFF non-production prototype guide | Authored |
+| `docs/nwff-production-integration-design.md` | NWFF production integration design (P-16E) | Authored · not implemented |
 | `scripts/prototype_nwff_ingestion.py` | NWFF prototype CLI | Fixture or live read-only |
 | `local-output/*` | Manual local tool/prototype outputs | No — gitignored |
 
