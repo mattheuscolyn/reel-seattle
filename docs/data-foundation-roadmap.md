@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-15 (P-15A)  
+**Last updated:** 2026-07-15 (P-16A)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -53,6 +53,7 @@ Public UI must not change merely because new source fields are captured.
 | Daily catalog integration design | `Complete` | [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md) |
 | Daily catalog workflow wiring (P-14D) | `Complete` | Non-blocking late stage; `all-active`; atomic promotion; same generated-data commit |
 | AMC Showtimes field audit (P-15A) | `Complete` | [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) — log capture gap + fixture taxonomy |
+| SIFF/Beacon ingestion audit (P-16A) | `Complete` | [independent-theater-ingestion-audit.md](./independent-theater-ingestion-audit.md) |
 
 ---
 
@@ -60,10 +61,12 @@ Public UI must not change merely because new source fields are captured.
 
 | ID | Item | Status | Dependency | Notes |
 |----|------|--------|------------|-------|
-| P-15A | AMC Showtimes field + attribute taxonomy audit | `Complete` | P-14D optional | Shipped 2026-07-15; primary finding = capture gap |
+| P-15A | AMC Showtimes field + attribute taxonomy audit | `Complete` | P-14D optional | Primary finding = capture gap |
+| P-16A | SIFF/Beacon ingestion behavior audit | `Complete` | — | Drift + empty/partial-failure risks documented |
 | — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
-| — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Next` | P-15A | Required before production `presentation_attributes[]` |
-| — | Read-only SIFF/Beacon ingestion behavior audit | `Next` | — | Independent-theater track step 1 |
+| — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Next` | P-15A | Parallel AMC track; required before `presentation_attributes[]` |
+| — | Fix SIFF/Beacon partial-failure restatement guard | `Next` | P-16A | Recommended dangerous-behavior spike before/with contract |
+| — | Define + test shared source-observation contract | `Next` | P-16A | Independent-theater track step 2 |
 
 ---
 
@@ -194,30 +197,43 @@ Prefer an extensible structured collection, for example:
 
 | Step | Item | Status |
 |------|------|--------|
-| 1 | Audit SIFF and Beacon ingestion behavior (read-only) | `Next` |
-| 2 | Define smallest shared source-observation contract | `Planned` |
+| 1 | Audit SIFF and Beacon ingestion behavior (read-only) | `Complete` (P-16A) |
+| 2 | Define smallest shared source-observation contract | `Next` |
 | 3 | Prototype Northwest Film Forum | `Planned` |
 | 4 | Align Beacon only where necessary | `Planned` |
 | 5 | Prototype Central Cinema | `Planned` |
 | 6 | Align SIFF carefully | `Planned` |
 | 7 | Integrate one new source at a time | `Planned` |
 
-### Shared independent-source contract (planned)
+**P-16A audit:** [independent-theater-ingestion-audit.md](./independent-theater-ingestion-audit.md)
+
+### Confirmed SIFF/Beacon drift (P-16A)
+
+* Shared legacy indie path, but **no explicit ingestion contract**.
+* Neither source stores `source_program_id` / `source_showtime_id` (URLs only in scrape logs; dropped before history).
+* Beacon mutates titles via `.title()`; SIFF preserves document title.
+* Year handling unsafe (Beacon = run year; SIFF may use first page year).
+* Forward `FetchContext` window unused; public emit truncates separately (14 days).
+* Empty vs structural failure vs valid empty not distinguished — Beacon recently logged multi-day **0 rows / 0 warnings** while pipeline still reported `success` from preserved history.
+* Partial film-page failure still restates source-wide (can wipe missing programs); SIFF restatement is not theater-scoped.
+
+### Shared independent-source contract (planned; refined by P-16A)
 
 Future adapters should preserve:
 
 * stable source identifier,
-* source-owned film/event/program ID when available,
+* source-owned film/event/program ID when available (else durable URL/slug as program ID),
 * source-owned showtime/performance ID when available,
-* exact source title,
-* canonical theater ID,
+* exact source title (unmutated),
+* canonical theater ID (resolved before production accept),
 * local date/time in `America/Los_Angeles`,
 * source page URL,
 * showtime-specific ticket URL when available,
 * raw source-native metadata,
 * scrape status,
 * warnings,
-* structural validation results.
+* structural validation results,
+* `requested_window` / `inspected_window` coverage proof.
 
 Shared policy requirements:
 
@@ -228,8 +244,8 @@ Shared policy requirements:
 * structurally broken pages,
 * valid empty schedules,
 * stale-data preservation,
-* future-window restatement,
-* pipeline reporting.
+* future-window restatement (prefer slice/theater granularity for multi-venue orgs),
+* pipeline reporting (scrape status separate from publish freshness).
 
 **Empty-result rule:** an empty parser result must not automatically erase future data unless the expected page structure and requested range were successfully inspected.
 
@@ -257,7 +273,7 @@ Shared policy requirements:
 * Explicit year-rollover handling.
 * Screening-specific prose retained without broad presentation extraction initially.
 
-Do not implement NWFF or Central in P-15A.
+Do not implement NWFF or Central until the shared contract exists and SIFF/Beacon dangerous restatement gaps are addressed or explicitly deferred.
 
 ---
 
@@ -309,11 +325,14 @@ Registry remains canonical authored data (`data/theaters.json`). Expand only wit
 
 ```text
 P-15A  AMC Showtimes field audit (capture gap)     ← Complete
+P-16A  SIFF/Beacon ingestion audit                 ← Complete
    ↓
-Expand AMC scrape-log capture (attributes/languages/ids)   OR
-Read-only SIFF/Beacon ingestion audit (independent-theater step 1)
+Parallel next:
+  • Expand AMC scrape-log capture (attributes/languages/ids)
+  • Fix SIFF/Beacon partial-failure restatement guard  OR
+    define shared source-observation contract (track step 2)
    ↓
-Versioned presentation_attributes contract (after capture)
+Versioned presentation_attributes contract (after AMC capture)
    ↓
 NWFF prototype → Beacon align → Central prototype → SIFF align
 ```
