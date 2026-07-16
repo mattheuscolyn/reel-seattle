@@ -1,15 +1,31 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-15T20:50:43-07:00",
+  "generated_at": "2026-07-15T22:40:34-07:00",
   "source": "beacon",
   "records": [],
   "stats": {
     "record_count": 0,
-    "warning_count": 0,
+    "warning_count": 1,
     "error_count": 0,
+    "scrape_status": "structural_failure",
+    "restate_safe": false,
+    "expected_structure_present": true,
+    "discovery_ok": true,
+    "discovered_programs": 0,
+    "program_pages_attempted": 0,
+    "program_pages_succeeded": 0,
+    "program_pages_failed": 0,
+    "failed_program_urls": [],
+    "valid_empty_proof": false,
+    "stale_retention_recommended": true,
+    "inspected_scope_complete": false,
+    "requested_window_start": "2026-07-16",
+    "requested_window_end": "2027-07-16",
     "records_fetched": 0,
     "film_pages_scraped": 0
   },
-  "warnings": [],
+  "warnings": [
+    "Beacon scrape returned zero showtimes without valid-empty proof; retained prior future rows if present (restate blocked)."
+  ],
   "errors": []
 }
