@@ -88,12 +88,18 @@ def _write_fixture_json_logs(logs_dir: Path) -> None:
     write_scrape_daily_log(
         daily_log_path(REFERENCE_TODAY, "siff", logs_dir=logs_dir),
         "siff",
-        FetchResult(records=siff_records),
+        FetchResult(
+            records=siff_records,
+            stats={"restate_safe": True, "scrape_status": "success"},
+        ),
     )
     write_scrape_daily_log(
         daily_log_path(REFERENCE_TODAY, "beacon", logs_dir=logs_dir),
         "beacon",
-        FetchResult(records=beacon_records),
+        FetchResult(
+            records=beacon_records,
+            stats={"restate_safe": True, "scrape_status": "success"},
+        ),
     )
 
 
@@ -215,7 +221,7 @@ def test_resolve_indie_source_scrape_rows_prefers_json(tmp_path):
         ),
     )
     theater_index = load_theater_index(REGISTRY_PATH)
-    rows, label, kind = resolve_indie_source_scrape_rows(
+    rows, label, kind, stats = resolve_indie_source_scrape_rows(
         "siff",
         REFERENCE_TODAY,
         tmp_path / "missing.csv",
@@ -224,6 +230,7 @@ def test_resolve_indie_source_scrape_rows_prefers_json(tmp_path):
     )
     assert kind == "json"
     assert rows[0]["Film"] == "JSON SIFF Film"
+    assert isinstance(stats, dict)
 
 
 def test_malformed_json_does_not_fall_back_to_csv(tmp_path):

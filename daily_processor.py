@@ -15,6 +15,7 @@ from reel_seattle.adapters.scrape_log import (
     load_scrape_daily_log,
     raw_showtimes_to_legacy_rows,
 )
+from reel_seattle.adapters.indie_completeness import is_indie_restate_allowed
 
 INDIE_RESTATE_SOURCES = ("siff", "beacon")
 
@@ -211,8 +212,12 @@ def resolve_indie_source_scrape_rows(
     theater_index,
     *,
     logs_dir: Path | str = DEFAULT_DAILY_LOGS_DIR,
-) -> tuple[list[dict], str, str]:
-    """Return indie source scrape rows, input label, and input kind."""
+) -> tuple[list[dict], str, str, dict | None]:
+    """Return indie source scrape rows, input label, input kind, and scrape stats.
+
+    Stats are present for JSON daily logs (may be empty dict). CSV fallback returns
+    ``None`` stats so restatement uses the legacy empty-only guard.
+    """
     if source not in INDIE_RESTATE_SOURCES:
         raise ValueError(f"unsupported indie source: {source}")
 
@@ -221,18 +226,19 @@ def resolve_indie_source_scrape_rows(
         result = load_scrape_daily_log(json_path)
         _log_scrape_json_messages(result, source=source)
         rows = raw_showtimes_to_legacy_rows(source, result.records)
-        return rows, str(json_path), "json"
+        stats = dict(result.stats) if isinstance(result.stats, dict) else {}
+        return rows, str(json_path), "json", stats
 
     csv_file = str(csv_path)
     if not Path(csv_file).exists():
-        return [], csv_file, "csv"
+        return [], csv_file, "csv", None
 
     filtered = [
         row
         for row in read_csv(csv_file)
         if resolve_indie_row_source(row, theater_index) == source
     ]
-    return filtered, f"{csv_file} ({source} filter)", "csv"
+    return filtered, f"{csv_file} ({source} filter)", "csv", None
 
 
 def process_indie_csv_data(
@@ -250,12 +256,17 @@ def process_indie_csv_data(
     Restate SIFF and Beacon showtimes for today and future from the latest scrape.
     Each indie source is restated independently with its own safety guard.
     Past rows are never removed.
+
+    Restatement proceeds only when the scrape is restatement-safe (JSON completeness
+    metadata) or, for legacy CSV-only input, when the historical empty-incoming
+    guard passes. Incomplete / structurally empty JSON scrapes preserve existing
+    future rows even when some showtimes were parsed.
     """
     today_date = today_date or datetime.now().date()
     run_date_iso = run_date_iso or today
 
     for source in INDIE_RESTATE_SOURCES:
-        current_data, input_label, input_kind = resolve_indie_source_scrape_rows(
+        current_data, input_label, input_kind, scrape_stats = resolve_indie_source_scrape_rows(
             source,
             run_date_iso,
             csv_file,
@@ -274,12 +285,21 @@ def process_indie_csv_data(
             current_data, source, theater_index, today_date
         )
 
-        if existing_future > 0 and incoming_future == 0:
-            print(
-                f"ERROR: {source} restate skipped — incoming scrape has 0 future rows, "
-                f"but history has {existing_future} {source} future rows. "
-                f"Existing future {source} history preserved."
-            )
+        allowed, skip_reason = is_indie_restate_allowed(
+            input_kind=input_kind,
+            stats=scrape_stats,
+            existing_future=existing_future,
+            incoming_future=incoming_future,
+        )
+        if not allowed:
+            print(f"ERROR: {source} restate skipped — {skip_reason}")
+            if scrape_stats and scrape_stats.get("stale_retention_recommended"):
+                print(
+                    f"  Diagnostics ({source}): scrape_status="
+                    f"{scrape_stats.get('scrape_status')!r} restate_safe="
+                    f"{scrape_stats.get('restate_safe')!r} "
+                    f"stale_retention=True"
+                )
             continue
 
         before_count = len(history_data)

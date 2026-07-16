@@ -9,10 +9,23 @@ from typing import Callable
 from bs4 import BeautifulSoup
 
 from reel_seattle.adapters.base import FetchContext, FetchResult, RawShowtime
+from reel_seattle.adapters.indie_completeness import decide_beacon_completeness
 from reel_seattle.adapters.indie_legacy import format_indie_date, session_for_context
 
 BEACON_CALENDAR_URL = "https://thebeacon.film/calendar"
 BEACON_THEATER_NAME = "The Beacon"
+
+
+def beacon_calendar_structure_present(html: str) -> bool:
+    """Return True when calendar HTML contains expected Beacon calendar markers."""
+    if not html or not str(html).strip():
+        return False
+    text = str(html)
+    lowered = text.casefold()
+    if "thebeacon.film/calendar" in lowered or "/calendar/movie/" in lowered:
+        return True
+    # Calendar shell without current movie links still references the calendar path.
+    return "calendar" in lowered and ("beacon" in lowered or "thebeacon" in lowered)
 
 
 def extract_beacon_movie_links(calendar_html: str) -> set[str]:
@@ -84,26 +97,61 @@ def fetch_beacon_showtimes(
 
     calendar_html = fetch_text(BEACON_CALENDAR_URL)
     if not calendar_html:
-        message = f"Failed to fetch {BEACON_CALENDAR_URL}"
-        warnings.append(message)
-        return FetchResult(records=[], stats={"records_fetched": 0}, warnings=warnings, errors=errors)
+        completeness, completeness_warnings = decide_beacon_completeness(
+            discovery_ok=False,
+            expected_structure_present=False,
+            discovered_programs=0,
+            program_pages_succeeded=0,
+            program_pages_failed=0,
+            record_count=0,
+            window_start=context.window_start,
+            window_end=context.window_end,
+            extra={"records_fetched": 0, "film_pages_scraped": 0},
+        )
+        warnings.append(f"Failed to fetch {BEACON_CALENDAR_URL}")
+        warnings.extend(completeness_warnings)
+        return FetchResult(
+            records=[],
+            stats=completeness,
+            warnings=warnings,
+            errors=errors,
+        )
 
-    movie_links = extract_beacon_movie_links(calendar_html)
+    structure_ok = beacon_calendar_structure_present(calendar_html)
+    movie_links = sorted(extract_beacon_movie_links(calendar_html))
     records: list[RawShowtime] = []
+    failed_urls: list[str] = []
+    succeeded = 0
+
     for link in movie_links:
         film_html = fetch_text(link)
         if not film_html:
             warnings.append(f"Failed to fetch {link}")
+            failed_urls.append(link)
             continue
         records.extend(parse_beacon_film_page(film_html, current_year=year, film_url=link))
+        succeeded += 1
         if sleep_seconds:
             time.sleep(sleep_seconds)
 
-    stats = {
-        "records_fetched": len(records),
-        "film_pages_scraped": len(movie_links),
-    }
-    return FetchResult(records=records, stats=stats, warnings=warnings, errors=errors)
+    completeness, completeness_warnings = decide_beacon_completeness(
+        discovery_ok=True,
+        expected_structure_present=structure_ok,
+        discovered_programs=len(movie_links),
+        program_pages_succeeded=succeeded,
+        program_pages_failed=len(failed_urls),
+        record_count=len(records),
+        failed_program_urls=failed_urls,
+        window_start=context.window_start,
+        window_end=context.window_end,
+        extra={
+            "records_fetched": len(records),
+            "film_pages_scraped": len(movie_links),
+        },
+    )
+    warnings.extend(completeness_warnings)
+
+    return FetchResult(records=records, stats=completeness, warnings=warnings, errors=errors)
 
 
 class BeaconAdapter:

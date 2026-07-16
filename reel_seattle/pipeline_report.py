@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from reel_seattle.adapters.scrape_log import DEFAULT_DAILY_LOGS_DIR, daily_log_path
+from reel_seattle.adapters.indie_completeness import derived_indie_completeness_warnings
 from reel_seattle.source_freshness import KNOWN_SOURCES
 from reel_seattle.validate import validate_pipeline_report
 
@@ -115,10 +116,14 @@ def load_daily_scrape_diagnostics(
         warnings.extend(_coerce_string_list(payload.get("warnings")))
         errors.extend(_coerce_string_list(payload.get("errors")))
 
-        if source == "amc":
-            stats = payload.get("stats")
-            if isinstance(stats, dict):
+        stats = payload.get("stats")
+        if isinstance(stats, dict):
+            if source == "amc":
                 for message in _derived_amc_warnings(stats):
+                    if message not in warnings:
+                        warnings.append(message)
+            elif source in {"siff", "beacon"}:
+                for message in derived_indie_completeness_warnings(source, stats):
                     if message not in warnings:
                         warnings.append(message)
 

@@ -192,7 +192,7 @@ AMC locations that appeared in historical scrapes but are **not** in the registr
 
 ### Indie adapters (PR 16) and normalized raw JSON logs (PR 17)
 
-`webscrapetheaters.py` delegates to `reel_seattle/adapters/siff.py` and `reel_seattle/adapters/beacon.py`. Each adapter fetches and parses its site HTML, returns `RawShowtime` records, writes a normalized JSON daily log under `data/daily_logs/YYYY-MM-DD_{source}.json`, and the CLI converts combined records to the legacy indie CSV shape (`public/indieshowtimes.csv`). SIFF venues include SIFF Cinema Downtown, SIFF Cinema Uptown, and SIFF Film Center; Beacon rows use `The Beacon`.
+`webscrapetheaters.py` delegates to `reel_seattle/adapters/siff.py` and `reel_seattle/adapters/beacon.py`. Each adapter fetches and parses its site HTML, returns `RawShowtime` records plus completeness stats (`restate_safe`, page success/failure counts), writes a normalized JSON daily log under `data/daily_logs/YYYY-MM-DD_{source}.json`, and the CLI converts combined records to the legacy indie CSV shape (`public/indieshowtimes.csv`). SIFF venues include SIFF Cinema Downtown, SIFF Cinema Uptown, and SIFF Film Center; Beacon rows use `The Beacon`. Completeness helpers live in `reel_seattle/adapters/indie_completeness.py`.
 
 `amc_logger.py` and the indie scraper still write legacy CSV files for at least one release cycle. `daily_processor.py` reads today's JSON logs first when present; missing JSON falls back to CSV. Malformed JSON raises a clear error and does not silently fall back.
 
@@ -277,7 +277,16 @@ Each migration updates canonical history only.
 
 **AMC restate:** Each scrape replaces AMC rows for **today and future** in history (dropped showtimes disappear). Past AMC days are never removed.
 
-**Indie restate (PR 13):** SIFF and Beacon are restated independently for **today and future**, mirroring AMC semantics. Source is inferred from the theater registry (`siff` or `beacon`, not generic `indie`). Each source has its own safety guard: if incoming future rows for that source are zero but history has future rows for that source, restate is skipped with an `ERROR:` log. A failed SIFF scrape does not block a valid Beacon restate.
+**Indie restate (PR 13 + P-16B):** SIFF and Beacon are restated independently for **today and future**, mirroring AMC semantics. Source is inferred from the theater registry (`siff` or `beacon`, not generic `indie`).
+
+**Indie restatement safety (P-16B):** Adapters write completeness metadata on scrape-log `stats` (`restate_safe`, `scrape_status`, discovered/succeeded/failed program-page counts, structural flags). `daily_processor` restates a source only when `restate_safe` is true.
+
+* **SIFF:** any failed discovered film/program page → `partial_failure`, `restate_safe=false` (source-wide; parsed rows remain in the log for inspection but do not replace history).
+* **Beacon:** zero showtimes without affirmative valid-empty proof → suspicious/structural empty, `restate_safe=false`. Valid empty requires expected calendar structure, all discovered movie pages loaded, and zero showtimes.
+* **Legacy:** JSON logs lacking `restate_safe` are treated conservatively (block when future history exists). CSV-only fallback keeps the older empty-incoming guard.
+* Restatement remains **source-wide** (not theater-slice). A failed SIFF scrape does not block a valid Beacon restate.
+
+Pipeline diagnostics derive warnings such as “SIFF scrape partial…” / “Beacon scrape structurally empty…” from log stats. Published `sources.*.status` / `last_successful_run` still reflect the current public artifact (stale retained rows can remain visible); incomplete scrapes do not rewrite history `last_updated`, so they do not advance that freshness signal via restatement.
 
 **AMC restate safety guard:** If `public/showtimes.csv` has zero today-and-future rows but history still has AMC forward rows, the processor **skips** AMC restate and preserves existing forward AMC history (logs an `ERROR:` message). This prevents a failed or stale scrape from wiping irreplaceable forward-window data.
 

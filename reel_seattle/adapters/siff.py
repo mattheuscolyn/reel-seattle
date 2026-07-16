@@ -10,6 +10,7 @@ from typing import Callable
 from bs4 import BeautifulSoup
 
 from reel_seattle.adapters.base import FetchContext, FetchResult, RawShowtime
+from reel_seattle.adapters.indie_completeness import decide_siff_completeness
 from reel_seattle.adapters.indie_legacy import (
     SUPPORTED_SIFF_VENUES,
     format_indie_date,
@@ -18,6 +19,18 @@ from reel_seattle.adapters.indie_legacy import (
 
 SIFF_BASE_URL = "https://www.siff.net"
 SIFF_IN_THEATERS_URL = f"{SIFF_BASE_URL}/cinema/in-theaters"
+
+
+def siff_listing_structure_present(html: str) -> bool:
+    """Return True when the listing page looks like the expected SIFF cinema markup."""
+    if not html or not str(html).strip():
+        return False
+    text = str(html)
+    if "/cinema/in-theaters/" in text or "/programs-and-events/" in text:
+        return True
+    # Empty-but-valid listing pages still reference the cinema section.
+    lowered = text.casefold()
+    return "in-theaters" in lowered or "siff" in lowered
 
 
 def extract_siff_movie_links(html: str, *, base_url: str = SIFF_BASE_URL) -> set[str]:
@@ -138,16 +151,37 @@ def fetch_siff_showtimes(
 
     listing_html = fetch_text(SIFF_IN_THEATERS_URL)
     if not listing_html:
-        message = f"Failed to fetch {SIFF_IN_THEATERS_URL}"
-        warnings.append(message)
-        return FetchResult(records=[], stats={"records_fetched": 0}, warnings=warnings, errors=errors)
+        completeness, completeness_warnings = decide_siff_completeness(
+            discovery_ok=False,
+            expected_structure_present=False,
+            discovered_programs=0,
+            program_pages_succeeded=0,
+            program_pages_failed=0,
+            record_count=0,
+            window_start=context.window_start,
+            window_end=context.window_end,
+            extra={"records_fetched": 0, "film_pages_scraped": 0, "venues_found": []},
+        )
+        warnings.append(f"Failed to fetch {SIFF_IN_THEATERS_URL}")
+        warnings.extend(completeness_warnings)
+        return FetchResult(
+            records=[],
+            stats=completeness,
+            warnings=warnings,
+            errors=errors,
+        )
 
-    movie_links = extract_siff_movie_links(listing_html)
+    structure_ok = siff_listing_structure_present(listing_html)
+    movie_links = sorted(extract_siff_movie_links(listing_html))
     records: list[RawShowtime] = []
+    failed_urls: list[str] = []
+    succeeded = 0
+
     for movie_url in movie_links:
         film_html = fetch_text(movie_url)
         if not film_html:
             warnings.append(f"Failed to fetch {movie_url}")
+            failed_urls.append(movie_url)
             continue
         records.extend(
             parse_siff_film_page(
@@ -156,15 +190,29 @@ def fetch_siff_showtimes(
                 current_year=year,
             )
         )
+        succeeded += 1
         if sleep_seconds:
             time.sleep(sleep_seconds)
 
-    stats = {
-        "records_fetched": len(records),
-        "film_pages_scraped": len(movie_links),
-        "venues_found": sorted({record.theater_name_raw for record in records}),
-    }
-    return FetchResult(records=records, stats=stats, warnings=warnings, errors=errors)
+    completeness, completeness_warnings = decide_siff_completeness(
+        discovery_ok=True,
+        expected_structure_present=structure_ok,
+        discovered_programs=len(movie_links),
+        program_pages_succeeded=succeeded,
+        program_pages_failed=len(failed_urls),
+        record_count=len(records),
+        failed_program_urls=failed_urls,
+        window_start=context.window_start,
+        window_end=context.window_end,
+        extra={
+            "records_fetched": len(records),
+            "film_pages_scraped": len(movie_links),
+            "venues_found": sorted({record.theater_name_raw for record in records}),
+        },
+    )
+    warnings.extend(completeness_warnings)
+
+    return FetchResult(records=records, stats=completeness, warnings=warnings, errors=errors)
 
 
 class SiffAdapter:

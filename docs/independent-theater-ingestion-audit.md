@@ -2,11 +2,11 @@
 
 **Status:** Complete (read-only)  
 **Track:** Data Foundation · Independent-theater ingestion  
-**Last updated:** 2026-07-15  
+**Last updated:** 2026-07-15 (P-16B follow-up)  
 **Guiding principle:** Different extraction strategies, one explicit ingestion contract.  
 **Related:** [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [SCRAPING_README.md](../SCRAPING_README.md) · [data-artifact-inventory.md](./data-artifact-inventory.md)
 
-This audit is repository-grounded. It does **not** change SIFF or Beacon production scraping, restatement, history, schemas, or the daily workflow.
+This document began as a read-only audit (P-16A). **P-16B** implemented the partial-failure / structural-empty restatement guard described below; it did **not** implement the full shared source-observation contract, NWFF/Central scrapers, or theater-slice restatement.
 
 ---
 
@@ -30,12 +30,40 @@ Confirmed drift and risks:
 4. **Year handling is unsafe** — Beacon always uses run year; SIFF falls back to the first `\d{4}` anywhere on the page when the date header omits a year.
 5. **Beacon mutates titles** with `.title()` (e.g. `II` → `Ii` in live logs).
 6. **Empty vs failure vs broken page are not distinguished** — Beacon has returned **0 records with 0 warnings** for multiple consecutive days while pipeline report still shows `success` from preserved history.
-7. **Partial film-page failure still restates** — can wipe future rows for films whose detail pages failed while keeping others.
-8. **Restatement is source-wide, not theater-scoped** — one SIFF wipe covers Downtown + Uptown + Film Center together.
+7. **Partial film-page failure still restated** (P-16A) — **mitigated in P-16B** via `restate_safe=false` on any failed SIFF program page.
+8. **Restatement is source-wide, not theater-scoped** — one SIFF wipe covers Downtown + Uptown + Film Center together (**still true**; P-16B retains conservatively).
 9. **SIFF `screening-*` HTML IDs and Beacon `data-value` are discarded** — natural showtime identity candidates unused.
-10. **No adapter-level dedup**; no structural validation contract.
+10. **No adapter-level dedup**; structural validation is minimal (P-16B adds listing/calendar structure checks + completeness stats only).
 
-**Recommended next step (choose one):** fix the clearly dangerous **partial-failure restatement** behavior (do not wipe future rows when a material share of film pages failed), before formalizing the shared contract. Defining the contract remains the immediate track step after that spike — or immediately if product prefers contract-first.
+**P-16B shipped:** restatement eligibility from scrape completeness metadata. **Recommended next:** define and fixture-test the smallest shared independent-source observation contract.
+
+---
+
+## P-16B restatement-safety rule (implemented)
+
+> A source may replace future rows only when `stats.restate_safe` is true.
+
+### SIFF
+
+* Counts: `discovered_programs`, `program_pages_succeeded`, `program_pages_failed`, `failed_program_urls`.
+* **Any** failed discovered program page → `scrape_status=partial_failure`, `restate_safe=false`.
+* Parsed rows may still appear in the daily JSON log for inspection.
+* Later complete scrapes (`restate_safe=true`) resume normal restatement.
+
+### Beacon
+
+* Calendar structure markers required; zero showtimes with **zero discovered movie links** is **suspicious empty** (not valid empty).
+* Valid empty requires structure present, discovered > 0, all pages succeeded, zero showtimes.
+* Suspicious empty / structural / request failure → retain prior futures.
+
+### Shared
+
+* Source-wide scope unchanged.
+* Past rows never removed.
+* SIFF/Beacon isolation unchanged.
+* Old JSON without `restate_safe` → conservative skip when future history exists.
+* CSV-only path → legacy empty-incoming guard only.
+* Pipeline diagnostics derive incompleteness warnings; publish freshness may still show retained rows as `success` until they age out of the window — incomplete scrapes do not advance history `last_updated` via restatement.
 
 ---
 
