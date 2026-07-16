@@ -2,14 +2,14 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-15  
+**Last updated:** 2026-07-15 (P-15A)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
 
 Do **not** turn this into a ticket system. Keep statuses updated after meaningful tasks. Link out to detailed design docs instead of duplicating them.
 
-**Related:** [development-operating-model.md](./development-operating-model.md) · [data-artifact-inventory.md](./data-artifact-inventory.md) · [product-roadmap.md](./product-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [amc-source-catalog.md](./amc-source-catalog.md)
+**Related:** [development-operating-model.md](./development-operating-model.md) · [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [product-roadmap.md](./product-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [amc-source-catalog.md](./amc-source-catalog.md) · [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md)
 
 ---
 
@@ -52,6 +52,7 @@ Public UI must not change merely because new source fields are captured.
 | AMC catalog refresh stage (offline/live CLI) | `Complete` | [amc-source-catalog.md](./amc-source-catalog.md) |
 | Daily catalog integration design | `Complete` | [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md) |
 | Daily catalog workflow wiring (P-14D) | `Complete` | Non-blocking late stage; `all-active`; atomic promotion; same generated-data commit |
+| AMC Showtimes field audit (P-15A) | `Complete` | [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) — log capture gap + fixture taxonomy |
 
 ---
 
@@ -59,9 +60,10 @@ Public UI must not change merely because new source fields are captured.
 
 | ID | Item | Status | Dependency | Notes |
 |----|------|--------|------------|-------|
-| P-14D | Wire AMC source catalog into daily workflow | `Complete` | P-14C design | Shipped 2026-07-15 |
-| — | Observe catalog runtime + failure rates | `Next` | P-14D | ~1–2 weeks of daily runs |
-| — | AMC Showtimes field-population + attribute taxonomy audits | `Next` | Stable catalog optional | See Planned AMC Showtimes field audits |
+| P-15A | AMC Showtimes field + attribute taxonomy audit | `Complete` | P-14D optional | Shipped 2026-07-15; primary finding = capture gap |
+| — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
+| — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Next` | P-15A | Required before production `presentation_attributes[]` |
+| — | Read-only SIFF/Beacon ingestion behavior audit | `Next` | — | Independent-theater track step 1 |
 
 ---
 
@@ -87,69 +89,30 @@ Public UI must not change merely because new source fields are captured.
 
 ## Planned AMC Showtimes field audits
 
-Measurement-only audits against live or fixture Showtimes API payloads. Do not change production scrape fields until an audit recommends it.
+Measurement-only audits. Do not change production scrape fields until an explicit capture-expansion task ships.
 
-### Showtime field-population audit — `Research needed`
+| Item | Status | Notes |
+|------|--------|-------|
+| P-15A field population + taxonomy tooling | `Complete` | [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) |
+| Production `attributes[]` / `languages` measurement | `Blocked` / `Planned` | Not retained in scrape logs today — expand adapter capture first |
+| Showtime identity (`id` vs `performanceNumber`) | `Partial` | `source_showtime_id` looks strong in logs; `performanceNumber` not captured |
+| Pricing / auditorium / embargo depth | `Partial` | Documented as missing from logs; fixture classifiers ready |
 
-Measure coverage and usefulness of:
+### Showtime field-population audit — `Complete` (log-based)
 
-* identity/time: source showtime `id`, `performanceNumber`, `internalReleaseNumber`, `showDateTimeUtc`, `showDateTimeLocal`, `sellUntilDateTimeUtc`, `lastUpdatedDateUtc`
-* auditorium: `auditorium`, `layoutId`, `layoutVersionNumber`, `virtualAuditoriumId`, `maximumIntendedAttendance`
-* status flags: `isSoldOut`, `isAlmostSoldOut`, `isCanceled`, `isEmbargoed`, `isComingSoon`, `visibilityDateTimeUtc`
-* commerce/media: `hasTrailers`, `inTheatreTicketingOnly`, `purchaseUrl`, `mobilePurchaseUrl`, pricing/discount fields, media
-* language: language fields (detail in Language audit)
-* `attributes[]`
+P-15A measured documented API fields against committed scrape logs and recorded the capture gap. High-value retained fields include `id`→`source_showtime_id`, `movieId`, `premiumFormat`, cancel/almost-sold-out, sell-until, genre/runtime/poster.
 
-**Depends on:** stable AMC showtime scrape logs / API samples  
-**Output:** coverage tables + keep/drop/defer recommendations
+### Showtime identity audit — `Partial`
 
-### Showtime identity audit — `Research needed`
+`source_showtime_id` is fully populated in recent logs with no typical same-day duplicates. `performanceNumber` / `theatreId` remain uncaptured — needed for composite fallbacks.
 
-Determine whether AMC showtime `id`, `performanceNumber`, theater, date/time, and movie ID form a stable source-showtime identity.
+### Attribute-code taxonomy audit — `Partial`
 
-Must investigate current **duplicate internal showtime-ID pairs** observed in processing.
+Classifier + fixture inventory shipped. Production attribute codes cannot be inventoried until `attributes[]` is retained in scrape logs.
 
-**Depends on:** field-population samples + history rows  
-**Decision bar:** no production identity key change without explicit approval
+### Language / pricing / auditorium audits — `Partial`
 
-### Attribute-code taxonomy audit — `Research needed`
-
-Inventory actual AMC showtime `attributes[].code`, `name`, and `description`.
-
-Classify into:
-
-* premium format
-* accessibility
-* language
-* event/presentation
-* ticketing
-* operational/internal
-* unknown
-
-Do **not** assume every AMC attribute should be public-facing.
-
-**Feeds:** Unified presentation-attribute architecture (below)
-
-### Language audit — `Research needed`
-
-Measure `languages.spoken`, `languages.dubbedOver`, `languages.subtitle`.
-
-Determine coverage, reliability, and how dubbed/subtitled screenings should be represented in the unified attribute model (not as a one-off boolean).
-
-### Pricing audit — `Research needed`
-
-Evaluate `ticketPrices[]`, taxes, ticket types, age policy, discount matinee, discount-day eligibility, estimated fees.
-
-Keep pricing **separate** from presentation attributes.
-
-### Auditorium / layout audit — `Research needed`
-
-Evaluate whether auditorium and layout fields support future:
-
-* screen-level theater entities,
-* capacity,
-* seating-layout inspection,
-* auditorium format capabilities.
+Same blocker: fields discarded by `api_showtime_to_raw`. Fixture analysis documents intended future measurement.
 
 ---
 
@@ -219,8 +182,82 @@ Prefer an extensible structured collection, for example:
 * Final display collections may combine both grains without losing provenance.
 * Pricing, ticket status, and auditorium data do **not** belong in this collection.
 
-**Depends on:** attribute-code taxonomy + language audits  
+**Depends on:** expanded scrape-log capture of `attributes[]` / `languages` (see P-15A) + product acceptance  
 **Related product grain work:** AMC source catalog presentation classifier (product-level only today)
+**P-15A note:** Architecture direction confirmed; production implementation blocked until capture expands.
+
+---
+
+## Planned independent-theater ingestion track
+
+**Guiding principle:** Different extraction strategies, one explicit ingestion contract.
+
+| Step | Item | Status |
+|------|------|--------|
+| 1 | Audit SIFF and Beacon ingestion behavior (read-only) | `Next` |
+| 2 | Define smallest shared source-observation contract | `Planned` |
+| 3 | Prototype Northwest Film Forum | `Planned` |
+| 4 | Align Beacon only where necessary | `Planned` |
+| 5 | Prototype Central Cinema | `Planned` |
+| 6 | Align SIFF carefully | `Planned` |
+| 7 | Integrate one new source at a time | `Planned` |
+
+### Shared independent-source contract (planned)
+
+Future adapters should preserve:
+
+* stable source identifier,
+* source-owned film/event/program ID when available,
+* source-owned showtime/performance ID when available,
+* exact source title,
+* canonical theater ID,
+* local date/time in `America/Los_Angeles`,
+* source page URL,
+* showtime-specific ticket URL when available,
+* raw source-native metadata,
+* scrape status,
+* warnings,
+* structural validation results.
+
+Shared policy requirements:
+
+* forward date windows,
+* year rollover,
+* duplicate handling,
+* partial failures,
+* structurally broken pages,
+* valid empty schedules,
+* stale-data preservation,
+* future-window restatement,
+* pipeline reporting.
+
+**Empty-result rule:** an empty parser result must not automatically erase future data unless the expected page structure and requested range were successfully inspected.
+
+### Northwest Film Forum plan
+
+* Calendar as discovery and primary showtime authority.
+* `/films/` slug as likely stable program ID.
+* Each film page fetched once for metadata.
+* Every calendar occurrence retained separately.
+* Enough calendar pages fetched to cover the configured window.
+* Detail-page schedule used as validation or fallback.
+* Disagreements reported rather than combined.
+* Exact source title preserved.
+* Non-film categories excluded only when clearly identified.
+
+### Central Cinema plan
+
+* Calendar discovers canonical `/movie/` pages.
+* Movie page authoritative for metadata and showtimes.
+* schema.org parsing by `itemprop`.
+* Safe description sanitization.
+* `dateCreated` not treated as film year.
+* Movie slug as program ID.
+* Checkout numeric segment as showing ID.
+* Explicit year-rollover handling.
+* Screening-specific prose retained without broad presentation extraction initially.
+
+Do not implement NWFF or Central in P-15A.
 
 ---
 
@@ -228,7 +265,7 @@ Prefer an extensible structured collection, for example:
 
 | Item | Status | Notes |
 |------|--------|-------|
-| Source products + release observations (AMC) | `Complete` / `Next` wiring | Catalog contracts complete; daily wiring next |
+| Source products + release observations (AMC) | `Complete` | Durable catalogs + daily soft-fail wiring (P-14D) |
 | Reel Seattle-owned canonical `film_id` | `Planned` | Authored/derived carefully; not AMC release ID |
 | Confidence-based product→film matching | `Planned` | Explicit confidence; no silent merges |
 | TMDB search (title/year/runtime + evidence) | `Planned` | After source catalog stability |
@@ -271,19 +308,14 @@ Registry remains canonical authored data (`data/theaters.json`). Expand only wit
 ## Suggested sequencing (near term)
 
 ```text
-P-14D  Wire AMC catalog into daily workflow          ← Complete
+P-15A  AMC Showtimes field audit (capture gap)     ← Complete
    ↓
-Observe catalog runtime + failure rates for ~1–2 weeks
+Expand AMC scrape-log capture (attributes/languages/ids)   OR
+Read-only SIFF/Beacon ingestion audit (independent-theater step 1)
    ↓
-AMC Showtimes field-population + attribute taxonomy audits
+Versioned presentation_attributes contract (after capture)
    ↓
-Language / pricing / auditorium audits as needed
-   ↓
-Cockpit: browse durable products/releases (optional)
-   ↓
-Presentation-attribute schema design (still no public UI)
-   ↓
-Film matching / TMDB enrichment design
+NWFF prototype → Beacon align → Central prototype → SIFF align
 ```
 
 ---

@@ -47,6 +47,7 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `public/data/movies_announcements.csv` | `daily_processor.py` | Yes — daily |
 | `public/data/newly_announced.csv` | `daily_processor.py` | Yes — daily |
 | `data/analysis/*` | Offline analysis scripts | No — gitignored |
+| `audit-output/*` | Manual audit CLI / workflow artifacts | No — gitignored (e.g. [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md)) |
 | `local-output/*` | Manual local tool/prototype outputs | No — gitignored |
 
 ### Durable AMC source catalog (internal; production-generated)

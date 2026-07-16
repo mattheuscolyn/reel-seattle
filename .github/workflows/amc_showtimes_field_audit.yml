@@ -1,0 +1,52 @@
+name: AMC Showtimes Field Audit
+
+# Manual measurement only. Read-only. No AMC secret. No repository writes.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Run AMC showtimes field audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run AMC showtimes field audit
+        run: |
+          mkdir -p audit-output/amc-showtimes-field-audit
+          python scripts/audit_amc_showtimes_fields.py \
+            --logs-dir data/daily_logs \
+            --max-logs 7 \
+            --api-payloads tests/fixtures/analysis/amc_showtimes_field_audit/api_showtimes.json \
+            --output-dir audit-output/amc-showtimes-field-audit
+
+      - name: Upload audit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: amc-showtimes-field-audit
+          path: |
+            audit-output/amc-showtimes-field-audit/amc_showtimes_field_audit.json
+            audit-output/amc-showtimes-field-audit/amc_showtimes_field_population.csv
+            audit-output/amc-showtimes-field-audit/amc_showtime_attributes.csv
+            audit-output/amc-showtimes-field-audit/amc_showtime_identity_candidates.csv
+            audit-output/amc-showtimes-field-audit/amc_showtimes_field_audit.md
+          retention-days: 30
+          if-no-files-found: error
