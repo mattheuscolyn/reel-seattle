@@ -49,8 +49,9 @@ Public UI must not change merely because new source fields are captured.
 | AMC `wwmReleaseNumber` relationship audit | `Complete` | [amc-wwm-release-audit.md](./amc-wwm-release-audit.md) — useful grouping evidence, not auto-merge |
 | AMC source-observation prototype | `Complete` | [amc-source-observation-prototype.md](./amc-source-observation-prototype.md) — superseded for durable work |
 | Durable AMC source-catalog contracts | `Complete` | [amc-source-catalog.md](./amc-source-catalog.md) — products + derived releases |
-| AMC catalog refresh stage (offline/live CLI) | `Complete` | [amc-source-catalog.md](./amc-source-catalog.md) — not wired to daily workflow |
-| Daily catalog integration **design** | `Complete` | [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md) |
+| AMC catalog refresh stage (offline/live CLI) | `Complete` | [amc-source-catalog.md](./amc-source-catalog.md) |
+| Daily catalog integration design | `Complete` | [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md) |
+| Daily catalog workflow wiring (P-14D) | `Complete` | Non-blocking late stage; `all-active`; atomic promotion; same generated-data commit |
 
 ---
 
@@ -58,10 +59,9 @@ Public UI must not change merely because new source fields are captured.
 
 | ID | Item | Status | Dependency | Notes |
 |----|------|--------|------------|-------|
-| P-14C | Daily integration design + this roadmap | `Complete` | P-14A/B | Docs only |
-| **P-14D** | **Wire AMC source catalog into daily workflow** | `Next` | P-14C design | Non-blocking late stage; `all-active`; atomic promotion; same generated-data commit |
-
-P-14D outline: see [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md) §9.
+| P-14D | Wire AMC source catalog into daily workflow | `Complete` | P-14C design | Shipped 2026-07-15 |
+| — | Observe catalog runtime + failure rates | `Next` | P-14D | ~1–2 weeks of daily runs |
+| — | AMC Showtimes field-population + attribute taxonomy audits | `Next` | Stable catalog optional | See Planned AMC Showtimes field audits |
 
 ---
 
@@ -69,9 +69,10 @@ P-14D outline: see [amc-source-catalog-daily-integration.md](./amc-source-catalo
 
 | Item | Status | Notes |
 |------|--------|-------|
-| Daily workflow integration (P-14D) | `Next` | Soft-fail; retain prior catalogs on error |
-| Safe / atomic catalog writes | `Next` | Part of P-14D |
-| Catalog diagnostics (stdout / optional messages) | `Next` | No pipeline-report schema bump required initially |
+| Daily workflow integration (P-14D) | `Complete` | Soft-fail; retain prior on all-failed / validation errors |
+| Safe / atomic catalog writes | `Complete` | Paired `.tmp` + `.bak` promotion in `amc_daily.py` |
+| Catalog diagnostics (stdout) | `Complete` | No pipeline-report schema bump |
+| Structured pipeline-report catalog section | `Planned` | After stable runtime |
 | Cockpit source-product / release inspection | `Planned` | After catalogs exist in `data/source_catalog/` |
 | Refresh cadence evaluation (`all-active` → optional `stale`) | `Planned` | Measure wall time + metadata churn first |
 | Inactive-product growth monitoring | `Planned` | Catalog retains inactive products by design |
@@ -270,15 +271,15 @@ Registry remains canonical authored data (`data/theaters.json`). Expand only wit
 ## Suggested sequencing (near term)
 
 ```text
-P-14D  Wire AMC catalog into daily workflow (non-blocking)
+P-14D  Wire AMC catalog into daily workflow          ← Complete
    ↓
 Observe catalog runtime + failure rates for ~1–2 weeks
-   ↓
-Cockpit: browse durable products/releases (optional)
    ↓
 AMC Showtimes field-population + attribute taxonomy audits
    ↓
 Language / pricing / auditorium audits as needed
+   ↓
+Cockpit: browse durable products/releases (optional)
    ↓
 Presentation-attribute schema design (still no public UI)
    ↓

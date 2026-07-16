@@ -44,6 +44,17 @@ jobs:
       - name: Validate history CSV
         run: python scripts/validate_history_csv.py --strict
 
+      - name: Refresh AMC source catalog
+        env:
+          AMC_API_KEY: ${{ secrets.AMC_API_KEY }}
+        run: |
+          python scripts/run_daily_amc_source_catalog.py \
+            --discovery-source auto \
+            --policy all-active \
+            --products-path data/source_catalog/amc_movie_products.json \
+            --releases-path data/source_catalog/amc_release_observations.json \
+            --temp-dir "${{ runner.temp }}/amc-source-catalog"
+
       - name: Commit and push changes
         run: |
           git config --local user.email "action@github.com"
@@ -51,6 +62,12 @@ jobs:
           git add data/history/showtimes_history.csv
           git add data/daily_logs/
           git add data/theaters.json
+          if [ -f data/source_catalog/amc_movie_products.json ]; then
+            git add data/source_catalog/amc_movie_products.json
+          fi
+          if [ -f data/source_catalog/amc_release_observations.json ]; then
+            git add data/source_catalog/amc_release_observations.json
+          fi
           git add public/data/showtimes_current.json
           git add public/data/pipeline_report.json
           git add public/data/theaters.json

@@ -296,7 +296,7 @@ After meaningful **Data Foundation** (or closely related Film Identity / develop
 4. Do **not** silently drop `Deferred` items.
 5. Use that roadmap as the source for “what should we do next?” discussions (alongside [product-roadmap.md](./product-roadmap.md) for cross-cutting product gates).
 
-Daily AMC catalog wiring design lives in [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md); do not implement it until an explicit P-14D task.
+Daily AMC catalog wiring is implemented (P-14D); see [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md).
 
 ---
 

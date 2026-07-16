@@ -2,9 +2,12 @@
 
 Durable, internal AMC source-catalog contracts and offline merge/derive logic.
 
-**Status:** Durable internal generated artifact — schema, offline writer, and offline-capable Movies refresh stage implemented; **daily workflow integration designed** ([amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md)); wiring not started (P-14D)
+**Status:** Durable internal generated artifact — schema, offline writer, refresh stage, and **daily workflow wiring (P-14D)** implemented · non-blocking late stage after showtime/history validation
 
 **Not public.** Do not expose through `public/data/`, GitHub Pages, the SPA, or the Developer Data Cockpit.
+
+Integration contract: [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md)  
+Backlog: [data-foundation-roadmap.md](./data-foundation-roadmap.md)
 
 ## Purpose
 
@@ -291,9 +294,9 @@ Live Movies calls are optional via `--live` for manual runs only.
 
 ## Future workflow integration boundary
 
-Designed in [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md): a non-blocking late stage after showtime validation, `all-active` refresh, atomic promotion into `data/source_catalog/`, soft-fail retention of prior catalogs, and inclusion in the same generated-data commit.
+**Implemented (P-14D):** non-blocking late stage after showtime validation via `scripts/run_daily_amc_source_catalog.py`, policy `all-active`, atomic promotion into `data/source_catalog/`, soft-fail retention of prior catalogs, same generated-data commit.
 
-**Not implemented yet** (P-14D). Do not edit `daily_scraping.yml` until that task is explicitly scoped.
+Details: [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md).
 
 Backlog context: [data-foundation-roadmap.md](./data-foundation-roadmap.md).
 
@@ -302,11 +305,13 @@ Backlog context: [data-foundation-roadmap.md](./data-foundation-roadmap.md).
 ```text
 reel_seattle/source_catalog/amc.py          # merge / derive / validate
 reel_seattle/source_catalog/amc_refresh.py  # discovery / fetch / observations
+reel_seattle/source_catalog/amc_daily.py    # daily orchestration / promotion
 ```
 
 CLIs:
 
 ```text
+scripts/run_daily_amc_source_catalog.py
 scripts/refresh_amc_source_catalog.py
 scripts/update_amc_source_catalog.py
 scripts/validate_amc_source_catalog.py
