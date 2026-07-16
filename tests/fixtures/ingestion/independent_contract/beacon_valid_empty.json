@@ -1,0 +1,58 @@
+{
+  "contract_version": "1.0.0",
+  "source": "beacon",
+  "scraped_at": "2026-07-18T12:00:00-07:00",
+  "requested_window": { "start": "2026-07-18", "end": "2026-08-01" },
+  "inspected_window": { "start": "2026-07-18", "end": "2026-08-01", "complete": true },
+  "status": "valid_empty",
+  "restate_safe": true,
+  "valid_empty_evidence": {
+    "proven": true,
+    "reason": "all_discovered_movie_pages_yielded_zero_showtimes"
+  },
+  "identity": {
+    "program_strategy": "canonical_url_slug",
+    "showtime_strategy": "nullable_absent"
+  },
+  "structural_validation": {
+    "passed": true,
+    "checks": [
+      {
+        "code": "calendar_structure_present",
+        "passed": true,
+        "severity": "error",
+        "message": null
+      },
+      {
+        "code": "movie_pages_fetched",
+        "passed": true,
+        "severity": "error",
+        "message": null
+      }
+    ]
+  },
+  "stats": {
+    "discovered_programs": 2,
+    "program_pages_succeeded": 2,
+    "program_pages_failed": 0,
+    "valid_empty_proof": true
+  },
+  "warnings": [],
+  "rejected_observations": [],
+  "programs": [
+    {
+      "contract_version": "1.0.0",
+      "source": "beacon",
+      "source_program_id": "past-feature",
+      "source_title": "Past Feature",
+      "source_program_url": "https://thebeacon.film/calendar/movie/past-feature",
+      "program_kind": "film",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "source_slug": "past-feature",
+        "showtimes_on_page": 0
+      }
+    }
+  ],
+  "showtimes": []
+}

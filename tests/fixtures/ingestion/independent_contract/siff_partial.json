@@ -1,0 +1,87 @@
+{
+  "contract_version": "1.0.0",
+  "source": "siff",
+  "scraped_at": "2026-07-18T12:00:00-07:00",
+  "requested_window": { "start": "2026-07-18", "end": "2026-08-01" },
+  "inspected_window": { "start": "2026-07-18", "end": "2026-08-01", "complete": false },
+  "status": "partial_failure",
+  "restate_safe": false,
+  "identity": {
+    "program_strategy": "canonical_url_slug",
+    "showtime_strategy": "screening_anchor_id"
+  },
+  "structural_validation": {
+    "passed": true,
+    "checks": [
+      {
+        "code": "listing_container_present",
+        "passed": true,
+        "severity": "error",
+        "message": null
+      },
+      {
+        "code": "program_pages_fetched",
+        "passed": false,
+        "severity": "warning",
+        "message": "1 of 2 program pages failed"
+      }
+    ]
+  },
+  "stats": {
+    "discovered_programs": 2,
+    "program_pages_succeeded": 1,
+    "program_pages_failed": 1,
+    "failed_program_urls": [
+      "https://www.siff.net/cinema/in-theaters/missing-film"
+    ]
+  },
+  "warnings": [
+    {
+      "code": "program_page_fetch_failed",
+      "message": "Failed to fetch one discovered program page.",
+      "source_program_id": "missing-film"
+    }
+  ],
+  "rejected_observations": [
+    {
+      "code": "program_page_fetch_failed",
+      "message": "Program page HTTP failure",
+      "source_program_id": "missing-film",
+      "source_value": "https://www.siff.net/cinema/in-theaters/missing-film",
+      "affects_completeness": true
+    }
+  ],
+  "programs": [
+    {
+      "contract_version": "1.0.0",
+      "source": "siff",
+      "source_program_id": "the-odyssey",
+      "source_title": "The Odyssey",
+      "source_program_url": "https://www.siff.net/cinema/in-theaters/the-odyssey",
+      "program_kind": "film",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "original_page_title": "The Odyssey"
+      }
+    }
+  ],
+  "showtimes": [
+    {
+      "contract_version": "1.0.0",
+      "source": "siff",
+      "source_program_id": "the-odyssey",
+      "source_showtime_id": "screening-1001",
+      "source_title": "The Odyssey",
+      "theater_id": "siff-cinema-downtown",
+      "local_date": "2026-07-18",
+      "local_time": "19:00",
+      "timezone": "America/Los_Angeles",
+      "source_occurrence_url": "https://www.siff.net/cinema/in-theaters/the-odyssey",
+      "ticket_url": null,
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "screening_anchor_id": "screening-1001"
+      }
+    }
+  ]
+}

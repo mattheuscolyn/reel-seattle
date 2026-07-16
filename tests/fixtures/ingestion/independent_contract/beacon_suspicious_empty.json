@@ -1,0 +1,40 @@
+{
+  "contract_version": "1.0.0",
+  "source": "beacon",
+  "scraped_at": "2026-07-18T12:00:00-07:00",
+  "requested_window": { "start": "2026-07-18", "end": "2026-08-01" },
+  "inspected_window": { "start": "2026-07-18", "end": "2026-08-01", "complete": false },
+  "status": "structural_failure",
+  "restate_safe": false,
+  "identity": {
+    "program_strategy": "canonical_url_slug",
+    "showtime_strategy": "nullable_absent"
+  },
+  "structural_validation": {
+    "passed": false,
+    "checks": [
+      {
+        "code": "calendar_structure_present",
+        "passed": false,
+        "severity": "error",
+        "message": "Expected calendar movie-link markers were missing"
+      }
+    ]
+  },
+  "stats": {
+    "discovered_programs": 0,
+    "program_pages_succeeded": 0,
+    "program_pages_failed": 0,
+    "valid_empty_proof": false
+  },
+  "warnings": [
+    {
+      "code": "suspicious_empty",
+      "message": "Beacon scrape returned zero showtimes without valid-empty proof.",
+      "source_program_id": null
+    }
+  ],
+  "rejected_observations": [],
+  "programs": [],
+  "showtimes": []
+}

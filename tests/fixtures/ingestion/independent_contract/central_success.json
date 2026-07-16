@@ -1,0 +1,76 @@
+{
+  "contract_version": "1.0.0",
+  "source": "central_cinema",
+  "scraped_at": "2026-07-18T12:00:00-07:00",
+  "requested_window": { "start": "2026-07-18", "end": "2026-08-01" },
+  "inspected_window": { "start": "2026-07-18", "end": "2026-08-01", "complete": true },
+  "status": "success",
+  "restate_safe": true,
+  "identity": {
+    "program_strategy": "canonical_url_slug",
+    "showtime_strategy": "source_showing_id"
+  },
+  "structural_validation": {
+    "passed": true,
+    "checks": [
+      {
+        "code": "movie_page_schema_org_present",
+        "passed": true,
+        "severity": "error",
+        "message": null
+      }
+    ]
+  },
+  "stats": {
+    "discovered_programs": 1,
+    "program_pages_succeeded": 1,
+    "program_pages_failed": 0
+  },
+  "warnings": [],
+  "rejected_observations": [],
+  "programs": [
+    {
+      "contract_version": "1.0.0",
+      "source": "central_cinema",
+      "source_program_id": "faceslashoff",
+      "source_title": "Face/Off",
+      "source_program_url": "https://central-cinema.com/movie/faceslashoff/",
+      "program_kind": "film",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "schema_org": {
+          "name": "Face/Off",
+          "dateCreated": "2024-03-01"
+        },
+        "dateCreated": "2024-03-01",
+        "release_year": null,
+        "description_paragraphs": [
+          "A classic action double-feature opener."
+        ],
+        "directors": ["John Woo"],
+        "cast": ["John Travolta", "Nicolas Cage"]
+      }
+    }
+  ],
+  "showtimes": [
+    {
+      "contract_version": "1.0.0",
+      "source": "central_cinema",
+      "source_program_id": "faceslashoff",
+      "source_showtime_id": "3387540",
+      "source_title": "Face/Off",
+      "theater_id": "central-cinema",
+      "local_date": "2026-01-03",
+      "local_time": "19:00",
+      "timezone": "America/Los_Angeles",
+      "source_occurrence_url": "https://central-cinema.com/movie/faceslashoff/",
+      "ticket_url": "https://www.central-cinema.com/checkout/showing/faceslashoff/3387540",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "checkout_showing_segment": "3387540",
+        "year_rollover_inferred": true,
+        "source_display_date": "January 3"
+      }
+    }
+  ]
+}

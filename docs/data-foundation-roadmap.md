@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-15 (P-16B)  
+**Last updated:** 2026-07-15 (P-16C)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -55,6 +55,7 @@ Public UI must not change merely because new source fields are captured.
 | AMC Showtimes field audit (P-15A) | `Complete` | [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) — log capture gap + fixture taxonomy |
 | SIFF/Beacon ingestion audit (P-16A) | `Complete` | [independent-theater-ingestion-audit.md](./independent-theater-ingestion-audit.md) |
 | Indie restatement completeness guard (P-16B) | `Complete` | Partial/structural-empty scrapes cannot wipe future rows |
+| Independent source observation contract (P-16C) | `Complete` | [independent-source-observation-contract.md](./independent-source-observation-contract.md) · v1.0.0 |
 
 ---
 
@@ -63,11 +64,12 @@ Public UI must not change merely because new source fields are captured.
 | ID | Item | Status | Dependency | Notes |
 |----|------|--------|------------|-------|
 | P-15A | AMC Showtimes field + attribute taxonomy audit | `Complete` | P-14D optional | Primary finding = capture gap |
-| P-16A | SIFF/Beacon ingestion behavior audit | `Complete` | — | Drift + empty/partial-failure risks documented |
+| P-16A | SIFF/Beacon ingestion behavior audit | `Complete` | — | Drift documented |
 | P-16B | Guard indie restatement on incomplete scrapes | `Complete` | P-16A | Source-wide conservative retention |
+| P-16C | Shared independent-source observation contract | `Complete` | P-16B | Internal v1.0.0; fixtures for four sources |
 | — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
-| — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Next` | P-15A | Parallel AMC track; required before `presentation_attributes[]` |
-| — | Define + test shared source-observation contract | `Next` | P-16B | Independent-theater track step 2 |
+| — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Next` | P-15A | Parallel AMC track |
+| — | Prototype Northwest Film Forum against observation contract | `Next` | P-16C | Independent-theater track step 3 |
 
 ---
 
@@ -200,14 +202,14 @@ Prefer an extensible structured collection, for example:
 |------|------|--------|
 | 1 | Audit SIFF and Beacon ingestion behavior (read-only) | `Complete` (P-16A) |
 | 1b | Guard indie restatement on incomplete scrapes | `Complete` (P-16B) |
-| 2 | Define smallest shared source-observation contract | `Next` |
-| 3 | Prototype Northwest Film Forum | `Planned` |
+| 2 | Define smallest shared source-observation contract | `Complete` (P-16C) |
+| 3 | Prototype Northwest Film Forum | `Next` |
 | 4 | Align Beacon only where necessary | `Planned` |
 | 5 | Prototype Central Cinema | `Planned` |
 | 6 | Align SIFF carefully | `Planned` |
 | 7 | Integrate one new source at a time | `Planned` |
 
-**P-16A audit:** [independent-theater-ingestion-audit.md](./independent-theater-ingestion-audit.md)
+**P-16C contract:** [independent-source-observation-contract.md](./independent-source-observation-contract.md) (`reel_seattle.ingestion.independent_contract`, version `1.0.0`).
 
 ### Confirmed SIFF/Beacon drift (P-16A)
 
@@ -227,9 +229,11 @@ Prefer an extensible structured collection, for example:
 * Proven Beacon valid empty (all discovered movie pages OK, zero showtimes) may clear futures.
 * Theater-/program-slice restatement remains **Planned**.
 
-### Shared independent-source contract (planned; refined by P-16A)
+### Shared independent-source contract (P-16C v1.0.0)
 
-Future adapters should preserve:
+Defined in [independent-source-observation-contract.md](./independent-source-observation-contract.md) and `reel_seattle.ingestion.independent_contract`.
+
+Future adapters should preserve (and validate against the contract):
 
 * stable source identifier,
 * source-owned film/event/program ID when available (else durable URL/slug as program ID),
@@ -243,7 +247,8 @@ Future adapters should preserve:
 * scrape status,
 * warnings,
 * structural validation results,
-* `requested_window` / `inspected_window` coverage proof.
+* `requested_window` / `inspected_window` coverage proof,
+* `restate_safe` aligned with P-16B statuses.
 
 Shared policy requirements:
 
@@ -337,14 +342,13 @@ Registry remains canonical authored data (`data/theaters.json`). Expand only wit
 P-15A  AMC Showtimes field audit (capture gap)     ← Complete
 P-16A  SIFF/Beacon ingestion audit                 ← Complete
 P-16B  Indie restatement completeness guard        ← Complete
+P-16C  Independent source observation contract     ← Complete (v1.0.0)
    ↓
 Parallel next:
   • Expand AMC scrape-log capture (attributes/languages/ids)
-  • Define shared source-observation contract (track step 2)
+  • Prototype NWFF against observation contract (fixtures + live read-only)
    ↓
-Versioned presentation_attributes contract (after AMC capture)
-   ↓
-NWFF prototype → Beacon align → Central prototype → SIFF align
+Beacon align → Central prototype → SIFF align → integrate one-by-one
 ```
 
 ---

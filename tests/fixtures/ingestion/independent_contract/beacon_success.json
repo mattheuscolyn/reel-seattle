@@ -1,0 +1,66 @@
+{
+  "contract_version": "1.0.0",
+  "source": "beacon",
+  "scraped_at": "2026-07-18T12:00:00-07:00",
+  "requested_window": { "start": "2026-07-18", "end": "2026-08-01" },
+  "inspected_window": { "start": "2026-07-18", "end": "2026-08-01", "complete": true },
+  "status": "success",
+  "restate_safe": true,
+  "identity": {
+    "program_strategy": "canonical_url_slug",
+    "showtime_strategy": "nullable_absent"
+  },
+  "structural_validation": {
+    "passed": true,
+    "checks": [
+      {
+        "code": "calendar_structure_present",
+        "passed": true,
+        "severity": "error",
+        "message": null
+      }
+    ]
+  },
+  "stats": {
+    "discovered_programs": 1,
+    "program_pages_succeeded": 1,
+    "program_pages_failed": 0
+  },
+  "warnings": [],
+  "rejected_observations": [],
+  "programs": [
+    {
+      "contract_version": "1.0.0",
+      "source": "beacon",
+      "source_program_id": "welcome-ii-the-terrordome",
+      "source_title": "Welcome II The Terrordome",
+      "source_program_url": "https://thebeacon.film/calendar/movie/welcome-ii-the-terrordome",
+      "program_kind": "film",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "source_slug": "welcome-ii-the-terrordome",
+        "exact_unmutated_title": "Welcome II The Terrordome"
+      }
+    }
+  ],
+  "showtimes": [
+    {
+      "contract_version": "1.0.0",
+      "source": "beacon",
+      "source_program_id": "welcome-ii-the-terrordome",
+      "source_showtime_id": null,
+      "source_title": "Welcome II The Terrordome",
+      "theater_id": "the-beacon",
+      "local_date": "2026-07-20",
+      "local_time": "19:00",
+      "timezone": "America/Los_Angeles",
+      "source_occurrence_url": "https://thebeacon.film/calendar/movie/welcome-ii-the-terrordome",
+      "ticket_url": null,
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "data_value": "42",
+        "fallback_identity": "composite_program_theater_datetime"
+      }
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "contract_version": "1.0.0",
+  "source": "nwff",
+  "scraped_at": "2026-07-18T12:00:00-07:00",
+  "requested_window": { "start": "2026-07-18", "end": "2026-08-01" },
+  "inspected_window": { "start": "2026-07-18", "end": "2026-08-01", "complete": true },
+  "status": "success",
+  "restate_safe": true,
+  "identity": {
+    "program_strategy": "canonical_url_slug",
+    "showtime_strategy": "composite_program_theater_datetime"
+  },
+  "structural_validation": {
+    "passed": true,
+    "checks": [
+      {
+        "code": "calendar_pages_present",
+        "passed": true,
+        "severity": "error",
+        "message": null
+      },
+      {
+        "code": "film_detail_fetched",
+        "passed": true,
+        "severity": "error",
+        "message": null
+      }
+    ]
+  },
+  "stats": {
+    "calendar_pages_visited": 3,
+    "discovered_programs": 1,
+    "program_pages_succeeded": 1,
+    "program_pages_failed": 0
+  },
+  "warnings": [
+    {
+      "code": "detail_schedule_mismatch",
+      "message": "Calendar and detail-page schedules differed for one occurrence.",
+      "source_program_id": "asco-without-permission"
+    }
+  ],
+  "rejected_observations": [
+    {
+      "code": "non_film_category",
+      "message": "Excluded workshop category from showtimes.",
+      "source_program_id": "screenwriting-workshop",
+      "source_value": "Workshop",
+      "affects_completeness": false
+    }
+  ],
+  "programs": [
+    {
+      "contract_version": "1.0.0",
+      "source": "nwff",
+      "source_program_id": "asco-without-permission",
+      "source_title": "ASCO: Without Permission",
+      "source_program_url": "https://nwfilmforum.org/films/asco-without-permission/",
+      "program_kind": "film",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "directors": ["Example Director"],
+        "country": "USA",
+        "series": "Local Spotlight",
+        "source_classification": "film",
+        "detail_schedule_text": "Sat Jul 19 7:00pm",
+        "image_url": "https://nwfilmforum.org/images/asco.jpg"
+      }
+    }
+  ],
+  "showtimes": [
+    {
+      "contract_version": "1.0.0",
+      "source": "nwff",
+      "source_program_id": "asco-without-permission",
+      "source_showtime_id": null,
+      "source_title": "ASCO: Without Permission",
+      "theater_id": "northwest-film-forum",
+      "local_date": "2026-07-19",
+      "local_time": "19:00",
+      "timezone": "America/Los_Angeles",
+      "source_occurrence_url": "https://nwfilmforum.org/films/asco-without-permission/",
+      "ticket_url": "https://nwfilmforum.org/tickets/asco-jul19",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "authority": "calendar",
+        "detail_page_had_matching_slot": false,
+        "fallback_identity": "composite_program_theater_datetime"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "source": "nwff",
+      "source_program_id": "asco-without-permission",
+      "source_showtime_id": null,
+      "source_title": "ASCO: Without Permission",
+      "theater_id": "northwest-film-forum",
+      "local_date": "2026-07-20",
+      "local_time": "17:00",
+      "timezone": "America/Los_Angeles",
+      "source_occurrence_url": "https://nwfilmforum.org/films/asco-without-permission/",
+      "ticket_url": null,
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "authority": "calendar",
+        "detail_page_had_matching_slot": true,
+        "fallback_identity": "composite_program_theater_datetime"
+      }
+    }
+  ]
+}

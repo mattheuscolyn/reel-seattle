@@ -35,7 +35,9 @@ Confirmed drift and risks:
 9. **SIFF `screening-*` HTML IDs and Beacon `data-value` are discarded** — natural showtime identity candidates unused.
 10. **No adapter-level dedup**; structural validation is minimal (P-16B adds listing/calendar structure checks + completeness stats only).
 
-**P-16B shipped:** restatement eligibility from scrape completeness metadata. **Recommended next:** define and fixture-test the smallest shared independent-source observation contract.
+**P-16B shipped:** restatement eligibility from scrape completeness metadata.  
+**P-16C shipped:** shared observation contract v1.0.0 — see [independent-source-observation-contract.md](./independent-source-observation-contract.md).  
+**Recommended next:** prototype Northwest Film Forum against the contract (fixtures + live read-only validation), without production integration.
 
 ---
 

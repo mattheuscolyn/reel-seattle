@@ -1,0 +1,108 @@
+{
+  "contract_version": "1.0.0",
+  "source": "siff",
+  "scraped_at": "2026-07-18T12:00:00-07:00",
+  "requested_window": { "start": "2026-07-18", "end": "2026-08-01" },
+  "inspected_window": { "start": "2026-07-18", "end": "2026-08-01", "complete": true },
+  "status": "success",
+  "restate_safe": true,
+  "identity": {
+    "program_strategy": "canonical_url_slug",
+    "showtime_strategy": "screening_anchor_id"
+  },
+  "structural_validation": {
+    "passed": true,
+    "checks": [
+      {
+        "code": "listing_container_present",
+        "passed": true,
+        "severity": "error",
+        "message": null
+      },
+      {
+        "code": "program_pages_fetched",
+        "passed": true,
+        "severity": "error",
+        "message": null
+      }
+    ]
+  },
+  "stats": {
+    "discovered_programs": 1,
+    "program_pages_succeeded": 1,
+    "program_pages_failed": 0
+  },
+  "warnings": [],
+  "rejected_observations": [],
+  "programs": [
+    {
+      "contract_version": "1.0.0",
+      "source": "siff",
+      "source_program_id": "the-odyssey",
+      "source_title": "The Odyssey",
+      "source_program_url": "https://www.siff.net/cinema/in-theaters/the-odyssey",
+      "program_kind": "film",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "original_page_title": "The Odyssey",
+        "venue_labels": ["SIFF Cinema Downtown", "SIFF Cinema Uptown"]
+      }
+    }
+  ],
+  "showtimes": [
+    {
+      "contract_version": "1.0.0",
+      "source": "siff",
+      "source_program_id": "the-odyssey",
+      "source_showtime_id": "screening-1001",
+      "source_title": "The Odyssey",
+      "theater_id": "siff-cinema-downtown",
+      "local_date": "2026-07-18",
+      "local_time": "19:00",
+      "timezone": "America/Los_Angeles",
+      "source_occurrence_url": "https://www.siff.net/cinema/in-theaters/the-odyssey",
+      "ticket_url": null,
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "venue_label": "SIFF Cinema Downtown",
+        "screening_anchor_id": "screening-1001"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "source": "siff",
+      "source_program_id": "the-odyssey",
+      "source_showtime_id": "screening-1002",
+      "source_title": "The Odyssey",
+      "theater_id": "siff-cinema-uptown",
+      "local_date": "2026-07-18",
+      "local_time": "21:15",
+      "timezone": "America/Los_Angeles",
+      "source_occurrence_url": "https://www.siff.net/cinema/in-theaters/the-odyssey",
+      "ticket_url": null,
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "venue_label": "SIFF Cinema Uptown",
+        "screening_anchor_id": "screening-1002"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "source": "siff",
+      "source_program_id": "the-odyssey",
+      "source_showtime_id": "screening-1003",
+      "source_title": "The Odyssey",
+      "theater_id": "siff-film-center",
+      "local_date": "2026-07-19",
+      "local_time": "14:00",
+      "timezone": "America/Los_Angeles",
+      "source_occurrence_url": "https://www.siff.net/cinema/in-theaters/the-odyssey",
+      "ticket_url": null,
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "venue_label": "SIFF Film Center",
+        "screening_anchor_id": "screening-1003"
+      }
+    }
+  ]
+}

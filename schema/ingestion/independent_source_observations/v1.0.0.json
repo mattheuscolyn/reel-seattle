@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/ingestion/independent_source_observations/v1.0.0.json",
+  "title": "Independent Source Observations (internal)",
+  "description": "Internal ingestion contract for SIFF, Beacon, NWFF, and Central Cinema. Not public.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "contract_version",
+    "source",
+    "scraped_at",
+    "requested_window",
+    "inspected_window",
+    "status",
+    "restate_safe",
+    "identity",
+    "structural_validation",
+    "stats",
+    "warnings",
+    "rejected_observations",
+    "programs",
+    "showtimes"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "source": {
+      "type": "string",
+      "enum": ["siff", "beacon", "nwff", "central_cinema"]
+    },
+    "scraped_at": { "type": "string", "minLength": 1 },
+    "requested_window": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "end": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+      }
+    },
+    "inspected_window": {
+      "type": "object",
+      "required": ["start", "end", "complete"],
+      "properties": {
+        "start": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "end": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "complete": { "type": "boolean" }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "valid_empty",
+        "partial_failure",
+        "structural_failure",
+        "request_failure"
+      ]
+    },
+    "restate_safe": { "type": "boolean" },
+    "identity": {
+      "type": "object",
+      "required": ["program_strategy", "showtime_strategy"],
+      "properties": {
+        "program_strategy": { "type": "string" },
+        "showtime_strategy": { "type": "string" }
+      }
+    },
+    "structural_validation": {
+      "type": "object",
+      "required": ["passed", "checks"],
+      "properties": {
+        "passed": { "type": "boolean" },
+        "checks": { "type": "array" }
+      }
+    },
+    "stats": { "type": "object" },
+    "warnings": { "type": "array" },
+    "rejected_observations": { "type": "array" },
+    "programs": { "type": "array" },
+    "showtimes": { "type": "array" },
+    "valid_empty_evidence": { "type": "object" }
+  }
+}

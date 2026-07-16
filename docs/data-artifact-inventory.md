@@ -47,7 +47,10 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `public/data/movies_announcements.csv` | `daily_processor.py` | Yes — daily |
 | `public/data/newly_announced.csv` | `daily_processor.py` | Yes — daily |
 | `data/analysis/*` | Offline analysis scripts | No — gitignored |
-| `audit-output/*` | Manual audit CLI / workflow artifacts | No — gitignored ([amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md), [independent-theater-ingestion-audit.md](./independent-theater-ingestion-audit.md)) |
+| `audit-output/*` | Manual audit CLI / workflow artifacts | No — gitignored |
+| `schema/ingestion/independent_source_observations/v1.0.0.json` | Internal independent-source observation contract schema | Authored · internal · **not** public |
+| `tests/fixtures/ingestion/independent_contract/` | Contract fixture results (SIFF/Beacon/NWFF/Central) | Test fixtures · not production data |
+| `reel_seattle/ingestion/` | Shared independent-source observation contract | Library · non-production adapters |
 | `local-output/*` | Manual local tool/prototype outputs | No — gitignored |
 
 ### Durable AMC source catalog (internal; production-generated)
