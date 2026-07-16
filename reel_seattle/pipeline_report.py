@@ -122,7 +122,7 @@ def load_daily_scrape_diagnostics(
                 for message in _derived_amc_warnings(stats):
                     if message not in warnings:
                         warnings.append(message)
-            elif source in {"siff", "beacon"}:
+            elif source in {"siff", "beacon", "nwff"}:
                 for message in derived_indie_completeness_warnings(source, stats):
                     if message not in warnings:
                         warnings.append(message)

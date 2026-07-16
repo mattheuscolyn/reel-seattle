@@ -82,15 +82,23 @@ def test_webscrapetheaters_wrapper_collects_fixture_records(monkeypatch):
     monkeypatch.setattr("webscrapetheaters.fetch_siff_showtimes", fake_siff_fetch)
     monkeypatch.setattr("webscrapetheaters.fetch_beacon_showtimes", fake_beacon_fetch)
 
+    def fake_nwff_fetch(start, end, **kwargs):
+        from reel_seattle.adapters.nwff import NwffAdapterResult
+
+        return NwffAdapterResult(records=[], stats={}, restate_safe=False)
+
+    monkeypatch.setattr("webscrapetheaters.fetch_nwff", fake_nwff_fetch)
+
     context = FetchContext(
         run_date=date(2026, 6, 26),
         window_start=date(2026, 6, 26),
         window_end=date(2026, 12, 31),
         theaters_registry={},
     )
-    siff_result, beacon_result = collect_indie_showtimes(context)
+    siff_result, beacon_result, nwff_result = collect_indie_showtimes(context)
     records = siff_result.records + beacon_result.records
 
+    assert nwff_result is not None
     assert len(records) >= 3
     theaters = {record.theater_name_raw for record in records}
     assert "SIFF Cinema Uptown" in theaters

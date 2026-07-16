@@ -264,6 +264,32 @@ def restate_safe_from_scrape_stats(stats: Mapping[str, Any] | None) -> bool | No
     return bool(value)
 
 
+def reconcile_option_c_restate_safe(payload: Mapping[str, Any] | None) -> bool | None:
+    """AND contract + mapping + stats restate_safe for Option C envelopes.
+
+    Returns ``None`` when no layer exposes ``restate_safe`` (legacy SIFF/Beacon logs).
+    """
+    if not isinstance(payload, Mapping):
+        return None
+
+    flags: list[bool] = []
+    mapping = payload.get("mapping")
+    if isinstance(mapping, Mapping) and "restate_safe" in mapping:
+        flags.append(bool(mapping["restate_safe"]))
+
+    contract = payload.get("independent_source_result")
+    if isinstance(contract, Mapping) and "restate_safe" in contract:
+        flags.append(bool(contract["restate_safe"]))
+
+    stats = payload.get("stats")
+    if isinstance(stats, Mapping) and "restate_safe" in stats:
+        flags.append(bool(stats["restate_safe"]))
+
+    if not flags:
+        return None
+    return all(flags)
+
+
 def is_indie_restate_allowed(
     *,
     input_kind: str,
@@ -325,7 +351,7 @@ def derived_indie_completeness_warnings(
     stats: Mapping[str, object],
 ) -> list[str]:
     """Pipeline-report warnings derived from indie completeness stats."""
-    if source not in {"siff", "beacon"}:
+    if source not in {"siff", "beacon", "nwff"}:
         return []
     if "restate_safe" not in stats:
         return []
@@ -335,7 +361,12 @@ def derived_indie_completeness_warnings(
     status = str(stats.get("scrape_status") or "").strip()
     succeeded = stats.get("program_pages_succeeded")
     discovered = stats.get("discovered_programs")
-    label = "SIFF" if source == "siff" else "Beacon"
+    if source == "siff":
+        label = "SIFF"
+    elif source == "beacon":
+        label = "Beacon"
+    else:
+        label = "NWFF"
 
     if restate_safe is False:
         if status == STATUS_PARTIAL_FAILURE and isinstance(succeeded, int) and isinstance(
@@ -352,6 +383,11 @@ def derived_indie_completeness_warnings(
             warnings.append(
                 "Beacon scrape structurally empty: no trusted current rows; "
                 "retained stale future rows."
+            )
+        elif source == "nwff":
+            warnings.append(
+                f"NWFF scrape incomplete or unsafe (scrape_status={status or 'unknown'}); "
+                "retained prior future rows."
             )
         else:
             warnings.append(

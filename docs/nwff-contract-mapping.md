@@ -1,6 +1,6 @@
 # NWFF Contract → Indie Mapping
 
-**Status:** Implemented foundation (P-16F) — **not scheduled / not restated**  
+**Status:** Implemented and used by production daily path (P-16F + P-16H)  
 **Module:** `reel_seattle.ingestion.nwff_mapping`  
 **CLI:** `scripts/map_nwff_contract_to_indie.py` (offline only)  
 **Design:** [nwff-production-integration-design.md](./nwff-production-integration-design.md)  
@@ -24,7 +24,7 @@ Canonical entry in `data/theaters.json` (synced to `public/data/theaters.json`):
 * `source`: `nwff` (theater schema enum extended)
 * aliases: `NWFF`, `Northwest Film Forum`
 
-`showtimes_current` theater snapshots also accept `source: nwff` so registry embedding validates. Public showtime/`sources_included` enums still exclude `nwff` until P-16H.
+`showtimes_current` theater snapshots and showtime/`sources_included` / `pipeline_report` source enums include `nwff` (P-16H).
 
 ## Location policy
 
@@ -100,4 +100,4 @@ python scripts/map_nwff_contract_to_indie.py \
 
 **P-16G complete** for mapping consumers: use `reel_seattle.adapters.nwff` + [nwff-production-adapter.md](./nwff-production-adapter.md).
 
-**P-16H:** scheduled daily integration, tracked `data/daily_logs/`, conditional restatement, pipeline-report source support.
+**P-16H:** scheduled daily integration, tracked `data/daily_logs/`, conditional restatement, pipeline-report source support — **Complete**.

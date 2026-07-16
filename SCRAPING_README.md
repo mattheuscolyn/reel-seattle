@@ -5,9 +5,10 @@ This system automatically scrapes showtimes from indie theaters and AMC theaters
 ## Files Overview
 
 ### Core Scripts
-- `webscrapetheaters.py` - Thin CLI wrapper that writes `public/indieshowtimes.csv` via SIFF and Beacon adapters
+- `webscrapetheaters.py` - Thin CLI wrapper that writes `public/indieshowtimes.csv` via SIFF, Beacon, and NWFF adapters
 - `reel_seattle/adapters/siff.py` - SIFF cinema source adapter
 - `reel_seattle/adapters/beacon.py` - The Beacon source adapter
+- `reel_seattle/adapters/nwff.py` - Northwest Film Forum production adapter (Option C logs)
 - `amc_logger.py` - Thin CLI wrapper that writes `public/showtimes.csv` via the AMC adapter
 - `reel_seattle/adapters/amc.py` - AMC API source adapter (fetch, allowlist, legacy CSV conversion)
 - `daily_processor.py` - Processes and consolidates daily data
@@ -19,6 +20,7 @@ This system automatically scrapes showtimes from indie theaters and AMC theaters
 - `data/daily_logs/YYYY-MM-DD_amc.json` - Normalized raw AMC adapter scrape log (processor JSON-first input)
 - `data/daily_logs/YYYY-MM-DD_siff.json` - Normalized raw SIFF adapter scrape log
 - `data/daily_logs/YYYY-MM-DD_beacon.json` - Normalized raw Beacon adapter scrape log
+- `data/daily_logs/YYYY-MM-DD_nwff.json` - Option C NWFF scrape log (contract + mapping + `records[]`)
 - `data/history/showtimes_history.csv` - **Canonical** historical showtime data (not shipped to GitHub Pages)
 - `public/data/showtimes_current.json` - Lean normalized showtimes for today through today + 14 days (emitted by `daily_processor.py`; loaded by the React app)
 - `public/data/pipeline_report.json` - Daily pipeline observability report with per-source freshness (emitted by `daily_processor.py`)
@@ -182,7 +184,7 @@ Optional fields (`city`, `neighborhood`, `timezone`) support future map and “n
 
 **SIFF — enabled (3):** Cinema Downtown, Cinema Uptown, Film Center.
 
-**Indie — enabled (1):** The Beacon.
+**Indie — enabled (2):** The Beacon; Northwest Film Forum.
 
 AMC locations that appeared in historical scrapes but are **not** in the registry (e.g. Progress Ridge, Vancouver Mall, Corvallis, Kennewick, River Park Square) were outside the Reel Seattle product scope and were intentionally omitted—not disabled—because they are not plausible extensions of a Seattle-focused app. The AMC scraper no longer collects new showtimes for them.
 
@@ -192,7 +194,7 @@ AMC locations that appeared in historical scrapes but are **not** in the registr
 
 ### Indie adapters (PR 16) and normalized raw JSON logs (PR 17)
 
-`webscrapetheaters.py` delegates to `reel_seattle/adapters/siff.py` and `reel_seattle/adapters/beacon.py`. Each adapter fetches and parses its site HTML, returns `RawShowtime` records plus completeness stats (`restate_safe`, page success/failure counts), writes a normalized JSON daily log under `data/daily_logs/YYYY-MM-DD_{source}.json`, and the CLI converts combined records to the legacy indie CSV shape (`public/indieshowtimes.csv`). SIFF venues include SIFF Cinema Downtown, SIFF Cinema Uptown, and SIFF Film Center; Beacon rows use `The Beacon`. Completeness helpers live in `reel_seattle/adapters/indie_completeness.py`.
+`webscrapetheaters.py` delegates to `reel_seattle/adapters/siff.py`, `reel_seattle/adapters/beacon.py`, and `reel_seattle/adapters/nwff.py`. SIFF and Beacon write normalized JSON daily logs; NWFF writes an Option C envelope (`independent_source_result` + `mapping` + `records[]`) to `data/daily_logs/YYYY-MM-DD_nwff.json`. The CLI converts combined records to the legacy indie CSV shape (`public/indieshowtimes.csv`). SIFF venues include SIFF Cinema Downtown, SIFF Cinema Uptown, and SIFF Film Center; Beacon rows use `The Beacon`; NWFF uses `Northwest Film Forum` with a default 14-day Pacific window. Completeness helpers live in `reel_seattle/adapters/indie_completeness.py`. NWFF collection soft-fails so SIFF/Beacon continue on unexpected adapter errors.
 
 `amc_logger.py` and the indie scraper still write legacy CSV files for at least one release cycle. `daily_processor.py` reads today's JSON logs first when present; missing JSON falls back to CSV. Malformed JSON raises a clear error and does not silently fall back.
 
@@ -277,14 +279,15 @@ Each migration updates canonical history only.
 
 **AMC restate:** Each scrape replaces AMC rows for **today and future** in history (dropped showtimes disappear). Past AMC days are never removed.
 
-**Indie restate (PR 13 + P-16B):** SIFF and Beacon are restated independently for **today and future**, mirroring AMC semantics. Source is inferred from the theater registry (`siff` or `beacon`, not generic `indie`).
+**Indie restate (PR 13 + P-16B + P-16H):** SIFF, Beacon, and NWFF are restated independently for **today and future**, mirroring AMC semantics. Source is inferred from the theater registry (`siff`, `beacon`, or `nwff`, not generic `indie`).
 
 **Indie restatement safety (P-16B):** Adapters write completeness metadata on scrape-log `stats` (`restate_safe`, `scrape_status`, discovered/succeeded/failed program-page counts, structural flags). `daily_processor` restates a source only when `restate_safe` is true.
 
 * **SIFF:** any failed discovered film/program page → `partial_failure`, `restate_safe=false` (source-wide; parsed rows remain in the log for inspection but do not replace history).
 * **Beacon:** zero showtimes without affirmative valid-empty proof → suspicious/structural empty, `restate_safe=false`. Valid empty requires expected calendar structure, all discovered movie pages loaded, and zero showtimes.
+* **NWFF:** final `restate_safe` requires contract AND mapping AND stats agreement (`reconcile_option_c_restate_safe`). Unsafe partial/non-empty results retain prior futures and never partial-insert. Safe valid empty may clear futures.
 * **Legacy:** JSON logs lacking `restate_safe` are treated conservatively (block when future history exists). CSV-only fallback keeps the older empty-incoming guard.
-* Restatement remains **source-wide** (not theater-slice). A failed SIFF scrape does not block a valid Beacon restate.
+* Restatement remains **source-wide** (not theater-slice). A failed SIFF scrape does not block a valid Beacon or NWFF restate.
 
 Pipeline diagnostics derive warnings such as “SIFF scrape partial…” / “Beacon scrape structurally empty…” from log stats. Published `sources.*.status` / `last_successful_run` still reflect the current public artifact (stale retained rows can remain visible); incomplete scrapes do not rewrite history `last_updated`, so they do not advance that freshness signal via restatement.
 

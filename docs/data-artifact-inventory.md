@@ -58,9 +58,10 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `reel_seattle/ingestion/nwff_mapping.py` | NWFF IndependentSourceResult → RawShowtime mapper | Library · offline / adapter |
 | `docs/nwff-contract-mapping.md` | NWFF contract→indie mapping (P-16F) | Authored |
 | `docs/nwff-production-adapter.md` | NWFF manual production adapter (P-16G) | Authored |
-| `reel_seattle/adapters/nwff.py` | Production-compatible NWFF adapter | Manual / non-scheduled |
+| `reel_seattle/adapters/nwff.py` | Production NWFF adapter (daily + manual) | Scheduled via `webscrapetheaters.py`; manual CLI/workflow |
 | `scripts/scrape_nwff.py` | Manual NWFF scrape CLI | Live or fixture · local/artifact output |
 | `.github/workflows/nwff_manual_scrape.yml` | Manual NWFF scrape workflow | workflow_dispatch · read-only |
+| `data/daily_logs/YYYY-MM-DD_nwff.json` | Option C NWFF daily scrape log | Tracked generated data |
 | `scripts/prototype_nwff_ingestion.py` | NWFF prototype CLI | Fixture or live read-only |
 | `local-output/*` | Manual local tool/prototype outputs | No — gitignored |
 
@@ -159,6 +160,7 @@ Ingest order: `data/daily_logs/*.json` preferred → CSV fallback in `daily_proc
 data/daily_logs/YYYY-MM-DD_amc.json
 data/daily_logs/YYYY-MM-DD_siff.json
 data/daily_logs/YYYY-MM-DD_beacon.json
+data/daily_logs/YYYY-MM-DD_nwff.json
 ```
 
 **Also updated each daily run:**

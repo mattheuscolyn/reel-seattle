@@ -1,4 +1,5 @@
 import csv
+import json
 import os
 import sys
 from datetime import datetime, timedelta
@@ -15,9 +16,12 @@ from reel_seattle.adapters.scrape_log import (
     load_scrape_daily_log,
     raw_showtimes_to_legacy_rows,
 )
-from reel_seattle.adapters.indie_completeness import is_indie_restate_allowed
+from reel_seattle.adapters.indie_completeness import (
+    is_indie_restate_allowed,
+    reconcile_option_c_restate_safe,
+)
 
-INDIE_RESTATE_SOURCES = ("siff", "beacon")
+INDIE_RESTATE_SOURCES = ("siff", "beacon", "nwff")
 
 HISTORY_FIELDNAMES = [
     "Date",
@@ -86,7 +90,7 @@ def count_future_scrape_rows(scrape_rows, today_date) -> int:
 
 
 def resolve_indie_row_source(row: dict, theater_index) -> str | None:
-    """Map a row to ``siff`` or ``beacon`` via the theater registry."""
+    """Map a row to an indie source (``siff``, ``beacon``, ``nwff``) via the theater registry."""
     resolution = resolve_theater(row.get("Theater", ""), theater_index)
     if resolution is not None:
         entry = theater_index.theaters_by_id.get(resolution.theater_id)
@@ -223,10 +227,20 @@ def resolve_indie_source_scrape_rows(
 
     json_path = daily_log_path(run_date_iso, source, logs_dir=logs_dir)
     if json_path.exists():
+        try:
+            payload = json.loads(Path(json_path).read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError, TypeError):
+            payload = None
         result = load_scrape_daily_log(json_path)
         _log_scrape_json_messages(result, source=source)
         rows = raw_showtimes_to_legacy_rows(source, result.records)
         stats = dict(result.stats) if isinstance(result.stats, dict) else {}
+        if source == "nwff" and isinstance(payload, dict):
+            reconciled = reconcile_option_c_restate_safe(payload)
+            if reconciled is not None:
+                stats["restate_safe"] = reconciled
+                if not reconciled:
+                    stats.setdefault("stale_retention_recommended", True)
         return rows, str(json_path), "json", stats
 
     csv_file = str(csv_path)
@@ -253,14 +267,15 @@ def process_indie_csv_data(
     logs_dir: Path | str = DEFAULT_DAILY_LOGS_DIR,
 ):
     """
-    Restate SIFF and Beacon showtimes for today and future from the latest scrape.
+    Restate SIFF, Beacon, and NWFF showtimes for today and future from the latest scrape.
     Each indie source is restated independently with its own safety guard.
     Past rows are never removed.
 
     Restatement proceeds only when the scrape is restatement-safe (JSON completeness
     metadata) or, for legacy CSV-only input, when the historical empty-incoming
     guard passes. Incomplete / structurally empty JSON scrapes preserve existing
-    future rows even when some showtimes were parsed.
+    future rows even when some showtimes were parsed. NWFF uses Option C final
+    ``restate_safe`` (contract AND mapping AND stats).
     """
     today_date = today_date or datetime.now().date()
     run_date_iso = run_date_iso or today

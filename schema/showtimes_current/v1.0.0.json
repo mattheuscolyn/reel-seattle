@@ -44,18 +44,19 @@
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["amc", "siff", "beacon"]
+        "enum": ["amc", "siff", "beacon", "nwff"]
       },
       "uniqueItems": true
     },
     "sources": {
       "type": "object",
-      "required": ["amc", "siff", "beacon"],
+      "required": ["amc", "siff", "beacon", "nwff"],
       "additionalProperties": false,
       "properties": {
         "amc": { "$ref": "#/$defs/source_freshness" },
         "siff": { "$ref": "#/$defs/source_freshness" },
-        "beacon": { "$ref": "#/$defs/source_freshness" }
+        "beacon": { "$ref": "#/$defs/source_freshness" },
+        "nwff": { "$ref": "#/$defs/source_freshness" }
       }
     },
     "stats": {
@@ -247,7 +248,7 @@
         "ticket_url": { "type": ["string", "null"], "format": "uri" },
         "source": {
           "type": "string",
-          "enum": ["amc", "siff", "beacon"]
+          "enum": ["amc", "siff", "beacon", "nwff"]
         },
         "source_showtime_id": { "type": ["string", "null"] },
         "source_film_id": {

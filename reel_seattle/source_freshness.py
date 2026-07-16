@@ -14,7 +14,7 @@ from reel_seattle.normalize import (
     resolve_theater,
 )
 
-KNOWN_SOURCES: tuple[str, ...] = ("amc", "siff", "beacon")
+KNOWN_SOURCES: tuple[str, ...] = ("amc", "siff", "beacon", "nwff")
 SOURCE_STATUSES: tuple[str, ...] = ("success", "stale", "empty", "failed")
 
 
@@ -70,8 +70,8 @@ def resolve_history_row_source(
                 return str(source)
 
     raw_source = str(row.get("source", "")).strip().casefold()
-    if raw_source == "amc":
-        return "amc"
+    if raw_source in KNOWN_SOURCES:
+        return raw_source
 
     theater_name = str(row.get("Theater", "")).strip()
     if theater_name.startswith("AMC "):

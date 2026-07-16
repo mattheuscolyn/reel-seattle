@@ -1,8 +1,8 @@
 # Northwest Film Forum — Production Integration Design
 
-**Status:** Design complete (P-16E); mapping (P-16F) + manual adapter (P-16G) shipped — **daily integration not enabled**  
+**Status:** Design complete; **production daily path enabled (P-16H)**  
 **Track:** Data Foundation · Independent-theater ingestion  
-**Depends on:** P-16C–P-16G  
+**Depends on:** P-16C–P-16H  
 **Last updated:** 2026-07-15  
 **Prototype:** [nwff-ingestion-prototype.md](./nwff-ingestion-prototype.md)  
 **Mapping:** [nwff-contract-mapping.md](./nwff-contract-mapping.md)  
@@ -20,9 +20,9 @@ IndependentSourceResult v1.0.0   ← sole source-specific boundary
     ↓
 contract validation
     ↓
-daily scrape log (contract + legacy RawShowtime records)
+daily scrape log (Option C: contract + mapping + RawShowtime records)
     ↓
-conditional source-wide restatement (restate_safe only)
+conditional source-wide restatement (final restate_safe only)
     ↓
 history / public / pipeline_report
 ```
@@ -33,7 +33,7 @@ history / public / pipeline_report
 **Initial location policy:** accept only main-venue NWFF; reject off-site/unknown/online.  
 **Initial identity:** `/films/` slug → `source_film_id`; showtime composite fallback; no history-schema change.  
 **Initial window:** 14 forward days in `America/Los_Angeles` (match public emit; do not copy the unused indie 365-day echo).  
-**First implementation task:** **P-16F** — registry entry + contract→indie mapping with fixtures; no daily workflow yet. **Complete** — see [nwff-contract-mapping.md](./nwff-contract-mapping.md). Next: **P-16G**.
+**Production enablement:** **P-16H** — scheduled collection, tracked Option C logs, conditional restatement, schema enums, pipeline reporting.
 
 ---
 
@@ -68,7 +68,7 @@ Notes:
 
 ### Schema prerequisite (implementation PR, not this task)
 
-~~Current theater schema `source` enum is only `amc | siff | beacon`.~~ **Done in P-16F:** enum includes `nwff`; registry entry present. Pipeline-report / showtimes `sources_included` enums remain deferred to **P-16H**.
+~~Current theater schema `source` enum is only `amc | siff | beacon`.~~ **Done in P-16F:** enum includes `nwff`; registry entry present. ~~Pipeline-report / showtimes `sources_included` enums remain deferred to **P-16H**.~~ **Done in P-16H:** `showtimes_current` and `pipeline_report` source enums include `nwff`.
 
 ### Venue model vs live evidence
 

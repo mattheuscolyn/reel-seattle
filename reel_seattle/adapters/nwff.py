@@ -1,10 +1,11 @@
-"""Production-compatible Northwest Film Forum adapter (manual / non-scheduled).
+"""Production-compatible Northwest Film Forum adapter.
 
 Pipeline:
   HTTP (or fixtures) → prototype extraction → IndependentSourceResult v1.0.0
   → contract validation → contract-to-indie mapping → Option C scrape-log envelope
 
-Does not restate history or write scheduled daily logs.
+Used by the daily scheduled workflow (via ``webscrapetheaters``) and the manual
+CLI/workflow. Restatement is owned by ``daily_processor``, not this module.
 """
 
 from __future__ import annotations

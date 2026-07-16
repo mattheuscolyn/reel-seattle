@@ -36,6 +36,8 @@ jobs:
           echo "AMC_API_KEY=$AMC_API_KEY" >> $GITHUB_ENV
 
       - name: Run daily scraping
+        # Indie collection (SIFF, Beacon, NWFF) runs inside webscrapetheaters.py
+        # via run_daily_scraping.py. NWFF writes Option C logs to data/daily_logs/.
         run: python run_daily_scraping.py
 
       - name: Validate public data artifacts

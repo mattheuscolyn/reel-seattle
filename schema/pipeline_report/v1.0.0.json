@@ -38,12 +38,13 @@
     },
     "sources": {
       "type": "object",
-      "required": ["amc", "siff", "beacon"],
+      "required": ["amc", "siff", "beacon", "nwff"],
       "additionalProperties": false,
       "properties": {
         "amc": { "$ref": "#/$defs/source_report" },
         "siff": { "$ref": "#/$defs/source_report" },
-        "beacon": { "$ref": "#/$defs/source_report" }
+        "beacon": { "$ref": "#/$defs/source_report" },
+        "nwff": { "$ref": "#/$defs/source_report" }
       }
     },
     "totals": {
