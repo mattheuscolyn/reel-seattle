@@ -26,6 +26,8 @@ These files define truth in the repo. Edit intentionally; validate before commit
 - `schema/leaving_soon_current/v1.0.0.json`
 - `schema/theaters/v1.0.0.json`
 - `schema/showtime/v1.0.0.json` — stub-level reference schema
+- `schema/source_catalog/amc_movie_products/v1.0.0.json` — durable internal AMC product catalog
+- `schema/source_catalog/amc_release_observations/v1.0.0.json` — durable internal AMC release observations
 
 **History CSV columns** are enforced in code (`HISTORY_FIELDNAMES` in `daily_processor.py`), not by a separate schema file.
 
@@ -47,18 +49,33 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `data/analysis/*` | Offline analysis scripts | No — gitignored |
 | `local-output/*` | Manual local tool/prototype outputs | No — gitignored |
 
-### Prototype AMC source observations (not production)
+### Durable AMC source catalog (internal; workflow integration pending)
 
-Manual, offline-only artifacts described in [amc-source-observation-prototype.md](./amc-source-observation-prototype.md).
+Contracts and offline writer described in [amc-source-catalog.md](./amc-source-catalog.md).
 
 | Path | Role | Status |
 |------|------|--------|
-| `schema/prototypes/amc_movie_products/v1.0.0.json` | Prototype product schema | Authored · **not** a public production contract |
-| `schema/prototypes/amc_release_observations/v1.0.0.json` | Prototype release schema | Authored · **not** a public production contract |
+| `schema/source_catalog/amc_movie_products/v1.0.0.json` | Durable product schema | Authored · internal · **not** public |
+| `schema/source_catalog/amc_release_observations/v1.0.0.json` | Durable release schema | Authored · internal · **not** public |
+| `data/source_catalog/amc_movie_products.json` | Durable product catalog | Durable internal generated artifact — schema and offline writer implemented; workflow integration pending · **not** currently written by production · **not** public |
+| `data/source_catalog/amc_release_observations.json` | Durable release observations | Same status as products · derived from the product catalog · **not** public |
+| `local-output/amc-source-catalog/*.json` | Offline CLI / test outputs | Local/manual · gitignored · not public |
+| `tests/fixtures/source_catalog/` | Offline observation fixtures | Test fixtures · not production data |
+
+Do not ship to Pages, SPA, or Developer Data Cockpit. Do not treat as authored canonical film data.
+
+### Prototype AMC source observations (historical; superseded for durable work)
+
+Manual, offline-only prototype described in [amc-source-observation-prototype.md](./amc-source-observation-prototype.md). Retained as a historical reference; durable work should use `schema/source_catalog/` and `reel_seattle/source_catalog/` instead.
+
+| Path | Role | Status |
+|------|------|--------|
+| `schema/prototypes/amc_movie_products/v1.0.0.json` | Prototype product schema | Authored · superseded for durable work · **not** a public production contract |
+| `schema/prototypes/amc_release_observations/v1.0.0.json` | Prototype release schema | Authored · superseded for durable work · **not** a public production contract |
 | `local-output/amc-source-observations/*.json` | Built from sanitized audit JSON | Local/manual · not public · not canonical · not workflow-owned |
 | `tests/fixtures/analysis/amc_source_observations/` | Example-only fixture inputs | Test fixtures · not production data |
 
-No production process consumes these artifacts. Do not ship to Pages.
+No production process consumes these prototype artifacts. Do not ship to Pages.
 
 ---
 

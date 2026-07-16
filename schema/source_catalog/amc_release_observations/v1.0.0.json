@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/source_catalog/amc_release_observations/v1.0.0.json",
+  "title": "AMC Release Observations Catalog",
+  "description": "Durable internal AMC release observations derived from the product catalog. Grouping evidence only — not public, not canonical.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "source",
+    "derivation",
+    "stats",
+    "releases"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "const": "amc"
+    },
+    "derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_artifact",
+        "source_schema_version",
+        "classifier_version",
+        "rebuilt_at"
+      ],
+      "properties": {
+        "source_artifact": { "type": "string", "minLength": 1 },
+        "source_schema_version": { "type": "string", "const": "1.0.0" },
+        "classifier_version": { "type": "string", "minLength": 1 },
+        "rebuilt_at": { "type": "string", "minLength": 1 }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "release_observations",
+        "singleton_groups",
+        "multi_product_groups",
+        "largest_group"
+      ],
+      "properties": {
+        "release_observations": { "type": "integer", "minimum": 0 },
+        "singleton_groups": { "type": "integer", "minimum": 0 },
+        "multi_product_groups": { "type": "integer", "minimum": 0 },
+        "largest_group": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "releases": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/release" }
+    }
+  },
+  "$defs": {
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "source_release_id",
+        "member_source_film_ids",
+        "member_count",
+        "observed_titles",
+        "observed_runtimes_min",
+        "observed_release_dates_utc",
+        "observed_distributor_codes",
+        "presentation_categories",
+        "relationship_observations",
+        "relationship_status",
+        "lifecycle"
+      ],
+      "properties": {
+        "source": { "type": "string", "const": "amc" },
+        "source_release_id": { "type": "string", "minLength": 1 },
+        "member_source_film_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "member_count": { "type": "integer", "minimum": 1 },
+        "observed_titles": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "observed_runtimes_min": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "observed_release_dates_utc": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "observed_distributor_codes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "presentation_categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "standard",
+              "q_and_a",
+              "special_introduction",
+              "sensory_friendly",
+              "open_caption",
+              "dubbed_or_subtitled",
+              "anniversary_or_rerelease",
+              "mystery_screening",
+              "concert_or_event",
+              "marathon_or_multi_feature",
+              "other_special",
+              "unknown"
+            ]
+          }
+        },
+        "relationship_observations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title_variation",
+            "runtime_variation",
+            "release_date_variation",
+            "media_variation",
+            "attribute_variation"
+          ],
+          "properties": {
+            "title_variation": { "type": "boolean" },
+            "runtime_variation": { "type": "boolean" },
+            "release_date_variation": { "type": "boolean" },
+            "media_variation": { "type": "boolean" },
+            "attribute_variation": { "type": "boolean" }
+          }
+        },
+        "relationship_status": {
+          "type": "string",
+          "const": "grouping_evidence_only"
+        },
+        "lifecycle": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["first_observed_at", "last_rebuilt_at"],
+          "properties": {
+            "first_observed_at": { "type": "string", "minLength": 1 },
+            "last_rebuilt_at": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

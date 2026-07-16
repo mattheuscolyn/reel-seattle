@@ -2,7 +2,9 @@
 
 Non-production prototype for persisting AMC **movie-product** and **release-group** observations from sanitized Movies API audit data.
 
-**Status:** prototype · local/manual · not public · not canonical · not consumed by production
+**Status:** prototype · local/manual · not public · not canonical · not consumed by production · **superseded for durable work** by [amc-source-catalog.md](./amc-source-catalog.md)
+
+Prototype schemas, builder, and validators remain as historical references. New durable catalog work must use `schema/source_catalog/` and `reel_seattle/source_catalog/` (not these prototype tools as a production alternative).
 
 ## Purpose
 
