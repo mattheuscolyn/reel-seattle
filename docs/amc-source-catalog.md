@@ -2,7 +2,7 @@
 
 Durable, internal AMC source-catalog contracts and offline merge/derive logic.
 
-**Status:** Durable internal generated artifact — schema and offline writer implemented; workflow integration pending
+**Status:** Durable internal generated artifact — schema, offline writer, and offline-capable Movies refresh stage implemented; workflow integration pending
 
 **Not public.** Do not expose through `public/data/`, GitHub Pages, the SPA, or the Developer Data Cockpit.
 
@@ -178,6 +178,95 @@ python scripts/validate_amc_source_catalog.py \
 
 No network access. No `AMC_API_KEY`.
 
+## Refresh stage (Movies → observations)
+
+The refresh stage is the bridge between discovered AMC product IDs and the durable merge library:
+
+```text
+observed source_film_ids
+        ↓
+AMC Movies refresh stage
+        ↓
+normalized source-catalog observations
+        ↓
+existing durable merge/derive library
+        ↓
+catalog artifacts
+```
+
+**Refresh owns:** discovery parsing, refresh selection, Movies requests (or fixtures), response normalization, observation emission.
+
+**Catalog module owns:** merge, lifecycle, active/inactive, release derivation, validation.
+
+Library: `reel_seattle/source_catalog/amc_refresh.py`  
+CLI: `scripts/refresh_amc_source_catalog.py`
+
+### Discovery sources
+
+| Input | Behavior |
+|-------|----------|
+| Path to `*_amc.json` scrape log | Preferred: `attributes.movie_id` + representative `title_raw` |
+| Path to `showtimes_current.json` | Fallback: AMC `source_film_id` only |
+| `auto` | Newest `data/daily_logs/*_amc.json`, else `public/data/showtimes_current.json` |
+| `scrape-log` / `showtimes-current` | Explicit named sources under the repo root |
+
+IDs are string-normalized, blank-skipped, and deterministically deduplicated. Title is never identity.
+
+### Selection policies
+
+| Policy | Selects |
+|--------|---------|
+| `all-active` (default for manual live use) | Every discovered active ID |
+| `new-only` | IDs absent from the existing product catalog |
+| `stale` | New IDs, products with no successful refresh, and products whose `last_successful_refresh_at` is older than `--stale-after-hours` |
+
+Selection order is deterministic by AMC movie ID.
+
+### Normalized intermediate artifact
+
+```text
+local-output/amc-source-refresh/amc_source_catalog_observations.json
+```
+
+Internal stage artifact only: regenerable, not durable SoT, not public, not written by the daily pipeline today. Contains no secrets, headers, or full raw API payloads.
+
+Observation rows use the P-14A merge input contract (`source_film_id`, `observed_title`, `observed_at`, `movies_fetch.status|attempted_at|metadata`), plus sanitized diagnostics (`http_status`, `failure_category`, `error`).
+
+### Request handling
+
+* Endpoint: `GET https://api.amctheatres.com/v2/movies/{movieId}`
+* Live mode: `AMC_API_KEY` from the environment only (never a CLI argument)
+* Reuses `build_amc_headers`, `make_requests_fetch_movie`, and fixture loaders from `amc_movies_client`
+* Continues after individual product failures (default exit 0 when discovery/output succeed)
+* Optional `--fail-on-product-errors` for strict local runs
+* Response `id` must match the requested film ID or the result is `invalid` (metadata not applied)
+* Fixture mode: `--fixture-responses` directory; no network; no secret read
+
+### CLI examples
+
+Refresh-only (fixtures):
+
+```bash
+python scripts/refresh_amc_source_catalog.py \
+  --discovery-source tests/fixtures/source_catalog/discovery_scrape_log.json \
+  --fixture-responses tests/fixtures/source_catalog/movie_responses \
+  --policy all-active \
+  --generated-at 2026-07-15T12:00:00-07:00 \
+  --output-dir local-output/amc-source-refresh
+```
+
+Refresh-and-build (reuses the durable merge library; local output only):
+
+```bash
+python scripts/refresh_amc_source_catalog.py \
+  --discovery-source tests/fixtures/source_catalog/discovery_scrape_log.json \
+  --fixture-responses tests/fixtures/source_catalog/movie_responses \
+  --policy all-active \
+  --update-catalog \
+  --generated-at 2026-07-15T12:00:00-07:00 \
+  --output-dir local-output/amc-source-refresh
+```
+
 ## Validation
 
 Structural checks plus JSON Schema validation for both artifacts, including:
@@ -190,28 +279,31 @@ Structural checks plus JSON Schema validation for both artifacts, including:
 
 Validators never modify inputs.
 
-## Current offline-only status
+## Current status (no production wiring)
 
-This task does **not**:
+Implemented offline and as a standalone CLI. This does **not**:
 
-* call the AMC API
 * wire into `daily_scraping.yml` / `daily_processor.py`
-* write tracked live files under `data/source_catalog/`
+* write tracked live files under `data/source_catalog/` by default
 * expose the catalog publicly
+
+Live Movies calls are optional via `--live` for manual runs only.
 
 ## Future workflow integration boundary
 
-Expected later (out of scope here): a non-blocking late stage in the daily scrape refreshes active products, writes these durable artifacts in the same generated-data commit, and never blocks showtime success. That stage should call this offline merge library after producing observation inputs.
+Expected later (out of scope here): a non-blocking late stage in the daily scrape runs this refresh stage, merges into durable catalogs in the same generated-data commit, and never blocks showtime success.
 
-## Library entrypoint
+## Library entrypoints
 
 ```text
-reel_seattle/source_catalog/amc.py
+reel_seattle/source_catalog/amc.py          # merge / derive / validate
+reel_seattle/source_catalog/amc_refresh.py  # discovery / fetch / observations
 ```
 
 CLIs:
 
 ```text
+scripts/refresh_amc_source_catalog.py
 scripts/update_amc_source_catalog.py
 scripts/validate_amc_source_catalog.py
 ```

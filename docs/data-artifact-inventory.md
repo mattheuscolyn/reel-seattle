@@ -57,10 +57,12 @@ Contracts and offline writer described in [amc-source-catalog.md](./amc-source-c
 |------|------|--------|
 | `schema/source_catalog/amc_movie_products/v1.0.0.json` | Durable product schema | Authored · internal · **not** public |
 | `schema/source_catalog/amc_release_observations/v1.0.0.json` | Durable release schema | Authored · internal · **not** public |
-| `data/source_catalog/amc_movie_products.json` | Durable product catalog | Durable internal generated artifact — schema and offline writer implemented; workflow integration pending · **not** currently written by production · **not** public |
+| `data/source_catalog/amc_movie_products.json` | Durable product catalog | Durable internal generated artifact — schema, offline writer, and refresh stage implemented; workflow integration pending · **not** currently written by production · **not** public |
 | `data/source_catalog/amc_release_observations.json` | Durable release observations | Same status as products · derived from the product catalog · **not** public |
-| `local-output/amc-source-catalog/*.json` | Offline CLI / test outputs | Local/manual · gitignored · not public |
-| `tests/fixtures/source_catalog/` | Offline observation fixtures | Test fixtures · not production data |
+| `local-output/amc-source-catalog/*.json` | Offline merge CLI outputs | Local/manual · gitignored · not public |
+| `local-output/amc-source-refresh/amc_source_catalog_observations.json` | Normalized refresh-stage observations | Internal generated stage artifact · local/workflow temporary · regenerable · **not** durable SoT · **not** public · **not** written by daily pipeline today |
+| `local-output/amc-source-refresh/amc_*.json` | Optional local catalog build from `--update-catalog` | Local/manual · gitignored · not public |
+| `tests/fixtures/source_catalog/` | Offline discovery/response/observation fixtures | Test fixtures · not production data |
 
 Do not ship to Pages, SPA, or Developer Data Cockpit. Do not treat as authored canonical film data.
 
