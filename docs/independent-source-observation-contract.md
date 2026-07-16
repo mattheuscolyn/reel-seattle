@@ -3,7 +3,7 @@
 **Status:** Internal contract definition (non-production)  
 **Version:** `1.0.0`  
 **Track:** Data Foundation · Independent-theater ingestion  
-**Last updated:** 2026-07-15 (P-16E)  
+**Last updated:** 2026-07-15 (P-16F)  
 **Package:** `reel_seattle.ingestion.independent_contract`  
 **Schema (optional):** `schema/ingestion/independent_source_observations/v1.0.0.json`
 
@@ -159,11 +159,12 @@ Suggested sequence:
 
 1. Prototype NWFF against this contract (fixtures + live read-only validation) — **Complete (P-16D)**.
 2. Design NWFF production integration — **Complete (P-16E)**; see [nwff-production-integration-design.md](./nwff-production-integration-design.md).
-3. **P-16F:** registry entry + contract→indie mapping (no daily workflow).
-4. **P-16G / P-16H:** raw log, manual validation, then daily restatement.
-5. Align Beacon (title/year/IDs/structure) where evidence requires.
-6. Prototype Central Cinema.
-7. Align SIFF carefully (screening IDs, theater-slice restatement later).
+3. **P-16F:** registry entry + contract→indie mapping (no daily workflow) — **Complete**.
+4. **P-16G:** production-compatible adapter/raw log + manual workflow validation (still no daily).
+5. **P-16H:** daily restatement + pipeline_report/showtimes source enums.
+6. Align Beacon (title/year/IDs/structure) where evidence requires.
+7. Prototype Central Cinema.
+8. Align SIFF carefully (screening IDs, theater-slice restatement later).
 
 Current production SIFF/Beacon adapters and P-16B restatement guards remain unchanged until an explicit migration task. The NWFF prototype lives under `reel_seattle.prototypes.nwff` and must not be imported by production adapters until an intentional promotion PR.
 

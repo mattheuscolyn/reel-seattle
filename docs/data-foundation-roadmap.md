@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-15 (P-16E)  
+**Last updated:** 2026-07-15 (P-16F)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -58,6 +58,7 @@ Public UI must not change merely because new source fields are captured.
 | Independent source observation contract (P-16C) | `Complete` | [independent-source-observation-contract.md](./independent-source-observation-contract.md) · v1.0.0 |
 | NWFF ingestion prototype (P-16D) | `Complete` | [nwff-ingestion-prototype.md](./nwff-ingestion-prototype.md) · contract emitter only |
 | NWFF production integration design (P-16E) | `Complete` | [nwff-production-integration-design.md](./nwff-production-integration-design.md) |
+| NWFF registry + contract mapping (P-16F) | `Complete` | [nwff-contract-mapping.md](./nwff-contract-mapping.md) · no daily |
 
 ---
 
@@ -71,7 +72,8 @@ Public UI must not change merely because new source fields are captured.
 | P-16C | Shared independent-source observation contract | `Complete` | P-16B | Internal v1.0.0; fixtures for four sources |
 | P-16D | Prototype Northwest Film Forum against observation contract | `Complete` | P-16C | Non-production calendar→contract emitter |
 | P-16E | Design Northwest Film Forum production integration | `Complete` | P-16D | Registry, mapping, restatement, rollout design |
-| P-16F | NWFF registry entry + contract→indie mapping | `Next` | P-16E | Fixtures only; no daily workflow |
+| P-16F | NWFF registry entry + contract→indie mapping | `Complete` | P-16E | `northwest-film-forum`; `nwff_mapping.py` |
+| P-16G | NWFF adapter + raw log + manual workflow | `Next` | P-16F | No daily scheduled restatement |
 | — | Align Beacon only where necessary | `Planned` | P-16C | Minimal contract alignment |
 | — | Prototype Central Cinema | `Planned` | P-16H preferred | After NWFF daily is stable |
 | — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
@@ -211,8 +213,8 @@ Prefer an extensible structured collection, for example:
 | 2 | Define smallest shared source-observation contract | `Complete` (P-16C) |
 | 3 | Prototype Northwest Film Forum | `Complete` (P-16D) |
 | 3b | NWFF production integration design | `Complete` (P-16E) |
-| 3c | NWFF registry + contract→indie mapping | `Next` (P-16F) |
-| 3d | NWFF adapter/raw log (manual) | `Planned` (P-16G) |
+| 3c | NWFF registry + contract→indie mapping | `Complete` (P-16F) |
+| 3d | NWFF adapter/raw log (manual) | `Next` (P-16G) |
 | 3e | NWFF daily workflow + restatement | `Planned` (P-16H) |
 | 4 | Align Beacon only where necessary | `Planned` |
 | 5 | Prototype Central Cinema | `Planned` |
@@ -223,7 +225,8 @@ Prefer an extensible structured collection, for example:
 
 **P-16D prototype:** [nwff-ingestion-prototype.md](./nwff-ingestion-prototype.md) (`reel_seattle.prototypes.nwff`) — emits contract results only; no production integration.
 
-**P-16E design:** [nwff-production-integration-design.md](./nwff-production-integration-design.md) — registry, off-site policy, identity, restatement, rollout. First build: **P-16F**.
+**P-16E design:** [nwff-production-integration-design.md](./nwff-production-integration-design.md).  
+**P-16F mapping:** [nwff-contract-mapping.md](./nwff-contract-mapping.md) — registry `northwest-film-forum`, `reel_seattle.ingestion.nwff_mapping`. Next: **P-16G**.
 
 ### Confirmed SIFF/Beacon drift (P-16A)
 
@@ -292,7 +295,7 @@ Prototype shipped (non-production). Live findings:
 * Off-site location labels must not silently map to NWFF.
 * Detail-page `<time datetime>` schedules are useful for mismatch warnings only.
 
-Contract gaps: none required for P-16D. **P-16E** chose: one venue, off-site reject, slug→`source_film_id`, Option C raw logs, 14-day window, source-wide restatement when safe. Next: **P-16F** registry + mapping (no daily).
+Contract gaps: none required for P-16D. **P-16E/F** chose and shipped foundation: one venue, off-site reject, slug→`source_film_id`, Option C raw-log shape, mapping safety rule. Next: **P-16G** adapter + manual raw log (no daily).
 
 ### Central Cinema plan
 
@@ -363,10 +366,11 @@ P-16B  Indie restatement completeness guard        ← Complete
 P-16C  Independent source observation contract     ← Complete (v1.0.0)
 P-16D  NWFF ingestion prototype                    ← Complete (non-production)
 P-16E  NWFF production integration design          ← Complete
+P-16F  NWFF registry + contract→indie mapping      ← Complete
    ↓
-Next: P-16F  NWFF registry + contract→indie mapping (no daily)
+Next: P-16G  NWFF adapter + raw log + manual workflow
    ↓
-P-16G manual adapter/log → P-16H daily restatement
+P-16H daily restatement
    ↓
 Parallel: Expand AMC scrape-log capture · Beacon align (planned)
    ↓

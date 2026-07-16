@@ -1,0 +1,134 @@
+{
+  "contract_version": "1.0.0",
+  "identity": {
+    "program_strategy": "canonical_url_slug",
+    "showtime_strategy": "composite_program_theater_datetime"
+  },
+  "inspected_window": {
+    "complete": true,
+    "end": "2026-07-20",
+    "start": "2026-07-18"
+  },
+  "programs": [
+    {
+      "contract_version": "1.0.0",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "program_kind": "film",
+      "raw": {
+        "country": "USA",
+        "directors": [
+          "Ada Director"
+        ],
+        "image_url": "https://nwfilmforum.org/images/asco.jpg",
+        "release_year": 2024,
+        "runtime_min": 90,
+        "source_classification": "film",
+        "ticket_url": "https://nwfilmforum.eventive.org/tickets/program"
+      },
+      "source": "nwff",
+      "source_program_id": "asco-without-permission",
+      "source_program_url": "https://nwfilmforum.org/films/asco-without-permission/",
+      "source_title": "ASCO: Without Permission"
+    }
+  ],
+  "rejected_observations": [
+    {
+      "affects_completeness": false,
+      "code": "non_film_category",
+      "message": "Rejected workshop.",
+      "source_program_id": null,
+      "source_value": "workshop"
+    }
+  ],
+  "requested_window": {
+    "end": "2026-07-20",
+    "start": "2026-07-18"
+  },
+  "restate_safe": true,
+  "scraped_at": "2026-07-18T12:00:00-07:00",
+  "showtimes": [
+    {
+      "contract_version": "1.0.0",
+      "local_date": "2026-07-19",
+      "local_time": "15:30",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "authority": "calendar",
+        "fallback_identity": "composite_program_theater_datetime",
+        "location_name": "Northwest Film Forum",
+        "program_page_title": "ASCO: Without Permission",
+        "start_iso": "2026-07-19T15:30:00",
+        "title_differs_from_program": true
+      },
+      "source": "nwff",
+      "source_occurrence_url": "https://nwfilmforum.org/films/asco-without-permission/",
+      "source_program_id": "asco-without-permission",
+      "source_showtime_id": null,
+      "source_title": "Staff Selects - ASCO: Without Permission",
+      "theater_id": "northwest-film-forum",
+      "ticket_url": "https://nwfilmforum.eventive.org/tickets/a",
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "contract_version": "1.0.0",
+      "local_date": "2026-07-19",
+      "local_time": "17:30",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "authority": "calendar",
+        "fallback_identity": "composite_program_theater_datetime",
+        "location_name": "Northwest Film Forum",
+        "program_page_title": "ASCO: Without Permission",
+        "start_iso": "2026-07-19T17:30:00",
+        "title_differs_from_program": true
+      },
+      "source": "nwff",
+      "source_occurrence_url": "https://nwfilmforum.org/films/asco-without-permission/",
+      "source_program_id": "asco-without-permission",
+      "source_showtime_id": null,
+      "source_title": "Staff Selects - ASCO: Without Permission",
+      "theater_id": "northwest-film-forum",
+      "ticket_url": "https://nwfilmforum.eventive.org/tickets/b",
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "contract_version": "1.0.0",
+      "local_date": "2026-07-19",
+      "local_time": "19:30",
+      "observed_at": "2026-07-18T12:00:00-07:00",
+      "raw": {
+        "authority": "calendar",
+        "fallback_identity": "composite_program_theater_datetime",
+        "location_name": "Northwest Film Forum",
+        "program_page_title": "ASCO: Without Permission",
+        "start_iso": "2026-07-19T19:30:00",
+        "title_differs_from_program": true
+      },
+      "source": "nwff",
+      "source_occurrence_url": "https://nwfilmforum.org/films/asco-without-permission/",
+      "source_program_id": "asco-without-permission",
+      "source_showtime_id": null,
+      "source_title": "Staff Selects - ASCO: Without Permission",
+      "theater_id": "northwest-film-forum",
+      "ticket_url": null,
+      "timezone": "America/Los_Angeles"
+    }
+  ],
+  "source": "nwff",
+  "stats": {
+    "calendar_pages_visited": 1
+  },
+  "status": "success",
+  "structural_validation": {
+    "checks": [
+      {
+        "code": "calendar_pages_present",
+        "message": null,
+        "passed": true,
+        "severity": "error"
+      }
+    ],
+    "passed": true
+  },
+  "warnings": []
+}

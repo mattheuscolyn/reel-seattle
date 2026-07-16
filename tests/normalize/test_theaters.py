@@ -25,6 +25,8 @@ def theater_index(theaters_registry):
         ("Beacon", "the-beacon", "The Beacon"),
         ("SIFF Cinema Uptown", "siff-cinema-uptown", "SIFF Cinema Uptown"),
         ("siff cinema uptown", "siff-cinema-uptown", "SIFF Cinema Uptown"),
+        ("Northwest Film Forum", "northwest-film-forum", "Northwest Film Forum"),
+        ("NWFF", "northwest-film-forum", "Northwest Film Forum"),
     ],
 )
 def test_resolve_theater_exact_and_alias(theater_index, raw_name, expected_id, expected_name):
@@ -39,7 +41,7 @@ def test_resolve_theater_exact_and_alias(theater_index, raw_name, expected_id, e
         "",
         "Unknown Cinema",
         "AMC Corvallis 12",
-        "Northwest Film Forum",
+        "Central Library",
     ],
 )
 def test_resolve_theater_unresolved(theater_index, raw_name):

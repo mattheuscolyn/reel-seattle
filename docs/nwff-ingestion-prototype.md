@@ -4,7 +4,7 @@
 **Contract:** Independent source observation contract `v1.0.0`  
 **Package:** `reel_seattle.prototypes.nwff`  
 **CLI:** `scripts/prototype_nwff_ingestion.py`  
-**Last updated:** 2026-07-15 (P-16E)
+**Last updated:** 2026-07-15 (P-16F)
 
 ## Purpose
 
@@ -65,13 +65,13 @@ NWFF does not expose a stable source-owned performance ID in the inspected HTML.
 
 ## Locations / theater ID
 
-Planned non-production theater ID:
+Production registry ID (P-16F):
 
 ```text
 northwest-film-forum
 ```
 
-This ID is **not** in `data/theaters.json`. Validation uses the contract’s planned fixture theater set. Unknown/off-site location labels are rejected (completeness-affecting) and are never silently mapped to NWFF.
+Present in `data/theaters.json` with `source: "nwff"`. Prototype extraction still treats the ID as planned until P-16G promotion; mapper enforces main-venue-only labels.
 
 ## Completeness / status
 
@@ -122,25 +122,15 @@ Writes only under the requested ignored output directory:
 
 ## Production-integration design
 
-Design complete: [nwff-production-integration-design.md](./nwff-production-integration-design.md) (P-16E).
+Design: [nwff-production-integration-design.md](./nwff-production-integration-design.md) (P-16E).  
+Mapping: [nwff-contract-mapping.md](./nwff-contract-mapping.md) (P-16F).
 
-Summary of chosen direction:
+Shipped foundation:
 
-* One registry theater: `northwest-film-forum`
-* Accept main venue only; reject off-site/online
-* Contract → validated scrape log (full result + RawShowtime records) → indie restatement
-* Slug identity via history `source_film_id`; no history-schema change for v1
-* 14-day Pacific window; source-wide restatement when `restate_safe`
-* First implementation: **P-16F** (registry + mapping; no daily workflow)
+* Registry theater: `northwest-film-forum` (`source: nwff`)
+* Main-venue-only location policy in mapper
+* Contract → validated scrape-log envelope (full result + RawShowtime records)
+* Slug identity via `source_film_id` attributes; no history-schema change
+* **Still not** scheduled, restated, or present in pipeline-report sources
 
-## Production-integration prerequisites
-
-Before production NWFF ship (see design for details):
-
-1. Add `northwest-film-forum` and extend theaters `source` enum with `nwff`
-2. Confirm off-site exclusion (product default: exclude)
-3. Keep calendar as sole showtime authority
-4. Wire pipeline_report / showtimes `source` enums for `nwff`
-5. Soft-fail isolation + stale retention
-
-Do **not** treat this prototype alone as production-ready ingestion.
+Next: **P-16G** (adapter + raw log + manual validation).

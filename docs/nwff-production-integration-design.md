@@ -1,10 +1,11 @@
 # Northwest Film Forum — Production Integration Design
 
-**Status:** Design complete (P-16E) — **not implemented**  
+**Status:** Design complete (P-16E); mapping foundation implemented (P-16F) — **daily integration not enabled**  
 **Track:** Data Foundation · Independent-theater ingestion  
-**Depends on:** P-16C (contract v1.0.0), P-16D (NWFF prototype)  
+**Depends on:** P-16C (contract v1.0.0), P-16D (NWFF prototype), P-16F (registry + mapping)  
 **Last updated:** 2026-07-15  
 **Prototype:** [nwff-ingestion-prototype.md](./nwff-ingestion-prototype.md)  
+**Mapping:** [nwff-contract-mapping.md](./nwff-contract-mapping.md)  
 **Contract:** [independent-source-observation-contract.md](./independent-source-observation-contract.md)
 
 ## Executive recommendation
@@ -31,7 +32,7 @@ history / public / pipeline_report
 **Initial location policy:** accept only main-venue NWFF; reject off-site/unknown/online.  
 **Initial identity:** `/films/` slug → `source_film_id`; showtime composite fallback; no history-schema change.  
 **Initial window:** 14 forward days in `America/Los_Angeles` (match public emit; do not copy the unused indie 365-day echo).  
-**First implementation task:** **P-16F** — registry entry + contract→indie mapping with fixtures; no daily workflow yet.
+**First implementation task:** **P-16F** — registry entry + contract→indie mapping with fixtures; no daily workflow yet. **Complete** — see [nwff-contract-mapping.md](./nwff-contract-mapping.md). Next: **P-16G**.
 
 ---
 
@@ -66,7 +67,7 @@ Notes:
 
 ### Schema prerequisite (implementation PR, not this task)
 
-Current theater schema `source` enum is only `amc | siff | beacon`. Production NWFF **requires** extending that enum (and any code that hardcodes the three sources) to include `nwff`.
+~~Current theater schema `source` enum is only `amc | siff | beacon`.~~ **Done in P-16F:** enum includes `nwff`; registry entry present. Pipeline-report / showtimes `sources_included` enums remain deferred to **P-16H**.
 
 ### Venue model vs live evidence
 
@@ -456,7 +457,7 @@ Keep phases small; do not overbuild deployment for one venue.
 
 | Phase | Work | Ship? |
 |-------|------|-------|
-| **1 / P-16F** | Registry + schema enum + contract→indie mapping + fixtures | No daily |
+| **1 / P-16F** | Registry + schema enum + contract→indie mapping + fixtures | **Complete** (no daily) |
 | **2 / P-16G** | Production adapter + raw log + **manual** workflow_dispatch validation | No scheduled daily |
 | **3 / P-16H** | Daily workflow + restatement + pipeline_report/showtimes source enum | Yes, after QC |
 | **4 / P-16I** | Cockpit / richer diagnostics if operationally needed | Optional |
@@ -469,8 +470,8 @@ Keep phases small; do not overbuild deployment for one venue.
 
 | ID | Task | Scope boundary |
 |----|------|----------------|
-| **P-16F** | Add `northwest-film-forum` registry entry; extend theaters `source` enum; contract→`RawShowtime`/legacy mapping + fixture tests | **No** daily workflow, **no** live scheduler |
-| **P-16G** | Production NWFF adapter (promote/wrap prototype), daily log writer (Option C), manual workflow_dispatch audit | **No** scheduled daily restatement |
+| **P-16F** | Add `northwest-film-forum` registry entry; extend theaters `source` enum; contract→`RawShowtime`/legacy mapping + fixture tests | **Complete** |
+| **P-16G** | Production NWFF adapter (promote/wrap prototype), daily log writer (Option C), manual workflow_dispatch audit | **Next** — no scheduled daily restatement |
 | **P-16H** | Wire into `collect_indie` + `INDIE_RESTATE_SOURCES`; pipeline_report + showtimes_current `source` enums; end-to-end daily | Monitor 1–2 weeks |
 | **P-16I** | Cockpit inspection / ops follow-up if needed | Optional |
 | **Next indie** | Central Cinema prototype (after NWFF daily is stable) | Separate |

@@ -6,7 +6,13 @@ from typing import Any, Mapping
 
 from reel_seattle.adapters.base import RawShowtime
 
-_SOURCE_FILM_ID_ATTR_KEYS = ("movie_id", "movieId", "amc_movie_id", "source_film_id")
+_SOURCE_FILM_ID_ATTR_KEYS = (
+    "movie_id",
+    "movieId",
+    "amc_movie_id",
+    "source_film_id",
+    "source_program_id",
+)
 
 
 def source_film_id_from_raw(raw: RawShowtime) -> str:

@@ -54,7 +54,11 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `reel_seattle/ingestion/` | Shared independent-source observation contract | Library · non-production adapters |
 | `reel_seattle/prototypes/nwff.py` | NWFF contract emitter prototype | Non-production · local/workflow only |
 | `docs/nwff-ingestion-prototype.md` | NWFF non-production prototype guide | Authored |
-| `docs/nwff-production-integration-design.md` | NWFF production integration design (P-16E) | Authored · not implemented |
+| `docs/nwff-production-integration-design.md` | NWFF production integration design (P-16E) | Authored |
+| `docs/nwff-contract-mapping.md` | NWFF contract→indie mapping (P-16F) | Authored |
+| `reel_seattle/ingestion/nwff_mapping.py` | NWFF IndependentSourceResult → RawShowtime mapper | Library · offline / future adapter |
+| `scripts/map_nwff_contract_to_indie.py` | Offline mapping CLI | Local only · no network |
+| `tests/fixtures/ingestion/nwff_mapping/` | Mapping fixtures | Test fixtures |
 | `scripts/prototype_nwff_ingestion.py` | NWFF prototype CLI | Fixture or live read-only |
 | `local-output/*` | Manual local tool/prototype outputs | No — gitignored |
 
