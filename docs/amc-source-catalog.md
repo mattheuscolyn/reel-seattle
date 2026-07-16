@@ -2,7 +2,7 @@
 
 Durable, internal AMC source-catalog contracts and offline merge/derive logic.
 
-**Status:** Durable internal generated artifact — schema, offline writer, and offline-capable Movies refresh stage implemented; workflow integration pending
+**Status:** Durable internal generated artifact — schema, offline writer, and offline-capable Movies refresh stage implemented; **daily workflow integration designed** ([amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md)); wiring not started (P-14D)
 
 **Not public.** Do not expose through `public/data/`, GitHub Pages, the SPA, or the Developer Data Cockpit.
 
@@ -291,7 +291,11 @@ Live Movies calls are optional via `--live` for manual runs only.
 
 ## Future workflow integration boundary
 
-Expected later (out of scope here): a non-blocking late stage in the daily scrape runs this refresh stage, merges into durable catalogs in the same generated-data commit, and never blocks showtime success.
+Designed in [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md): a non-blocking late stage after showtime validation, `all-active` refresh, atomic promotion into `data/source_catalog/`, soft-fail retention of prior catalogs, and inclusion in the same generated-data commit.
+
+**Not implemented yet** (P-14D). Do not edit `daily_scraping.yml` until that task is explicitly scoped.
+
+Backlog context: [data-foundation-roadmap.md](./data-foundation-roadmap.md).
 
 ## Library entrypoints
 

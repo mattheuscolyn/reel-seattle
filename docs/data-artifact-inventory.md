@@ -4,7 +4,7 @@
 **Track:** Data Foundation  
 **Purpose:** Clarify which files are canonical, generated, legacy, deployed, or obsolete so daily pipeline work and feature development do not drift.
 
-**Related:** [development-operating-model.md](./development-operating-model.md) · [SCRAPING_README.md](../SCRAPING_README.md) · [product-roadmap.md](./product-roadmap.md)
+**Related:** [development-operating-model.md](./development-operating-model.md) · [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [SCRAPING_README.md](../SCRAPING_README.md) · [product-roadmap.md](./product-roadmap.md)
 
 ---
 

@@ -36,7 +36,7 @@ Work is tagged to a track in prompts, commits, and handoffs.
 | **Developer Data Cockpit** | Internal views, audits, analysis scripts, QA tooling | Not user-facing product |
 | **Next Public Site** | Future consumer site | Design-first; no silent coupling to legacy UI refactors |
 
-**Master references:** [product-roadmap.md](./product-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [data-artifact-inventory.md](./data-artifact-inventory.md) · [SCRAPING_README.md](../SCRAPING_README.md)
+**Master references:** [product-roadmap.md](./product-roadmap.md) · [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [data-artifact-inventory.md](./data-artifact-inventory.md) · [SCRAPING_README.md](../SCRAPING_README.md)
 
 ---
 
@@ -241,7 +241,7 @@ The handoff must include:
 | **Recent shipped work** | Last 3–5 relevant commits or PRs |
 | **Current priority** | One sentence |
 | **Do not touch** | Leaving Soon UI, unscoped UI redesign, `dist/`, daily data commits unless pipeline task |
-| **Key docs** | This file, product-roadmap, track-specific roadmaps |
+| **Key docs** | This file, product-roadmap, [data-foundation-roadmap](./data-foundation-roadmap.md), track-specific roadmaps |
 | **Open blockers** | Decisions, CI, data freshness |
 | **Next step** | Single concrete task |
 
@@ -286,6 +286,20 @@ Full file-by-file inventory (canonical vs generated vs deployed): [data-artifact
 
 ---
 
+## 12b. Data-foundation roadmap hygiene
+
+After meaningful **Data Foundation** (or closely related Film Identity / developer-tooling) tasks:
+
+1. Update [data-foundation-roadmap.md](./data-foundation-roadmap.md).
+2. Mark completed work `Complete` with links to the detailed docs.
+3. Record newly discovered follow-ups as `Planned` or `Research needed`.
+4. Do **not** silently drop `Deferred` items.
+5. Use that roadmap as the source for “what should we do next?” discussions (alongside [product-roadmap.md](./product-roadmap.md) for cross-cutting product gates).
+
+Daily AMC catalog wiring design lives in [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md); do not implement it until an explicit P-14D task.
+
+---
+
 ## 13. Feature Feasibility Gate
 
 Before significant new features, fill this table (in chat or a design doc):
@@ -320,4 +334,5 @@ Before significant new features, fill this table (in chat or a design doc):
 
 | Date | Change |
 |------|--------|
+| 2026-07-15 | Link [data-foundation-roadmap.md](./data-foundation-roadmap.md); add roadmap hygiene; point to AMC catalog daily-integration design |
 | 2026-07-03 | Initial operating model — workflow reset; legacy site maintained; data-first tracks |

@@ -8,6 +8,7 @@ This is the **master tracker** for cross-cutting product work. Domain-specific r
 
 | Doc | Scope |
 |-----|--------|
+| [data-foundation-roadmap.md](./data-foundation-roadmap.md) | Data foundation backlog — catalogs, AMC audits, presentation attributes, enrichment |
 | [planner-ux-roadmap.md](./planner-ux-roadmap.md) | Planner filter UX, picker patterns, mock preview |
 | [unified-planner-design.md](./unified-planner-design.md) | Planner engine, URL contract, technical design |
 | [film-identity-normalization.md](./film-identity-normalization.md) | Parent/variant identity, AMC `movieId`, staged Identity PRs |
