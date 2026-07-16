@@ -55,10 +55,12 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `reel_seattle/prototypes/nwff.py` | NWFF contract emitter prototype | Non-production · local/workflow only |
 | `docs/nwff-ingestion-prototype.md` | NWFF non-production prototype guide | Authored |
 | `docs/nwff-production-integration-design.md` | NWFF production integration design (P-16E) | Authored |
+| `reel_seattle/ingestion/nwff_mapping.py` | NWFF IndependentSourceResult → RawShowtime mapper | Library · offline / adapter |
 | `docs/nwff-contract-mapping.md` | NWFF contract→indie mapping (P-16F) | Authored |
-| `reel_seattle/ingestion/nwff_mapping.py` | NWFF IndependentSourceResult → RawShowtime mapper | Library · offline / future adapter |
-| `scripts/map_nwff_contract_to_indie.py` | Offline mapping CLI | Local only · no network |
-| `tests/fixtures/ingestion/nwff_mapping/` | Mapping fixtures | Test fixtures |
+| `docs/nwff-production-adapter.md` | NWFF manual production adapter (P-16G) | Authored |
+| `reel_seattle/adapters/nwff.py` | Production-compatible NWFF adapter | Manual / non-scheduled |
+| `scripts/scrape_nwff.py` | Manual NWFF scrape CLI | Live or fixture · local/artifact output |
+| `.github/workflows/nwff_manual_scrape.yml` | Manual NWFF scrape workflow | workflow_dispatch · read-only |
 | `scripts/prototype_nwff_ingestion.py` | NWFF prototype CLI | Fixture or live read-only |
 | `local-output/*` | Manual local tool/prototype outputs | No — gitignored |
 

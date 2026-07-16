@@ -1,11 +1,12 @@
 # Northwest Film Forum — Production Integration Design
 
-**Status:** Design complete (P-16E); mapping foundation implemented (P-16F) — **daily integration not enabled**  
+**Status:** Design complete (P-16E); mapping (P-16F) + manual adapter (P-16G) shipped — **daily integration not enabled**  
 **Track:** Data Foundation · Independent-theater ingestion  
-**Depends on:** P-16C (contract v1.0.0), P-16D (NWFF prototype), P-16F (registry + mapping)  
+**Depends on:** P-16C–P-16G  
 **Last updated:** 2026-07-15  
 **Prototype:** [nwff-ingestion-prototype.md](./nwff-ingestion-prototype.md)  
 **Mapping:** [nwff-contract-mapping.md](./nwff-contract-mapping.md)  
+**Adapter:** [nwff-production-adapter.md](./nwff-production-adapter.md)  
 **Contract:** [independent-source-observation-contract.md](./independent-source-observation-contract.md)
 
 ## Executive recommendation
@@ -458,8 +459,8 @@ Keep phases small; do not overbuild deployment for one venue.
 | Phase | Work | Ship? |
 |-------|------|-------|
 | **1 / P-16F** | Registry + schema enum + contract→indie mapping + fixtures | **Complete** (no daily) |
-| **2 / P-16G** | Production adapter + raw log + **manual** workflow_dispatch validation | No scheduled daily |
-| **3 / P-16H** | Daily workflow + restatement + pipeline_report/showtimes source enum | Yes, after QC |
+| **2 / P-16G** | Production adapter + raw log + **manual** workflow_dispatch validation | **Complete** (no scheduled daily) |
+| **3 / P-16H** | Daily workflow + restatement + pipeline_report/showtimes source enum | **Next** |
 | **4 / P-16I** | Cockpit / richer diagnostics if operationally needed | Optional |
 
 **Enablement default:** after one successful manual production-path run **and** one successful restatement verification, enable daily. A long parallel shadow period is optional, not required, if soft-fail + stale retention are wired.
@@ -471,8 +472,8 @@ Keep phases small; do not overbuild deployment for one venue.
 | ID | Task | Scope boundary |
 |----|------|----------------|
 | **P-16F** | Add `northwest-film-forum` registry entry; extend theaters `source` enum; contract→`RawShowtime`/legacy mapping + fixture tests | **Complete** |
-| **P-16G** | Production NWFF adapter (promote/wrap prototype), daily log writer (Option C), manual workflow_dispatch audit | **Next** — no scheduled daily restatement |
-| **P-16H** | Wire into `collect_indie` + `INDIE_RESTATE_SOURCES`; pipeline_report + showtimes_current `source` enums; end-to-end daily | Monitor 1–2 weeks |
+| **P-16G** | Production NWFF adapter (promote/wrap prototype), daily log writer (Option C), manual workflow_dispatch audit | **Complete** |
+| **P-16H** | Wire into `collect_indie` + `INDIE_RESTATE_SOURCES`; pipeline_report + showtimes_current `source` enums; end-to-end daily | **Next** |
 | **P-16I** | Cockpit inspection / ops follow-up if needed | Optional |
 | **Next indie** | Central Cinema prototype (after NWFF daily is stable) | Separate |
 | **Parallel** | Beacon/SIFF contract alignment remains planned, not blocking NWFF v1 if gaps are documented |

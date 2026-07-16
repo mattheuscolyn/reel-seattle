@@ -29,6 +29,7 @@ from reel_seattle.ingestion.independent_contract import (
     normalize_exact_source_title,
     serialize_independent_source_result,
 )
+from reel_seattle.normalize.times import format_time_display
 
 SOURCE = "nwff"
 NWFF_THEATER_ID = "northwest-film-forum"
@@ -106,6 +107,17 @@ def resolve_nwff_main_venue(location: str | None) -> bool:
 def _iso_date_to_indie(local_date: str) -> str:
     parsed = date.fromisoformat(local_date)
     return f"{parsed.month:02d}/{parsed.day:02d}/{parsed.year:04d}"
+
+
+def _local_time_to_indie(local_time: str) -> str:
+    """Convert contract ``HH:MM`` to indie-parseable ``h:mm AM/PM``.
+
+    ``parse_time`` rejects ambiguous 24h values ``01:00``–``12:59`` without a meridiem.
+    """
+    hour_s, minute_s = local_time.split(":", 1)
+    hour = int(hour_s)
+    minute = int(minute_s[:2])
+    return format_time_display(hour * 60 + minute)
 
 
 def _runtime_raw_from_program(program: Mapping[str, Any] | None) -> str | None:
@@ -407,7 +419,7 @@ def map_nwff_contract_to_indie(
                 "raw": RawShowtime(
                     theater_name_raw=NWFF_CANONICAL_NAME,
                     date_raw=_iso_date_to_indie(local_date),
-                    time_raw=local_time,
+                    time_raw=_local_time_to_indie(local_time),
                     title_raw=title,
                     runtime_raw=runtime_raw,
                     poster_url_raw=image_url,

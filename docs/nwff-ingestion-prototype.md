@@ -4,7 +4,7 @@
 **Contract:** Independent source observation contract `v1.0.0`  
 **Package:** `reel_seattle.prototypes.nwff`  
 **CLI:** `scripts/prototype_nwff_ingestion.py`  
-**Last updated:** 2026-07-15 (P-16F)
+**Last updated:** 2026-07-15 (P-16G)
 
 ## Purpose
 
@@ -133,4 +133,4 @@ Shipped foundation:
 * Slug identity via `source_film_id` attributes; no history-schema change
 * **Still not** scheduled, restated, or present in pipeline-report sources
 
-Next: **P-16G** (adapter + raw log + manual validation).
+Next: **P-16H** (adapter + manual raw log shipped in P-16G).

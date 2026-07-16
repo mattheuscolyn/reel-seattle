@@ -4,7 +4,7 @@
 **Module:** `reel_seattle.ingestion.nwff_mapping`  
 **CLI:** `scripts/map_nwff_contract_to_indie.py` (offline only)  
 **Design:** [nwff-production-integration-design.md](./nwff-production-integration-design.md)  
-**Last updated:** 2026-07-15
+**Last updated:** 2026-07-15 (P-16G)
 
 ## Purpose
 
@@ -98,4 +98,6 @@ python scripts/map_nwff_contract_to_indie.py \
 
 ## Next step
 
-**P-16G:** production-compatible NWFF adapter + raw-log writer with manual workflow validation — still no daily scheduled integration or restatement.
+**P-16G complete** for mapping consumers: use `reel_seattle.adapters.nwff` + [nwff-production-adapter.md](./nwff-production-adapter.md).
+
+**P-16H:** scheduled daily integration, tracked `data/daily_logs/`, conditional restatement, pipeline-report source support.
