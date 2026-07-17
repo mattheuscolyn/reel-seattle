@@ -37,7 +37,7 @@ One venue only — no screens, auditoriums, or off-site theater entries.
 
 * `schema/theaters/v1.0.0.json` — `source` enum includes `central_cinema`
 * `schema/showtimes_current/v1.0.0.json` — **theater_snapshot** `source` enum includes `central_cinema` so the registered theater validates in public registry copies
-* Showtime-record `source`, `sources_included`, and pipeline-report source enums **do not** yet include `central_cinema` (deferred until production showtimes / P-17E)
+* Showtime-record `source`, `sources_included`, and pipeline-report source enums include `central_cinema` (P-17E)
 
 ## Site-scoped venue proof
 
