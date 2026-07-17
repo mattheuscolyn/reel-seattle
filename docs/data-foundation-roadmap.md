@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-17 (P-21C catalog cadence / inactive-growth evaluation)  
+**Last updated:** 2026-07-17 (post-P-21 roadmap check — no Ready implementation task)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -96,12 +96,13 @@ Public UI must not change merely because new source fields are captured.
 | P-21A | Cockpit AMC source-product / release inspection | `Complete` | P-14D | Local allowlist + Cockpit tabs; diagnostics; no public/schema changes |
 | P-21B | AMC catalog health in pipeline report | `Complete` | P-21A / P-14D | Additive `amc_source_catalog`; stale retention; production `c5ca543` |
 | P-21C | AMC catalog refresh cadence + inactive growth evaluation | `Complete` | P-21B | Keep all-active daily; healthy inactive accumulation; [amc-catalog-cadence-evaluation.md](./amc-catalog-cadence-evaluation.md) |
-| — | NWFF / Central production monitoring | `Observation` | P-16H / P-17E | Passive for now — only 1–2 Option C log days; no unsafe runs observed |
-| — | Observe catalog runtime + failure rates | `Observation` | P-14D | Parallel passive; 2 calendar days of catalog commits so far |
+| — | NWFF / Central production monitoring | `Observation` | P-16H / P-17E | Passive — NWFF 2 Option C days, Central 1; no unsafe runs; stable NWFF `rejected_records=1` |
+| — | Observe catalog runtime + failure rates | `Observation` | P-14D / P-21C | Passive — **3** catalog calendar dates so far; re-audit only at ≥14 dates or threshold trip |
 | — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Complete` (P-18A) | P-15A | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) |
 | P-18B | Rerun AMC field/taxonomy audit on expanded production logs | `Research in progress` | P-18A | **Blocked** — only 1 distinct expanded date (`2026-07-17`) |
 | — | Accumulate ≥3 distinct expanded AMC calendar dates | `Research needed` | P-18B | Passive wait gate — not an implementation task |
 | — | Define versioned `presentation_attributes[]` contract | `Deferred` | P-18B evidence | Blocked on multi-day observations |
+| — | **No Ready Cursor implementation task** | `Blocked by product-owner decision` | — | After P-21C: only passive gates + PO-directed choices remain |
 
 ---
 
@@ -111,7 +112,7 @@ Public UI must not change merely because new source fields are captured.
 |------|--------|-------|
 | Daily workflow integration (P-14D) | `Complete` | Soft-fail; retain prior on all-failed / validation errors |
 | Safe / atomic catalog writes | `Complete` | Paired `.tmp` + `.bak` promotion in `amc_daily.py` |
-| Catalog diagnostics (stdout) | `Complete` | No pipeline-report schema bump |
+| Catalog diagnostics (stdout) | `Complete` | Retained; structured report section added in P-21B |
 | Structured pipeline-report catalog section (P-21B) | `Complete` | Additive optional `amc_source_catalog` on schema `1.0.0` (no bump); daily patch after catalog stage; Cockpit Pipeline Health summary |
 | Cockpit source-product / release inspection (P-21A) | `Complete` | Local-only Cockpit tabs over `data/source_catalog/amc_*.json`; cross-catalog diagnostics; smoke + frontend tests |
 | Refresh cadence evaluation (`all-active` → optional `stale`) (P-21C) | `Complete` | Keep all-active daily; 3 catalog calendar dates / 16 snapshots; overnight metadata churn real; stale-N not justified yet |
@@ -268,7 +269,8 @@ Prefer an extensible structured collection, for example:
 | 6 | Design minimal SIFF alignment | `Complete` (P-20A) |
 | 6b | Implement SIFF minimal alignment | `Complete` (P-20B) |
 | 6c | SIFF production rollout | `Complete` (P-20C) |
-| 7 | Integrate one new source at a time | `Planned` — needs product-owner theater selection |
+| 7 | Integrate one new source at a time | `Planned` — **blocked by product-owner theater selection** (not Ready) |
+| — | Theater-/program-slice restatement | `Planned` — no concrete integrity defect yet; keep source-wide P-16B until a scaling/integrity problem appears |
 
 **P-16C contract:** [independent-source-observation-contract.md](./independent-source-observation-contract.md) (`reel_seattle.ingestion.independent_contract`, version `1.0.0`).
 
@@ -382,9 +384,9 @@ Prototype (P-17A) through daily enablement (P-17E) shipped. Design decisions ret
 * P-17C–E complete: Central Cinema is a live scheduled source
 * History includes nullable `source_showtime_id` (Central populated)
 * Monitoring: SPA zero-link failures, page failures, showing-ID conflicts, unsafe-run frequency. **Status after P-20C reconciliation:** Observation only — 1 Option C log day (`2026-07-17`), `restate_safe=true` / `success`, `rejected_records=0`. Too thin for an implementation monitoring task.
-* Preferred next (active development): PO-directed work, or passive waits (P-18B dates / NWFF·Central observation / catalog cadence re-audit gate)
+* Preferred next: **product-owner direction required** — no Ready data-foundation implementation task after P-21C
 * Parallel wait gate: accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B (**still 1 date**: `2026-07-17`)
-* Parallel wait gate: re-run P-21C audit after ≥14 distinct catalog calendar dates or threshold trip
+* Parallel wait gate: re-run P-21C audit after ≥14 distinct catalog calendar dates or threshold trip (**currently 3**)
 * P-19A Beacon alignment complete — see [beacon-minimal-alignment.md](./beacon-minimal-alignment.md)
 * P-20A SIFF design complete — see [siff-minimal-alignment-design.md](./siff-minimal-alignment-design.md)
 * P-20B SIFF implementation complete — see [siff-minimal-alignment.md](./siff-minimal-alignment.md)
@@ -492,17 +494,17 @@ P-21B  Pipeline-report AMC catalog health ← Complete (2026-07-17)
    ↓
 P-21C  Catalog cadence + inactive growth evaluation ← Complete (2026-07-17)
    ↓
-Preferred next (active): PO-directed work
+**No Ready Cursor implementation task** — product-owner direction required
    ↓
 Parallel wait: ≥3 distinct expanded AMC dates → finish P-18B (still 1 date: 2026-07-17)
    ↓
-Parallel wait: ≥14 catalog calendar dates (or threshold) → re-run cadence audit
+Parallel wait: ≥14 catalog calendar dates (or threshold) → re-run cadence audit (currently 3)
    ↓
-Parallel observation: NWFF/Central health (passive until more Option C days)
+Parallel observation: NWFF/Central health (passive until more Option C days or a defect)
    ↓
 Later: stale-N design only if evidence gate trips (Deferred)
    ↓
-Integrate one-by-one / theater-slice restatement (Planned)
+Later: new source / theater-slice restatement / identity / redesign (needs PO pick)
 ```
 
 ---
