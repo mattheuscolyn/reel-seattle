@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-17 (P-20A SIFF minimal alignment design)  
+**Last updated:** 2026-07-17 (P-20C SIFF production rollout accepted)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -92,11 +92,11 @@ Public UI must not change merely because new source fields are captured.
 | P-19A | Align Beacon only where necessary | `Complete` | P-16C | Production accepted 2026-07-17; exact titles/IDs; Astro recovery |
 | P-20A | Design minimal SIFF alignment | `Complete` | P-19A | [siff-minimal-alignment-design.md](./siff-minimal-alignment-design.md) |
 | P-20B | Implement SIFF minimal alignment | `Complete` | P-20A | [siff-minimal-alignment.md](./siff-minimal-alignment.md); live 198/198 IDs |
-| P-20C | SIFF production rollout + acceptance | `Next` | P-20B | Daily workflow twice; history/public/report QC |
+| P-20C | SIFF production rollout + acceptance | `Complete` | P-20B | Accepted 2026-07-17; runs `54b29c2` / `1216fef`; see evidence below |
 | — | NWFF production monitoring | `Planned` | P-16H | Mismatch rate, unsafe frequency, off-site rejects |
 | — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
 | — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Complete` (P-18A) | P-15A | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) |
-| P-18B | Rerun AMC field/taxonomy audit on expanded production logs | `Research in progress` | P-18A | Provisional: 1 expanded date; 35 codes; languages empty |
+| P-18B | Rerun AMC field/taxonomy audit on expanded production logs | `Research in progress` | P-18A | Still blocked — only 1 distinct expanded date (`2026-07-17`) |
 | — | Accumulate ≥3 distinct expanded AMC calendar dates | `Research needed` | P-18B | Passive wait gate — not an implementation task |
 | — | Define versioned `presentation_attributes[]` contract | `Deferred` | P-18B evidence | Blocked on multi-day observations |
 
@@ -262,7 +262,7 @@ Prefer an extensible structured collection, for example:
 | 5e | Central daily + restatement | `Complete` (P-17E) |
 | 6 | Design minimal SIFF alignment | `Complete` (P-20A) |
 | 6b | Implement SIFF minimal alignment | `Complete` (P-20B) |
-| 6c | SIFF production rollout | `Next` (P-20C) |
+| 6c | SIFF production rollout | `Complete` (P-20C) |
 | 7 | Integrate one new source at a time | `Planned` |
 
 **P-16C contract:** [independent-source-observation-contract.md](./independent-source-observation-contract.md) (`reel_seattle.ingestion.independent_contract`, version `1.0.0`).
@@ -282,15 +282,21 @@ Prefer an extensible structured collection, for example:
 **P-18B:** Provisional audit only (1 expanded date). Next: accumulate ≥3 distinct expanded calendar dates, then rerun.  
 **P-19A:** Beacon minimal alignment — [beacon-minimal-alignment.md](./beacon-minimal-alignment.md). Exact titles; window-aware years; slug → `source_film_id`; `data-inventory-id` → `source_showtime_id`; Astro discovery/parser; P-16B restatement unchanged. **Production accepted** 2026-07-17 (`00dba32` + `dc02ce2`; safe runs `e622867` / `f82ac24`).
 **P-20A:** SIFF minimal alignment design — [siff-minimal-alignment-design.md](./siff-minimal-alignment-design.md).
-**P-20B:** SIFF minimal alignment implementation — [siff-minimal-alignment.md](./siff-minimal-alignment.md). Exact `<h1>`; path → `source_film_id`; Elevent ShowtimeId → `source_showtime_id`; window-aware years (no page-wide `\d{4}`); venue allowlist; affirmative valid-empty; source-wide restatement unchanged. Non-production live: 198 records, 198/198 IDs, three venues, multi-venue Wild Inside, nested event paths, repeated-run stable. **Next = P-20C production rollout.**
+**P-20B:** SIFF minimal alignment implementation — [siff-minimal-alignment.md](./siff-minimal-alignment.md). Exact `<h1>`; path → `source_film_id`; Elevent ShowtimeId → `source_showtime_id`; window-aware years (no page-wide `\d{4}`); venue allowlist; affirmative valid-empty; source-wide restatement unchanged.
+**P-20C:** SIFF production rollout accepted 2026-07-17. Implementation `74c5dc1` (merged to `origin/main` as `3f721d6`). Production runs:
+* Run 1 — workflow [`29598147832`](https://github.com/mattheuscolyn/reel-seattle/actions/runs/29598147832) → generated-data `54b29c2` (2026-07-17T16:56:54Z UTC / scrape ~09:58 PDT).
+* Run 2 — workflow [`29598557952`](https://github.com/mattheuscolyn/reel-seattle/actions/runs/29598557952) → generated-data `1216fef` (2026-07-17T17:03:15Z UTC / scrape ~10:04 PDT; deterministic restatement, timestamps only).
+* Both runs: `scrape_status=success`, `restate_safe=true`, 198 log records, 198/198 Elevent ShowtimeIds, 0 duplicate ShowtimeIds, 0 grain dups, three venues (Downtown 66 / Uptown 103 / Film Center 29), 9 parent-event pages excluded, multi-venue **Wild Inside** (`cinema/in-theaters/wild-inside`) at Uptown+Film Center with 7 distinct ShowtimeIds, live `<h1>` matched stored titles for ordinary/nested/punctuated/multi-venue samples, cross-run ShowtimeId→program/venue/date/time stable (198/198), past SIFF history preserved (208 pre-ID rows), non-SIFF history counts unchanged, history+public validators OK, CI on implementation merge OK, Pages deploy OK (`29598553950`, `29599183547`).
+* Stale retention: both production runs were safe; proven via focused completeness tests (`test_partial_siff_json_does_not_wipe_future_rows`, unsafe `restate_safe=false` cases) without sabotaging production.
+* Deferred SIFF risks unchanged: longer-term ShowtimeId stability across future scheduled days; broad ~365-day window; possible future venue-label aliases; Option C migration; narrower restatement scopes.
 
 ### Confirmed SIFF/Beacon drift (P-16A)
 
-* Shared legacy indie path, but **no explicit ingestion contract** (Beacon still legacy envelope after P-19A).
-* ~~Neither source stores `source_program_id` / `source_showtime_id`~~ — **Beacon (P-19A):** slug + inventory ID on new/future rows; SIFF still drops IDs before history.
-* ~~Beacon mutates titles via `.title()`~~ — **fixed in P-19A**; SIFF preserves document title.
-* ~~Year handling unsafe (Beacon = run year~~ — **fixed in P-19A** with window inference); SIFF may use first page year.
-* Forward `FetchContext` window is used for Beacon year inference; production window remains ~365 days via `build_default_indie_fetch_context`.
+* Shared legacy indie path, but **no explicit ingestion contract** (Beacon still legacy envelope after P-19A; SIFF still legacy envelope after P-20B/C — Option C deferred).
+* ~~Neither source stores `source_program_id` / `source_showtime_id`~~ — **Beacon (P-19A)** and **SIFF (P-20B/C):** IDs on new/future rows; legacy past SIFF rows may lack IDs.
+* ~~Beacon mutates titles via `.title()`~~ — **fixed in P-19A**; ~~SIFF title drift~~ — **fixed in P-20B** (exact `<h1>`).
+* ~~Year handling unsafe~~ — **Beacon P-19A** and **SIFF P-20B** use window inference (no page-wide first-year scan).
+* Forward `FetchContext` window is used for year inference; production window remains ~365 days via `build_default_indie_fetch_context`.
 * Empty vs structural failure vs valid empty were not distinguished (P-16A); **P-16B** adds completeness metadata + restatement eligibility.
 * Restatement remains **source-wide** (not theater-scoped); P-16B therefore uses conservative retention on any SIFF program-page failure.
 
@@ -371,11 +377,12 @@ Prototype (P-17A) and production-integration design (P-17B) shipped. Decisions:
 * P-17C–E complete: Central Cinema is a live scheduled source
 * History includes nullable `source_showtime_id` (Central populated)
 * Monitoring: SPA zero-link failures, page failures, showing-ID conflicts, unsafe-run frequency
-* Preferred next (active development): SIFF production rollout + acceptance (P-20C)
-* Parallel wait gate: accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B
+* Preferred next (active development): NWFF/Central production monitoring, or next independent-source integration step
+* Parallel wait gate: accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B (**still 1 date after P-20C**)
 * P-19A Beacon alignment complete — see [beacon-minimal-alignment.md](./beacon-minimal-alignment.md)
 * P-20A SIFF design complete — see [siff-minimal-alignment-design.md](./siff-minimal-alignment-design.md)
 * P-20B SIFF implementation complete — see [siff-minimal-alignment.md](./siff-minimal-alignment.md)
+* P-20C SIFF production rollout accepted 2026-07-17 (`74c5dc1` / `54b29c2` / `1216fef`)
 
 Live prototype findings retained:
 
@@ -468,11 +475,11 @@ P-20A  Design minimal SIFF alignment ← Complete
    ↓
 P-20B  Implement SIFF minimal alignment ← Complete
    ↓
-Preferred next (active): SIFF production rollout (P-20C)
+P-20C  SIFF production rollout ← Complete (2026-07-17)
    ↓
-Parallel wait: ≥3 distinct expanded AMC dates → finish P-18B
+Preferred next (active): NWFF/Central monitoring / next indie source step
    ↓
-Parallel: NWFF/Central monitoring
+Parallel wait: ≥3 distinct expanded AMC dates → finish P-18B (still 1 date)
    ↓
 Integrate one-by-one / theater-slice restatement (Planned)
 ```
