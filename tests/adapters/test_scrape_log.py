@@ -45,13 +45,17 @@ def siff_raws() -> list[RawShowtime]:
 @pytest.fixture
 def beacon_raw() -> RawShowtime:
     html = (FIXTURES_DIR / "beacon_film.html").read_text(encoding="utf-8")
+    from datetime import date
+
     from reel_seattle.adapters.beacon import parse_beacon_film_page
 
     return parse_beacon_film_page(
         html,
-        current_year=2026,
         film_url="https://thebeacon.film/calendar/movie/fixture-film",
-    )[0]
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    ).records[0]
 
 
 def test_amc_helper_writes_json_artifact_with_expected_envelope(tmp_path, amc_raw):

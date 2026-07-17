@@ -49,7 +49,9 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `data/analysis/*` | Offline analysis scripts | No — gitignored |
 | `audit-output/*` | Manual audit CLI / workflow artifacts | No — gitignored |
 | `schema/ingestion/independent_source_observations/v1.0.0.json` | Internal independent-source observation contract schema | Authored · internal · **not** public |
-| `tests/fixtures/ingestion/independent_contract/` | Contract fixture results (SIFF/Beacon/NWFF/Central) | Test fixtures · not production data |
+| `tests/fixtures/adapters/beacon_*.html` | Beacon calendar/film HTML fixtures (Astro-shaped) | Adapter tests · P-19A |
+| `docs/beacon-minimal-alignment.md` | Beacon P-19A title/year/identity notes | Documentation |
+
 | `tests/fixtures/adapters/nwff/` | NWFF HTML fixtures for prototype | Test fixtures · not production data |
 | `reel_seattle/ingestion/` | Shared independent-source observation contract | Library · non-production adapters |
 | `reel_seattle/prototypes/nwff.py` | NWFF contract emitter prototype | Non-production · local/workflow only |

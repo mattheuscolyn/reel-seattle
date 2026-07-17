@@ -375,6 +375,76 @@ def test_beacon_valid_empty_clears_future_rows(tmp_path, future_date, past_date,
     assert not any(row["Film"] == "Clear Me" for row in history)
 
 
+def test_safe_beacon_restate_replaces_mutated_future_title(
+    tmp_path, future_date, past_date, theater_index
+):
+    """Exact source title from a safe scrape replaces a mutated future history title."""
+    history = [
+        _indie_row(past_date, film="Welcome Ii The Terrordome", theater="The Beacon", source="beacon"),
+        _indie_row(
+            future_date,
+            film="Welcome Ii The Terrordome",
+            theater="The Beacon",
+            source="beacon",
+        ),
+    ]
+    logs_dir = tmp_path / "logs"
+    _write_json_log(
+        logs_dir,
+        "beacon",
+        FetchResult(
+            records=[
+                RawShowtime(
+                    theater_name_raw="The Beacon",
+                    date_raw=_fmt(future_date),
+                    time_raw="7:00PM",
+                    title_raw="WELCOME II THE TERRORDOME",
+                    source_showtime_id="INV-T",
+                    source_film_url="https://thebeacon.film/calendar/movie/welcome-ii-the-terrordome",
+                    attributes={
+                        "source_film_id": "welcome-ii-the-terrordome",
+                        "source_program_id": "welcome-ii-the-terrordome",
+                    },
+                )
+            ],
+            stats={"restate_safe": True, "scrape_status": STATUS_SUCCESS},
+        ),
+    )
+    scrape_path = tmp_path / "indie.csv"
+    save_csv(
+        scrape_path,
+        [
+            normalize_history_row(
+                {
+                    "Date": _fmt(future_date),
+                    "Time": "7:00PM",
+                    "Theater": "The Beacon",
+                    "Film": "WELCOME II THE TERRORDOME",
+                    "Runtime": "90",
+                    "isAlmostSoldOut": "None",
+                    "posterDynamic": "None",
+                    "source": "beacon",
+                    "source_film_id": "welcome-ii-the-terrordome",
+                    "source_title": "WELCOME II THE TERRORDOME",
+                    "source_showtime_id": "INV-T",
+                }
+            )
+        ],
+        fieldnames=HISTORY_FIELDNAMES,
+    )
+
+    process_indie_csv_data(
+        str(scrape_path), history, [], "2026-06-26", theater_index, logs_dir=logs_dir
+    )
+
+    assert any(row["Film"] == "Welcome Ii The Terrordome" and row["Date"] == _fmt(past_date) for row in history)
+    assert any(row["Film"] == "WELCOME II THE TERRORDOME" for row in history)
+    assert not any(
+        row["Film"] == "Welcome Ii The Terrordome" and row["Date"] == _fmt(future_date)
+        for row in history
+    )
+
+
 def test_legacy_json_without_restate_safe_is_conservative(
     tmp_path, future_date, theater_index, capsys
 ):

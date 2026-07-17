@@ -29,6 +29,7 @@ from reel_seattle.ingestion.independent_contract import (
     STATUS_VALID_EMPTY,
     normalize_exact_source_title,
 )
+from reel_seattle.normalize.year_window import infer_year_for_month_day
 from reel_seattle.prototypes.nwff import sanitize_description_html
 
 SOURCE = "central_cinema"
@@ -332,37 +333,6 @@ def parse_local_time(token: str) -> str | None:
     if ampm.startswith("a") and hour == 12:
         hour = 0
     return f"{hour:02d}:{minute:02d}"
-
-
-def infer_year_for_month_day(
-    month: int,
-    day: int,
-    *,
-    window_start: date,
-    window_end: date,
-    scrape_date: date,
-) -> tuple[date | None, str | None]:
-    """Select the unique year whose date falls in the requested window.
-
-    Returns ``(resolved_date, error_code)``.
-    """
-    years = set(range(window_start.year - 1, window_end.year + 2))
-    years.add(scrape_date.year)
-    years.add(scrape_date.year - 1)
-    years.add(scrape_date.year + 1)
-    candidates: list[date] = []
-    for year in sorted(years):
-        try:
-            candidate = date(year, month, day)
-        except ValueError:
-            continue
-        if window_start <= candidate <= window_end:
-            candidates.append(candidate)
-    if len(candidates) == 1:
-        return candidates[0], None
-    if not candidates:
-        return None, "date_outside_window_or_unresolvable"
-    return None, "ambiguous_year"
 
 
 def parse_showing_display_text(

@@ -164,11 +164,11 @@ Suggested sequence:
 5. **P-16H:** daily restatement + pipeline_report/showtimes source enums — **Complete**.
 6. Prototype Central Cinema against this contract (no production integration) — **Complete (P-17A)**; see [central-cinema-ingestion-prototype.md](./central-cinema-ingestion-prototype.md).
 7. Design Central production integration — **Complete (P-17B)**; see [central-cinema-production-integration-design.md](./central-cinema-production-integration-design.md).
-8. Align Beacon (title/year/IDs/structure) where evidence requires.
+8. Align Beacon (title/year/IDs/structure) where evidence requires — **Complete (P-19A)**; see [beacon-minimal-alignment.md](./beacon-minimal-alignment.md).
 9. Implement Central registry + offline mapping (P-17C), manual adapter (P-17D), scheduled enablement (P-17E) — **Complete**.
 10. Align SIFF carefully (screening IDs, theater-slice restatement later).
 
-Current production SIFF/Beacon adapters and P-16B restatement guards remain unchanged until an explicit migration task. NWFF production collection uses `reel_seattle.adapters.nwff` (which still delegates extraction to `reel_seattle.prototypes.nwff`).
+Beacon production now preserves exact titles, window-aware years, slug/`source_film_id`, and inventory `source_showtime_id` without adopting the full IndependentSourceResult envelope. SIFF production adapters and P-16B restatement guards remain on the legacy path until an explicit SIFF alignment task. NWFF production collection uses `reel_seattle.adapters.nwff` (which still delegates extraction to `reel_seattle.prototypes.nwff`).
 
 ## Validation API
 

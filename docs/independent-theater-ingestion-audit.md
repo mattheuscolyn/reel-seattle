@@ -453,11 +453,13 @@ Smallest useful contract — **required** vs **optional**.
 
 * Calendar = discovery; film page = authority (aligned with planned Central pattern).  
 * Slug in `/calendar/movie/...` is a natural `source_program_id`.  
-* `data-value` is a natural showtime identity candidate.  
-* `.title()` mutation is a clear exact-title bug.  
-* Always-run-year dating is a rollover hazard.  
-* Silent multi-day empty scrapes without warnings — discovery regex or site structure likely drifted; stale guard saved public data but reporting still said `success`.  
-* Needs later alignment: stop `.title()`, capture slug + data-value, structural empty detection, year rollover, poster if available.
+* **P-19A:** site moved to Astro markup — relative `/calendar/movie/{slug}` hrefs; showtimes on `.showtime-row` with stable `data-inventory-id` (matches calendar `?showtime=`). Legacy `data-value` is no longer authoritative.  
+* **P-19A fixed:** `.title()` mutation removed; exact titles preserved.  
+* **P-19A fixed:** run-year dating replaced with requested-window year inference (`normalize.year_window`).  
+* **P-19A fixed:** slug → `source_film_id`; inventory id → `source_showtime_id` on new/future rows.  
+* Pre-P-19A silent empty scrapes came from discovery/parser drift; P-16B stale guard retained futures.  
+* Remaining: not on full IndependentSourceResult; theater-slice restate still Planned; production window still ~365-day `FetchContext`.  
+* Detail: [beacon-minimal-alignment.md](./beacon-minimal-alignment.md).
 
 ---
 

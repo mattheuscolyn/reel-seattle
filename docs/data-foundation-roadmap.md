@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-17 (planning: Beacon align next while P-18B waits)  
+**Last updated:** 2026-07-17 (P-19A Beacon minimal alignment complete)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -89,7 +89,8 @@ Public UI must not change merely because new source fields are captured.
 | P-17C | Central registry + offline contract→indie mapping | `Complete` | P-17B | Theater `central-cinema`; mapper; no live/scheduled ingestion |
 | P-17D | Central adapter + manual workflow | `Complete` | P-17C | Manual CLI + workflow; no schedule |
 | P-17E | Central daily workflow + restatement | `Complete` | P-17D | Tracked logs; history `source_showtime_id`; enums; QC |
-| — | Align Beacon only where necessary | `Next` | P-16C | Minimal contract alignment; parallel while P-18B waits |
+| P-19A | Align Beacon only where necessary | `Complete` | P-16C | Exact titles; window years; slug + inventory IDs; Astro markup |
+| — | Align SIFF carefully | `Next` | P-16C / P-19A | Screening IDs; title already good; year/header care |
 | — | NWFF production monitoring | `Planned` | P-16H | Mismatch rate, unsafe frequency, off-site rejects |
 | — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
 | — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Complete` (P-18A) | P-15A | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) |
@@ -251,13 +252,13 @@ Prefer an extensible structured collection, for example:
 | 3c | NWFF registry + contract→indie mapping | `Complete` (P-16F) |
 | 3d | NWFF adapter/raw log (manual) | `Complete` (P-16G) |
 | 3e | NWFF daily workflow + restatement | `Complete` (P-16H) |
-| 4 | Align Beacon only where necessary | `Next` |
+| 4 | Align Beacon only where necessary | `Complete` (P-19A) |
 | 5 | Prototype Central Cinema | `Complete` (P-17A) |
 | 5b | Central production integration design | `Complete` (P-17B) |
 | 5c | Central registry + offline mapping | `Complete` (P-17C) |
 | 5d | Central adapter / manual workflow | `Complete` (P-17D) |
 | 5e | Central daily + restatement | `Complete` (P-17E) |
-| 6 | Align SIFF carefully | `Planned` |
+| 6 | Align SIFF carefully | `Next` |
 | 7 | Integrate one new source at a time | `Planned` |
 
 **P-16C contract:** [independent-source-observation-contract.md](./independent-source-observation-contract.md) (`reel_seattle.ingestion.independent_contract`, version `1.0.0`).
@@ -274,15 +275,16 @@ Prefer an extensible structured collection, for example:
 **P-17D adapter:** [central-cinema-production-adapter.md](./central-cinema-production-adapter.md) — production adapter + manual/scheduled paths.  
 **P-17E:** Central live in daily pipeline; history `source_showtime_id`; public/pipeline enums.  
 **P-18A:** AMC showtime raw-log capture expanded.  
-**P-18B:** Provisional audit only (1 expanded date). Next: accumulate ≥3 distinct expanded calendar dates, then rerun.
+**P-18B:** Provisional audit only (1 expanded date). Next: accumulate ≥3 distinct expanded calendar dates, then rerun.  
+**P-19A:** Beacon minimal alignment — [beacon-minimal-alignment.md](./beacon-minimal-alignment.md). Exact titles; window-aware years; slug → `source_film_id`; `data-inventory-id` → `source_showtime_id`; Astro discovery/parser; P-16B restatement unchanged.
 
 ### Confirmed SIFF/Beacon drift (P-16A)
 
-* Shared legacy indie path, but **no explicit ingestion contract**.
-* Neither source stores `source_program_id` / `source_showtime_id` (URLs only in scrape logs; dropped before history).
-* Beacon mutates titles via `.title()`; SIFF preserves document title.
-* Year handling unsafe (Beacon = run year; SIFF may use first page year).
-* Forward `FetchContext` window unused; public emit truncates separately (14 days).
+* Shared legacy indie path, but **no explicit ingestion contract** (Beacon still legacy envelope after P-19A).
+* ~~Neither source stores `source_program_id` / `source_showtime_id`~~ — **Beacon (P-19A):** slug + inventory ID on new/future rows; SIFF still drops IDs before history.
+* ~~Beacon mutates titles via `.title()`~~ — **fixed in P-19A**; SIFF preserves document title.
+* ~~Year handling unsafe (Beacon = run year~~ — **fixed in P-19A** with window inference); SIFF may use first page year.
+* Forward `FetchContext` window is used for Beacon year inference; production window remains ~365 days via `build_default_indie_fetch_context`.
 * Empty vs structural failure vs valid empty were not distinguished (P-16A); **P-16B** adds completeness metadata + restatement eligibility.
 * Restatement remains **source-wide** (not theater-scoped); P-16B therefore uses conservative retention on any SIFF program-page failure.
 
@@ -363,8 +365,9 @@ Prototype (P-17A) and production-integration design (P-17B) shipped. Decisions:
 * P-17C–E complete: Central Cinema is a live scheduled source
 * History includes nullable `source_showtime_id` (Central populated)
 * Monitoring: SPA zero-link failures, page failures, showing-ID conflicts, unsafe-run frequency
-* Preferred next (active development): Align Beacon only where necessary (minimal contract alignment)
+* Preferred next (active development): Align SIFF carefully
 * Parallel wait gate: accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B
+* P-19A Beacon alignment complete — see [beacon-minimal-alignment.md](./beacon-minimal-alignment.md)
 
 Live prototype findings retained:
 
@@ -452,14 +455,15 @@ P-17B  Central Cinema production integration design ← Complete
 P-17C  Central registry + offline contract→indie mapping ← Complete
 P-17D  Central adapter + manual workflow ← Complete
 P-17E  Central daily + restatement ← Complete (live source)
+P-19A  Align Beacon only where necessary ← Complete
    ↓
-Preferred next (active): Align Beacon only where necessary
+Preferred next (active): Align SIFF carefully
    ↓
 Parallel wait: ≥3 distinct expanded AMC dates → finish P-18B
    ↓
 Parallel: NWFF/Central monitoring
    ↓
-SIFF align → integrate one-by-one
+Integrate one-by-one / theater-slice restatement (Planned)
 ```
 
 ---
