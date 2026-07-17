@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-17T10:06:03-07:00",
+  "generated_at": "2026-07-17T11:15:04-07:00",
   "status": "success",
   "window": {
     "start_date": "2026-07-17",
@@ -70,5 +70,94 @@
     "film_count": 88,
     "theater_count": 13
   },
-  "messages": []
+  "messages": [],
+  "amc_source_catalog": {
+    "id": "amc_source_catalog",
+    "status": "success",
+    "build_attempted": true,
+    "build_succeeded": true,
+    "soft_failure": false,
+    "outcome": "promoted",
+    "artifacts_written_this_run": true,
+    "artifacts_retained_from_prior": false,
+    "reported_at": "2026-07-17T11:15:54-07:00",
+    "last_successful_build_at": "2026-07-17T11:15:14-07:00",
+    "message": "AMC source catalog: promoted",
+    "warnings": [],
+    "errors": [],
+    "refresh": {
+      "active_ids": 39,
+      "selected": 39,
+      "success": 39,
+      "failed": 0,
+      "invalid": 0
+    },
+    "artifacts": {
+      "amc_movie_products": {
+        "id": "amc_movie_products",
+        "path": "data/source_catalog/amc_movie_products.json",
+        "exists": true,
+        "valid": true,
+        "schema_version": "1.0.0",
+        "generated_at": "2026-07-17T11:15:14-07:00",
+        "record_count": 50,
+        "written_this_run": true,
+        "retained_from_prior": false,
+        "warnings": [],
+        "errors": []
+      },
+      "amc_release_observations": {
+        "id": "amc_release_observations",
+        "path": "data/source_catalog/amc_release_observations.json",
+        "exists": true,
+        "valid": true,
+        "schema_version": "1.0.0",
+        "generated_at": "2026-07-17T11:15:14-07:00",
+        "record_count": 46,
+        "written_this_run": true,
+        "retained_from_prior": false,
+        "warnings": [],
+        "errors": []
+      }
+    },
+    "products_summary": {
+      "total": 50,
+      "active": 39,
+      "inactive": 11,
+      "with_release_id": 48,
+      "without_release_id": 2,
+      "refresh_pending": 0,
+      "refresh_success": 50,
+      "refresh_stale": 0,
+      "refresh_failed": 0,
+      "refresh_invalid": 0,
+      "refresh_status_missing": 0,
+      "stored_stats": {
+        "products": 50,
+        "active_products": 39,
+        "inactive_products": 11,
+        "with_release_id": 48,
+        "without_release_id": 2,
+        "refresh_pending": 0,
+        "refresh_success": 50,
+        "refresh_stale": 0,
+        "refresh_failed": 0,
+        "refresh_invalid": 0,
+        "special_presentations": 19
+      }
+    },
+    "releases_summary": {
+      "total": 46,
+      "singleton_groups": 44,
+      "multi_product_groups": 2,
+      "membership_references": 48,
+      "unresolved_member_references": 0,
+      "stored_stats": {
+        "release_observations": 46,
+        "singleton_groups": 44,
+        "multi_product_groups": 2,
+        "largest_group": 2
+      }
+    }
+  }
 }
