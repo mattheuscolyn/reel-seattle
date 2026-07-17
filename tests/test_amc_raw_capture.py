@@ -218,7 +218,8 @@ def test_audit_reads_expanded_and_old_logs():
     assert report_new["auditorium_analysis"]["available_in_logs"] is True
     assert report_new["embargo_availability_analysis"]["isSoldOut_captured"] is True
     assert report_new["identity_analysis"]["candidates"][1]["available_in_logs"] is True
-    assert report_new["future_architecture"]["blocker"] is None
+    assert report_new["presentation_attribute_readiness"]["decision"] == "more_observation_required"
+    assert report_new["future_architecture"]["blocker"]
 
     mixed = build_showtimes_field_audit(
         log_paths=[AUDIT_FIXTURES / "log_day1.json", AUDIT_FIXTURES / "log_expanded.json"],

@@ -834,11 +834,292 @@ def analyze_premium_format(records: Sequence[Mapping[str, Any]]) -> dict[str, An
         "recommendation": (
             "Retain raw premiumFormat (already duplicated as format_raw / premium_format_raw). "
             "Future presentation_attributes should derive format codes from premiumFormat and "
-            "from attributes[] once attributes[] capture is added; do not drop the raw field."
+            "from amc_attributes when present; do not drop the raw field."
         ),
-        "attributes_array_overlap": (
-            "Cannot compare to API attributes[] because the adapter discards that array."
+        "attributes_array_overlap": None,  # filled by analyze_premium_amc_attribute_overlap when available
+    }
+
+
+def _log_date_from_path(path: Path) -> str | None:
+    stem = path.stem
+    if len(stem) >= 10 and stem[4:5] == "-" and stem[7:8] == "-":
+        candidate = stem[:10]
+        if candidate[0:4].isdigit() and candidate[5:7].isdigit() and candidate[8:10].isdigit():
+            return candidate
+    return None
+
+
+def is_expanded_record(row: Mapping[str, Any]) -> bool:
+    """True when a scrape-log record carries P-18A expanded attribute keys."""
+    attrs = row.get("attributes")
+    if not isinstance(attrs, Mapping):
+        return False
+    return any(
+        key in attrs
+        for key in (
+            "amc_attributes",
+            "performance_number",
+            "theatre_id",
+            "ticket_prices",
+            "is_sold_out",
+        )
+    )
+
+
+def classify_log_expansion(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Classify one log file as expanded, legacy, or mixed."""
+    total = len(records)
+    expanded = sum(1 for row in records if is_expanded_record(row))
+    if total == 0:
+        status = "empty"
+    elif expanded == 0:
+        status = "legacy"
+    elif expanded == total:
+        status = "expanded"
+    else:
+        status = "mixed"
+    return {
+        "status": status,
+        "records": total,
+        "expanded_records": expanded,
+        "legacy_records": total - expanded,
+    }
+
+
+def analyze_premium_amc_attribute_overlap(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Compare format_raw / premium_format_raw with amc_attributes codes."""
+    expanded = [row for row in records if is_expanded_record(row)]
+    if not expanded:
+        return {
+            "records_examined": 0,
+            "note": "No expanded records with amc_attributes in this sample.",
+        }
+
+    premium_without_attr = 0
+    attr_format_without_premium = 0
+    both = 0
+    neither = 0
+    code_hits: Counter[str] = Counter()
+    for row in expanded:
+        premium = str(row.get("format_raw") or _dig(row, "attributes.premium_format_raw") or "").strip()
+        attrs = _dig(row, "attributes.amc_attributes")
+        codes: list[str] = []
+        if isinstance(attrs, list):
+            for item in attrs:
+                normalized = _normalize_attr_item(item)
+                code = normalized["code"]
+                if not code:
+                    continue
+                classification = classify_attribute(
+                    code=normalized["code"],
+                    name=normalized["name"],
+                    description=normalized["description"],
+                )
+                if classification["category"] == ATTR_FORMAT:
+                    codes.append(code)
+                    code_hits[code] += 1
+        has_premium = bool(premium)
+        has_format_attr = bool(codes)
+        if has_premium and has_format_attr:
+            both += 1
+        elif has_premium:
+            premium_without_attr += 1
+        elif has_format_attr:
+            attr_format_without_premium += 1
+        else:
+            neither += 1
+    return {
+        "records_examined": len(expanded),
+        "both_premium_and_format_attribute": both,
+        "premium_without_format_attribute": premium_without_attr,
+        "format_attribute_without_premium": attr_format_without_premium,
+        "neither": neither,
+        "top_format_attribute_codes": code_hits.most_common(20),
+        "note": (
+            "Format attributes and premiumFormat often co-occur but are not 1:1; "
+            "retain both until presentation_attributes derivation is designed."
         ),
+    }
+
+
+def analyze_log_volume(
+    log_paths: Sequence[Path],
+    records_by_file: Mapping[str, Sequence[Mapping[str, Any]]],
+) -> dict[str, Any]:
+    """Measure per-log size and largest nested contributors on expanded samples."""
+    rows: list[dict[str, Any]] = []
+    contributor_totals: Counter[str] = Counter()
+    for path in sorted(log_paths, key=lambda item: item.as_posix()):
+        records = records_by_file.get(path.name) or []
+        classification = classify_log_expansion(records)
+        size = path.stat().st_size if path.is_file() else 0
+        avg = round(size / len(records), 1) if records else 0.0
+        rows.append(
+            {
+                "file": path.name,
+                "log_date": _log_date_from_path(path),
+                "expansion_status": classification["status"],
+                "records": classification["records"],
+                "bytes": size,
+                "mb": round(size / (1024 * 1024), 2),
+                "avg_bytes_per_record": avg,
+            }
+        )
+        if classification["status"] == "expanded" and records:
+            sample = records[: min(200, len(records))]
+            for row in sample:
+                attrs = row.get("attributes")
+                if not isinstance(attrs, Mapping):
+                    continue
+                for key, value in attrs.items():
+                    contributor_totals[key] += len(json.dumps(value, ensure_ascii=False))
+    expanded_rows = [row for row in rows if row["expansion_status"] == "expanded"]
+    legacy_rows = [row for row in rows if row["expansion_status"] == "legacy"]
+    avg_expanded_mb = (
+        round(sum(row["mb"] for row in expanded_rows) / len(expanded_rows), 2)
+        if expanded_rows
+        else None
+    )
+    avg_legacy_mb = (
+        round(sum(row["mb"] for row in legacy_rows) / len(legacy_rows), 2) if legacy_rows else None
+    )
+    return {
+        "logs": rows,
+        "expanded_log_count": len(expanded_rows),
+        "legacy_log_count": len(legacy_rows),
+        "avg_expanded_mb": avg_expanded_mb,
+        "avg_legacy_mb": avg_legacy_mb,
+        "projected_30_day_expanded_mb": round(avg_expanded_mb * 30, 1) if avg_expanded_mb else None,
+        "projected_365_day_expanded_mb": round(avg_expanded_mb * 365, 1) if avg_expanded_mb else None,
+        "largest_attribute_contributors_sample": contributor_totals.most_common(12),
+        "recommendation": (
+            "Keep current capture while observing additional days. Revisit deduplicating "
+            "ticket_prices or compressing generated logs if annual growth becomes costly."
+            if avg_expanded_mb and avg_expanded_mb > 8
+            else "Keep current capture; volume is acceptable for near-term observation."
+        ),
+    }
+
+
+def enrich_attribute_observation_dates(
+    attribute_analysis: Mapping[str, Any],
+    records_by_file: Mapping[str, Sequence[Mapping[str, Any]]],
+) -> dict[str, Any]:
+    """Add first/last/distinct observation dates to attribute taxonomy rows."""
+    date_by_key: dict[tuple[str, str], set[str]] = defaultdict(set)
+    for file_label, records in records_by_file.items():
+        log_date = file_label[:10] if len(file_label) >= 10 else file_label
+        for row in records:
+            attrs = _dig(row, "attributes.amc_attributes")
+            if not isinstance(attrs, list):
+                continue
+            for item in attrs:
+                normalized = _normalize_attr_item(item)
+                if normalized["code"] is None and normalized["name"] is None:
+                    continue
+                key = (normalized["code"] or "", normalized["name"] or "")
+                date_by_key[key].add(log_date)
+    enriched_rows: list[dict[str, Any]] = []
+    for row in attribute_analysis.get("attributes") or []:
+        key = (row.get("code") or "", row.get("name") or "")
+        dates = sorted(date_by_key.get(key) or [])
+        enriched = dict(row)
+        enriched["distinct_dates"] = len(dates)
+        enriched["first_observed_date"] = dates[0] if dates else None
+        enriched["last_observed_date"] = dates[-1] if dates else None
+        enriched_rows.append(enriched)
+    result = dict(attribute_analysis)
+    result["attributes"] = enriched_rows
+    return result
+
+
+def enhance_language_findings(language_analysis: Mapping[str, Any], records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Clarify empty versus missing language objects on expanded records."""
+    result = dict(language_analysis)
+    expanded = [row for row in records if is_expanded_record(row)]
+    present = 0
+    empty_object = 0
+    nonempty = 0
+    missing = 0
+    for row in expanded:
+        langs = _dig(row, "attributes.languages")
+        if langs is None:
+            missing += 1
+            continue
+        present += 1
+        if not isinstance(langs, Mapping):
+            continue
+        values = [langs.get(key) for key in ("spoken", "dubbed_over", "subtitle") if key in langs]
+        if not values:
+            empty_object += 1
+        elif all(value in (None, "", [], {}) for value in values):
+            empty_object += 1
+        else:
+            nonempty += 1
+    result["expanded_records_examined"] = len(expanded)
+    result["languages_key_present"] = present
+    result["languages_missing_key"] = missing
+    result["languages_empty_or_null_only"] = empty_object
+    result["languages_nonempty_values"] = nonempty
+    if expanded and nonempty == 0:
+        result["production_finding"] = (
+            "Expanded logs retain languages objects, but values are empty/null in this sample. "
+            "Do not derive dubbed/subtitled presentation attributes yet."
+        )
+    return result
+
+
+def decide_presentation_attribute_readiness(
+    *,
+    distinct_expanded_dates: int,
+    attribute_unique: int,
+    languages_nonempty: int,
+    min_dates: int = 3,
+) -> dict[str, Any]:
+    """Choose readiness without implementing presentation_attributes[]."""
+    if distinct_expanded_dates < min_dates:
+        return {
+            "decision": "more_observation_required",
+            "reason": (
+                f"Only {distinct_expanded_dates} distinct expanded calendar date(s); "
+                f"prefer {min_dates}–5 before final taxonomy conclusions."
+            ),
+            "min_dates_preferred": min_dates,
+            "distinct_expanded_dates": distinct_expanded_dates,
+            "attribute_unique_codes": attribute_unique,
+            "languages_nonempty_records": languages_nonempty,
+        }
+    if attribute_unique <= 0:
+        return {
+            "decision": "capture_adjustment_required",
+            "reason": "Expanded dates exist but amc_attributes inventory is empty.",
+            "min_dates_preferred": min_dates,
+            "distinct_expanded_dates": distinct_expanded_dates,
+            "attribute_unique_codes": attribute_unique,
+            "languages_nonempty_records": languages_nonempty,
+        }
+    if languages_nonempty == 0:
+        return {
+            "decision": "more_observation_required",
+            "reason": (
+                "Attribute codes are available, but language fields remain empty in observed "
+                "expanded logs; wait for more dates and any language-populated showtimes."
+            ),
+            "min_dates_preferred": min_dates,
+            "distinct_expanded_dates": distinct_expanded_dates,
+            "attribute_unique_codes": attribute_unique,
+            "languages_nonempty_records": languages_nonempty,
+        }
+    return {
+        "decision": "ready",
+        "reason": (
+            "Sufficient distinct expanded dates with populated attributes and some language "
+            "evidence to draft a versioned presentation_attributes[] contract."
+        ),
+        "min_dates_preferred": min_dates,
+        "distinct_expanded_dates": distinct_expanded_dates,
+        "attribute_unique_codes": attribute_unique,
+        "languages_nonempty_records": languages_nonempty,
     }
 
 
@@ -869,15 +1150,25 @@ def build_showtimes_field_audit(
         records_by_file[label] = records
         all_records.extend(records)
         skip_reasons.extend(skips)
+        expansion = classify_log_expansion(records)
+        size = path.stat().st_size if path.is_file() else 0
+        log_date = _log_date_from_path(path)
         envelopes.append(
             {
                 "path": path.as_posix(),
+                "file": label,
+                "log_date": log_date,
                 "generated_at": envelope.get("generated_at"),
                 "records": len(records),
+                "expansion_status": expansion["status"],
+                "expanded_records": expansion["expanded_records"],
+                "legacy_records": expansion["legacy_records"],
+                "bytes": size,
+                "mb": round(size / (1024 * 1024), 2),
             }
         )
-        if len(path.stem) >= 10:
-            dates.append(path.stem[:10])
+        if log_date:
+            dates.append(log_date)
 
     movie_ids = {
         str(_dig(row, "attributes.movie_id"))
@@ -916,7 +1207,9 @@ def build_showtimes_field_audit(
     if log_attribute_analysis["unique_attributes"] > 0 or any(
         _dig(row, "attributes.amc_attributes") is not None for row in all_records
     ):
-        attribute_analysis = log_attribute_analysis
+        attribute_analysis = enrich_attribute_observation_dates(
+            log_attribute_analysis, records_by_file
+        )
         if api_attribute_analysis["unique_attributes"] > 0:
             attribute_analysis = dict(attribute_analysis)
             attribute_analysis["api_fixture_unique_attributes"] = api_attribute_analysis[
@@ -933,8 +1226,12 @@ def build_showtimes_field_audit(
                 ),
             }
 
-    log_language_analysis = analyze_log_languages(all_records)
-    if log_language_analysis["languages_object_present"] > 0:
+    log_language_analysis = enhance_language_findings(
+        analyze_log_languages(all_records), all_records
+    )
+    if log_language_analysis["languages_object_present"] > 0 or log_language_analysis.get(
+        "expanded_records_examined"
+    ):
         language_analysis = log_language_analysis
     elif payloads:
         language_analysis = analyze_languages(payloads)
@@ -981,6 +1278,53 @@ def build_showtimes_field_audit(
 
     amc_attrs_in_sample = _field_present("attributes") > 0
     languages_in_sample = _field_present("languages") > 0
+    expanded_dates = sorted(
+        {
+            str(item.get("log_date"))
+            for item in envelopes
+            if item.get("expansion_status") == "expanded" and item.get("log_date")
+        }
+    )
+    legacy_dates = sorted(
+        {
+            str(item.get("log_date"))
+            for item in envelopes
+            if item.get("expansion_status") == "legacy" and item.get("log_date")
+        }
+    )
+    expanded_record_count = sum(int(item.get("expanded_records") or 0) for item in envelopes)
+    legacy_record_count = sum(int(item.get("legacy_records") or 0) for item in envelopes)
+    volume_analysis = analyze_log_volume(ordered_paths, records_by_file)
+    premium_analysis = analyze_premium_format(all_records)
+    premium_overlap = analyze_premium_amc_attribute_overlap(all_records)
+    premium_analysis = dict(premium_analysis)
+    premium_analysis["attributes_array_overlap"] = premium_overlap
+    readiness = decide_presentation_attribute_readiness(
+        distinct_expanded_dates=len(expanded_dates),
+        attribute_unique=int(attribute_analysis.get("unique_attributes") or 0),
+        languages_nonempty=int(language_analysis.get("languages_nonempty_values") or 0),
+    )
+    temporal_limitation = {
+        "distinct_expanded_calendar_dates": len(expanded_dates),
+        "expanded_dates": expanded_dates,
+        "legacy_dates": legacy_dates,
+        "expanded_record_count": expanded_record_count,
+        "legacy_record_count": legacy_record_count,
+        "expanded_files_without_yyyy_mm_dd_name": sum(
+            1
+            for item in envelopes
+            if item.get("expansion_status") == "expanded" and not item.get("log_date")
+        ),
+        "same_day_workflow_reruns_are_not_separate_temporal_evidence": True,
+        "min_dates_preferred": 3,
+        "provisional_only": len(expanded_dates) < 3,
+        "note": (
+            f"Only {len(expanded_dates)} distinct expanded calendar date(s) in this sample. "
+            "Repeated workflow runs for the same source date are not separate temporal evidence."
+            if len(expanded_dates) < 3
+            else "Expanded date coverage meets the minimum preferred threshold."
+        ),
+    }
     critical_presentation_missing = [
         row["api_path"]
         for row in field_rows
@@ -1015,9 +1359,14 @@ def build_showtimes_field_audit(
                 "end": max(dates) if dates else None,
             },
             "api_payload_fixture_count": len(payloads),
+            "expanded_dates": expanded_dates,
+            "legacy_dates": legacy_dates,
         },
+        "temporal_limitation": temporal_limitation,
         "counts": {
             "raw_showtime_records": len(all_records),
+            "expanded_records": expanded_record_count,
+            "legacy_records": legacy_record_count,
             "distinct_source_showtime_ids": len(showtime_ids),
             "distinct_performance_numbers": len(perf_numbers) if perf_numbers else 0,
             "distinct_movie_ids": len(movie_ids),
@@ -1043,11 +1392,12 @@ def build_showtimes_field_audit(
             ),
         },
         "field_population": field_rows,
-        "premium_format_analysis": analyze_premium_format(all_records),
+        "premium_format_analysis": premium_analysis,
         "attribute_taxonomy": attribute_analysis,
         "language_analysis": language_analysis,
         "identity_analysis": analyze_identity(records_by_file),
-        "pricing_analysis": {
+        "log_volume_analysis": volume_analysis,
+        "presentation_attribute_readiness": readiness,        "pricing_analysis": {
             "available_in_logs": ticket_prices_present > 0,
             "records_with_ticket_prices": ticket_prices_present,
             "note": (
@@ -1161,22 +1511,28 @@ def build_showtimes_field_audit(
                 ],
             },
             "blocker": (
-                None
-                if amc_attrs_in_sample and languages_in_sample
-                else (
-                    "This log sample does not yet contain populated attributes.amc_attributes "
-                    "and languages; accumulate P-18A expanded production logs before implementing "
-                    "presentation_attributes[]."
-                )
+                readiness["reason"]
+                if readiness["decision"] != "ready"
+                else None
             ),
         },
-        "warnings": _build_warnings(field_rows, attribute_analysis, skip_reasons),
+        "warnings": _build_warnings(field_rows, attribute_analysis, skip_reasons)
+        + (
+            [temporal_limitation["note"]]
+            if temporal_limitation.get("provisional_only")
+            else []
+        ),
         "recommendations": [
-            "Accumulate multiple daily logs with P-18A expanded fields before taxonomy conclusions.",
-            "Rerun this audit on real production observations for attribute codes, languages, pricing, and auditorium.",
+            (
+                "Accumulate at least 3–5 distinct expanded AMC calendar dates before final taxonomy conclusions."
+                if readiness["decision"] == "more_observation_required"
+                else "Draft versioned presentation_attributes[] from observed codes with provenance."
+            ),
             "Keep premiumFormat raw even after presentation_attributes derivation.",
             "Use source_showtime_id (AMC id) as the leading identity; treat performanceNumber as fallback evidence.",
-            "Define versioned presentation_attributes[] only after sufficient expanded-log evidence.",
+            "Do not infer dubbed/subtitled attributes while languages remain empty in production logs.",
+            volume_analysis.get("recommendation")
+            or "Keep current raw capture while observations accumulate.",
         ],
     }
     assert_no_secret_leakage(report)
@@ -1302,6 +1658,10 @@ def render_markdown(report: Mapping[str, Any]) -> str:
     premium = report.get("premium_format_analysis") or {}
     identity = report.get("identity_analysis") or {}
     attrs = report.get("attribute_taxonomy") or {}
+    temporal = report.get("temporal_limitation") or {}
+    readiness = report.get("presentation_attribute_readiness") or {}
+    volume = report.get("log_volume_analysis") or {}
+    languages = report.get("language_analysis") or {}
     lines = [
         "# AMC Showtimes Field Audit",
         "",
@@ -1309,40 +1669,39 @@ def render_markdown(report: Mapping[str, Any]) -> str:
         f"Logs: {inputs.get('log_count')} files "
         f"({date_range.get('start')} → {date_range.get('end')})",
         f"Records: **{counts.get('raw_showtime_records')}** · "
+        f"Expanded: **{counts.get('expanded_records')}** · "
+        f"Legacy: **{counts.get('legacy_records')}** · "
         f"Movie IDs: **{counts.get('distinct_movie_ids')}** · "
         f"Theaters: **{counts.get('distinct_theaters')}** · "
         f"Showtime IDs: **{counts.get('distinct_source_showtime_ids')}**",
         "",
-        "## Capture gap (primary finding)",
+        "## Temporal coverage",
+        "",
+        f"- Distinct expanded calendar dates: **{temporal.get('distinct_expanded_calendar_dates')}**",
+        f"- Expanded dates: `{temporal.get('expanded_dates')}`",
+        f"- Legacy dates in sample: `{temporal.get('legacy_dates')}`",
+        f"- Provisional only: **{temporal.get('provisional_only')}**",
+        f"- Note: {temporal.get('note')}",
+        "",
+        "## Presentation-attribute readiness",
+        "",
+        f"- Decision: **{readiness.get('decision')}**",
+        f"- Reason: {readiness.get('reason')}",
+        "",
+        "## Capture gap",
         "",
         f"- Documented fields inventoried: {gap.get('documented_fields')}",
-        f"- Captured in scrape logs: {gap.get('captured_in_scrape_logs')}",
-        f"- Not captured: {gap.get('not_captured_in_scrape_logs')}",
+        f"- Captured in scrape logs (mapped): {gap.get('captured_in_scrape_logs')}",
+        f"- Not mapped: {gap.get('not_captured_in_scrape_logs')}",
         f"- Adapter note: {gap.get('adapter_note')}",
         "",
-        "Critical missing for future `presentation_attributes[]`:",
+        "Critical missing/absent-in-sample for future `presentation_attributes[]`:",
         "",
     ]
     for item in gap.get("critical_missing_for_presentation_attributes") or []:
         lines.append(f"- `{item}`")
-    lines.extend(
-        [
-            "",
-            "## High-value fields already captured",
-            "",
-        ]
-    )
-    for row in report.get("field_population") or []:
-        if row.get("capture_status") != "captured_in_scrape_log":
-            continue
-        if float(row.get("population_pct_non_empty") or 0) < 1:
-            continue
-        if row.get("recommendation") not in {RECOMMEND_KEEP, RECOMMEND_DERIVE}:
-            continue
-        lines.append(
-            f"- `{row['api_path']}` → `{row['log_path']}` "
-            f"({row['population_pct_non_empty']}% non-empty)"
-        )
+    if not (gap.get("critical_missing_for_presentation_attributes") or []):
+        lines.append("- none in this sample (mapped paths present)")
     lines.extend(
         [
             "",
@@ -1351,24 +1710,41 @@ def render_markdown(report: Mapping[str, Any]) -> str:
             f"- Both empty: {premium.get('both_empty')}",
             f"- format_raw == premium_format_raw: {premium.get('both_equal_nonempty')}",
             f"- Conflicts: {premium.get('conflicts_format_vs_attr')}",
+            f"- amc_attributes overlap: {premium.get('attributes_array_overlap')}",
             f"- Recommendation: {premium.get('recommendation')}",
             "",
             "## Attribute taxonomy",
             "",
-            f"- Unique attributes (fixture/API payloads): {attrs.get('unique_attributes')}",
+            f"- Unique attributes: {attrs.get('unique_attributes')}",
             f"- Note: {attrs.get('note')}",
             f"- Category counts: {attrs.get('category_counts')}",
+            "",
+            "## Languages",
+            "",
+            f"- Languages key present: {languages.get('languages_key_present')}",
+            f"- Empty/null-only: {languages.get('languages_empty_or_null_only')}",
+            f"- Nonempty values: {languages.get('languages_nonempty_values')}",
+            f"- Finding: {languages.get('production_finding') or languages.get('note')}",
             "",
             "## Identity",
             "",
             f"- Recommendation: {identity.get('recommendation')}",
+            f"- performance_number_status: {identity.get('performance_number_status')}",
+            "",
+            "## Log volume",
+            "",
+            f"- Avg expanded MB: {volume.get('avg_expanded_mb')}",
+            f"- Avg legacy MB: {volume.get('avg_legacy_mb')}",
+            f"- Projected 30-day expanded MB: {volume.get('projected_30_day_expanded_mb')}",
+            f"- Projected 365-day expanded MB: {volume.get('projected_365_day_expanded_mb')}",
+            f"- Recommendation: {volume.get('recommendation')}",
             "",
             "## Future architecture",
             "",
             "Use extensible `presentation_attributes[]` with categories "
             "`format|accessibility|language|event|...`, preserving source codes/labels/provenance.",
             "",
-            f"**Blocker:** {(report.get('future_architecture') or {}).get('blocker')}",
+            f"**Blocker / readiness:** {(report.get('future_architecture') or {}).get('blocker')}",
             "",
             "## Recommendations",
             "",

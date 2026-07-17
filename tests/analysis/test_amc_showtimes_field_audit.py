@@ -216,11 +216,22 @@ def test_malformed_attribute_and_conflicting_types_do_not_crash():
     assert isinstance(report["pricing_analysis"]["fixture_summary"], dict)
 
 
-def test_existing_amc_adapter_and_catalog_unaffected():
-    # Smoke: import production adapter mapping still present and unchanged by audit package.
-    from reel_seattle.adapters import amc as amc_adapter
-
-    assert callable(amc_adapter.api_showtime_to_raw)
+def test_temporal_limitation_and_readiness_with_one_expanded_day():
+    report = build_showtimes_field_audit(
+        log_paths=[FIXTURES / "log_day1.json", FIXTURES / "log_expanded.json"],
+        generated_at=GENERATED_AT,
+    )
+    temporal = report["temporal_limitation"]
+    # Fixture filenames are not YYYY-MM-DD; still one expanded file / provisional.
+    assert temporal["provisional_only"] is True
+    assert report["presentation_attribute_readiness"]["decision"] == "more_observation_required"
+    assert report["counts"]["expanded_records"] == 2
+    assert report["counts"]["legacy_records"] == 6
+    assert report["log_volume_analysis"]["expanded_log_count"] == 1
+    overlap = report["premium_format_analysis"]["attributes_array_overlap"]
+    assert overlap["records_examined"] == 2
+    langs = report["language_analysis"]
+    assert langs.get("languages_nonempty_values", 0) >= 1
 
 
 def test_workflow_yaml_is_manual_readonly():

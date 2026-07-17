@@ -1,6 +1,6 @@
 # AMC Showtimes Field Audit
 
-**Status:** Manual / read-only measurement  
+**Status:** Provisional P-18B research (incomplete — temporal limit)  
 **Track:** Data Foundation  
 **Last updated:** 2026-07-17  
 **Related:** [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) · [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [amc-source-catalog.md](./amc-source-catalog.md)
@@ -11,7 +11,7 @@ Measure which documented AMC Showtimes API fields are retained in committed Reel
 
 ## Inputs
 
-* Preferred: newest N committed `data/daily_logs/*_amc.json` (default 7).
+* Preferred: newest N committed `data/daily_logs/*_amc.json` (default 7; P-18B provisional used all 19).
 * Optional: synthetic full Showtimes API payloads:
 
   ```text
@@ -22,17 +22,34 @@ No live AMC API calls. No `AMC_API_KEY`.
 
 ## Capture status (P-18A)
 
-`api_showtime_to_raw` now retains high-value fields under `record.attributes`, including:
+`api_showtime_to_raw` retains high-value fields under `record.attributes`, including `amc_attributes`, languages, identity fallbacks, ticket prices, auditorium/layout, and availability flags.
 
-* `amc_attributes` (source `attributes[]`)
-* `languages` (`spoken` / `dubbed_over` / `subtitle`)
-* `performance_number`, `theatre_id`, `wwm_release_number`
-* `ticket_prices`, auditorium/layout IDs
-* `is_sold_out`, embargo/visibility flags
+See [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md).
 
-See [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) for the full mapping table.
+## P-18B provisional result (2026-07-17)
 
-Pre-P-18A logs remain readable; population counts stay zero for expanded fields until new daily logs land.
+**Temporal limitation:** only **1** distinct expanded calendar date (`2026-07-17`). Eighteen legacy dates remain. Two same-day workflow reruns for 2026-07-17 are **not** separate temporal evidence.
+
+| Metric | Value |
+|--------|-------|
+| Logs examined | 19 |
+| Expanded records | 3,502 |
+| Legacy records | 67,111 |
+| Unique attribute codes (expanded day) | 35 |
+| Category sketch | format 7 · accessibility 4 · language 4 · event 1 · ticketing 1 · unknown 18 |
+| Languages nonempty | **0** (objects present but empty) |
+| Avg expanded log size | 12.58 MB (legacy ~2.96 MB) |
+| Readiness decision | **more_observation_required** |
+
+Do **not** finalize taxonomy or implement `presentation_attributes[]` until **3–5** distinct expanded dates accumulate.
+
+### Notable provisional observations
+
+* `RESERVEDSEATING` / `RECLINERSEATING` are common and currently `unknown` in the audit classifier.
+* Format attributes often appear **without** a matching `premiumFormat` string (Laser/IMAX/etc. in `amc_attributes`).
+* `performance_number` + `theatre_id` are fully populated on the expanded day; cross-day stability not yet measurable.
+* Ticket prices are universal on the expanded day (Adult/Child/Senior); largest size drivers with `amc_attributes`.
+* Embargo boolean keys were absent in this sample; visibility timestamps and sold-out flags are present.
 
 ## Manual workflow
 
@@ -41,8 +58,7 @@ GitHub Actions → **AMC Showtimes Field Audit** (`workflow_dispatch` only).
 ```bash
 python scripts/audit_amc_showtimes_fields.py \
   --logs-dir data/daily_logs \
-  --max-logs 7 \
-  --api-payloads tests/fixtures/analysis/amc_showtimes_field_audit/api_showtimes.json \
+  --max-logs 19 \
   --output-dir audit-output/amc-showtimes-field-audit
 ```
 
@@ -58,18 +74,15 @@ Outputs (gitignored under `audit-output/`):
 
 | Section | Meaning |
 |---------|---------|
-| Capture gap | Documented API fields still without adapter log paths (or absent in the sample) |
+| Temporal coverage | Distinct expanded vs legacy calendar dates; provisional flag |
+| Readiness | `ready` / `more_observation_required` / `capture_adjustment_required` |
 | Field population | Coverage for mapped log paths |
-| Attribute taxonomy | Prefer scrape-log `amc_attributes` when present; else API fixtures |
+| Attribute taxonomy | Prefer scrape-log `amc_attributes` when present |
 | Identity | `source_showtime_id` plus optional `performance_number` / `theatre_id` |
-| Future architecture | Proposed `presentation_attributes[]` direction |
-
-Taxonomy categories are audit-only (`format`, `accessibility`, `language`, `event`, …). Unknown codes stay `needs_review`.
+| Log volume | Size growth and largest nested contributors |
 
 ## Non-production status
 
 * Does not modify daily scraping beyond reading committed logs.
 * Does not implement `presentation_attributes[]`.
 * Does not commit live audit artifacts.
-
-Accumulate **at least two** expanded production logs before taxonomy conclusions.

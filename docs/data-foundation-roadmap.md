@@ -54,6 +54,7 @@ Public UI must not change merely because new source fields are captured.
 | Daily catalog workflow wiring (P-14D) | `Complete` | Non-blocking late stage; `all-active`; atomic promotion; same generated-data commit |
 | AMC Showtimes field audit (P-15A) | `Complete` | [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) — log capture gap + fixture taxonomy |
 | AMC Showtimes raw-capture expansion (P-18A) | `Complete` | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) — expand daily-log attributes |
+| AMC expanded-log field/taxonomy audit (P-18B) | `Research in progress` | Provisional only — 1 expanded date (`2026-07-17`); need 3–5 |
 | SIFF/Beacon ingestion audit (P-16A) | `Complete` | [independent-theater-ingestion-audit.md](./independent-theater-ingestion-audit.md) |
 | Indie restatement completeness guard (P-16B) | `Complete` | Partial/structural-empty scrapes cannot wipe future rows |
 | Independent source observation contract (P-16C) | `Complete` | [independent-source-observation-contract.md](./independent-source-observation-contract.md) · v1.0.0 |
@@ -92,8 +93,9 @@ Public UI must not change merely because new source fields are captured.
 | — | NWFF production monitoring | `Planned` | P-16H | Mismatch rate, unsafe frequency, off-site rejects |
 | — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
 | — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Complete` (P-18A) | P-15A | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) |
-| — | Rerun AMC field/taxonomy audit on expanded production logs | `Next` | P-18A | ≥2 expanded daily logs before taxonomy conclusions |
-| — | Define versioned `presentation_attributes[]` contract | `Deferred` | audit evidence | After real attribute/language inventory |
+| P-18B | Rerun AMC field/taxonomy audit on expanded production logs | `Research in progress` | P-18A | Provisional: 1 expanded date; 35 codes; languages empty |
+| — | Accumulate ≥3 distinct expanded AMC calendar dates | `Next` | P-18B | Then rerun audit before taxonomy conclusions |
+| — | Define versioned `presentation_attributes[]` contract | `Deferred` | P-18B evidence | Blocked on multi-day observations |
 
 ---
 
@@ -125,9 +127,10 @@ Measurement-only audits. Do not change production scrape fields until an explici
 |------|--------|-------|
 | P-15A field population + taxonomy tooling | `Complete` | [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) |
 | P-18A expand scrape-log capture | `Complete` | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) |
-| Production `attributes[]` / `languages` measurement | `Ready` / `Observation` | Mapped in logs; accumulate ≥2 expanded days |
-| Showtime identity (`id` vs `performanceNumber`) | `Ready` / `Observation` | Both retained; confirm stability across days |
-| Pricing / auditorium / embargo depth | `Ready` / `Observation` | Retained under `attributes.*`; no public exposure |
+| Production `attributes[]` / `languages` measurement | `Observation` | 35 codes on 2026-07-17; languages present but empty |
+| Showtime identity (`id` vs `performanceNumber`) | `Observation` | Both populated on expanded day; cross-day stability pending |
+| Pricing / auditorium / embargo depth | `Observation` | Prices + auditorium retained; embargo keys absent in sample |
+| P-18B multi-day audit | `Research in progress` | Need 3–5 distinct expanded dates |
 
 ### Showtime field-population audit — `Complete` (log-based)
 
@@ -137,17 +140,28 @@ P-15A measured documented API fields against committed scrape logs and recorded 
 
 Expanded `api_showtime_to_raw` preserves `amc_attributes`, languages, `performanceNumber`/`theatreId`, ticket prices, auditorium/layout, and availability flags inside `record.attributes`. Schema version remains `1.0.0`. History/public output unchanged.
 
+### P-18B expanded-log audit — `Research in progress` (provisional)
+
+Provisional audit over 19 committed logs (18 legacy + 1 expanded date `2026-07-17`):
+
+* **35** unique attribute codes (7 format / 4 accessibility / 4 language / 18 unknown / …)
+* Languages: objects retained, **0** nonempty spoken/dubbed/subtitle values
+* Identity: `performance_number` available; multi-day stability not yet measurable
+* Pricing: full ticket-price arrays; ~12.6 MB/day expanded vs ~3 MB legacy
+* Readiness: **more_observation_required**
+* Next: accumulate ≥3 distinct expanded calendar dates, then rerun
+
 ### Showtime identity audit — `Observation`
 
-`source_showtime_id` remains primary. `performanceNumber` / `theatreId` are now retained as supplementary evidence.
+`source_showtime_id` remains primary. `performanceNumber` / `theatreId` are retained as supplementary evidence on expanded days.
 
 ### Attribute-code taxonomy audit — `Observation`
 
-Classifier + fixture inventory shipped. Production attribute codes can be inventoried once expanded logs accumulate (≥2 days).
+Classifier + production inventory started (35 codes). Finalize only after 3–5 expanded dates; many high-frequency seating codes remain `unknown`.
 
 ### Language / pricing / auditorium audits — `Observation`
 
-Same: fields retained by P-18A; measure on real production logs before designing presentation attributes.
+Languages empty in the first expanded day. Pricing and auditorium/layout populated; no auditorium entity decision yet.
 
 ---
 
@@ -259,7 +273,8 @@ Prefer an extensible structured collection, for example:
 **P-17C mapping:** [central-cinema-contract-mapping.md](./central-cinema-contract-mapping.md) — registry `central-cinema`; offline contract→indie mapper; site-scoped venue proof.  
 **P-17D adapter:** [central-cinema-production-adapter.md](./central-cinema-production-adapter.md) — production adapter + manual/scheduled paths.  
 **P-17E:** Central live in daily pipeline; history `source_showtime_id`; public/pipeline enums.  
-**P-18A:** AMC showtime raw-log capture expanded. Next: rerun field/taxonomy audit on ≥2 expanded production logs.
+**P-18A:** AMC showtime raw-log capture expanded.  
+**P-18B:** Provisional audit only (1 expanded date). Next: accumulate ≥3 distinct expanded calendar dates, then rerun.
 
 ### Confirmed SIFF/Beacon drift (P-16A)
 
@@ -348,7 +363,7 @@ Prototype (P-17A) and production-integration design (P-17B) shipped. Decisions:
 * P-17C–E complete: Central Cinema is a live scheduled source
 * History includes nullable `source_showtime_id` (Central populated)
 * Monitoring: SPA zero-link failures, page failures, showing-ID conflicts, unsafe-run frequency
-* Preferred next: rerun AMC Showtimes field/taxonomy audit on expanded production logs (≥2 days)
+* Preferred next: accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B
 
 Live prototype findings retained:
 
@@ -422,6 +437,7 @@ Registry remains canonical authored data (`data/theaters.json`). Expand only wit
 ```text
 P-15A  AMC Showtimes field audit (capture gap)     ← Complete
 P-18A  Expand AMC scrape-log raw capture           ← Complete
+P-18B  Rerun audit on expanded multi-day logs      ← Research in progress (1 date)
 P-16A  SIFF/Beacon ingestion audit                 ← Complete
 P-16B  Indie restatement completeness guard        ← Complete
 P-16C  Independent source observation contract     ← Complete (v1.0.0)
@@ -436,7 +452,7 @@ P-17C  Central registry + offline contract→indie mapping ← Complete
 P-17D  Central adapter + manual workflow ← Complete
 P-17E  Central daily + restatement ← Complete (live source)
    ↓
-Preferred next: Rerun AMC field/taxonomy audit on ≥2 expanded production logs
+Preferred next: Accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B
    ↓
 Parallel: Beacon align (planned) · NWFF/Central monitoring
    ↓
