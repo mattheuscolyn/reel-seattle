@@ -96,6 +96,10 @@ Contracts and writers described in [amc-source-catalog.md](./amc-source-catalog.
 | `local-output/amc-source-refresh/amc_source_catalog_observations.json` | Normalized refresh-stage observations | Internal generated stage artifact · local/workflow temporary · regenerable · **not** durable SoT · **not** public · **not** committed |
 | Runner temp `amc-source-catalog-*` | Daily orchestration work dir | Ephemeral · cleaned up · not committed |
 | `tests/fixtures/source_catalog/` | Offline discovery/response fixtures | Test fixtures · not production data |
+| `reel_seattle/analysis/amc_catalog_cadence_audit.py` | Refresh-cadence / inactive-growth evaluation (P-21C) | Read-only analysis · no API · no production mutation |
+| `scripts/audit_amc_catalog_cadence.py` | Cadence evaluation CLI | Manual / local · `--from-git` or `--snapshots-dir` · writes `audit-output/` |
+| `docs/amc-catalog-cadence-evaluation.md` | P-21C findings + classifications | Authored research · not a production contract |
+| `audit-output/amc-catalog-cadence-evaluation/` | Machine JSON/MD audit output | Gitignored · regenerable |
 
 Do not ship to Pages or the public SPA. Do not treat as authored canonical film data. Local Developer Data Cockpit may read these files through an explicit allowlist (P-21A); they are never copied into `public/` or `dist/`.
 
