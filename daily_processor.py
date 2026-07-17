@@ -21,7 +21,8 @@ from reel_seattle.adapters.indie_completeness import (
     reconcile_option_c_restate_safe,
 )
 
-INDIE_RESTATE_SOURCES = ("siff", "beacon", "nwff")
+INDIE_RESTATE_SOURCES = ("siff", "beacon", "nwff", "central_cinema")
+OPTION_C_RESTATE_SOURCES = frozenset({"nwff", "central_cinema"})
 
 HISTORY_FIELDNAMES = [
     "Date",
@@ -43,6 +44,7 @@ HISTORY_FIELDNAMES = [
     "time_24h",
     "source_film_id",
     "source_title",
+    "source_showtime_id",
 ]
 
 HISTORY_PATH = Path("data/history/showtimes_history.csv")
@@ -90,7 +92,7 @@ def count_future_scrape_rows(scrape_rows, today_date) -> int:
 
 
 def resolve_indie_row_source(row: dict, theater_index) -> str | None:
-    """Map a row to an indie source (``siff``, ``beacon``, ``nwff``) via the theater registry."""
+    """Map a row to an indie source via the theater registry."""
     resolution = resolve_theater(row.get("Theater", ""), theater_index)
     if resolution is not None:
         entry = theater_index.theaters_by_id.get(resolution.theater_id)
@@ -235,7 +237,7 @@ def resolve_indie_source_scrape_rows(
         _log_scrape_json_messages(result, source=source)
         rows = raw_showtimes_to_legacy_rows(source, result.records)
         stats = dict(result.stats) if isinstance(result.stats, dict) else {}
-        if source == "nwff" and isinstance(payload, dict):
+        if source in OPTION_C_RESTATE_SOURCES and isinstance(payload, dict):
             reconciled = reconcile_option_c_restate_safe(payload)
             if reconciled is not None:
                 stats["restate_safe"] = reconciled
@@ -267,15 +269,15 @@ def process_indie_csv_data(
     logs_dir: Path | str = DEFAULT_DAILY_LOGS_DIR,
 ):
     """
-    Restate SIFF, Beacon, and NWFF showtimes for today and future from the latest scrape.
-    Each indie source is restated independently with its own safety guard.
-    Past rows are never removed.
+    Restate SIFF, Beacon, NWFF, and Central Cinema showtimes for today and future
+    from the latest scrape. Each indie source is restated independently with its
+    own safety guard. Past rows are never removed.
 
     Restatement proceeds only when the scrape is restatement-safe (JSON completeness
     metadata) or, for legacy CSV-only input, when the historical empty-incoming
     guard passes. Incomplete / structurally empty JSON scrapes preserve existing
-    future rows even when some showtimes were parsed. NWFF uses Option C final
-    ``restate_safe`` (contract AND mapping AND stats).
+    future rows even when some showtimes were parsed. Option C sources (NWFF,
+    Central Cinema) use final ``restate_safe`` (contract AND mapping AND stats).
     """
     today_date = today_date or datetime.now().date()
     run_date_iso = run_date_iso or today

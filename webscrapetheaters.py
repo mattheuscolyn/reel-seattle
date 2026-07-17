@@ -1,12 +1,16 @@
-"""Thin CLI wrapper for SIFF, Beacon, and Northwest Film Forum indie adapters."""
+"""Thin CLI wrapper for SIFF, Beacon, NWFF, and Central Cinema indie adapters."""
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import requests
 
 from reel_seattle.adapters.beacon import fetch_beacon_showtimes
+from reel_seattle.adapters.central_cinema import (
+    fetch_central_cinema,
+    write_central_cinema_scrape_log,
+)
 from reel_seattle.adapters.indie_legacy import (
     DEFAULT_INDIE_CSV_PATH,
     DEFAULT_HEADERS,
@@ -29,23 +33,28 @@ CSV_FILENAME = str(DEFAULT_INDIE_CSV_PATH)
 
 
 def collect_indie_showtimes(context):
-    """Run SIFF, Beacon, and NWFF adapters; return per-source results.
+    """Run SIFF, Beacon, NWFF, and Central Cinema adapters; return per-source results.
 
-    NWFF failures are isolated: SIFF/Beacon still return successfully. NWFF may be
-    ``None`` when collection raises unexpectedly.
+    NWFF and Central failures are isolated: SIFF/Beacon still return successfully.
+    NWFF or Central may be ``None`` when collection raises unexpectedly.
     """
     siff_result = fetch_siff_showtimes(context)
     beacon_result = fetch_beacon_showtimes(context)
 
+    start = context.run_date
+    end = start + timedelta(days=13)
+
     nwff_result = None
     try:
-        from datetime import timedelta
-
-        start = context.run_date
-        end = start + timedelta(days=13)
         nwff_result = fetch_nwff(start, end)
     except Exception as exc:  # noqa: BLE001 - source-local soft-fail
         print(f"ERROR: NWFF collection failed (source-local): {exc}")
+
+    central_result = None
+    try:
+        central_result = fetch_central_cinema(start, end)
+    except Exception as exc:  # noqa: BLE001 - source-local soft-fail
+        print(f"ERROR: Central Cinema collection failed (source-local): {exc}")
 
     for message in siff_result.warnings + beacon_result.warnings:
         print(message)
@@ -61,8 +70,18 @@ def collect_indie_showtimes(context):
             f"restate_safe={nwff_result.restate_safe} "
             f"records={len(nwff_result.records)}"
         )
+    if central_result is not None:
+        for message in central_result.warnings:
+            print(f"Central Cinema: {message}")
+        for message in central_result.errors:
+            print(f"Central Cinema ERROR: {message}")
+        print(
+            f"Central Cinema status={central_result.contract.get('status')} "
+            f"restate_safe={central_result.restate_safe} "
+            f"records={len(central_result.records)}"
+        )
 
-    return siff_result, beacon_result, nwff_result
+    return siff_result, beacon_result, nwff_result, central_result
 
 
 def main() -> None:
@@ -71,7 +90,7 @@ def main() -> None:
     session.headers.update(DEFAULT_HEADERS)
     context = build_default_indie_fetch_context(run_date=run_date, session=session)
 
-    siff_result, beacon_result, nwff_result = collect_indie_showtimes(context)
+    siff_result, beacon_result, nwff_result, central_result = collect_indie_showtimes(context)
 
     siff_json_path = daily_log_path(run_date, "siff")
     beacon_json_path = daily_log_path(run_date, "beacon")
@@ -95,9 +114,22 @@ def main() -> None:
             f"(restate_safe={nwff_result.restate_safe})"
         )
 
+    if central_result is not None:
+        central_json_path = daily_log_path(
+            run_date, "central_cinema", logs_dir=DEFAULT_DAILY_LOGS_DIR
+        )
+        write_central_cinema_scrape_log(central_json_path, central_result.log_envelope)
+        print(
+            f"Wrote Central Cinema Option C scrape log {central_json_path}: "
+            f"{len(central_result.records)} records "
+            f"(restate_safe={central_result.restate_safe})"
+        )
+
     records = list(siff_result.records) + list(beacon_result.records)
     if nwff_result is not None:
         records.extend(nwff_result.records)
+    if central_result is not None:
+        records.extend(central_result.records)
     rows = [raw_showtime_to_legacy_row(record) for record in records]
     write_legacy_indie_csv(CSV_FILENAME, rows)
     print(f"Saved {len(rows)} showtimes to {CSV_FILENAME}.")

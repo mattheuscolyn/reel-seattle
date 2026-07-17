@@ -142,6 +142,6 @@ See [central-cinema-production-integration-design.md](./central-cinema-productio
 
 1. **P-17C** — Registry entry + offline contract→indie mapping — **Complete**
 2. **P-17D** — Production-compatible adapter + manual workflow — **Complete** ([central-cinema-production-adapter.md](./central-cinema-production-adapter.md))
-3. **P-17E** — Scheduled daily ingestion + conditional restatement
+3. **P-17E** — Scheduled daily ingestion + conditional restatement — **Complete**
 
-Chosen production source key: `central_cinema`. Showing IDs are mandatory. Theater ID: `central-cinema`. Do not enable scheduled Central until P-17E is explicitly scheduled.
+Chosen production source key: `central_cinema`. Showing IDs are mandatory. Theater ID: `central-cinema`. Central is a live scheduled source.

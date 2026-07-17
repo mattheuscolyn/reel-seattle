@@ -65,6 +65,7 @@ Public UI must not change merely because new source fields are captured.
 | Central Cinema production integration design (P-17B) | `Complete` | [central-cinema-production-integration-design.md](./central-cinema-production-integration-design.md) |
 | Central Cinema registry + offline mapping (P-17C) | `Complete` | [central-cinema-contract-mapping.md](./central-cinema-contract-mapping.md) |
 | Central Cinema production adapter (P-17D) | `Complete` | [central-cinema-production-adapter.md](./central-cinema-production-adapter.md) |
+| Central Cinema daily enablement (P-17E) | `Complete` | [central-cinema-production-adapter.md](./central-cinema-production-adapter.md) |
 
 ---
 
@@ -85,7 +86,7 @@ Public UI must not change merely because new source fields are captured.
 | — | Central production integration design | `Complete` | P-17A | Source key `central_cinema`; Option C path |
 | P-17C | Central registry + offline contract→indie mapping | `Complete` | P-17B | Theater `central-cinema`; mapper; no live/scheduled ingestion |
 | P-17D | Central adapter + manual workflow | `Complete` | P-17C | Manual CLI + workflow; no schedule |
-| P-17E | Central daily workflow + restatement | `Next` | P-17D | Tracked logs; enums; QC |
+| P-17E | Central daily workflow + restatement | `Complete` | P-17D | Tracked logs; history `source_showtime_id`; enums; QC |
 | — | Align Beacon only where necessary | `Planned` | P-16C | Minimal contract alignment |
 | — | NWFF production monitoring | `Planned` | P-16H | Mismatch rate, unsafe frequency, off-site rejects |
 | — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
@@ -233,7 +234,7 @@ Prefer an extensible structured collection, for example:
 | 5b | Central production integration design | `Complete` (P-17B) |
 | 5c | Central registry + offline mapping | `Complete` (P-17C) |
 | 5d | Central adapter / manual workflow | `Complete` (P-17D) |
-| 5e | Central daily + restatement | `Next` (P-17E) |
+| 5e | Central daily + restatement | `Complete` (P-17E) |
 | 6 | Align SIFF carefully | `Planned` |
 | 7 | Integrate one new source at a time | `Planned` |
 
@@ -248,7 +249,8 @@ Prefer an extensible structured collection, for example:
 **P-17A prototype:** [central-cinema-ingestion-prototype.md](./central-cinema-ingestion-prototype.md).  
 **P-17B design:** [central-cinema-production-integration-design.md](./central-cinema-production-integration-design.md) — source key `central_cinema`; mandatory showing IDs; Option C logs.  
 **P-17C mapping:** [central-cinema-contract-mapping.md](./central-cinema-contract-mapping.md) — registry `central-cinema`; offline contract→indie mapper; site-scoped venue proof.  
-**P-17D adapter:** [central-cinema-production-adapter.md](./central-cinema-production-adapter.md) — manual live adapter + workflow. Next: **P-17E**.
+**P-17D adapter:** [central-cinema-production-adapter.md](./central-cinema-production-adapter.md) — production adapter + manual/scheduled paths.  
+**P-17E:** Central live in daily pipeline; history `source_showtime_id`; public/pipeline enums. Next major task: expand AMC scrape-log capture.
 
 ### Confirmed SIFF/Beacon drift (P-16A)
 
@@ -334,9 +336,10 @@ Prototype (P-17A) and production-integration design (P-17B) shipped. Decisions:
 * Option C raw log; mapping module `central_cinema_mapping`
 * Window: Pacific today…today+13; fetch all discovered movie pages
 * Rich metadata raw-only initially; `dateCreated` never release year
-* P-17C complete: registry + offline mapping ([central-cinema-contract-mapping.md](./central-cinema-contract-mapping.md))
-* P-17D complete: manual adapter + workflow ([central-cinema-production-adapter.md](./central-cinema-production-adapter.md))
-* Next: **P-17E** scheduled collection + tracked logs + conditional restatement + public/pipeline enums
+* P-17C–E complete: Central Cinema is a live scheduled source
+* History includes nullable `source_showtime_id` (Central populated)
+* Monitoring: SPA zero-link failures, page failures, showing-ID conflicts, unsafe-run frequency
+* Preferred next: expand AMC Showtimes scrape-log capture for presentation-attribute audits
 
 Live prototype findings retained:
 
@@ -421,10 +424,11 @@ P-17A  Central Cinema ingestion prototype          ← Complete (non-production)
 P-17B  Central Cinema production integration design ← Complete
 P-17C  Central registry + offline contract→indie mapping ← Complete
 P-17D  Central adapter + manual workflow ← Complete
+P-17E  Central daily + restatement ← Complete (live source)
    ↓
-Next: P-17E  scheduled collection + restatement + public/pipeline enums
+Preferred next: Expand AMC scrape-log field capture
    ↓
-Parallel: Expand AMC scrape-log capture · Beacon align (planned) · NWFF monitoring
+Parallel: Beacon align (planned) · NWFF/Central monitoring
    ↓
 SIFF align → integrate one-by-one
 ```

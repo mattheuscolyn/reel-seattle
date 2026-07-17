@@ -1,12 +1,13 @@
 # Central Cinema Production Adapter
 
-**Status:** Manual / non-scheduled (P-17D) — **not** daily-enabled  
+**Status:** Production-enabled (P-17E) — scheduled daily + manual workflow  
 **Module:** `reel_seattle.adapters.central_cinema`  
 **CLI:** `scripts/scrape_central_cinema.py`  
+**Daily path:** `webscrapetheaters.py` → `data/daily_logs/YYYY-MM-DD_central_cinema.json`  
 **Manual workflow:** `.github/workflows/central_cinema_manual_scrape.yml` (`Central Cinema Manual Scrape`)  
 **Mapping:** [central-cinema-contract-mapping.md](./central-cinema-contract-mapping.md)  
 **Design:** [central-cinema-production-integration-design.md](./central-cinema-production-integration-design.md)  
-**Last updated:** 2026-07-16 (P-17D)
+**Last updated:** 2026-07-16 (P-17E)
 
 ## Pipeline
 
@@ -22,9 +23,27 @@ contract→indie mapping (P-17C)
 Option C scrape-log envelope
     ↓
 manual artifact only (explicit output dir / Actions artifact)
+    or daily: data/daily_logs/YYYY-MM-DD_central_cinema.json
 ```
 
 No second parser. No HTML→`RawShowtime` shortcut. Prototype, contract, and mapper remain distinct layers.
+
+## Production enablement (P-17E)
+
+* Scheduled via `webscrapetheaters.py` / `run_daily_scraping.py`
+* Tracked Option C log: `data/daily_logs/YYYY-MM-DD_central_cinema.json`
+* Processor loads `records[]` only; restates when final `restate_safe=true`
+* History column `source_showtime_id` is populated for Central (nullable for other sources)
+* Public/pipeline source enums include `central_cinema`
+
+### Rollback
+
+1. Disable Central collection in `webscrapetheaters.py`
+2. Preserve registry entry, raw logs, and archived history
+3. Stop future Central restatement (`INDIE_RESTATE_SOURCES`)
+4. Keep prior public/history data until natural window expiration
+5. Do not remove the history `source_showtime_id` column
+6. Do not alter unrelated source data
 
 ## Entry point
 
@@ -122,20 +141,14 @@ Omit dates to use the default 14-day Pacific window. Valid unsafe artifacts may 
 
 ## Non-production status
 
-P-17D does **not**:
+Superseded by P-17E scheduled enablement. Manual CLI/workflow remain for audits.
 
-* modify `daily_scraping.yml` or `webscrapetheaters.py`
-* write tracked `data/daily_logs/`
-* restate Central history
-* add Central to public/pipeline-report showtime source enums
+## Monitoring
 
-## Prerequisites for P-17E
-
-1. Scheduled daily collection + tracked `YYYY-MM-DD_central_cinema.json`
-2. Conditional restatement when `restate_safe`
-3. History / public / pipeline-report source support
-4. First and second production QC runs
-
-## Live validation findings
-
-Recorded in the P-17D completion report (two live runs; at least one via GitHub Actions). Monitor SPA zero-link structural failures, page fetch failures, malformed checkouts, and showing-ID conflicts before scheduling.
+* Zero-link SPA structural failures
+* Discovered program-count swings
+* Movie-page failure rate
+* Malformed checkout links / missing showing IDs / ID conflicts
+* Unsafe-run frequency
+* Optional metadata coverage
+* Source growth

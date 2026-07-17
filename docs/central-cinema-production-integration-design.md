@@ -556,10 +556,10 @@ Initial public Central showtimes: title, theater, date/time, runtime/year when m
 * Doc: [central-cinema-production-adapter.md](./central-cinema-production-adapter.md)
 * **No** scheduled ingestion / restatement
 
-### P-17E — Scheduled production enablement — **Next**
+### P-17E — Scheduled production enablement — **Complete**
 
 * Daily collection + tracked logs
-* Conditional restatement + history `source_showtime_id` column (recommended)
+* Conditional restatement + history `source_showtime_id` column
 * Public/pipeline enums
 * First/second production QC
 
@@ -621,7 +621,7 @@ Factors favoring a **short** manual phase (not a long shadow):
 
 1. P-17C offline mapping — **Complete**
 2. P-17D ≥2 manual production-shaped live runs — **Complete**
-3. P-17E schedule + first/second production QC — **Next**
+3. P-17E schedule + first/second production QC — **Complete**
 4. Monitor zero-link structural failures, page failures, malformed checkouts, showing-ID conflicts, discovery swings 
 
 ---
@@ -638,7 +638,7 @@ Factors favoring a **short** manual phase (not a long shadow):
 
 ## Open product decisions
 
-None blocking P-17E. Deferred:
+None blocking. Deferred:
 
 * Whether/when to emit `source_showtime_id` in public showtimes  
 * Presentation-attribute extraction from screening prose  

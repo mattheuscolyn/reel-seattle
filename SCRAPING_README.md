@@ -5,10 +5,11 @@ This system automatically scrapes showtimes from indie theaters and AMC theaters
 ## Files Overview
 
 ### Core Scripts
-- `webscrapetheaters.py` - Thin CLI wrapper that writes `public/indieshowtimes.csv` via SIFF, Beacon, and NWFF adapters
+- `webscrapetheaters.py` - Thin CLI wrapper that writes `public/indieshowtimes.csv` via SIFF, Beacon, NWFF, and Central Cinema adapters
 - `reel_seattle/adapters/siff.py` - SIFF cinema source adapter
 - `reel_seattle/adapters/beacon.py` - The Beacon source adapter
 - `reel_seattle/adapters/nwff.py` - Northwest Film Forum production adapter (Option C logs)
+- `reel_seattle/adapters/central_cinema.py` - Central Cinema production adapter (Option C logs; scheduled)
 - `amc_logger.py` - Thin CLI wrapper that writes `public/showtimes.csv` via the AMC adapter
 - `reel_seattle/adapters/amc.py` - AMC API source adapter (fetch, allowlist, legacy CSV conversion)
 - `daily_processor.py` - Processes and consolidates daily data
@@ -21,7 +22,8 @@ This system automatically scrapes showtimes from indie theaters and AMC theaters
 - `data/daily_logs/YYYY-MM-DD_siff.json` - Normalized raw SIFF adapter scrape log
 - `data/daily_logs/YYYY-MM-DD_beacon.json` - Normalized raw Beacon adapter scrape log
 - `data/daily_logs/YYYY-MM-DD_nwff.json` - Option C NWFF scrape log (contract + mapping + `records[]`)
-- `data/history/showtimes_history.csv` - **Canonical** historical showtime data (not shipped to GitHub Pages)
+- `data/daily_logs/YYYY-MM-DD_central_cinema.json` - Option C Central Cinema scrape log (contract + mapping + `records[]`)
+- `data/history/showtimes_history.csv` - **Canonical** historical showtime data (not shipped to GitHub Pages); includes nullable `source_showtime_id`
 - `public/data/showtimes_current.json` - Lean normalized showtimes for today through today + 14 days (emitted by `daily_processor.py`; loaded by the React app)
 - `public/data/pipeline_report.json` - Daily pipeline observability report with per-source freshness (emitted by `daily_processor.py`)
 - `public/data/movies_announcements.csv` - Track when movies were first announced

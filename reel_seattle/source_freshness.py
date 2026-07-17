@@ -14,7 +14,7 @@ from reel_seattle.normalize import (
     resolve_theater,
 )
 
-KNOWN_SOURCES: tuple[str, ...] = ("amc", "siff", "beacon", "nwff")
+KNOWN_SOURCES: tuple[str, ...] = ("amc", "siff", "beacon", "nwff", "central_cinema")
 SOURCE_STATUSES: tuple[str, ...] = ("success", "stale", "empty", "failed")
 
 

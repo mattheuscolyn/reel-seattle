@@ -351,7 +351,7 @@ def derived_indie_completeness_warnings(
     stats: Mapping[str, object],
 ) -> list[str]:
     """Pipeline-report warnings derived from indie completeness stats."""
-    if source not in {"siff", "beacon", "nwff"}:
+    if source not in {"siff", "beacon", "nwff", "central_cinema"}:
         return []
     if "restate_safe" not in stats:
         return []
@@ -365,6 +365,8 @@ def derived_indie_completeness_warnings(
         label = "SIFF"
     elif source == "beacon":
         label = "Beacon"
+    elif source == "central_cinema":
+        label = "Central Cinema"
     else:
         label = "NWFF"
 
@@ -384,9 +386,14 @@ def derived_indie_completeness_warnings(
                 "Beacon scrape structurally empty: no trusted current rows; "
                 "retained stale future rows."
             )
-        elif source == "nwff":
+        elif source == "central_cinema" and status == STATUS_STRUCTURAL_FAILURE:
             warnings.append(
-                f"NWFF scrape incomplete or unsafe (scrape_status={status or 'unknown'}); "
+                "Central Cinema scrape structural failure "
+                f"(scrape_status={status or 'unknown'}); retained prior future rows."
+            )
+        elif source in {"nwff", "central_cinema"}:
+            warnings.append(
+                f"{label} scrape incomplete or unsafe (scrape_status={status or 'unknown'}); "
                 "retained prior future rows."
             )
         else:

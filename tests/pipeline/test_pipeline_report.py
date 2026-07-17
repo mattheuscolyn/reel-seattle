@@ -139,7 +139,7 @@ def test_last_successful_run_uses_current_last_seen_at(theaters_registry):
 def test_showtimes_current_includes_sources_metadata(theaters_registry):
     artifact = _build_artifact([_history_row(REFERENCE)], theaters_registry)
     assert "sources" in artifact
-    assert set(artifact["sources"]) == {"amc", "siff", "beacon", "nwff"}
+    assert set(artifact["sources"]) == {"amc", "siff", "beacon", "nwff", "central_cinema"}
     validate_showtimes_current(artifact)
 
 
@@ -201,7 +201,7 @@ def test_build_pipeline_report_without_diagnostics_uses_empty_arrays(theaters_re
     artifact = _build_artifact([_history_row(REFERENCE)], theaters_registry)
     report = build_pipeline_report(artifact)
 
-    for source in ("amc", "siff", "beacon", "nwff"):
+    for source in ("amc", "siff", "beacon", "nwff", "central_cinema"):
         assert report["sources"][source]["warnings"] == []
         assert report["sources"][source]["errors"] == []
     validate_pipeline_report(report)
@@ -214,6 +214,7 @@ def test_build_pipeline_report_forwards_scrape_diagnostics(theaters_registry):
         "siff": SourceScrapeDiagnostics(("siff warning",), ()),
         "beacon": SourceScrapeDiagnostics((), ()),
         "nwff": SourceScrapeDiagnostics((), ()),
+        "central_cinema": SourceScrapeDiagnostics((), ()),
     }
 
     report = build_pipeline_report(artifact, scrape_diagnostics=diagnostics)
@@ -272,8 +273,8 @@ def amc_raw_fixture():
 def test_load_daily_scrape_diagnostics_warns_on_missing_log(tmp_path):
     diagnostics = load_daily_scrape_diagnostics("2026-06-26", logs_dir=tmp_path)
 
-    assert len(diagnostics) == 4
-    for source in ("amc", "siff", "beacon", "nwff"):
+    assert len(diagnostics) == 5
+    for source in ("amc", "siff", "beacon", "nwff", "central_cinema"):
         assert len(diagnostics[source].warnings) == 1
         assert "No daily scrape log found" in diagnostics[source].warnings[0]
         assert source in diagnostics[source].warnings[0]

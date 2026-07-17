@@ -10,7 +10,11 @@ from typing import Mapping
 import requests
 
 from reel_seattle.adapters.base import FetchContext, RawShowtime
-from reel_seattle.source_identity import source_film_id_from_raw, source_title_from_raw
+from reel_seattle.source_identity import (
+    source_film_id_from_raw,
+    source_showtime_id_from_raw,
+    source_title_from_raw,
+)
 
 DEFAULT_INDIE_CSV_PATH = Path("public/indieshowtimes.csv")
 
@@ -34,6 +38,7 @@ INDIE_CSV_FIELDNAMES = [
     "source",
     "source_film_id",
     "source_title",
+    "source_showtime_id",
 ]
 
 SUPPORTED_SIFF_VENUES = frozenset(
@@ -69,6 +74,7 @@ def raw_showtime_to_legacy_row(raw: RawShowtime) -> dict[str, str]:
         "source": "",
         "source_film_id": source_film_id_from_raw(raw),
         "source_title": source_title_from_raw(raw),
+        "source_showtime_id": source_showtime_id_from_raw(raw),
     }
 
 

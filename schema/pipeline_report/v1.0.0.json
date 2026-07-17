@@ -38,13 +38,14 @@
     },
     "sources": {
       "type": "object",
-      "required": ["amc", "siff", "beacon", "nwff"],
+      "required": ["amc", "siff", "beacon", "nwff", "central_cinema"],
       "additionalProperties": false,
       "properties": {
         "amc": { "$ref": "#/$defs/source_report" },
         "siff": { "$ref": "#/$defs/source_report" },
         "beacon": { "$ref": "#/$defs/source_report" },
-        "nwff": { "$ref": "#/$defs/source_report" }
+        "nwff": { "$ref": "#/$defs/source_report" },
+        "central_cinema": { "$ref": "#/$defs/source_report" }
       }
     },
     "totals": {

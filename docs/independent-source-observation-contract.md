@@ -165,7 +165,7 @@ Suggested sequence:
 6. Prototype Central Cinema against this contract (no production integration) — **Complete (P-17A)**; see [central-cinema-ingestion-prototype.md](./central-cinema-ingestion-prototype.md).
 7. Design Central production integration — **Complete (P-17B)**; see [central-cinema-production-integration-design.md](./central-cinema-production-integration-design.md).
 8. Align Beacon (title/year/IDs/structure) where evidence requires.
-9. Implement Central registry + offline mapping (P-17C) — **Complete**; see [central-cinema-contract-mapping.md](./central-cinema-contract-mapping.md). Next: manual adapter (P-17D), then scheduled enablement (P-17E).
+9. Implement Central registry + offline mapping (P-17C), manual adapter (P-17D), scheduled enablement (P-17E) — **Complete**.
 10. Align SIFF carefully (screening IDs, theater-slice restatement later).
 
 Current production SIFF/Beacon adapters and P-16B restatement guards remain unchanged until an explicit migration task. NWFF production collection uses `reel_seattle.adapters.nwff` (which still delegates extraction to `reel_seattle.prototypes.nwff`).

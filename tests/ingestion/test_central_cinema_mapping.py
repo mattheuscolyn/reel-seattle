@@ -97,19 +97,16 @@ def test_no_screen_or_offsite_entries(registry):
 
 
 def test_theater_snapshot_schema_accepts_central_source(project_root):
-    """Embedded theater_snapshot source enum includes central_cinema for registry sync.
-
-    Showtime-record and sources_included enums intentionally omit central_cinema until
-    production showtimes are enabled (P-17E).
-    """
+    """Theater snapshot and production showtime enums include central_cinema (P-17E)."""
     schema = json.loads(
         (project_root / "schema" / "showtimes_current" / "v1.0.0.json").read_text(encoding="utf-8")
     )
     snapshot_enum = schema["$defs"]["theater_snapshot"]["properties"]["source"]["enum"]
     assert "central_cinema" in snapshot_enum
-    assert "central_cinema" not in schema["properties"]["sources_included"]["items"]["enum"]
+    assert "central_cinema" in schema["properties"]["sources_included"]["items"]["enum"]
     showtime_enum = schema["$defs"]["showtime_record"]["properties"]["source"]["enum"]
-    assert "central_cinema" not in showtime_enum
+    assert "central_cinema" in showtime_enum
+    assert "central_cinema" in schema["properties"]["sources"]["required"]
 
 
 def test_public_and_canonical_registry_match(project_root):
