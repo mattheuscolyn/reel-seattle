@@ -1,7 +1,7 @@
 # 05 — Navigation & Interaction Model
 
 **Status:** Philosophy expanded (D-7); chrome, routes, and UI still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Experience model](./12-experience-model.md) · [Screen specifications](./08-screen-specifications.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Experience model](./12-experience-model.md) · [Screen specifications](./08-screen-specifications.md) (Home / Discovery, Film Detail)
 
 This document defines how users **move through** Reel Seattle v2 — the philosophy of interaction and progressive depth.
 

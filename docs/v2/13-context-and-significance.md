@@ -1,7 +1,7 @@
 # 13 — Context & Significance
 
 **Status:** Philosophy documented (D-8); sources, voice, and explainability still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Screen specifications](./08-screen-specifications.md)
 
 This document defines the kinds of **context** Reel Seattle should provide so people can quickly understand **why a film or opportunity may be worth their attention**.
 
