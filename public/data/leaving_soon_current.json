@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-16T01:01:25-07:00",
+  "generated_at": "2026-07-16T20:18:43-07:00",
   "source": "amc",
   "window": {
     "start_date": "2026-07-16",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 42,
-    "flagged_film_count": 17
+    "candidate_film_count": 43,
+    "flagged_film_count": 18
   },
   "items": [
     {
@@ -202,6 +202,42 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818626/amc-cdn/production/2/movies/83900/83874/Poster/420340R1.jpg",
       "runtime_min": 98
+    },
+    {
+      "film_key": "i-want-your-sex",
+      "film_title": "I Want Your Sex",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-30",
+      "max_show_date": "2026-07-30",
+      "total_visible_showtimes": 10,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-30"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818215/amc-cdn/production/2/movies/83200/83178/Poster/364876R1.jpg",
+      "runtime_min": 90
     },
     {
       "film_key": "jackass-best-and-last",
@@ -520,7 +556,7 @@
       ],
       "has_primetime": true,
       "has_weekend_show": false,
-      "poster_url": null,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784199862/amc-cdn/production/2/movies/84400/84360/Poster/416015R1.jpg",
       "runtime_min": 82
     },
     {
