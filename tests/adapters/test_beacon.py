@@ -496,6 +496,31 @@ def test_leap_day_resolves_in_leap_year():
     assert resolved == date(2024, 2, 29) and err is None
 
 
+def test_long_window_prefers_scrape_date_when_anniversary_ambiguous():
+    """Inclusive ~365-day windows make run-day month/day appear twice."""
+    scrape = date(2026, 7, 17)
+    resolved, err = infer_year_for_month_day(
+        7,
+        17,
+        window_start=scrape,
+        window_end=date(2027, 7, 17),
+        scrape_date=scrape,
+    )
+    assert err is None
+    assert resolved == scrape
+
+
+def test_ambiguous_without_scrape_date_match_still_unsafe():
+    resolved, err = infer_year_for_month_day(
+        1,
+        5,
+        window_start=date(2025, 12, 20),
+        window_end=date(2027, 1, 20),
+        scrape_date=date(2026, 1, 1),
+    )
+    assert resolved is None and err == "ambiguous_year"
+
+
 def test_repeated_scrape_preserves_identity(beacon_film_html, beacon_calendar_html):
     pages = {BEACON_CALENDAR_URL: beacon_calendar_html, FILM_URL: beacon_film_html}
 

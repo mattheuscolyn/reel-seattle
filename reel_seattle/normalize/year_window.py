@@ -22,6 +22,11 @@ def infer_year_for_month_day(
 
     * ``date_outside_window_or_unresolvable`` — no in-window candidate
     * ``ambiguous_year`` — more than one in-window candidate
+
+    When a long inclusive window contains both this year's and next year's
+    occurrence of the same month/day (e.g. a 365-day window starting today),
+    prefer ``scrape_date`` itself if it is among the candidates. That resolves
+    same-day showtimes without guessing among distant years.
     """
     years = set(range(window_start.year - 1, window_end.year + 2))
     years.add(scrape_date.year)
@@ -39,4 +44,6 @@ def infer_year_for_month_day(
         return candidates[0], None
     if not candidates:
         return None, "date_outside_window_or_unresolvable"
+    if scrape_date in candidates:
+        return scrape_date, None
     return None, "ambiguous_year"
