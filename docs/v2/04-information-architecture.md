@@ -132,7 +132,7 @@ Placeholders only — no behavior defined yet:
 
 ### Navigation
 
-*(TBD — how movement between overview, comparison, and reference expresses this IA without contradicting inline exploration.)*
+See [Navigation & interaction model](./05-navigation.md) — progressive depth, inline vs dedicated destinations, interaction principles (chrome and layouts still deferred).
 
 ### Search
 
@@ -169,4 +169,4 @@ Placeholders only — no behavior defined yet:
 * [10 — Opportunity model](./10-opportunity-model.md) — primary story, supporting context
 * [11 — Film lifecycle](./11-film-lifecycle.md) — evolving Seattle presence
 * [12 — Experience model](./12-experience-model.md) — session types and continuity over time
-* [05 — Navigation](./05-navigation.md) — movement between surfaces (placeholder)
+* [05 — Navigation](./05-navigation.md) — progressive depth and interaction principles
