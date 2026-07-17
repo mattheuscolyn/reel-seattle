@@ -25,6 +25,9 @@ const FORBIDDEN_PATHS = [
   'data/newly_announced.csv',
   'data/leaving_soon_current.json',
   'data/daily_logs',
+  'data/source_catalog',
+  'source_catalog/amc_movie_products.json',
+  'source_catalog/amc_release_observations.json',
 ];
 
 /**

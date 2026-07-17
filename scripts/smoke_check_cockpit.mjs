@@ -15,7 +15,19 @@ const COCKPIT_URL = 'http://127.0.0.1:5174/';
 const REPORT_URL = new URL('/data/pipeline_report.json', COCKPIT_URL);
 const THEATERS_URL = new URL('/data/theaters.json', COCKPIT_URL);
 const SHOWTIMES_URL = new URL('/data/showtimes_current.json', COCKPIT_URL);
+const AMC_PRODUCTS_URL = new URL(
+  '/data/source_catalog/amc_movie_products.json',
+  COCKPIT_URL,
+);
+const AMC_RELEASES_URL = new URL(
+  '/data/source_catalog/amc_release_observations.json',
+  COCKPIT_URL,
+);
 const UNSUPPORTED_DATA_URL = new URL('/data/newly_added_current.json', COCKPIT_URL);
+const UNSUPPORTED_CATALOG_URL = new URL(
+  '/data/source_catalog/not_a_real_catalog.json',
+  COCKPIT_URL,
+);
 const READY_TIMEOUT_MS = 45_000;
 const POLL_MS = 250;
 
@@ -24,6 +36,9 @@ const REQUIRED_MODULE_SNIPPETS = [
   'Developer Data Cockpit',
   'Pipeline Health',
   'Theater Registry',
+  'AMC Source Catalog',
+  'Source Products',
+  'Release Observations',
   'Showtime Inspection',
   'Local development tool',
   'Load showtimes for selection',
@@ -31,6 +46,7 @@ const REQUIRED_MODULE_SNIPPETS = [
   'Showtime ID',
   'First seen',
   'Duplicate ID observation',
+  'grouping evidence only',
 ];
 
 function fail(message) {
@@ -121,6 +137,7 @@ try {
     '/CockpitApp.jsx',
     '/PipelineHealthView.jsx',
     '/TheaterRegistryView.jsx',
+    '/AmcSourceCatalogView.jsx',
     '/ShowtimesInspectionView.jsx',
     '/showtimesInspectionFormat.js',
     '/showtimesCurrentLoader.js',
@@ -153,6 +170,24 @@ try {
     fail(`theaters endpoint HTTP ${theatersResponse.status}`);
   }
   const theaters = await theatersResponse.json();
+
+  const productsResponse = await fetch(AMC_PRODUCTS_URL);
+  if (!productsResponse.ok) {
+    fail(`AMC products endpoint HTTP ${productsResponse.status}`);
+  }
+  const products = await productsResponse.json();
+  if (!Array.isArray(products.products)) {
+    fail('AMC products artifact missing products array');
+  }
+
+  const releasesResponse = await fetch(AMC_RELEASES_URL);
+  if (!releasesResponse.ok) {
+    fail(`AMC releases endpoint HTTP ${releasesResponse.status}`);
+  }
+  const releases = await releasesResponse.json();
+  if (!Array.isArray(releases.releases)) {
+    fail('AMC releases artifact missing releases array');
+  }
 
   // Lazy-load boundary: showtimes must not have been requested yet by shell/module warm-up.
   await delay(300);
@@ -192,6 +227,13 @@ try {
     fail('unsupported /data path returned HTML');
   }
 
+  const unsupportedCatalog = await fetch(UNSUPPORTED_CATALOG_URL);
+  if (unsupportedCatalog.status !== 404) {
+    fail(
+      `unsupported catalog path ${UNSUPPORTED_CATALOG_URL.pathname} returned HTTP ${unsupportedCatalog.status}`,
+    );
+  }
+
   const onDiskShowtimes = JSON.parse(
     readFileSync(join(ROOT, 'public/data/showtimes_current.json'), 'utf8'),
   );
@@ -213,12 +255,21 @@ try {
   console.log(`  served ${REPORT_URL.pathname} (status=${report.status})`);
   console.log(`  served ${THEATERS_URL.pathname} (${theaters.theaters.length} theaters)`);
   console.log(
+    `  served ${AMC_PRODUCTS_URL.pathname} (${products.products.length} products)`,
+  );
+  console.log(
+    `  served ${AMC_RELEASES_URL.pathname} (${releases.releases.length} releases)`,
+  );
+  console.log(
     `  served ${SHOWTIMES_URL.pathname} after explicit fetch (${showtimes.showtimes.length} showtimes)`,
   );
   console.log(
     `  dynamic slice sample: ${theater.name} / ${sample.date} / ${sample.film_title}`,
   );
   console.log(`  blocked ${UNSUPPORTED_DATA_URL.pathname} with HTTP ${unsupported.status}`);
+  console.log(
+    `  blocked ${UNSUPPORTED_CATALOG_URL.pathname} with HTTP ${unsupportedCatalog.status}`,
+  );
   console.log('  lazy-load: no showtimes request before explicit fetch');
   for (const snippet of REQUIRED_MODULE_SNIPPETS) {
     console.log(`  found: ${snippet}`);

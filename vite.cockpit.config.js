@@ -3,26 +3,13 @@ import { env } from 'node:process'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { ALLOWED_DATA_ROUTES } from './cockpit/allowedDataRoutes.js'
 
 const repoRoot = fileURLToPath(new URL('.', import.meta.url))
 const cockpitRoot = fileURLToPath(new URL('./cockpit', import.meta.url))
 const cockpitOutDir = fileURLToPath(new URL('./dist-cockpit', import.meta.url))
 
-/**
- * Explicit allowlist only — never a wildcard filesystem map.
- * Key: request path, Value: absolute path under public/data/.
- */
-const ALLOWED_DATA_ROUTES = Object.freeze({
-  '/data/pipeline_report.json': fileURLToPath(
-    new URL('./public/data/pipeline_report.json', import.meta.url),
-  ),
-  '/data/theaters.json': fileURLToPath(
-    new URL('./public/data/theaters.json', import.meta.url),
-  ),
-  '/data/showtimes_current.json': fileURLToPath(
-    new URL('./public/data/showtimes_current.json', import.meta.url),
-  ),
-})
+export { ALLOWED_DATA_ROUTES }
 
 function logDataRequest(path) {
   const logPath = env.COCKPIT_DATA_REQUEST_LOG
@@ -35,9 +22,9 @@ function logDataRequest(path) {
 }
 
 /**
- * Serve a fixed set of committed public/data artifacts into the cockpit dev server.
+ * Serve a fixed set of committed artifacts into the cockpit dev server.
  * Any other /data/* path returns 404 so Vite SPA HTML cannot masquerade as JSON.
- * Does not enable publicDir or expose the rest of public/.
+ * Does not enable publicDir or expose public/ or the rest of data/.
  */
 function serveAllowedPublicData() {
   return {
