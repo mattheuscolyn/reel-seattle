@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-16T23:28:52-07:00",
+  "generated_at": "2026-07-16T23:35:38-07:00",
   "source": "beacon",
   "records": [
     {
@@ -1345,6 +1345,30 @@
     },
     {
       "theater_name_raw": "The Beacon",
+      "date_raw": "07/17/2026",
+      "time_raw": "7:00PM",
+      "title_raw": "RATE IT X",
+      "runtime_raw": "Unknown",
+      "poster_url_raw": null,
+      "ticket_url_raw": null,
+      "canceled": null,
+      "almost_sold_out": null,
+      "format_raw": null,
+      "source_showtime_id": "KLKYTFJRRU5QAHJZC3VFNTO2",
+      "source_film_url": "https://thebeacon.film/calendar/movie/rate-it-x",
+      "attributes": {
+        "raw_date_text": "Fri, Jul 17 at 7:00 PM",
+        "year_inferred": true,
+        "source_film_id": "rate-it-x",
+        "source_program_id": "rate-it-x",
+        "beacon_slug": "rate-it-x",
+        "canonical_program_url": "https://thebeacon.film/calendar/movie/rate-it-x",
+        "source_showtime_id": "KLKYTFJRRU5QAHJZC3VFNTO2",
+        "beacon_inventory_id": "KLKYTFJRRU5QAHJZC3VFNTO2"
+      }
+    },
+    {
+      "theater_name_raw": "The Beacon",
       "date_raw": "07/18/2026",
       "time_raw": "10:00PM",
       "title_raw": "RATE IT X",
@@ -1437,6 +1461,30 @@
         "canonical_program_url": "https://thebeacon.film/calendar/movie/secs-fest-presents-nights-in-black-leather",
         "source_showtime_id": "DCXVX4T63MUYDDHMTAJB3FUB",
         "beacon_inventory_id": "DCXVX4T63MUYDDHMTAJB3FUB"
+      }
+    },
+    {
+      "theater_name_raw": "The Beacon",
+      "date_raw": "07/17/2026",
+      "time_raw": "10:00PM",
+      "title_raw": "SECS FEST PRESENTS THE FIREWORKS WOMAN",
+      "runtime_raw": "Unknown",
+      "poster_url_raw": null,
+      "ticket_url_raw": null,
+      "canceled": null,
+      "almost_sold_out": null,
+      "format_raw": null,
+      "source_showtime_id": "VNQWNX3AL6QKDRZ5WZY57CZ4",
+      "source_film_url": "https://thebeacon.film/calendar/movie/secs-fest-presents-the-fireworks-woman",
+      "attributes": {
+        "raw_date_text": "Fri, Jul 17 at 10:00 PM",
+        "year_inferred": true,
+        "source_film_id": "secs-fest-presents-the-fireworks-woman",
+        "source_program_id": "secs-fest-presents-the-fireworks-woman",
+        "beacon_slug": "secs-fest-presents-the-fireworks-woman",
+        "canonical_program_url": "https://thebeacon.film/calendar/movie/secs-fest-presents-the-fireworks-woman",
+        "source_showtime_id": "VNQWNX3AL6QKDRZ5WZY57CZ4",
+        "beacon_inventory_id": "VNQWNX3AL6QKDRZ5WZY57CZ4"
       }
     },
     {
@@ -1969,11 +2017,11 @@
     }
   ],
   "stats": {
-    "record_count": 82,
-    "warning_count": 3,
+    "record_count": 84,
+    "warning_count": 0,
     "error_count": 0,
-    "scrape_status": "partial_failure",
-    "restate_safe": false,
+    "scrape_status": "success",
+    "restate_safe": true,
     "expected_structure_present": true,
     "discovery_ok": true,
     "discovered_programs": 39,
@@ -1982,20 +2030,16 @@
     "program_pages_failed": 0,
     "failed_program_urls": [],
     "valid_empty_proof": false,
-    "stale_retention_recommended": true,
-    "inspected_scope_complete": false,
+    "stale_retention_recommended": false,
+    "inspected_scope_complete": true,
     "requested_window_start": "2026-07-17",
     "requested_window_end": "2027-07-17",
-    "records_fetched": 82,
+    "records_fetched": 84,
     "film_pages_scraped": 39,
-    "occurrence_parse_failures": 2,
+    "occurrence_parse_failures": 0,
     "showtimes_seen": 84,
     "out_of_window_showtimes": 0
   },
-  "warnings": [
-    "Beacon date parse failed for rate-it-x: 'Fri, Jul 17 at 7:00 PM' (ambiguous_year)",
-    "Beacon date parse failed for secs-fest-presents-the-fireworks-woman: 'Fri, Jul 17 at 10:00 PM' (ambiguous_year)",
-    "Beacon scrape partial: 2 showtime date(s) unresolved; retained prior future rows (restate blocked)."
-  ],
+  "warnings": [],
   "errors": []
 }
