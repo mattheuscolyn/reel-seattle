@@ -1,0 +1,59 @@
+name: Central Cinema Ingestion Prototype Audit
+
+# Manual read-only live validation. No secrets. No repository writes.
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: Inclusive start date (YYYY-MM-DD, America/Los_Angeles)
+        required: true
+        type: string
+      end_date:
+        description: Inclusive end date (YYYY-MM-DD, America/Los_Angeles)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Run Central Cinema ingestion prototype
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Central Cinema prototype (live read-only)
+        run: |
+          mkdir -p audit-output/central-cinema-prototype
+          python scripts/prototype_central_cinema_ingestion.py \
+            --start-date "${{ inputs.start_date }}" \
+            --end-date "${{ inputs.end_date }}" \
+            --live \
+            --sleep-seconds 0.35 \
+            --output-dir audit-output/central-cinema-prototype
+
+      - name: Upload sanitized prototype artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: central-cinema-ingestion-prototype-audit
+          path: |
+            audit-output/central-cinema-prototype/central_cinema_independent_source_result.json
+            audit-output/central-cinema-prototype/central_cinema_prototype_summary.json
+          retention-days: 14
+          if-no-files-found: error

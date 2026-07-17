@@ -162,10 +162,10 @@ Suggested sequence:
 3. **P-16F:** registry entry + contract→indie mapping (no daily workflow) — **Complete**.
 4. **P-16G:** production-compatible adapter/raw log + manual workflow validation — **Complete**.
 5. **P-16H:** daily restatement + pipeline_report/showtimes source enums — **Complete**.
-6. Prototype Central Cinema against this contract (no production integration).
-6. Align Beacon (title/year/IDs/structure) where evidence requires.
-7. Prototype Central Cinema.
-8. Align SIFF carefully (screening IDs, theater-slice restatement later).
+6. Prototype Central Cinema against this contract (no production integration) — **Complete (P-17A)**; see [central-cinema-ingestion-prototype.md](./central-cinema-ingestion-prototype.md).
+7. Align Beacon (title/year/IDs/structure) where evidence requires.
+8. Design Central production integration when live evidence supports it.
+9. Align SIFF carefully (screening IDs, theater-slice restatement later).
 
 Current production SIFF/Beacon adapters and P-16B restatement guards remain unchanged until an explicit migration task. NWFF production collection uses `reel_seattle.adapters.nwff` (which still delegates extraction to `reel_seattle.prototypes.nwff`).
 

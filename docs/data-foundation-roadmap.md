@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-15 (P-16H)  
+**Last updated:** 2026-07-16 (P-17A)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -61,6 +61,7 @@ Public UI must not change merely because new source fields are captured.
 | NWFF registry + contract mapping (P-16F) | `Complete` | [nwff-contract-mapping.md](./nwff-contract-mapping.md) · no daily |
 | NWFF manual production adapter (P-16G) | `Complete` | [nwff-production-adapter.md](./nwff-production-adapter.md) · workflow_dispatch |
 | NWFF daily production integration (P-16H) | `Complete` | Scheduled Option C logs; conditional restate; report enums |
+| Central Cinema ingestion prototype (P-17A) | `Complete` | [central-cinema-ingestion-prototype.md](./central-cinema-ingestion-prototype.md) |
 
 ---
 
@@ -77,8 +78,9 @@ Public UI must not change merely because new source fields are captured.
 | P-16F | NWFF registry entry + contract→indie mapping | `Complete` | P-16E | `northwest-film-forum`; `nwff_mapping.py` |
 | P-16G | NWFF adapter + raw log + manual workflow | `Complete` | P-16F | `adapters/nwff.py`; no daily schedule |
 | P-16H | NWFF daily workflow + restatement + reporting | `Complete` | P-16G | Tracked logs; conditional restate; enums |
+| — | Prototype Central Cinema | `Complete` | P-16H | Contract prototype only; no production |
+| — | Central production integration design | `Next` | Central prototype | Registry + mapping design |
 | — | Align Beacon only where necessary | `Planned` | P-16C | Minimal contract alignment |
-| — | Prototype Central Cinema | `Next` | P-16H preferred | Contract prototype only; no production |
 | — | NWFF production monitoring | `Planned` | P-16H | Mismatch rate, unsafe frequency, off-site rejects |
 | — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
 | — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Next` | P-15A | Parallel AMC track |
@@ -221,7 +223,8 @@ Prefer an extensible structured collection, for example:
 | 3d | NWFF adapter/raw log (manual) | `Complete` (P-16G) |
 | 3e | NWFF daily workflow + restatement | `Complete` (P-16H) |
 | 4 | Align Beacon only where necessary | `Planned` |
-| 5 | Prototype Central Cinema | `Next` |
+| 5 | Prototype Central Cinema | `Complete` (P-17A) |
+| 5b | Central production integration design | `Next` |
 | 6 | Align SIFF carefully | `Planned` |
 | 7 | Integrate one new source at a time | `Planned` |
 
@@ -232,7 +235,8 @@ Prefer an extensible structured collection, for example:
 **P-16E design:** [nwff-production-integration-design.md](./nwff-production-integration-design.md).  
 **P-16F mapping:** [nwff-contract-mapping.md](./nwff-contract-mapping.md).  
 **P-16G adapter:** [nwff-production-adapter.md](./nwff-production-adapter.md).  
-**P-16H daily:** scheduled Option C logs, conditional restatement, source enums. Next major: **Central Cinema prototype**.
+**P-16H daily:** scheduled Option C logs, conditional restatement, source enums.  
+**P-17A prototype:** [central-cinema-ingestion-prototype.md](./central-cinema-ingestion-prototype.md). Next: **Central production integration design**.
 
 ### Confirmed SIFF/Beacon drift (P-16A)
 
@@ -306,7 +310,21 @@ Production daily path enabled:
 
 **Monitoring (post-launch):** calendar/detail mismatch rate, unsafe-run frequency, off-site rejects, identity collisions, source growth.
 
-### Central Cinema plan
+### Central Cinema (P-17A complete — prototype)
+
+Prototype shipped (non-production). Live findings:
+
+* Calendar SPA (`#q-app`) exposes Explore Movies `/movie/` links for discovery.
+* Movie pages embed schema.org Movie microdata; `itemprop` parsing works.
+* Checkout URLs provide numeric source-owned showing IDs.
+* `dateCreated` reflects site-record dates (e.g. 2026), not film year.
+* Descriptions may include screening-specific prose (e.g. Hecklevision) — kept in `raw`.
+* Planned theater ID `central-cinema` is fixture-only (not in production registry).
+* Contract v1.0.0 was sufficient; no revision required for the prototype.
+
+Next: Central registry + production-integration design (not automatic enablement).
+
+### Central Cinema plan (historical checklist)
 
 * Calendar discovers canonical `/movie/` pages.
 * Movie page authoritative for metadata and showtimes.
@@ -317,8 +335,6 @@ Production daily path enabled:
 * Checkout numeric segment as showing ID.
 * Explicit year-rollover handling.
 * Screening-specific prose retained without broad presentation extraction initially.
-
-Do not implement Central until the shared contract exists and SIFF/Beacon dangerous restatement gaps are addressed or explicitly deferred. NWFF is a live production source (P-16H); preferred next major task is a Central Cinema **prototype** against IndependentSourceResult v1.0.0 (no production integration).
 
 ---
 
@@ -378,8 +394,9 @@ P-16E  NWFF production integration design          ← Complete
 P-16F  NWFF registry + contract→indie mapping      ← Complete
 P-16G  NWFF manual production adapter              ← Complete
 P-16H  NWFF daily workflow + restatement           ← Complete
+P-17A  Central Cinema ingestion prototype          ← Complete (non-production)
    ↓
-Next: Prototype Central Cinema (contract only)
+Next: Central production integration design
    ↓
 Parallel: Expand AMC scrape-log capture · Beacon align (planned) · NWFF monitoring
    ↓

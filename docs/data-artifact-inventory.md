@@ -54,6 +54,11 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `reel_seattle/ingestion/` | Shared independent-source observation contract | Library · non-production adapters |
 | `reel_seattle/prototypes/nwff.py` | NWFF contract emitter prototype | Non-production · local/workflow only |
 | `docs/nwff-ingestion-prototype.md` | NWFF non-production prototype guide | Authored |
+| `reel_seattle/prototypes/central_cinema.py` | Central Cinema contract emitter prototype | Non-production · local/workflow only |
+| `scripts/prototype_central_cinema_ingestion.py` | Central Cinema prototype CLI | Fixture or live read-only |
+| `docs/central-cinema-ingestion-prototype.md` | Central Cinema non-production prototype guide | Authored |
+| `.github/workflows/central_cinema_ingestion_prototype_audit.yml` | Central Cinema prototype audit | workflow_dispatch · read-only |
+| `tests/fixtures/prototypes/central_cinema/` | Central Cinema HTML fixtures | Test fixtures · not production data |
 | `docs/nwff-production-integration-design.md` | NWFF production integration design (P-16E) | Authored |
 | `reel_seattle/ingestion/nwff_mapping.py` | NWFF IndependentSourceResult → RawShowtime mapper | Library · offline / adapter |
 | `docs/nwff-contract-mapping.md` | NWFF contract→indie mapping (P-16F) | Authored |
