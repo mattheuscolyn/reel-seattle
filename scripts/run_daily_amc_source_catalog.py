@@ -35,6 +35,10 @@ from reel_seattle.source_catalog.amc_daily import (  # noqa: E402
     run_daily_amc_source_catalog,
 )
 from reel_seattle.source_catalog.amc_refresh import POLICY_ALL_ACTIVE  # noqa: E402
+from reel_seattle.pipeline_report_catalog import (  # noqa: E402
+    apply_amc_catalog_health_to_pipeline_report,
+)
+from reel_seattle.validate import SchemaValidationError  # noqa: E402
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -124,6 +128,20 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
             "(default retains prior)."
         ),
     )
+    parser.add_argument(
+        "--pipeline-report-path",
+        type=Path,
+        default=None,
+        help=(
+            "Pipeline report to update with AMC catalog health (P-21B). "
+            "Omit to skip. Production daily passes public/data/pipeline_report.json."
+        ),
+    )
+    parser.add_argument(
+        "--skip-pipeline-report-update",
+        action="store_true",
+        help="Do not write amc_source_catalog into pipeline_report.json.",
+    )
     return parser.parse_args(argv)
 
 
@@ -193,6 +211,43 @@ def main(argv: list[str] | None = None) -> int:
             json.dumps(result.to_dict(), indent=2, ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
+
+    if not args.skip_pipeline_report_update and args.pipeline_report_path is not None:
+        report_path = args.pipeline_report_path
+        if str(report_path).strip() not in {"", "."}:
+            if report_path.is_file():
+                try:
+                    report = apply_amc_catalog_health_to_pipeline_report(
+                        report_path,
+                        result,
+                        products_path=args.products_path,
+                        releases_path=args.releases_path,
+                    )
+                    catalog = report.get("amc_source_catalog") or {}
+                    print(
+                        "pipeline_report.amc_source_catalog: "
+                        f"status={catalog.get('status')} "
+                        f"outcome={catalog.get('outcome')} "
+                        f"soft_failure={catalog.get('soft_failure')}"
+                    )
+                except (
+                    OSError,
+                    ValueError,
+                    TypeError,
+                    json.JSONDecodeError,
+                    SchemaValidationError,
+                    FileNotFoundError,
+                ) as exc:
+                    print(
+                        f"Warning: could not update pipeline report catalog health: {exc}",
+                        file=sys.stderr,
+                    )
+            else:
+                print(
+                    f"Warning: pipeline report missing at {report_path}; "
+                    "skipped amc_source_catalog update",
+                    file=sys.stderr,
+                )
 
     if result.soft_failure and args.fail_hard:
         return 1

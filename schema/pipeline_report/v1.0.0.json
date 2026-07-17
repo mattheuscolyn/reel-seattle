@@ -61,9 +61,194 @@
     "messages": {
       "type": "array",
       "items": { "type": "string" }
+    },
+    "amc_source_catalog": {
+      "$ref": "#/$defs/amc_source_catalog_health",
+      "description": "Optional additive AMC durable source-catalog operational health (P-21B). Absent when the catalog stage has not yet run."
     }
   },
   "$defs": {
+    "amc_source_catalog_health": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "status",
+        "build_attempted",
+        "build_succeeded",
+        "soft_failure",
+        "outcome",
+        "artifacts_written_this_run",
+        "artifacts_retained_from_prior",
+        "reported_at",
+        "last_successful_build_at",
+        "message",
+        "warnings",
+        "errors",
+        "refresh",
+        "artifacts",
+        "products_summary",
+        "releases_summary"
+      ],
+      "properties": {
+        "id": { "type": "string", "const": "amc_source_catalog" },
+        "status": {
+          "type": "string",
+          "enum": ["success", "stale", "failed", "skipped"]
+        },
+        "build_attempted": { "type": "boolean" },
+        "build_succeeded": { "type": "boolean" },
+        "soft_failure": { "type": "boolean" },
+        "outcome": {
+          "type": "string",
+          "enum": [
+            "promoted",
+            "initialized",
+            "retained_previous",
+            "skipped",
+            "not_attempted"
+          ]
+        },
+        "artifacts_written_this_run": { "type": "boolean" },
+        "artifacts_retained_from_prior": { "type": "boolean" },
+        "reported_at": { "type": "string", "minLength": 1 },
+        "last_successful_build_at": { "type": ["string", "null"], "minLength": 1 },
+        "message": { "type": "string" },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "errors": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "refresh": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["active_ids", "selected", "success", "failed", "invalid"],
+          "properties": {
+            "active_ids": { "type": "integer", "minimum": 0 },
+            "selected": { "type": "integer", "minimum": 0 },
+            "success": { "type": "integer", "minimum": 0 },
+            "failed": { "type": "integer", "minimum": 0 },
+            "invalid": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "artifacts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["amc_movie_products", "amc_release_observations"],
+          "properties": {
+            "amc_movie_products": { "$ref": "#/$defs/amc_catalog_artifact_health" },
+            "amc_release_observations": { "$ref": "#/$defs/amc_catalog_artifact_health" }
+          }
+        },
+        "products_summary": { "$ref": "#/$defs/amc_products_summary" },
+        "releases_summary": { "$ref": "#/$defs/amc_releases_summary" }
+      }
+    },
+    "amc_catalog_artifact_health": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "path",
+        "exists",
+        "valid",
+        "schema_version",
+        "generated_at",
+        "record_count",
+        "written_this_run",
+        "retained_from_prior",
+        "warnings",
+        "errors"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": ["amc_movie_products", "amc_release_observations"]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^data/",
+          "description": "Repository-relative durable catalog path (never an absolute filesystem path)."
+        },
+        "exists": { "type": "boolean" },
+        "valid": { "type": "boolean" },
+        "schema_version": { "type": ["string", "null"] },
+        "generated_at": { "type": ["string", "null"] },
+        "record_count": { "type": "integer", "minimum": 0 },
+        "written_this_run": { "type": "boolean" },
+        "retained_from_prior": { "type": "boolean" },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "errors": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "amc_products_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "active",
+        "inactive",
+        "with_release_id",
+        "without_release_id",
+        "refresh_pending",
+        "refresh_success",
+        "refresh_stale",
+        "refresh_failed",
+        "refresh_invalid",
+        "refresh_status_missing",
+        "stored_stats"
+      ],
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "active": { "type": "integer", "minimum": 0 },
+        "inactive": { "type": "integer", "minimum": 0 },
+        "with_release_id": { "type": "integer", "minimum": 0 },
+        "without_release_id": { "type": "integer", "minimum": 0 },
+        "refresh_pending": { "type": "integer", "minimum": 0 },
+        "refresh_success": { "type": "integer", "minimum": 0 },
+        "refresh_stale": { "type": "integer", "minimum": 0 },
+        "refresh_failed": { "type": "integer", "minimum": 0 },
+        "refresh_invalid": { "type": "integer", "minimum": 0 },
+        "refresh_status_missing": { "type": "integer", "minimum": 0 },
+        "stored_stats": {
+          "type": ["object", "null"],
+          "additionalProperties": true
+        }
+      }
+    },
+    "amc_releases_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total",
+        "singleton_groups",
+        "multi_product_groups",
+        "membership_references",
+        "unresolved_member_references",
+        "stored_stats"
+      ],
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "singleton_groups": { "type": "integer", "minimum": 0 },
+        "multi_product_groups": { "type": "integer", "minimum": 0 },
+        "membership_references": { "type": "integer", "minimum": 0 },
+        "unresolved_member_references": { "type": "integer", "minimum": 0 },
+        "stored_stats": {
+          "type": ["object", "null"],
+          "additionalProperties": true
+        }
+      }
+    },
     "source_report": {
       "type": "object",
       "required": [

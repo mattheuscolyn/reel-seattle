@@ -20,6 +20,53 @@ export function formatMissingScalar(value) {
 }
 
 /**
+ * Normalize catalog-health section for Pipeline Health display.
+ * Passes emitted statuses through unchanged.
+ * @param {object|null|undefined} report
+ */
+export function buildAmcCatalogHealthSummary(report) {
+  const section =
+    report && typeof report === 'object' ? report.amc_source_catalog : null;
+  if (section == null || typeof section !== 'object') {
+    return null;
+  }
+
+  const products =
+    section.artifacts && typeof section.artifacts === 'object'
+      ? section.artifacts.amc_movie_products
+      : null;
+  const releases =
+    section.artifacts && typeof section.artifacts === 'object'
+      ? section.artifacts.amc_release_observations
+      : null;
+
+  return {
+    status: formatEmittedStatus(section.status),
+    outcome: formatMissingScalar(section.outcome),
+    buildAttempted: section.build_attempted === true,
+    buildSucceeded: section.build_succeeded === true,
+    softFailure: section.soft_failure === true,
+    artifactsWrittenThisRun: section.artifacts_written_this_run === true,
+    artifactsRetainedFromPrior: section.artifacts_retained_from_prior === true,
+    reportedAt: formatTimestamp(section.reported_at),
+    lastSuccessfulBuildAt: formatTimestamp(section.last_successful_build_at),
+    message: formatMissingScalar(section.message),
+    warnings: listDiagnostics(section.warnings),
+    errors: listDiagnostics(section.errors),
+    productsSummary:
+      section.products_summary && typeof section.products_summary === 'object'
+        ? section.products_summary
+        : null,
+    releasesSummary:
+      section.releases_summary && typeof section.releases_summary === 'object'
+        ? section.releases_summary
+        : null,
+    productsArtifact: products && typeof products === 'object' ? products : null,
+    releasesArtifact: releases && typeof releases === 'object' ? releases : null,
+  };
+}
+
+/**
  * Format an ISO timestamp for display while preserving the original string.
  * Returns { raw, readable } where readable may match raw if parsing fails.
  * @param {unknown} isoDateTime

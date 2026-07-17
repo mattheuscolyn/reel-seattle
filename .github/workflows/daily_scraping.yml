@@ -56,7 +56,11 @@ jobs:
             --policy all-active \
             --products-path data/source_catalog/amc_movie_products.json \
             --releases-path data/source_catalog/amc_release_observations.json \
+            --pipeline-report-path public/data/pipeline_report.json \
             --temp-dir "${{ runner.temp }}/amc-source-catalog"
+
+      - name: Re-validate public data artifacts after catalog health update
+        run: python scripts/validate_public_data_artifacts.py
 
       - name: Commit and push changes
         run: |

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  buildAmcCatalogHealthSummary,
   buildSourceHealthRows,
   formatEmittedStatus,
   formatMissingScalar,
@@ -72,4 +73,46 @@ test('source with errors and status success still displays success', () => {
   assert.deepEqual(rows[0].errors, ['scrape log error example']);
   assert.deepEqual(rows[0].warnings, ['allowlist note']);
   assert.equal(rows[1].status, 'stale');
+});
+
+test('buildAmcCatalogHealthSummary returns null when section absent', () => {
+  assert.equal(buildAmcCatalogHealthSummary({ status: 'success' }), null);
+});
+
+test('buildAmcCatalogHealthSummary passes catalog statuses through unchanged', () => {
+  const summary = buildAmcCatalogHealthSummary({
+    amc_source_catalog: {
+      status: 'stale',
+      outcome: 'retained_previous',
+      build_attempted: true,
+      build_succeeded: false,
+      soft_failure: true,
+      artifacts_written_this_run: false,
+      artifacts_retained_from_prior: true,
+      reported_at: '2026-07-17T12:00:00-07:00',
+      last_successful_build_at: '2026-07-15T12:00:00-07:00',
+      message: 'retained prior catalogs',
+      warnings: ['note'],
+      errors: ['soft failure'],
+      products_summary: { total: 50, active: 39, inactive: 11 },
+      releases_summary: {
+        total: 46,
+        singleton_groups: 44,
+        multi_product_groups: 2,
+      },
+      artifacts: {
+        amc_movie_products: { path: 'data/source_catalog/amc_movie_products.json' },
+        amc_release_observations: {
+          path: 'data/source_catalog/amc_release_observations.json',
+        },
+      },
+    },
+  });
+  assert.equal(summary.status, 'stale');
+  assert.equal(summary.outcome, 'retained_previous');
+  assert.equal(summary.buildSucceeded, false);
+  assert.equal(summary.artifactsRetainedFromPrior, true);
+  assert.deepEqual(summary.errors, ['soft failure']);
+  assert.equal(summary.productsSummary.total, 50);
+  assert.equal(summary.releasesSummary.multi_product_groups, 2);
 });

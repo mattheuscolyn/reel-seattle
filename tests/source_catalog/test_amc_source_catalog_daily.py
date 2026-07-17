@@ -390,6 +390,7 @@ def test_cli_soft_fail_exit_zero_and_fail_hard(tmp_path: Path):
         str(tmp_path / "tmp"),
         "--repo-root",
         str(tmp_path),
+        "--skip-pipeline-report-update",
     ]
     soft = subprocess.run(cmd, cwd=PROJECT_ROOT, capture_output=True, text=True, check=False)
     assert soft.returncode == 0, soft.stderr
@@ -427,6 +428,7 @@ def test_cli_fixture_end_to_end(tmp_path: Path):
             str(tmp_path),
             "--json-summary-path",
             str(tmp_path / "summary.json"),
+            "--skip-pipeline-report-update",
         ],
         cwd=PROJECT_ROOT,
         capture_output=True,
@@ -445,10 +447,13 @@ def test_workflow_yaml_placement_and_staging():
     assert "run_daily_amc_source_catalog.py" in text
     assert "Validate history CSV" in text
     assert "Refresh AMC source catalog" in text
+    assert "Re-validate public data artifacts after catalog health update" in text
+    assert "--pipeline-report-path public/data/pipeline_report.json" in text
     hist = text.index("Validate history CSV")
     catalog = text.index("Refresh AMC source catalog")
+    revalidate = text.index("Re-validate public data artifacts after catalog health update")
     commit = text.index("Commit and push changes")
-    assert hist < catalog < commit
+    assert hist < catalog < revalidate < commit
     assert "data/source_catalog/amc_movie_products.json" in text
     assert "data/source_catalog/amc_release_observations.json" in text
     assert "git add ." not in text
