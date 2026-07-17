@@ -29,6 +29,7 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [04 — Information architecture](./04-information-architecture.md) | User intents, information layers, progressive disclosure | Philosophy expanded (D-5); navigation deferred |
 | [12 — Experience model](./12-experience-model.md) | Session types, goals, continuity over time | Philosophy documented (D-6) |
 | [13 — Context & significance](./13-context-and-significance.md) | Context vs recommendation; kinds of significance | Philosophy documented (D-8) |
+| [14 — Specification review](./14-specification-review.md) | Holistic editorial audit of the v2 constitution | Complete (D-9) |
 | [05 — Navigation](./05-navigation.md) | Progressive depth, inline vs dedicated destinations, interaction principles | Philosophy expanded (D-7); chrome/UI deferred |
 | [06 — Component system](./06-component-system.md) | Reusable UI building blocks | Placeholder |
 | [07 — Visual language](./07-visual-language.md) | Visual direction and tokens | Placeholder |
