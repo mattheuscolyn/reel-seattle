@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-16T22:49:47-07:00",
+  "generated_at": "2026-07-16T23:30:05-07:00",
   "status": "success",
   "window": {
     "start_date": "2026-07-16",
@@ -34,8 +34,10 @@
       "theater_count": 1,
       "last_successful_run": "2026-07-12",
       "warnings": [
-        "Beacon scrape returned zero showtimes without valid-empty proof; retained prior future rows if present (restate blocked).",
-        "Beacon scrape structurally empty: no trusted current rows; retained stale future rows."
+        "Beacon date parse failed for rate-it-x: 'Fri, Jul 17 at 7:00 PM' (ambiguous_year)",
+        "Beacon date parse failed for secs-fest-presents-the-fireworks-woman: 'Fri, Jul 17 at 10:00 PM' (ambiguous_year)",
+        "Beacon scrape partial: 2 showtime date(s) unresolved; retained prior future rows (restate blocked).",
+        "Beacon scrape partial: 39 of 39 program pages parsed; retained prior future rows."
       ],
       "errors": []
     },
