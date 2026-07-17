@@ -1,7 +1,7 @@
 # 02 — Core Concepts
 
 **Status:** High-level seed only  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md)
 
 Definitions below are conceptual. They are **not** data schemas, API contracts, or UI specs.
 

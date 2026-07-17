@@ -1,7 +1,7 @@
 # 01 — Product Philosophy
 
 **Status:** Seeded from agreed product direction  
-**Related:** [README](./README.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md)
+**Related:** [README](./README.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md)
 
 This document records the product principles already agreed for Reel Seattle v2. It is not an implementation guide.
 
