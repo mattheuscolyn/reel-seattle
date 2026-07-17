@@ -38,8 +38,10 @@ def siff_raws() -> list[RawShowtime]:
     return parse_siff_film_page(
         html,
         movie_url="https://www.siff.net/cinema/in-theaters/test-film",
-        current_year=2026,
-    )
+        window_start=date(2026, 7, 1),
+        window_end=date(2027, 7, 1),
+        scrape_date=date(2026, 7, 10),
+    ).records
 
 
 @pytest.fixture

@@ -167,9 +167,9 @@ Suggested sequence:
 8. Align Beacon (title/year/IDs/structure) where evidence requires — **Complete (P-19A)**; see [beacon-minimal-alignment.md](./beacon-minimal-alignment.md).
 9. Implement Central registry + offline mapping (P-17C), manual adapter (P-17D), scheduled enablement (P-17E) — **Complete**.
 10. Design minimal SIFF alignment — **Complete (P-20A)**; see [siff-minimal-alignment-design.md](./siff-minimal-alignment-design.md).
-11. Implement SIFF minimal field alignment (P-20B), then production rollout (P-20C).
+11. Implement SIFF minimal field alignment — **Complete (P-20B)**; see [siff-minimal-alignment.md](./siff-minimal-alignment.md). Production rollout remains P-20C.
 
-Beacon production now preserves exact titles, window-aware years, slug/`source_film_id`, and inventory `source_showtime_id` without adopting the full IndependentSourceResult envelope. SIFF remains on the legacy path until P-20B/C; P-20A recommends the same minimal-alignment approach (not full Option C). NWFF production collection uses `reel_seattle.adapters.nwff` (which still delegates extraction to `reel_seattle.prototypes.nwff`).
+Beacon production now preserves exact titles, window-aware years, slug/`source_film_id`, and inventory `source_showtime_id` without adopting the full IndependentSourceResult envelope. SIFF P-20B applies the same minimal-alignment approach on the legacy `RawShowtime` path (program path → `source_film_id`, Elevent `ShowtimeId` → `source_showtime_id`, window-aware years, venue allowlist, tighter valid-empty). Full Option C migration remains deferred. NWFF production collection uses `reel_seattle.adapters.nwff` (which still delegates extraction to `reel_seattle.prototypes.nwff`).
 
 ## Validation API
 

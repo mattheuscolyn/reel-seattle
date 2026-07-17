@@ -1,10 +1,10 @@
 # SIFF Minimal Alignment Design (P-20A)
 
-**Status:** Design complete — not implemented  
+**Status:** Design complete — implemented in P-20B (see [siff-minimal-alignment.md](./siff-minimal-alignment.md)); production rollout is P-20C  
 **Track:** Data Foundation · Independent-theater ingestion  
 **Date:** 2026-07-17  
 **Depends on:** P-16A/B/C, P-19A Beacon production acceptance  
-**Next implementation:** P-20B (offline/production adapter alignment), then P-20C (rollout)
+**Next:** P-20C (production rollout + acceptance)
 
 ## 1. Executive recommendation
 

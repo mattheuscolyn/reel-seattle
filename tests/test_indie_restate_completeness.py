@@ -126,6 +126,51 @@ def test_decide_siff_complete_permits_restate():
     assert warnings == []
 
 
+def test_decide_siff_zero_discovered_without_proof_is_unsafe():
+    stats, warnings = decide_siff_completeness(
+        discovery_ok=True,
+        expected_structure_present=True,
+        discovered_programs=0,
+        program_pages_succeeded=0,
+        program_pages_failed=0,
+        record_count=0,
+        affirmative_empty_proof=False,
+    )
+    assert stats["restate_safe"] is False
+    assert stats["valid_empty_proof"] is False
+    assert stats["scrape_status"] == STATUS_STRUCTURAL_FAILURE
+    assert any("affirmative empty proof" in message for message in warnings)
+
+
+def test_decide_siff_zero_discovered_with_affirmative_proof_is_valid_empty():
+    stats, _warnings = decide_siff_completeness(
+        discovery_ok=True,
+        expected_structure_present=True,
+        discovered_programs=0,
+        program_pages_succeeded=0,
+        program_pages_failed=0,
+        record_count=0,
+        affirmative_empty_proof=True,
+    )
+    assert stats["restate_safe"] is True
+    assert stats["scrape_status"] == STATUS_VALID_EMPTY
+    assert stats["valid_empty_proof"] is True
+
+
+def test_decide_siff_all_pages_empty_is_valid_empty():
+    stats, _warnings = decide_siff_completeness(
+        discovery_ok=True,
+        expected_structure_present=True,
+        discovered_programs=2,
+        program_pages_succeeded=2,
+        program_pages_failed=0,
+        record_count=0,
+    )
+    assert stats["restate_safe"] is True
+    assert stats["scrape_status"] == STATUS_VALID_EMPTY
+    assert stats["valid_empty_proof"] is True
+
+
 def test_decide_beacon_zero_without_proof_is_unsafe():
     stats, warnings = decide_beacon_completeness(
         discovery_ok=True,

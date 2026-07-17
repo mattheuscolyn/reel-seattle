@@ -2,11 +2,11 @@
 
 **Status:** Complete (read-only)  
 **Track:** Data Foundation · Independent-theater ingestion  
-**Last updated:** 2026-07-15 (P-16B follow-up)  
+**Last updated:** 2026-07-17 (P-20B SIFF minimal alignment)  
 **Guiding principle:** Different extraction strategies, one explicit ingestion contract.  
-**Related:** [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [SCRAPING_README.md](../SCRAPING_README.md) · [data-artifact-inventory.md](./data-artifact-inventory.md)
+**Related:** [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [SCRAPING_README.md](../SCRAPING_README.md) · [data-artifact-inventory.md](./data-artifact-inventory.md) · [siff-minimal-alignment.md](./siff-minimal-alignment.md)
 
-This document began as a read-only audit (P-16A). **P-16B** implemented the partial-failure / structural-empty restatement guard described below; it did **not** implement the full shared source-observation contract, NWFF/Central scrapers, or theater-slice restatement.
+This document began as a read-only audit (P-16A). **P-16B** implemented the partial-failure / structural-empty restatement guard described below; it did **not** implement the full shared source-observation contract, NWFF/Central scrapers, or theater-slice restatement. **P-19A** aligned Beacon. **P-20B** aligned SIFF titles, program/showtime IDs, year handling, venue allowlist, and valid-empty proof on the legacy path (production rollout = P-20C).
 
 ---
 
@@ -22,22 +22,24 @@ Confirmed strengths:
 * Exact-ish titles reach history via `title_raw` / `source_title` (with Beacon mutation noted below).
 * `source_film_url` is retained in scrape logs.
 
-Confirmed drift and risks:
+Confirmed drift and risks (original P-16A; status notes added):
 
-1. **No source program or showtime IDs** — identity collapses to title + theater + date + time.
-2. **`source_film_url` is dropped** before history/CSV (`raw_showtime_to_legacy_row`).
-3. **Forward window is unused** — adapters ignore `FetchContext.window_*`; public emit truncates to 14 days independently.
-4. **Year handling is unsafe** — Beacon always uses run year; SIFF falls back to the first `\d{4}` anywhere on the page when the date header omits a year.
-5. **Beacon mutates titles** with `.title()` (e.g. `II` → `Ii` in live logs).
-6. **Empty vs failure vs broken page are not distinguished** — Beacon has returned **0 records with 0 warnings** for multiple consecutive days while pipeline report still shows `success` from preserved history.
+1. **No source program or showtime IDs** — **mitigated for SIFF in P-20B** (path → `source_film_id`; Elevent ShowtimeId → `source_showtime_id`); Beacon mitigated in P-19A.
+2. **`source_film_url` is dropped** before history/CSV (`raw_showtime_to_legacy_row`) — path identity now also flows via `source_film_id` on the legacy row (P-20B).
+3. **Forward window is unused** — **partially mitigated**: SIFF/Beacon year inference uses `FetchContext` window (P-19A/P-20B); public emit still truncates independently.
+4. **Year handling is unsafe** — **mitigated for SIFF/Beacon**: header year / window helper; SIFF no longer uses page-wide first `\d{4}`.
+5. **Beacon mutates titles** with `.title()` — **mitigated in P-19A**.
+6. **Empty vs failure vs broken page are not distinguished** — **partially mitigated** (P-16B + Beacon/SIFF valid-empty tightening).
 7. **Partial film-page failure still restated** (P-16A) — **mitigated in P-16B** via `restate_safe=false` on any failed SIFF program page.
-8. **Restatement is source-wide, not theater-scoped** — one SIFF wipe covers Downtown + Uptown + Film Center together (**still true**; P-16B retains conservatively).
-9. **SIFF `screening-*` HTML IDs and Beacon `data-value` are discarded** — natural showtime identity candidates unused.
-10. **No adapter-level dedup**; structural validation is minimal (P-16B adds listing/calendar structure checks + completeness stats only).
+8. **Restatement is source-wide, not theater-scoped** — one SIFF wipe covers Downtown + Uptown + Film Center together (**still true**; P-16B retains conservatively; P-20B kept Option A).
+9. **SIFF `screening-*` HTML IDs and Beacon `data-value` are discarded** — **SIFF ShowtimeId now captured (P-20B)**; Beacon inventory IDs captured (P-19A); legacy Beacon `data-value` still not promoted.
+10. **No adapter-level dedup**; structural validation is minimal (P-16B adds listing/calendar structure checks + completeness stats only) — SIFF now dedupes by ShowtimeId within a page (P-20B).
 
 **P-16B shipped:** restatement eligibility from scrape completeness metadata.  
 **P-16C shipped:** shared observation contract v1.0.0 — see [independent-source-observation-contract.md](./independent-source-observation-contract.md).  
-**Recommended next:** prototype Northwest Film Forum against the contract (fixtures + live read-only validation), without production integration.
+**P-19A shipped:** Beacon minimal alignment — [beacon-minimal-alignment.md](./beacon-minimal-alignment.md).  
+**P-20B shipped:** SIFF minimal alignment — [siff-minimal-alignment.md](./siff-minimal-alignment.md).  
+**Recommended next:** SIFF production rollout (P-20C).
 
 ---
 

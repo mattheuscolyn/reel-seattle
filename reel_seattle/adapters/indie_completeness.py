@@ -82,6 +82,7 @@ def decide_siff_completeness(
     failed_program_urls: Sequence[str] | None = None,
     window_start: object = None,
     window_end: object = None,
+    affirmative_empty_proof: bool = False,
     extra: Mapping[str, object] | None = None,
 ) -> tuple[dict[str, object], list[str]]:
     """Decide SIFF scrape_status / restate_safe and return (stats, extra_warnings)."""
@@ -118,16 +119,42 @@ def decide_siff_completeness(
             f"SIFF scrape partial: {succeeded} of {discovered} program pages parsed; "
             "retained prior future rows (restate blocked)."
         )
+    elif (
+        record_count == 0
+        and expected_structure_present
+        and failed == 0
+        and discovered > 0
+        and succeeded == discovered
+    ):
+        # Affirmative empty schedule: every discovered program page loaded and
+        # yielded no showtimes (parent-event / unscheduled pages included).
+        status = STATUS_VALID_EMPTY
+        restate_safe = True
+        structure = True
+        valid_empty = True
+    elif discovered == 0 and record_count == 0 and affirmative_empty_proof:
+        status = STATUS_VALID_EMPTY
+        restate_safe = True
+        structure = True
+        valid_empty = True
     elif discovered == 0 and record_count == 0:
-        status = STATUS_VALID_EMPTY
-        restate_safe = True
-        structure = True
-        valid_empty = True
+        status = STATUS_STRUCTURAL_FAILURE
+        restate_safe = False
+        structure = expected_structure_present
+        valid_empty = False
+        warnings.append(
+            "SIFF listing returned zero programs without affirmative empty proof; "
+            "retained prior future rows if present (restate blocked)."
+        )
     elif record_count == 0:
-        status = STATUS_VALID_EMPTY
-        restate_safe = True
-        structure = True
-        valid_empty = True
+        status = STATUS_STRUCTURAL_FAILURE
+        restate_safe = False
+        structure = expected_structure_present
+        valid_empty = False
+        warnings.append(
+            "SIFF scrape returned zero showtimes without valid-empty proof; "
+            "retained prior future rows if present (restate blocked)."
+        )
     else:
         status = STATUS_SUCCESS
         restate_safe = True
