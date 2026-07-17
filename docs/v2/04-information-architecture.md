@@ -1,7 +1,7 @@
 # 04 — Information Architecture
 
 **Status:** Philosophy expanded (D-5); navigation and surfaces still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Navigation](./05-navigation.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Navigation](./05-navigation.md) · [Context & significance](./13-context-and-significance.md)
 
 This document defines the **conceptual organization** of Reel Seattle v2 around **user intent**.
 
@@ -170,3 +170,4 @@ See [Navigation & interaction model](./05-navigation.md) — progressive depth, 
 * [11 — Film lifecycle](./11-film-lifecycle.md) — evolving Seattle presence
 * [12 — Experience model](./12-experience-model.md) — session types and continuity over time
 * [05 — Navigation](./05-navigation.md) — progressive depth and interaction principles
+* [13 — Context & significance](./13-context-and-significance.md) — context vs recommendation; kinds of significance

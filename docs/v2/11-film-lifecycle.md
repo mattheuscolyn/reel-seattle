@@ -1,7 +1,7 @@
 # 11 — Film Lifecycle
 
 **Status:** Philosophy documented (D-4); stage criteria and systems still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md) · [Information architecture](./04-information-architecture.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md) · [Information architecture](./04-information-architecture.md) · [Context & significance](./13-context-and-significance.md)
 
 This document describes how a film’s **presence within Seattle moviegoing** evolves over time, from a product perspective.
 
@@ -127,3 +127,4 @@ Placeholders only — no behavior defined yet:
 * [03 — Discovery model](./03-discovery-model.md) — funnel, signals, lenses, principles
 * [10 — Opportunity model](./10-opportunity-model.md) — categories, primary story, supporting context
 * [04 — Information architecture](./04-information-architecture.md) — intents and progressive disclosure
+* [13 — Context & significance](./13-context-and-significance.md) — context vs recommendation; kinds of significance

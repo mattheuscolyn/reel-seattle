@@ -1,7 +1,7 @@
 # 03 — Discovery Model
 
 **Status:** Philosophy expanded (D-2); catalog and algorithms still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Information architecture](./04-information-architecture.md) · [Experience model](./12-experience-model.md) · [Navigation](./05-navigation.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Information architecture](./04-information-architecture.md) · [Experience model](./12-experience-model.md) · [Navigation](./05-navigation.md) · [Context & significance](./13-context-and-significance.md)
 
 This document is the **canonical product specification** for how Reel Seattle surfaces moviegoing opportunities in v2.
 
@@ -205,4 +205,5 @@ What *is* agreed:
 * [04 — Information architecture](./04-information-architecture.md) — user intents, overview / comparison / reference layers
 * [12 — Experience model](./12-experience-model.md) — session types and continuity
 * [05 — Navigation](./05-navigation.md) — progressive depth and interaction principles
+* [13 — Context & significance](./13-context-and-significance.md) — context vs recommendation; kinds of significance
 * [09 — Implementation roadmap](./09-implementation-roadmap.md) — build order after design (placeholder)

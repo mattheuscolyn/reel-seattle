@@ -28,6 +28,7 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [11 — Film lifecycle](./11-film-lifecycle.md) | How a film’s Seattle presence evolves over time | Philosophy documented (D-4) |
 | [04 — Information architecture](./04-information-architecture.md) | User intents, information layers, progressive disclosure | Philosophy expanded (D-5); navigation deferred |
 | [12 — Experience model](./12-experience-model.md) | Session types, goals, continuity over time | Philosophy documented (D-6) |
+| [13 — Context & significance](./13-context-and-significance.md) | Context vs recommendation; kinds of significance | Philosophy documented (D-8) |
 | [05 — Navigation](./05-navigation.md) | Progressive depth, inline vs dedicated destinations, interaction principles | Philosophy expanded (D-7); chrome/UI deferred |
 | [06 — Component system](./06-component-system.md) | Reusable UI building blocks | Placeholder |
 | [07 — Visual language](./07-visual-language.md) | Visual direction and tokens | Placeholder |

@@ -1,7 +1,7 @@
 # 10 — Opportunity Model
 
 **Status:** Philosophy documented (D-3); taxonomies and prioritization still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Information architecture](./04-information-architecture.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Information architecture](./04-information-architecture.md) · [Context & significance](./13-context-and-significance.md)
 
 This document defines how Reel Seattle thinks about **moviegoing opportunities** as a product concept.
 
@@ -87,7 +87,7 @@ Highlighting one reason to care must not imply that reason is the *only* truth w
 
 The first line may still be the **primary story** when IMAX is the most distinctive hook. Supporting context keeps the story **true**.
 
-Supporting context is philosophical here: *say enough so the highlight remains fair.* Layout, density, and interaction patterns are deferred to later design docs.
+Supporting context is philosophical here: *say enough so the highlight remains fair.* Richer significance (history, filmmakers, presentation meaning) is developed in [Context & significance](./13-context-and-significance.md). Layout, density, and interaction patterns are deferred to later design docs.
 
 ---
 
