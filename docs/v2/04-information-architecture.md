@@ -122,7 +122,7 @@ Knowledge
 
 Discovery **summarizes opportunities through films**. Plans attach to chosen opportunities. Knowledge surrounds films and opportunities without replacing them as the decision layer.
 
-This relationship is **semantic**. It does not prescribe which surface owns which concept, how many stops a user takes, or how navigation is labeled. Those belong in later design ([Navigation](./05-navigation.md), [Screen specifications](./08-screen-specifications.md)).
+This relationship is **semantic**. It does not prescribe which surface owns which concept, how many stops a user takes, or how navigation is labeled. Navigation chrome remains deferred ([Navigation](./05-navigation.md)); Home / Discovery conceptual behavior begins in [Screen specifications](./08-screen-specifications.md).
 
 ---
 
