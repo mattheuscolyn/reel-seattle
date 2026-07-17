@@ -1,7 +1,7 @@
 # 03 — Discovery Model
 
 **Status:** Philosophy expanded (D-2); catalog and algorithms still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Opportunity model](./10-opportunity-model.md) · [Information architecture](./04-information-architecture.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Information architecture](./04-information-architecture.md)
 
 This document is the **canonical product specification** for how Reel Seattle surfaces moviegoing opportunities in v2.
 
@@ -201,5 +201,6 @@ What *is* agreed:
 * [01 — Product philosophy](./01-product-philosophy.md) — mission, promise, emotional goal, principles
 * [02 — Core concepts](./02-core-concepts.md) — Film, Opportunity, Plan, Lens definitions
 * [10 — Opportunity model](./10-opportunity-model.md) — categories, primary story, supporting context
+* [11 — Film lifecycle](./11-film-lifecycle.md) — evolving Seattle presence; urgency on opportunities
 * [04 — Information architecture](./04-information-architecture.md) — where Discovery sits among surfaces (placeholder)
 * [09 — Implementation roadmap](./09-implementation-roadmap.md) — build order after design (placeholder)

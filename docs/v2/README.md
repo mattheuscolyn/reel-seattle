@@ -25,6 +25,7 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [02 — Core concepts](./02-core-concepts.md) | Film, Opportunity, Plan, Lens | High-level seed only |
 | [03 — Discovery model](./03-discovery-model.md) | How opportunities are surfaced (funnel, signals, lenses) | Philosophy expanded (D-2); catalogs/algorithms deferred |
 | [10 — Opportunity model](./10-opportunity-model.md) | Opportunity categories, primary story, supporting context | Philosophy documented (D-3) |
+| [11 — Film lifecycle](./11-film-lifecycle.md) | How a film’s Seattle presence evolves over time | Philosophy documented (D-4) |
 | [04 — Information architecture](./04-information-architecture.md) | Structure of content and surfaces | Placeholder |
 | [05 — Navigation](./05-navigation.md) | Movement between surfaces | Placeholder |
 | [06 — Component system](./06-component-system.md) | Reusable UI building blocks | Placeholder |

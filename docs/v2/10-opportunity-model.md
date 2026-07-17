@@ -1,7 +1,7 @@
 # 10 — Opportunity Model
 
 **Status:** Philosophy documented (D-3); taxonomies and prioritization still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Film lifecycle](./11-film-lifecycle.md)
 
 This document defines how Reel Seattle thinks about **moviegoing opportunities** as a product concept.
 
@@ -105,7 +105,7 @@ Placeholders only — no behavior defined yet:
 
 ### Film lifecycle
 
-*(TBD — how a film’s opportunity story evolves from announcement through first week, mid-run, and last chances.)*
+See [Film lifecycle](./11-film-lifecycle.md) — how a film’s opportunity story evolves across Seattle presence (philosophy documented; stage criteria still deferred).
 
 ### Opportunity prioritization
 
