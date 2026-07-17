@@ -175,7 +175,10 @@ data/daily_logs/YYYY-MM-DD_amc.json
 data/daily_logs/YYYY-MM-DD_siff.json
 data/daily_logs/YYYY-MM-DD_beacon.json
 data/daily_logs/YYYY-MM-DD_nwff.json
+data/daily_logs/YYYY-MM-DD_central_cinema.json
 ```
+
+AMC logs use schema `1.0.0` with optional expanded fields under `record.attributes` (P-18A; see [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md)).
 
 **Also updated each daily run:**
 

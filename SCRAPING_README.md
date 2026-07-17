@@ -18,7 +18,7 @@ This system automatically scrapes showtimes from indie theaters and AMC theaters
 ### Data Files (created automatically)
 - `public/showtimes.csv` - Latest AMC showtimes
 - `public/indieshowtimes.csv` - Latest indie theater showtimes (legacy processor input fallback)
-- `data/daily_logs/YYYY-MM-DD_amc.json` - Normalized raw AMC adapter scrape log (processor JSON-first input)
+- `data/daily_logs/YYYY-MM-DD_amc.json` - Normalized raw AMC adapter scrape log (processor JSON-first input; P-18A expands optional `record.attributes` fields — see [docs/amc-showtimes-raw-capture.md](docs/amc-showtimes-raw-capture.md))
 - `data/daily_logs/YYYY-MM-DD_siff.json` - Normalized raw SIFF adapter scrape log
 - `data/daily_logs/YYYY-MM-DD_beacon.json` - Normalized raw Beacon adapter scrape log
 - `data/daily_logs/YYYY-MM-DD_nwff.json` - Option C NWFF scrape log (contract + mapping + `records[]`)

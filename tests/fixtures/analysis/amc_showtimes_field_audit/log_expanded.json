@@ -1,0 +1,126 @@
+{
+  "source": "amc",
+  "generated_at": "2026-07-17T12:00:00-07:00",
+  "schema_version": "1.0.0",
+  "records": [
+    {
+      "theater_name_raw": "AMC Pacific Place 11",
+      "date_raw": "07/17/2026",
+      "time_raw": "7:00PM",
+      "title_raw": "Expanded Capture Film",
+      "runtime_raw": "120",
+      "poster_url_raw": "https://example.test/poster-x.jpg",
+      "ticket_url_raw": null,
+      "canceled": false,
+      "almost_sold_out": false,
+      "format_raw": "IMAX at AMC",
+      "source_showtime_id": "2001",
+      "source_film_url": null,
+      "attributes": {
+        "has_trailers": true,
+        "maximum_intended_attendance": 200,
+        "premium_format_raw": "IMAX at AMC",
+        "movie_id": "60001",
+        "movie_url": "https://example.test/movies/60001",
+        "sell_until_utc": "2026-07-17T23:00:00Z",
+        "genre": "Drama",
+        "performance_number": 555,
+        "theatre_id": 601,
+        "wwm_release_number": 90001,
+        "internal_release_number": 70001,
+        "last_updated_utc": "2026-07-17T10:00:00Z",
+        "show_datetime_utc": "2026-07-18T02:00:00Z",
+        "amc_attributes": [
+          {
+            "code": "IMAX",
+            "name": "IMAX",
+            "description": "IMAX presentation",
+            "extraSourceField": "keep-me"
+          },
+          {
+            "code": "OPENCAPTION",
+            "name": "Open Caption",
+            "description": null
+          }
+        ],
+        "languages": {
+          "spoken": "English",
+          "dubbed_over": null,
+          "subtitle": []
+        },
+        "is_sold_out": false,
+        "is_embargoed": false,
+        "embargoed": false,
+        "visibility_datetime_utc": "2026-07-01T00:00:00Z",
+        "is_coming_soon": false,
+        "in_theatre_ticketing_only": false,
+        "auditorium": 5,
+        "virtual_auditorium_id": "VA-601-5",
+        "layout_id": "L-5",
+        "layout_version_number": 2,
+        "ticket_prices": [
+          {
+            "ticketType": "Adult",
+            "price": 18.99,
+            "tax": 1.5,
+            "fee": 0.0,
+            "priceCode": "ADULT"
+          },
+          {
+            "ticketType": "Child",
+            "price": 14.99
+          }
+        ],
+        "is_discount_matinee_priced": true,
+        "discount_matinee_message": "Matinee before 4pm",
+        "is_discount_days_eligible": false,
+        "estimated_fees": 1.25,
+        "purchase_url": "https://example.test/buy/2001",
+        "mobile_purchase_url": "https://example.test/m/buy/2001"
+      }
+    },
+    {
+      "theater_name_raw": "AMC Pacific Place 11",
+      "date_raw": "07/17/2026",
+      "time_raw": "9:30PM",
+      "title_raw": "Dubbed Feature",
+      "runtime_raw": "110",
+      "poster_url_raw": null,
+      "ticket_url_raw": null,
+      "canceled": false,
+      "almost_sold_out": true,
+      "format_raw": null,
+      "source_showtime_id": "2002",
+      "source_film_url": null,
+      "attributes": {
+        "has_trailers": false,
+        "maximum_intended_attendance": null,
+        "premium_format_raw": null,
+        "movie_id": "60002",
+        "performance_number": 556,
+        "theatre_id": 601,
+        "amc_attributes": [
+          {
+            "code": "DUBBED",
+            "name": "Dubbed",
+            "description": "Dubbed presentation"
+          }
+        ],
+        "languages": {
+          "spoken": null,
+          "dubbed_over": "English",
+          "subtitle": "Spanish"
+        },
+        "is_sold_out": true,
+        "is_embargoed": true,
+        "embargoed": false,
+        "visibility_datetime_utc": null,
+        "auditorium": 8,
+        "virtual_auditorium_id": "VA-601-8",
+        "layout_id": "L-8",
+        "layout_version_number": 1,
+        "ticket_prices": []
+      }
+    }
+  ]
+}

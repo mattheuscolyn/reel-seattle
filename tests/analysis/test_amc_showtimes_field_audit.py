@@ -58,15 +58,16 @@ def test_field_population_null_vs_empty_and_nested():
     by_path = {row["api_path"]: row for row in report["field_population"]}
     assert by_path["id"]["capture_status"] == "captured_in_scrape_log"
     assert by_path["id"]["non_empty_count"] == 5  # one null id in fixture
-    assert by_path["attributes"]["capture_status"] == "not_captured_in_scrape_log"
+    # P-18A maps attributes[] → attributes.amc_attributes; pre-expansion fixtures have present_count 0.
+    assert by_path["attributes"]["capture_status"] == "captured_in_scrape_log"
+    assert by_path["attributes"]["present_count"] == 0
     assert by_path["attributes"]["non_empty_count"] == 0
     assert by_path["movieId"]["non_empty_count"] == 6
     assert by_path["premiumFormat"]["non_empty_count"] >= 3
-    assert "not_captured_in_scrape_log" in {
-        by_path["languages"]["capture_status"],
-        by_path["ticketPrices"]["capture_status"],
-        by_path["performanceNumber"]["capture_status"],
-    }
+    assert by_path["languages"]["present_count"] == 0
+    assert by_path["ticketPrices"]["present_count"] == 0
+    assert by_path["performanceNumber"]["present_count"] == 0
+    assert by_path["sortableMovieName"]["capture_status"] == "not_captured_in_scrape_log"
 
 
 def test_attribute_classification_rules():

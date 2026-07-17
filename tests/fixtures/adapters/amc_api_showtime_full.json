@@ -1,4 +1,11 @@
 {
+  "id": "show-12345",
+  "performanceNumber": 987654,
+  "theatreId": 601,
+  "wwmReleaseNumber": 44001,
+  "internalReleaseNumber": 88001,
+  "lastUpdatedDateUtc": "2026-06-28T18:00:00Z",
+  "showDateTimeUtc": "2026-06-29T03:00:00Z",
   "showDateTimeLocal": "2026-06-28T20:00:00",
   "movieName": "New Future AMC",
   "movieId": "movie-abc123",
@@ -8,12 +15,63 @@
   "rating": "PG-13",
   "sellUntilDateTimeUtc": "2026-06-28T23:59:00Z",
   "isAlmostSoldOut": false,
+  "isSoldOut": false,
+  "isEmbargoed": false,
+  "embargoed": false,
+  "visibilityDateTimeUtc": "2026-06-01T00:00:00Z",
+  "isComingSoon": false,
+  "inTheatreTicketingOnly": false,
+  "isDiscountMatineePriced": true,
+  "discountMatineeMessage": "Matinee pricing before 4pm",
+  "isDiscountDaysEligible": false,
+  "estimatedFees": 1.5,
+  "purchaseUrl": "https://www.amctheatres.com/movies/buy-tickets/show-12345",
+  "mobilePurchaseUrl": "https://www.amctheatres.com/movies/m/buy-tickets/show-12345",
   "media": {
-    "posterDynamic": "https://example.com/new-amc.jpg"
+    "posterDynamic": "https://example.com/new-amc.jpg",
+    "heroDesktopDynamic": "https://example.com/hero-desktop.jpg"
   },
   "isCanceled": false,
   "premiumFormat": "IMAX",
   "hasTrailers": true,
   "maximumIntendedAttendance": 150,
-  "id": "show-12345"
+  "auditorium": 7,
+  "virtualAuditoriumId": "VA-601-7",
+  "layoutId": "L-601-7",
+  "layoutVersionNumber": 3,
+  "attributes": [
+    {
+      "code": "IMAX",
+      "name": "IMAX",
+      "description": "IMAX presentation",
+      "extraSourceField": "keep-me"
+    },
+    {
+      "code": "OPENCAPTION",
+      "name": "Open Caption",
+      "description": null
+    }
+  ],
+  "languages": {
+    "spoken": "English",
+    "dubbedOver": null,
+    "subtitle": []
+  },
+  "ticketPrices": [
+    {
+      "ticketType": "Adult",
+      "price": 18.99,
+      "tax": 1.52,
+      "fee": 0.0,
+      "priceCode": "ADULT",
+      "posType": "Standard",
+      "agePolicy": "18+",
+      "discountEligible": false
+    },
+    {
+      "ticketType": "Child",
+      "price": 14.99,
+      "tax": 1.2
+    }
+  ]
 }

@@ -2,17 +2,17 @@
 
 **Status:** Manual / read-only measurement  
 **Track:** Data Foundation  
-**Last updated:** 2026-07-15  
-**Related:** [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [amc-source-catalog.md](./amc-source-catalog.md)
+**Last updated:** 2026-07-17  
+**Related:** [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) · [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [amc-source-catalog.md](./amc-source-catalog.md)
 
 ## Purpose
 
-Measure which documented AMC Showtimes API fields are retained in committed Reel Seattle scrape logs, inventory attribute taxonomy (via fixtures until production capture expands), and recommend a future `presentation_attributes[]` contract — without changing production scraping or public schemas.
+Measure which documented AMC Showtimes API fields are retained in committed Reel Seattle scrape logs, inventory attribute taxonomy from real or fixture payloads, and recommend a future `presentation_attributes[]` contract — without changing public schemas.
 
 ## Inputs
 
 * Preferred: newest N committed `data/daily_logs/*_amc.json` (default 7).
-* Optional: synthetic full Showtimes API payloads for attributes/languages/pricing classifiers:
+* Optional: synthetic full Showtimes API payloads:
 
   ```text
   tests/fixtures/analysis/amc_showtimes_field_audit/api_showtimes.json
@@ -20,19 +20,19 @@ Measure which documented AMC Showtimes API fields are retained in committed Reel
 
 No live AMC API calls. No `AMC_API_KEY`.
 
-## Important limitation
+## Capture status (P-18A)
 
-`api_showtime_to_raw` stores a **subset** of the Showtimes API object. In particular, production logs do **not** retain:
+`api_showtime_to_raw` now retains high-value fields under `record.attributes`, including:
 
-* `attributes[]`
-* `languages`
-* `ticketPrices`
-* `performanceNumber`
-* `theatreId`
-* `auditorium` / layout fields
-* several availability flags (`isSoldOut`, embargo/visibility, …)
+* `amc_attributes` (source `attributes[]`)
+* `languages` (`spoken` / `dubbed_over` / `subtitle`)
+* `performance_number`, `theatre_id`, `wwm_release_number`
+* `ticket_prices`, auditorium/layout IDs
+* `is_sold_out`, embargo/visibility flags
 
-The audit treats that capture gap as a first-class finding.
+See [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) for the full mapping table.
+
+Pre-P-18A logs remain readable; population counts stay zero for expanded fields until new daily logs land.
 
 ## Manual workflow
 
@@ -58,16 +58,18 @@ Outputs (gitignored under `audit-output/`):
 
 | Section | Meaning |
 |---------|---------|
-| Capture gap | Which documented API fields never reach scrape logs |
-| Field population | Coverage for fields that *are* mapped |
-| Attribute taxonomy | Fixture/API-payload classification until logs retain `attributes[]` |
-| Identity | `source_showtime_id` vs unavailable `performanceNumber` composites |
-| Future architecture | Proposed `presentation_attributes[]` direction + blocker |
+| Capture gap | Documented API fields still without adapter log paths (or absent in the sample) |
+| Field population | Coverage for mapped log paths |
+| Attribute taxonomy | Prefer scrape-log `amc_attributes` when present; else API fixtures |
+| Identity | `source_showtime_id` plus optional `performance_number` / `theatre_id` |
+| Future architecture | Proposed `presentation_attributes[]` direction |
 
 Taxonomy categories are audit-only (`format`, `accessibility`, `language`, `event`, …). Unknown codes stay `needs_review`.
 
 ## Non-production status
 
-* Does not modify daily scraping, history, public JSON, cockpit, or SPA.
+* Does not modify daily scraping beyond reading committed logs.
 * Does not implement `presentation_attributes[]`.
 * Does not commit live audit artifacts.
+
+Accumulate **at least two** expanded production logs before taxonomy conclusions.

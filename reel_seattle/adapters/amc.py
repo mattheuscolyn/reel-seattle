@@ -14,7 +14,10 @@ from typing import Any, Callable, Mapping
 import requests
 
 from reel_seattle.adapters.base import FetchContext, FetchResult, RawShowtime
-from reel_seattle.adapters.amc_metadata import extract_showtime_metadata
+from reel_seattle.adapters.amc_metadata import (
+    extract_showtime_metadata,
+    extract_showtime_raw_extensions,
+)
 from reel_seattle.source_identity import (
     source_film_id_from_raw,
     source_showtime_id_from_raw,
@@ -133,6 +136,7 @@ def api_showtime_to_raw(showtime: Mapping[str, Any], theater_name: str) -> RawSh
             "maximum_intended_attendance": showtime.get("maximumIntendedAttendance"),
             "premium_format_raw": premium,
             **metadata,
+            **extract_showtime_raw_extensions(showtime),
         },
     )
 

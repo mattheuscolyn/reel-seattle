@@ -1,8 +1,9 @@
 """AMC Showtimes field-population and attribute-taxonomy audit (read-only).
 
-Operates on committed AMC daily scrape logs. Many documented AMC Showtimes API
-fields are discarded by ``api_showtime_to_raw``; the audit measures both
-captured-log population and the capture gap.
+Operates on committed AMC daily scrape logs. P-18A expands ``api_showtime_to_raw``
+so newer logs retain attributes, languages, identity fallbacks, pricing, and
+auditorium fields under ``record.attributes``. Older logs remain readable; the
+audit measures both captured-log population and any remaining capture gap.
 
 Optional ``--api-payloads`` fixtures supply synthetic full API showtimes so
 attribute/language/pricing classifiers can be tested without live API access.
@@ -67,59 +68,59 @@ class FieldSpec:
 # Documented AMC Showtimes API inventory mapped to scrape-log paths when retained.
 FIELD_SPECS: tuple[FieldSpec, ...] = (
     FieldSpec("id", "identity", "source_showtime_id", "showtime", RECOMMEND_KEEP, "Mapped to source_showtime_id"),
-    FieldSpec("performanceNumber", "identity", None, "showtime", RECOMMEND_CAPTURE, "Discarded by adapter"),
-    FieldSpec("internalReleaseNumber", "identity", None, "unknown", RECOMMEND_CAPTURE, "Discarded by adapter"),
+    FieldSpec("performanceNumber", "identity", "attributes.performance_number", "showtime", RECOMMEND_KEEP, "P-18A raw capture"),
+    FieldSpec("internalReleaseNumber", "identity", "attributes.internal_release_number", "unknown", RECOMMEND_KEEP, "P-18A raw capture when present"),
     FieldSpec("movieId", "identity", "attributes.movie_id", "amc_movie_product", RECOMMEND_KEEP),
     FieldSpec("movieName", "identity", "title_raw", "amc_movie_product", RECOMMEND_KEEP),
-    FieldSpec("sortableMovieName", "identity", None, "amc_movie_product", RECOMMEND_LOW, "Discarded; Movies catalog has sortable_title"),
-    FieldSpec("theatreId", "identity", None, "theater", RECOMMEND_CAPTURE, "Only theater_name_raw retained"),
-    FieldSpec("wwmReleaseNumber", "identity", None, "amc_release_observation", RECOMMEND_CAPTURE, "Available via Movies catalog; not on showtime log"),
-    FieldSpec("showDateTimeUtc", "time", None, "showtime", RECOMMEND_CAPTURE, "Only local date/time strings retained"),
+    FieldSpec("sortableMovieName", "identity", None, "amc_movie_product", RECOMMEND_LOW, "Deferred; Movies catalog has sortable_title"),
+    FieldSpec("theatreId", "identity", "attributes.theatre_id", "theater", RECOMMEND_KEEP, "P-18A raw capture"),
+    FieldSpec("wwmReleaseNumber", "identity", "attributes.wwm_release_number", "amc_release_observation", RECOMMEND_KEEP, "P-18A relationship field on showtime log"),
+    FieldSpec("showDateTimeUtc", "time", "attributes.show_datetime_utc", "showtime", RECOMMEND_KEEP, "P-18A raw capture"),
     FieldSpec("showDateTimeLocal", "time", "date_raw+time_raw", "showtime", RECOMMEND_KEEP, "Split into date_raw/time_raw"),
-    FieldSpec("utcOffset", "time", None, "showtime", RECOMMEND_LOW, "Discarded"),
+    FieldSpec("utcOffset", "time", None, "showtime", RECOMMEND_LOW, "Deferred; low value vs local+UTC timestamps"),
     FieldSpec("sellUntilDateTimeUtc", "time", "attributes.sell_until_utc", "showtime", RECOMMEND_KEEP),
-    FieldSpec("lastUpdatedDateUtc", "time", None, "operational_metadata", RECOMMEND_CAPTURE, "Discarded"),
-    FieldSpec("visibilityDateTimeUtc", "availability", None, "operational_metadata", RECOMMEND_CAPTURE, "Discarded"),
-    FieldSpec("isSoldOut", "availability", None, "operational_metadata", RECOMMEND_CAPTURE, "Discarded"),
+    FieldSpec("lastUpdatedDateUtc", "time", "attributes.last_updated_utc", "operational_metadata", RECOMMEND_KEEP, "P-18A raw capture"),
+    FieldSpec("visibilityDateTimeUtc", "availability", "attributes.visibility_datetime_utc", "operational_metadata", RECOMMEND_KEEP, "P-18A raw capture"),
+    FieldSpec("isSoldOut", "availability", "attributes.is_sold_out", "operational_metadata", RECOMMEND_KEEP, "Distinct from almost_sold_out"),
     FieldSpec("isAlmostSoldOut", "availability", "almost_sold_out", "operational_metadata", RECOMMEND_KEEP),
     FieldSpec("isCanceled", "availability", "canceled", "operational_metadata", RECOMMEND_KEEP),
-    FieldSpec("isEmbargoed", "availability", None, "operational_metadata", RECOMMEND_CAPTURE, "Discarded"),
-    FieldSpec("embargoed", "availability", None, "operational_metadata", RECOMMEND_CAPTURE, "Discarded; check conflict with isEmbargoed when captured"),
-    FieldSpec("isComingSoon", "availability", None, "operational_metadata", RECOMMEND_LOW, "Discarded"),
+    FieldSpec("isEmbargoed", "availability", "attributes.is_embargoed", "operational_metadata", RECOMMEND_KEEP, "P-18A; check conflict with embargoed"),
+    FieldSpec("embargoed", "availability", "attributes.embargoed", "operational_metadata", RECOMMEND_KEEP, "P-18A; check conflict with isEmbargoed"),
+    FieldSpec("isComingSoon", "availability", "attributes.is_coming_soon", "operational_metadata", RECOMMEND_KEEP, "P-18A raw capture"),
     FieldSpec("hasTrailers", "availability", "attributes.has_trailers", "operational_metadata", RECOMMEND_LOW),
-    FieldSpec("inTheatreTicketingOnly", "availability", None, "ticketing", RECOMMEND_SEPARATE, "Discarded"),
+    FieldSpec("inTheatreTicketingOnly", "availability", "attributes.in_theatre_ticketing_only", "ticketing", RECOMMEND_SEPARATE, "P-18A raw capture"),
     FieldSpec("maximumIntendedAttendance", "auditorium", "attributes.maximum_intended_attendance", "auditorium", RECOMMEND_KEEP),
-    FieldSpec("auditorium", "auditorium", None, "auditorium", RECOMMEND_CAPTURE, "Discarded"),
-    FieldSpec("virtualAuditoriumId", "auditorium", None, "auditorium", RECOMMEND_CAPTURE, "Discarded"),
-    FieldSpec("layoutId", "auditorium", None, "auditorium", RECOMMEND_CAPTURE, "Discarded"),
-    FieldSpec("layoutVersionNumber", "auditorium", None, "auditorium", RECOMMEND_CAPTURE, "Discarded"),
+    FieldSpec("auditorium", "auditorium", "attributes.auditorium", "auditorium", RECOMMEND_KEEP, "P-18A; no auditorium entity yet"),
+    FieldSpec("virtualAuditoriumId", "auditorium", "attributes.virtual_auditorium_id", "auditorium", RECOMMEND_KEEP, "P-18A raw capture"),
+    FieldSpec("layoutId", "auditorium", "attributes.layout_id", "auditorium", RECOMMEND_KEEP, "P-18A raw capture"),
+    FieldSpec("layoutVersionNumber", "auditorium", "attributes.layout_version_number", "auditorium", RECOMMEND_KEEP, "P-18A raw capture"),
     FieldSpec("genre", "movie_snapshot", "attributes.genre", "amc_movie_product", RECOMMEND_KEEP),
     FieldSpec("runTime", "movie_snapshot", "runtime_raw", "amc_movie_product", RECOMMEND_KEEP),
     FieldSpec("mpaaRating", "movie_snapshot", "attributes.mpaa_rating", "amc_movie_product", RECOMMEND_KEEP, "API key often rating"),
     FieldSpec("premiumFormat", "presentation", "format_raw", "showtime", RECOMMEND_DERIVE, "Also in attributes.premium_format_raw"),
     FieldSpec("movieUrl", "movie_snapshot", "attributes.movie_url", "amc_movie_product", RECOMMEND_KEEP),
-    FieldSpec("purchaseUrl", "ticketing", "ticket_url_raw", "pricing_ticket_offer", RECOMMEND_KEEP, "AMC mapper currently leaves unset"),
-    FieldSpec("mobilePurchaseUrl", "ticketing", None, "pricing_ticket_offer", RECOMMEND_CAPTURE, "Discarded"),
-    FieldSpec("isDiscountMatineePriced", "ticketing", None, "pricing_ticket_offer", RECOMMEND_SEPARATE, "Discarded"),
-    FieldSpec("discountMatineeMessage", "ticketing", None, "pricing_ticket_offer", RECOMMEND_SEPARATE, "Discarded"),
-    FieldSpec("isDiscountDaysEligible", "ticketing", None, "pricing_ticket_offer", RECOMMEND_SEPARATE, "Discarded"),
-    FieldSpec("estimatedFees", "ticketing", None, "pricing_ticket_offer", RECOMMEND_SEPARATE, "Discarded"),
-    FieldSpec("ticketPrices", "ticketing", None, "pricing_ticket_offer", RECOMMEND_SEPARATE, "Discarded; keep separate from presentation_attributes"),
-    FieldSpec("attributes", "presentation", None, "showtime", RECOMMEND_CAPTURE, "API attributes[] discarded; critical for presentation_attributes"),
-    FieldSpec("languages", "presentation", None, "showtime", RECOMMEND_CAPTURE, "Discarded; needed for dubbed/subtitled"),
-    FieldSpec("languages.spoken", "presentation", None, "showtime", RECOMMEND_CAPTURE, "Nested under languages"),
-    FieldSpec("languages.dubbedOver", "presentation", None, "showtime", RECOMMEND_CAPTURE, "Nested under languages"),
-    FieldSpec("languages.subtitle", "presentation", None, "showtime", RECOMMEND_CAPTURE, "Nested under languages"),
+    FieldSpec("purchaseUrl", "ticketing", "attributes.purchase_url", "pricing_ticket_offer", RECOMMEND_KEEP, "P-18A; not mapped to ticket_url_raw / public"),
+    FieldSpec("mobilePurchaseUrl", "ticketing", "attributes.mobile_purchase_url", "pricing_ticket_offer", RECOMMEND_KEEP, "P-18A raw capture"),
+    FieldSpec("isDiscountMatineePriced", "ticketing", "attributes.is_discount_matinee_priced", "pricing_ticket_offer", RECOMMEND_SEPARATE, "P-18A raw capture"),
+    FieldSpec("discountMatineeMessage", "ticketing", "attributes.discount_matinee_message", "pricing_ticket_offer", RECOMMEND_SEPARATE, "P-18A raw capture"),
+    FieldSpec("isDiscountDaysEligible", "ticketing", "attributes.is_discount_days_eligible", "pricing_ticket_offer", RECOMMEND_SEPARATE, "P-18A raw capture"),
+    FieldSpec("estimatedFees", "ticketing", "attributes.estimated_fees", "pricing_ticket_offer", RECOMMEND_SEPARATE, "P-18A raw capture"),
+    FieldSpec("ticketPrices", "ticketing", "attributes.ticket_prices", "pricing_ticket_offer", RECOMMEND_SEPARATE, "P-18A; keep separate from presentation_attributes"),
+    FieldSpec("attributes", "presentation", "attributes.amc_attributes", "showtime", RECOMMEND_KEEP, "AMC source attributes[] as amc_attributes"),
+    FieldSpec("languages", "presentation", "attributes.languages", "showtime", RECOMMEND_KEEP, "P-18A nested spoken/dubbed_over/subtitle"),
+    FieldSpec("languages.spoken", "presentation", "attributes.languages.spoken", "showtime", RECOMMEND_KEEP, "Nested under attributes.languages"),
+    FieldSpec("languages.dubbedOver", "presentation", "attributes.languages.dubbed_over", "showtime", RECOMMEND_KEEP, "Nested under attributes.languages"),
+    FieldSpec("languages.subtitle", "presentation", "attributes.languages.subtitle", "showtime", RECOMMEND_KEEP, "Nested under attributes.languages"),
     FieldSpec("media.posterDynamic", "media", "poster_url_raw", "amc_movie_product", RECOMMEND_KEEP),
-    FieldSpec("media.heroDesktopDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Discarded"),
-    FieldSpec("media.heroMobileDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Discarded"),
-    FieldSpec("media.posterAlternateDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Discarded"),
-    FieldSpec("media.poster3DDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Discarded"),
-    FieldSpec("media.posterIMAXDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Discarded"),
-    FieldSpec("media.trailerTeaserDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Discarded"),
-    FieldSpec("media.trailerAlternateDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Discarded"),
-    FieldSpec("media.posterDynamic180X74", "media", None, "amc_movie_product", RECOMMEND_LOW, "Discarded"),
-    FieldSpec("_links", "links", None, "unknown", RECOMMEND_LOW, "Not retained; inventory only if capture expands"),
+    FieldSpec("media.heroDesktopDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Deferred to source catalog / product media"),
+    FieldSpec("media.heroMobileDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Deferred to source catalog / product media"),
+    FieldSpec("media.posterAlternateDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Deferred to source catalog / product media"),
+    FieldSpec("media.poster3DDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Deferred to source catalog / product media"),
+    FieldSpec("media.posterIMAXDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Deferred to source catalog / product media"),
+    FieldSpec("media.trailerTeaserDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Deferred to source catalog / product media"),
+    FieldSpec("media.trailerAlternateDynamic", "media", None, "amc_movie_product", RECOMMEND_LOW, "Deferred to source catalog / product media"),
+    FieldSpec("media.posterDynamic180X74", "media", None, "amc_movie_product", RECOMMEND_LOW, "Deferred to source catalog / product media"),
+    FieldSpec("_links", "links", None, "unknown", RECOMMEND_LOW, "Deferred; avoid unbounded link envelopes"),
 )
 
 
@@ -322,20 +323,77 @@ def _normalize_attr_item(item: Any) -> dict[str, str | None]:
 
 def analyze_api_attributes(payloads: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     """Inventory and classify attributes[] from synthetic/full API payloads."""
-    by_key: dict[tuple[str, str], dict[str, Any]] = {}
-    malformed = 0
+    return _analyze_attribute_items(
+        _iter_api_attribute_contexts(payloads),
+        source="api_payload_fixtures",
+        empty_note=(
+            "Attribute inventory from optional API payload fixtures. "
+            "Prefer scrape-log attributes.amc_attributes when P-18A logs are present."
+        ),
+    )
+
+
+def analyze_log_attributes(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Inventory and classify attributes.amc_attributes from scrape-log records."""
+    return _analyze_attribute_items(
+        _iter_log_attribute_contexts(records),
+        source="scrape_logs",
+        empty_note=(
+            "No attributes.amc_attributes found in scrape logs "
+            "(pre-P-18A logs or empty capture)."
+        ),
+    )
+
+
+def _iter_api_attribute_contexts(
+    payloads: Sequence[Mapping[str, Any]],
+) -> Iterable[tuple[Any, str, str, str, Any, Mapping[str, Any]]]:
     for show in payloads:
         attrs = show.get("attributes")
-        if attrs is None:
-            continue
-        if not isinstance(attrs, list):
-            malformed += 1
-            continue
         movie_id = str(show.get("movieId") or "")
         theater = str(show.get("theatreId") or show.get("theaterId") or "")
         title = str(show.get("movieName") or "")
         premium = show.get("premiumFormat")
         languages = show.get("languages") if isinstance(show.get("languages"), Mapping) else {}
+        yield attrs, movie_id, theater, title, premium, languages
+
+
+def _iter_log_attribute_contexts(
+    records: Sequence[Mapping[str, Any]],
+) -> Iterable[tuple[Any, str, str, str, Any, Mapping[str, Any]]]:
+    for row in records:
+        attrs = _dig(row, "attributes.amc_attributes")
+        movie_id = str(_dig(row, "attributes.movie_id") or "")
+        theater = str(_dig(row, "attributes.theatre_id") or row.get("theater_name_raw") or "")
+        title = str(row.get("title_raw") or "")
+        premium = row.get("format_raw") or _dig(row, "attributes.premium_format_raw")
+        languages_raw = _dig(row, "attributes.languages")
+        languages: Mapping[str, Any] = {}
+        if isinstance(languages_raw, Mapping):
+            languages = {
+                "spoken": languages_raw.get("spoken"),
+                "dubbedOver": languages_raw.get("dubbed_over"),
+                "subtitle": languages_raw.get("subtitle"),
+            }
+        yield attrs, movie_id, theater, title, premium, languages
+
+
+def _analyze_attribute_items(
+    contexts: Iterable[tuple[Any, str, str, str, Any, Mapping[str, Any]]],
+    *,
+    source: str,
+    empty_note: str,
+) -> dict[str, Any]:
+    by_key: dict[tuple[str, str], dict[str, Any]] = {}
+    malformed = 0
+    saw_any_container = False
+    for attrs, movie_id, theater, title, premium, languages in contexts:
+        if attrs is None:
+            continue
+        saw_any_container = True
+        if not isinstance(attrs, list):
+            malformed += 1
+            continue
         for item in attrs:
             normalized = _normalize_attr_item(item)
             if normalized["code"] is None and normalized["name"] is None:
@@ -401,48 +459,98 @@ def analyze_api_attributes(payloads: Sequence[Mapping[str, Any]]) -> dict[str, A
                 "co_occurring_dubbed": sorted(row["dubbed_languages"]),
                 "co_occurring_subtitles": sorted(row["subtitle_languages"]),
                 "representative_titles": sorted(row["representative_titles"])[:5],
-                "source": "api_payload_fixtures",
+                "source": source,
             }
         )
     rows.sort(key=lambda item: (-int(item["occurrence_count"]), str(item["code"] or ""), str(item["name"] or "")))
     category_counts = Counter(str(item["category"]) for item in rows)
+    note = empty_note
+    if rows:
+        note = (
+            f"Attribute inventory from {source}. "
+            "Taxonomy is audit-only; production mapping does not classify codes."
+        )
+    elif not saw_any_container:
+        note = empty_note
     return {
         "unique_attributes": len(rows),
         "malformed_attribute_items": malformed,
         "category_counts": {key: category_counts.get(key, 0) for key in ATTR_CATEGORIES},
         "attributes": rows,
-        "note": (
-            "Attribute inventory from optional API payload fixtures. "
-            "Committed AMC scrape logs do not retain API attributes[]."
-        ),
+        "note": note,
     }
 
 
 def analyze_languages(payloads: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
-    """Summarize languages.* from API payloads (fixture or future capture)."""
-    total = len(payloads)
+    """Summarize languages.* from API payloads (fixture or live-shaped)."""
+    return _analyze_language_maps(
+        [
+            (
+                str(show.get("movieId") or ""),
+                show.get("languages") if isinstance(show.get("languages"), Mapping) else None,
+                "spoken",
+                "dubbedOver",
+                "subtitle",
+            )
+            for show in payloads
+        ],
+        note=(
+            "Language objects from API payload fixtures. "
+            "Prefer scrape-log attributes.languages when P-18A logs are present."
+        ),
+    )
+
+
+def analyze_log_languages(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Summarize attributes.languages from scrape-log records."""
+    return _analyze_language_maps(
+        [
+            (
+                str(_dig(row, "attributes.movie_id") or ""),
+                _dig(row, "attributes.languages")
+                if isinstance(_dig(row, "attributes.languages"), Mapping)
+                else None,
+                "spoken",
+                "dubbed_over",
+                "subtitle",
+            )
+            for row in records
+        ],
+        note=(
+            "Language objects from scrape-log attributes.languages (P-18A). "
+            "Empty arrays and nulls are preserved distinctly from missing keys."
+        ),
+    )
+
+
+def _analyze_language_maps(
+    rows: Sequence[tuple[str, Mapping[str, Any] | None, str, str, str]],
+    *,
+    note: str,
+) -> dict[str, Any]:
+    total = len(rows)
     spoken_values: Counter[str] = Counter()
     dubbed_values: Counter[str] = Counter()
     subtitle_values: Counter[str] = Counter()
     present = 0
     by_movie: dict[str, set[str]] = defaultdict(set)
-    for show in payloads:
-        languages = show.get("languages")
+    for movie_id, languages, spoken_key, dubbed_key, subtitle_key in rows:
         if not isinstance(languages, Mapping):
             continue
         present += 1
-        movie_id = str(show.get("movieId") or "")
-        for key, counter in (
-            ("spoken", spoken_values),
-            ("dubbedOver", dubbed_values),
-            ("subtitle", subtitle_values),
+        for key, counter, label in (
+            (spoken_key, spoken_values, "spoken"),
+            (dubbed_key, dubbed_values, "dubbedOver"),
+            (subtitle_key, subtitle_values, "subtitle"),
         ):
+            if key not in languages:
+                continue
             value = languages.get(key)
             if value not in (None, ""):
                 text = str(value).strip()
                 counter[text] += 1
                 if movie_id:
-                    by_movie[movie_id].add(f"{key}={text}")
+                    by_movie[movie_id].add(f"{label}={text}")
     varying_movies = sum(1 for values in by_movie.values() if len(values) > 1)
     return {
         "payloads_examined": total,
@@ -458,10 +566,7 @@ def analyze_languages(payloads: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
             "derived presentation attribute: dubbed",
             "derived presentation attribute: subtitled",
         ],
-        "note": (
-            "Language objects are not retained in committed scrape logs; "
-            "figures below are fixture/API-payload based when fixtures are supplied."
-        ),
+        "note": note,
     }
 
 
@@ -556,7 +661,6 @@ def _path_exists(row: Mapping[str, Any], path: str) -> bool:
 
 def analyze_identity(records_by_file: Mapping[str, Sequence[Mapping[str, Any]]]) -> dict[str, Any]:
     """Evaluate candidate showtime identities from captured log fields."""
-    # Flatten with file date tags.
     rows: list[dict[str, Any]] = []
     for file_label, records in records_by_file.items():
         for row in records:
@@ -564,19 +668,27 @@ def analyze_identity(records_by_file: Mapping[str, Sequence[Mapping[str, Any]]])
                 {
                     "file": file_label,
                     "id": str(row.get("source_showtime_id") or "").strip() or None,
-                    "theater": str(row.get("theater_name_raw") or "").strip() or None,
-                    "movie_id": str(_dig(row, "attributes.movie_id") or "").strip() or None,
+                    "performance_number": (
+                        str(_dig(row, "attributes.performance_number")).strip()
+                        if _dig(row, "attributes.performance_number") not in (None, "")
+                        else None
+                    ),
+                    "theatre_id": (
+                        str(_dig(row, "attributes.theatre_id")).strip()
+                        if _dig(row, "attributes.theatre_id") not in (None, "")
+                        else None
+                    ),
                     "date_raw": str(row.get("date_raw") or "").strip() or None,
                     "time_raw": str(row.get("time_raw") or "").strip() or None,
+                    "theater": str(row.get("theater_name_raw") or "").strip() or None,
+                    "movie_id": str(_dig(row, "attributes.movie_id") or "").strip() or None,
                     "title": str(row.get("title_raw") or "").strip() or None,
                     "canceled": row.get("canceled"),
                 }
             )
 
     total = len(rows)
-    id_values = [r["id"] for r in rows]
-    id_non_null = sum(1 for value in id_values if value)
-    id_counter = Counter(value for value in id_values if value)
+    id_non_null = sum(1 for row in rows if row["id"])
     id_dups_within_files: dict[str, int] = {}
     for file_label, records in records_by_file.items():
         counter = Counter(
@@ -586,18 +698,40 @@ def analyze_identity(records_by_file: Mapping[str, Sequence[Mapping[str, Any]]])
         )
         id_dups_within_files[file_label] = sum(1 for count in counter.values() if count > 1)
 
-    # Cross-day stability: same id seen on multiple files with same theater/time.
     appearances: dict[str, set[str]] = defaultdict(set)
     for row in rows:
         if row["id"]:
             appearances[row["id"]].add(row["file"])
     multi_day_ids = sum(1 for files in appearances.values() if len(files) > 1)
 
-    candidate_d = Counter()
+    candidate_d: Counter[str] = Counter()
     for row in rows:
         if row["theater"] and row["movie_id"] and row["date_raw"] and row["time_raw"]:
-            key = f"{row['theater']}|{row['movie_id']}|{row['date_raw']}|{row['time_raw']}"
+            key = "|".join(
+                [row["theater"], row["movie_id"], row["date_raw"], row["time_raw"]]
+            )
             candidate_d[key] += 1
+
+    perf_non_null = sum(1 for row in rows if row["performance_number"])
+    theatre_non_null = sum(1 for row in rows if row["theatre_id"])
+    composite_c: Counter[str] = Counter()
+    composite_e: Counter[str] = Counter()
+    for row in rows:
+        if row["theatre_id"] and row["performance_number"]:
+            composite_c["|".join([row["theatre_id"], row["performance_number"]])] += 1
+            if row["date_raw"] and row["time_raw"]:
+                composite_e[
+                    "|".join(
+                        [
+                            row["theatre_id"],
+                            row["performance_number"],
+                            row["date_raw"],
+                            row["time_raw"],
+                        ]
+                    )
+                ] += 1
+    perf_available = perf_non_null > 0
+    theatre_available = theatre_non_null > 0
 
     return {
         "records_examined": total,
@@ -613,13 +747,24 @@ def analyze_identity(records_by_file: Mapping[str, Sequence[Mapping[str, Any]]])
             },
             {
                 "candidate": "B: performanceNumber",
-                "available_in_logs": False,
-                "notes": "Discarded by api_showtime_to_raw; cannot evaluate from committed logs.",
+                "available_in_logs": perf_available,
+                "non_null_count": perf_non_null,
+                "notes": (
+                    "Captured as attributes.performance_number (P-18A)."
+                    if perf_available
+                    else "Not present in these logs (pre-P-18A or unset by API)."
+                ),
             },
             {
                 "candidate": "C: (theatreId, performanceNumber)",
-                "available_in_logs": False,
-                "notes": "theatreId and performanceNumber both discarded.",
+                "available_in_logs": perf_available and theatre_available,
+                "non_null_composite_count": sum(composite_c.values()),
+                "duplicate_composites": sum(1 for count in composite_c.values() if count > 1),
+                "notes": (
+                    "Both theatre_id and performance_number available (P-18A)."
+                    if perf_available and theatre_available
+                    else "Requires both attributes.theatre_id and attributes.performance_number."
+                ),
             },
             {
                 "candidate": "D: (theater_name_raw, movie_id, date_raw, time_raw)",
@@ -630,16 +775,21 @@ def analyze_identity(records_by_file: Mapping[str, Sequence[Mapping[str, Any]]])
             },
             {
                 "candidate": "E: theatreId + performanceNumber + showDateTimeLocal",
-                "available_in_logs": False,
-                "notes": "Required fields discarded by current adapter.",
+                "available_in_logs": perf_available and theatre_available,
+                "non_null_composite_count": sum(composite_e.values()),
+                "duplicate_composites": sum(1 for count in composite_e.values() if count > 1),
+                "notes": (
+                    "Uses captured theatre_id, performance_number, and local date/time (P-18A)."
+                    if perf_available and theatre_available
+                    else "Requires theatreId + performanceNumber capture."
+                ),
             },
         ],
         "recommendation": (
-            "Prefer AMC showtime `id` (already mapped to source_showtime_id) as the primary "
-            "source-showtime identity once confirmed stable across multi-day snapshots. "
-            "Capture performanceNumber + theatreId next so composite fallbacks exist if ids churn."
+            "Prefer AMC showtime id (source_showtime_id) as the primary identity. "
+            "Use performanceNumber + theatreId as supplementary evidence; do not replace AMC id."
         ),
-        "performance_number_status": "not_captured",
+        "performance_number_status": "captured" if perf_available else "not_captured",
     }
 
 
@@ -751,32 +901,105 @@ def build_showtimes_field_audit(
     missing = [row for row in field_rows if row["capture_status"] == "not_captured_in_scrape_log"]
 
     payloads = list(api_payloads or [])
-    attribute_analysis = analyze_api_attributes(payloads) if payloads else {
-        "unique_attributes": 0,
-        "malformed_attribute_items": 0,
-        "category_counts": {key: 0 for key in ATTR_CATEGORIES},
-        "attributes": [],
-        "note": (
-            "No API payload fixtures supplied. Committed scrape logs do not retain "
-            "attributes[]; taxonomy inventory is empty until capture expands or fixtures are passed."
-        ),
+    log_attribute_analysis = analyze_log_attributes(all_records)
+    api_attribute_analysis = (
+        analyze_api_attributes(payloads)
+        if payloads
+        else {
+            "unique_attributes": 0,
+            "malformed_attribute_items": 0,
+            "category_counts": {key: 0 for key in ATTR_CATEGORIES},
+            "attributes": [],
+            "note": "No API payload fixtures supplied.",
+        }
+    )
+    if log_attribute_analysis["unique_attributes"] > 0 or any(
+        _dig(row, "attributes.amc_attributes") is not None for row in all_records
+    ):
+        attribute_analysis = log_attribute_analysis
+        if api_attribute_analysis["unique_attributes"] > 0:
+            attribute_analysis = dict(attribute_analysis)
+            attribute_analysis["api_fixture_unique_attributes"] = api_attribute_analysis[
+                "unique_attributes"
+            ]
+    else:
+        attribute_analysis = api_attribute_analysis
+        if not payloads:
+            attribute_analysis = {
+                **api_attribute_analysis,
+                "note": (
+                    "No API payload fixtures supplied and scrape logs lack "
+                    "attributes.amc_attributes (pre-P-18A)."
+                ),
+            }
+
+    log_language_analysis = analyze_log_languages(all_records)
+    if log_language_analysis["languages_object_present"] > 0:
+        language_analysis = log_language_analysis
+    elif payloads:
+        language_analysis = analyze_languages(payloads)
+    else:
+        language_analysis = {
+            "payloads_examined": len(all_records),
+            "languages_object_present": 0,
+            "spoken_distinct": {},
+            "dubbed_over_distinct": {},
+            "subtitle_distinct": {},
+            "movies_with_varying_language_across_showtimes": 0,
+            "recommended_concepts": [
+                "spoken_language",
+                "dubbed_language",
+                "subtitle_language",
+                "derived presentation attribute: dubbed",
+                "derived presentation attribute: subtitled",
+            ],
+            "note": (
+                "attributes.languages not present in these scrape logs "
+                "(pre-P-18A); supply --api-payloads for fixture analysis."
+            ),
+        }
+
+    perf_numbers = {
+        str(_dig(row, "attributes.performance_number"))
+        for row in all_records
+        if _dig(row, "attributes.performance_number") not in (None, "")
     }
-    language_analysis = analyze_languages(payloads) if payloads else {
-        "payloads_examined": 0,
-        "languages_object_present": 0,
-        "spoken_distinct": {},
-        "dubbed_over_distinct": {},
-        "subtitle_distinct": {},
-        "movies_with_varying_language_across_showtimes": 0,
-        "recommended_concepts": [
-            "spoken_language",
-            "dubbed_language",
-            "subtitle_language",
-            "derived presentation attribute: dubbed",
-            "derived presentation attribute: subtitled",
-        ],
-        "note": "languages not present in committed scrape logs; supply --api-payloads for fixture analysis.",
-    }
+    ticket_prices_present = sum(
+        1
+        for row in all_records
+        if isinstance(_dig(row, "attributes.ticket_prices"), list)
+    )
+    auditorium_present = sum(
+        1 for row in all_records if _dig(row, "attributes.auditorium") not in (None, "")
+    )
+
+    def _field_present(api_path: str) -> int:
+        return next(
+            (int(row["present_count"]) for row in field_rows if row["api_path"] == api_path),
+            0,
+        )
+
+    amc_attrs_in_sample = _field_present("attributes") > 0
+    languages_in_sample = _field_present("languages") > 0
+    critical_presentation_missing = [
+        row["api_path"]
+        for row in field_rows
+        if row["api_path"]
+        in {
+            "attributes",
+            "languages",
+            "languages.spoken",
+            "languages.dubbedOver",
+            "languages.subtitle",
+        }
+        and row["present_count"] == 0
+    ]
+    critical_identity_missing = [
+        row["api_path"]
+        for row in field_rows
+        if row["api_path"] in {"performanceNumber", "theatreId"}
+        and row["present_count"] == 0
+    ]
 
     report = {
         "schema_version": SCHEMA_VERSION,
@@ -796,7 +1019,7 @@ def build_showtimes_field_audit(
         "counts": {
             "raw_showtime_records": len(all_records),
             "distinct_source_showtime_ids": len(showtime_ids),
-            "distinct_performance_numbers": None,
+            "distinct_performance_numbers": len(perf_numbers) if perf_numbers else 0,
             "distinct_movie_ids": len(movie_ids),
             "distinct_theaters": len(theaters),
             "malformed_records_skipped": len(skip_reasons),
@@ -806,21 +1029,17 @@ def build_showtimes_field_audit(
             "documented_fields": len(FIELD_SPECS),
             "captured_in_scrape_logs": len(captured),
             "not_captured_in_scrape_logs": len(missing),
-            "critical_missing_for_presentation_attributes": [
-                "attributes",
-                "languages",
-                "languages.spoken",
-                "languages.dubbedOver",
-                "languages.subtitle",
-            ],
-            "critical_missing_for_identity_fallbacks": [
-                "performanceNumber",
-                "theatreId",
-            ],
+            "critical_missing_for_presentation_attributes": critical_presentation_missing,
+            "critical_missing_for_identity_fallbacks": critical_identity_missing,
             "adapter_note": (
-                "reel_seattle.adapters.amc.api_showtime_to_raw retains a subset of the AMC "
-                "Showtimes API object. Full attributes[], languages, ticketPrices, auditorium, "
-                "and performanceNumber are discarded before scrape-log write."
+                "P-18A expands api_showtime_to_raw to retain amc_attributes, languages, "
+                "identity fallbacks, pricing, auditorium/layout, and availability fields in "
+                "record.attributes. Older logs may still lack these keys."
+                if amc_attrs_in_sample or languages_in_sample
+                else (
+                    "Current adapter maps expanded P-18A fields, but this log sample has no "
+                    "populated attributes.amc_attributes / languages values (pre-P-18A logs)."
+                )
             ),
         },
         "field_population": field_rows,
@@ -829,16 +1048,25 @@ def build_showtimes_field_audit(
         "language_analysis": language_analysis,
         "identity_analysis": analyze_identity(records_by_file),
         "pricing_analysis": {
-            "available_in_logs": False,
-            "note": "ticketPrices[] discarded by adapter; cannot audit production logs.",
+            "available_in_logs": ticket_prices_present > 0,
+            "records_with_ticket_prices": ticket_prices_present,
+            "note": (
+                "ticketPrices retained as attributes.ticket_prices (P-18A)."
+                if ticket_prices_present
+                else "ticketPrices[] not present in these logs (pre-P-18A or unset)."
+            ),
             "recommendation": (
-                "If pricing is pursued later, preserve raw ticket-offer rows plus derived "
-                "summaries; keep separate from presentation_attributes[]."
+                "Keep raw ticket-offer rows for audit; do not expose prices publicly or "
+                "fold them into presentation_attributes[]."
             ),
             "fixture_summary": _pricing_from_payloads(payloads) if payloads else None,
+            "log_summary": _pricing_from_log_records(all_records),
         },
         "auditorium_analysis": {
-            "available_in_logs": False,
+            "available_in_logs": auditorium_present > 0
+            or any(
+                _dig(row, "attributes.layout_id") not in (None, "") for row in all_records
+            ),
             "maximum_intended_attendance_non_empty": next(
                 (
                     row["non_empty_count"]
@@ -847,27 +1075,35 @@ def build_showtimes_field_audit(
                 ),
                 0,
             ),
-            "note": "auditorium/layout/virtualAuditoriumId discarded; only maximumIntendedAttendance sometimes retained.",
+            "note": (
+                "auditorium/layout/virtualAuditoriumId retained under attributes.* (P-18A)."
+                if auditorium_present
+                else "auditorium/layout fields not present in these logs (pre-P-18A or unset)."
+            ),
             "recommendation": (
                 "Capture auditorium + layoutId before deciding on an auditorium entity. "
                 "Attendance alone is insufficient."
             ),
             "fixture_summary": _auditorium_from_payloads(payloads) if payloads else None,
+            "log_summary": _auditorium_from_log_records(all_records),
         },
         "embargo_availability_analysis": {
             "isCanceled_captured": True,
             "isAlmostSoldOut_captured": True,
-            "isSoldOut_captured": False,
-            "isEmbargoed_captured": False,
-            "embargoed_captured": False,
-            "visibilityDateTimeUtc_captured": False,
+            "isSoldOut_captured": _field_present("isSoldOut") > 0,
+            "isEmbargoed_captured": _field_present("isEmbargoed") > 0,
+            "embargoed_captured": _field_present("embargoed") > 0,
+            "visibilityDateTimeUtc_captured": _field_present("visibilityDateTimeUtc") > 0,
             "canceled_true_count": sum(1 for row in all_records if row.get("canceled") is True),
             "almost_sold_out_true_count": sum(
                 1 for row in all_records if row.get("almost_sold_out") is True
             ),
+            "sold_out_true_count": sum(
+                1 for row in all_records if _dig(row, "attributes.is_sold_out") is True
+            ),
             "recommendation": (
                 "Preserve isSoldOut, isEmbargoed/embargoed, visibilityDateTimeUtc, and "
-                "sellUntilDateTimeUtc (already partial) as operational showtime fields — "
+                "sellUntilDateTimeUtc as operational showtime fields — "
                 "not presentation_attributes."
             ),
         },
@@ -925,21 +1161,62 @@ def build_showtimes_field_audit(
                 ],
             },
             "blocker": (
-                "Production scrape logs do not currently retain attributes[] or languages; "
-                "expand api_showtime_to_raw capture before implementing presentation_attributes[]."
+                None
+                if amc_attrs_in_sample and languages_in_sample
+                else (
+                    "This log sample does not yet contain populated attributes.amc_attributes "
+                    "and languages; accumulate P-18A expanded production logs before implementing "
+                    "presentation_attributes[]."
+                )
             ),
         },
         "warnings": _build_warnings(field_rows, attribute_analysis, skip_reasons),
         "recommendations": [
-            "Expand AMC scrape-log capture to retain attributes[], languages, performanceNumber, theatreId, auditorium/layout, isSoldOut, and embargo/visibility fields.",
+            "Accumulate multiple daily logs with P-18A expanded fields before taxonomy conclusions.",
+            "Rerun this audit on real production observations for attribute codes, languages, pricing, and auditorium.",
             "Keep premiumFormat raw even after presentation_attributes derivation.",
-            "Use source_showtime_id (AMC id) as the leading identity candidate; capture performanceNumber as fallback evidence.",
-            "Do not implement presentation_attributes[] until attributes[]/languages are retained in logs or an equivalent source.",
-            "Next task: either (1) define the versioned presentation_attributes contract after a capture-expansion spike, or (2) audit SIFF/Beacon ingestion behavior read-only.",
+            "Use source_showtime_id (AMC id) as the leading identity; treat performanceNumber as fallback evidence.",
+            "Define versioned presentation_attributes[] only after sufficient expanded-log evidence.",
         ],
     }
     assert_no_secret_leakage(report)
     return report
+
+
+def _pricing_from_log_records(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    present = 0
+    types: Counter[str] = Counter()
+    for row in records:
+        prices = _dig(row, "attributes.ticket_prices")
+        if isinstance(prices, list) and prices:
+            present += 1
+            for item in prices:
+                if isinstance(item, Mapping):
+                    ticket_type = item.get("ticketType") or item.get("type")
+                    if ticket_type not in (None, ""):
+                        types[str(ticket_type)] += 1
+    return {
+        "records_with_ticket_prices": present,
+        "ticket_types": dict(types.most_common(20)),
+    }
+
+
+def _auditorium_from_log_records(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    auditoriums = Counter(
+        str(_dig(row, "attributes.auditorium"))
+        for row in records
+        if _dig(row, "attributes.auditorium") not in (None, "")
+    )
+    layouts = Counter(
+        str(_dig(row, "attributes.layout_id"))
+        for row in records
+        if _dig(row, "attributes.layout_id") not in (None, "")
+    )
+    return {
+        "distinct_auditoriums": len(auditoriums),
+        "distinct_layout_ids": len(layouts),
+        "top_auditoriums": auditoriums.most_common(10),
+    }
 
 
 def _pricing_from_payloads(payloads: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
@@ -983,15 +1260,25 @@ def _build_warnings(
     attribute_analysis: Mapping[str, Any],
     skip_reasons: Sequence[str],
 ) -> list[str]:
-    warnings = [
-        "Committed AMC scrape logs are a subset of the Showtimes API payload.",
-        "API attributes[] and languages are not available in production logs.",
-    ]
+    amc_attrs_in_sample = any(
+        row["api_path"] == "attributes" and int(row.get("present_count") or 0) > 0
+        for row in field_rows
+    )
+    warnings: list[str] = []
+    if amc_attrs_in_sample:
+        warnings.append(
+            "P-18A expanded fields are present in scrape logs; older logs may still lack them."
+        )
+    else:
+        warnings.append(
+            "This log sample lacks populated attributes.amc_attributes "
+            "(pre-P-18A logs or empty capture)."
+        )
     if skip_reasons:
         warnings.append(f"Skipped {len(skip_reasons)} malformed records.")
     unknown = int((attribute_analysis.get("category_counts") or {}).get(ATTR_UNKNOWN) or 0)
     if unknown:
-        warnings.append(f"{unknown} fixture attributes classified as unknown (needs review).")
+        warnings.append(f"{unknown} attributes classified as unknown (needs review).")
     high_missing = [
         row["api_path"]
         for row in field_rows
@@ -1000,7 +1287,8 @@ def _build_warnings(
     ]
     if high_missing:
         warnings.append(
-            "High-value documented fields missing from logs: " + ", ".join(high_missing[:12])
+            "High-value documented fields missing from adapter mapping: "
+            + ", ".join(high_missing[:12])
         )
     return warnings
 

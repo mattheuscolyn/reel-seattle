@@ -53,6 +53,7 @@ Public UI must not change merely because new source fields are captured.
 | Daily catalog integration design | `Complete` | [amc-source-catalog-daily-integration.md](./amc-source-catalog-daily-integration.md) |
 | Daily catalog workflow wiring (P-14D) | `Complete` | Non-blocking late stage; `all-active`; atomic promotion; same generated-data commit |
 | AMC Showtimes field audit (P-15A) | `Complete` | [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) — log capture gap + fixture taxonomy |
+| AMC Showtimes raw-capture expansion (P-18A) | `Complete` | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) — expand daily-log attributes |
 | SIFF/Beacon ingestion audit (P-16A) | `Complete` | [independent-theater-ingestion-audit.md](./independent-theater-ingestion-audit.md) |
 | Indie restatement completeness guard (P-16B) | `Complete` | Partial/structural-empty scrapes cannot wipe future rows |
 | Independent source observation contract (P-16C) | `Complete` | [independent-source-observation-contract.md](./independent-source-observation-contract.md) · v1.0.0 |
@@ -90,7 +91,9 @@ Public UI must not change merely because new source fields are captured.
 | — | Align Beacon only where necessary | `Planned` | P-16C | Minimal contract alignment |
 | — | NWFF production monitoring | `Planned` | P-16H | Mismatch rate, unsafe frequency, off-site rejects |
 | — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
-| — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Next` | P-15A | Parallel AMC track |
+| — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Complete` (P-18A) | P-15A | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) |
+| — | Rerun AMC field/taxonomy audit on expanded production logs | `Next` | P-18A | ≥2 expanded daily logs before taxonomy conclusions |
+| — | Define versioned `presentation_attributes[]` contract | `Deferred` | audit evidence | After real attribute/language inventory |
 
 ---
 
@@ -121,25 +124,30 @@ Measurement-only audits. Do not change production scrape fields until an explici
 | Item | Status | Notes |
 |------|--------|-------|
 | P-15A field population + taxonomy tooling | `Complete` | [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) |
-| Production `attributes[]` / `languages` measurement | `Blocked` / `Planned` | Not retained in scrape logs today — expand adapter capture first |
-| Showtime identity (`id` vs `performanceNumber`) | `Partial` | `source_showtime_id` looks strong in logs; `performanceNumber` not captured |
-| Pricing / auditorium / embargo depth | `Partial` | Documented as missing from logs; fixture classifiers ready |
+| P-18A expand scrape-log capture | `Complete` | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) |
+| Production `attributes[]` / `languages` measurement | `Ready` / `Observation` | Mapped in logs; accumulate ≥2 expanded days |
+| Showtime identity (`id` vs `performanceNumber`) | `Ready` / `Observation` | Both retained; confirm stability across days |
+| Pricing / auditorium / embargo depth | `Ready` / `Observation` | Retained under `attributes.*`; no public exposure |
 
 ### Showtime field-population audit — `Complete` (log-based)
 
 P-15A measured documented API fields against committed scrape logs and recorded the capture gap. High-value retained fields include `id`→`source_showtime_id`, `movieId`, `premiumFormat`, cancel/almost-sold-out, sell-until, genre/runtime/poster.
 
-### Showtime identity audit — `Partial`
+### P-18A raw-capture expansion — `Complete`
 
-`source_showtime_id` is fully populated in recent logs with no typical same-day duplicates. `performanceNumber` / `theatreId` remain uncaptured — needed for composite fallbacks.
+Expanded `api_showtime_to_raw` preserves `amc_attributes`, languages, `performanceNumber`/`theatreId`, ticket prices, auditorium/layout, and availability flags inside `record.attributes`. Schema version remains `1.0.0`. History/public output unchanged.
 
-### Attribute-code taxonomy audit — `Partial`
+### Showtime identity audit — `Observation`
 
-Classifier + fixture inventory shipped. Production attribute codes cannot be inventoried until `attributes[]` is retained in scrape logs.
+`source_showtime_id` remains primary. `performanceNumber` / `theatreId` are now retained as supplementary evidence.
 
-### Language / pricing / auditorium audits — `Partial`
+### Attribute-code taxonomy audit — `Observation`
 
-Same blocker: fields discarded by `api_showtime_to_raw`. Fixture analysis documents intended future measurement.
+Classifier + fixture inventory shipped. Production attribute codes can be inventoried once expanded logs accumulate (≥2 days).
+
+### Language / pricing / auditorium audits — `Observation`
+
+Same: fields retained by P-18A; measure on real production logs before designing presentation attributes.
 
 ---
 
@@ -209,9 +217,9 @@ Prefer an extensible structured collection, for example:
 * Final display collections may combine both grains without losing provenance.
 * Pricing, ticket status, and auditorium data do **not** belong in this collection.
 
-**Depends on:** expanded scrape-log capture of `attributes[]` / `languages` (see P-15A) + product acceptance  
+**Depends on:** expanded scrape-log capture of `attributes[]` / `languages` (P-18A complete; observe ≥2 production days) + product acceptance
 **Related product grain work:** AMC source catalog presentation classifier (product-level only today)
-**P-15A note:** Architecture direction confirmed; production implementation blocked until capture expands.
+**P-15A / P-18A note:** Architecture direction confirmed; production implementation waits for real expanded-log evidence.
 
 ---
 
@@ -250,7 +258,8 @@ Prefer an extensible structured collection, for example:
 **P-17B design:** [central-cinema-production-integration-design.md](./central-cinema-production-integration-design.md) — source key `central_cinema`; mandatory showing IDs; Option C logs.  
 **P-17C mapping:** [central-cinema-contract-mapping.md](./central-cinema-contract-mapping.md) — registry `central-cinema`; offline contract→indie mapper; site-scoped venue proof.  
 **P-17D adapter:** [central-cinema-production-adapter.md](./central-cinema-production-adapter.md) — production adapter + manual/scheduled paths.  
-**P-17E:** Central live in daily pipeline; history `source_showtime_id`; public/pipeline enums. Next major task: expand AMC scrape-log capture.
+**P-17E:** Central live in daily pipeline; history `source_showtime_id`; public/pipeline enums.  
+**P-18A:** AMC showtime raw-log capture expanded. Next: rerun field/taxonomy audit on ≥2 expanded production logs.
 
 ### Confirmed SIFF/Beacon drift (P-16A)
 
@@ -339,7 +348,7 @@ Prototype (P-17A) and production-integration design (P-17B) shipped. Decisions:
 * P-17C–E complete: Central Cinema is a live scheduled source
 * History includes nullable `source_showtime_id` (Central populated)
 * Monitoring: SPA zero-link failures, page failures, showing-ID conflicts, unsafe-run frequency
-* Preferred next: expand AMC Showtimes scrape-log capture for presentation-attribute audits
+* Preferred next: rerun AMC Showtimes field/taxonomy audit on expanded production logs (≥2 days)
 
 Live prototype findings retained:
 
@@ -412,6 +421,7 @@ Registry remains canonical authored data (`data/theaters.json`). Expand only wit
 
 ```text
 P-15A  AMC Showtimes field audit (capture gap)     ← Complete
+P-18A  Expand AMC scrape-log raw capture           ← Complete
 P-16A  SIFF/Beacon ingestion audit                 ← Complete
 P-16B  Indie restatement completeness guard        ← Complete
 P-16C  Independent source observation contract     ← Complete (v1.0.0)
@@ -426,7 +436,7 @@ P-17C  Central registry + offline contract→indie mapping ← Complete
 P-17D  Central adapter + manual workflow ← Complete
 P-17E  Central daily + restatement ← Complete (live source)
    ↓
-Preferred next: Expand AMC scrape-log field capture
+Preferred next: Rerun AMC field/taxonomy audit on ≥2 expanded production logs
    ↓
 Parallel: Beacon align (planned) · NWFF/Central monitoring
    ↓
