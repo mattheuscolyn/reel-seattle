@@ -538,15 +538,16 @@ Initial public Central showtimes: title, theater, date/time, runtime/year when m
 
 ## 20. Implementation sequence
 
-### P-17C — Registry + offline contract→indie mapping
+### P-17C — Registry + offline contract→indie mapping — **Complete**
 
 * Theater entry + schema source enum `central_cinema`
 * `central_cinema_mapping` Option C envelope
 * Main-venue site proof; slug → `source_film_id`; mandatory showing ID
 * Fixtures + tests
+* Doc: [central-cinema-contract-mapping.md](./central-cinema-contract-mapping.md)
 * **No** live adapter, schedule, or restatement
 
-### P-17D — Production-compatible adapter + manual workflow
+### P-17D — Production-compatible adapter + manual workflow — **Next**
 
 * Live collection adapter/CLI
 * Option C writer + validation
@@ -617,10 +618,10 @@ Factors favoring a **short** manual phase (not a long shadow):
 
 ### Plan
 
-1. P-17C offline mapping  
-2. P-17D ≥2 manual production-shaped live runs  
-3. P-17E schedule + first/second production QC  
-4. Monitor zero-link structural failures, page failures, malformed checkouts, showing-ID conflicts, discovery swings  
+1. P-17C offline mapping — **Complete**
+2. P-17D ≥2 manual production-shaped live runs — **Next**
+3. P-17E schedule + first/second production QC
+4. Monitor zero-link structural failures, page failures, malformed checkouts, showing-ID conflicts, discovery swings 
 
 ---
 
@@ -636,7 +637,7 @@ Factors favoring a **short** manual phase (not a long shadow):
 
 ## Open product decisions
 
-None blocking P-17C. Deferred:
+None blocking P-17D. Deferred:
 
 * Whether/when to emit `source_showtime_id` in public showtimes  
 * Presentation-attribute extraction from screening prose  

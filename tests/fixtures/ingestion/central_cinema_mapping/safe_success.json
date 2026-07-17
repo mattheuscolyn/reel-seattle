@@ -1,0 +1,111 @@
+{
+  "contract_version": "1.0.0",
+  "identity": {
+    "program_strategy": "canonical_url_slug",
+    "showtime_strategy": "source_showing_id"
+  },
+  "inspected_window": {
+    "complete": true,
+    "end": "2026-07-29",
+    "start": "2026-07-16"
+  },
+  "programs": [
+    {
+      "contract_version": "1.0.0",
+      "observed_at": "2026-07-16T12:00:00-07:00",
+      "program_kind": "film",
+      "raw": {
+        "calendar_title": null,
+        "cast": [
+          "John Travolta",
+          "Nicolas Cage"
+        ],
+        "dateCreated": "2024-03-01",
+        "description_paragraphs": [
+          "A classic action double-feature opener."
+        ],
+        "directors": [
+          "John Woo"
+        ],
+        "image_url": null,
+        "presentation_note": null,
+        "release_year": 1997,
+        "runtime_min": 138,
+        "schema_org": {
+          "dateCreated": "2024-03-01",
+          "name": "Face/Off"
+        }
+      },
+      "source": "central_cinema",
+      "source_program_id": "faceslashoff",
+      "source_program_url": "https://central-cinema.com/movie/faceslashoff/",
+      "source_title": "Face/Off"
+    }
+  ],
+  "rejected_observations": [],
+  "requested_window": {
+    "end": "2026-07-29",
+    "start": "2026-07-16"
+  },
+  "restate_safe": true,
+  "scraped_at": "2026-07-16T12:00:00-07:00",
+  "showtimes": [
+    {
+      "contract_version": "1.0.0",
+      "local_date": "2026-07-18",
+      "local_time": "19:00",
+      "observed_at": "2026-07-16T12:00:00-07:00",
+      "raw": {
+        "checkout_showing_segment": "3387540",
+        "source_display_date": "July 18",
+        "year_rollover_inferred": false
+      },
+      "source": "central_cinema",
+      "source_occurrence_url": "https://central-cinema.com/movie/faceslashoff/",
+      "source_program_id": "faceslashoff",
+      "source_showtime_id": "3387540",
+      "source_title": "Face/Off",
+      "theater_id": "central-cinema",
+      "ticket_url": "https://www.central-cinema.com/checkout/showing/faceslashoff/3387540",
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "contract_version": "1.0.0",
+      "local_date": "2026-07-18",
+      "local_time": "21:30",
+      "observed_at": "2026-07-16T12:00:00-07:00",
+      "raw": {
+        "checkout_showing_segment": "3387541",
+        "source_display_date": "July 18",
+        "year_rollover_inferred": false
+      },
+      "source": "central_cinema",
+      "source_occurrence_url": "https://central-cinema.com/movie/faceslashoff/",
+      "source_program_id": "faceslashoff",
+      "source_showtime_id": "3387541",
+      "source_title": "Face/Off",
+      "theater_id": "central-cinema",
+      "ticket_url": "https://www.central-cinema.com/checkout/showing/faceslashoff/3387541",
+      "timezone": "America/Los_Angeles"
+    }
+  ],
+  "source": "central_cinema",
+  "stats": {
+    "discovered_programs": 1,
+    "program_pages_failed": 0,
+    "program_pages_succeeded": 1
+  },
+  "status": "success",
+  "structural_validation": {
+    "checks": [
+      {
+        "code": "movie_page_schema_org_present",
+        "message": null,
+        "passed": true,
+        "severity": "error"
+      }
+    ],
+    "passed": true
+  },
+  "warnings": []
+}

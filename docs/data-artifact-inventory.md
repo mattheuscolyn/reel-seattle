@@ -58,6 +58,9 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `scripts/prototype_central_cinema_ingestion.py` | Central Cinema prototype CLI | Fixture or live read-only |
 | `docs/central-cinema-ingestion-prototype.md` | Central Cinema non-production prototype guide | Authored |
 | `docs/central-cinema-production-integration-design.md` | Central Cinema production integration design (P-17B) | Authored |
+| `docs/central-cinema-contract-mapping.md` | Central Cinema contract→indie mapping (P-17C) | Authored |
+| `reel_seattle/ingestion/central_cinema_mapping.py` | Central IndependentSourceResult → RawShowtime mapper | Library · offline only |
+| `scripts/map_central_cinema_contract_to_indie.py` | Offline Central mapping CLI | No network · no daily_logs |
 | `.github/workflows/central_cinema_ingestion_prototype_audit.yml` | Central Cinema prototype audit | workflow_dispatch · read-only |
 | `tests/fixtures/prototypes/central_cinema/` | Central Cinema HTML fixtures | Test fixtures · not production data |
 | `docs/nwff-production-integration-design.md` | NWFF production integration design (P-16E) | Authored |

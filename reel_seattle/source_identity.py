@@ -36,6 +36,18 @@ def source_film_id_from_history_row(row: Mapping[str, Any]) -> str | None:
     return value or None
 
 
+def source_showtime_id_from_raw(raw: RawShowtime) -> str:
+    """Extract a stable source showtime id from a normalized adapter record."""
+    if raw.source_showtime_id not in (None, ""):
+        return str(raw.source_showtime_id).strip()
+    attrs = raw.attributes or {}
+    for key in ("source_showtime_id", "checkout_showing_segment", "showing_id"):
+        value = attrs.get(key)
+        if value not in (None, ""):
+            return str(value).strip()
+    return ""
+
+
 def source_title_from_history_row(row: Mapping[str, Any]) -> str | None:
     """Read ``source_title`` from history; fall back to legacy ``Film`` when blank."""
     explicit = str(row.get("source_title", "")).strip()
