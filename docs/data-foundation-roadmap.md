@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-17 (P-20C SIFF production rollout accepted)  
+**Last updated:** 2026-07-17 (post-P-20C roadmap reconciliation; next = P-21A)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -93,10 +93,11 @@ Public UI must not change merely because new source fields are captured.
 | P-20A | Design minimal SIFF alignment | `Complete` | P-19A | [siff-minimal-alignment-design.md](./siff-minimal-alignment-design.md) |
 | P-20B | Implement SIFF minimal alignment | `Complete` | P-20A | [siff-minimal-alignment.md](./siff-minimal-alignment.md); live 198/198 IDs |
 | P-20C | SIFF production rollout + acceptance | `Complete` | P-20B | Accepted 2026-07-17; runs `54b29c2` / `1216fef`; see evidence below |
-| — | NWFF production monitoring | `Planned` | P-16H | Mismatch rate, unsafe frequency, off-site rejects |
-| — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
+| P-21A | Cockpit AMC source-product / release inspection | `Next` | P-14D | Catalogs exist in `data/source_catalog/`; read-only cockpit view; no public schema |
+| — | NWFF / Central production monitoring | `Observation` | P-16H / P-17E | Passive for now — only 1–2 Option C log days; no unsafe runs observed |
+| — | Observe catalog runtime + failure rates | `Observation` | P-14D | Parallel passive; 2 calendar days of catalog commits so far |
 | — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Complete` (P-18A) | P-15A | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) |
-| P-18B | Rerun AMC field/taxonomy audit on expanded production logs | `Research in progress` | P-18A | Still blocked — only 1 distinct expanded date (`2026-07-17`) |
+| P-18B | Rerun AMC field/taxonomy audit on expanded production logs | `Research in progress` | P-18A | **Blocked** — only 1 distinct expanded date (`2026-07-17`) |
 | — | Accumulate ≥3 distinct expanded AMC calendar dates | `Research needed` | P-18B | Passive wait gate — not an implementation task |
 | — | Define versioned `presentation_attributes[]` contract | `Deferred` | P-18B evidence | Blocked on multi-day observations |
 
@@ -109,8 +110,8 @@ Public UI must not change merely because new source fields are captured.
 | Daily workflow integration (P-14D) | `Complete` | Soft-fail; retain prior on all-failed / validation errors |
 | Safe / atomic catalog writes | `Complete` | Paired `.tmp` + `.bak` promotion in `amc_daily.py` |
 | Catalog diagnostics (stdout) | `Complete` | No pipeline-report schema bump |
-| Structured pipeline-report catalog section | `Planned` | After stable runtime |
-| Cockpit source-product / release inspection | `Planned` | After catalogs exist in `data/source_catalog/` |
+| Structured pipeline-report catalog section | `Planned` | After more runtime evidence; requires additive `pipeline_report` schema care (Pages-shipped) |
+| Cockpit source-product / release inspection (P-21A) | `Next` | Prerequisite met — durable catalogs on `main`; inspect products + releases |
 | Refresh cadence evaluation (`all-active` → optional `stale`) | `Planned` | Measure wall time + metadata churn first |
 | Inactive-product growth monitoring | `Planned` | Catalog retains inactive products by design |
 
@@ -263,7 +264,7 @@ Prefer an extensible structured collection, for example:
 | 6 | Design minimal SIFF alignment | `Complete` (P-20A) |
 | 6b | Implement SIFF minimal alignment | `Complete` (P-20B) |
 | 6c | SIFF production rollout | `Complete` (P-20C) |
-| 7 | Integrate one new source at a time | `Planned` |
+| 7 | Integrate one new source at a time | `Planned` — needs product-owner theater selection |
 
 **P-16C contract:** [independent-source-observation-contract.md](./independent-source-observation-contract.md) (`reel_seattle.ingestion.independent_contract`, version `1.0.0`).
 
@@ -360,11 +361,11 @@ Production daily path enabled:
 * Raw log: `data/daily_logs/YYYY-MM-DD_nwff.json` (Option C).
 * Restatement only when final `restate_safe=true`.
 
-**Monitoring (post-launch):** calendar/detail mismatch rate, unsafe-run frequency, off-site rejects, identity collisions, source growth.
+**Monitoring (post-launch):** calendar/detail mismatch rate, unsafe-run frequency, off-site rejects, identity collisions, source growth. **Status after P-20C reconciliation:** Observation only — 2 Option C log days (`2026-07-16`, `2026-07-17`), both `restate_safe=true` / `success`; stable `rejected_records=1` with empty warning lists. Do not start a monitoring implementation task until more days accumulate or a concrete defect appears.
 
-### Central Cinema (P-17B design complete — not production-enabled)
+### Central Cinema (P-17E complete — live scheduled source)
 
-Prototype (P-17A) and production-integration design (P-17B) shipped. Decisions:
+Prototype (P-17A) through daily enablement (P-17E) shipped. Design decisions retained:
 
 * Production source key: `central_cinema`
 * Theater ID: `central-cinema` (one venue; no screens)
@@ -376,9 +377,9 @@ Prototype (P-17A) and production-integration design (P-17B) shipped. Decisions:
 * Rich metadata raw-only initially; `dateCreated` never release year
 * P-17C–E complete: Central Cinema is a live scheduled source
 * History includes nullable `source_showtime_id` (Central populated)
-* Monitoring: SPA zero-link failures, page failures, showing-ID conflicts, unsafe-run frequency
-* Preferred next (active development): NWFF/Central production monitoring, or next independent-source integration step
-* Parallel wait gate: accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B (**still 1 date after P-20C**)
+* Monitoring: SPA zero-link failures, page failures, showing-ID conflicts, unsafe-run frequency. **Status after P-20C reconciliation:** Observation only — 1 Option C log day (`2026-07-17`), `restate_safe=true` / `success`, `rejected_records=0`. Too thin for an implementation monitoring task.
+* Preferred next (active development): **P-21A** Cockpit AMC source-product / release inspection
+* Parallel wait gate: accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B (**still 1 date**)
 * P-19A Beacon alignment complete — see [beacon-minimal-alignment.md](./beacon-minimal-alignment.md)
 * P-20A SIFF design complete — see [siff-minimal-alignment-design.md](./siff-minimal-alignment-design.md)
 * P-20B SIFF implementation complete — see [siff-minimal-alignment.md](./siff-minimal-alignment.md)
@@ -477,9 +478,13 @@ P-20B  Implement SIFF minimal alignment ← Complete
    ↓
 P-20C  SIFF production rollout ← Complete (2026-07-17)
    ↓
-Preferred next (active): NWFF/Central monitoring / next indie source step
+Preferred next (active): P-21A Cockpit AMC source catalog inspection
    ↓
 Parallel wait: ≥3 distinct expanded AMC dates → finish P-18B (still 1 date)
+   ↓
+Parallel observation: NWFF/Central health (passive until more Option C days)
+   ↓
+Later: pipeline-report catalog section / refresh cadence / new source (needs PO pick)
    ↓
 Integrate one-by-one / theater-slice restatement (Planned)
 ```
