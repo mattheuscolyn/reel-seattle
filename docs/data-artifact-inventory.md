@@ -90,14 +90,14 @@ Contracts and writers described in [amc-source-catalog.md](./amc-source-catalog.
 |------|------|--------|
 | `schema/source_catalog/amc_movie_products/v1.0.0.json` | Durable product schema | Authored · internal · **not** public |
 | `schema/source_catalog/amc_release_observations/v1.0.0.json` | Durable release schema | Authored · internal · **not** public |
-| `data/source_catalog/amc_movie_products.json` | Durable product catalog | **Production-generated internal artifact** — written by daily workflow after showtime validation · tracked in generated-data commits · **not** public |
-| `data/source_catalog/amc_release_observations.json` | Durable release observations | Same status · derived from the product catalog · **not** public |
+| `data/source_catalog/amc_movie_products.json` | Durable product catalog | **Production-generated internal artifact** — written by daily workflow after showtime validation · tracked in generated-data commits · **not** public · **not** Pages · inspectable locally via Developer Data Cockpit (P-21A allowlist) |
+| `data/source_catalog/amc_release_observations.json` | Durable release observations | Same status · derived from the product catalog · **not** public · **not** Pages · inspectable locally via Cockpit (P-21A) |
 | `local-output/amc-source-catalog/*.json` | Offline merge CLI outputs | Local/manual · gitignored · not public |
 | `local-output/amc-source-refresh/amc_source_catalog_observations.json` | Normalized refresh-stage observations | Internal generated stage artifact · local/workflow temporary · regenerable · **not** durable SoT · **not** public · **not** committed |
 | Runner temp `amc-source-catalog-*` | Daily orchestration work dir | Ephemeral · cleaned up · not committed |
 | `tests/fixtures/source_catalog/` | Offline discovery/response fixtures | Test fixtures · not production data |
 
-Do not ship to Pages, SPA, or Developer Data Cockpit. Do not treat as authored canonical film data.
+Do not ship to Pages or the public SPA. Do not treat as authored canonical film data. Local Developer Data Cockpit may read these files through an explicit allowlist (P-21A); they are never copied into `public/` or `dist/`.
 
 ### Prototype AMC source observations (historical; superseded for durable work)
 

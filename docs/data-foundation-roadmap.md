@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-17 (post-P-20C roadmap reconciliation; next = P-21A)  
+**Last updated:** 2026-07-17 (P-21A Cockpit AMC catalog inspection)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -93,7 +93,7 @@ Public UI must not change merely because new source fields are captured.
 | P-20A | Design minimal SIFF alignment | `Complete` | P-19A | [siff-minimal-alignment-design.md](./siff-minimal-alignment-design.md) |
 | P-20B | Implement SIFF minimal alignment | `Complete` | P-20A | [siff-minimal-alignment.md](./siff-minimal-alignment.md); live 198/198 IDs |
 | P-20C | SIFF production rollout + acceptance | `Complete` | P-20B | Accepted 2026-07-17; runs `54b29c2` / `1216fef`; see evidence below |
-| P-21A | Cockpit AMC source-product / release inspection | `Next` | P-14D | Catalogs exist in `data/source_catalog/`; read-only cockpit view; no public schema |
+| P-21A | Cockpit AMC source-product / release inspection | `Complete` | P-14D | Local allowlist + Cockpit tabs; diagnostics; no public/schema changes |
 | — | NWFF / Central production monitoring | `Observation` | P-16H / P-17E | Passive for now — only 1–2 Option C log days; no unsafe runs observed |
 | — | Observe catalog runtime + failure rates | `Observation` | P-14D | Parallel passive; 2 calendar days of catalog commits so far |
 | — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Complete` (P-18A) | P-15A | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) |
@@ -111,7 +111,7 @@ Public UI must not change merely because new source fields are captured.
 | Safe / atomic catalog writes | `Complete` | Paired `.tmp` + `.bak` promotion in `amc_daily.py` |
 | Catalog diagnostics (stdout) | `Complete` | No pipeline-report schema bump |
 | Structured pipeline-report catalog section | `Planned` | After more runtime evidence; requires additive `pipeline_report` schema care (Pages-shipped) |
-| Cockpit source-product / release inspection (P-21A) | `Next` | Prerequisite met — durable catalogs on `main`; inspect products + releases |
+| Cockpit source-product / release inspection (P-21A) | `Complete` | Local-only Cockpit tabs over `data/source_catalog/amc_*.json`; cross-catalog diagnostics; smoke + frontend tests |
 | Refresh cadence evaluation (`all-active` → optional `stale`) | `Planned` | Measure wall time + metadata churn first |
 | Inactive-product growth monitoring | `Planned` | Catalog retains inactive products by design |
 
@@ -378,12 +378,13 @@ Prototype (P-17A) through daily enablement (P-17E) shipped. Design decisions ret
 * P-17C–E complete: Central Cinema is a live scheduled source
 * History includes nullable `source_showtime_id` (Central populated)
 * Monitoring: SPA zero-link failures, page failures, showing-ID conflicts, unsafe-run frequency. **Status after P-20C reconciliation:** Observation only — 1 Option C log day (`2026-07-17`), `restate_safe=true` / `success`, `rejected_records=0`. Too thin for an implementation monitoring task.
-* Preferred next (active development): **P-21A** Cockpit AMC source-product / release inspection
+* Preferred next (active development): structured pipeline-report catalog section, or continue passive waits (P-18B dates / NWFF·Central observation)
 * Parallel wait gate: accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B (**still 1 date**)
 * P-19A Beacon alignment complete — see [beacon-minimal-alignment.md](./beacon-minimal-alignment.md)
 * P-20A SIFF design complete — see [siff-minimal-alignment-design.md](./siff-minimal-alignment-design.md)
 * P-20B SIFF implementation complete — see [siff-minimal-alignment.md](./siff-minimal-alignment.md)
 * P-20C SIFF production rollout accepted 2026-07-17 (`74c5dc1` / `54b29c2` / `1216fef`)
+* P-21A Cockpit AMC catalog inspection complete 2026-07-17 — allowlisted local reads of `data/source_catalog/amc_movie_products.json` + `amc_release_observations.json`; product/release search; multi-product grouping badges; cross-catalog missing-member/duplicate diagnostics; remains local-only (not Pages)
 
 Live prototype findings retained:
 
@@ -478,13 +479,15 @@ P-20B  Implement SIFF minimal alignment ← Complete
    ↓
 P-20C  SIFF production rollout ← Complete (2026-07-17)
    ↓
-Preferred next (active): P-21A Cockpit AMC source catalog inspection
+P-21A  Cockpit AMC catalog inspection ← Complete (2026-07-17)
+   ↓
+Preferred next (active): pipeline-report catalog section (Planned) or PO-directed work
    ↓
 Parallel wait: ≥3 distinct expanded AMC dates → finish P-18B (still 1 date)
    ↓
 Parallel observation: NWFF/Central health (passive until more Option C days)
    ↓
-Later: pipeline-report catalog section / refresh cadence / new source (needs PO pick)
+Later: refresh cadence / new source (needs PO pick)
    ↓
 Integrate one-by-one / theater-slice restatement (Planned)
 ```
