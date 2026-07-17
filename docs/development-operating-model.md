@@ -34,9 +34,35 @@ Work is tagged to a track in prompts, commits, and handoffs.
 | **Theater Expansion** | New adapters, scraping feasibility, theater registry | Source health report required before ship |
 | **Film Identity + Metadata** | Parent/variant identity, `source_film_id`, enrichment fields | Additive JSON; fuzzy matching documented |
 | **Developer Data Cockpit** | Internal views, audits, analysis scripts, QA tooling | Not user-facing product |
-| **Next Public Site** | Future consumer site | Design-first; no silent coupling to legacy UI refactors |
+| **Next Public Site** | Future consumer site (v2) | Design-first via [docs/v2/](./v2/README.md); no silent coupling to legacy UI refactors |
 
-**Master references:** [product-roadmap.md](./product-roadmap.md) · [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [data-artifact-inventory.md](./data-artifact-inventory.md) · [SCRAPING_README.md](../SCRAPING_README.md)
+**Master references:** [product-roadmap.md](./product-roadmap.md) · [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [data-artifact-inventory.md](./data-artifact-inventory.md) · [v2 design specification](./v2/README.md) · [SCRAPING_README.md](../SCRAPING_README.md)
+
+---
+
+## 2b. v2 product design workflow
+
+Reel Seattle **v2** is a parallel product-design track. The live public site stays production; v2 specs live under [docs/v2/](./v2/README.md).
+
+```text
+Product Owner
+        +
+ChatGPT Product Lead / UX Architect
+        ↓
+Product Specification (docs/v2/)
+        ↓
+Cursor Implementation
+        ↓
+Review
+```
+
+**Rules**
+
+* Product Owner and ChatGPT author the specification incrementally.
+* Cursor implements **agreed specifications**; it must **not** invent UX, interaction, navigation, or product decisions independently.
+* Incomplete docs are expected; placeholders are not invitations to fill gaps with unapproved design.
+* Implementation of v2 UI does not begin from empty placeholder sections.
+* Data-foundation and v2 design may proceed in parallel without changing production UI.
 
 ---
 
@@ -334,5 +360,6 @@ Before significant new features, fill this table (in chat or a design doc):
 
 | Date | Change |
 |------|--------|
+| 2026-07-17 | Add §2b v2 product design workflow; link [docs/v2/](./v2/README.md) |
 | 2026-07-15 | Link [data-foundation-roadmap.md](./data-foundation-roadmap.md); add roadmap hygiene; point to AMC catalog daily-integration design |
 | 2026-07-03 | Initial operating model — workflow reset; legacy site maintained; data-first tracks |
