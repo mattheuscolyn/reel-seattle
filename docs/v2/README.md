@@ -27,6 +27,7 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [10 — Opportunity model](./10-opportunity-model.md) | Opportunity categories, primary story, supporting context | Philosophy documented (D-3) |
 | [11 — Film lifecycle](./11-film-lifecycle.md) | How a film’s Seattle presence evolves over time | Philosophy documented (D-4) |
 | [04 — Information architecture](./04-information-architecture.md) | User intents, information layers, progressive disclosure | Philosophy expanded (D-5); navigation deferred |
+| [12 — Experience model](./12-experience-model.md) | Session types, goals, continuity over time | Philosophy documented (D-6) |
 | [05 — Navigation](./05-navigation.md) | Movement between surfaces | Placeholder |
 | [06 — Component system](./06-component-system.md) | Reusable UI building blocks | Placeholder |
 | [07 — Visual language](./07-visual-language.md) | Visual direction and tokens | Placeholder |

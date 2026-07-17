@@ -1,7 +1,7 @@
 # 04 — Information Architecture
 
 **Status:** Philosophy expanded (D-5); navigation and surfaces still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Navigation](./05-navigation.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Navigation](./05-navigation.md)
 
 This document defines the **conceptual organization** of Reel Seattle v2 around **user intent**.
 
@@ -140,7 +140,7 @@ Placeholders only — no behavior defined yet:
 
 ### Onboarding
 
-*(TBD — how new users learn lenses, stories, and progressive depth.)*
+*(TBD — how new users learn lenses, stories, and progressive depth; see also [Experience model](./12-experience-model.md).)*
 
 ### Personalization
 
@@ -148,7 +148,7 @@ Placeholders only — no behavior defined yet:
 
 ### Notifications
 
-*(TBD — how timely notice maps to Discovery and Planning intents.)*
+*(TBD — how timely notice maps to Discovery and Planning intents; see also [Experience model](./12-experience-model.md).)*
 
 ---
 
@@ -168,4 +168,5 @@ Placeholders only — no behavior defined yet:
 * [03 — Discovery model](./03-discovery-model.md) — funnel, signals, lenses, principles
 * [10 — Opportunity model](./10-opportunity-model.md) — primary story, supporting context
 * [11 — Film lifecycle](./11-film-lifecycle.md) — evolving Seattle presence
+* [12 — Experience model](./12-experience-model.md) — session types and continuity over time
 * [05 — Navigation](./05-navigation.md) — movement between surfaces (placeholder)
