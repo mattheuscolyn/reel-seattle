@@ -190,7 +190,7 @@ What *is* agreed:
 | Full signal taxonomy | Needs more design + evidence conversations |
 | Full lens catalog | Philosophy first |
 | Ranking formulas / scores | Implementation-agnostic by design |
-| UI components / wireframes | → [Component system](./06-component-system.md); Home / Film Detail behavior → [Screen specifications](./08-screen-specifications.md) |
+| UI components / wireframes | → [Component system](./06-component-system.md); Home / Film Detail / Theater behavior → [Screen specifications](./08-screen-specifications.md) |
 | Navigation flows | → [Navigation](./05-navigation.md) |
 | Data schemas / APIs | Data-foundation and later implementation tracks |
 

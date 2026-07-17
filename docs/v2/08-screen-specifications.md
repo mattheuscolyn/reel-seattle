@@ -1,6 +1,6 @@
 # 08 — Screen Specifications
 
-**Status:** Home / Discovery (D-10) and Film Detail (D-11) conceptual behavior authored; other surfaces still deferred  
+**Status:** Home / Discovery (D-10), Film Detail (D-11), and Theater (D-12) conceptual behavior authored; other surfaces still deferred  
 **Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) · [Component system](./06-component-system.md)
 
 This document records **per-surface product behavior** for Reel Seattle v2 — what each experience exists to accomplish and how it should feel when successful.
@@ -15,6 +15,7 @@ It is **not** a UI specification. Do not invent layouts, cards, chrome, interact
 |---------|--------------|
 | **Home / Discovery** | Conceptual behavior (D-10) |
 | **Film Detail** | Conceptual behavior (D-11) |
+| **Theater** | Conceptual behavior (D-12) |
 | Opportunity detail | Placeholder |
 | Plan surfaces | Placeholder |
 | Settings / preferences (if any) | Placeholder |
@@ -379,6 +380,186 @@ These must not redefine Film Detail’s primary job (identity → notability →
 | Recommendation / ranking algorithms | Explicitly out of scope |
 | Opportunity Detail as a separate surface | Still a placeholder below |
 | Exact personalization and collection rules | Future Product Owner + ChatGPT sessions |
+
+---
+
+# Theater
+
+---
+
+## Purpose
+
+The Theater experience helps users understand both:
+
+* the **identity** of a theater, and
+* the **opportunities** that theater currently offers.
+
+It should not stop at:
+
+> “What’s playing here?”
+
+It should answer:
+
+> “Why would I choose this theater instead of another?”
+
+Theater is the primary surface for **Theater Exploration** sessions — place and venue as a path into films and opportunities ([Experience model](./12-experience-model.md)). Schedules matter, but they matter because they express what kind of cinema this venue practices, not because a raw list of showtimes is the product.
+
+Films remain the identity users recognize when scanning programming; opportunities remain the decision units attached to those films ([Core concepts](./02-core-concepts.md), [Opportunity model](./10-opportunity-model.md)). The Theater experience adds a **venue-centered** frame: why *this place* is a reason to go.
+
+---
+
+## Primary User Questions
+
+Representative questions (illustrative, not exhaustive):
+
+* What kind of theater is this?
+* What experiences is it known for?
+* What makes it unique?
+* What is happening here this week?
+* Is this somewhere I should visit?
+* When would I choose this venue over another?
+
+These questions move from enduring character toward current programming and confident venue choice — without requiring the user to reconstruct identity from showtimes alone.
+
+---
+
+## Theater Identity
+
+Theaters are **first-class entities** with enduring identities, not disposable labels on a schedule.
+
+Identity outlives any single week’s listings. Users return to venues the way they return to films: recognizing a place and what it stands for in Seattle cinema.
+
+Representative characteristics of identity (conceptual — not implementation fields):
+
+* Programming philosophy
+* Presentation capabilities
+* Formats
+* Historical significance
+* Neighborhood
+* Audience expectations
+* Recurring events
+
+A Theater experience that only dumps today’s showtimes has failed identity. Users should leave with a clearer sense of *what this place is*, even if they do not attend this week.
+
+---
+
+## Current Opportunities
+
+Current programming should be **interpreted through the theater’s identity**.
+
+Schedules are meaningful because they **express the theater’s character** — what this venue tends to show, celebrate, and make possible — not merely because times exist on a calendar.
+
+Illustrative kinds of programming that carry venue meaning:
+
+* Repertory programming
+* Premieres
+* Festivals
+* Themed series
+* Film presentations (including distinctive formats)
+* Community events
+
+Opportunities listed under a theater still obey the product model: each is a specific way to experience a film. Film Detail compares opportunities for one film across the city; Theater gathers opportunities that share a **place**, so users can ask whether this venue’s week matches why they would go there.
+
+Highlight without hiding still applies at the venue scale: emphasize what is distinctive about *this* theater’s week without pretending the rest of Seattle disappeared ([Discovery model](./03-discovery-model.md)).
+
+---
+
+## Comparison Philosophy
+
+Users naturally compare venues when deciding where to go. Theater should support that mental comparison **conceptually** — not by prescribing a comparison UI.
+
+Representative contrasts people already make in Seattle cinema:
+
+* SIFF vs AMC
+* Beacon vs Central Cinema
+* IMAX vs neighborhood cinema
+* Repertory vs first-run
+
+Comparison is about **fit of place and programming**, not a ranked “best theater” score. Context and identity explain differences; the product does not substitute taste recommendation for judgment ([Context & significance](./13-context-and-significance.md)).
+
+Do **not** define comparison interfaces, side-by-side layouts, or ranking algorithms here.
+
+---
+
+## Context
+
+Supporting information helps users decide whether and when to visit — and understand why a film is playing *here*.
+
+Representative examples (not required for every theater):
+
+* Projection formats
+* Screen characteristics
+* Recurring programming
+* Accessibility
+* Food and beverage
+* Seating
+* Transportation
+* Parking
+* Neighborhood context
+
+Context should stay **relevant to venue judgment**. Amenities matter when they shape the visit; they must not overshadow programming identity. Incomplete information is acceptable: not every venue needs every category filled in before the experience is useful.
+
+Do **not** require particular data sources or field inventories in this specification.
+
+---
+
+## Decision Outcomes
+
+Theater should support confident venue-related decisions in any direction.
+
+Representative outcomes:
+
+* Choose this venue
+* Compare with another venue
+* Plan a visit
+* Discover future interest (this place is worth returning to)
+* Understand why a film is playing here
+
+Success is not forcing a visit tonight. Success is that the user understands the theater’s character, what it offers this week, and whether it fits how they want to go to the movies — including deciding another venue (or none) is better right now.
+
+Planning and Plan persistence remain downstream surfaces ([Core concepts](./02-core-concepts.md) — Plan; Plan surfaces still deferred).
+
+---
+
+## Non-goals
+
+The Theater experience should **not**:
+
+* become merely a **showtime list**;
+* **duplicate Film Detail** — film-centered opportunity comparison and deep film context live there;
+* **overwhelm** users with venue trivia unrelated to identity or visit judgment;
+* **prioritize amenities over programming identity** — comfort and logistics support the visit; they do not replace what the theater stands for.
+
+Theater Exploration still groups meaning by film identity when presenting opportunities ([Experience model](./12-experience-model.md)); the venue frame organizes *where*, without replacing *what*.
+
+---
+
+## Future Placeholders
+
+*(Philosophy only — no behavior or implementation defined.)*
+
+Illustrative future concepts that may later attach to Theater:
+
+* Favorite theaters
+* Attendance history
+* Auditorium-level information
+* Recurring series
+* Venue notifications
+* Neighborhood recommendations
+
+These must not redefine Theater’s primary job (identity → current opportunities as character → confident venue judgment) or turn the surface into a generic local-business directory.
+
+---
+
+## Intentionally deferred for Theater
+
+| Topic | Why deferred |
+|-------|----------------|
+| Page layout, tabs, cards, density | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md) |
+| Navigation behavior and chrome | → [Navigation](./05-navigation.md) |
+| Interaction flows and controls | Later design agreement |
+| Ranking / “best venue” algorithms | Explicitly out of scope |
+| Exact favorite-theater and notification rules | Future Product Owner + ChatGPT sessions |
 
 ---
 

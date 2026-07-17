@@ -17,7 +17,7 @@ The experience model answers: *What kinds of visits do people make, and how shou
 |-------------|----------------------|
 | [Information architecture](./04-information-architecture.md) | How meaning is layered (overview → comparison → reference) |
 | [Navigation](./05-navigation.md) | How people move through progressive depth (inline vs dedicated) |
-| [Screen specifications](./08-screen-specifications.md) | Per-surface product behavior (Home / Discovery, Film Detail; other surfaces deferred) |
+| [Screen specifications](./08-screen-specifications.md) | Per-surface product behavior (Home / Discovery, Film Detail, Theater; other surfaces deferred) |
 | **Experience model (this doc)** | Why the session started and how emphasis should adapt across visits |
 
 Reel Seattle should feel like a continuous companion to Seattle cinema, not a one-off schedule lookup ([Product philosophy](./01-product-philosophy.md) — reduce moviegoing regret over time).

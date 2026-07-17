@@ -1,7 +1,7 @@
 # 05 — Navigation & Interaction Model
 
 **Status:** Philosophy expanded (D-7); chrome, routes, and UI still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Experience model](./12-experience-model.md) · [Screen specifications](./08-screen-specifications.md) (Home / Discovery, Film Detail)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Experience model](./12-experience-model.md) · [Screen specifications](./08-screen-specifications.md) (Home / Discovery, Film Detail, Theater)
 
 This document defines how users **move through** Reel Seattle v2 — the philosophy of interaction and progressive depth.
 
@@ -153,5 +153,5 @@ Do not treat this document as permission to change the live public site’s navi
 * [03 — Discovery model](./03-discovery-model.md) — funnel and discovery principles
 * [04 — Information architecture](./04-information-architecture.md) — intents and overview / comparison / reference
 * [12 — Experience model](./12-experience-model.md) — session types and continuity
-* [08 — Screen specifications](./08-screen-specifications.md) — Home / Discovery and Film Detail conceptual behavior; other surfaces deferred
+* [08 — Screen specifications](./08-screen-specifications.md) — Home / Discovery, Film Detail, and Theater conceptual behavior; other surfaces deferred
 * [06 — Component system](./06-component-system.md) — reusable building blocks (placeholder)
