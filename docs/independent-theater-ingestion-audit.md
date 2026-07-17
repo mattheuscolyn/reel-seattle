@@ -455,10 +455,11 @@ Smallest useful contract — **required** vs **optional**.
 * Slug in `/calendar/movie/...` is a natural `source_program_id`.  
 * **P-19A:** site moved to Astro markup — relative `/calendar/movie/{slug}` hrefs; showtimes on `.showtime-row` with stable `data-inventory-id` (matches calendar `?showtime=`). Legacy `data-value` is no longer authoritative.  
 * **P-19A fixed:** `.title()` mutation removed; exact titles preserved.  
-* **P-19A fixed:** run-year dating replaced with requested-window year inference (`normalize.year_window`).  
+* **P-19A fixed:** run-year dating replaced with requested-window year inference (`normalize.year_window`); scrape-date preferred when an inclusive ~365-day window makes the run day ambiguous.  
 * **P-19A fixed:** slug → `source_film_id`; inventory id → `source_showtime_id` on new/future rows.  
+* **P-19A production accepted (2026-07-17):** workflows `29560435915` / `29560665893`; generated-data `e622867` / `f82ac24`; 84 records, 39 programs, exact-title future restatement.  
 * Pre-P-19A silent empty scrapes came from discovery/parser drift; P-16B stale guard retained futures.  
-* Remaining: not on full IndependentSourceResult; theater-slice restate still Planned; production window still ~365-day `FetchContext`.  
+* Remaining: not on full IndependentSourceResult; theater-slice restate still Planned; production window still ~365-day `FetchContext`; 2 live null showtime IDs.  
 * Detail: [beacon-minimal-alignment.md](./beacon-minimal-alignment.md).
 
 ---
