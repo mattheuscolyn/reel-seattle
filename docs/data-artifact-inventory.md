@@ -40,7 +40,7 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | Path | Producer | Committed? |
 |------|----------|------------|
 | `public/data/showtimes_current.json` | `reel_seattle/emit/current.py` | Yes — daily |
-| `public/data/pipeline_report.json` | `reel_seattle/pipeline_report.py` | Yes — daily |
+| `public/data/pipeline_report.json` | `reel_seattle/pipeline_report.py` (+ catalog health patch from `reel_seattle/pipeline_report_catalog.py` after AMC catalog stage) | Yes — daily |
 | `public/data/newly_added_current.json` | `reel_seattle/emit/newly_added.py` | Yes — daily |
 | `public/data/leaving_soon_current.json` | `reel_seattle/emit/leaving_soon.py` | Yes — daily (review-only; not shipped to Pages) |
 | `public/data/theaters.json` | `reel_seattle/registry_sync.py` | Yes — copy of canonical registry |
@@ -99,6 +99,21 @@ Contracts and writers described in [amc-source-catalog.md](./amc-source-catalog.
 
 Do not ship to Pages or the public SPA. Do not treat as authored canonical film data. Local Developer Data Cockpit may read these files through an explicit allowlist (P-21A); they are never copied into `public/` or `dist/`.
 
+### AMC catalog health in `pipeline_report.json` (P-21B)
+
+Additive optional top-level section `amc_source_catalog` on the existing pipeline-report schema `1.0.0` (no schema version bump). Operational purpose: expose catalog build attempt/outcome, fresh vs retained-stale artifacts, repo-relative paths, schema/`generated_at`, and basic product/release counts through the normal public operational report.
+
+| Concept | Behavior |
+|---------|----------|
+| Producer | `scripts/run_daily_amc_source_catalog.py` patches `public/data/pipeline_report.json` after the durable catalog stage (`reel_seattle/pipeline_report_catalog.py`) |
+| Summarized artifacts | `data/source_catalog/amc_movie_products.json`, `data/source_catalog/amc_release_observations.json` (still **not** public / **not** Pages / **not** in `dist/`) |
+| Status vocabulary | `success` \| `stale` \| `failed` \| `skipped` |
+| Outcomes | `promoted` \| `initialized` \| `retained_previous` \| `skipped` \| `not_attempted` |
+| Fresh vs stale | Fresh write → `artifacts_written_this_run=true`; soft-fail retain → `status=stale`, prior `generated_at` kept as `last_successful_build_at`, failure visible in `errors` |
+| Compatibility | Section is optional; older consumers ignore unknown keys; public SPA is unchanged; Cockpit Pipeline Health renders a narrow summary |
+
+Underlying catalogs remain outside `public/` and `dist/`. The report never embeds catalog records—only health summaries.
+
 ### Prototype AMC source observations (historical; superseded for durable work)
 
 Manual, offline-only prototype described in [amc-source-observation-prototype.md](./amc-source-observation-prototype.md). Retained as a historical reference; durable work should use `schema/source_catalog/` and `reel_seattle/source_catalog/` instead.
@@ -121,7 +136,7 @@ All files under `public/data/` are pipeline outputs or registry copies consumed 
 | File | Public site use | Pages (`dist/`) |
 |------|-----------------|-----------------|
 | `showtimes_current.json` | Showtimes + Planner (14-day window) | **Shipped** |
-| `pipeline_report.json` | Showtimes data-status panel | **Shipped** |
+| `pipeline_report.json` | Showtimes data-status panel; additive `amc_source_catalog` operational health (P-21B; Cockpit Pipeline Health) | **Shipped** |
 | `newly_added_current.json` | Recently Added section | **Shipped** |
 | `theaters.json` | Theater metadata (via showtimes artifact) | **Shipped** |
 | `leaving_soon_current.json` | Review-only model output | **Not shipped** |
@@ -273,6 +288,7 @@ Scrapers (AMC API, SIFF, Beacon)
   → data/history/showtimes_history.csv
   → reel_seattle/emit/* + pipeline_report + registry_sync
   → public/data/*.json (+ announcement CSVs)
+  → AMC source catalog refresh (soft-fail) + pipeline_report.amc_source_catalog patch
   → npm run build (selective copy)
   → dist/data/ (lean subset → GitHub Pages)
 ```
