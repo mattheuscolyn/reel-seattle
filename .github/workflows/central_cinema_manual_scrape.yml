@@ -1,0 +1,97 @@
+name: Central Cinema Manual Scrape
+
+# Manual read-only live collection. No secrets. No repository writes. No schedule.
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: Inclusive start date YYYY-MM-DD (Pacific). Leave empty for today.
+        required: false
+        type: string
+        default: ""
+      end_date:
+        description: Inclusive end date YYYY-MM-DD (Pacific). Leave empty for today+13.
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  scrape:
+    name: Manual Central Cinema scrape
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Focused adapter / contract / mapping tests
+        run: |
+          python -m pytest \
+            tests/adapters/test_central_cinema.py \
+            tests/ingestion/test_central_cinema_mapping.py \
+            tests/ingestion/test_independent_contract.py \
+            -q
+
+      - name: Run live Central Cinema scrape (manual output only)
+        run: |
+          mkdir -p audit-output/central-cinema-manual
+          ARGS=(--live --output-dir audit-output/central-cinema-manual --sleep-seconds 0.35)
+          if [ -n "${{ inputs.start_date }}" ]; then
+            ARGS+=(--start-date "${{ inputs.start_date }}")
+          fi
+          if [ -n "${{ inputs.end_date }}" ]; then
+            ARGS+=(--end-date "${{ inputs.end_date }}")
+          fi
+          python scripts/scrape_central_cinema.py "${ARGS[@]}"
+
+      - name: Validate Option C envelope
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          from reel_seattle.adapters.central_cinema import (
+              validate_central_cinema_scrape_log,
+              prove_indie_parser_compatibility,
+          )
+          from reel_seattle.validate import validate_theaters_registry_file
+
+          out = Path("audit-output/central-cinema-manual")
+          logs = sorted(out.glob("*_central_cinema.json"))
+          if not logs:
+              raise SystemExit("missing Central Cinema scrape log artifact")
+          payload = json.loads(logs[0].read_text(encoding="utf-8"))
+          registry = validate_theaters_registry_file(Path("data/theaters.json"))
+          theater_ids = {str(row["id"]) for row in registry.get("theaters", [])}
+          validate_central_cinema_scrape_log(payload, theater_ids=theater_ids)
+          prove_indie_parser_compatibility(payload)
+          status = (payload.get("independent_source_result") or {}).get("status")
+          restate_safe = (payload.get("mapping") or {}).get("restate_safe")
+          print(f"validated log={logs[0].name} status={status} restate_safe={restate_safe}")
+          print("note: partial/request/structural failures are valid unsafe artifacts")
+          PY
+
+      - name: Upload Central Cinema scrape artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: central-cinema-manual-scrape
+          path: |
+            audit-output/central-cinema-manual/*_central_cinema.json
+            audit-output/central-cinema-manual/central_cinema_scrape_summary.json
+          retention-days: 30
+          if-no-files-found: error

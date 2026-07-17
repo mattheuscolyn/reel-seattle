@@ -547,15 +547,16 @@ Initial public Central showtimes: title, theater, date/time, runtime/year when m
 * Doc: [central-cinema-contract-mapping.md](./central-cinema-contract-mapping.md)
 * **No** live adapter, schedule, or restatement
 
-### P-17D — Production-compatible adapter + manual workflow — **Next**
+### P-17D — Production-compatible adapter + manual workflow — **Complete**
 
-* Live collection adapter/CLI
+* Live collection adapter/CLI (`reel_seattle.adapters.central_cinema`, `scripts/scrape_central_cinema.py`)
 * Option C writer + validation
 * Manual workflow_dispatch (≥2 live runs)
 * Parser compatibility proof
+* Doc: [central-cinema-production-adapter.md](./central-cinema-production-adapter.md)
 * **No** scheduled ingestion / restatement
 
-### P-17E — Scheduled production enablement
+### P-17E — Scheduled production enablement — **Next**
 
 * Daily collection + tracked logs
 * Conditional restatement + history `source_showtime_id` column (recommended)
@@ -619,8 +620,8 @@ Factors favoring a **short** manual phase (not a long shadow):
 ### Plan
 
 1. P-17C offline mapping — **Complete**
-2. P-17D ≥2 manual production-shaped live runs — **Next**
-3. P-17E schedule + first/second production QC
+2. P-17D ≥2 manual production-shaped live runs — **Complete**
+3. P-17E schedule + first/second production QC — **Next**
 4. Monitor zero-link structural failures, page failures, malformed checkouts, showing-ID conflicts, discovery swings 
 
 ---
@@ -637,7 +638,7 @@ Factors favoring a **short** manual phase (not a long shadow):
 
 ## Open product decisions
 
-None blocking P-17D. Deferred:
+None blocking P-17E. Deferred:
 
 * Whether/when to emit `source_showtime_id` in public showtimes  
 * Presentation-attribute extraction from screening prose  

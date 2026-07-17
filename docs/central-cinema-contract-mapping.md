@@ -165,10 +165,12 @@ No network. Explicit output path. No Git operations. Do not default to productio
 
 P-17C changes registry, theater schema, and offline mapping only.
 
+P-17D adds the manual production-compatible adapter ([central-cinema-production-adapter.md](./central-cinema-production-adapter.md)) without scheduled ingestion.
+
 It does **not**:
 
-* add a live Central adapter
-* add daily or manual production workflows
+* add a live Central adapter *(superseded: P-17D adds manual adapter only)*
+* add daily or manual production workflows *(superseded: P-17D adds manual workflow only)*
 * write tracked Central daily logs
 * enable restatement
 * emit Central public showtimes
@@ -176,7 +178,14 @@ It does **not**:
 
 ## Prerequisites for P-17D
 
-1. Production-compatible live adapter reusing this mapper
-2. Option C raw-log writer with explicit local/artifact paths
-3. Manual workflow_dispatch with ≥2 live validation runs
-4. Still no daily scheduled ingestion or history restatement
+1. Production-compatible live adapter reusing this mapper — **Complete (P-17D)**
+2. Option C raw-log writer with explicit local/artifact paths — **Complete**
+3. Manual workflow_dispatch with ≥2 live validation runs — **Complete**
+4. Still no daily scheduled ingestion or history restatement — remains P-17E
+
+## Prerequisites for P-17E
+
+1. Scheduled daily collection + tracked `data/daily_logs/YYYY-MM-DD_central_cinema.json`
+2. Conditional restatement when safe
+3. History / public / pipeline-report source support
+4. First and second production QC runs

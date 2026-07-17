@@ -1098,16 +1098,27 @@ def build_central_cinema_result(
         inspected_complete = False
         valid_empty_proof = False
 
-    # Zero discovered movie links with structure: only valid_empty when affirmatively empty.
-    if (
-        structure_ok
-        and stats["discovered_programs"] == 0
-        and status in {STATUS_SUCCESS, STATUS_VALID_EMPTY}
-    ):
-        status = STATUS_VALID_EMPTY
-        restate_safe = True
-        inspected_complete = True
-        valid_empty_proof = True
+    # Zero discovered movie links with an otherwise intact calendar shell is not
+    # affirmative empty — SPA hydration failures look the same. Conservative
+    # structural failure (P-17D). Valid empty requires inspected movie pages with
+    # zero in-window showtimes (handled above).
+    if structure_ok and stats["discovered_programs"] == 0:
+        status = STATUS_STRUCTURAL_FAILURE
+        restate_safe = False
+        inspected_complete = False
+        valid_empty_proof = False
+        checks.append(
+            {
+                "code": "movie_links_discovered",
+                "passed": False,
+                "severity": "error",
+                "message": (
+                    "Zero canonical /movie/ links discovered; "
+                    "not treated as valid empty without affirmative empty proof"
+                ),
+            }
+        )
+        structural_passed = False
 
     result = {
         "contract_version": CONTRACT_VERSION,

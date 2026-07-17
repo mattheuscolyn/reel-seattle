@@ -179,7 +179,7 @@ def raw_showtimes_to_legacy_rows(source: str, records: list[RawShowtime]) -> lis
     """Convert adapter records to legacy CSV row dicts for daily_processor.py."""
     if source == "amc":
         return [amc_raw_to_legacy_row(record) for record in records]
-    if source in {"siff", "beacon", "nwff"}:
+    if source in {"siff", "beacon", "nwff", "central_cinema"}:
         return [indie_raw_to_legacy_row(record) for record in records]
     raise ValueError(f"unsupported scrape source: {source}")
 

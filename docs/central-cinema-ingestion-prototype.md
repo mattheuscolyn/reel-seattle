@@ -141,7 +141,7 @@ Optional: `.github/workflows/central_cinema_ingestion_prototype_audit.yml`
 See [central-cinema-production-integration-design.md](./central-cinema-production-integration-design.md) and [central-cinema-contract-mapping.md](./central-cinema-contract-mapping.md).
 
 1. **P-17C** — Registry entry + offline contract→indie mapping — **Complete**
-2. **P-17D** — Production-compatible adapter + manual workflow
+2. **P-17D** — Production-compatible adapter + manual workflow — **Complete** ([central-cinema-production-adapter.md](./central-cinema-production-adapter.md))
 3. **P-17E** — Scheduled daily ingestion + conditional restatement
 
 Chosen production source key: `central_cinema`. Showing IDs are mandatory. Theater ID: `central-cinema`. Do not enable scheduled Central until P-17E is explicitly scheduled.

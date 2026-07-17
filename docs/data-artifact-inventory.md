@@ -59,6 +59,10 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `docs/central-cinema-ingestion-prototype.md` | Central Cinema non-production prototype guide | Authored |
 | `docs/central-cinema-production-integration-design.md` | Central Cinema production integration design (P-17B) | Authored |
 | `docs/central-cinema-contract-mapping.md` | Central Cinema contract→indie mapping (P-17C) | Authored |
+| `docs/central-cinema-production-adapter.md` | Central Cinema manual production adapter (P-17D) | Authored |
+| `reel_seattle/adapters/central_cinema.py` | Production Central adapter (manual only) | Manual CLI/workflow · not scheduled |
+| `scripts/scrape_central_cinema.py` | Manual Central scrape CLI | Live or fixture · local/artifact output |
+| `.github/workflows/central_cinema_manual_scrape.yml` | Manual Central scrape workflow | workflow_dispatch · read-only |
 | `reel_seattle/ingestion/central_cinema_mapping.py` | Central IndependentSourceResult → RawShowtime mapper | Library · offline only |
 | `scripts/map_central_cinema_contract_to_indie.py` | Offline Central mapping CLI | No network · no daily_logs |
 | `.github/workflows/central_cinema_ingestion_prototype_audit.yml` | Central Cinema prototype audit | workflow_dispatch · read-only |

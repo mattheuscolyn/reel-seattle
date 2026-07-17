@@ -422,9 +422,21 @@ def test_missing_calendar_structure_unsafe():
     assert result["status"] == "structural_failure"
 
 
-def test_valid_empty_calendar():
+def test_valid_empty_requires_inspected_pages_with_no_in_window_showtimes():
+    """Valid empty = structure + movie page(s) inspected + zero accepted showtimes."""
     pages = {
-        "https://central-cinema.com/calendar/": calendar_shell(body="<p>No movies this week.</p>")
+        "https://central-cinema.com/calendar/": calendar_shell(
+            body=movie_link("Face/Off", "/movie/faceslashoff/")
+        ),
+        "https://central-cinema.com/movie/faceslashoff/": movie_page(
+            name="Face/Off",
+            checkouts=[
+                (
+                    "July 3, 7:00 pm",
+                    "https://www.central-cinema.com/checkout/showing/faceslashoff/1",
+                )
+            ],
+        ),
     }
     result = build_central_cinema_result(
         start_date=WINDOW_START,
@@ -435,8 +447,24 @@ def test_valid_empty_calendar():
     _validate(result)
     assert result["status"] == "valid_empty"
     assert result["restate_safe"] is True
+    assert result["showtimes"] == []
     assert result["valid_empty_evidence"]["proven"] is True
 
+
+def test_zero_movie_links_is_structural_failure():
+    pages = {
+        "https://central-cinema.com/calendar/": calendar_shell(body="<p>No movies this week.</p>")
+    }
+    result = build_central_cinema_result(
+        start_date=WINDOW_START,
+        end_date=WINDOW_END,
+        fetch=fixture_fetch_map(pages),
+        scraped_at=SCRAPED_AT,
+    )
+    _validate(result)
+    assert result["status"] == "structural_failure"
+    assert result["restate_safe"] is False
+    assert result["valid_empty_evidence"]["proven"] is False
 
 def test_cli_fixture_mode_no_network(tmp_path):
     from scripts.prototype_central_cinema_ingestion import main
