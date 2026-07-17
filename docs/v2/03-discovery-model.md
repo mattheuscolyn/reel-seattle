@@ -202,5 +202,5 @@ What *is* agreed:
 * [02 — Core concepts](./02-core-concepts.md) — Film, Opportunity, Plan, Lens definitions
 * [10 — Opportunity model](./10-opportunity-model.md) — categories, primary story, supporting context
 * [11 — Film lifecycle](./11-film-lifecycle.md) — evolving Seattle presence; urgency on opportunities
-* [04 — Information architecture](./04-information-architecture.md) — where Discovery sits among surfaces (placeholder)
+* [04 — Information architecture](./04-information-architecture.md) — user intents, overview / comparison / reference layers
 * [09 — Implementation roadmap](./09-implementation-roadmap.md) — build order after design (placeholder)
