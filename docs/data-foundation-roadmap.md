@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-16 (P-17B)  
+**Last updated:** 2026-07-17 (planning: Beacon align next while P-18B waits)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -89,12 +89,12 @@ Public UI must not change merely because new source fields are captured.
 | P-17C | Central registry + offline contract→indie mapping | `Complete` | P-17B | Theater `central-cinema`; mapper; no live/scheduled ingestion |
 | P-17D | Central adapter + manual workflow | `Complete` | P-17C | Manual CLI + workflow; no schedule |
 | P-17E | Central daily workflow + restatement | `Complete` | P-17D | Tracked logs; history `source_showtime_id`; enums; QC |
-| — | Align Beacon only where necessary | `Planned` | P-16C | Minimal contract alignment |
+| — | Align Beacon only where necessary | `Next` | P-16C | Minimal contract alignment; parallel while P-18B waits |
 | — | NWFF production monitoring | `Planned` | P-16H | Mismatch rate, unsafe frequency, off-site rejects |
 | — | Observe catalog runtime + failure rates | `Planned` | P-14D | Continue in parallel |
 | — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Complete` (P-18A) | P-15A | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) |
 | P-18B | Rerun AMC field/taxonomy audit on expanded production logs | `Research in progress` | P-18A | Provisional: 1 expanded date; 35 codes; languages empty |
-| — | Accumulate ≥3 distinct expanded AMC calendar dates | `Next` | P-18B | Then rerun audit before taxonomy conclusions |
+| — | Accumulate ≥3 distinct expanded AMC calendar dates | `Research needed` | P-18B | Passive wait gate — not an implementation task |
 | — | Define versioned `presentation_attributes[]` contract | `Deferred` | P-18B evidence | Blocked on multi-day observations |
 
 ---
@@ -251,7 +251,7 @@ Prefer an extensible structured collection, for example:
 | 3c | NWFF registry + contract→indie mapping | `Complete` (P-16F) |
 | 3d | NWFF adapter/raw log (manual) | `Complete` (P-16G) |
 | 3e | NWFF daily workflow + restatement | `Complete` (P-16H) |
-| 4 | Align Beacon only where necessary | `Planned` |
+| 4 | Align Beacon only where necessary | `Next` |
 | 5 | Prototype Central Cinema | `Complete` (P-17A) |
 | 5b | Central production integration design | `Complete` (P-17B) |
 | 5c | Central registry + offline mapping | `Complete` (P-17C) |
@@ -363,7 +363,8 @@ Prototype (P-17A) and production-integration design (P-17B) shipped. Decisions:
 * P-17C–E complete: Central Cinema is a live scheduled source
 * History includes nullable `source_showtime_id` (Central populated)
 * Monitoring: SPA zero-link failures, page failures, showing-ID conflicts, unsafe-run frequency
-* Preferred next: accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B
+* Preferred next (active development): Align Beacon only where necessary (minimal contract alignment)
+* Parallel wait gate: accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B
 
 Live prototype findings retained:
 
@@ -452,9 +453,11 @@ P-17C  Central registry + offline contract→indie mapping ← Complete
 P-17D  Central adapter + manual workflow ← Complete
 P-17E  Central daily + restatement ← Complete (live source)
    ↓
-Preferred next: Accumulate ≥3 distinct expanded AMC calendar dates, then finish P-18B
+Preferred next (active): Align Beacon only where necessary
    ↓
-Parallel: Beacon align (planned) · NWFF/Central monitoring
+Parallel wait: ≥3 distinct expanded AMC dates → finish P-18B
+   ↓
+Parallel: NWFF/Central monitoring
    ↓
 SIFF align → integrate one-by-one
 ```
