@@ -440,12 +440,15 @@ Smallest useful contract — **required** vs **optional**.
 
 ## SIFF-specific findings
 
-* One org → three theater IDs; program pages can list multiple venues.  
-* Program IDs should span venues (same film URL at Downtown and Uptown).  
-* Listing includes `/programs-and-events/` — events already mixed in.  
-* `screening-*` IDs are strong unused showtime identity candidates.  
+* One org → three theater IDs; program pages can list multiple venues (confirmed live: Wild Inside @ Uptown + Film Center).  
+* Program IDs should span venues (same film URL at multiple SIFF theaters).  
+* Listing includes `/programs-and-events/` — events already mixed in (nested child URLs e.g. Art House Theater Day).  
+* `screening-*` IDs match Elevent `data-screening.ShowtimeId` — durable showtime identity currently discarded.  
 * Venue allowlist not enforced; unknown venues become unresolved.  
-* Needs later alignment: program ID from URL, showtime ID from screening anchors, title unchanged (already good), year header preference without page-wide year fallback, theater-scoped or partial-safe restate.
+* Titles already exact (no `.title()`); prefer `<h1>` over `<title>` for trailing-space cleanup.  
+* Year fallback to first page `\d{4}` remains unsafe when header omits year.  
+* P-16B source-wide partial guard remains correct; venue-/program-slice restatement not yet evidentially safe.  
+* **P-20A design:** [siff-minimal-alignment-design.md](./siff-minimal-alignment-design.md) — minimal field alignment; keep source-wide restate; implement as P-20B, roll out as P-20C.
 
 ---
 
