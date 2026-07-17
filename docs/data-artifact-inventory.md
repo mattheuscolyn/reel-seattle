@@ -57,6 +57,7 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `reel_seattle/prototypes/central_cinema.py` | Central Cinema contract emitter prototype | Non-production · local/workflow only |
 | `scripts/prototype_central_cinema_ingestion.py` | Central Cinema prototype CLI | Fixture or live read-only |
 | `docs/central-cinema-ingestion-prototype.md` | Central Cinema non-production prototype guide | Authored |
+| `docs/central-cinema-production-integration-design.md` | Central Cinema production integration design (P-17B) | Authored |
 | `.github/workflows/central_cinema_ingestion_prototype_audit.yml` | Central Cinema prototype audit | workflow_dispatch · read-only |
 | `tests/fixtures/prototypes/central_cinema/` | Central Cinema HTML fixtures | Test fixtures · not production data |
 | `docs/nwff-production-integration-design.md` | NWFF production integration design (P-16E) | Authored |

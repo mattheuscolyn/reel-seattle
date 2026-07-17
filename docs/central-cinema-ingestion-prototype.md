@@ -1,9 +1,10 @@
 # Central Cinema Ingestion Prototype
 
-**Status:** Non-production prototype (P-17A)  
+**Status:** Non-production prototype (P-17A); production integration **designed** (P-17B) — not enabled  
 **Module:** `reel_seattle.prototypes.central_cinema`  
 **CLI:** `scripts/prototype_central_cinema_ingestion.py`  
 **Contract:** IndependentSourceResult **v1.0.0**  
+**Design:** [central-cinema-production-integration-design.md](./central-cinema-production-integration-design.md)  
 **Last updated:** 2026-07-16
 
 ## Boundary
@@ -137,9 +138,10 @@ Optional: `.github/workflows/central_cinema_ingestion_prototype_audit.yml`
 
 ## Production prerequisites (future)
 
-1. Registry entry for `central-cinema`
-2. Contract→indie mapping + Option C logs
-3. Daily workflow + conditional restatement
-4. Public/pipeline source enums
+See [central-cinema-production-integration-design.md](./central-cinema-production-integration-design.md).
 
-Do not enable production Central until those tasks are explicitly scheduled.
+1. **P-17C** — Registry entry + offline contract→indie mapping  
+2. **P-17D** — Production-compatible adapter + manual workflow  
+3. **P-17E** — Scheduled daily ingestion + conditional restatement  
+
+Chosen production source key: `central_cinema`. Showing IDs are mandatory. Do not enable production Central until those tasks are explicitly scheduled.
