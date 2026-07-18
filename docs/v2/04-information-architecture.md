@@ -132,7 +132,7 @@ Placeholders only — no behavior defined yet:
 
 ### Navigation
 
-See [Navigation & interaction model](./05-navigation.md) — progressive depth, inline vs dedicated destinations, interaction principles (chrome and layouts still deferred).
+See [Navigation & interaction model](./05-navigation.md) — progressive depth, inline vs dedicated destinations, and cross-cutting Interaction Model (chrome and layouts still deferred).
 
 ### Search
 

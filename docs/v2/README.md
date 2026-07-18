@@ -30,7 +30,7 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [12 — Experience model](./12-experience-model.md) | Session types, goals, continuity over time | Philosophy documented (D-6) |
 | [13 — Context & significance](./13-context-and-significance.md) | Context vs recommendation; kinds of significance | Philosophy documented (D-8) |
 | [14 — Specification review](./14-specification-review.md) | Holistic editorial audit of the v2 constitution | Complete (D-9) |
-| [05 — Navigation](./05-navigation.md) | Progressive depth, inline vs dedicated destinations, interaction principles | Philosophy expanded (D-7); chrome/UI deferred |
+| [05 — Navigation](./05-navigation.md) | Progressive depth, destinations, cross-cutting Interaction Model | Philosophy (D-7) + Interaction Model (D-14); chrome/UI deferred |
 | [06 — Component system](./06-component-system.md) | Reusable UI building blocks | Placeholder |
 | [07 — Visual language](./07-visual-language.md) | Visual direction and tokens | Placeholder |
 | [08 — Screen specifications](./08-screen-specifications.md) | Per-surface product behavior (Home, Film Detail, Theater, Planner) | Home (D-10) + Film Detail (D-11) + Theater (D-12) + Planner (D-13) conceptual; other surfaces deferred |

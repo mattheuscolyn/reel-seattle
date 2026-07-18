@@ -142,7 +142,7 @@ Proceed into **interaction and screen design conversations** that fill [08](./08
 | [02 Core concepts](./02-core-concepts.md) | High-level seed |
 | [03 Discovery](./03-discovery-model.md) | Philosophy expanded |
 | [04 IA](./04-information-architecture.md) | Philosophy expanded |
-| [05 Navigation](./05-navigation.md) | Philosophy expanded |
+| [05 Navigation](./05-navigation.md) | Philosophy expanded (D-7) + Interaction Model (D-14) |
 | [06 Components](./06-component-system.md) | Placeholder |
 | [07 Visual](./07-visual-language.md) | Placeholder |
 | [08 Screens](./08-screen-specifications.md) | Home / Film Detail / Theater / Planner conceptual (post–D-9); Opportunity Detail & Settings still deferred |

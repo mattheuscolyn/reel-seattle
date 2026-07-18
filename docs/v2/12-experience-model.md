@@ -16,7 +16,7 @@ The experience model answers: *What kinds of visits do people make, and how shou
 | Related doc | What it owns instead |
 |-------------|----------------------|
 | [Information architecture](./04-information-architecture.md) | How meaning is layered (overview → comparison → reference) |
-| [Navigation](./05-navigation.md) | How people move through progressive depth (inline vs dedicated) |
+| [Navigation](./05-navigation.md) | How people move through progressive depth (inline vs dedicated) and cross-cutting Interaction Model |
 | [Screen specifications](./08-screen-specifications.md) | Per-surface product behavior (Home / Discovery, Film Detail, Theater, Planner; other surfaces deferred) |
 | **Experience model (this doc)** | Why the session started and how emphasis should adapt across visits |
 
