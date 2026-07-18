@@ -3,7 +3,7 @@
 **Status:** Editorial audit (D-9)  
 **Date:** 2026-07-17  
 **Scope:** All documents under `docs/v2/` as of `ece2367` / D-8  
-**Related:** [README](./README.md)
+**Related:** [README](./README.md) · [Editorial design language](./15-editorial-design-language.md)
 
 This document is an **editorial review** of the Reel Seattle v2 specification as a draft product constitution. It does not critique product direction, rewrite other docs, or design UI.
 
@@ -152,6 +152,7 @@ Proceed into **interaction and screen design conversations** that fill [08](./08
 | [12 Experience](./12-experience-model.md) | Philosophy documented |
 | [13 Context](./13-context-and-significance.md) | Philosophy documented |
 | **14 Review (this doc)** | Editorial audit |
+| [15 Editorial design language](./15-editorial-design-language.md) | Philosophy documented (D-15); systems deferred |
 
 ---
 

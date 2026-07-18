@@ -1,7 +1,7 @@
 # 12 — Experience Model
 
 **Status:** Philosophy documented (D-6); channel and continuity mechanics still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Navigation](./05-navigation.md) · [Context & significance](./13-context-and-significance.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Navigation](./05-navigation.md) · [Context & significance](./13-context-and-significance.md) · [Editorial design language](./15-editorial-design-language.md)
 
 This document describes **how people use Reel Seattle over time** — why they open it, what a session is for, and how the product should respond.
 

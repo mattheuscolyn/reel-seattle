@@ -1,7 +1,7 @@
 # 06 — Component System
 
 **Status:** Placeholder  
-**Related:** [README](./README.md) · [Visual language](./07-visual-language.md) · [Screen specifications](./08-screen-specifications.md)
+**Related:** [README](./README.md) · [Visual language](./07-visual-language.md) · [Screen specifications](./08-screen-specifications.md) · [Editorial design language](./15-editorial-design-language.md)
 
 ## Purpose
 
