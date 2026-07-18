@@ -145,7 +145,7 @@ Proceed into **interaction and screen design conversations** that fill [08](./08
 | [05 Navigation](./05-navigation.md) | Philosophy expanded |
 | [06 Components](./06-component-system.md) | Placeholder |
 | [07 Visual](./07-visual-language.md) | Placeholder |
-| [08 Screens](./08-screen-specifications.md) | Placeholder |
+| [08 Screens](./08-screen-specifications.md) | Home / Film Detail / Theater / Planner conceptual (post–D-9); Opportunity Detail & Settings still deferred |
 | [09 Implementation](./09-implementation-roadmap.md) | Placeholder |
 | [10 Opportunity](./10-opportunity-model.md) | Philosophy documented |
 | [11 Lifecycle](./11-film-lifecycle.md) | Philosophy documented |

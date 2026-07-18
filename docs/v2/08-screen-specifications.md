@@ -1,6 +1,6 @@
 # 08 — Screen Specifications
 
-**Status:** Home / Discovery (D-10), Film Detail (D-11), and Theater (D-12) conceptual behavior authored; other surfaces still deferred  
+**Status:** Home / Discovery (D-10), Film Detail (D-11), Theater (D-12), and Planner (D-13) conceptual behavior authored; other surfaces still deferred  
 **Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) · [Component system](./06-component-system.md)
 
 This document records **per-surface product behavior** for Reel Seattle v2 — what each experience exists to accomplish and how it should feel when successful.
@@ -16,8 +16,8 @@ It is **not** a UI specification. Do not invent layouts, cards, chrome, interact
 | **Home / Discovery** | Conceptual behavior (D-10) |
 | **Film Detail** | Conceptual behavior (D-11) |
 | **Theater** | Conceptual behavior (D-12) |
+| **Planner** | Conceptual behavior (D-13) |
 | Opportunity detail | Placeholder |
-| Plan surfaces | Placeholder |
 | Settings / preferences (if any) | Placeholder |
 
 ---
@@ -336,7 +336,7 @@ Representative outcomes:
 
 Success is not conversion to attendance. Success is that the user knows what the film is, why it might matter, what Seattle chances exist, and what they will do next — including knowingly doing nothing.
 
-Plans and commitment persistence remain conceptual downstream ([Core concepts](./02-core-concepts.md) — Plan; Planning surfaces still deferred).
+Plans and commitment persistence remain conceptual downstream ([Core concepts](./02-core-concepts.md) — Plan; [Planner](#planner) below).
 
 ---
 
@@ -517,7 +517,7 @@ Representative outcomes:
 
 Success is not forcing a visit tonight. Success is that the user understands the theater’s character, what it offers this week, and whether it fits how they want to go to the movies — including deciding another venue (or none) is better right now.
 
-Planning and Plan persistence remain downstream surfaces ([Core concepts](./02-core-concepts.md) — Plan; Plan surfaces still deferred).
+Planning and Plan persistence remain downstream ([Core concepts](./02-core-concepts.md) — Plan; [Planner](#planner) below).
 
 ---
 
@@ -563,15 +563,216 @@ These must not redefine Theater’s primary job (identity → current opportunit
 
 ---
 
+# Planner
+
+---
+
+## Purpose
+
+The Planner answers:
+
+> “Given the opportunities I care about, what is the best plan?”
+
+It is an **interactive schedule optimization workspace**. It is **not** an editorial recommendation engine, and it is **not** a curated “movie night.”
+
+The Planner **optimizes logistics** — it does not decide taste. It begins **after discovery has already happened**: the user already cares about particular opportunities; the Planner helps turn that care into something practical and executable.
+
+A **Plan** remains commitment in the product model ([Core concepts](./02-core-concepts.md)). The Planner is the operational surface where commitments take shape, fit real constraints, and become ready to act on ([Experience model](./12-experience-model.md) — Planning sessions; [Information architecture](./04-information-architecture.md) — Planning intent).
+
+---
+
+## Relationship to the Rest of the Product
+
+Conceptual progression (not a forced page stack):
+
+```text
+Home
+  ↓
+Awareness
+  ↓
+Film Detail
+  ↓
+Confidence
+  ↓
+Planner
+  ↓
+Preparedness
+```
+
+| Stage | Role |
+|-------|------|
+| **Home** | Orient to what deserves attention this week |
+| **Awareness** | Know the landscape and what changed |
+| **Film Detail** | Understand why a film is worth considering and which opportunities matter |
+| **Confidence** | Know enough to choose among opportunities — or knowingly pass |
+| **Planner** | Fit chosen opportunities into real time and logistics |
+| **Preparedness** | Leave ready to act, save, share, or postpone without regret |
+
+Planning is the **operational stage** of the experience — not another discovery surface. Discovery and Film Detail (and Theater, when place is the path) create awareness and confidence. The Planner consumes that intent and produces executable structure.
+
+Theater may feed venue preference into planning; it does not replace the Planner’s logistics job.
+
+---
+
+## Planning Philosophy
+
+Agreed principles for this surface:
+
+| Principle | Meaning |
+|-----------|---------|
+| **Optimize rather than recommend** | Arrange and fit opportunities the user already cares about; do not invent taste or curated nights by default. |
+| **The user defines goals** | What to attempt, when, and what “good enough” means comes from the user. |
+| **Satisfy constraints** | Hard limits (time, place, travel, availability) bound what is feasible. |
+| **Users remain in control** | The Planner proposes and supports; it does not lock users into an opaque result. |
+| **Refine rather than replace** | Plans improve through adjustment — priorities, assumptions, substitutions — not by discarding the user’s work and starting from zero. |
+
+Do **not** read algorithms, solvers, or scoring systems into these principles. They describe product stance, not methods.
+
+---
+
+## Inputs
+
+Planning draws on **representative inputs** the user (or prior session state) may bring. These are conceptual examples, not required controls or a schema.
+
+Illustrative inputs:
+
+* Selected opportunities
+* Available time
+* Desired date
+* Theater preferences
+* Presentation preferences
+* Runtime constraints
+* Travel preferences
+* Budget considerations
+* Social considerations
+
+Inputs express goals and limits. Exact capture, defaults, and persistence are deferred.
+
+---
+
+## Constraints vs Preferences
+
+The Planner should distinguish **hard constraints** from **soft preferences**.
+
+| Kind | Role | Representative examples |
+|------|------|-------------------------|
+| **Constraints** | Bound feasibility; must be respected | Showtimes, runtime, theater, travel, ticket availability |
+| **Preferences** | Shape tradeoffs when more than one plan is feasible | Presentation, critical reception, excitement, urgency, cost |
+
+The Planner **balances preferences while respecting hard constraints**. A preference never licenses an infeasible schedule. When constraints conflict with goals, the surface should help the user see the conflict and adapt — not silently invent a different taste profile.
+
+---
+
+## Optimization Philosophy
+
+Optimization here means producing **practical schedules** that serve the user’s stated goals under real constraints — not maximizing novelty, engagement, or editorial surprise.
+
+Illustrative aims (conceptual — not methods):
+
+* Minimize idle time
+* Maximize feasible opportunities the user already cares about
+* Reduce unnecessary travel
+* Preserve user intent
+* Produce practical schedules
+
+How tradeoffs are computed, ranked, or displayed is **out of scope**. No solvers, weights, or recommendation engines belong in this specification.
+
+---
+
+## User Control
+
+Users should be able to **inspect, modify, and refine** plans. The Planner supports iterative adjustment. It should **not** behave as a black box.
+
+Representative control concepts (not interface controls):
+
+* Adjusting priorities
+* Changing assumptions
+* Replacing individual opportunities
+* Refining rather than restarting
+
+Users should understand *why* a plan looks the way it does at a logistics level (fit, conflict, travel) — explainability of arrangement, not taste recommendation.
+
+---
+
+## Adaptive Planning
+
+Plans should respond when circumstances change while **preserving user intent**.
+
+Representative triggers:
+
+* Sold-out performances
+* Schedule changes
+* User modifications
+* Newly announced opportunities
+
+Adaptation helps the user stay prepared when the city or their own choices shift. It does not silently substitute “something else you might like.” Continuity from [Experience model](./12-experience-model.md) — maintaining plans across visits — applies.
+
+---
+
+## Decision Outcomes
+
+The Planner should support **confident commitment without requiring immediate purchase**.
+
+Representative outcomes:
+
+* Purchase tickets (or otherwise act externally on a planned opportunity)
+* Save a plan
+* Share a plan
+* Compare alternatives
+* Continue refining
+* Postpone commitment
+
+Success is preparedness: the user knows what they intend to do, whether it fits, and what to do next — including waiting.
+
+---
+
+## Non-goals
+
+The Planner should **not**:
+
+* **replace discovery** — awareness and “what deserves attention?” belong upstream (Home / Film Detail / Theater);
+* **curate themed movie nights by default** — that is editorial recommendation, not logistics optimization;
+* **make taste decisions** for users;
+* **hide alternatives** — highlight without hiding still applies when multiple feasible plans or substitutions exist;
+* **optimize for novelty** instead of user goals.
+
+---
+
+## Future Placeholders
+
+*(Philosophy only — no behavior or implementation defined.)*
+
+Illustrative future concepts that may later attach to the Planner:
+
+* Collaborative planning
+* Shared itineraries
+* Recurring preferences
+* Calendar integration
+* Attendance history
+* Optimization presets
+* Saved planning sessions
+
+These must not redefine the Planner’s primary job (user-defined goals → constraint-respecting logistics → inspectable, refinable preparedness) or turn it into a discovery or taste engine.
+
+---
+
+## Intentionally deferred for Planner
+
+| Topic | Why deferred |
+|-------|----------------|
+| Layout, cards, density, chrome | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md) |
+| Navigation behavior and chrome | → [Navigation](./05-navigation.md) |
+| Interaction flows and controls | Later design agreement |
+| Optimization / recommendation algorithms | Explicitly out of scope |
+| Exact calendar, sharing, and collaboration rules | Future Product Owner + ChatGPT sessions |
+
+---
+
 ## Remaining surfaces (placeholders)
 
 ### Opportunity detail
 
 *(TBD — decision-focused depth for a specific way to experience a film.)*
-
-### Plan surfaces
-
-*(TBD — commitment, fit, and ongoing plans.)*
 
 ### Settings / preferences (if any)
 

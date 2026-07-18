@@ -33,7 +33,7 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [05 — Navigation](./05-navigation.md) | Progressive depth, inline vs dedicated destinations, interaction principles | Philosophy expanded (D-7); chrome/UI deferred |
 | [06 — Component system](./06-component-system.md) | Reusable UI building blocks | Placeholder |
 | [07 — Visual language](./07-visual-language.md) | Visual direction and tokens | Placeholder |
-| [08 — Screen specifications](./08-screen-specifications.md) | Per-surface product behavior (Home, Film Detail, Theater) | Home (D-10) + Film Detail (D-11) + Theater (D-12) conceptual; other surfaces deferred |
+| [08 — Screen specifications](./08-screen-specifications.md) | Per-surface product behavior (Home, Film Detail, Theater, Planner) | Home (D-10) + Film Detail (D-11) + Theater (D-12) + Planner (D-13) conceptual; other surfaces deferred |
 | [09 — Implementation roadmap](./09-implementation-roadmap.md) | Ordered build plan (after design) | Placeholder |
 
 ---
