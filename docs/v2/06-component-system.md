@@ -1,11 +1,13 @@
 # 06 — Component System
 
 **Status:** Placeholder  
-**Related:** [README](./README.md) · [Visual language](./07-visual-language.md) · [Screen specifications](./08-screen-specifications.md) · [Editorial design language](./15-editorial-design-language.md)
+**Related:** [README](./README.md) · [Visual language](./07-visual-language.md) · [Screen specifications](./08-screen-specifications.md) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md)
 
 ## Purpose
 
 Catalog reusable product UI building blocks for Reel Seattle v2 once screen and IA decisions exist.
+
+Future component work should respect [Entity expression](./16-entity-expression.md) — same entity, context-appropriate facets.
 
 ## Status
 

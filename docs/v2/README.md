@@ -31,6 +31,7 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [13 — Context & significance](./13-context-and-significance.md) | Context vs recommendation; kinds of significance | Philosophy documented (D-8) |
 | [14 — Specification review](./14-specification-review.md) | Holistic editorial audit of the v2 constitution | Complete (D-9) |
 | [15 — Editorial design language](./15-editorial-design-language.md) | Editorial visual philosophy (between product & UI) | Philosophy documented (D-15); systems deferred |
+| [16 — Entity expression](./16-entity-expression.md) | How entities reveal facets by context | Philosophy documented (D-16); component mappings deferred |
 | [05 — Navigation](./05-navigation.md) | Progressive depth, destinations, cross-cutting Interaction Model | Philosophy (D-7) + Interaction Model (D-14); chrome/UI deferred |
 | [06 — Component system](./06-component-system.md) | Reusable UI building blocks | Placeholder |
 | [07 — Visual language](./07-visual-language.md) | Visual direction and tokens | Placeholder (guided by [15](./15-editorial-design-language.md)) |

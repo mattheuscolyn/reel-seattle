@@ -1,7 +1,7 @@
 # 15 — Editorial Design Language
 
 **Status:** Philosophy documented (D-15); systems and tokens still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Information architecture](./04-information-architecture.md) · [Navigation & Interaction Model](./05-navigation.md) · [Screen specifications](./08-screen-specifications.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Visual language](./07-visual-language.md) · [Component system](./06-component-system.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Information architecture](./04-information-architecture.md) · [Navigation & Interaction Model](./05-navigation.md) · [Screen specifications](./08-screen-specifications.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Visual language](./07-visual-language.md) · [Component system](./06-component-system.md) · [Entity expression](./16-entity-expression.md)
 
 This document describes the **editorial visual philosophy** of Reel Seattle v2 — principles that should guide future visual design.
 
