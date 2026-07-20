@@ -1,7 +1,7 @@
 # 16 — Entity Expression
 
 **Status:** Philosophy documented (D-16); component mappings still deferred  
-**Related:** [README](./README.md) · [Core concepts](./02-core-concepts.md) · [Navigation & Interaction Model](./05-navigation.md) · [Screen specifications](./08-screen-specifications.md) · [Experience model](./12-experience-model.md) · [Editorial design language](./15-editorial-design-language.md) · [Opportunity model](./10-opportunity-model.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Canonical Profile / Settings](./specs/profile-settings.md) · [Component system](./06-component-system.md)
+**Related:** [README](./README.md) · [Core concepts](./02-core-concepts.md) · [Navigation & Interaction Model](./05-navigation.md) · [Canonical Global navigation](./specs/global-navigation.md) · [Screen specifications](./08-screen-specifications.md) · [Experience model](./12-experience-model.md) · [Editorial design language](./15-editorial-design-language.md) · [Opportunity model](./10-opportunity-model.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Canonical Profile / Settings](./specs/profile-settings.md) · [Component system](./06-component-system.md)
 
 This document describes how Reel Seattle’s **core entities** should be expressed across different contexts throughout the product.
 
@@ -82,7 +82,7 @@ A **Film** is the canonical identity users recognize ([Core concepts](./02-core-
 | **Planner** | Schedule fit, logistical compatibility — can this film’s opportunities work in a plan |
 | **Film Detail** | Complete understanding — context, synopsis, creators, significance |
 
-Home surfaces awareness; Film Detail builds confidence; Planner asks fit; Theater expresses venue character and program; Explore/Search supports user-directed investigation; Profile manages personal moviegoing activity ([canonical Profile / Settings](./specs/profile-settings.md)). Opportunities are expressed contextually across those surfaces ([canonical Opportunity expression](./specs/opportunity-expression.md)) — **not** as a standalone Opportunity Detail page. All still refer to one Film. Canonical surfaces: [Home](./specs/home.md), [Film Detail](./specs/film-detail.md), [Planner](./specs/planner.md), [Theater](./specs/theater.md), [Explore / Search](./specs/explore-search.md), [Opportunity expression](./specs/opportunity-expression.md), [Profile / Settings](./specs/profile-settings.md).
+Home surfaces awareness; Film Detail builds confidence; Planner asks fit; Theater expresses venue character and program; Explore/Search supports user-directed investigation; Profile manages personal moviegoing activity ([canonical Profile / Settings](./specs/profile-settings.md)). Primary destinations: **Home · Explore · Planner · Profile** ([canonical Global navigation](./specs/global-navigation.md)). Opportunities are expressed contextually across those surfaces ([canonical Opportunity expression](./specs/opportunity-expression.md)) — **not** as a standalone Opportunity Detail page. All still refer to one Film. Canonical surfaces: [Home](./specs/home.md), [Film Detail](./specs/film-detail.md), [Planner](./specs/planner.md), [Theater](./specs/theater.md), [Explore / Search](./specs/explore-search.md), [Opportunity expression](./specs/opportunity-expression.md), [Profile / Settings](./specs/profile-settings.md), [Global navigation](./specs/global-navigation.md).
 
 ---
 

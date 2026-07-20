@@ -14,5 +14,6 @@ Written specifications here are **canonical**. Conceptual philosophy remains in 
 | [Explore / Search](./explore-search.md) | Canonical (D-23) |
 | [Opportunity expression](./opportunity-expression.md) | Canonical (D-24) — cross-surface; not a standalone page |
 | [Profile / Settings](./profile-settings.md) | Canonical (D-25) |
+| [Global navigation](./global-navigation.md) | Canonical (D-26) |
 
 See [v2 README](../README.md) for the full document map.

@@ -391,14 +391,14 @@ Do not define legal copy in this task.
 
 ## Global-navigation implication
 
-Do **not** lock the final global navigation.
+→ **Resolved by [canonical Global navigation](./global-navigation.md)** (D-26).
 
-Document only:
+* Primary destinations: **Home · Explore · Planner · Profile**
+* Profile is a **primary** mobile destination
+* Saved, Theater, and Settings are **not** permanent bottom-navigation tabs
+* Settings remains nested under Profile
 
-* Profile is now a **plausible primary mobile destination** because it contains meaningful moviegoing activity, not merely account settings
-* The current strongest four-destination conceptual candidate is: **Home · Explore · Planner · Profile**
-* This remains **unresolved** until a dedicated global-navigation decision
-* Do **not** canonize Saved, Theater, or Settings as permanent bottom-navigation tabs in this task
+Chrome, icons, and routes remain implementation-deferred; destination membership is canonical.
 
 ---
 
@@ -625,7 +625,7 @@ This specification does **not**:
 | Privacy and data-deletion behavior | Open |
 | Connected-service priorities | Open |
 | Whether public or social identity ever belongs in Profile | Open — baseline does not require it |
-| Final global-navigation decision | Open — Profile plausible; not locked |
+| Final global-navigation decision | **Resolved (D-26):** Home · Explore · Planner · Profile — see [global-navigation.md](./global-navigation.md) |
 
 ---
 

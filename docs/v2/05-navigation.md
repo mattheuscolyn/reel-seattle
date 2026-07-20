@@ -1,11 +1,13 @@
 # 05 — Navigation & Interaction Model
 
-**Status:** Philosophy expanded (D-7); cross-cutting Interaction Model authored (D-14); chrome, routes, and UI still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Experience model](./12-experience-model.md) · [Opportunity model](./10-opportunity-model.md) · [Screen specifications](./08-screen-specifications.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Canonical Theater](./specs/theater.md) · [Canonical Explore / Search](./specs/explore-search.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Canonical Profile / Settings](./specs/profile-settings.md) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md)
+**Status:** Philosophy expanded (D-7); cross-cutting Interaction Model authored (D-14); **primary destinations resolved by D-26** → [canonical Global navigation](./specs/global-navigation.md); chrome implementation, routes, and UI still deferred  
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Experience model](./12-experience-model.md) · [Opportunity model](./10-opportunity-model.md) · [Screen specifications](./08-screen-specifications.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Canonical Theater](./specs/theater.md) · [Canonical Explore / Search](./specs/explore-search.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Canonical Profile / Settings](./specs/profile-settings.md) · [Canonical Global navigation](./specs/global-navigation.md) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md)
 
 This document defines how users **move through** Reel Seattle v2 — the philosophy of interaction and progressive depth.
 
 It is **not** a sitemap, tab bar spec, wireframe set, or component inventory. Do not invent bottom navigation, page layouts, or production routes from these sections.
+
+**Primary destinations (D-26):** [canonical Global navigation](./specs/global-navigation.md) locks **Home · Explore · Planner · Profile**. This document remains authoritative for progressive depth, expand-before-navigate, and the Interaction Model. Where destination membership conflicts with D-26, **the Global navigation specification wins**.
 
 ---
 
@@ -72,16 +74,30 @@ These progressions may overlap in one session. They do **not** require a fixed n
 
 ## Primary Destinations
 
-The product is expected to have a small set of **persistent destination kinds** — lasting homes for major intents — without locking a final navigation structure.
+> **Canonical specification:** [specs/global-navigation.md](./specs/global-navigation.md) (D-26)
 
-Conceptual destination kinds (illustrative, not a menu design):
+The product has a small set of **persistent primary destinations** for major intents:
 
-* **Discovery / overview** — citywide orientation; film-grouped opportunities and stories.
-* **Planning** — commitments and fit into real time.
-* **Knowledge / reference** — deeper understanding and historical presence when sought.
-* **Personal context** *(optional conceptual home)* — preferences, dismissals, membership/venue affinity as they affect emphasis — without hiding the city. Product surface: [canonical Profile / Settings](./specs/profile-settings.md) (D-25). Global chrome membership remains **unresolved**.
+| Destination | Job |
+|-------------|-----|
+| **Home** | What deserves my attention? |
+| **Explore** | What matches what I care about? (includes Search) |
+| **Planner** | What’s the best movie day I can make? |
+| **Profile** | What does Reel Seattle know about my moviegoing life? |
 
-Exact labels, count, and arrangement are deferred. Destinations serve intents; they are not an inventory of every possible screen.
+Order: **Home · Explore · Planner · Profile**.
+
+Secondary access (not permanent mobile tabs):
+
+* **Search** — mode within Explore
+* **Theater** — major Explore pathway (and contextual links)
+* **Settings** — nested under Profile
+* **Saved** — managed under Profile; contextual Save elsewhere
+* **Film Detail / Opportunity** — deep / contextual, not global destinations
+
+Use labels **Home**, **Explore**, **Planner**, and **Profile** — not “Movies” or “Me.”
+
+Exact chrome, icons, and routes remain deferred. Destinations serve intents; they are not an inventory of every possible screen.
 
 ---
 
@@ -285,7 +301,7 @@ Placeholders only — no behavior defined yet:
 
 ### Global search
 
-→ **[Canonical Explore / Search](./specs/explore-search.md)** (D-23) — Search is a mode within the Explore experience, not a parallel product. Global chrome / tab-bar membership remains open; Explore/Search must be reachable as a primary discovery destination.
+→ **[Canonical Explore / Search](./specs/explore-search.md)** (D-23) and **[Canonical Global navigation](./specs/global-navigation.md)** (D-26) — Search is a mode within Explore, not a parallel product or permanent mobile tab. Global utility Search may appear on larger screens without changing the four-destination model.
 
 ### Planner interactions
 

@@ -1,7 +1,7 @@
 # 08 — Screen Specifications
 
-**Status:** Conceptual surfaces D-10–D-13; canonical specs: [Home](./specs/home.md) (D-17; reconciled D-22), [Film Detail](./specs/film-detail.md) (D-18), [Planner](./specs/planner.md) (D-19), [Theater](./specs/theater.md) (D-20), [Explore / Search](./specs/explore-search.md) (D-23), [Opportunity expression](./specs/opportunity-expression.md) (D-24, cross-surface), [Profile / Settings](./specs/profile-settings.md) (D-25)  
-**Related:** [README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Canonical Theater](./specs/theater.md) · [Canonical Explore / Search](./specs/explore-search.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Canonical Profile / Settings](./specs/profile-settings.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
+**Status:** Conceptual surfaces D-10–D-13; canonical specs: [Home](./specs/home.md) (D-17; reconciled D-22), [Film Detail](./specs/film-detail.md) (D-18), [Planner](./specs/planner.md) (D-19), [Theater](./specs/theater.md) (D-20), [Explore / Search](./specs/explore-search.md) (D-23), [Opportunity expression](./specs/opportunity-expression.md) (D-24, cross-surface), [Profile / Settings](./specs/profile-settings.md) (D-25), [Global navigation](./specs/global-navigation.md) (D-26)  
+**Related:** [README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Canonical Theater](./specs/theater.md) · [Canonical Explore / Search](./specs/explore-search.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Canonical Profile / Settings](./specs/profile-settings.md) · [Canonical Global navigation](./specs/global-navigation.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
 
 This document records **per-surface conceptual product behavior** for Reel Seattle v2 — what each experience exists to accomplish and how it should feel when successful.
 
@@ -9,7 +9,7 @@ It is **not** a UI specification. Do not invent layouts, cards, chrome, interact
 
 Canonical product specifications:
 
-→ **[specs/home.md](./specs/home.md)** · **[specs/film-detail.md](./specs/film-detail.md)** · **[specs/planner.md](./specs/planner.md)** · **[specs/theater.md](./specs/theater.md)** · **[specs/explore-search.md](./specs/explore-search.md)** · **[specs/opportunity-expression.md](./specs/opportunity-expression.md)** · **[specs/profile-settings.md](./specs/profile-settings.md)**
+→ **[specs/home.md](./specs/home.md)** · **[specs/film-detail.md](./specs/film-detail.md)** · **[specs/planner.md](./specs/planner.md)** · **[specs/theater.md](./specs/theater.md)** · **[specs/explore-search.md](./specs/explore-search.md)** · **[specs/opportunity-expression.md](./specs/opportunity-expression.md)** · **[specs/profile-settings.md](./specs/profile-settings.md)** · **[specs/global-navigation.md](./specs/global-navigation.md)**
 
 Where this document’s surface sections and the corresponding canonical specs diverge, **the canonical specs are authoritative**.
 
@@ -26,6 +26,7 @@ Where this document’s surface sections and the corresponding canonical specs d
 | **Explore / Search** | **Canonical** [specs/explore-search.md](./specs/explore-search.md) (D-23) |
 | **Opportunity expression** | **Canonical** [specs/opportunity-expression.md](./specs/opportunity-expression.md) (D-24) — cross-surface; **no** standalone Opportunity Detail page |
 | **Profile / Settings** | **Canonical** [specs/profile-settings.md](./specs/profile-settings.md) (D-25) — Profile is personal hub; Settings is nested secondary |
+| **Global navigation** | **Canonical** [specs/global-navigation.md](./specs/global-navigation.md) (D-26) — Home · Explore · Planner · Profile |
 
 ---
 
@@ -817,7 +818,7 @@ Explore and Search are **one connected experience**: comprehensive, user-directe
 
 > **Canonical specification:** [specs/profile-settings.md](./specs/profile-settings.md) (D-25)
 
-**Profile** is the personal moviegoing hub (activity, statuses, plans, favorites, memberships, preferences). **Settings** is a nested secondary surface reached from Profile (notifications, accessibility, appearance, privacy, account, connected services). Film Activity Seen / Not interested management overview lives in Profile; discovery marking remains on [Explore / Search](./specs/explore-search.md). Global navigation remains unresolved; Profile is a plausible primary destination but is **not** locked.
+**Profile** is the personal moviegoing hub (activity, statuses, plans, favorites, memberships, preferences). **Settings** is a nested secondary surface reached from Profile (notifications, accessibility, appearance, privacy, account, connected services). Film Activity Seen / Not interested management overview lives in Profile; discovery marking remains on [Explore / Search](./specs/explore-search.md). **Global navigation (D-26):** [canonical Global navigation](./specs/global-navigation.md) locks primary destinations **Home · Explore · Planner · Profile**. Settings is not a tab.
 
 ---
 

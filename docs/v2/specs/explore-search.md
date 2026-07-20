@@ -568,13 +568,11 @@ Planner remains responsible for generation and optimization ([canonical Planner]
 
 ## Global navigation boundary
 
-Do **not** lock the global mobile tab bar in this task.
+→ **Resolved by [canonical Global navigation](./global-navigation.md)** (D-26).
 
-Conceptual candidates may include Home, Explore, Planner, Profile — or a future fifth destination if justified. Profile as personal hub is specified in [canonical Profile / Settings](./profile-settings.md) (D-25) but **global navigation remains unresolved**.
+Primary destinations: **Home · Explore · Planner · Profile**. Explore is a primary destination; Search is a mode within Explore (not a separate tab). Theater, Saved, and Settings are not permanent bottom-navigation tabs.
 
-This specification states only that Explore/Search must be **reachable as a primary discovery destination**.
-
-Do **not** canonize Saved, Theater, or Settings as bottom-navigation tabs here.
+This specification still requires that Explore/Search make search immediately discoverable and remain the home of comprehensive filtering.
 
 ---
 
@@ -786,7 +784,7 @@ This specification does **not**:
 | Initial sort options | Open |
 | Map scope | Future |
 | Mobile grid versus list defaults | Open |
-| Future five-tab navigation decision | Open — Explore must remain reachable |
+| Future five-tab navigation decision | **Resolved against baseline (D-26):** four destinations; fifth tab only via deliberate future revisit — see [global-navigation.md](./global-navigation.md) |
 
 ---
 

@@ -1,7 +1,7 @@
 # 04 — Information Architecture
 
 **Status:** Philosophy expanded (D-5); navigation and surfaces still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Canonical Profile / Settings](./specs/profile-settings.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Navigation](./05-navigation.md) · [Context & significance](./13-context-and-significance.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Canonical Profile / Settings](./specs/profile-settings.md) · [Canonical Global navigation](./specs/global-navigation.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Navigation](./05-navigation.md) · [Context & significance](./13-context-and-significance.md)
 
 This document defines the **conceptual organization** of Reel Seattle v2 around **user intent**.
 
@@ -136,7 +136,7 @@ See [Navigation & interaction model](./05-navigation.md) — progressive depth, 
 
 ### Search
 
-→ **[Canonical Explore / Search](./specs/explore-search.md)** (D-23) — Search is a mode within Explore; opportunity-aware results and comprehensive filtering live there. Discovery vs reference: Home remains editorial overview; Explore is user-directed reference browsing.
+→ **[Canonical Explore / Search](./specs/explore-search.md)** (D-23) — Search is a mode within Explore; opportunity-aware results and comprehensive filtering live there. Discovery vs reference: Home remains editorial overview; Explore is user-directed reference browsing. Primary destinations: [canonical Global navigation](./specs/global-navigation.md) (D-26).
 
 ### Onboarding
 

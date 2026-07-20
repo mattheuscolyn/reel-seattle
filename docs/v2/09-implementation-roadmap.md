@@ -9,11 +9,11 @@ Order v2 **implementation** work only after enough of the design specification e
 
 ## Status
 
-Not yet authored as a full build plan. Screen-specification track: canonical [Home](./specs/home.md) (D-17; Design Review v3 in D-22), [Film Detail](./specs/film-detail.md), [Planner](./specs/planner.md), [Theater](./specs/theater.md), [Explore / Search](./specs/explore-search.md) (D-23), [Opportunity expression](./specs/opportunity-expression.md) (D-24, cross-surface), and [Profile / Settings](./specs/profile-settings.md) (D-25). Primary product surfaces are specified; global navigation remains unresolved. Do not schedule v2 UI implementation without explicit product gates. Do not treat design-review imagery as implementation authority over written canonical specs. Do not lock global navigation from incomplete chrome decisions. Do not mark accounts, status persistence, memberships, notifications, or Profile UI as implemented.
+Not yet authored as a full build plan. Screen-specification track: canonical [Home](./specs/home.md) (D-17; Design Review v3 in D-22), [Film Detail](./specs/film-detail.md), [Planner](./specs/planner.md), [Theater](./specs/theater.md), [Explore / Search](./specs/explore-search.md) (D-23), [Opportunity expression](./specs/opportunity-expression.md) (D-24), [Profile / Settings](./specs/profile-settings.md) (D-25), and [Global navigation](./specs/global-navigation.md) (D-26 — **Home · Explore · Planner · Profile**). Primary product surfaces and global navigation destinations are specified. Do not schedule v2 UI implementation without explicit product gates. Do not treat design-review imagery as implementation authority over written canonical specs. Do not mark navigation implementation, Profile persistence, or accounts as complete.
 
 ## Placeholder sections
 
-* Design-complete gates before coding (canonical surface set + Opportunity expression + Profile/Settings exist; global nav TBD)
+* Design-complete gates before coding (canonical surfaces + Opportunity expression + Profile/Settings + global navigation destinations exist; chrome/icons/routes TBD)
 * Suggested implementation slices (TBD)
 * Parallelism with data-foundation work (film identity, [theater expansion](../data-foundation-roadmap.md#planned-theater-model-expansion))
 * Relationship to the stable production site (no dedicated Theater page today; live Planner preserved)
