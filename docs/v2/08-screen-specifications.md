@@ -1,17 +1,21 @@
 # 08 — Screen Specifications
 
-**Status:** Conceptual surfaces D-10–D-13; **Home canonical behavior** lives in [specs/home.md](./specs/home.md) (D-17)  
-**Related:** [README](./README.md) · [Canonical Home spec](./specs/home.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
+**Status:** Conceptual surfaces D-10–D-13; **Home** → [specs/home.md](./specs/home.md) (D-17); **Film Detail** → [specs/film-detail.md](./specs/film-detail.md) (D-18)  
+**Related:** [README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
 
 This document records **per-surface conceptual product behavior** for Reel Seattle v2 — what each experience exists to accomplish and how it should feel when successful.
 
 It is **not** a UI specification. Do not invent layouts, cards, chrome, interactions, wireframes, or algorithms from these sections.
 
-For **Home**, the **canonical** product specification (hierarchy, interaction rules, states, exploration boundary) is:
+For **Home**, the **canonical** product specification is:
 
 → **[specs/home.md](./specs/home.md)**
 
-Where this document’s Home section and the canonical Home spec diverge, **the canonical Home spec is authoritative**.
+For **Film Detail**, the **canonical** product specification is:
+
+→ **[specs/film-detail.md](./specs/film-detail.md)**
+
+Where this document’s Home or Film Detail sections and the corresponding canonical specs diverge, **the canonical specs are authoritative**.
 
 ---
 
@@ -20,7 +24,7 @@ Where this document’s Home section and the canonical Home spec diverge, **the 
 | Surface | Completeness |
 |---------|--------------|
 | **Home / Discovery** | Conceptual (D-10) + **canonical** [specs/home.md](./specs/home.md) (D-17) |
-| **Film Detail** | Conceptual behavior (D-11); canonical screen spec TBD |
+| **Film Detail** | Conceptual (D-11) + **canonical** [specs/film-detail.md](./specs/film-detail.md) (D-18) |
 | **Theater** | Conceptual behavior (D-12); canonical screen spec TBD |
 | **Planner** | Conceptual behavior (D-13); canonical screen spec TBD |
 | Opportunity detail | Placeholder |
@@ -220,6 +224,9 @@ Featured vs secondary interaction rules, Top Opportunities scarcity, and the fil
 
 # Film Detail
 
+> **Canonical specification:** [specs/film-detail.md](./specs/film-detail.md)  
+> The sections below remain **conceptual background** (D-11). Prefer the canonical spec for implementation and detailed product rules.
+
 ---
 
 ## Purpose
@@ -230,11 +237,13 @@ Home answers:
 
 > “What deserves my attention?”
 
-Film Detail answers:
+Film Detail’s approved central question ([canonical Film Detail](./specs/film-detail.md)):
 
-> “Why is this worth considering, and what is the best way to experience it?”
+> “Should I see this?”
 
-Users arrive after choosing to investigate a film. Film Detail deepens that investigation: it clarifies identity and notability, surfaces the film’s current Seattle opportunities, and supports choosing among those opportunities — or knowingly passing ([Core concepts](./02-core-concepts.md), [Opportunity model](./10-opportunity-model.md)).
+Conceptual D-11 also framed the substance as: why this is worth considering, and what is the best way to experience it — still accurate as supporting decision substance under the shorter primary question.
+
+Users arrive after choosing to investigate a film. Film Detail deepens that investigation: it clarifies identity and notability, surfaces the film’s current Seattle opportunities (including Best Opportunity when defensible), and supports choosing among those opportunities — or knowingly passing ([Core concepts](./02-core-concepts.md), [Opportunity model](./10-opportunity-model.md)).
 
 It sits at the **comparison** layer of information architecture, with **reference** depth available when understanding requires more than a decision ([Information architecture](./04-information-architecture.md)). It may support Active Discovery moving into Decision or Research session intents ([Experience model](./12-experience-model.md)).
 
@@ -383,12 +392,14 @@ These must not redefine Film Detail’s primary job (identity → notability →
 
 | Topic | Why deferred |
 |-------|----------------|
-| Page layout, tabs, cards, density | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md) |
-| Navigation behavior and chrome | → [Navigation](./05-navigation.md) |
-| Interaction flows and controls | Later design agreement |
-| Recommendation / ranking algorithms | Explicitly out of scope |
+| Exact visual layout, density, chrome | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md); behavior → [canonical Film Detail](./specs/film-detail.md) |
+| Navigation chrome | → [Navigation](./05-navigation.md) |
+| Final Best Opportunity / ranking algorithms | Explicitly out of scope ([canonical Film Detail](./specs/film-detail.md)) |
+| Film-identity resolution & signal ingestion | → [data-foundation roadmap](../data-foundation-roadmap.md#planned-film-identity-and-enrichment); not implemented |
 | Opportunity Detail as a separate surface | Still a placeholder below |
 | Exact personalization and collection rules | Future Product Owner + ChatGPT sessions |
+
+Hierarchy (Why see it / What it’s about / Best Opportunity / All Showtimes), entry context, and film-specific filtering rules are specified in [specs/film-detail.md](./specs/film-detail.md) — not deferred.
 
 ---
 

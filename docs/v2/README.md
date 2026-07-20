@@ -36,16 +36,16 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [05 — Navigation](./05-navigation.md) | Progressive depth, destinations, cross-cutting Interaction Model | Philosophy (D-7) + Interaction Model (D-14); chrome/UI deferred |
 | [06 — Component system](./06-component-system.md) | Reusable UI building blocks | Placeholder |
 | [07 — Visual language](./07-visual-language.md) | Visual direction and tokens | Placeholder (guided by [15](./15-editorial-design-language.md)) |
-| [08 — Screen specifications](./08-screen-specifications.md) | Per-surface conceptual behavior (philosophy) | Conceptual (D-10–D-13); Home details → [specs/home.md](./specs/home.md) |
+| [08 — Screen specifications](./08-screen-specifications.md) | Per-surface conceptual behavior (philosophy) | Conceptual (D-10–D-13); Home → [specs/home.md](./specs/home.md); Film Detail → [specs/film-detail.md](./specs/film-detail.md) |
 | [09 — Implementation roadmap](./09-implementation-roadmap.md) | Ordered build plan (after design) | Placeholder |
-| [Canonical screen specs](./specs/) | Implementation-authoritative per-surface specs | Home canonical (D-17); other surfaces TBD |
+| [Canonical screen specs](./specs/) | Implementation-authoritative per-surface specs | Home (D-17) + Film Detail (D-18); Planner/Theater TBD |
 
 ### Canonical screen specifications
 
 | Spec | Status |
 |------|--------|
 | [Home](./specs/home.md) | Canonical (D-17) |
-| Film Detail | Not yet authored |
+| [Film Detail](./specs/film-detail.md) | Canonical (D-18) |
 | Planner | Not yet authored |
 | Theater | Not yet authored |
 

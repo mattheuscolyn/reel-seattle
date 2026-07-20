@@ -8,7 +8,7 @@ Written specifications here are **canonical**. Conceptual philosophy remains in 
 | Spec | Status |
 |------|--------|
 | [Home](./home.md) | Canonical (D-17) |
-| Film Detail | TBD |
+| [Film Detail](./film-detail.md) | Canonical (D-18) |
 | Planner | TBD |
 | Theater | TBD |
 

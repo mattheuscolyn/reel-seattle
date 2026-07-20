@@ -9,12 +9,12 @@ Order v2 **implementation** work only after enough of the design specification e
 
 ## Status
 
-Not yet authored as a full build plan. Screen-specification track started: canonical [Home](./specs/home.md) (D-17). Do not schedule UI implementation from incomplete surface specs.
+Not yet authored as a full build plan. Screen-specification track: canonical [Home](./specs/home.md) (D-17) and [Film Detail](./specs/film-detail.md) (D-18). Do not schedule UI implementation from incomplete surface specs (Planner / Theater canonical TBD). Identity resolution and Best Opportunity ranking remain data/design dependencies — not implementation-complete.
 
 ## Placeholder sections
 
-* Design-complete gates before coding (Home canonical exists; Film Detail / Planner / Theater canonical TBD)
-* Parallelism with data-foundation work
+* Design-complete gates before coding (Home + Film Detail canonical exist; Planner / Theater canonical TBD)
+* Parallelism with data-foundation work (esp. [film identity](../data-foundation-roadmap.md#planned-film-identity-and-enrichment))
 * Relationship to the stable production site
 * Suggested implementation slices (TBD)
 
