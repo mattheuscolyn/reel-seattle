@@ -19,7 +19,7 @@ Reel Seattle is a Seattle-area movie showtimes + planning product. It has three 
 
 - Public site (dev): `npm run dev` → http://localhost:5173/. Routes: `/` (Showtimes), `/recently-added`, `/planner`.
 - Cockpit (optional): `npm run cockpit` → http://127.0.0.1:5174/.
-- v2 shell (local-only): `npm run v2` → http://127.0.0.1:5175/. Build: `npm run build:v2` → `dist-v2/`.
+- v2 shell (local-only): `npm run v2` → http://127.0.0.1:5175/. Build: `npm run build:v2` → `dist-v2/`. Allowlisted `/data` for Home adapter (I-02).
 - Before manual QA, `npm run check:data-freshness` reports whether local `public/data` artifacts are stale (informational only; never fails).
 
 ### Lint / test / build (see `package.json` scripts and `.github/workflows/ci.yml`)

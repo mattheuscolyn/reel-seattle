@@ -127,6 +127,34 @@ try {
     fail('V2App missing local-only status badge copy');
   }
 
+  const showtimesData = await fetch(new URL('/data/showtimes_current.json', V2_URL));
+  if (!showtimesData.ok) {
+    fail(`showtimes_current.json not served: ${showtimesData.status}`);
+  }
+  const showtimesJson = await showtimesData.json();
+  if (!Array.isArray(showtimesJson.showtimes)) {
+    fail('showtimes_current.json missing showtimes array');
+  }
+
+  const newlyAddedData = await fetch(new URL('/data/newly_added_current.json', V2_URL));
+  if (!newlyAddedData.ok) {
+    fail(`newly_added_current.json not served: ${newlyAddedData.status}`);
+  }
+
+  const leavingSoon = await fetch(new URL('/data/leaving_soon_current.json', V2_URL));
+  if (leavingSoon.status !== 404) {
+    fail(`leaving_soon_current.json should be unsupported (404), got ${leavingSoon.status}`);
+  }
+
+  const homeStatusResponse = await fetch(new URL('/HomeDataStatus.jsx', V2_URL));
+  if (!homeStatusResponse.ok) {
+    fail(`failed to fetch HomeDataStatus.jsx: ${homeStatusResponse.status}`);
+  }
+  const homeStatusSource = await homeStatusResponse.text();
+  if (!homeStatusSource.includes('Development data status (I-02)')) {
+    fail('HomeDataStatus missing I-02 development status label');
+  }
+
   console.log(`smoke_check_v2: ok (${V2_URL})`);
 } catch (error) {
   if (stderr.trim()) {

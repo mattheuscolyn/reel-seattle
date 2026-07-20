@@ -1,6 +1,6 @@
 # 17 — First v2 Implementation Slice
 
-**Status:** Decision recorded (D-27); **I-01 complete** — next **I-02**  
+**Status:** Decision recorded (D-27); **I-02 complete** — next **I-03**  
 **Authority:** Authoritative for the *first* v2 implementation slice only; does not replace canonical screen specs  
 **Related:** [Implementation roadmap](./09-implementation-roadmap.md) · [v2 README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Global navigation](./specs/global-navigation.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Editorial design language](./15-editorial-design-language.md) · [Data foundation roadmap](../data-foundation-roadmap.md) · [Development operating model](../development-operating-model.md#v2-product-design-workflow) · [Data artifact inventory](../data-artifact-inventory.md)
 
@@ -17,7 +17,8 @@
 **Implementation progress:**
 
 → **I-01 complete** (isolated v2 Vite shell)  
-→ **Next: I-02 — v2 data adapter**  
+→ **I-02 complete** (Home data adapter + allowlisted `/data`)  
+→ **Next: I-03 — Top Opportunities region**  
 See [Follow-up task sequence](#follow-up-task-sequence) and [Local v2 app commands](#local-v2-app-commands-i-01).
 
 ---
@@ -167,7 +168,22 @@ Adapter: prefer a **v2-local read model** (new module under the v2 app) that map
 * Dev URL: http://127.0.0.1:5175/
 * Hostname allowlist: `localhost`, `127.0.0.1`, `[::1]` (mirror cockpit)
 * `check:dist` forbids v2 / `dist-v2` paths in production `dist/`
-* Data serving deferred to I-02+ (shell has `publicDir: false`; no `/data` yet)
+* Data serving: allowlisted `/data/*` via `vite.v2.config.js` middleware (`publicDir: false` preserved)
+* Leaving Soon is **not** allowlisted and must not enter HomeData (`leavingSoonExcluded: true`)
+
+### I-02 Home data adapter
+
+| Item | Location / behavior |
+|------|---------------------|
+| Pure transform | `v2/adapters/buildHomeData.js` |
+| Opportunity identity | `v2/adapters/opportunityIdentity.js` |
+| Loader | `v2/data/loadHomeData.js` |
+| Allowlist | `v2/data/allowedDataRoutes.js` |
+| Inputs | `showtimes_current`, `theaters`, `newly_added_current`, optional `pipeline_report` |
+| Outputs | `HomeData` with `films`, `opportunities`, `theatersById`, `newlyAdded`, `opportunityCandidates`, `warnings`, `sourceHealth` |
+| Identity | Film = `showtime_film_key`; opportunity dedupe prefers `source`+`source_showtime_id`, else showtime `id`, else composite |
+| Selection | `opportunityCandidates` are mechanical inputs only — not recommendations |
+| Integration proof | Home placeholder shows development-only counts via `HomeDataStatus` |
 
 **Do not** invent a monorepo or new framework. Stay on React 19 + Vite already in the repo.
 
@@ -207,7 +223,7 @@ Inherit [Home](./specs/home.md) and [Global navigation](./specs/global-navigatio
 | ID | Name | Objective | Boundaries | Dependencies | Completion evidence |
 |----|------|-----------|------------|--------------|---------------------|
 | **I-01** | Isolated v2 Vite shell | Second Vite app boots locally; empty Home placeholder; not shippable | No Home content yet; no production route changes | D-27 | **Done** — `v2/`, port 5175, `dist-v2`, hostname gate, four-destination placeholders, tests |
-| **I-02** | v2 data adapter | Map showtimes / theaters / newly_added → Home view models | No UI polish; no ranking engine | I-01 | Adapter tests; honest field mapping docs |
+| **I-02** | v2 data adapter | Map showtimes / theaters / newly_added → Home view models | No UI polish; no ranking engine | I-01 | **Done** — `buildHomeData`, allowlisted `/data`, adapter + loader tests, HomeDataStatus proof |
 | **I-03** | Top Opportunities region | One-at-a-time featured stories (~3) with honest reasons | No Leaving Soon; no Film Detail route (tap may no-op or stub) | I-02 | Visual + keyboard story nav; tests |
 | **I-04** | Supporting Home regions | Orientation + newly-added module + stub CTAs | No Explore/Planner/Profile implementation | I-03 | Hierarchy matches Home spec order |
 | **I-05** | Nav chrome stubs | Four labels; Home active; others stub screens | No real routing to production pages | I-01 | Matches Global navigation labels |
@@ -229,7 +245,7 @@ Tasks may be slightly reordered (e.g. I-05 with I-01) if that reduces thrash —
 
 ---
 
-## Local v2 app commands (I-01)
+## Local v2 app commands (I-01 / I-02)
 
 | Item | Value |
 |------|-------|
@@ -238,6 +254,8 @@ Tasks may be slightly reordered (e.g. I-05 with I-01) if that reduces thrash —
 | Build | `npm run build:v2` → `dist-v2/` |
 | Smoke | `npm run smoke:v2` |
 | Status | **Local-only** — excluded from `npm run build`, GitHub Pages, and `check:dist` |
+| Data | Allowlisted `/data/showtimes_current.json`, `/data/theaters.json`, `/data/newly_added_current.json`, `/data/pipeline_report.json` (Leaving Soon not served) |
+| Adapter | `v2/adapters/buildHomeData.js` (pure); `v2/data/loadHomeData.js` (fetch) |
 
 Destination switching uses in-memory state (no URL deep links yet). That is intentional for I-01.
 
@@ -245,9 +263,9 @@ Destination switching uses in-memory state (no URL deep links yet). That is inte
 
 ## Next executable follow-up
 
-**I-02 — v2 data adapter**
+**I-03 — Top Opportunities region**
 
-Map committed showtimes / theaters / newly-added artifacts into Home view models. No UI polish; no ranking engine. Governed by this document and [home.md](./specs/home.md).
+Select a scarce set of opportunity candidates from I-02 HomeData and present one-at-a-time with honest reasons. No Leaving Soon; no ranking engine. Governed by this document and [home.md](./specs/home.md).
 
 ---
 
@@ -256,7 +274,7 @@ Map committed showtimes / theaters / newly-added artifacts into Home view models
 | Topic | Status |
 |-------|--------|
 | Exact directory / package script names for the v2 app | **Resolved in I-01** — `v2/`, `npm run v2`, `dist-v2`, port 5175 |
-| Top Opportunity selection: checked-in editorial fixture vs rule-light heuristic | Open — both allowed if honest and explainable |
+| Top Opportunity selection: checked-in editorial fixture vs rule-light heuristic | Open — both allowed if honest and explainable; candidates prepared in I-02 |
 | Tapping a Top Opportunity: no-op, stub Film Detail, or placeholder | Open until Film Detail slice |
-| Newly-added module label (“Recently added” vs “Opening This Week”) | Open — prefer honest semantics |
+| Newly-added module label (“Recently added” vs “Opening This Week”) | Open — prefer honest semantics (`newlyAdded` in adapter) |
 | When Leaving Soon becomes eligible | After product + data gate to ship `leaving_soon_current` |

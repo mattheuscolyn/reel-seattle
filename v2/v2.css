@@ -112,6 +112,40 @@ button {
   font-size: 1.05rem;
 }
 
+.v2-data-status {
+  margin-top: var(--v2-space-5);
+  padding: var(--v2-space-4);
+  border: 1px dashed var(--v2-border);
+  border-radius: 0.5rem;
+  max-width: 28rem;
+}
+
+.v2-data-status-label {
+  margin: 0 0 var(--v2-space-2);
+  color: var(--v2-accent);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.v2-data-status-message,
+.v2-data-status-error {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: 0.95rem;
+}
+
+.v2-data-status-error {
+  margin-top: var(--v2-space-2);
+}
+
+.v2-data-status-counts {
+  margin: var(--v2-space-3) 0 0;
+  padding-left: 1.25rem;
+  color: var(--v2-fg);
+  font-size: 0.95rem;
+}
+
 .v2-nav {
   position: fixed;
   left: 0;

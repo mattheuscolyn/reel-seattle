@@ -1,10 +1,12 @@
 import { getDestinationById, resolveDestinationId } from './destinations.js';
+import HomeDataStatus from './HomeDataStatus.jsx';
 
 /**
  * @param {{ destinationId: string }} props
  */
 export default function DestinationPlaceholder({ destinationId }) {
   const destination = getDestinationById(resolveDestinationId(destinationId));
+  const showHomeDataStatus = destination.id === 'home';
 
   return (
     <section
@@ -14,6 +16,7 @@ export default function DestinationPlaceholder({ destinationId }) {
       <p className="v2-destination-eyebrow">v2 shell · placeholder</p>
       <h1 id={`v2-destination-heading-${destination.id}`}>{destination.title}</h1>
       <p className="v2-destination-copy">{destination.description}</p>
+      {showHomeDataStatus ? <HomeDataStatus /> : null}
     </section>
   );
 }
