@@ -214,7 +214,7 @@ Exact controls may vary by expression depth, but behavior should remain **predic
 
 ### Add to Planner
 
-May be available from appropriate **secondary** expressions. Home must **not** become a planning form or optimization workspace ([Planner conceptual behavior](../08-screen-specifications.md#planner); future Planner canonical spec TBD).
+May be available from appropriate **secondary** expressions. Home must **not** become a planning form or optimization workspace ([canonical Planner](./planner.md)).
 
 ---
 
@@ -394,8 +394,7 @@ Early UI implementation must **not** fabricate missing signal engines, cultural 
 * Preference-aware prioritization (membership, favorites, dismissed films)
 * Richer change-awareness storytelling between visits
 * Notifications / newsletters tied to Home-worthy moments
-* Canonical [Planner](./planner.md) exists (D-19); Theater canonical spec still future
-* Stage 2 direct plan sculpting approved in product spec — not marked shipped on public Planner
+* Canonical [Planner](./planner.md) exists (D-19); canonical [Theater](./theater.md) exists (D-20)
 * Component mappings for featured vs secondary expressions
 * Final explore-destination information architecture
 

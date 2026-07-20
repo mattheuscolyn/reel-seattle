@@ -9,13 +9,13 @@ Order v2 **implementation** work only after enough of the design specification e
 
 ## Status
 
-Not yet authored as a full build plan. Screen-specification track: canonical [Home](./specs/home.md) (D-17), [Film Detail](./specs/film-detail.md) (D-18), and [Planner](./specs/planner.md) (D-19). Do not schedule UI implementation from incomplete surface specs (Theater canonical TBD). Optimizer internals, travel data, pricing, durable plan persistence, and Stage 2 sculpt shipping remain dependencies — not marked complete by this docs track.
+Not yet authored as a full build plan. Screen-specification track: canonical [Home](./specs/home.md), [Film Detail](./specs/film-detail.md), [Planner](./specs/planner.md), and [Theater](./specs/theater.md) (D-17–D-20). Primary surfaces specified; Opportunity Detail and settings remain open. Do not schedule v2 UI implementation without explicit product gates.
 
 ## Placeholder sections
 
-* Design-complete gates before coding (Home + Film Detail + Planner canonical exist; Theater canonical TBD)
-* Parallelism with data-foundation work (esp. [film identity](../data-foundation-roadmap.md#planned-film-identity-and-enrichment))
-* Relationship to the stable production site (live Planner preserved; v2 canonical does not force silent redesign)
+* Design-complete gates before coding (Home, Film Detail, Planner, Theater canonical exist)
+* Parallelism with data-foundation work (film identity, [theater expansion](../data-foundation-roadmap.md#planned-theater-model-expansion))
+* Relationship to the stable production site (no dedicated Theater page today; live Planner preserved)
 * Suggested implementation slices (TBD)
 
 ## Rules

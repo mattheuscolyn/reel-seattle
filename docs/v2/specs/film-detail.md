@@ -127,7 +127,7 @@ Representative exits:
 | **Related / reference destinations** | Collections, filmmaker, related films (when available) |
 | **Share** | Film or specific opportunity |
 
-Film Detail must not become the full planning optimizer ([08 — Planner](../08-screen-specifications.md#planner); future Planner canonical spec TBD).
+Film Detail must not become the full planning optimizer ([canonical Planner](./planner.md)). For venue identity and full venue program, see [canonical Theater](./theater.md).
 
 ---
 
@@ -546,7 +546,7 @@ This specification does **not**:
 * Require AI-generated editorial copy
 * Design production schemas
 * Build the page or modify current public-site behavior
-* Design Planner (canonical Planner spec TBD)
+* Design Planner ([canonical Planner](./planner.md)) or Theater ([canonical Theater](./theater.md)) beyond this document’s scope
 * Globally redesign navigation
 * Mark identity, signal engine, or ranking as complete
 

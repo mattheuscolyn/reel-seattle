@@ -10,6 +10,6 @@ Written specifications here are **canonical**. Conceptual philosophy remains in 
 | [Home](./home.md) | Canonical (D-17) |
 | [Film Detail](./film-detail.md) | Canonical (D-18) |
 | [Planner](./planner.md) | Canonical (D-19) |
-| Theater | TBD |
+| [Theater](./theater.md) | Canonical (D-20) |
 
 See [v2 README](../README.md) for the full document map.

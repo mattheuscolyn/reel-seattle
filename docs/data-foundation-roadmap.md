@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-20 (D-19 — canonical Planner screen specification)  
+**Last updated:** 2026-07-20 (D-20 — canonical Theater screen specification)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -432,7 +432,7 @@ Live prototype findings retained:
 | Match solely on title | `Deferred` / forbidden as sole key | — |
 | Match solely on `wwmReleaseNumber` | `Deferred` / forbidden as sole key | Grouping evidence only |
 
-* [Canonical Planner](./specs/planner.md) — single-day multi-film generation + Stage 2 sculpting (D-19); does **not** implement optimizer/travel/pricing
+* [Canonical Theater](./specs/theater.md) — venue identity, programming character, notable opportunities (D-20); depends on [theater expansion](#planned-theater-model-expansion); does **not** implement registry/UI
 * See also [unified-planner-design.md](./unified-planner-design.md) (current engine) and [planner-ux-roadmap.md](./planner-ux-roadmap.md)
 
 ---
@@ -443,7 +443,7 @@ Live prototype findings retained:
 |--------------------|--------|
 | Address | `Planned` |
 | Coordinates | `Planned` |
-| Neighborhood / city | `Planned` |
+| Neighborhood / city | `Partial` | In registry today (`city`, `neighborhood` on many entries); roadmap item retained for completeness |
 | Number of screens | `Planned` |
 | Individual auditoriums (if audits justify) | `Research needed` |
 | Accessibility / format capabilities | `Planned` |
@@ -461,7 +461,7 @@ Registry remains canonical authored data (`data/theaters.json`). Expand only wit
 | Pages exposure of source catalogs | `Deferred` / not planned | Catalogs are internal |
 | Leaving Soon UI expansion | `Deferred` | Gated in [product-roadmap.md](./product-roadmap.md) |
 | Next public site build | `Deferred` | Design-first; separate track |
-| v2 design specification (D-1+) | `In progress` | Philosophy under [docs/v2/](./v2/README.md); canonical screen specs under [docs/v2/specs/](./v2/specs/) — Home (D-17), Film Detail (D-18), Planner (D-19); parallel to data foundation; not production UI |
+| v2 design specification (D-1+) | `In progress` | Philosophy under [docs/v2/](./v2/README.md); canonical screen specs under [docs/v2/specs/](./v2/specs/) — Home, Film Detail, Planner, Theater (D-17–D-20); parallel to data foundation; not production UI |
 
 ---
 

@@ -1,25 +1,17 @@
 # 08 — Screen Specifications
 
-**Status:** Conceptual surfaces D-10–D-13; **Home** → [specs/home.md](./specs/home.md) (D-17); **Film Detail** → [specs/film-detail.md](./specs/film-detail.md) (D-18); **Planner** → [specs/planner.md](./specs/planner.md) (D-19)  
-**Related:** [README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
+**Status:** Conceptual surfaces D-10–D-13; canonical specs: [Home](./specs/home.md) (D-17), [Film Detail](./specs/film-detail.md) (D-18), [Planner](./specs/planner.md) (D-19), [Theater](./specs/theater.md) (D-20)  
+**Related:** [README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Canonical Theater](./specs/theater.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
 
 This document records **per-surface conceptual product behavior** for Reel Seattle v2 — what each experience exists to accomplish and how it should feel when successful.
 
 It is **not** a UI specification. Do not invent layouts, cards, chrome, interactions, wireframes, or algorithms from these sections.
 
-For **Home**, the **canonical** product specification is:
+Canonical product specifications:
 
-→ **[specs/home.md](./specs/home.md)**
+→ **[specs/home.md](./specs/home.md)** · **[specs/film-detail.md](./specs/film-detail.md)** · **[specs/planner.md](./specs/planner.md)** · **[specs/theater.md](./specs/theater.md)**
 
-For **Film Detail**, the **canonical** product specification is:
-
-→ **[specs/film-detail.md](./specs/film-detail.md)**
-
-For **Planner**, the **canonical** product specification is:
-
-→ **[specs/planner.md](./specs/planner.md)**
-
-Where this document’s Home, Film Detail, or Planner sections and the corresponding canonical specs diverge, **the canonical specs are authoritative**.
+Where this document’s surface sections and the corresponding canonical specs diverge, **the canonical specs are authoritative**.
 
 ---
 
@@ -29,7 +21,7 @@ Where this document’s Home, Film Detail, or Planner sections and the correspon
 |---------|--------------|
 | **Home / Discovery** | Conceptual (D-10) + **canonical** [specs/home.md](./specs/home.md) (D-17) |
 | **Film Detail** | Conceptual (D-11) + **canonical** [specs/film-detail.md](./specs/film-detail.md) (D-18) |
-| **Theater** | Conceptual behavior (D-12); canonical screen spec TBD |
+| **Theater** | Conceptual (D-12) + **canonical** [specs/theater.md](./specs/theater.md) (D-20) |
 | **Planner** | Conceptual (D-13) + **canonical** [specs/planner.md](./specs/planner.md) (D-19) |
 | Opportunity detail | Placeholder |
 | Settings / preferences (if any) | Placeholder |
@@ -409,6 +401,9 @@ Hierarchy (Why see it / What it’s about / Best Opportunity / All Showtimes), e
 
 # Theater
 
+> **Canonical specification:** [specs/theater.md](./specs/theater.md)  
+> The sections below remain **conceptual background** (D-12). Prefer the canonical spec for implementation and detailed product rules.
+
 ---
 
 ## Purpose
@@ -418,15 +413,17 @@ The Theater experience helps users understand both:
 * the **identity** of a theater, and
 * the **opportunities** that theater currently offers.
 
+Approved central question ([canonical Theater](./specs/theater.md)):
+
+> “What is distinctive about seeing movies here, and what can I see here now?”
+
+Conceptual D-12 also framed venue comparison as “Why would I choose this theater instead of another?” — still a useful outcome under the canonical question.
+
 It should not stop at:
 
 > “What’s playing here?”
 
-It should answer:
-
-> “Why would I choose this theater instead of another?”
-
-Theater is the primary surface for **Theater Exploration** sessions — place and venue as a path into films and opportunities ([Experience model](./12-experience-model.md)). Schedules matter, but they matter because they express what kind of cinema this venue practices, not because a raw list of showtimes is the product.
+Theater is the primary surface for **Theater Exploration** sessions — place and venue as a path into films and opportunities ([Experience model](./12-experience-model.md)). Schedules matter because they express what kind of cinema this venue practices, not because a raw list of showtimes is the product.
 
 Films remain the identity users recognize when scanning programming; opportunities remain the decision units attached to those films ([Core concepts](./02-core-concepts.md), [Opportunity model](./10-opportunity-model.md)). The Theater experience adds a **venue-centered** frame: why *this place* is a reason to go.
 
@@ -579,11 +576,13 @@ These must not redefine Theater’s primary job (identity → current opportunit
 
 | Topic | Why deferred |
 |-------|----------------|
-| Page layout, tabs, cards, density | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md) |
-| Navigation behavior and chrome | → [Navigation](./05-navigation.md) |
-| Interaction flows and controls | Later design agreement |
-| Ranking / “best venue” algorithms | Explicitly out of scope |
+| Exact visual layout, density, chrome | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md); behavior → [canonical Theater](./specs/theater.md) |
+| Navigation chrome | → [Navigation](./05-navigation.md) |
+| Venue ranking / signal engine | Explicitly out of scope ([canonical Theater](./specs/theater.md)) |
+| Registry expansion, geocoding, screen identity, venue imagery | → [data-foundation roadmap](../data-foundation-roadmap.md#planned-theater-model-expansion); not implemented |
 | Exact favorite-theater and notification rules | Future Product Owner + ChatGPT sessions |
+
+Hierarchy (identity → distinctive → notable opportunities → full program → practical → reference), theater-specific filtering, and Planner handoff direction are specified in [specs/theater.md](./specs/theater.md) — not deferred as product intent.
 
 ---
 
