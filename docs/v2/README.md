@@ -37,8 +37,8 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [06 — Component system](./06-component-system.md) | Reusable UI building blocks | Placeholder |
 | [07 — Visual language](./07-visual-language.md) | Visual direction and tokens | Placeholder (guided by [15](./15-editorial-design-language.md)) |
 | [08 — Screen specifications](./08-screen-specifications.md) | Per-surface conceptual behavior (philosophy) | Conceptual (D-10–D-13); canonical specs in [specs/](./specs/) |
-| [09 — Implementation roadmap](./09-implementation-roadmap.md) | Ordered build plan (after design) | Active (D-27); first slice defined |
-| [17 — First implementation slice](./17-first-implementation-slice.md) | Decision record for first v2 UI slice | Decision (D-27) |
+| [09 — Implementation roadmap](./09-implementation-roadmap.md) | Ordered build plan (after design) | Active; **I-01 complete**, I-02 next |
+| [17 — First implementation slice](./17-first-implementation-slice.md) | Decision record for first v2 UI slice | Decision (D-27); I-01 shell live |
 | [Canonical screen specs](./specs/) | Implementation-authoritative per-surface specs | Home, Film Detail, Planner, Theater, Explore/Search (D-17–D-20, D-23); Opportunity expression (D-24); Profile/Settings (D-25); Global navigation (D-26); Home reconciled with Design Review v3 (D-22) |
 
 ### Canonical screen specifications
@@ -53,6 +53,19 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [Opportunity expression](./specs/opportunity-expression.md) | Canonical (D-24) — cross-surface; **not** a standalone page |
 | [Profile / Settings](./specs/profile-settings.md) | Canonical (D-25) |
 | [Global navigation](./specs/global-navigation.md) | Canonical (D-26) — Home · Explore · Planner · Profile |
+
+---
+
+## Local v2 application (I-01)
+
+Isolated Vite app (cockpit pattern). **Not** part of production `dist/` or GitHub Pages.
+
+| | |
+|--|--|
+| Directory | `v2/` |
+| Dev | `npm run v2` → http://127.0.0.1:5175/ |
+| Build | `npm run build:v2` → `dist-v2/` (gitignored) |
+| Smoke | `npm run smoke:v2` |
 
 ---
 

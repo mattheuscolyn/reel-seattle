@@ -1,6 +1,6 @@
 # 09 — Implementation Roadmap
 
-**Status:** Active (D-27 — first implementation slice defined)  
+**Status:** Active (I-01 complete — isolated v2 shell; I-02 next)  
 **Related:** [README](./README.md) · [First implementation slice](./17-first-implementation-slice.md) · [Product philosophy](./01-product-philosophy.md) · [Data foundation roadmap](../data-foundation-roadmap.md) · [Development operating model](../development-operating-model.md#v2-product-design-workflow)
 
 ## Purpose
@@ -57,12 +57,17 @@ The following are **not** required before starting the first slice:
 * Profile accounts or status persistence
 * Production feature-flag framework
 
-### First executable task
+### Implementation progress
 
-**I-01 — Isolated v2 Vite shell (local-only)**  
+| Task | Status |
+|------|--------|
+| **I-01** Isolated v2 Vite shell | **Complete** — `v2/`, `npm run v2` → http://127.0.0.1:5175/, `dist-v2/` |
+| **I-02** v2 data adapter | **Next** |
+| I-03–I-07 | Pending |
+
+Canonical four-destination chrome (Home · Explore · Planner · Profile) with placeholders shipped in I-01; I-05 remains available for any later chrome polish beyond the shell.
+
 See [17 — Follow-up task sequence](./17-first-implementation-slice.md#follow-up-task-sequence).
-
-Subsequent tasks in the slice: I-02 adapter → I-03 Top Opportunities → I-04 supporting regions → I-05 nav stubs → I-06 a11y/responsive → I-07 QC/docs.
 
 ---
 
