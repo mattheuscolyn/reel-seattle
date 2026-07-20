@@ -7,7 +7,7 @@ Written specifications here are **canonical**. Conceptual philosophy remains in 
 
 | Spec | Status |
 |------|--------|
-| [Home](./home.md) | Canonical (D-17) |
+| [Home](./home.md) | Canonical (D-17); reconciled with Design Review v3 (D-22) |
 | [Film Detail](./film-detail.md) | Canonical (D-18) |
 | [Planner](./planner.md) | Canonical (D-19) |
 | [Theater](./theater.md) | Canonical (D-20) |

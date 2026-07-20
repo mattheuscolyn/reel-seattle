@@ -1,6 +1,6 @@
 # 08 — Screen Specifications
 
-**Status:** Conceptual surfaces D-10–D-13; canonical specs: [Home](./specs/home.md) (D-17), [Film Detail](./specs/film-detail.md) (D-18), [Planner](./specs/planner.md) (D-19), [Theater](./specs/theater.md) (D-20)  
+**Status:** Conceptual surfaces D-10–D-13; canonical specs: [Home](./specs/home.md) (D-17; reconciled D-22), [Film Detail](./specs/film-detail.md) (D-18), [Planner](./specs/planner.md) (D-19), [Theater](./specs/theater.md) (D-20)  
 **Related:** [README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Canonical Theater](./specs/theater.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
 
 This document records **per-surface conceptual product behavior** for Reel Seattle v2 — what each experience exists to accomplish and how it should feel when successful.
@@ -19,7 +19,7 @@ Where this document’s surface sections and the corresponding canonical specs d
 
 | Surface | Completeness |
 |---------|--------------|
-| **Home / Discovery** | Conceptual (D-10) + **canonical** [specs/home.md](./specs/home.md) (D-17) |
+| **Home / Discovery** | Conceptual (D-10) + **canonical** [specs/home.md](./specs/home.md) (D-17; Design Review v3 reconciliation D-22) |
 | **Film Detail** | Conceptual (D-11) + **canonical** [specs/film-detail.md](./specs/film-detail.md) (D-18) |
 | **Theater** | Conceptual (D-12) + **canonical** [specs/theater.md](./specs/theater.md) (D-20) |
 | **Planner** | Conceptual (D-13) + **canonical** [specs/planner.md](./specs/planner.md) (D-19) |
@@ -48,6 +48,8 @@ Approved primary question ([canonical Home](./specs/home.md)):
 Supporting awareness outcomes include understanding the current week’s landscape and meaningful change since the last visit — without reducing Home to a “what’s new today” feed.
 
 Home is the primary **overview** surface for Discovery ([Information architecture](./04-information-architecture.md), [Discovery model](./03-discovery-model.md)). It orients people to the city’s actionable landscape — extraordinary, time-sensitive, and newly relevant chances — without pretending to be an exhaustive database of every listing.
+
+**Presentation note (D-22):** Premium attention on Home is expressed as **full-width, one-at-a-time Top Opportunities**, not equal poster cards or a streaming strip. Supporting regions such as Opening This Week, Leaving Soon, Build a Movie Day, and Explore More sit below that featured treatment ([canonical Home](./specs/home.md)).
 
 This serves the product promise and emotional goal: extraordinary Seattle cinema is hard to miss, and users know what was worth considering in time to act ([Product philosophy](./01-product-philosophy.md)).
 
@@ -208,13 +210,13 @@ Personalization changes **emphasis**. It must not hide Seattle cinema or turn Ho
 
 | Topic | Why deferred |
 |-------|----------------|
-| Exact visual layout, density, chrome | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md); behavior → [canonical Home](./specs/home.md) |
+| Exact visual layout, density, chrome, color tokens | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md); behavior and mood intent → [canonical Home](./specs/home.md) |
 | Global navigation structure | → [Navigation](./05-navigation.md) |
 | Ranking / scoring algorithms | Explicitly out of scope ([canonical Home](./specs/home.md)) |
 | Exact personalization rules | Future Product Owner + ChatGPT sessions |
-| Supporting-section inventory & explore-label copy | Open in [canonical Home](./specs/home.md) |
+| Exact Explore More label; exact supporting-section order | Open in [canonical Home](./specs/home.md) |
 
-Featured vs secondary interaction rules, Top Opportunities scarcity, and the filtering boundary are specified in [specs/home.md](./specs/home.md) — not deferred.
+**Canonical (not deferred):** full-width **one-at-a-time** Top Opportunities; featured → Film Detail (no substantial inline expansion); supporting sections such as Opening This Week, Leaving Soon, Build a Movie Day, and Explore More; filtering boundary; Planner Stage 1 and Theater destinations — see [specs/home.md](./specs/home.md) (D-22).
 
 ---
 
