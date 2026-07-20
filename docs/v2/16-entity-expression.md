@@ -82,7 +82,7 @@ A **Film** is the canonical identity users recognize ([Core concepts](./02-core-
 | **Planner** | Schedule fit, logistical compatibility — can this film’s opportunities work in a plan |
 | **Film Detail** | Complete understanding — context, synopsis, creators, significance |
 
-Home surfaces awareness; Film Detail builds confidence; Planner asks fit; Theater expresses venue character and program. All still refer to one Film. Canonical surfaces: [Home](./specs/home.md), [Film Detail](./specs/film-detail.md), [Planner](./specs/planner.md), [Theater](./specs/theater.md).
+Home surfaces awareness; Film Detail builds confidence; Planner asks fit; Theater expresses venue character and program; Explore/Search supports user-directed investigation. All still refer to one Film. Canonical surfaces: [Home](./specs/home.md), [Film Detail](./specs/film-detail.md), [Planner](./specs/planner.md), [Theater](./specs/theater.md), [Explore / Search](./specs/explore-search.md).
 
 ---
 

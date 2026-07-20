@@ -1,7 +1,7 @@
 # 08 — Screen Specifications
 
-**Status:** Conceptual surfaces D-10–D-13; canonical specs: [Home](./specs/home.md) (D-17; reconciled D-22), [Film Detail](./specs/film-detail.md) (D-18), [Planner](./specs/planner.md) (D-19), [Theater](./specs/theater.md) (D-20)  
-**Related:** [README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Canonical Theater](./specs/theater.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
+**Status:** Conceptual surfaces D-10–D-13; canonical specs: [Home](./specs/home.md) (D-17; reconciled D-22), [Film Detail](./specs/film-detail.md) (D-18), [Planner](./specs/planner.md) (D-19), [Theater](./specs/theater.md) (D-20), [Explore / Search](./specs/explore-search.md) (D-23)  
+**Related:** [README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Canonical Theater](./specs/theater.md) · [Canonical Explore / Search](./specs/explore-search.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
 
 This document records **per-surface conceptual product behavior** for Reel Seattle v2 — what each experience exists to accomplish and how it should feel when successful.
 
@@ -9,7 +9,7 @@ It is **not** a UI specification. Do not invent layouts, cards, chrome, interact
 
 Canonical product specifications:
 
-→ **[specs/home.md](./specs/home.md)** · **[specs/film-detail.md](./specs/film-detail.md)** · **[specs/planner.md](./specs/planner.md)** · **[specs/theater.md](./specs/theater.md)**
+→ **[specs/home.md](./specs/home.md)** · **[specs/film-detail.md](./specs/film-detail.md)** · **[specs/planner.md](./specs/planner.md)** · **[specs/theater.md](./specs/theater.md)** · **[specs/explore-search.md](./specs/explore-search.md)**
 
 Where this document’s surface sections and the corresponding canonical specs diverge, **the canonical specs are authoritative**.
 
@@ -23,6 +23,7 @@ Where this document’s surface sections and the corresponding canonical specs d
 | **Film Detail** | Conceptual (D-11) + **canonical** [specs/film-detail.md](./specs/film-detail.md) (D-18) |
 | **Theater** | Conceptual (D-12) + **canonical** [specs/theater.md](./specs/theater.md) (D-20) |
 | **Planner** | Conceptual (D-13) + **canonical** [specs/planner.md](./specs/planner.md) (D-19) |
+| **Explore / Search** | **Canonical** [specs/explore-search.md](./specs/explore-search.md) (D-23) |
 | Opportunity detail | Placeholder |
 | Settings / preferences (if any) | Placeholder |
 
@@ -800,13 +801,19 @@ Three-stage model, generate-all-valid-plans semantics, Stage 2 direct sculpting,
 
 ## Remaining surfaces (placeholders)
 
+### Explore / Search
+
+> **Canonical specification:** [specs/explore-search.md](./specs/explore-search.md) (D-23)
+
+Explore and Search are **one connected experience**: comprehensive, user-directed discovery with opportunity-aware results, full filtering, and film-status management (**Seen** vs **Not interested** — no separate Hidden shelf). Global navigation membership remains open; Explore/Search must be reachable as a primary discovery destination.
+
 ### Opportunity detail
 
 *(TBD — decision-focused depth for a specific way to experience a film.)*
 
 ### Settings / preferences (if any)
 
-*(TBD — only if later design requires explicit preference management.)*
+*(TBD — only if later design requires explicit preference management; Film Activity Seen / Not interested management is specified under [Explore / Search](./specs/explore-search.md).)*
 
 ---
 

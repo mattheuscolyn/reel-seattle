@@ -136,7 +136,7 @@ See [Navigation & interaction model](./05-navigation.md) — progressive depth, 
 
 ### Search
 
-*(TBD — how finding by title, venue, or intent fits Discovery vs reference.)*
+→ **[Canonical Explore / Search](./specs/explore-search.md)** (D-23) — Search is a mode within Explore; opportunity-aware results and comprehensive filtering live there. Discovery vs reference: Home remains editorial overview; Explore is user-directed reference browsing.
 
 ### Onboarding
 

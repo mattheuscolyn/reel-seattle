@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-20 (D-22 — reconcile canonical Home with Design Review v3)  
+**Last updated:** 2026-07-20 (D-23 — canonical Explore / Search screen specification)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -434,6 +434,7 @@ Live prototype findings retained:
 
 * [Canonical Theater](./v2/specs/theater.md) — venue identity, programming character, notable opportunities (D-20); depends on [theater expansion](#planned-theater-model-expansion); does **not** implement registry/UI
 * [Canonical Home](./v2/specs/home.md) — D-17; reconciled with Design Review v3 (D-22: full-width one-at-a-time Top Opportunities); does **not** implement Home UI, ranking, or landscape-art ingestion
+* [Canonical Explore / Search](./v2/specs/explore-search.md) — D-23; opportunity-aware browse/search, comprehensive filtering, Seen vs Not interested; does **not** implement search index, ranking, status persistence, maps, or personalization
 * See also [unified-planner-design.md](./unified-planner-design.md) (current engine) and [planner-ux-roadmap.md](./planner-ux-roadmap.md)
 
 ---
@@ -462,7 +463,7 @@ Registry remains canonical authored data (`data/theaters.json`). Expand only wit
 | Pages exposure of source catalogs | `Deferred` / not planned | Catalogs are internal |
 | Leaving Soon UI expansion | `Deferred` | Gated in [product-roadmap.md](./product-roadmap.md) |
 | Next public site build | `Deferred` | Design-first; separate track |
-| v2 design specification (D-1+) | `In progress` | Philosophy under [docs/v2/](./v2/README.md); canonical screen specs under [docs/v2/specs/](./v2/specs/) — Home, Film Detail, Planner, Theater (D-17–D-20); Home reconciled with Design Review v3 (D-22); parallel to data foundation; not production UI |
+| v2 design specification (D-1+) | `In progress` | Philosophy under [docs/v2/](./v2/README.md); canonical screen specs under [docs/v2/specs/](./v2/specs/) — Home, Film Detail, Planner, Theater, Explore/Search (D-17–D-20, D-23); Home reconciled with Design Review v3 (D-22); parallel to data foundation; not production UI |
 
 ---
 

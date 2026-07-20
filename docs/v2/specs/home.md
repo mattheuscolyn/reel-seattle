@@ -309,7 +309,7 @@ Content should **degrade gracefully** when some metadata is unavailable.
 
 ### Explore More
 
-This is the deliberate transition from editorial briefing to comprehensive exploration.
+This is the deliberate transition from editorial briefing to comprehensive exploration ([canonical Explore / Search](./explore-search.md)).
 
 It should conceptually provide routes to:
 
