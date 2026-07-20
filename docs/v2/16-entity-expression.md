@@ -151,7 +151,7 @@ Completed Experience
 | **Committed Plan** | Intent to act; preparedness |
 | **Completed Experience** | After the fact — memory and continuity |
 
-**Refinement preserves identity** rather than replacing the plan ([Screen specifications — Planner](./08-screen-specifications.md#planner); Interaction Model stability). Users should feel they are improving *the same plan*, not starting a new product each adjustment.
+**Refinement preserves identity** rather than replacing the plan ([canonical Planner](./specs/planner.md); Interaction Model stability). Users should feel they are improving *the same plan*, not starting a new product each adjustment.
 
 ---
 

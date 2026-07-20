@@ -394,7 +394,8 @@ Early UI implementation must **not** fabricate missing signal engines, cultural 
 * Preference-aware prioritization (membership, favorites, dismissed films)
 * Richer change-awareness storytelling between visits
 * Notifications / newsletters tied to Home-worthy moments
-* Canonical [Film Detail](./film-detail.md) exists (D-18); Planner / Theater canonical specs still future
+* Canonical [Planner](./planner.md) exists (D-19); Theater canonical spec still future
+* Stage 2 direct plan sculpting approved in product spec — not marked shipped on public Planner
 * Component mappings for featured vs secondary expressions
 * Final explore-destination information architecture
 

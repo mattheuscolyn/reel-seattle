@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-19 (D-18 — canonical Film Detail screen specification)  
+**Last updated:** 2026-07-20 (D-19 — canonical Planner screen specification)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -432,8 +432,8 @@ Live prototype findings retained:
 | Match solely on title | `Deferred` / forbidden as sole key | — |
 | Match solely on `wwmReleaseNumber` | `Deferred` / forbidden as sole key | Grouping evidence only |
 
-* [Canonical Film Detail](./specs/film-detail.md) — decision hierarchy, Best Opportunity, All Showtimes (D-18); depends on planned identity/enrichment, does **not** implement them
-* See also [film-identity-normalization.md](./film-identity-normalization.md)
+* [Canonical Planner](./specs/planner.md) — single-day multi-film generation + Stage 2 sculpting (D-19); does **not** implement optimizer/travel/pricing
+* See also [unified-planner-design.md](./unified-planner-design.md) (current engine) and [planner-ux-roadmap.md](./planner-ux-roadmap.md)
 
 ---
 
@@ -461,7 +461,7 @@ Registry remains canonical authored data (`data/theaters.json`). Expand only wit
 | Pages exposure of source catalogs | `Deferred` / not planned | Catalogs are internal |
 | Leaving Soon UI expansion | `Deferred` | Gated in [product-roadmap.md](./product-roadmap.md) |
 | Next public site build | `Deferred` | Design-first; separate track |
-| v2 design specification (D-1+) | `In progress` | Philosophy under [docs/v2/](./v2/README.md); canonical screen specs under [docs/v2/specs/](./v2/specs/) — Home (D-17), Film Detail (D-18); parallel to data foundation; not production UI |
+| v2 design specification (D-1+) | `In progress` | Philosophy under [docs/v2/](./v2/README.md); canonical screen specs under [docs/v2/specs/](./v2/specs/) — Home (D-17), Film Detail (D-18), Planner (D-19); parallel to data foundation; not production UI |
 
 ---
 

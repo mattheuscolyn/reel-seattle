@@ -3,7 +3,7 @@
 **Status:** Canonical product specification (D-18)  
 **Authority:** Authoritative for Film Detail product behavior  
 **Supersedes for Film Detail implementation decisions:** Conceptual Film Detail section in [08 — Screen specifications](../08-screen-specifications.md) where this document is more specific  
-**Related:** [v2 README](../README.md) · [Canonical Home](./home.md) · [Discovery model](../03-discovery-model.md) · [Information architecture](../04-information-architecture.md) · [Navigation & Interaction Model](../05-navigation.md) · [Screen specifications (conceptual)](../08-screen-specifications.md) · [Opportunity model](../10-opportunity-model.md) · [Film lifecycle](../11-film-lifecycle.md) · [Experience model](../12-experience-model.md) · [Editorial design language](../15-editorial-design-language.md) · [Entity expression](../16-entity-expression.md) · [Context & significance](../13-context-and-significance.md) · [Film identity normalization](../../film-identity-normalization.md) · [Data foundation roadmap — film identity](../../data-foundation-roadmap.md#planned-film-identity-and-enrichment)
+**Related:** [v2 README](../README.md) · [Canonical Home](./home.md) · [Canonical Planner](./planner.md) · [Discovery model](../03-discovery-model.md) · [Information architecture](../04-information-architecture.md) · [Navigation & Interaction Model](../05-navigation.md) · [Screen specifications (conceptual)](../08-screen-specifications.md) · [Opportunity model](../10-opportunity-model.md) · [Film lifecycle](../11-film-lifecycle.md) · [Experience model](../12-experience-model.md) · [Editorial design language](../15-editorial-design-language.md) · [Entity expression](../16-entity-expression.md) · [Context & significance](../13-context-and-significance.md) · [Film identity normalization](../../film-identity-normalization.md) · [Data foundation roadmap — film identity](../../data-foundation-roadmap.md#planned-film-identity-and-enrichment)
 
 ---
 
@@ -563,7 +563,7 @@ This specification does **not**:
 | Ratings / review summaries above vs below decision sections | Open |
 | Final mobile action treatment | Open |
 | Representation of versions, cuts, restorations, rereleases | Open — caution required; see identity docs |
-| Exact Planner add semantics (required / preferred / showtime) | Open |
+| Exact Planner add semantics (required / preferred / showtime) | Open — see [canonical Planner](./planner.md) handoff |
 | Which external cultural datasets are sustainable to maintain | Open |
 | Opportunity Detail as a separate surface vs inline only | Deferred ([08](../08-screen-specifications.md)) |
 

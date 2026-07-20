@@ -23,7 +23,7 @@ When an item in **Work on now** ships, move it to a short **Completed** note at 
 | Item | Status | Note |
 |------|--------|------|
 | **Identity-E2** — Planner parent grouping in film pickers | Not started | Wire `groupFilmsByParent()` in `FilmMultiSelect` / `FilmSingleSelect`; see [product-roadmap.md](./product-roadmap.md) P-01 |
-| **Planner-R1** — Result refinement design doc | Not started | Taxonomy, action model, near-miss definition, mobile wireframes — docs only |
+| **Planner-R1** — Result refinement design doc | Superseded in part by D-19 | Canonical product behavior: [docs/v2/specs/planner.md](./v2/specs/planner.md) Stage 2 sculpting; public implementation still not started |
 
 Phase 1 Planner mobile UX and Showtimes mobile filter polish are **complete** (see Completed below).
 

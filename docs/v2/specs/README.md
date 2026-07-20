@@ -9,7 +9,7 @@ Written specifications here are **canonical**. Conceptual philosophy remains in 
 |------|--------|
 | [Home](./home.md) | Canonical (D-17) |
 | [Film Detail](./film-detail.md) | Canonical (D-18) |
-| Planner | TBD |
+| [Planner](./planner.md) | Canonical (D-19) |
 | Theater | TBD |
 
 See [v2 README](../README.md) for the full document map.

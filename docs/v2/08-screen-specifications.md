@@ -1,7 +1,7 @@
 # 08 — Screen Specifications
 
-**Status:** Conceptual surfaces D-10–D-13; **Home** → [specs/home.md](./specs/home.md) (D-17); **Film Detail** → [specs/film-detail.md](./specs/film-detail.md) (D-18)  
-**Related:** [README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
+**Status:** Conceptual surfaces D-10–D-13; **Home** → [specs/home.md](./specs/home.md) (D-17); **Film Detail** → [specs/film-detail.md](./specs/film-detail.md) (D-18); **Planner** → [specs/planner.md](./specs/planner.md) (D-19)  
+**Related:** [README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
 
 This document records **per-surface conceptual product behavior** for Reel Seattle v2 — what each experience exists to accomplish and how it should feel when successful.
 
@@ -15,7 +15,11 @@ For **Film Detail**, the **canonical** product specification is:
 
 → **[specs/film-detail.md](./specs/film-detail.md)**
 
-Where this document’s Home or Film Detail sections and the corresponding canonical specs diverge, **the canonical specs are authoritative**.
+For **Planner**, the **canonical** product specification is:
+
+→ **[specs/planner.md](./specs/planner.md)**
+
+Where this document’s Home, Film Detail, or Planner sections and the corresponding canonical specs diverge, **the canonical specs are authoritative**.
 
 ---
 
@@ -26,7 +30,7 @@ Where this document’s Home or Film Detail sections and the corresponding canon
 | **Home / Discovery** | Conceptual (D-10) + **canonical** [specs/home.md](./specs/home.md) (D-17) |
 | **Film Detail** | Conceptual (D-11) + **canonical** [specs/film-detail.md](./specs/film-detail.md) (D-18) |
 | **Theater** | Conceptual behavior (D-12); canonical screen spec TBD |
-| **Planner** | Conceptual behavior (D-13); canonical screen spec TBD |
+| **Planner** | Conceptual (D-13) + **canonical** [specs/planner.md](./specs/planner.md) (D-19) |
 | Opportunity detail | Placeholder |
 | Settings / preferences (if any) | Placeholder |
 
@@ -585,17 +589,20 @@ These must not redefine Theater’s primary job (identity → current opportunit
 
 # Planner
 
+> **Canonical specification:** [specs/planner.md](./specs/planner.md)  
+> The sections below remain **conceptual background** (D-13). Prefer the canonical spec for implementation and detailed product rules (three-stage model, generate-all-valid-plans, Stage 2 sculpting).
+
 ---
 
 ## Purpose
 
 The Planner answers:
 
-> “Given the opportunities I care about, what is the best plan?”
+> “What’s the best movie day I can make?”
 
-It is an **interactive schedule optimization workspace**. It is **not** an editorial recommendation engine, and it is **not** a curated “movie night.”
+It is an **interactive schedule optimization workspace** and **constraint-driven movie-day generator** — not an editorial recommendation engine, curated “movie night,” weekly calendar-first product, or generic watchlist ([canonical Planner](./specs/planner.md)).
 
-The Planner **optimizes logistics** — it does not decide taste. It begins **after discovery has already happened**: the user already cares about particular opportunities; the Planner helps turn that care into something practical and executable.
+The Planner **optimizes logistics** — it does not decide taste. It begins **after discovery has already happened**: the user already cares about particular opportunities; the Planner helps turn that care into feasible single-day, multi-film itineraries.
 
 A **Plan** remains commitment in the product model ([Core concepts](./02-core-concepts.md)). The Planner is the operational surface where commitments take shape, fit real constraints, and become ready to act on ([Experience model](./12-experience-model.md) — Planning sessions; [Information architecture](./04-information-architecture.md) — Planning intent).
 
@@ -780,11 +787,13 @@ These must not redefine the Planner’s primary job (user-defined goals → cons
 
 | Topic | Why deferred |
 |-------|----------------|
-| Layout, cards, density, chrome | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md) |
-| Navigation behavior and chrome | → [Navigation](./05-navigation.md) |
-| Interaction flows and controls | Later design agreement |
-| Optimization / recommendation algorithms | Explicitly out of scope |
+| Exact visual layout, density, chrome | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md); behavior → [canonical Planner](./specs/planner.md) |
+| Navigation chrome | → [Navigation](./05-navigation.md) |
+| Optimization / recommendation algorithms | Explicitly out of scope ([canonical Planner](./specs/planner.md)) |
+| Travel, pricing, durable My Plan store, Stage 2 sculpt implementation | Future / partial — see [canonical Planner](./specs/planner.md) data dependencies |
 | Exact calendar, sharing, and collaboration rules | Future Product Owner + ChatGPT sessions |
+
+Three-stage model, generate-all-valid-plans semantics, Stage 2 direct sculpting, and single-day primacy are specified in [specs/planner.md](./specs/planner.md) — not deferred as product intent.
 
 ---
 
