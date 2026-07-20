@@ -1,7 +1,7 @@
 # 12 — Experience Model
 
 **Status:** Philosophy documented (D-6); channel and continuity mechanics still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Navigation](./05-navigation.md) · [Context & significance](./13-context-and-significance.md) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Navigation](./05-navigation.md) · [Context & significance](./13-context-and-significance.md) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Canonical Profile / Settings](./specs/profile-settings.md)
 
 This document describes **how people use Reel Seattle over time** — why they open it, what a session is for, and how the product should respond.
 
@@ -97,9 +97,9 @@ Continuity means the product remembers and reconnects meaning across time so use
 
 Illustrative continuity ideas (philosophy only — no mechanics):
 
-* **Remembering dismissed films** — de-emphasize what the user has set aside without erasing citywide cinema.
+* **Remembering dismissed films** — de-emphasize what the user has set aside without erasing citywide cinema ([canonical Profile / Settings](./specs/profile-settings.md); [canonical Explore / Search](./specs/explore-search.md)).
 * **Surfacing newly relevant opportunities** — when a film’s Seattle presence changes, bring back attention if it matters again.
-* **Maintaining plans** — commitments persist so Planning sessions resume rather than rebuild.
+* **Maintaining plans** — commitments persist so Planning sessions resume rather than rebuild ([canonical Planner](./specs/planner.md); Profile as plan-history entry).
 * **Preserving historical context** — finished and archived presence remains available as knowledge, supporting “I knew what was worth considering.”
 
 Continuity serves the emotional goal: fewer missed extraordinary chances, more confident passes ([Product philosophy](./01-product-philosophy.md)).
@@ -116,7 +116,7 @@ Placeholders only — no behavior defined yet:
 
 ### Notifications
 
-*(TBD — how timely notice supports Time Awareness and Planning without manufacturing panic.)*
+*(TBD — how timely notice supports Time Awareness and Planning without manufacturing panic. Product-control surface for notification preferences: [canonical Profile / Settings](./specs/profile-settings.md); infrastructure remains future-facing.)*
 
 ### Newsletters
 

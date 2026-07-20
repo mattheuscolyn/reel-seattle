@@ -431,7 +431,7 @@ Explore/Search should include a concise Film Activity area summarizing:
 * Seen
 * Not interested
 
-Each summary should open its own management list or a shared management destination with clear tabs.
+Each summary should open its own management list or a shared management destination with clear tabs — typically within or via [canonical Profile / Settings](./profile-settings.md) for durable overview management. Explore remains the place for in-flow marking.
 
 Status summaries may show:
 
@@ -570,11 +570,11 @@ Planner remains responsible for generation and optimization ([canonical Planner]
 
 Do **not** lock the global mobile tab bar in this task.
 
-Conceptual candidates may include Home, Explore, Planner, Profile — or a future fifth destination if justified.
+Conceptual candidates may include Home, Explore, Planner, Profile — or a future fifth destination if justified. Profile as personal hub is specified in [canonical Profile / Settings](./profile-settings.md) (D-25) but **global navigation remains unresolved**.
 
 This specification states only that Explore/Search must be **reachable as a primary discovery destination**.
 
-Do **not** canonize Saved or Theater as bottom-navigation tabs here.
+Do **not** canonize Saved, Theater, or Settings as bottom-navigation tabs here.
 
 ---
 

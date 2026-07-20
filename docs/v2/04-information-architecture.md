@@ -1,7 +1,7 @@
 # 04 — Information Architecture
 
 **Status:** Philosophy expanded (D-5); navigation and surfaces still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Navigation](./05-navigation.md) · [Context & significance](./13-context-and-significance.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Opportunity model](./10-opportunity-model.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Canonical Profile / Settings](./specs/profile-settings.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Navigation](./05-navigation.md) · [Context & significance](./13-context-and-significance.md)
 
 This document defines the **conceptual organization** of Reel Seattle v2 around **user intent**.
 
