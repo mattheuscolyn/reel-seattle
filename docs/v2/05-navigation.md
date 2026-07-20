@@ -1,7 +1,7 @@
 # 05 — Navigation & Interaction Model
 
 **Status:** Philosophy expanded (D-7); cross-cutting Interaction Model authored (D-14); chrome, routes, and UI still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Experience model](./12-experience-model.md) · [Opportunity model](./10-opportunity-model.md) · [Screen specifications](./08-screen-specifications.md) (Home / Discovery, Film Detail, Theater, Planner, Explore / Search) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Canonical Theater](./specs/theater.md) · [Canonical Explore / Search](./specs/explore-search.md) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md)
+**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Experience model](./12-experience-model.md) · [Opportunity model](./10-opportunity-model.md) · [Screen specifications](./08-screen-specifications.md) (Home / Discovery, Film Detail, Theater, Planner, Explore / Search) · [Canonical Home](./specs/home.md) · [Canonical Film Detail](./specs/film-detail.md) · [Canonical Planner](./specs/planner.md) · [Canonical Theater](./specs/theater.md) · [Canonical Explore / Search](./specs/explore-search.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md)
 
 This document defines how users **move through** Reel Seattle v2 — the philosophy of interaction and progressive depth.
 
@@ -167,6 +167,8 @@ Whenever practical:
 * **Dedicated experiences remain available** for deeper investigation — Film Detail, Theater, Planner, and reference depth when the question outgrows overview ([Inline vs Navigation](#inline-vs-navigation)).
 
 Exact interaction patterns (taps, panels, modals) are **not** defined here. The principle is expand-before-navigate, not a widget inventory.
+
+**Opportunity grain:** Contextual Opportunity detail expands within a canonical surface; there is no deeper Opportunity Detail page ([canonical Opportunity expression](./specs/opportunity-expression.md)). Navigate upward or sideways to Film, Theater, Planner, or tickets — not downward beneath Opportunity.
 
 ---
 

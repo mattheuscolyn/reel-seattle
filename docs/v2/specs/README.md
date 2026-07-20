@@ -12,5 +12,6 @@ Written specifications here are **canonical**. Conceptual philosophy remains in 
 | [Planner](./planner.md) | Canonical (D-19) |
 | [Theater](./theater.md) | Canonical (D-20) |
 | [Explore / Search](./explore-search.md) | Canonical (D-23) |
+| [Opportunity expression](./opportunity-expression.md) | Canonical (D-24) — cross-surface; not a standalone page |
 
 See [v2 README](../README.md) for the full document map.

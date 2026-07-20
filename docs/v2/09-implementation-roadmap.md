@@ -9,11 +9,11 @@ Order v2 **implementation** work only after enough of the design specification e
 
 ## Status
 
-Not yet authored as a full build plan. Screen-specification track: canonical [Home](./specs/home.md) (D-17; Design Review v3 in D-22), [Film Detail](./specs/film-detail.md), [Planner](./specs/planner.md), [Theater](./specs/theater.md), and [Explore / Search](./specs/explore-search.md) (D-23). Opportunity Detail and settings remain open. Do not schedule v2 UI implementation without explicit product gates. Do not treat design-review imagery as implementation authority over written canonical specs. Do not lock global navigation from incomplete chrome decisions.
+Not yet authored as a full build plan. Screen-specification track: canonical [Home](./specs/home.md) (D-17; Design Review v3 in D-22), [Film Detail](./specs/film-detail.md), [Planner](./specs/planner.md), [Theater](./specs/theater.md), [Explore / Search](./specs/explore-search.md) (D-23), and [Opportunity expression](./specs/opportunity-expression.md) (D-24, cross-surface — **no** standalone Opportunity Detail page). Settings remain open. Do not schedule v2 UI implementation without explicit product gates. Do not treat design-review imagery as implementation authority over written canonical specs. Do not lock global navigation from incomplete chrome decisions.
 
 ## Placeholder sections
 
-* Design-complete gates before coding (Home, Film Detail, Planner, Theater, Explore/Search canonical exist; Opportunity Detail TBD)
+* Design-complete gates before coding (primary surfaces + Opportunity expression canonical; Settings TBD)
 * Parallelism with data-foundation work (film identity, [theater expansion](../data-foundation-roadmap.md#planned-theater-model-expansion))
 * Relationship to the stable production site (no dedicated Theater page today; live Planner preserved)
 * Suggested implementation slices (TBD)

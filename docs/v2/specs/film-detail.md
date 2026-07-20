@@ -565,7 +565,7 @@ This specification does **not**:
 | Representation of versions, cuts, restorations, rereleases | Open — caution required; see identity docs |
 | Exact Planner add semantics (required / preferred / showtime) | Open — see [canonical Planner](./planner.md) handoff |
 | Which external cultural datasets are sustainable to maintain | Open |
-| Opportunity Detail as a separate surface vs inline only | Deferred ([08](../08-screen-specifications.md)) |
+| Opportunity Detail as a separate surface vs inline only | **Resolved (D-24):** no standalone Opportunity Detail page; see [canonical Opportunity expression](./opportunity-expression.md) |
 
 ---
 

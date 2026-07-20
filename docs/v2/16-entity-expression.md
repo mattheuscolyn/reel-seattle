@@ -1,7 +1,7 @@
 # 16 — Entity Expression
 
 **Status:** Philosophy documented (D-16); component mappings still deferred  
-**Related:** [README](./README.md) · [Core concepts](./02-core-concepts.md) · [Navigation & Interaction Model](./05-navigation.md) · [Screen specifications](./08-screen-specifications.md) · [Experience model](./12-experience-model.md) · [Editorial design language](./15-editorial-design-language.md) · [Opportunity model](./10-opportunity-model.md) · [Component system](./06-component-system.md)
+**Related:** [README](./README.md) · [Core concepts](./02-core-concepts.md) · [Navigation & Interaction Model](./05-navigation.md) · [Screen specifications](./08-screen-specifications.md) · [Experience model](./12-experience-model.md) · [Editorial design language](./15-editorial-design-language.md) · [Opportunity model](./10-opportunity-model.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Component system](./06-component-system.md)
 
 This document describes how Reel Seattle’s **core entities** should be expressed across different contexts throughout the product.
 
@@ -82,7 +82,7 @@ A **Film** is the canonical identity users recognize ([Core concepts](./02-core-
 | **Planner** | Schedule fit, logistical compatibility — can this film’s opportunities work in a plan |
 | **Film Detail** | Complete understanding — context, synopsis, creators, significance |
 
-Home surfaces awareness; Film Detail builds confidence; Planner asks fit; Theater expresses venue character and program; Explore/Search supports user-directed investigation. All still refer to one Film. Canonical surfaces: [Home](./specs/home.md), [Film Detail](./specs/film-detail.md), [Planner](./specs/planner.md), [Theater](./specs/theater.md), [Explore / Search](./specs/explore-search.md).
+Home surfaces awareness; Film Detail builds confidence; Planner asks fit; Theater expresses venue character and program; Explore/Search supports user-directed investigation. Opportunities are expressed contextually across those surfaces ([canonical Opportunity expression](./specs/opportunity-expression.md)) — **not** as a standalone Opportunity Detail page. All still refer to one Film. Canonical surfaces: [Home](./specs/home.md), [Film Detail](./specs/film-detail.md), [Planner](./specs/planner.md), [Theater](./specs/theater.md), [Explore / Search](./specs/explore-search.md), [Opportunity expression](./specs/opportunity-expression.md).
 
 ---
 
@@ -105,6 +105,8 @@ Programming character on the Theater surface and logistics in Planner are comple
 
 An **Opportunity** is the primary unit of decision-making ([Core concepts](./02-core-concepts.md), [Opportunity model](./10-opportunity-model.md)).
 
+**Canonical cross-surface behavior:** [specs/opportunity-expression.md](./specs/opportunity-expression.md) (D-24). Opportunity is expressed at compact / summary / featured / focused contextual depth **within** Home, Film Detail, Theater, Explore, and Planner. There is **no** standalone Opportunity Detail page — navigation stops at the Opportunity grain.
+
 Conceptually, Opportunity is the intersection of:
 
 ```text
@@ -120,6 +122,7 @@ Film
 | **Film** (Film Detail) | Viewing choices — how ways to see the film differ |
 | **Planner** | Feasibility — timing, travel, conflicts, fit |
 | **Comparison** | Tradeoffs — meaningful differences between opportunities or plans |
+| **Theater / Explore** | Venue- or query-scoped relevance — see [Opportunity expression](./specs/opportunity-expression.md) |
 
 Urgency and rarity live on opportunities, not on film identity as such ([Film lifecycle](./11-film-lifecycle.md)). Expression should keep that truth stable while changing which facet leads.
 

@@ -38,7 +38,7 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [07 — Visual language](./07-visual-language.md) | Visual direction and tokens | Placeholder (guided by [15](./15-editorial-design-language.md)) |
 | [08 — Screen specifications](./08-screen-specifications.md) | Per-surface conceptual behavior (philosophy) | Conceptual (D-10–D-13); canonical specs in [specs/](./specs/) |
 | [09 — Implementation roadmap](./09-implementation-roadmap.md) | Ordered build plan (after design) | Placeholder |
-| [Canonical screen specs](./specs/) | Implementation-authoritative per-surface specs | Home, Film Detail, Planner, Theater, Explore/Search (D-17–D-20, D-23); Home reconciled with Design Review v3 (D-22) |
+| [Canonical screen specs](./specs/) | Implementation-authoritative per-surface specs | Home, Film Detail, Planner, Theater, Explore/Search (D-17–D-20, D-23); Home reconciled with Design Review v3 (D-22); Opportunity expression (D-24, cross-surface) |
 
 ### Canonical screen specifications
 
@@ -49,6 +49,7 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [Planner](./specs/planner.md) | Canonical (D-19) |
 | [Theater](./specs/theater.md) | Canonical (D-20) |
 | [Explore / Search](./specs/explore-search.md) | Canonical (D-23) |
+| [Opportunity expression](./specs/opportunity-expression.md) | Canonical (D-24) — cross-surface; **not** a standalone page |
 
 ---
 
