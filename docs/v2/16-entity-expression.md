@@ -82,7 +82,7 @@ A **Film** is the canonical identity users recognize ([Core concepts](./02-core-
 | **Planner** | Schedule fit, logistical compatibility — can this film’s opportunities work in a plan |
 | **Film Detail** | Complete understanding — context, synopsis, creators, significance |
 
-Home surfaces awareness; Film Detail builds confidence; Planner asks fit. All still refer to one Film ([Screen specifications](./08-screen-specifications.md)).
+Home surfaces awareness; Film Detail builds confidence; Planner asks fit. All still refer to one Film. Home expression details: [canonical Home spec](./specs/home.md); conceptual overview: [Screen specifications](./08-screen-specifications.md).
 
 ---
 

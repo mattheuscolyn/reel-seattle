@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-17 (D-1 — acknowledge parallel v2 design track)  
+**Last updated:** 2026-07-19 (D-17 — canonical Home screen specification track)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
@@ -460,7 +460,7 @@ Registry remains canonical authored data (`data/theaters.json`). Expand only wit
 | Pages exposure of source catalogs | `Deferred` / not planned | Catalogs are internal |
 | Leaving Soon UI expansion | `Deferred` | Gated in [product-roadmap.md](./product-roadmap.md) |
 | Next public site build | `Deferred` | Design-first; separate track |
-| v2 design specification (D-1) | `Planned` (docs track started) | Canonical specs under [docs/v2/](./v2/README.md); parallel to data foundation; not production UI |
+| v2 design specification (D-1+) | `In progress` | Philosophy under [docs/v2/](./v2/README.md); canonical screen specs under [docs/v2/specs/](./v2/specs/) — Home (D-17); parallel to data foundation; not production UI |
 
 ---
 
@@ -498,7 +498,7 @@ P-21C  Catalog cadence + inactive growth evaluation ← Complete (2026-07-17)
    ↓
 **No Ready Cursor implementation task** on the data-foundation track — product-owner direction or passive evidence gates
    ↓
-Parallel: **v2 design specification** ([docs/v2/](./v2/README.md)) — Product Owner + ChatGPT; Cursor implements only agreed specs later
+Parallel: **v2 design specification** ([docs/v2/](./v2/README.md)) — Product Owner + ChatGPT; canonical screen specs ([docs/v2/specs/](./v2/specs/)); Cursor implements only agreed specs later
    ↓
 Parallel wait: ≥3 distinct expanded AMC dates → finish P-18B (still 1 date: 2026-07-17)
    ↓

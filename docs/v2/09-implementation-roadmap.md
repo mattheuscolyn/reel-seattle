@@ -9,11 +9,11 @@ Order v2 **implementation** work only after enough of the design specification e
 
 ## Status
 
-Not yet authored. No build phases, tickets, or technical milestones yet.
+Not yet authored as a full build plan. Screen-specification track started: canonical [Home](./specs/home.md) (D-17). Do not schedule UI implementation from incomplete surface specs.
 
 ## Placeholder sections
 
-* Design-complete gates before coding
+* Design-complete gates before coding (Home canonical exists; Film Detail / Planner / Theater canonical TBD)
 * Parallelism with data-foundation work
 * Relationship to the stable production site
 * Suggested implementation slices (TBD)

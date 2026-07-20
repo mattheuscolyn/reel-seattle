@@ -1,11 +1,17 @@
 # 08 — Screen Specifications
 
-**Status:** Home / Discovery (D-10), Film Detail (D-11), Theater (D-12), and Planner (D-13) conceptual behavior authored; other surfaces still deferred  
-**Related:** [README](./README.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
+**Status:** Conceptual surfaces D-10–D-13; **Home canonical behavior** lives in [specs/home.md](./specs/home.md) (D-17)  
+**Related:** [README](./README.md) · [Canonical Home spec](./specs/home.md) · [Product philosophy](./01-product-philosophy.md) · [Core concepts](./02-core-concepts.md) · [Discovery model](./03-discovery-model.md) · [Information architecture](./04-information-architecture.md) · [Opportunity model](./10-opportunity-model.md) · [Film lifecycle](./11-film-lifecycle.md) · [Experience model](./12-experience-model.md) · [Context & significance](./13-context-and-significance.md) · [Navigation](./05-navigation.md) (incl. Interaction Model) · [Editorial design language](./15-editorial-design-language.md) · [Entity expression](./16-entity-expression.md) · [Component system](./06-component-system.md)
 
-This document records **per-surface product behavior** for Reel Seattle v2 — what each experience exists to accomplish and how it should feel when successful.
+This document records **per-surface conceptual product behavior** for Reel Seattle v2 — what each experience exists to accomplish and how it should feel when successful.
 
 It is **not** a UI specification. Do not invent layouts, cards, chrome, interactions, wireframes, or algorithms from these sections.
+
+For **Home**, the **canonical** product specification (hierarchy, interaction rules, states, exploration boundary) is:
+
+→ **[specs/home.md](./specs/home.md)**
+
+Where this document’s Home section and the canonical Home spec diverge, **the canonical Home spec is authoritative**.
 
 ---
 
@@ -13,10 +19,10 @@ It is **not** a UI specification. Do not invent layouts, cards, chrome, interact
 
 | Surface | Completeness |
 |---------|--------------|
-| **Home / Discovery** | Conceptual behavior (D-10) |
-| **Film Detail** | Conceptual behavior (D-11) |
-| **Theater** | Conceptual behavior (D-12) |
-| **Planner** | Conceptual behavior (D-13) |
+| **Home / Discovery** | Conceptual (D-10) + **canonical** [specs/home.md](./specs/home.md) (D-17) |
+| **Film Detail** | Conceptual behavior (D-11); canonical screen spec TBD |
+| **Theater** | Conceptual behavior (D-12); canonical screen spec TBD |
+| **Planner** | Conceptual behavior (D-13); canonical screen spec TBD |
 | Opportunity detail | Placeholder |
 | Settings / preferences (if any) | Placeholder |
 
@@ -24,21 +30,22 @@ It is **not** a UI specification. Do not invent layouts, cards, chrome, interact
 
 # Home / Discovery
 
+> **Canonical specification:** [specs/home.md](./specs/home.md)  
+> The sections below remain **conceptual background** (D-10). Prefer the canonical spec for implementation and detailed product rules.
+
 ---
 
 ## Purpose
 
-The Home / Discovery experience helps users **quickly build an accurate mental model of Seattle cinema over the coming week**.
+The Home / Discovery experience helps users **quickly build an accurate mental model of Seattle cinema** and notice what **deserves attention now** ([canonical Home](./specs/home.md)).
 
 Its objective is **awareness first**, decision support second.
 
-It should help users answer:
+Approved primary question ([canonical Home](./specs/home.md)):
 
-> “What opportunities exist this week?”
+> “What deserves my attention in Seattle cinema right now?”
 
-while also helping them understand:
-
-> “What changed since the last time I looked?”
+Supporting awareness outcomes include understanding the current week’s landscape and meaningful change since the last visit — without reducing Home to a “what’s new today” feed.
 
 Home is the primary **overview** surface for Discovery ([Information architecture](./04-information-architecture.md), [Discovery model](./03-discovery-model.md)). It orients people to the city’s actionable landscape — extraordinary, time-sensitive, and newly relevant chances — without pretending to be an exhaustive database of every listing.
 
@@ -201,11 +208,13 @@ Personalization changes **emphasis**. It must not hide Seattle cinema or turn Ho
 
 | Topic | Why deferred |
 |-------|----------------|
-| Layout, cards, density, chrome | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md) |
-| Navigation structure and labels | → [Navigation](./05-navigation.md) |
-| Interaction flows and controls | Later design agreement |
-| Ranking / scoring algorithms | Explicitly out of scope |
+| Exact visual layout, density, chrome | → [Component system](./06-component-system.md), [Visual language](./07-visual-language.md); behavior → [canonical Home](./specs/home.md) |
+| Global navigation structure | → [Navigation](./05-navigation.md) |
+| Ranking / scoring algorithms | Explicitly out of scope ([canonical Home](./specs/home.md)) |
 | Exact personalization rules | Future Product Owner + ChatGPT sessions |
+| Supporting-section inventory & explore-label copy | Open in [canonical Home](./specs/home.md) |
+
+Featured vs secondary interaction rules, Top Opportunities scarcity, and the filtering boundary are specified in [specs/home.md](./specs/home.md) — not deferred.
 
 ---
 
