@@ -37,8 +37,8 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [06 — Component system](./06-component-system.md) | Reusable UI building blocks | Placeholder |
 | [07 — Visual language](./07-visual-language.md) | Visual direction and tokens | Placeholder (guided by [15](./15-editorial-design-language.md)) |
 | [08 — Screen specifications](./08-screen-specifications.md) | Per-surface conceptual behavior (philosophy) | Conceptual (D-10–D-13); canonical specs in [specs/](./specs/) |
-| [09 — Implementation roadmap](./09-implementation-roadmap.md) | Ordered build plan (after design) | Active; **I-02 complete**, I-03 next |
-| [17 — First implementation slice](./17-first-implementation-slice.md) | Decision record for first v2 UI slice | Decision (D-27); I-01 shell + I-02 adapter |
+| [09 — Implementation roadmap](./09-implementation-roadmap.md) | Ordered build plan (after design) | Active; **I-03 complete**, I-04 next |
+| [17 — First implementation slice](./17-first-implementation-slice.md) | Decision record for first v2 UI slice | Decision (D-27); through I-03 Top Opportunities |
 | [Canonical screen specs](./specs/) | Implementation-authoritative per-surface specs | Home, Film Detail, Planner, Theater, Explore/Search (D-17–D-20, D-23); Opportunity expression (D-24); Profile/Settings (D-25); Global navigation (D-26); Home reconciled with Design Review v3 (D-22) |
 
 ### Canonical screen specifications
@@ -67,6 +67,7 @@ Isolated Vite app (cockpit pattern). **Not** part of production `dist/` or GitHu
 | Build | `npm run build:v2` → `dist-v2/` (gitignored) |
 | Smoke | `npm run smoke:v2` |
 | Home adapter | `v2/adapters/buildHomeData.js` |
+| Top Opportunities | `v2/adapters/selectTopOpportunities.js` + `v2/topOpportunities/` |
 | Local data | Allowlisted `/data/*.json` from `public/data` (not Leaving Soon) |
 
 ---

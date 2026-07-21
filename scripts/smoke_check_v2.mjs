@@ -146,13 +146,44 @@ try {
     fail(`leaving_soon_current.json should be unsupported (404), got ${leavingSoon.status}`);
   }
 
-  const homeStatusResponse = await fetch(new URL('/HomeDataStatus.jsx', V2_URL));
+  const homeStatusResponse = await fetch(new URL('/HomeDestination.jsx', V2_URL));
   if (!homeStatusResponse.ok) {
-    fail(`failed to fetch HomeDataStatus.jsx: ${homeStatusResponse.status}`);
+    fail(`failed to fetch HomeDestination.jsx: ${homeStatusResponse.status}`);
   }
   const homeStatusSource = await homeStatusResponse.text();
-  if (!homeStatusSource.includes('Development data status (I-02)')) {
-    fail('HomeDataStatus missing I-02 development status label');
+  if (!homeStatusSource.includes('Development data status')) {
+    fail('HomeDestination missing development data status control');
+  }
+  if (!homeStatusSource.includes('TopOpportunities')) {
+    fail('HomeDestination missing TopOpportunities region');
+  }
+
+  const topOppResponse = await fetch(new URL('/topOpportunities/TopOpportunities.jsx', V2_URL));
+  if (!topOppResponse.ok) {
+    fail(`failed to fetch TopOpportunities.jsx: ${topOppResponse.status}`);
+  }
+  const topOppSource = await topOppResponse.text();
+  if (!topOppSource.includes('Top Opportunities')) {
+    fail('TopOpportunities missing region heading');
+  }
+
+  const selectorResponse = await fetch(
+    new URL('/adapters/selectTopOpportunities.js', V2_URL),
+  );
+  if (!selectorResponse.ok) {
+    fail(`failed to fetch selectTopOpportunities.js: ${selectorResponse.status}`);
+  }
+  const selectorSource = await selectorResponse.text();
+  if (!selectorSource.includes('NOT a recommendation engine')) {
+    fail('selector missing non-recommendation policy marker');
+  }
+  for (const forbidden of ['Best choice', 'Recommended for you', 'Last chance']) {
+    if (selectorSource.includes(`'${forbidden}'`) && selectorSource.includes('SELECTION_REASON_LABELS')) {
+      // Forbidden labels may appear in the FORBIDDEN list — that is intentional.
+    }
+  }
+  if (selectorSource.includes("newly_added: 'Best choice'")) {
+    fail('forbidden editorial label used as selection reason');
   }
 
   console.log(`smoke_check_v2: ok (${V2_URL})`);

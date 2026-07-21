@@ -9,7 +9,7 @@ export const PRIMARY_DESTINATIONS = Object.freeze([
     label: 'Home',
     title: 'Home',
     description:
-      'Editorial Home baseline will be implemented in later first-slice tasks (I-02+).',
+      'Editorial Home baseline — Top Opportunities region (I-03). Supporting regions follow later.',
   }),
   Object.freeze({
     id: 'explore',

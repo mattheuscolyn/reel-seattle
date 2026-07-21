@@ -1,6 +1,6 @@
 # 17 — First v2 Implementation Slice
 
-**Status:** Decision recorded (D-27); **I-02 complete** — next **I-03**  
+**Status:** Decision recorded (D-27); **I-03 complete** — next **I-04**  
 **Authority:** Authoritative for the *first* v2 implementation slice only; does not replace canonical screen specs  
 **Related:** [Implementation roadmap](./09-implementation-roadmap.md) · [v2 README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Global navigation](./specs/global-navigation.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Editorial design language](./15-editorial-design-language.md) · [Data foundation roadmap](../data-foundation-roadmap.md) · [Development operating model](../development-operating-model.md#v2-product-design-workflow) · [Data artifact inventory](../data-artifact-inventory.md)
 
@@ -18,7 +18,8 @@
 
 → **I-01 complete** (isolated v2 Vite shell)  
 → **I-02 complete** (Home data adapter + allowlisted `/data`)  
-→ **Next: I-03 — Top Opportunities region**  
+→ **I-03 complete** (Top Opportunities region)  
+→ **Next: I-04 — Supporting Home regions**  
 See [Follow-up task sequence](#follow-up-task-sequence) and [Local v2 app commands](#local-v2-app-commands-i-01).
 
 ---
@@ -183,7 +184,7 @@ Adapter: prefer a **v2-local read model** (new module under the v2 app) that map
 | Outputs | `HomeData` with `films`, `opportunities`, `theatersById`, `newlyAdded`, `opportunityCandidates`, `warnings`, `sourceHealth` |
 | Identity | Film = `showtime_film_key`; opportunity dedupe prefers `source`+`source_showtime_id`, else showtime `id`, else composite |
 | Selection | `opportunityCandidates` are mechanical inputs only — not recommendations |
-| Integration proof | Home placeholder shows development-only counts via `HomeDataStatus` |
+| Integration proof | Home shows development data status under a `<details>` control (moved from dedicated `HomeDataStatus` component in I-03) |
 
 **Do not** invent a monorepo or new framework. Stay on React 19 + Vite already in the repo.
 
@@ -223,8 +224,8 @@ Inherit [Home](./specs/home.md) and [Global navigation](./specs/global-navigatio
 | ID | Name | Objective | Boundaries | Dependencies | Completion evidence |
 |----|------|-----------|------------|--------------|---------------------|
 | **I-01** | Isolated v2 Vite shell | Second Vite app boots locally; empty Home placeholder; not shippable | No Home content yet; no production route changes | D-27 | **Done** — `v2/`, port 5175, `dist-v2`, hostname gate, four-destination placeholders, tests |
-| **I-02** | v2 data adapter | Map showtimes / theaters / newly_added → Home view models | No UI polish; no ranking engine | I-01 | **Done** — `buildHomeData`, allowlisted `/data`, adapter + loader tests, HomeDataStatus proof |
-| **I-03** | Top Opportunities region | One-at-a-time featured stories (~3) with honest reasons | No Leaving Soon; no Film Detail route (tap may no-op or stub) | I-02 | Visual + keyboard story nav; tests |
+| **I-02** | v2 data adapter | Map showtimes / theaters / newly_added → Home view models | No UI polish; no ranking engine | I-01 | **Done** — `buildHomeData`, allowlisted `/data`, adapter + loader tests, Home data-status proof |
+| **I-03** | Top Opportunities region | One-at-a-time featured stories (~3) with honest reasons | No Leaving Soon; no Film Detail route (tap may no-op or stub) | I-02 | **Done** — `selectTopOpportunities`, one-at-a-time UI, bounded Prev/Next, inline details |
 | **I-04** | Supporting Home regions | Orientation + newly-added module + stub CTAs | No Explore/Planner/Profile implementation | I-03 | Hierarchy matches Home spec order |
 | **I-05** | Nav chrome stubs | Four labels; Home active; others stub screens | No real routing to production pages | I-01 | Matches Global navigation labels |
 | **I-06** | Responsive + a11y pass | Mobile-first; desktop hierarchy preserved | No new features | I-03–I-05 | Checklist against Home/Global nav a11y |
@@ -263,9 +264,22 @@ Destination switching uses in-memory state (no URL deep links yet). That is inte
 
 ## Next executable follow-up
 
-**I-03 — Top Opportunities region**
+**I-04 — Supporting Home regions**
 
-Select a scarce set of opportunity candidates from I-02 HomeData and present one-at-a-time with honest reasons. No Leaving Soon; no ranking engine. Governed by this document and [home.md](./specs/home.md).
+Add orientation / newly-added awareness and stub CTAs beneath Top Opportunities. No Explore/Planner/Profile implementation. Governed by this document and [home.md](./specs/home.md).
+
+### I-03 Top Opportunities selection (mechanical)
+
+| Item | Value |
+|------|-------|
+| Selector | `v2/adapters/selectTopOpportunities.js` |
+| UI | `v2/topOpportunities/*` via `HomeDestination` |
+| Default / hard max | 3 / 5 |
+| Unit | One film per selection; representative = earliest chronological candidate |
+| Fill order | Newly added → special format → limited listings (≤2 showtimes) → chronological fill with theater diversity on equal times |
+| Reason labels | Newly added · Special format · Limited current listings · Available at multiple theaters · Showing soon |
+| Film Detail | Not routed — inline “Showing details” panel only |
+| Dev status | Collapsed `<details>` beneath the region |
 
 ---
 
@@ -274,7 +288,7 @@ Select a scarce set of opportunity candidates from I-02 HomeData and present one
 | Topic | Status |
 |-------|--------|
 | Exact directory / package script names for the v2 app | **Resolved in I-01** — `v2/`, `npm run v2`, `dist-v2`, port 5175 |
-| Top Opportunity selection: checked-in editorial fixture vs rule-light heuristic | Open — both allowed if honest and explainable; candidates prepared in I-02 |
-| Tapping a Top Opportunity: no-op, stub Film Detail, or placeholder | Open until Film Detail slice |
+| Top Opportunity selection: checked-in editorial fixture vs rule-light heuristic | **Resolved for I-03** — rule-light deterministic heuristic in `selectTopOpportunities` |
+| Tapping a Top Opportunity: no-op, stub Film Detail, or placeholder | **Resolved for I-03** — inline showing-details panel; no Film Detail route |
 | Newly-added module label (“Recently added” vs “Opening This Week”) | Open — prefer honest semantics (`newlyAdded` in adapter) |
 | When Leaving Soon becomes eligible | After product + data gate to ship `leaving_soon_current` |

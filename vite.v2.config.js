@@ -15,36 +15,48 @@ const v2OutDir = fileURLToPath(new URL('./dist-v2', import.meta.url))
 function serveAllowedV2PublicData() {
   return {
     name: 'v2-serve-allowed-public-data',
-    apply: 'serve',
     configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        const path = (req.url || '').split('?')[0]
-        if (!path.startsWith('/data/')) {
-          next()
-          return
-        }
-
-        const filePath = ALLOWED_V2_DATA_ROUTES[path]
-        if (!filePath) {
-          res.statusCode = 404
-          res.setHeader('Content-Type', 'text/plain; charset=utf-8')
-          res.end(`Unsupported v2 data path: ${path}`)
-          return
-        }
-
-        if (!existsSync(filePath)) {
-          res.statusCode = 404
-          res.setHeader('Content-Type', 'text/plain; charset=utf-8')
-          res.end(`Artifact not found for ${path}`)
-          return
-        }
-
-        res.statusCode = 200
-        res.setHeader('Content-Type', 'application/json; charset=utf-8')
-        createReadStream(filePath).pipe(res)
-      })
+      attachAllowedDataMiddleware(server.middlewares)
+    },
+    configurePreviewServer(server) {
+      attachAllowedDataMiddleware(server.middlewares)
     },
   }
+}
+
+function attachAllowedDataMiddleware(middlewares) {
+  middlewares.use((req, res, next) => {
+    const path = (req.url || '').split('?')[0]
+    if (!path.startsWith('/data/')) {
+      next()
+      return
+    }
+
+    const filePath = ALLOWED_V2_DATA_ROUTES[path]
+    if (!filePath) {
+      // App modules may live under v2/data/ and be requested as /data/*.js —
+      // let Vite serve those. Unknown JSON paths stay blocked.
+      if (path.endsWith('.json')) {
+        res.statusCode = 404
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+        res.end(`Unsupported v2 data path: ${path}`)
+        return
+      }
+      next()
+      return
+    }
+
+    if (!existsSync(filePath)) {
+      res.statusCode = 404
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+      res.end(`Artifact not found for ${path}`)
+      return
+    }
+
+    res.statusCode = 200
+    res.setHeader('Content-Type', 'application/json; charset=utf-8')
+    createReadStream(filePath).pipe(res)
+  })
 }
 
 /**

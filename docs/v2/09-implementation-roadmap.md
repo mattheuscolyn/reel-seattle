@@ -1,6 +1,6 @@
 # 09 — Implementation Roadmap
 
-**Status:** Active (I-02 complete — Home data adapter; I-03 next)  
+**Status:** Active (I-03 complete — Top Opportunities; I-04 next)  
 **Related:** [README](./README.md) · [First implementation slice](./17-first-implementation-slice.md) · [Product philosophy](./01-product-philosophy.md) · [Data foundation roadmap](../data-foundation-roadmap.md) · [Development operating model](../development-operating-model.md#v2-product-design-workflow)
 
 ## Purpose
@@ -63,8 +63,9 @@ The following are **not** required before starting the first slice:
 |------|--------|
 | **I-01** Isolated v2 Vite shell | **Complete** — `v2/`, `npm run v2` → http://127.0.0.1:5175/, `dist-v2/` |
 | **I-02** v2 Home data adapter | **Complete** — `v2/adapters/buildHomeData.js` + allowlisted `/data` |
-| **I-03** Top Opportunities region | **Next** |
-| I-04–I-07 | Pending |
+| **I-03** Top Opportunities region | **Complete** — `selectTopOpportunities` + one-at-a-time Home region |
+| **I-04** Supporting Home regions | **Next** |
+| I-05–I-07 | Pending |
 
 Canonical four-destination chrome (Home · Explore · Planner · Profile) with placeholders shipped in I-01; I-05 remains available for any later chrome polish beyond the shell.
 
