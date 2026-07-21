@@ -15,7 +15,7 @@ function resolveHostname() {
 function LocalOnlyBadge() {
   return (
     <p className="v2-local-badge" role="status">
-      Local-only v2 shell · not deployed to GitHub Pages
+      Local only
     </p>
   );
 }
@@ -31,8 +31,8 @@ export default function V2App() {
       <main className="v2-blocked">
         <h1>v2 shell blocked</h1>
         <p>
-          The Reel Seattle v2 application shell is a local development prototype
-          and only runs on localhost.
+          Reel Seattle v2 is a local development prototype and only runs on
+          localhost.
         </p>
       </main>
     );
@@ -44,9 +44,8 @@ export default function V2App() {
     <div className="v2-shell">
       <div className="v2-top">
         <header className="v2-header">
-          <LocalOnlyBadge />
           <p className="v2-brand">Reel Seattle</p>
-          <p className="v2-subtitle">v2 application shell</p>
+          <LocalOnlyBadge />
         </header>
         <PrimaryNav
           activeDestinationId={destinationId}

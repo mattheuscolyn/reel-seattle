@@ -123,8 +123,11 @@ try {
   if (!appSource.includes('isAllowedV2Hostname')) {
     fail('V2App missing localhost hostname guard');
   }
-  if (!appSource.includes('Local-only v2 shell')) {
-    fail('V2App missing local-only status badge copy');
+  if (!appSource.includes('Local only')) {
+    fail('V2App missing restrained local-only status badge copy');
+  }
+  if (appSource.includes('>v2 application shell<') || appSource.includes("v2-subtitle")) {
+    fail('V2App still shows engineering subtitle as product chrome');
   }
 
   const showtimesData = await fetch(new URL('/data/showtimes_current.json', V2_URL));
@@ -163,8 +166,11 @@ try {
     fail(`failed to fetch TopOpportunities.jsx: ${topOppResponse.status}`);
   }
   const topOppSource = await topOppResponse.text();
-  if (!topOppSource.includes('Top Opportunities')) {
-    fail('TopOpportunities missing region heading');
+  if (!topOppSource.includes('What deserves your attention')) {
+    fail('TopOpportunities missing approved Home introduction');
+  }
+  if (topOppSource.includes('mechanical rules')) {
+    fail('TopOpportunities still shows implementation disclaimer as product copy');
   }
 
   const selectorResponse = await fetch(

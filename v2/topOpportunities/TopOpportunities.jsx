@@ -4,10 +4,9 @@ import {
   selectTopOpportunities,
 } from '../adapters/selectTopOpportunities.js';
 import TopOpportunityCard from './TopOpportunityCard.jsx';
-import TopOpportunityControls from './TopOpportunityControls.jsx';
 
 /**
- * Dominant Home region: scarce, one-at-a-time Top Opportunities (I-03).
+ * Dominant Home region: wide, one-at-a-time Top Opportunities (I-03 / I-03R).
  *
  * @param {{
  *   status: 'loading' | 'ready' | 'error',
@@ -18,7 +17,6 @@ import TopOpportunityControls from './TopOpportunityControls.jsx';
 export default function TopOpportunities({ status, homeData, errorMessage }) {
   const headingId = useId();
   const [index, setIndex] = useState(0);
-  const [detailsOpen, setDetailsOpen] = useState(false);
 
   const selections =
     status === 'ready' && homeData ? selectTopOpportunities(homeData) : [];
@@ -27,23 +25,15 @@ export default function TopOpportunities({ status, homeData, errorMessage }) {
 
   useEffect(() => {
     setIndex((current) => clampSelectionIndex(current, selections.length));
-    setDetailsOpen(false);
   }, [selections.length, homeData?.generatedAt]);
 
   return (
-    <section
-      className="v2-top-opportunities"
-      aria-labelledby={headingId}
-    >
-      <header className="v2-top-header">
-        <p className="v2-top-eyebrow">Seattle cinema · now</p>
-        <h2 id={headingId} className="v2-top-heading">
-          Top Opportunities
+    <section className="v2-top-opportunities" aria-labelledby={headingId}>
+      <header className="v2-home-intro">
+        <p className="v2-home-eyebrow">Seattle cinema</p>
+        <h2 id={headingId} className="v2-home-question">
+          What deserves your attention in Seattle cinema right now?
         </h2>
-        <p className="v2-top-lede">
-          A scarce set of current listings chosen by transparent mechanical
-          rules — not personal taste or cultural ranking.
-        </p>
       </header>
 
       {status === 'loading' ? (
@@ -66,27 +56,21 @@ export default function TopOpportunities({ status, homeData, errorMessage }) {
       ) : null}
 
       {status === 'ready' && active ? (
-        <>
-          <TopOpportunityCard
-            selection={active}
-            detailsOpen={detailsOpen}
-            onToggleDetails={() => setDetailsOpen((open) => !open)}
-          />
-          <TopOpportunityControls
-            index={safeIndex}
-            length={selections.length}
-            onPrevious={() =>
-              setIndex((current) =>
-                clampSelectionIndex(current - 1, selections.length),
-              )
-            }
-            onNext={() =>
-              setIndex((current) =>
-                clampSelectionIndex(current + 1, selections.length),
-              )
-            }
-          />
-        </>
+        <TopOpportunityCard
+          selection={active}
+          index={safeIndex}
+          length={selections.length}
+          onPrevious={() =>
+            setIndex((current) =>
+              clampSelectionIndex(current - 1, selections.length),
+            )
+          }
+          onNext={() =>
+            setIndex((current) =>
+              clampSelectionIndex(current + 1, selections.length),
+            )
+          }
+        />
       ) : null}
     </section>
   );

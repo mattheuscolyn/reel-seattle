@@ -22,6 +22,52 @@ export function formatLocalDateLabel(isoDate) {
 }
 
 /**
+ * Natural showing line: Theater · Date · Time
+ * @param {object} selection
+ */
+export function buildShowingContextLabel(selection) {
+  const opportunity = selection?.representativeOpportunity;
+  if (!opportunity) return null;
+  const dateLabel = formatLocalDateLabel(opportunity.localDate);
+  const parts = [
+    opportunity.theaterName,
+    dateLabel,
+    opportunity.timeDisplay,
+  ].filter(Boolean);
+  return parts.length > 0 ? parts.join(' · ') : null;
+}
+
+/**
+ * Supporting facts: runtime · genre · format (only when present)
+ * Genre is never inferred — only shown when a trustworthy string exists.
+ * @param {object} selection
+ */
+export function buildSupportingFactsLabel(selection) {
+  const film = selection?.film;
+  const opportunity = selection?.representativeOpportunity;
+  const parts = [];
+
+  if (typeof film?.runtimeMin === 'number' && Number.isFinite(film.runtimeMin)) {
+    parts.push(`${film.runtimeMin} min`);
+  }
+
+  const genre =
+    typeof film?.genre === 'string' && film.genre.trim() ? film.genre.trim() : null;
+  if (genre) {
+    parts.push(genre);
+  }
+
+  if (
+    Array.isArray(opportunity?.formatLabels) &&
+    opportunity.formatLabels.length > 0
+  ) {
+    parts.push(opportunity.formatLabels.join(', '));
+  }
+
+  return parts.length > 0 ? parts.join(' · ') : null;
+}
+
+/**
  * @param {object} selection
  */
 export function buildAdditionalListingsLabel(selection) {
@@ -34,7 +80,7 @@ export function buildAdditionalListingsLabel(selection) {
     );
   }
   if (theaters >= 2) {
-    parts.push(`At ${theaters} theaters`);
+    parts.push(`${theaters} theaters`);
   }
   return parts.length > 0 ? parts.join(' · ') : null;
 }

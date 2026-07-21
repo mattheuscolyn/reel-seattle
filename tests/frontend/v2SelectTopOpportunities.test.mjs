@@ -400,7 +400,7 @@ test('format helpers stay factual', () => {
       additionalShowtimeCount: 4,
       film: { theaterCount: 2 },
     }),
-    '4 more showtimes · At 2 theaters',
+    '4 more showtimes · 2 theaters',
   );
   assert.equal(
     buildAdditionalListingsLabel({

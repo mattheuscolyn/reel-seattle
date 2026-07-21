@@ -1,6 +1,6 @@
 # 17 — First v2 Implementation Slice
 
-**Status:** Decision recorded (D-27); **I-03 complete** — next **I-04**  
+**Status:** Decision recorded (D-27); **I-03R visual reconciliation** — human review before publish; next **I-04** after approval  
 **Authority:** Authoritative for the *first* v2 implementation slice only; does not replace canonical screen specs  
 **Related:** [Implementation roadmap](./09-implementation-roadmap.md) · [v2 README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Global navigation](./specs/global-navigation.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Editorial design language](./15-editorial-design-language.md) · [Data foundation roadmap](../data-foundation-roadmap.md) · [Development operating model](../development-operating-model.md#v2-product-design-workflow) · [Data artifact inventory](../data-artifact-inventory.md)
 
@@ -19,7 +19,8 @@
 → **I-01 complete** (isolated v2 Vite shell)  
 → **I-02 complete** (Home data adapter + allowlisted `/data`)  
 → **I-03 complete** (Top Opportunities region)  
-→ **Next: I-04 — Supporting Home regions**  
+→ **I-03R in review** (approved wide carousel visual reconciliation — do not publish until human visual OK)  
+→ **Next after approval: I-04 — Supporting Home regions**  
 See [Follow-up task sequence](#follow-up-task-sequence) and [Local v2 app commands](#local-v2-app-commands-i-01).
 
 ---
@@ -278,8 +279,10 @@ Add orientation / newly-added awareness and stub CTAs beneath Top Opportunities.
 | Unit | One film per selection; representative = earliest chronological candidate |
 | Fill order | Newly added → special format → limited listings (≤2 showtimes) → chronological fill with theater diversity on equal times |
 | Reason labels | Newly added · Special format · Limited current listings · Available at multiple theaters · Showing soon |
-| Film Detail | Not routed — inline “Showing details” panel only |
+| Film Detail | Not routed — key facts overlaid on the stage (I-03R); no Film Detail page yet |
 | Dev status | Collapsed `<details>` beneath the region |
+| Artwork (I-03R) | Wide stage uses `backdropUrl` when present; else portrait `posterUrl` as blurred full-bleed `object-fit: cover` crop; dark gradients for text; no TMDB calls yet |
+| Visual publish | **Human visual review required** before pushing I-03R |
 
 ---
 
