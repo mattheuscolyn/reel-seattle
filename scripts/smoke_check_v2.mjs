@@ -169,8 +169,25 @@ try {
   if (!topOppSource.includes('What deserves your attention')) {
     fail('TopOpportunities missing approved Home introduction');
   }
+  if (!topOppSource.includes('Top Opportunities')) {
+    fail('TopOpportunities missing section label');
+  }
   if (topOppSource.includes('mechanical rules')) {
     fail('TopOpportunities still shows implementation disclaimer as product copy');
+  }
+
+  const stageResponse = await fetch(
+    new URL('/topOpportunities/OpportunityImageStage.jsx', V2_URL),
+  );
+  if (!stageResponse.ok) {
+    fail(`failed to fetch OpportunityImageStage.jsx: ${stageResponse.status}`);
+  }
+  const stageSource = await stageResponse.text();
+  if (!stageSource.includes('v2-stage-cover')) {
+    fail('image stage missing sharp cover layer');
+  }
+  if (!stageSource.includes('v2-stage-fill')) {
+    fail('image stage missing optional poster fill layer');
   }
 
   const selectorResponse = await fetch(

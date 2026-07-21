@@ -9,7 +9,7 @@ import {
 import OpportunityImageStage from './OpportunityImageStage.jsx';
 
 /**
- * One dominant Top Opportunity — wide image-led frame with overlaid copy (I-03R).
+ * One dominant Top Opportunity — sharp wide stage with protected title band (I-03R2).
  *
  * @param {{
  *   selection: object,
@@ -38,7 +38,7 @@ export default function TopOpportunityCard({
 
   return (
     <article
-      className="v2-feature"
+      className={`v2-feature${showControls ? ' v2-feature-has-controls' : ''}`}
       aria-labelledby="v2-top-film-title"
       aria-roledescription="slide"
       aria-label={`${film.title}, ${positionLabel}`}
@@ -51,37 +51,10 @@ export default function TopOpportunityCard({
 
       <div className="v2-feature-chrome">
         <div className="v2-feature-topbar">
-          <p className="v2-feature-kicker">Top Opportunity</p>
-          <p className="v2-feature-position" aria-live="polite">
-            {positionLabel}
-          </p>
+          <p className="v2-feature-reason">{selection.selectionReasonLabel}</p>
         </div>
 
-        {showControls ? (
-          <div className="v2-feature-arrows">
-            <button
-              type="button"
-              className="v2-feature-arrow v2-feature-arrow-prev"
-              onClick={onPrevious}
-              disabled={!prevEnabled}
-              aria-label="Previous featured opportunity"
-            >
-              <span aria-hidden="true">‹</span>
-            </button>
-            <button
-              type="button"
-              className="v2-feature-arrow v2-feature-arrow-next"
-              onClick={onNext}
-              disabled={!nextEnabled}
-              aria-label="Next featured opportunity"
-            >
-              <span aria-hidden="true">›</span>
-            </button>
-          </div>
-        ) : null}
-
         <div className="v2-feature-copy">
-          <p className="v2-feature-reason">{selection.selectionReasonLabel}</p>
           <h3 id="v2-top-film-title" className="v2-feature-title">
             {film.title}
           </h3>
@@ -109,6 +82,33 @@ export default function TopOpportunityCard({
           ) : null}
         </div>
       </div>
+
+      {showControls ? (
+        <div
+          className="v2-feature-arrows"
+          role="group"
+          aria-label="Featured opportunity navigation"
+        >
+          <button
+            type="button"
+            className="v2-feature-arrow v2-feature-arrow-prev"
+            onClick={onPrevious}
+            disabled={!prevEnabled}
+            aria-label="Previous featured opportunity"
+          >
+            <span aria-hidden="true">‹</span>
+          </button>
+          <button
+            type="button"
+            className="v2-feature-arrow v2-feature-arrow-next"
+            onClick={onNext}
+            disabled={!nextEnabled}
+            aria-label="Next featured opportunity"
+          >
+            <span aria-hidden="true">›</span>
+          </button>
+        </div>
+      ) : null}
     </article>
   );
 }

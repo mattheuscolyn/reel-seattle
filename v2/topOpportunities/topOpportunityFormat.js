@@ -5,6 +5,26 @@ import {
 } from '../adapters/selectTopOpportunities.js';
 
 /**
+ * Coarse film keys can inflate additional-showtime counts across variants.
+ * Above this threshold, omit the numeric count and use a restrained label.
+ */
+export const MAX_RELIABLE_ADDITIONAL_SHOWTIMES = 12;
+
+/** Known user-facing format labels. Raw source slugs are omitted. */
+const FORMAT_DISPLAY = Object.freeze({
+  imax: 'IMAX',
+  'imax-at-amc': 'IMAX',
+  'dolby cinema': 'Dolby Cinema',
+  'dolby-cinema': 'Dolby Cinema',
+  'dolby atmos': 'Dolby Atmos',
+  'dolby-atmos': 'Dolby Atmos',
+  '3d': '3D',
+  '4dx': '4DX',
+  screenx: 'ScreenX',
+  rpxt: 'RPX',
+});
+
+/**
  * Format a local YYYY-MM-DD for display without timezone shifting.
  * @param {string | null | undefined} isoDate
  */
@@ -19,6 +39,24 @@ export function formatLocalDateLabel(isoDate) {
     month: 'short',
     day: 'numeric',
   });
+}
+
+/**
+ * Map a source format tag to a user-facing label, or null for raw slugs.
+ * @param {string} raw
+ * @returns {string | null}
+ */
+export function formatUserFacingFormatLabel(raw) {
+  if (typeof raw !== 'string') return null;
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+  const mapped = FORMAT_DISPLAY[trimmed.toLowerCase()];
+  if (mapped) return mapped;
+  // Already human-looking: no hyphenated slug shape.
+  if (!trimmed.includes('-') && /^[A-Za-z0-9][A-Za-z0-9+ .]*$/.test(trimmed)) {
+    return trimmed;
+  }
+  return null;
 }
 
 /**
@@ -38,8 +76,7 @@ export function buildShowingContextLabel(selection) {
 }
 
 /**
- * Supporting facts: runtime · genre · format (only when present)
- * Genre is never inferred — only shown when a trustworthy string exists.
+ * Supporting facts: runtime · genre · format (only when trustworthy).
  * @param {object} selection
  */
 export function buildSupportingFactsLabel(selection) {
@@ -57,31 +94,46 @@ export function buildSupportingFactsLabel(selection) {
     parts.push(genre);
   }
 
-  if (
-    Array.isArray(opportunity?.formatLabels) &&
-    opportunity.formatLabels.length > 0
-  ) {
-    parts.push(opportunity.formatLabels.join(', '));
+  if (Array.isArray(opportunity?.formatLabels)) {
+    const formats = opportunity.formatLabels
+      .map(formatUserFacingFormatLabel)
+      .filter(Boolean);
+    const unique = [...new Set(formats)];
+    if (unique.length > 0) {
+      parts.push(unique.join(', '));
+    }
   }
 
   return parts.length > 0 ? parts.join(' · ') : null;
 }
 
 /**
+ * Availability line with sanity guard against inflated showtime counts.
+ *
+ * Rule:
+ * - Exact additional count only when 1…MAX_RELIABLE_ADDITIONAL_SHOWTIMES
+ * - Above that: “Multiple showtimes” (omit extreme numbers)
+ * - Theater count ≥ 2 always eligible as “At N theaters”
+ *
  * @param {object} selection
  */
 export function buildAdditionalListingsLabel(selection) {
   const additional = selection?.additionalShowtimeCount ?? 0;
   const theaters = selection?.film?.theaterCount ?? 0;
   const parts = [];
-  if (additional > 0) {
+
+  if (additional >= 1 && additional <= MAX_RELIABLE_ADDITIONAL_SHOWTIMES) {
     parts.push(
       additional === 1 ? '1 more showtime' : `${additional} more showtimes`,
     );
+  } else if (additional > MAX_RELIABLE_ADDITIONAL_SHOWTIMES) {
+    parts.push('Multiple showtimes');
   }
+
   if (theaters >= 2) {
-    parts.push(`${theaters} theaters`);
+    parts.push(`At ${theaters} theaters`);
   }
+
   return parts.length > 0 ? parts.join(' · ') : null;
 }
 

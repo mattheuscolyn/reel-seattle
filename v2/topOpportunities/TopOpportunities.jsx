@@ -3,10 +3,11 @@ import {
   clampSelectionIndex,
   selectTopOpportunities,
 } from '../adapters/selectTopOpportunities.js';
+import { buildPositionLabel } from './topOpportunityFormat.js';
 import TopOpportunityCard from './TopOpportunityCard.jsx';
 
 /**
- * Dominant Home region: wide, one-at-a-time Top Opportunities (I-03 / I-03R).
+ * Dominant Home region: Top Opportunities (I-03 / I-03R2).
  *
  * @param {{
  *   status: 'loading' | 'ready' | 'error',
@@ -22,6 +23,8 @@ export default function TopOpportunities({ status, homeData, errorMessage }) {
     status === 'ready' && homeData ? selectTopOpportunities(homeData) : [];
   const safeIndex = clampSelectionIndex(index, selections.length);
   const active = selections[safeIndex] ?? null;
+  const positionLabel =
+    status === 'ready' ? buildPositionLabel(safeIndex, selections.length) : null;
 
   useEffect(() => {
     setIndex((current) => clampSelectionIndex(current, selections.length));
@@ -30,11 +33,23 @@ export default function TopOpportunities({ status, homeData, errorMessage }) {
   return (
     <section className="v2-top-opportunities" aria-labelledby={headingId}>
       <header className="v2-home-intro">
-        <p className="v2-home-eyebrow">Seattle cinema</p>
         <h2 id={headingId} className="v2-home-question">
           What deserves your attention in Seattle cinema right now?
         </h2>
+        <p className="v2-home-support">
+          A calm look at what’s playing across the city — scarce, current, and
+          honest.
+        </p>
       </header>
+
+      <div className="v2-section-bar">
+        <p className="v2-section-label">Top Opportunities</p>
+        {positionLabel && selections.length > 0 ? (
+          <p className="v2-section-position" aria-live="polite">
+            {positionLabel}
+          </p>
+        ) : null}
+      </div>
 
       {status === 'loading' ? (
         <p className="v2-top-state" role="status">
@@ -50,8 +65,7 @@ export default function TopOpportunities({ status, homeData, errorMessage }) {
 
       {status === 'ready' && selections.length === 0 ? (
         <p className="v2-top-state" role="status">
-          No featured opportunities in the current window. Supporting Home
-          regions arrive in later tasks.
+          No featured opportunities in the current window.
         </p>
       ) : null}
 

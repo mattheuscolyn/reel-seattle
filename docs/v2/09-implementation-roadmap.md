@@ -1,6 +1,6 @@
 # 09 — Implementation Roadmap
 
-**Status:** Active (I-03R visual reconciliation — human review before publish; I-04 next after approval)  
+**Status:** Active (I-03R2 visual foundation in review — human approval before publish; I-04 next after approval)  
 **Related:** [README](./README.md) · [First implementation slice](./17-first-implementation-slice.md) · [Product philosophy](./01-product-philosophy.md) · [Data foundation roadmap](../data-foundation-roadmap.md) · [Development operating model](../development-operating-model.md#v2-product-design-workflow)
 
 ## Purpose
@@ -64,8 +64,9 @@ The following are **not** required before starting the first slice:
 | **I-01** Isolated v2 Vite shell | **Complete** — `v2/`, `npm run v2` → http://127.0.0.1:5175/, `dist-v2/` |
 | **I-02** v2 Home data adapter | **Complete** — `v2/adapters/buildHomeData.js` + allowlisted `/data` |
 | **I-03** Top Opportunities region | **Complete** — selector + one-at-a-time region |
-| **I-03R** Approved design reconciliation | **In review** — wide image-led carousel; portrait→wide stage fallback; not pushed |
-| **I-04** Supporting Home regions | **Next** after I-03R human visual approval |
+| **I-03R** Approved design reconciliation | Superseded by I-03R2 |
+| **I-03R2** Visual foundation + Top Opportunities fidelity | **In review** — sharp cover crop, shell reset; not pushed |
+| **I-04** Supporting Home regions | **Next** after I-03R2 human visual approval |
 | I-05–I-07 | Pending |
 
 Canonical four-destination chrome (Home · Explore · Planner · Profile) with placeholders shipped in I-01; I-05 remains available for any later chrome polish beyond the shell.

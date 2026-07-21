@@ -1,8 +1,8 @@
 /**
- * Resolve artwork for the Top Opportunities wide stage (I-03R).
+ * Resolve artwork for the Top Opportunities wide stage.
  *
  * Prefer future `backdropUrl` when present; otherwise use portrait `posterUrl`
- * as a full-bleed cover crop. Never invent URLs.
+ * as a sharp cover crop. Never invent URLs.
  *
  * @param {{
  *   backdropUrl?: string | null,

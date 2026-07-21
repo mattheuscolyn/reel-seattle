@@ -121,8 +121,82 @@ test('position and bounded navigation helpers remain correct', () => {
 test('additional listings label stays factual', () => {
   assert.equal(
     buildAdditionalListingsLabel(selectionFixture()),
-    '4 more showtimes · 2 theaters',
+    '4 more showtimes · At 2 theaters',
   );
+});
+
+test('extreme additional showtime counts are suppressed', () => {
+  assert.equal(
+    buildAdditionalListingsLabel(
+      selectionFixture({
+        additionalShowtimeCount: 866,
+        film: { theaterCount: 8 },
+      }),
+    ),
+    'Multiple showtimes · At 8 theaters',
+  );
+  assert.equal(
+    buildAdditionalListingsLabel(
+      selectionFixture({
+        additionalShowtimeCount: 866,
+        film: { theaterCount: 1 },
+      }),
+    ),
+    'Multiple showtimes',
+  );
+});
+
+test('raw format slugs are omitted or mapped to user-facing labels', () => {
+  assert.equal(
+    buildSupportingFactsLabel(
+      selectionFixture({
+        film: { runtimeMin: 172 },
+        opportunity: { formatLabels: ['imax-at-amc'] },
+      }),
+    ),
+    '172 min · IMAX',
+  );
+  assert.equal(
+    buildSupportingFactsLabel(
+      selectionFixture({
+        film: { runtimeMin: null },
+        opportunity: { formatLabels: ['source-internal-slug-xyz'] },
+      }),
+    ),
+    null,
+  );
+});
+
+test('v2 entry imports only local visual foundation CSS', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { dirname, join } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+  const source = readFileSync(join(root, 'v2/main.jsx'), 'utf8');
+  assert.match(source, /import ['"]\.\/v2\.css['"]/);
+  assert.equal(source.includes('App.css'), false);
+  assert.equal(source.includes('index.css'), false);
+  assert.equal(source.includes('cockpit'), false);
+});
+
+test('feature layout contract keeps edge arrows out of the title band', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { dirname, join } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+  const card = readFileSync(
+    join(root, 'v2/topOpportunities/TopOpportunityCard.jsx'),
+    'utf8',
+  );
+  const css = readFileSync(join(root, 'v2/v2.css'), 'utf8');
+  assert.match(card, /v2-feature-arrow-prev/);
+  assert.match(card, /v2-feature-arrow-next/);
+  assert.match(card, /v2-feature-has-controls/);
+  assert.match(css, /\.v2-feature-arrow-prev\s*\{[^}]*left:/s);
+  assert.match(css, /\.v2-feature-arrow-next\s*\{[^}]*right:/s);
+  assert.match(css, /\.v2-feature-arrow\s*\{[^}]*top:\s*38%/s);
+  assert.match(css, /\.v2-stage-cover\s*\{[^}]*object-fit:\s*cover/s);
+  assert.match(css, /\.v2-stage-fill\s*\{[^}]*filter:\s*blur/s);
 });
 
 test('selector output still drives first visible item fields', () => {

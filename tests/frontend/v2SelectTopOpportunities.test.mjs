@@ -400,7 +400,7 @@ test('format helpers stay factual', () => {
       additionalShowtimeCount: 4,
       film: { theaterCount: 2 },
     }),
-    '4 more showtimes · 2 theaters',
+    '4 more showtimes · At 2 theaters',
   );
   assert.equal(
     buildAdditionalListingsLabel({
@@ -408,6 +408,13 @@ test('format helpers stay factual', () => {
       film: { theaterCount: 1 },
     }),
     null,
+  );
+  assert.equal(
+    buildAdditionalListingsLabel({
+      additionalShowtimeCount: 900,
+      film: { theaterCount: 3 },
+    }),
+    'Multiple showtimes · At 3 theaters',
   );
 });
 

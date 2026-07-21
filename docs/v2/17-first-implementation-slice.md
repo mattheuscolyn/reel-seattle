@@ -1,6 +1,6 @@
 # 17 — First v2 Implementation Slice
 
-**Status:** Decision recorded (D-27); **I-03R visual reconciliation** — human review before publish; next **I-04** after approval  
+**Status:** Decision recorded (D-27); **I-03R2 visual foundation** — human review before publish; next **I-04** after approval  
 **Authority:** Authoritative for the *first* v2 implementation slice only; does not replace canonical screen specs  
 **Related:** [Implementation roadmap](./09-implementation-roadmap.md) · [v2 README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Global navigation](./specs/global-navigation.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Editorial design language](./15-editorial-design-language.md) · [Data foundation roadmap](../data-foundation-roadmap.md) · [Development operating model](../development-operating-model.md#v2-product-design-workflow) · [Data artifact inventory](../data-artifact-inventory.md)
 
@@ -19,7 +19,7 @@
 → **I-01 complete** (isolated v2 Vite shell)  
 → **I-02 complete** (Home data adapter + allowlisted `/data`)  
 → **I-03 complete** (Top Opportunities region)  
-→ **I-03R in review** (approved wide carousel visual reconciliation — do not publish until human visual OK)  
+→ **I-03R / I-03R2 in review** (visual foundation + approved carousel fidelity — **do not publish until human visual OK**)  
 → **Next after approval: I-04 — Supporting Home regions**  
 See [Follow-up task sequence](#follow-up-task-sequence) and [Local v2 app commands](#local-v2-app-commands-i-01).
 
@@ -281,8 +281,10 @@ Add orientation / newly-added awareness and stub CTAs beneath Top Opportunities.
 | Reason labels | Newly added · Special format · Limited current listings · Available at multiple theaters · Showing soon |
 | Film Detail | Not routed — key facts overlaid on the stage (I-03R); no Film Detail page yet |
 | Dev status | Collapsed `<details>` beneath the region |
-| Artwork (I-03R) | Wide stage uses `backdropUrl` when present; else portrait `posterUrl` as blurred full-bleed `object-fit: cover` crop; dark gradients for text; no TMDB calls yet |
-| Visual publish | **Human visual review required** before pushing I-03R |
+| Artwork (I-03R2) | Sharp `object-fit: cover` poster (or future `backdropUrl`) as primary; optional soft fill behind posters; dark lower gradient; **no blur-only wash** |
+| Count sanity | Additional showtime numbers capped at 12; above that → “Multiple showtimes” (coarse keys inflate counts) |
+| Visual foundation | `v2/v2.css` only — **no** production `App.css` / `index.css` / cockpit CSS inheritance |
+| Visual publish | **Human visual review required** before pushing |
 
 ---
 

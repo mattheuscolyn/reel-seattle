@@ -68,7 +68,8 @@ Isolated Vite app (cockpit pattern). **Not** part of production `dist/` or GitHu
 | Smoke | `npm run smoke:v2` |
 | Home adapter | `v2/adapters/buildHomeData.js` |
 | Top Opportunities | `v2/adapters/selectTopOpportunities.js` + `v2/topOpportunities/` (I-03R: wide image stage) |
-| Artwork fallback | Portrait poster → blurred wide cover crop; future `film.backdropUrl` preferred when available |
+| Artwork | Sharp cover crop from poster (or future `backdropUrl`); soft fill optional behind posters |
+| CSS | Isolated `v2/v2.css` only — does not import production styles |
 | Local data | Allowlisted `/data/*.json` from `public/data` (not Leaving Soon) |
 
 ---

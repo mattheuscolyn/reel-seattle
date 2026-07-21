@@ -1,8 +1,8 @@
 import { resolveOpportunityStageMedia } from './opportunityStageMedia.js';
 
 /**
- * Wide cinematic image stage for Top Opportunities.
- * Supports poster now; optional future backdropUrl without restructuring.
+ * Wide cinematic image stage.
+ * Sharp cover crop is the primary visible artwork; optional soft fill may sit behind posters.
  *
  * @param {{
  *   title: string,
@@ -24,14 +24,23 @@ export default function OpportunityImageStage({
     >
       {media.url ? (
         <>
+          {media.kind === 'poster' ? (
+            <img
+              className="v2-stage-fill"
+              src={media.url}
+              alt=""
+              aria-hidden="true"
+              draggable="false"
+            />
+          ) : null}
           <img
-            className="v2-stage-bleed"
+            className="v2-stage-cover"
             src={media.url}
             alt=""
             aria-hidden="true"
             draggable="false"
           />
-          <div className="v2-stage-dim" aria-hidden="true" />
+          <div className="v2-stage-scrim" aria-hidden="true" />
         </>
       ) : (
         <div
