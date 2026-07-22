@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-21T01:13:49-07:00",
+  "generated_at": "2026-07-22T01:14:06-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-21",
-    "end_date": "2026-08-04"
+    "start_date": "2026-07-22",
+    "end_date": "2026-08-05"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,10 +15,58 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 40,
-    "flagged_film_count": 13
+    "candidate_film_count": 43,
+    "flagged_film_count": 12
   },
   "items": [
+    {
+      "film_key": "amc-scream-unseen-august-3",
+      "film_title": "AMC Scream Unseen: August 3",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-03",
+      "max_show_date": "2026-08-03",
+      "total_visible_showtimes": 8,
+      "total_visible_theaters": 7,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-08-03"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783694256/amc-cdn/content/general/ujpy5rlvw7ogw9cmrmg5.jpg",
+      "runtime_min": 90
+    },
     {
       "film_key": "amc-screen-unseen-july-27",
       "film_title": "AMC Screen Unseen: July 27",
@@ -68,60 +116,60 @@
       "runtime_min": 107
     },
     {
-      "film_key": "evangelion-death-true-2-rebirth-evangelion-30th-movie-fest",
-      "film_title": "Evangelion: Death (True)2 & Rebirth (EVANGELION 30th Movie Fest)",
+      "film_key": "boyhood-12th-anniversary",
+      "film_title": "Boyhood 12th Anniversary",
       "risk_level": "high",
       "reason": "Only one visible AMC play date remains in the current schedule.",
       "visible_show_date_count": 1,
-      "min_show_date": "2026-07-21",
-      "max_show_date": "2026-07-21",
-      "total_visible_showtimes": 3,
-      "total_visible_theaters": 3,
+      "min_show_date": "2026-08-04",
+      "max_show_date": "2026-08-04",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
       "theaters": [
         {
           "theater_id": "amc-alderwood-mall-16",
           "theater_name": "AMC Alderwood Mall 16"
-        },
+        }
+      ],
+      "show_dates": [
+        "2026-08-04"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": null,
+      "runtime_min": 186
+    },
+    {
+      "film_key": "met-summer-encore-aida-2026",
+      "film_title": "MET Summer Encore: Aida (2026)",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-05",
+      "max_show_date": "2026-08-05",
+      "total_visible_showtimes": 5,
+      "total_visible_theaters": 3,
+      "theaters": [
         {
           "theater_id": "amc-kent-station-14",
           "theater_name": "AMC Kent Station 14"
         },
         {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-07-21"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818626/amc-cdn/production/2/movies/83900/83874/Poster/420340R1.jpg",
-      "runtime_min": 98
-    },
-    {
-      "film_key": "jana-nayagan",
-      "film_title": "Jana Nayagan",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-22",
-      "max_show_date": "2026-07-22",
-      "total_visible_showtimes": 3,
-      "total_visible_theaters": 1,
-      "theaters": [
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6"
+        },
         {
-          "theater_id": "amc-factoria-8",
-          "theater_name": "AMC Factoria 8"
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
         }
       ],
       "show_dates": [
-        "2026-07-22"
+        "2026-08-05"
       ],
       "has_primetime": true,
       "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784126941/amc-cdn/content/general/xbmfcy9vsofehyjucejq.jpg",
-      "runtime_min": 186
+      "poster_url": null,
+      "runtime_min": 175
     },
     {
       "film_key": "met-summer-encore-the-merry-widow-2026",
@@ -304,42 +352,6 @@
       "runtime_min": 143
     },
     {
-      "film_key": "spongebob-movie-search-for-squarepants",
-      "film_title": "The Spongebob Movie: Search for Squarepants",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-03",
-      "max_show_date": "2026-08-03",
-      "total_visible_showtimes": 8,
-      "total_visible_theaters": 4,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-08-03"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782139623/amc-cdn/content/general/tvuvlawrqpzmgrcgonh1.jpg",
-      "runtime_min": 96
-    },
-    {
       "film_key": "summer-tour",
       "film_title": "Summer Tour",
       "risk_level": "high",
@@ -394,42 +406,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1781755703/amc-cdn/content/general/zijnpsnzjidqtnjdhblu.jpg",
       "runtime_min": 90
-    },
-    {
-      "film_key": "willy-wonka-the-chocolate-factory-55th-anniversary",
-      "film_title": "Willy Wonka & the Chocolate Factory 55th Anniversary",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-02",
-      "max_show_date": "2026-08-02",
-      "total_visible_showtimes": 4,
-      "total_visible_theaters": 4,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-08-02"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1771352375/amc-cdn/content/general/x79kuloyvzjvrqfvgg0s.jpg",
-      "runtime_min": 105
     }
   ]
 }
