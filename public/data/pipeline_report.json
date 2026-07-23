@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-22T01:14:00-07:00",
+  "generated_at": "2026-07-23T01:18:18-07:00",
   "status": "success",
   "window": {
-    "start_date": "2026-07-22",
-    "end_date": "2026-08-05"
+    "start_date": "2026-07-23",
+    "end_date": "2026-08-06"
   },
   "sources": {
     "amc": {
       "status": "success",
-      "showtime_count": 4288,
-      "film_count": 43,
+      "showtime_count": 4104,
+      "film_count": 48,
       "theater_count": 7,
-      "last_successful_run": "2026-07-22",
+      "last_successful_run": "2026-07-23",
       "warnings": [
         "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
       ],
@@ -20,10 +20,10 @@
     },
     "siff": {
       "status": "success",
-      "showtime_count": 108,
-      "film_count": 22,
+      "showtime_count": 102,
+      "film_count": 20,
       "theater_count": 3,
-      "last_successful_run": "2026-07-22",
+      "last_successful_run": "2026-07-23",
       "warnings": [
         "SIFF parent/series page with no direct showtimes: programs-and-events/art-house-theater-day-2026",
         "SIFF parent/series page with no direct showtimes: programs-and-events/cold-war-summer",
@@ -38,35 +38,35 @@
     },
     "beacon": {
       "status": "success",
-      "showtime_count": 28,
-      "film_count": 14,
+      "showtime_count": 29,
+      "film_count": 15,
       "theater_count": 1,
-      "last_successful_run": "2026-07-22",
+      "last_successful_run": "2026-07-23",
       "warnings": [],
       "errors": []
     },
     "nwff": {
       "status": "success",
-      "showtime_count": 26,
-      "film_count": 10,
+      "showtime_count": 27,
+      "film_count": 11,
       "theater_count": 1,
-      "last_successful_run": "2026-07-22",
+      "last_successful_run": "2026-07-23",
       "warnings": [],
       "errors": []
     },
     "central_cinema": {
       "status": "success",
-      "showtime_count": 37,
-      "film_count": 13,
+      "showtime_count": 38,
+      "film_count": 11,
       "theater_count": 1,
-      "last_successful_run": "2026-07-22",
+      "last_successful_run": "2026-07-23",
       "warnings": [],
       "errors": []
     }
   },
   "totals": {
-    "showtime_count": 4487,
-    "film_count": 97,
+    "showtime_count": 4300,
+    "film_count": 100,
     "theater_count": 13
   },
   "messages": [],
@@ -79,15 +79,15 @@
     "outcome": "promoted",
     "artifacts_written_this_run": true,
     "artifacts_retained_from_prior": false,
-    "reported_at": "2026-07-22T01:14:56-07:00",
-    "last_successful_build_at": "2026-07-22T01:14:11-07:00",
+    "reported_at": "2026-07-23T01:19:20-07:00",
+    "last_successful_build_at": "2026-07-23T01:18:29-07:00",
     "message": "AMC source catalog: promoted",
     "warnings": [],
     "errors": [],
     "refresh": {
-      "active_ids": 43,
-      "selected": 43,
-      "success": 43,
+      "active_ids": 48,
+      "selected": 48,
+      "success": 48,
       "failed": 0,
       "invalid": 0
     },
@@ -98,8 +98,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-07-22T01:14:11-07:00",
-        "record_count": 59,
+        "generated_at": "2026-07-23T01:18:29-07:00",
+        "record_count": 67,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -111,8 +111,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-07-22T01:14:11-07:00",
-        "record_count": 51,
+        "generated_at": "2026-07-23T01:18:29-07:00",
+        "record_count": 60,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -120,40 +120,40 @@
       }
     },
     "products_summary": {
-      "total": 59,
-      "active": 43,
-      "inactive": 16,
-      "with_release_id": 54,
-      "without_release_id": 5,
+      "total": 67,
+      "active": 48,
+      "inactive": 19,
+      "with_release_id": 63,
+      "without_release_id": 4,
       "refresh_pending": 0,
-      "refresh_success": 59,
+      "refresh_success": 67,
       "refresh_stale": 0,
       "refresh_failed": 0,
       "refresh_invalid": 0,
       "refresh_status_missing": 0,
       "stored_stats": {
-        "products": 59,
-        "active_products": 43,
-        "inactive_products": 16,
-        "with_release_id": 54,
-        "without_release_id": 5,
+        "products": 67,
+        "active_products": 48,
+        "inactive_products": 19,
+        "with_release_id": 63,
+        "without_release_id": 4,
         "refresh_pending": 0,
-        "refresh_success": 59,
+        "refresh_success": 67,
         "refresh_stale": 0,
         "refresh_failed": 0,
         "refresh_invalid": 0,
-        "special_presentations": 23
+        "special_presentations": 27
       }
     },
     "releases_summary": {
-      "total": 51,
-      "singleton_groups": 49,
+      "total": 60,
+      "singleton_groups": 58,
       "multi_product_groups": 2,
-      "membership_references": 54,
+      "membership_references": 63,
       "unresolved_member_references": 0,
       "stored_stats": {
-        "release_observations": 51,
-        "singleton_groups": 49,
+        "release_observations": 60,
+        "singleton_groups": 58,
         "multi_product_groups": 2,
         "largest_group": 3
       }
