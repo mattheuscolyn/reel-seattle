@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-24T01:13:42-07:00",
+  "generated_at": "2026-07-25T00:56:37-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-24",
-    "end_date": "2026-08-07"
+    "start_date": "2026-07-25",
+    "end_date": "2026-08-08"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 43,
-    "flagged_film_count": 13
+    "candidate_film_count": 47,
+    "flagged_film_count": 16
   },
   "items": [
     {
@@ -144,34 +144,6 @@
       "runtime_min": 107
     },
     {
-      "film_key": "ateez-light-the-way-in-cinemas",
-      "film_title": "Ateez: Light the Way in Cinemas",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-06",
-      "max_show_date": "2026-08-06",
-      "total_visible_showtimes": 4,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-08-06"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818427/amc-cdn/production/2/movies/84100/84089/Poster/420838R1.jpg",
-      "runtime_min": 70
-    },
-    {
       "film_key": "boyhood-12th-anniversary",
       "film_title": "Boyhood 12th Anniversary",
       "risk_level": "high",
@@ -232,6 +204,42 @@
       "runtime_min": 315
     },
     {
+      "film_key": "grateful-dead-meet-up-at-the-movies-2026",
+      "film_title": "Grateful Dead Meet-Up At The Movies 2026",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-08",
+      "max_show_date": "2026-08-08",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-08"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784257913/amc-cdn/content/general/kq8jswe2y88f9vrqwewi.jpg",
+      "runtime_min": 166
+    },
+    {
       "film_key": "met-summer-encore-aida-2026",
       "film_title": "MET Summer Encore: Aida (2026)",
       "risk_level": "high",
@@ -260,7 +268,7 @@
       ],
       "has_primetime": true,
       "has_weekend_show": false,
-      "poster_url": null,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784891173/amc-cdn/production/2/movies/83800/83829/Poster/417249R1.jpg",
       "runtime_min": 175
     },
     {
@@ -290,6 +298,42 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782817735/amc-cdn/production/2/movies/84000/83989/Poster/419382R1.jpg",
       "runtime_min": 120
+    },
+    {
+      "film_key": "paw-patrol-the-dino-movie-early-access",
+      "film_title": "PAW Patrol: The Dino Movie - Early Access",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-08",
+      "max_show_date": "2026-08-08",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-08-08"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784027276/amc-cdn/production/2/movies/84500/84464/Poster/421772R1.jpg",
+      "runtime_min": 94
     },
     {
       "film_key": "sia-nostalgic-for-the-present",
@@ -353,6 +397,30 @@
       "has_primetime": true,
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782238275/amc-cdn/content/general/wtz34mlstptdlvg4sveo.png",
+      "runtime_min": 145
+    },
+    {
+      "film_key": "spider-man-brand-new-day-sensory-friendly-screening",
+      "film_title": "Spider-Man: Brand New Day: Sensory Friendly Screening",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-08",
+      "max_show_date": "2026-08-08",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-08-08"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818536/amc-cdn/production/2/movies/84000/84001/Poster/374538R1.jpg",
       "runtime_min": 145
     },
     {
@@ -422,6 +490,42 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1783004578/amc-cdn/content/general/arctoeatqnklfm97meuc.jpg",
       "runtime_min": 140
+    },
+    {
+      "film_key": "tales-from-earthsea-20th-anniversary-studio-ghibli-fest-2026",
+      "film_title": "Tales from Earthsea 20th Anniversary - Studio Ghibli Fest 2026",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-08",
+      "max_show_date": "2026-08-08",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-08-08"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1778770562/amc-cdn/content/general/irrhehj0dyewcmm8qcgr.jpg",
+      "runtime_min": 123
     },
     {
       "film_key": "wham-10-days-in-china",
