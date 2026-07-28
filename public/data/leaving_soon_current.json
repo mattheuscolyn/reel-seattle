@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-27T02:37:47-07:00",
+  "generated_at": "2026-07-28T01:22:34-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-27",
-    "end_date": "2026-08-10"
+    "start_date": "2026-07-28",
+    "end_date": "2026-08-11"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 46,
-    "flagged_film_count": 16
+    "candidate_film_count": 43,
+    "flagged_film_count": 13
   },
   "items": [
     {
@@ -96,62 +96,14 @@
       "runtime_min": 90
     },
     {
-      "film_key": "amc-screen-unseen-july-27",
-      "film_title": "AMC Screen Unseen: July 27",
+      "film_key": "bad-guys-2",
+      "film_title": "The Bad Guys 2",
       "risk_level": "high",
       "reason": "Only one visible AMC play date remains in the current schedule.",
       "visible_show_date_count": 1,
-      "min_show_date": "2026-07-27",
-      "max_show_date": "2026-07-27",
+      "min_show_date": "2026-07-29",
+      "max_show_date": "2026-07-29",
       "total_visible_showtimes": 8,
-      "total_visible_theaters": 7,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-factoria-8",
-          "theater_name": "AMC Factoria 8"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-oak-tree-6",
-          "theater_name": "AMC Oak Tree 6"
-        },
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-07-27"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783444004/amc-cdn/content/general/el1f7k5iiral7tex8k53.jpg",
-      "runtime_min": 107
-    },
-    {
-      "film_key": "bad-counselors",
-      "film_title": "Bad Counselors",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-27",
-      "max_show_date": "2026-07-27",
-      "total_visible_showtimes": 4,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -172,12 +124,12 @@
         }
       ],
       "show_dates": [
-        "2026-07-27"
+        "2026-07-29"
       ],
-      "has_primetime": true,
+      "has_primetime": false,
       "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1781275351/amc-cdn/content/general/ydnq9flxf1smqrtjjsvw.jpg",
-      "runtime_min": 105
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782139519/amc-cdn/content/general/wicenw9rx70mwmmzpu9i.jpg",
+      "runtime_min": 104
     },
     {
       "film_key": "boyhood-12th-anniversary",
@@ -238,42 +190,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782327904/amc-cdn/content/general/m7qwfgvqqjnpqlauigid.png",
       "runtime_min": 315
-    },
-    {
-      "film_key": "fifth-element-2026-event-2026",
-      "film_title": "The Fifth Element (2026 Event)",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-27",
-      "max_show_date": "2026-07-27",
-      "total_visible_showtimes": 4,
-      "total_visible_theaters": 4,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-07-27"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1771352136/amc-cdn/content/general/yhmyqpz8wskn0g1rmjrk.jpg",
-      "runtime_min": 131
     },
     {
       "film_key": "met-summer-encore-aida-2026",
@@ -344,14 +260,14 @@
       "runtime_min": 99
     },
     {
-      "film_key": "only-yesterday-35th-anniversary-studio-ghibli-fest-2026",
-      "film_title": "Only Yesterday 35th Anniversary - Studio Ghibli Fest 2026",
+      "film_key": "nimrods-early-access-green-day-intro-bonus-performance",
+      "film_title": "Nimrods Early Access – Green Day Intro + Bonus Performance",
       "risk_level": "high",
       "reason": "Only one visible AMC play date remains in the current schedule.",
       "visible_show_date_count": 1,
-      "min_show_date": "2026-08-09",
-      "max_show_date": "2026-08-09",
-      "total_visible_showtimes": 8,
+      "min_show_date": "2026-08-11",
+      "max_show_date": "2026-08-11",
+      "total_visible_showtimes": 4,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -372,12 +288,12 @@
         }
       ],
       "show_dates": [
-        "2026-08-09"
+        "2026-08-11"
       ],
       "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1778770482/amc-cdn/content/general/t41hfoxsjicxy4zzhxta.jpg",
-      "runtime_min": 126
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784565070/amc-cdn/content/general/lkksq80kmzitau360fzp.jpg",
+      "runtime_min": 137
     },
     {
       "film_key": "paw-patrol-the-dino-movie-early-access",
@@ -474,30 +390,6 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818536/amc-cdn/production/2/movies/84000/84001/Poster/374538R1.jpg",
       "runtime_min": 145
-    },
-    {
-      "film_key": "splash-city-with-berner-in-person",
-      "film_title": "Splash City with Berner in-person",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-07-27",
-      "max_show_date": "2026-07-27",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-07-27"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782760824/amc-cdn/content/general/j0rmn8vkkbhxnvwanoar.jpg",
-      "runtime_min": 143
     },
     {
       "film_key": "super-troopers-3-special-broken-lizard-fan-event",
