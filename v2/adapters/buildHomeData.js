@@ -92,6 +92,20 @@ function asTrimmedString(value) {
 }
 
 /**
+ * Public ticket_url → presentation ticketUrl. Absolute http(s) only.
+ * @param {unknown} value
+ * @returns {string | null}
+ */
+function asTicketUrl(value) {
+  const trimmed = asTrimmedString(value);
+  if (!trimmed) return null;
+  if (trimmed.startsWith('https://') || trimmed.startsWith('http://')) {
+    return trimmed;
+  }
+  return null;
+}
+
+/**
  * @param {unknown} value
  * @returns {number | null}
  */
@@ -345,7 +359,8 @@ export function buildHomeData(input) {
       timeDisplay: asTrimmedString(raw.time_display) ?? localTime.slice(0, 5),
       sortableLocalDateTime,
       formatLabels,
-      ticketUrl: asTrimmedString(raw.ticket_url),
+      ticketUrl: asTicketUrl(raw.ticket_url),
+      // sourceUrl is non-ticket context only — never used as a ticket fallback.
       sourceUrl: asTrimmedString(attributes.source_url) ?? asTrimmedString(attributes.url),
       auditorium: asTrimmedString(attributes.auditorium) ?? asTrimmedString(attributes.screen),
       status: asTrimmedString(raw.status),

@@ -179,24 +179,25 @@ test('v2 entry imports only local visual foundation CSS', async () => {
   assert.equal(source.includes('cockpit'), false);
 });
 
-test('feature layout contract keeps edge arrows out of the title band', async () => {
+test('feature layout contract keeps edge arrows mid-image above overlay copy', async () => {
   const { readFileSync } = await import('node:fs');
   const { dirname, join } = await import('node:path');
   const { fileURLToPath } = await import('node:url');
   const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
-  const card = readFileSync(
-    join(root, 'v2/topOpportunities/TopOpportunityCard.jsx'),
+  const feature = readFileSync(
+    join(root, 'v2/home/TopOpportunityFeature.jsx'),
     'utf8',
   );
   const css = readFileSync(join(root, 'v2/v2.css'), 'utf8');
-  assert.match(card, /v2-feature-arrow-prev/);
-  assert.match(card, /v2-feature-arrow-next/);
-  assert.match(card, /v2-feature-has-controls/);
+  assert.match(feature, /v2-feature-arrow-prev/);
+  assert.match(feature, /v2-feature-arrow-next/);
+  assert.match(feature, /v2-feature-overlay/);
+  assert.match(feature, /v2-feature-badge/);
   assert.match(css, /\.v2-feature-arrow-prev\s*\{[^}]*left:/s);
   assert.match(css, /\.v2-feature-arrow-next\s*\{[^}]*right:/s);
-  assert.match(css, /\.v2-feature-arrow\s*\{[^}]*top:\s*38%/s);
+  assert.match(css, /\.v2-feature-arrow\s*\{[^}]*top:\s*46%/s);
   assert.match(css, /\.v2-stage-cover\s*\{[^}]*object-fit:\s*cover/s);
-  assert.match(css, /\.v2-stage-fill\s*\{[^}]*filter:\s*blur/s);
+  assert.match(css, /--v2-accent:\s*#8b5cf6/);
 });
 
 test('selector output still drives first visible item fields', () => {

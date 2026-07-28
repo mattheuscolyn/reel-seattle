@@ -1,0 +1,167 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-20T00:00:00-07:00",
+  "source": "amc",
+  "stats": {
+    "products": 3,
+    "active_products": 2,
+    "inactive_products": 1,
+    "with_release_id": 2,
+    "without_release_id": 1,
+    "refresh_pending": 0,
+    "refresh_success": 3,
+    "refresh_stale": 0,
+    "refresh_failed": 0,
+    "refresh_invalid": 0,
+    "special_presentations": 1
+  },
+  "products": [
+    {
+      "source": "amc",
+      "source_film_id": "10001",
+      "source_release_id": "r-1",
+      "source_title": "Alpha Film",
+      "sortable_title": "Alpha Film",
+      "runtime_min": 100,
+      "release_date_utc": "2026-01-15T00:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": null,
+      "has_scheduled_showtimes": true,
+      "genre": "DRAMA",
+      "mpaa_rating": "PG13",
+      "starring_actors_raw": "A Actor",
+      "directors_raw": "Dir One",
+      "synopsis": "An alpha synopsis.",
+      "distributor_id": "d1",
+      "distributor_code": "DIST",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "alpha-film",
+      "website_url": "https://example.test/alpha",
+      "showtimes_url": "https://example.test/alpha/showtimes",
+      "attribute_codes": ["IMAX"],
+      "media": {
+        "poster_url": "https://example.test/alpha.jpg",
+        "hero_desktop_url": "https://example.test/alpha-hero.jpg",
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-01-01T00:00:00Z",
+        "last_seen_at": "2026-07-20T00:00:00Z",
+        "last_refreshed_at": "2026-07-20T00:00:00Z",
+        "last_successful_refresh_at": "2026-07-20T00:00:00Z",
+        "inactive_since": null
+      },
+      "provenance": {
+        "refresh_status": "success",
+        "last_http_status": 200,
+        "last_error": null
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "10002",
+      "source_release_id": null,
+      "source_title": "Blank Meta",
+      "sortable_title": "Blank Meta",
+      "runtime_min": 90,
+      "release_date_utc": "2025-06-01T00:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": null,
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "",
+      "starring_actors_raw": null,
+      "directors_raw": "  ",
+      "synopsis": "Has synopsis only.",
+      "distributor_id": "d2",
+      "distributor_code": "DIST2",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": false,
+      "slug": "blank-meta",
+      "website_url": "https://example.test/blank",
+      "showtimes_url": "https://example.test/blank/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "anniversary_or_rerelease",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-01-01T00:00:00Z",
+        "last_seen_at": "2026-07-20T00:00:00Z",
+        "last_refreshed_at": "2026-07-20T00:00:00Z",
+        "last_successful_refresh_at": "2026-07-20T00:00:00Z",
+        "inactive_since": null
+      },
+      "provenance": {
+        "refresh_status": "success",
+        "last_http_status": 200,
+        "last_error": null
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "19999",
+      "source_release_id": "r-old",
+      "source_title": "Inactive Only",
+      "sortable_title": "Inactive Only",
+      "runtime_min": 80,
+      "release_date_utc": "2024-01-01T00:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": null,
+      "has_scheduled_showtimes": false,
+      "genre": "COMEDY",
+      "mpaa_rating": "R",
+      "starring_actors_raw": "B Actor",
+      "directors_raw": "Dir Two",
+      "synopsis": "Not in current window.",
+      "distributor_id": "d3",
+      "distributor_code": "DIST3",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "inactive-only",
+      "website_url": "https://example.test/inactive",
+      "showtimes_url": "https://example.test/inactive/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": "https://example.test/inactive.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2024-01-01T00:00:00Z",
+        "last_seen_at": "2024-02-01T00:00:00Z",
+        "last_refreshed_at": "2026-07-20T00:00:00Z",
+        "last_successful_refresh_at": "2026-07-20T00:00:00Z",
+        "inactive_since": "2024-02-01T00:00:00Z"
+      },
+      "provenance": {
+        "refresh_status": "success",
+        "last_http_status": 200,
+        "last_error": null
+      }
+    }
+  ]
+}

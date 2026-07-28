@@ -1,0 +1,260 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {
+  canGoNext,
+  canGoPrevious,
+  clampSelectionIndex,
+  selectTopOpportunities,
+} from '../../v2/adapters/selectTopOpportunities.js';
+import {
+  createInitialNavState,
+  navigateBack,
+  openCollection,
+  openFilmDetail,
+  selectPrimaryDestination,
+} from '../../v2/navigation/navState.js';
+import {
+  buildInlineQuickDetail,
+  buildLeavingSoonShelf,
+  buildOpeningThisWeekShelf,
+  formatRuntimeLabel,
+} from '../../v2/home/shelfData.js';
+import { TOP_OPPORTUNITY_FIXTURES } from '../../v2/fixtures/homeVisualFixtures.js';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+function minimalHomeData(overrides = {}) {
+  return {
+    generatedAt: '2026-07-20T12:00:00Z',
+    leavingSoonExcluded: true,
+    films: [
+      {
+        filmKey: 'film-a',
+        title: 'Alpha',
+        posterUrl: 'https://example.com/a.jpg',
+        runtimeMin: 110,
+        showtimeCount: 3,
+        theaterCount: 2,
+      },
+      {
+        filmKey: 'film-b',
+        title: 'Beta',
+        posterUrl: null,
+        runtimeMin: null,
+        showtimeCount: 1,
+        theaterCount: 1,
+      },
+    ],
+    opportunities: [
+      {
+        opportunityKey: 'opp-a',
+        filmKey: 'film-a',
+        theaterId: 't1',
+        theaterName: 'SIFF Uptown',
+        localDate: '2026-07-21',
+        localTime: '19:00',
+        timeDisplay: '7:00 PM',
+        sortableLocalDateTime: '2026-07-21T19:00',
+        formatLabels: ['35mm'],
+        ticketUrl: null,
+      },
+      {
+        opportunityKey: 'opp-b',
+        filmKey: 'film-b',
+        theaterId: 't2',
+        theaterName: 'Beacon',
+        localDate: '2026-07-21',
+        localTime: '20:00',
+        timeDisplay: '8:00 PM',
+        sortableLocalDateTime: '2026-07-21T20:00',
+        formatLabels: [],
+        ticketUrl: null,
+      },
+    ],
+    newlyAdded: [
+      {
+        filmKey: 'film-a',
+        title: 'Alpha',
+        posterUrl: 'https://example.com/a.jpg',
+        firstObservedAt: '2026-07-20',
+        lastSeenDate: '2026-07-20',
+        theaterCount: 2,
+        opportunityCount: 1,
+        hasActiveShowtimes: true,
+      },
+    ],
+    opportunityCandidates: [
+      {
+        opportunityKey: 'opp-a',
+        filmKey: 'film-a',
+        title: 'Alpha',
+        theaterId: 't1',
+        theaterName: 'SIFF Uptown',
+        sortableLocalDateTime: '2026-07-21T19:00',
+        chronologicalKey: '2026-07-21T19:00|opp-a',
+        formatLabels: ['35mm'],
+        isNewlyAdded: true,
+        filmShowtimeCount: 3,
+        filmTheaterCount: 2,
+      },
+      {
+        opportunityKey: 'opp-b',
+        filmKey: 'film-b',
+        title: 'Beta',
+        theaterId: 't2',
+        theaterName: 'Beacon',
+        sortableLocalDateTime: '2026-07-21T20:00',
+        chronologicalKey: '2026-07-21T20:00|opp-b',
+        formatLabels: [],
+        isNewlyAdded: false,
+        filmShowtimeCount: 1,
+        filmTheaterCount: 1,
+      },
+    ],
+    ...overrides,
+  };
+}
+
+test('Top Opportunity selector returns real film keys not fixture titles', () => {
+  const selections = selectTopOpportunities(minimalHomeData());
+  assert.ok(selections.length >= 1);
+  const titles = selections.map((item) => item.film.title);
+  for (const fixture of TOP_OPPORTUNITY_FIXTURES) {
+    assert.equal(titles.includes(fixture.title), false);
+  }
+  assert.ok(selections.every((item) => item.film.filmKey));
+  assert.ok(selections.every((item) => item.representativeOpportunity?.opportunityKey));
+});
+
+test('carousel boundaries disable rather than wrap', () => {
+  assert.equal(canGoPrevious(0, 3), false);
+  assert.equal(canGoNext(0, 3), true);
+  assert.equal(canGoPrevious(2, 3), true);
+  assert.equal(canGoNext(2, 3), false);
+  assert.equal(clampSelectionIndex(5, 3), 2);
+  assert.equal(clampSelectionIndex(-1, 3), 0);
+});
+
+test('Opening This Week provisional shelf uses newly added real films', () => {
+  const shelf = buildOpeningThisWeekShelf(minimalHomeData());
+  assert.equal(shelf.status, 'provisional');
+  assert.equal(shelf.films.length, 1);
+  assert.equal(shelf.films[0].filmKey, 'film-a');
+  assert.equal(shelf.films[0].source, 'newly-added-provisional');
+  assert.equal(shelf.films[0].title.includes('Long Horizon'), false);
+});
+
+test('Leaving Soon shelf stays gated unavailable without fictional films', () => {
+  const shelf = buildLeavingSoonShelf(minimalHomeData());
+  assert.equal(shelf.status, 'unavailable');
+  assert.equal(shelf.films.length, 0);
+  assert.match(shelf.reason, /gated/i);
+});
+
+test('inline quick detail omits missing synopsis rating year genre', () => {
+  const home = minimalHomeData();
+  const shelfFilm = buildOpeningThisWeekShelf(home).films[0];
+  const detail = buildInlineQuickDetail(home, shelfFilm);
+  assert.equal(detail.synopsis, null);
+  assert.equal(detail.rating, null);
+  assert.equal(detail.year, null);
+  assert.equal(detail.genre, null);
+  assert.ok(detail.showingLine);
+  assert.equal(detail.opportunityKey, 'opp-a');
+  assert.match(detail.alsoPlayingLabel, /2 theaters/);
+  assert.equal(detail.surfaceReasonLabel, 'Newly added');
+});
+
+test('inline quick detail shows only one opportunity line', () => {
+  const home = minimalHomeData({
+    opportunities: [
+      ...minimalHomeData().opportunities,
+      {
+        opportunityKey: 'opp-a2',
+        filmKey: 'film-a',
+        theaterId: 't3',
+        theaterName: 'Other',
+        localDate: '2026-07-22',
+        localTime: '21:00',
+        timeDisplay: '9:00 PM',
+        sortableLocalDateTime: '2026-07-22T21:00',
+        formatLabels: [],
+        ticketUrl: null,
+      },
+    ],
+  });
+  const detail = buildInlineQuickDetail(home, buildOpeningThisWeekShelf(home).films[0]);
+  assert.equal(detail.opportunityKey, 'opp-a');
+  assert.equal(detail.showingLine.includes('Other'), false);
+});
+
+test('formatRuntimeLabel produces compact runtime', () => {
+  assert.equal(formatRuntimeLabel(134), '2h 14m');
+  assert.equal(formatRuntimeLabel(45), '45m');
+  assert.equal(formatRuntimeLabel(null), null);
+});
+
+test('nav open Film Detail preserves Home origin and restores on back', () => {
+  let nav = createInitialNavState();
+  nav = openFilmDetail(nav, {
+    filmKey: 'film-a',
+    opportunityKey: 'opp-a',
+    originPrimary: 'home',
+    homeRestore: {
+      scrollY: 420,
+      expandedShelfId: 'v2-opening',
+      expandedFilmKey: 'film-a',
+      topOppIndex: 1,
+    },
+  });
+  assert.equal(nav.surface.type, 'film-detail');
+  assert.equal(nav.surface.originPrimary, 'home');
+  assert.equal(nav.primaryDestinationId, 'home');
+  const back = navigateBack(nav);
+  assert.equal(back.surface, null);
+  assert.equal(back.primaryDestinationId, 'home');
+  assert.equal(back._restoredHome.scrollY, 420);
+  assert.equal(back._restoredHome.expandedFilmKey, 'film-a');
+});
+
+test('See all opens Explore-associated collection surfaces', () => {
+  let nav = createInitialNavState();
+  nav = openCollection(nav, { collectionId: 'opening-this-week' });
+  assert.equal(nav.primaryDestinationId, 'explore');
+  assert.equal(nav.surface.collectionId, 'opening-this-week');
+  nav = openCollection(createInitialNavState(), {
+    collectionId: 'leaving-soon',
+  });
+  assert.equal(nav.surface.collectionId, 'leaving-soon');
+});
+
+test('Explore More routing target is Explore landing', () => {
+  let nav = createInitialNavState();
+  nav = selectPrimaryDestination(nav, 'explore');
+  assert.equal(nav.primaryDestinationId, 'explore');
+  assert.equal(nav.surface, null);
+});
+
+test('HomeDestination does not import fictional Top Opportunity fixtures', () => {
+  const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+  const source = readFileSync(join(root, 'v2/HomeDestination.jsx'), 'utf8');
+  assert.equal(source.includes('TOP_OPPORTUNITY_FIXTURES'), false);
+  assert.equal(source.includes('OPENING_THIS_WEEK_FIXTURES'), false);
+  assert.equal(source.includes('LEAVING_SOON_FIXTURES'), false);
+  assert.match(source, /selectTopOpportunities|TopOpportunityFeature/);
+  assert.match(source, /buildOpeningThisWeekShelf/);
+});
+
+test('TopOpportunityFeature uses selector not fixture array', () => {
+  const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+  const source = readFileSync(
+    join(root, 'v2/home/TopOpportunityFeature.jsx'),
+    'utf8',
+  );
+  assert.match(source, /selectTopOpportunities/);
+  assert.equal(source.includes('TOP_OPPORTUNITY_FIXTURES'), false);
+  assert.match(source, /canGoPrevious/);
+  assert.match(source, /canGoNext/);
+  assert.match(source, /onOpenFilmDetail/);
+});

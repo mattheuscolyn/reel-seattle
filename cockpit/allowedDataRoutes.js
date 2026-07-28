@@ -24,4 +24,19 @@ export const ALLOWED_DATA_ROUTES = Object.freeze({
       import.meta.url,
     ),
   ),
+  '/data/film_identity/tmdb_match_decisions.json': fileURLToPath(
+    new URL('../data/film_identity/tmdb_match_decisions.json', import.meta.url),
+  ),
+  '/data/film_identity/film_identity_catalog.json': fileURLToPath(
+    new URL('../data/film_identity/film_identity_catalog.json', import.meta.url),
+  ),
+  '/data/film_identity/tmdb_match_review_queue.json': fileURLToPath(
+    new URL(
+      '../data/film_identity/tmdb_match_review_queue.json',
+      import.meta.url,
+    ),
+  ),
+  '/data/audits/tmdb_film_identity_coverage.json': fileURLToPath(
+    new URL('../data/audits/tmdb_film_identity_coverage.json', import.meta.url),
+  ),
 });

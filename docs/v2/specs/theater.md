@@ -554,7 +554,7 @@ Conceptual only — classification from repository evidence (`data/theaters.json
 | Series / recurring-program metadata | Notable opportunities, filters | **Future-facing** |
 | Sold-out / availability status | Status display | **Partial / future** |
 | Membership, pricing, transit, parking | Practical visit | **Future-facing** |
-| User follow / favorite | Continuity | **Future-facing** |
+| User follow / favorite | Continuity | **Partial** — versioned local Favorite Theaters store (T-FAV-01); UI wiring / Profile management deferred |
 | Geocoding, directions integration | Maps | **Future-facing** |
 
 Early UI must **omit** unsupported venue facts rather than fabricate personality, amenities, or notable-opportunity claims.
@@ -595,14 +595,37 @@ Separate from baseline:
 
 ## Explicit non-goals
 
-* Implementing the Theater screen or modifying the public website
+* Implementing the Theater **Detail** screen or modifying the public website
 * Redesigning Home, Film Detail, or Planner
 * Building theater ingestion; changing `data/theaters.json`
 * Defining new theater schemas; resolving screens or auditoriums
 * Generating venue descriptions; implementing maps, travel, or pricing
 * Finalizing filters, visual styling, or copy
 * Global navigation redesign
-* Marking venue metadata, screen identity, geocoding, or Theater UI as complete
+* Marking venue metadata, screen identity, geocoding, or Theater Detail UI as complete
+
+---
+
+## Implementation status (Stage 1 Theaters list — 2026-07-26)
+
+* **Stage 1 Theaters list implemented** as designed collection surface `theaters` → `v2/theaters/TheatersSurface.jsx` (replaces CollectionSurface scaffold for this id).
+* **Canonical fixture/model:** `v2/fixtures/theatersMockupFixture.js` via `resolveTheatersPresentation()` — matches `Canonical Mockup Images/Theaters Page.png`.
+* **Inline expand/collapse:** one theater expanded at a time; expanded region includes description (when present), unified **Now showing** strip, Save stub, **More details** opens Theater Detail for Beacon.
+* **Not production-backed:** addresses, imagery, screen counts, format strings, descriptions, and Now showing films are fixture-only (D06 visit meta + registry wiring deferred).
+* **Favorite / Save / Filters / View all** on the list remain Stage 1 stubs — no Favorite Theater store writes on the list.
+* Film posters in Now showing may call Film Detail with fixture keys (honest empty/unavailable when not in HomeData).
+* QC: `scripts/capture_theaters_qc.mjs`. Tests: `tests/frontend/v2TheatersList.test.mjs`.
+* Stage 4 theater tasks (`T-THEA-01`, `T-THEA-10`, production visit meta wiring) are **not** marked complete.
+
+## Implementation status (Stage 1 Theater Detail — 2026-07-27)
+
+* **Stage 1 Theater Detail implemented** as deep surface `theater-detail` → `v2/theaters/TheaterDetailSurface.jsx`.
+* **Canonical fixture:** `v2/fixtures/theaterDetailMockupFixture.js` via `resolveTheaterDetailPresentation()` — matches `Canonical Mockup Images/Theater Detail Page.png` (Beacon Cinema).
+* **Navigation:** `openTheaterDetail` from Theaters list Beacon **More details** + query `?theaterDetail=1`; Back restores Theaters list; Film Detail preserves theater context.
+* Hero, stats, amenities, pricing/hours, Now showing carousel, and Today's showtimes with screen tabs are fixture-backed; View all / View 7 days / Filters / showtime taps are honest stubs.
+* **Favorite** heart uses `favoriteTheatersStore` (real local toggle on Detail only).
+* Not production-backed: visit meta, real showtime program, ticket links, share URLs, or registry wiring.
+* QC: `scripts/capture_theater_detail_qc.mjs`. Tests: `tests/frontend/v2TheaterDetail.test.mjs`.
 
 ---
 

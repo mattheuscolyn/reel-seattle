@@ -47,6 +47,7 @@ const REQUIRED_MODULE_SNIPPETS = [
   'First seen',
   'Duplicate ID observation',
   'grouping evidence only',
+  'Film Identity Review',
 ];
 
 function fail(message) {
@@ -139,6 +140,7 @@ try {
     '/TheaterRegistryView.jsx',
     '/AmcSourceCatalogView.jsx',
     '/ShowtimesInspectionView.jsx',
+    '/FilmIdentityReviewView.jsx',
     '/showtimesInspectionFormat.js',
     '/showtimesCurrentLoader.js',
   ];

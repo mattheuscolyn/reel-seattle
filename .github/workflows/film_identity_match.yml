@@ -1,0 +1,252 @@
+name: Film Identity — Live TMDB Match
+
+# Manual live matching only (T-FILMID-01D). Does not schedule.
+# Default persist_mode=artifact-only: no branch/PR writes.
+on:
+  workflow_dispatch:
+    inputs:
+      refresh_cache:
+        description: Bypass restored TMDB response cache for this run
+        type: boolean
+        default: false
+      persist_mode:
+        description: How to publish generated identity artifacts
+        type: choice
+        options:
+          - artifact-only
+          - create-pr
+        default: artifact-only
+      limit:
+        description: Optional matcher --limit (leave empty for full run)
+        type: string
+        default: ""
+
+concurrency:
+  group: film-identity-live-match
+  cancel-in-progress: false
+
+jobs:
+  match:
+    name: Live TMDB match
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Verify TMDB secrets are configured
+        env:
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: |
+          if [ -z "$TMDB_READ_ACCESS_TOKEN" ] && [ -z "$TMDB_API_KEY" ]; then
+            echo "Neither TMDB_READ_ACCESS_TOKEN nor TMDB_API_KEY is configured."
+            echo "Add at least one repository secret before running live matching."
+            exit 1
+          fi
+          if [ -n "$TMDB_READ_ACCESS_TOKEN" ]; then
+            echo "TMDB credentials are configured (bearer preferred)."
+            echo "AUTH_MODE=bearer" >> "$GITHUB_ENV"
+          else
+            echo "TMDB credentials are configured (API key fallback)."
+            echo "AUTH_MODE=api_key" >> "$GITHUB_ENV"
+          fi
+
+      - name: Restore TMDB response cache
+        if: ${{ inputs.refresh_cache != true }}
+        uses: actions/cache@v4
+        with:
+          path: data/cache/tmdb
+          key: tmdb-film-identity-v1-${{ runner.os }}-${{ hashFiles('public/data/showtimes_current.json', 'data/source_catalog/amc_movie_products.json', 'data/film_identity/tmdb_match_decisions.json', 'reel_seattle/film_identity/**/*.py') }}
+          restore-keys: |
+            tmdb-film-identity-v1-${{ runner.os }}-
+
+      - name: Preflight inventory
+        run: python scripts/inventory_film_identities.py --stdout
+
+      - name: Preflight validate decisions
+        run: python scripts/validate_film_identity.py
+
+      - name: Preflight film identity tests
+        run: python -m pytest tests/film_identity -q
+
+      - name: Snapshot authored decisions digest
+        id: decisions_sha
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          from reel_seattle.film_identity.constants import DECISIONS_REL
+          from reel_seattle.film_identity.workflow_support import file_sha256
+          path = Path(DECISIONS_REL)
+          digest = file_sha256(path)
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
+              handle.write(f"sha={digest}\n")
+          print("Captured decisions digest.")
+          PY
+
+      - name: Live TMDB match
+        env:
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: |
+          set -euo pipefail
+          ARGS=()
+          if [ "${{ inputs.refresh_cache }}" = "true" ]; then
+            ARGS+=(--refresh-cache)
+          fi
+          LIMIT_RAW='${{ inputs.limit }}'
+          if [ -n "$LIMIT_RAW" ]; then
+            ARGS+=(--limit "$LIMIT_RAW")
+          fi
+          python scripts/match_tmdb_films.py "${ARGS[@]}"
+
+      - name: Post-match validation
+        run: python scripts/validate_film_identity.py --require-generated
+
+      - name: Write coverage summary
+        run: |
+          python scripts/summarize_film_identity_coverage.py \
+            --auth-mode "${AUTH_MODE}" \
+            --github-summary
+
+      - name: Diff guard (allowed generated paths only)
+        run: |
+          python scripts/guard_film_identity_diff.py \
+            --decisions-sha-before "${{ steps.decisions_sha.outputs.sha }}" \
+            --delete-bak \
+            --print-paths > /tmp/filmid-changed-paths.txt
+          {
+            echo ""
+            echo "## Changed generated paths"
+            echo ""
+            sed 's/^/- `/; s/$/`/' /tmp/filmid-changed-paths.txt
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Package review outputs
+        run: |
+          mkdir -p film-identity-match-package
+          cp data/film_identity/film_identity_catalog.json film-identity-match-package/
+          cp data/film_identity/tmdb_match_review_queue.json film-identity-match-package/
+          cp data/audits/tmdb_film_identity_coverage.json film-identity-match-package/
+          cp data/audits/tmdb_film_identity_match_summary.md film-identity-match-package/
+          test ! -e film-identity-match-package/tmdb_match_decisions.json
+
+      - name: Upload review package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: film-identity-match-${{ github.run_id }}
+          path: film-identity-match-package/
+          retention-days: 30
+          if-no-files-found: error
+
+  create_pr:
+    name: Persist via pull request
+    if: ${{ github.event.inputs.persist_mode == 'create-pr' }}
+    needs: match
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Download match package
+        uses: actions/download-artifact@v4
+        with:
+          name: film-identity-match-${{ github.run_id }}
+          path: film-identity-match-package
+
+      - name: Import package into working tree
+        run: |
+          python scripts/import_film_identity_artifacts.py \
+            --from-dir film-identity-match-package
+          python scripts/validate_film_identity.py --require-generated
+
+      - name: Create pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          BRANCH="film-identity/live-match-${GITHUB_RUN_ID}"
+          if [ "${GITHUB_REF_NAME}" = "main" ] && [ "${BRANCH}" = "main" ]; then
+            echo "Refusing to target main as the working branch."
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add \
+            data/film_identity/film_identity_catalog.json \
+            data/film_identity/tmdb_match_review_queue.json \
+            data/audits/tmdb_film_identity_coverage.json \
+            data/audits/tmdb_film_identity_match_summary.md
+          if git diff --cached --quiet; then
+            echo "No generated identity changes to persist."
+            exit 0
+          fi
+          # Fail if anything outside the allowlist is staged.
+          git diff --cached --name-only > /tmp/filmid-staged.txt
+          python - <<'PY'
+          from pathlib import Path
+          from reel_seattle.film_identity.workflow_support import assert_allowed_changed_paths
+          paths = [
+              line.strip()
+              for line in Path("/tmp/filmid-staged.txt").read_text(encoding="utf-8").splitlines()
+              if line.strip()
+          ]
+          print("\n".join(assert_allowed_changed_paths(paths)))
+          PY
+          git commit -m "chore(film-identity): refresh live TMDB match artifacts"
+          git push -u origin "$BRANCH"
+          BODY_FILE="$(mktemp)"
+          {
+            echo "## Summary"
+            echo
+            echo "Live TMDB film-identity match artifacts from workflow run \`${GITHUB_RUN_ID}\`."
+            echo
+            echo "- No public identity emission"
+            echo "- No UI activation"
+            echo "- No enrichment activation"
+            echo "- No store migration"
+            echo "- Authored \`tmdb_match_decisions.json\` was not modified by the matcher"
+            echo
+            echo "## Coverage"
+            echo
+            sed -n '1,80p' data/audits/tmdb_film_identity_match_summary.md
+          } > "$BODY_FILE"
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "chore(film-identity): live TMDB match artifacts (${GITHUB_RUN_ID})" \
+            --body-file "$BODY_FILE"

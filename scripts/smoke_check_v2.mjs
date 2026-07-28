@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /**
- * Smoke-check the isolated v2 Vite shell.
- * Starts `npm run v2`, verifies entry HTML + canonical destinations module.
+ * Smoke-check the isolated v2 Vite shell (four-tab + real Home data path).
  */
 import { spawn } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -28,11 +27,9 @@ async function waitForV2(child) {
     }
     try {
       const response = await fetch(V2_URL);
-      if (response.ok) {
-        return response;
-      }
+      if (response.ok) return response;
     } catch {
-      // Server not ready yet.
+      // not ready
     }
     await delay(POLL_MS);
   }
@@ -46,7 +43,6 @@ function stopProcess(child) {
       return;
     }
     child.once('exit', () => resolve());
-
     if (process.platform === 'win32' && child.pid) {
       spawn('taskkill', ['/pid', String(child.pid), '/T', '/F'], {
         stdio: 'ignore',
@@ -55,12 +51,9 @@ function stopProcess(child) {
       setTimeout(() => resolve(), 5_000).unref();
       return;
     }
-
     child.kill('SIGTERM');
     setTimeout(() => {
-      if (child.exitCode == null) {
-        child.kill('SIGKILL');
-      }
+      if (child.exitCode == null) child.kill('SIGKILL');
     }, 3_000).unref();
   });
 }
@@ -78,30 +71,19 @@ child.stderr.on('data', (chunk) => {
 });
 
 try {
-  const response = await waitForV2(child);
-  const html = await response.text();
-  if (!html.includes('Reel Seattle — v2 shell (local only)')) {
-    fail('index HTML title marker missing');
-  }
-  if (!html.includes('/main.jsx')) {
-    fail('v2 main entry script missing from index.html');
-  }
+  await waitForV2(child);
 
-  const destinationsResponse = await fetch(new URL('/destinations.js', V2_URL));
-  if (!destinationsResponse.ok) {
-    fail(`failed to fetch destinations.js: ${destinationsResponse.status}`);
-  }
-  const destinationsSource = await destinationsResponse.text();
-
+  const destinationsSource = await (
+    await fetch(new URL('/destinations.js', V2_URL))
+  ).text();
   for (const label of CANONICAL_LABELS) {
     if (
       !destinationsSource.includes(`label: '${label}'`) &&
       !destinationsSource.includes(`label: "${label}"`)
     ) {
-      fail(`canonical label missing from destinations.js: ${label}`);
+      fail(`canonical label missing: ${label}`);
     }
   }
-
   for (const rejected of REJECTED_LABELS) {
     if (
       destinationsSource.includes(`label: '${rejected}'`) ||
@@ -111,109 +93,139 @@ try {
     }
   }
 
-  if (!destinationsSource.includes("INITIAL_DESTINATION_ID = 'home'")) {
-    fail('INITIAL_DESTINATION_ID is not home');
+  const homeSource = await (
+    await fetch(new URL('/HomeDestination.jsx', V2_URL))
+  ).text();
+  if (homeSource.includes('TOP_OPPORTUNITY_FIXTURES')) {
+    fail('Home still defaults to fictional Top Opportunity fixtures');
+  }
+  if (homeSource.includes('OPENING_THIS_WEEK_FIXTURES')) {
+    fail('Home still defaults to Opening This Week fixtures');
+  }
+  if (!homeSource.includes('buildOpeningThisWeekShelf')) {
+    fail('Home missing Opening This Week shelf builder');
   }
 
-  const appResponse = await fetch(new URL('/V2App.jsx', V2_URL));
-  if (!appResponse.ok) {
-    fail(`failed to fetch V2App.jsx: ${appResponse.status}`);
+  const topSource = await (
+    await fetch(new URL('/home/TopOpportunityFeature.jsx', V2_URL))
+  ).text();
+  if (!topSource.includes('selectTopOpportunities')) {
+    fail('Top Opportunity missing real selector wiring');
   }
-  const appSource = await appResponse.text();
-  if (!appSource.includes('isAllowedV2Hostname')) {
-    fail('V2App missing localhost hostname guard');
-  }
-  if (!appSource.includes('Local only')) {
-    fail('V2App missing restrained local-only status badge copy');
-  }
-  if (appSource.includes('>v2 application shell<') || appSource.includes("v2-subtitle")) {
-    fail('V2App still shows engineering subtitle as product chrome');
-  }
-
-  const showtimesData = await fetch(new URL('/data/showtimes_current.json', V2_URL));
-  if (!showtimesData.ok) {
-    fail(`showtimes_current.json not served: ${showtimesData.status}`);
-  }
-  const showtimesJson = await showtimesData.json();
-  if (!Array.isArray(showtimesJson.showtimes)) {
-    fail('showtimes_current.json missing showtimes array');
-  }
-
-  const newlyAddedData = await fetch(new URL('/data/newly_added_current.json', V2_URL));
-  if (!newlyAddedData.ok) {
-    fail(`newly_added_current.json not served: ${newlyAddedData.status}`);
+  if (!topSource.includes('onOpenFilmDetail')) {
+    fail('Top Opportunity missing Film Detail open handler');
   }
 
   const leavingSoon = await fetch(new URL('/data/leaving_soon_current.json', V2_URL));
   if (leavingSoon.status !== 404) {
-    fail(`leaving_soon_current.json should be unsupported (404), got ${leavingSoon.status}`);
+    fail(`leaving_soon_current.json should be 404, got ${leavingSoon.status}`);
   }
 
-  const homeStatusResponse = await fetch(new URL('/HomeDestination.jsx', V2_URL));
-  if (!homeStatusResponse.ok) {
-    fail(`failed to fetch HomeDestination.jsx: ${homeStatusResponse.status}`);
-  }
-  const homeStatusSource = await homeStatusResponse.text();
-  if (!homeStatusSource.includes('Development data status')) {
-    fail('HomeDestination missing development data status control');
-  }
-  if (!homeStatusSource.includes('TopOpportunities')) {
-    fail('HomeDestination missing TopOpportunities region');
+  const showtimes = await fetch(new URL('/data/showtimes_current.json', V2_URL));
+  if (!showtimes.ok) fail('showtimes_current.json not served');
+
+  const appSource = await (await fetch(new URL('/V2App.jsx', V2_URL))).text();
+  if (!appSource.includes('Local only')) fail('missing Local only marker');
+  if (!appSource.includes('FilmDetailSurface')) {
+    fail('V2App missing Film Detail surface');
   }
 
-  const topOppResponse = await fetch(new URL('/topOpportunities/TopOpportunities.jsx', V2_URL));
-  if (!topOppResponse.ok) {
-    fail(`failed to fetch TopOpportunities.jsx: ${topOppResponse.status}`);
+  const exploreSource = await (
+    await fetch(new URL('/explore/ExploreDestination.jsx', V2_URL))
+  ).text();
+  if (!exploreSource.includes('ExploreQuickStart')) {
+    fail('Explore landing missing Quick Start');
   }
-  const topOppSource = await topOppResponse.text();
-  if (!topOppSource.includes('What deserves your attention')) {
-    fail('TopOpportunities missing approved Home introduction');
+  if (!exploreSource.includes('ExploreBrowseBy')) {
+    fail('Explore landing missing Browse By');
   }
-  if (!topOppSource.includes('Top Opportunities')) {
-    fail('TopOpportunities missing section label');
-  }
-  if (topOppSource.includes('mechanical rules')) {
-    fail('TopOpportunities still shows implementation disclaimer as product copy');
-  }
-
-  const stageResponse = await fetch(
-    new URL('/topOpportunities/OpportunityImageStage.jsx', V2_URL),
-  );
-  if (!stageResponse.ok) {
-    fail(`failed to fetch OpportunityImageStage.jsx: ${stageResponse.status}`);
-  }
-  const stageSource = await stageResponse.text();
-  if (!stageSource.includes('v2-stage-cover')) {
-    fail('image stage missing sharp cover layer');
-  }
-  if (!stageSource.includes('v2-stage-fill')) {
-    fail('image stage missing optional poster fill layer');
+  if (
+    exploreSource.includes('Everything Everywhere All at Once') ||
+    exploreSource.includes('Minions & Monsters')
+  ) {
+    fail('Explore embeds fictional mockup titles');
   }
 
-  const selectorResponse = await fetch(
-    new URL('/adapters/selectTopOpportunities.js', V2_URL),
-  );
-  if (!selectorResponse.ok) {
-    fail(`failed to fetch selectTopOpportunities.js: ${selectorResponse.status}`);
+  const catalogSource = await (
+    await fetch(new URL('/explore/exploreCatalog.js', V2_URL))
+  ).text();
+  if (!catalogSource.includes('personSearchSupported: false')) {
+    fail('Explore catalog must not claim person search');
   }
-  const selectorSource = await selectorResponse.text();
-  if (!selectorSource.includes('NOT a recommendation engine')) {
-    fail('selector missing non-recommendation policy marker');
+
+  const searchSurface = await (
+    await fetch(new URL('/surfaces/SearchResultsSurface.jsx', V2_URL))
+  ).text();
+  if (!searchSurface.includes('More details')) {
+    fail('Search Results missing More details');
   }
-  for (const forbidden of ['Best choice', 'Recommended for you', 'Last chance']) {
-    if (selectorSource.includes(`'${forbidden}'`) && selectorSource.includes('SELECTION_REASON_LABELS')) {
-      // Forbidden labels may appear in the FORBIDDEN list — that is intentional.
-    }
+  if (searchSurface.includes('Seven Samurai') || searchSurface.includes('Rashomon')) {
+    fail('Search Results embeds fictional mockup titles');
   }
-  if (selectorSource.includes("newly_added: 'Best choice'")) {
-    fail('forbidden editorial label used as selection reason');
+
+  const appSource2 = await (await fetch(new URL('/V2App.jsx', V2_URL))).text();
+  if (!appSource2.includes('SearchResultsSurface')) {
+    fail('V2App missing SearchResultsSurface wiring');
+  }
+
+  const filmDetail = await (
+    await fetch(new URL('/surfaces/FilmDetailSurface.jsx', V2_URL))
+  ).text();
+  if (!filmDetail.includes('Why see it now')) {
+    fail('Film Detail missing Why see it section');
+  }
+  if (!filmDetail.includes('Add to planner')) {
+    fail('Film Detail missing Add to planner');
+  }
+  if (
+    /Buy now|Get tickets for the best|checkout|seat selection/i.test(filmDetail)
+  ) {
+    fail('Film Detail must not include ticket-purchase CTA copy');
+  }
+  if (!filmDetail.includes('composeFilmDetailPresentation') && !filmDetail.includes('resolveFilmDetailPresentation')) {
+    fail('Film Detail must resolve presentation via composer / resolver');
+  }
+  if (!filmDetail.includes('data-fd-mode')) {
+    fail('Film Detail missing mode marker');
+  }
+  if (!filmDetail.includes('v2-fd-signals-grid')) {
+    fail('Film Detail missing Why See It four-column signal row');
+  }
+  // Production path must not hard-default to mockup fixture.
+  if (/getFilmDetailMockupPresentation\(\)/.test(filmDetail) && !filmDetail.includes('resolveFilmDetailPresentation')) {
+    fail('Film Detail still defaults to mockup presentation helper');
+  }
+
+  const mockupFixture = await (
+    await fetch(new URL('/fixtures/filmDetailMockupFixture.js', V2_URL))
+  ).text();
+  if (!mockupFixture.includes('2001: A Space Odyssey')) {
+    fail('Film Detail mockup fixture missing approved title');
+  }
+  if (!mockupFixture.includes('Letterboxd Top 250')) {
+    fail('Film Detail mockup fixture missing approved signal copy');
+  }
+  if (!mockupFixture.includes('fdMockup')) {
+    fail('Film Detail mockup fixture missing explicit QC flag');
+  }
+
+  const resolver = await (
+    await fetch(new URL('/fixtures/resolveFilmDetailPresentation.js', V2_URL))
+  ).text();
+  if (!resolver.includes('production')) {
+    fail('Film Detail resolver missing production mode');
+  }
+
+  const oppScaffold = await (
+    await fetch(new URL('/surfaces/OpportunityDetailSurface.jsx', V2_URL))
+  ).text();
+  if (!oppScaffold.includes('scaffold')) {
+    fail('Opportunity Detail scaffold missing');
   }
 
   console.log(`smoke_check_v2: ok (${V2_URL})`);
 } catch (error) {
-  if (stderr.trim()) {
-    console.error(stderr.trim());
-  }
+  if (stderr.trim()) console.error(stderr.trim());
   fail(error instanceof Error ? error.message : String(error));
 } finally {
   await stopProcess(child);

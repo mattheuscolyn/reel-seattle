@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.local/schema/film_identity/tmdb_match_review_queue/v1.0.0.json",
+  "title": "TMDB match review queue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "items"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/item" }
+    }
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "queue_id",
+        "source",
+        "source_title",
+        "normalized_title",
+        "match_status",
+        "candidates"
+      ],
+      "properties": {
+        "queue_id": { "type": "string", "minLength": 1 },
+        "source": { "type": "string", "minLength": 1 },
+        "source_film_id": { "type": ["string", "null"] },
+        "showtime_film_key": { "type": ["string", "null"] },
+        "source_title": { "type": ["string", "null"] },
+        "normalized_title": { "type": "string" },
+        "year_hint": { "type": ["integer", "null"] },
+        "runtime_min": { "type": ["integer", "null"] },
+        "directors_raw": { "type": ["string", "null"] },
+        "match_status": { "type": "string", "minLength": 1 },
+        "proposed_tmdb_id": { "type": ["integer", "null"] },
+        "match_confidence": { "type": ["number", "null"] },
+        "signals": { "type": ["object", "null"] },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "candidates": { "type": "array" },
+        "film_id_fallback": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

@@ -117,6 +117,9 @@ export function formatMinutesToTime(minutes, options = {}) {
  * End time in extended minutes from legacy `Time` start + runtime.
  * When `planner` is true, early AM starts use the next-day offset before adding runtime.
  *
+ * Does **not** include D17 preshow. Planner expected end times use
+ * `calculateExpectedEndTime` from `plannerBufferPolicy.js`.
+ *
  * @param {string} startTimeStr
  * @param {string | number} runtimeStr
  * @param {{ planner?: boolean }} [options]

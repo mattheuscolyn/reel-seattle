@@ -10,10 +10,14 @@
 import { isShowtimeCanceled } from './showtimeFilters.js';
 import {
   formatMinutesToTime,
-  getMovieEndTime,
   parsePlannerShowtimeMinutes,
   parseRuntimeMinutes,
 } from './timeUtils.js';
+import {
+  calculateExpectedEndTime,
+  getTransferMinutes,
+  isValidSequence,
+} from './plannerBufferPolicy.js';
 
 /** Default maximum gap (minutes) aligned with legacy Double Feature behavior. */
 export const TWO_FILM_EXCLUSIVE_GAP_CEILING_MINUTES = 60;
@@ -150,8 +154,12 @@ function rowToCandidate(row) {
   const runtime = parseRuntimeMinutes(row.Runtime);
   if (startMin === null || runtime === null) return null;
 
-  const endMin = getMovieEndTime(row.Time, row.Runtime, { planner: true });
-  if (endMin === null) return null;
+  // D17 / T-BUF-01: expected end = advertised start + preshow + runtime.
+  const expected = calculateExpectedEndTime(
+    { startMin, runtime },
+    runtime,
+  );
+  if (!expected.ok || expected.endMin == null) return null;
 
   const identity = filmIdentityFromRow(row);
   if (!identity.title) return null;
@@ -166,7 +174,7 @@ function rowToCandidate(row) {
     date: String(row.Date ?? '').trim(),
     time: String(row.Time ?? '').trim(),
     startMin,
-    endMin,
+    endMin: expected.endMin,
     runtime,
     poster: row.posterDynamic || null,
     premiumFormat: String(row.premiumFormat ?? '').trim(),
@@ -181,9 +189,22 @@ function gapBetween(prev, next) {
 function canFollow(prev, next, filters) {
   if (!filters.allowRepeatFilms && prev.filmKey === next.filmKey) return false;
 
-  const gap = gapBetween(prev, next);
-  if (gap < 0) return false;
+  // Same-theater chains always share venue context; also compare canonical IDs.
+  const sameVenue = Boolean(
+    (prev.theater_id && next.theater_id && prev.theater_id === next.theater_id) ||
+      (!prev.theater_id &&
+        !next.theater_id &&
+        prev.theater &&
+        prev.theater === next.theater),
+  );
+  const sequence = isValidSequence(
+    { startMin: prev.startMin, runtime: prev.runtime, theater_id: prev.theater_id },
+    { startMin: next.startMin, theater_id: next.theater_id },
+    { sameVenue },
+  );
+  if (!sequence.valid) return false;
 
+  const gap = gapBetween(prev, next);
   if (filters.minGapMin != null && gap < filters.minGapMin) return false;
   if (filters.maxGapMin != null && gap > filters.maxGapMin) return false;
 
@@ -250,7 +271,12 @@ function summarizeChain(chain, filters) {
   const last = chain[chain.length - 1];
   const totalSpanMin = last.endMin - first.startMin;
   const filmRuntimeMin = chain.reduce((sum, c) => sum + c.runtime, 0);
-  const gapTimeMin = totalSpanMin - filmRuntimeMin;
+  // Break/gap time is idle after each expected end (includes transfer window).
+  // Do not use totalSpan − runtime — that would fold preshow into “gap”.
+  let gapTimeMin = 0;
+  for (let i = 0; i < chain.length - 1; i += 1) {
+    gapTimeMin += chain[i + 1].startMin - chain[i].endMin;
+  }
 
   return {
     theater: first.theater,
@@ -274,6 +300,17 @@ function summarizeChain(chain, filters) {
     totalSpanMin,
     filmRuntimeMin,
     gapTimeMin,
+    transferMinutes: getTransferMinutes(first, last, {
+      sameVenue: Boolean(
+        (first.theater_id &&
+          last.theater_id &&
+          first.theater_id === last.theater_id) ||
+          (!first.theater_id &&
+            !last.theater_id &&
+            first.theater &&
+            first.theater === last.theater),
+      ),
+    }),
     startMin: first.startMin,
     endMin: last.endMin,
     startLabel: formatMinutesToTime(first.startMin, { showNextDayOffset: true }),

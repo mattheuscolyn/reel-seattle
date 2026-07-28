@@ -459,7 +459,7 @@ Do **not** define ingestion contracts here; reference the [data foundation roadm
 | **Loading** | Preserve parent surface hierarchy; avoid blocking the entire screen for one Opportunity; progressively reveal attributes |
 | **Missing format** | Show the Opportunity without inventing a format |
 | **Unknown auditorium** | Omit or use clearly labeled source text; do not fabricate a screen |
-| **Missing ticket URL** | Preserve Film Detail, Theater, or Planner actions; do not render a broken ticket action |
+| **Missing ticket URL** | Preserve Film Detail, Theater, or Planner actions; suppress the ticket control (do not render a broken or homepage-fallback ticket action); keep the presentation slot for reactivation |
 | **Stale data** | Qualify availability and urgency; avoid overconfident recommendation language |
 | **Canceled or removed** | Clearly mark non-actionable; preserve alternatives where available |
 | **Expired shared link** | Explain that the exact showing has passed or disappeared; retain film and theater context where resolvable; offer current alternatives without pretending they are the same Opportunity |
@@ -503,7 +503,7 @@ Conceptual dependencies — **not schemas**. Classification uses repository evid
 | Poster | Summary / featured expressions | **Currently available** |
 | Showtime source data + pipeline health | Freshness, partial degrade | **Currently available** |
 | Format tags / presentation attributes | Presentation context | **Partial** (present for a subset of showtimes) |
-| Ticket URL | Ticket action | **Partial** (schema supports; public data often null; live UI does not surface) |
+| Ticket URL | Ticket action | **Available when present** (nullable public `ticket_url`; suppress action when null; no sourceUrl/homepage fallback) |
 | Sold-out / `status` | Availability | **Partial** (sparse; limited UI consumption) |
 | Auditorium / screen | Presentation context | **Partial / future** (not in public showtimes artifact; source audits only) |
 | Language / accessibility attributes | Presentation context | **Partial / future** (sparse or empty in source audits) |

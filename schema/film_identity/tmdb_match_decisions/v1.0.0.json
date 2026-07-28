@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.local/schema/film_identity/tmdb_match_decisions/v1.0.0.json",
+  "title": "TMDB match decisions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "updated_at", "decisions"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "updated_at": { "type": "string", "minLength": 1 },
+    "decisions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/decision" }
+    }
+  },
+  "$defs": {
+    "source_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source"],
+      "properties": {
+        "source": { "type": "string", "minLength": 1 },
+        "source_film_id": { "type": ["string", "null"] },
+        "showtime_film_key": { "type": ["string", "null"] }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_id",
+        "source_identity",
+        "decision",
+        "reviewed_at",
+        "reviewed_by"
+      ],
+      "properties": {
+        "decision_id": { "type": "string", "minLength": 1 },
+        "source_identity": { "$ref": "#/$defs/source_identity" },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "confirm",
+            "reject_candidate",
+            "unmapped",
+            "non_film",
+            "defer"
+          ]
+        },
+        "tmdb_id": { "type": ["integer", "null"], "minimum": 1 },
+        "rejected_tmdb_ids": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 1 }
+        },
+        "reason": { "type": ["string", "null"] },
+        "notes": { "type": ["string", "null"] },
+        "reviewed_at": { "type": "string", "minLength": 1 },
+        "reviewed_by": { "type": "string", "minLength": 1 },
+        "supersedes_decision_id": { "type": ["string", "null"] },
+        "active": { "type": "boolean" }
+      }
+    }
+  }
+}

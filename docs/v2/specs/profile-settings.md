@@ -214,6 +214,8 @@ Rules:
 * A favorite theater may influence Explore, Home, Planner, and alerts in the future
 * Profile provides management without duplicating full Theater or Film Detail content
 
+**Current evidence (T-FAV-01):** Device-local versioned Favorite Theaters store exists (`reel-seattle.v2.favoriteTheaters`, v1). Identity is canonical registry `theaterId`. Theater list/detail Favorite UI, Profile favorite cards/counts, Planner soft preference, and ranking remain deferred.
+
 ### Film activity
 
 Durable management of film statuses (aligned with [canonical Explore / Search](./explore-search.md)).
@@ -234,6 +236,7 @@ Approved statuses:
 * May resurface for strong contextual reasons (rare formats, restorations, Q&As, anniversaries, last-chance rewatches, preferred theaters, planning with another person)
 * Renewed relevance should be **explained**
 * User may remove or correct Seen status
+* Local-only for now; distinct from Saved / Not interested / Scheduled (no automatic cross-transitions in T-SEEN-01)
 
 Potential future distinctions (not required in baseline): seen in theaters / elsewhere / through Reel Seattle; date seen; specific Opportunity seen.
 
@@ -260,7 +263,7 @@ Potential future distinctions (not required in baseline): seen in theaters / els
 * Transitions should be understandable and reversible
 * Strong suppressive actions should support confirmation or undo
 
-**Current evidence:** No product Seen / Not interested / Saved status feature exists on the public site today. Behavior above is approved product direction; persistence is future-facing.
+**Current evidence:** Device-local versioned **Saved** (T-SAVE-03), **Seen** (T-SEEN-01 / T-SEEN-03), and **Not interested** (T-NI-01 / T-NI-03) stores exist in v2; Film Detail wires Save, Seen, and Not interested. Seen/NI record action time (or migration time for legacy keys), not verified historical times. Profile counts, Seen/NI management UI, and account sync remain deferred.
 
 ### Preferences
 
@@ -361,7 +364,7 @@ Rules:
 
 ### Connected services
 
-Potential future integrations: calendar; ticketing providers; Letterboxd; IMDb; AMC or theater memberships; maps; email; notification providers.
+Potential future integrations: calendar (local ICS export contract exists — T-CAL-01; UI / one-way sync deferred); ticketing providers; Letterboxd; IMDb; AMC or theater memberships; maps; email; notification providers.
 
 Rules:
 
@@ -531,7 +534,7 @@ Conceptual dependencies — **not schemas**. Classification uses repository evid
 | Stable links to Film / Theater entities | Activity and favorite management | **Partial** (IDs exist; durable personal links future) |
 | Durable user identity / accounts | Account and security | **Future-facing** |
 | Cross-device sync | Multi-device Profile | **Future-facing** |
-| Durable Seen / Not interested / Saved / favorite persistence | Film activity, favorites | **Future-facing** |
+| Durable Seen / Not interested / Saved / favorite persistence | Film activity, favorites | **Partial** — versioned local Saved + Seen + Not interested + Favorite Theaters stores; Profile sync / management UI / Favorite UI wiring future |
 | Membership model | Memberships section | **Future-facing** |
 | Preference model | Preferences section | **Future-facing** |
 | Notification infrastructure | Notifications settings | **Future-facing** |
@@ -626,6 +629,18 @@ This specification does **not**:
 | Connected-service priorities | Open |
 | Whether public or social identity ever belongs in Profile | Open — baseline does not require it |
 | Final global-navigation decision | **Resolved (D-26):** Home · Explore · Planner · Profile — see [global-navigation.md](./global-navigation.md) |
+
+---
+
+## Implementation status (Stage 1 Profile hub — 2026-07-26)
+
+* **Stage 1 visual surface implemented** in `v2/profile/ProfileDestination.jsx` (replaces Profile placeholder).
+* **Canonical fixture/model:** `v2/fixtures/profileMockupFixture.js` via `resolveProfilePresentation()` — matches `Canonical Mockup Images/Profile Page.png`.
+* **Not production-backed:** activity counts, Up Next plan, membership, and favorite theaters are fixture values. Local Saved/Seen/NI/Favorite stores are **not** read or written by Profile.
+* Favorite Theater persistence UI, membership integration, nested Settings pages, Profile management pages, accounts, and sync remain **deferred**.
+* Header gear on Profile is a Stage 1 stub (no nested Settings surface yet).
+* QC script: `scripts/capture_profile_qc.mjs`. Tests: `tests/frontend/v2ProfileHub.test.mjs`.
+* Stage 4 Profile tasks in the integration roadmap are **not** marked complete by this work.
 
 ---
 

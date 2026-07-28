@@ -2,14 +2,14 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-20 (D-27 — first v2 implementation slice: isolated Home editorial baseline)  
+**Last updated:** 2026-07-27 (T-FILMID-01 film identity foundation; Stage 1 mockup coverage accepted)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
 
 Do **not** turn this into a ticket system. Keep statuses updated after meaningful tasks. Link out to detailed design docs instead of duplicating them.
 
-**Related:** [development-operating-model.md](./development-operating-model.md) · [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [product-roadmap.md](./product-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [amc-source-catalog.md](./amc-source-catalog.md) · [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md)
+**Related:** [development-operating-model.md](./development-operating-model.md) · [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [product-roadmap.md](./product-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [amc-source-catalog.md](./amc-source-catalog.md) · [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) · **[v2 Stage 2 data & backend needs audit](./v2/v2-data-and-backend-needs-audit.md)** · **[v2 Stage 3 product decisions (approved)](./v2/v2-stage-3-product-decisions.md)** · **[v2 Stage 3 front–back integration roadmap](./v2/v2-front-back-integration-roadmap.md)** (fixture→real sequencing; not DF Ready ticket list)
 
 ---
 
@@ -424,21 +424,48 @@ Live prototype findings retained:
 | Item | Status | Notes |
 |------|--------|-------|
 | Source products + release observations (AMC) | `Complete` | Durable catalogs + daily soft-fail wiring (P-14D) |
-| Reel Seattle-owned canonical `film_id` | `Planned` | Authored/derived carefully; not AMC release ID |
-| Confidence-based product→film matching | `Planned` | Explicit confidence; no silent merges |
-| TMDB search (title/year/runtime + evidence) | `Planned` | After source catalog stability |
-| External identifiers with provenance | `Planned` | Store source + method + observed_at |
-| Optional Letterboxd via TMDB ID | `Planned` | Never primary identity |
+| Reel Seattle-owned canonical `film_id` | `In progress` | **`T-FILMID-01` (2026-07-27):** namespaced `tmdb:` / `source:` / `source-key:` contract, decisions artifact, matcher, review queue, cockpit review — [film-identity-contract.md](./v2/film-identity-contract.md). Public emission deferred (`T-FILMID-02`). |
+| Confidence-based product→film matching | `In progress` | Conservative TMDB scorer + manual override in `reel_seattle/film_identity/` (`T-FILMID-01`); live Actions workflow `T-FILMID-01D` |
+| TMDB search (title/year/runtime + evidence) | `In progress` | Server-side client + gitignored cache (`data/cache/tmdb/`); live via `scripts/match_tmdb_films.py` or Actions **Film Identity — Live TMDB Match** |
+| External identifiers with provenance | `Planned` | TMDB external IDs used when present on details; AMC catalog still does not persist IMDb |
+| Optional Letterboxd via TMDB ID | `Planned` | Never primary identity; **D05 approved:** defer cultural ranks; schedule-safe evidence first; Stage 5 gate in integration roadmap — do not treat difficulty alone as cut |
+| Public enrichment artifact (year/genres/director/synopsis/backdrop) | `Planned` | **D04 approved** — hide unsupported; partial OK; **`T-ENR-AMC-R` complete 2026-07-25**; identity matching (`T-FILMID-01`) precedes broad enrichment activation (`T-ENR-01`) — [v2-front-back-integration-roadmap.md](./v2/v2-front-back-integration-roadmap.md) |
+| Opening This Week derived artifact (distinct from `newly_added_current`) | `Planned` | **D02 approved** — earliest scheduled Seattle showtime from history + curated overrides; calendar-week membership; Stage 3 T-OPEN-*; still not auto-Ready until sequenced |
 | Match solely on title | `Deferred` / forbidden as sole key | — |
 | Match solely on `wwmReleaseNumber` | `Deferred` / forbidden as sole key | Grouping evidence only |
+
+### Public showtimes emit completeness (Stage 2 audit)
+
+Schema fields exist on `showtimes_current` but `reel_seattle/emit/current.py` currently hardcodes:
+
+| Field | Emit today | Status | Notes |
+|-------|------------|--------|-------|
+| `ticket_url` | populated when history has absolute http(s) URL | `Complete` (T-EMIT-02, 2026-07-24) | History column + `ticket_url_from_history_row` → emit. AMC: `purchase_url` then `mobile_purchase_url`; Central/NWFF: `ticket_url_raw`; SIFF/Beacon: null (source captures none). Local regen (ref 2026-07-20): 2939/3075 non-null (95.6%). Schema remains `1.0.0`. Consumer wiring: Stage 3 **T-EMIT-03** (Complete) — v2 HomeData `ticketUrl`; no producer change. |
+| `source_showtime_id` | populated when history has ID | `Complete` (T-EMIT-01, 2026-07-24) | Emitter uses `source_showtime_id_from_history_row`; no schema bump. Local regen coverage (history window 2026-07-20…08-03): AMC/SIFF/Beacon/Central 100% of their rows; **NWFF 0%** (adapter leaves null — no native source-owned showtime ID; composite used only for internal dedupe). Schema remains `1.0.0` nullable string. |
+| `attributes` | always `{}` | `Deferred` | Tied to `presentation_attributes[]` + P-18B evidence; do not invent a parallel public shape |
 
 * [Canonical Theater](./v2/specs/theater.md) — venue identity, programming character, notable opportunities (D-20); depends on [theater expansion](#planned-theater-model-expansion); does **not** implement registry/UI
 * [Canonical Home](./v2/specs/home.md) — D-17; reconciled with Design Review v3 (D-22: full-width one-at-a-time Top Opportunities); does **not** implement Home UI, ranking, or landscape-art ingestion
 * [Canonical Explore / Search](./v2/specs/explore-search.md) — D-23; opportunity-aware browse/search, comprehensive filtering, Seen vs Not interested; does **not** implement search index, ranking, status persistence, maps, or personalization
 * [Canonical Opportunity expression](./v2/specs/opportunity-expression.md) — D-24; cross-surface compact/summary/featured/focused expression; **no** standalone Opportunity Detail page; does **not** define Opportunity schema, durable identity, ranking, or availability ingestion
 * [Canonical Profile / Settings](./v2/specs/profile-settings.md) — D-25; Profile as personal moviegoing hub; Settings nested secondary; does **not** implement accounts, status persistence, memberships, preferences, notifications, sync, or Profile UI
-* [Canonical Global navigation](./v2/specs/global-navigation.md) — D-26; primary destinations Home · Explore · Planner · Profile; does **not** implement nav chrome, icons, routes, alerts, or Profile persistence
-* [First v2 implementation slice](./v2/17-first-implementation-slice.md) — D-27; isolated Home editorial baseline; does **not** require film identity, Leaving Soon shipping, or Profile persistence as blockers
+* [Canonical Global navigation](./v2/specs/global-navigation.md) — D-26; v2 chrome **Home · Explore · Planner · Profile** (I-04C); Film Detail is contextual, not Explore-owned
+* [First v2 implementation slice](./v2/17-first-implementation-slice.md) — D-27 / I-05E2 Explore correction; I-04C Home; Opening This Week lacks classifier; Leaving Soon gated
+* **Data dependency (v2 Home):** approved **Opening This Week** classification artifact or documented derivation — currently missing; do not equate `newly_added_current` to theatrical openings
+* **Data dependency (v2 Home):** Leaving Soon remains review-only / not Pages — v2 must not allowlist until product + data gate
+* **Data dependency (v2 Explore I-05E/E2):** public artifacts support **title + theater** search only — **no** cast/crew/person fields for person search (UI placeholder may say “person”; results must not fabricate matches)
+* **Data dependency (v2 Explore):** **35mm** format tags absent from current showtimes sample — Quick Start retained with honest unavailable scaffold
+* **Data dependency (v2 Explore):** **IMAX** partially supported via `format_tags` values such as `imax-at-amc` / `imax` — not a venue capability catalog
+* **Data dependency (v2 Explore):** **Coming Soon**, **Special Events**, and curated **Collections** lack approved public artifacts — Explore shows honest unavailable scaffolds
+* **Data dependency (v2 Explore I-05S):** Search Results omit year/genre/synopsis/rating/language/director — fields absent from public showtimes artifacts; person/cast/crew search remains unsupported
+* **Data dependency (v2 Film Detail I-06FD):** public HomeData still lacks year, rating, genres, director, synopsis, true backdrop, cast, and cultural ranks (e.g. Letterboxd) — Film Detail omits these honestly; hero may soft-wash with poster only when no backdrop exists
+* **Product gap (v2 Explore / Film Detail):** no approved **Save / favorites** store — Save controls remain unavailable/disabled until a Save model is decided
+* **Data dependency (v2 Explore / Film Detail):** **Seen** and **Not interested** are device-local contracts only; Film Detail writes both stores; Home “Not interested” write path not yet wired; neither is Profile-synced; Not interested does not yet filter Home ranking
+* **Product question (v2 Explore):** “This Week” UI label currently means a **rolling 7-day Pacific window**, not a calendar week — confirm with product owner before changing behavior
+* **Stage 3 integration roadmap (2026-07-24):** [v2-front-back-integration-roadmap.md](./v2/v2-front-back-integration-roadmap.md) sequences fixture→real work under approved D01–D17. DF items above remain Planned/Deferred/Research — Stage 3 does **not** invent Ready DF Cursor tasks; emit/opening/theater/leaving stay aligned with existing statuses.
+* **Stage 2 audit (2026-07-24, validation pass):** [v2-data-and-backend-needs-audit.md](./v2/v2-data-and-backend-needs-audit.md) §14 reconciliation.
+* **Out of Data-Foundation Ready scope (product / Stage 4 v2 track):** scheduled-plan persistence (G12), favorite-theater store (G11b), calendar ICS vs one-way sync (G15), notifications (G20), memberships (G19), collections/editorial (G18), multi-theater planner beyond travel research (G13). Travel aids remain `Research needed` (G09).
+* Do **not** treat Stage 2/3 docs as an implementation ticket list that auto-starts DF work.
 * See also [unified-planner-design.md](./unified-planner-design.md) (current engine) and [planner-ux-roadmap.md](./planner-ux-roadmap.md)
 
 ---
@@ -454,8 +481,19 @@ Live prototype findings retained:
 | Individual auditoriums (if audits justify) | `Research needed` |
 | Accessibility / format capabilities | `Planned` |
 | External source IDs / aliases | `Planned` |
+| Website / directions URL | `Planned` | Stage 2 audit — Theater Detail mockup |
+| Short description (curated) | `Planned` | Manual editorial; not scraper-invented |
+| Amenities / hours / pricing categories | `Planned` | Curated; higher churn than address — validation + ownership required; **D06 defers pricing/hours from first dynamic release** |
+| Theater imagery (hero/thumb) | `Planned` | Rights/attribution required |
+| Theater-to-theater travel aids | `Research needed` | Stage 2 audit G09 — curated walk matrix vs routing API; blocks multi-theater planner miles |
 
 Registry remains canonical authored data (`data/theaters.json`). Expand only with validation and inventory updates.
+
+**Stage 4 note (2026-07-26):** Full inventory in [v2/research/theater-data-audit.md](./v2/research/theater-data-audit.md). Public/registry today = identity only (no address/geo/website/amenities/imagery). Next implementation: Stage 4 **`T-THEA-01`** (schema), then **`T-THEA-10`** (curate enabled venues). Do not treat scrapers as SoT for visit meta (D06).
+
+**Stage 1 note (2026-07-27):** v2 mockup coverage for all 17 canonical pages (including Theater list/detail shells) is **complete and accepted** — [v2-stage-1-acceptance-report.md](./v2/v2-stage-1-acceptance-report.md). Fixture Theater Detail does **not** replace `T-THEA-01`; execute schema next.
+
+**Stage 2 note:** Approved Theater list/detail mockups assume Grand Illusion and other venues not in the current registry — venue coverage remains a product-owner theater-selection decision (existing “new source” Planned item), not an automatic scrape task.
 
 ---
 

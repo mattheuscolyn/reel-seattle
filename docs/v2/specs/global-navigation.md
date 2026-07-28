@@ -50,7 +50,11 @@ Primary navigation is **not** a complete site map.
 
 ## Approved primary mobile navigation
 
-The canonical mobile primary destinations are:
+> **Authoritative for v2 Home chrome (I-04C):** **Home · Explore · Planner · Profile**.
+> Movies and Theaters are **not** primary tabs. “Me” is not used — use **Profile**.
+> A temporary five-tab experiment (I-04M) was reversed by product-owner correction.
+
+The D-26 canonical mobile primary destinations are:
 
 1. **Home**
 2. **Explore**
@@ -60,6 +64,12 @@ The canonical mobile primary destinations are:
 Approved conceptual order:
 
 > **Home · Explore · Planner · Profile**
+
+### Film Detail and origin
+
+Film Detail is a **contextual deep surface**, not a child of Explore. When opened from Home, **Home remains the active primary**. When opened from Search or another Explore surface, **Explore remains active**. When opened from Planner, **Planner remains active**. Back restores the originating destination and, where captured, prior query/filters/expansion/scroll state.
+
+**I-06FD implementation note:** Designed Film Detail uses origin-aware header Back labels (Home / Explore / Search / Planner) and keeps Opportunity Detail + showtimes views as scaffolds only.
 
 ### Home
 
@@ -72,6 +82,8 @@ Approved conceptual order:
 **Primary question:** “What movies, theaters, formats, and experiences match what I care about?”
 
 **Role:** comprehensive user-directed discovery; search; filtering; browse-by pathways; Theater discovery; Formats and Experiences; Collections; Coming Soon; Special Events ([canonical Explore / Search](./explore-search.md)).
+
+**I-05E / I-05E2 landing (implementation note):** Explore is the home for Movies, Theaters, Formats, Collections, Coming Soon, Special Events, Search, Suggested Starts, and Film Activity (Seen / Not interested). Those are Explore-associated surfaces (scaffolds today), not primary tabs. Landing order: Search → Quick Start → Browse By → Suggested Starts → Your Film Activity → Recent Searches. Film Detail opened from Explore keeps Explore active and remains a contextual surface. Recent searches, Seen, and Not interested are device-local until a synced Profile system exists.
 
 ### Planner
 
@@ -97,7 +109,7 @@ Approved conceptual order:
 * the model leaves room for secondary destinations without crowding primary navigation
 * fewer strong destinations are preferable to adding a fifth item merely to fill space
 
-Do **not** add a fifth permanent mobile tab in the baseline.
+Do **not** add Movies, Theaters, or Me as permanent primary mobile tabs.
 
 ---
 

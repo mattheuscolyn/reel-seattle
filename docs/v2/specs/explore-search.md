@@ -179,7 +179,7 @@ The search field should conceptually support matching on:
 * Search suggestions or autocomplete may be **future-facing** unless already supported
 * Search should **degrade gracefully** when identity resolution or metadata coverage is incomplete
 
-**Current evidence:** Live public Showtimes supports client-side **title substring** search plus theater/date filters — not a full Explore/Search destination or entity index. Early v2 implementation must not claim person, series, or collection search until data supports it.
+**Current evidence (T-SEARCH-01):** v2 production Search matches **movie titles** (including `sourceTitle` / `parentDisplayTitle` when present), **theater names** (plus neighborhood/city), and **format labels** from current showtimes. Canonical placeholder / accessible label: **Search movies, theaters, and formats** (`v2/explore/searchCopy.js`). Person / cast / director search is **deferred** (`personSearchSupported: false`). People and Collections result groups are preserved empty in the model and hidden in production UI. Result counts and empty states are deterministic and exclude unsupported groups. Expanded-result **Save** remains active (local store). Enrichment fields (year, genre, synopsis, director) remain suppressed.
 
 ---
 
@@ -388,9 +388,11 @@ Do **not** use **Hidden** as a primary user-facing umbrella.
 
 There is **no** separate overlapping Hidden shelf.
 
-**Current evidence:** No product Seen / Not interested / Saved film-status feature exists on the public site today. Status behavior below is approved product direction; persistence and sync are future data/product work — do not mark complete.
+**Current evidence:** Expanded Search Results support device-local **Save** (T-SAVE-03) and **Not interested** (T-NI-01 / compat helpers). Film Detail wires **Seen** (T-SEEN-03) and **Not interested** (T-NI-03) to versioned local stores; Explore Film Activity counts reflect both. Search-row Seen marking remains future-facing. Account sync remains deferred.
 
 ### Seen
+
+Seen means the user has watched the film. It is **local-only** for now (`reel-seattle.v2.seenFilms`). Generic toggles record the action timestamp, not necessarily the historical viewing time, and do not infer a showtime. Seen remains independent from Saved and Not interested (no automatic state transitions). Profile / activity management of Seen remains deferred. D15 deprioritization of Seen films in ranking is **not** implemented in this wiring task.
 
 Seen does **not** mean permanently suppressed.
 
@@ -414,6 +416,8 @@ Rules:
 * Deeper distinctions (seen in theaters / elsewhere / via Reel Seattle) are **future-facing** unless supported
 
 ### Not interested
+
+Not interested means the user does not want the film in ordinary discovery. It is **local-only** for now via versioned `reel-seattle.v2.dismissedFilms` (T-NI-01 / T-NI-03). Film Detail persists through confirmed-write helpers; Explore/Search use compatibility key helpers on the same store. Generic marks record action time (`user-recorded`); legacy key arrays migrate with `migrated-unknown` timestamps and `reason: null`. Independent from Saved and Seen. Profile management and Home ranking suppression remain deferred.
 
 Rules:
 
@@ -687,9 +691,9 @@ Conceptual dependencies — **not schemas**. Classification uses repository evid
 | Showtimes / opportunities | Opportunity-aware results | **Currently available** |
 | Dates and local times | Date filters, timing | **Currently available** |
 | Pipeline freshness / source health | Trust, partial degrade | **Currently available** |
-| Title search (client substring) | Live Showtimes only | **Currently available** (limited; not full Explore) |
-| Theater / date filters | Live Showtimes | **Currently available** (subset of Explore filters) |
-| Format / presentation attributes | Format filter / tags | **Partial** (displayed; not systematically filterable; source-dependent) |
+| Title search (client substring) | Explore + Search Results | **Currently available** in v2 (movies / theaters / formats; not people) |
+| Theater / date filters | Explore + Search Results | **Currently available** (type chips, time chips, filter sheet) |
+| Format / presentation attributes | Format results + filters | **Currently available** in v2 Search (source tags); taxonomy still incomplete |
 | Ticket URLs | Downstream action | **Partial** (often null; sparse UI use) |
 | Sold-out / availability | Availability filters | **Partial / future** |
 | Leaving soon | Availability / urgency | **Partial** (review-only artifact; not shipped to Pages) |
@@ -697,11 +701,11 @@ Conceptual dependencies — **not schemas**. Classification uses repository evid
 | Parent / variant film grouping | Cleaner results | **Partial** |
 | Newly added / recently added | Browse / suggested | **Currently available** as shipped artifact + `/recently-added` (maps into Explore pathways, not a full Explore surface) |
 | Canonical film identity | Reliable multi-entity search | **Future-facing** |
-| Canonical person / filmmaker identity | Person search | **Future-facing** |
+| Canonical person / filmmaker identity | Person search | **Future-facing** (deferred; production copy does not promise it) |
 | Cultural / experiential signals | Relevance explanations | **Future-facing** |
-| Collections / series metadata | Browse / search | **Future-facing** |
-| Durable Seen / Not interested persistence | Film Activity | **Future-facing** |
-| Saved searches / alerts | Continuity | **Future-facing** |
+| Collections / series metadata | Browse / search | **Future-facing** (model slot preserved; production-hidden) |
+| Durable Seen / Not interested persistence | Film Activity | **Partial** (versioned device-local Not interested + Seen stores; Profile sync future) |
+| Saved films (contextual Save) | Search expanded / Film Detail | **Currently available** device-local (T-SAVE-03); Profile Saved management future |
 | Personalization | Suggested starts, rewatch prefs | **Future-facing** |
 | Geocoding / maps / proximity | Location filters, Nearby | **Future-facing** |
 | Rich relevance / search index engine | Ranking, entity search | **Future-facing** |

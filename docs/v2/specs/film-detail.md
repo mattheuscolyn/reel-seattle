@@ -501,7 +501,7 @@ Conceptual only — **not schemas**. Classification uses repository evidence (cu
 | Current showtimes (date, time, theater, source) | All Showtimes | **Currently available** |
 | Theater identity (id, name, city, type) | Venue comparison | **Currently available** (registry subset) |
 | Format tags / attributes | Presentation distinction | **Partial** (source-dependent; often sparse) |
-| Ticket / source URLs | External action | **Partial** (`ticket_url` often null) |
+| Ticket / source URLs | External action | **Available when present** (nullable public `ticket_url`; production FD uses real models; fixture URLs QC-only) |
 | Screening variant / parent film keys | Variant caution | **Partial** (analysis-oriented; not full canonical identity) |
 | Pipeline freshness / source health | Trust, degrade behavior | **Currently available** (pipeline report / related artifacts) |
 | Leaving-soon / newly-added style urgency artifacts | Dynamic opportunity signals | **Partial** |
@@ -572,3 +572,72 @@ This specification does **not**:
 ## Spec format note
 
 Follows the canonical screen-spec pattern established by [Home](./home.md) (D-17): authority, purpose, hierarchy, regions, interactions, states, data dependencies, non-goals, open questions.
+
+---
+
+## Implementation status (I-06FD / I-06FDM) — Film Detail visual replica
+
+**Status:** Film Detail visual design is being established **fixture-first**. The attached Film Detail mockup is the **authoritative visual reference**. The normal rendered Film Detail page currently uses centralized mockup content (`v2/fixtures/filmDetailMockupFixture.js`) so layout, spacing, and section structure can be locked before real-data mapping.
+
+**Not complete:** Real Film Detail data integration is explicitly deferred. The mockup fixture is **not** production Seattle data.
+
+### Fixture-first visual pass (current)
+
+* Presentation contract: `getFilmDetailMockupPresentation()` / `FILM_DETAIL_MOCKUP_FIXTURE`
+* Surface: `v2/surfaces/FilmDetailSurface.jsx` consumes only the mockup presentation object
+* Exact mockup copy is intentional (title, signals, theaters, times, synopsis, badges, ranking, distance)
+* Do **not** mix HomeData adapters into the visual replica
+* Do **not** change layout to accommodate missing enrichment fields
+* Lightweight visual interactions only (local toggles, synopsis More, placeholder navigation, Planner-start scaffold)
+* Canonical bottom nav remains Home · Explore · Planner · Profile (Explore active on the mockup replica)
+
+### Next implementation phase (not started)
+
+Map real HomeData / enrichment fields into the established Film Detail presentation contract **without changing the approved visual structure**.
+
+### Prior notes retained for later mapping
+
+When real data returns, preserve:
+
+1. Contextual header (Back label · wordmark · Save · Share)
+2. Cinematic hero (backdrop · poster · title · metadata · badges)
+3. Film action row: Save · Seen · Not interested · Add to planner
+4. Why see it now — four compact signal cards in one horizontal row
+5. What it’s about — synopsis + tags + More
+6. Best way to see it — opportunity card + three supporting facts
+7. Today’s showtimes · See all showtimes
+
+### Ticketing boundary
+
+Reel Seattle does **not** sell or process tickets. Film Detail has **no** Buy now / Get tickets sticky CTA.
+
+Public `ticketUrl` (from `showtimes_current.ticket_url`) is **nullable**. When present, ticket actions open the **exact external** theater/ticketing URL. When null, suppress the actionable control; preserve the component/presentation slot for reactivation. Fixture ticket URLs are visual-only and must not appear on the production HomeData path.
+
+### Implementation status (T-FIX-FD-01)
+
+| Mode | Activation | Data |
+|------|------------|------|
+| **Production** | Default Film Detail navigation | Real HomeData via `composeFilmDetailPresentation` — never the mockup film |
+| **Mockup QC** | `?fdMockup=1` or `localStorage` key `reel-seattle.v2.fdMockup` | Canonical `filmDetailMockupFixture.js` |
+| **Visual QC** | `?fdVisual=1` or `reel-seattle.v2.fdVisual` | `filmDetailVisualFixtures.js` |
+
+**Production-active today:** title, runtime, poster (or soft wash / fallback), format badges when present, schedule-derived Why See It signals, Best Way from real opportunities (no distance fabrication), today’s showtimes, per-performance `ticketUrl` on time models, origin-aware Back label.
+
+**Still suppressed in production (slots preserved):** year, MPAA rating, genres, director, synopsis, thematic tags, Letterboxd / cultural ranks, walking distance, membership pricing.
+
+**Save (T-SAVE-03):** Functional and **device-local only** via versioned `reel-seattle.v2.savedFilms`. Distinct from Scheduled / Planner / Seen / Not interested. Uses `filmRefFromHomeFilm` (prefer `parentFilmKey` when present). Failed persistence keeps prior UI state (no false Saved). QC modes (`?fdMockup=1` / `?fdVisual=1`) may toggle visual Saved state but **do not** write fixture films into production storage. Accounts and cross-device sync remain deferred. Profile Saved counts / Saved management surfaces are not in this task.
+
+**Seen (T-SEEN-01 / T-SEEN-03):** Functional and **device-local only** via versioned `reel-seattle.v2.seenFilms`. Means the user has watched the film — distinct from Saved / Not interested / Scheduled (no automatic cross-transitions). Film Detail Seen toggle uses `filmRefFromHomeFilm` and confirmed-write semantics; records action time (`user-recorded`), not a claimed historical watch time; does **not** attach a showtime reference. QC modes may toggle visual Seen without writing production storage. Explore Film Activity reads the same store. Profile counts, Seen management, and D15 ranking remain deferred.
+
+**Not interested (T-NI-01 / T-NI-03):** Functional and **device-local only** via versioned `reel-seattle.v2.dismissedFilms`. Film Detail Not interested toggle uses `filmRefFromHomeFilm` and confirmed-write semantics; records action time (`user-recorded`); does **not** invent a reason. QC modes may toggle visual Not interested without writing production storage. Search / Collection / Explore Film Activity continue through compatibility key helpers backed by the same store. Profile counts, management UI, and ranking suppression remain deferred.
+
+**Add to calendar (T-CAL-01):** Shared local ICS export contract exists (`src/utils/calendarExport.js`) for real showtimes/plans. Film Detail does **not** yet expose an Add-to-Calendar control (deferred to T-CAL-02). Export is device-local only — no Google/Apple APIs, permissions, or sync. Account-linked one-way sync remains deferred (D09).
+
+**Unknown film:** honest not-found state — no silent mockup fallback.
+
+Reactivation / enrichment: T-ENR-*, T-EVID-10, T-TRAV-* as listed in the Stage 3 roadmap.
+
+### Deferred work still logged
+
+Final showtimes page; final Opportunity expression polish; full Planner; durable share URLs; Profile Saved management; account sync; enrichment pipeline; sophisticated opportunity ranking.
+

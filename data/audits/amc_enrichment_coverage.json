@@ -1,0 +1,441 @@
+{
+  "audit_id": "amc_enrichment_coverage",
+  "catalog_coverage": {
+    "denominator": 54,
+    "fields": {
+      "directors_raw": {
+        "absent_from_schema": 0,
+        "blank_or_null": 14,
+        "catalog_path": "directors_raw",
+        "coverage_percent": 74.07,
+        "notes": "Unparsed string; not a person index.",
+        "ownership": "source_film_product",
+        "present": 40
+      },
+      "distributor_code": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "distributor_code",
+        "coverage_percent": 100.0,
+        "notes": "Studio/distributor code; not currently a FD slot.",
+        "ownership": "source_film_product",
+        "present": 54
+      },
+      "genre": {
+        "absent_from_schema": 0,
+        "blank_or_null": 10,
+        "catalog_path": "genre",
+        "coverage_percent": 81.48,
+        "notes": "Single uppercase string; UI genres need normalize\u2192array.",
+        "ownership": "source_film_product",
+        "present": 44
+      },
+      "hero_desktop_url": {
+        "absent_from_schema": 0,
+        "blank_or_null": 19,
+        "catalog_path": "media.hero_desktop_url",
+        "coverage_percent": 64.81,
+        "notes": "Backdrop candidate; media CDN republish risk higher than text.",
+        "ownership": "source_film_product",
+        "present": 35
+      },
+      "imdb_id": {
+        "absent_from_schema": 54,
+        "blank_or_null": 0,
+        "catalog_path": null,
+        "coverage_percent": 0.0,
+        "notes": "Movies API may expose imdbId; not persisted in amc_movie_products.",
+        "ownership": "external_id_not_in_durable_catalog",
+        "present": 0
+      },
+      "language": {
+        "absent_from_schema": 54,
+        "blank_or_null": 0,
+        "catalog_path": null,
+        "coverage_percent": 0.0,
+        "notes": "Not a product catalog field; showtimes attributes may carry language codes.",
+        "ownership": "performance_or_unavailable",
+        "present": 0
+      },
+      "mpaa_rating": {
+        "absent_from_schema": 0,
+        "blank_or_null": 3,
+        "catalog_path": "mpaa_rating",
+        "coverage_percent": 94.44,
+        "notes": "AMC codes like PG13 (no hyphen).",
+        "ownership": "source_film_product",
+        "present": 51
+      },
+      "poster_url": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "media.poster_url",
+        "coverage_percent": 100.0,
+        "notes": "Public showtimes already emit poster_url for many films.",
+        "ownership": "source_film_product",
+        "present": 54
+      },
+      "release_date_utc": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "release_date_utc",
+        "coverage_percent": 100.0,
+        "notes": "May be theatrical or re-release date; derive year carefully.",
+        "ownership": "source_film_product",
+        "present": 54
+      },
+      "release_year": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "release_date_utc",
+        "coverage_percent": 100.0,
+        "notes": "Derived YYYY from release_date_utc; suppress for anniversary/rerelease presentations.",
+        "ownership": "derived_from_source_film_product",
+        "present": 54
+      },
+      "runtime_min": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "runtime_min",
+        "coverage_percent": 100.0,
+        "notes": "Also emitted on public films when showtimes carry it.",
+        "ownership": "source_film_product",
+        "present": 54
+      },
+      "source_release_id": {
+        "absent_from_schema": 0,
+        "blank_or_null": 3,
+        "catalog_path": "source_release_id",
+        "coverage_percent": 94.44,
+        "notes": "Grouping evidence only; never canonical film_id.",
+        "ownership": "amc_release_observation",
+        "present": 51
+      },
+      "starring_actors_raw": {
+        "absent_from_schema": 0,
+        "blank_or_null": 17,
+        "catalog_path": "starring_actors_raw",
+        "coverage_percent": 68.52,
+        "notes": "Unparsed string; person search remains deferred.",
+        "ownership": "source_film_product",
+        "present": 37
+      },
+      "synopsis": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "synopsis",
+        "coverage_percent": 100.0,
+        "notes": "Full marketing synopsis; high republish-rights sensitivity.",
+        "ownership": "source_film_product",
+        "present": 54
+      },
+      "tmdb_id": {
+        "absent_from_schema": 54,
+        "blank_or_null": 0,
+        "catalog_path": null,
+        "coverage_percent": 0.0,
+        "notes": "Not present in AMC durable catalog.",
+        "ownership": "unavailable",
+        "present": 0
+      },
+      "trailer_hd_url": {
+        "absent_from_schema": 0,
+        "blank_or_null": 21,
+        "catalog_path": "media.trailer_hd_url",
+        "coverage_percent": 61.11,
+        "notes": "Not an approved FD production slot today.",
+        "ownership": "source_film_product",
+        "present": 33
+      }
+    }
+  },
+  "counts": {
+    "catalog_products": 54,
+    "current_window_amc_source_film_ids": 41,
+    "current_window_joined_products": 41,
+    "public_films": 96,
+    "public_showtimes": 3075,
+    "release_observations": 49
+  },
+  "current_window_joined_coverage": {
+    "denominator": 41,
+    "fields": {
+      "directors_raw": {
+        "absent_from_schema": 0,
+        "blank_or_null": 10,
+        "catalog_path": "directors_raw",
+        "coverage_percent": 75.61,
+        "notes": "Unparsed string; not a person index.",
+        "ownership": "source_film_product",
+        "present": 31
+      },
+      "distributor_code": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "distributor_code",
+        "coverage_percent": 100.0,
+        "notes": "Studio/distributor code; not currently a FD slot.",
+        "ownership": "source_film_product",
+        "present": 41
+      },
+      "genre": {
+        "absent_from_schema": 0,
+        "blank_or_null": 7,
+        "catalog_path": "genre",
+        "coverage_percent": 82.93,
+        "notes": "Single uppercase string; UI genres need normalize\u2192array.",
+        "ownership": "source_film_product",
+        "present": 34
+      },
+      "hero_desktop_url": {
+        "absent_from_schema": 0,
+        "blank_or_null": 14,
+        "catalog_path": "media.hero_desktop_url",
+        "coverage_percent": 65.85,
+        "notes": "Backdrop candidate; media CDN republish risk higher than text.",
+        "ownership": "source_film_product",
+        "present": 27
+      },
+      "imdb_id": {
+        "absent_from_schema": 41,
+        "blank_or_null": 0,
+        "catalog_path": null,
+        "coverage_percent": 0.0,
+        "notes": "Movies API may expose imdbId; not persisted in amc_movie_products.",
+        "ownership": "external_id_not_in_durable_catalog",
+        "present": 0
+      },
+      "language": {
+        "absent_from_schema": 41,
+        "blank_or_null": 0,
+        "catalog_path": null,
+        "coverage_percent": 0.0,
+        "notes": "Not a product catalog field; showtimes attributes may carry language codes.",
+        "ownership": "performance_or_unavailable",
+        "present": 0
+      },
+      "mpaa_rating": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "mpaa_rating",
+        "coverage_percent": 100.0,
+        "notes": "AMC codes like PG13 (no hyphen).",
+        "ownership": "source_film_product",
+        "present": 41
+      },
+      "poster_url": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "media.poster_url",
+        "coverage_percent": 100.0,
+        "notes": "Public showtimes already emit poster_url for many films.",
+        "ownership": "source_film_product",
+        "present": 41
+      },
+      "release_date_utc": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "release_date_utc",
+        "coverage_percent": 100.0,
+        "notes": "May be theatrical or re-release date; derive year carefully.",
+        "ownership": "source_film_product",
+        "present": 41
+      },
+      "release_year": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "release_date_utc",
+        "coverage_percent": 100.0,
+        "notes": "Derived YYYY from release_date_utc; suppress for anniversary/rerelease presentations.",
+        "ownership": "derived_from_source_film_product",
+        "present": 41
+      },
+      "runtime_min": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "runtime_min",
+        "coverage_percent": 100.0,
+        "notes": "Also emitted on public films when showtimes carry it.",
+        "ownership": "source_film_product",
+        "present": 41
+      },
+      "source_release_id": {
+        "absent_from_schema": 0,
+        "blank_or_null": 2,
+        "catalog_path": "source_release_id",
+        "coverage_percent": 95.12,
+        "notes": "Grouping evidence only; never canonical film_id.",
+        "ownership": "amc_release_observation",
+        "present": 39
+      },
+      "starring_actors_raw": {
+        "absent_from_schema": 0,
+        "blank_or_null": 13,
+        "catalog_path": "starring_actors_raw",
+        "coverage_percent": 68.29,
+        "notes": "Unparsed string; person search remains deferred.",
+        "ownership": "source_film_product",
+        "present": 28
+      },
+      "synopsis": {
+        "absent_from_schema": 0,
+        "blank_or_null": 0,
+        "catalog_path": "synopsis",
+        "coverage_percent": 100.0,
+        "notes": "Full marketing synopsis; high republish-rights sensitivity.",
+        "ownership": "source_film_product",
+        "present": 41
+      },
+      "tmdb_id": {
+        "absent_from_schema": 41,
+        "blank_or_null": 0,
+        "catalog_path": null,
+        "coverage_percent": 0.0,
+        "notes": "Not present in AMC durable catalog.",
+        "ownership": "unavailable",
+        "present": 0
+      },
+      "trailer_hd_url": {
+        "absent_from_schema": 0,
+        "blank_or_null": 15,
+        "catalog_path": "media.trailer_hd_url",
+        "coverage_percent": 63.41,
+        "notes": "Not an approved FD production slot today.",
+        "ownership": "source_film_product",
+        "present": 26
+      }
+    }
+  },
+  "field_classification": {
+    "A_available_now_public": [
+      "title",
+      "runtime_min (partial)",
+      "poster_url (partial)",
+      "format_tags / ticket_url / source ids on showtimes"
+    ],
+    "B_available_with_normalization": [
+      "release_year (from release_date_utc)",
+      "genres (from single genre string)",
+      "director (from directors_raw)",
+      "mpaa_rating display hyphenation"
+    ],
+    "C_amc_only_if_republished": [
+      "synopsis",
+      "mpaa_rating",
+      "genre",
+      "directors_raw",
+      "starring_actors_raw",
+      "release_date_utc / year",
+      "hero/trailer media URLs",
+      "distributor_code"
+    ],
+    "D_unreliable_or_ambiguous": [
+      "release_year for anniversary_or_rerelease / special presentations",
+      "attribute_codes as language (product-level codes are capability menus, not spoken language)",
+      "inheriting metadata across source_release_id members"
+    ],
+    "E_unavailable_without_new_provider": [
+      "tmdb_id",
+      "Letterboxd ranks/stats",
+      "awards",
+      "durable imdb_id (not in catalog schema; prior showtimes-path IMDb audit was 0 usable)",
+      "canonical film_id",
+      "indie synopsis/year/genres/director"
+    ]
+  },
+  "generated_at": "2026-07-25T19:00:00+00:00",
+  "inputs": {
+    "products_generated_at": "2026-07-20T01:46:18-07:00",
+    "products_path": "C:/Users/matth/Downloads/reel-seattle/data/source_catalog/amc_movie_products.json",
+    "releases_path": "C:/Users/matth/Downloads/reel-seattle/data/source_catalog/amc_release_observations.json",
+    "requires_amc_api_secret": false,
+    "showtimes_generated_at": "2026-07-24T19:54:07-07:00",
+    "showtimes_path": "C:/Users/matth/Downloads/reel-seattle/public/data/showtimes_current.json"
+  },
+  "join": {
+    "ambiguous_joins": [],
+    "catalog_ids_not_in_current_window": 13,
+    "catalog_source_film_ids": 54,
+    "current_ids_matched_to_catalog": 41,
+    "current_ids_missing_from_catalog": [],
+    "current_window_source_film_ids": 41,
+    "failed_join_vs_missing_field": {
+      "note": "Join failure means no catalog product for the showtime source_film_id. Blank catalog fields on a matched product are missing-field, not failed join."
+    },
+    "join_failure_film_keys": 0,
+    "join_precedence": [
+      "source_film_id (AMC movieId / catalog product key)",
+      "showtime_film_key (frontend identity; join via showtimes carrying source_film_id)",
+      "source_release_id (grouping evidence only; never primary)"
+    ],
+    "join_success_film_keys": 41,
+    "join_success_rate_percent": 100.0,
+    "multi_source_film_id_film_keys": 0,
+    "recommended_join_key": "source_film_id",
+    "showtime_film_keys_with_amc": 41
+  },
+  "presentation_categories": {
+    "anniversary_or_rerelease": 1,
+    "concert_or_event": 14,
+    "mystery_screening": 2,
+    "sensory_friendly": 3,
+    "standard": 34
+  },
+  "public_showtimes_film_coverage": {
+    "denominator": 96,
+    "fields": {
+      "backdrop_url": {
+        "blank_or_null": 96,
+        "coverage_percent": 0.0,
+        "present": 0
+      },
+      "director": {
+        "blank_or_null": 96,
+        "coverage_percent": 0.0,
+        "present": 0
+      },
+      "genres": {
+        "blank_or_null": 96,
+        "coverage_percent": 0.0,
+        "present": 0
+      },
+      "mpaa_rating": {
+        "blank_or_null": 96,
+        "coverage_percent": 0.0,
+        "present": 0
+      },
+      "poster_url": {
+        "blank_or_null": 15,
+        "coverage_percent": 84.38,
+        "present": 81
+      },
+      "runtime_min": {
+        "blank_or_null": 15,
+        "coverage_percent": 84.38,
+        "present": 81
+      },
+      "synopsis": {
+        "blank_or_null": 96,
+        "coverage_percent": 0.0,
+        "present": 0
+      },
+      "year": {
+        "blank_or_null": 96,
+        "coverage_percent": 0.0,
+        "present": 0
+      }
+    }
+  },
+  "release_catalog_stats": {
+    "largest_group": 2,
+    "multi_product_groups": 2,
+    "release_observations": 49,
+    "singleton_groups": 47
+  },
+  "schema_version": "1.0.0",
+  "terms_gate": {
+    "status": "uncleared",
+    "summary": "Public AMC catalog republish into Pages artifacts remains blocked pending PO/legal review of the AMC vendor agreement. Consumer website ToS and developer-portal marketing copy are not a substitute for the vendor contract."
+  },
+  "title_level_conflicts": []
+}

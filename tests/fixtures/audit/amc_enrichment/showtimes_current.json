@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-20T12:00:00-07:00",
+  "timezone": "America/Los_Angeles",
+  "films": [
+    {
+      "showtime_film_key": "alpha-film",
+      "title": "Alpha Film",
+      "source_film_id": "10001",
+      "runtime_min": 100,
+      "poster_url": "https://example.test/alpha.jpg"
+    },
+    {
+      "showtime_film_key": "blank-meta",
+      "title": "Blank Meta",
+      "source_film_id": "10002",
+      "runtime_min": 90,
+      "poster_url": null
+    },
+    {
+      "showtime_film_key": "orphan-amc",
+      "title": "Orphan AMC",
+      "source_film_id": "88888",
+      "runtime_min": null,
+      "poster_url": null
+    },
+    {
+      "showtime_film_key": "indie-film",
+      "title": "Indie Film",
+      "source_film_id": "indie-1",
+      "runtime_min": 95,
+      "poster_url": null
+    }
+  ],
+  "showtimes": [
+    {
+      "showtime_film_key": "alpha-film",
+      "source": "amc",
+      "source_film_id": "10001",
+      "theater_id": "amc-1"
+    },
+    {
+      "showtime_film_key": "blank-meta",
+      "source": "amc",
+      "source_film_id": "10002",
+      "theater_id": "amc-1"
+    },
+    {
+      "showtime_film_key": "orphan-amc",
+      "source": "amc",
+      "source_film_id": "88888",
+      "theater_id": "amc-1"
+    },
+    {
+      "showtime_film_key": "indie-film",
+      "source": "siff",
+      "source_film_id": "indie-1",
+      "theater_id": "siff-1"
+    }
+  ]
+}

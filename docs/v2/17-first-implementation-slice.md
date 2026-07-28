@@ -1,27 +1,96 @@
 # 17 — First v2 Implementation Slice
 
-**Status:** Decision recorded (D-27); **I-03R2 visual foundation** — human review before publish; next **I-04** after approval  
-**Authority:** Authoritative for the *first* v2 implementation slice only; does not replace canonical screen specs  
-**Related:** [Implementation roadmap](./09-implementation-roadmap.md) · [v2 README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Global navigation](./specs/global-navigation.md) · [Canonical Opportunity expression](./specs/opportunity-expression.md) · [Editorial design language](./15-editorial-design-language.md) · [Data foundation roadmap](../data-foundation-roadmap.md) · [Development operating model](../development-operating-model.md#v2-product-design-workflow) · [Data artifact inventory](../data-artifact-inventory.md)
+**Status:** Decision recorded (D-27); **I-05E Explore landing** — discovery hub scaffolds; I-04C Home interaction retained  
+**Authority:** Authoritative for the *first* v2 implementation slice; product-owner corrections in I-04C/I-05E supersede temporary five-tab / fixture-default directions  
+**Related:** [Implementation roadmap](./09-implementation-roadmap.md) · [v2 README](./README.md) · [Canonical Home](./specs/home.md) · [Canonical Explore / Search](./specs/explore-search.md) · [Canonical Global navigation](./specs/global-navigation.md) · [Canonical Film Detail](./specs/film-detail.md) · [Data foundation roadmap](../data-foundation-roadmap.md)
 
 ---
 
 ## Decision
 
-**Recommended first slice:** Isolated **v2 Home editorial baseline** — a local-only v2 app shell with canonical four-destination navigation chrome (non-functional stubs for Explore / Planner / Profile) and an honest Home briefing using only currently trustworthy public data.
+**Recommended first slice:** Isolated **v2 Home editorial baseline** with honest data wiring and contextual Film Detail.
 
-**Product question this slice proves:**
+### Product corrections (I-04C) — supersede I-04M nav/fixture defaults
 
-> Can Reel Seattle present a calm, scarce, one-opportunity-at-a-time editorial Home that feels like a cinema publication — without inventing ranking, cultural metadata, landscape art, or personalization?
+| Topic | Authoritative now |
+|-------|-------------------|
+| Primary nav | **Home · Explore · Planner · Profile** (four tabs) |
+| Movies / Theaters / Me | **Not** primary tabs — Movies/Theaters live under Explore concepts |
+| Top Opportunity | Real `selectTopOpportunities(HomeData)` — not fictional fixtures |
+| Ordinary film cards | **Inline expand** first (“Is this worth investigating?”) |
+| Top Opportunity card | Opens **contextual Film Detail** (Home stays active origin) |
+| More details | Opens Film Detail; Back restores Home scroll/expansion when captured |
+| See all | Dedicated Explore-associated collection surfaces (not Explore landing) |
+| Explore More rows | All open **Explore landing** for now |
+| Opening This Week | No approved opening-week classifier — provisional **newly_added** with honesty banner, or unavailable |
+| Leaving Soon | **Gated** — unavailable shell; artifact not allowlisted |
+| Visual fixtures | `v2/fixtures/homeVisualFixtures.js` — **visual-test only**, not normal Home |
+
+### Explore landing (I-05E / I-05E2 correction)
+
+| Topic | Authoritative now |
+|-------|-------------------|
+| Purpose | Discovery hub — choose a path; not an exhaustive movie list |
+| Primary nav | Still **Home · Explore · Planner · Profile**; Explore active on landing + Explore sub-surfaces |
+| Theaters / Saved / Me | **Not** primary tabs |
+| Regions (order) | Intro + search → Quick Start → Browse By → **Suggested Starts** → **Your Film Activity** → Recent Searches |
+| Suggested Starts | Everything / Today / This Week / Weekend — date-scope shortcuts (not personalized film recs) |
+| This Week semantics | **Rolling 7-day Pacific window** (today through today+6) — not a calendar Mon–Sun week; product question logged if label is confusing |
+| Weekend semantics | Pacific **Friday–Sunday**; if today is Fri–Sun, use the current weekend |
+| Film Activity | Device-local **Seen** + **Not interested** summaries; Manage → Film Activity scaffold |
+| Not interested | User-facing label for the dismissed-film store; entry via Film Activity (no Hidden poster shelf on landing) |
+| Recent searches | Device-local; placed **below** Film Activity |
+| Search | Title + theater keyword only; placeholder may say “person”; **no** person/cast matching |
+| Sub-surfaces | Modest scaffolds only — **not** final page designs |
+| Film Detail | Remains contextual; Explore origin stays active when entered from Explore |
+
+**Surfaces that still require dedicated human-reviewed mockups before final implementation:** Movies, Theaters, Formats & Experiences, Collections, Coming Soon, Special Events, Suggested Starts destination pages, final Film Activity / Seen / Not interested management, final Opportunity Detail, final showtimes-focused page, and full Planner flows. **Film Detail** and **Search Results** have approved mockup implementations (I-06FD / I-05S) — do not treat remaining scaffolds as designed.
+
+Film Detail is a **contextual deep surface**, reachable from Home / Explore / Theater / Planner / shared link — not a child page owned exclusively by Explore.
 
 **Implementation progress:**
 
-→ **I-01 complete** (isolated v2 Vite shell)  
-→ **I-02 complete** (Home data adapter + allowlisted `/data`)  
-→ **I-03 complete** (Top Opportunities region)  
-→ **I-03R / I-03R2 in review** (visual foundation + approved carousel fidelity — **do not publish until human visual OK**)  
-→ **Next after approval: I-04 — Supporting Home regions**  
-See [Follow-up task sequence](#follow-up-task-sequence) and [Local v2 app commands](#local-v2-app-commands-i-01).
+→ **I-01–I-03** complete (shell, adapter, selector)  
+→ **I-04M** visual composition (violet tokens, Home regions) — partially superseded by I-04C for nav/data/interaction  
+→ **I-04C** — four-tab nav; real Top Opportunity; inline expansion; contextual Film Detail scaffold; honest Opening/Leaving states  
+→ **I-05E** — Explore landing + honest destination scaffolds; local recent/hidden stores  
+→ **I-05E2** — Suggested Starts + Film Activity; Recent Searches reordered; Hidden preview removed from landing  
+→ **I-05S in review** — designed Search Results (film-first, inline expand, restrained violet); scaffolds elsewhere unchanged  
+→ **I-06FD in review** — designed Film Detail (cinematic hero, actions, Why See It, Best Way, Today’s showtimes, Planner-start sheet)  
+→ **I-06FDV / I-06FDV2 in progress** — compact cinematic hero; attached action row; square evidence-card grid; Best Way facts row; structured Today’s Showtimes; `?fdVisual=1` fixture QC  
+
+### Search Results (I-05S)
+
+| Topic | Authority |
+|-------|-----------|
+| Design | Attached revised mockup with **restrained violet** (active filters, Explore back, More details, nav) |
+| Architecture | Film-first grouped results; Theater and Format sections when matches exist |
+| Expansion | One inline expand at a time — “Is this worth investigating?”; More details → contextual Film Detail |
+| Filters | Type: All/Movies/Theaters/Formats; Time: Playing now / Today / This week; sheet: theater + format (honest subset) |
+| Playing now | Films with showtimes on/after today through rolling week (Pacific) — **not** minute-level live status |
+| This week | Rolling 7-day Pacific window (unchanged) |
+| Ordering | Exact title → prefix → contains → sourceTitle → next showtime → alpha |
+| Search fields | Titles, theaters, formats only — **no** person/cast/director |
+| Save | Omitted / unavailable (no approved Save store) |
+| Not interested | Writes dismissed-film store; removes from results with Undo |
+| Back | Explore landing from Search; Film Detail Back restores Search query/filters/expansion via `returnSurface` + `searchUi` |
+
+### Film Detail (I-06FD)
+
+| Topic | Authority |
+|-------|-----------|
+| Design | Approved Film Detail mockup (no ticket-purchase CTA; Add to planner in action row) |
+| Origin | Contextual deep surface; originating primary stays active |
+| Why See It | Database-derived factual signals only |
+| Synopsis | Omitted until enrichment; More expand ready when synopsis exists; no thematic invention tags |
+| Best Way | Emphasized entry opportunity when valid; opens Opportunity Detail scaffold |
+| Today’s showtimes | Pacific today; See all → film-prefiltered showtimes scaffold |
+| Planner entry | Two-choice sheet → Planner seed (single calendar vs Build a movie day) |
+| Ticketing | No checkout; external ticket links only on Opportunity scaffold |
+
+**Still requiring dedicated mockups (not complete):** Suggested Starts destination pages; Everything/Today/This Week/Weekend pages; Film Activity Manage / Seen / Not interested final designs; final Opportunity Detail; final showtimes page; full Planner; Movies; Theaters; Formats; Collections; Coming Soon; Special Events; person-search data; account sync; Save system.
+
+**Search Results visual-polish backlog (logged):** reduce excessive heavy typography; simplify nested borders; lighten filter density; improve expanded-result hierarchy; improve long-title handling; remove pipeline-like user-facing wording.
 
 ---
 
@@ -105,31 +174,30 @@ Sources: `public/data/showtimes_current.json`, `newly_added_current.json`, `thea
 ### In scope (first slice)
 
 * Isolated local-only v2 Vite application (separate root/outDir; not in public `dist/`)
-* Minimal shell expressing **Home · Explore · Planner · Profile** labels; only **Home** is implemented
-* Explore / Planner / Profile as **labeled stubs** (placeholder screens stating “not in this slice”)
-* Home regions implementable with current data:
-  * Editorial orientation (honest, minimal)
-  * Top Opportunities — full-width, one-at-a-time (~3 curated/scarce items)
-  * Supporting awareness using **newly_added** as Opening/newly-aware module (label honestly; do not claim “Opening This Week” if semantics differ)
-  * Explore More / Build a Movie Day as **non-functional or stub CTAs** where destinations do not exist yet
-* Featured Opportunity expression (artwork = poster with typography-led fallback; title; theater; timing; one **honest** reason string derived from available facts, e.g. format tag, newly added, limited remaining showtimes — never invented culture)
-* Mobile-first layout; basic desktop adaptation of the same hierarchy
-* Accessibility baseline for Home carousel/story navigation ([Home](./specs/home.md))
-* Frontend tests for data adapter + critical Home behavior
+* Shell expressing **Home · Movies · Theaters · Planner · Me**; only **Home** is implemented
+* Movies / Theaters / Planner / Me as **labeled stubs**
+* Home regions (mockup order):
+  * Header + editorial orientation
+  * Top Opportunity — one-at-a-time feature card (~3 items; fixture-backed for visual slice)
+  * Opening This Week — compact poster shelf (**design fixture**; not `newly_added` rebranding)
+  * Leaving Soon — compact poster shelf (**design fixture**; not gated artifact)
+  * Build a Movie Day + Explore More stub CTAs
+* Violet accent tokens in `v2/v2.css`; stacked REEL SEATTLE wordmark
+* Mobile-first layout; centered max-width shell at larger widths
+* Frontend tests for destinations, fixtures, and retained adapters
 * Smoke path for the v2 app (local)
 
 ### Explicit exclusions
 
 * Shipping v2 to GitHub Pages / replacing `/`
-* Real Explore, Film Detail, Theater, Planner Stage 2, or Profile
+* Real Movies / Theaters / Planner / Me destinations
 * Signal/ranking engine; Best Opportunity algorithm
-* Landscape hero art ingestion
-* Leaving Soon section (artifact not shipped; do not invent)
-* Fabricated synopsis, director, cultural significance, fake Seen/Saved counts
-* Ticket purchase flows (ticket URLs empty in practice)
-* Accounts, persistence, personalization, notifications
+* Consuming gated `leaving_soon_current` as production Home data
+* Presenting fixtures as live Opening/Leaving classifications
+* Fabricated Seen/Saved counts or accounts
+* Ticket purchase flows
 * Production CSS/token refactor of the live site
-* Fifth nav tab; Theater/Saved/Settings as tabs
+* Final desktop layout
 
 ---
 
@@ -265,25 +333,23 @@ Destination switching uses in-memory state (no URL deep links yet). That is inte
 
 ## Next executable follow-up
 
-**I-04 — Supporting Home regions**
-
-Add orientation / newly-added awareness and stub CTAs beneath Top Opportunities. No Explore/Planner/Profile implementation. Governed by this document and [home.md](./specs/home.md).
+**After I-04M visual approval:** wire honest data where fixtures currently stand (Opening / Leaving semantics; optional Top Opportunity from I-02/I-03 adapters), or polish remaining mockup deltas. Do not mark fixture regions data-complete.
 
 ### I-03 Top Opportunities selection (mechanical)
 
 | Item | Value |
 |------|-------|
-| Selector | `v2/adapters/selectTopOpportunities.js` |
-| UI | `v2/topOpportunities/*` via `HomeDestination` |
+| Selector | `v2/adapters/selectTopOpportunities.js` (retained; not driving current Home UI) |
+| UI | `v2/home/TopOpportunityFeature.jsx` via fixture array |
 | Default / hard max | 3 / 5 |
 | Unit | One film per selection; representative = earliest chronological candidate |
 | Fill order | Newly added → special format → limited listings (≤2 showtimes) → chronological fill with theater diversity on equal times |
 | Reason labels | Newly added · Special format · Limited current listings · Available at multiple theaters · Showing soon |
 | Film Detail | Not routed — key facts overlaid on the stage (I-03R); no Film Detail page yet |
 | Dev status | Collapsed `<details>` beneath the region |
-| Artwork (I-03R2) | Sharp `object-fit: cover` poster (or future `backdropUrl`) as primary; optional soft fill behind posters; dark lower gradient; **no blur-only wash** |
-| Count sanity | Additional showtime numbers capped at 12; above that → “Multiple showtimes” (coarse keys inflate counts) |
-| Visual foundation | `v2/v2.css` only — **no** production `App.css` / `index.css` / cockpit CSS inheritance |
+| Artwork | Sharp `object-fit: cover` backdrop/poster; dark lower gradient; Featured badge + pagination dots per mockup |
+| Visual foundation | `v2/v2.css` only — violet accent; **no** production CSS inheritance; I-03R2 gold accent **superseded** |
+| Fixtures | `v2/fixtures/homeVisualFixtures.js` — Top Opportunity, Opening This Week, Leaving Soon |
 | Visual publish | **Human visual review required** before pushing |
 
 ---
@@ -293,7 +359,9 @@ Add orientation / newly-added awareness and stub CTAs beneath Top Opportunities.
 | Topic | Status |
 |-------|--------|
 | Exact directory / package script names for the v2 app | **Resolved in I-01** — `v2/`, `npm run v2`, `dist-v2`, port 5175 |
-| Top Opportunity selection: checked-in editorial fixture vs rule-light heuristic | **Resolved for I-03** — rule-light deterministic heuristic in `selectTopOpportunities` |
-| Tapping a Top Opportunity: no-op, stub Film Detail, or placeholder | **Resolved for I-03** — inline showing-details panel; no Film Detail route |
-| Newly-added module label (“Recently added” vs “Opening This Week”) | Open — prefer honest semantics (`newlyAdded` in adapter) |
-| When Leaving Soon becomes eligible | After product + data gate to ship `leaving_soon_current` |
+| Primary nav labels for Home chrome | **Superseded by mockup** — Home · Movies · Theaters · Planner · Me |
+| Top Opportunity for visual slice | **Fixture-backed** three-item array; I-03 selector retained for later |
+| Opening This Week | **Design fixture** until production classification exists — do not equate to `newly_added` |
+| Leaving Soon visual region | **Design fixture** — gated artifact still not consumed |
+| When Leaving Soon production data becomes eligible | After product + data gate to ship `leaving_soon_current` |
+| Full rewrite of global-navigation.md D-26 | Open — Home chrome supersession recorded in this doc; canonical nav doc pending dedicated update |

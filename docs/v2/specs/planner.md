@@ -210,6 +210,8 @@ Conceptually, the engine should:
 * Rank or group plans using **explainable** preference criteria
 * **Not** silently discard valid plans merely because they rank poorly
 
+**Buffer policy (T-BUF-01 / D17):** Expected film end = advertised showtime + **15** minutes preshow + runtime. Transfer minimum is **5** minutes for the same canonical theater ID (same venue/building) and **10** minutes otherwise. These are policy buffers, not walking-distance claims. Missing runtime makes sequence validation indeterminate (candidate excluded) — do not invent a default runtime. Engine validity and displayed end/break times must share `src/utils/plannerBufferPolicy.js`. Theater-specific and user-adjustable buffers remain deferred.
+
 **Do not** define the algorithm, complexity limits, graph models, or schemas in this document.
 
 **Reconciliation note:** Current public engine generates same-theater multi-film chains with result limits (`maxResults`, `maxChainDepth`). v2 product expectation remains “all valid within scope,” with honest disclosure when search limits or data coverage bound completeness.
@@ -426,9 +428,11 @@ Support the path from plan to attendance:
 * Mark tickets obtained (future / optional)
 * Preserve source-owned ticket URLs
 * Share itinerary
-* Add to external calendar (future)
+* Add to external calendar (local ICS export contract exists — T-CAL-01; UI wiring deferred)
 
-Reel Seattle does **not** own ticket transactions. Do not implement purchasing, calendar integrations, or booking state in this task.
+Reel Seattle does **not** own ticket transactions. Do not implement purchasing, account-linked calendar sync, or booking state in this task. Bidirectional calendar sync is out of scope (D09).
+
+**Calendar export (T-CAL-01):** Local-only ICS via `src/utils/calendarExport.js`. Event start is the advertised showtime; end uses D17 expected end (start + 15-minute preshow + runtime). Missing runtime prevents export. Multi-film plans export one event per film and fail closed if any item is incomplete. Breaks are not separate events. One-way OAuth sync and About/Settings sync claims remain deferred until that capability exists.
 
 ---
 
@@ -500,7 +504,8 @@ Conceptual only — classification from repository evidence (current Planner + `
 |------------|------|----------|
 | Showtimes (date, time, theater, film key, runtime) | Generation input | **Currently available** |
 | Theater identity | Venue selection / same-theater plans | **Currently available** |
-| Client-side plan generation (valid chains) | Enumerate valid plans | **Currently available** (same-theater; result limits) |
+| Client-side plan generation (valid chains) | Enumerate valid plans | **Currently available** (same-theater; result limits; D17 buffer policy) |
+| Runtime / transfer buffer policy (15/10/5) | Expected end + transfer validity | **Currently available** (`plannerBufferPolicy` v1; shared by engine) |
 | Required / preferred / excluded film filters | Constraints | **Currently available** |
 | Start-after / finish-by / gaps / film count | Constraints | **Currently available** |
 | Shareable URL state | Share / restore filters | **Currently available** |
@@ -514,7 +519,7 @@ Conceptual only — classification from repository evidence (current Planner + `
 | Accessibility / language attributes | Hard constraints | **Partial / future** |
 | Stage 2 sculpt implementation | Direct refinement | **Future-facing** (approved product; not shipped) |
 | Canonical `film_id` | Cross-source identity | **Future-facing** |
-| Collaboration / notifications / calendar export | Social & sync | **Future-facing** |
+| Collaboration / notifications / calendar export | Social & sync | **Partial** — local ICS contract (T-CAL-01); UI + one-way sync future |
 | Plan provenance / revision history | Undo depth, audits | **Future-facing** |
 
 Do **not** mark optimizer internals, travel providers, pricing, identity, or durable persistence as implemented unless the repository proves it.
@@ -583,6 +588,91 @@ Separate from baseline:
 | Communicating incomplete source coverage | Open |
 | Initial collaboration boundary | Open |
 | When/whether multi-theater generation becomes baseline | Open |
+
+---
+
+## Implementation status (Stage 1 Planner Landing — 2026-07-26)
+
+* **Stage 1 visual landing implemented** in `v2/planner/PlannerDestination.jsx` (replaces Planner placeholder).
+* **Canonical fixture/model:** `v2/fixtures/plannerLandingMockupFixture.js` via `resolvePlannerLandingPresentation()` — matches `Canonical Mockup Images/Planner Landing Page.png`.
+* **Not production-backed:** upcoming plans, recent activity, and entry cards use fixture values. No plan persistence, itinerary generation, travel, or calendar integration.
+* **Build a Plan entry** opens the Stage 1 config surface (`openBuildPlan` → `BuildPlanSurface`). My Schedule / View all / plan rows remain Stage 1 stubs.
+* Film Detail → Planner seed still shows an honest deferred note on the landing.
+* Spec “Stage 1 — Generate Plans” (engine + Results) remains **unimplemented** for generation; the **mockup config page** is covered separately below.
+* QC: `scripts/capture_planner_landing_qc.mjs`. Tests: `tests/frontend/v2PlannerLanding.test.mjs`.
+* Stage 4 Planner tasks in the integration roadmap are **not** marked complete.
+
+## Implementation status (Stage 1 Build a Plan config — 2026-07-26)
+
+* **Stage 1 Build a Plan surface implemented** as deep surface `build-plan` → `v2/planner/BuildPlanSurface.jsx`.
+* **Local-only UI state** (presets, chips/controls, Clear all, toggles) — not persisted; resets on remount/reload.
+* **Fixture presentation model:** `v2/fixtures/buildPlanMockupFixture.js` via `resolveBuildPlanPresentation()` — matches `Canonical Mockup Images/Build a Plan Page.png`.
+* **Presets (mockup):** After Work · Saturday Marathon · Premium Adventure · Last Chance · Surprise Me. (An early Stage 1 prompt listed One Great Film / Double Feature / Movie Day — mockup wins; discrepancy recorded here.)
+* **CTA** “Build my movie day” opens Stage 1 Results (`openBuildPlanResults`).
+* Must include remains optional; Save draft absent; no duplicate “Avoid late ends” when Finish before is present.
+* Film Detail planner seed still does not auto-prefill this form in Stage 1.
+* QC: `scripts/capture_build_plan_qc.mjs`. Tests: `tests/frontend/v2BuildPlan.test.mjs`.
+
+## Implementation status (Stage 1 Build a Plan Results — 2026-07-26)
+
+* **Stage 1 Results surface implemented** as deep surface `build-plan-results` → `v2/planner/BuildPlanResultsSurface.jsx`.
+* **Fixture itineraries** via `v2/fixtures/buildPlanResultsMockupFixture.js` / `resolveBuildPlanResultsPresentation()` — matches `Canonical Mockup Images/Build a Plan Results Page.png`.
+* **Local-only** sort reorder (deterministic fixture order), plan selection, film select/deselect, refine toggles — not persisted.
+* Film row tap opens Stage 1 **film-click interaction sheet** (`PlanFilmInteractionSheet`).
+* Share / export and Add to My Schedule are explicit Stage 1 stubs.
+* Walk miles and finish times are fixture display values — travel estimation deferred.
+* Ellipsis overflow menu omitted per Stage 1 product decision (mockup shows …).
+* Real generation, ranking, persistence, calendar/ICS, and production showtime wiring remain unimplemented.
+* QC: `scripts/capture_build_plan_results_qc.mjs`. Tests: `tests/frontend/v2BuildPlanResults.test.mjs`.
+
+## Implementation status (Stage 1 Results film-click sheet — 2026-07-26)
+
+* **Stage 1 interaction sheet implemented** as `v2/planner/PlanFilmInteractionSheet.jsx` over Results.
+* Local plan-specific preference state: Must include · Would love to see · Neutral · Not interested (mockup labels; prompt “Required/Preferred” map to Must/Would love).
+* Dialog semantics: focus trap, Escape, backdrop dismiss, return focus to film row; Results remains mounted beneath.
+* Replace / Film details / showtime tap are honest Stage 1 stubs — no recomputation, no Film Detail navigation, no global NI store writes.
+* QC: `scripts/capture_plan_film_interaction_qc.mjs`. Tests: `tests/frontend/v2PlanFilmInteractionSheet.test.mjs`.
+
+## Implementation status (Stage 1 About My Schedule — 2026-07-26)
+
+* **Stage 1 About page implemented** as deep surface `about-my-schedule` → `v2/surfaces/AboutMyScheduleSurface.jsx`.
+* **Static presentation model:** `v2/fixtures/aboutMyScheduleMockupFixture.js` via `resolveAboutMySchedulePresentation()` — matches `Canonical Mockup Images/About My Schedule Page.png`.
+* **Navigation seam:** `openAboutMySchedule` + query `?aboutSchedule=1` + Schedule Settings “About My Schedule” row.
+* Back returns to origin; Planner remains the active primary tab when opened from Planner.
+* Link/FAQ rows are Stage 1 stubs (no Settings, sync, or ticket destinations).
+* **Copy note:** mockup calendar-sync claims preserved for Stage 1 visual fidelity; D09 still requires revising sync wording before production when only ICS exists.
+* No plan persistence, calendar sync, ICS UI, heatmap calculations, or accepted-plan storage in this slice.
+* QC: `scripts/capture_about_my_schedule_qc.mjs`. Tests: `tests/frontend/v2AboutMySchedule.test.mjs`.
+
+## Implementation status (Stage 1 My Schedule Week — 2026-07-26)
+
+* **Stage 1 Week view implemented** as deep surface `my-schedule-week` → `v2/planner/MyScheduleWeekSurface.jsx`.
+* **Fixture timeline:** `v2/fixtures/myScheduleWeekMockupFixture.js` via `resolveMyScheduleWeekPresentation()` — matches `Canonical Mockup Images/My Schedule Main Page.png` (week selected).
+* **Navigation:** `openMyScheduleWeek` from Planner landing + query `?myScheduleWeek=1`; Planner remains active primary tab.
+* Local-only week index navigation across two deterministic fixture weeks; Month toggle navigates to fixture month view; Settings opens Schedule Settings sheet.
+* Grouped multi-movie plans use dashed border treatment; breaks visible; Modify plan? is a stub seam.
+* Search opens Search Results (day/time prefilter deferred); timeline empty taps announce prefilter status.
+* No accepted-plan persistence, calendar sync, ICS, production showtime wiring, or conflict detection.
+* QC: `scripts/capture_my_schedule_week_qc.mjs`. Tests: `tests/frontend/v2MyScheduleWeek.test.mjs`.
+
+## Implementation status (Stage 1 My Schedule Month — 2026-07-26)
+
+* **Stage 1 Month view implemented** as deep surface `my-schedule-month` → `v2/planner/MyScheduleMonthSurface.jsx`.
+* **Fixture heatmap:** `v2/fixtures/myScheduleMonthMockupFixture.js` via `resolveMyScheduleMonthPresentation()` — matches `Canonical Mockup Images/My Schedule Main Page Month Selected.png`.
+* **Navigation:** `openMyScheduleMonth` from Planner landing + query `?myScheduleMonth=1`; Week/Month switching uses the same fixture shell.
+* Local-only day selection; Search opens Search Results (prefilter deferred); Settings opens Schedule Settings sheet; Month arrows / Today are stubbed navigation.
+* No accepted-plan persistence, calendar sync, ICS, production showtime wiring, or conflict detection.
+* QC: `scripts/capture_my_schedule_month_qc.mjs`. Tests: `tests/frontend/v2MyScheduleMonth.test.mjs`.
+
+## Implementation status (Stage 1 Schedule Settings — 2026-07-26)
+
+* **Stage 1 Settings sheet implemented** as deep surface `schedule-settings` → `v2/planner/ScheduleSettingsSurface.jsx` over Week or Month underlay.
+* **Fixture:** `v2/fixtures/scheduleSettingsMockupFixture.js` via `resolveScheduleSettingsPresentation()` — matches `Canonical Mockup Images/My Schedule Main Page Settings Interaction.png`.
+* **Navigation:** `openScheduleSettings` from Week/Month toolbar + query `?scheduleSettings=1`; Back restores originating Week/Month; About row opens About My Schedule with return to Settings.
+* Local-only toggles (Hide completed / Show breaks), timeline zoom cycle, 12h/24h, color coding — remount resets; no localStorage / store writes.
+* Calendar sync remains **Off** with honest stub; Clear all schedule data… is an honest stub (no persistence to clear).
+* Spec “Stage 4” persistence / real calendar sync remains **unimplemented**.
+* QC: `scripts/capture_schedule_settings_qc.mjs`. Tests: `tests/frontend/v2ScheduleSettings.test.mjs`.
 
 ---
 

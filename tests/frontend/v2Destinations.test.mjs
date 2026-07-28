@@ -6,10 +6,11 @@ import {
   REJECTED_PRIMARY_NAV_LABELS,
   containsRejectedPrimaryNavLabel,
   getDestinationById,
+  resolveActivePrimaryId,
   resolveDestinationId,
 } from '../../v2/destinations.js';
 
-test('PRIMARY_DESTINATIONS uses canonical Home Explore Planner Profile order', () => {
+test('PRIMARY_DESTINATIONS is Home Explore Planner Profile', () => {
   assert.deepEqual(
     PRIMARY_DESTINATIONS.map((item) => item.label),
     ['Home', 'Explore', 'Planner', 'Profile'],
@@ -20,35 +21,49 @@ test('PRIMARY_DESTINATIONS uses canonical Home Explore Planner Profile order', (
   );
 });
 
+test('Movies Theaters Me are rejected primary labels', () => {
+  const labels = PRIMARY_DESTINATIONS.map((item) => item.label);
+  assert.equal(containsRejectedPrimaryNavLabel(labels), false);
+  for (const rejected of ['Movies', 'Theaters', 'Me']) {
+    assert.ok(REJECTED_PRIMARY_NAV_LABELS.includes(rejected));
+    assert.equal(labels.includes(rejected), false);
+  }
+});
+
 test('initial destination is Home', () => {
   assert.equal(INITIAL_DESTINATION_ID, 'home');
   assert.equal(getDestinationById(INITIAL_DESTINATION_ID)?.label, 'Home');
 });
 
-test('resolveDestinationId falls back to Home for unknown ids', () => {
+test('resolveDestinationId falls back to Home', () => {
   assert.equal(resolveDestinationId('explore'), 'explore');
-  assert.equal(resolveDestinationId('missing'), 'home');
-  assert.equal(resolveDestinationId(''), 'home');
+  assert.equal(resolveDestinationId('movies'), 'home');
+  assert.equal(resolveDestinationId('me'), 'home');
 });
 
-test('primary destination labels do not include rejected names', () => {
-  const labels = PRIMARY_DESTINATIONS.map((item) => item.label);
-  assert.equal(containsRejectedPrimaryNavLabel(labels), false);
-  for (const rejected of REJECTED_PRIMARY_NAV_LABELS) {
-    assert.equal(labels.includes(rejected), false);
-  }
+test('Film Detail keeps originating primary active', () => {
+  assert.equal(
+    resolveActivePrimaryId({
+      primaryDestinationId: 'home',
+      surface: { type: 'film-detail', originPrimary: 'home' },
+    }),
+    'home',
+  );
+  assert.equal(
+    resolveActivePrimaryId({
+      primaryDestinationId: 'explore',
+      surface: { type: 'film-detail', originPrimary: 'explore' },
+    }),
+    'explore',
+  );
 });
 
-test('containsRejectedPrimaryNavLabel detects forbidden labels', () => {
-  assert.equal(containsRejectedPrimaryNavLabel(['Home', 'Movies']), true);
-  assert.equal(containsRejectedPrimaryNavLabel(['Me']), true);
-  assert.equal(containsRejectedPrimaryNavLabel(['Home', 'Explore']), false);
-});
-
-test('each destination exposes accessible title and placeholder copy', () => {
-  for (const destination of PRIMARY_DESTINATIONS) {
-    assert.ok(destination.title.length > 0);
-    assert.ok(destination.description.length > 0);
-    assert.match(destination.description, /slice|later|placeholder/i);
-  }
+test('collection surfaces highlight Explore', () => {
+  assert.equal(
+    resolveActivePrimaryId({
+      primaryDestinationId: 'home',
+      surface: { type: 'collection', collectionId: 'opening-this-week' },
+    }),
+    'explore',
+  );
 });

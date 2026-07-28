@@ -37,8 +37,12 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [06 — Component system](./06-component-system.md) | Reusable UI building blocks | Placeholder |
 | [07 — Visual language](./07-visual-language.md) | Visual direction and tokens | Placeholder (guided by [15](./15-editorial-design-language.md)) |
 | [08 — Screen specifications](./08-screen-specifications.md) | Per-surface conceptual behavior (philosophy) | Conceptual (D-10–D-13); canonical specs in [specs/](./specs/) |
-| [09 — Implementation roadmap](./09-implementation-roadmap.md) | Ordered build plan (after design) | Active; **I-03 complete**, I-04 next |
-| [17 — First implementation slice](./17-first-implementation-slice.md) | Decision record for first v2 UI slice | Decision (D-27); through I-03 Top Opportunities |
+| [09 — Implementation roadmap](./09-implementation-roadmap.md) | Ordered build plan (after design) | Active; **I-06FDM** Film Detail mockup visual replica |
+| [17 — First implementation slice](./17-first-implementation-slice.md) | Decision record for first v2 UI slice | Decision (D-27); I-05E Explore landing + I-04C Home |
+| [Stage 2 — Data & backend needs audit](./v2-data-and-backend-needs-audit.md) | Mockup→data inventory, gaps, sources (Stage 2 only) | Validation pass complete 2026-07-24; roadmap §14; not Stage 3 |
+| [Stage 3 — Product decision packet](./v2-stage-3-product-decisions.md) | PO decisions D01–D17 | **Approved** 2026-07-24 |
+| [Stage 3 — Front–back integration roadmap](./v2-front-back-integration-roadmap.md) | Connect fixtures→real data while preserving designs | Authoritative Stage 3; Stage 4 executes tasks |
+| [Film identity contract (T-FILMID-01)](./film-identity-contract.md) | Namespaced `film_id`, TMDB matching, review workflow | Foundation complete 2026-07-27; public emit deferred |
 | [Canonical screen specs](./specs/) | Implementation-authoritative per-surface specs | Home, Film Detail, Planner, Theater, Explore/Search (D-17–D-20, D-23); Opportunity expression (D-24); Profile/Settings (D-25); Global navigation (D-26); Home reconciled with Design Review v3 (D-22) |
 
 ### Canonical screen specifications
@@ -66,9 +70,13 @@ Isolated Vite app (cockpit pattern). **Not** part of production `dist/` or GitHu
 | Dev | `npm run v2` → http://127.0.0.1:5175/ |
 | Build | `npm run build:v2` → `dist-v2/` (gitignored) |
 | Smoke | `npm run smoke:v2` |
-| Home adapter | `v2/adapters/buildHomeData.js` |
-| Top Opportunities | `v2/adapters/selectTopOpportunities.js` + `v2/topOpportunities/` (I-03R: wide image stage) |
-| Artwork | Sharp cover crop from poster (or future `backdropUrl`); soft fill optional behind posters |
+| Primary nav (I-04C) | Home · Explore · Planner · Profile |
+| Home composition | Header, editorial intro, Top Opportunity (real selector), Opening This Week (provisional newly_added or unavailable), Leaving Soon (gated unavailable), Planner CTA, Explore More |
+| Explore landing (I-05E2) | Intro + search, Quick Start, Browse By, Suggested Starts, Film Activity, Recent Searches |
+| Search Results (I-05S) | Designed film-first results with inline expand, type/time filters, Filters sheet; restrained violet |
+| Film Detail | Fixture-first mockup visual replica (authoritative mockup content); real-data mapping deferred |
+| Fixtures | `v2/fixtures/homeVisualFixtures.js` — visual-test only |
+| Accent | Violet (`--v2-accent`) |
 | CSS | Isolated `v2/v2.css` only — does not import production styles |
 | Local data | Allowlisted `/data/*.json` from `public/data` (not Leaving Soon) |
 

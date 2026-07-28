@@ -592,7 +592,7 @@ Conceptual dependencies — **not schemas**. Classification uses repository evid
 | Showtimes / opportunities | Timing and decision meaning | **Currently available** |
 | Pipeline freshness / source health | Trust and partial-degrade behavior | **Currently available** |
 | Format / presentation attributes | Rarity and event context | **Partial** (source-dependent; often sparse) |
-| Ticket URLs | Downstream action (usually via Film Detail) | **Partial** (`ticket_url` often null) |
+| Ticket URLs | Downstream action (usually via Film Detail / Opportunity scaffold) | **Available when present** (nullable; live Home Top Opportunity has no ticket CTA by design) |
 | Parent / variant film grouping | Cleaner recognition | **Partial** |
 | Leaving-soon urgency | Leaving Soon section | **Partial** (review-only artifact exists; not shipped to Pages) |
 | Consistent multi-source coverage | Citywide briefing confidence | **Partial** |

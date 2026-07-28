@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import AmcSourceCatalogView from './AmcSourceCatalogView.jsx';
+import FilmIdentityReviewView from './FilmIdentityReviewView.jsx';
 import { isAllowedCockpitHostname } from './isAllowedCockpitHostname.js';
 import PipelineHealthView from './PipelineHealthView.jsx';
 import ShowtimesInspectionView from './ShowtimesInspectionView.jsx';
@@ -184,6 +185,7 @@ export default function CockpitApp() {
       <TheaterRegistrySection />
       <AmcSourceCatalogView />
       <ShowtimesInspectionView />
+      <FilmIdentityReviewView />
     </main>
   );
 }

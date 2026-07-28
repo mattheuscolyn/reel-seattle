@@ -4,6 +4,8 @@
 **Date:** 2026-06-30  
 **Related:** [leaving-soon-model-design.md](./leaving-soon-model-design.md), PR D5 (`b71df4a`), PR Identity-A (`9785021`), PR Identity-B (`2534c14`)
 
+**Stage 4 canonical identity (2026-07-27):** TMDB-preferred namespaced `film_id` foundation is documented and implemented in [v2/film-identity-contract.md](./v2/film-identity-contract.md) (`T-FILMID-01`). This document remains the Identity-A/B/C parent/variant history. Schedule joins still use `showtime_film_key`.
+
 ---
 
 ## Identity-C (implemented): analysis-only parent identity

@@ -2,8 +2,11 @@ import {
   PRIMARY_DESTINATIONS,
   resolveDestinationId,
 } from './destinations.js';
+import { NavDestinationIcon } from './icons.jsx';
 
 /**
+ * Five-destination bottom navigation (Home mockup direction).
+ *
  * @param {{
  *   activeDestinationId: string,
  *   onSelectDestination: (id: string) => void,
@@ -27,6 +30,9 @@ export default function PrimaryNav({ activeDestinationId, onSelectDestination })
                 aria-current={isActive ? 'page' : undefined}
                 onClick={() => onSelectDestination(destination.id)}
               >
+                <span className="v2-nav-icon" aria-hidden="true">
+                  <NavDestinationIcon id={destination.id} />
+                </span>
                 <span className="v2-nav-label">{destination.label}</span>
               </button>
             </li>

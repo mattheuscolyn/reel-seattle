@@ -7,6 +7,7 @@ import {
   canGoPrevious,
 } from './topOpportunityFormat.js';
 import OpportunityImageStage from './OpportunityImageStage.jsx';
+import { externalTicketLinkProps } from '../ticket/externalTicketUrl.js';
 
 /**
  * One dominant Top Opportunity — sharp wide stage with protected title band (I-03R2).
@@ -35,6 +36,7 @@ export default function TopOpportunityCard({
   const showControls = length > 1;
   const prevEnabled = canGoPrevious(index, length);
   const nextEnabled = canGoNext(index, length);
+  const ticketLink = externalTicketLinkProps(opportunity.ticketUrl);
 
   return (
     <article
@@ -67,14 +69,9 @@ export default function TopOpportunityCard({
           {additionalLabel ? (
             <p className="v2-feature-additional">{additionalLabel}</p>
           ) : null}
-          {opportunity.ticketUrl ? (
+          {ticketLink ? (
             <p className="v2-feature-ticket">
-              <a
-                className="v2-feature-ticket-link"
-                href={opportunity.ticketUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a className="v2-feature-ticket-link" {...ticketLink}>
                 Tickets
                 <span className="v2-visually-hidden"> (opens in a new tab)</span>
               </a>

@@ -271,7 +271,7 @@ test('supports lastFilm anchor', () => {
   assert.equal(result.schedules[0].films.at(-1), 'Gamma');
 });
 
-test('computes total span, runtime, and gap time', () => {
+test('computes total span, runtime, and gap time with D17 buffers', () => {
   const rows = [
     row({ film: 'Alpha', time: '5:00PM', runtime: '90' }),
     row({ film: 'Beta', time: '7:00PM', runtime: '100' }),
@@ -279,8 +279,15 @@ test('computes total span, runtime, and gap time', () => {
   const result = findSchedules({ rows, filters: baseFilters() });
   const schedule = result.schedules[0];
   assert.equal(schedule.filmRuntimeMin, 190);
-  assert.equal(schedule.gapTimeMin, schedule.totalSpanMin - schedule.filmRuntimeMin);
-  assert.equal(schedule.gapTimeMin, 30);
+  // Expected end includes +15 preshow; break = next start − previous expected end.
+  // 5:00PM + 90 + 15 = 6:45PM; 7:00PM − 6:45PM = 15.
+  assert.equal(schedule.gapTimeMin, 15);
+  assert.equal(schedule.transferMinutes, 5);
+  assert.equal(schedule.movies[0].endMin, 17 * 60 + 90 + 15);
+  assert.equal(
+    schedule.totalSpanMin,
+    schedule.movies[1].endMin - schedule.movies[0].startMin,
+  );
 });
 
 test('sorts by earliest start by default', () => {
@@ -298,9 +305,9 @@ test('sorts by earliest start by default', () => {
 test('sorts by shortest span when requested', () => {
   const rows = [
     row({ film: 'A', time: '12:00PM', runtime: '60' }),
-    row({ film: 'B', time: '1:15PM', runtime: '60' }),
+    row({ film: 'B', time: '1:30PM', runtime: '60' }),
     row({ film: 'C', time: '3:00PM', runtime: '60' }),
-    row({ film: 'D', time: '4:15PM', runtime: '60' }),
+    row({ film: 'D', time: '4:30PM', runtime: '60' }),
   ];
   const result = findSchedules({
     rows,
@@ -314,10 +321,10 @@ test('sorts by shortest span when requested', () => {
 test('sorts by most films in max mode', () => {
   const rows = [
     row({ film: 'A', time: '12:00PM', runtime: '60' }),
-    row({ film: 'B', time: '1:15PM', runtime: '60' }),
-    row({ film: 'C', time: '2:30PM', runtime: '60' }),
+    row({ film: 'B', time: '1:30PM', runtime: '60' }),
+    row({ film: 'C', time: '3:00PM', runtime: '60' }),
     row({ film: 'D', time: '5:00PM', runtime: '60' }),
-    row({ film: 'E', time: '6:15PM', runtime: '60' }),
+    row({ film: 'E', time: '6:30PM', runtime: '60' }),
   ];
   const result = findSchedules({
     rows,
@@ -376,7 +383,8 @@ test('generalizes 2-film schedule with default max gap', () => {
     }),
   });
   assert.equal(result.schedules.length, 1);
-  assert.equal(result.schedules[0].gapTimeMin, 30);
+  // Break after expected end (includes +15m preshow): 15 minutes.
+  assert.equal(result.schedules[0].gapTimeMin, 15);
   assert.deepEqual(result.schedules[0].films, ['Alpha', 'Beta']);
 });
 
@@ -440,8 +448,8 @@ test('include films require every listed movie unlike preferred films', () => {
 test('max mode returns longest achievable chain count only', () => {
   const rows = [
     row({ film: 'A', time: '12:00PM', runtime: '60' }),
-    row({ film: 'B', time: '1:15PM', runtime: '60' }),
-    row({ film: 'C', time: '2:30PM', runtime: '60' }),
+    row({ film: 'B', time: '1:30PM', runtime: '60' }),
+    row({ film: 'C', time: '3:00PM', runtime: '60' }),
   ];
   const result = findSchedules({ rows, filters: baseFilters({ filmCount: 'max' }) });
   assert.ok(result.schedules.length >= 1);
@@ -453,20 +461,21 @@ test('max mode returns longest achievable chain count only', () => {
 test('chains across midnight with positive gap between extended end and early AM start', () => {
   const rows = [
     row({ film: 'Late', time: '11:30PM', runtime: '120' }),
-    row({ film: 'After', time: '1:45AM', runtime: '15' }),
+    // Expected end = 11:30PM + 15 + 120 = 1:45AM (+1); same-venue needs +5 → 1:50AM.
+    row({ film: 'After', time: '2:00AM', runtime: '15' }),
   ];
   const result = findSchedules({ rows, filters: baseFilters() });
   assert.equal(result.schedules.length, 1);
   const schedule = result.schedules[0];
   assert.equal(schedule.gapTimeMin, 15);
-  assert.equal(schedule.movies[0].endMin, 23 * 60 + 30 + 120);
-  assert.match(schedule.endLabel, /2:00AM \(\+1\)/);
+  assert.equal(schedule.movies[0].endMin, 23 * 60 + 30 + 15 + 120);
+  assert.match(schedule.endLabel, /2:30AM \(\+1\)/);
 });
 
 test('finishByMin rejects schedules ending after next-day 1:30 AM when finish is 10:00 PM', () => {
   const rows = [
     row({ film: 'Late', time: '11:30PM', runtime: '120' }),
-    row({ film: 'After', time: '1:45AM', runtime: '90' }),
+    row({ film: 'After', time: '2:00AM', runtime: '90' }),
   ];
   const result = findSchedules({
     rows,
@@ -475,12 +484,13 @@ test('finishByMin rejects schedules ending after next-day 1:30 AM when finish is
   assert.equal(result.schedules.length, 0);
 });
 
-test('finishByMin allows next-day 2:00 AM ending when filter uses early AM', () => {
+test('finishByMin allows next-day finish when filter uses early AM', () => {
   const rows = [
     row({ film: 'Late', time: '11:30PM', runtime: '120' }),
-    row({ film: 'After', time: '1:45AM', runtime: '15' }),
+    row({ film: 'After', time: '2:00AM', runtime: '15' }),
   ];
-  const finishByMin = parsePlannerFilterMinutes('2:00AM');
+  // Last expected end = 2:00AM + 15 + 15 = 2:30AM (+1).
+  const finishByMin = parsePlannerFilterMinutes('2:30AM');
   const result = findSchedules({
     rows,
     filters: baseFilters({ finishByMin }),

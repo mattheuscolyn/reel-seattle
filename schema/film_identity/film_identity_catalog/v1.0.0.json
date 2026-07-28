@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.local/schema/film_identity/film_identity_catalog/v1.0.0.json",
+  "title": "Film identity catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "films"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "films": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/film" }
+    }
+  },
+  "$defs": {
+    "source_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source"],
+      "properties": {
+        "source": { "type": "string", "minLength": 1 },
+        "source_film_id": { "type": ["string", "null"] },
+        "showtime_film_key": { "type": ["string", "null"] },
+        "source_title": { "type": ["string", "null"] }
+      }
+    },
+    "film": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "film_id",
+        "identity_type",
+        "tmdb_id",
+        "source_identities",
+        "match_status",
+        "match_method",
+        "match_confidence"
+      ],
+      "properties": {
+        "film_id": { "type": "string", "minLength": 1 },
+        "identity_type": {
+          "type": "string",
+          "enum": ["tmdb", "source", "source_key"]
+        },
+        "tmdb_id": { "type": ["integer", "null"], "minimum": 1 },
+        "source_identities": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/source_identity" }
+        },
+        "match_status": {
+          "type": "string",
+          "enum": [
+            "confirmed_manual",
+            "confirmed_automatic",
+            "review_required",
+            "unmatched",
+            "rejected",
+            "non_film",
+            "deferred",
+            "error"
+          ]
+        },
+        "match_method": {
+          "type": "string",
+          "enum": ["manual", "automatic", "fallback", "none"]
+        },
+        "match_confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "eligibility": { "type": ["string", "null"] },
+        "signals": { "type": ["object", "null"] },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "candidates": { "type": "array" },
+        "tmdb_title": { "type": ["string", "null"] },
+        "tmdb_original_title": { "type": ["string", "null"] },
+        "tmdb_release_year": { "type": ["integer", "null"] },
+        "tmdb_runtime_min": { "type": ["integer", "null"] },
+        "tmdb_poster_path": { "type": ["string", "null"] },
+        "tmdb_overview_excerpt": { "type": ["string", "null"] },
+        "first_observed_at": { "type": ["string", "null"] },
+        "last_observed_at": { "type": ["string", "null"] },
+        "provenance": { "type": ["object", "null"] },
+        "normalized_title": { "type": ["string", "null"] },
+        "year_hint": { "type": ["integer", "null"] },
+        "runtime_min": { "type": ["integer", "null"] },
+        "directors_raw": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
