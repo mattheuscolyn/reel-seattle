@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-28T01:22:34-07:00",
+  "generated_at": "2026-07-29T01:27:53-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-07-28",
-    "end_date": "2026-08-11"
+    "start_date": "2026-07-29",
+    "end_date": "2026-08-12"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 43,
-    "flagged_film_count": 13
+    "candidate_film_count": 45,
+    "flagged_film_count": 20
   },
   "items": [
     {
@@ -94,6 +94,82 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1783694256/amc-cdn/content/general/ujpy5rlvw7ogw9cmrmg5.jpg",
       "runtime_min": 90
+    },
+    {
+      "film_key": "amc-screen-unseen-august-10",
+      "film_title": "AMC Screen Unseen: August 10",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-10",
+      "max_show_date": "2026-08-10",
+      "total_visible_showtimes": 8,
+      "total_visible_theaters": 7,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-08-10"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783970981/amc-cdn/content/general/fy1gvgqzkv4z9c4ghnow.jpg",
+      "runtime_min": 110
+    },
+    {
+      "film_key": "backrooms-everything-must-go-edition-w-bonus-footage",
+      "film_title": "Backrooms: Everything Must Go Edition w/ Bonus Footage",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-29",
+      "max_show_date": "2026-07-29",
+      "total_visible_showtimes": 5,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-29"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782765299/amc-cdn/content/general/umvm8krpyi73udpsdv3l.jpg",
+      "runtime_min": 127
     },
     {
       "film_key": "bad-guys-2",
@@ -192,6 +268,138 @@
       "runtime_min": 315
     },
     {
+      "film_key": "haunted-heist",
+      "film_title": "Haunted Heist",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-29",
+      "max_show_date": "2026-07-29",
+      "total_visible_showtimes": 3,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-29"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783966486/amc-cdn/content/general/crcvorrelb4u8gc8mjp0.jpg",
+      "runtime_min": 88
+    },
+    {
+      "film_key": "her-private-hell",
+      "film_title": "Her Private Hell",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-29",
+      "max_show_date": "2026-07-29",
+      "total_visible_showtimes": 23,
+      "total_visible_theaters": 7,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-07-29"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784231219/amc-cdn/content/general/ehjq4at4ujbtmu4xpjd2.jpg",
+      "runtime_min": 110
+    },
+    {
+      "film_key": "jana-nayagan",
+      "film_title": "Jana Nayagan",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-29",
+      "max_show_date": "2026-07-29",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-29"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784126941/amc-cdn/content/general/xbmfcy9vsofehyjucejq.jpg",
+      "runtime_min": 186
+    },
+    {
+      "film_key": "katseye-wild-hearts",
+      "film_title": "Katseye: Wild Hearts",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-12",
+      "max_show_date": "2026-08-12",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 3,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-12"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783624827/amc-cdn/content/general/oumeuffurmdhsczoyjyj.jpg",
+      "runtime_min": 80
+    },
+    {
       "film_key": "met-summer-encore-aida-2026",
       "film_title": "MET Summer Encore: Aida (2026)",
       "risk_level": "high",
@@ -222,42 +430,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1784891173/amc-cdn/production/2/movies/83800/83829/Poster/417249R1.jpg",
       "runtime_min": 175
-    },
-    {
-      "film_key": "muppet-treasure-island",
-      "film_title": "Muppet Treasure Island",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-10",
-      "max_show_date": "2026-08-10",
-      "total_visible_showtimes": 8,
-      "total_visible_theaters": 4,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-08-10"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782139679/amc-cdn/content/general/d2qb7odctrxl5wbxamks.jpg",
-      "runtime_min": 99
     },
     {
       "film_key": "nimrods-early-access-green-day-intro-bonus-performance",
@@ -330,6 +502,30 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1784027276/amc-cdn/production/2/movies/84500/84464/Poster/421772R1.jpg",
       "runtime_min": 94
+    },
+    {
+      "film_key": "reading-lolita-in-tehran",
+      "film_title": "Reading Lolita in Tehran",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-29",
+      "max_show_date": "2026-07-29",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-07-29"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783076802/amc-cdn/production/2/movies/83500/83489/Poster/377023R1.jpg",
+      "runtime_min": 107
     },
     {
       "film_key": "spider-man-brand-new-day-dolby-opening-night-fan-event",
@@ -436,15 +632,39 @@
       "runtime_min": 140
     },
     {
-      "film_key": "wham-10-days-in-china",
-      "film_title": "WHAM! 10 Days In China",
+      "film_key": "supergirl",
+      "film_title": "Supergirl",
       "risk_level": "high",
       "reason": "Only one visible AMC play date remains in the current schedule.",
       "visible_show_date_count": 1,
-      "min_show_date": "2026-07-28",
-      "max_show_date": "2026-07-28",
-      "total_visible_showtimes": 2,
-      "total_visible_theaters": 2,
+      "min_show_date": "2026-07-29",
+      "max_show_date": "2026-07-29",
+      "total_visible_showtimes": 3,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        }
+      ],
+      "show_dates": [
+        "2026-07-29"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780505224/amc-cdn/content/general/ynw7xwaxb0t5mql0ec3p.jpg",
+      "runtime_min": 108
+    },
+    {
+      "film_key": "young-washington",
+      "film_title": "Young Washington",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-07-29",
+      "max_show_date": "2026-07-29",
+      "total_visible_showtimes": 5,
+      "total_visible_theaters": 3,
       "theaters": [
         {
           "theater_id": "amc-alderwood-mall-16",
@@ -453,15 +673,19 @@
         {
           "theater_id": "amc-southcenter-16",
           "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
         }
       ],
       "show_dates": [
-        "2026-07-28"
+        "2026-07-29"
       ],
-      "has_primetime": true,
+      "has_primetime": false,
       "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1781755703/amc-cdn/content/general/zijnpsnzjidqtnjdhblu.jpg",
-      "runtime_min": 90
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1776964996/amc-cdn/content/general/nb1yugyrutfeemsxla3g.jpg",
+      "runtime_min": 125
     }
   ]
 }
