@@ -10,7 +10,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -20,19 +20,28 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
-      - name: Build
-        run: npm run build
 
-      - name: Verify dist artifacts
-        run: node scripts/check_dist_artifacts.mjs
-        
+      # Production site is the v2 SPA (dist-v2). Legacy `npm run build` → dist/
+      # remains available locally for one-commit rollback (see docs/v2/pages-deploy-rollback.md).
+      - name: Build v2
+        run: npm run build:v2
+
+      - name: Verify dist-v2 artifacts
+        run: node scripts/check_dist_v2_artifacts.mjs
+
+      - name: Smoke static dist-v2
+        run: npm run smoke:v2:static
+        env:
+          SKIP_V2_BUILD: '1'
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          force_orphan: true 
+          publish_dir: ./dist-v2
+          # Preserve www.reelseattle.com on orphan gh-pages publishes.
+          cname: www.reelseattle.com
+          force_orphan: true
