@@ -32,6 +32,10 @@ jobs:
       - name: Verify dist-v2 artifacts
         run: node scripts/check_dist_v2_artifacts.mjs
 
+      # Browser binaries are not cached by npm; install Chromium for smoke only.
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
       - name: Smoke static dist-v2
         run: npm run smoke:v2:static
         env:

@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/theaters/v1.1.0.json",
+  "title": "Reel Seattle Theater Registry",
+  "description": "Canonical list of theaters supported by Reel Seattle. Authored in data/theaters.json and deployed as public/data/theaters.json. v1.1 adds optional D06 visit metadata (nullable); pricing and hours remain deferred.",
+  "type": "object",
+  "required": ["schema_version", "updated_at", "theaters"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "Semantic version of this document shape (e.g. 1.1.0).",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Date the registry was last edited (ISO 8601 date).",
+      "format": "date"
+    },
+    "theaters": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/theater" }
+    }
+  },
+  "$defs": {
+    "theater": {
+      "type": "object",
+      "required": ["id", "name", "aliases", "source", "enabled", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable kebab-case identifier. Never rename once showtimes reference it.",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Canonical display name shown in the app and written to showtime records.",
+          "minLength": 1
+        },
+        "aliases": {
+          "type": "array",
+          "description": "Alternate names from scrapers or historical data. Matched case-insensitively after trim.",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "source": {
+          "type": "string",
+          "description": "Adapter that ingests this theater (amc, siff, beacon, etc.).",
+          "enum": ["amc", "siff", "beacon", "nwff", "central_cinema"]
+        },
+        "source_external_id": {
+          "type": ["string", "null"],
+          "description": "Vendor-specific ID (e.g. AMC API theatre id). Used for API calls; null until populated."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "When false, scrapers and the processor should skip this theater."
+        },
+        "type": {
+          "type": "string",
+          "description": "Venue category for UX and filtering.",
+          "enum": ["chain", "indie", "rep", "festival"]
+        },
+        "city": {
+          "type": "string",
+          "description": "Primary city for display and future map features."
+        },
+        "neighborhood": {
+          "type": "string",
+          "description": "Neighborhood or district within the city."
+        },
+        "timezone": {
+          "type": "string",
+          "description": "IANA timezone for showtime date interpretation.",
+          "default": "America/Los_Angeles"
+        },
+        "address_line1": {
+          "type": ["string", "null"],
+          "description": "Street address line 1 (curated; D06). Null until curated."
+        },
+        "address_line2": {
+          "type": ["string", "null"],
+          "description": "Street address line 2 (suite, floor). Null until curated."
+        },
+        "state": {
+          "type": ["string", "null"],
+          "description": "State or province code (e.g. WA). Null until curated."
+        },
+        "postal_code": {
+          "type": ["string", "null"],
+          "description": "Postal / ZIP code. Null until curated."
+        },
+        "latitude": {
+          "type": ["number", "null"],
+          "description": "WGS84 latitude. Curated; scrapers must not silently overwrite (D06).",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": ["number", "null"],
+          "description": "WGS84 longitude. Curated; scrapers must not silently overwrite (D06).",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "website_url": {
+          "type": ["string", "null"],
+          "description": "Absolute https theater website URL. Null until curated.",
+          "maxLength": 2048
+        },
+        "directions_url": {
+          "type": ["string", "null"],
+          "description": "Absolute maps/directions URL. Optional; clients may derive from address/coords.",
+          "maxLength": 2048
+        },
+        "phone": {
+          "type": ["string", "null"],
+          "description": "Public contact phone. Null until curated."
+        },
+        "short_description": {
+          "type": ["string", "null"],
+          "description": "Curated short venue description. Never scraper-invented.",
+          "maxLength": 2000
+        },
+        "screen_count": {
+          "type": ["integer", "null"],
+          "description": "Number of screens. Null until curated.",
+          "minimum": 1
+        },
+        "capabilities": {
+          "type": "array",
+          "description": "Stable projection/format capabilities (e.g. 35mm, IMAX). Curated durable hardware — not weekly showtimes.",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "amenities": {
+          "type": "array",
+          "description": "Stable amenity labels (e.g. Concessions, Accessible). Pricing/hours deferred.",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "image_url": {
+          "type": ["string", "null"],
+          "description": "Shared hero/thumb image URL or site-relative /theater-images/ path. Rights-cleared only. Null until curated. Prefer image_hero_url / image_thumbnail_url when sizes differ.",
+          "maxLength": 2048
+        },
+        "image_hero_url": {
+          "type": ["string", "null"],
+          "description": "Optional detail-hero image (absolute http(s) or /theater-images/…). Falls back to image_url.",
+          "maxLength": 2048
+        },
+        "image_thumbnail_url": {
+          "type": ["string", "null"],
+          "description": "Optional list-card thumbnail (absolute http(s) or /theater-images/…). Falls back to image_url then hero.",
+          "maxLength": 2048
+        },
+        "image_attribution": {
+          "type": ["string", "null"],
+          "description": "Required attribution text when any image_* URL is set.",
+          "maxLength": 500
+        },
+        "image_license": {
+          "type": ["string", "null"],
+          "description": "Optional short license label (e.g. CC BY 4.0, venue permission 2026).",
+          "maxLength": 200
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "source": { "const": "amc" } },
+            "required": ["source"]
+          },
+          "then": {
+            "required": ["source_external_id"]
+          }
+        }
+      ]
+    }
+  }
+}
