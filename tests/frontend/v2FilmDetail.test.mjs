@@ -13,6 +13,8 @@ import { toFilmDetailView } from '../../v2/filmDetail/toFilmDetailView.js';
 import { composeFilmDetailPresentation } from '../../v2/filmDetail/composeFilmDetailPresentation.js';
 import { resolveFilmDetailBackLabel } from '../../v2/filmDetail/filmDetailModel.js';
 import { buildHomeData } from '../../v2/adapters/buildHomeData.js';
+import { buildEnrichmentIndex } from '../../v2/enrichment/enrichmentIndex.js';
+import { resolveEnrichedFilmPresentation } from '../../v2/enrichment/resolveEnrichedFilmPresentation.js';
 import {
   PRIMARY_DESTINATIONS,
   REJECTED_PRIMARY_NAV_LABELS,
@@ -35,6 +37,7 @@ const FIXTURE_SRC = readFileSync(
   'utf8',
 );
 const CSS = readFileSync(join(ROOT, 'v2/v2.css'), 'utf8');
+const HEADER = readFileSync(join(ROOT, 'v2/home/AppHeader.jsx'), 'utf8');
 const V1_APP = readFileSync(join(ROOT, 'src/App.jsx'), 'utf8');
 
 function loadFixture(name) {
@@ -69,9 +72,27 @@ test('mockup fixture contains all major Film Detail sections', () => {
   assert.ok(p.originLabel);
 });
 
+test('Film Detail header has no Save/Share; hero has exactly one Share', () => {
+  const header = readFileSync(join(ROOT, 'v2/home/AppHeader.jsx'), 'utf8');
+  assert.ok(header.includes("variant === 'film-detail'"));
+  assert.equal(header.includes('v2-header-film-actions'), false);
+  assert.ok(SURFACE.includes('v2-fd-share'));
+  assert.ok(SURFACE.includes('IconShare'));
+  assert.ok(APP.includes('onShare={'));
+  assert.ok(APP.includes('FilmDetailSurface'));
+  // Header share is not wired for film-detail; surface receives share handler.
+  assert.match(
+    APP,
+    /isFilmDetail\s*\?\s*null/,
+  );
+  assert.ok(CSS.includes('.v2-fd-share'));
+  assert.ok(CSS.includes('.v2-shell-fd .v2-header-film'));
+});
+
 test('Film Detail surface preserves structural contract', () => {
   for (const marker of [
     'v2-fd-hero',
+    'v2-fd-share',
     'v2-fd-actions',
     'v2-fd-signals-grid',
     'v2-fd-synopsis',
@@ -88,11 +109,56 @@ test('Film Detail surface preserves structural contract', () => {
   ]) {
     assert.ok(SURFACE.includes(marker), `missing ${marker}`);
   }
+  assert.equal(SURFACE.includes('<span>Add to calendar</span>'), false);
+  assert.equal(SURFACE.includes('v2-fd-calendar-export'), false);
+  assert.equal(SURFACE.includes('exportOpportunityToCalendar'), false);
   assert.ok(SURFACE.includes('resolveFilmDetailPresentation'));
   assert.ok(SURFACE.includes('toFilmDetailView'));
   assert.ok(SURFACE.includes('data-fd-mode'));
   assert.ok(SURFACE.includes('homeData'));
   assert.equal(SURFACE.includes('loadHomeData'), false);
+});
+
+test('Film Detail Share lives in hero, not header', () => {
+  assert.ok(SURFACE.includes('v2-fd-share'));
+  assert.ok(SURFACE.includes("className=\"v2-fd-share\""));
+  assert.equal((SURFACE.match(/v2-fd-share/g) || []).length, 1);
+  assert.equal(HEADER.includes('v2-fd-share'), false);
+  assert.ok(
+    SURFACE.indexOf('v2-fd-hero') < SURFACE.indexOf('v2-fd-share') &&
+      SURFACE.indexOf('v2-fd-share') < SURFACE.indexOf('v2-fd-actions'),
+  );
+});
+
+test('mockup fixture uses local raster poster and backdrop', () => {
+  assert.ok(FIXTURE_SRC.includes('./assets/film-detail/poster-2001.png'));
+  assert.ok(FIXTURE_SRC.includes('./assets/film-detail/backdrop-2001.png'));
+  assert.equal(FIXTURE_SRC.includes('data:image/svg+xml'), false);
+  assert.equal(FIXTURE_SRC.includes('spacePosterSvg'), false);
+  assert.equal(FIXTURE_SRC.includes('spaceBackdropSvg'), false);
+  assert.match(FILM_DETAIL_MOCKUP_FIXTURE.film.posterUrl, /poster-2001\.png/);
+  assert.match(FILM_DETAIL_MOCKUP_FIXTURE.film.backdropUrl, /backdrop-2001\.png/);
+  assert.equal(FILM_DETAIL_MOCKUP_FIXTURE.film.posterUrl.includes('svg'), false);
+  assert.equal(FILM_DETAIL_MOCKUP_FIXTURE.film.backdropUrl.startsWith('http'), false);
+});
+
+test('Film Detail page shell avoids viewport-filling spacer', () => {
+  assert.match(
+    CSS,
+    /\.v2-fd\s*\{[^}]*padding:\s*0\s+0\s+0\.4rem/,
+  );
+  assert.equal(
+    /\.v2-shell-fd\s*\{[^}]*min-height:\s*100/.test(CSS),
+    false,
+  );
+  assert.equal(
+    /\.v2-fd\s*\{[^}]*margin-top:\s*auto/.test(CSS),
+    false,
+  );
+  assert.equal(
+    /\.v2-fd\s*\{[^}]*flex:\s*1/.test(CSS),
+    false,
+  );
 });
 
 test('Why See It uses a four-column row at the mobile target', () => {
@@ -245,7 +311,7 @@ test('visual QC mode uses design fixture, not production HomeData', () => {
   assert.equal(resolved.presentation.displayTitle, '2001: A Space Odyssey');
 });
 
-test('production suppresses enrichment fields and fixture-only evidence', () => {
+test('production suppresses enrichment fields without index and fixture-only evidence', () => {
   const home = homeData();
   const presentation = composeFilmDetailPresentation(home, 'sinners');
   assert.equal(presentation.mode, 'real');
@@ -307,4 +373,206 @@ test('reactivation: supplying synopsis to the model surfaces it', () => {
   const presentation = composeFilmDetailPresentation(home, 'indie-film');
   assert.equal(presentation.synopsis.available, true);
   assert.match(presentation.synopsis.preview, /rainy Seattle/);
+});
+
+test('production activates enrichment by exact filmId via shared resolver', () => {
+  const home = homeData();
+  const index = buildEnrichmentIndex({
+    version: 1,
+    generated_at: '2026-07-28T00:00:00+00:00',
+    provider: 'tmdb',
+    language: 'en-US',
+    image_config: {
+      secure_base_url: 'https://image.tmdb.org/t/p/',
+      poster_size: 'w500',
+      backdrop_size: 'w780',
+    },
+    films: [
+      {
+        film_id: 'tmdb:1133620',
+        tmdb_id: 1133620,
+        display_title: 'Sinners',
+        original_title: 'Sinners',
+        release_year: 2025,
+        overview:
+          'Twin brothers return home to confront an evil force that threatens their community.',
+        genres: [
+          { id: 28, name: 'Action' },
+          { id: 18, name: 'Drama' },
+          { id: 27, name: 'Horror' },
+        ],
+        directors: [{ tmdb_person_id: 1, name: 'Ryan Coogler' }],
+        poster: { path: '/sinners-tmdb.jpg', url: null },
+        backdrop: { path: '/ignored.jpg', url: null },
+      },
+    ],
+  });
+
+  const presentation = composeFilmDetailPresentation(home, 'sinners', null, {
+    enrichmentIndex: index,
+  });
+  assert.equal(presentation.hasEnrichment, true);
+  assert.equal(presentation.filmId, 'tmdb:1133620');
+  assert.equal(presentation.displayTitle, 'Sinners');
+  assert.equal(presentation.hero.year, '2025');
+  assert.equal(presentation.hero.genres, 'Action · Drama');
+  assert.equal(presentation.hero.director, 'Directed by Ryan Coogler');
+  assert.match(presentation.hero.metaLine, /2025/);
+  assert.match(presentation.hero.metaLine, /h/);
+  assert.equal(presentation.hero.rating, null);
+  assert.equal(presentation.hero.backdropUrl, null);
+  assert.equal(presentation.hero.posterUrl, 'https://example.com/sinners.jpg');
+  assert.equal(presentation.synopsis.available, true);
+  assert.match(presentation.synopsis.preview, /Twin brothers/);
+  assert.equal(presentation.synopsis.tags.length, 0);
+
+  const resolved = resolveFilmDetailPresentation({
+    homeData: home,
+    filmKey: 'sinners',
+    enrichmentIndex: index,
+    forceMode: 'production',
+  });
+  assert.equal(resolved.presentation.hero.year, '2025');
+
+  // Title-only similarity must not join.
+  const wrongIndex = buildEnrichmentIndex({
+    version: 1,
+    generated_at: '2026-07-28T00:00:00+00:00',
+    provider: 'tmdb',
+    language: 'en-US',
+    image_config: {
+      secure_base_url: 'https://image.tmdb.org/t/p/',
+      poster_size: 'w500',
+      backdrop_size: 'w780',
+    },
+    films: [
+      {
+        film_id: 'tmdb:15080',
+        tmdb_id: 15080,
+        display_title: 'Sinners',
+        release_year: 1991,
+        overview: 'Wrong row.',
+        genres: [{ id: 16, name: 'Animation' }],
+        directors: [],
+        poster: { path: '/x.jpg', url: null },
+      },
+    ],
+  });
+  const noJoin = composeFilmDetailPresentation(home, 'sinners', null, {
+    enrichmentIndex: wrongIndex,
+  });
+  assert.equal(noJoin.hasEnrichment, false);
+  assert.equal(noJoin.hero.year, null);
+  assert.equal(noJoin.synopsis.available, false);
+});
+
+test('null filmId Film Detail keeps schedule data without enrichment shells', () => {
+  const home = homeData();
+  const index = buildEnrichmentIndex({
+    version: 1,
+    generated_at: '2026-07-28T00:00:00+00:00',
+    provider: 'tmdb',
+    language: 'en-US',
+    image_config: {
+      secure_base_url: 'https://image.tmdb.org/t/p/',
+      poster_size: 'w500',
+      backdrop_size: 'w780',
+    },
+    films: [
+      {
+        film_id: 'tmdb:999',
+        tmdb_id: 999,
+        display_title: 'Indie Film',
+        release_year: 2020,
+        overview: 'Should not join.',
+        genres: [{ id: 18, name: 'Drama' }],
+        directors: [{ tmdb_person_id: 2, name: 'Someone' }],
+        poster: { path: '/x.jpg', url: null },
+      },
+    ],
+  });
+  const presentation = composeFilmDetailPresentation(home, 'indie-film', null, {
+    enrichmentIndex: index,
+  });
+  assert.equal(presentation.filmId, null);
+  assert.equal(presentation.hasEnrichment, false);
+  assert.equal(presentation.displayTitle, 'Indie Film');
+  assert.equal(presentation.hero.year, null);
+  assert.equal(presentation.hero.genres, null);
+  assert.equal(presentation.hero.director, null);
+  assert.equal(presentation.synopsis.available, false);
+  assert.ok(presentation.hero.runtimeLabel);
+});
+
+test('film-detail context prefers canonical title; mockup ignores enrichmentIndex', () => {
+  const presentation = resolveEnrichedFilmPresentation({
+    sourceFilm: {
+      filmId: 'tmdb:1133620',
+      title: 'Sinners Special Presentation',
+      posterUrl: null,
+      runtimeMin: 137,
+    },
+    enrichment: {
+      display_title: 'Sinners',
+      release_year: 2025,
+      overview: 'Overview.',
+      genres: [{ id: 28, name: 'Action' }],
+      directors: [{ name: 'Ryan Coogler' }],
+      poster: { path: '/p.jpg', url: null },
+    },
+    enrichmentIndex: buildEnrichmentIndex({
+      version: 1,
+      generated_at: '2026-07-28T00:00:00+00:00',
+      provider: 'tmdb',
+      language: 'en-US',
+      image_config: {
+        secure_base_url: 'https://image.tmdb.org/t/p/',
+        poster_size: 'w500',
+        backdrop_size: 'w780',
+      },
+      films: [],
+    }),
+    context: 'film-detail',
+  });
+  assert.equal(presentation.displayTitle, 'Sinners');
+  assert.equal(presentation.sourceTitle, 'Sinners Special Presentation');
+
+  const home = homeData();
+  const index = buildEnrichmentIndex({
+    version: 1,
+    generated_at: '2026-07-28T00:00:00+00:00',
+    provider: 'tmdb',
+    language: 'en-US',
+    image_config: {
+      secure_base_url: 'https://image.tmdb.org/t/p/',
+      poster_size: 'w500',
+      backdrop_size: 'w780',
+    },
+    films: [
+      {
+        film_id: 'tmdb:1133620',
+        tmdb_id: 1133620,
+        display_title: 'Should Not Leak',
+        release_year: 2099,
+        overview: 'Leak.',
+        genres: [{ id: 1, name: 'Leak' }],
+        directors: [],
+        poster: { path: '/x.jpg', url: null },
+      },
+    ],
+  });
+  const mockup = resolveFilmDetailPresentation({
+    homeData: home,
+    filmKey: 'sinners',
+    enrichmentIndex: index,
+    forceMode: 'mockup-fixture',
+  });
+  assert.equal(mockup.mode, 'mockup-fixture');
+  assert.equal(mockup.presentation.film.title, '2001: A Space Odyssey');
+});
+
+test('Film Detail surface reuses shared enrichmentIndex (no second fetch)', () => {
+  assert.equal(SURFACE.includes('loadFilmEnrichment'), false);
+  assert.equal(SURFACE.includes('enrichmentIndex'), true);
+  assert.ok(APP.includes('enrichmentIndex={enrichmentState.index}'));
 });

@@ -295,7 +295,7 @@ test('QC modes do not persist fixture Seen state', () => {
   assert.deepEqual(getSeenFilms(storage), []);
 });
 
-test('Film Detail wires Seen through shared helpers; no new Search/inline Seen', () => {
+test('Film Detail wires Seen through shared helpers; Home inline Seen is local-store backed', () => {
   assert.match(APP, /buildSeenActionState/);
   assert.match(APP, /applySeenToggle/);
   assert.match(APP, /onToggleSeen/);
@@ -303,7 +303,8 @@ test('Film Detail wires Seen through shared helpers; no new Search/inline Seen',
   assert.match(SURFACE, />Seen</);
   assert.equal(SURFACE.includes('setSeenOn'), false);
   assert.equal(SEARCH.includes('onToggleSeen'), false);
-  assert.equal(INLINE.includes('Seen'), false);
+  assert.match(INLINE, /Seen/);
+  assert.match(INLINE, /onToggleSeen/);
   assert.match(QC, /seenFilms/);
 });
 

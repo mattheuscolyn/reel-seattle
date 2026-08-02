@@ -13,15 +13,19 @@ import {
   selectBestOpportunity,
   truncateSynopsis,
 } from './filmDetailModel.js';
+import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
 import { FILM_DETAIL_DESIGN_FIXTURE } from '../fixtures/filmDetailVisualFixtures.js';
 
 /**
  * Join metadata fragments without dangling separators.
- * @param {...(string | null | undefined)} parts
+ * @param {...(string | number | null | undefined)} parts
  */
 export function joinMetaParts(...parts) {
   return parts
-    .map((p) => (typeof p === 'string' ? p.trim() : ''))
+    .map((p) => {
+      if (typeof p === 'number' && Number.isFinite(p)) return String(p);
+      return typeof p === 'string' ? p.trim() : '';
+    })
     .filter(Boolean)
     .join(' · ');
 }
@@ -30,7 +34,12 @@ export function joinMetaParts(...parts) {
  * @param {object | null} homeData
  * @param {string} filmKey
  * @param {string | null} opportunityKey
- * @param {{ visualFixtureMode?: boolean, longTitleDemo?: boolean, longTheaterDemo?: boolean }} [options]
+ * @param {{
+ *   visualFixtureMode?: boolean,
+ *   longTitleDemo?: boolean,
+ *   longTheaterDemo?: boolean,
+ *   enrichmentIndex?: object | null,
+ * }} [options]
  */
 export function composeFilmDetailPresentation(
   homeData,
@@ -42,7 +51,12 @@ export function composeFilmDetailPresentation(
   if (visualFixtureMode) {
     return composeFixturePresentation(options);
   }
-  return composeRealPresentation(homeData, filmKey, opportunityKey);
+  return composeRealPresentation(
+    homeData,
+    filmKey,
+    opportunityKey,
+    options.enrichmentIndex ?? null,
+  );
 }
 
 function composeFixturePresentation(options = {}) {
@@ -101,7 +115,12 @@ function composeFixturePresentation(options = {}) {
   };
 }
 
-function composeRealPresentation(homeData, filmKey, opportunityKey) {
+function composeRealPresentation(
+  homeData,
+  filmKey,
+  opportunityKey,
+  enrichmentIndex = null,
+) {
   const film = resolveFilm(homeData, filmKey);
   if (!film) {
     return {
@@ -109,6 +128,7 @@ function composeRealPresentation(homeData, filmKey, opportunityKey) {
       source: 'home-data',
       resolved: false,
       filmKey,
+      filmId: null,
       displayTitle: null,
       hero: null,
       signals: [],
@@ -127,8 +147,45 @@ function composeRealPresentation(homeData, filmKey, opportunityKey) {
   }
 
   const bestOpp = selectBestOpportunity(homeData, filmKey, opportunityKey);
+  const enriched = resolveEnrichedFilmPresentation({
+    sourceFilm: {
+      filmId: film.filmId ?? null,
+      title: film.title ?? null,
+      posterUrl: film.posterUrl ?? null,
+      runtimeMin: film.runtimeMin ?? null,
+    },
+    enrichmentIndex,
+    context: 'film-detail',
+  });
+
   const baseHero = buildFilmHero(film, bestOpp);
-  const hero = attachHeroBadges(homeData, baseHero, film);
+  const yearLabel =
+    enriched.canonicalYear != null ? String(enriched.canonicalYear) : null;
+  const genresLabel =
+    enriched.genres.length > 0 ? enriched.genres.join(' · ') : null;
+  const directorLabel = enriched.directors
+    ? `Directed by ${enriched.directors}`
+    : null;
+
+  const hero = attachHeroBadges(
+    homeData,
+    {
+      ...baseHero,
+      filmId: enriched.filmId,
+      title: enriched.displayTitle ?? baseHero.title,
+      posterUrl: enriched.posterUrl,
+      year: yearLabel,
+      genres: genresLabel,
+      director: directorLabel,
+      // Rating / backdrop stay suppressed (not in approved enrichment activation).
+      rating: null,
+      backdropUrl: null,
+      synopsis: enriched.overview,
+      hasEnrichment: enriched.hasEnrichment,
+    },
+    film,
+  );
+
   const signals = buildWhySeeItSignals(homeData, film);
   const bestWay = buildBestWayCard(bestOpp, film, homeData);
   const today = buildTodaysShowtimes(
@@ -137,11 +194,12 @@ function composeRealPresentation(homeData, filmKey, opportunityKey) {
     opportunityKey ?? bestOpp?.opportunityKey,
   );
 
-  // Real enrichment fields are not in public artifacts today.
+  // Prefer TMDB overview; allow source synopsis only as a non-provider fallback.
   const synopsisText =
-    typeof film.synopsis === 'string' && film.synopsis.trim()
+    enriched.overview ??
+    (typeof film.synopsis === 'string' && film.synopsis.trim()
       ? film.synopsis.trim()
-      : null;
+      : null);
   const synopsisParts = truncateSynopsis(synopsisText, 160);
 
   return {
@@ -149,14 +207,14 @@ function composeRealPresentation(homeData, filmKey, opportunityKey) {
     source: 'home-data',
     resolved: true,
     filmKey: film.filmKey,
-    displayTitle: film.title,
+    filmId: enriched.filmId,
+    hasEnrichment: enriched.hasEnrichment,
+    displayTitle: enriched.displayTitle ?? film.title,
+    canonicalTitle: enriched.canonicalTitle,
+    sourceTitle: enriched.sourceTitle ?? film.title,
     hero: {
       ...hero,
-      metaLine: joinMetaParts(
-        hero.year,
-        hero.runtimeLabel,
-        hero.rating,
-      ),
+      metaLine: joinMetaParts(hero.year, hero.runtimeLabel, hero.rating),
     },
     signals,
     signalTotal: signals.length,

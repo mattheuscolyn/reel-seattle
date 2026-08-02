@@ -1,12 +1,12 @@
 /**
- * Stage 1 My Schedule — Week View fixture-backed replica of
- * My Schedule Main Page.png (week selected).
+ * My Schedule — Week View (T-SCH-01).
  *
- * Local-only UI state. No planner persistence, calendar sync, or production
- * showtime queries.
+ * Live default: accepted plans + schedule settings.
+ * Mockup QC: `?scheduleMockup=1`.
+ * Local-only — no calendar sync or cloud persistence.
  */
 
-import { useId, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 import {
   IconChart,
   IconChevron,
@@ -18,10 +18,20 @@ import {
 import {
   breakBlockGeometry,
   eventBlockGeometry,
-  getMyScheduleWeekMockupPresentation,
   minutesToTimelinePercent,
-  resolveMyScheduleWeekPresentation,
 } from '../fixtures/myScheduleWeekMockupFixture.js';
+import { resolveMyScheduleWeekPagePresentation } from '../fixtures/resolveMyScheduleWeekPresentation.js';
+import { getScheduleSettings } from '../stores/scheduleSettingsStore.js';
+import { removeAcceptedPlan } from '../stores/acceptedPlansStore.js';
+import ScheduleModifyPlanSheet from './ScheduleModifyPlanSheet.jsx';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 function ChevronLeft(props) {
   return (
@@ -161,7 +171,11 @@ function ScheduleEventBlock({ event, timeRange, onSelect }) {
       data-schedule-event={event.id}
       onClick={() => onSelect(event)}
     >
-      <img className="v2-msw-event-thumb" src={event.imageUrl} alt="" />
+      <img
+        className="v2-msw-event-thumb"
+        src={event.imageUrl || undefined}
+        alt=""
+      />
       <span className="v2-msw-event-copy">
         <span className="v2-msw-event-title">{event.title}</span>
         <span className="v2-msw-event-venue">{event.theaterLabel}</span>
@@ -351,6 +365,11 @@ function ScheduleDayRow({
  *   onOpenSearch?: () => void,
  *   onOpenSettings?: () => void,
  *   onStubAction?: (actionId: string, label: string) => void,
+ *   onOpenMonth?: () => void,
+ *   acceptedPlansRevision?: number,
+ *   scheduleSettingsRevision?: number,
+ *   onAcceptedPlanChange?: () => void,
+ *   storage?: Storage | null,
  * }} [props]
  */
 export default function MyScheduleWeekSurface({
@@ -358,16 +377,39 @@ export default function MyScheduleWeekSurface({
   onOpenSettings,
   onStubAction,
   onOpenMonth,
+  acceptedPlansRevision = 0,
+  scheduleSettingsRevision = 0,
+  onAcceptedPlanChange,
+  storage = null,
 }) {
-  const presentation = getMyScheduleWeekMockupPresentation();
   const statusId = useId();
-  const [weekIndex, setWeekIndex] = useState(0);
+  const [weekOffset, setWeekOffset] = useState(0);
   const [statusMessage, setStatusMessage] = useState(null);
+  const [selectedDateId, setSelectedDateId] = useState(null);
+  const [modifyPlan, setModifyPlan] = useState(null);
+  const resolvedStorage = storage ?? getBrowserStorage();
 
-  const week = resolveMyScheduleWeekPresentation(weekIndex);
-  const weekCount = presentation.weeks.length;
-  const canGoPrev = weekIndex > 0;
-  const canGoNext = weekIndex < weekCount - 1;
+  const settings = useMemo(() => {
+    void scheduleSettingsRevision;
+    return getScheduleSettings(resolvedStorage);
+  }, [resolvedStorage, scheduleSettingsRevision]);
+
+  const presentation = useMemo(() => {
+    void acceptedPlansRevision;
+    return resolveMyScheduleWeekPagePresentation({
+      weekOffset,
+      storage: resolvedStorage,
+      settings,
+    });
+  }, [acceptedPlansRevision, resolvedStorage, settings, weekOffset]);
+
+  const week = presentation.week;
+  const isMockup = presentation.mode === 'mockup-fixture';
+  const canGoPrev = isMockup ? weekOffset > 0 : true;
+  const canGoNext = isMockup
+    ? weekOffset < (presentation.weekCount ?? 1) - 1
+    : true;
+  const activeSelectedDateId = selectedDateId ?? week.selectedDateId;
 
   const announce = (actionId, label, message) => {
     setStatusMessage(message ?? label);
@@ -375,21 +417,23 @@ export default function MyScheduleWeekSurface({
   };
 
   const handlePrevWeek = () => {
-    if (!canGoPrev) {
+    if (isMockup && !canGoPrev) {
       announce('week-prev', presentation.prevWeekLabel, 'Already at earliest week.');
       return;
     }
-    setWeekIndex((value) => value - 1);
-    setStatusMessage(`Showing ${resolveMyScheduleWeekPresentation(weekIndex - 1).weekRangeLabel}`);
+    setWeekOffset((value) => value - 1);
+    setSelectedDateId(null);
+    setStatusMessage('Showing previous week');
   };
 
   const handleNextWeek = () => {
-    if (!canGoNext) {
+    if (isMockup && !canGoNext) {
       announce('week-next', presentation.nextWeekLabel, 'Already at latest week.');
       return;
     }
-    setWeekIndex((value) => value + 1);
-    setStatusMessage(`Showing ${resolveMyScheduleWeekPresentation(weekIndex + 1).weekRangeLabel}`);
+    setWeekOffset((value) => value + 1);
+    setSelectedDateId(null);
+    setStatusMessage('Showing next week');
   };
 
   const handleMonthSelect = () => {
@@ -409,7 +453,7 @@ export default function MyScheduleWeekSurface({
       onOpenSearch();
       return;
     }
-    announce('search', presentation.searchLabel, `${presentation.searchLabel} opens Search Results in Stage 1.`);
+    announce('search', presentation.searchLabel, `${presentation.searchLabel} opens Search Results.`);
   };
 
   const handleSettings = () => {
@@ -429,47 +473,102 @@ export default function MyScheduleWeekSurface({
   };
 
   const handleGroupSelect = (group) => {
-    announce(
-      `group-${group.id}`,
-      presentation.modifyPlanPrompt,
-      `${presentation.modifyPlanPrompt} Plan editing isn’t available in Stage 1.`,
-    );
+    if (isMockup || !group.acceptedPlan) {
+      announce(
+        `group-${group.id}`,
+        presentation.modifyPlanPrompt,
+        `${presentation.modifyPlanPrompt} Plan editing isn’t available yet.`,
+      );
+      return;
+    }
+    setModifyPlan(group.acceptedPlan);
   };
 
   const handlePlaceholderSelect = (placeholder) => {
     announce(
       `placeholder-${placeholder.id}`,
       presentation.modifyPlanPrompt,
-      `${presentation.modifyPlanPrompt} Plan editing isn’t available in Stage 1.`,
+      `${presentation.modifyPlanPrompt} Plan editing isn’t available yet.`,
     );
   };
 
   const handleEventSelect = (event) => {
-    announce(`event-${event.id}`, event.title, `${event.title} detail isn’t available from My Schedule in Stage 1.`);
+    const group = week.days
+      .flatMap((d) => d.planGroups)
+      .find((g) => g.id === event.planGroupId);
+    if (group?.acceptedPlan) {
+      setModifyPlan(group.acceptedPlan);
+      return;
+    }
+    announce(
+      `event-${event.id}`,
+      event.title,
+      `${event.title} detail isn’t available from My Schedule yet.`,
+    );
+  };
+
+  const handleRemovePlan = (planId) => {
+    const result = removeAcceptedPlan(resolvedStorage, planId);
+    setModifyPlan(null);
+    if (result.ok && result.changed) {
+      setStatusMessage('Plan removed from My Schedule.');
+      onAcceptedPlanChange?.();
+    } else {
+      setStatusMessage('Couldn’t remove that plan.');
+    }
   };
 
   const handleNextUp = () => {
-    announce('next-up', presentation.nextUp.filmTitle, `${presentation.nextUp.ticketsLabel} isn’t available in Stage 1.`);
+    announce(
+      'next-up',
+      presentation.nextUp.filmTitle,
+      `${presentation.nextUp.ticketsLabel} isn’t available yet.`,
+    );
   };
 
   const handleTickets = (event) => {
     event.stopPropagation();
-    announce('view-tickets', presentation.nextUp.ticketsLabel, `${presentation.nextUp.ticketsLabel} isn’t available in Stage 1.`);
+    announce(
+      'view-tickets',
+      presentation.nextUp.ticketsLabel,
+      `${presentation.nextUp.ticketsLabel} isn’t available yet.`,
+    );
   };
 
   const handleInsights = () => {
-    announce('insights', presentation.insights.actionLabel, `${presentation.insights.actionLabel} isn’t available in Stage 1.`);
+    announce(
+      'insights',
+      presentation.insights.actionLabel,
+      `${presentation.insights.actionLabel} isn’t available yet.`,
+    );
+  };
+
+  const handleToday = () => {
+    if (isMockup) {
+      announce(
+        'today',
+        week.todayButtonLabel,
+        `${week.todayButtonLabel} jumps to the current week in a future release.`,
+      );
+      return;
+    }
+    setWeekOffset(0);
+    setSelectedDateId(null);
+    setStatusMessage('Showing this week');
   };
 
   const { nextUp, insights, timeRange } = presentation;
 
   return (
+    <>
     <article
-      className="v2-msw"
+      className={`v2-msw${modifyPlan ? ' is-sheet-open' : ''}`}
       aria-labelledby="v2-msw-title"
       data-schedule-source={presentation.source}
+      data-schedule-mode={presentation.mode}
       data-schedule-view={presentation.view}
       data-schedule-week={week.id}
+      {...(modifyPlan ? { inert: '' } : {})}
     >
       <header className="v2-msw-header" data-schedule-section="header">
         <div className="v2-msw-toolbar">
@@ -517,9 +616,10 @@ export default function MyScheduleWeekSurface({
         />
         <WeekDayPicker
           days={week.weekDays}
-          selectedDateId={week.selectedDateId}
-          onSelectDay={() => {
-            announce('week-day', 'Day', 'Day selection is fixture-only in Stage 1.');
+          selectedDateId={activeSelectedDateId}
+          onSelectDay={(id) => {
+            setSelectedDateId(id);
+            announce('week-day', 'Day', `Selected ${id}`);
           }}
         />
       </section>
@@ -534,7 +634,14 @@ export default function MyScheduleWeekSurface({
         </p>
         <div className="v2-msw-next-up-card">
           <button type="button" className="v2-msw-next-up-main" onClick={handleNextUp}>
-            <img className="v2-msw-next-up-thumb" src={nextUp.imageUrl} alt="" />
+            {nextUp.imageUrl ? (
+              <img className="v2-msw-next-up-thumb" src={nextUp.imageUrl} alt="" />
+            ) : (
+              <span
+                className="v2-msw-next-up-thumb v2-msw-next-up-thumb-empty"
+                aria-hidden="true"
+              />
+            )}
             <span className="v2-msw-next-up-copy">
               <span className="v2-msw-next-up-title">{nextUp.filmTitle}</span>
               <span className="v2-msw-next-up-detail">{nextUp.detailLabel}</span>
@@ -565,9 +672,7 @@ export default function MyScheduleWeekSurface({
           <button
             type="button"
             className="v2-msw-today-btn"
-            onClick={() =>
-              announce('today', week.todayButtonLabel, `${week.todayButtonLabel} jumps to the current week in a future release.`)
-            }
+            onClick={handleToday}
           >
             {week.todayButtonLabel}
           </button>
@@ -623,5 +728,12 @@ export default function MyScheduleWeekSurface({
         {statusMessage ?? ''}
       </p>
     </article>
+    <ScheduleModifyPlanSheet
+      open={Boolean(modifyPlan)}
+      plan={modifyPlan}
+      onClose={() => setModifyPlan(null)}
+      onRemove={handleRemovePlan}
+    />
+    </>
   );
 }

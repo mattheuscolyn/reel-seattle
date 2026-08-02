@@ -98,7 +98,7 @@ function mockupToView(p) {
       director: p.film.director,
       metaLine: [p.film.year, p.film.runtimeLabel, p.film.rating]
         .filter(Boolean)
-        .join(' · '),
+        .join(' • '),
       badges: [...(p.film.badges ?? [])],
     },
     actions: {

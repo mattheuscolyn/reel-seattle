@@ -21,6 +21,7 @@ import ExploreSearch from './ExploreSearch.jsx';
 import ExploreSuggestedStarts from './ExploreSuggestedStarts.jsx';
 import { captureExploreRestore } from '../navigation/navState.js';
 import { SEARCH_EXPLORE_HONESTY_NOTE } from './searchCopy.js';
+import { SHOWTIMES_BROWSE_QUICK_START_ID } from '../showtimes/showtimesBrowseModel.js';
 
 function getStorage() {
   try {
@@ -40,6 +41,7 @@ export default function ExploreDestination({
   homeData,
   onOpenCollection,
   onOpenFilmDetail: _onOpenFilmDetail,
+  onOpenShowtimesBrowse,
   restoreState = null,
   onRestoreConsumed,
 }) {
@@ -74,6 +76,17 @@ export default function ExploreDestination({
     });
   };
 
+  const handleQuickStart = (id) => {
+    if (id === SHOWTIMES_BROWSE_QUICK_START_ID) {
+      onOpenShowtimesBrowse?.({
+        originPrimary: 'explore',
+        exploreRestore: captureExploreRestore(),
+      });
+      return;
+    }
+    openSurface(id);
+  };
+
   const submitSearch = (query) => {
     const next = addRecentSearch(query, recent);
     setRecent(next);
@@ -85,7 +98,7 @@ export default function ExploreDestination({
     <div className="v2-explore-page">
       <ExploreSearch onSubmit={submitSearch} />
 
-      <ExploreQuickStart onSelect={(id) => openSurface(id)} />
+      <ExploreQuickStart onSelect={handleQuickStart} />
 
       <ExploreBrowseBy onSelect={(id) => openSurface(id)} />
 

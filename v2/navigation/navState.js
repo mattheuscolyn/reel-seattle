@@ -40,13 +40,22 @@ import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
  */
 
 /**
- * @typedef {object} ShowtimesSurface
- * @property {'showtimes'} type
- * @property {string} filmKey
- * @property {string | null} [theaterId]
- * @property {string | null} [opportunityKey]
+ * @typedef {object} ShowtimesBrowseUiState
+ * @property {'today' | 'tomorrow' | 'week'} [dateMode]
+ * @property {string[]} [theaterIds]
+ * @property {string[]} [formatKeys]
+ * @property {string} [timeRangeId]
+ * @property {string | null} [expandedFilmKey]
+ * @property {number} [scrollY]
+ */
+
+/**
+ * @typedef {object} ShowtimesBrowseSurface
+ * @property {'showtimes-browse'} type
  * @property {string} originPrimary
- * @property {object | null} returnSurface
+ * @property {HomeRestoreState | null} [homeRestore]
+ * @property {ExploreRestoreState | null} [exploreRestore]
+ * @property {ShowtimesBrowseUiState | null} [browseUi]
  */
 
 /**
@@ -98,6 +107,15 @@ import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
  * @property {'build-plan-results'} type
  * @property {string} originPrimary
  * @property {object | null} [returnSurface]
+ * @property {object | null} [formConfig]
+ */
+
+/**
+ * @typedef {object} BuildPlanPlanDetailsSurface
+ * @property {'build-plan-plan-details'} type
+ * @property {string} originPrimary
+ * @property {object | null} [returnSurface]
+ * @property {object} plan
  */
 
 /**
@@ -132,7 +150,7 @@ import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
 /**
  * @returns {{
  *   primaryDestinationId: string,
- *   surface: null | FilmDetailSurface | CollectionSurface | OpportunityDetailSurface | ShowtimesSurface | AboutMyScheduleSurface | BuildPlanSurface | BuildPlanResultsSurface | MyScheduleWeekSurface | MyScheduleMonthSurface | ScheduleSettingsSurface | TheaterDetailSurface,
+ *   surface: null | FilmDetailSurface | CollectionSurface | OpportunityDetailSurface | ShowtimesSurface | AboutMyScheduleSurface | BuildPlanSurface | BuildPlanResultsSurface | BuildPlanPlanDetailsSurface | MyScheduleWeekSurface | MyScheduleMonthSurface | ScheduleSettingsSurface | TheaterDetailSurface,
  *   plannerSeed: PlannerSeed | null,
  * }}
  */
@@ -233,6 +251,50 @@ export function openShowtimes(state, params) {
       opportunityKey: params.opportunityKey ?? null,
       originPrimary: state.surface.originPrimary,
       returnSurface: state.surface,
+    },
+  };
+}
+
+/**
+ * City-wide Showtimes browser (not a primary tab).
+ * @param {object} state
+ * @param {{
+ *   originPrimary?: string,
+ *   homeRestore?: HomeRestoreState | null,
+ *   exploreRestore?: ExploreRestoreState | null,
+ *   browseUi?: ShowtimesBrowseUiState | null,
+ * }} [params]
+ */
+export function openShowtimesBrowse(state, params = {}) {
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'explore',
+  );
+  return {
+    ...state,
+    primaryDestinationId: originPrimary === 'home' ? 'home' : 'explore',
+    plannerSeed: null,
+    surface: {
+      type: 'showtimes-browse',
+      originPrimary,
+      homeRestore: params.homeRestore ?? null,
+      exploreRestore: params.exploreRestore ?? null,
+      browseUi: params.browseUi ?? null,
+    },
+  };
+}
+
+/**
+ * Patch UI state onto the showtimes-browse surface.
+ * @param {object} state
+ * @param {ShowtimesBrowseUiState} browseUi
+ */
+export function updateShowtimesBrowseUi(state, browseUi) {
+  if (state.surface?.type !== 'showtimes-browse') return state;
+  return {
+    ...state,
+    surface: {
+      ...state.surface,
+      browseUi: { ...(state.surface.browseUi ?? {}), ...browseUi },
     },
   };
 }
@@ -351,12 +413,12 @@ export function openBuildPlan(state, params = {}) {
 }
 
 /**
- * Stage 1 Build a Plan Results deep surface (fixture itineraries).
- * Generation, ranking, persistence, and film-click sheet remain deferred.
+ * Build a Plan Results deep surface (T-PENG-01 live itineraries by default).
  * @param {object} state
  * @param {{
  *   originPrimary?: string,
  *   returnSurface?: object | null,
+ *   formConfig?: object | null,
  * }} [params]
  */
 export function openBuildPlanResults(state, params = {}) {
@@ -377,6 +439,105 @@ export function openBuildPlanResults(state, params = {}) {
     primaryDestinationId: originPrimary,
     surface: {
       type: 'build-plan-results',
+      originPrimary,
+      returnSurface,
+      formConfig: params.formConfig ?? null,
+    },
+  };
+}
+
+/**
+ * Plan Details deep surface opened from Build a Plan Results.
+ * @param {object} state
+ * @param {{
+ *   plan: object,
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openBuildPlanPlanDetails(state, params = {}) {
+  if (!params.plan) return state;
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'planner',
+  );
+  const resultsOrigin =
+    params.origin && typeof params.origin === 'object' ? params.origin : {};
+  const returnSurface =
+    params.returnSurface ??
+    (state.surface?.type === 'build-plan-results'
+      ? {
+          ...state.surface,
+          sortId: resultsOrigin.sortId ?? state.surface.sortId ?? null,
+          scrollY:
+            typeof resultsOrigin.scrollY === 'number'
+              ? resultsOrigin.scrollY
+              : state.surface.scrollY ?? null,
+          activePlanId: params.plan?.id ?? state.surface.activePlanId ?? null,
+        }
+      : {
+          type: 'build-plan-results',
+          originPrimary,
+          returnSurface: null,
+          formConfig: null,
+          sortId: resultsOrigin.sortId ?? null,
+          scrollY:
+            typeof resultsOrigin.scrollY === 'number'
+              ? resultsOrigin.scrollY
+              : null,
+          activePlanId: params.plan?.id ?? null,
+        });
+  return {
+    ...state,
+    primaryDestinationId: originPrimary,
+    surface: {
+      type: 'build-plan-plan-details',
+      originPrimary,
+      returnSurface,
+      plan: params.plan,
+    },
+  };
+}
+
+/**
+ * Build a Plan film-manage deep surface (Must / Would love / Not interested).
+ * @param {object} state
+ * @param {{
+ *   mode: 'mustInclude' | 'wouldLove' | 'notInterested',
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openBuildPlanFilmManage(state, params = {}) {
+  const mode = params.mode;
+  if (
+    mode !== 'mustInclude' &&
+    mode !== 'wouldLove' &&
+    mode !== 'notInterested'
+  ) {
+    return state;
+  }
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'planner',
+  );
+  const returnSurface =
+    params.returnSurface ??
+    (state.surface?.type === 'build-plan'
+      ? {
+          ...state.surface,
+          resumeOpenSection: 'what',
+        }
+      : {
+          type: 'build-plan',
+          originPrimary,
+          returnSurface: null,
+          resumeOpenSection: 'what',
+        });
+  return {
+    ...state,
+    primaryDestinationId: originPrimary,
+    surface: {
+      type: 'build-plan-film-manage',
+      mode,
       originPrimary,
       returnSurface,
     },
@@ -478,7 +639,7 @@ export function openTheaterDetail(state, params = {}) {
   const originPrimary = resolveDestinationId(
     params.originPrimary ?? state.primaryDestinationId ?? 'explore',
   );
-  const theaterId = params.theaterId ?? 'fixture-beacon';
+  const theaterId = params.theaterId ?? 'the-beacon';
   const returnSurface =
     params.returnSurface ??
     (state.surface?.type === 'collection' &&
@@ -508,14 +669,27 @@ export function navigateBack(state) {
   if (
     state.surface.type === 'opportunity-detail' ||
     state.surface.type === 'showtimes' ||
+    state.surface.type === 'showtimes-browse' ||
     state.surface.type === 'about-my-schedule' ||
     state.surface.type === 'build-plan' ||
     state.surface.type === 'build-plan-results' ||
+    state.surface.type === 'build-plan-plan-details' ||
+    state.surface.type === 'build-plan-film-manage' ||
     state.surface.type === 'my-schedule-week' ||
     state.surface.type === 'my-schedule-month' ||
     state.surface.type === 'schedule-settings' ||
     state.surface.type === 'theater-detail'
   ) {
+    if (state.surface.type === 'showtimes-browse') {
+      return {
+        ...state,
+        primaryDestinationId: resolveDestinationId(state.surface.originPrimary),
+        surface: null,
+        plannerSeed: null,
+        _restoredHome: state.surface.homeRestore ?? null,
+        _restoredExplore: state.surface.exploreRestore ?? null,
+      };
+    }
     return {
       ...state,
       primaryDestinationId: resolveDestinationId(state.surface.originPrimary),
@@ -524,6 +698,8 @@ export function navigateBack(state) {
         state.surface.type === 'about-my-schedule' ||
         state.surface.type === 'build-plan' ||
         state.surface.type === 'build-plan-results' ||
+        state.surface.type === 'build-plan-plan-details' ||
+        state.surface.type === 'build-plan-film-manage' ||
         state.surface.type === 'my-schedule-week' ||
         state.surface.type === 'my-schedule-month' ||
         state.surface.type === 'schedule-settings'

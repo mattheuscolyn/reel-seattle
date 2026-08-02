@@ -99,7 +99,10 @@ test('Month surface is designed, not a placeholder', () => {
   assert.match(APP_SRC, /MyScheduleMonthSurface/);
   assert.match(SURFACE_SRC, /data-schedule-source/);
   assert.ok(SURFACE_SRC.includes('data-schedule-view={presentation.view}'));
-  assert.match(SURFACE_SRC, /data-schedule-month=\"july-2026\"/);
+  assert.match(
+    SURFACE_SRC,
+    /data-schedule-month=\{presentation\.yearMonth \?\? presentation\.monthLabel\}/,
+  );
   assert.match(SURFACE_SRC, /aria-labelledby=\"v2-msw-month-title\"/);
   assert.match(SURFACE_SRC, /v2-msw-heatmap/);
   assert.match(SURFACE_SRC, /v2-msw-month-split/);

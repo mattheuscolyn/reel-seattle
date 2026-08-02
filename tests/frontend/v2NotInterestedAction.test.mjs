@@ -345,7 +345,8 @@ test('Film Detail wires Not Interested through shared helpers; Search stays shim
   assert.match(SEARCH, /handleNotInterested/);
   assert.match(SEARCH, /saveDismissedFilmKeys/);
   assert.equal(SEARCH.includes('buildNotInterestedActionState'), false);
-  assert.match(INLINE, /Not interested is not available/);
+  assert.match(INLINE, /Not interested/);
+  assert.match(INLINE, /onToggleNotInterested/);
   assert.match(QC, /dismissedFilms/);
 });
 

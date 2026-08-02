@@ -1,5 +1,5 @@
 /**
- * Versioned Not Interested Films store (T-NI-01).
+ * Versioned Not Interested Films store (T-NI-01 / T-FILMID-03).
  *
  * Device-local persistence for films the user does not want in ordinary
  * discovery. Distinct from Saved, Seen, Planner drafts, and My Schedule.
@@ -8,15 +8,15 @@
  * Storage key remains `reel-seattle.v2.dismissedFilms` for continuity with
  * the legacy key-array store (user-facing label: “Not interested”).
  *
- * Identity reuses Saved Films filmRef helpers:
- * 1. Prefer real `filmId` when both sides have one (future migration).
- * 2. Otherwise equality is normalized `showtimeFilmKey`.
+ * Identity reuses Saved Films filmRef helpers (T-FILMID-03):
+ * 1. Prefer valid canonical `filmId` when both sides have one.
+ * 2. Otherwise equality is showtimeFilmKey / aliasKeys overlap.
  * 3. Prefer parent-level keys via `filmRefFromHomeFilm` when callers pass a
  *    HomeData film; string keys are stored as-is (legacy migration fidelity).
  * 4. Never use source_showtime_id / opportunity keys as film identity.
  *
  * Legacy payload: JSON array of film-key strings under the same storage key.
- * Reads migrate in memory only; the normalized v1 payload is persisted on the
+ * Reads migrate in memory only; the normalized payload is persisted on the
  * first successful intentional write (or saveDismissedFilmKeys write).
  *
  * Timestamp: `markedAt` is record time for generic toggles
@@ -26,6 +26,7 @@
  */
 
 import {
+  mergeSavedFilmRefs,
   normalizeSavedFilmRef,
   normalizeShowtimeFilmKey,
   savedFilmRefsEqual,
@@ -35,7 +36,8 @@ import {
 export const NOT_INTERESTED_FILMS_STORAGE_KEY = 'reel-seattle.v2.dismissedFilms';
 /** @deprecated Prefer NOT_INTERESTED_FILMS_STORAGE_KEY; kept for callers. */
 export const DISMISSED_FILMS_STORAGE_KEY = NOT_INTERESTED_FILMS_STORAGE_KEY;
-export const NOT_INTERESTED_FILMS_VERSION = 1;
+/** v2: shares T-FILMID-03 canonical filmRef rules with Saved. */
+export const NOT_INTERESTED_FILMS_VERSION = 2;
 export const NOT_INTERESTED_FILMS_MAX = 100;
 
 /** @typedef {import('./savedFilmsStore.js').SavedFilmRefInput} NotInterestedFilmRefInput */
@@ -136,6 +138,7 @@ function normalizeNotInterestedFilmItem(raw) {
           filmId: record.filmId,
           sourceFilmId: record.sourceFilmId,
           source: record.source,
+          aliasKeys: record.aliasKeys,
         },
   );
   if (!filmRef) return null;
@@ -160,6 +163,30 @@ function normalizeNotInterestedFilmItem(raw) {
 }
 
 /**
+ * Merge Not Interested items that share identity. Keeps earliest markedAt.
+ * @param {NotInterestedFilmItem} a
+ * @param {NotInterestedFilmItem} b
+ * @returns {NotInterestedFilmItem}
+ */
+export function mergeNotInterestedFilmItems(a, b) {
+  const earlier = a.markedAt <= b.markedAt ? a : b;
+  const newer = a.markedAt >= b.markedAt ? a : b;
+  /** @type {NotInterestedFilmItem} */
+  const merged = {
+    filmRef: mergeSavedFilmRefs(a.filmRef, b.filmRef),
+    markedAt: earlier.markedAt,
+    reason: earlier.reason ?? newer.reason ?? null,
+  };
+  if (earlier.markedAtSource) merged.markedAtSource = earlier.markedAtSource;
+  else if (newer.markedAtSource) merged.markedAtSource = newer.markedAtSource;
+  const title = newer.title ?? earlier.title ?? null;
+  const posterUrl = newer.posterUrl ?? earlier.posterUrl ?? null;
+  if (title) merged.title = title;
+  if (posterUrl) merged.posterUrl = posterUrl;
+  return merged;
+}
+
+/**
  * @param {unknown} items
  * @returns {NotInterestedFilmItem[]}
  */
@@ -174,7 +201,7 @@ export function normalizeNotInterestedFilmItems(items) {
       savedFilmRefsEqual(existing.filmRef, item.filmRef),
     );
     if (idx >= 0) {
-      if (item.markedAt > out[idx].markedAt) out[idx] = item;
+      out[idx] = mergeNotInterestedFilmItems(out[idx], item);
       continue;
     }
     out.push(item);
@@ -312,6 +339,68 @@ export function normalizeNotInterestedFilmsPayload(payload, options = {}) {
  */
 export function migrateNotInterestedFilmsPayload(payload, options = {}) {
   return normalizeNotInterestedFilmsPayload(payload, options);
+}
+
+/**
+ * Upgrade Not Interested items from live film refs (key overlap → attach filmId).
+ * @param {Storage | null | undefined} storage
+ * @param {Array<import('./savedFilmsStore.js').SavedFilmRefInput | string | null | undefined>} liveRefs
+ * @returns {NotInterestedFilmsWriteResult & { upgraded?: number }}
+ */
+export function reconcileNotInterestedFilmsStore(storage, liveRefs = []) {
+  const read = readNotInterestedFilmsStore(storage);
+  if (
+    read.status === 'unsupported_version' ||
+    read.status === 'storage_unavailable'
+  ) {
+    return {
+      ok: false,
+      store: read.store,
+      error: read.error ?? read.status,
+      changed: false,
+      upgraded: 0,
+    };
+  }
+
+  /** @type {NotInterestedFilmItem[]} */
+  let next = read.store.items.map((item) => ({
+    ...item,
+    filmRef: {
+      ...item.filmRef,
+      aliasKeys: item.filmRef.aliasKeys ? [...item.filmRef.aliasKeys] : undefined,
+    },
+  }));
+  let upgraded = 0;
+  for (const input of liveRefs ?? []) {
+    const live = normalizeSavedFilmRef(input);
+    if (!live?.filmId) continue;
+    const idx = next.findIndex((row) => savedFilmRefsEqual(row.filmRef, live));
+    if (idx < 0) continue;
+    const before = next[idx];
+    const mergedRef = mergeSavedFilmRefs(before.filmRef, live);
+    if (JSON.stringify(before.filmRef) === JSON.stringify(mergedRef)) continue;
+    next[idx] = { ...before, filmRef: mergedRef };
+    upgraded += 1;
+  }
+  next = normalizeNotInterestedFilmItems(next);
+  const changed =
+    upgraded > 0 ||
+    read.store.version !== NOT_INTERESTED_FILMS_VERSION ||
+    next.length !== read.store.items.length;
+  if (!changed) {
+    return {
+      ok: true,
+      store: read.store,
+      error: null,
+      changed: false,
+      upgraded: 0,
+    };
+  }
+  const written = writeNotInterestedFilmsStore(storage, {
+    version: NOT_INTERESTED_FILMS_VERSION,
+    items: next,
+  });
+  return { ...written, upgraded };
 }
 
 /**
@@ -483,19 +572,50 @@ export function markFilmNotInterested(storage, filmRef, options = {}) {
   }
 
   const existing = read.store.items;
-  const already = existing.find((row) =>
+  const alreadyIdx = existing.findIndex((row) =>
     savedFilmRefsEqual(row.filmRef, item.filmRef),
   );
-  if (already) {
-    const written = writeNotInterestedFilmsStore(storage, {
-      version: NOT_INTERESTED_FILMS_VERSION,
-      items: existing,
-    });
-    return {
-      ...written,
-      changed: false,
-      error: written.ok ? null : written.error,
+  if (alreadyIdx >= 0) {
+    const already = existing[alreadyIdx];
+    const mergedRef = mergeSavedFilmRefs(already.filmRef, item.filmRef);
+    const nextTitle = item.title ?? already.title ?? null;
+    const nextPoster = item.posterUrl ?? already.posterUrl ?? null;
+    const nextReason = already.reason ?? item.reason ?? null;
+    const refChanged =
+      JSON.stringify(already.filmRef) !== JSON.stringify(mergedRef);
+    const metaChanged =
+      (nextTitle ?? null) !== (already.title ?? null) ||
+      (nextPoster ?? null) !== (already.posterUrl ?? null) ||
+      (nextReason ?? null) !== (already.reason ?? null);
+    if (!refChanged && !metaChanged) {
+      if (read.store.version === NOT_INTERESTED_FILMS_VERSION) {
+        return {
+          ok: true,
+          store: read.store,
+          error: null,
+          changed: false,
+        };
+      }
+      return writeNotInterestedFilmsStore(storage, {
+        version: NOT_INTERESTED_FILMS_VERSION,
+        items: existing,
+      });
+    }
+    const nextItems = existing.slice();
+    /** @type {NotInterestedFilmItem} */
+    const nextItem = {
+      filmRef: mergedRef,
+      markedAt: already.markedAt,
     };
+    if (already.markedAtSource) nextItem.markedAtSource = already.markedAtSource;
+    nextItem.reason = nextReason;
+    if (nextTitle) nextItem.title = nextTitle;
+    if (nextPoster) nextItem.posterUrl = nextPoster;
+    nextItems[alreadyIdx] = nextItem;
+    return writeNotInterestedFilmsStore(storage, {
+      version: NOT_INTERESTED_FILMS_VERSION,
+      items: nextItems,
+    });
   }
 
   return writeNotInterestedFilmsStore(storage, {

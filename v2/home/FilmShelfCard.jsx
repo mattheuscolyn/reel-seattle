@@ -7,6 +7,14 @@ export default function FilmShelfCard({
   controlsId,
   onToggle,
 }) {
+  const meta =
+    film.metaLabel && film.genre && !String(film.metaLabel).includes(film.genre)
+      ? `${film.metaLabel}`
+      : film.metaLabel;
+  const secondary = film.genre && (!meta || !String(meta).includes(film.genre))
+    ? film.genre
+    : null;
+
   return (
     <button
       type="button"
@@ -25,8 +33,8 @@ export default function FilmShelfCard({
         )}
       </div>
       <span className="v2-shelf-title">{film.title}</span>
-      {film.genre ? <span className="v2-shelf-genre">{film.genre}</span> : null}
-      <span className="v2-shelf-meta">{film.metaLabel}</span>
+      {secondary ? <span className="v2-shelf-genre">{secondary}</span> : null}
+      {meta ? <span className="v2-shelf-meta">{meta}</span> : null}
     </button>
   );
 }

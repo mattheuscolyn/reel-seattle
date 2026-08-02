@@ -1,90 +1,254 @@
 /**
- * Stage 1 Build a Plan Results — fixture-backed replica of
- * Build a Plan Results Page.png.
+ * Build a Plan Results — live itineraries + adjustment overlays.
  *
- * Local sort/selection + film-click preference sheet only.
- * No generation, ranking engine, persistence, travel, or calendar.
+ * Mockup QC: `?planResultsMockup=1&interaction=none|time|film|break`
+ * Live default from HomeData + Build form. Fixture never enters production.
  */
 
-import { useCallback, useId, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import {
-  IconCalendar,
+  calendarExportStatusMessage,
+  exportPlanToCalendar,
+} from '../calendar/exportFromOpportunity.js';
+import { acceptResultsPlan } from './acceptPlanFromResults.js';
+import {
+  IconBookmark,
   IconChevron,
   IconClock,
-  IconClose,
+  IconCup,
   IconHourglass,
-  IconMoon,
-  IconRefresh,
-  IconShare,
-  IconSliders,
+  IconPopcorn,
   IconSpark,
-  IconStar,
-  IconStarFill,
-  IconSun,
   IconTicket,
-  IconWalk,
 } from '../icons.jsx';
 import {
-  createBuildPlanResultsUiState,
+  createBuildPlanResultsUiStateFromPresentation,
+  isPlanResultsMockupMode,
+  resolveBuildPlanResultsPagePresentation,
+} from './resolveBuildPlanResultsPresentation.js';
+import {
+  getBuildPlanResultsInteraction,
   getBuildPlanResultsOrderedPlans,
-  resolveBuildPlanResultsPresentation,
+  PLAN_RESULTS_INTERACTION_QUERY,
 } from '../fixtures/buildPlanResultsMockupFixture.js';
-import PlanFilmInteractionSheet from './PlanFilmInteractionSheet.jsx';
+import { createBuildPlanFormState } from '../fixtures/buildPlanMockupFixture.js';
+import { createLiveBuildPlanFormState } from './createLiveBuildPlanFormState.js';
+import {
+  formatBreakMinutes,
+  parseBreakLabelToMinutes,
+} from './planBreakRange.js';
+import AdjustTimeWindowOverlay from './AdjustTimeWindowOverlay.jsx';
+import AdjustFilmInPlansOverlay from './AdjustFilmInPlansOverlay.jsx';
+import AdjustBreakLengthOverlay from './AdjustBreakLengthOverlay.jsx';
+import {
+  isFilmSeen,
+  markFilmSeen,
+  markFilmUnseen,
+} from '../stores/seenFilmsStore.js';
+import {
+  isFilmNotInterested,
+  markFilmNotInterested,
+  clearFilmNotInterested,
+} from '../stores/notInterestedFilmsStore.js';
+import { setBuildPlanFormSession } from './buildPlanFormSession.js';
 
-const SORT_ICONS = {
-  spark: IconSpark,
-  clock: IconClock,
-  hourglass: IconHourglass,
-  sun: IconSun,
-  calendar: IconCalendar,
-};
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
-const ADJUST_ICONS = {
-  sun: IconSun,
-  moon: IconMoon,
-  walk: IconWalk,
-  ticket: IconTicket,
-  calendar: IconCalendar,
-  sliders: IconSliders,
-};
+function selectedFilmsForCalendarExport(plan, selectedFilmIds) {
+  if (!plan || !Array.isArray(plan.items)) return [];
+  const selected = new Set(selectedFilmIds ?? []);
+  /** @type {object[]} */
+  const films = [];
+  for (const item of plan.items) {
+    if (!item || item.type === 'break') continue;
+    if (selected.size > 0 && !selected.has(item.id)) continue;
+    if (
+      item.date &&
+      (item.time || item.startTime) &&
+      (item.runtime != null || item.runtimeMin != null) &&
+      (item.filmKey || item.theaterId || item.theater_id)
+    ) {
+      films.push({
+        title: item.title,
+        date: item.date,
+        time: item.time ?? item.startTime,
+        runtime: item.runtime ?? item.runtimeMin,
+        theater: item.theater ?? item.theaterName,
+        theater_id: item.theaterId ?? item.theater_id,
+        filmKey: item.filmKey,
+        format: item.formatBadge ?? item.format,
+        ticket_url: item.ticketUrl ?? item.ticket_url,
+        source: item.source,
+        source_showtime_id: item.sourceShowtimeId ?? item.source_showtime_id,
+        publicShowtimeId: item.publicShowtimeId,
+        addressLabel: item.addressLabel ?? null,
+      });
+    }
+  }
+  return films;
+}
 
-function PlanBreakRow({ label }) {
+function filmRefFromResultsFilm(film) {
+  return {
+    filmId: film.filmId ?? null,
+    showtimeFilmKey: film.filmKey ?? film.id ?? null,
+    title: film.title ?? null,
+    posterUrl: film.imageUrl ?? null,
+  };
+}
+
+function normalizeBreakLabel(label) {
+  if (typeof label !== 'string') return 'Break';
+  const trimmed = label.trim();
+  if (/break$/i.test(trimmed)) return trimmed;
+  if (/^Break\s+/i.test(trimmed)) {
+    return `${trimmed.replace(/^Break\s+/i, '')} break`;
+  }
+  return `${trimmed} break`;
+}
+
+function preferenceFromForm(form, film) {
+  const title = String(film?.title ?? '').toLowerCase();
+  if (!title) return 'prefer';
+  const inList = (list) =>
+    (list ?? []).some((f) => String(f.title ?? '').toLowerCase() === title);
+  if (inList(form?.mustInclude)) return 'require';
+  if (inList(form?.notInterested)) return 'exclude';
+  if (inList(form?.wouldLove)) return 'prefer';
+  return 'prefer';
+}
+
+function applyFilmPreferenceToForm(form, film, preference) {
+  const title = String(film.title ?? '');
+  const card = {
+    id: film.filmKey ?? film.id,
+    title,
+    detailLabel: film.theater ? `${film.theater}` : 'Any theater',
+    theaterLabel: film.theater ?? 'Any theater',
+    imageUrl: film.imageUrl ?? '',
+  };
+  const without = (list) =>
+    (list ?? []).filter(
+      (f) => String(f.title ?? '').toLowerCase() !== title.toLowerCase(),
+    );
+  const next = {
+    ...form,
+    mustInclude: without(form.mustInclude),
+    wouldLove: without(form.wouldLove),
+    notInterested: without(form.notInterested),
+  };
+  if (preference === 'require') {
+    next.mustInclude = [...next.mustInclude, card];
+  } else if (preference === 'prefer') {
+    next.wouldLove = [...next.wouldLove, card];
+  } else if (preference === 'exclude') {
+    next.notInterested = [...next.notInterested, card];
+  }
+  return next;
+}
+
+/**
+ * Deterministic mockup re-filter after adjustments (does not invent live engine).
+ */
+function filterMockupPlans(plans, form) {
+  const must = new Set(
+    (form?.mustInclude ?? []).map((f) => String(f.title).toLowerCase()),
+  );
+  const exclude = new Set(
+    (form?.notInterested ?? []).map((f) => String(f.title).toLowerCase()),
+  );
+  const maxGap = parseBreakLabelToMinutes(form?.maxGap);
+  const minGap = parseBreakLabelToMinutes(form?.minGap ?? 'Any') ?? 0;
+
+  return plans
+    .map((plan, index) => {
+      const titles = plan.items
+        .filter((i) => i.type !== 'break')
+        .map((i) => String(i.title).toLowerCase());
+      if ([...must].some((t) => !titles.includes(t))) return null;
+      if (titles.some((t) => exclude.has(t))) return null;
+      if (maxGap != null || minGap > 0) {
+        for (const item of plan.items) {
+          if (item.type !== 'break') continue;
+          const mins = parseBreakLabelToMinutes(item.label);
+          if (mins == null) continue;
+          if (mins < minGap) return null;
+          if (maxGap != null && mins > maxGap) return null;
+        }
+      }
+      return { ...plan, rank: index + 1 };
+    })
+    .filter(Boolean)
+    .map((plan, index) => ({ ...plan, rank: index + 1 }));
+}
+
+function buildSummaryLine(form, fallback) {
+  if (!form) return fallback;
+  const date = form.dateShort ?? form.dateDisplay ?? '';
+  const window = `${form.startAfter} – ${form.finishBefore}`;
+  const size = form.planSize ?? '';
+  const parts = [date, window, size].filter(Boolean);
+  return parts.join(' • ') || fallback;
+}
+
+function PlanBreakRow({ item, onOpenBreak, breakButtonRef }) {
+  const label = normalizeBreakLabel(item.label);
   return (
-    <div className="v2-bpr-break" role="group" aria-label={label}>
-      <span className="v2-bpr-break-pill">{label}</span>
+    <div className="v2-bpr-break">
+      <button
+        ref={breakButtonRef}
+        type="button"
+        className="v2-bpr-break-pill"
+        aria-label={`Adjust break length (${label})`}
+        aria-haspopup="dialog"
+        onClick={() => onOpenBreak(item)}
+      >
+        <IconCup width={12} height={12} aria-hidden="true" />
+        <span>{label}</span>
+      </button>
     </div>
   );
 }
 
 function PlanFilmRow({
   film,
-  selected,
-  preference,
-  sheetOpen,
+  timeButtonRef,
   filmButtonRef,
-  onToggleSelected,
-  onOpenFilmSheet,
+  onOpenTime,
+  onOpenFilm,
 }) {
   return (
-    <div
-      className={`v2-bpr-film${selected ? ' is-selected' : ' is-deselected'}${
-        sheetOpen ? ' is-sheet-target' : ''
-      }${preference === 'notInterested' ? ' is-not-interested' : ''}`}
-      data-film-id={film.id}
-      data-film-preference={preference}
-    >
-      <span className="v2-bpr-film-time">{film.startTime}</span>
+    <div className="v2-bpr-film" data-film-id={film.id}>
       <span className="v2-bpr-film-dot" aria-hidden="true" />
+      <button
+        ref={timeButtonRef}
+        type="button"
+        className="v2-bpr-film-time"
+        aria-label={`Adjust time window (showtime ${film.startTime})`}
+        aria-haspopup="dialog"
+        onClick={() => onOpenTime(film)}
+      >
+        {film.startTime}
+      </button>
       <button
         ref={filmButtonRef}
         type="button"
         className="v2-bpr-film-main"
-        aria-label={`${film.title} at ${film.theater}, ${film.startTime}. Adjust this movie in your plan.`}
+        aria-label={`Adjust ${film.title} in plans`}
         aria-haspopup="dialog"
-        aria-expanded={sheetOpen}
-        onClick={() => onOpenFilmSheet(film)}
+        onClick={() => onOpenFilm(film)}
       >
-        <img className="v2-bpr-film-poster" src={film.imageUrl} alt="" />
+        {film.imageUrl ? (
+          <img className="v2-bpr-film-poster" src={film.imageUrl} alt="" />
+        ) : (
+          <span className="v2-bpr-film-poster v2-bpr-film-poster-fallback" />
+        )}
         <span className="v2-bpr-film-copy">
           <span className="v2-bpr-film-title-row">
             <span className="v2-bpr-film-title">{film.title}</span>
@@ -92,22 +256,10 @@ function PlanFilmRow({
               <span className="v2-bpr-badge">{film.formatBadge}</span>
             ) : null}
           </span>
-          <span className="v2-bpr-film-theater">{film.theater}</span>
-          <span className="v2-bpr-film-runtime">{film.runtimeLabel}</span>
+          {film.theater ? (
+            <span className="v2-bpr-film-theater">{film.theater}</span>
+          ) : null}
         </span>
-      </button>
-      <button
-        type="button"
-        className="v2-bpr-film-select"
-        aria-pressed={selected}
-        aria-label={
-          selected
-            ? `Deselect ${film.title} from plan`
-            : `Select ${film.title} in plan`
-        }
-        onClick={() => onToggleSelected(film.id)}
-      >
-        <span aria-hidden="true">{selected ? '✓' : ''}</span>
       </button>
     </div>
   );
@@ -115,122 +267,106 @@ function PlanFilmRow({
 
 function PlanItineraryCard({
   plan,
-  active,
-  favorited,
-  selectedFilmIds,
-  filmPreferences,
-  sheetFilmId,
+  saved,
+  timeButtonRefs,
   filmButtonRefs,
+  breakButtonRefs,
   viewPlanLabel,
-  moreActionsLabel,
-  addToScheduleLabel,
-  onSelectPlan,
-  onToggleFavorite,
-  onToggleFilm,
-  onOpenFilmSheet,
+  savePlanLabel,
+  savedPlanLabel,
+  onOpenTime,
+  onOpenFilm,
+  onOpenBreak,
   onViewPlan,
-  onMoreActions,
-  onAddToSchedule,
+  onSavePlan,
 }) {
+  const movieCount =
+    plan.movieCountLabel?.replace(/movies?/i, 'movies') ??
+    `${plan.items.filter((i) => i.type !== 'break').length} movies`;
+  const breaksOnly =
+    plan.breaksLabel?.match(/(\d+)\s*breaks?/i)?.[0] ??
+    `${plan.items.filter((i) => i.type === 'break').length} breaks`;
+
   return (
     <article
-      className={`v2-bpr-plan${active ? ' is-active' : ''}`}
+      className="v2-bpr-plan"
       data-plan-id={plan.id}
-      aria-labelledby={`v2-bpr-plan-${plan.id}-label`}
+      aria-label={`Plan ${plan.rank}`}
     >
-      <button
-        type="button"
-        className="v2-bpr-plan-select"
-        role="radio"
-        aria-checked={active}
-        aria-label={`Plan ${plan.rank}`}
-        id={`v2-bpr-plan-${plan.id}-label`}
-        onClick={() => onSelectPlan(plan.id)}
-      >
-        <span className="v2-bpr-plan-rank" aria-hidden="true">
-          {plan.rank}
-        </span>
-      </button>
-
-      <div className="v2-bpr-plan-body">
-        <div className="v2-bpr-timeline" aria-label={`Plan ${plan.rank} films`}>
-          {plan.items.map((item) =>
-            item.type === 'break' ? (
-              <PlanBreakRow key={item.id} label={item.label} />
-            ) : (
-              <PlanFilmRow
-                key={item.id}
-                film={item}
-                selected={selectedFilmIds.includes(item.id)}
-                preference={filmPreferences[item.id] ?? item.preference}
-                sheetOpen={sheetFilmId === item.id}
-                filmButtonRef={(node) => {
-                  if (node) filmButtonRefs.current.set(item.id, node);
-                  else filmButtonRefs.current.delete(item.id);
-                }}
-                onToggleSelected={onToggleFilm}
-                onOpenFilmSheet={onOpenFilmSheet}
-              />
-            ),
-          )}
-        </div>
-
-        <aside className="v2-bpr-plan-aside">
-          <div className="v2-bpr-aside-head">
-            <p className="v2-bpr-aside-count">{plan.movieCountLabel}</p>
-            <button
-              type="button"
-              className="v2-bpr-fav"
-              aria-pressed={favorited}
-              aria-label={
-                favorited
-                  ? `Unfavorite plan ${plan.rank}`
-                  : `Favorite plan ${plan.rank}`
-              }
-              onClick={() => onToggleFavorite(plan.id)}
-            >
-              {favorited ? <IconStarFill /> : <IconStar />}
-            </button>
+      <div className="v2-bpr-plan-grid">
+        <div className="v2-bpr-plan-main">
+          <span className="v2-bpr-plan-rank" aria-hidden="true">
+            {plan.rank}
+          </span>
+          <div className="v2-bpr-timeline">
+            {plan.items.map((item) =>
+              item.type === 'break' ? (
+                <PlanBreakRow
+                  key={item.id}
+                  item={item}
+                  onOpenBreak={onOpenBreak}
+                  breakButtonRef={(node) => {
+                    if (node) breakButtonRefs.current.set(item.id, node);
+                    else breakButtonRefs.current.delete(item.id);
+                  }}
+                />
+              ) : (
+                <PlanFilmRow
+                  key={item.id}
+                  film={item}
+                  timeButtonRef={(node) => {
+                    if (node) timeButtonRefs.current.set(item.id, node);
+                    else timeButtonRefs.current.delete(item.id);
+                  }}
+                  filmButtonRef={(node) => {
+                    if (node) filmButtonRefs.current.set(item.id, node);
+                    else filmButtonRefs.current.delete(item.id);
+                  }}
+                  onOpenTime={onOpenTime}
+                  onOpenFilm={onOpenFilm}
+                />
+              ),
+            )}
           </div>
-          <ul className="v2-bpr-aside-stats">
-            <li>
-              <IconClock width={12} height={12} aria-hidden="true" />
-              <span>{plan.totalRuntime}</span>
-            </li>
-            <li>
-              <IconWalk width={12} height={12} aria-hidden="true" />
-              <span>{plan.walkLabel}</span>
-            </li>
-            <li>
-              <span>{plan.breaksLabel}</span>
-            </li>
-          </ul>
-          <p className="v2-bpr-aside-finish">{plan.finishesLabel}</p>
-          <button
-            type="button"
-            className="v2-bpr-view"
-            onClick={() => onViewPlan(plan)}
-          >
-            <span>{viewPlanLabel}</span>
-            <IconChevron aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            className="v2-bpr-more"
-            onClick={() => onMoreActions(plan)}
-          >
-            {moreActionsLabel}
-            <span aria-hidden="true">▾</span>
-          </button>
-          <button
-            type="button"
-            className="v2-bpr-schedule"
-            aria-label={`${addToScheduleLabel} for plan ${plan.rank}`}
-            onClick={() => onAddToSchedule(plan)}
-          >
-            {addToScheduleLabel}
-          </button>
+        </div>
+        <aside className="v2-bpr-plan-aside" aria-label={`Plan ${plan.rank} summary`}>
+          <p>
+            <IconTicket width={12} height={12} aria-hidden="true" />
+            <span>{movieCount}</span>
+          </p>
+          <p>
+            <IconClock width={12} height={12} aria-hidden="true" />
+            <span>{plan.finishesLabel}</span>
+          </p>
+          <p>
+            <IconHourglass width={12} height={12} aria-hidden="true" />
+            <span>{plan.totalRuntime}</span>
+          </p>
+          <p>
+            <IconPopcorn width={12} height={12} aria-hidden="true" />
+            <span>{breaksOnly}</span>
+          </p>
         </aside>
+      </div>
+      <div className="v2-bpr-plan-actions">
+        <button
+          type="button"
+          className="v2-bpr-view"
+          onClick={() => onViewPlan(plan)}
+        >
+          <span>{viewPlanLabel}</span>
+          <IconChevron width={12} height={12} aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          className={`v2-bpr-save${saved ? ' is-saved' : ''}`}
+          aria-pressed={saved}
+          aria-label={saved ? savedPlanLabel : savePlanLabel}
+          onClick={() => onSavePlan(plan)}
+        >
+          <IconBookmark width={14} height={14} aria-hidden="true" />
+          <span>{saved ? savedPlanLabel : savePlanLabel}</span>
+        </button>
       </div>
     </article>
   );
@@ -241,407 +377,517 @@ function PlanItineraryCard({
  *   onBack: () => void,
  *   backLabel?: string,
  *   onStubAction?: (actionId: string, label: string) => void,
+ *   onAcceptedPlanChange?: () => void,
+ *   onViewPlanDetails?: (plan: object, origin: object) => void,
+ *   onShareReady?: (handler: (() => void) | null) => void,
+ *   storage?: Storage | null,
+ *   homeData?: object | null,
+ *   formConfig?: object | null,
  * }} props
  */
 export default function BuildPlanResultsSurface({
   onBack,
   backLabel = 'Build a Plan',
   onStubAction,
+  onAcceptedPlanChange,
+  onViewPlanDetails,
+  onShareReady,
+  storage = null,
+  homeData = null,
+  formConfig = null,
+  initialSortId = null,
+  restoreScrollY = null,
+  restoreActivePlanId = null,
 }) {
-  const presentation = resolveBuildPlanResultsPresentation();
   const statusId = useId();
-  const [ui, setUi] = useState(() => createBuildPlanResultsUiState());
+  const resolvedStorage = storage ?? getBrowserStorage();
+  const mockup = isPlanResultsMockupMode();
+
+  const [workingForm, setWorkingForm] = useState(() => {
+    if (formConfig) return { ...formConfig };
+    return mockup ? createBuildPlanFormState() : createLiveBuildPlanFormState();
+  });
+  const [adjustmentsApplied, setAdjustmentsApplied] = useState(false);
+  const [sortId, setSortId] = useState(
+    () => initialSortId || formConfig?.sortId || 'best-match',
+  );
+  const [sortOpen, setSortOpen] = useState(false);
   const [statusMessage, setStatusMessage] = useState(null);
-  const [sheetFilmId, setSheetFilmId] = useState(null);
+  const [savedPlanIds, setSavedPlanIds] = useState([]);
+  const [storeTick, setStoreTick] = useState(0);
+
+  const [activeAdjustment, setActiveAdjustment] = useState(() => {
+    const interaction = getBuildPlanResultsInteraction();
+    return interaction && interaction !== 'none' ? interaction : null;
+  });
+  const [adjustmentFilm, setAdjustmentFilm] = useState(() => {
+    if (getBuildPlanResultsInteraction() !== 'film') return null;
+    // Seed from fixture plans for deterministic QC deep-link.
+    try {
+      const plans = getBuildPlanResultsOrderedPlans('best-match');
+      return (
+        plans.flatMap((p) => p.items).find((i) => i.type !== 'break') ?? null
+      );
+    } catch {
+      return null;
+    }
+  });
+  const triggerRef = useRef(null);
+  const timeButtonRefs = useRef(new Map());
   const filmButtonRefs = useRef(new Map());
-  const sheetTriggerIdRef = useRef(null);
+  const breakButtonRefs = useRef(new Map());
+  const backBusyRef = useRef(false);
+  const applyBusyRef = useRef(false);
+
+  // Seed deterministic overlay target for QC deep-links.
+  useEffect(() => {
+    const interaction = getBuildPlanResultsInteraction();
+    if (!interaction || interaction === 'none') return;
+    setActiveAdjustment(interaction);
+  }, []);
+
+  useEffect(() => {
+    if (formConfig) {
+      setWorkingForm({ ...formConfig });
+    }
+  }, [formConfig]);
+
+  useEffect(() => {
+    if (typeof restoreScrollY === 'number' && Number.isFinite(restoreScrollY)) {
+      window.requestAnimationFrame(() => {
+        window.scrollTo(0, restoreScrollY);
+      });
+    }
+  }, [restoreScrollY]);
+
+  useEffect(() => {
+    if (!restoreActivePlanId) return;
+    setUi((current) => ({
+      ...current,
+      activePlanId: restoreActivePlanId,
+    }));
+  }, [restoreActivePlanId]);
+
+  const presentation = useMemo(() => {
+    const base = resolveBuildPlanResultsPagePresentation({
+      homeData,
+      form: workingForm,
+      sortId,
+    });
+    if (base.source !== 'mockup-fixture') return base;
+    if (!adjustmentsApplied) {
+      return {
+        ...base,
+        summaryLine: buildSummaryLine(workingForm, base.summaryLine),
+      };
+    }
+    const filtered = filterMockupPlans(base.plans, workingForm);
+    return {
+      ...base,
+      summaryLine: buildSummaryLine(workingForm, base.summaryLine),
+      plans: filtered,
+      plansFoundLabel: `${filtered.length} plans found`,
+      emptyMessage:
+        filtered.length === 0
+          ? 'No plans match these adjustments. Try changing time, film, or break settings.'
+          : null,
+    };
+  }, [homeData, workingForm, sortId, adjustmentsApplied]);
+
+  const [ui, setUi] = useState(() =>
+    createBuildPlanResultsUiStateFromPresentation(presentation),
+  );
+
+  const plansKey = useMemo(
+    () =>
+      `${presentation.source}:${presentation.plans.map((p) => p.id).join('|')}`,
+    [presentation.source, presentation.plans],
+  );
+
+  useEffect(() => {
+    setUi((current) => ({
+      ...createBuildPlanResultsUiStateFromPresentation(presentation),
+      sortId: current.sortId === sortId ? sortId : sortId,
+    }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- plansKey seeds selection
+  }, [plansKey]);
 
   const announce = (actionId, label, message) => {
     const text =
-      message ??
-      `${label} isn’t available in this Stage 1 Results shell yet.`;
+      message ?? `${label} isn’t available in this Results shell yet.`;
     setStatusMessage(text);
     onStubAction?.(actionId, label);
   };
 
-  const orderedPlans = getBuildPlanResultsOrderedPlans(ui.sortId);
-  const visibleChips = presentation.preferenceChips.filter(
-    (chip) => !ui.dismissedChipIds.includes(chip.id),
+  const orderedPlans = presentation.plans;
+  const activePlan =
+    orderedPlans.find((p) => p.id === ui.activePlanId) ??
+    orderedPlans[0] ??
+    null;
+
+  const handleShareExport = useCallback(() => {
+    // Header Share action: Export plan to calendar (.ics) when showtimes are exportable.
+    const films = selectedFilmsForCalendarExport(
+      activePlan,
+      ui.selectedFilmIds,
+    );
+    if (films.length === 0) {
+      announce(
+        'share',
+        presentation.shareLabel,
+        'Calendar export (.ics) needs real showtimes. Fixture results can’t export yet — use Add to calendar on Film Detail. Sync isn’t available.',
+      );
+      return;
+    }
+    const result = exportPlanToCalendar({
+      planId: activePlan?.id ?? null,
+      title: presentation.pageTitle,
+      films,
+    });
+    setStatusMessage(calendarExportStatusMessage(result));
+    onStubAction?.('share', presentation.shareLabel);
+  }, [
+    activePlan,
+    ui.selectedFilmIds,
+    presentation.shareLabel,
+    presentation.pageTitle,
+    onStubAction,
+  ]);
+
+  useEffect(() => {
+    onShareReady?.(handleShareExport);
+    return () => onShareReady?.(null);
+  }, [onShareReady, handleShareExport]);
+
+  // Open film overlay for QC interaction=film once plans exist.
+  useEffect(() => {
+    if (activeAdjustment !== 'film' || adjustmentFilm) return;
+    const firstFilm = orderedPlans
+      .flatMap((p) => p.items)
+      .find((i) => i.type !== 'break');
+    if (firstFilm) setAdjustmentFilm(firstFilm);
+  }, [activeAdjustment, adjustmentFilm, orderedPlans]);
+
+  const closeAdjustment = useCallback(() => {
+    const kind = activeAdjustment;
+    const filmId = adjustmentFilm?.id;
+    setActiveAdjustment(null);
+    setAdjustmentFilm(null);
+    window.setTimeout(() => {
+      if (kind === 'time' && filmId) {
+        timeButtonRefs.current.get(filmId)?.focus();
+      } else if (kind === 'film' && filmId) {
+        filmButtonRefs.current.get(filmId)?.focus();
+      } else if (kind === 'break' && triggerRef.current) {
+        breakButtonRefs.current.get(triggerRef.current)?.focus();
+      }
+      triggerRef.current = null;
+    }, 0);
+  }, [activeAdjustment, adjustmentFilm]);
+
+  const commitForm = useCallback(
+    (nextForm) => {
+      setWorkingForm(nextForm);
+      setBuildPlanFormSession(nextForm);
+      setAdjustmentsApplied(true);
+      applyBusyRef.current = false;
+      closeAdjustment();
+    },
+    [closeAdjustment],
   );
 
-  const sheetFilm =
-    sheetFilmId == null
-      ? null
-      : orderedPlans
-          .flatMap((plan) => plan.items)
-          .find((item) => item.type !== 'break' && item.id === sheetFilmId) ??
-        null;
-
-  const closeSheet = useCallback(() => {
-    const triggerId = sheetTriggerIdRef.current;
-    setSheetFilmId(null);
-    sheetTriggerIdRef.current = null;
-    window.setTimeout(() => {
-      if (triggerId) filmButtonRefs.current.get(triggerId)?.focus();
-    }, 0);
-  }, []);
-
-  const openFilmSheet = useCallback((film) => {
-    sheetTriggerIdRef.current = film.id;
-    setSheetFilmId(film.id);
-  }, []);
-
-  const setFilmPreference = useCallback((filmId, preference) => {
-    setUi((current) => {
-      const nextSelected = [...current.selectedFilmIds];
-      const idx = nextSelected.indexOf(filmId);
-      if (preference === 'notInterested') {
-        if (idx >= 0) nextSelected.splice(idx, 1);
-      } else if (idx < 0) {
-        nextSelected.push(filmId);
-      }
-      return {
-        ...current,
-        filmPreferences: {
-          ...current.filmPreferences,
-          [filmId]: preference,
-        },
-        selectedFilmIds: nextSelected,
-      };
-    });
-  }, []);
-
-  const toggleFilm = (filmId) => {
-    setUi((current) => {
-      const has = current.selectedFilmIds.includes(filmId);
-      return {
-        ...current,
-        selectedFilmIds: has
-          ? current.selectedFilmIds.filter((id) => id !== filmId)
-          : [...current.selectedFilmIds, filmId],
-      };
+  const handleApplyTime = (next) => {
+    if (applyBusyRef.current) return;
+    applyBusyRef.current = true;
+    commitForm({
+      ...workingForm,
+      startAfter: next.startAfter,
+      finishBefore: next.endBefore,
     });
   };
 
-  const resetRefine = () => {
-    setUi((current) => ({
-      ...current,
-      amcAListOnly: false,
-      includeSpecialEvents: true,
-      excludeSoldOut: false,
-    }));
-    setStatusMessage('Refine controls reset to Stage 1 defaults.');
+  const handleApplyFilm = (next) => {
+    if (applyBusyRef.current || !adjustmentFilm) return;
+    applyBusyRef.current = true;
+    const ref = filmRefFromResultsFilm(adjustmentFilm);
+    if (next.seen) {
+      markFilmSeen(resolvedStorage, ref);
+      clearFilmNotInterested(resolvedStorage, ref);
+    } else {
+      markFilmUnseen(resolvedStorage, ref);
+    }
+    if (next.notInterested) {
+      markFilmNotInterested(resolvedStorage, ref);
+      markFilmUnseen(resolvedStorage, ref);
+    } else if (!next.seen) {
+      clearFilmNotInterested(resolvedStorage, ref);
+    }
+    const nextForm = applyFilmPreferenceToForm(
+      workingForm,
+      adjustmentFilm,
+      next.preference,
+    );
+    setStoreTick((n) => n + 1);
+    commitForm(nextForm);
   };
+
+  const handleApplyBreak = (next) => {
+    if (applyBusyRef.current) return;
+    applyBusyRef.current = true;
+    commitForm({
+      ...workingForm,
+      minGap: formatBreakMinutes(next.minBreakMinutes),
+      maxGap:
+        next.maxBreakMinutes == null
+          ? 'Any'
+          : formatBreakMinutes(next.maxBreakMinutes),
+    });
+  };
+
+  const handleAddToSchedule = (plan) => {
+    if (savedPlanIds.includes(plan.id)) {
+      setStatusMessage('Already in My Schedule.');
+      return;
+    }
+    const result = acceptResultsPlan(plan, ui.selectedFilmIds, {
+      storage: resolvedStorage,
+      provenance: presentation.source === 'live' ? 'live' : 'fixture',
+      label: presentation.pageTitle,
+    });
+    setStatusMessage(result.message);
+    onStubAction?.(`save-${plan.id}`, presentation.savePlanLabel);
+    if (result.ok) {
+      setSavedPlanIds((ids) =>
+        ids.includes(plan.id) ? ids : [...ids, plan.id],
+      );
+      if (result.changed) onAcceptedPlanChange?.();
+    }
+  };
+
+  const handleSavePlan = handleAddToSchedule;
+
+  const handleViewPlan = (plan) => {
+    if (typeof onViewPlanDetails === 'function') {
+      onViewPlanDetails(plan, {
+        sortId,
+        form: workingForm,
+        scrollY: typeof window !== 'undefined' ? window.scrollY : 0,
+      });
+      return;
+    }
+    announce(`view-${plan.id}`, presentation.viewPlanLabel);
+  };
+
+  const handleBack = () => {
+    if (backBusyRef.current) return;
+    backBusyRef.current = true;
+    onBack();
+  };
+
+  const filmPref =
+    adjustmentFilm != null
+      ? preferenceFromForm(workingForm, adjustmentFilm)
+      : 'prefer';
+  const filmSeen =
+    adjustmentFilm != null
+      ? isFilmSeen(resolvedStorage, filmRefFromResultsFilm(adjustmentFilm))
+      : false;
+  const filmNi =
+    adjustmentFilm != null
+      ? isFilmNotInterested(
+          resolvedStorage,
+          filmRefFromResultsFilm(adjustmentFilm),
+        )
+      : false;
+  void storeTick;
+
+  const minBreakMinutes =
+    parseBreakLabelToMinutes(workingForm.minGap ?? 'Any') ?? 0;
+  const maxBreakMinutes = parseBreakLabelToMinutes(
+    workingForm.maxGap ?? 'Any',
+  );
+
+  const overlayOpen = activeAdjustment != null;
 
   return (
     <>
-    <article
-      className={`v2-bpr${sheetFilm ? ' is-sheet-open' : ''}`}
-      aria-labelledby="v2-bpr-title"
-      data-build-plan-results-source={presentation.source}
-      {...(sheetFilm ? { inert: '' } : {})}
-    >
-      <header className="v2-bpr-top" data-bpr-section="header">
-        <button
-          type="button"
-          className="v2-bpr-back"
-          aria-label={`Back to ${backLabel}`}
-          onClick={onBack}
+      <article
+        className={`v2-bpr${overlayOpen ? ' is-sheet-open' : ''}`}
+        aria-labelledby="v2-bpr-title"
+        data-build-plan-results-source={presentation.source}
+        data-bpr-interaction={activeAdjustment ?? 'none'}
+        {...(overlayOpen ? { inert: '' } : {})}
+      >
+        <p
+          id={statusId}
+          className={statusMessage ? 'v2-bpr-status' : 'v2-visually-hidden'}
+          role="status"
+          aria-live="polite"
         >
-          <span aria-hidden="true">←</span>
-        </button>
-        <button
-          type="button"
-          className="v2-bpr-share"
-          aria-label={presentation.shareLabel}
-          onClick={() =>
-            announce('share', presentation.shareLabel, 'Share / export isn’t available in this Stage 1 Results shell yet.')
-          }
-        >
-          <span>{presentation.shareLabel}</span>
-          <IconShare width={14} height={14} aria-hidden="true" />
-        </button>
-      </header>
+          {statusMessage ?? ''}
+        </p>
 
-      <div className="v2-bpr-intro" data-bpr-section="summary">
-        <h1 id="v2-bpr-title" className="v2-bpr-title">
-          {presentation.pageTitle}{' '}
-          <span className="v2-bpr-spark" aria-hidden="true">
-            <IconSpark />
-          </span>
-        </h1>
-        <p className="v2-bpr-summary">{presentation.summaryLine}</p>
-      </div>
-
-      <div
-        className="v2-bpr-chips"
-        data-bpr-section="preferenceChips"
-        aria-label="Plan preferences"
-      >
-        {visibleChips.map((chip) => (
-          <button
-            key={chip.id}
-            type="button"
-            className={`v2-bpr-chip v2-bpr-chip-${chip.kind}`}
-            onClick={() => {
-              if (chip.removable) {
-                setUi((c) => ({
-                  ...c,
-                  dismissedChipIds: [...c.dismissedChipIds, chip.id],
-                }));
-                return;
-              }
-              announce(`chip-${chip.id}`, chip.value || chip.label);
-            }}
-          >
-            {chip.label ? (
-              <span className="v2-bpr-chip-label">{chip.label}</span>
-            ) : null}
-            <span className="v2-bpr-chip-value">{chip.value}</span>
-            {chip.removable ? (
-              <span aria-hidden="true">
-                <IconClose width={10} height={10} />
-              </span>
-            ) : (
-              <span aria-hidden="true">▾</span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      <div
-        className="v2-bpr-quick"
-        data-bpr-section="quickAdjust"
-        aria-label="Quick adjustments"
-      >
-        {presentation.quickAdjust.map((item) => {
-          const Icon = ADJUST_ICONS[item.icon] ?? IconSliders;
-          return (
-            <button
-              key={item.id}
-              type="button"
-              className="v2-bpr-quick-card"
-              onClick={() => announce(`quick-${item.id}`, item.label)}
-            >
-              <span className="v2-bpr-quick-icon" aria-hidden="true">
-                <Icon width={14} height={14} />
-              </span>
-              <span className="v2-bpr-quick-copy">
-                <span className="v2-bpr-quick-label">{item.label}</span>
-                {item.value ? (
-                  <span className="v2-bpr-quick-value">{item.value}</span>
-                ) : null}
-              </span>
-              {item.id !== 'adjust' ? (
-                <span aria-hidden="true">▾</span>
-              ) : null}
-            </button>
-          );
-        })}
-      </div>
-
-      <section
-        className="v2-bpr-sort"
-        data-bpr-section="sort"
-        aria-labelledby="v2-bpr-sort-h"
-      >
-        <h2 id="v2-bpr-sort-h" className="v2-bpr-sort-label">
-          {presentation.sortLabel}
-        </h2>
-        <div
-          className="v2-bpr-sort-row"
-          role="radiogroup"
-          aria-label={presentation.sortLabel}
-        >
-          {presentation.sortOptions.map((opt) => {
-            const Icon = SORT_ICONS[opt.icon] ?? IconSpark;
-            const selected = ui.sortId === opt.id;
-            return (
-              <button
-                key={opt.id}
-                type="button"
-                role="radio"
-                aria-checked={selected}
-                className={`v2-bpr-sort-chip${selected ? ' is-selected' : ''}`}
-                onClick={() => setUi((c) => ({ ...c, sortId: opt.id }))}
-              >
-                <Icon width={12} height={12} aria-hidden="true" />
-                <span>{opt.label}</span>
-              </button>
-            );
-          })}
-        </div>
-        <p className="v2-bpr-count">{presentation.plansFoundLabel}</p>
-      </section>
-
-      <div
-        className="v2-bpr-plans"
-        data-bpr-section="plans"
-        role="radiogroup"
-        aria-label="Candidate plans"
-      >
-        {orderedPlans.map((plan) => (
-          <PlanItineraryCard
-            key={plan.id}
-            plan={plan}
-            active={ui.activePlanId === plan.id}
-            favorited={ui.favoritedPlanIds.includes(plan.id)}
-            selectedFilmIds={ui.selectedFilmIds}
-            filmPreferences={ui.filmPreferences}
-            sheetFilmId={sheetFilmId}
-            filmButtonRefs={filmButtonRefs}
-            viewPlanLabel={presentation.viewPlanLabel}
-            moreActionsLabel={presentation.moreActionsLabel}
-            addToScheduleLabel={presentation.addToScheduleLabel}
-            onSelectPlan={(id) => setUi((c) => ({ ...c, activePlanId: id }))}
-            onToggleFavorite={(id) =>
-              setUi((c) => ({
-                ...c,
-                favoritedPlanIds: c.favoritedPlanIds.includes(id)
-                  ? c.favoritedPlanIds.filter((x) => x !== id)
-                  : [...c.favoritedPlanIds, id],
-              }))
-            }
-            onToggleFilm={toggleFilm}
-            onOpenFilmSheet={openFilmSheet}
-            onViewPlan={(p) => announce(`view-${p.id}`, presentation.viewPlanLabel)}
-            onMoreActions={(p) =>
-              announce(`more-${p.id}`, presentation.moreActionsLabel)
-            }
-            onAddToSchedule={(p) =>
-              announce(
-                `schedule-${p.id}`,
-                presentation.addToScheduleLabel,
-                'Add to My Schedule isn’t available in this Stage 1 Results shell yet.',
-              )
-            }
-          />
-        ))}
-        <button
-          type="button"
-          className="v2-bpr-load-more"
-          onClick={() => announce('load-more', presentation.loadMoreLabel)}
-        >
-          {presentation.loadMoreLabel}
-          <span aria-hidden="true">▾</span>
-        </button>
-      </div>
-
-      <section
-        className="v2-bpr-refine"
-        data-bpr-section="refine"
-        aria-labelledby="v2-bpr-refine-h"
-      >
-        <div className="v2-bpr-refine-head">
-          <div>
-            <h2 id="v2-bpr-refine-h" className="v2-bpr-refine-title">
-              {presentation.refine.title}
-            </h2>
-            <p className="v2-bpr-refine-support">{presentation.refine.support}</p>
-          </div>
-          <button
-            type="button"
-            className="v2-bpr-reset"
-            onClick={resetRefine}
-          >
-            <IconRefresh aria-hidden="true" />
-            {presentation.refine.resetLabel}
-          </button>
-        </div>
-        <div className="v2-bpr-refine-grid">
-          {presentation.refine.fields.map((field) => {
-            const Icon = ADJUST_ICONS[field.icon] ?? IconClock;
-            return (
-              <button
-                key={field.id}
-                type="button"
-                className="v2-bpr-refine-field"
-                onClick={() => announce(`refine-${field.id}`, field.label)}
-              >
-                <span aria-hidden="true">
-                  <Icon width={14} height={14} />
-                </span>
-                <span className="v2-bpr-refine-field-copy">
-                  <span>{field.label}</span>
-                  <span className="v2-bpr-refine-field-value">{field.value}</span>
-                </span>
-                <span aria-hidden="true">▾</span>
-              </button>
-            );
-          })}
-        </div>
-        <div className="v2-bpr-refine-extra">
-          <button
-            type="button"
-            className="v2-bpr-refine-link"
-            onClick={() =>
-              announce('premium-formats', presentation.refine.premiumFormatsLabel)
-            }
-          >
-            <span>
-              <span className="v2-bpr-refine-link-label">
-                {presentation.refine.premiumFormatsLabel}
-              </span>
-              <span className="v2-bpr-refine-link-value">
-                {presentation.refine.premiumFormatsValue}
-              </span>
+        <div className="v2-bpr-intro" data-bpr-section="summary">
+          <h1 id="v2-bpr-title" className="v2-bpr-title">
+            {presentation.pageTitle}{' '}
+            <span className="v2-bpr-spark" aria-hidden="true">
+              <IconSpark width={14} height={14} />
+              <IconSpark width={10} height={10} />
             </span>
-            <IconChevron aria-hidden="true" />
-          </button>
-          {presentation.refine.toggles.map((toggle) => (
-            <label
-              key={toggle.id}
-              className="v2-bpr-refine-toggle"
-              htmlFor={`v2-bpr-${toggle.id}`}
-            >
-              <span>
-                <span className="v2-bpr-refine-link-label">{toggle.label}</span>
-                <span className="v2-bpr-refine-link-value">
-                  {ui[toggle.id] ? 'On' : 'Off'}
+          </h1>
+          <p className="v2-bpr-summary">{presentation.summaryLine}</p>
+          <p className="v2-bpr-hint">
+            <IconSpark width={12} height={12} aria-hidden="true" />
+            <span>Tap a time, film, or break to adjust results instantly.</span>
+          </p>
+        </div>
+
+        <section className="v2-bpr-sort" data-bpr-section="sort">
+          <div className="v2-bpr-sort-bar">
+            <span className="v2-bpr-sort-label">{presentation.sortLabel}</span>
+            <div className="v2-bpr-sort-controls">
+              <button
+                type="button"
+                className="v2-bpr-sort-select"
+                aria-haspopup="listbox"
+                aria-expanded={sortOpen}
+                onClick={() => setSortOpen((v) => !v)}
+              >
+                <IconSpark width={12} height={12} aria-hidden="true" />
+                <span>
+                  {presentation.sortOptions.find((o) => o.id === sortId)
+                    ?.label ?? 'Best match'}
                 </span>
-              </span>
-              <span className="v2-bp-switch">
-                <input
-                  id={`v2-bpr-${toggle.id}`}
-                  type="checkbox"
-                  role="switch"
-                  checked={Boolean(ui[toggle.id])}
-                  aria-checked={Boolean(ui[toggle.id])}
-                  onChange={(e) =>
-                    setUi((c) => ({ ...c, [toggle.id]: e.target.checked }))
-                  }
-                />
-                <span className="v2-bp-switch-track" aria-hidden="true" />
-              </span>
-            </label>
+                <IconChevron width={12} height={12} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="v2-bpr-sort-tool"
+                aria-label="Sort by shortest runtime"
+                onClick={() => setSortId('shortest-runtime')}
+              >
+                <IconHourglass width={14} height={14} />
+              </button>
+            </div>
+          </div>
+          {sortOpen ? (
+            <ul
+              className="v2-bpr-sort-menu"
+              role="listbox"
+              aria-label={presentation.sortLabel}
+            >
+              {presentation.sortOptions.map((opt) => (
+                <li key={opt.id}>
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={sortId === opt.id}
+                    className={sortId === opt.id ? 'is-selected' : undefined}
+                    onClick={() => {
+                      setSortId(opt.id);
+                      setSortOpen(false);
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          <p className="v2-bpr-count">{presentation.plansFoundLabel}</p>
+        </section>
+
+        <div
+          className="v2-bpr-plans"
+          data-bpr-section="plans"
+          aria-label="Candidate plans"
+        >
+          {orderedPlans.length === 0 ? (
+            <div className="v2-bpr-empty" role="status">
+              <p>
+                {presentation.emptyMessage ??
+                  'No plans fit these filters.'}
+              </p>
+              <button
+                type="button"
+                className="v2-bpr-empty-action"
+                onClick={() => setActiveAdjustment('time')}
+              >
+                Adjust time window
+              </button>
+            </div>
+          ) : null}
+          {orderedPlans.map((plan) => (
+            <PlanItineraryCard
+              key={plan.id}
+              plan={plan}
+              saved={savedPlanIds.includes(plan.id)}
+              timeButtonRefs={timeButtonRefs}
+              filmButtonRefs={filmButtonRefs}
+              breakButtonRefs={breakButtonRefs}
+              viewPlanLabel={presentation.viewPlanLabel}
+              savePlanLabel={presentation.savePlanLabel ?? 'Add to My Schedule'}
+              savedPlanLabel={
+                presentation.savedPlanLabel ?? 'Added to My Schedule'
+              }
+              onOpenTime={(film) => {
+                triggerRef.current = film.id;
+                setAdjustmentFilm(film);
+                setActiveAdjustment('time');
+              }}
+              onOpenFilm={(film) => {
+                triggerRef.current = film.id;
+                setAdjustmentFilm(film);
+                setActiveAdjustment('film');
+              }}
+              onOpenBreak={(item) => {
+                triggerRef.current = item.id;
+                setActiveAdjustment('break');
+              }}
+              onViewPlan={handleViewPlan}
+              onSavePlan={handleSavePlan}
+            />
           ))}
         </div>
-      </section>
-    </article>
 
-    <p
-      id={statusId}
-      className="v2-visually-hidden"
-      role="status"
-      aria-live="polite"
-    >
-      {statusMessage ?? ''}
-    </p>
+        <span className="v2-visually-hidden">Back to {backLabel}</span>
+        <button
+          type="button"
+          className="v2-visually-hidden"
+          onClick={handleBack}
+        >
+          Back
+        </button>
+      </article>
 
-    {sheetFilm ? (
-      <PlanFilmInteractionSheet
-        film={sheetFilm}
-        preference={ui.filmPreferences[sheetFilm.id] ?? sheetFilm.preference}
-        sheetCopy={presentation.filmSheet}
-        onPreferenceChange={(prefId) =>
-          setFilmPreference(sheetFilm.id, prefId)
-        }
-        onClose={closeSheet}
-        onStubAction={(actionId, label, message) =>
-          announce(actionId, label, message)
-        }
-      />
-    ) : null}
+      {activeAdjustment === 'time' ? (
+        <AdjustTimeWindowOverlay
+          startAfter={workingForm.startAfter}
+          endBefore={workingForm.finishBefore}
+          onCancel={closeAdjustment}
+          onApply={handleApplyTime}
+        />
+      ) : null}
+      {activeAdjustment === 'film' && adjustmentFilm ? (
+        <AdjustFilmInPlansOverlay
+          film={adjustmentFilm}
+          preference={filmPref}
+          seen={filmSeen}
+          notInterested={filmNi}
+          onCancel={closeAdjustment}
+          onApply={handleApplyFilm}
+        />
+      ) : null}
+      {activeAdjustment === 'break' ? (
+        <AdjustBreakLengthOverlay
+          minBreakMinutes={minBreakMinutes}
+          maxBreakMinutes={maxBreakMinutes}
+          onCancel={closeAdjustment}
+          onApply={handleApplyBreak}
+        />
+      ) : null}
     </>
   );
 }
+
+export { PLAN_RESULTS_INTERACTION_QUERY };

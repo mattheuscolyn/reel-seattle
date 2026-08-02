@@ -81,6 +81,26 @@ test('Theater Detail fixture matches canonical Beacon regions', () => {
   ]);
 });
 
+test('Theater Detail page resolver defaults to live production mode', async () => {
+  const { resolveTheaterDetailPagePresentation } = await import(
+    '../../v2/theaters/resolveTheatersPagePresentation.js'
+  );
+  const resolved = resolveTheaterDetailPagePresentation({
+    theaterId: THEATER_DETAIL_DEFAULT_THEATER_ID,
+    homeData: null,
+    forceMode: 'mockup-fixture',
+  });
+  assert.equal(resolved.mode, 'mockup-fixture');
+  assert.equal(resolved.presentation, getTheaterDetailMockupPresentation());
+
+  const live = resolveTheaterDetailPagePresentation({
+    theaterId: 'missing-id',
+    homeData: { theatersById: {} },
+  });
+  assert.equal(live.mode, 'production');
+  assert.equal(live.presentation.notFound, true);
+});
+
 test('Theater Detail surface is designed page, not placeholder', () => {
   assert.match(APP_SRC, /TheaterDetailSurface/);
   assert.match(SURFACE_SRC, /data-theater-detail-source/);

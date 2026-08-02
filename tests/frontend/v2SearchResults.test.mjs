@@ -192,21 +192,34 @@ test('film ordering is deterministic: exact/prefix before contains', () => {
 test('unsupported person search produces no fictional person results', () => {
   const model = buildSearchResultsModel(sampleHome(), 'Kurosawa');
   assert.equal(model.personSearchSupported, false);
+  // Sample fixtures lack filmId + enrichmentIndex — no fabricated person/metadata hits.
   assert.equal(model.films.every((f) => f.director == null), true);
   assert.equal(model.films.every((f) => f.year == null), true);
   assert.equal(model.films.every((f) => f.synopsis == null), true);
 });
 
-test('fictional mockup titles are absent from Search Results source', () => {
+test('null filmId keeps search result without enrichment fields', () => {
+  const model = buildSearchResultsModel(sampleHome(), 'Alpha Night');
+  const row = model.films.find((f) => f.filmKey === 'alpha');
+  assert.ok(row);
+  assert.equal(row.filmId, null);
+  assert.equal(row.year, null);
+  assert.equal(row.genre, null);
+  assert.equal(row.synopsis, null);
+  assert.equal(row.rating, null);
+  assert.ok(row.metaLine); // runtime remains
+  assert.equal(row.posterUrl, 'https://example.com/a.jpg');
+});
+
+test('Search Results surface reuses shared enrichmentIndex (no second fetch)', () => {
   const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
   const source = readFileSync(
     join(root, 'v2/surfaces/SearchResultsSurface.jsx'),
     'utf8',
   );
-  assert.equal(source.includes('Seven Samurai'), false);
-  assert.equal(source.includes('Rashomon'), false);
-  assert.equal(source.includes('Kurosawa Cinema'), false);
-  assert.equal(source.includes('Akira Kurosawa'), false);
+  assert.equal(source.includes('loadFilmEnrichment'), false);
+  assert.equal(source.includes('enrichmentIndex'), true);
+  assert.equal(source.includes('v2-search-expand-synopsis'), true);
 });
 
 test('search results surface uses restrained violet class names', () => {

@@ -15,8 +15,9 @@ import {
   IconSliders,
   IconStar,
 } from '../icons.jsx';
-import { resolveTheatersPresentation } from '../fixtures/theatersMockupFixture.js';
 import { THEATER_DETAIL_DEFAULT_THEATER_ID } from '../fixtures/theaterDetailMockupFixture.js';
+import { resolveTheatersPagePresentation } from './resolveTheatersPagePresentation.js';
+import { TheaterVenueImage } from './TheaterVenueImage.jsx';
 
 function TheaterNowShowing({
   theater,
@@ -69,7 +70,7 @@ function TheaterNowShowing({
         </ul>
       ) : (
         <p className="v2-theaters-now-empty" role="status">
-          No films in this Stage 1 fixture window.
+          No showtimes in the next seven days.
         </p>
       )}
     </div>
@@ -103,27 +104,38 @@ function TheaterListItem({
           onClick={onToggle}
         >
           <span className="v2-theaters-card-thumb">
-            {theater.imageUrl ? (
-              <img src={theater.imageUrl} alt="" draggable="false" />
-            ) : (
-              <span className="v2-shelf-poster-fallback" aria-hidden="true" />
-            )}
+            <TheaterVenueImage
+              src={theater.thumbnailUrl ?? theater.imageUrl}
+              loading="lazy"
+            />
           </span>
           <span className="v2-theaters-card-copy">
             <span className="v2-theaters-card-name">{theater.name}</span>
-            <span className="v2-theaters-card-address">
-              {theater.addressLabel}
-            </span>
-            <span className="v2-theaters-card-meta">
-              <span className="v2-theaters-card-fact">
-                <IconBuilding width={12} height={12} aria-hidden="true" />
-                {theater.screensLabel}
+            {theater.addressLabel ? (
+              <span className="v2-theaters-card-address">
+                {theater.addressLabel}
               </span>
-              <span className="v2-theaters-card-fact">
-                <IconFilm width={12} height={12} aria-hidden="true" />
-                {theater.formatsLabel}
+            ) : theater.neighborhood ? (
+              <span className="v2-theaters-card-address">
+                {theater.neighborhood}
               </span>
-            </span>
+            ) : null}
+            {theater.screensLabel || theater.formatsLabel ? (
+              <span className="v2-theaters-card-meta">
+                {theater.screensLabel ? (
+                  <span className="v2-theaters-card-fact">
+                    <IconBuilding width={12} height={12} aria-hidden="true" />
+                    {theater.screensLabel}
+                  </span>
+                ) : null}
+                {theater.formatsLabel ? (
+                  <span className="v2-theaters-card-fact">
+                    <IconFilm width={12} height={12} aria-hidden="true" />
+                    {theater.formatsLabel}
+                  </span>
+                ) : null}
+              </span>
+            ) : null}
           </span>
           <span className="v2-theaters-card-chevron" aria-hidden="true">
             {expanded ? '⌃' : <IconChevron />}
@@ -189,10 +201,12 @@ function TheaterListItem({
               className="v2-theaters-card-more"
               aria-label={`${labels.moreDetailsLabel} for ${theater.name}`}
               onClick={() => {
-                if (
-                  theater.id === THEATER_DETAIL_DEFAULT_THEATER_ID &&
-                  typeof onOpenTheaterDetail === 'function'
-                ) {
+                const canOpenDetail =
+                  typeof onOpenTheaterDetail === 'function' &&
+                  theater.id &&
+                  (theater.openDetailEnabled === true ||
+                    theater.id === THEATER_DETAIL_DEFAULT_THEATER_ID);
+                if (canOpenDetail) {
                   onOpenTheaterDetail({ theaterId: theater.id });
                   return;
                 }
@@ -216,6 +230,7 @@ function TheaterListItem({
  * @param {{
  *   onBack: () => void,
  *   backLabel?: string,
+ *   homeData?: object | null,
  *   onOpenFilmDetail?: (payload: { filmKey: string, opportunityKey?: string | null }) => void,
  *   onOpenTheaterDetail?: (payload: { theaterId: string }) => void,
  *   onStubAction?: (actionId: string, label: string) => void,
@@ -224,11 +239,12 @@ function TheaterListItem({
 export default function TheatersSurface({
   onBack,
   backLabel = 'Explore',
+  homeData = null,
   onOpenFilmDetail,
   onStubAction,
   onOpenTheaterDetail,
 }) {
-  const presentation = resolveTheatersPresentation();
+  const { presentation } = resolveTheatersPagePresentation({ homeData });
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
   const initialExpanded =
@@ -238,7 +254,10 @@ export default function TheatersSurface({
   const [expandedTheaterId, setExpandedTheaterId] = useState(initialExpanded);
 
   const announceStub = (actionId, label) => {
-    const message = `${label} isn’t available in this Stage 1 Theaters shell yet.`;
+    const message =
+      presentation.source === 'home-data'
+        ? `${label} isn’t available on Theaters yet.`
+        : `${label} isn’t available in this Stage 1 Theaters shell yet.`;
     setStubMessage(message);
     onStubAction?.(actionId, label);
   };

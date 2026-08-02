@@ -1,16 +1,34 @@
-import { IconChevron } from '../icons.jsx';
+import {
+  IconBookmark,
+  IconCheckCircle,
+  IconChevron,
+  IconCloseCircle,
+  IconStar,
+  IconTicket,
+} from '../icons.jsx';
 
 /**
- * Concise inline quick-detail — “Is this worth investigating?”
- * Not a miniature Film Detail page.
+ * Concise inline quick-detail — matches Home Landing mockup panel.
+ * Save / Seen / Not interested use local stores; actions must not open Film Detail.
  */
 export default function InlineQuickDetail({
   detail,
   panelId,
   onClose,
   onMoreDetails,
+  saved = false,
+  seen = false,
+  notInterested = false,
+  onToggleSave,
+  onToggleSeen,
+  onToggleNotInterested,
 }) {
   if (!detail) return null;
+
+  const stop = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
 
   return (
     <div
@@ -21,11 +39,11 @@ export default function InlineQuickDetail({
     >
       <button
         type="button"
-        className="v2-inline-detail-close"
+        className="v2-inline-detail-close v2-visually-hidden"
         aria-label="Collapse film details"
         onClick={onClose}
       >
-        <span aria-hidden="true">×</span>
+        Collapse
       </button>
 
       <div className="v2-inline-detail-body">
@@ -41,49 +59,93 @@ export default function InlineQuickDetail({
 
         <div className="v2-inline-detail-copy">
           <h3 className="v2-inline-detail-title">{detail.title}</h3>
-          {detail.metaLine ? (
-            <p className="v2-inline-detail-meta">{detail.metaLine}</p>
-          ) : null}
           {detail.synopsis ? (
             <p className="v2-inline-detail-synopsis">{detail.synopsis}</p>
           ) : null}
+          {detail.metaLine ? (
+            <p className="v2-inline-detail-meta">{detail.metaLine}</p>
+          ) : null}
+          {detail.surfaceReasonLabel ? (
+            <p className="v2-inline-detail-opportunity">
+              <span className="v2-inline-detail-opportunity-icon" aria-hidden="true">
+                <IconTicket width={12} height={12} />
+              </span>
+              <span>{detail.surfaceReasonLabel}</span>
+            </p>
+          ) : null}
           {detail.showingLine ? (
             <p className="v2-inline-detail-showing">
-              <span className="v2-inline-detail-showing-label">Next showtime</span>
-              {detail.showingLine}
+              <span className="v2-inline-detail-showing-icon" aria-hidden="true">
+                <IconStar width={12} height={12} />
+              </span>
+              <span>{detail.showingLine}</span>
             </p>
           ) : (
             <p className="v2-inline-detail-showing v2-inline-detail-muted">
               No upcoming showtimes in the current window.
             </p>
           )}
-
-          <div className="v2-inline-detail-chips">
-            {detail.surfaceReasonLabel ? (
-              <span className="v2-inline-chip v2-inline-chip-accent">
-                {detail.surfaceReasonLabel}
-              </span>
-            ) : null}
-            {detail.alsoPlayingLabel ? (
-              <span className="v2-inline-chip">{detail.alsoPlayingLabel}</span>
-            ) : null}
-          </div>
+          <button
+            type="button"
+            className="v2-inline-more"
+            onClick={(event) => {
+              stop(event);
+              onMoreDetails?.();
+            }}
+          >
+            More details
+            <IconChevron />
+          </button>
         </div>
       </div>
 
-      <div className="v2-inline-detail-footer">
+      <div className="v2-inline-detail-actions" role="group" aria-label="Film actions">
         <button
           type="button"
-          className="v2-inline-more"
-          onClick={onMoreDetails}
+          className={
+            saved
+              ? 'v2-inline-action v2-inline-action-on'
+              : 'v2-inline-action'
+          }
+          aria-pressed={saved}
+          onClick={(event) => {
+            stop(event);
+            onToggleSave?.();
+          }}
         >
-          More details
-          <IconChevron />
+          <IconBookmark width={14} height={14} aria-hidden="true" />
+          <span>Save</span>
         </button>
-        <p className="v2-inline-detail-actions-note">
-          Save is on Film Detail. Not interested is not available in this quick
-          panel yet.
-        </p>
+        <button
+          type="button"
+          className={
+            seen ? 'v2-inline-action v2-inline-action-on' : 'v2-inline-action'
+          }
+          aria-pressed={seen}
+          onClick={(event) => {
+            stop(event);
+            onToggleSeen?.();
+          }}
+        >
+          <IconCheckCircle width={14} height={14} aria-hidden="true" />
+          <span>Seen</span>
+        </button>
+        <button
+          type="button"
+          className={
+            notInterested
+              ? 'v2-inline-action v2-inline-action-on'
+              : 'v2-inline-action'
+          }
+          aria-pressed={notInterested}
+          onClick={(event) => {
+            stop(event);
+            onToggleNotInterested?.();
+          }}
+        >
+          <IconCloseCircle width={14} height={14} aria-hidden="true" />
+          <span>Not interested</span>
+        </button>
       </div>
     </div>
   );

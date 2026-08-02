@@ -5,7 +5,7 @@ import {
   clampSelectionIndex,
   selectTopOpportunities,
 } from '../adapters/selectTopOpportunities.js';
-import { IconInfo, IconStar } from '../icons.jsx';
+import { IconInfo, IconTicket } from '../icons.jsx';
 import OpportunityImageStage from '../topOpportunities/OpportunityImageStage.jsx';
 import {
   buildPositionLabel,
@@ -16,7 +16,7 @@ import { formatRuntimeLabel } from './shelfData.js';
 
 /**
  * Top Opportunity — real HomeData via selectTopOpportunities.
- * Bounded Prev/Next (disabled at ends; no wrap). Card opens Film Detail.
+ * Optional `mockSelections` is for `?homeMockup=1` visual QC only.
  *
  * @param {{
  *   status: 'loading' | 'ready' | 'error',
@@ -24,6 +24,7 @@ import { formatRuntimeLabel } from './shelfData.js';
  *   errorMessage?: string | null,
  *   initialIndex?: number,
  *   onIndexChange?: (index: number) => void,
+ *   mockSelections?: object[] | null,
  *   onOpenFilmDetail: (payload: {
  *     filmKey: string,
  *     opportunityKey: string | null,
@@ -37,13 +38,17 @@ export default function TopOpportunityFeature({
   errorMessage = null,
   initialIndex = 0,
   onIndexChange,
+  mockSelections = null,
   onOpenFilmDetail,
 }) {
   const headingId = useId();
   const [index, setIndex] = useState(initialIndex);
 
-  const selections =
-    status === 'ready' && homeData ? selectTopOpportunities(homeData) : [];
+  const selections = Array.isArray(mockSelections)
+    ? mockSelections
+    : status === 'ready' && homeData
+      ? selectTopOpportunities(homeData)
+      : [];
   const length = selections.length;
   const safeIndex = clampSelectionIndex(index, length);
   const active = selections[safeIndex] ?? null;
@@ -82,15 +87,21 @@ export default function TopOpportunityFeature({
         ),
       ]
     : [];
+  const genre =
+    typeof active?.film?.genre === 'string' && active.film.genre.trim()
+      ? active.film.genre.trim()
+      : null;
   const metaLine =
-    [runtimeLabel, ...formatLabels].filter(Boolean).join(' · ') || null;
+    [runtimeLabel, genre, ...formatLabels].filter(Boolean).join(' · ') || null;
   const showingLabel = buildShowingContextLabel(active);
 
   return (
     <section
       className="v2-top-opp"
       aria-labelledby={headingId}
-      data-source="selectTopOpportunities"
+      data-source={
+        Array.isArray(mockSelections) ? 'home-landing-mockup' : 'selectTopOpportunities'
+      }
     >
       <div className="v2-top-opp-bar">
         <div className="v2-top-opp-label-group">
@@ -210,7 +221,7 @@ export default function TopOpportunityFeature({
 
             <div className="v2-feature-reason">
               <span className="v2-feature-reason-icon" aria-hidden="true">
-                <IconStar />
+                <IconTicket width={14} height={14} />
               </span>
               <p className="v2-feature-reason-text">
                 {active.selectionReasonLabel}

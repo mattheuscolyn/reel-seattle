@@ -38,6 +38,7 @@ import {
 } from '../../v2/explore/exploreCatalog.js';
 import { COLLECTION_IDS } from '../../v2/explore/exploreIds.js';
 import { QUICK_START } from '../../v2/explore/exploreQuickStart.js';
+import { SHOWTIMES_BROWSE_QUICK_START_ID } from '../../v2/showtimes/showtimesBrowseModel.js';
 import { BROWSE_ROWS } from '../../v2/explore/exploreBrowseBy.js';
 import { buildSuggestedStarts } from '../../v2/explore/exploreSuggestedStarts.js';
 import {
@@ -299,11 +300,15 @@ test('All Movies / IMAX / 35mm honesty unchanged', () => {
 
 test('Quick Start and Browse By ids remain Explore surfaces', () => {
   for (const item of QUICK_START) {
+    if (item.id === SHOWTIMES_BROWSE_QUICK_START_ID) continue;
     assert.ok(Object.values(COLLECTION_IDS).includes(item.id));
   }
   for (const row of BROWSE_ROWS) {
     assert.ok(Object.values(COLLECTION_IDS).includes(row.id));
   }
+  assert.ok(
+    QUICK_START.some((item) => item.id === SHOWTIMES_BROWSE_QUICK_START_ID),
+  );
 });
 
 test('Film Detail from Explore collection keeps Explore active', () => {

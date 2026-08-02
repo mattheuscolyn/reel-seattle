@@ -21,8 +21,10 @@ import {
   IconWalk,
 } from '../icons.jsx';
 import {
-  resolveTheaterDetailPresentation,
+  THEATER_DETAIL_DEFAULT_THEATER_ID,
 } from '../fixtures/theaterDetailMockupFixture.js';
+import { resolveTheaterDetailPagePresentation } from './resolveTheatersPagePresentation.js';
+import { TheaterVenueImage } from './TheaterVenueImage.jsx';
 import {
   isTheaterFavorite,
   toggleFavoriteTheater,
@@ -55,6 +57,7 @@ function getBrowserStorage() {
  * @param {{
  *   theaterId?: string,
  *   backLabel?: string,
+ *   homeData?: object | null,
  *   onBack: () => void,
  *   onOpenFilmDetail?: (payload: { filmKey: string, opportunityKey?: string | null }) => void,
  *   onStubAction?: (actionId: string, label: string) => void,
@@ -63,16 +66,22 @@ function getBrowserStorage() {
 export default function TheaterDetailSurface({
   theaterId,
   backLabel,
+  homeData = null,
   onBack,
   onOpenFilmDetail,
   onStubAction,
 }) {
-  const presentation = resolveTheaterDetailPresentation(theaterId);
+  const { presentation } = resolveTheaterDetailPagePresentation({
+    theaterId,
+    homeData,
+  });
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [screenTabId, setScreenTabId] = useState('all');
-  const [selectedTimeId, setSelectedTimeId] = useState('s1-700');
+  const [selectedTimeId, setSelectedTimeId] = useState(
+    presentation.todaysShowtimes?.screens?.[0]?.times?.[0]?.id ?? null,
+  );
   const [favoriteRevision, setFavoriteRevision] = useState(0);
 
   const storage = getBrowserStorage();
@@ -81,7 +90,7 @@ export default function TheaterDetailSurface({
     return isTheaterFavorite(storage, {
       theaterId: presentation.theaterId,
       name: presentation.name,
-      neighborhood: 'Columbia City',
+      neighborhood: presentation.neighborhood ?? null,
       imageUrl: presentation.heroImageUrl,
     });
   }, [storage, presentation, favoriteRevision]);
@@ -89,7 +98,7 @@ export default function TheaterDetailSurface({
   const announce = (actionId, label, message) => {
     const text =
       message ??
-      `${label} isn’t available in this Stage 1 Theater Detail shell yet.`;
+      `${label} isn’t available on Theater Detail yet.`;
     setStubMessage(text);
     onStubAction?.(actionId, label);
   };
@@ -100,23 +109,64 @@ export default function TheaterDetailSurface({
       {
         theaterId: presentation.theaterId,
         name: presentation.name,
-        neighborhood: 'Columbia City',
+        neighborhood: presentation.neighborhood ?? null,
         imageUrl: presentation.heroImageUrl,
       },
       {
         name: presentation.name,
-        neighborhood: 'Columbia City',
+        neighborhood: presentation.neighborhood ?? null,
         imageUrl: presentation.heroImageUrl,
       },
     );
     if (result.ok) setFavoriteRevision((v) => v + 1);
   };
 
-  const visibleScreens = presentation.todaysShowtimes.screens.filter(
+  const visibleScreens = (presentation.todaysShowtimes?.screens ?? []).filter(
     (screen) => screenTabId === 'all' || screen.id === screenTabId,
   );
 
   const resolvedBackLabel = backLabel ?? presentation.backLabel;
+  const sections = presentation.sectionsVisible ?? {
+    address: Boolean(presentation.addressLabel),
+    website: Boolean(presentation.websiteUrl),
+    directions: Boolean(presentation.directionsUrl),
+    description: Boolean(presentation.descriptionPreview),
+    image: Boolean(presentation.heroImageUrl),
+    amenities: (presentation.amenities?.length ?? 0) > 0,
+    stats: (presentation.stats?.length ?? 0) > 0,
+    pricingHours: (presentation.pricing?.rows?.length ?? 0) > 0,
+    nowShowing: (presentation.nowShowing?.films?.length ?? 0) > 0,
+    todaysShowtimes: (presentation.todaysShowtimes?.screens?.length ?? 0) > 0,
+    descriptionExpand:
+      Boolean(presentation.descriptionFull) &&
+      presentation.descriptionFull !== presentation.descriptionPreview,
+  };
+
+  if (presentation.notFound) {
+    return (
+      <section
+        className="v2-td-page"
+        aria-labelledby="v2-td-title"
+        data-theater-detail-source={presentation.source}
+        data-theater-detail-state="not-found"
+      >
+        <button
+          type="button"
+          className="v2-td-back"
+          aria-label={`Back to ${resolvedBackLabel}`}
+          onClick={onBack}
+        >
+          ← {resolvedBackLabel}
+        </button>
+        <header className="v2-td-header">
+          <h1 id="v2-td-title" className="v2-td-title">
+            {presentation.notFoundTitle}
+          </h1>
+          <p className="v2-td-description">{presentation.notFoundBody}</p>
+        </header>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -134,9 +184,11 @@ export default function TheaterDetailSurface({
       </button>
 
       <div className="v2-td-hero" data-td-section="hero">
-        <img
-          className="v2-td-hero-image"
+        <TheaterVenueImage
           src={presentation.heroImageUrl}
+          className="v2-td-hero-image"
+          fallbackClassName="v2-td-hero-image v2-td-hero-fallback"
+          loading="eager"
           alt=""
         />
         <div className="v2-td-hero-actions">
@@ -145,7 +197,11 @@ export default function TheaterDetailSurface({
             className="v2-td-icon-btn"
             aria-label={presentation.shareLabel}
             onClick={() =>
-              announce('share', presentation.shareLabel, presentation.deferredMessages.share)
+              announce(
+                'share',
+                presentation.shareLabel,
+                presentation.deferredMessages?.share,
+              )
             }
           >
             <IconShare width={18} height={18} />
@@ -163,6 +219,13 @@ export default function TheaterDetailSurface({
           </button>
         </div>
       </div>
+      {presentation.imageAttribution || presentation.imageLicense ? (
+        <p className="v2-td-image-attribution" data-td-section="image-attribution">
+          {[presentation.imageAttribution, presentation.imageLicense]
+            .filter(Boolean)
+            .join(' · ')}
+        </p>
+      ) : null}
 
       <header className="v2-td-header">
         <div className="v2-td-title-row">
@@ -175,92 +238,111 @@ export default function TheaterDetailSurface({
             </span>
           ) : null}
         </div>
-        <p className="v2-td-address">
-          <IconPin width={12} height={12} aria-hidden="true" />
-          {presentation.addressLabel}
-        </p>
-        <div className="v2-td-action-row">
-          <a
-            className="v2-td-outline-btn"
-            href={presentation.websiteUrl}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            <IconLink width={14} height={14} aria-hidden="true" />
-            {presentation.websiteLabel}
-          </a>
-          <a
-            className="v2-td-outline-btn"
-            href={presentation.directionsUrl}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            <IconWalk width={14} height={14} aria-hidden="true" />
-            {presentation.directionsLabel}
-          </a>
-        </div>
-        <p className="v2-td-description">
-          {descriptionExpanded
-            ? presentation.descriptionFull
-            : presentation.descriptionPreview}
-        </p>
-        <button
-          type="button"
-          className="v2-td-read-more"
-          aria-expanded={descriptionExpanded}
-          onClick={() => setDescriptionExpanded((v) => !v)}
-        >
-          {descriptionExpanded
-            ? presentation.readLessLabel
-            : presentation.readMoreLabel}
-          <IconChevron aria-hidden="true" />
-        </button>
+        {sections.address ? (
+          <p className="v2-td-address">
+            <IconPin width={12} height={12} aria-hidden="true" />
+            {presentation.addressLabel}
+          </p>
+        ) : null}
+        {sections.website || sections.directions ? (
+          <div className="v2-td-action-row">
+            {sections.website ? (
+              <a
+                className="v2-td-outline-btn"
+                href={presentation.websiteUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <IconLink width={14} height={14} aria-hidden="true" />
+                {presentation.websiteLabel}
+              </a>
+            ) : null}
+            {sections.directions ? (
+              <a
+                className="v2-td-outline-btn"
+                href={presentation.directionsUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <IconWalk width={14} height={14} aria-hidden="true" />
+                {presentation.directionsLabel}
+              </a>
+            ) : null}
+          </div>
+        ) : null}
+        {sections.description ? (
+          <>
+            <p className="v2-td-description">
+              {descriptionExpanded
+                ? presentation.descriptionFull
+                : presentation.descriptionPreview}
+            </p>
+            {sections.descriptionExpand ? (
+              <button
+                type="button"
+                className="v2-td-read-more"
+                aria-expanded={descriptionExpanded}
+                onClick={() => setDescriptionExpanded((v) => !v)}
+              >
+                {descriptionExpanded
+                  ? presentation.readLessLabel
+                  : presentation.readMoreLabel}
+                <IconChevron aria-hidden="true" />
+              </button>
+            ) : null}
+          </>
+        ) : null}
       </header>
 
-      <section
-        className="v2-td-stats"
-        data-td-section="stats"
-        aria-label="Theater features"
-      >
-        <ul className="v2-td-stats-grid" role="list">
-          {presentation.stats.map((stat) => {
-            const Icon = STAT_ICONS[stat.icon] ?? IconFilm;
-            return (
-              <li key={stat.id} className="v2-td-stat">
-                <span className="v2-td-stat-icon" aria-hidden="true">
-                  <Icon width={16} height={16} />
-                </span>
-                <span className="v2-td-stat-value">{stat.value}</span>
-                <span className="v2-td-stat-label">{stat.label}</span>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+      {sections.stats ? (
+        <section
+          className="v2-td-stats"
+          data-td-section="stats"
+          aria-label="Theater features"
+        >
+          <ul className="v2-td-stats-grid" role="list">
+            {presentation.stats.map((stat) => {
+              const Icon = STAT_ICONS[stat.icon] ?? IconFilm;
+              return (
+                <li key={stat.id} className="v2-td-stat">
+                  <span className="v2-td-stat-icon" aria-hidden="true">
+                    <Icon width={16} height={16} />
+                  </span>
+                  <span className="v2-td-stat-value">{stat.value}</span>
+                  <span className="v2-td-stat-label">{stat.label}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ) : null}
 
-      <section
-        className="v2-td-section"
-        data-td-section="amenities"
-        aria-labelledby="v2-td-amenities-h"
-      >
-        <h2 id="v2-td-amenities-h" className="v2-td-section-label">
-          {presentation.amenitiesTitle}
-        </h2>
-        <ul className="v2-td-amenities" role="list">
-          {presentation.amenities.map((item) => {
-            const Icon = AMENITY_ICONS[item.icon] ?? IconPopcorn;
-            return (
-              <li key={item.id} className="v2-td-amenity">
-                <span className="v2-td-amenity-icon" aria-hidden="true">
-                  <Icon width={16} height={16} />
-                </span>
-                <span>{item.label}</span>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+      {sections.amenities ? (
+        <section
+          className="v2-td-section"
+          data-td-section="amenities"
+          aria-labelledby="v2-td-amenities-h"
+        >
+          <h2 id="v2-td-amenities-h" className="v2-td-section-label">
+            {presentation.amenitiesTitle}
+          </h2>
+          <ul className="v2-td-amenities" role="list">
+            {presentation.amenities.map((item) => {
+              const Icon = AMENITY_ICONS[item.icon] ?? IconPopcorn;
+              return (
+                <li key={item.id} className="v2-td-amenity">
+                  <span className="v2-td-amenity-icon" aria-hidden="true">
+                    <Icon width={16} height={16} />
+                  </span>
+                  <span>{item.label}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ) : null}
 
+      {sections.pricingHours ? (
       <section
         className="v2-td-pricing-hours"
         data-td-section="pricingHours"
@@ -283,7 +365,7 @@ export default function TheaterDetailSurface({
               announce(
                 'pricing',
                 presentation.pricing.linkLabel,
-                presentation.deferredMessages.pricing,
+                presentation.deferredMessages?.pricing,
               )
             }
           >
@@ -310,7 +392,7 @@ export default function TheaterDetailSurface({
               announce(
                 'hours',
                 presentation.hours.linkLabel,
-                presentation.deferredMessages.hours,
+                presentation.deferredMessages?.hours,
               )
             }
           >
@@ -318,7 +400,9 @@ export default function TheaterDetailSurface({
           </button>
         </div>
       </section>
+      ) : null}
 
+      {sections.nowShowing ? (
       <section
         className="v2-td-section"
         data-td-section="nowShowing"
@@ -335,7 +419,7 @@ export default function TheaterDetailSurface({
               announce(
                 'view-all',
                 presentation.nowShowing.viewAllLabel,
-                presentation.deferredMessages.viewAll,
+                presentation.deferredMessages?.viewAll,
               )
             }
           >
@@ -343,7 +427,8 @@ export default function TheaterDetailSurface({
           </button>
         </div>
         <ul className="v2-td-now-row" role="list">
-          {presentation.nowShowing.films.map((film) => (
+          {presentation.nowShowing.films.length > 0 ? (
+            presentation.nowShowing.films.map((film) => (
             <li key={film.filmKey}>
               <button
                 type="button"
@@ -351,7 +436,7 @@ export default function TheaterDetailSurface({
                 onClick={() =>
                   onOpenFilmDetail?.({
                     filmKey: film.filmKey,
-                    opportunityKey: null,
+                    opportunityKey: film.opportunityKey ?? null,
                   })
                 }
               >
@@ -359,17 +444,35 @@ export default function TheaterDetailSurface({
                   {film.badge ? (
                     <span className="v2-td-now-badge">{film.badge}</span>
                   ) : null}
-                  <img src={film.posterUrl} alt="" draggable="false" />
+                  {film.posterUrl ? (
+                    <img src={film.posterUrl} alt="" draggable="false" />
+                  ) : (
+                    <span className="v2-shelf-poster-fallback" aria-hidden="true" />
+                  )}
                 </span>
                 <span className="v2-td-now-title">{film.title}</span>
-                <span className="v2-td-now-meta">{film.detailLabel}</span>
-                <span className="v2-td-format-chip">{film.formatLabel}</span>
+                {film.detailLabel ? (
+                  <span className="v2-td-now-meta">{film.detailLabel}</span>
+                ) : null}
+                {film.formatLabel ? (
+                  <span className="v2-td-format-chip">{film.formatLabel}</span>
+                ) : null}
               </button>
             </li>
-          ))}
+            ))
+          ) : (
+            <li>
+              <p className="v2-td-now-empty" role="status">
+                {presentation.nowShowing.emptyMessage ??
+                  'No showtimes in the next seven days.'}
+              </p>
+            </li>
+          )}
         </ul>
       </section>
+      ) : null}
 
+      {sections.todaysShowtimes ? (
       <section
         className="v2-td-section"
         data-td-section="todaysShowtimes"
@@ -386,7 +489,7 @@ export default function TheaterDetailSurface({
               announce(
                 'view-week',
                 presentation.todaysShowtimes.viewWeekLabel,
-                presentation.deferredMessages.viewWeek,
+                presentation.deferredMessages?.viewWeek,
               )
             }
           >
@@ -423,7 +526,7 @@ export default function TheaterDetailSurface({
               announce(
                 'filters',
                 presentation.todaysShowtimes.filtersLabel,
-                presentation.deferredMessages.filters,
+                presentation.deferredMessages?.filters,
               )
             }
           >
@@ -432,6 +535,7 @@ export default function TheaterDetailSurface({
           </button>
         </div>
 
+        {presentation.todaysShowtimes.featuredFilm ? (
         <article className="v2-td-featured-film">
           <button
             type="button"
@@ -443,22 +547,30 @@ export default function TheaterDetailSurface({
               })
             }
           >
-            <img
-              className="v2-td-featured-poster"
-              src={presentation.todaysShowtimes.featuredFilm.posterUrl}
-              alt=""
-            />
+            {presentation.todaysShowtimes.featuredFilm.posterUrl ? (
+              <img
+                className="v2-td-featured-poster"
+                src={presentation.todaysShowtimes.featuredFilm.posterUrl}
+                alt=""
+              />
+            ) : (
+              <span className="v2-td-featured-poster v2-shelf-poster-fallback" aria-hidden="true" />
+            )}
             <span className="v2-td-featured-copy">
               <span className="v2-td-featured-title">
                 {presentation.todaysShowtimes.featuredFilm.title}
                 <IconChevron aria-hidden="true" />
               </span>
-              <span className="v2-td-featured-meta">
-                {presentation.todaysShowtimes.featuredFilm.metaLabel}
-              </span>
-              <span className="v2-td-format-chip">
-                {presentation.todaysShowtimes.featuredFilm.formatLabel}
-              </span>
+              {presentation.todaysShowtimes.featuredFilm.metaLabel ? (
+                <span className="v2-td-featured-meta">
+                  {presentation.todaysShowtimes.featuredFilm.metaLabel}
+                </span>
+              ) : null}
+              {presentation.todaysShowtimes.featuredFilm.formatLabel ? (
+                <span className="v2-td-format-chip">
+                  {presentation.todaysShowtimes.featuredFilm.formatLabel}
+                </span>
+              ) : null}
             </span>
           </button>
 
@@ -488,7 +600,7 @@ export default function TheaterDetailSurface({
                       announce(
                         'showtime',
                         time.label,
-                        presentation.deferredMessages.showtime,
+                        presentation.deferredMessages?.showtime,
                       );
                     }}
                   >
@@ -499,7 +611,43 @@ export default function TheaterDetailSurface({
             </div>
           ))}
         </article>
+        ) : (
+          visibleScreens.map((screen) => (
+            <div key={screen.id} className="v2-td-screen-block">
+              <p className="v2-td-screen-label">{screen.label}</p>
+              <div
+                className="v2-td-time-row"
+                role="group"
+                aria-label={`${screen.label} showtimes`}
+              >
+                {screen.times.map((time) => (
+                  <button
+                    key={time.id}
+                    type="button"
+                    className={
+                      selectedTimeId === time.id
+                        ? 'v2-td-time-btn v2-td-time-btn-active'
+                        : 'v2-td-time-btn'
+                    }
+                    aria-pressed={selectedTimeId === time.id}
+                    onClick={() => {
+                      setSelectedTimeId(time.id);
+                      announce(
+                        'showtime',
+                        time.label,
+                        presentation.deferredMessages?.showtime,
+                      );
+                    }}
+                  >
+                    {time.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))
+        )}
       </section>
+      ) : null}
 
       <p
         id={stubStatusId}

@@ -95,7 +95,7 @@ test('save is idempotent and newest-first', () => {
 
   const again = saveFilm(
     storage,
-    { showtimeFilmKey: 'alpha', title: 'Alpha Renamed' },
+    { showtimeFilmKey: 'alpha', title: 'Alpha' },
     { now: fixedNow('2026-07-24T12:00:00.000Z') },
   );
   assert.equal(again.ok, true);
@@ -189,7 +189,7 @@ test('unsupported future version does not destroy data on write', () => {
   assert.equal(storage.getItem(SAVED_FILMS_STORAGE_KEY), JSON.stringify(futurePayload));
 });
 
-test('invalid items are dropped; duplicates collapse keeping newer savedAt', () => {
+test('invalid items are dropped; duplicates collapse keeping earliest savedAt', () => {
   const payload = {
     version: 1,
     items: [
@@ -213,6 +213,7 @@ test('invalid items are dropped; duplicates collapse keeping newer savedAt', () 
   };
   const migrated = migrateSavedFilmsPayload(payload);
   assert.equal(migrated.status, 'ok');
+  assert.equal(migrated.store.version, SAVED_FILMS_VERSION);
   assert.deepEqual(
     migrated.store.items.map((item) => [
       item.filmRef.showtimeFilmKey,
@@ -220,8 +221,8 @@ test('invalid items are dropped; duplicates collapse keeping newer savedAt', () 
       item.title ?? null,
     ]),
     [
-      ['alpha', '2026-07-24T12:00:00.000Z', 'Newer'],
       ['beta', '2026-07-24T11:00:00.000Z', null],
+      ['alpha', '2026-07-24T10:00:00.000Z', 'Newer'],
     ],
   );
 });
@@ -229,24 +230,79 @@ test('invalid items are dropped; duplicates collapse keeping newer savedAt', () 
 test('filmId equality takes precedence when both sides have filmId', () => {
   assert.equal(
     savedFilmRefsEqual(
-      { filmId: 'f1', showtimeFilmKey: 'a' },
-      { filmId: 'f1', showtimeFilmKey: 'b' },
+      { filmId: 'tmdb:1', showtimeFilmKey: 'a' },
+      { filmId: 'tmdb:1', showtimeFilmKey: 'b' },
     ),
     true,
   );
   assert.equal(
     savedFilmRefsEqual(
-      { filmId: 'f1', showtimeFilmKey: 'a' },
-      { filmId: 'f2', showtimeFilmKey: 'a' },
+      { filmId: 'tmdb:1', showtimeFilmKey: 'a' },
+      { filmId: 'tmdb:2', showtimeFilmKey: 'a' },
     ),
     false,
   );
   assert.equal(
     savedFilmRefsEqual(
       { filmId: null, showtimeFilmKey: 'a' },
-      { filmId: 'f1', showtimeFilmKey: 'a' },
+      { filmId: 'tmdb:1', showtimeFilmKey: 'a' },
     ),
     true,
+  );
+  assert.equal(
+    savedFilmRefsEqual(
+      { filmId: 'f1', showtimeFilmKey: 'a' },
+      { filmId: 'f1', showtimeFilmKey: 'b' },
+    ),
+    false,
+  );
+});
+
+test('canonical filmId upgrades legacy key and collapses cross-source duplicates', () => {
+  const storage = memoryStorage();
+  saveFilm(
+    storage,
+    { showtimeFilmKey: 'amc-sinners', title: 'Sinners' },
+    { now: fixedNow('2026-07-24T10:00:00.000Z') },
+  );
+  saveFilm(
+    storage,
+    {
+      filmId: 'tmdb:1133620',
+      showtimeFilmKey: 'amc-sinners',
+      title: 'Sinners',
+    },
+    { now: fixedNow('2026-07-24T11:00:00.000Z') },
+  );
+  assert.equal(getSavedFilms(storage).length, 1);
+  assert.equal(getSavedFilms(storage)[0].filmRef.filmId, 'tmdb:1133620');
+  assert.equal(
+    getSavedFilms(storage)[0].savedAt,
+    '2026-07-24T10:00:00.000Z',
+  );
+
+  saveFilm(
+    storage,
+    {
+      filmId: 'tmdb:1133620',
+      showtimeFilmKey: 'siff-sinners',
+      title: 'Sinners',
+    },
+    { now: fixedNow('2026-07-24T12:00:00.000Z') },
+  );
+  assert.equal(getSavedFilms(storage).length, 1);
+  assert.equal(
+    isFilmSaved(storage, {
+      filmId: 'tmdb:1133620',
+      showtimeFilmKey: 'siff-sinners',
+    }),
+    true,
+  );
+  assert.equal(isFilmSaved(storage, 'amc-sinners'), true);
+  const aliases = getSavedFilms(storage)[0].filmRef.aliasKeys ?? [];
+  assert.ok(
+    aliases.includes('amc-sinners') ||
+      getSavedFilms(storage)[0].filmRef.showtimeFilmKey === 'amc-sinners',
   );
 });
 
@@ -328,7 +384,7 @@ test('persisted shape matches versioned contract', () => {
     { now: fixedNow('2026-07-24T10:00:00.000Z') },
   );
   const raw = JSON.parse(storage.getItem(SAVED_FILMS_STORAGE_KEY));
-  assert.equal(raw.version, 1);
+  assert.equal(raw.version, SAVED_FILMS_VERSION);
   assert.equal(raw.items.length, 1);
   assert.deepEqual(raw.items[0].filmRef, {
     filmId: null,

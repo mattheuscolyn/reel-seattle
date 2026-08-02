@@ -91,9 +91,12 @@ export function resolveActivePrimaryId(nav) {
     nav.surface?.type === 'film-detail' ||
     nav.surface?.type === 'opportunity-detail' ||
     nav.surface?.type === 'showtimes' ||
+    nav.surface?.type === 'showtimes-browse' ||
     nav.surface?.type === 'about-my-schedule' ||
     nav.surface?.type === 'build-plan' ||
     nav.surface?.type === 'build-plan-results' ||
+    nav.surface?.type === 'build-plan-film-manage' ||
+    nav.surface?.type === 'build-plan-plan-details' ||
     nav.surface?.type === 'my-schedule-week' ||
     nav.surface?.type === 'my-schedule-month' ||
     nav.surface?.type === 'schedule-settings' ||

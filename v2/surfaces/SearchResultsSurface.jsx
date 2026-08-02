@@ -57,6 +57,7 @@ function formatCollectionIdForTag(tag) {
  */
 export default function SearchResultsSurface({
   homeData,
+  enrichmentIndex = null,
   query: initialQuery = '',
   searchUi = null,
   onBack,
@@ -100,9 +101,11 @@ export default function SearchResultsSurface({
         dismissedKeys,
         runtimeMin,
         runtimeMax,
+        enrichmentIndex,
       }),
     [
       homeData,
+      enrichmentIndex,
       query,
       typeFilter,
       timeFilter,
@@ -531,6 +534,9 @@ export default function SearchResultsSurface({
                           <div className="v2-search-expand-facts">
                             {film.metaLine ? (
                               <p className="v2-search-expand-meta">{film.metaLine}</p>
+                            ) : null}
+                            {film.synopsis ? (
+                              <p className="v2-search-expand-synopsis">{film.synopsis}</p>
                             ) : null}
                           </div>
 

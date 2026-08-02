@@ -395,7 +395,7 @@ test('filmMatchesToken accepts key or title', () => {
   assert.equal(filmMatchesToken('Other', identity), false);
 });
 
-test('preferred films require at least one match', () => {
+test('preferred films are soft — impossible prefs still yield valid schedules', () => {
   const rows = [
     row({ film: 'Alpha', time: '12:00PM', runtime: '60' }),
     row({ film: 'Beta', time: '1:30PM', runtime: '60' }),
@@ -405,10 +405,15 @@ test('preferred films require at least one match', () => {
     rows,
     filters: baseFilters({ filmCount: 2, preferredFilms: ['Zeta'] }),
   });
-  assert.equal(result.schedules.length, 0);
+  assert.ok(result.schedules.length > 0);
+  assert.ok(
+    result.schedules.every(
+      (schedule) => (schedule.preferredMatchCount ?? 0) === 0,
+    ),
+  );
 });
 
-test('preferred films accept schedule containing one of several preferred titles', () => {
+test('preferred films rank schedules with matches above otherwise comparable ones', () => {
   const rows = [
     row({ film: 'Alpha', time: '12:00PM', runtime: '60' }),
     row({ film: 'Beta', time: '1:30PM', runtime: '60' }),
@@ -419,10 +424,22 @@ test('preferred films accept schedule containing one of several preferred titles
     filters: baseFilters({ filmCount: 2, preferredFilms: ['Beta', 'Zeta'] }),
   });
   assert.ok(result.schedules.length > 0);
+  const withPreferred = result.schedules.filter((schedule) =>
+    schedule.films.some((film) => film === 'Beta' || film === 'Zeta'),
+  );
+  const withoutPreferred = result.schedules.filter(
+    (schedule) =>
+      !schedule.films.some((film) => film === 'Beta' || film === 'Zeta'),
+  );
+  assert.ok(withPreferred.length > 0);
+  assert.ok(withoutPreferred.length > 0);
   assert.ok(
-    result.schedules.every((schedule) =>
-      schedule.films.some((film) => film === 'Beta' || film === 'Zeta'),
-    ),
+    (withPreferred[0].preferredMatchCount ?? 0) >
+      (withoutPreferred[0].preferredMatchCount ?? 0),
+  );
+  assert.equal(
+    result.schedules[0].films.some((film) => film === 'Beta' || film === 'Zeta'),
+    true,
   );
 });
 
@@ -437,6 +454,11 @@ test('include films require every listed movie unlike preferred films', () => {
     filters: baseFilters({ filmCount: 2, preferredFilms: ['Alpha', 'Zeta'] }),
   });
   assert.ok(preferredOnly.schedules.length > 0);
+  assert.ok(
+    preferredOnly.schedules.some(
+      (schedule) => !schedule.films.includes('Alpha'),
+    ),
+  );
 
   const includeBoth = findSchedules({
     rows,

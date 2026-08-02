@@ -118,7 +118,8 @@ export const OPENING_THIS_WEEK_MOCKUP_FIXTURE = Object.freeze({
 });
 
 /**
- * Stage 1 always returns the mockup fixture for the designed page.
+ * Stage 1 mockup fixture for designed Opening This Week page (visual QC).
+ * Live enriched presentation is built in OpeningThisWeekSurface when homeData is provided.
  * @returns {ReturnType<typeof getOpeningThisWeekMockupPresentation>}
  */
 export function resolveOpeningThisWeekPresentation() {

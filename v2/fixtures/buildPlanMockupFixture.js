@@ -1,17 +1,21 @@
 /**
- * Build a Plan MOCKUP FIXTURE — Stage 1 visual authority only.
+ * Build a Plan presentation + mockup form defaults.
  *
- * Content matches Canonical Mockup Images/Build a Plan Page.png.
- * Local UI state defaults only. Does not import stores, planner engines,
- * production showtimes, or persistence keys.
- *
- * Prompt conflict note: an early Stage 1 prompt listed presets
- * “One Great Film / Double Feature / Movie Day”. The canonical mockup and
- * data audit use After Work / Saturday Marathon / Premium Adventure /
- * Last Chance / Surprise Me — mockup wins for Stage 1.
+ * Visual authority: Canonical Mockup Images/Build a Plan Page.png (+ Expanded).
+ * Mockup QC: `?buildPlanMockup=1` (& optional `section=`).
+ * Production form uses createLiveBuildPlanFormState() — never seeds fixture films.
  */
 
 import { PLACEHOLDER_POSTERS } from './placeholderMedia.js';
+import {
+  buildCollapsedSectionSummaries,
+  buildPlanFooterSummary,
+  parseBuildPlanSectionQuery,
+} from '../planner/buildPlanAccordion.js';
+
+export const BUILD_PLAN_MOCKUP_QUERY = 'buildPlanMockup';
+export const BUILD_PLAN_SECTION_QUERY = 'section';
+export const BUILD_PLAN_MOCKUP_STORAGE_KEY = 'reel-seattle.v2.buildPlanMockup';
 
 export const BUILD_PLAN_SECTION_ORDER = Object.freeze([
   'header',
@@ -25,6 +29,35 @@ export const BUILD_PLAN_SECTION_ORDER = Object.freeze([
 ]);
 
 export const BUILD_PLAN_CTA_LABEL = 'Build my movie day';
+
+/**
+ * @returns {boolean}
+ */
+export function isBuildPlanMockupMode() {
+  if (typeof window === 'undefined') return false;
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get(BUILD_PLAN_MOCKUP_QUERY) === '1') return true;
+    if (params.get(BUILD_PLAN_MOCKUP_QUERY) === '0') return false;
+    return window.localStorage?.getItem(BUILD_PLAN_MOCKUP_STORAGE_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Initial accordion section from `?section=` when in mockup mode.
+ * @returns {null | 'when' | 'what' | 'where' | 'fineTuning'}
+ */
+export function getBuildPlanMockupOpenSection() {
+  if (typeof window === 'undefined') return null;
+  try {
+    const params = new URLSearchParams(window.location.search);
+    return parseBuildPlanSectionQuery(params.get(BUILD_PLAN_SECTION_QUERY));
+  } catch {
+    return null;
+  }
+}
 
 function filmCard({ id, title, detailLabel, imageUrl, theaterLabel = null }) {
   return Object.freeze({
@@ -41,13 +74,13 @@ export function getBuildPlanMockupPresentation() {
 }
 
 /**
- * Canonical presentation + default form values for Stage 1.
+ * Canonical presentation chrome (labels/copy). Shared by production + mockup.
  */
 export const BUILD_PLAN_MOCKUP_FIXTURE = Object.freeze({
   source: 'mockup-fixture',
   pageTitle: 'Build a Plan',
   pageTagline: 'Create the perfect movie day (or night).',
-  presetsLabel: 'Start with a preset',
+  presetsLabel: '1. Start with a preset',
   customDividerLabel: 'or build custom',
   clearAllLabel: 'Clear all',
   ctaLabel: BUILD_PLAN_CTA_LABEL,
@@ -71,28 +104,12 @@ export const BUILD_PLAN_MOCKUP_FIXTURE = Object.freeze({
       accent: 'red',
     }),
     Object.freeze({
-      id: 'premium-adventure',
-      title: 'Premium Adventure',
-      line1: 'Best formats,',
-      line2: 'epic experiences',
-      icon: 'ticket',
-      accent: 'gold',
-    }),
-    Object.freeze({
       id: 'last-chance',
       title: 'Last Chance',
       line1: 'Prioritize films',
       line2: 'leaving soon',
       icon: 'clock',
       accent: 'orange',
-    }),
-    Object.freeze({
-      id: 'surprise-me',
-      title: 'Surprise Me',
-      line1: 'Wide open',
-      line2: 'serendipity',
-      icon: 'spark',
-      accent: 'gradient',
     }),
   ]),
   when: Object.freeze({
@@ -103,24 +120,25 @@ export const BUILD_PLAN_MOCKUP_FIXTURE = Object.freeze({
     dateLabelPrefix: 'Date',
     startAfterLabel: 'Start after',
     finishBeforeLabel: 'Finish before',
-    addDayLabel: '+ Add another day',
+    timeWindowLabel: 'Time window',
+    addDayLabel: 'Add another day',
   }),
   what: Object.freeze({
     step: 2,
     title: 'What?',
-    support: 'Add the films you want to include or avoid.',
-    addFromListLabel: 'Add from list',
+    support: 'Choose films you want to include or avoid.',
+    manageLabel: 'Manage',
     mustIncludeLabel: 'Must include',
     wouldLoveLabel: 'Would love to see',
     notInterestedLabel: 'Not interested in',
-    optionalLabel: 'Optional',
-    addFilmLabel: 'Add film',
+    addAnotherLabel: 'Add another',
     moreOptionsLabel: 'More options (format, theater, showtime)',
   }),
   where: Object.freeze({
     step: 3,
     title: 'Where?',
     support: 'Choose theaters and locations.',
+    theaterPreferenceLabel: 'Theater preference',
     locationLabel: 'Location preference',
     editLabel: 'Edit',
     theaterPrefs: Object.freeze([
@@ -153,6 +171,7 @@ export const BUILD_PLAN_MOCKUP_FIXTURE = Object.freeze({
   fineTuning: Object.freeze({
     step: 4,
     title: 'Fine tuning',
+    titleFull: 'Fine tuning (optional)',
     support: 'Adjust additional preferences.',
     resetLabel: 'Reset',
     fields: Object.freeze([
@@ -162,56 +181,29 @@ export const BUILD_PLAN_MOCKUP_FIXTURE = Object.freeze({
         icon: 'calendarPlus',
       }),
       Object.freeze({
+        id: 'minGap',
+        label: 'Minimum break',
+        icon: 'clock',
+      }),
+      Object.freeze({
         id: 'maxGap',
         label: 'Max gap between movies',
         icon: 'clock',
       }),
-      Object.freeze({
-        id: 'walking',
-        label: 'Walking distance',
-        icon: 'walk',
-      }),
-      Object.freeze({
-        id: 'premiumFormats',
-        label: 'Premium formats',
-        icon: 'film',
-      }),
-      Object.freeze({
-        id: 'budget',
-        label: 'Budget',
-        icon: 'wallet',
-      }),
-      Object.freeze({
-        id: 'accessibility',
-        label: 'Accessibility',
-        icon: 'accessibility',
-      }),
     ]),
     toggles: Object.freeze([
       Object.freeze({
-        id: 'includeSpecialEvents',
-        label: 'Include special events',
-        support: 'Q&As, premieres, etc.',
-        icon: 'party',
-      }),
-      Object.freeze({
         id: 'allowRepeats',
-        label: 'Allow repeats',
-        support: "Include movies I've seen.",
+        label: 'Allow repeat films',
+        support: 'Allow the same film more than once in a plan.',
         icon: 'layers',
-      }),
-      Object.freeze({
-        id: 'excludeSoldOut',
-        label: 'Exclude sold out',
-        support: 'Skip sold out showtimes.',
-        icon: 'ban',
       }),
     ]),
   }),
   summary: Object.freeze({
     title: 'Your movie day',
   }),
-  /** Default local form state matching the mockup. */
+  /** Deterministic mockup-only form values (QC). */
   defaultForm: Object.freeze({
     selectedPresetId: 'after-work',
     flexible: true,
@@ -223,7 +215,8 @@ export const BUILD_PLAN_MOCKUP_FIXTURE = Object.freeze({
       filmCard({
         id: 'must-2001',
         title: '2001: A Space Odyssey',
-        detailLabel: 'Central Cinema • 70mm • Sat 7:00 PM',
+        detailLabel: 'Central Cinema · 70mm · Sat 7:00 PM',
+        theaterLabel: 'Central Cinema',
         imageUrl: PLACEHOLDER_POSTERS.spaceOdyssey,
       }),
     ]),
@@ -242,6 +235,20 @@ export const BUILD_PLAN_MOCKUP_FIXTURE = Object.freeze({
         theaterLabel: 'Any theater',
         imageUrl: PLACEHOLDER_POSTERS.memoriesOfMurder,
       }),
+      filmCard({
+        id: 'love-blue-hour',
+        title: 'Blue Hour',
+        detailLabel: 'Any theater',
+        theaterLabel: 'Any theater',
+        imageUrl: PLACEHOLDER_POSTERS.blueHour,
+      }),
+      filmCard({
+        id: 'love-saltwater',
+        title: 'Saltwater Road',
+        detailLabel: 'Any theater',
+        theaterLabel: 'Any theater',
+        imageUrl: PLACEHOLDER_POSTERS.saltwaterRoad,
+      }),
     ]),
     notInterested: Object.freeze([
       filmCard({
@@ -258,24 +265,46 @@ export const BUILD_PLAN_MOCKUP_FIXTURE = Object.freeze({
         theaterLabel: 'Any theater',
         imageUrl: PLACEHOLDER_POSTERS.moana,
       }),
+      filmCard({
+        id: 'ni-young-wa',
+        title: 'Young Washington',
+        detailLabel: 'Any theater',
+        theaterLabel: 'Any theater',
+        imageUrl: PLACEHOLDER_POSTERS.north,
+      }),
+      filmCard({
+        id: 'ni-quiet',
+        title: 'Quiet City',
+        detailLabel: 'Any theater',
+        theaterLabel: 'Any theater',
+        imageUrl: PLACEHOLDER_POSTERS.quietCity,
+      }),
+      filmCard({
+        id: 'ni-perfect',
+        title: 'Perfect Moment',
+        detailLabel: 'Any theater',
+        theaterLabel: 'Any theater',
+        imageUrl: PLACEHOLDER_POSTERS.perfect,
+      }),
     ]),
-    theaterPrefId: 'any',
+    theaterPrefId: 'indie',
     locationDisplay: 'Capitol Hill, Seattle, WA',
     locationShort: 'Capitol Hill',
-    planSize: '2 – 4 movies',
+    planSize: '2–4 movies',
     maxGap: '90 min',
+    minGap: '45m',
     walking: '15 min',
-    premiumFormats: 'IMAX, 70mm, Dolby',
+    premiumFormats: 'Any',
     budget: 'Any',
     accessibility: 'Any',
     includeSpecialEvents: true,
-    allowRepeats: false,
+    allowRepeats: true,
     excludeSoldOut: false,
   }),
 });
 
 /**
- * Mutable clone of fixture defaults for local React state.
+ * Mutable clone of fixture defaults for mockup-mode React state.
  * @returns {object}
  */
 export function createBuildPlanFormState() {
@@ -295,6 +324,7 @@ export function createBuildPlanFormState() {
     locationShort: d.locationShort,
     planSize: d.planSize,
     maxGap: d.maxGap,
+    minGap: d.minGap ?? '45m',
     walking: d.walking,
     premiumFormats: d.premiumFormats,
     budget: d.budget,
@@ -315,19 +345,13 @@ export function applyBuildPlanPreset(presetId, base) {
   if (presetId === 'after-work') {
     next.startAfter = '5:00 PM';
     next.finishBefore = '11:00 PM';
-    next.planSize = '1 – 2 movies';
+    next.planSize = '1–2 movies';
   } else if (presetId === 'saturday-marathon') {
     next.startAfter = '11:00 AM';
     next.finishBefore = '11:00 PM';
     next.planSize = '3 movies';
-  } else if (presetId === 'premium-adventure') {
-    next.premiumFormats = 'IMAX, 70mm, Dolby';
-    next.planSize = '1 – 3 movies';
   } else if (presetId === 'last-chance') {
-    next.planSize = '1 – 2 movies';
-  } else if (presetId === 'surprise-me') {
-    next.flexible = true;
-    next.planSize = '2 – 4 movies';
+    next.planSize = '1–2 movies';
   }
   return next;
 }
@@ -340,19 +364,27 @@ export function resolveBuildPlanPresentation() {
 }
 
 /**
- * Build summary chips from local form state.
  * @param {ReturnType<typeof createBuildPlanFormState>} form
  */
 export function buildPlanSummaryLines(form) {
+  const footer = buildPlanFooterSummary(form);
+  const collapsed = buildCollapsedSectionSummaries(form, {
+    theaterPrefs: BUILD_PLAN_MOCKUP_FIXTURE.where.theaterPrefs,
+  });
   const theater =
     BUILD_PLAN_MOCKUP_FIXTURE.where.theaterPrefs.find(
       (p) => p.id === form.theaterPrefId,
     )?.title ?? 'Any theater';
   return {
     dateShort: form.dateShort,
-    timeWindow: `${form.startAfter} – ${form.finishBefore}`,
+    timeWindow: `${form.startAfter}–${form.finishBefore}`,
     planSize: form.planSize,
     locationShort: form.locationShort,
-    detailLine: `${form.mustInclude.length} must include • ${form.wouldLove.length} would love • ${form.notInterested.length} exclusions • ${theater}`,
+    line1: footer.line1,
+    line2: footer.line2,
+    collapsed,
+    detailLine: `${form.mustInclude.length} must include · ${form.wouldLove.length} interested · ${form.notInterested.length} exclusions · ${theater}`,
   };
 }
+
+export { parseBuildPlanSectionQuery, buildCollapsedSectionSummaries };

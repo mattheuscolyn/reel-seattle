@@ -1,8 +1,8 @@
 /**
- * Stage 1 Schedule Settings — bottom sheet over My Schedule.
+ * Schedule Settings — bottom sheet over My Schedule (T-SCH-01).
  *
- * Matches My Schedule Main Page Settings Interaction.png.
- * Local UI state only. No persistence, calendar sync, or store writes.
+ * Persists display prefs via scheduleSettingsStore.
+ * Calendar sync remains Off/deferred. Genre coloring suppressed.
  */
 
 import { useEffect, useId, useRef, useState } from 'react';
@@ -26,11 +26,23 @@ import {
 } from '../icons.jsx';
 import {
   SCHEDULE_SETTINGS_TIME_FORMATS,
-  createScheduleSettingsUiState,
   cycleTimelineZoomId,
   resolveScheduleSettingsPresentation,
   resolveTimelineZoomLabel,
 } from '../fixtures/scheduleSettingsMockupFixture.js';
+import {
+  getScheduleSettings,
+  updateScheduleSettings,
+} from '../stores/scheduleSettingsStore.js';
+import { clearAcceptedPlans } from '../stores/acceptedPlansStore.js';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 const ROW_ICONS = {
   eye: IconEye,
@@ -212,22 +224,39 @@ function ColorModeCard({ mode, selected, onSelect }) {
  *   onClose: () => void,
  *   onOpenAbout?: () => void,
  *   onStubAction?: (actionId: string, label: string) => void,
+ *   onSettingsChange?: () => void,
+ *   onAcceptedPlanChange?: () => void,
+ *   storage?: Storage | null,
  * }} props
  */
 export default function ScheduleSettingsSurface({
   onClose,
   onOpenAbout,
   onStubAction,
+  onSettingsChange,
+  onAcceptedPlanChange,
+  storage = null,
 }) {
   const presentation = resolveScheduleSettingsPresentation();
   const titleId = useId();
   const statusId = useId();
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
-  const [ui, setUi] = useState(() => createScheduleSettingsUiState());
+  const resolvedStorage = storage ?? getBrowserStorage();
+  const [ui, setUi] = useState(() => getScheduleSettings(resolvedStorage));
   const [statusMessage, setStatusMessage] = useState(null);
 
   const { display, sync, preferences, about } = presentation.sections;
+
+  const persist = (patch) => {
+    const result = updateScheduleSettings(resolvedStorage, patch);
+    if (result.ok) {
+      setUi(result.settings);
+      if (result.changed) onSettingsChange?.();
+    } else {
+      setStatusMessage('Couldn’t save schedule settings.');
+    }
+  };
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -323,9 +352,7 @@ export default function ScheduleSettingsSurface({
               support={display.hideCompleted.support}
               icon={ROW_ICONS[display.hideCompleted.icon]}
               checked={ui.hideCompleted}
-              onChange={(checked) =>
-                setUi((current) => ({ ...current, hideCompleted: checked }))
-              }
+              onChange={(checked) => persist({ hideCompleted: checked })}
             />
             <SettingsToggle
               id="v2-ss-show-breaks"
@@ -333,9 +360,7 @@ export default function ScheduleSettingsSurface({
               support={display.showBreaks.support}
               icon={ROW_ICONS[display.showBreaks.icon]}
               checked={ui.showBreaks}
-              onChange={(checked) =>
-                setUi((current) => ({ ...current, showBreaks: checked }))
-              }
+              onChange={(checked) => persist({ showBreaks: checked })}
             />
             <SettingsNavRow
               label={display.timelineZoom.label}
@@ -343,10 +368,9 @@ export default function ScheduleSettingsSurface({
               icon={ROW_ICONS[display.timelineZoom.icon]}
               valueLabel={resolveTimelineZoomLabel(ui.timelineZoomId)}
               onClick={() =>
-                setUi((current) => ({
-                  ...current,
-                  timelineZoomId: cycleTimelineZoomId(current.timelineZoomId),
-                }))
+                persist({
+                  timelineZoomId: cycleTimelineZoomId(ui.timelineZoomId),
+                })
               }
             />
           </section>
@@ -387,9 +411,7 @@ export default function ScheduleSettingsSurface({
               label={preferences.timeFormat.label}
               support={preferences.timeFormat.support}
               value={ui.timeFormatId}
-              onChange={(timeFormatId) =>
-                setUi((current) => ({ ...current, timeFormatId }))
-              }
+              onChange={(timeFormatId) => persist({ timeFormatId })}
             />
 
             <div className="v2-ss-pref-block">
@@ -416,9 +438,7 @@ export default function ScheduleSettingsSurface({
                     key={mode.id}
                     mode={mode}
                     selected={ui.colorCodingId === mode.id}
-                    onSelect={(colorCodingId) =>
-                      setUi((current) => ({ ...current, colorCodingId }))
-                    }
+                    onSelect={(colorCodingId) => persist({ colorCodingId })}
                   />
                 ))}
               </div>
@@ -478,13 +498,30 @@ export default function ScheduleSettingsSurface({
               support={about.clearAll.support}
               icon={ROW_ICONS[about.clearAll.icon]}
               danger
-              onClick={() =>
-                announce(
-                  about.clearAll.id,
-                  about.clearAll.label,
-                  about.clearAll.deferredMessage,
-                )
-              }
+              onClick={() => {
+                const ok =
+                  typeof window !== 'undefined'
+                    ? window.confirm(
+                        'Clear all accepted plans from this device? This cannot be undone.',
+                      )
+                    : false;
+                if (!ok) {
+                  announce(
+                    about.clearAll.id,
+                    about.clearAll.label,
+                    'Clear cancelled.',
+                  );
+                  return;
+                }
+                const result = clearAcceptedPlans(resolvedStorage);
+                if (result.ok) {
+                  setStatusMessage('Accepted plans cleared.');
+                  onAcceptedPlanChange?.();
+                } else {
+                  setStatusMessage('Couldn’t clear schedule data.');
+                }
+                onStubAction?.(about.clearAll.id, about.clearAll.label);
+              }}
             />
           </section>
         </div>

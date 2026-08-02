@@ -135,11 +135,12 @@ export const SCHEDULE_SETTINGS_MOCKUP_FIXTURE = Object.freeze({
       calendarSync: Object.freeze({
         id: 'calendar-sync',
         label: 'Sync with calendar',
-        support: 'Add your movie plans to your calendar.',
+        support:
+          'Ongoing sync isn’t available yet. Use Add to calendar on Film Detail for a one-time .ics download.',
         valueLabel: 'Off',
         icon: 'calendar',
         deferredMessage:
-          'Calendar sync isn’t available in this Stage 1 shell yet.',
+          'Calendar sync isn’t available yet. Export a one-time .ics from Film Detail instead.',
       }),
     }),
     preferences: Object.freeze({
@@ -154,9 +155,11 @@ export const SCHEDULE_SETTINGS_MOCKUP_FIXTURE = Object.freeze({
       colorCoding: Object.freeze({
         id: 'color-coding',
         label: 'Color coding',
-        support: 'Choose how items are colored on your schedule.',
+        support:
+          'Preference is saved on this device. Live schedule coloring stays deferred.',
         icon: 'palette',
-        footerNote: 'You can always change this later.',
+        footerNote:
+          'You can change this later. Genre coloring remains suppressed until reliable.',
         modes: SCHEDULE_SETTINGS_COLOR_MODES,
         legends: Object.freeze({
           opportunity: Object.freeze([
@@ -192,7 +195,7 @@ export const SCHEDULE_SETTINGS_MOCKUP_FIXTURE = Object.freeze({
             Object.freeze({
               id: 'genre-note',
               swatch: 'teal',
-              label: 'Genre colors are fixture-only in Stage 1.',
+              label: 'Genre colors remain deferred until coverage is reliable.',
             }),
           ]),
         }),
@@ -213,7 +216,7 @@ export const SCHEDULE_SETTINGS_MOCKUP_FIXTURE = Object.freeze({
         support: 'This cannot be undone.',
         icon: 'trash',
         deferredMessage:
-          'Clearing schedule data isn’t available in Stage 1 (no persistence yet).',
+          'Clears accepted plans stored on this device. This cannot be undone.',
       }),
     }),
   }),

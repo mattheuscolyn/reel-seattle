@@ -149,10 +149,66 @@ test('Leaving Soon shelf stays gated unavailable without fictional films', () =>
   const shelf = buildLeavingSoonShelf(minimalHomeData());
   assert.equal(shelf.status, 'unavailable');
   assert.equal(shelf.films.length, 0);
-  assert.match(shelf.reason, /gated/i);
+  assert.equal(shelf.semantics, 'leaving-soon-gated');
+  assert.match(shelf.emptyTitle, /Leaving Soon/i);
+  assert.match(shelf.emptyBody, /theatrical run/i);
+  assert.equal(shelf.reason.toLowerCase().includes('gated'), false);
+  assert.equal(shelf.reason.toLowerCase().includes('consumed by v2'), false);
 });
 
-test('inline quick detail omits missing synopsis rating year genre', () => {
+test('Opening This Week provisional copy stays user-facing and honest', () => {
+  const shelf = buildOpeningThisWeekShelf(minimalHomeData());
+  assert.equal(shelf.status, 'provisional');
+  assert.match(shelf.reason, /recently added/i);
+  assert.match(shelf.reason, /not a verified opening-week list/i);
+  assert.equal(shelf.reason.toLowerCase().includes('classification'), false);
+  assert.equal(shelf.reason.toLowerCase().includes('theatrical openings'), false);
+  assert.ok(shelf.films[0].metaLabel);
+  assert.equal(shelf.films[0].title.includes('Blue Hour'), false);
+});
+
+test('Home production UI omits developer diagnostics and Home TMDB block', () => {
+  const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+  const homeSrc = readFileSync(join(root, 'v2/HomeDestination.jsx'), 'utf8');
+  const shelfSrc = readFileSync(join(root, 'v2/home/FilmShelf.jsx'), 'utf8');
+  assert.equal(homeSrc.includes('TmdbAttribution'), false);
+  assert.equal(homeSrc.includes('Development notes'), false);
+  assert.equal(homeSrc.includes('v2-dev-details'), false);
+  assert.match(shelfSrc, /v2-shelf-note/);
+  assert.match(shelfSrc, /v2-shelf-empty/);
+  const profileSrc = readFileSync(
+    join(root, 'v2/profile/ProfileDestination.jsx'),
+    'utf8',
+  );
+  assert.match(profileSrc, /TmdbAttribution/);
+  assert.match(profileSrc, /About &amp; data sources|About & data sources/);
+});
+
+test('mockup mode stays isolated behind homeMockup query', () => {
+  const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+  const mockSrc = readFileSync(
+    join(root, 'v2/fixtures/homeLandingMockupPresentation.js'),
+    'utf8',
+  );
+  const homeSrc = readFileSync(join(root, 'v2/HomeDestination.jsx'), 'utf8');
+  assert.match(mockSrc, /HOME_MOCKUP_QUERY/);
+  assert.match(homeSrc, /isHomeMockupMode/);
+  assert.match(homeSrc, /data-home-source/);
+  assert.equal(homeSrc.includes('fixture-open-2') || homeSrc.includes('Blue Hour'), true);
+});
+
+test('shared Home shelves and Quick Paths structure used for live and mockup', () => {
+  const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+  const homeSrc = readFileSync(join(root, 'v2/HomeDestination.jsx'), 'utf8');
+  assert.match(homeSrc, /TopOpportunityFeature/);
+  assert.match(homeSrc, /FilmShelf/);
+  assert.match(homeSrc, /PlannerCta/);
+  assert.match(homeSrc, /ExploreMore/);
+  assert.match(homeSrc, /EditorialIntro/);
+  assert.equal(homeSrc.includes('TOP_OPPORTUNITY_FIXTURES'), false);
+});
+
+test('inline quick detail omits missing synopsis rating year genre without enrichment', () => {
   const home = minimalHomeData();
   const shelfFilm = buildOpeningThisWeekShelf(home).films[0];
   const detail = buildInlineQuickDetail(home, shelfFilm);
@@ -229,14 +285,7 @@ test('See all opens Explore-associated collection surfaces', () => {
   assert.equal(nav.surface.collectionId, 'leaving-soon');
 });
 
-test('Explore More routing target is Explore landing', () => {
-  let nav = createInitialNavState();
-  nav = selectPrimaryDestination(nav, 'explore');
-  assert.equal(nav.primaryDestinationId, 'explore');
-  assert.equal(nav.surface, null);
-});
-
-test('HomeDestination does not import fictional Top Opportunity fixtures', () => {
+test('HomeDestination does not import fictional Top Opportunity fixtures as default', () => {
   const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
   const source = readFileSync(join(root, 'v2/HomeDestination.jsx'), 'utf8');
   assert.equal(source.includes('TOP_OPPORTUNITY_FIXTURES'), false);
@@ -244,6 +293,29 @@ test('HomeDestination does not import fictional Top Opportunity fixtures', () =>
   assert.equal(source.includes('LEAVING_SOON_FIXTURES'), false);
   assert.match(source, /selectTopOpportunities|TopOpportunityFeature/);
   assert.match(source, /buildOpeningThisWeekShelf/);
+  assert.match(source, /isHomeMockupMode/);
+  assert.match(source, /homeLandingMockupPresentation/);
+});
+
+test('Explore More routing target is Explore landing', () => {
+  let nav = createInitialNavState();
+  nav = selectPrimaryDestination(nav, 'explore');
+  assert.equal(nav.primaryDestinationId, 'explore');
+  assert.equal(nav.surface, null);
+});
+
+test('Home Quick Paths uses canonical mockup labels', () => {
+  const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+  const exploreSrc = readFileSync(join(root, 'v2/home/ExploreMore.jsx'), 'utf8');
+  assert.match(exploreSrc, /Quick Paths/);
+  assert.match(exploreSrc, /HOME_QUICK_PATH_ROWS/);
+  const mockSrc = readFileSync(
+    join(root, 'v2/fixtures/homeLandingMockupPresentation.js'),
+    'utf8',
+  );
+  assert.match(mockSrc, /Your saved films and upcoming picks/);
+  assert.match(mockSrc, /Blue Hour/);
+  assert.match(mockSrc, /The Long Horizon/);
 });
 
 test('TopOpportunityFeature uses selector not fixture array', () => {

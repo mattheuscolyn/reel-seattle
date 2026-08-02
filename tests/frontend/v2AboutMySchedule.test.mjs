@@ -67,7 +67,7 @@ test('About My Schedule fixture matches canonical mockup sections', () => {
   assert.equal(p.whatCountsAsPlan.title, 'What counts as a plan');
   assert.equal(p.featureCards.cards.length, 3);
   assert.equal(p.featureCards.cards[0].title, 'Understanding colors');
-  assert.equal(p.featureCards.cards[1].title, 'Calendar sync');
+  assert.equal(p.featureCards.cards[1].title, 'Add to calendar');
   assert.equal(p.featureCards.cards[2].title, 'Tickets');
   assert.equal(p.privacy.title, 'Privacy & control');
   assert.equal(p.faq.title, 'Frequently asked questions');
@@ -117,8 +117,16 @@ test('About fixture keeps exact key mockup copy and order', () => {
     ],
   );
   assert.match(
+    p.featureCards.cards[1].bullets[0],
+    /one-time \.ics file/,
+  );
+  assert.match(
+    p.featureCards.cards[1].bullets[1],
+    /does not sync or update events/,
+  );
+  assert.match(
     p.featureCards.cards[1].bullets[2],
-    /External edits won't sync back/,
+    /Ongoing calendar sync isn’t available/,
   );
 });
 

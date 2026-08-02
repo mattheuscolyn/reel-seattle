@@ -52,6 +52,16 @@ export const PLACEHOLDER_POSTERS = Object.freeze({
   north: posterSvg({ title: 'Northbound', from: '#2a1c14', to: '#8a5a3c' }),
   perfect: posterSvg({ title: 'Perfect Moment', from: '#241828', to: '#6e3d5b' }),
   winter: posterSvg({ title: 'Winter Light', from: '#1a222c', to: '#6a7b8c' }),
+  afterStorm: posterSvg({
+    title: 'After the Storm',
+    from: '#14201c',
+    to: '#3f6b5a',
+  }),
+  goodbyeYesterday: posterSvg({
+    title: 'Goodbye Yesterday',
+    from: '#1c1420',
+    to: '#4a3a6e',
+  }),
   river: posterSvg({ title: 'River Song', from: '#14201c', to: '#3f6b5a' }),
   midnight: posterSvg({ title: 'Midnight Run', from: '#1c1420', to: '#4a3a6e' }),
   memories: posterSvg({ title: 'Memories', from: '#1a1a1a', to: '#5a4a3a' }),
@@ -59,6 +69,7 @@ export const PLACEHOLDER_POSTERS = Object.freeze({
   perfectBlue: posterSvg({ title: 'Perfect Blue', from: '#1a2040', to: '#6a3a8a' }),
   rashomon: posterSvg({ title: 'Rashomon', from: '#111111', to: '#888888' }),
   spaceOdyssey: posterSvg({ title: '2001', from: '#101018', to: '#c0392b' }),
+  jurassicPark: posterSvg({ title: 'Jurassic Park', from: '#1a3a18', to: '#6a9a3a' }),
   memoriesOfMurder: posterSvg({
     title: 'Memories',
     from: '#1a1a1a',

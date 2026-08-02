@@ -1,42 +1,91 @@
 /**
- * Stage 1 Build a Plan — fixture-backed replica of Build a Plan Page.png.
+ * Build a Plan — config form for same-theater live Results (T-PENG-01).
  *
- * Local-only form state. No planner persistence, itinerary generation,
- * travel, calendar, or production showtime queries.
- * CTA navigates to Stage 1 Build a Plan Results (fixture itineraries).
+ * Single-open accordion (When / What / Where / Fine tuning).
+ * Mockup QC: `?buildPlanMockup=1` (+ optional `section=`).
+ * Production form: live Pacific defaults + empty film buckets.
  */
 
-import { useId, useState } from 'react';
 import {
-  IconAccessibility,
-  IconBan,
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
+import {
   IconBriefcase,
   IconBuilding,
   IconCalendar,
-  IconCalendarPlus,
   IconChevron,
   IconClock,
-  IconClose,
-  IconFilm,
   IconGlobe,
-  IconLayers,
-  IconMoon,
-  IconParty,
+  IconPeople,
   IconPin,
   IconPopcorn,
+  IconSliders,
   IconSpark,
-  IconSun,
+  IconTarget,
   IconTicket,
-  IconWalk,
-  IconWallet,
   IconPlus,
 } from '../icons.jsx';
 import {
   applyBuildPlanPreset,
   buildPlanSummaryLines,
   createBuildPlanFormState,
+  getBuildPlanMockupOpenSection,
+  isBuildPlanMockupMode,
   resolveBuildPlanPresentation,
 } from '../fixtures/buildPlanMockupFixture.js';
+import { createLiveBuildPlanFormState, formatBuildPlanDateDisplay } from './createLiveBuildPlanFormState.js';
+import {
+  adjustBuildPlanAccordionScroll,
+  nextOpenSection,
+} from './buildPlanAccordion.js';
+import {
+  ensureBuildPlanFormSession,
+  setBuildPlanFormSession,
+  subscribeBuildPlanFormSession,
+} from './buildPlanFormSession.js';
+import { MUST_INCLUDE_MAX } from './buildPlanFilmManageConfig.js';
+import {
+  addIsoDays,
+  formatCompactDateLabel,
+  pacificDateString,
+} from '../explore/exploreCatalog.js';
+import {
+  MAX_BREAK_PRESETS,
+  MIN_BREAK_PRESETS,
+  formatBreakMinutes,
+} from './planBreakRange.js';
+
+const PLAN_SIZE_OPTIONS = Object.freeze([
+  '1 movie',
+  '1–3 movies',
+  '2 movies',
+  '2–4 movies',
+  '3 movies',
+  'As many as possible',
+]);
+
+const START_AFTER_OPTIONS = Object.freeze([
+  '10:00 AM',
+  '11:00 AM',
+  '12:00 PM',
+  '2:00 PM',
+  '5:00 PM',
+  '7:00 PM',
+]);
+
+const FINISH_BEFORE_OPTIONS = Object.freeze([
+  '9:00 PM',
+  '10:00 PM',
+  '11:00 PM',
+  '12:00 AM',
+]);
+
+const LAUNCH_THEATER_PREF_IDS = Object.freeze(['any', 'amc', 'indie']);
 
 const PRESET_ICONS = {
   briefcase: IconBriefcase,
@@ -46,6 +95,13 @@ const PRESET_ICONS = {
   spark: IconSpark,
 };
 
+const SECTION_ICONS = {
+  when: IconCalendar,
+  what: IconTarget,
+  where: IconPin,
+  fineTuning: IconSliders,
+};
+
 const THEATER_ICONS = {
   globe: IconGlobe,
   ticket: IconTicket,
@@ -53,31 +109,10 @@ const THEATER_ICONS = {
   pin: IconPin,
 };
 
-const FINE_ICONS = {
-  calendarPlus: IconCalendarPlus,
-  clock: IconClock,
-  walk: IconWalk,
-  film: IconFilm,
-  wallet: IconWallet,
-  accessibility: IconAccessibility,
-};
-
-const TOGGLE_ICONS = {
-  party: IconParty,
-  layers: IconLayers,
-  ban: IconBan,
-};
-
-function PlanToggle({ id, label, support, checked, onChange, icon: Icon }) {
+function PlanToggle({ id, label, checked, onChange }) {
   return (
     <label className="v2-bp-toggle" htmlFor={id}>
-      <span className="v2-bp-toggle-icon" aria-hidden="true">
-        <Icon width={16} height={16} />
-      </span>
-      <span className="v2-bp-toggle-copy">
-        <span className="v2-bp-toggle-label">{label}</span>
-        <span className="v2-bp-toggle-support">{support}</span>
-      </span>
+      <span className="v2-bp-toggle-label">{label}</span>
       <span className="v2-bp-switch">
         <input
           id={id}
@@ -93,36 +128,45 @@ function PlanToggle({ id, label, support, checked, onChange, icon: Icon }) {
   );
 }
 
-function FilmChipCard({ film, onRemove, dense = false }) {
+function MustFilmRow({ film, onOpen }) {
   return (
-    <div className={`v2-bp-film-card${dense ? ' v2-bp-film-card-dense' : ''}`}>
-      <img className="v2-bp-film-thumb" src={film.imageUrl} alt="" />
+    <button
+      type="button"
+      className="v2-bp-must-row"
+      onClick={onOpen}
+      aria-label={film.title}
+    >
+      <img className="v2-bp-must-thumb" src={film.imageUrl} alt="" />
       <span className="v2-bp-film-copy">
         <span className="v2-bp-film-title">{film.title}</span>
         <span className="v2-bp-film-detail">
-          {film.theaterLabel ?? film.detailLabel}
+          {film.detailLabel ?? film.theaterLabel}
         </span>
       </span>
-      <button
-        type="button"
-        className="v2-bp-film-remove"
-        aria-label={`Remove ${film.title}`}
-        onClick={() => onRemove(film.id)}
-      >
-        <IconClose />
-      </button>
-    </div>
+      <span className="v2-bp-row-chevron" aria-hidden="true">
+        <IconChevron width={14} height={14} />
+      </span>
+    </button>
   );
 }
 
-function AddFilmCard({ label, onClick }) {
+function FilmChipRow({ films, moreLabel, onMore }) {
+  const visible = films.slice(0, 2);
+  const rest = Math.max(0, films.length - visible.length);
   return (
-    <button type="button" className="v2-bp-film-add" onClick={onClick}>
-      <span aria-hidden="true">
-        <IconPlus width={18} height={18} />
-      </span>
-      <span>{label}</span>
-    </button>
+    <div className="v2-bp-chip-row">
+      {visible.map((film) => (
+        <span key={film.id} className="v2-bp-chip">
+          <img className="v2-bp-chip-thumb" src={film.imageUrl} alt="" />
+          <span className="v2-bp-chip-title">{film.title}</span>
+        </span>
+      ))}
+      {rest > 0 ? (
+        <button type="button" className="v2-bp-chip v2-bp-chip-more" onClick={onMore}>
+          {moreLabel ?? `+ ${rest} more`}
+        </button>
+      ) : null}
+    </div>
   );
 }
 
@@ -131,7 +175,9 @@ function AddFilmCard({ label, onClick }) {
  *   onBack: () => void,
  *   backLabel?: string,
  *   onStubAction?: (actionId: string, label: string) => void,
- *   onRequestResults?: () => void,
+ *   onRequestResults?: (form: object) => void,
+ *   onOpenFilmManage?: (mode: 'mustInclude' | 'wouldLove' | 'notInterested') => void,
+ *   resumeOpenSection?: null | 'when' | 'what' | 'where' | 'fineTuning',
  * }} props
  */
 export default function BuildPlanSurface({
@@ -139,22 +185,80 @@ export default function BuildPlanSurface({
   backLabel = 'Planner',
   onStubAction,
   onRequestResults,
+  onOpenFilmManage,
+  resumeOpenSection = null,
 }) {
   const presentation = resolveBuildPlanPresentation();
+  const mockupMode = isBuildPlanMockupMode();
   const statusId = useId();
-  const [form, setForm] = useState(() => createBuildPlanFormState());
+  const [form, setFormLocal] = useState(() =>
+    ensureBuildPlanFormSession(() =>
+      mockupMode ? createBuildPlanFormState() : createLiveBuildPlanFormState(),
+    ),
+  );
+  const [openSection, setOpenSection] = useState(() => {
+    if (resumeOpenSection) return resumeOpenSection;
+    return mockupMode ? getBuildPlanMockupOpenSection() : null;
+  });
   const [statusMessage, setStatusMessage] = useState(null);
+  const [ctaBusy, setCtaBusy] = useState(false);
+  const scrollIntentRef = useRef(null);
+  const headerRefs = useRef({});
+  const resumedScrollRef = useRef(false);
+
+  const setForm = useCallback((updater) => {
+    setFormLocal((current) => {
+      const next = typeof updater === 'function' ? updater(current) : updater;
+      setBuildPlanFormSession(next);
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    return subscribeBuildPlanFormSession((next) => {
+      if (!next) return;
+      setFormLocal(next);
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    if (resumedScrollRef.current) return;
+    if (resumeOpenSection !== 'what') return;
+    resumedScrollRef.current = true;
+    const headerEl = headerRefs.current.what;
+    if (headerEl) {
+      headerEl.scrollIntoView({ block: 'start' });
+      window.scrollBy(0, -72);
+    }
+  }, [resumeOpenSection]);
 
   const announce = (actionId, label, message) => {
     const text =
-      message ?? `${label} isn’t available in this Stage 1 Build a Plan shell yet.`;
+      message ?? `${label} isn’t available in this Build a Plan shell yet.`;
     setStatusMessage(text);
     onStubAction?.(actionId, label);
   };
 
-  const clearAll = () => {
-    setForm(createBuildPlanFormState());
-    setStatusMessage('Selections cleared to Stage 1 defaults.');
+  const setPlanDate = (dateIso) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateIso)) return;
+    setForm((c) => ({
+      ...c,
+      dateIso,
+      dateDisplay: formatBuildPlanDateDisplay(dateIso),
+      dateShort: formatCompactDateLabel(dateIso),
+    }));
+  };
+
+  const todayIso = pacificDateString(new Date());
+  const tomorrowIso = addIsoDays(todayIso, 1);
+  const maxDateIso = addIsoDays(todayIso, 14);
+
+  const openManage = (manageMode) => {
+    if (typeof onOpenFilmManage === 'function') {
+      onOpenFilmManage(manageMode);
+      return;
+    }
+    announce(`manage-${manageMode}`, 'Manage');
   };
 
   const selectPreset = (presetId) => {
@@ -166,33 +270,45 @@ export default function BuildPlanSurface({
     });
   };
 
-  const removeFilm = (bucket, id) => {
-    setForm((current) => ({
-      ...current,
-      [bucket]: current[bucket].filter((f) => f.id !== id),
-    }));
-  };
-
-  const resetFineTuning = () => {
-    const d = createBuildPlanFormState();
-    setForm((current) => ({
-      ...current,
-      planSize: d.planSize,
-      maxGap: d.maxGap,
-      walking: d.walking,
-      premiumFormats: d.premiumFormats,
-      budget: d.budget,
-      accessibility: d.accessibility,
-      includeSpecialEvents: d.includeSpecialEvents,
-      allowRepeats: d.allowRepeats,
-      excludeSoldOut: d.excludeSoldOut,
-    }));
-  };
-
   const handleCta = () => {
-    onRequestResults?.();
+    if (ctaBusy) return;
+    setCtaBusy(true);
+    onRequestResults?.(form);
     onStubAction?.('build-results', presentation.ctaLabel);
+    window.setTimeout(() => setCtaBusy(false), 600);
   };
+
+  const toggleSection = useCallback(
+    (targetId) => {
+      const next = nextOpenSection(openSection, targetId);
+      const focusId = next ?? openSection ?? targetId;
+      const headerEl = headerRefs.current[focusId] ?? null;
+      const beforeTop = headerEl?.getBoundingClientRect().top ?? null;
+      let mode = 'collapse';
+      if (next && openSection && next !== openSection) mode = 'switch';
+      else if (next) mode = 'open';
+      scrollIntentRef.current = {
+        sectionId: focusId,
+        beforeTop,
+        mode,
+      };
+      setOpenSection(next);
+    },
+    [openSection],
+  );
+
+  useLayoutEffect(() => {
+    const intent = scrollIntentRef.current;
+    if (!intent) return;
+    scrollIntentRef.current = null;
+    const headerEl = headerRefs.current[intent.sectionId] ?? null;
+    adjustBuildPlanAccordionScroll({
+      headerEl,
+      beforeTop: intent.beforeTop,
+      mode: intent.mode,
+    });
+    headerEl?.focus?.({ preventScroll: true });
+  }, [openSection]);
 
   const summary = buildPlanSummaryLines(form);
   const {
@@ -200,40 +316,111 @@ export default function BuildPlanSurface({
     pageTagline,
     presetsLabel,
     customDividerLabel,
-    clearAllLabel,
     ctaLabel,
     presets,
     when,
     what,
     where,
     fineTuning,
-    summary: summaryCopy,
   } = presentation;
 
-  const fineValues = {
-    planSize: form.planSize,
-    maxGap: form.maxGap,
-    walking: form.walking,
-    premiumFormats: form.premiumFormats,
-    budget: form.budget,
-    accessibility: form.accessibility,
+  const launchTheaterPrefs = where.theaterPrefs.filter((pref) =>
+    LAUNCH_THEATER_PREF_IDS.includes(pref.id),
+  );
+
+  const collapsed = summary.collapsed;
+  const source = mockupMode ? 'build-plan-mockup' : 'live-form';
+
+  const renderAccordion = (id, title, summaryText, panel, titleNode = null) => {
+    const expanded = openSection === id;
+    const panelId = `v2-bp-panel-${id}`;
+    const Icon = SECTION_ICONS[id] ?? IconSpark;
+    const step =
+      id === 'when'
+        ? when.step
+        : id === 'what'
+          ? what.step
+          : id === 'where'
+            ? where.step
+            : fineTuning.step;
+
+    const summaryParts =
+      typeof summaryText === 'string' && summaryText.includes('Flexible')
+        ? summaryText.split(/(Flexible)/)
+        : null;
+
+    return (
+      <section
+        className={`v2-bp-acc${expanded ? ' is-open' : ''}`}
+        data-build-plan-section={id}
+        data-bp-accordion={id}
+      >
+        <h2 className="v2-bp-acc-heading">
+          <button
+            type="button"
+            className="v2-bp-acc-trigger"
+            id={`v2-bp-acc-${id}`}
+            aria-expanded={expanded}
+            aria-controls={panelId}
+            ref={(el) => {
+              headerRefs.current[id] = el;
+            }}
+            onClick={() => toggleSection(id)}
+          >
+            <span className="v2-bp-acc-icon" aria-hidden="true">
+              <Icon width={20} height={20} />
+            </span>
+            <span className="v2-bp-step" aria-hidden="true">
+              {step}
+            </span>
+            <span className="v2-bp-acc-copy">
+              <span className="v2-bp-acc-title">
+                {titleNode ?? title}
+              </span>
+              {!expanded ? (
+                <span className="v2-bp-acc-summary">
+                  {summaryParts
+                    ? summaryParts.map((part, i) =>
+                        part === 'Flexible' ? (
+                          <span key={i} className="v2-bp-acc-flex-mark">
+                            Flexible
+                          </span>
+                        ) : (
+                          <span key={i}>{part}</span>
+                        ),
+                      )
+                    : summaryText}
+                </span>
+              ) : null}
+            </span>
+            <span
+              className={`v2-bp-acc-chevron${expanded ? ' is-open' : ''}`}
+              aria-hidden="true"
+            >
+              <IconChevron />
+            </span>
+          </button>
+        </h2>
+        <div
+          id={panelId}
+          role="region"
+          aria-labelledby={`v2-bp-acc-${id}`}
+          className="v2-bp-acc-panel"
+          hidden={!expanded}
+        >
+          {expanded ? panel : null}
+        </div>
+      </section>
+    );
   };
 
   return (
     <article
       className="v2-bp"
       aria-labelledby="v2-bp-title"
-      data-build-plan-source={presentation.source}
+      data-build-plan-source={source}
+      data-bp-open-section={openSection ?? 'none'}
     >
-      <button
-        type="button"
-        className="v2-bp-back"
-        aria-label={`Back to ${backLabel}`}
-        onClick={onBack}
-      >
-        <span aria-hidden="true">←</span> {backLabel}
-      </button>
-
       <header className="v2-bp-header" data-build-plan-section="header">
         <h1 id="v2-bp-title" className="v2-bp-title">
           {pageTitle}
@@ -268,10 +455,12 @@ export default function BuildPlanSurface({
                 }`}
                 onClick={() => selectPreset(preset.id)}
               >
-                <span
-                  className="v2-bp-preset-icon"
-                  aria-hidden="true"
-                >
+                {selected ? (
+                  <span className="v2-bp-preset-check" aria-hidden="true">
+                    ✓
+                  </span>
+                ) : null}
+                <span className="v2-bp-preset-icon" aria-hidden="true">
                   <Icon />
                 </span>
                 <span className="v2-bp-preset-title">{preset.title}</span>
@@ -283,389 +472,364 @@ export default function BuildPlanSurface({
         </div>
       </section>
 
-      <div
-        className="v2-bp-divider"
-        data-build-plan-section="customDivider"
-      >
+      <div className="v2-bp-divider" data-build-plan-section="customDivider">
         <span className="v2-bp-divider-line" aria-hidden="true" />
         <span className="v2-bp-divider-label">{customDividerLabel}</span>
         <span className="v2-bp-divider-line" aria-hidden="true" />
-        <button
-          type="button"
-          className="v2-bp-clear"
-          aria-label={clearAllLabel}
-          onClick={clearAll}
-        >
-          {clearAllLabel}
-        </button>
       </div>
 
       <div className="v2-bp-custom" data-build-plan-section="custom">
-        <section
-          className="v2-bp-block"
-          data-build-plan-section="when"
-          aria-labelledby="v2-bp-when-h"
-        >
-          <div className="v2-bp-block-head">
-            <h2 id="v2-bp-when-h" className="v2-bp-block-title">
-              <span className="v2-bp-step" aria-hidden="true">
-                {when.step}
-              </span>
-              <span>
-                {when.title}{' '}
-                <span className="v2-bp-block-support">{when.support}</span>
-              </span>
-            </h2>
-            <label className="v2-bp-flex-toggle" htmlFor="v2-bp-flexible">
-              <span>{when.flexibleLabel}</span>
-              <span className="v2-bp-switch">
-                <input
-                  id="v2-bp-flexible"
-                  type="checkbox"
-                  role="switch"
-                  checked={form.flexible}
-                  aria-checked={form.flexible}
-                  onChange={(e) =>
-                    setForm((c) => ({ ...c, flexible: e.target.checked }))
-                  }
-                />
-                <span className="v2-bp-switch-track" aria-hidden="true" />
-              </span>
-            </label>
-          </div>
-
-          <div className="v2-bp-when-card">
-            <button
-              type="button"
-              className="v2-bp-date-row"
-              aria-label={`${when.dateLabelPrefix} ${form.dateDisplay}`}
-              onClick={() => announce('date-picker', 'Date picker')}
-            >
-              <span aria-hidden="true">
-                <IconCalendar width={16} height={16} />
-              </span>
-              <span className="v2-bp-date-prefix">{when.dateLabelPrefix}</span>
-              <span className="v2-bp-date-value">{form.dateDisplay}</span>
-              <span aria-hidden="true">
-                <IconChevron />
-              </span>
-            </button>
-            <div className="v2-bp-time-row">
-              <label className="v2-bp-time-field">
-                <span className="v2-bp-time-label">
-                  <IconSun width={14} height={14} aria-hidden="true" />
-                  {when.startAfterLabel}
-                </span>
-                <select
-                  className="v2-bp-select"
-                  value={form.startAfter}
-                  aria-label={when.startAfterLabel}
-                  onChange={(e) =>
-                    setForm((c) => ({ ...c, startAfter: e.target.value }))
-                  }
-                >
-                  {['12:00 PM', '2:00 PM', '5:00 PM', '7:00 PM'].map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="v2-bp-time-field">
-                <span className="v2-bp-time-label">
-                  <IconMoon width={14} height={14} aria-hidden="true" />
-                  {when.finishBeforeLabel}
-                </span>
-                <select
-                  className="v2-bp-select"
-                  value={form.finishBefore}
-                  aria-label={when.finishBeforeLabel}
-                  onChange={(e) =>
-                    setForm((c) => ({ ...c, finishBefore: e.target.value }))
-                  }
-                >
-                  {['9:00 PM', '10:00 PM', '11:00 PM', '12:00 AM'].map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-          </div>
-          <button
-            type="button"
-            className="v2-bp-text-action"
-            onClick={() => announce('add-day', when.addDayLabel)}
-          >
-            {when.addDayLabel}
-          </button>
-        </section>
-
-        <section
-          className="v2-bp-block"
-          data-build-plan-section="what"
-          aria-labelledby="v2-bp-what-h"
-        >
-          <div className="v2-bp-block-head">
-            <h2 id="v2-bp-what-h" className="v2-bp-block-title">
-              <span className="v2-bp-step" aria-hidden="true">
-                {what.step}
-              </span>
-              <span>
-                {what.title}{' '}
-                <span className="v2-bp-block-support">{what.support}</span>
-              </span>
-            </h2>
-            <button
-              type="button"
-              className="v2-bp-outline-btn"
-              onClick={() => announce('add-from-list', what.addFromListLabel)}
-            >
-              {what.addFromListLabel}
-            </button>
-          </div>
-
-          <div className="v2-bp-what-group">
-            <p className="v2-bp-must-label">{what.mustIncludeLabel}</p>
-            <div className="v2-bp-film-row">
-              {form.mustInclude.map((film) => (
-                <FilmChipCard
-                  key={film.id}
-                  film={film}
-                  onRemove={(id) => removeFilm('mustInclude', id)}
-                />
-              ))}
-              <AddFilmCard
-                label={what.addFilmLabel}
-                onClick={() => announce('add-must', what.addFilmLabel)}
-              />
-            </div>
-          </div>
-
-          <div className="v2-bp-what-group">
-            <p className="v2-bp-opt-label">
-              <span>{what.wouldLoveLabel}</span>
-              <span className="v2-bp-optional">{what.optionalLabel}</span>
-            </p>
-            <div className="v2-bp-film-grid">
-              {form.wouldLove.map((film) => (
-                <FilmChipCard
-                  key={film.id}
-                  film={film}
-                  dense
-                  onRemove={(id) => removeFilm('wouldLove', id)}
-                />
-              ))}
-              <AddFilmCard
-                label={what.addFilmLabel}
-                onClick={() => announce('add-love', what.addFilmLabel)}
-              />
-            </div>
-          </div>
-
-          <div className="v2-bp-what-group">
-            <p className="v2-bp-opt-label">
-              <span>{what.notInterestedLabel}</span>
-              <span className="v2-bp-optional">{what.optionalLabel}</span>
-            </p>
-            <div className="v2-bp-film-grid">
-              {form.notInterested.map((film) => (
-                <FilmChipCard
-                  key={film.id}
-                  film={film}
-                  dense
-                  onRemove={(id) => removeFilm('notInterested', id)}
-                />
-              ))}
-              <AddFilmCard
-                label={what.addFilmLabel}
-                onClick={() => announce('add-ni', what.addFilmLabel)}
-              />
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className="v2-bp-more-options"
-            onClick={() => announce('more-options', what.moreOptionsLabel)}
-          >
-            {what.moreOptionsLabel}
-            <span aria-hidden="true">
-              <IconChevron />
-            </span>
-          </button>
-        </section>
-
-        <section
-          className="v2-bp-block"
-          data-build-plan-section="where"
-          aria-labelledby="v2-bp-where-h"
-        >
-          <h2 id="v2-bp-where-h" className="v2-bp-block-title">
-            <span className="v2-bp-step" aria-hidden="true">
-              {where.step}
-            </span>
-            <span>
-              {where.title}{' '}
-              <span className="v2-bp-block-support">{where.support}</span>
-            </span>
-          </h2>
-          <div
-            className="v2-bp-where-row"
-            role="radiogroup"
-            aria-label={where.title}
-          >
-            {where.theaterPrefs.map((pref) => {
-              const Icon = THEATER_ICONS[pref.icon] ?? IconGlobe;
-              const selected = form.theaterPrefId === pref.id;
-              return (
-                <button
-                  key={pref.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={selected}
-                  className={`v2-bp-where-card${selected ? ' is-selected' : ''}`}
-                  onClick={() =>
-                    setForm((c) => ({ ...c, theaterPrefId: pref.id }))
-                  }
-                >
-                  {selected ? (
-                    <span className="v2-bp-where-check" aria-hidden="true">
-                      ✓
-                    </span>
-                  ) : null}
-                  <span className="v2-bp-where-icon" aria-hidden="true">
-                    <Icon />
-                  </span>
-                  <span className="v2-bp-where-title">{pref.title}</span>
-                  <span className="v2-bp-where-detail">{pref.detail}</span>
-                </button>
-              );
-            })}
-          </div>
-          <button
-            type="button"
-            className="v2-bp-location"
-            aria-label={`${where.locationLabel}: ${form.locationDisplay}`}
-            onClick={() => announce('edit-location', where.editLabel)}
-          >
-            <span aria-hidden="true">
-              <IconPin width={16} height={16} />
-            </span>
-            <span className="v2-bp-location-label">{where.locationLabel}</span>
-            <span className="v2-bp-location-value">{form.locationDisplay}</span>
-            <span className="v2-bp-location-edit">
-              {where.editLabel}
-              <IconChevron />
-            </span>
-          </button>
-        </section>
-
-        <section
-          className="v2-bp-block"
-          data-build-plan-section="fineTuning"
-          aria-labelledby="v2-bp-fine-h"
-        >
-          <div className="v2-bp-block-head">
-            <h2 id="v2-bp-fine-h" className="v2-bp-block-title">
-              <span className="v2-bp-step" aria-hidden="true">
-                {fineTuning.step}
-              </span>
-              <span>
-                {fineTuning.title}{' '}
-                <span className="v2-bp-block-support">{fineTuning.support}</span>
-              </span>
-            </h2>
-            <button
-              type="button"
-              className="v2-bp-text-action"
-              onClick={resetFineTuning}
-            >
-              {fineTuning.resetLabel}
-            </button>
-          </div>
-          <div className="v2-bp-fine-grid">
-            {fineTuning.fields.map((field) => {
-              const Icon = FINE_ICONS[field.icon] ?? IconFilm;
-              return (
-                <button
-                  key={field.id}
-                  type="button"
-                  className="v2-bp-fine-card"
-                  onClick={() => announce(`fine-${field.id}`, field.label)}
-                >
-                  <span className="v2-bp-fine-icon" aria-hidden="true">
-                    <Icon width={16} height={16} />
-                  </span>
-                  <span className="v2-bp-fine-copy">
-                    <span className="v2-bp-fine-label">{field.label}</span>
-                    <span className="v2-bp-fine-value">
-                      {fineValues[field.id]}
-                    </span>
-                  </span>
+        {renderAccordion(
+          'when',
+          when.title,
+          collapsed.when,
+          <div className="v2-bp-acc-body">
+            <div className="v2-bp-when-fields">
+              <p className="v2-bp-field-label">{when.dateLabelPrefix}</p>
+              <div className="v2-bp-date-controls">
+                <label className="v2-bp-date-row v2-bp-date-input-row">
                   <span aria-hidden="true">
-                    <IconChevron />
+                    <IconCalendar width={16} height={16} />
                   </span>
+                  <input
+                    type="date"
+                    className="v2-bp-date-input"
+                    aria-label={`${when.dateLabelPrefix} ${form.dateDisplay}`}
+                    value={form.dateIso ?? todayIso}
+                    min={todayIso}
+                    max={maxDateIso}
+                    onChange={(e) => setPlanDate(e.target.value)}
+                  />
+                  <span className="v2-bp-date-value">{form.dateDisplay}</span>
+                </label>
+                <div className="v2-bp-date-quick" role="group" aria-label="Quick dates">
+                  <button
+                    type="button"
+                    className={`v2-bp-date-chip${
+                      form.dateIso === todayIso ? ' is-selected' : ''
+                    }`}
+                    aria-pressed={form.dateIso === todayIso}
+                    onClick={() => setPlanDate(todayIso)}
+                  >
+                    Today
+                  </button>
+                  <button
+                    type="button"
+                    className={`v2-bp-date-chip${
+                      form.dateIso === tomorrowIso ? ' is-selected' : ''
+                    }`}
+                    aria-pressed={form.dateIso === tomorrowIso}
+                    onClick={() => setPlanDate(tomorrowIso)}
+                  >
+                    Tomorrow
+                  </button>
+                </div>
+              </div>
+              <p className="v2-bp-field-label">{when.timeWindowLabel}</p>
+              <div className="v2-bp-time-row">
+                <label className="v2-bp-time-field">
+                  <span className="v2-visually-hidden">{when.startAfterLabel}</span>
+                  <select
+                    className="v2-bp-select"
+                    value={form.startAfter}
+                    aria-label={when.startAfterLabel}
+                    onChange={(e) =>
+                      setForm((c) => ({ ...c, startAfter: e.target.value }))
+                    }
+                  >
+                    {(START_AFTER_OPTIONS.includes(form.startAfter)
+                      ? START_AFTER_OPTIONS
+                      : [form.startAfter, ...START_AFTER_OPTIONS]
+                    ).map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <span className="v2-bp-time-sep" aria-hidden="true">
+                  –
+                </span>
+                <label className="v2-bp-time-field">
+                  <span className="v2-visually-hidden">
+                    {when.finishBeforeLabel}
+                  </span>
+                  <select
+                    className="v2-bp-select"
+                    value={form.finishBefore}
+                    aria-label={when.finishBeforeLabel}
+                    onChange={(e) =>
+                      setForm((c) => ({ ...c, finishBefore: e.target.value }))
+                    }
+                  >
+                    {(FINISH_BEFORE_OPTIONS.includes(form.finishBefore)
+                      ? FINISH_BEFORE_OPTIONS
+                      : [form.finishBefore, ...FINISH_BEFORE_OPTIONS]
+                    ).map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>,
+        )}
+
+        {renderAccordion(
+          'what',
+          what.title,
+          collapsed.what,
+          <div className="v2-bp-acc-body">
+            <p className="v2-bp-acc-lead">{what.support}</p>
+
+            <div className="v2-bp-what-group">
+              <div className="v2-bp-what-head">
+                <p className="v2-bp-must-label">{what.mustIncludeLabel}</p>
+                <button
+                  type="button"
+                  className="v2-bp-manage"
+                  onClick={() => openManage('mustInclude')}
+                >
+                  {what.manageLabel}
                 </button>
-              );
-            })}
-          </div>
-          <div className="v2-bp-fine-toggles">
-            {fineTuning.toggles.map((toggle) => {
-              const Icon = TOGGLE_ICONS[toggle.icon] ?? IconParty;
-              return (
-                <PlanToggle
-                  key={toggle.id}
-                  id={`v2-bp-${toggle.id}`}
-                  label={toggle.label}
-                  support={toggle.support}
-                  icon={Icon}
-                  checked={Boolean(form[toggle.id])}
-                  onChange={(checked) =>
-                    setForm((c) => ({ ...c, [toggle.id]: checked }))
-                  }
+              </div>
+              <div className="v2-bp-film-stack">
+                {form.mustInclude.map((film) => (
+                  <MustFilmRow
+                    key={film.id}
+                    film={film}
+                    onOpen={() => openManage('mustInclude')}
+                  />
+                ))}
+                {form.mustInclude.length < MUST_INCLUDE_MAX ? (
+                  <button
+                    type="button"
+                    className="v2-bp-film-add"
+                    onClick={() => openManage('mustInclude')}
+                  >
+                    <span aria-hidden="true">
+                      <IconPlus width={14} height={14} />
+                    </span>
+                    <span>{what.addAnotherLabel}</span>
+                  </button>
+                ) : null}
+              </div>
+            </div>
+
+            <div className="v2-bp-what-group">
+              <div className="v2-bp-what-head">
+                <p className="v2-bp-opt-label">{what.wouldLoveLabel}</p>
+                <button
+                  type="button"
+                  className="v2-bp-manage"
+                  onClick={() => openManage('wouldLove')}
+                >
+                  {what.manageLabel}
+                </button>
+              </div>
+              {form.wouldLove.length === 0 ? (
+                <p className="v2-bp-empty-hint">No films added yet</p>
+              ) : (
+                <FilmChipRow
+                  films={form.wouldLove}
+                  onMore={() => openManage('wouldLove')}
                 />
-              );
-            })}
-          </div>
-        </section>
+              )}
+            </div>
+
+            <div className="v2-bp-what-group">
+              <div className="v2-bp-what-head">
+                <p className="v2-bp-opt-label">{what.notInterestedLabel}</p>
+                <button
+                  type="button"
+                  className="v2-bp-manage"
+                  onClick={() => openManage('notInterested')}
+                >
+                  {what.manageLabel}
+                </button>
+              </div>
+              {form.notInterested.length > 0 ? (
+                <p className="v2-bp-excluded-count">
+                  {form.notInterested.length} films excluded
+                </p>
+              ) : null}
+              {form.notInterested.length === 0 ? (
+                <p className="v2-bp-empty-hint">No exclusions yet</p>
+              ) : (
+                <FilmChipRow
+                  films={form.notInterested}
+                  onMore={() => openManage('notInterested')}
+                />
+              )}
+            </div>
+          </div>,
+        )}
+
+        {renderAccordion(
+          'where',
+          where.title,
+          collapsed.where,
+          <div className="v2-bp-acc-body">
+            <p className="v2-bp-field-label">{where.theaterPreferenceLabel}</p>
+            <div
+              className="v2-bp-where-row"
+              role="radiogroup"
+              aria-label={where.theaterPreferenceLabel}
+            >
+              {launchTheaterPrefs.map((pref) => {
+                const Icon = THEATER_ICONS[pref.icon] ?? IconGlobe;
+                const selected = form.theaterPrefId === pref.id;
+                return (
+                  <button
+                    key={pref.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={selected}
+                    className={`v2-bp-where-card${selected ? ' is-selected' : ''}`}
+                    onClick={() =>
+                      setForm((c) => ({ ...c, theaterPrefId: pref.id }))
+                    }
+                  >
+                    {selected ? (
+                      <span className="v2-bp-where-check" aria-hidden="true">
+                        ✓
+                      </span>
+                    ) : null}
+                    <span className="v2-bp-where-icon" aria-hidden="true">
+                      <Icon width={18} height={18} />
+                    </span>
+                    <span className="v2-bp-where-title">{pref.title}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>,
+        )}
+
+        {renderAccordion(
+          'fineTuning',
+          fineTuning.title,
+          collapsed.fineTuning,
+          <div className="v2-bp-acc-body">
+            <div className="v2-bp-fine-grid v2-bp-fine-grid-live">
+              <label className="v2-bp-fine-field">
+                <span className="v2-bp-fine-label">Plan size</span>
+                <select
+                  className="v2-bp-select"
+                  value={form.planSize}
+                  aria-label="Plan size"
+                  onChange={(e) =>
+                    setForm((c) => ({ ...c, planSize: e.target.value }))
+                  }
+                >
+                  {(PLAN_SIZE_OPTIONS.includes(form.planSize)
+                    ? PLAN_SIZE_OPTIONS
+                    : [form.planSize, ...PLAN_SIZE_OPTIONS]
+                  ).map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="v2-bp-fine-field">
+                <span className="v2-bp-fine-label">Minimum break</span>
+                <select
+                  className="v2-bp-select"
+                  value={form.minGap ?? 'Any'}
+                  aria-label="Minimum break"
+                  onChange={(e) =>
+                    setForm((c) => ({ ...c, minGap: e.target.value }))
+                  }
+                >
+                  <option value="Any">Any</option>
+                  {MIN_BREAK_PRESETS.map((p) => (
+                    <option key={p.id} value={formatBreakMinutes(p.minutes)}>
+                      {p.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="v2-bp-fine-field">
+                <span className="v2-bp-fine-label">Maximum break</span>
+                <select
+                  className="v2-bp-select"
+                  value={form.maxGap}
+                  aria-label="Maximum break"
+                  onChange={(e) =>
+                    setForm((c) => ({ ...c, maxGap: e.target.value }))
+                  }
+                >
+                  {MAX_BREAK_PRESETS.map((p) => {
+                    const value =
+                      p.minutes == null
+                        ? 'Any'
+                        : p.minutes === 90
+                          ? '90 min'
+                          : formatBreakMinutes(p.minutes);
+                    return (
+                      <option key={p.id} value={value}>
+                        {p.label}
+                      </option>
+                    );
+                  })}
+                  {!['Any', '90 min', '60 min', '120 min', '150 min', '1h', '2h', '2h 30m'].includes(
+                    form.maxGap,
+                  ) && form.maxGap ? (
+                    <option value={form.maxGap}>{form.maxGap}</option>
+                  ) : null}
+                </select>
+              </label>
+            </div>
+            <div className="v2-bp-fine-toggles">
+              <PlanToggle
+                id="v2-bp-allowRepeats"
+                label="Allow repeat films"
+                checked={Boolean(form.allowRepeats)}
+                onChange={(checked) =>
+                  setForm((c) => ({ ...c, allowRepeats: checked }))
+                }
+              />
+            </div>
+            <p className="v2-bp-fine-note">
+              Break length is the idle time between one film’s expected end and
+              the next start (transfer time must also fit inside that window).
+            </p>
+          </div>,
+          <>
+            {fineTuning.title}{' '}
+            <span className="v2-bp-acc-optional">(optional)</span>
+          </>,
+        )}
       </div>
 
       <footer
         className="v2-bp-summary"
         data-build-plan-section="summaryCta"
-        aria-label={summaryCopy.title}
+        aria-label="Plan summary"
       >
         <div className="v2-bp-summary-card">
-          <h2 className="v2-bp-summary-title">{summaryCopy.title}</h2>
           <ul className="v2-bp-summary-meta">
             <li>
               <IconCalendar width={14} height={14} aria-hidden="true" />
-              <span>{summary.dateShort}</span>
+              <span>{summary.line1}</span>
             </li>
             <li>
-              <IconClock width={14} height={14} aria-hidden="true" />
-              <span>{summary.timeWindow}</span>
-            </li>
-            <li>
-              <IconFilm width={14} height={14} aria-hidden="true" />
-              <span>{summary.planSize}</span>
-            </li>
-            <li>
-              <IconPin width={14} height={14} aria-hidden="true" />
-              <span>{summary.locationShort}</span>
+              <IconPeople width={14} height={14} aria-hidden="true" />
+              <span>{summary.line2}</span>
             </li>
           </ul>
-          <p className="v2-bp-summary-detail">{summary.detailLine}</p>
           <button
             type="button"
             className="v2-bp-cta"
             aria-label={ctaLabel}
+            disabled={ctaBusy}
             onClick={handleCta}
           >
-            <IconSpark aria-hidden="true" />
             <span>{ctaLabel}</span>
+            <IconSpark aria-hidden="true" />
           </button>
         </div>
       </footer>

@@ -1,19 +1,19 @@
 /**
- * Versioned Seen Films store (T-SEEN-01).
+ * Versioned Seen Films store (T-SEEN-01 / T-FILMID-03).
  *
  * Device-local persistence for films the user has watched. Distinct from
  * Saved, Not interested, Planner drafts, and My Schedule. Not synced to
  * accounts. Does not implement D15 ranking.
  *
- * Identity reuses Saved Films filmRef helpers:
- * 1. Prefer real `filmId` when both sides have one (future migration).
- * 2. Otherwise equality is normalized `showtimeFilmKey`.
+ * Identity reuses Saved Films filmRef helpers (T-FILMID-03):
+ * 1. Prefer valid canonical `filmId` when both sides have one.
+ * 2. Otherwise equality is showtimeFilmKey / aliasKeys overlap.
  * 3. Prefer parent-level keys via `filmRefFromHomeFilm` when callers pass a
  *    HomeData film; string keys are stored as-is (legacy migration fidelity).
  * 4. Never use source_showtime_id / opportunity keys as film identity.
  *
  * Legacy payload: JSON array of film-key strings under the same storage key.
- * Reads migrate in memory only; the normalized v1 payload is persisted on the
+ * Reads migrate in memory only; the normalized payload is persisted on the
  * first successful intentional write (or saveSeenFilmKeys compatibility write).
  *
  * Timestamp: `seenAt` is record time for generic toggles (`seenAtSource:
@@ -22,13 +22,15 @@
  */
 
 import {
+  mergeSavedFilmRefs,
   normalizeSavedFilmRef,
   normalizeShowtimeFilmKey,
   savedFilmRefsEqual,
 } from './savedFilmsStore.js';
 
 export const SEEN_FILMS_STORAGE_KEY = 'reel-seattle.v2.seenFilms';
-export const SEEN_FILMS_VERSION = 1;
+/** v2: shares T-FILMID-03 canonical filmRef rules with Saved. */
+export const SEEN_FILMS_VERSION = 2;
 export const SEEN_FILMS_MAX = 100;
 
 /** @typedef {import('./savedFilmsStore.js').SavedFilmRefInput} SeenFilmRefInput */
@@ -164,6 +166,7 @@ function normalizeSeenFilmItem(raw) {
           filmId: record.filmId,
           sourceFilmId: record.sourceFilmId,
           source: record.source,
+          aliasKeys: record.aliasKeys,
         },
   );
   if (!filmRef) return null;
@@ -187,6 +190,32 @@ function normalizeSeenFilmItem(raw) {
 }
 
 /**
+ * Merge Seen items that share identity. Keeps earliest seenAt; preserves showtimeRef.
+ * @param {SeenFilmItem} a
+ * @param {SeenFilmItem} b
+ * @returns {SeenFilmItem}
+ */
+export function mergeSeenFilmItems(a, b) {
+  const earlier = a.seenAt <= b.seenAt ? a : b;
+  const newer = a.seenAt >= b.seenAt ? a : b;
+  /** @type {SeenFilmItem} */
+  const merged = {
+    filmRef: mergeSavedFilmRefs(a.filmRef, b.filmRef),
+    seenAt: earlier.seenAt,
+  };
+  if (earlier.seenAtSource) merged.seenAtSource = earlier.seenAtSource;
+  else if (newer.seenAtSource) merged.seenAtSource = newer.seenAtSource;
+  const showtimeRef = earlier.showtimeRef ?? newer.showtimeRef ?? null;
+  if (showtimeRef) merged.showtimeRef = showtimeRef;
+  else merged.showtimeRef = null;
+  const title = newer.title ?? earlier.title ?? null;
+  const posterUrl = newer.posterUrl ?? earlier.posterUrl ?? null;
+  if (title) merged.title = title;
+  if (posterUrl) merged.posterUrl = posterUrl;
+  return merged;
+}
+
+/**
  * @param {unknown} items
  * @returns {SeenFilmItem[]}
  */
@@ -201,7 +230,7 @@ export function normalizeSeenFilmItems(items) {
       savedFilmRefsEqual(existing.filmRef, item.filmRef),
     );
     if (idx >= 0) {
-      if (item.seenAt > out[idx].seenAt) out[idx] = item;
+      out[idx] = mergeSeenFilmItems(out[idx], item);
       continue;
     }
     out.push(item);
@@ -345,6 +374,68 @@ export function normalizeSeenFilmsPayload(payload, options = {}) {
  */
 export function migrateSeenFilmsPayload(payload, options = {}) {
   return normalizeSeenFilmsPayload(payload, options);
+}
+
+/**
+ * Upgrade Seen items from live film refs (key overlap → attach filmId).
+ * @param {Storage | null | undefined} storage
+ * @param {Array<import('./savedFilmsStore.js').SavedFilmRefInput | string | null | undefined>} liveRefs
+ * @returns {SeenFilmsWriteResult & { upgraded?: number }}
+ */
+export function reconcileSeenFilmsStore(storage, liveRefs = []) {
+  const read = readSeenFilmsStore(storage);
+  if (
+    read.status === 'unsupported_version' ||
+    read.status === 'storage_unavailable'
+  ) {
+    return {
+      ok: false,
+      store: read.store,
+      error: read.error ?? read.status,
+      changed: false,
+      upgraded: 0,
+    };
+  }
+
+  /** @type {SeenFilmItem[]} */
+  let next = read.store.items.map((item) => ({
+    ...item,
+    filmRef: {
+      ...item.filmRef,
+      aliasKeys: item.filmRef.aliasKeys ? [...item.filmRef.aliasKeys] : undefined,
+    },
+  }));
+  let upgraded = 0;
+  for (const input of liveRefs ?? []) {
+    const live = normalizeSavedFilmRef(input);
+    if (!live?.filmId) continue;
+    const idx = next.findIndex((row) => savedFilmRefsEqual(row.filmRef, live));
+    if (idx < 0) continue;
+    const before = next[idx];
+    const mergedRef = mergeSavedFilmRefs(before.filmRef, live);
+    if (JSON.stringify(before.filmRef) === JSON.stringify(mergedRef)) continue;
+    next[idx] = { ...before, filmRef: mergedRef };
+    upgraded += 1;
+  }
+  next = normalizeSeenFilmItems(next);
+  const changed =
+    upgraded > 0 ||
+    read.store.version !== SEEN_FILMS_VERSION ||
+    next.length !== read.store.items.length;
+  if (!changed) {
+    return {
+      ok: true,
+      store: read.store,
+      error: null,
+      changed: false,
+      upgraded: 0,
+    };
+  }
+  const written = writeSeenFilmsStore(storage, {
+    version: SEEN_FILMS_VERSION,
+    items: next,
+  });
+  return { ...written, upgraded };
 }
 
 /**
@@ -523,19 +614,51 @@ export function markFilmSeen(storage, filmRef, options = {}) {
   }
 
   const existing = read.store.items;
-  const already = existing.find((row) =>
+  const alreadyIdx = existing.findIndex((row) =>
     savedFilmRefsEqual(row.filmRef, item.filmRef),
   );
-  if (already) {
-    const written = writeSeenFilmsStore(storage, {
-      version: SEEN_FILMS_VERSION,
-      items: existing,
-    });
-    return {
-      ...written,
-      changed: false,
-      error: written.ok ? null : written.error,
+  if (alreadyIdx >= 0) {
+    const already = existing[alreadyIdx];
+    const mergedRef = mergeSavedFilmRefs(already.filmRef, item.filmRef);
+    const nextTitle = item.title ?? already.title ?? null;
+    const nextPoster = item.posterUrl ?? already.posterUrl ?? null;
+    const nextShowtimeRef = already.showtimeRef ?? item.showtimeRef ?? null;
+    const refChanged =
+      JSON.stringify(already.filmRef) !== JSON.stringify(mergedRef);
+    const metaChanged =
+      (nextTitle ?? null) !== (already.title ?? null) ||
+      (nextPoster ?? null) !== (already.posterUrl ?? null) ||
+      JSON.stringify(nextShowtimeRef) !== JSON.stringify(already.showtimeRef ?? null);
+    if (!refChanged && !metaChanged) {
+      if (read.store.version === SEEN_FILMS_VERSION) {
+        return {
+          ok: true,
+          store: read.store,
+          error: null,
+          changed: false,
+        };
+      }
+      return writeSeenFilmsStore(storage, {
+        version: SEEN_FILMS_VERSION,
+        items: existing,
+      });
+    }
+    const nextItems = existing.slice();
+    /** @type {SeenFilmItem} */
+    const nextItem = {
+      filmRef: mergedRef,
+      seenAt: already.seenAt,
     };
+    if (already.seenAtSource) nextItem.seenAtSource = already.seenAtSource;
+    if (nextShowtimeRef) nextItem.showtimeRef = nextShowtimeRef;
+    else nextItem.showtimeRef = null;
+    if (nextTitle) nextItem.title = nextTitle;
+    if (nextPoster) nextItem.posterUrl = nextPoster;
+    nextItems[alreadyIdx] = nextItem;
+    return writeSeenFilmsStore(storage, {
+      version: SEEN_FILMS_VERSION,
+      items: nextItems,
+    });
   }
 
   return writeSeenFilmsStore(storage, {

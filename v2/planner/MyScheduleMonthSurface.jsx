@@ -1,13 +1,11 @@
-﻿/**
- * Stage 1 My Schedule — Month View fixture-backed replica.
+/**
+ * My Schedule — Month View (T-SCH-01).
  *
- * Heatmap only (no real calendar). Local-only interactions:
- * - Heatmap day selection
- * - Week/Month switching
- * - Search/Settings seams (Settings opens Stage 1 sheet)
+ * Live default: accepted-plan heatmap (user schedule only).
+ * Mockup QC: `?scheduleMockup=1`.
  */
 
-import { useId, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 import {
   IconChart,
   IconChevron,
@@ -21,8 +19,17 @@ import {
 import {
   dotCountFromMovieCount,
   heatLevelFromMovieCount,
-  resolveMyScheduleMonthPresentation,
 } from '../fixtures/myScheduleMonthMockupFixture.js';
+import { resolveMyScheduleMonthPagePresentation } from './resolveMyScheduleMonthPresentation.js';
+import { getScheduleSettings } from '../stores/scheduleSettingsStore.js';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 function ChevronLeft(props) {
   return (
@@ -189,26 +196,68 @@ export default function MyScheduleMonthSurface({
   onOpenSearch,
   onOpenSettings,
   onStubAction,
+  acceptedPlansRevision = 0,
+  scheduleSettingsRevision = 0,
+  storage = null,
 }) {
-  const presentation = resolveMyScheduleMonthPresentation();
   const statusId = useId();
-  const [selectedDayId, setSelectedDayId] = useState(
-    presentation.heatmapGrid.find((c) => c.selected)?.id ??
-      presentation.heatmapGrid[0]?.id,
-  );
+  const [monthOffset, setMonthOffset] = useState(0);
   const [statusMessage, setStatusMessage] = useState(null);
+  const [selectedDayId, setSelectedDayId] = useState(null);
+  const resolvedStorage = storage ?? getBrowserStorage();
+
+  const settings = useMemo(() => {
+    void scheduleSettingsRevision;
+    return getScheduleSettings(resolvedStorage);
+  }, [resolvedStorage, scheduleSettingsRevision]);
+
+  const presentation = useMemo(() => {
+    void acceptedPlansRevision;
+    return resolveMyScheduleMonthPagePresentation({
+      monthOffset,
+      storage: resolvedStorage,
+      settings,
+    });
+  }, [acceptedPlansRevision, monthOffset, resolvedStorage, settings]);
+
+  const isMockup = presentation.mode === 'mockup-fixture';
+  const activeSelectedDayId =
+    selectedDayId ??
+    presentation.heatmapGrid.find((c) => c.selected)?.id ??
+    presentation.heatmapGrid[0]?.id;
 
   const announce = (actionId, label, message) => {
     setStatusMessage(message ?? label);
     onStubAction?.(actionId, label);
   };
 
-  const handlePrevMonth = () =>
-    announce('month-prev', presentation.prevMonthLabel, 'Month navigation is deferred in Stage 1.');
-  const handleNextMonth = () =>
-    announce('month-next', presentation.nextMonthLabel, 'Month navigation is deferred in Stage 1.');
-  const handleToday = () =>
-    announce('today', presentation.todayButtonLabel, 'Today jumps are deferred in Stage 1.');
+  const handlePrevMonth = () => {
+    if (isMockup) {
+      announce('month-prev', presentation.prevMonthLabel, 'Month navigation stays on the fixture month in mockup mode.');
+      return;
+    }
+    setMonthOffset((v) => v - 1);
+    setSelectedDayId(null);
+    setStatusMessage('Showing previous month');
+  };
+  const handleNextMonth = () => {
+    if (isMockup) {
+      announce('month-next', presentation.nextMonthLabel, 'Month navigation stays on the fixture month in mockup mode.');
+      return;
+    }
+    setMonthOffset((v) => v + 1);
+    setSelectedDayId(null);
+    setStatusMessage('Showing next month');
+  };
+  const handleToday = () => {
+    if (isMockup) {
+      announce('today', presentation.todayButtonLabel, 'Today stays on the fixture month in mockup mode.');
+      return;
+    }
+    setMonthOffset(0);
+    setSelectedDayId(null);
+    setStatusMessage('Showing this month');
+  };
 
   const handleSearch = () => {
     if (typeof onOpenSearch === 'function') return onOpenSearch();
@@ -239,7 +288,8 @@ export default function MyScheduleMonthSurface({
       aria-labelledby="v2-msw-month-title"
       data-schedule-source={presentation.source}
       data-schedule-view={presentation.view}
-      data-schedule-month="july-2026"
+      data-schedule-mode={presentation.mode}
+      data-schedule-month={presentation.yearMonth ?? presentation.monthLabel}
     >
       <header className="v2-msw-header" data-schedule-section="header">
         <div className="v2-msw-toolbar">
@@ -333,7 +383,7 @@ export default function MyScheduleMonthSurface({
           <p className="v2-visually-hidden">{presentation.heatmapDescription}</p>
           <ScheduleMonthHeatmap
             presentation={presentation}
-            selectedDayId={selectedDayId}
+            selectedDayId={activeSelectedDayId}
             onSelectDay={handleSelectDay}
           />
         </div>

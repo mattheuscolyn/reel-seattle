@@ -37,9 +37,24 @@ test('valid showtimes transform into films and opportunities', () => {
   assert.equal(sinners.title, 'Sinners');
   assert.equal(sinners.posterUrl, 'https://example.com/sinners.jpg');
   assert.equal(sinners.runtimeMin, 137);
+  assert.equal(sinners.filmId, 'tmdb:1133620');
   assert.ok(sinners.showtimeCount >= 2);
   assert.ok(sinners.theaterCount >= 1);
   assert.equal(sinners.firstShowtimeAt, '2026-06-28T00:15');
+
+  const indie = home.films.find((film) => film.filmKey === 'indie-film');
+  assert.equal(indie.filmId, null);
+});
+
+test('canonical filmId ignores raw source ids and titles', () => {
+  const showtimes = loadFixture('v2_showtimes_home_mini.json');
+  showtimes.films = showtimes.films.map((film) => ({
+    ...film,
+    film_id: film.showtime_film_key === 'sinners' ? 'amc-sinners' : 'Sinners',
+  }));
+  const home = buildHomeData(baseInput({ showtimesCurrent: showtimes }));
+  assert.equal(home.films.find((film) => film.filmKey === 'sinners').filmId, null);
+  assert.equal(home.films.find((film) => film.filmKey === 'indie-film').filmId, null);
 });
 
 test('theater registry resolves ids and neighborhoods', () => {
@@ -48,6 +63,10 @@ test('theater registry resolves ids and neighborhoods', () => {
   assert.equal(pacific.name, 'AMC Pacific Place 11');
   assert.equal(pacific.neighborhood, 'Downtown Seattle');
   assert.ok(pacific.opportunityCount >= 1);
+  assert.equal(pacific.addressLine1, null);
+  assert.equal(pacific.websiteUrl, null);
+  assert.deepEqual(pacific.amenities, []);
+  assert.deepEqual(pacific.capabilities, []);
 });
 
 test('unknown theater ids produce recoverable warnings', () => {

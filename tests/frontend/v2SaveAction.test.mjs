@@ -379,14 +379,15 @@ test('production view marks Save available for resolved films', () => {
   assert.equal(missing.actions.saveAvailable, false);
 });
 
-test('Film Detail and header wire Save through shared action helpers', () => {
+test('Film Detail wires Save through the action panel (not the header)', () => {
   assert.match(APP, /buildSaveActionState/);
   assert.match(APP, /applySaveToggle/);
   assert.match(APP, /onToggleSave/);
   assert.match(SURFACE, /aria-pressed=\{isSaved\}/);
   assert.match(SURFACE, /\{saveLabel\}/);
-  assert.match(HEADER, /aria-pressed=\{savePressed\}/);
-  assert.match(HEADER, /aria-label=\{saveLabel\}/);
+  assert.match(SURFACE, /v2-fd-action-save/);
+  assert.equal(HEADER.includes('v2-header-film-actions'), false);
+  assert.equal(HEADER.includes('aria-pressed={savePressed}'), false);
   assert.match(SEARCH, /filmRefFromHomeFilm/);
   assert.match(SEARCH, /applySaveToggle/);
   assert.match(SEARCH, /aria-pressed=\{isSaved\}/);
@@ -397,8 +398,8 @@ test('accessibility contract remains button + aria-pressed', () => {
   assert.match(SURFACE, /type="button"/);
   assert.match(SURFACE, /aria-pressed=\{isSaved\}/);
   assert.match(HEADER, /type="button"/);
-  assert.match(HEADER, /aria-pressed=\{savePressed\}/);
   assert.match(SEARCH, /type="button"/);
+  assert.match(SEARCH, /aria-pressed=\{isSaved\}/);
 });
 
 test('Seen and Not interested controls remain present on Film Detail', () => {

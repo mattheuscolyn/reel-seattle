@@ -19,9 +19,11 @@
     "check:data-freshness": "node scripts/check_local_data_freshness.mjs",
     "smoke:frontend": "node scripts/smoke_check_frontend.mjs",
     "smoke:cockpit": "node scripts/smoke_check_cockpit.mjs",
-    "smoke:v2": "node scripts/smoke_check_v2.mjs"
+    "smoke:v2": "node scripts/smoke_check_v2.mjs",
+    "smoke:v2:static": "node scripts/smoke_check_v2_static.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.111.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3"
@@ -35,6 +37,8 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.2.0",
+    "playwright": "^1.62.0",
+    "sharp": "^0.35.3",
     "vite": "^7.0.0"
   },
   "homepage": "https://mattheuscolyn.github.io/reel-seattle"

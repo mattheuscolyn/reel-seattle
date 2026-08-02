@@ -170,11 +170,11 @@ test('distinct remakes stay distinct; filmId precedes when both present', () => 
 
   markFilmNotInterested(
     storage,
-    { filmId: 'f1', showtimeFilmKey: 'a' },
+    { filmId: 'tmdb:1', showtimeFilmKey: 'a' },
     { now: fixedNow('2026-07-24T22:00:00.000Z') },
   );
   assert.equal(
-    isFilmNotInterested(storage, { filmId: 'f1', showtimeFilmKey: 'b' }),
+    isFilmNotInterested(storage, { filmId: 'tmdb:1', showtimeFilmKey: 'b' }),
     true,
   );
 });
@@ -215,7 +215,7 @@ test('legacy string array migrates in memory without rewriting until write', () 
   const persisted = JSON.parse(
     storage.getItem(NOT_INTERESTED_FILMS_STORAGE_KEY),
   );
-  assert.equal(persisted.version, 1);
+  assert.equal(persisted.version, NOT_INTERESTED_FILMS_VERSION);
   assert.ok(Array.isArray(persisted.items));
   assert.equal(persisted.items.length, 3);
 });
@@ -280,7 +280,7 @@ test('compatibility key helpers still work and persist versioned payload', () =>
   );
   assert.deepEqual(loadDismissedFilmKeys(storage), ['beta', 'alpha']);
   const raw = JSON.parse(storage.getItem(DISMISSED_FILMS_STORAGE_KEY));
-  assert.equal(raw.version, 1);
+  assert.equal(raw.version, NOT_INTERESTED_FILMS_VERSION);
   assert.equal(raw.items.length, 2);
   assert.equal(raw.items[0].reason, null);
   keys = undismissFilm('beta', keys);

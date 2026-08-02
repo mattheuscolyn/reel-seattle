@@ -9,26 +9,44 @@ import {
   buildLeavingSoonShelf,
   buildOpeningThisWeekShelf,
 } from './home/shelfData.js';
+import {
+  getHomeLandingMockupPresentation,
+  isHomeMockupMode,
+} from './fixtures/homeLandingMockupPresentation.js';
 import { captureHomeRestore } from './navigation/navState.js';
 
 /**
- * Home destination — real Top Opportunity + honest shelves + inline expansion.
+ * Home destination — shared canonical presentation for live data and mockup QC.
+ * Visual QC: `?homeMockup=1` swaps data only (fixture films / expanded state).
+ * TMDB attribution lives under Profile → About & data sources (not on Home).
  */
 export default function HomeDestination({
   loadStatus = 'loading',
   homeData = null,
+  enrichmentIndex = null,
   errorMessage = null,
   onSelectDestination,
   onOpenFilmDetail,
   onOpenCollection,
+  onOpenBuildPlan,
+  onOpenShowtimesBrowse,
   restoreState = null,
   onRestoreConsumed,
 }) {
-  const [expanded, setExpanded] = useState({
-    shelfId: null,
-    filmKey: null,
-  });
-  const [topOppIndex, setTopOppIndex] = useState(0);
+  const mockupMode = isHomeMockupMode();
+  const mockup = mockupMode ? getHomeLandingMockupPresentation() : null;
+
+  const [expanded, setExpanded] = useState(() =>
+    mockup
+      ? {
+          shelfId: mockup.initialExpanded.shelfId,
+          filmKey: mockup.initialExpanded.filmKey,
+        }
+      : { shelfId: null, filmKey: null },
+  );
+  const [topOppIndex, setTopOppIndex] = useState(
+    mockup ? mockup.initialTopOppIndex : 0,
+  );
 
   useEffect(() => {
     if (!restoreState) return;
@@ -44,14 +62,23 @@ export default function HomeDestination({
     });
   }, [restoreState, onRestoreConsumed]);
 
-  const openingShelf = buildOpeningThisWeekShelf(
-    loadStatus === 'ready' ? homeData : null,
-  );
-  const leavingShelf = buildLeavingSoonShelf(
-    loadStatus === 'ready' ? homeData : null,
-  );
+  const effectiveHomeData = mockup ? mockup.homeData : homeData;
+  const openingShelf = mockup
+    ? mockup.openingShelf
+    : buildOpeningThisWeekShelf(
+        loadStatus === 'ready' ? homeData : null,
+        enrichmentIndex,
+      );
+  const leavingShelf = mockup
+    ? mockup.leavingShelf
+    : buildLeavingSoonShelf(loadStatus === 'ready' ? homeData : null);
 
-  const openDetailFromHome = ({ filmKey, opportunityKey, shelfId, filmKeyExpanded }) => {
+  const openDetailFromHome = ({
+    filmKey,
+    opportunityKey,
+    shelfId,
+    filmKeyExpanded,
+  }) => {
     const homeRestore = captureHomeRestore({
       expandedShelfId: shelfId ?? expanded.shelfId,
       expandedFilmKey: filmKeyExpanded ?? expanded.filmKey,
@@ -73,16 +100,46 @@ export default function HomeDestination({
     setExpanded({ shelfId, filmKey });
   };
 
+  const handleQuickPath = (rowId) => {
+    if (rowId === 'theaters') {
+      onOpenCollection?.({
+        collectionId: COLLECTION_IDS.theaters,
+        originPrimary: 'home',
+      });
+      return;
+    }
+    if (rowId === 'formats') {
+      onOpenCollection?.({
+        collectionId: COLLECTION_IDS.formats,
+        originPrimary: 'home',
+      });
+      return;
+    }
+    if (rowId === 'seen') {
+      onOpenCollection?.({
+        collectionId: COLLECTION_IDS.seen,
+        originPrimary: 'home',
+      });
+      return;
+    }
+    // Saved / Search → Explore landing until dedicated Saved surface ships.
+    onSelectDestination?.('explore');
+  };
+
   return (
-    <div className="v2-home">
+    <div
+      className="v2-home"
+      data-home-source={mockup ? 'home-landing-mockup' : 'home-data'}
+    >
       <EditorialIntro />
 
       <TopOpportunityFeature
-        status={loadStatus}
-        homeData={homeData}
-        errorMessage={errorMessage}
+        status={mockup ? 'ready' : loadStatus}
+        homeData={effectiveHomeData}
+        errorMessage={mockup ? null : errorMessage}
         initialIndex={topOppIndex}
         onIndexChange={setTopOppIndex}
+        mockSelections={mockup ? mockup.topOpportunities : null}
         onOpenFilmDetail={({ filmKey, opportunityKey, topOppIndex: idx }) => {
           setTopOppIndex(idx);
           openDetailFromHome({
@@ -94,11 +151,37 @@ export default function HomeDestination({
         }}
       />
 
+      <div className="v2-home-showtimes-entry">
+        <button
+          type="button"
+          className="v2-home-showtimes-cta"
+          onClick={() =>
+            onOpenShowtimesBrowse?.({
+              originPrimary: 'home',
+              homeRestore: captureHomeRestore({
+                expandedShelfId: expanded.shelfId,
+                expandedFilmKey: expanded.filmKey,
+                topOppIndex,
+              }),
+            })
+          }
+        >
+          Browse all showtimes
+        </button>
+      </div>
+
       <FilmShelf
         id="v2-opening"
         title="Opening This Week"
         shelf={openingShelf}
-        homeData={homeData}
+        homeData={effectiveHomeData}
+        enrichmentIndex={mockup ? null : enrichmentIndex}
+        hideStatusNotes={Boolean(mockup)}
+        detailOverride={
+          mockup && expanded.filmKey === 'fixture-open-2'
+            ? mockup.blueHourDetail
+            : null
+        }
         expandedFilmKey={
           expanded.shelfId === 'v2-opening' ? expanded.filmKey : null
         }
@@ -123,7 +206,9 @@ export default function HomeDestination({
         id="v2-leaving"
         title="Leaving Soon"
         shelf={leavingShelf}
-        homeData={homeData}
+        homeData={effectiveHomeData}
+        enrichmentIndex={mockup ? null : enrichmentIndex}
+        hideStatusNotes={Boolean(mockup)}
         expandedFilmKey={
           expanded.shelfId === 'v2-leaving' ? expanded.filmKey : null
         }
@@ -144,23 +229,14 @@ export default function HomeDestination({
         }
       />
 
-      <PlannerCta onActivate={() => onSelectDestination?.('planner')} />
+      <PlannerCta
+        onActivate={() => {
+          if (onOpenBuildPlan) onOpenBuildPlan();
+          else onSelectDestination?.('planner');
+        }}
+      />
 
-      <ExploreMore onSelectRow={() => onSelectDestination?.('explore')} />
-
-      <details className="v2-dev-details">
-        <summary>Development notes</summary>
-        <div className="v2-data-status" role="status">
-          <p className="v2-data-status-label">Home data honesty</p>
-          <p className="v2-data-status-message">
-            Top Opportunity uses selectTopOpportunities on live HomeData.
-            Opening This Week may show recently added films provisionally when
-            present — not a theatrical opening-week classifier. Leaving Soon
-            remains gated and unavailable. Visual-only fixtures are not used in
-            normal Home rendering.
-          </p>
-        </div>
-      </details>
+      <ExploreMore onSelectRow={handleQuickPath} />
     </div>
   );
 }

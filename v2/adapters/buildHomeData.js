@@ -115,6 +115,19 @@ function asPositiveNumber(value) {
 }
 
 /**
+ * Accept only namespaced public film_id values (T-FILMID-02).
+ * Never treat source_film_id / titles as canonical identity.
+ * @param {unknown} value
+ * @returns {string | null}
+ */
+function asCanonicalFilmId(value) {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  if (!/^tmdb:[1-9][0-9]*$/.test(trimmed)) return null;
+  return trimmed;
+}
+
+/**
  * @param {unknown} status
  */
 function isCanceledStatus(status) {
@@ -128,6 +141,28 @@ function isCanceledStatus(status) {
  */
 function mergeTheaterRecord(registryTheater, embeddedTheater) {
   const base = registryTheater || embeddedTheater || {};
+  const pick = (snake, camel = null) =>
+    asTrimmedString(base[snake]) ??
+    (camel ? asTrimmedString(base[camel]) : null) ??
+    asTrimmedString(embeddedTheater?.[snake]) ??
+    (camel ? asTrimmedString(embeddedTheater?.[camel]) : null);
+
+  const pickNumber = (snake, camel = null) => {
+    const fromBase =
+      asPositiveNumber(base[snake]) ??
+      (camel ? asPositiveNumber(base[camel]) : null);
+    if (fromBase != null) return fromBase;
+    return (
+      asPositiveNumber(embeddedTheater?.[snake]) ??
+      (camel ? asPositiveNumber(embeddedTheater?.[camel]) : null)
+    );
+  };
+
+  const capabilities = asStringArray(
+    base.capabilities ?? embeddedTheater?.capabilities,
+  );
+  const amenities = asStringArray(base.amenities ?? embeddedTheater?.amenities);
+
   return {
     id: asTrimmedString(base.id) ?? '',
     name: asTrimmedString(base.name) ?? asTrimmedString(embeddedTheater?.name) ?? 'Unknown theater',
@@ -138,6 +173,33 @@ function mergeTheaterRecord(registryTheater, embeddedTheater) {
       asTrimmedString(embeddedTheater?.neighborhood),
     type: asTrimmedString(base.type) ?? asTrimmedString(embeddedTheater?.type),
     enabled: typeof base.enabled === 'boolean' ? base.enabled : null,
+    // D06 visit metadata (nullable until T-THEA-10 curation) — never invent.
+    addressLine1: pick('address_line1', 'addressLine1'),
+    addressLine2: pick('address_line2', 'addressLine2'),
+    state: pick('state'),
+    postalCode: pick('postal_code', 'postalCode'),
+    latitude: pickNumber('latitude'),
+    longitude: (() => {
+      const lng = base.longitude ?? base.lng ?? embeddedTheater?.longitude;
+      if (typeof lng === 'number' && Number.isFinite(lng)) return lng;
+      return null;
+    })(),
+    websiteUrl: pick('website_url', 'websiteUrl'),
+    directionsUrl: pick('directions_url', 'directionsUrl'),
+    phone: pick('phone'),
+    shortDescription: pick('short_description', 'shortDescription'),
+    screenCount: (() => {
+      const n = base.screen_count ?? base.screenCount ?? embeddedTheater?.screen_count;
+      if (typeof n === 'number' && Number.isInteger(n) && n >= 1) return n;
+      return null;
+    })(),
+    capabilities,
+    amenities,
+    imageUrl: pick('image_url', 'imageUrl'),
+    imageHeroUrl: pick('image_hero_url', 'imageHeroUrl'),
+    imageThumbnailUrl: pick('image_thumbnail_url', 'imageThumbnailUrl'),
+    imageAttribution: pick('image_attribution', 'imageAttribution'),
+    imageLicense: pick('image_license', 'imageLicense'),
   };
 }
 
@@ -392,6 +454,8 @@ export function buildHomeData(input) {
           asPositiveNumber(raw.runtime_min) ?? asPositiveNumber(filmRef?.runtime_min),
         sourceFilmId:
           asTrimmedString(raw.source_film_id) ?? asTrimmedString(filmRef?.source_film_id),
+        // Canonical identity from public film_id only (T-FILMID-02). Never invent from title/source id.
+        filmId: asCanonicalFilmId(filmRef?.film_id),
         sourceTitle: asTrimmedString(raw.source_title),
         showtimeCount: 0,
         theaterIds: new Set(),
@@ -470,6 +534,7 @@ export function buildHomeData(input) {
       posterUrl: film.posterUrl,
       runtimeMin: film.runtimeMin,
       sourceFilmId: film.sourceFilmId,
+      filmId: film.filmId ?? null,
       sourceTitle: film.sourceTitle,
       showtimeCount: film.showtimeCount,
       theaterCount: film.theaterIds.size,
@@ -483,9 +548,22 @@ export function buildHomeData(input) {
 
   /** @type {Record<string, object>} */
   const theatersById = {};
-  for (const [id, agg] of [...theaterAgg.entries()].sort((a, b) =>
-    a[0] < b[0] ? -1 : 1,
-  )) {
+  /** @type {string[]} */
+  const theaterOrder = [];
+
+  // Preserve registry authorship order for Theaters list.
+  for (const theater of registryTheaters) {
+    const id = asTrimmedString(theater?.id);
+    if (!id || !theaterAgg.has(id)) continue;
+    theaterOrder.push(id);
+  }
+  for (const id of [...theaterAgg.keys()].sort((a, b) => (a < b ? -1 : 1))) {
+    if (!theaterOrder.includes(id)) theaterOrder.push(id);
+  }
+
+  for (const id of theaterOrder) {
+    const agg = theaterAgg.get(id);
+    if (!agg) continue;
     theatersById[id] = {
       id,
       name: agg.meta.name,
@@ -493,6 +571,25 @@ export function buildHomeData(input) {
       city: agg.meta.city,
       neighborhood: agg.meta.neighborhood,
       type: agg.meta.type,
+      enabled: agg.meta.enabled,
+      addressLine1: agg.meta.addressLine1,
+      addressLine2: agg.meta.addressLine2,
+      state: agg.meta.state,
+      postalCode: agg.meta.postalCode,
+      latitude: agg.meta.latitude,
+      longitude: agg.meta.longitude,
+      websiteUrl: agg.meta.websiteUrl,
+      directionsUrl: agg.meta.directionsUrl,
+      phone: agg.meta.phone,
+      shortDescription: agg.meta.shortDescription,
+      screenCount: agg.meta.screenCount,
+      capabilities: agg.meta.capabilities,
+      amenities: agg.meta.amenities,
+      imageUrl: agg.meta.imageUrl,
+      imageHeroUrl: agg.meta.imageHeroUrl,
+      imageThumbnailUrl: agg.meta.imageThumbnailUrl,
+      imageAttribution: agg.meta.imageAttribution,
+      imageLicense: agg.meta.imageLicense,
       opportunityCount: agg.count,
       earliestShowtimeAt: agg.earliest,
       latestShowtimeAt: agg.latest,
@@ -559,6 +656,7 @@ export function buildHomeData(input) {
         ? showtimesArtifact.window
         : null,
     theatersById,
+    theaterOrder,
     films,
     opportunities,
     newlyAdded,

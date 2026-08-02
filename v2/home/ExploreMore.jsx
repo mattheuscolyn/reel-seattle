@@ -1,18 +1,18 @@
-import { EXPLORE_MORE_ROWS } from '../fixtures/homeVisualFixtures.js';
+import { HOME_QUICK_PATH_ROWS } from '../fixtures/homeLandingMockupPresentation.js';
 import { ExploreRowIcon, IconChevron } from '../icons.jsx';
 
 /**
- * Explore More directory — all rows open Explore landing for now.
+ * Quick Paths — canonical Home mockup directory (formerly Explore More).
+ * Rows route through existing Explore destinations where available.
  */
 export default function ExploreMore({ onSelectRow }) {
   return (
     <section className="v2-explore" aria-labelledby="v2-explore-heading">
       <h2 id="v2-explore-heading" className="v2-explore-heading">
-        Explore More
+        Quick Paths
       </h2>
-      <p className="v2-explore-support">Everything. All dates. All theaters.</p>
       <ul className="v2-explore-list" role="list">
-        {EXPLORE_MORE_ROWS.map((row) => (
+        {HOME_QUICK_PATH_ROWS.map((row) => (
           <li key={row.id} className="v2-explore-item">
             <button
               type="button"

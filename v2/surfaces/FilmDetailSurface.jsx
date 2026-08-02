@@ -11,9 +11,23 @@ import {
   IconInfo,
   IconPerson,
   IconPin,
+  IconShare,
   IconSpark,
   IconStar,
 } from '../icons.jsx';
+
+function formatFilmTitle(title) {
+  if (!title || typeof title !== 'string') return title;
+  const match = title.match(/^(\d{4}:)\s+(.+)$/);
+  if (!match) return title;
+  return (
+    <>
+      {match[1]}
+      <br />
+      {match[2]}
+    </>
+  );
+}
 
 function IconTrophy(props) {
   return (
@@ -105,11 +119,11 @@ function IconVenue(props) {
 }
 
 function SignalIcon({ name }) {
-  if (name === 'trophy') return <IconTrophy />;
-  if (name === 'calendar') return <IconCalendar width={18} height={18} />;
-  if (name === 'building') return <IconVenue />;
-  if (name === 'camera') return <IconCamera />;
-  return <IconSpark width={18} height={18} />;
+  if (name === 'trophy') return <IconTrophy width={24} height={24} />;
+  if (name === 'calendar') return <IconCalendar width={24} height={24} />;
+  if (name === 'building') return <IconVenue width={24} height={24} />;
+  if (name === 'camera') return <IconCamera width={24} height={24} />;
+  return <IconSpark width={24} height={24} />;
 }
 
 function FactIcon({ name }) {
@@ -124,6 +138,7 @@ function FactIcon({ name }) {
  */
 export default function FilmDetailSurface({
   homeData = null,
+  enrichmentIndex = null,
   filmKey = null,
   opportunityKey = null,
   saveAvailable = false,
@@ -139,6 +154,9 @@ export default function FilmDetailSurface({
   isNotInterested = false,
   notInterestedError = null,
   onToggleNotInterested = null,
+  onShare = null,
+  shareTitle = null,
+  shareStatus = null,
   onStartPlanner,
   onOpenOpportunity,
   onOpenShowtimes,
@@ -149,8 +167,9 @@ export default function FilmDetailSurface({
         homeData,
         filmKey,
         opportunityKey,
+        enrichmentIndex,
       }),
-    [homeData, filmKey, opportunityKey],
+    [homeData, enrichmentIndex, filmKey, opportunityKey],
   );
   const view = useMemo(() => toFilmDetailView(resolved), [resolved]);
 
@@ -180,10 +199,10 @@ export default function FilmDetailSurface({
   const hasPoster = Boolean(hero.posterUrl);
   const backdropStyle = hasBackdrop
     ? {
-        backgroundImage: `linear-gradient(180deg, rgba(7,8,13,0.05) 0%, rgba(7,8,13,0.18) 24%, rgba(7,8,13,0.62) 58%, rgba(7,8,13,0.94) 86%, var(--v2-bg) 100%), url("${hero.backdropUrl}")`,
+        backgroundImage: `url("${hero.backdropUrl}")`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
-        backgroundPosition: 'center 18%',
+        backgroundPosition: '72% 28%',
       }
     : hasPoster
       ? {
@@ -215,6 +234,21 @@ export default function FilmDetailSurface({
         }
         style={backdropStyle}
       >
+        {typeof onShare === 'function' ? (
+          <button
+            type="button"
+            className="v2-fd-share"
+            aria-label={shareTitle ? `Share ${shareTitle}` : 'Share film'}
+            onClick={onShare}
+          >
+            <IconShare width={22} height={22} aria-hidden="true" />
+          </button>
+        ) : null}
+        {shareStatus ? (
+          <span className="v2-visually-hidden" role="status">
+            {shareStatus}
+          </span>
+        ) : null}
         <div className="v2-fd-hero-inner">
           <div className="v2-fd-poster">
             {hasPoster ? (
@@ -227,7 +261,7 @@ export default function FilmDetailSurface({
           </div>
           <div className="v2-fd-hero-copy">
             <h1 id="v2-fd-title" className="v2-fd-title">
-              {hero.title}
+              {formatFilmTitle(hero.title)}
             </h1>
             {hero.metaLine ? <p className="v2-fd-meta">{hero.metaLine}</p> : null}
             {hero.genres ? <p className="v2-fd-genres">{hero.genres}</p> : null}
@@ -263,7 +297,9 @@ export default function FilmDetailSurface({
         <button
           type="button"
           className={
-            isSaved ? 'v2-fd-action v2-fd-action-save-on' : 'v2-fd-action'
+            isSaved
+              ? 'v2-fd-action v2-fd-action-save v2-fd-action-save-on'
+              : 'v2-fd-action v2-fd-action-save'
           }
           aria-pressed={isSaved}
           aria-disabled={!saveAvailable}
@@ -288,7 +324,11 @@ export default function FilmDetailSurface({
         ) : null}
         <button
           type="button"
-          className={isSeen ? 'v2-fd-action v2-fd-action-seen-on' : 'v2-fd-action'}
+          className={
+            isSeen
+              ? 'v2-fd-action v2-fd-action-seen v2-fd-action-seen-on'
+              : 'v2-fd-action v2-fd-action-seen'
+          }
           aria-pressed={isSeen}
           aria-disabled={!seenAvailable}
           disabled={!seenAvailable}
@@ -314,8 +354,8 @@ export default function FilmDetailSurface({
           type="button"
           className={
             isNotInterested
-              ? 'v2-fd-action v2-fd-action-hide-on'
-              : 'v2-fd-action'
+              ? 'v2-fd-action v2-fd-action-hide v2-fd-action-hide-on'
+              : 'v2-fd-action v2-fd-action-hide'
           }
           aria-pressed={isNotInterested}
           aria-disabled={!notInterestedAvailable}
@@ -340,7 +380,7 @@ export default function FilmDetailSurface({
         ) : null}
         <button
           type="button"
-          className="v2-fd-action"
+          className="v2-fd-action v2-fd-action-planner"
           onClick={() => setPlannerOpen(true)}
         >
           <IconCalendarPlus />

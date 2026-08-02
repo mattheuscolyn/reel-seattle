@@ -104,6 +104,40 @@ export function parseCalendarDateParts(value) {
 }
 
 /**
+ * Parse advertised showtime to minutes since midnight.
+ * Accepts compact 12h (`7:30PM`, `12:15 AM`) and 24h `HH:MM` / `HH:MM:SS`.
+ * @param {unknown} value
+ * @returns {number | null}
+ */
+export function parseCalendarShowtimeMinutes(value) {
+  const raw = asOptionalString(value);
+  if (!raw) return null;
+
+  const compact = raw.replace(/\s+/g, '');
+  const fromLegacy =
+    parsePlannerShowtimeMinutes(compact) ?? parseTimeToMinutes(compact);
+  if (fromLegacy != null) return fromLegacy;
+
+  const h24 = raw.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+  if (h24) {
+    const hours = Number(h24[1]);
+    const minutes = Number(h24[2]);
+    if (
+      !Number.isInteger(hours) ||
+      !Number.isInteger(minutes) ||
+      hours < 0 ||
+      hours > 23 ||
+      minutes < 0 ||
+      minutes > 59
+    ) {
+      return null;
+    }
+    return hours * 60 + minutes;
+  }
+  return null;
+}
+
+/**
  * Offset of `instant` in `timeZone`: localAsUtcMs − instantMs.
  * @param {Date} instant
  * @param {string} timeZone
@@ -341,17 +375,38 @@ function resolveFilmKey(input) {
 }
 
 /**
+ * Trusted address only — never invent neighborhood-as-address.
+ * Accepts a preformatted label or curated street + locality fields.
  * @param {unknown} input
  */
 function resolveAddress(input) {
   if (!input || typeof input !== 'object') return null;
   const record = /** @type {Record<string, unknown>} */ (input);
-  // Only trusted registry address fields — never invent.
-  return (
+  const labeled =
+    asOptionalString(record.addressLabel) ??
     asOptionalString(record.address) ??
-    asOptionalString(record.streetAddress) ??
-    null
-  );
+    asOptionalString(record.streetAddress);
+  if (labeled) return labeled;
+
+  const line1 =
+    asOptionalString(record.addressLine1) ??
+    asOptionalString(record.address_line1);
+  const line2 =
+    asOptionalString(record.addressLine2) ??
+    asOptionalString(record.address_line2);
+  const city = asOptionalString(record.city);
+  const state =
+    asOptionalString(record.state) ?? asOptionalString(record.region);
+  const postal =
+    asOptionalString(record.postalCode) ??
+    asOptionalString(record.postal_code);
+
+  const street = [line1, line2].filter(Boolean).join(', ');
+  const locality = [city, state].filter(Boolean).join(', ');
+  const cityStateZip = [locality, postal].filter(Boolean).join(' ');
+  if (street && cityStateZip) return `${street}, ${cityStateZip}`;
+  if (street) return street;
+  return null;
 }
 
 /**
@@ -459,8 +514,7 @@ export function buildShowtimeCalendarEvent(input, options = {}) {
         },
       };
     }
-    startMin =
-      parsePlannerShowtimeMinutes(timeStr) ?? parseTimeToMinutes(timeStr);
+    startMin = parseCalendarShowtimeMinutes(timeStr);
   }
   if (startMin == null) {
     return {

@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {
   ALLOWED_V2_DATA_ROUTES,
   EXCLUDED_V2_DATA_PATHS,
+  listV2DataArtifacts,
+  validateV2DataAllowlist,
 } from '../../v2/data/allowedDataRoutes.js';
 import { loadHomeData } from '../../v2/data/loadHomeData.js';
 
@@ -11,11 +13,14 @@ test('v2 data allowlist includes Home artifacts and excludes Leaving Soon', () =
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/theaters.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/newly_added_current.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/pipeline_report.json']);
+  assert.ok(ALLOWED_V2_DATA_ROUTES['/data/film_enrichment_current.json']);
   assert.equal(
     ALLOWED_V2_DATA_ROUTES['/data/leaving_soon_current.json'],
     undefined,
   );
   assert.ok(EXCLUDED_V2_DATA_PATHS.includes('/data/leaving_soon_current.json'));
+  assert.equal(validateV2DataAllowlist().ok, true);
+  assert.ok(listV2DataArtifacts().some((a) => a.required));
 });
 
 test('loadHomeData builds HomeData through injectable fetch', async () => {

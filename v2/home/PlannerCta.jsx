@@ -9,7 +9,7 @@ export default function PlannerCta({ onActivate }) {
       type="button"
       className="v2-planner-cta"
       onClick={onActivate}
-      aria-label="Build a Movie Day (planner placeholder)"
+      aria-label="Build a Movie Day"
     >
       <span className="v2-planner-cta-icon" aria-hidden="true">
         <IconCalendar />

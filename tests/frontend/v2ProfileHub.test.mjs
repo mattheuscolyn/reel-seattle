@@ -108,6 +108,7 @@ test('Profile destination replaces placeholder copy', () => {
   assert.match(PLACEHOLDER_SRC, /ProfileDestination/);
   assert.match(PROFILE_SRC, /data-profile-source/);
   assert.match(PROFILE_SRC, /data-profile-section="identity"/);
+  assert.match(PROFILE_SRC, /data-profile-section="account"/);
   assert.match(PROFILE_SRC, /data-profile-section="activity"/);
   assert.match(PROFILE_SRC, /data-profile-section="upNext"/);
   assert.match(PROFILE_SRC, /data-profile-section="membership"/);
@@ -134,7 +135,9 @@ test('Profile CSS and header gear exist', () => {
   assert.match(CSS, /\.v2-profile-settings-row\b/);
   assert.match(HEADER_SRC, /IconSettings/);
   assert.match(HEADER_SRC, /headerMode === 'profile'/);
-  assert.match(APP_SRC, /headerMode=\{isProfilePrimary/);
+  assert.match(APP_SRC, /headerMode=\{/);
+  assert.match(APP_SRC, /isProfilePrimary/);
+  assert.match(APP_SRC, /'profile'/);
 });
 
 test('four-tab nav unchanged and Profile activates correctly', () => {
@@ -200,10 +203,23 @@ test('Profile interactions must not mutate production stores', () => {
 });
 
 test('no unsupported account claims in Profile fixture copy', () => {
+  // Fixture identity remains Stage 1 mockup copy; live auth lives in ProfileAccountPanel.
   const blob = JSON.stringify(PROFILE_MOCKUP_FIXTURE).toLowerCase();
   assert.equal(blob.includes('sign in'), false);
   assert.equal(blob.includes('log in'), false);
   assert.equal(blob.includes('password'), false);
   assert.equal(blob.includes('cloud sync'), false);
   assert.equal(blob.includes('email'), false);
+});
+
+test('Profile account panel wires Google auth without store sync claims', () => {
+  const panel = readFileSync(
+    join(ROOT, 'v2/auth/ProfileAccountPanel.jsx'),
+    'utf8',
+  );
+  assert.match(panel, /Continue with Google/);
+  assert.match(panel, /Sign out/);
+  assert.match(panel, /not configured in this build/);
+  assert.equal(panel.includes('supabase.from('), false);
+  assert.match(PROFILE_SRC, /ProfileAccountPanel/);
 });

@@ -1,29 +1,23 @@
 /**
- * Stage 1 Planner Landing — fixture-backed replica of Planner Landing Page.png.
+ * Planner Landing — shared presentation for live accepted plans and mockup QC.
  *
- * Does not persist plans or generate itineraries. Build a Plan opens the
- * Stage 1 config surface; My Schedule opens the Week view fixture surface.
- * Optional Film Detail plannerSeed is shown as an honest deferred note only.
+ * Visual QC: `?plannerMockup=1` uses Canonical Planner Landing fixture.
+ * Does not implement planner generation, draft persistence, or calendar sync.
  */
 
 import { useId, useState } from 'react';
 import {
-  IconBookmark,
   IconCalendar,
-  IconCalendarPlus,
   IconChevron,
   IconClapper,
-  IconMore,
-  IconPlus,
-  IconShare,
+  IconClock,
+  IconEdit,
 } from '../icons.jsx';
-import { resolvePlannerLandingPresentation } from '../fixtures/plannerLandingMockupFixture.js';
-
-const ACTIVITY_ICONS = {
-  bookmark: IconBookmark,
-  calendarPlus: IconCalendarPlus,
-  share: IconShare,
-};
+import {
+  getPlannerLandingMockupPresentation,
+  isPlannerMockupMode,
+} from '../fixtures/plannerLandingMockupFixture.js';
+import { composePlannerLandingFromAcceptedPlans } from './composePlannerLandingPresentation.js';
 
 /**
  * @param {{
@@ -41,18 +35,37 @@ export default function PlannerDestination({
   plannerSeed = null,
   seedFilmTitle = null,
 }) {
-  const presentation = resolvePlannerLandingPresentation();
+  const mockupMode = isPlannerMockupMode();
+  const presentation = mockupMode
+    ? getPlannerLandingMockupPresentation()
+    : composePlannerLandingFromAcceptedPlans();
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
 
   const announceStub = (actionId, label) => {
-    const message = `${label} isn’t available in this Stage 1 Planner shell yet.`;
+    const message = `${label} isn’t available yet.`;
     setStubMessage(message);
     onStubAction?.(actionId, label);
   };
 
-  const { pageTitle, pageTagline, addPlanLabel, upcoming, entries, recentActivity } =
-    presentation;
+  const {
+    pageTitle,
+    pageTagline,
+    summary,
+    upcoming,
+    entries,
+    draft,
+  } = presentation;
+
+  const openSchedule = () => {
+    if (onOpenMyScheduleWeek) onOpenMyScheduleWeek();
+    else announceStub('my-schedule', 'My Schedule');
+  };
+
+  const openBuild = () => {
+    if (onOpenBuildPlan) onOpenBuildPlan();
+    else announceStub('build-a-plan', 'Build a Plan');
+  };
 
   return (
     <section
@@ -61,22 +74,9 @@ export default function PlannerDestination({
       data-planner-source={presentation.source}
     >
       <header className="v2-planner-page-header" data-planner-section="header">
-        <div className="v2-planner-title-row">
-          <h1 id="v2-planner-title" className="v2-planner-title">
-            {pageTitle}
-          </h1>
-          <button
-            type="button"
-            className="v2-planner-add"
-            aria-label={addPlanLabel}
-            onClick={() => {
-              if (onOpenBuildPlan) onOpenBuildPlan();
-              else announceStub('add-plan', addPlanLabel);
-            }}
-          >
-            <IconPlus />
-          </button>
-        </div>
+        <h1 id="v2-planner-title" className="v2-planner-title">
+          {pageTitle}
+        </h1>
         <p className="v2-planner-tagline">{pageTagline}</p>
       </header>
 
@@ -95,87 +95,45 @@ export default function PlannerDestination({
             </strong>
           </p>
           <p className="v2-planner-seed-note-muted">
-            Calendar write and itinerary generation are deferred in Stage 1.
+            Use Build a Plan to continue from this film.
           </p>
         </div>
       ) : null}
 
       <section
-        className="v2-planner-section"
-        data-planner-section="upcomingPlans"
-        aria-labelledby="v2-planner-upcoming-h"
+        className="v2-planner-summary"
+        data-planner-section="summary"
+        aria-label="Planner summary"
       >
-        <div className="v2-planner-section-row">
-          <h2 id="v2-planner-upcoming-h" className="v2-planner-section-label">
-            {upcoming.sectionTitle}
-          </h2>
-          <button
-            type="button"
-            className="v2-planner-link"
-            onClick={() =>
-              announceStub('view-all-plans', upcoming.viewAllLabel)
-            }
-          >
-            {upcoming.viewAllLabel}
-          </button>
+        <div className="v2-planner-summary-col">
+          <span className="v2-planner-summary-icon v2-planner-summary-icon-purple" aria-hidden="true">
+            <IconCalendar width={16} height={16} />
+          </span>
+          <p className="v2-planner-summary-value v2-planner-summary-value-purple">
+            {summary.upcomingCount}
+          </p>
+          <p className="v2-planner-summary-label">Upcoming plans</p>
         </div>
-        <ul className="v2-planner-plans">
-          {upcoming.plans.map((plan) => (
-            <li key={plan.id}>
-              <div className="v2-planner-plan-card">
-                <button
-                  type="button"
-                  className="v2-planner-plan-main"
-                  onClick={() => announceStub(`plan-${plan.id}`, plan.title)}
-                >
-                  <span className="v2-planner-plan-date" aria-hidden="true">
-                    <span>{plan.dateStack.weekday}</span>
-                    <span>{plan.dateStack.monthDay}</span>
-                  </span>
-                  <img
-                    className="v2-planner-plan-thumb"
-                    src={plan.imageUrl}
-                    alt=""
-                  />
-                  <span className="v2-planner-plan-copy">
-                    <span className="v2-planner-plan-title">{plan.title}</span>
-                    <span className="v2-planner-plan-detail">
-                      {plan.detailLabel}
-                    </span>
-                    <span className="v2-planner-plan-time">{plan.timeLabel}</span>
-                  </span>
-                </button>
-                <div className="v2-planner-plan-actions">
-                  <button
-                    type="button"
-                    className="v2-planner-icon-btn v2-planner-icon-btn-on"
-                    aria-label={`Bookmark ${plan.title}`}
-                    aria-pressed={plan.bookmarked}
-                    onClick={() =>
-                      announceStub(`bookmark-${plan.id}`, `Bookmark ${plan.title}`)
-                    }
-                  >
-                    <IconBookmark width={16} height={16} />
-                  </button>
-                  <button
-                    type="button"
-                    className="v2-planner-icon-btn"
-                    aria-label={`More actions for ${plan.title}`}
-                    onClick={() =>
-                      announceStub(`more-${plan.id}`, `More for ${plan.title}`)
-                    }
-                  >
-                    <IconMore />
-                  </button>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <p className="v2-planner-plans-footer">
-          <IconCalendar width={14} height={14} aria-hidden="true" />
-          <span>{upcoming.footerLabel}</span>
-        </p>
+        <div className="v2-planner-summary-divider" aria-hidden="true" />
+        <div className="v2-planner-summary-col">
+          <span className="v2-planner-summary-icon v2-planner-summary-icon-teal" aria-hidden="true">
+            <IconEdit width={16} height={16} />
+          </span>
+          <p className="v2-planner-summary-value v2-planner-summary-value-teal">
+            {summary.draftCount}
+          </p>
+          <p className="v2-planner-summary-label">Draft in progress</p>
+        </div>
+        <div className="v2-planner-summary-divider" aria-hidden="true" />
+        <div className="v2-planner-summary-col">
+          <span className="v2-planner-summary-icon v2-planner-summary-icon-purple" aria-hidden="true">
+            <IconClock width={16} height={16} />
+          </span>
+          <p className="v2-planner-summary-value v2-planner-summary-value-purple">
+            {summary.nextPlanValue}
+          </p>
+          <p className="v2-planner-summary-label">{summary.nextPlanLabel}</p>
+        </div>
       </section>
 
       <section
@@ -187,14 +145,14 @@ export default function PlannerDestination({
           <button
             key={entry.id}
             type="button"
-            className="v2-planner-entry-card"
+            className={`v2-planner-entry-card v2-planner-entry-${entry.accent}`}
             onClick={() => {
-              if (entry.id === 'build-a-plan' && onOpenBuildPlan) {
-                onOpenBuildPlan();
+              if (entry.id === 'build-a-plan') {
+                openBuild();
                 return;
               }
-              if (entry.id === 'my-schedule' && onOpenMyScheduleWeek) {
-                onOpenMyScheduleWeek();
+              if (entry.id === 'my-schedule') {
+                openSchedule();
                 return;
               }
               announceStub(entry.id, entry.title);
@@ -204,7 +162,11 @@ export default function PlannerDestination({
               className={`v2-planner-entry-icon v2-planner-entry-icon-${entry.icon}`}
               aria-hidden="true"
             >
-              {entry.icon === 'build' ? <IconClapper /> : <IconCalendar />}
+              {entry.icon === 'build' ? (
+                <IconClapper width={28} height={28} />
+              ) : (
+                <IconCalendar width={28} height={28} />
+              )}
             </span>
             <span className="v2-planner-entry-copy">
               <span className="v2-planner-entry-title">{entry.title}</span>
@@ -219,50 +181,110 @@ export default function PlannerDestination({
 
       <section
         className="v2-planner-section"
-        data-planner-section="recentActivity"
-        aria-labelledby="v2-planner-activity-h"
+        data-planner-section="upcomingPlans"
+        aria-labelledby="v2-planner-upcoming-h"
       >
         <div className="v2-planner-section-row">
-          <h2 id="v2-planner-activity-h" className="v2-planner-section-label">
-            {recentActivity.sectionTitle}
+          <h2 id="v2-planner-upcoming-h" className="v2-planner-section-label">
+            {upcoming.sectionTitle}
           </h2>
           <button
             type="button"
             className="v2-planner-link"
-            onClick={() =>
-              announceStub('view-all-activity', recentActivity.viewAllLabel)
-            }
+            onClick={openSchedule}
           >
-            {recentActivity.viewAllLabel}
+            {upcoming.viewAllLabel}
           </button>
         </div>
-        <ul className="v2-planner-activity">
-          {recentActivity.items.map((item) => {
-            const Icon = ACTIVITY_ICONS[item.icon] ?? IconBookmark;
-            return (
-              <li key={item.id}>
+
+        {upcoming.plans.length === 0 ? (
+          <div className="v2-planner-empty" role="status">
+            <p className="v2-planner-empty-title">
+              {upcoming.emptyTitle || 'No upcoming plans yet'}
+            </p>
+            {upcoming.emptyBody ? (
+              <p className="v2-planner-empty-body">{upcoming.emptyBody}</p>
+            ) : null}
+          </div>
+        ) : (
+          <ul className="v2-planner-plans">
+            {upcoming.plans.map((plan) => (
+              <li key={plan.id}>
                 <button
                   type="button"
-                  className="v2-planner-activity-row"
-                  onClick={() => announceStub(item.id, item.label)}
+                  className="v2-planner-plan-row"
+                  onClick={openSchedule}
                 >
-                  <span
-                    className={`v2-planner-activity-icon v2-planner-activity-${item.tone}`}
-                    aria-hidden="true"
-                  >
-                    <Icon width={16} height={16} />
+                  {plan.imageUrl ? (
+                    <img
+                      className="v2-planner-plan-thumb"
+                      src={plan.imageUrl}
+                      alt=""
+                    />
+                  ) : (
+                    <span
+                      className="v2-planner-plan-thumb v2-planner-plan-thumb-fallback"
+                      aria-hidden="true"
+                    />
+                  )}
+                  <span className="v2-planner-plan-copy">
+                    <span className="v2-planner-plan-title">{plan.title}</span>
+                    {plan.venueLabel ? (
+                      <span className="v2-planner-plan-venue">
+                        {plan.venueLabel}
+                      </span>
+                    ) : null}
+                    {plan.whenLabel ? (
+                      <span className="v2-planner-plan-when">
+                        {plan.whenLabel}
+                      </span>
+                    ) : null}
+                    {plan.badges?.length ? (
+                      <span className="v2-planner-plan-badges">
+                        {plan.badges.map((badge) => (
+                          <span
+                            key={badge.id}
+                            className={`v2-planner-plan-badge v2-planner-plan-badge-${badge.tone}`}
+                          >
+                            {badge.label}
+                          </span>
+                        ))}
+                      </span>
+                    ) : null}
                   </span>
-                  <span className="v2-planner-activity-label">{item.label}</span>
-                  <span className="v2-planner-activity-date">{item.dateLabel}</span>
-                  <span aria-hidden="true">
+                  <span className="v2-planner-plan-chevron" aria-hidden="true">
                     <IconChevron />
                   </span>
                 </button>
               </li>
-            );
-          })}
-        </ul>
+            ))}
+          </ul>
+        )}
       </section>
+
+      {draft?.visible ? (
+        <section data-planner-section="draft" aria-label="Continue draft">
+          <button
+            type="button"
+            className="v2-planner-draft-card"
+            onClick={openBuild}
+          >
+            <span className="v2-planner-draft-icon" aria-hidden="true">
+              <IconEdit width={22} height={22} />
+            </span>
+            <span className="v2-planner-draft-copy">
+              <span className="v2-planner-draft-eyebrow">{draft.eyebrow}</span>
+              <span className="v2-planner-draft-title">{draft.title}</span>
+              {draft.metaLabel ? (
+                <span className="v2-planner-draft-meta">{draft.metaLabel}</span>
+              ) : null}
+            </span>
+            <span className="v2-planner-draft-chevron" aria-hidden="true">
+              <IconChevron />
+            </span>
+          </button>
+        </section>
+      ) : null}
 
       <p
         id={stubStatusId}

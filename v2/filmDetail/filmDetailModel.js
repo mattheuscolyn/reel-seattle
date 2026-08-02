@@ -409,7 +409,8 @@ export function buildTodaysShowtimes(
 }
 
 /**
- * Hero view-model — omits unsupported enrichment fields.
+ * Hero view-model — enrichment fields filled by composeFilmDetailPresentation
+ * via shared resolveEnrichedFilmPresentation (exact filmId join).
  * @param {object | null} film
  * @param {object | null} bestOpp
  */
@@ -422,9 +423,10 @@ export function buildFilmHero(film, bestOpp) {
   }
   return {
     filmKey: film.filmKey,
+    filmId: film.filmId ?? null,
     title: film.title,
     posterUrl: film.posterUrl ?? null,
-    /** Backdrop enrichment not in public artifacts — use poster as soft wash only. */
+    /** Backdrop enrichment deferred — poster soft-wash only. */
     backdropUrl: null,
     runtimeLabel: formatRuntimeLabel(film.runtimeMin),
     year: null,

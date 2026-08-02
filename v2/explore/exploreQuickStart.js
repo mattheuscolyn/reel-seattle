@@ -8,6 +8,11 @@ export const QUICK_START = Object.freeze([
     icon: 'ticket',
   }),
   Object.freeze({
+    id: 'all-showtimes',
+    label: 'All showtimes',
+    icon: 'showtimes',
+  }),
+  Object.freeze({
     id: COLLECTION_IDS.today,
     label: 'Today',
     icon: 'today',

@@ -2,7 +2,7 @@
  * Stage 1 About My Schedule — fixture-backed replica of About My Schedule Page.png.
  *
  * Static help content only. Link/FAQ controls are Stage 1 stubs.
- * Does not read or write planner, calendar, or preference stores.
+ * T-CAL-02 / D09: calendar card describes one-time .ics export (no sync claims).
  */
 
 import { useId, useState } from 'react';

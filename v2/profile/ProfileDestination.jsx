@@ -23,6 +23,8 @@ import {
   IconSun,
 } from '../icons.jsx';
 import { resolveProfilePresentation } from '../fixtures/profileMockupFixture.js';
+import TmdbAttribution from '../enrichment/TmdbAttribution.jsx';
+import ProfileAccountPanel from '../auth/ProfileAccountPanel.jsx';
 
 const ACTIVITY_ICONS = {
   eye: IconEye,
@@ -50,8 +52,20 @@ export default function ProfileDestination({ onStubAction }) {
   const presentation = resolveProfilePresentation();
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
+  const [showDataSources, setShowDataSources] = useState(false);
 
   const announceStub = (actionId, label) => {
+    if (actionId === 'settings-about' || actionId === 'settings-privacy') {
+      setShowDataSources(true);
+      setStubMessage(null);
+      return;
+    }
+    if (actionId === 'settings-account') {
+      const el = document.querySelector('[data-profile-section="account"]');
+      el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      setStubMessage(null);
+      return;
+    }
     const message = `${label} isn’t available in this Stage 1 Profile shell yet.`;
     setStubMessage(message);
     onStubAction?.(actionId, label);
@@ -102,6 +116,10 @@ export default function ProfileDestination({ onStubAction }) {
           </button>
         </div>
       </div>
+
+      <ProfileAccountPanel
+        onAuthAction={(actionId) => onStubAction?.(actionId, actionId)}
+      />
 
       <section
         className="v2-profile-section"
@@ -306,6 +324,31 @@ export default function ProfileDestination({ onStubAction }) {
           })}
         </ul>
       </section>
+
+      {showDataSources ? (
+        <section
+          className="v2-profile-section v2-profile-data-sources"
+          data-profile-section="dataSources"
+          aria-labelledby="v2-profile-data-sources-h"
+        >
+          <div className="v2-profile-section-row">
+            <h2
+              id="v2-profile-data-sources-h"
+              className="v2-profile-section-label"
+            >
+              About &amp; data sources
+            </h2>
+            <button
+              type="button"
+              className="v2-profile-link"
+              onClick={() => setShowDataSources(false)}
+            >
+              Close <span aria-hidden="true">›</span>
+            </button>
+          </div>
+          <TmdbAttribution />
+        </section>
+      ) : null}
 
       <p
         id={stubStatusId}

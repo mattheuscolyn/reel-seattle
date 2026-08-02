@@ -240,12 +240,7 @@ function chainMeetsFilmConstraints(chain, filters) {
     if (!identities.some((id) => filmMatchesToken(token, id))) return false;
   }
 
-  if (filters.preferredFilms.length > 0) {
-    const hasPreferred = filters.preferredFilms.some((token) =>
-      identities.some((id) => filmMatchesToken(token, id)),
-    );
-    if (!hasPreferred) return false;
-  }
+  // preferredFilms are soft ranking preferences — not hard requirements.
 
   if (filters.firstFilm) {
     if (!filmMatchesToken(filters.firstFilm, identities[0])) return false;
@@ -379,7 +374,7 @@ function resolveDefaultSort(filmCount) {
 }
 
 function compareSchedules(a, b, sort, filters) {
-  if (filters.preferredFilms.length > 1) {
+  if (filters.preferredFilms.length > 0) {
     if (b.preferredMatchCount !== a.preferredMatchCount) {
       return b.preferredMatchCount - a.preferredMatchCount;
     }

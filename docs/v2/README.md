@@ -42,7 +42,9 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [Stage 2 — Data & backend needs audit](./v2-data-and-backend-needs-audit.md) | Mockup→data inventory, gaps, sources (Stage 2 only) | Validation pass complete 2026-07-24; roadmap §14; not Stage 3 |
 | [Stage 3 — Product decision packet](./v2-stage-3-product-decisions.md) | PO decisions D01–D17 | **Approved** 2026-07-24 |
 | [Stage 3 — Front–back integration roadmap](./v2-front-back-integration-roadmap.md) | Connect fixtures→real data while preserving designs | Authoritative Stage 3; Stage 4 executes tasks |
-| [Film identity contract (T-FILMID-01)](./film-identity-contract.md) | Namespaced `film_id`, TMDB matching, review workflow | Foundation complete 2026-07-27; public emit deferred |
+| [Auth foundation (T-AUTH-01)](./auth-foundation.md) | Supabase Google sign-in + profiles RLS; no cloud sync yet | Complete 2026-07-28 |
+| [Film identity contract (T-FILMID-01/02/03)](./film-identity-contract.md) | Namespaced `film_id`, TMDB matching, public nullable emit, store migration | Foundation + public emit + store v2 migration complete 2026-07-28 |
+| [TMDB enrichment contract (T-ENR-01A/01B/10/20/30)](./tmdb-enrichment-contract.md) | Minimal TMDB enrichment + Home/Opening/Search/Film Detail activation | Artifact + all planned UI consumers complete 2026-07-28 |
 | [Canonical screen specs](./specs/) | Implementation-authoritative per-surface specs | Home, Film Detail, Planner, Theater, Explore/Search (D-17–D-20, D-23); Opportunity expression (D-24); Profile/Settings (D-25); Global navigation (D-26); Home reconciled with Design Review v3 (D-22) |
 
 ### Canonical screen specifications
@@ -52,7 +54,7 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [Home](./specs/home.md) | Canonical (D-17); reconciled with Design Review v3 (D-22) |
 | [Film Detail](./specs/film-detail.md) | Canonical (D-18) |
 | [Planner](./specs/planner.md) | Canonical (D-19) |
-| [Theater](./specs/theater.md) | Canonical (D-20) |
+| [Theater](./specs/theater.md) | Canonical (D-20); **T-THEA-01/10** live visit meta 2026-07-28 |
 | [Explore / Search](./specs/explore-search.md) | Canonical (D-23) |
 | [Opportunity expression](./specs/opportunity-expression.md) | Canonical (D-24) — cross-surface; **not** a standalone page |
 | [Profile / Settings](./specs/profile-settings.md) | Canonical (D-25) |
@@ -70,6 +72,7 @@ Isolated Vite app (cockpit pattern). **Not** part of production `dist/` or GitHu
 | Dev | `npm run v2` → http://127.0.0.1:5175/ |
 | Build | `npm run build:v2` → `dist-v2/` (gitignored) |
 | Smoke | `npm run smoke:v2` |
+| Auth (optional) | `.env.local` → `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY` ([auth-foundation.md](./auth-foundation.md)); app works without them |
 | Primary nav (I-04C) | Home · Explore · Planner · Profile |
 | Home composition | Header, editorial intro, Top Opportunity (real selector), Opening This Week (provisional newly_added or unavailable), Leaving Soon (gated unavailable), Planner CTA, Explore More |
 | Explore landing (I-05E2) | Intro + search, Quick Start, Browse By, Suggested Starts, Film Activity, Recent Searches |

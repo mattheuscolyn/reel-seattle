@@ -18,6 +18,8 @@ import {
   formatLocalDateLabel,
   formatUserFacingFormatLabel,
 } from '../topOpportunities/topOpportunityFormat.js';
+import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
+import { resolveTheaterPresentation } from '../theaters/resolveTheaterPresentation.js';
 import {
   SEARCH_CAPABILITY_NOTE,
   SEARCH_EMPTY_BODY,
@@ -196,17 +198,37 @@ export function searchFormats(homeData, query) {
 
 /**
  * Build a collapsed/expanded film result view-model.
- * Omits year/genre/synopsis/rating/language/director — unsupported by artifacts.
+ * Enrichment (year/genre/synopsis/poster fallback) joins by exact filmId only.
  *
  * @param {object | null} homeData
  * @param {object} film
  * @param {{ timeFilter?: string | null, theaterIds?: string[], formatTags?: string[] }} [filters]
+ * @param {object | null} [enrichmentIndex]
  */
-export function buildSearchFilmResult(homeData, film, filters = {}) {
+export function buildSearchFilmResult(
+  homeData,
+  film,
+  filters = {},
+  enrichmentIndex = null,
+) {
   const opportunity = findFilteredNextOpportunity(homeData, film.filmKey, filters);
   const chip = buildShowtimeChip(opportunity);
+  const enriched = resolveEnrichedFilmPresentation({
+    sourceFilm: {
+      filmId: film.filmId ?? null,
+      title: film.title ?? null,
+      posterUrl: film.posterUrl ?? null,
+      runtimeMin: film.runtimeMin ?? null,
+    },
+    enrichmentIndex,
+    context: 'search',
+  });
   const runtime = formatRuntimeLabel(film.runtimeMin);
-  const metaParts = [runtime].filter(Boolean);
+  const metaParts = [
+    enriched.canonicalYear != null ? String(enriched.canonicalYear) : null,
+    runtime,
+    enriched.genreLine,
+  ].filter(Boolean);
   const theaterCount = film.theaterCount ?? 0;
   const showtimeCount = film.showtimeCount ?? 0;
   const formatsOnFilm = new Set();
@@ -228,18 +250,20 @@ export function buildSearchFilmResult(homeData, film, filters = {}) {
 
   return {
     filmKey: film.filmKey,
-    title: film.title,
-    sourceTitle: film.sourceTitle ?? null,
-    posterUrl: film.posterUrl ?? null,
+    filmId: enriched.filmId,
+    title: enriched.displayTitle ?? film.title,
+    sourceTitle: film.sourceTitle ?? film.title ?? null,
+    posterUrl: enriched.posterUrl,
     runtimeMin: film.runtimeMin ?? null,
     metaLine: metaParts.length ? metaParts.join(' · ') : null,
-    /** Unsupported in public artifacts — keep null for honesty. */
-    year: null,
-    genre: null,
-    synopsis: null,
+    year: enriched.canonicalYear,
+    genre: enriched.genreLine,
+    synopsis: enriched.synopsisPreview,
     rating: null,
     language: null,
-    director: null,
+    /** Carried for future slots; Search UI does not render directors yet. */
+    director: enriched.directors,
+    hasEnrichment: enriched.hasEnrichment,
     showtimeChip: chip,
     opportunityKey: opportunity?.opportunityKey ?? null,
     alsoPlayingLabel:
@@ -265,6 +289,7 @@ export function buildSearchFilmResult(homeData, film, filters = {}) {
  *   dismissedKeys?: string[],
  *   runtimeMin?: number | null,
  *   runtimeMax?: number | null,
+ *   enrichmentIndex?: object | null,
  * }} [options]
  */
 export function buildSearchResultsModel(homeData, query, options = {}) {
@@ -274,6 +299,7 @@ export function buildSearchResultsModel(homeData, query, options = {}) {
   const dismissed = new Set(options.dismissedKeys ?? []);
   const theaterIds = options.theaterIds ?? [];
   const formatTags = options.formatTags ?? [];
+  const enrichmentIndex = options.enrichmentIndex ?? null;
   const filters = { timeFilter, theaterIds, formatTags };
 
   if (!normalized) {
@@ -331,7 +357,7 @@ export function buildSearchResultsModel(homeData, query, options = {}) {
 
   filmMatches = rankSearchFilms(filmMatches, normalized, homeData);
   let films = filmMatches.map((film) =>
-    buildSearchFilmResult(homeData, film, filters),
+    buildSearchFilmResult(homeData, film, filters, enrichmentIndex),
   );
 
   let theaters = Object.values(theatersById(homeData))
@@ -341,17 +367,23 @@ export function buildSearchResultsModel(homeData, query, options = {}) {
       const city = String(theater.city ?? '').toLowerCase();
       return name.includes(q) || neighborhood.includes(q) || city.includes(q);
     })
-    .map((theater) => ({
-      id: theater.id,
-      name: theater.name,
-      metaLabel:
-        [theater.neighborhood, theater.city].filter(Boolean).join(' · ') || null,
-      opportunityCount: theater.opportunityCount ?? 0,
-      availabilityLabel:
-        theater.opportunityCount > 0
-          ? `${theater.opportunityCount} showtimes`
-          : null,
-    }))
+    .map((theater) => {
+      const card = resolveTheaterPresentation({
+        theater,
+        homeData,
+        context: 'search',
+      });
+      return {
+        id: card.id,
+        name: card.name,
+        metaLabel: card.metaLabel,
+        opportunityCount: card.opportunityCount,
+        availabilityLabel:
+          card.opportunityCount > 0
+            ? `${card.opportunityCount} showtimes`
+            : null,
+      };
+    })
     .sort((a, b) => String(a.name).localeCompare(String(b.name)));
 
   let formats = searchFormats(homeData, normalized);

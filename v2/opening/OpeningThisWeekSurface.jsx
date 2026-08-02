@@ -1,9 +1,8 @@
 /**
- * Stage 1 Opening This Week — fixture-backed replica of Opening This Week Page.png.
+ * Opening This Week — live HomeData + enrichment when available (T-ENR-10),
+ * otherwise Stage 1 mockup fixture for visual QC.
  *
- * Replaces CollectionSurface scaffold for collectionId opening-this-week.
- * Expand / More details are real. Save, Not interested, Sort, Filters, and
- * Also playing are Stage 1 stubs (no store mutation).
+ * Expand / More details are real. Save, Not interested, Sort, Filters stubs remain.
  */
 
 import { useId, useState } from 'react';
@@ -17,12 +16,16 @@ import {
   IconSliders,
   IconStar,
 } from '../icons.jsx';
+import TmdbAttribution from '../enrichment/TmdbAttribution.jsx';
 import { resolveOpeningThisWeekPresentation } from '../fixtures/openingThisWeekMockupFixture.js';
+import { buildLiveOpeningThisWeekPresentation } from './buildLiveOpeningPresentation.js';
 
 /**
  * @param {{
  *   onBack: () => void,
  *   backLabel?: string,
+ *   homeData?: object | null,
+ *   enrichmentIndex?: object | null,
  *   onOpenFilmDetail?: (payload: { filmKey: string, opportunityKey?: string | null }) => void,
  *   onStubAction?: (actionId: string, label: string) => void,
  * }} props
@@ -30,10 +33,14 @@ import { resolveOpeningThisWeekPresentation } from '../fixtures/openingThisWeekM
 export default function OpeningThisWeekSurface({
   onBack,
   backLabel = 'Home',
+  homeData = null,
+  enrichmentIndex = null,
   onOpenFilmDetail,
   onStubAction,
 }) {
-  const presentation = resolveOpeningThisWeekPresentation();
+  const presentation = homeData
+    ? buildLiveOpeningThisWeekPresentation(homeData, enrichmentIndex)
+    : resolveOpeningThisWeekPresentation();
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
   const initialExpanded =
@@ -266,7 +273,7 @@ export default function OpeningThisWeekSurface({
                         onClick={() =>
                           onOpenFilmDetail?.({
                             filmKey: film.filmKey,
-                            opportunityKey: null,
+                            opportunityKey: film.opportunityKey ?? null,
                           })
                         }
                       >
@@ -290,6 +297,8 @@ export default function OpeningThisWeekSurface({
       >
         {stubMessage ?? ''}
       </p>
+
+      <TmdbAttribution compact />
     </section>
   );
 }

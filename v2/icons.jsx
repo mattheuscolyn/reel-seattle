@@ -341,6 +341,9 @@ const EXPLORE_ICONS = {
   spark: IconSpark,
   collection: IconCollection,
   search: IconSearch,
+  bookmark: IconBookmark,
+  check: IconCheckCircle,
+  ticket: IconTicket,
 };
 
 export function ExploreRowIcon({ name }) {
@@ -563,6 +566,15 @@ export function IconBan(props) {
     <svg {...base} width={16} height={16} {...props}>
       <circle cx="12" cy="12" r="8" />
       <path d="M6.5 6.5l11 11" />
+    </svg>
+  );
+}
+
+export function IconCloseCircle(props) {
+  return (
+    <svg {...base} width={16} height={16} {...props}>
+      <circle cx="12" cy="12" r="8" />
+      <path d="M9 9l6 6M15 9l-6 6" />
     </svg>
   );
 }

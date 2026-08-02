@@ -1,7 +1,27 @@
-import { useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import FilmShelfCard from './FilmShelfCard.jsx';
 import InlineQuickDetail from './InlineQuickDetail.jsx';
 import { buildInlineQuickDetail } from './shelfData.js';
+import {
+  isFilmSaved,
+  toggleSavedFilm,
+} from '../stores/savedFilmsStore.js';
+import {
+  isFilmSeen,
+  toggleFilmSeen,
+} from '../stores/seenFilmsStore.js';
+import {
+  isFilmNotInterested,
+  toggleFilmNotInterested,
+} from '../stores/notInterestedFilmsStore.js';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Horizontal film shelf with optional inline quick-detail expansion.
@@ -11,10 +31,13 @@ import { buildInlineQuickDetail } from './shelfData.js';
  *   title: string,
  *   shelf: { status: string, reason?: string, films: object[] },
  *   homeData: object | null,
+ *   enrichmentIndex?: object | null,
  *   expandedFilmKey: string | null,
  *   onExpandFilm: (filmKey: string | null) => void,
  *   onSeeAll: () => void,
  *   onMoreDetails: (payload: { filmKey: string, opportunityKey: string | null }) => void,
+ *   detailOverride?: object | null,
+ *   hideStatusNotes?: boolean,
  * }} props
  */
 export default function FilmShelf({
@@ -22,21 +45,45 @@ export default function FilmShelf({
   title,
   shelf,
   homeData,
+  enrichmentIndex = null,
   expandedFilmKey,
   onExpandFilm,
   onSeeAll,
   onMoreDetails,
+  detailOverride = null,
+  hideStatusNotes = false,
 }) {
   const headingId = `${id}-heading`;
   const panelId = useId();
   const panelRef = useRef(null);
+  const [actionRevision, setActionRevision] = useState(0);
   const films = Array.isArray(shelf?.films) ? shelf.films : [];
   const expandedFilm =
     films.find((film) => film.filmKey === expandedFilmKey) ?? null;
   const detail =
-    expandedFilm && homeData
-      ? buildInlineQuickDetail(homeData, expandedFilm)
-      : null;
+    detailOverride &&
+    expandedFilm &&
+    detailOverride.filmKey === expandedFilm.filmKey
+      ? detailOverride
+      : expandedFilm && homeData
+        ? buildInlineQuickDetail(homeData, expandedFilm, enrichmentIndex)
+        : null;
+
+  const storage = getBrowserStorage();
+  void actionRevision;
+  const filmRef = detail
+    ? {
+        filmKey: detail.filmKey,
+        filmId: detail.filmId ?? null,
+        title: detail.title,
+        posterUrl: detail.posterUrl,
+      }
+    : null;
+  const saved = filmRef ? isFilmSaved(storage, filmRef) : false;
+  const seen = filmRef ? isFilmSeen(storage, filmRef) : false;
+  const notInterested = filmRef
+    ? isFilmNotInterested(storage, filmRef)
+    : false;
 
   useEffect(() => {
     if (!expandedFilm || !panelRef.current) return;
@@ -68,16 +115,26 @@ export default function FilmShelf({
         </button>
       </div>
 
-      {shelf.status === 'unavailable' ? (
-        <p className="v2-shelf-unavailable" role="status">
+      {!hideStatusNotes &&
+      shelf.status === 'provisional' &&
+      films.length > 0 &&
+      shelf.reason ? (
+        <p className="v2-shelf-note" role="note">
           {shelf.reason}
         </p>
       ) : null}
 
-      {shelf.status === 'provisional' ? (
-        <p className="v2-shelf-provisional" role="note">
-          {shelf.reason}
-        </p>
+      {!hideStatusNotes &&
+      shelf.status === 'unavailable' &&
+      films.length === 0 ? (
+        <div className="v2-shelf-empty" role="status">
+          <p className="v2-shelf-empty-title">
+            {shelf.emptyTitle || shelf.reason || 'Unavailable'}
+          </p>
+          {shelf.emptyBody ? (
+            <p className="v2-shelf-empty-body">{shelf.emptyBody}</p>
+          ) : null}
+        </div>
       ) : null}
 
       {films.length > 0 ? (
@@ -123,6 +180,33 @@ export default function FilmShelf({
                     opportunityKey: detail.opportunityKey,
                   })
                 }
+                saved={saved}
+                seen={seen}
+                notInterested={notInterested}
+                onToggleSave={() => {
+                  if (!filmRef) return;
+                  toggleSavedFilm(storage, filmRef, {
+                    title: detail.title,
+                    posterUrl: detail.posterUrl,
+                  });
+                  setActionRevision((n) => n + 1);
+                }}
+                onToggleSeen={() => {
+                  if (!filmRef) return;
+                  toggleFilmSeen(storage, filmRef, {
+                    title: detail.title,
+                    posterUrl: detail.posterUrl,
+                  });
+                  setActionRevision((n) => n + 1);
+                }}
+                onToggleNotInterested={() => {
+                  if (!filmRef) return;
+                  toggleFilmNotInterested(storage, filmRef, {
+                    title: detail.title,
+                    posterUrl: detail.posterUrl,
+                  });
+                  setActionRevision((n) => n + 1);
+                }}
               />
             </div>
           ) : null}

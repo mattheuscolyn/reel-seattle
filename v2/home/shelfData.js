@@ -3,6 +3,7 @@
  * Uses real HomeData only — no fictional film fixtures.
  */
 
+import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
 import {
   formatLocalDateLabel,
   formatUserFacingFormatLabel,
@@ -51,12 +52,15 @@ export function findNextOpportunityForFilm(homeData, filmKey) {
  * never as production Opening This Week truth, and never as fictional titles.
  *
  * @param {object | null} homeData
+ * @param {object | null} [enrichmentIndex]
  */
-export function buildOpeningThisWeekShelf(homeData) {
+export function buildOpeningThisWeekShelf(homeData, enrichmentIndex = null) {
   if (!homeData) {
     return {
       status: 'unavailable',
       reason: 'Home data not loaded.',
+      emptyTitle: 'Opening This Week isn’t ready',
+      emptyBody: 'Check back once showtimes finish loading.',
       semantics: 'opening-this-week-unavailable',
       films: [],
     };
@@ -66,8 +70,10 @@ export function buildOpeningThisWeekShelf(homeData) {
   if (newlyAdded.length === 0) {
     return {
       status: 'unavailable',
-      reason:
-        'Opening This Week classification is not available, and no recently added films were found.',
+      reason: 'No recently added films to show right now.',
+      emptyTitle: 'Nothing to show yet',
+      emptyBody:
+        'Recently added films will appear here when available. A verified opening-week list is not ready yet.',
       semantics: 'opening-this-week-unavailable',
       films: [],
     };
@@ -80,17 +86,33 @@ export function buildOpeningThisWeekShelf(homeData) {
   const films = newlyAdded.slice(0, 8).map((entry) => {
     const film = filmsByKey.get(entry.filmKey);
     const next = findNextOpportunityForFilm(homeData, entry.filmKey);
-    const metaLabel =
+    const enriched = resolveEnrichedFilmPresentation({
+      sourceFilm: {
+        filmId: film?.filmId ?? null,
+        title: film?.title ?? entry.title ?? null,
+        posterUrl: film?.posterUrl ?? entry.posterUrl ?? null,
+        runtimeMin: film?.runtimeMin ?? null,
+      },
+      enrichmentIndex,
+      context: 'opening',
+    });
+    const runtimeLabel = formatRuntimeLabel(film?.runtimeMin);
+    const dateLabel =
       formatLocalDateLabel(entry.firstObservedAt) ??
-      formatLocalDateLabel(entry.lastSeenDate) ??
-      'Recently added';
+      formatLocalDateLabel(entry.lastSeenDate);
+    // Prefer runtime (mockup-aligned) when known; otherwise an honest date cue.
+    const metaLabel = runtimeLabel ?? dateLabel ?? 'Recently added';
+    const genrePrimary = enriched.genreLine
+      ? String(enriched.genreLine).split(',')[0].trim()
+      : null;
     return {
       id: entry.filmKey,
       filmKey: entry.filmKey,
-      title: film?.title ?? entry.title ?? 'Untitled',
-      genre: null,
+      filmId: enriched.filmId,
+      title: enriched.displayTitle ?? 'Untitled',
+      genre: genrePrimary,
       metaLabel,
-      posterUrl: film?.posterUrl ?? entry.posterUrl ?? null,
+      posterUrl: enriched.posterUrl,
       runtimeMin: film?.runtimeMin ?? null,
       theaterCount: film?.theaterCount ?? 0,
       showtimeCount: film?.showtimeCount ?? 0,
@@ -98,20 +120,21 @@ export function buildOpeningThisWeekShelf(homeData) {
       surfaceReason: 'newly_added',
       surfaceReasonLabel: 'Newly added',
       source: 'newly-added-provisional',
+      hasEnrichment: enriched.hasEnrichment,
     };
   });
 
   return {
     status: 'provisional',
     reason:
-      'Opening-week classification is not available. Showing recently added films provisionally — not equivalent to theatrical openings.',
+      'Showing recently added films — not a verified opening-week list.',
     semantics: 'newly-added-provisional',
     films,
   };
 }
 
 /**
- * Leaving Soon Home shelf — gated artifact; honest unavailable.
+ * Leaving Soon Home shelf — gated artifact; honest unavailable empty state.
  * @param {object | null} homeData
  */
 export function buildLeavingSoonShelf(homeData) {
@@ -119,8 +142,11 @@ export function buildLeavingSoonShelf(homeData) {
   return {
     status: 'unavailable',
     reason: excluded
-      ? 'Leaving Soon production data remains gated and is not consumed by v2.'
+      ? 'Leaving Soon isn’t available yet.'
       : 'Leaving Soon data is unavailable.',
+    emptyTitle: 'Leaving Soon isn’t available yet',
+    emptyBody:
+      'We’ll highlight films nearing the end of their theatrical run when that data is ready.',
     semantics: 'leaving-soon-gated',
     films: [],
   };
@@ -132,8 +158,9 @@ export function buildLeavingSoonShelf(homeData) {
  *
  * @param {object} homeData
  * @param {object} shelfFilm
+ * @param {object | null} [enrichmentIndex]
  */
-export function buildInlineQuickDetail(homeData, shelfFilm) {
+export function buildInlineQuickDetail(homeData, shelfFilm, enrichmentIndex = null) {
   if (!shelfFilm?.filmKey) return null;
   const film =
     (Array.isArray(homeData?.films) ? homeData.films : []).find(
@@ -158,21 +185,34 @@ export function buildInlineQuickDetail(homeData, shelfFilm) {
     formatLabels[0] ?? null,
   ].filter(Boolean);
 
+  const enriched = resolveEnrichedFilmPresentation({
+    sourceFilm: {
+      filmId: film?.filmId ?? shelfFilm.filmId ?? null,
+      title: film?.title ?? shelfFilm.title ?? null,
+      posterUrl: film?.posterUrl ?? shelfFilm.posterUrl ?? null,
+      runtimeMin: film?.runtimeMin ?? shelfFilm.runtimeMin ?? null,
+    },
+    enrichmentIndex,
+    context: 'home',
+  });
+
   const metaParts = [
     formatRuntimeLabel(film?.runtimeMin ?? shelfFilm.runtimeMin),
+    enriched.genreLine,
+    enriched.canonicalYear != null ? String(enriched.canonicalYear) : null,
   ].filter(Boolean);
 
   const theaterCount = film?.theaterCount ?? shelfFilm.theaterCount ?? 0;
 
   return {
     filmKey: shelfFilm.filmKey,
-    title: film?.title ?? shelfFilm.title,
-    posterUrl: film?.posterUrl ?? shelfFilm.posterUrl ?? null,
-    /** Synopsis / rating / year / genre absent in current public artifacts. */
-    synopsis: null,
+    filmId: enriched.filmId,
+    title: enriched.displayTitle ?? shelfFilm.title,
+    posterUrl: enriched.posterUrl,
+    synopsis: enriched.synopsisPreview,
     rating: null,
-    year: null,
-    genre: null,
+    year: enriched.canonicalYear,
+    genre: enriched.genreLine,
     metaLine: metaParts.length > 0 ? metaParts.join(' · ') : null,
     opportunityKey: opportunity?.opportunityKey ?? null,
     showingLine: showingParts.length > 0 ? showingParts.join(' · ') : null,
@@ -181,5 +221,6 @@ export function buildInlineQuickDetail(homeData, shelfFilm) {
     surfaceReasonLabel: shelfFilm.surfaceReasonLabel ?? null,
     alsoPlayingLabel:
       theaterCount >= 2 ? `Also playing at ${theaterCount} theaters` : null,
+    hasEnrichment: enriched.hasEnrichment,
   };
 }

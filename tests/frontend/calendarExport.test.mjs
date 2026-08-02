@@ -60,6 +60,19 @@ test('valid showtime creates one event with advertised start and buffered end', 
     result.event.end.getTime() - result.event.start.getTime(),
     (PLANNER_BUFFER_POLICY_V1.preshowMinutes + 120) * 60_000,
   );
+
+  const withAddress = buildShowtimeCalendarEvent({
+    ...BASE_SHOWTIME,
+    addressLine1: '4405 Rainier Ave S',
+    city: 'Seattle',
+    state: 'WA',
+    postalCode: '98118',
+  });
+  assert.equal(withAddress.ok, true);
+  assert.equal(
+    withAddress.event.location,
+    'The Beacon, 4405 Rainier Ave S, Seattle, WA 98118',
+  );
 });
 
 test('preshow is applied once; missing runtime and identity fail', () => {
@@ -123,6 +136,17 @@ test('midnight rollover and Pacific winter DST', () => {
   // PST (UTC-8): 7:00PM → 03:00Z next day.
   assert.equal(formatIcsUtcStamp(winter.event.start), '20260116T030000Z');
   assert.equal(formatIcsUtcStamp(winter.event.end), '20260116T045500Z');
+
+  const h24 = buildShowtimeCalendarEvent({
+    title: 'Twenty Four',
+    date: '2026-07-25',
+    time: '19:00',
+    runtime: 90,
+    theater_id: 'the-beacon',
+    filmKey: 'twenty-four',
+  });
+  assert.equal(h24.ok, true);
+  assert.equal(formatIcsUtcStamp(h24.event.start), '20260726T020000Z');
 });
 
 test('UID precedence is stable and independent of export clock', () => {

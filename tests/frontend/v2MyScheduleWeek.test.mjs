@@ -111,7 +111,8 @@ test('Timeline geometry derives deterministically from fixture minutes', () => {
     range,
   );
   assert.equal(brk.leftPercent, 45);
-  assert.equal(brk.widthPercent, 5);
+  // 30 minutes is 5% of the 10h span; min readable width floors at 8%.
+  assert.equal(brk.widthPercent, 8);
 });
 
 test('Grouped events preserve fixture ordering', () => {
@@ -126,6 +127,8 @@ test('Grouped events preserve fixture ordering', () => {
 test('My Schedule Week surface is designed, not a placeholder', () => {
   assert.match(APP_SRC, /MyScheduleWeekSurface/);
   assert.match(SURFACE_SRC, /data-schedule-source/);
+  assert.match(SURFACE_SRC, /data-schedule-mode/);
+  assert.match(SURFACE_SRC, /resolveMyScheduleWeekPagePresentation/);
   assert.match(SURFACE_SRC, /data-schedule-section="header"/);
   assert.match(SURFACE_SRC, /data-schedule-section="weekPicker"/);
   assert.match(SURFACE_SRC, /data-schedule-section="nextUp"/);

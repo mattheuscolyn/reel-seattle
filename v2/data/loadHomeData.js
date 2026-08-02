@@ -3,11 +3,16 @@
  */
 
 import { buildHomeData } from '../adapters/buildHomeData.js';
+import { resolveV2DataUrl } from './v2DataUrl.js';
 
-export const V2_SHOWTIMES_URL = '/data/showtimes_current.json';
-export const V2_THEATERS_URL = '/data/theaters.json';
-export const V2_NEWLY_ADDED_URL = '/data/newly_added_current.json';
-export const V2_PIPELINE_REPORT_URL = '/data/pipeline_report.json';
+export const V2_SHOWTIMES_URL = resolveV2DataUrl('/data/showtimes_current.json');
+export const V2_THEATERS_URL = resolveV2DataUrl('/data/theaters.json');
+export const V2_NEWLY_ADDED_URL = resolveV2DataUrl(
+  '/data/newly_added_current.json',
+);
+export const V2_PIPELINE_REPORT_URL = resolveV2DataUrl(
+  '/data/pipeline_report.json',
+);
 
 /**
  * @param {string} url

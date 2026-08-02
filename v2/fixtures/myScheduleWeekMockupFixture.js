@@ -61,9 +61,12 @@ export function minutesToTimelinePercent(minutes, timeRange) {
 export function eventBlockGeometry(event, timeRange) {
   const leftPercent = minutesToTimelinePercent(event.startMinutes, timeRange);
   const rightPercent = minutesToTimelinePercent(event.endMinutes, timeRange);
+  const rawWidth = Math.max(0, rightPercent - leftPercent);
+  // Minimum readable width (~8% of the visible range).
+  const widthPercent = Math.min(100 - leftPercent, Math.max(rawWidth, 8));
   return {
     leftPercent,
-    widthPercent: Math.max(0, rightPercent - leftPercent),
+    widthPercent,
   };
 }
 

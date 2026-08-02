@@ -182,7 +182,8 @@ export const THEATERS_MOCKUP_FIXTURE = Object.freeze({
 });
 
 /**
- * Stage 1 always returns the mockup fixture for the designed page.
+ * Stage 1 always returns the mockup fixture for the designed page by default.
+ * Live HomeData path: `resolveTheatersPagePresentation` with forceMode/theaterLive.
  * @returns {ReturnType<typeof getTheatersMockupPresentation>}
  */
 export function resolveTheatersPresentation() {

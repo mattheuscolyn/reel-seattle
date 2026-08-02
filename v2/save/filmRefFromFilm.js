@@ -1,11 +1,18 @@
 /**
- * Shared film reference builder for Saved Films (T-SAVE-03).
+ * Shared film reference builder for Saved / Seen / Not Interested.
  *
- * Temporary identity until canonical film_id exists. Never uses
- * source_showtime_id / opportunity keys / title-only hashes.
+ * Identity precedence (T-FILMID-03):
+ * 1. Prefer valid canonical `filmId` (`tmdb:<positive-int>`) when present.
+ * 2. Otherwise equality is normalized `showtimeFilmKey` (+ aliasKeys after merge).
+ * 3. `source` + `sourceFilmId` are reconciliation hints only — never sole identity.
+ *
+ * Never uses source_showtime_id / opportunity keys / title-only hashes.
  */
 
-import { normalizeShowtimeFilmKey } from '../stores/savedFilmsStore.js';
+import {
+  asCanonicalStoreFilmId,
+  normalizeShowtimeFilmKey,
+} from '../stores/savedFilmsStore.js';
 
 /**
  * @param {unknown} value
@@ -35,12 +42,12 @@ export function resolveSavedShowtimeFilmKey(film) {
 }
 
 /**
- * Build a portable Saved filmRef (+ optional display hints) from a HomeData film
+ * Build a portable filmRef (+ optional display hints) from a HomeData film
  * or any object exposing the same identity fields.
  *
  * @param {object | null | undefined} film
  * @returns {{
- *   filmId: null,
+ *   filmId: string | null,
  *   showtimeFilmKey: string,
  *   sourceFilmId: string | null,
  *   source: string | null,
@@ -57,7 +64,7 @@ export function filmRefFromHomeFilm(film) {
   const posterUrl = asOptionalString(film.posterUrl);
 
   /** @type {{
-   *   filmId: null,
+   *   filmId: string | null,
    *   showtimeFilmKey: string,
    *   sourceFilmId: string | null,
    *   source: string | null,
@@ -65,7 +72,7 @@ export function filmRefFromHomeFilm(film) {
    *   posterUrl?: string | null,
    * }} */
   const ref = {
-    filmId: null,
+    filmId: asCanonicalStoreFilmId(film.filmId),
     showtimeFilmKey,
     sourceFilmId: asOptionalString(film.sourceFilmId),
     source: asOptionalString(film.source),

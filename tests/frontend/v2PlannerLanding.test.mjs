@@ -6,9 +6,11 @@ import { fileURLToPath } from 'node:url';
 import {
   PLANNER_LANDING_MOCKUP_FIXTURE,
   PLANNER_LANDING_SECTION_ORDER,
+  PLANNER_MOCKUP_QUERY,
   getPlannerLandingMockupPresentation,
-  resolvePlannerLandingPresentation,
+  isPlannerMockupMode,
 } from '../../v2/fixtures/plannerLandingMockupFixture.js';
+import { composePlannerLandingFromAcceptedPlans } from '../../v2/planner/composePlannerLandingPresentation.js';
 import {
   PRIMARY_DESTINATIONS,
   resolveActivePrimaryId,
@@ -41,6 +43,10 @@ const FIXTURE_SRC = readFileSync(
   join(ROOT, 'v2/fixtures/plannerLandingMockupFixture.js'),
   'utf8',
 );
+const COMPOSE_SRC = readFileSync(
+  join(ROOT, 'v2/planner/composePlannerLandingPresentation.js'),
+  'utf8',
+);
 const CSS = readFileSync(join(ROOT, 'v2/v2.css'), 'utf8');
 
 function memoryStorage(seed = {}) {
@@ -54,54 +60,89 @@ function memoryStorage(seed = {}) {
 
 test('Planner Landing fixture matches canonical mockup sections', () => {
   const p = getPlannerLandingMockupPresentation();
-  assert.equal(p.source, 'mockup-fixture');
+  assert.equal(p.source, 'planner-landing-mockup');
   assert.equal(p, PLANNER_LANDING_MOCKUP_FIXTURE);
-  assert.equal(resolvePlannerLandingPresentation(), p);
   assert.equal(p.pageTitle, 'Planner');
-  assert.equal(p.pageTagline, 'Plan the perfect movie experience.');
+  assert.match(p.pageTagline, /See what/);
+  assert.equal(p.summary.upcomingCount, 5);
+  assert.equal(p.summary.draftCount, 1);
+  assert.equal(p.summary.nextPlanValue, 'Tonight');
   assert.equal(p.upcoming.plans.length, 3);
   assert.equal(p.upcoming.plans[0].title, 'The Long Horizon');
+  assert.equal(p.upcoming.plans[2].badges[0].label, '2-film plan');
   assert.equal(p.entries[0].title, 'My Schedule');
   assert.equal(p.entries[1].title, 'Build a Plan');
-  assert.equal(p.recentActivity.items.length, 3);
+  assert.equal(p.draft.visible, true);
+  assert.equal(p.draft.title, 'Saturday movie day');
   assert.deepEqual([...PLANNER_LANDING_SECTION_ORDER], [
     'header',
-    'upcomingPlans',
+    'summary',
     'entryCards',
-    'recentActivity',
+    'upcomingPlans',
+    'draft',
   ]);
+  assert.equal(PLANNER_MOCKUP_QUERY, 'plannerMockup');
+  assert.equal(typeof isPlannerMockupMode, 'function');
 });
 
 test('Planner fixture does not import stores or planner persistence', () => {
   assert.equal(FIXTURE_SRC.includes('stores/'), false);
-  assert.equal(FIXTURE_SRC.includes('localStorage'), false);
   assert.equal(FIXTURE_SRC.includes('plannerEngine'), false);
   assert.equal(FIXTURE_SRC.includes('public/data'), false);
+  // localStorage is only used for optional mockup-mode detection.
+  assert.match(FIXTURE_SRC, /PLANNER_MOCKUP_STORAGE_KEY/);
+});
+
+test('production Planner compose stays honest without fixture films', () => {
+  const storage = memoryStorage();
+  const p = composePlannerLandingFromAcceptedPlans({ storage });
+  assert.equal(p.source, 'accepted-plans');
+  assert.equal(p.upcoming.plans.length, 0);
+  assert.equal(p.draft.visible, false);
+  assert.equal(p.summary.upcomingCount, 0);
+  assert.equal(p.summary.draftCount, 0);
+  assert.match(p.upcoming.emptyTitle, /No upcoming plans/i);
+  assert.equal(p.pageTitle, 'Planner');
+  assert.equal(COMPOSE_SRC.includes('Long Horizon'), false);
+  assert.equal(COMPOSE_SRC.includes('Blue Hour'), false);
 });
 
 test('Planner destination replaces placeholder shell', () => {
   assert.match(PLACEHOLDER_SRC, /PlannerDestination/);
   assert.match(PLANNER_SRC, /data-planner-source/);
   assert.match(PLANNER_SRC, /data-planner-section="header"/);
+  assert.match(PLANNER_SRC, /data-planner-section="summary"/);
   assert.match(PLANNER_SRC, /data-planner-section="upcomingPlans"/);
   assert.match(PLANNER_SRC, /data-planner-section="entryCards"/);
-  assert.match(PLANNER_SRC, /data-planner-section="recentActivity"/);
+  assert.match(PLANNER_SRC, /data-planner-section="draft"/);
+  assert.equal(PLANNER_SRC.includes('recentActivity'), false);
   assert.equal(PLANNER_SRC.includes('v2 shell · placeholder'), false);
+  assert.match(PLANNER_SRC, /isPlannerMockupMode/);
 });
 
 test('Planner landing keeps interactive controls as buttons', () => {
-  assert.match(PLANNER_SRC, /v2-planner-plan-main/);
+  assert.match(PLANNER_SRC, /v2-planner-plan-row/);
   assert.match(PLANNER_SRC, /v2-planner-entry-card/);
-  assert.match(PLANNER_SRC, /v2-planner-activity-row/);
+  assert.match(PLANNER_SRC, /v2-planner-draft-card/);
   assert.match(PLANNER_SRC, /type="button"/);
   assert.match(PLANNER_SRC, /aria-labelledby="v2-planner-title"/);
+  assert.match(PLANNER_SRC, /onOpenMyScheduleWeek/);
+  assert.match(PLANNER_SRC, /onOpenBuildPlan/);
 });
 
-test('Planner landing CSS exists', () => {
+test('Planner landing CSS covers summary entries plans and draft', () => {
   assert.match(CSS, /\.v2-planner\b/);
-  assert.match(CSS, /\.v2-planner-plan-card\b/);
+  assert.match(CSS, /\.v2-planner-summary\b/);
+  assert.match(CSS, /\.v2-planner-plan-row\b/);
   assert.match(CSS, /\.v2-planner-entry-card\b/);
-  assert.match(CSS, /\.v2-planner-activity-row\b/);
+  assert.match(CSS, /\.v2-planner-draft-card\b/);
+  assert.match(CSS, /\.v2-planner-entry-purple\b/);
+  assert.match(CSS, /\.v2-planner-entry-teal\b/);
+  assert.match(CSS, /--v2-nav-clearance/);
+  assert.match(
+    CSS,
+    /padding-bottom:\s*calc\(\s*var\(--v2-nav-height\)\s*\+\s*var\(--v2-nav-clearance\)/,
+  );
 });
 
 test('Planner tab activates correctly and nav unchanged', () => {
@@ -147,4 +188,11 @@ test('Planner landing interactions do not mutate storage', () => {
   assert.equal(getFavoriteTheaters(storage).length, 0);
   assert.equal(storage.getItem(SAVED_FILMS_STORAGE_KEY), null);
   assert.equal(storage.getItem(FAVORITE_THEATERS_STORAGE_KEY), null);
+});
+
+test('mockup mode isolation stays behind plannerMockup query', () => {
+  assert.match(FIXTURE_SRC, /PLANNER_MOCKUP_QUERY/);
+  assert.match(PLANNER_SRC, /isPlannerMockupMode/);
+  assert.match(PLANNER_SRC, /getPlannerLandingMockupPresentation/);
+  assert.match(PLANNER_SRC, /composePlannerLandingFromAcceptedPlans/);
 });

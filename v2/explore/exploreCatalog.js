@@ -10,6 +10,7 @@ import {
 } from './exploreIds.js';
 import { findNextOpportunityForFilm } from '../home/shelfData.js';
 import { formatUserFacingFormatLabel } from '../topOpportunities/topOpportunityFormat.js';
+import { resolveTheaterPresentation } from '../theaters/resolveTheaterPresentation.js';
 import { SEARCH_EXPLORE_HONESTY_NOTE } from './searchCopy.js';
 
 /**
@@ -429,14 +430,26 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
       const theaters = Object.values(theatersById(homeData))
         .filter((t) => t.id)
         .sort((a, b) => String(a.name).localeCompare(String(b.name)))
-        .map((t) => ({
-          id: t.id,
-          name: t.name,
-          metaLabel:
-            [t.neighborhood, t.city, t.opportunityCount != null ? `${t.opportunityCount} showtimes` : null]
-              .filter(Boolean)
-              .join(' · ') || null,
-        }));
+        .map((t) => {
+          const card = resolveTheaterPresentation({
+            theater: t,
+            homeData,
+            context: 'search',
+          });
+          return {
+            id: card.id,
+            name: card.name,
+            metaLabel:
+              [
+                card.metaLabel,
+                card.opportunityCount != null
+                  ? `${card.opportunityCount} showtimes`
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(' · ') || null,
+          };
+        });
       return {
         status: theaters.length > 0 ? 'ready' : 'unavailable',
         kind: 'theaters',

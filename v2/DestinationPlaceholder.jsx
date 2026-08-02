@@ -9,10 +9,12 @@ import ProfileDestination from './profile/ProfileDestination.jsx';
  *   destinationId: string,
  *   loadStatus?: 'loading' | 'ready' | 'error',
  *   homeData?: object | null,
+ *   enrichmentIndex?: object | null,
  *   errorMessage?: string | null,
  *   onSelectDestination?: (id: string) => void,
  *   onOpenFilmDetail?: (payload: object) => void,
  *   onOpenCollection?: (payload: object) => void,
+ *   onOpenShowtimesBrowse?: (payload: object) => void,
  *   homeRestore?: object | null,
  *   exploreRestore?: object | null,
  *   onHomeRestoreConsumed?: () => void,
@@ -28,10 +30,12 @@ export default function DestinationPlaceholder({
   destinationId,
   loadStatus = 'loading',
   homeData = null,
+  enrichmentIndex = null,
   errorMessage = null,
   onSelectDestination,
   onOpenFilmDetail,
   onOpenCollection,
+  onOpenShowtimesBrowse,
   homeRestore = null,
   exploreRestore = null,
   onHomeRestoreConsumed,
@@ -49,10 +53,13 @@ export default function DestinationPlaceholder({
       <HomeDestination
         loadStatus={loadStatus}
         homeData={homeData}
+        enrichmentIndex={enrichmentIndex}
         errorMessage={errorMessage}
         onSelectDestination={onSelectDestination}
         onOpenFilmDetail={onOpenFilmDetail}
         onOpenCollection={onOpenCollection}
+        onOpenShowtimesBrowse={onOpenShowtimesBrowse}
+        onOpenBuildPlan={onOpenBuildPlan}
         restoreState={homeRestore}
         onRestoreConsumed={onHomeRestoreConsumed}
       />
@@ -64,6 +71,7 @@ export default function DestinationPlaceholder({
       <ExploreDestination
         homeData={homeData}
         onOpenCollection={onOpenCollection}
+        onOpenShowtimesBrowse={onOpenShowtimesBrowse}
         onOpenFilmDetail={onOpenFilmDetail}
         restoreState={exploreRestore}
         onRestoreConsumed={onExploreRestoreConsumed}

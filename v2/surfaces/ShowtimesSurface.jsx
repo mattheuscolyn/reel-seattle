@@ -1,5 +1,9 @@
 import { useMemo, useState } from 'react';
 import {
+  calendarExportStatusMessage,
+  exportOpportunityToCalendar,
+} from '../calendar/exportFromOpportunity.js';
+import {
   listFilmOpportunities,
   opportunityFormatLabel,
   resolveFilm,
@@ -9,6 +13,7 @@ import { pacificDateString } from '../explore/exploreCatalog.js';
 
 /**
  * Film-prefiltered showtimes scaffold — not final showtime page design.
+ * T-CAL-02: selected performance can download a local .ics file.
  */
 export default function ShowtimesSurface({
   homeData,
@@ -31,6 +36,8 @@ export default function ShowtimesSurface({
   const [date, setDate] = useState(
     dates.includes(today) ? today : dates[0] ?? today,
   );
+  const [selectedKey, setSelectedKey] = useState(opportunityKey);
+  const [calendarStatus, setCalendarStatus] = useState(null);
 
   const filtered = opps.filter((o) => {
     if (o.localDate !== date) return false;
@@ -45,6 +52,24 @@ export default function ShowtimesSurface({
     if (!byTheater.has(id)) byTheater.set(id, []);
     byTheater.get(id).push(opp);
   }
+
+  const selectedOpp =
+    filtered.find((o) => o.opportunityKey === selectedKey) ??
+    filtered.find((o) => o.opportunityKey === opportunityKey) ??
+    null;
+
+  const handleExport = () => {
+    if (!selectedOpp) {
+      setCalendarStatus('Select a showtime to add to your calendar.');
+      return;
+    }
+    const result = exportOpportunityToCalendar({
+      opportunity: selectedOpp,
+      film,
+      homeData,
+    });
+    setCalendarStatus(calendarExportStatusMessage(result));
+  };
 
   return (
     <section className="v2-st" aria-labelledby="v2-st-title">
@@ -91,16 +116,17 @@ export default function ShowtimesSurface({
                   key={opp.opportunityKey}
                   type="button"
                   className={
-                    opp.opportunityKey === opportunityKey
+                    opp.opportunityKey === (selectedKey ?? opportunityKey)
                       ? 'v2-st-time v2-st-time-on'
                       : 'v2-st-time'
                   }
-                  onClick={() =>
+                  onClick={() => {
+                    setSelectedKey(opp.opportunityKey);
                     onOpenOpportunity?.({
                       filmKey,
                       opportunityKey: opp.opportunityKey,
-                    })
-                  }
+                    });
+                  }}
                 >
                   {opp.timeDisplay}
                   {opportunityFormatLabel(opp)
@@ -112,6 +138,26 @@ export default function ShowtimesSurface({
           </li>
         ))}
       </ul>
+
+      {filtered.length > 0 ? (
+        <div className="v2-st-export">
+          <button
+            type="button"
+            className="v2-fd-link v2-fd-calendar-export"
+            aria-label="Add selected showtime to calendar"
+            disabled={!selectedOpp}
+            onClick={handleExport}
+          >
+            Add to calendar
+          </button>
+          {calendarStatus ? (
+            <p className="v2-fd-calendar-status" role="status">
+              {calendarStatus}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
+
       <p className="v2-fd-tz">All times in PT</p>
     </section>
   );

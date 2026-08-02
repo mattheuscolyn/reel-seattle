@@ -1,27 +1,38 @@
 /**
- * Build a Plan Results MOCKUP FIXTURE — Stage 1 visual authority only.
+ * Build a Plan Results MOCKUP FIXTURE — visual authority for QC.
  *
  * Content matches Canonical Mockup Images/Build a Plan Results Page.png.
- * Fixture itineraries only — no planner engine, stores, or production showtimes.
+ * Fixture itineraries only — no planner engine in mockup mode.
  *
- * Notes:
- * - Walk miles / finish times are fixture display values (travel deferred).
- * - Ellipsis overflow menu omitted per Stage 1 product decision (mockup shows …).
- * - Film-click sheet labels use mockup wording (Must include / Would love to see).
- *   Prompt “Required / Preferred” map to those mockup labels.
+ * QC: `?planResultsMockup=1&interaction=none|time|film|break`
  */
 
 import { PLACEHOLDER_POSTERS } from './placeholderMedia.js';
 
+export const PLAN_RESULTS_INTERACTION_QUERY = 'interaction';
+
 export const BUILD_PLAN_RESULTS_SECTION_ORDER = Object.freeze([
-  'header',
   'summary',
-  'preferenceChips',
-  'quickAdjust',
   'sort',
   'plans',
-  'refine',
 ]);
+
+/**
+ * @returns {null | 'none' | 'time' | 'film' | 'break'}
+ */
+export function getBuildPlanResultsInteraction() {
+  if (typeof window === 'undefined' || !window.location) return null;
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get(PLAN_RESULTS_INTERACTION_QUERY);
+    if (raw === 'time' || raw === 'film' || raw === 'break' || raw === 'none') {
+      return raw === 'none' ? null : raw;
+    }
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
 
 export const BUILD_PLAN_RESULTS_SORT_OPTIONS = Object.freeze([
   Object.freeze({ id: 'best-match', label: 'Best match', icon: 'spark' }),
@@ -105,47 +116,14 @@ export const BUILD_PLAN_RESULTS_MOCKUP_FIXTURE = Object.freeze({
   loadMoreLabel: 'Load more plans',
   shareLabel: 'Share',
   viewPlanLabel: 'View plan details',
+  savePlanLabel: 'Add to My Schedule',
+  savedPlanLabel: 'Added to My Schedule',
   moreActionsLabel: 'More actions',
   addToScheduleLabel: 'Add to My Schedule',
   filmSheet: Object.freeze({
-    sectionTitle: 'Adjust this movie in your plan',
+    sectionTitle: 'Adjust film in plans',
     cancelLabel: 'Cancel',
-    replaceLabel: 'Replace this movie',
-    replaceSupport: 'Find other movies for this time slot.',
-    filmDetailsLabel: 'Film details',
-    filmDetailsSupport: 'View full details',
-    timeAdjustDeferredMessage:
-      'Showtime adjustment isn’t available in this Stage 1 Results shell yet.',
-    replaceDeferredMessage:
-      'Replace this movie isn’t available in this Stage 1 Results shell yet.',
-    filmDetailsDeferredMessage:
-      'Film Detail from Results isn’t available in this Stage 1 shell yet.',
-    preferences: Object.freeze([
-      Object.freeze({
-        id: 'must',
-        label: 'Must include',
-        support: 'Keep this movie in the plan.',
-        icon: 'star',
-      }),
-      Object.freeze({
-        id: 'love',
-        label: 'Would love to see',
-        support: 'Prioritize this movie when possible.',
-        icon: 'heart',
-      }),
-      Object.freeze({
-        id: 'neutral',
-        label: 'Neutral',
-        support: 'Include if it fits well.',
-        icon: 'target',
-      }),
-      Object.freeze({
-        id: 'notInterested',
-        label: 'Not interested',
-        support: 'Remove this movie from results.',
-        icon: 'ban',
-      }),
-    ]),
+    applyLabel: 'Apply',
   }),
   sortLabel: 'Sort by',
   preferenceChips: Object.freeze([
@@ -292,7 +270,7 @@ export const BUILD_PLAN_RESULTS_MOCKUP_FIXTURE = Object.freeze({
           imageUrl: PLACEHOLDER_POSTERS.spaceOdyssey,
           preference: 'must',
         }),
-        breakRow({ id: 'p1-b1', label: 'Break 1h 16m' }),
+        breakRow({ id: 'p1-b1', label: '1h 16m break' }),
         film({
           id: 'p1-f2',
           title: 'Perfect Blue',
@@ -304,7 +282,7 @@ export const BUILD_PLAN_RESULTS_MOCKUP_FIXTURE = Object.freeze({
           imageUrl: PLACEHOLDER_POSTERS.perfectBlue,
           preference: 'love',
         }),
-        breakRow({ id: 'p1-b2', label: 'Break 1h 10m' }),
+        breakRow({ id: 'p1-b2', label: '1h 10m break' }),
         film({
           id: 'p1-f3',
           title: 'Memories of Murder',
@@ -338,7 +316,7 @@ export const BUILD_PLAN_RESULTS_MOCKUP_FIXTURE = Object.freeze({
           imageUrl: PLACEHOLDER_POSTERS.spaceOdyssey,
           preference: 'must',
         }),
-        breakRow({ id: 'p2-b1', label: 'Break 1h 01m' }),
+        breakRow({ id: 'p2-b1', label: '1h 01m break' }),
         film({
           id: 'p2-f2',
           title: 'Perfect Blue',
@@ -350,7 +328,7 @@ export const BUILD_PLAN_RESULTS_MOCKUP_FIXTURE = Object.freeze({
           imageUrl: PLACEHOLDER_POSTERS.perfectBlue,
           preference: 'love',
         }),
-        breakRow({ id: 'p2-b2', label: 'Break 55m' }),
+        breakRow({ id: 'p2-b2', label: '55m break' }),
         film({
           id: 'p2-f3',
           title: 'Jurassic Park',
@@ -384,7 +362,7 @@ export const BUILD_PLAN_RESULTS_MOCKUP_FIXTURE = Object.freeze({
           imageUrl: PLACEHOLDER_POSTERS.perfectBlue,
           preference: 'love',
         }),
-        breakRow({ id: 'p3-b1', label: 'Break 1h 09m' }),
+        breakRow({ id: 'p3-b1', label: '1h 09m break' }),
         film({
           id: 'p3-f2',
           title: 'The Long Horizon',
@@ -396,7 +374,7 @@ export const BUILD_PLAN_RESULTS_MOCKUP_FIXTURE = Object.freeze({
           imageUrl: PLACEHOLDER_POSTERS.longHorizon,
           preference: 'neutral',
         }),
-        breakRow({ id: 'p3-b2', label: 'Break 1h 10m' }),
+        breakRow({ id: 'p3-b2', label: '1h 10m break' }),
         film({
           id: 'p3-f3',
           title: "It's a Wonderful Life",
@@ -415,6 +393,8 @@ export const BUILD_PLAN_RESULTS_MOCKUP_FIXTURE = Object.freeze({
 
 /**
  * @returns {ReturnType<typeof getBuildPlanResultsMockupPresentation>}
+ * @deprecated Prefer resolveBuildPlanResultsPagePresentation (live default).
+ * Kept for Stage 1 fixture unit tests / QC helpers.
  */
 export function resolveBuildPlanResultsPresentation() {
   return getBuildPlanResultsMockupPresentation();

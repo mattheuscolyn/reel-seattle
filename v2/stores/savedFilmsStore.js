@@ -1,30 +1,33 @@
 /**
- * Versioned Saved Films store (T-SAVE-01).
+ * Versioned Saved Films store (T-SAVE-01 / T-FILMID-03).
  *
  * Device-local persistence for films the user wants to retain for later
  * consideration. Distinct from Seen, Not interested, Planner drafts, and
  * My Schedule. Not synced to accounts.
  *
- * Temporary identity (canonical film_id does not exist yet):
- * 1. Prefer real `filmId` when both sides have one (future migration).
- * 2. Otherwise equality is normalized `showtimeFilmKey` (HomeData filmKey).
+ * Identity (T-FILMID-03):
+ * 1. Prefer valid canonical `filmId` (`tmdb:<positive-int>`) when both sides have one.
+ * 2. Otherwise equality is showtimeFilmKey overlap (primary key + aliasKeys).
  * 3. `source` + `sourceFilmId` are reconciliation hints only — never sole identity.
  * 4. Never use source_showtime_id / opportunity keys / title hashes as identity.
  * 5. Callers should pass the film-level HomeData `filmKey` they intend to save.
- *    Variants are distinct keys unless the caller intentionally passes a parent key.
+ *    Variants are distinct keys unless the caller intentionally passes a parent key
+ *    or both resolve to the same canonical filmId.
  *
  * Cross-tab: same-tab reads see writes immediately. Other tabs require a later
  * `storage` listener (not required in T-SAVE-01). Compatible with T-XPORT-01.
  */
 
 export const SAVED_FILMS_STORAGE_KEY = 'reel-seattle.v2.savedFilms';
-export const SAVED_FILMS_VERSION = 1;
+/** v2: validated canonical filmId + aliasKeys; v1 payloads migrate on read. */
+export const SAVED_FILMS_VERSION = 2;
 export const SAVED_FILMS_MAX = 100;
 
 /**
  * @typedef {{
  *   filmId?: string | null,
  *   showtimeFilmKey?: string | null,
+ *   aliasKeys?: string[] | null,
  *   sourceFilmId?: string | null,
  *   source?: string | null,
  *   title?: string | null,
@@ -36,6 +39,7 @@ export const SAVED_FILMS_MAX = 100;
  * @typedef {{
  *   filmId: string | null,
  *   showtimeFilmKey: string,
+ *   aliasKeys?: string[],
  *   sourceFilmId: string | null,
  *   source: string | null,
  * }} SavedFilmRef
@@ -85,6 +89,18 @@ function asOptionalString(value) {
 }
 
 /**
+ * Accept only namespaced canonical IDs from the film-identity contract.
+ * @param {unknown} value
+ * @returns {string | null}
+ */
+export function asCanonicalStoreFilmId(value) {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  if (!/^tmdb:[1-9][0-9]*$/.test(trimmed)) return null;
+  return trimmed;
+}
+
+/**
  * Normalize showtime film key the same way HomeData uses film keys (trim only).
  * @param {unknown} value
  * @returns {string | null}
@@ -94,9 +110,55 @@ export function normalizeShowtimeFilmKey(value) {
 }
 
 /**
+ * @param {unknown} value
+ * @returns {string[]}
+ */
+function normalizeAliasKeys(value, primaryKey) {
+  if (!Array.isArray(value)) return [];
+  /** @type {string[]} */
+  const out = [];
+  const seen = new Set();
+  if (primaryKey) seen.add(primaryKey);
+  for (const entry of value) {
+    const key = normalizeShowtimeFilmKey(entry);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(key);
+  }
+  out.sort();
+  return out;
+}
+
+/**
+ * @param {SavedFilmRef} ref
+ * @returns {Set<string>}
+ */
+export function filmRefKeySet(ref) {
+  const keys = new Set();
+  if (!ref) return keys;
+  if (ref.showtimeFilmKey) keys.add(ref.showtimeFilmKey);
+  for (const alias of ref.aliasKeys ?? []) {
+    if (alias) keys.add(alias);
+  }
+  return keys;
+}
+
+/**
+ * @param {SavedFilmRef} left
+ * @param {SavedFilmRef} right
+ */
+function filmRefKeysOverlap(left, right) {
+  const a = filmRefKeySet(left);
+  for (const key of filmRefKeySet(right)) {
+    if (a.has(key)) return true;
+  }
+  return false;
+}
+
+/**
  * Build a portable film reference for save/unsave/toggle.
- * Rejects refs without a usable showtimeFilmKey (or future filmId alone is not enough
- * until catalog resolution exists — v1 still requires showtimeFilmKey).
+ * Requires a usable showtimeFilmKey (canonical filmId alone is not enough without
+ * a catalog resolver). Invalid filmId values are dropped to null.
  *
  * @param {SavedFilmRefInput | string | null | undefined} input
  * @returns {SavedFilmRef | null}
@@ -121,16 +183,49 @@ export function normalizeSavedFilmRef(input) {
   );
   if (!showtimeFilmKey) return null;
 
-  return {
-    filmId: asOptionalString(input.filmId),
+  const aliasKeys = normalizeAliasKeys(input.aliasKeys, showtimeFilmKey);
+  /** @type {SavedFilmRef} */
+  const ref = {
+    filmId: asCanonicalStoreFilmId(input.filmId),
     showtimeFilmKey,
     sourceFilmId: asOptionalString(input.sourceFilmId),
     source: asOptionalString(input.source),
   };
+  if (aliasKeys.length) ref.aliasKeys = aliasKeys;
+  return ref;
 }
 
 /**
- * Equality for saved-film identity.
+ * Merge two normalized refs that already share identity.
+ * @param {SavedFilmRef} a
+ * @param {SavedFilmRef} b
+ * @returns {SavedFilmRef}
+ */
+export function mergeSavedFilmRefs(a, b) {
+  const filmId = a.filmId ?? b.filmId ?? null;
+  // Prefer the primary key from the side that already carries canonical identity.
+  const showtimeFilmKey =
+    (a.filmId && a.showtimeFilmKey) ||
+    (b.filmId && b.showtimeFilmKey) ||
+    a.showtimeFilmKey ||
+    b.showtimeFilmKey;
+  const keys = filmRefKeySet(a);
+  for (const key of filmRefKeySet(b)) keys.add(key);
+  keys.delete(showtimeFilmKey);
+  const aliasKeys = [...keys].sort();
+  /** @type {SavedFilmRef} */
+  const ref = {
+    filmId,
+    showtimeFilmKey,
+    sourceFilmId: a.sourceFilmId ?? b.sourceFilmId ?? null,
+    source: a.source ?? b.source ?? null,
+  };
+  if (aliasKeys.length) ref.aliasKeys = aliasKeys;
+  return ref;
+}
+
+/**
+ * Equality for saved-film identity (canonical filmId, else key/alias overlap).
  * @param {SavedFilmRefInput | string | null | undefined} a
  * @param {SavedFilmRefInput | string | null | undefined} b
  */
@@ -141,7 +236,7 @@ export function savedFilmRefsEqual(a, b) {
   if (left.filmId && right.filmId) {
     return left.filmId === right.filmId;
   }
-  return left.showtimeFilmKey === right.showtimeFilmKey;
+  return filmRefKeysOverlap(left, right);
 }
 
 /**
@@ -172,6 +267,7 @@ function normalizeSavedFilmItem(raw) {
           filmId: record.filmId,
           sourceFilmId: record.sourceFilmId,
           source: record.source,
+          aliasKeys: record.aliasKeys,
         },
   );
   if (!filmRef) return null;
@@ -188,7 +284,30 @@ function normalizeSavedFilmItem(raw) {
 }
 
 /**
+ * Merge two Saved items that share identity (T-FILMID-03).
+ * savedAt keeps the earliest; title/poster prefer the newer non-empty values.
+ * @param {SavedFilmItem} a
+ * @param {SavedFilmItem} b
+ * @returns {SavedFilmItem}
+ */
+export function mergeSavedFilmItems(a, b) {
+  const earlier = a.savedAt <= b.savedAt ? a : b;
+  const newer = a.savedAt >= b.savedAt ? a : b;
+  /** @type {SavedFilmItem} */
+  const merged = {
+    filmRef: mergeSavedFilmRefs(a.filmRef, b.filmRef),
+    savedAt: earlier.savedAt,
+  };
+  const title = newer.title ?? earlier.title ?? null;
+  const posterUrl = newer.posterUrl ?? earlier.posterUrl ?? null;
+  if (title) merged.title = title;
+  if (posterUrl) merged.posterUrl = posterUrl;
+  return merged;
+}
+
+/**
  * Deduplicate + order newest-first. Invalid items dropped.
+ * Duplicate identity collapses with earliest savedAt (T-FILMID-03).
  * @param {unknown} items
  * @returns {SavedFilmItem[]}
  */
@@ -203,8 +322,7 @@ export function normalizeSavedFilmItems(items) {
       savedFilmRefsEqual(existing.filmRef, item.filmRef),
     );
     if (idx >= 0) {
-      // Keep the newer savedAt when duplicates collide.
-      if (item.savedAt > out[idx].savedAt) out[idx] = item;
+      out[idx] = mergeSavedFilmItems(out[idx], item);
       continue;
     }
     out.push(item);
@@ -298,12 +416,120 @@ export function normalizeSavedFilmsPayload(payload) {
 }
 
 /**
- * Migration entry point for later versions. v1 → v1 is identity.
+ * Migration entry point. v1 → v2 validates filmIds, merges alias duplicates.
  * @param {unknown} payload
  * @returns {SavedFilmsReadResult}
  */
 export function migrateSavedFilmsPayload(payload) {
   return normalizeSavedFilmsPayload(payload);
+}
+
+/**
+ * Upgrade stored items using live film refs (same showtimeFilmKey / alias → attach filmId).
+ * Does not invent identity; only applies deterministic key overlap.
+ *
+ * @param {SavedFilmItem[]} items
+ * @param {Array<SavedFilmRefInput | string | null | undefined>} liveRefs
+ * @returns {{ items: SavedFilmItem[], changed: boolean, upgraded: number }}
+ */
+export function reconcileSavedItemsWithLiveRefs(items, liveRefs = []) {
+  const liveEntries = (Array.isArray(liveRefs) ? liveRefs : [])
+    .map((input) => {
+      const ref = normalizeSavedFilmRef(input);
+      if (!ref) return null;
+      const title =
+        input && typeof input === 'object'
+          ? asOptionalString(/** @type {SavedFilmRefInput} */ (input).title)
+          : null;
+      const posterUrl =
+        input && typeof input === 'object'
+          ? asOptionalString(/** @type {SavedFilmRefInput} */ (input).posterUrl)
+          : null;
+      return { ref, title, posterUrl };
+    })
+    .filter(Boolean);
+  if (!items.length || !liveEntries.length) {
+    return { items: normalizeSavedFilmItems(items), changed: false, upgraded: 0 };
+  }
+
+  /** @type {SavedFilmItem[]} */
+  let next = items.map((item) => ({
+    ...item,
+    filmRef: {
+      ...item.filmRef,
+      aliasKeys: item.filmRef.aliasKeys ? [...item.filmRef.aliasKeys] : undefined,
+    },
+  }));
+  let upgraded = 0;
+
+  for (const live of liveEntries) {
+    if (!live.ref.filmId) continue;
+    const idx = next.findIndex((row) => savedFilmRefsEqual(row.filmRef, live.ref));
+    if (idx < 0) continue;
+    const before = next[idx];
+    const mergedRef = mergeSavedFilmRefs(before.filmRef, live.ref);
+    const title = live.title ?? before.title;
+    const posterUrl = live.posterUrl ?? before.posterUrl;
+    /** @type {SavedFilmItem} */
+    const merged = {
+      filmRef: mergedRef,
+      savedAt: before.savedAt,
+    };
+    if (title) merged.title = title;
+    if (posterUrl) merged.posterUrl = posterUrl;
+    const changedRef =
+      JSON.stringify(before.filmRef) !== JSON.stringify(merged.filmRef) ||
+      before.title !== merged.title ||
+      before.posterUrl !== merged.posterUrl;
+    if (changedRef) {
+      next[idx] = merged;
+      upgraded += 1;
+    }
+  }
+
+  const normalized = normalizeSavedFilmItems(next);
+  const changed =
+    upgraded > 0 ||
+    normalized.length !== items.length ||
+    JSON.stringify(normalized) !== JSON.stringify(normalizeSavedFilmItems(items));
+  return { items: normalized, changed, upgraded };
+}
+
+/**
+ * Persist Saved store after reconciling with live HomeData-style film refs.
+ * @param {Storage | null | undefined} storage
+ * @param {Array<SavedFilmRefInput | string | null | undefined>} liveRefs
+ * @returns {SavedFilmsWriteResult & { upgraded?: number }}
+ */
+export function reconcileSavedFilmsStore(storage, liveRefs = []) {
+  const read = readSavedFilmsStore(storage);
+  if (
+    read.status === 'unsupported_version' ||
+    read.status === 'storage_unavailable'
+  ) {
+    return {
+      ok: false,
+      store: read.store,
+      error: read.error ?? read.status,
+      changed: false,
+      upgraded: 0,
+    };
+  }
+  const reconciled = reconcileSavedItemsWithLiveRefs(read.store.items, liveRefs);
+  if (!reconciled.changed && read.store.version === SAVED_FILMS_VERSION) {
+    return {
+      ok: true,
+      store: read.store,
+      error: null,
+      changed: false,
+      upgraded: 0,
+    };
+  }
+  const written = writeSavedFilmsStore(storage, {
+    version: SAVED_FILMS_VERSION,
+    items: reconciled.items,
+  });
+  return { ...written, upgraded: reconciled.upgraded };
 }
 
 /**
@@ -464,21 +690,46 @@ export function saveFilm(storage, filmRef, options = {}) {
   }
 
   const existing = read.store.items;
-  const already = existing.find((row) =>
+  const alreadyIdx = existing.findIndex((row) =>
     savedFilmRefsEqual(row.filmRef, item.filmRef),
   );
-  if (already) {
-    // Idempotent re-save: persist normalized store if needed, keep original savedAt.
-    const store = {
+  if (alreadyIdx >= 0) {
+    const already = existing[alreadyIdx];
+    const mergedRef = mergeSavedFilmRefs(already.filmRef, item.filmRef);
+    const nextTitle = item.title ?? already.title ?? null;
+    const nextPoster = item.posterUrl ?? already.posterUrl ?? null;
+    const refChanged =
+      JSON.stringify(already.filmRef) !== JSON.stringify(mergedRef);
+    const metaChanged =
+      (nextTitle ?? null) !== (already.title ?? null) ||
+      (nextPoster ?? null) !== (already.posterUrl ?? null);
+    if (!refChanged && !metaChanged) {
+      if (read.store.version === SAVED_FILMS_VERSION) {
+        return {
+          ok: true,
+          store: read.store,
+          error: null,
+          changed: false,
+        };
+      }
+      return writeSavedFilmsStore(storage, {
+        version: SAVED_FILMS_VERSION,
+        items: existing,
+      });
+    }
+    const nextItems = existing.slice();
+    /** @type {SavedFilmItem} */
+    const nextItem = {
+      filmRef: mergedRef,
+      savedAt: already.savedAt,
+    };
+    if (nextTitle) nextItem.title = nextTitle;
+    if (nextPoster) nextItem.posterUrl = nextPoster;
+    nextItems[alreadyIdx] = nextItem;
+    return writeSavedFilmsStore(storage, {
       version: SAVED_FILMS_VERSION,
-      items: existing,
-    };
-    const written = writeSavedFilmsStore(storage, store);
-    return {
-      ...written,
-      changed: false,
-      error: written.ok ? null : written.error,
-    };
+      items: nextItems,
+    });
   }
 
   const store = {

@@ -4,7 +4,10 @@ import AppHeader from './home/AppHeader.jsx';
 import PrimaryNav from './PrimaryNav.jsx';
 import { resolveActivePrimaryId } from './destinations.js';
 import { loadHomeData } from './data/loadHomeData.js';
+import { loadFilmEnrichment } from './enrichment/loadFilmEnrichment.js';
+import { reconcileUserFilmStores } from './stores/reconcileUserFilmStores.js';
 import { isAllowedV2Hostname } from './isAllowedV2Hostname.js';
+import { startAuthController } from './auth/authSessionStore.js';
 import { COLLECTION_IDS } from './explore/exploreIds.js';
 import {
   createInitialNavState,
@@ -12,6 +15,8 @@ import {
   openAboutMySchedule,
   openBuildPlan,
   openBuildPlanResults,
+  openBuildPlanFilmManage,
+  openBuildPlanPlanDetails,
   openCollection,
   openFilmDetail,
   openMyScheduleWeek,
@@ -20,9 +25,11 @@ import {
   openTheaterDetail,
   openOpportunityDetail,
   openShowtimes,
+  openShowtimesBrowse,
   selectPrimaryDestination,
   startPlannerFromFilm,
   updateSearchUi,
+  updateShowtimesBrowseUi,
 } from './navigation/navState.js';
 import AboutMyScheduleSurface from './surfaces/AboutMyScheduleSurface.jsx';
 import CollectionSurface from './surfaces/CollectionSurface.jsx';
@@ -30,9 +37,12 @@ import FilmDetailSurface from './surfaces/FilmDetailSurface.jsx';
 import OpportunityDetailSurface from './surfaces/OpportunityDetailSurface.jsx';
 import SearchResultsSurface from './surfaces/SearchResultsSurface.jsx';
 import ShowtimesSurface from './surfaces/ShowtimesSurface.jsx';
+import ShowtimesBrowseSurface from './surfaces/ShowtimesBrowseSurface.jsx';
 import OpeningThisWeekSurface from './opening/OpeningThisWeekSurface.jsx';
 import BuildPlanSurface from './planner/BuildPlanSurface.jsx';
 import BuildPlanResultsSurface from './planner/BuildPlanResultsSurface.jsx';
+import BuildPlanFilmManageSurface from './planner/BuildPlanFilmManageSurface.jsx';
+import BuildPlanPlanDetailsSurface from './planner/BuildPlanPlanDetailsSurface.jsx';
 import MyScheduleWeekSurface from './planner/MyScheduleWeekSurface.jsx';
 import MyScheduleMonthSurface from './planner/MyScheduleMonthSurface.jsx';
 import ScheduleSettingsSurface from './planner/ScheduleSettingsSurface.jsx';
@@ -40,11 +50,28 @@ import TheatersSurface from './theaters/TheatersSurface.jsx';
 import TheaterDetailSurface from './theaters/TheaterDetailSurface.jsx';
 import { resolveFilmDetailBackLabel } from './filmDetail/filmDetailModel.js';
 import { isAboutMyScheduleQueryOpen } from './fixtures/aboutMyScheduleMockupFixture.js';
+import {
+  createBuildPlanFormState,
+  isBuildPlanMockupMode,
+} from './fixtures/buildPlanMockupFixture.js';
+import {
+  createBuildPlanFilmManageMockupForm,
+  getBuildPlanFilmManageMockupMode,
+} from './fixtures/buildPlanFilmManageMockupFixture.js';
+import {
+  clearBuildPlanFormSession,
+  ensureBuildPlanFormSession,
+} from './planner/buildPlanFormSession.js';
+import { isPlanResultsMockupMode } from './planner/resolveBuildPlanResultsPresentation.js';
+import {
+  getBuildPlanPlanDetailsMockupPlan,
+  isPlanDetailsMockupMode,
+} from './fixtures/buildPlanPlanDetailsMockupFixture.js';
 import { isMyScheduleWeekQueryOpen } from './fixtures/myScheduleWeekMockupFixture.js';
 import { isMyScheduleMonthQueryOpen } from './fixtures/myScheduleMonthMockupFixture.js';
 import { isScheduleSettingsQueryOpen } from './fixtures/scheduleSettingsMockupFixture.js';
 import { isTheaterDetailQueryOpen } from './fixtures/theaterDetailMockupFixture.js';
-import { isFilmDetailMockupFixtureMode } from './fixtures/filmDetailMockupFixture.js';
+import { isFilmDetailMockupFixtureMode, getFilmDetailMockupPresentation } from './fixtures/filmDetailMockupFixture.js';
 import { isFilmDetailVisualFixtureMode } from './fixtures/filmDetailVisualFixtures.js';
 import {
   applySaveToggle,
@@ -111,29 +138,56 @@ export default function V2App() {
   const [notInterestedRevision, setNotInterestedRevision] = useState(0);
   const [fixtureNotInterested, setFixtureNotInterested] = useState(false);
   const [notInterestedError, setNotInterestedError] = useState(null);
+  const [acceptedPlansRevision, setAcceptedPlansRevision] = useState(0);
+  const [scheduleSettingsRevision, setScheduleSettingsRevision] = useState(0);
+  const [resultsShareHandler, setResultsShareHandler] = useState(null);
+  const [planDetailsShareHandler, setPlanDetailsShareHandler] = useState(null);
   const [sharedHomeData, setSharedHomeData] = useState({
     status: 'loading',
     homeData: null,
     errorMessage: null,
   });
+  const [enrichmentState, setEnrichmentState] = useState({
+    status: 'loading',
+    index: null,
+    warning: null,
+  });
+
+  useEffect(() => {
+    // Auth is non-blocking — Home/Explore/Planner stay usable while this runs.
+    void startAuthController();
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
-    loadHomeData()
-      .then((result) => {
+    Promise.all([loadHomeData(), loadFilmEnrichment()])
+      .then(([homeResult, enrichmentResult]) => {
         if (cancelled) return;
-        if (!result.ok) {
+        if (!homeResult.ok) {
           setSharedHomeData({
             status: 'error',
             homeData: null,
-            errorMessage: result.error,
+            errorMessage: homeResult.error,
           });
-          return;
+        } else {
+          setSharedHomeData({
+            status: 'ready',
+            homeData: homeResult.homeData,
+            errorMessage: null,
+          });
+          try {
+            reconcileUserFilmStores(
+              typeof localStorage !== 'undefined' ? localStorage : null,
+              homeResult.homeData,
+            );
+          } catch {
+            // Store reconciliation must never block Home.
+          }
         }
-        setSharedHomeData({
-          status: 'ready',
-          homeData: result.homeData,
-          errorMessage: null,
+        setEnrichmentState({
+          status: enrichmentResult.status,
+          index: enrichmentResult.index,
+          warning: enrichmentResult.warning,
         });
       })
       .catch((error) => {
@@ -142,6 +196,11 @@ export default function V2App() {
           status: 'error',
           homeData: null,
           errorMessage: error instanceof Error ? error.message : String(error),
+        });
+        setEnrichmentState({
+          status: 'unavailable',
+          index: null,
+          warning: error instanceof Error ? error.message : String(error),
         });
       });
     return () => {
@@ -155,6 +214,71 @@ export default function V2App() {
     setNav((current) => {
       if (current.surface?.type === 'about-my-schedule') return current;
       return openAboutMySchedule(current, { originPrimary: 'planner' });
+    });
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const manageMode = getBuildPlanFilmManageMockupMode();
+    if (manageMode) {
+      ensureBuildPlanFormSession(() =>
+        createBuildPlanFilmManageMockupForm(manageMode),
+      );
+      setNav((current) => {
+        if (current.surface?.type === 'build-plan-film-manage') return current;
+        return openBuildPlanFilmManage(current, {
+          originPrimary: 'planner',
+          mode: manageMode,
+        });
+      });
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (isPlanDetailsMockupMode()) {
+      setNav((current) => {
+        if (current.surface?.type === 'build-plan-plan-details') return current;
+        return openBuildPlanPlanDetails(current, {
+          originPrimary: 'planner',
+          plan: getBuildPlanPlanDetailsMockupPlan(),
+          returnSurface: {
+            type: 'build-plan-results',
+            originPrimary: 'planner',
+            returnSurface: null,
+            formConfig: ensureBuildPlanFormSession(() =>
+              createBuildPlanFormState(),
+            ),
+          },
+        });
+      });
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (isPlanResultsMockupMode()) {
+      const form = ensureBuildPlanFormSession(() => createBuildPlanFormState());
+      setNav((current) => {
+        if (
+          current.surface?.type === 'build-plan-results' ||
+          current.surface?.type === 'build-plan-plan-details'
+        ) {
+          return current;
+        }
+        return openBuildPlanResults(current, {
+          originPrimary: 'planner',
+          formConfig: form,
+        });
+      });
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (!isBuildPlanMockupMode()) return;
+    setNav((current) => {
+      if (
+        current.surface?.type === 'build-plan' ||
+        current.surface?.type === 'build-plan-film-manage'
+      ) {
+        return current;
+      }
+      return openBuildPlan(current, { originPrimary: 'planner' });
     });
     window.scrollTo(0, 0);
   }, []);
@@ -190,7 +314,14 @@ export default function V2App() {
     if (!isTheaterDetailQueryOpen()) return;
     setNav((current) => {
       if (current.surface?.type === 'theater-detail') return current;
-      return openTheaterDetail(current, { originPrimary: 'explore' });
+      const params = new URLSearchParams(window.location.search);
+      const theaterId =
+        params.get('theaterId')?.trim() ||
+        (params.get('theaterMockup') === '1' ? 'fixture-beacon' : 'the-beacon');
+      return openTheaterDetail(current, {
+        originPrimary: 'explore',
+        theaterId,
+      });
     });
     window.scrollTo(0, 0);
   }, []);
@@ -200,6 +331,7 @@ export default function V2App() {
     setExploreRestorePending(null);
     setShareStatus(null);
     setProfileStubStatus(null);
+    clearBuildPlanFormSession();
     setNav((current) => selectPrimaryDestination(current, destinationId));
     window.scrollTo(0, 0);
   }, []);
@@ -219,7 +351,8 @@ export default function V2App() {
         returnSurface:
           params.returnSurface ??
           (current.surface?.type === 'collection' ||
-          current.surface?.type === 'theater-detail'
+          current.surface?.type === 'theater-detail' ||
+          current.surface?.type === 'showtimes-browse'
             ? current.surface
             : null),
       }),
@@ -231,6 +364,16 @@ export default function V2App() {
     setHomeRestorePending(null);
     setNav((current) => openCollection(current, params));
     window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenShowtimesBrowse = useCallback((params) => {
+    setHomeRestorePending(null);
+    setNav((current) => openShowtimesBrowse(current, params));
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleShowtimesBrowseUiChange = useCallback((browseUi) => {
+    setNav((current) => updateShowtimesBrowseUi(current, browseUi));
   }, []);
 
   const handleSearchStateChange = useCallback((searchUi) => {
@@ -254,7 +397,21 @@ export default function V2App() {
     setSeenError(null);
     setNotInterestedError(null);
     setNav((current) => {
+      const prevType = current.surface?.type;
       const next = navigateBack(current);
+      const nextType = next.surface?.type;
+      const stillInBuildPlanTree =
+        nextType === 'build-plan' ||
+        nextType === 'build-plan-film-manage' ||
+        nextType === 'build-plan-results';
+      if (
+        (prevType === 'build-plan' ||
+          prevType === 'build-plan-film-manage' ||
+          prevType === 'build-plan-results') &&
+        !stillInBuildPlanTree
+      ) {
+        clearBuildPlanFormSession();
+      }
       if (next._restoredHome) setHomeRestorePending(next._restoredHome);
       if (next._restoredExplore) setExploreRestorePending(next._restoredExplore);
       const { _restoredHome, _restoredExplore, ...clean } = next;
@@ -284,10 +441,33 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleOpenBuildPlanResults = useCallback(() => {
+  const handleOpenBuildPlanFilmManage = useCallback((mode) => {
+    setNav((current) =>
+      openBuildPlanFilmManage(current, {
+        originPrimary: 'planner',
+        mode,
+        returnSurface:
+          current.surface?.type === 'build-plan'
+            ? {
+                ...current.surface,
+                resumeOpenSection: 'what',
+              }
+            : {
+                type: 'build-plan',
+                originPrimary: 'planner',
+                returnSurface: null,
+                resumeOpenSection: 'what',
+              },
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenBuildPlanResults = useCallback((formConfig = null) => {
     setNav((current) =>
       openBuildPlanResults(current, {
         originPrimary: 'planner',
+        formConfig,
         returnSurface:
           current.surface?.type === 'build-plan'
             ? current.surface
@@ -295,6 +475,48 @@ export default function V2App() {
                 type: 'build-plan',
                 originPrimary: 'planner',
                 returnSurface: null,
+              },
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenBuildPlanPlanDetails = useCallback((plan, origin = {}) => {
+    setNav((current) =>
+      openBuildPlanPlanDetails(current, {
+        originPrimary: 'planner',
+        plan,
+        origin: {
+          sortId: origin.sortId ?? null,
+          scrollY:
+            typeof origin.scrollY === 'number'
+              ? origin.scrollY
+              : typeof window !== 'undefined'
+                ? window.scrollY
+                : 0,
+        },
+        returnSurface:
+          current.surface?.type === 'build-plan-results'
+            ? {
+                ...current.surface,
+                sortId: origin.sortId ?? current.surface.sortId ?? null,
+                scrollY:
+                  typeof origin.scrollY === 'number'
+                    ? origin.scrollY
+                    : typeof window !== 'undefined'
+                      ? window.scrollY
+                      : 0,
+                activePlanId: plan?.id ?? null,
+              }
+            : {
+                type: 'build-plan-results',
+                originPrimary: 'planner',
+                returnSurface: null,
+                formConfig: current.surface?.formConfig ?? null,
+                sortId: origin.sortId ?? null,
+                scrollY:
+                  typeof origin.scrollY === 'number' ? origin.scrollY : 0,
+                activePlanId: plan?.id ?? null,
               },
       }),
     );
@@ -378,9 +600,19 @@ export default function V2App() {
   const isFilmDetail = nav.surface?.type === 'film-detail';
   const isOpportunityDetail = nav.surface?.type === 'opportunity-detail';
   const isShowtimes = nav.surface?.type === 'showtimes';
+  const isShowtimesBrowse = nav.surface?.type === 'showtimes-browse';
   const isAboutMySchedule = nav.surface?.type === 'about-my-schedule';
   const isBuildPlan = nav.surface?.type === 'build-plan';
   const isBuildPlanResults = nav.surface?.type === 'build-plan-results';
+  const isBuildPlanPlanDetails =
+    nav.surface?.type === 'build-plan-plan-details';
+  const isBuildPlanFilmManage =
+    nav.surface?.type === 'build-plan-film-manage';
+  const isBuildPlanChrome =
+    isBuildPlan ||
+    isBuildPlanFilmManage ||
+    isBuildPlanResults ||
+    isBuildPlanPlanDetails;
   const isMyScheduleWeek = nav.surface?.type === 'my-schedule-week';
   const isMyScheduleMonth = nav.surface?.type === 'my-schedule-month';
   const isScheduleSettings = nav.surface?.type === 'schedule-settings';
@@ -404,12 +636,18 @@ export default function V2App() {
     filmKey && Array.isArray(sharedHomeData.homeData?.films)
       ? sharedHomeData.homeData.films.find((f) => f.filmKey === filmKey)
       : null;
-  const filmTitle = isFilmDetail ? filmFromHome?.title ?? null : null;
+  const filmTitle = isFilmDetail
+    ? isFilmDetailMockupFixtureMode()
+      ? getFilmDetailMockupPresentation().film.title
+      : filmFromHome?.title ?? null
+    : null;
   const filmBackLabel = isFilmDetail
-    ? resolveFilmDetailBackLabel(
-        nav.surface.originPrimary,
-        nav.surface.returnSurface ?? null,
-      )
+    ? isFilmDetailMockupFixtureMode()
+      ? getFilmDetailMockupPresentation().originLabel
+      : resolveFilmDetailBackLabel(
+          nav.surface.originPrimary,
+          nav.surface.returnSurface ?? null,
+        )
     : null;
 
   const filmDetailMode = isFilmDetail
@@ -551,6 +789,7 @@ export default function V2App() {
     mainContent = (
       <FilmDetailSurface
         homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
         filmKey={filmKey}
         opportunityKey={filmOpportunityKey}
         saveAvailable={saveAction.available}
@@ -566,6 +805,19 @@ export default function V2App() {
         isNotInterested={notInterestedAction.isNotInterested}
         notInterestedError={notInterestedAction.error}
         onToggleNotInterested={handleToggleNotInterested}
+        shareTitle={filmTitle}
+        shareStatus={shareStatus}
+        onShare={
+          filmTitle
+            ? async () => {
+                const status = await shareFilmDetail(filmTitle);
+                if (status) {
+                  setShareStatus(status);
+                  window.setTimeout(() => setShareStatus(null), 2500);
+                }
+              }
+            : null
+        }
         onOpenOpportunity={({ filmKey: fk, opportunityKey: ok }) =>
           handleOpenOpportunity({
             filmKey: fk ?? filmKey,
@@ -602,10 +854,43 @@ export default function V2App() {
         onOpenOpportunity={handleOpenOpportunity}
       />
     );
+  } else if (isShowtimesBrowse) {
+    const browseBackLabel =
+      nav.surface.originPrimary === 'home' ? 'Home' : 'Explore';
+    mainContent = (
+      <ShowtimesBrowseSurface
+        homeData={sharedHomeData.homeData}
+        loadStatus={sharedHomeData.status}
+        errorMessage={sharedHomeData.errorMessage}
+        browseUi={nav.surface.browseUi}
+        backLabel={browseBackLabel}
+        originPrimary={nav.surface.originPrimary ?? 'explore'}
+        onBack={handleBack}
+        onBrowseUiChange={handleShowtimesBrowseUiChange}
+        onOpenFilmDetail={({ filmKey, opportunityKey, returnSurface }) =>
+          handleOpenFilmDetail({
+            filmKey,
+            opportunityKey,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            homeRestore: nav.surface.homeRestore ?? null,
+            exploreRestore: nav.surface.exploreRestore ?? null,
+            returnSurface: returnSurface ?? nav.surface,
+          })
+        }
+        onOpenTheaterDetail={({ theaterId, returnSurface }) =>
+          handleOpenTheaterDetail({
+            theaterId,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: returnSurface ?? nav.surface,
+          })
+        }
+      />
+    );
   } else if (isSearchResults) {
     mainContent = (
       <SearchResultsSurface
         homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
         query={nav.surface.query}
         searchUi={nav.surface.searchUi}
         onBack={handleBack}
@@ -631,6 +916,8 @@ export default function V2App() {
       nav.surface.originPrimary === 'home' ? 'Home' : 'Explore';
     mainContent = (
       <OpeningThisWeekSurface
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
         onBack={handleBack}
         backLabel={openingBackLabel}
         onOpenFilmDetail={({ filmKey, opportunityKey }) =>
@@ -655,6 +942,7 @@ export default function V2App() {
     mainContent = (
       <TheaterDetailSurface
         theaterId={nav.surface.theaterId}
+        homeData={sharedHomeData.homeData}
         backLabel={
           nav.surface.returnSurface?.type === 'collection'
             ? 'Theaters'
@@ -682,6 +970,7 @@ export default function V2App() {
   } else if (isTheatersList) {
     mainContent = (
       <TheatersSurface
+        homeData={sharedHomeData.homeData}
         onBack={handleBack}
         backLabel={
           nav.surface.originPrimary === 'home' ? 'Home' : 'Explore'
@@ -748,6 +1037,8 @@ export default function V2App() {
       <BuildPlanSurface
         onBack={handleBack}
         backLabel="Planner"
+        resumeOpenSection={nav.surface?.resumeOpenSection ?? null}
+        onOpenFilmManage={handleOpenBuildPlanFilmManage}
         onRequestResults={handleOpenBuildPlanResults}
         onStubAction={(_actionId, label) => {
           setProfileStubStatus(
@@ -757,17 +1048,49 @@ export default function V2App() {
         }}
       />
     );
+  } else if (isBuildPlanFilmManage) {
+    mainContent = (
+      <BuildPlanFilmManageSurface
+        mode={nav.surface?.mode ?? 'wouldLove'}
+        onDone={handleBack}
+        onBack={handleBack}
+        homeData={sharedHomeData.homeData}
+      />
+    );
   } else if (isBuildPlanResults) {
     mainContent = (
       <BuildPlanResultsSurface
         onBack={handleBack}
         backLabel="Build a Plan"
+        homeData={sharedHomeData.homeData}
+        formConfig={nav.surface?.formConfig ?? null}
+        onAcceptedPlanChange={() =>
+          setAcceptedPlansRevision((value) => value + 1)
+        }
+        onViewPlanDetails={(plan, origin) =>
+          handleOpenBuildPlanPlanDetails(plan, origin)
+        }
+        onShareReady={(handler) => setResultsShareHandler(() => handler)}
+        initialSortId={nav.surface?.sortId ?? null}
+        restoreScrollY={nav.surface?.scrollY ?? null}
+        restoreActivePlanId={nav.surface?.activePlanId ?? null}
         onStubAction={(_actionId, label) => {
           setProfileStubStatus(
-            `${label} isn’t available in this Stage 1 Results shell yet.`,
+            `${label} isn’t available in this Results shell yet.`,
           );
           window.setTimeout(() => setProfileStubStatus(null), 2500);
         }}
+      />
+    );
+  } else if (isBuildPlanPlanDetails) {
+    mainContent = (
+      <BuildPlanPlanDetailsSurface
+        plan={nav.surface?.plan ?? null}
+        onBack={handleBack}
+        onShareReady={(handler) => setPlanDetailsShareHandler(() => handler)}
+        onAcceptedPlanChange={() =>
+          setAcceptedPlansRevision((value) => value + 1)
+        }
       />
     );
   } else if (isMyScheduleWeek || isScheduleUnderWeek) {
@@ -777,12 +1100,17 @@ export default function V2App() {
       >
         <div inert={isScheduleSettings || undefined}>
           <MyScheduleWeekSurface
+            acceptedPlansRevision={acceptedPlansRevision}
+            scheduleSettingsRevision={scheduleSettingsRevision}
+            onAcceptedPlanChange={() =>
+              setAcceptedPlansRevision((value) => value + 1)
+            }
             onOpenSearch={handleOpenScheduleSearch}
             onOpenSettings={handleOpenScheduleSettings}
             onOpenMonth={handleOpenMyScheduleMonth}
             onStubAction={(_actionId, label) => {
               setProfileStubStatus(
-                `${label} isn’t available in this Stage 1 Schedule shell yet.`,
+                `${label} isn’t available in this Schedule shell yet.`,
               );
               window.setTimeout(() => setProfileStubStatus(null), 2500);
             }}
@@ -792,9 +1120,15 @@ export default function V2App() {
           <ScheduleSettingsSurface
             onClose={handleBack}
             onOpenAbout={handleOpenAboutFromSettings}
+            onSettingsChange={() =>
+              setScheduleSettingsRevision((value) => value + 1)
+            }
+            onAcceptedPlanChange={() =>
+              setAcceptedPlansRevision((value) => value + 1)
+            }
             onStubAction={(_actionId, label) => {
               setProfileStubStatus(
-                `${label} isn’t available in this Stage 1 Schedule Settings shell yet.`,
+                `${label} isn’t available in this Schedule Settings shell yet.`,
               );
               window.setTimeout(() => setProfileStubStatus(null), 2500);
             }}
@@ -809,12 +1143,14 @@ export default function V2App() {
       >
         <div inert={isScheduleSettings || undefined}>
           <MyScheduleMonthSurface
+            acceptedPlansRevision={acceptedPlansRevision}
+            scheduleSettingsRevision={scheduleSettingsRevision}
             onOpenWeek={handleOpenMyScheduleWeek}
             onOpenSearch={handleOpenScheduleSearch}
             onOpenSettings={handleOpenScheduleSettings}
             onStubAction={(_actionId, label) => {
               setProfileStubStatus(
-                `${label} isn’t available in this Stage 1 Schedule shell yet.`,
+                `${label} isn’t available in this Schedule shell yet.`,
               );
               window.setTimeout(() => setProfileStubStatus(null), 2500);
             }}
@@ -824,9 +1160,15 @@ export default function V2App() {
           <ScheduleSettingsSurface
             onClose={handleBack}
             onOpenAbout={handleOpenAboutFromSettings}
+            onSettingsChange={() =>
+              setScheduleSettingsRevision((value) => value + 1)
+            }
+            onAcceptedPlanChange={() =>
+              setAcceptedPlansRevision((value) => value + 1)
+            }
             onStubAction={(_actionId, label) => {
               setProfileStubStatus(
-                `${label} isn’t available in this Stage 1 Schedule Settings shell yet.`,
+                `${label} isn’t available in this Schedule Settings shell yet.`,
               );
               window.setTimeout(() => setProfileStubStatus(null), 2500);
             }}
@@ -839,6 +1181,11 @@ export default function V2App() {
       <div className="v2-schedule-with-sheet">
         <div inert>
           <MyScheduleWeekSurface
+            acceptedPlansRevision={acceptedPlansRevision}
+            scheduleSettingsRevision={scheduleSettingsRevision}
+            onAcceptedPlanChange={() =>
+              setAcceptedPlansRevision((value) => value + 1)
+            }
             onOpenSearch={handleOpenScheduleSearch}
             onOpenSettings={handleOpenScheduleSettings}
             onOpenMonth={handleOpenMyScheduleMonth}
@@ -847,9 +1194,15 @@ export default function V2App() {
         <ScheduleSettingsSurface
           onClose={handleBack}
           onOpenAbout={handleOpenAboutFromSettings}
+          onSettingsChange={() =>
+            setScheduleSettingsRevision((value) => value + 1)
+          }
+          onAcceptedPlanChange={() =>
+            setAcceptedPlansRevision((value) => value + 1)
+          }
           onStubAction={(_actionId, label) => {
             setProfileStubStatus(
-              `${label} isn’t available in this Stage 1 Schedule Settings shell yet.`,
+              `${label} isn’t available in this Schedule Settings shell yet.`,
             );
             window.setTimeout(() => setProfileStubStatus(null), 2500);
           }}
@@ -862,10 +1215,12 @@ export default function V2App() {
         destinationId={nav.primaryDestinationId}
         loadStatus={sharedHomeData.status}
         homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
         errorMessage={sharedHomeData.errorMessage}
         onSelectDestination={handleSelectDestination}
         onOpenFilmDetail={handleOpenFilmDetail}
         onOpenCollection={handleOpenCollection}
+        onOpenShowtimesBrowse={handleOpenShowtimesBrowse}
         homeRestore={homeRestorePending}
         exploreRestore={exploreRestorePending}
         onHomeRestoreConsumed={() => setHomeRestorePending(null)}
@@ -898,7 +1253,16 @@ export default function V2App() {
 
       <AppHeader
         onProfileClick={() => handleSelectDestination('profile')}
-        headerMode={isProfilePrimary ? 'profile' : 'default'}
+        headerMode={
+          isBuildPlanPlanDetails
+            ? 'plan-details'
+            : isBuildPlanChrome
+              ? 'build-plan'
+              : isProfilePrimary
+                ? 'profile'
+                : 'default'
+        }
+        centerTitle={isBuildPlanPlanDetails ? 'Plan Details' : null}
         onSettingsClick={
           isProfilePrimary
             ? () => {
@@ -913,31 +1277,41 @@ export default function V2App() {
         backLabel={
           isFilmDetail
             ? filmBackLabel
-            : isSearchResults
-              ? 'Explore'
-              : null
+            : isShowtimesBrowse
+              ? nav.surface.originPrimary === 'home'
+                ? 'Home'
+                : 'Explore'
+              : isSearchResults
+                ? 'Explore'
+                : isBuildPlanPlanDetails
+                  ? 'results'
+                  : isBuildPlanChrome
+                    ? 'Planner'
+                    : null
         }
+        backStyle={isBuildPlanChrome ? 'chevron' : 'label'}
         onBack={
-          isFilmDetail || isSearchResults ? handleBack : null
-        }
-        shareTitle={filmTitle}
-        shareStatus={shareStatus}
-        savePressed={isFilmDetail ? saveAction.isSaved : false}
-        saveAvailable={isFilmDetail ? saveAction.available : false}
-        saveLabel={isFilmDetail ? saveAction.label : 'Save'}
-        onSave={
-          isFilmDetail && saveAction.available ? handleToggleSave : null
-        }
-        onShare={
-          isFilmDetail && filmTitle
-            ? async () => {
-                const status = await shareFilmDetail(filmTitle);
-                if (status) {
-                  setShareStatus(status);
-                  window.setTimeout(() => setShareStatus(null), 2500);
-                }
-              }
+          isFilmDetail ||
+          isSearchResults ||
+          isBuildPlanChrome ||
+          isShowtimesBrowse
+            ? handleBack
             : null
+        }
+        shareTitle={isFilmDetail ? null : filmTitle}
+        shareStatus={isFilmDetail ? null : shareStatus}
+        savePressed={false}
+        saveAvailable={false}
+        saveLabel="Save"
+        onSave={null}
+        onShare={
+          isFilmDetail
+            ? null
+            : isBuildPlanPlanDetails && planDetailsShareHandler
+              ? () => planDetailsShareHandler()
+            : isBuildPlanResults && resultsShareHandler
+              ? () => resultsShareHandler()
+              : null
         }
       />
 

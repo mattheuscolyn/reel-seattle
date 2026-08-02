@@ -4,8 +4,8 @@
  * Content matches Canonical Mockup Images/About My Schedule Page.png.
  * Does not import planner or preference stores.
  *
- * Discrepancy vs D09: mockup claims one-way calendar sync; product decision
- * revises copy until sync ships. Stage 1 preserves mockup wording.
+ * D09 / T-CAL-02: Calendar card describes one-time .ics export only.
+ * Bidirectional / ongoing sync remains unavailable (Settings row stays deferred).
  */
 
 export const ABOUT_MY_SCHEDULE_SECTION_ORDER = Object.freeze([
@@ -150,15 +150,15 @@ export const ABOUT_MY_SCHEDULE_MOCKUP_FIXTURE = Object.freeze({
       }),
       Object.freeze({
         id: 'sync',
-        title: 'Calendar sync',
-        summary: 'Add your plans to your external calendar.',
+        title: 'Add to calendar',
+        summary: 'Download plans as a calendar file for your phone or computer.',
         icon: 'calendarSync',
         bullets: Object.freeze([
-          'Reel Seattle creates and updates events for you',
-          'Changes made in Reel Seattle update synced events',
-          "External edits won't sync back to Reel Seattle",
+          'Export creates a one-time .ics file you can open in your calendar app',
+          'Reel Seattle does not sync or update events after you export',
+          'Ongoing calendar sync isn’t available yet',
         ]),
-        linkLabel: 'Manage calendar sync',
+        linkLabel: 'Open calendar settings',
         linkAction: 'manage-calendar-sync',
       }),
       Object.freeze({
