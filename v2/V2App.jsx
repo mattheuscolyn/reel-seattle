@@ -580,8 +580,7 @@ export default function V2App() {
       <main className="v2-blocked">
         <h1>v2 shell blocked</h1>
         <p>
-          Reel Seattle v2 is a local development prototype and only runs on
-          localhost.
+          This host is not authorized to run the Reel Seattle v2 application.
         </p>
       </main>
     );
