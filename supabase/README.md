@@ -11,6 +11,37 @@ supabase db push
 # Or paste supabase/migrations/*.sql into the Supabase SQL editor (in order).
 ```
 
+Current migrations:
+
+1. `20260729000000_profiles_foundation.sql` — table, RLS, signup trigger
+2. `20260803000000_profiles_provisioning_repair.sql` — repair trigger + backfill missing profiles
+
+### After applying the repair migration (counts only — no private IDs)
+
+```sql
+select
+  (select count(*)::int from auth.users) as auth_users,
+  (select count(*)::int from public.profiles) as profiles,
+  (
+    select count(*)::int
+    from auth.users u
+    left join public.profiles p on p.id = u.id
+    where p.id is null
+  ) as users_missing_profiles;
+
+select
+  trigger_name,
+  event_object_schema,
+  event_object_table,
+  action_timing,
+  event_manipulation
+from information_schema.triggers
+where event_object_schema = 'auth'
+  and event_object_table = 'users';
+```
+
+Expect: `users_missing_profiles = 0`, and trigger `on_auth_user_created_profile` present.
+
 ## Manual verification checklist
 
 1. Create a Google-authenticated user → exactly one `public.profiles` row with matching `id`.
