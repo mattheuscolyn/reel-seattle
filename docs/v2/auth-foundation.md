@@ -1,7 +1,9 @@
 # Reel Seattle v2 — Authentication Foundation
 
 **Status:** Production-ready auth foundation (`T-ACCOUNT-CLOUD-AUTH-01`)  
-**Cloud synchronization:** **Not implemented**
+**Cloud synchronization:** Film preferences (Saved / Seen / Not Interested)
+sync after **explicit browser attachment**. My Schedule / plans / favorites
+remain local-only.
 
 ## Architecture
 
@@ -15,13 +17,16 @@ Vite env (VITE_SUPABASE_URL + VITE_SUPABASE_PUBLISHABLE_KEY)
   → public.profiles (RLS + auth.users trigger)
 ```
 
-Local film/planner stores are **not** connected. Login/logout never clears:
+Local film/planner stores are **not** auto-uploaded on login. Film preference
+sync requires an explicit Enable sync → Merge and enable sync choice
+(`v2/auth/filmPreferencesSync.js`). Login/logout never clears:
 
 - `reel-seattle.v2.savedFilms`
 - `reel-seattle.v2.seenFilms`
 - `reel-seattle.v2.dismissedFilms`
 - `reel-seattle.v2.acceptedPlans`
 - favorite theaters / schedule settings
+- `reel-seattle.v2.filmSyncAttachment` (browser attachment marker; not cleared on logout)
 
 ## Environment
 
@@ -45,7 +50,10 @@ When unset, the build still succeeds and Account UI shows “not configured”.
 | Loading | “Checking account…” |
 | Signed out | Honest “cloud sync not active yet” + Continue with Google |
 | Signing in | Button disabled / “Signing in…” |
-| Signed in | Name/email, optional https avatar, “Local data only · Cloud sync setup in progress”, Sign out |
+| Signed in (not attached) | “Film activity is stored on this device” + Enable sync |
+| Attachment prompt | Merge and enable sync / Keep using this device only |
+| Sync active | “Saved, Seen, and Not Interested are synced” + Sync now |
+| Sync degraded | Local-safe warning + Retry sync |
 | Error | Inline message + retry; local features remain usable |
 
 ## Approved OAuth redirect origins
@@ -59,15 +67,15 @@ Exact origins only (see `v2/auth/oauthRedirect.js`):
 
 `redirectTo` is always `{origin}/`. Arbitrary caller redirects are rejected.
 
-## Future sync contract (not implemented)
+## Film preference sync (T-ACCOUNT-CLOUD-SYNC-FILMS-01)
 
-Before the first cloud sync, ask the signed-in user whether to attach existing
-device data to the account.
+Tables: `public.user_film_preferences`, `public.user_sync_state` (own-row RLS,
+tombstones via `is_active=false`, no routine DELETE).
 
-Do **not** auto-upload, overwrite, delete, or merge local Saved / Seen /
-Not Interested / Favorites / Accepted Plans / Schedule settings.
+Login alone never uploads, downloads, merges, or attaches. Each browser keeps
+`reel-seattle.v2.filmSyncAttachment` after a successful Merge and enable sync.
 
-Extension point: `v2/auth/cloudSyncStatus.js` (`not_implemented`).
+Extension point: `v2/auth/filmPreferencesSync.js` + `cloudSyncStatus.js`.
 
 ## Human dashboard checklist
 

@@ -10,6 +10,7 @@
  * v1 on the next successful intentional write through these helpers.
  */
 
+import { notifyFilmStoreMutation } from '../auth/filmStoreMutationBridge.js';
 import {
   SEEN_FILMS_MAX as STORE_MAX,
   SEEN_FILMS_STORAGE_KEY,
@@ -141,6 +142,11 @@ export function saveSeenFilmKeys(storage, keys, options = {}) {
         items: items,
       }),
     );
+    notifyFilmStoreMutation({
+      preferenceType: 'seen',
+      mutatedAt: new Date().toISOString(),
+      source: 'saveSeenFilmKeys',
+    });
     return true;
   } catch {
     return false;

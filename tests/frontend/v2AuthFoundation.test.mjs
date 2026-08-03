@@ -25,6 +25,8 @@ import {
   CLOUD_SYNC_STATUS,
   getCloudSyncStatusLabel,
 } from '../../v2/auth/cloudSyncStatus.js';
+import { resetFilmPreferencesSyncForTests } from '../../v2/auth/filmPreferencesSync.js';
+import { resetFilmStoreMutationBridgeForTests } from '../../v2/auth/filmStoreMutationBridge.js';
 import {
   ACCEPTED_PLANS_STORAGE_KEY,
   acceptPlan,
@@ -151,6 +153,8 @@ createMockClient.lastOAuth = null;
 test.beforeEach(() => {
   resetSupabaseClientForTests();
   resetAuthControllerForTests();
+  resetFilmPreferencesSyncForTests();
+  resetFilmStoreMutationBridgeForTests();
   createMockClient.lastOAuth = null;
 });
 
@@ -448,8 +452,8 @@ test('profile display name fallback order', () => {
   );
   assert.equal(resolveAuthAvatarUrl({ avatar_url: 'http://insecure.example/a.png' }), null);
   assert.equal(resolveAuthAvatarUrl({ avatar_url: 'javascript:alert(1)' }), null);
-  assert.equal(getCloudSyncStatusLabel().includes('Local data only'), true);
-  assert.equal(CLOUD_SYNC_STATUS, 'not_implemented');
+  assert.match(getCloudSyncStatusLabel(), /stored on this device/i);
+  assert.equal(CLOUD_SYNC_STATUS, 'local_only');
 });
 
 test('local stores preserved across sign-in and sign-out (no sync)', async () => {
@@ -548,10 +552,16 @@ test('Profile account UI + auth modules avoid service-role secrets', () => {
   assert.match(panel, /Continue with Google/);
   assert.match(panel, /Sign out/);
   assert.match(panel, /not configured in this build/);
-  assert.match(panel.replace(/\s+/g, ' '), /Cloud sync is not active yet/);
+  assert.match(
+    panel.replace(/\s+/g, ' '),
+    /Signing in alone does not move your film activity/,
+  );
+  assert.match(panel, /Enable sync/);
+  assert.match(panel, /Merge and enable sync/);
+  assert.match(panel, /Keep using this device only/);
+  assert.match(panel.replace(/\s+/g, ' '), /My Schedule is not synced yet/);
   assert.match(panel, /still works/);
-  assert.match(getCloudSyncStatusLabel(), /Local data only/);
-  assert.match(getCloudSyncStatusLabel(), /Cloud sync setup in progress/);
+  assert.match(getCloudSyncStatusLabel(), /stored on this device/i);
   assert.equal(panel.toLowerCase().includes('already synced'), false);
   assert.equal(panel.toLowerCase().includes('backed up'), false);
   assert.match(profile, /ProfileAccountPanel/);

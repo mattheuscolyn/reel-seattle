@@ -21,6 +21,7 @@
  * with a shared migration clock — not historical viewing time.
  */
 
+import { notifyFilmStoreMutation } from '../auth/filmStoreMutationBridge.js';
 import {
   mergeSavedFilmRefs,
   normalizeSavedFilmRef,
@@ -519,6 +520,11 @@ function writeSeenFilmsStore(storage, store) {
       };
     }
     storage.setItem(SEEN_FILMS_STORAGE_KEY, JSON.stringify(normalized));
+    notifyFilmStoreMutation({
+      preferenceType: 'seen',
+      mutatedAt: new Date().toISOString(),
+      source: 'seenFilmsStore',
+    });
     return { ok: true, store: normalized, error: null, changed: true };
   } catch (error) {
     const name = error && typeof error === 'object' ? error.name : '';
@@ -755,6 +761,11 @@ export function clearSeenFilms(storage) {
       };
     }
     storage.removeItem(SEEN_FILMS_STORAGE_KEY);
+    notifyFilmStoreMutation({
+      preferenceType: 'seen',
+      mutatedAt: new Date().toISOString(),
+      source: 'clearSeenFilms',
+    });
     return {
       ok: true,
       store: emptySeenFilmsStore(),

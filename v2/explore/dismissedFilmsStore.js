@@ -10,6 +10,7 @@
  * rewrite to v1 on the next successful intentional write.
  */
 
+import { notifyFilmStoreMutation } from '../auth/filmStoreMutationBridge.js';
 import {
   DISMISSED_FILMS_STORAGE_KEY,
   NOT_INTERESTED_FILMS_MAX as STORE_MAX,
@@ -145,6 +146,11 @@ export function saveDismissedFilmKeys(storage, keys, options = {}) {
         items,
       }),
     );
+    notifyFilmStoreMutation({
+      preferenceType: 'not_interested',
+      mutatedAt: new Date().toISOString(),
+      source: 'saveDismissedFilmKeys',
+    });
     return true;
   } catch {
     return false;

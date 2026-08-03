@@ -3,7 +3,8 @@
  *
  * Device-local persistence for films the user does not want in ordinary
  * discovery. Distinct from Saved, Seen, Planner drafts, and My Schedule.
- * Not synced to accounts. Does not implement ranking/suppression changes.
+ * Cloud sync (when attached) is handled by `v2/auth/filmPreferencesSync.js`.
+ * Does not implement ranking/suppression changes.
  *
  * Storage key remains `reel-seattle.v2.dismissedFilms` for continuity with
  * the legacy key-array store (user-facing label: “Not interested”).
@@ -25,6 +26,7 @@
  * `reason` is reserved null for this task.
  */
 
+import { notifyFilmStoreMutation } from '../auth/filmStoreMutationBridge.js';
 import {
   mergeSavedFilmRefs,
   normalizeSavedFilmRef,
@@ -481,6 +483,11 @@ function writeNotInterestedFilmsStore(storage, store) {
       };
     }
     storage.setItem(NOT_INTERESTED_FILMS_STORAGE_KEY, JSON.stringify(normalized));
+    notifyFilmStoreMutation({
+      preferenceType: 'not_interested',
+      mutatedAt: new Date().toISOString(),
+      source: 'notInterestedFilmsStore',
+    });
     return { ok: true, store: normalized, error: null, changed: true };
   } catch (error) {
     const name = error && typeof error === 'object' ? error.name : '';
@@ -711,6 +718,11 @@ export function clearNotInterestedFilms(storage) {
       };
     }
     storage.removeItem(NOT_INTERESTED_FILMS_STORAGE_KEY);
+    notifyFilmStoreMutation({
+      preferenceType: 'not_interested',
+      mutatedAt: new Date().toISOString(),
+      source: 'clearNotInterestedFilms',
+    });
     return {
       ok: true,
       store: emptyNotInterestedFilmsStore(),

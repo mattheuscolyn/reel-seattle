@@ -1,6 +1,7 @@
-# Supabase (T-AUTH-01)
+# Supabase (auth + film preference sync)
 
-Reel Seattle v2 authentication foundation. Cloud sync of local stores is **not** implemented yet.
+Reel Seattle v2 authentication and optional Saved / Seen / Not Interested sync.
+My Schedule / plans / favorites remain local-only.
 
 ## Apply migrations
 
@@ -15,6 +16,21 @@ Current migrations:
 
 1. `20260729000000_profiles_foundation.sql` — table, RLS, signup trigger
 2. `20260803000000_profiles_provisioning_repair.sql` — repair trigger + backfill missing profiles
+3. `20260804000000_user_film_preferences_sync.sql` — `user_film_preferences` + `user_sync_state`, RLS, LWW tombstones
+
+### After applying the film preferences migration
+
+```sql
+select relname, relrowsecurity
+from pg_class
+where relname in ('user_film_preferences', 'user_sync_state');
+
+select polname, tablename
+from pg_policies
+where tablename in ('user_film_preferences', 'user_sync_state');
+```
+
+Expect RLS enabled and own-row SELECT/INSERT/UPDATE policies only (no DELETE).
 
 ### After applying the repair migration (counts only — no private IDs)
 

@@ -16,6 +16,11 @@ import {
   sanitizeExplicitOAuthRedirectTo,
 } from './oauthRedirect.js';
 import { getCloudSyncStatus } from './cloudSyncStatus.js';
+import {
+  setFilmPreferencesAuthContext,
+  startFilmPreferencesSyncController,
+  subscribeFilmPreferencesSync,
+} from './filmPreferencesSync.js';
 
 /** @typedef {'unconfigured' | 'loading' | 'signed_out' | 'signed_in' | 'error'} AuthStatus */
 
@@ -40,6 +45,8 @@ let state = createInitialState();
 const listeners = new Set();
 /** @type {null | (() => void)} */
 let authSubscriptionTeardown = null;
+/** @type {null | (() => void)} */
+let filmSyncSubscriptionTeardown = null;
 /** @type {boolean} */
 let started = false;
 /** @type {number} */
@@ -223,6 +230,10 @@ async function fetchOwnProfile(client, userId) {
   }
 }
 
+function refreshCloudSyncStatus() {
+  setState({ cloudSyncStatus: getCloudSyncStatus() });
+}
+
 /**
  * Apply a session from Supabase without clearing local film/planner stores.
  * @param {object | null} session
@@ -230,6 +241,11 @@ async function fetchOwnProfile(client, userId) {
  */
 async function applySession(session, client) {
   if (!session?.user) {
+    setFilmPreferencesAuthContext({
+      userId: null,
+      client,
+      storage: typeof localStorage !== 'undefined' ? localStorage : null,
+    });
     setState({
       status: 'signed_out',
       session: null,
@@ -238,6 +254,7 @@ async function applySession(session, client) {
       profileStatus: 'idle',
       errorMessage: null,
       authActionBusy: false,
+      cloudSyncStatus: getCloudSyncStatus(),
     });
     return;
   }
@@ -249,6 +266,13 @@ async function applySession(session, client) {
     errorMessage: null,
     authActionBusy: false,
   });
+
+  setFilmPreferencesAuthContext({
+    userId: session.user.id,
+    client,
+    storage: typeof localStorage !== 'undefined' ? localStorage : null,
+  });
+  setState({ cloudSyncStatus: getCloudSyncStatus() });
 
   if (client) {
     await fetchOwnProfile(client, session.user.id);
@@ -288,6 +312,12 @@ export async function startAuthController(options = {}) {
   }
 
   started = true;
+  startFilmPreferencesSyncController();
+  if (!filmSyncSubscriptionTeardown) {
+    filmSyncSubscriptionTeardown = subscribeFilmPreferencesSync(() => {
+      refreshCloudSyncStatus();
+    });
+  }
   setState({
     status: 'loading',
     configured: true,
@@ -379,6 +409,11 @@ export function stopAuthController() {
     authSubscriptionTeardown();
     authSubscriptionTeardown = null;
   }
+  if (filmSyncSubscriptionTeardown) {
+    filmSyncSubscriptionTeardown();
+    filmSyncSubscriptionTeardown = null;
+  }
+  setFilmPreferencesAuthContext({ userId: null, client: null });
   started = false;
   state = createInitialState();
   for (const listener of listeners) listener(state);
@@ -502,6 +537,11 @@ export async function signOut(options = {}) {
     }
     // onAuthStateChange will clear session; also clear immediately for UX.
     // Local film/planner stores are intentionally untouched.
+    setFilmPreferencesAuthContext({
+      userId: null,
+      client,
+      storage: typeof localStorage !== 'undefined' ? localStorage : null,
+    });
     setState({
       status: 'signed_out',
       session: null,
@@ -510,6 +550,7 @@ export async function signOut(options = {}) {
       profileStatus: 'idle',
       errorMessage: null,
       authActionBusy: false,
+      cloudSyncStatus: getCloudSyncStatus(),
     });
     return { ok: true };
   } catch (error) {

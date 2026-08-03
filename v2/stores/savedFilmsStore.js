@@ -3,7 +3,9 @@
  *
  * Device-local persistence for films the user wants to retain for later
  * consideration. Distinct from Seen, Not interested, Planner drafts, and
- * My Schedule. Not synced to accounts.
+ * My Schedule. Cloud sync (when attached) is handled by
+ * `v2/auth/filmPreferencesSync.js` via the mutation bridge — this module
+ * stays synchronous and local-first.
  *
  * Identity (T-FILMID-03):
  * 1. Prefer valid canonical `filmId` (`tmdb:<positive-int>`) when both sides have one.
@@ -17,6 +19,8 @@
  * Cross-tab: same-tab reads see writes immediately. Other tabs require a later
  * `storage` listener (not required in T-SAVE-01). Compatible with T-XPORT-01.
  */
+
+import { notifyFilmStoreMutation } from '../auth/filmStoreMutationBridge.js';
 
 export const SAVED_FILMS_STORAGE_KEY = 'reel-seattle.v2.savedFilms';
 /** v2: validated canonical filmId + aliasKeys; v1 payloads migrate on read. */
@@ -609,6 +613,11 @@ function writeSavedFilmsStore(storage, store) {
       };
     }
     storage.setItem(SAVED_FILMS_STORAGE_KEY, JSON.stringify(normalized));
+    notifyFilmStoreMutation({
+      preferenceType: 'saved',
+      mutatedAt: new Date().toISOString(),
+      source: 'savedFilmsStore',
+    });
     return { ok: true, store: normalized, error: null, changed: true };
   } catch (error) {
     const name = error && typeof error === 'object' ? error.name : '';
@@ -819,6 +828,11 @@ export function clearSavedFilms(storage) {
       };
     }
     storage.removeItem(SAVED_FILMS_STORAGE_KEY);
+    notifyFilmStoreMutation({
+      preferenceType: 'saved',
+      mutatedAt: new Date().toISOString(),
+      source: 'clearSavedFilms',
+    });
     return {
       ok: true,
       store: emptySavedFilmsStore(),

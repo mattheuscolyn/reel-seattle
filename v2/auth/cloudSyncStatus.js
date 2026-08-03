@@ -1,30 +1,39 @@
 /**
- * Cloud sync status for Account UI (T-ACCOUNT-CLOUD-AUTH-01).
+ * Cloud sync status for Account UI (T-ACCOUNT-CLOUD-SYNC-FILMS-01).
  *
- * Synchronization of Saved / Seen / Not Interested / Plans is not implemented.
- * This module is the extension point for later sync tasks — do not invent
- * upload/merge APIs here.
+ * Film preferences (Saved / Seen / Not Interested) sync after explicit
+ * browser attachment. My Schedule / plans / favorites are still local-only.
  */
 
-/** @typedef {'not_implemented'} CloudSyncStatus */
+import {
+  getFilmPreferencesSyncLabel,
+  getFilmPreferencesSyncSnapshot,
+} from './filmPreferencesSync.js';
 
-/** @type {CloudSyncStatus} */
-export const CLOUD_SYNC_STATUS = 'not_implemented';
-
-export const CLOUD_SYNC_STATUS_LABEL =
-  'Local data only · Cloud sync setup in progress';
+/**
+ * @typedef {'signed_out' | 'local_only' | 'prompt' | 'attaching' | 'synced' | 'degraded'} CloudSyncStatus
+ */
 
 /**
  * @returns {CloudSyncStatus}
  */
 export function getCloudSyncStatus() {
-  return CLOUD_SYNC_STATUS;
+  const snap = getFilmPreferencesSyncSnapshot();
+  if (snap.uiStatus === 'signed_out') return 'local_only';
+  return snap.uiStatus;
 }
 
 /**
- * Honest user-facing copy. Never claims backup/sync is active.
+ * Honest user-facing copy. Never claims My Schedule is synced.
  * @returns {string}
  */
 export function getCloudSyncStatusLabel() {
-  return CLOUD_SYNC_STATUS_LABEL;
+  return getFilmPreferencesSyncLabel();
 }
+
+/** @deprecated Prefer getCloudSyncStatus() — kept for older auth snapshots. */
+export const CLOUD_SYNC_STATUS = 'local_only';
+
+/** @deprecated Prefer getCloudSyncStatusLabel(). */
+export const CLOUD_SYNC_STATUS_LABEL =
+  'Film activity is stored on this device';
