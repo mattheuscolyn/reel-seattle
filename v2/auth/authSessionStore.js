@@ -1,5 +1,5 @@
 /**
- * Auth session controller (T-AUTH-01).
+ * Auth session controller (T-AUTH-01 / T-ACCOUNT-CLOUD-AUTH-01).
  *
  * External-store style (subscribe + getSnapshot) matching other v2 stores.
  * Does not touch Saved/Seen/NI/Favorites/Plans/Schedule local stores.
@@ -9,6 +9,13 @@ import {
   getSupabaseClient,
   isSupabaseConfigured,
 } from './supabaseClient.js';
+import {
+  cleanAuthCallbackUrl,
+  markAuthReturnToProfile,
+  resolveOAuthRedirectTo,
+  sanitizeExplicitOAuthRedirectTo,
+} from './oauthRedirect.js';
+import { getCloudSyncStatus } from './cloudSyncStatus.js';
 
 /** @typedef {'unconfigured' | 'loading' | 'signed_out' | 'signed_in' | 'error'} AuthStatus */
 
@@ -21,6 +28,9 @@ import {
  *   profileStatus: 'idle' | 'loading' | 'ready' | 'error',
  *   errorMessage: string | null,
  *   configured: boolean,
+ *   signedIn: boolean,
+ *   authActionBusy: boolean,
+ *   cloudSyncStatus: import('./cloudSyncStatus.js').CloudSyncStatus,
  * }} AuthState
  */
 
@@ -34,6 +44,8 @@ let authSubscriptionTeardown = null;
 let started = false;
 /** @type {number} */
 let startGeneration = 0;
+/** @type {boolean} */
+let oauthInFlight = false;
 
 /**
  * @returns {AuthState}
@@ -47,6 +59,9 @@ function createInitialState() {
     profileStatus: 'idle',
     errorMessage: null,
     configured: false,
+    signedIn: false,
+    authActionBusy: false,
+    cloudSyncStatus: getCloudSyncStatus(),
   };
 }
 
@@ -73,6 +88,12 @@ export function subscribeAuth(listener) {
  */
 function setState(patch) {
   state = { ...state, ...patch };
+  if ('status' in patch || 'user' in patch || 'session' in patch) {
+    state = {
+      ...state,
+      signedIn: state.status === 'signed_in' && Boolean(state.user),
+    };
+  }
   for (const listener of listeners) listener(state);
 }
 
@@ -108,6 +129,7 @@ function friendlyError(error, fallback) {
 
 /**
  * @param {object | null | undefined} user
+ * @param {object | null} [profile]
  * @returns {string | null}
  */
 export function resolveAuthDisplayName(user, profile = null) {
@@ -132,6 +154,26 @@ export function resolveAuthDisplayName(user, profile = null) {
 
   const email = typeof user?.email === 'string' ? user.email.trim() : '';
   return email || null;
+}
+
+/**
+ * Safe https avatar URL from profile only (no arbitrary schemes).
+ * @param {object | null | undefined} profile
+ * @returns {string | null}
+ */
+export function resolveAuthAvatarUrl(profile) {
+  const raw =
+    profile && typeof profile.avatar_url === 'string'
+      ? profile.avatar_url.trim()
+      : '';
+  if (!raw) return null;
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== 'https:') return null;
+    return url.href;
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -195,6 +237,7 @@ async function applySession(session, client) {
       profile: null,
       profileStatus: 'idle',
       errorMessage: null,
+      authActionBusy: false,
     });
     return;
   }
@@ -204,6 +247,7 @@ async function applySession(session, client) {
     session,
     user: session.user,
     errorMessage: null,
+    authActionBusy: false,
   });
 
   if (client) {
@@ -217,12 +261,14 @@ async function applySession(session, client) {
  * @param {{
  *   env?: Record<string, string | undefined> | null,
  *   getClient?: typeof getSupabaseClient,
+ *   cleanCallbackUrl?: boolean,
  * }} [options]
  */
 export async function startAuthController(options = {}) {
   const generation = ++startGeneration;
   const getClient = options.getClient ?? getSupabaseClient;
   const env = options.env;
+  const shouldCleanCallback = options.cleanCallbackUrl !== false;
 
   if (authSubscriptionTeardown) {
     authSubscriptionTeardown();
@@ -231,6 +277,7 @@ export async function startAuthController(options = {}) {
 
   if (!isSupabaseConfigured(env ?? import.meta.env)) {
     started = true;
+    oauthInFlight = false;
     setState({
       ...createInitialState(),
       status: 'unconfigured',
@@ -245,6 +292,7 @@ export async function startAuthController(options = {}) {
     status: 'loading',
     configured: true,
     errorMessage: null,
+    authActionBusy: false,
   });
 
   const client = getClient(env != null ? { env } : {});
@@ -257,6 +305,7 @@ export async function startAuthController(options = {}) {
       user: null,
       profile: null,
       profileStatus: 'idle',
+      authActionBusy: false,
     });
     return getAuthState();
   }
@@ -275,9 +324,13 @@ export async function startAuthController(options = {}) {
         user: null,
         profile: null,
         profileStatus: 'idle',
+        authActionBusy: false,
       });
     } else {
       await applySession(data.session ?? null, client);
+      if (shouldCleanCallback && data.session) {
+        cleanAuthCallbackUrl();
+      }
     }
   } catch (error) {
     if (generation !== startGeneration) return getAuthState();
@@ -291,13 +344,21 @@ export async function startAuthController(options = {}) {
       user: null,
       profile: null,
       profileStatus: 'idle',
+      authActionBusy: false,
     });
   }
 
   const { data: subData } = client.auth.onAuthStateChange(
-    async (_event, session) => {
+    async (event, session) => {
       if (generation !== startGeneration) return;
       await applySession(session ?? null, client);
+      if (
+        shouldCleanCallback &&
+        (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') &&
+        session
+      ) {
+        cleanAuthCallbackUrl();
+      }
     },
   );
 
@@ -313,6 +374,7 @@ export async function startAuthController(options = {}) {
  */
 export function stopAuthController() {
   startGeneration += 1;
+  oauthInFlight = false;
   if (authSubscriptionTeardown) {
     authSubscriptionTeardown();
     authSubscriptionTeardown = null;
@@ -334,14 +396,20 @@ export function isAuthControllerStarted() {
  *   env?: Record<string, string | undefined> | null,
  *   getClient?: typeof getSupabaseClient,
  *   redirectTo?: string,
+ *   storage?: Storage | null,
  * }} [options]
  */
 export async function signInWithGoogle(options = {}) {
+  if (oauthInFlight || state.authActionBusy) {
+    return { ok: false, reason: 'busy' };
+  }
+
   if (!isSupabaseConfigured(options.env ?? import.meta.env)) {
     setState({
       status: 'unconfigured',
       configured: false,
       errorMessage: 'Account sign-in is not configured in this build.',
+      authActionBusy: false,
     });
     return { ok: false, reason: 'unconfigured' };
   }
@@ -352,15 +420,17 @@ export async function signInWithGoogle(options = {}) {
     setState({
       status: 'error',
       errorMessage: 'Account sign-in could not be initialized.',
+      authActionBusy: false,
     });
     return { ok: false, reason: 'init' };
   }
 
-  const redirectTo =
-    options.redirectTo ??
-    (typeof window !== 'undefined'
-      ? `${window.location.origin}/`
-      : undefined);
+  const explicit = sanitizeExplicitOAuthRedirectTo(options.redirectTo);
+  const redirectTo = explicit ?? resolveOAuthRedirectTo();
+
+  oauthInFlight = true;
+  setState({ authActionBusy: true, errorMessage: null });
+  markAuthReturnToProfile(options.storage ?? undefined);
 
   try {
     const { error } = await client.auth.signInWithOAuth({
@@ -374,21 +444,24 @@ export async function signInWithGoogle(options = {}) {
       },
     });
     if (error) {
+      oauthInFlight = false;
       const message = friendlyError(
         error,
         'Google sign-in could not be started.',
       );
-      setState({ errorMessage: message });
-      return { ok: false, reason: 'oauth', message };
+      setState({ errorMessage: message, authActionBusy: false });
+      return { ok: false, reason: 'oauth', message, redirectTo };
     }
-    return { ok: true };
+    // Browser navigates away on success; keep busy until unload.
+    return { ok: true, redirectTo };
   } catch (error) {
+    oauthInFlight = false;
     const message = friendlyError(
       error,
       'Google sign-in could not be started.',
     );
-    setState({ errorMessage: message });
-    return { ok: false, reason: 'oauth', message };
+    setState({ errorMessage: message, authActionBusy: false });
+    return { ok: false, reason: 'oauth', message, redirectTo };
   }
 }
 
@@ -399,8 +472,14 @@ export async function signInWithGoogle(options = {}) {
  * }} [options]
  */
 export async function signOut(options = {}) {
+  if (state.authActionBusy) {
+    return { ok: false, reason: 'busy' };
+  }
+
   const getClient = options.getClient ?? getSupabaseClient;
   const client = getClient(options.env != null ? { env: options.env } : {});
+  setState({ authActionBusy: true });
+
   if (!client) {
     setState({
       status: state.configured ? 'signed_out' : 'unconfigured',
@@ -409,6 +488,7 @@ export async function signOut(options = {}) {
       profile: null,
       profileStatus: 'idle',
       errorMessage: null,
+      authActionBusy: false,
     });
     return { ok: true };
   }
@@ -417,10 +497,11 @@ export async function signOut(options = {}) {
     const { error } = await client.auth.signOut();
     if (error) {
       const message = friendlyError(error, 'Could not sign out. Try again.');
-      setState({ errorMessage: message });
+      setState({ errorMessage: message, authActionBusy: false });
       return { ok: false, message };
     }
     // onAuthStateChange will clear session; also clear immediately for UX.
+    // Local film/planner stores are intentionally untouched.
     setState({
       status: 'signed_out',
       session: null,
@@ -428,11 +509,12 @@ export async function signOut(options = {}) {
       profile: null,
       profileStatus: 'idle',
       errorMessage: null,
+      authActionBusy: false,
     });
     return { ok: true };
   } catch (error) {
     const message = friendlyError(error, 'Could not sign out. Try again.');
-    setState({ errorMessage: message });
+    setState({ errorMessage: message, authActionBusy: false });
     return { ok: false, message };
   }
 }

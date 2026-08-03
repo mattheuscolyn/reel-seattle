@@ -8,6 +8,7 @@ import { loadFilmEnrichment } from './enrichment/loadFilmEnrichment.js';
 import { reconcileUserFilmStores } from './stores/reconcileUserFilmStores.js';
 import { isAllowedV2Hostname } from './isAllowedV2Hostname.js';
 import { startAuthController } from './auth/authSessionStore.js';
+import { consumeAuthReturnToProfile } from './auth/oauthRedirect.js';
 import { COLLECTION_IDS } from './explore/exploreIds.js';
 import {
   createInitialNavState,
@@ -155,7 +156,11 @@ export default function V2App() {
 
   useEffect(() => {
     // Auth is non-blocking — Home/Explore/Planner stay usable while this runs.
-    void startAuthController();
+    void startAuthController().then(() => {
+      if (!consumeAuthReturnToProfile()) return;
+      setNav((current) => selectPrimaryDestination(current, 'profile'));
+      window.scrollTo(0, 0);
+    });
   }, []);
 
   useEffect(() => {

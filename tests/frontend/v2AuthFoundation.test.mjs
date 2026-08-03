@@ -13,6 +13,7 @@ import {
   getAuthState,
   initialsFromDisplayName,
   resetAuthControllerForTests,
+  resolveAuthAvatarUrl,
   resolveAuthDisplayName,
   signInWithGoogle,
   signOut,
@@ -20,6 +21,10 @@ import {
   stopAuthController,
   subscribeAuth,
 } from '../../v2/auth/authSessionStore.js';
+import {
+  CLOUD_SYNC_STATUS,
+  getCloudSyncStatusLabel,
+} from '../../v2/auth/cloudSyncStatus.js';
 import {
   ACCEPTED_PLANS_STORAGE_KEY,
   acceptPlan,
@@ -261,13 +266,99 @@ test('Google sign-in invocation uses current-origin redirect', async () => {
     },
     getClient: () => client,
     redirectTo: 'http://127.0.0.1:5175/',
+    storage: memoryStorage(),
   });
   assert.equal(result.ok, true);
+  assert.equal(result.redirectTo, 'http://127.0.0.1:5175/');
   assert.equal(createMockClient.lastOAuth.provider, 'google');
   assert.equal(
     createMockClient.lastOAuth.options.redirectTo,
     'http://127.0.0.1:5175/',
   );
+});
+
+test('Google sign-in rejects unapproved explicit redirectTo', async () => {
+  const client = createMockClient();
+  await startAuthController({
+    env: {
+      VITE_SUPABASE_URL: 'https://example.supabase.co',
+      VITE_SUPABASE_PUBLISHABLE_KEY: 'pk',
+    },
+    getClient: () => client,
+  });
+  const result = await signInWithGoogle({
+    env: {
+      VITE_SUPABASE_URL: 'https://example.supabase.co',
+      VITE_SUPABASE_PUBLISHABLE_KEY: 'pk',
+    },
+    getClient: () => client,
+    redirectTo: 'https://evil.example/steal',
+    storage: memoryStorage(),
+  });
+  assert.equal(result.ok, true);
+  assert.equal(
+    createMockClient.lastOAuth.options.redirectTo,
+    'https://www.reelseattle.com/',
+  );
+});
+
+test('repeated Google sign-in presses are guarded', async () => {
+  const client = createMockClient();
+  await startAuthController({
+    env: {
+      VITE_SUPABASE_URL: 'https://example.supabase.co',
+      VITE_SUPABASE_PUBLISHABLE_KEY: 'pk',
+    },
+    getClient: () => client,
+  });
+  const first = signInWithGoogle({
+    env: {
+      VITE_SUPABASE_URL: 'https://example.supabase.co',
+      VITE_SUPABASE_PUBLISHABLE_KEY: 'pk',
+    },
+    getClient: () => client,
+    redirectTo: 'http://localhost:5175/',
+    storage: memoryStorage(),
+  });
+  const second = await signInWithGoogle({
+    env: {
+      VITE_SUPABASE_URL: 'https://example.supabase.co',
+      VITE_SUPABASE_PUBLISHABLE_KEY: 'pk',
+    },
+    getClient: () => client,
+    redirectTo: 'http://localhost:5175/',
+    storage: memoryStorage(),
+  });
+  const firstResult = await first;
+  assert.equal(firstResult.ok, true);
+  assert.equal(second.ok, false);
+  assert.equal(second.reason, 'busy');
+});
+
+test('TOKEN_REFRESHED updates session without clearing local stores', async () => {
+  const storage = memoryStorage();
+  saveFilm(storage, 'alpha', {
+    title: 'Alpha',
+    now: () => new Date('2026-07-28T18:00:00.000Z'),
+  });
+  const before = storage.getItem(SAVED_FILMS_STORAGE_KEY);
+  const user = mockUser();
+  const client = createMockClient({ session: { user, access_token: 'a' } });
+  await startAuthController({
+    env: {
+      VITE_SUPABASE_URL: 'https://example.supabase.co',
+      VITE_SUPABASE_PUBLISHABLE_KEY: 'pk',
+    },
+    getClient: () => client,
+  });
+  await client.auth.__emit('TOKEN_REFRESHED', {
+    user,
+    access_token: 'b',
+  });
+  assert.equal(getAuthState().status, 'signed_in');
+  assert.equal(getAuthState().signedIn, true);
+  assert.equal(getAuthState().session.access_token, 'b');
+  assert.equal(storage.getItem(SAVED_FILMS_STORAGE_KEY), before);
 });
 
 test('OAuth failure/cancellation handling is user-readable', async () => {
@@ -351,6 +442,14 @@ test('profile display name fallback order', () => {
   );
   assert.equal(initialsFromDisplayName('Ada Lovelace'), 'AL');
   assert.equal(initialsFromDisplayName('Solo'), 'S');
+  assert.equal(
+    resolveAuthAvatarUrl({ avatar_url: 'https://cdn.example/a.png' }),
+    'https://cdn.example/a.png',
+  );
+  assert.equal(resolveAuthAvatarUrl({ avatar_url: 'http://insecure.example/a.png' }), null);
+  assert.equal(resolveAuthAvatarUrl({ avatar_url: 'javascript:alert(1)' }), null);
+  assert.equal(getCloudSyncStatusLabel().includes('Local data only'), true);
+  assert.equal(CLOUD_SYNC_STATUS, 'not_implemented');
 });
 
 test('local stores preserved across sign-in and sign-out (no sync)', async () => {
@@ -449,10 +548,24 @@ test('Profile account UI + auth modules avoid service-role secrets', () => {
   assert.match(panel, /Continue with Google/);
   assert.match(panel, /Sign out/);
   assert.match(panel, /not configured in this build/);
+  assert.match(panel.replace(/\s+/g, ' '), /Cloud sync is not active yet/);
+  assert.match(panel, /still works/);
+  assert.match(getCloudSyncStatusLabel(), /Local data only/);
+  assert.match(getCloudSyncStatusLabel(), /Cloud sync setup in progress/);
+  assert.equal(panel.toLowerCase().includes('already synced'), false);
+  assert.equal(panel.toLowerCase().includes('backed up'), false);
   assert.match(profile, /ProfileAccountPanel/);
   assert.match(profile, /data-profile-section="account"/);
   assert.match(appSrc, /startAuthController/);
+  assert.match(appSrc, /consumeAuthReturnToProfile/);
 
+  const deploy = readFileSync(join(ROOT, '.github/workflows/deploy.yml'), 'utf8');
+  assert.match(deploy, /VITE_SUPABASE_URL:\s*\$\{\{\s*vars\.VITE_SUPABASE_URL\s*\}\}/);
+  assert.match(
+    deploy,
+    /VITE_SUPABASE_PUBLISHABLE_KEY:\s*\$\{\{\s*vars\.VITE_SUPABASE_PUBLISHABLE_KEY\s*\}\}/,
+  );
+  assert.equal(deploy.includes('SERVICE_ROLE'), false);
   const frontendRoots = ['v2', 'src', 'cockpit'];
   for (const root of frontendRoots) {
     const walk = (dir) => {

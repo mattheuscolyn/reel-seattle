@@ -1,14 +1,16 @@
 /**
- * Compact Profile account block (T-AUTH-01).
+ * Compact Profile account block (T-AUTH-01 / T-ACCOUNT-CLOUD-AUTH-01).
  * Preserves approved Profile layout — no new tabs/cards redesign.
  */
 
 import {
   initialsFromDisplayName,
+  resolveAuthAvatarUrl,
   resolveAuthDisplayName,
   signInWithGoogle,
   signOut,
 } from './authSessionStore.js';
+import { getCloudSyncStatusLabel } from './cloudSyncStatus.js';
 import { useAuth } from './useAuth.js';
 
 /**
@@ -19,14 +21,19 @@ import { useAuth } from './useAuth.js';
 export default function ProfileAccountPanel({ onAuthAction }) {
   const auth = useAuth();
   const displayName = resolveAuthDisplayName(auth.user, auth.profile);
-  const busy = auth.status === 'loading';
+  const avatarUrl = resolveAuthAvatarUrl(auth.profile);
+  const busy =
+    auth.status === 'loading' || Boolean(auth.authActionBusy);
+  const cloudLabel = getCloudSyncStatusLabel();
 
   const handleGoogle = async () => {
+    if (busy) return;
     onAuthAction?.('sign-in-google');
     await signInWithGoogle();
   };
 
   const handleSignOut = async () => {
+    if (busy) return;
     onAuthAction?.('sign-out');
     await signOut();
   };
@@ -36,6 +43,7 @@ export default function ProfileAccountPanel({ onAuthAction }) {
       className="v2-profile-section v2-profile-account"
       data-profile-section="account"
       data-auth-status={auth.status}
+      data-cloud-sync={auth.cloudSyncStatus}
       aria-labelledby="v2-profile-account-h"
     >
       <h2 id="v2-profile-account-h" className="v2-profile-section-label">
@@ -43,9 +51,12 @@ export default function ProfileAccountPanel({ onAuthAction }) {
       </h2>
 
       {auth.status === 'unconfigured' ? (
-        <p className="v2-profile-account-note" role="status">
-          Account sign-in is not configured in this build.
-        </p>
+        <div className="v2-profile-account-body">
+          <p className="v2-profile-account-note" role="status">
+            Account sign-in is not configured in this build. Reel Seattle still
+            works on this device without an account.
+          </p>
+        </div>
       ) : null}
 
       {auth.status === 'loading' ? (
@@ -60,21 +71,9 @@ export default function ProfileAccountPanel({ onAuthAction }) {
             {auth.errorMessage ??
               'Account sign-in is temporarily unavailable.'}
           </p>
-          <button
-            type="button"
-            className="v2-profile-account-btn"
-            onClick={() => void handleGoogle()}
-          >
-            Continue with Google
-          </button>
-        </div>
-      ) : null}
-
-      {auth.status === 'signed_out' ? (
-        <div className="v2-profile-account-body">
           <p className="v2-profile-account-note">
-            Sign in to prepare for future sync across devices. Local Saved,
-            Seen, and plans on this device stay on this device for now.
+            Your Saved films, Seen list, and plans on this device are
+            unaffected.
           </p>
           <button
             type="button"
@@ -82,7 +81,29 @@ export default function ProfileAccountPanel({ onAuthAction }) {
             disabled={busy}
             onClick={() => void handleGoogle()}
           >
-            Continue with Google
+            {busy ? 'Signing in…' : 'Continue with Google'}
+          </button>
+        </div>
+      ) : null}
+
+      {auth.status === 'signed_out' ? (
+        <div className="v2-profile-account-body">
+          <p className="v2-profile-account-note">
+            Sign in to prepare backup and cross-device access. Cloud sync is not
+            active yet.
+          </p>
+          <p className="v2-profile-account-note">
+            Reel Seattle still works fully without an account. Local Saved,
+            Seen, Not Interested, and My Schedule stay on this device.
+          </p>
+          <button
+            type="button"
+            className="v2-profile-account-btn"
+            disabled={busy}
+            aria-busy={busy ? 'true' : undefined}
+            onClick={() => void handleGoogle()}
+          >
+            {busy ? 'Signing in…' : 'Continue with Google'}
           </button>
           {auth.errorMessage ? (
             <p className="v2-profile-account-error" role="alert">
@@ -95,9 +116,20 @@ export default function ProfileAccountPanel({ onAuthAction }) {
       {auth.status === 'signed_in' && auth.user ? (
         <div className="v2-profile-account-body">
           <div className="v2-profile-account-identity">
-            <span className="v2-profile-account-avatar" aria-hidden="true">
-              {initialsFromDisplayName(displayName)}
-            </span>
+            {avatarUrl ? (
+              <img
+                className="v2-profile-account-avatar v2-profile-account-avatar-img"
+                src={avatarUrl}
+                alt=""
+                width={40}
+                height={40}
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <span className="v2-profile-account-avatar" aria-hidden="true">
+                {initialsFromDisplayName(displayName)}
+              </span>
+            )}
             <div>
               <p className="v2-profile-account-name">
                 {displayName ?? 'Signed in'}
@@ -105,14 +137,18 @@ export default function ProfileAccountPanel({ onAuthAction }) {
               {auth.user.email ? (
                 <p className="v2-profile-account-email">{auth.user.email}</p>
               ) : null}
+              <p className="v2-profile-account-sync" data-cloud-sync-label="">
+                {cloudLabel}
+              </p>
             </div>
           </div>
           <button
             type="button"
             className="v2-profile-account-btn v2-profile-account-btn-secondary"
+            disabled={busy}
             onClick={() => void handleSignOut()}
           >
-            Sign out
+            {busy ? 'Signing out…' : 'Sign out'}
           </button>
           {auth.errorMessage ? (
             <p className="v2-profile-account-error" role="alert">

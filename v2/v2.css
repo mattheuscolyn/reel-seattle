@@ -4796,6 +4796,22 @@ button {
   color: var(--v2-fg);
   font-size: 0.85rem;
   font-weight: 600;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.v2-profile-account-avatar-img {
+  display: block;
+  object-fit: cover;
+  padding: 0;
+  border: 0;
+}
+
+.v2-profile-account-sync {
+  margin: 0.2rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--v2-muted, #8a8a96);
 }
 
 .v2-profile-account-name {

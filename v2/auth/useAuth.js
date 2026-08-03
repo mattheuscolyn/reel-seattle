@@ -17,6 +17,9 @@ const serverSnapshot = Object.freeze({
   profileStatus: 'idle',
   errorMessage: null,
   configured: false,
+  signedIn: false,
+  authActionBusy: false,
+  cloudSyncStatus: 'not_implemented',
 });
 
 /**

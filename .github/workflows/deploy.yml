@@ -26,8 +26,13 @@ jobs:
 
       # Production site is the v2 SPA (dist-v2). Legacy `npm run build` → dist/
       # remains available locally for one-commit rollback (see docs/v2/pages-deploy-rollback.md).
+      # Public Supabase config only (publishable). Set as repository Variables.
+      # Build succeeds without them — Account UI stays "not configured".
       - name: Build v2
         run: npm run build:v2
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
 
       - name: Verify dist-v2 artifacts
         run: node scripts/check_dist_v2_artifacts.mjs
