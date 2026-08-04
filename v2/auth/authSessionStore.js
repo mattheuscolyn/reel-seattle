@@ -26,6 +26,12 @@ import {
   startScheduleSyncController,
   subscribeScheduleSync,
 } from './scheduleSync.js';
+import {
+  initialsFromDisplayName as initialsFromDisplayNameImpl,
+  resolveProfileAvatarUrl,
+  resolveProfileDisplayName,
+} from './profileIdentity.js';
+import { refreshOwnProfile } from './profileData.js';
 
 /** @typedef {'unconfigured' | 'loading' | 'signed_out' | 'signed_in' | 'error'} AuthStatus */
 
@@ -58,6 +64,8 @@ let scheduleSyncSubscriptionTeardown = null;
 let started = false;
 /** @type {number} */
 let startGeneration = 0;
+/** @type {number} */
+let profileFetchGeneration = 0;
 /** @type {boolean} */
 let oauthInFlight = false;
 
@@ -112,6 +120,25 @@ function setState(patch) {
 }
 
 /**
+ * Narrow profile-field patch for profileData module (own-row only).
+ * @param {Partial<Pick<AuthState, 'profile' | 'profileStatus' | 'errorMessage'>>} patch
+ */
+export function setAuthProfilePatch(patch) {
+  setState(patch);
+}
+
+/** @returns {number} */
+export function bumpProfileFetchGeneration() {
+  profileFetchGeneration += 1;
+  return profileFetchGeneration;
+}
+
+/** @returns {number} */
+export function getProfileFetchGeneration() {
+  return profileFetchGeneration;
+}
+
+/**
  * User-facing error copy — never dump raw SDK stacks.
  * @param {unknown} error
  * @param {string} fallback
@@ -144,50 +171,20 @@ function friendlyError(error, fallback) {
 /**
  * @param {object | null | undefined} user
  * @param {object | null} [profile]
- * @returns {string | null}
+ * @returns {string}
  */
 export function resolveAuthDisplayName(user, profile = null) {
-  const profileName =
-    profile && typeof profile.display_name === 'string'
-      ? profile.display_name.trim()
-      : '';
-  if (profileName) return profileName;
-
-  const meta = user?.user_metadata;
-  const metaName =
-    meta && typeof meta === 'object'
-      ? typeof meta.full_name === 'string'
-        ? meta.full_name.trim()
-        : typeof meta.name === 'string'
-          ? meta.name.trim()
-          : typeof meta.display_name === 'string'
-            ? meta.display_name.trim()
-            : ''
-      : '';
-  if (metaName) return metaName;
-
-  const email = typeof user?.email === 'string' ? user.email.trim() : '';
-  return email || null;
+  return resolveProfileDisplayName(user, profile);
 }
 
 /**
- * Safe https avatar URL from profile only (no arbitrary schemes).
+ * Safe https avatar URL (profile override, then Auth metadata).
  * @param {object | null | undefined} profile
+ * @param {object | null | undefined} [user]
  * @returns {string | null}
  */
-export function resolveAuthAvatarUrl(profile) {
-  const raw =
-    profile && typeof profile.avatar_url === 'string'
-      ? profile.avatar_url.trim()
-      : '';
-  if (!raw) return null;
-  try {
-    const url = new URL(raw);
-    if (url.protocol !== 'https:') return null;
-    return url.href;
-  } catch {
-    return null;
-  }
+export function resolveAuthAvatarUrl(profile, user = null) {
+  return resolveProfileAvatarUrl(profile, user);
 }
 
 /**
@@ -195,46 +192,14 @@ export function resolveAuthAvatarUrl(profile) {
  * @returns {string}
  */
 export function initialsFromDisplayName(displayName) {
-  const raw = typeof displayName === 'string' ? displayName.trim() : '';
-  if (!raw) return '?';
-  const parts = raw.split(/\s+/).filter(Boolean);
-  if (parts.length >= 2) {
-    return `${parts[0][0] ?? ''}${parts[1][0] ?? ''}`.toUpperCase();
-  }
-  return raw.slice(0, 1).toUpperCase();
+  return initialsFromDisplayNameImpl(displayName);
 }
 
 /**
  * @param {import('@supabase/supabase-js').SupabaseClient} client
- * @param {string} userId
  */
-async function fetchOwnProfile(client, userId) {
-  setState({ profileStatus: 'loading' });
-  try {
-    const { data, error } = await client
-      .from('profiles')
-      .select('id, username, display_name, avatar_url, created_at, updated_at')
-      .eq('id', userId)
-      .maybeSingle();
-    if (error) {
-      setState({
-        profile: null,
-        profileStatus: 'error',
-      });
-      return null;
-    }
-    setState({
-      profile: data ?? null,
-      profileStatus: 'ready',
-    });
-    return data ?? null;
-  } catch {
-    setState({
-      profile: null,
-      profileStatus: 'error',
-    });
-    return null;
-  }
+async function fetchOwnProfile(client) {
+  return refreshOwnProfile({ client, recoverMissing: true });
 }
 
 function refreshCloudSyncStatus() {
@@ -250,6 +215,7 @@ async function applySession(session, client) {
   const storage =
     typeof localStorage !== 'undefined' ? localStorage : null;
   if (!session?.user) {
+    bumpProfileFetchGeneration();
     setFilmPreferencesAuthContext({
       userId: null,
       client,
@@ -273,12 +239,15 @@ async function applySession(session, client) {
     return;
   }
 
+  bumpProfileFetchGeneration();
   setState({
     status: 'signed_in',
     session,
     user: session.user,
     errorMessage: null,
     authActionBusy: false,
+    profile: null,
+    profileStatus: 'loading',
   });
 
   setFilmPreferencesAuthContext({
@@ -294,7 +263,7 @@ async function applySession(session, client) {
   setState({ cloudSyncStatus: getCloudSyncStatus() });
 
   if (client) {
-    await fetchOwnProfile(client, session.user.id);
+    await fetchOwnProfile(client);
   }
 }
 
@@ -429,6 +398,7 @@ export async function startAuthController(options = {}) {
  */
 export function stopAuthController() {
   startGeneration += 1;
+  profileFetchGeneration += 1;
   oauthInFlight = false;
   if (authSubscriptionTeardown) {
     authSubscriptionTeardown();

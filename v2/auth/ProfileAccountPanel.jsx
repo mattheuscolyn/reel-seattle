@@ -60,7 +60,7 @@ export default function ProfileAccountPanel({ onAuthAction }) {
   }, []);
 
   const displayName = resolveAuthDisplayName(auth.user, auth.profile);
-  const avatarUrl = resolveAuthAvatarUrl(auth.profile);
+  const avatarUrl = resolveAuthAvatarUrl(auth.profile, auth.user);
   const busy =
     auth.status === 'loading' || Boolean(auth.authActionBusy);
   const filmLabel = getCloudSyncStatusLabel();

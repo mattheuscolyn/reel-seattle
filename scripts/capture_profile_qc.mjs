@@ -38,7 +38,7 @@ async function openProfile(page) {
   await clearLocal(page);
   await page.goto(BASE, { waitUntil: 'networkidle' });
   await page.locator('.v2-nav-button', { hasText: 'Profile' }).click();
-  await page.waitForSelector('[data-profile-source="mockup-fixture"]', {
+  await page.waitForSelector('[data-profile-source="live"]', {
     timeout: 15_000,
   });
 }

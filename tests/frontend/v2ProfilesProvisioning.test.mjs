@@ -76,8 +76,12 @@ test('repair does not trust client-supplied profile IDs in the trigger', () => {
 
 test('frontend profile fetch targets own id only and never uses service role', () => {
   const store = readFileSync(join(ROOT, 'v2/auth/authSessionStore.js'), 'utf8');
-  assert.match(store, /\.from\('profiles'\)/);
-  assert.match(store, /\.eq\('id', userId\)/);
+  const profileData = readFileSync(join(ROOT, 'v2/auth/profileData.js'), 'utf8');
+  assert.match(profileData, /\.from\('profiles'\)/);
+  assert.match(profileData, /\.eq\('id', userId\)/);
+  assert.match(store, /refreshOwnProfile/);
   assert.equal(store.includes('SERVICE_ROLE'), false);
-  assert.equal(store.includes('upsert'), false);
+  assert.equal(profileData.includes('SERVICE_ROLE'), false);
+  // Own-row upsert is allowed for missing-row recovery / display-name save under RLS.
+  assert.match(profileData, /auth\.uid|user\.id|userId/);
 });

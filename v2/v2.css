@@ -4376,6 +4376,17 @@ button {
   background: #2a2d38;
   display: grid;
   place-items: center;
+  overflow: hidden;
+}
+
+.v2-profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v2-profile-avatar-skeleton {
+  opacity: 0.55;
 }
 
 .v2-profile-avatar-letter {
@@ -4384,6 +4395,8 @@ button {
   font-weight: 600;
   color: var(--v2-fg);
   line-height: 1;
+  display: grid;
+  place-items: center;
 }
 
 .v2-profile-identity-copy {
@@ -4391,6 +4404,85 @@ button {
   flex-direction: column;
   gap: 0.15rem;
   min-width: 0;
+}
+
+.v2-profile-identity-support {
+  margin: 0.2rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--v2-muted);
+  max-width: 22rem;
+}
+
+.v2-profile-identity-skeleton {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+}
+
+.v2-profile-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--v2-border) 80%, transparent);
+  border-radius: 0.65rem;
+  background: color-mix(in srgb, var(--v2-surface) 88%, transparent);
+}
+
+.v2-profile-edit-label {
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: var(--v2-muted);
+}
+
+.v2-profile-edit-input {
+  appearance: none;
+  border: 1px solid var(--v2-border);
+  border-radius: 0.45rem;
+  background: var(--v2-bg);
+  color: var(--v2-fg);
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0.55rem 0.65rem;
+}
+
+.v2-profile-edit-input:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 1px;
+}
+
+.v2-profile-edit-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--v2-muted-soft);
+}
+
+.v2-profile-edit-error,
+.v2-profile-profile-error {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--v2-danger, #c44);
+}
+
+.v2-profile-edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+}
+
+.v2-profile-plan-poster-empty {
+  background: #2a2d38;
+}
+
+.v2-profile-theater-fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 4.5rem;
+  background: #2a2d38;
 }
 
 .v2-profile-name {

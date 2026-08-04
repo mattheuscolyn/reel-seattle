@@ -3,6 +3,7 @@
 **Status:** Production-ready auth foundation (`T-ACCOUNT-CLOUD-AUTH-01`)  
 **Cloud synchronization:** Film preferences (Saved / Seen / Not Interested) and
 My Schedule / accepted plans sync after **separate explicit browser attachments**.
+Profile identity uses Auth + `public.profiles` (display name editable).
 Planner drafts, favorites, and calendar settings remain local-only.
 
 ## Architecture
@@ -133,7 +134,6 @@ Extension points: `v2/auth/filmPreferencesSync.js`, `v2/auth/scheduleSync.js`,
 
 ## Recommended next tasks
 
-1. Complete dashboard checklist + manual production Google OAuth round-trip  
-2. First cloud sync store (Saved films) with explicit attach prompt  
-3. Profile display-name editing  
-4. Apple sign-in (later)
+1. Production verify Profile live identity (signed-out + signed-in + edit display name)
+2. Favorite theaters cloud sync (separate attach), if authorized
+3. Apple sign-in (later)

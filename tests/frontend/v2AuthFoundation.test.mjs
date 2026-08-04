@@ -446,13 +446,19 @@ test('profile display name fallback order', () => {
       mockUser({ email: 'only@example.com', user_metadata: {} }),
       null,
     ),
-    'only@example.com',
+    'only',
   );
   assert.equal(initialsFromDisplayName('Ada Lovelace'), 'AL');
   assert.equal(initialsFromDisplayName('Solo'), 'S');
   assert.equal(
     resolveAuthAvatarUrl({ avatar_url: 'https://cdn.example/a.png' }),
     'https://cdn.example/a.png',
+  );
+  assert.equal(
+    resolveAuthAvatarUrl(null, mockUser({
+      user_metadata: { picture: 'https://cdn.example/pic.png' },
+    })),
+    'https://cdn.example/pic.png',
   );
   assert.equal(resolveAuthAvatarUrl({ avatar_url: 'http://insecure.example/a.png' }), null);
   assert.equal(resolveAuthAvatarUrl({ avatar_url: 'javascript:alert(1)' }), null);

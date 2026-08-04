@@ -1,11 +1,11 @@
 /**
- * Stage 1 Profile hub — fixture-backed visual replica of Profile Page.png.
+ * Profile hub — live identity + activity (T-ACCOUNT-PROFILE-DATA-01).
  *
- * Does not read or write Saved / Seen / Not Interested / Favorite stores.
- * Nested settings / management destinations are Stage 1 stubs only.
+ * Identity from auth / public.profiles. Activity counts from local stores.
+ * Membership fixture removed until a real source exists.
  */
 
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import {
   IconBell,
   IconBookmark,
@@ -22,9 +22,18 @@ import {
   IconStarFill,
   IconSun,
 } from '../icons.jsx';
-import { resolveProfilePresentation } from '../fixtures/profileMockupFixture.js';
 import TmdbAttribution from '../enrichment/TmdbAttribution.jsx';
 import ProfileAccountPanel from '../auth/ProfileAccountPanel.jsx';
+import { useAuth } from '../auth/useAuth.js';
+import {
+  refreshOwnProfile,
+  updateOwnDisplayName,
+} from '../auth/profileData.js';
+import {
+  PROFILE_DISPLAY_NAME_MAX_LENGTH,
+} from '../auth/profileIdentity.js';
+import { subscribeProfileActivity } from './profileActivity.js';
+import { resolveLiveProfilePresentation } from './resolveLiveProfilePresentation.js';
 
 const ACTIVITY_ICONS = {
   eye: IconEye,
@@ -49,28 +58,35 @@ const SETTINGS_ICONS = {
  * }} [props]
  */
 export default function ProfileDestination({ onStubAction }) {
-  const presentation = resolveProfilePresentation();
+  const auth = useAuth();
   const stubStatusId = useId();
+  const [activityTick, setActivityTick] = useState(0);
   const [stubMessage, setStubMessage] = useState(null);
   const [showDataSources, setShowDataSources] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [editValue, setEditValue] = useState('');
+  const [editBusy, setEditBusy] = useState(false);
+  const [editError, setEditError] = useState(null);
+  const [profileRetryMessage, setProfileRetryMessage] = useState(null);
 
-  const announceStub = (actionId, label) => {
-    if (actionId === 'settings-about' || actionId === 'settings-privacy') {
-      setShowDataSources(true);
-      setStubMessage(null);
-      return;
-    }
-    if (actionId === 'settings-account') {
-      const el = document.querySelector('[data-profile-section="account"]');
-      el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      setStubMessage(null);
-      return;
-    }
-    const message = `${label} isn’t available in this Stage 1 Profile shell yet.`;
-    setStubMessage(message);
-    onStubAction?.(actionId, label);
-  };
+  useEffect(() => {
+    return subscribeProfileActivity(() => {
+      setActivityTick((n) => n + 1);
+    });
+  }, []);
 
+  useEffect(() => {
+    if (auth.status !== 'signed_in') {
+      setEditing(false);
+      setEditError(null);
+      setProfileRetryMessage(null);
+    }
+  }, [auth.status, auth.user?.id]);
+
+  // activityTick forces re-read of local stores after mutations
+  void activityTick;
+
+  const presentation = resolveLiveProfilePresentation({ auth });
   const {
     identity,
     activity,
@@ -84,11 +100,72 @@ export default function ProfileDestination({ onStubAction }) {
     pageTagline,
   } = presentation;
 
+  const announceStub = (actionId, label) => {
+    if (actionId === 'settings-about' || actionId === 'settings-privacy') {
+      setShowDataSources(true);
+      setStubMessage(null);
+      return;
+    }
+    if (actionId === 'settings-account') {
+      const el = document.querySelector('[data-profile-section="account"]');
+      el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      setStubMessage(null);
+      return;
+    }
+    const message = `${label} isn’t available yet.`;
+    setStubMessage(message);
+    onStubAction?.(actionId, label);
+  };
+
+  const openEdit = () => {
+    const current =
+      typeof auth.profile?.display_name === 'string'
+        ? auth.profile.display_name
+        : '';
+    setEditValue(current);
+    setEditError(null);
+    setEditing(true);
+  };
+
+  const cancelEdit = () => {
+    setEditing(false);
+    setEditError(null);
+  };
+
+  const saveEdit = async () => {
+    if (editBusy) return;
+    setEditBusy(true);
+    setEditError(null);
+    const result = await updateOwnDisplayName(editValue);
+    setEditBusy(false);
+    if (!result.ok) {
+      if (result.reason === 'user_switched') return;
+      setEditError(result.message ?? 'Could not save your display name.');
+      return;
+    }
+    setEditing(false);
+  };
+
+  const retryProfile = async () => {
+    setProfileRetryMessage(null);
+    const result = await refreshOwnProfile({ recoverMissing: true });
+    if (!result.ok && result.reason !== 'stale' && result.reason !== 'signed_out') {
+      setProfileRetryMessage(
+        result.message ?? 'Could not refresh your profile.',
+      );
+    }
+  };
+
+  const showFavorites = favoriteTheaters.length > 0;
+  const showUpNext = Boolean(nextPlan?.available);
+  const showMembership = Boolean(membership?.available);
+
   return (
     <section
       className="v2-profile"
       aria-labelledby="v2-profile-title"
       data-profile-source={presentation.source}
+      data-profile-identity={identity.mode}
     >
       <header className="v2-profile-page-header">
         <h1 id="v2-profile-title" className="v2-profile-title">
@@ -98,24 +175,123 @@ export default function ProfileDestination({ onStubAction }) {
       </header>
 
       <div className="v2-profile-identity" data-profile-section="identity">
+        {identity.mode === 'loading' ? (
+          <div
+            className="v2-profile-identity-skeleton"
+            aria-busy="true"
+            aria-label="Loading profile"
+          >
+            <div className="v2-profile-avatar v2-profile-avatar-skeleton" />
+            <div className="v2-profile-identity-copy">
+              <p className="v2-profile-name">Profile</p>
+              <p className="v2-profile-location">Checking account…</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="v2-profile-avatar" aria-hidden="true">
+              {identity.avatarUrl ? (
+                <img
+                  className="v2-profile-avatar-img"
+                  src={identity.avatarUrl}
+                  alt=""
+                />
+              ) : identity.initials ? (
+                <span className="v2-profile-avatar-letter">
+                  {identity.initials}
+                </span>
+              ) : (
+                <span className="v2-profile-avatar-letter" data-generic="">
+                  <IconPerson width={22} height={22} />
+                </span>
+              )}
+            </div>
+            <div className="v2-profile-identity-copy">
+              <p className="v2-profile-name">
+                {identity.displayName ?? 'Profile'}
+              </p>
+              {identity.secondaryLabel ? (
+                <p className="v2-profile-location">{identity.secondaryLabel}</p>
+              ) : null}
+              {identity.supportingCopy ? (
+                <p className="v2-profile-identity-support">
+                  {identity.supportingCopy}
+                </p>
+              ) : null}
+              {identity.showEdit && !editing ? (
+                <button
+                  type="button"
+                  className="v2-profile-link"
+                  onClick={openEdit}
+                >
+                  {identity.editLabel} <span aria-hidden="true">›</span>
+                </button>
+              ) : null}
+            </div>
+          </>
+        )}
+      </div>
+
+      {editing ? (
         <div
-          className="v2-profile-avatar"
-          aria-hidden="true"
+          className="v2-profile-edit"
+          data-profile-section="edit-display-name"
         >
-          <span className="v2-profile-avatar-letter">{identity.initials}</span>
+          <label className="v2-profile-edit-label" htmlFor="v2-profile-display-name">
+            Display name
+          </label>
+          <input
+            id="v2-profile-display-name"
+            className="v2-profile-edit-input"
+            type="text"
+            value={editValue}
+            maxLength={PROFILE_DISPLAY_NAME_MAX_LENGTH}
+            autoComplete="nickname"
+            disabled={editBusy}
+            onChange={(e) => setEditValue(e.target.value)}
+          />
+          <p className="v2-profile-edit-hint">
+            Leave blank to use your Google name. Not a unique username.
+          </p>
+          {editError ? (
+            <p className="v2-profile-edit-error" role="alert">
+              {editError}
+            </p>
+          ) : null}
+          <div className="v2-profile-edit-actions">
+            <button
+              type="button"
+              className="v2-profile-account-btn"
+              disabled={editBusy}
+              onClick={saveEdit}
+            >
+              {editBusy ? 'Saving…' : 'Save'}
+            </button>
+            <button
+              type="button"
+              className="v2-profile-account-btn v2-profile-account-btn-secondary"
+              disabled={editBusy}
+              onClick={cancelEdit}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
-        <div className="v2-profile-identity-copy">
-          <p className="v2-profile-name">{identity.displayName}</p>
-          <p className="v2-profile-location">{identity.locationLabel}</p>
+      ) : null}
+
+      {auth.status === 'signed_in' && auth.profileStatus === 'error' ? (
+        <p className="v2-profile-profile-error" role="status">
+          {profileRetryMessage ??
+            'Could not load your Reel Seattle profile. Account details still work.'}{' '}
           <button
             type="button"
             className="v2-profile-link"
-            onClick={() => announceStub('edit-profile', identity.editLabel)}
+            onClick={retryProfile}
           >
-            {identity.editLabel} <span aria-hidden="true">›</span>
+            Retry
           </button>
-        </div>
-      </div>
+        </p>
+      ) : null}
 
       <ProfileAccountPanel
         onAuthAction={(actionId) => onStubAction?.(actionId, actionId)}
@@ -153,41 +329,50 @@ export default function ProfileDestination({ onStubAction }) {
         </ul>
       </section>
 
-      <section
-        className="v2-profile-section"
-        data-profile-section="upNext"
-        aria-labelledby="v2-profile-upnext-h"
-      >
-        <div className="v2-profile-section-row">
-          <h2 id="v2-profile-upnext-h" className="v2-profile-section-label">
-            {nextPlan.sectionTitle}
-          </h2>
-          <button
-            type="button"
-            className="v2-profile-link"
-            onClick={() =>
-              announceStub('view-all-plans', nextPlan.viewAllLabel)
-            }
-          >
-            {nextPlan.viewAllLabel} <span aria-hidden="true">›</span>
-          </button>
-        </div>
-        {nextPlan.available ? (
+      {showUpNext ? (
+        <section
+          className="v2-profile-section"
+          data-profile-section="upNext"
+          aria-labelledby="v2-profile-upnext-h"
+        >
+          <div className="v2-profile-section-row">
+            <h2 id="v2-profile-upnext-h" className="v2-profile-section-label">
+              {nextPlan.sectionTitle}
+            </h2>
+            <button
+              type="button"
+              className="v2-profile-link"
+              onClick={() =>
+                announceStub('view-all-plans', nextPlan.viewAllLabel)
+              }
+            >
+              {nextPlan.viewAllLabel} <span aria-hidden="true">›</span>
+            </button>
+          </div>
           <button
             type="button"
             className="v2-profile-plan-card"
             onClick={() => announceStub('next-plan', nextPlan.title)}
           >
-            <img
-              className="v2-profile-plan-poster"
-              src={nextPlan.posterUrl}
-              alt=""
-            />
+            {nextPlan.posterUrl ? (
+              <img
+                className="v2-profile-plan-poster"
+                src={nextPlan.posterUrl}
+                alt=""
+              />
+            ) : (
+              <div
+                className="v2-profile-plan-poster v2-profile-plan-poster-empty"
+                aria-hidden="true"
+              />
+            )}
             <div className="v2-profile-plan-copy">
               <p className="v2-profile-plan-title">{nextPlan.title}</p>
               <p className="v2-profile-plan-when">{nextPlan.whenLabel}</p>
               <p className="v2-profile-plan-theater">{nextPlan.theaterName}</p>
-              <p className="v2-profile-plan-more">{nextPlan.moreFilmsLabel}</p>
+              {nextPlan.moreFilmsLabel ? (
+                <p className="v2-profile-plan-more">{nextPlan.moreFilmsLabel}</p>
+              ) : null}
             </div>
             <div className="v2-profile-plan-date" aria-hidden="true">
               <span>{nextPlan.dateStack.weekday}</span>
@@ -197,18 +382,18 @@ export default function ProfileDestination({ onStubAction }) {
               <IconChevron />
             </span>
           </button>
-        ) : null}
-      </section>
+        </section>
+      ) : null}
 
-      <section
-        className="v2-profile-section"
-        data-profile-section="membership"
-        aria-labelledby="v2-profile-membership-h"
-      >
-        <h2 id="v2-profile-membership-h" className="v2-profile-section-label">
-          {membership.sectionTitle}
-        </h2>
-        {membership.available ? (
+      {showMembership ? (
+        <section
+          className="v2-profile-section"
+          data-profile-section="membership"
+          aria-labelledby="v2-profile-membership-h"
+        >
+          <h2 id="v2-profile-membership-h" className="v2-profile-section-label">
+            {membership.sectionTitle}
+          </h2>
           <div className="v2-profile-membership-card">
             <img
               className="v2-profile-membership-logo"
@@ -234,64 +419,72 @@ export default function ProfileDestination({ onStubAction }) {
               {membership.manageLabel} <span aria-hidden="true">›</span>
             </button>
           </div>
-        ) : null}
-      </section>
+        </section>
+      ) : null}
 
-      <section
-        className="v2-profile-section"
-        data-profile-section="favoriteTheaters"
-        aria-labelledby="v2-profile-fav-h"
-      >
-        <div className="v2-profile-section-row">
-          <h2 id="v2-profile-fav-h" className="v2-profile-section-label">
-            {favoriteTheatersSection.title}
-          </h2>
-          <button
-            type="button"
-            className="v2-profile-link"
-            onClick={() =>
-              announceStub(
-                'view-all-theaters',
-                favoriteTheatersSection.viewAllLabel,
-              )
-            }
-          >
-            {favoriteTheatersSection.viewAllLabel}{' '}
-            <span aria-hidden="true">›</span>
-          </button>
-        </div>
-        <ul className="v2-profile-theaters">
-          {favoriteTheaters.map((theater) => (
-            <li key={theater.id}>
-              <button
-                type="button"
-                className="v2-profile-theater-card"
-                onClick={() =>
-                  announceStub(`theater-${theater.id}`, theater.name)
-                }
-              >
-                <span className="v2-profile-theater-media">
-                  <img src={theater.imageUrl} alt="" />
-                  <span
-                    className={
-                      theater.favorited
-                        ? 'v2-profile-theater-star v2-profile-theater-star-on'
-                        : 'v2-profile-theater-star'
-                    }
-                    aria-hidden="true"
-                  >
-                    {theater.favorited ? <IconStarFill /> : <IconStar />}
+      {showFavorites ? (
+        <section
+          className="v2-profile-section"
+          data-profile-section="favoriteTheaters"
+          aria-labelledby="v2-profile-fav-h"
+        >
+          <div className="v2-profile-section-row">
+            <h2 id="v2-profile-fav-h" className="v2-profile-section-label">
+              {favoriteTheatersSection.title}
+            </h2>
+            <button
+              type="button"
+              className="v2-profile-link"
+              onClick={() =>
+                announceStub(
+                  'view-all-theaters',
+                  favoriteTheatersSection.viewAllLabel,
+                )
+              }
+            >
+              {favoriteTheatersSection.viewAllLabel}{' '}
+              <span aria-hidden="true">›</span>
+            </button>
+          </div>
+          <ul className="v2-profile-theaters">
+            {favoriteTheaters.map((theater) => (
+              <li key={theater.id}>
+                <button
+                  type="button"
+                  className="v2-profile-theater-card"
+                  onClick={() =>
+                    announceStub(`theater-${theater.id}`, theater.name)
+                  }
+                >
+                  <span className="v2-profile-theater-media">
+                    {theater.imageUrl ? (
+                      <img src={theater.imageUrl} alt="" />
+                    ) : (
+                      <span className="v2-profile-theater-fallback" aria-hidden="true" />
+                    )}
+                    <span
+                      className={
+                        theater.favorited
+                          ? 'v2-profile-theater-star v2-profile-theater-star-on'
+                          : 'v2-profile-theater-star'
+                      }
+                      aria-hidden="true"
+                    >
+                      {theater.favorited ? <IconStarFill /> : <IconStar />}
+                    </span>
                   </span>
-                </span>
-                <span className="v2-profile-theater-name">{theater.name}</span>
-                <span className="v2-profile-theater-loc">
-                  {theater.locationLabel}
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </section>
+                  <span className="v2-profile-theater-name">{theater.name}</span>
+                  {theater.locationLabel ? (
+                    <span className="v2-profile-theater-loc">
+                      {theater.locationLabel}
+                    </span>
+                  ) : null}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section
         className="v2-profile-section"

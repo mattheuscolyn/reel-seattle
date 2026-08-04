@@ -208,8 +208,8 @@ export const PROFILE_MOCKUP_FIXTURE = Object.freeze({
 });
 
 /**
- * Resolve Profile presentation for Stage 1 (always fixture).
- * Later Stage 4 can branch here without changing ProfileDestination layout.
+ * Resolve Profile presentation for Stage 1 mockup reference only.
+ * Live Profile UI uses resolveLiveProfilePresentation().
  *
  * @returns {ReturnType<typeof getProfileMockupPresentation>}
  */
