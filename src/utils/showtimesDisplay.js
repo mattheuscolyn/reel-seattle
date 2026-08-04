@@ -212,9 +212,12 @@ export function formatVariantLabel(variantType) {
     sensory_friendly: 'Sensory Friendly',
     early_access: 'Early Access',
     opening_night: 'Opening Night',
+    fan_event: 'Fan Event',
     anniversary: 'Anniversary',
     double_feature: 'Double Feature',
     format_variant: 'Special Format',
+    live_encore: 'Live/Encore',
+    special_event: 'Special Event',
     anime_special_engagement: 'Special Engagement',
   };
   
