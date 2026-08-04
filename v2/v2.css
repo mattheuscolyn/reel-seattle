@@ -4958,6 +4958,24 @@ button {
   border-color: var(--v2-border);
 }
 
+.v2-profile-account-sync-now {
+  align-self: flex-start;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--v2-muted, #8a8a96);
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+.v2-profile-account-sync-now:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.v2-profile-account-sync-now:hover:not(:disabled) {
+  color: var(--v2-fg);
+}
+
 /* ?? Theaters list (Stage 1 designed page) ?? */
 
 .v2-theaters-page {

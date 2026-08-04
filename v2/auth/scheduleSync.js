@@ -1,7 +1,12 @@
 /**
- * My Schedule / accepted-plans sync client (T-ACCOUNT-CLOUD-SYNC-SCHEDULE-01).
+ * My Schedule / accepted-plans sync client
+ * (T-ACCOUNT-CLOUD-SYNC-SCHEDULE-01 / AUTO-01).
  *
- * Separate from film preference sync. Login alone never attaches or syncs.
+ * Local-first: UI mutations stay synchronous. Cloud writes are async,
+ * coalesced, durable via outbox, and never revert local state on failure.
+ *
+ * Login alone never uploads, downloads, merges, or attaches.
+ * Visibility / online lifecycle lives in syncCoordinator.js.
  */
 
 import { getSupabaseClient } from './supabaseClient.js';
@@ -26,8 +31,21 @@ import {
   ACCEPTED_PLANS_VERSION,
   getAcceptedPlans,
 } from '../stores/acceptedPlansStore.js';
+import {
+  SCHEDULE_SYNC_OUTBOX_KEY,
+  clearSyncOutbox,
+  readSyncOutboxEntries,
+  writeSyncOutboxEntries,
+} from './syncOutbox.js';
+import {
+  isBrowserOnlineHint,
+  registerSyncCategory,
+  requestCategorySync,
+  setSyncCoordinatorAuthContext,
+  startSyncCoordinator,
+} from './syncCoordinator.js';
 
-/** @typedef {'signed_out' | 'local_only' | 'prompt' | 'attaching' | 'synced' | 'degraded'} ScheduleSyncUiStatus */
+/** @typedef {'signed_out' | 'local_only' | 'prompt' | 'attaching' | 'syncing' | 'pending_local' | 'offline_pending' | 'retry_scheduled' | 'synced' | 'degraded'} ScheduleSyncUiStatus */
 
 /**
  * @typedef {{
@@ -35,6 +53,9 @@ import {
  *   attached: boolean,
  *   attaching: boolean,
  *   degraded: boolean,
+ *   syncing: boolean,
+ *   pendingCount: number,
+ *   retryScheduled: boolean,
  *   lastSuccessfulSyncAt: string | null,
  *   lastSuccessfulPullAt: string | null,
  *   lastError: string | null,
@@ -43,9 +64,9 @@ import {
  * }} ScheduleSyncSnapshot
  */
 
-const VISIBILITY_PULL_MIN_MS = 45_000;
 const WRITE_DEBOUNCE_MS = 400;
 const MAX_RETRY_DELAY_MS = 30_000;
+const SCHEDULE_CATEGORY_ID = 'schedule';
 
 /** @type {ScheduleSyncSnapshot} */
 let snapshot = createSnapshot();
@@ -64,8 +85,6 @@ let authGeneration = 0;
 let started = false;
 /** @type {(() => void) | null} */
 let mutationUnsub = null;
-/** @type {(() => void) | null} */
-let visibilityUnsub = null;
 
 /** @type {Map<string, import('./acceptedPlanSnapshot.js').AcceptedPlanRecord>} */
 let pendingById = new Map();
@@ -79,11 +98,46 @@ let retryAttempt = 0;
 let writeInFlight = false;
 /** @type {boolean} */
 let pullInFlight = false;
-/** @type {number} */
-let lastVisibilityPullAt = 0;
 
 /** @type {Map<string, import('./acceptedPlanSnapshot.js').AcceptedPlanRecord>} */
 let observedLocalActive = new Map();
+
+function persistScheduleOutbox() {
+  if (!storageRef || !authUserId) return;
+  const entries = [...pendingById.entries()].map(([recordKey, payload]) => ({
+    recordKey,
+    updatedAt: payload.updated_at,
+    mutationId: `${recordKey}:${payload.updated_at}`,
+    payload,
+  }));
+  writeSyncOutboxEntries(
+    storageRef,
+    SCHEDULE_SYNC_OUTBOX_KEY,
+    SCHEDULE_CATEGORY_ID,
+    authUserId,
+    entries,
+  );
+  setSnapshot({
+    pendingCount: pendingById.size,
+    retryScheduled: Boolean(retryTimer),
+  });
+}
+
+function loadScheduleOutboxForUser(userId) {
+  pendingById.clear();
+  if (!storageRef || !userId) return;
+  const entries = readSyncOutboxEntries(
+    storageRef,
+    SCHEDULE_SYNC_OUTBOX_KEY,
+    SCHEDULE_CATEGORY_ID,
+    userId,
+  );
+  for (const entry of entries) {
+    const n = normalizeAcceptedPlanRecord(entry.payload);
+    if (!n) continue;
+    pendingById.set(n.plan_id, n);
+  }
+}
 
 function createSnapshot() {
   return {
@@ -91,6 +145,9 @@ function createSnapshot() {
     attached: false,
     attaching: false,
     degraded: false,
+    syncing: false,
+    pendingCount: 0,
+    retryScheduled: false,
     lastSuccessfulSyncAt: null,
     lastSuccessfulPullAt: null,
     lastError: null,
@@ -114,21 +171,35 @@ function setSnapshot(patch) {
 
 /**
  * @param {ScheduleSyncSnapshot} s
+ * @returns {ScheduleSyncUiStatus}
  */
 function deriveUiStatus(s) {
   if (!s.userId) return 'signed_out';
   if (s.attaching) return 'attaching';
+  if (s.attached && s.degraded && !s.retryScheduled && s.pendingCount === 0) {
+    return 'degraded';
+  }
+  if (s.attached && s.syncing) return 'syncing';
+  if (s.attached && s.pendingCount > 0) {
+    if (!isBrowserOnlineHint()) return 'offline_pending';
+    if (s.retryScheduled || s.degraded) return 'retry_scheduled';
+    return 'pending_local';
+  }
   if (s.attached && s.degraded) return 'degraded';
   if (s.attached) return 'synced';
   return 'prompt';
 }
 
+/**
+ * @returns {ScheduleSyncSnapshot}
+ */
 export function getScheduleSyncSnapshot() {
   return snapshot;
 }
 
 /**
  * @param {(s: ScheduleSyncSnapshot) => void} listener
+ * @returns {() => void}
  */
 export function subscribeScheduleSync(listener) {
   listeners.add(listener);
@@ -136,19 +207,29 @@ export function subscribeScheduleSync(listener) {
 }
 
 /**
+ * Honest label for Account UI. Never claims film activity sync.
  * @param {ScheduleSyncSnapshot} [s]
  */
 export function getScheduleSyncLabel(s = snapshot) {
   switch (s.uiStatus) {
+    case 'signed_out':
+      return 'My Schedule is stored on this device';
+    case 'prompt':
+      return 'My Schedule is stored on this device';
     case 'attaching':
       return 'Combining schedules…';
+    case 'syncing':
+      return 'Syncing My Schedule…';
+    case 'pending_local':
+      return 'Saving My Schedule to your account…';
+    case 'offline_pending':
+      return 'Saved on this device — will sync when online';
+    case 'retry_scheduled':
+      return 'Saved on this device — retrying sync';
     case 'synced':
       return 'My Schedule is synced';
     case 'degraded':
-      return 'Schedule changes are saved on this device · Cloud sync will retry';
-    case 'prompt':
-    case 'local_only':
-    case 'signed_out':
+      return 'Saved on this device — cloud sync needs attention';
     default:
       return 'My Schedule is stored on this device';
   }
@@ -330,6 +411,7 @@ function enqueuePending(records) {
       pendingById.set(n.plan_id, n);
     }
   }
+  persistScheduleOutbox();
   scheduleFlush();
 }
 
@@ -348,8 +430,10 @@ function scheduleRetry() {
     1000 * 2 ** Math.min(retryAttempt, 5),
   );
   retryAttempt += 1;
+  setSnapshot({ retryScheduled: true, pendingCount: pendingById.size });
   retryTimer = setTimeout(() => {
     retryTimer = null;
+    setSnapshot({ retryScheduled: false, pendingCount: pendingById.size });
     void flushPendingWrites();
   }, delay);
 }
@@ -373,14 +457,22 @@ async function flushPendingWrites() {
   writeInFlight = true;
   const batch = [...pendingById.values()];
   pendingById.clear();
+  persistScheduleOutbox();
+  setSnapshot({
+    syncing: true,
+    pendingCount: batch.length,
+  });
 
   try {
     const result = await upsertUserAcceptedPlans(client, userId, batch);
     if (generation !== authGeneration || authUserId !== userId) return;
     if (!result.ok) {
       for (const rec of batch) pendingById.set(rec.plan_id, rec);
+      persistScheduleOutbox();
       setSnapshot({
         degraded: true,
+        syncing: false,
+        pendingCount: pendingById.size,
         lastError: friendlySyncError(
           result.error,
           'Cloud sync could not save schedule changes.',
@@ -402,16 +494,23 @@ async function flushPendingWrites() {
       });
     }
     retryAttempt = 0;
+    clearSyncOutbox(storage, SCHEDULE_SYNC_OUTBOX_KEY, userId);
     setSnapshot({
       degraded: false,
       lastError: null,
       lastSuccessfulSyncAt: now,
+      syncing: false,
+      pendingCount: pendingById.size,
+      retryScheduled: false,
     });
   } catch (error) {
     for (const rec of batch) pendingById.set(rec.plan_id, rec);
+    persistScheduleOutbox();
     if (generation === authGeneration && authUserId === userId) {
       setSnapshot({
         degraded: true,
+        syncing: false,
+        pendingCount: pendingById.size,
         lastError: friendlySyncError(
           error,
           'Cloud sync could not save schedule changes.',
@@ -421,7 +520,14 @@ async function flushPendingWrites() {
     }
   } finally {
     writeInFlight = false;
-    if (pendingById.size > 0 && authUserId === userId) scheduleFlush();
+    if (pendingById.size > 0 && authUserId === userId) {
+      scheduleFlush();
+    } else if (authUserId === userId) {
+      setSnapshot({
+        syncing: pullInFlight,
+        pendingCount: pendingById.size,
+      });
+    }
   }
 }
 
@@ -444,6 +550,7 @@ export async function pullSchedule(options = {}) {
   }
 
   pullInFlight = true;
+  setSnapshot({ syncing: true, pendingCount: pendingById.size });
   try {
     const attachment = readScheduleSyncAttachment(storage);
     const since = options.force ? null : attachment?.lastSuccessfulPullAt ?? null;
@@ -454,6 +561,8 @@ export async function pullSchedule(options = {}) {
     if (!fetched.ok) {
       setSnapshot({
         degraded: true,
+        syncing: false,
+        pendingCount: pendingById.size,
         lastError: friendlySyncError(
           fetched.error,
           'Could not refresh synced schedule.',
@@ -490,12 +599,16 @@ export async function pullSchedule(options = {}) {
       lastSuccessfulSyncAt: now,
       attached: true,
       localHasPlans: localHasAnyPlans(storage),
+      syncing: writeInFlight,
+      pendingCount: pendingById.size,
     });
     return { ok: true, error: null };
   } catch (error) {
     if (generation === authGeneration && authUserId === userId) {
       setSnapshot({
         degraded: true,
+        syncing: writeInFlight,
+        pendingCount: pendingById.size,
         lastError: friendlySyncError(
           error,
           'Could not refresh synced schedule.',
@@ -505,6 +618,9 @@ export async function pullSchedule(options = {}) {
     return { ok: false, error };
   } finally {
     pullInFlight = false;
+    if (pendingById.size > 0 && authUserId === userId) {
+      scheduleFlush();
+    }
   }
 }
 
@@ -617,10 +733,25 @@ export function declineScheduleAttach() {
   return { ok: true };
 }
 
+/**
+ * Manual Sync now (attached only) — forced coordinator cycle.
+ */
 export async function syncScheduleNow() {
-  const result = await pullSchedule({ force: true });
-  if (result.ok) await flushPendingWrites();
-  return result;
+  return requestCategorySync(SCHEDULE_CATEGORY_ID, {
+    force: true,
+    reason: 'manual',
+  });
+}
+
+async function runScheduleSyncCycle(options = {}) {
+  setSnapshot({ syncing: true, pendingCount: pendingById.size });
+  await flushPendingWrites();
+  const pull = await pullSchedule({ force: Boolean(options.force) });
+  setSnapshot({
+    syncing: writeInFlight || pullInFlight,
+    pendingCount: pendingById.size,
+  });
+  return pull;
 }
 
 function onLocalMutation(event) {
@@ -642,18 +773,9 @@ function onLocalMutation(event) {
   if (changes.length) enqueuePending(changes);
 }
 
-function onVisibilityChange() {
-  if (typeof document === 'undefined') return;
-  if (document.visibilityState !== 'visible') return;
-  const now = Date.now();
-  if (now - lastVisibilityPullAt < VISIBILITY_PULL_MIN_MS) return;
-  if (!authUserId || !storageRef) return;
-  if (!isBrowserScheduleAttachedToUser(storageRef, authUserId)) return;
-  lastVisibilityPullAt = now;
-  void pullSchedule();
-}
-
 /**
+ * Bind auth session to the sync controller. Does not auto-attach.
+ *
  * @param {{
  *   userId: string | null,
  *   client?: object | null,
@@ -671,6 +793,7 @@ export function setScheduleAuthContext(input) {
   storageRef = storage;
   clientRef = client;
 
+  const previousUserId = authUserId;
   if (nextUserId !== authUserId) {
     authGeneration += 1;
     pendingById.clear();
@@ -688,6 +811,8 @@ export function setScheduleAuthContext(input) {
   }
 
   authUserId = nextUserId;
+  setSyncCoordinatorAuthContext({ userId: nextUserId, storage });
+
   const attached = isBrowserScheduleAttachedToUser(storage, nextUserId);
   const attachment = readScheduleSyncAttachment(storage);
   const localHas = localHasAnyPlans(storage);
@@ -700,6 +825,9 @@ export function setScheduleAuthContext(input) {
     return;
   }
 
+  if (previousUserId !== nextUserId) {
+    loadScheduleOutboxForUser(nextUserId);
+  }
   observedLocalActive = readLocalActiveMap(storage);
   setSnapshot({
     userId: nextUserId,
@@ -710,11 +838,42 @@ export function setScheduleAuthContext(input) {
     lastSuccessfulPullAt: attachment?.lastSuccessfulPullAt ?? null,
     lastSuccessfulSyncAt: attachment?.lastSuccessfulSyncAt ?? null,
     localHasPlans: localHas,
+    pendingCount: pendingById.size,
+    syncing: false,
+    retryScheduled: false,
   });
 
-  if (attached) void pullSchedule();
+  if (attached && previousUserId !== nextUserId) {
+    void requestCategorySync(SCHEDULE_CATEGORY_ID, {
+      force: false,
+      reason: 'init',
+    });
+  } else if (attached && pendingById.size > 0) {
+    scheduleFlush();
+  }
 }
 
+const scheduleSyncAdapter = {
+  id: SCHEDULE_CATEGORY_ID,
+  isAttached: (userId, storage) =>
+    isBrowserScheduleAttachedToUser(storage, userId),
+  hasPendingWork: () => pendingById.size > 0,
+  flushPending: async () => {
+    await flushPendingWrites();
+  },
+  pullRemote: async (options) => pullSchedule(options),
+  runSyncCycle: async (options) => runScheduleSyncCycle(options),
+  cancel: () => {
+    if (writeTimer) clearTimeout(writeTimer);
+    if (retryTimer) clearTimeout(retryTimer);
+    writeTimer = null;
+    retryTimer = null;
+  },
+};
+
+/**
+ * Start mutation listeners + register with shared coordinator once.
+ */
 export function startScheduleSyncController(options = {}) {
   if (started) return;
   started = true;
@@ -723,21 +882,14 @@ export function startScheduleSyncController(options = {}) {
     (typeof localStorage !== 'undefined' ? localStorage : null);
   clientRef = options.client ?? getSupabaseClient();
   mutationUnsub = subscribeScheduleStoreMutations(onLocalMutation);
-
-  if (typeof document !== 'undefined') {
-    const handler = () => onVisibilityChange();
-    document.addEventListener('visibilitychange', handler);
-    visibilityUnsub = () =>
-      document.removeEventListener('visibilitychange', handler);
-  }
+  registerSyncCategory(scheduleSyncAdapter);
+  startSyncCoordinator({ storage: storageRef });
 }
 
 export function stopScheduleSyncController() {
   started = false;
   mutationUnsub?.();
   mutationUnsub = null;
-  visibilityUnsub?.();
-  visibilityUnsub = null;
   if (writeTimer) clearTimeout(writeTimer);
   if (retryTimer) clearTimeout(retryTimer);
   writeTimer = null;
@@ -752,7 +904,6 @@ export function stopScheduleSyncController() {
 export function resetScheduleSyncForTests() {
   stopScheduleSyncController();
   observedLocalActive = new Map();
-  lastVisibilityPullAt = 0;
   retryAttempt = 0;
   clientRef = null;
   storageRef = null;

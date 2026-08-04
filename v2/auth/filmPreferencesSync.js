@@ -1,15 +1,15 @@
 /**
- * Film preferences sync client (T-ACCOUNT-CLOUD-SYNC-FILMS-01).
+ * Film preferences sync client (T-ACCOUNT-CLOUD-SYNC-FILMS-01 / AUTO-01).
  *
  * Local-first: UI mutations stay synchronous. Cloud writes are async,
- * coalesced, and never revert local state on failure.
+ * coalesced, durable via outbox, and never revert local state on failure.
  *
  * Login alone never uploads, downloads, merges, or attaches.
+ * Visibility / online lifecycle lives in syncCoordinator.js.
  */
 
 import { getSupabaseClient } from './supabaseClient.js';
 import {
-  clearFilmSyncAttachment,
   isBrowserAttachedToUser,
   readFilmSyncAttachment,
   writeFilmSyncAttachment,
@@ -48,8 +48,21 @@ import {
   NOT_INTERESTED_FILMS_STORAGE_KEY,
   NOT_INTERESTED_FILMS_VERSION,
 } from '../stores/notInterestedFilmsStore.js';
+import {
+  FILM_SYNC_OUTBOX_KEY,
+  clearSyncOutbox,
+  readSyncOutboxEntries,
+  writeSyncOutboxEntries,
+} from './syncOutbox.js';
+import {
+  isBrowserOnlineHint,
+  registerSyncCategory,
+  requestCategorySync,
+  setSyncCoordinatorAuthContext,
+  startSyncCoordinator,
+} from './syncCoordinator.js';
 
-/** @typedef {'signed_out' | 'local_only' | 'prompt' | 'attaching' | 'synced' | 'degraded'} FilmSyncUiStatus */
+/** @typedef {'signed_out' | 'local_only' | 'prompt' | 'attaching' | 'syncing' | 'pending_local' | 'offline_pending' | 'retry_scheduled' | 'synced' | 'degraded'} FilmSyncUiStatus */
 
 /**
  * @typedef {{
@@ -57,6 +70,9 @@ import {
  *   attached: boolean,
  *   attaching: boolean,
  *   degraded: boolean,
+ *   syncing: boolean,
+ *   pendingCount: number,
+ *   retryScheduled: boolean,
  *   lastSuccessfulSyncAt: string | null,
  *   lastSuccessfulPullAt: string | null,
  *   lastError: string | null,
@@ -66,9 +82,9 @@ import {
  * }} FilmSyncSnapshot
  */
 
-const VISIBILITY_PULL_MIN_MS = 45_000;
 const WRITE_DEBOUNCE_MS = 400;
 const MAX_RETRY_DELAY_MS = 30_000;
+const FILM_CATEGORY_ID = 'film_preferences';
 
 /** @type {FilmSyncSnapshot} */
 let snapshot = createSnapshot();
@@ -87,8 +103,6 @@ let authGeneration = 0;
 let started = false;
 /** @type {(() => void) | null} */
 let mutationUnsub = null;
-/** @type {(() => void) | null} */
-let visibilityUnsub = null;
 
 /** @type {Map<string, import('./filmPreferenceMerge.js').PreferenceRecord>} */
 let pendingById = new Map();
@@ -102,11 +116,46 @@ let retryAttempt = 0;
 let writeInFlight = false;
 /** @type {boolean} */
 let pullInFlight = false;
-/** @type {number} */
-let lastVisibilityPullAt = 0;
 
 /** @type {Map<string, import('./filmPreferenceMerge.js').PreferenceRecord>} */
 let observedLocalActive = new Map();
+
+function persistFilmOutbox() {
+  if (!storageRef || !authUserId) return;
+  const entries = [...pendingById.entries()].map(([recordKey, payload]) => ({
+    recordKey,
+    updatedAt: payload.updated_at,
+    mutationId: `${recordKey}:${payload.updated_at}`,
+    payload,
+  }));
+  writeSyncOutboxEntries(
+    storageRef,
+    FILM_SYNC_OUTBOX_KEY,
+    FILM_CATEGORY_ID,
+    authUserId,
+    entries,
+  );
+  setSnapshot({
+    pendingCount: pendingById.size,
+    retryScheduled: Boolean(retryTimer),
+  });
+}
+
+function loadFilmOutboxForUser(userId) {
+  pendingById.clear();
+  if (!storageRef || !userId) return;
+  const entries = readSyncOutboxEntries(
+    storageRef,
+    FILM_SYNC_OUTBOX_KEY,
+    FILM_CATEGORY_ID,
+    userId,
+  );
+  for (const entry of entries) {
+    const n = normalizePreferenceRecord(entry.payload);
+    if (!n) continue;
+    pendingById.set(recordId(n), n);
+  }
+}
 
 function createSnapshot() {
   return {
@@ -114,6 +163,9 @@ function createSnapshot() {
     attached: false,
     attaching: false,
     degraded: false,
+    syncing: false,
+    pendingCount: 0,
+    retryScheduled: false,
     lastSuccessfulSyncAt: null,
     lastSuccessfulPullAt: null,
     lastError: null,
@@ -143,6 +195,15 @@ function setSnapshot(patch) {
 function deriveUiStatus(s) {
   if (!s.userId) return 'signed_out';
   if (s.attaching) return 'attaching';
+  if (s.attached && s.degraded && !s.retryScheduled && s.pendingCount === 0) {
+    return 'degraded';
+  }
+  if (s.attached && s.syncing) return 'syncing';
+  if (s.attached && s.pendingCount > 0) {
+    if (!isBrowserOnlineHint()) return 'offline_pending';
+    if (s.retryScheduled || s.degraded) return 'retry_scheduled';
+    return 'pending_local';
+  }
   if (s.attached && s.degraded) return 'degraded';
   if (s.attached) return 'synced';
   return 'prompt';
@@ -176,10 +237,18 @@ export function getFilmPreferencesSyncLabel(s = snapshot) {
       return 'Film activity is stored on this device';
     case 'attaching':
       return 'Combining film activity…';
+    case 'syncing':
+      return 'Syncing film activity…';
+    case 'pending_local':
+      return 'Saving film activity to your account…';
+    case 'offline_pending':
+      return 'Saved on this device — will sync when online';
+    case 'retry_scheduled':
+      return 'Saved on this device — retrying sync';
     case 'synced':
       return 'Saved, Seen, and Not Interested are synced';
     case 'degraded':
-      return 'Changes are saved on this device · Cloud sync will retry';
+      return 'Saved on this device — cloud sync needs attention';
     default:
       return 'Film activity is stored on this device';
   }
@@ -438,6 +507,7 @@ function enqueuePending(records) {
       pendingById.set(id, n);
     }
   }
+  persistFilmOutbox();
   scheduleFlush();
 }
 
@@ -456,8 +526,10 @@ function scheduleRetry() {
     1000 * 2 ** Math.min(retryAttempt, 5),
   );
   retryAttempt += 1;
+  setSnapshot({ retryScheduled: true, pendingCount: pendingById.size });
   retryTimer = setTimeout(() => {
     retryTimer = null;
+    setSnapshot({ retryScheduled: false, pendingCount: pendingById.size });
     void flushPendingWrites();
   }, delay);
 }
@@ -481,6 +553,11 @@ async function flushPendingWrites() {
   writeInFlight = true;
   const batch = [...pendingById.values()];
   pendingById.clear();
+  persistFilmOutbox();
+  setSnapshot({
+    syncing: true,
+    pendingCount: batch.length,
+  });
 
   try {
     const result = await upsertUserFilmPreferences(client, userId, batch);
@@ -489,8 +566,11 @@ async function flushPendingWrites() {
     }
     if (!result.ok) {
       for (const rec of batch) pendingById.set(recordId(rec), rec);
+      persistFilmOutbox();
       setSnapshot({
         degraded: true,
+        syncing: false,
+        pendingCount: pendingById.size,
         lastError: friendlySyncError(
           result.error,
           'Cloud sync could not save changes.',
@@ -512,16 +592,23 @@ async function flushPendingWrites() {
       });
     }
     retryAttempt = 0;
+    clearSyncOutbox(storage, FILM_SYNC_OUTBOX_KEY, userId);
     setSnapshot({
       degraded: false,
       lastError: null,
       lastSuccessfulSyncAt: now,
+      syncing: false,
+      pendingCount: pendingById.size,
+      retryScheduled: false,
     });
   } catch (error) {
     for (const rec of batch) pendingById.set(recordId(rec), rec);
+    persistFilmOutbox();
     if (generation === authGeneration && authUserId === userId) {
       setSnapshot({
         degraded: true,
+        syncing: false,
+        pendingCount: pendingById.size,
         lastError: friendlySyncError(error, 'Cloud sync could not save changes.'),
       });
       if (isRetryableSyncError(error)) scheduleRetry();
@@ -530,6 +617,11 @@ async function flushPendingWrites() {
     writeInFlight = false;
     if (pendingById.size > 0 && authUserId === userId) {
       scheduleFlush();
+    } else if (authUserId === userId) {
+      setSnapshot({
+        syncing: pullInFlight,
+        pendingCount: pendingById.size,
+      });
     }
   }
 }
@@ -554,6 +646,7 @@ export async function pullFilmPreferences(options = {}) {
   }
 
   pullInFlight = true;
+  setSnapshot({ syncing: true, pendingCount: pendingById.size });
   try {
     const attachment = readFilmSyncAttachment(storage);
     const since = options.force ? null : attachment?.lastSuccessfulPullAt ?? null;
@@ -564,6 +657,8 @@ export async function pullFilmPreferences(options = {}) {
     if (!fetched.ok) {
       setSnapshot({
         degraded: true,
+        syncing: false,
+        pendingCount: pendingById.size,
         lastError: friendlySyncError(
           fetched.error,
           'Could not refresh synced film activity.',
@@ -641,12 +736,16 @@ export async function pullFilmPreferences(options = {}) {
       lastSuccessfulPullAt: now,
       lastSuccessfulSyncAt: now,
       attached: true,
+      syncing: writeInFlight,
+      pendingCount: pendingById.size,
     });
     return { ok: true, error: null };
   } catch (error) {
     if (generation === authGeneration && authUserId === userId) {
       setSnapshot({
         degraded: true,
+        syncing: writeInFlight,
+        pendingCount: pendingById.size,
         lastError: friendlySyncError(
           error,
           'Could not refresh synced film activity.',
@@ -656,6 +755,9 @@ export async function pullFilmPreferences(options = {}) {
     return { ok: false, error };
   } finally {
     pullInFlight = false;
+    if (pendingById.size > 0 && authUserId === userId) {
+      scheduleFlush();
+    }
   }
 }
 
@@ -784,14 +886,24 @@ export function declineFilmPreferencesAttach() {
 }
 
 /**
- * Manual Sync now (attached only).
+ * Manual Sync now (attached only) — forced coordinator cycle.
  */
 export async function syncFilmPreferencesNow() {
-  const result = await pullFilmPreferences({ force: true });
-  if (result.ok) {
-    await flushPendingWrites();
-  }
-  return result;
+  return requestCategorySync(FILM_CATEGORY_ID, {
+    force: true,
+    reason: 'manual',
+  });
+}
+
+async function runFilmSyncCycle(options = {}) {
+  setSnapshot({ syncing: true, pendingCount: pendingById.size });
+  await flushPendingWrites();
+  const pull = await pullFilmPreferences({ force: Boolean(options.force) });
+  setSnapshot({
+    syncing: writeInFlight || pullInFlight,
+    pendingCount: pendingById.size,
+  });
+  return pull;
 }
 
 function onLocalMutation(event) {
@@ -817,19 +929,8 @@ function onLocalMutation(event) {
   }
 }
 
-function onVisibilityChange() {
-  if (typeof document === 'undefined') return;
-  if (document.visibilityState !== 'visible') return;
-  const now = Date.now();
-  if (now - lastVisibilityPullAt < VISIBILITY_PULL_MIN_MS) return;
-  if (!authUserId || !storageRef) return;
-  if (!isBrowserAttachedToUser(storageRef, authUserId)) return;
-  lastVisibilityPullAt = now;
-  void pullFilmPreferences();
-}
-
 /**
- * Bind auth session to the sync controller. Does not auto-attach or sync.
+ * Bind auth session to the sync controller. Does not auto-attach.
  *
  * @param {{
  *   userId: string | null,
@@ -848,8 +949,8 @@ export function setFilmPreferencesAuthContext(input) {
   storageRef = storage;
   clientRef = client;
 
+  const previousUserId = authUserId;
   if (nextUserId !== authUserId) {
-    // Stop prior user work; never apply prior cloud data.
     authGeneration += 1;
     pendingById.clear();
     if (writeTimer) {
@@ -863,13 +964,10 @@ export function setFilmPreferencesAuthContext(input) {
     retryAttempt = 0;
     writeInFlight = false;
     pullInFlight = false;
-
-    // If attachment belongs to a different user, do not clear it here —
-    // attachment is checked against current userId. Old attachment simply
-    // does not match → prompt for new user. Local film data stays intact.
   }
 
   authUserId = nextUserId;
+  setSyncCoordinatorAuthContext({ userId: nextUserId, storage });
 
   const attached = isBrowserAttachedToUser(storage, nextUserId);
   const attachment = readFilmSyncAttachment(storage);
@@ -883,6 +981,9 @@ export function setFilmPreferencesAuthContext(input) {
     return;
   }
 
+  if (previousUserId !== nextUserId) {
+    loadFilmOutboxForUser(nextUserId);
+  }
   observedLocalActive = readLocalActiveMap(storage);
   setSnapshot({
     userId: nextUserId,
@@ -894,12 +995,18 @@ export function setFilmPreferencesAuthContext(input) {
     lastSuccessfulSyncAt: attachment?.lastSuccessfulSyncAt ?? null,
     localHasPreferences: localHas,
     cloudHasPreferences: null,
+    pendingCount: pendingById.size,
+    syncing: false,
+    retryScheduled: false,
   });
 
-  // Attached browsers may pull after sign-in / session init — not on mere login
-  // for unattached browsers.
-  if (attached) {
-    void pullFilmPreferences();
+  if (attached && previousUserId !== nextUserId) {
+    void requestCategorySync(FILM_CATEGORY_ID, {
+      force: false,
+      reason: 'init',
+    });
+  } else if (attached && pendingById.size > 0) {
+    scheduleFlush();
   }
 }
 
@@ -922,8 +1029,25 @@ export async function probeCloudFilmPreferences() {
   return { ok: true, hasRows };
 }
 
+const filmSyncAdapter = {
+  id: FILM_CATEGORY_ID,
+  isAttached: (userId, storage) => isBrowserAttachedToUser(storage, userId),
+  hasPendingWork: () => pendingById.size > 0,
+  flushPending: async () => {
+    await flushPendingWrites();
+  },
+  pullRemote: async (options) => pullFilmPreferences(options),
+  runSyncCycle: async (options) => runFilmSyncCycle(options),
+  cancel: () => {
+    if (writeTimer) clearTimeout(writeTimer);
+    if (retryTimer) clearTimeout(retryTimer);
+    writeTimer = null;
+    retryTimer = null;
+  },
+};
+
 /**
- * Start mutation + visibility listeners once.
+ * Start mutation listeners + register with shared coordinator once.
  */
 export function startFilmPreferencesSyncController(options = {}) {
   if (started) return;
@@ -934,21 +1058,14 @@ export function startFilmPreferencesSyncController(options = {}) {
   clientRef = options.client ?? getSupabaseClient();
 
   mutationUnsub = subscribeFilmStoreMutations(onLocalMutation);
-
-  if (typeof document !== 'undefined') {
-    const handler = () => onVisibilityChange();
-    document.addEventListener('visibilitychange', handler);
-    visibilityUnsub = () =>
-      document.removeEventListener('visibilitychange', handler);
-  }
+  registerSyncCategory(filmSyncAdapter);
+  startSyncCoordinator({ storage: storageRef });
 }
 
 export function stopFilmPreferencesSyncController() {
   started = false;
   mutationUnsub?.();
   mutationUnsub = null;
-  visibilityUnsub?.();
-  visibilityUnsub = null;
   if (writeTimer) clearTimeout(writeTimer);
   if (retryTimer) clearTimeout(retryTimer);
   writeTimer = null;
@@ -963,7 +1080,6 @@ export function stopFilmPreferencesSyncController() {
 export function resetFilmPreferencesSyncForTests() {
   stopFilmPreferencesSyncController();
   observedLocalActive = new Map();
-  lastVisibilityPullAt = 0;
   retryAttempt = 0;
   clientRef = null;
   storageRef = null;

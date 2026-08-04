@@ -85,7 +85,23 @@ Browser attachment: `reel-seattle.v2.scheduleSyncAttachment` — **independent**
 of film sync. Film attach does not enable schedule sync.
 
 Extension points: `v2/auth/filmPreferencesSync.js`, `v2/auth/scheduleSync.js`,
-`cloudSyncStatus.js`.
+`v2/auth/syncCoordinator.js`, `v2/auth/syncOutbox.js`, `cloudSyncStatus.js`.
+
+## Automatic sync (T-ACCOUNT-CLOUD-SYNC-AUTO-01)
+
+After a category is explicitly attached, the shared coordinator:
+
+- uploads local mutations automatically (debounced + durable outbox)
+- pulls on session init, tab visibility (throttled ~20s), and browser online
+- retries with bounded backoff
+- keeps film and schedule independently attached
+- retains `Sync now` as a secondary forced recovery action
+
+Outbox keys: `reel-seattle.v2.filmSyncOutbox`, `reel-seattle.v2.scheduleSyncOutbox`
+(account-scoped; never uploaded under a different user).
+
+Future categories register a coordinator adapter (`id`, `isAttached`,
+`flushPending`, `pullRemote`, `cancel`) without copying visibility/online listeners.
 
 ## Human dashboard checklist
 

@@ -69,6 +69,11 @@ export default function ProfileAccountPanel({ onAuthAction }) {
     filmSync.uiStatus === 'attaching' || filmSync.attaching;
   const scheduleAttaching =
     scheduleSync.uiStatus === 'attaching' || scheduleSync.attaching;
+  const showFilmSyncNow =
+    filmSync.attached && ATTACHED_SYNC_NOW_STATUSES.has(filmSync.uiStatus);
+  const showScheduleSyncNow =
+    scheduleSync.attached &&
+    ATTACHED_SYNC_NOW_STATUSES.has(scheduleSync.uiStatus);
 
   const handleGoogle = async () => {
     if (busy) return;
@@ -273,8 +278,13 @@ export default function ProfileAccountPanel({ onAuthAction }) {
               </div>
             ) : null}
 
-            {filmSync.attached && filmSync.uiStatus === 'synced' ? (
+            {showFilmSyncNow ? (
               <div className="v2-profile-account-sync-actions">
+                {filmSync.uiStatus === 'degraded' && filmSync.lastError ? (
+                  <p className="v2-profile-account-note" role="status">
+                    {filmSync.lastError}
+                  </p>
+                ) : null}
                 {filmSync.lastSuccessfulSyncAt ? (
                   <p className="v2-profile-account-note">
                     Last film sync{' '}
@@ -283,7 +293,7 @@ export default function ProfileAccountPanel({ onAuthAction }) {
                 ) : null}
                 <button
                   type="button"
-                  className="v2-profile-account-btn v2-profile-account-btn-secondary"
+                  className="v2-profile-link v2-profile-account-sync-now"
                   disabled={busy}
                   onClick={() => {
                     onAuthAction?.('sync-film-now');
@@ -291,26 +301,6 @@ export default function ProfileAccountPanel({ onAuthAction }) {
                   }}
                 >
                   Sync now
-                </button>
-              </div>
-            ) : null}
-
-            {filmSync.attached && filmSync.uiStatus === 'degraded' ? (
-              <div className="v2-profile-account-sync-actions">
-                <p className="v2-profile-account-note" role="status">
-                  {filmSync.lastError ??
-                    'Changes are saved on this device. Cloud sync will retry.'}
-                </p>
-                <button
-                  type="button"
-                  className="v2-profile-account-btn"
-                  disabled={busy}
-                  onClick={() => {
-                    onAuthAction?.('sync-film-now');
-                    void syncFilmPreferencesNow();
-                  }}
-                >
-                  Retry sync
                 </button>
               </div>
             ) : null}
@@ -401,8 +391,14 @@ export default function ProfileAccountPanel({ onAuthAction }) {
               </div>
             ) : null}
 
-            {scheduleSync.attached && scheduleSync.uiStatus === 'synced' ? (
+            {showScheduleSyncNow ? (
               <div className="v2-profile-account-sync-actions">
+                {scheduleSync.uiStatus === 'degraded' &&
+                scheduleSync.lastError ? (
+                  <p className="v2-profile-account-note" role="status">
+                    {scheduleSync.lastError}
+                  </p>
+                ) : null}
                 {scheduleSync.lastSuccessfulSyncAt ? (
                   <p className="v2-profile-account-note">
                     Last schedule sync{' '}
@@ -411,7 +407,7 @@ export default function ProfileAccountPanel({ onAuthAction }) {
                 ) : null}
                 <button
                   type="button"
-                  className="v2-profile-account-btn v2-profile-account-btn-secondary"
+                  className="v2-profile-link v2-profile-account-sync-now"
                   disabled={busy}
                   onClick={() => {
                     onAuthAction?.('sync-schedule-now');
@@ -419,27 +415,6 @@ export default function ProfileAccountPanel({ onAuthAction }) {
                   }}
                 >
                   Sync now
-                </button>
-              </div>
-            ) : null}
-
-            {scheduleSync.attached &&
-            scheduleSync.uiStatus === 'degraded' ? (
-              <div className="v2-profile-account-sync-actions">
-                <p className="v2-profile-account-note" role="status">
-                  {scheduleSync.lastError ??
-                    'Schedule changes are saved on this device. Cloud sync will retry.'}
-                </p>
-                <button
-                  type="button"
-                  className="v2-profile-account-btn"
-                  disabled={busy}
-                  onClick={() => {
-                    onAuthAction?.('sync-schedule-now');
-                    void syncScheduleNow();
-                  }}
-                >
-                  Retry schedule sync
                 </button>
               </div>
             ) : null}
@@ -471,6 +446,15 @@ export default function ProfileAccountPanel({ onAuthAction }) {
     </section>
   );
 }
+
+const ATTACHED_SYNC_NOW_STATUSES = new Set([
+  'synced',
+  'syncing',
+  'pending_local',
+  'offline_pending',
+  'retry_scheduled',
+  'degraded',
+]);
 
 /**
  * @param {string} iso

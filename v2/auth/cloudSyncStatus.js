@@ -1,8 +1,9 @@
 /**
- * Cloud sync status for Account UI (T-ACCOUNT-CLOUD-SYNC-FILMS-01).
+ * Cloud sync status for Account UI (film aggregate attribute).
  *
- * Film preferences (Saved / Seen / Not Interested) sync after explicit
- * browser attachment. My Schedule / plans / favorites are still local-only.
+ * Film preferences and My Schedule sync independently after explicit attach.
+ * Prefer per-category labels from filmPreferencesSync / scheduleSync.
+ * Favorites remain local-only.
  */
 
 import {
@@ -11,7 +12,7 @@ import {
 } from './filmPreferencesSync.js';
 
 /**
- * @typedef {'signed_out' | 'local_only' | 'prompt' | 'attaching' | 'synced' | 'degraded'} CloudSyncStatus
+ * @typedef {'signed_out' | 'local_only' | 'prompt' | 'attaching' | 'syncing' | 'pending_local' | 'offline_pending' | 'retry_scheduled' | 'synced' | 'degraded'} CloudSyncStatus
  */
 
 /**
