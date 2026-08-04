@@ -1,9 +1,9 @@
 # Reel Seattle v2 — Authentication Foundation
 
 **Status:** Production-ready auth foundation (`T-ACCOUNT-CLOUD-AUTH-01`)  
-**Cloud synchronization:** Film preferences (Saved / Seen / Not Interested)
-sync after **explicit browser attachment**. My Schedule / plans / favorites
-remain local-only.
+**Cloud synchronization:** Film preferences (Saved / Seen / Not Interested) and
+My Schedule / accepted plans sync after **separate explicit browser attachments**.
+Planner drafts, favorites, and calendar settings remain local-only.
 
 ## Architecture
 
@@ -75,7 +75,16 @@ tombstones via `is_active=false`, no routine DELETE).
 Login alone never uploads, downloads, merges, or attaches. Each browser keeps
 `reel-seattle.v2.filmSyncAttachment` after a successful Merge and enable sync.
 
-Extension point: `v2/auth/filmPreferencesSync.js` + `cloudSyncStatus.js`.
+## Schedule sync (T-ACCOUNT-CLOUD-SYNC-SCHEDULE-01)
+
+Table: `public.user_accepted_plans` (durable `plan_snapshot` jsonb). Schedule
+markers: `user_sync_state.schedule_attached_at` / `schedule_last_synced_at`.
+
+Browser attachment: `reel-seattle.v2.scheduleSyncAttachment` — **independent**
+of film sync. Film attach does not enable schedule sync.
+
+Extension points: `v2/auth/filmPreferencesSync.js`, `v2/auth/scheduleSync.js`,
+`cloudSyncStatus.js`.
 
 ## Human dashboard checklist
 

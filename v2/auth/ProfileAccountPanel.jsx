@@ -1,6 +1,7 @@
 /**
- * Compact Profile account block (T-AUTH-01 / T-ACCOUNT-CLOUD-SYNC-FILMS-01).
- * Preserves approved Profile layout — no new tabs/cards redesign.
+ * Compact Profile account block
+ * (T-AUTH-01 / T-ACCOUNT-CLOUD-SYNC-FILMS-01 / T-ACCOUNT-CLOUD-SYNC-SCHEDULE-01).
+ * Film sync and schedule sync are separate explicit attachments.
  */
 
 import { useEffect, useState } from 'react';
@@ -19,6 +20,14 @@ import {
   subscribeFilmPreferencesSync,
   syncFilmPreferencesNow,
 } from './filmPreferencesSync.js';
+import {
+  attachScheduleMerge,
+  declineScheduleAttach,
+  getScheduleSyncLabel,
+  getScheduleSyncSnapshot,
+  subscribeScheduleSync,
+  syncScheduleNow,
+} from './scheduleSync.js';
 import { useAuth } from './useAuth.js';
 
 /**
@@ -31,20 +40,35 @@ export default function ProfileAccountPanel({ onAuthAction }) {
   const [filmSync, setFilmSync] = useState(() =>
     getFilmPreferencesSyncSnapshot(),
   );
-  const [attachPromptOpen, setAttachPromptOpen] = useState(false);
+  const [scheduleSync, setScheduleSync] = useState(() =>
+    getScheduleSyncSnapshot(),
+  );
+  const [filmAttachOpen, setFilmAttachOpen] = useState(false);
+  const [scheduleAttachOpen, setScheduleAttachOpen] = useState(false);
 
   useEffect(() => {
-    return subscribeFilmPreferencesSync((snap) => {
+    const unsubFilm = subscribeFilmPreferencesSync((snap) => {
       setFilmSync(snap);
     });
+    const unsubSchedule = subscribeScheduleSync((snap) => {
+      setScheduleSync(snap);
+    });
+    return () => {
+      unsubFilm();
+      unsubSchedule();
+    };
   }, []);
 
   const displayName = resolveAuthDisplayName(auth.user, auth.profile);
   const avatarUrl = resolveAuthAvatarUrl(auth.profile);
   const busy =
     auth.status === 'loading' || Boolean(auth.authActionBusy);
-  const cloudLabel = getCloudSyncStatusLabel();
-  const attaching = filmSync.uiStatus === 'attaching' || filmSync.attaching;
+  const filmLabel = getCloudSyncStatusLabel();
+  const scheduleLabel = getScheduleSyncLabel(scheduleSync);
+  const filmAttaching =
+    filmSync.uiStatus === 'attaching' || filmSync.attaching;
+  const scheduleAttaching =
+    scheduleSync.uiStatus === 'attaching' || scheduleSync.attaching;
 
   const handleGoogle = async () => {
     if (busy) return;
@@ -55,41 +79,22 @@ export default function ProfileAccountPanel({ onAuthAction }) {
   const handleSignOut = async () => {
     if (busy) return;
     onAuthAction?.('sign-out');
-    setAttachPromptOpen(false);
+    setFilmAttachOpen(false);
+    setScheduleAttachOpen(false);
     await signOut();
   };
 
-  const handleEnableSync = () => {
-    onAuthAction?.('enable-film-sync');
-    setAttachPromptOpen(true);
-  };
-
-  const handleMergeAttach = async () => {
-    if (attaching) return;
-    onAuthAction?.('merge-film-sync');
-    const result = await attachFilmPreferencesMerge();
-    if (result.ok) {
-      setAttachPromptOpen(false);
-    }
-  };
-
-  const handleKeepDeviceOnly = () => {
-    onAuthAction?.('keep-device-film-sync');
-    declineFilmPreferencesAttach();
-    setAttachPromptOpen(false);
-  };
-
-  const handleSyncNow = async () => {
-    if (attaching) return;
-    onAuthAction?.('sync-film-now');
-    await syncFilmPreferencesNow();
-  };
-
-  const showAttachPrompt =
+  const showFilmAttach =
     auth.status === 'signed_in' &&
     auth.user &&
     !filmSync.attached &&
-    (attachPromptOpen || filmSync.uiStatus === 'attaching');
+    (filmAttachOpen || filmSync.uiStatus === 'attaching');
+
+  const showScheduleAttach =
+    auth.status === 'signed_in' &&
+    auth.user &&
+    !scheduleSync.attached &&
+    (scheduleAttachOpen || scheduleSync.uiStatus === 'attaching');
 
   return (
     <section
@@ -98,6 +103,7 @@ export default function ProfileAccountPanel({ onAuthAction }) {
       data-auth-status={auth.status}
       data-cloud-sync={auth.cloudSyncStatus}
       data-film-sync={filmSync.uiStatus}
+      data-schedule-sync={scheduleSync.uiStatus}
       aria-labelledby="v2-profile-account-h"
     >
       <h2 id="v2-profile-account-h" className="v2-profile-section-label">
@@ -143,9 +149,8 @@ export default function ProfileAccountPanel({ onAuthAction }) {
       {auth.status === 'signed_out' ? (
         <div className="v2-profile-account-body">
           <p className="v2-profile-account-note">
-            Sign in to enable optional backup of Saved, Seen, and Not
-            Interested across browsers. Signing in alone does not move your
-            film activity.
+            Sign in to enable optional backup of film activity and My Schedule
+            across browsers. Signing in alone does not move your data.
           </p>
           <p className="v2-profile-account-note">
             Reel Seattle still works fully without an account. Local Saved,
@@ -192,114 +197,261 @@ export default function ProfileAccountPanel({ onAuthAction }) {
               {auth.user.email ? (
                 <p className="v2-profile-account-email">{auth.user.email}</p>
               ) : null}
-              <p className="v2-profile-account-sync" data-cloud-sync-label="">
-                {cloudLabel}
-              </p>
             </div>
           </div>
 
-          {showAttachPrompt ? (
-            <div
-              className="v2-profile-account-attach"
-              data-film-sync-prompt="attach"
-              role="group"
-              aria-label="Enable film activity sync"
-            >
-              <p className="v2-profile-account-note">
-                Signing in and enabling sync are separate choices. Combine this
-                device’s film activity with your Reel Seattle account only when
-                you are ready.
-              </p>
-              <p className="v2-profile-account-note">
-                Combine this device’s film activity with your Reel Seattle
-                account and keep it synced across devices.
-              </p>
-              <button
-                type="button"
-                className="v2-profile-account-btn"
-                disabled={attaching}
-                aria-busy={attaching ? 'true' : undefined}
-                onClick={() => void handleMergeAttach()}
-              >
-                {attaching
-                  ? 'Combining film activity…'
-                  : 'Merge and enable sync'}
-              </button>
-              <button
-                type="button"
-                className="v2-profile-account-btn v2-profile-account-btn-secondary"
-                disabled={attaching}
-                onClick={handleKeepDeviceOnly}
-              >
-                Keep using this device only
-              </button>
-              <p className="v2-profile-account-note">
-                Keep your film activity only in this browser for now. My
-                Schedule stays on this device either way.
-              </p>
-            </div>
-          ) : null}
-
-          {!filmSync.attached && !showAttachPrompt ? (
-            <div className="v2-profile-account-sync-actions">
-              <p className="v2-profile-account-note">
-                Saved, Seen, and Not Interested can follow you across browsers
-                after you enable sync. My Schedule is not synced yet.
-              </p>
-              <button
-                type="button"
-                className="v2-profile-account-btn"
-                disabled={attaching || busy}
-                onClick={handleEnableSync}
-              >
-                Enable sync
-              </button>
-            </div>
-          ) : null}
-
-          {filmSync.attached && filmSync.uiStatus === 'synced' ? (
-            <div className="v2-profile-account-sync-actions">
-              {filmSync.lastSuccessfulSyncAt ? (
-                <p className="v2-profile-account-note">
-                  Last synced{' '}
-                  {formatSyncTime(filmSync.lastSuccessfulSyncAt)}
-                </p>
-              ) : null}
-              <button
-                type="button"
-                className="v2-profile-account-btn v2-profile-account-btn-secondary"
-                disabled={busy}
-                onClick={() => void handleSyncNow()}
-              >
-                Sync now
-              </button>
-            </div>
-          ) : null}
-
-          {filmSync.attached && filmSync.uiStatus === 'degraded' ? (
-            <div className="v2-profile-account-sync-actions">
-              <p className="v2-profile-account-note" role="status">
-                {filmSync.lastError ??
-                  'Changes are saved on this device. Cloud sync will retry.'}
-              </p>
-              <button
-                type="button"
-                className="v2-profile-account-btn"
-                disabled={busy}
-                onClick={() => void handleSyncNow()}
-              >
-                Retry sync
-              </button>
-            </div>
-          ) : null}
-
-          {filmSync.lastError &&
-          filmSync.uiStatus !== 'degraded' &&
-          !filmSync.attached ? (
-            <p className="v2-profile-account-error" role="alert">
-              {filmSync.lastError}
+          <div
+            className="v2-profile-account-sync-block"
+            data-sync-kind="film"
+          >
+            <p className="v2-profile-account-sync" data-cloud-sync-label="">
+              {filmLabel}
             </p>
-          ) : null}
+
+            {showFilmAttach ? (
+              <div
+                className="v2-profile-account-attach"
+                data-film-sync-prompt="attach"
+                role="group"
+                aria-label="Enable film activity sync"
+              >
+                <p className="v2-profile-account-note">
+                  Signing in and enabling film sync are separate choices.
+                </p>
+                <p className="v2-profile-account-note">
+                  Combine this device’s film activity with your Reel Seattle
+                  account and keep it synced across devices.
+                </p>
+                <button
+                  type="button"
+                  className="v2-profile-account-btn"
+                  disabled={filmAttaching}
+                  aria-busy={filmAttaching ? 'true' : undefined}
+                  onClick={() => {
+                    onAuthAction?.('merge-film-sync');
+                    void attachFilmPreferencesMerge().then((result) => {
+                      if (result.ok) setFilmAttachOpen(false);
+                    });
+                  }}
+                >
+                  {filmAttaching
+                    ? 'Combining film activity…'
+                    : 'Merge and enable sync'}
+                </button>
+                <button
+                  type="button"
+                  className="v2-profile-account-btn v2-profile-account-btn-secondary"
+                  disabled={filmAttaching}
+                  onClick={() => {
+                    onAuthAction?.('keep-device-film-sync');
+                    declineFilmPreferencesAttach();
+                    setFilmAttachOpen(false);
+                  }}
+                >
+                  Keep using this device only
+                </button>
+              </div>
+            ) : null}
+
+            {!filmSync.attached && !showFilmAttach ? (
+              <div className="v2-profile-account-sync-actions">
+                <p className="v2-profile-account-note">
+                  Saved, Seen, and Not Interested can follow you across
+                  browsers after you enable film sync.
+                </p>
+                <button
+                  type="button"
+                  className="v2-profile-account-btn"
+                  disabled={filmAttaching || busy}
+                  onClick={() => {
+                    onAuthAction?.('enable-film-sync');
+                    setFilmAttachOpen(true);
+                  }}
+                >
+                  Enable sync
+                </button>
+              </div>
+            ) : null}
+
+            {filmSync.attached && filmSync.uiStatus === 'synced' ? (
+              <div className="v2-profile-account-sync-actions">
+                {filmSync.lastSuccessfulSyncAt ? (
+                  <p className="v2-profile-account-note">
+                    Last film sync{' '}
+                    {formatSyncTime(filmSync.lastSuccessfulSyncAt)}
+                  </p>
+                ) : null}
+                <button
+                  type="button"
+                  className="v2-profile-account-btn v2-profile-account-btn-secondary"
+                  disabled={busy}
+                  onClick={() => {
+                    onAuthAction?.('sync-film-now');
+                    void syncFilmPreferencesNow();
+                  }}
+                >
+                  Sync now
+                </button>
+              </div>
+            ) : null}
+
+            {filmSync.attached && filmSync.uiStatus === 'degraded' ? (
+              <div className="v2-profile-account-sync-actions">
+                <p className="v2-profile-account-note" role="status">
+                  {filmSync.lastError ??
+                    'Changes are saved on this device. Cloud sync will retry.'}
+                </p>
+                <button
+                  type="button"
+                  className="v2-profile-account-btn"
+                  disabled={busy}
+                  onClick={() => {
+                    onAuthAction?.('sync-film-now');
+                    void syncFilmPreferencesNow();
+                  }}
+                >
+                  Retry sync
+                </button>
+              </div>
+            ) : null}
+
+            {filmSync.lastError &&
+            filmSync.uiStatus !== 'degraded' &&
+            !filmSync.attached ? (
+              <p className="v2-profile-account-error" role="alert">
+                {filmSync.lastError}
+              </p>
+            ) : null}
+          </div>
+
+          <div
+            className="v2-profile-account-sync-block"
+            data-sync-kind="schedule"
+          >
+            <p
+              className="v2-profile-account-sync"
+              data-schedule-sync-label=""
+            >
+              {scheduleLabel}
+            </p>
+
+            {showScheduleAttach ? (
+              <div
+                className="v2-profile-account-attach"
+                data-schedule-sync-prompt="attach"
+                role="group"
+                aria-label="Enable schedule sync"
+              >
+                <p className="v2-profile-account-note">
+                  Sync accepted plans across browsers. This does not sync
+                  planner drafts or calendar settings.
+                </p>
+                <p className="v2-profile-account-note">
+                  Combine this device’s My Schedule with your Reel Seattle
+                  account and keep it synced across devices.
+                </p>
+                <button
+                  type="button"
+                  className="v2-profile-account-btn"
+                  disabled={scheduleAttaching}
+                  aria-busy={scheduleAttaching ? 'true' : undefined}
+                  onClick={() => {
+                    onAuthAction?.('merge-schedule-sync');
+                    void attachScheduleMerge().then((result) => {
+                      if (result.ok) setScheduleAttachOpen(false);
+                    });
+                  }}
+                >
+                  {scheduleAttaching
+                    ? 'Combining schedules…'
+                    : 'Merge and enable schedule sync'}
+                </button>
+                <button
+                  type="button"
+                  className="v2-profile-account-btn v2-profile-account-btn-secondary"
+                  disabled={scheduleAttaching}
+                  onClick={() => {
+                    onAuthAction?.('keep-device-schedule-sync');
+                    declineScheduleAttach();
+                    setScheduleAttachOpen(false);
+                  }}
+                >
+                  Keep this device only
+                </button>
+              </div>
+            ) : null}
+
+            {!scheduleSync.attached && !showScheduleAttach ? (
+              <div className="v2-profile-account-sync-actions">
+                <p className="v2-profile-account-note">
+                  Sync accepted plans across browsers. This does not sync
+                  planner drafts or calendar settings.
+                </p>
+                <button
+                  type="button"
+                  className="v2-profile-account-btn"
+                  disabled={scheduleAttaching || busy}
+                  onClick={() => {
+                    onAuthAction?.('enable-schedule-sync');
+                    setScheduleAttachOpen(true);
+                  }}
+                >
+                  Enable schedule sync
+                </button>
+              </div>
+            ) : null}
+
+            {scheduleSync.attached && scheduleSync.uiStatus === 'synced' ? (
+              <div className="v2-profile-account-sync-actions">
+                {scheduleSync.lastSuccessfulSyncAt ? (
+                  <p className="v2-profile-account-note">
+                    Last schedule sync{' '}
+                    {formatSyncTime(scheduleSync.lastSuccessfulSyncAt)}
+                  </p>
+                ) : null}
+                <button
+                  type="button"
+                  className="v2-profile-account-btn v2-profile-account-btn-secondary"
+                  disabled={busy}
+                  onClick={() => {
+                    onAuthAction?.('sync-schedule-now');
+                    void syncScheduleNow();
+                  }}
+                >
+                  Sync now
+                </button>
+              </div>
+            ) : null}
+
+            {scheduleSync.attached &&
+            scheduleSync.uiStatus === 'degraded' ? (
+              <div className="v2-profile-account-sync-actions">
+                <p className="v2-profile-account-note" role="status">
+                  {scheduleSync.lastError ??
+                    'Schedule changes are saved on this device. Cloud sync will retry.'}
+                </p>
+                <button
+                  type="button"
+                  className="v2-profile-account-btn"
+                  disabled={busy}
+                  onClick={() => {
+                    onAuthAction?.('sync-schedule-now');
+                    void syncScheduleNow();
+                  }}
+                >
+                  Retry schedule sync
+                </button>
+              </div>
+            ) : null}
+
+            {scheduleSync.lastError &&
+            scheduleSync.uiStatus !== 'degraded' &&
+            !scheduleSync.attached ? (
+              <p className="v2-profile-account-error" role="alert">
+                {scheduleSync.lastError}
+              </p>
+            ) : null}
+          </div>
 
           <button
             type="button"

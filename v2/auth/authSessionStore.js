@@ -21,6 +21,11 @@ import {
   startFilmPreferencesSyncController,
   subscribeFilmPreferencesSync,
 } from './filmPreferencesSync.js';
+import {
+  setScheduleAuthContext,
+  startScheduleSyncController,
+  subscribeScheduleSync,
+} from './scheduleSync.js';
 
 /** @typedef {'unconfigured' | 'loading' | 'signed_out' | 'signed_in' | 'error'} AuthStatus */
 
@@ -47,6 +52,8 @@ const listeners = new Set();
 let authSubscriptionTeardown = null;
 /** @type {null | (() => void)} */
 let filmSyncSubscriptionTeardown = null;
+/** @type {null | (() => void)} */
+let scheduleSyncSubscriptionTeardown = null;
 /** @type {boolean} */
 let started = false;
 /** @type {number} */
@@ -240,11 +247,18 @@ function refreshCloudSyncStatus() {
  * @param {import('@supabase/supabase-js').SupabaseClient | null} client
  */
 async function applySession(session, client) {
+  const storage =
+    typeof localStorage !== 'undefined' ? localStorage : null;
   if (!session?.user) {
     setFilmPreferencesAuthContext({
       userId: null,
       client,
-      storage: typeof localStorage !== 'undefined' ? localStorage : null,
+      storage,
+    });
+    setScheduleAuthContext({
+      userId: null,
+      client,
+      storage,
     });
     setState({
       status: 'signed_out',
@@ -270,7 +284,12 @@ async function applySession(session, client) {
   setFilmPreferencesAuthContext({
     userId: session.user.id,
     client,
-    storage: typeof localStorage !== 'undefined' ? localStorage : null,
+    storage,
+  });
+  setScheduleAuthContext({
+    userId: session.user.id,
+    client,
+    storage,
   });
   setState({ cloudSyncStatus: getCloudSyncStatus() });
 
@@ -313,8 +332,14 @@ export async function startAuthController(options = {}) {
 
   started = true;
   startFilmPreferencesSyncController();
+  startScheduleSyncController();
   if (!filmSyncSubscriptionTeardown) {
     filmSyncSubscriptionTeardown = subscribeFilmPreferencesSync(() => {
+      refreshCloudSyncStatus();
+    });
+  }
+  if (!scheduleSyncSubscriptionTeardown) {
+    scheduleSyncSubscriptionTeardown = subscribeScheduleSync(() => {
       refreshCloudSyncStatus();
     });
   }
@@ -413,7 +438,12 @@ export function stopAuthController() {
     filmSyncSubscriptionTeardown();
     filmSyncSubscriptionTeardown = null;
   }
+  if (scheduleSyncSubscriptionTeardown) {
+    scheduleSyncSubscriptionTeardown();
+    scheduleSyncSubscriptionTeardown = null;
+  }
   setFilmPreferencesAuthContext({ userId: null, client: null });
+  setScheduleAuthContext({ userId: null, client: null });
   started = false;
   state = createInitialState();
   for (const listener of listeners) listener(state);
@@ -538,6 +568,11 @@ export async function signOut(options = {}) {
     // onAuthStateChange will clear session; also clear immediately for UX.
     // Local film/planner stores are intentionally untouched.
     setFilmPreferencesAuthContext({
+      userId: null,
+      client,
+      storage: typeof localStorage !== 'undefined' ? localStorage : null,
+    });
+    setScheduleAuthContext({
       userId: null,
       client,
       storage: typeof localStorage !== 'undefined' ? localStorage : null,

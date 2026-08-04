@@ -27,6 +27,8 @@ import {
 } from '../../v2/auth/cloudSyncStatus.js';
 import { resetFilmPreferencesSyncForTests } from '../../v2/auth/filmPreferencesSync.js';
 import { resetFilmStoreMutationBridgeForTests } from '../../v2/auth/filmStoreMutationBridge.js';
+import { resetScheduleSyncForTests } from '../../v2/auth/scheduleSync.js';
+import { resetScheduleStoreMutationBridgeForTests } from '../../v2/auth/scheduleStoreMutationBridge.js';
 import {
   ACCEPTED_PLANS_STORAGE_KEY,
   acceptPlan,
@@ -155,6 +157,8 @@ test.beforeEach(() => {
   resetAuthControllerForTests();
   resetFilmPreferencesSyncForTests();
   resetFilmStoreMutationBridgeForTests();
+  resetScheduleSyncForTests();
+  resetScheduleStoreMutationBridgeForTests();
   createMockClient.lastOAuth = null;
 });
 
@@ -554,12 +558,14 @@ test('Profile account UI + auth modules avoid service-role secrets', () => {
   assert.match(panel, /not configured in this build/);
   assert.match(
     panel.replace(/\s+/g, ' '),
-    /Signing in alone does not move your film activity/,
+    /Signing in alone does not move your data/,
   );
   assert.match(panel, /Enable sync/);
   assert.match(panel, /Merge and enable sync/);
+  assert.match(panel, /Enable schedule sync/);
+  assert.match(panel, /Merge and enable schedule sync/);
+  assert.match(panel.replace(/\s+/g, ' '), /planner drafts or calendar settings/);
   assert.match(panel, /Keep using this device only/);
-  assert.match(panel.replace(/\s+/g, ' '), /My Schedule is not synced yet/);
   assert.match(panel, /still works/);
   assert.match(getCloudSyncStatusLabel(), /stored on this device/i);
   assert.equal(panel.toLowerCase().includes('already synced'), false);

@@ -17,6 +17,7 @@ Current migrations:
 1. `20260729000000_profiles_foundation.sql` — table, RLS, signup trigger
 2. `20260803000000_profiles_provisioning_repair.sql` — repair trigger + backfill missing profiles
 3. `20260804000000_user_film_preferences_sync.sql` — `user_film_preferences` + `user_sync_state`, RLS, LWW tombstones
+4. `20260805000000_user_accepted_plans_sync.sql` — `user_accepted_plans` + schedule columns on `user_sync_state`
 
 ### After applying the film preferences migration
 

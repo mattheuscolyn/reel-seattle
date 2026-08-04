@@ -3,7 +3,8 @@
  *
  * Device-local persistence for showtime-backed itineraries the user accepts
  * from Plan Results. Distinct from Saved/Seen/Not interested, Favorite
- * Theaters, drafts, and calendar sync. Not synced to accounts.
+ * Theaters, drafts, and calendar sync. Cloud sync (when schedule-attached)
+ * is handled by `v2/auth/scheduleSync.js` via the mutation bridge.
  *
  * Rules:
  * - Only `provenance: 'live'` plans may persist (never fixture IDs).
@@ -22,6 +23,7 @@ import {
   PLANNER_BUFFER_POLICY_V1,
 } from '../../src/utils/plannerBufferPolicy.js';
 import { parseRuntimeMinutes } from '../../src/utils/timeUtils.js';
+import { notifyScheduleStoreMutation } from '../auth/scheduleStoreMutationBridge.js';
 
 export const ACCEPTED_PLANS_STORAGE_KEY = 'reel-seattle.v2.acceptedPlans';
 export const ACCEPTED_PLANS_VERSION = 1;
@@ -659,6 +661,10 @@ export function writeAcceptedPlansStore(storage, store) {
   };
   try {
     storage.setItem(ACCEPTED_PLANS_STORAGE_KEY, JSON.stringify(payload));
+    notifyScheduleStoreMutation({
+      mutatedAt: new Date().toISOString(),
+      source: 'acceptedPlansStore',
+    });
     return { ok: true, store: payload, changed: true, error: null };
   } catch (err) {
     const quota =
