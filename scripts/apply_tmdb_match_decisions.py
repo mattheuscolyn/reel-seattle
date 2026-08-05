@@ -62,7 +62,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(doc, indent=2, sort_keys=True))
         return 0
     atomic_write_json(args.decisions_path, doc)
-    print(f"Wrote {len(doc['decisions'])} decisions → {args.decisions_path}")
+    print(f"Wrote {len(doc['decisions'])} decisions -> {args.decisions_path}")
     return 0
 
 

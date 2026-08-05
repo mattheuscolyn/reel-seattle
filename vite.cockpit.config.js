@@ -10,13 +10,18 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { env } from 'node:process'
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import { ALLOWED_DATA_ROUTES } from './cockpit/allowedDataRoutes.js'
 
 const repoRoot = fileURLToPath(new URL('.', import.meta.url))
 const cockpitRoot = fileURLToPath(new URL('./cockpit', import.meta.url))
 const cockpitOutDir = fileURLToPath(new URL('./dist-cockpit', import.meta.url))
+
+// Shell env wins; merge gitignored .env / .env.local so local Search/Validate works
+// without exporting TMDB_* every session. Never commit those files.
+const fileEnv = loadEnv(env.MODE || 'development', repoRoot, '')
+const cockpitEnv = { ...fileEnv, ...env }
 
 export { ALLOWED_DATA_ROUTES }
 
@@ -50,7 +55,7 @@ function sendJson(res, status, payload) {
 }
 
 function pythonBin() {
-  return env.REEL_SEATTLE_PYTHON || 'python'
+  return cockpitEnv.REEL_SEATTLE_PYTHON || 'python'
 }
 
 function applyDecisionPatch(patchDoc) {
@@ -63,7 +68,12 @@ function applyDecisionPatch(patchDoc) {
     {
       cwd: repoRoot,
       encoding: 'utf8',
-      env: { ...env },
+      env: {
+        ...cockpitEnv,
+        // Windows consoles often use cp1252; keep apply-script stdout ASCII-safe.
+        PYTHONIOENCODING: 'utf-8',
+        PYTHONUTF8: '1',
+      },
     },
   )
   if (result.status !== 0) {
@@ -76,11 +86,11 @@ function applyDecisionPatch(patchDoc) {
 }
 
 async function tmdbFetch(path, query = {}) {
-  const bearer = (env.TMDB_READ_ACCESS_TOKEN || '').trim()
-  const apiKey = (env.TMDB_API_KEY || '').trim()
+  const bearer = (cockpitEnv.TMDB_READ_ACCESS_TOKEN || '').trim()
+  const apiKey = (cockpitEnv.TMDB_API_KEY || '').trim()
   if (!bearer && !apiKey) {
     const error = new Error(
-      'Missing TMDB credentials on the cockpit server (TMDB_READ_ACCESS_TOKEN or TMDB_API_KEY).',
+      'Missing TMDB credentials on the cockpit server. Set TMDB_READ_ACCESS_TOKEN or TMDB_API_KEY in the shell that runs npm run cockpit, or in a gitignored .env.local at the repo root, then restart the cockpit.',
     )
     error.status = 503
     throw error

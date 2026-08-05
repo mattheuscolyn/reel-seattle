@@ -4,12 +4,35 @@
 
 ## Environment
 
-Set one of (never commit; never pass on CLI):
+Set one of (never commit; never pass on CLI flags):
 
 - `TMDB_READ_ACCESS_TOKEN` (preferred — Bearer)
 - `TMDB_API_KEY` (fallback)
 
+GitHub Actions repository secrets are **not** available to a local `npm run cockpit` process. For local Search / Validate in Film Identity Review, either:
+
+**Option A — gitignored `.env.local` at the repo root** (picked up after cockpit restart; also loaded by `match_tmdb_films.py` / `explain_tmdb_match.py`):
+
+```text
+TMDB_READ_ACCESS_TOKEN=your_token_here
+```
+
+**Option B — PowerShell session** (then start the cockpit in the same window):
+
+```powershell
+$env:TMDB_READ_ACCESS_TOKEN = "your_token_here"
+npm run cockpit
+```
+
 Optional: `REEL_SEATTLE_PYTHON` if the cockpit decision writer should use a non-default Python.
+
+## Commands
+
+```text
+# Explain scoring for one title (offline candidates or live TMDB)
+python scripts/explain_tmdb_match.py --title "Only Yesterday 35th Anniversary - Studio Ghibli Fest 2026"
+python scripts/explain_tmdb_match.py --source amc --source-film-id 83588 --json
+```
 
 ## Commands
 
@@ -43,14 +66,21 @@ python scripts/import_film_identity_artifacts.py --from-dir path/to/downloaded-p
 
 ## Local live match
 
-For developers who configure a local environment secret:
+For developers who configure a local environment secret (shell env or gitignored
+`.env.local` at the repo root — `match_tmdb_films.py` loads the latter automatically):
 
 ```text
+# Windows: ensure tzdata is installed (now in requirements.txt)
+python -m pip install -r requirements-dev.txt
+
 python scripts/match_tmdb_films.py
 python scripts/validate_film_identity.py --require-generated
 npm run cockpit   # Film Identity Review
 ```
 
+If `match_tmdb_films.py` fails with `No time zone found with key America/Los_Angeles`,
+install `tzdata` and retry. Authored decisions only change the review queue after a
+successful match run rewrites the generated artifacts.
 ## GitHub Actions live match (`T-FILMID-01D`)
 
 Repository secrets are used by the manual workflow **Film Identity — Live TMDB Match**
@@ -90,6 +120,7 @@ The cockpit does **not** read GitHub Actions artifacts automatically.
 `npm run cockpit` → **Film Identity Review**
 
 - Reads allowlisted queue / coverage / decisions under `/data/film_identity/*`
+- Candidate posters/titles/overviews in the queue come from the match artifact (no live TMDB needed to browse them)
 - Local-only POST `/api/film-identity/decisions` (writes via apply script)
-- Local-only TMDB search/details proxy (secrets stay on the Vite server process)
+- Local-only TMDB search/details proxy (needs local `TMDB_*` as above; secrets stay on the Vite server process)
 - Export patch JSON if you prefer applying from the CLI

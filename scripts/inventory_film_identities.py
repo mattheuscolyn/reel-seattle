@@ -62,7 +62,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     atomic_write_json(args.output, inventory)
     print(
-        f"Wrote {inventory['total_unique_source_identities']} identities → {args.output}"
+        f"Wrote {inventory['total_unique_source_identities']} identities -> {args.output}"
     )
     return 0
 

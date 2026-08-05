@@ -2,7 +2,7 @@
  * Film Identity Review — local-only cockpit surface (T-FILMID-01).
  * Reads allowlisted artifacts; writes decisions via localhost API or patch export.
  */
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 const QUEUE_URL = '/data/film_identity/tmdb_match_review_queue.json';
 const COVERAGE_URL = '/data/audits/tmdb_film_identity_coverage.json';
@@ -23,6 +23,32 @@ function posterUrl(path) {
   return `https://image.tmdb.org/t/p/w92${path}`;
 }
 
+function sourceIdentityKey(sourceIdentity) {
+  const source = String(sourceIdentity?.source || '').trim();
+  const sid = sourceIdentity?.source_film_id;
+  const key = sourceIdentity?.showtime_film_key;
+  if (sid != null && sid !== '') return `${source}|id|${sid}`;
+  return `${source}|key|${key}`;
+}
+
+function itemSourceKey(item) {
+  return sourceIdentityKey({
+    source: item.source,
+    source_film_id: item.source_film_id,
+    showtime_film_key: item.showtime_film_key,
+  });
+}
+
+function formatDecisionLabel(decision) {
+  if (!decision) return '';
+  const name = decision.decision;
+  if (name === 'confirm' && decision.tmdb_id) return `confirm → tmdb:${decision.tmdb_id}`;
+  if (name === 'reject_candidate' && decision.tmdb_id) {
+    return `reject → tmdb:${decision.tmdb_id}`;
+  }
+  return name;
+}
+
 export default function FilmIdentityReviewView() {
   const [queue, setQueue] = useState(null);
   const [coverage, setCoverage] = useState(null);
@@ -35,33 +61,52 @@ export default function FilmIdentityReviewView() {
   const [manualSearch, setManualSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [statusMessage, setStatusMessage] = useState(null);
+  const [statusTone, setStatusTone] = useState('info');
   const [busy, setBusy] = useState(false);
+  const selectedIdRef = useRef(null);
 
-  const reload = () => {
+  const activeDecisionsByKey = useMemo(() => {
+    const map = new Map();
+    for (const decision of decisions?.decisions || []) {
+      if (decision.active === false) continue;
+      map.set(sourceIdentityKey(decision.source_identity || {}), decision);
+    }
+    return map;
+  }, [decisions]);
+
+  const activeDecisionCount = activeDecisionsByKey.size;
+
+  const reload = async (preferredId = null) => {
     setLoading(true);
     setError(null);
-    Promise.all([
-      fetch(QUEUE_URL).then((r) => {
-        if (!r.ok) throw new Error(`Review queue HTTP ${r.status}`);
-        return r.json();
-      }),
-      fetch(COVERAGE_URL).then((r) => (r.ok ? r.json() : null)),
-      fetch(DECISIONS_URL).then((r) => {
-        if (!r.ok) throw new Error(`Decisions HTTP ${r.status}`);
-        return r.json();
-      }),
-    ])
-      .then(([queueDoc, coverageDoc, decisionsDoc]) => {
-        setQueue(queueDoc);
-        setCoverage(coverageDoc);
-        setDecisions(decisionsDoc);
-        const first = (queueDoc.items || [])[0];
-        setSelectedId(first?.queue_id ?? null);
-      })
-      .catch((err) => {
-        setError(err instanceof Error ? err.message : String(err));
-      })
-      .finally(() => setLoading(false));
+    try {
+      const [queueDoc, coverageDoc, decisionsDoc] = await Promise.all([
+        fetch(QUEUE_URL).then((r) => {
+          if (!r.ok) throw new Error(`Review queue HTTP ${r.status}`);
+          return r.json();
+        }),
+        fetch(COVERAGE_URL).then((r) => (r.ok ? r.json() : null)),
+        fetch(DECISIONS_URL).then((r) => {
+          if (!r.ok) throw new Error(`Decisions HTTP ${r.status}`);
+          return r.json();
+        }),
+      ]);
+      setQueue(queueDoc);
+      setCoverage(coverageDoc);
+      setDecisions(decisionsDoc);
+      const ids = (queueDoc.items || []).map((item) => item.queue_id);
+      if (preferredId && ids.includes(preferredId)) {
+        setSelectedId(preferredId);
+      } else if (!ids.includes(selectedIdRef.current)) {
+        setSelectedId(ids[0] ?? null);
+      }
+      return { queueDoc, decisionsDoc };
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+      return null;
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -73,14 +118,33 @@ export default function FilmIdentityReviewView() {
     () => items.find((item) => item.queue_id === selectedId) || null,
     [items, selectedId],
   );
+  const selectedActiveDecision = selected
+    ? activeDecisionsByKey.get(itemSourceKey(selected)) || null
+    : null;
+
+  const prevSelectedIdRef = useRef(null);
 
   useEffect(() => {
-    if (!selected) {
+    selectedIdRef.current = selectedId;
+    const item = items.find((row) => row.queue_id === selectedId) || null;
+    if (!item) {
       setSelectedCandidateId(null);
+      setSearchResults([]);
       return;
     }
-    setSelectedCandidateId(selected.proposed_tmdb_id ?? selected.candidates?.[0]?.tmdb_id ?? null);
-  }, [selected]);
+    const locked = activeDecisionsByKey.get(itemSourceKey(item));
+    setSelectedCandidateId(
+      locked?.tmdb_id ?? item.proposed_tmdb_id ?? item.candidates?.[0]?.tmdb_id ?? null,
+    );
+    if (locked?.tmdb_id) {
+      setManualTmdbId(String(locked.tmdb_id));
+    }
+    if (prevSelectedIdRef.current !== selectedId) {
+      prevSelectedIdRef.current = selectedId;
+      setSearchResults([]);
+      setManualSearch(item.normalized_title || item.source_title || '');
+    }
+  }, [selectedId, items, activeDecisionsByKey]);
 
   const exportPatch = (decisionPayload) => {
     const blob = new Blob([JSON.stringify({ decisions: [decisionPayload] }, null, 2)], {
@@ -148,11 +212,26 @@ export default function FilmIdentityReviewView() {
   const submitDecision = async (actionId, { exportOnly = false } = {}) => {
     setBusy(true);
     setStatusMessage(null);
+    setStatusTone('info');
     try {
       const decisionPayload = buildDecision(actionId);
       if (!decisionPayload) return;
+
+      if (
+        selectedActiveDecision &&
+        selectedActiveDecision.decision === decisionPayload.decision &&
+        selectedActiveDecision.tmdb_id === decisionPayload.tmdb_id
+      ) {
+        setStatusTone('success');
+        setStatusMessage(
+          `Already locked in: ${formatDecisionLabel(selectedActiveDecision)}. No new decision written.`,
+        );
+        return;
+      }
+
       if (exportOnly) {
         exportPatch(decisionPayload);
+        setStatusTone('info');
         setStatusMessage('Exported decision patch JSON for scripts/apply_tmdb_match_decisions.py');
         return;
       }
@@ -165,9 +244,15 @@ export default function FilmIdentityReviewView() {
       if (!response.ok) {
         throw new Error(body.error || `Write failed HTTP ${response.status}`);
       }
-      setStatusMessage(`Saved decision (${decisionPayload.decision}). Re-run matcher to refresh queue.`);
-      reload();
+
+      const label = formatDecisionLabel(decisionPayload);
+      await reload(selected?.queue_id ?? null);
+      setStatusTone('success');
+      setStatusMessage(
+        `Locked in: ${label}. This row stays visible until you re-run the matcher; the list marks it as locked.`,
+      );
     } catch (err) {
+      setStatusTone('error');
       setStatusMessage(err instanceof Error ? err.message : String(err));
     } finally {
       setBusy(false);
@@ -177,14 +262,25 @@ export default function FilmIdentityReviewView() {
   const runManualSearch = async () => {
     setBusy(true);
     setStatusMessage(null);
+    setStatusTone('info');
     try {
-      const params = new URLSearchParams({ query: manualSearch || selected?.normalized_title || '' });
-      if (selected?.year_hint) params.set('year', String(selected.year_hint));
+      // Do not auto-pass year_hint: festival/program years (e.g. 2026) wipe real film matches.
+      const query = (manualSearch || selected?.normalized_title || '').trim();
+      if (!query) throw new Error('Enter a title to search');
+      const params = new URLSearchParams({ query });
       const response = await fetch(`/api/film-identity/tmdb/search?${params}`);
       const body = await response.json();
       if (!response.ok) throw new Error(body.error || `Search HTTP ${response.status}`);
-      setSearchResults(body.results || []);
+      const results = body.results || [];
+      setSearchResults(results);
+      setStatusMessage(
+        results.length
+          ? `TMDB search: ${results.length} result${results.length === 1 ? '' : 's'} for “${query}”.`
+          : `TMDB search: no results for “${query}”. Try a shorter title or Validate a known TMDB id.`,
+      );
     } catch (err) {
+      setSearchResults([]);
+      setStatusTone('error');
       setStatusMessage(err instanceof Error ? err.message : String(err));
     } finally {
       setBusy(false);
@@ -194,6 +290,7 @@ export default function FilmIdentityReviewView() {
   const validateManualId = async () => {
     setBusy(true);
     setStatusMessage(null);
+    setStatusTone('info');
     try {
       const id = Number(manualTmdbId);
       if (!Number.isInteger(id) || id < 1) throw new Error('Enter a positive TMDB movie id');
@@ -214,20 +311,24 @@ export default function FilmIdentityReviewView() {
       setSelectedCandidateId(body.id);
       setStatusMessage(`Validated TMDB ${body.id}: ${body.title}`);
     } catch (err) {
+      setStatusTone('error');
       setStatusMessage(err instanceof Error ? err.message : String(err));
     } finally {
       setBusy(false);
     }
   };
 
+  const openCount = items.filter((item) => !activeDecisionsByKey.has(itemSourceKey(item))).length;
+  const lockedInQueue = items.length - openCount;
+
   return (
     <section className="cockpit-section" aria-labelledby="film-identity-heading">
       <h2 id="film-identity-heading">Film Identity Review</h2>
       <p className="cockpit-secondary">
         Local-only TMDB identity review (T-FILMID-01). Secrets never reach the browser.
-        Apply decisions here or export a patch for{' '}
-        <code>python scripts/apply_tmdb_match_decisions.py</code>, then rebuild with{' '}
-        <code>python scripts/match_tmdb_films.py</code>.
+        Workflow: Search TMDB → click a result → <strong>Confirm selected alternate</strong>.
+        Validate id is optional. Apply decisions here or export a patch, then rebuild with{' '}
+        <code>python scripts/match_tmdb_films.py</code> to refresh the queue.
       </p>
 
       {loading ? (
@@ -253,9 +354,8 @@ export default function FilmIdentityReviewView() {
             <p className="cockpit-secondary" role="status">
               Coverage: auto {coverage.confirmed_automatic ?? 0} · manual{' '}
               {coverage.confirmed_manual ?? 0} · review {coverage.review_required ?? 0} · unmatched{' '}
-              {coverage.unmatched ?? 0} · non-film {coverage.non_film ?? 0} · queue{' '}
-              {items.length}
-              {decisions ? ` · authored decisions ${decisions.decisions?.length ?? 0}` : ''}
+              {coverage.unmatched ?? 0} · non-film {coverage.non_film ?? 0} · queue {items.length} (
+              {openCount} open · {lockedInQueue} locked in) · active decisions {activeDecisionCount}
             </p>
           ) : null}
 
@@ -264,24 +364,39 @@ export default function FilmIdentityReviewView() {
               {items.length === 0 ? (
                 <p>No actionable review items.</p>
               ) : (
-                items.map((item) => (
-                  <button
-                    key={item.queue_id}
-                    type="button"
-                    className={
-                      item.queue_id === selectedId
-                        ? 'cockpit-film-identity-item is-selected'
-                        : 'cockpit-film-identity-item'
-                    }
-                    onClick={() => setSelectedId(item.queue_id)}
-                  >
-                    <strong>{item.source_title || item.normalized_title || item.queue_id}</strong>
-                    <span>
-                      {item.source} · {item.match_status}
-                      {item.match_confidence != null ? ` · ${item.match_confidence}` : ''}
-                    </span>
-                  </button>
-                ))
+                items.map((item) => {
+                  const locked = activeDecisionsByKey.get(itemSourceKey(item));
+                  const classes = [
+                    'cockpit-film-identity-item',
+                    item.queue_id === selectedId ? 'is-selected' : '',
+                    locked ? 'is-locked' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ');
+                  return (
+                    <button
+                      key={item.queue_id}
+                      type="button"
+                      className={classes}
+                      onClick={() => {
+                        if (item.queue_id !== selectedId) {
+                          setStatusMessage(null);
+                          setStatusTone('info');
+                        }
+                        setSelectedId(item.queue_id);
+                      }}
+                    >
+                      <strong>{item.source_title || item.normalized_title || item.queue_id}</strong>
+                      <span>
+                        {locked
+                          ? `locked · ${formatDecisionLabel(locked)}`
+                          : `${item.source} · ${item.match_status}${
+                              item.match_confidence != null ? ` · ${item.match_confidence}` : ''
+                            }`}
+                      </span>
+                    </button>
+                  );
+                })
               )}
             </div>
 
@@ -289,6 +404,38 @@ export default function FilmIdentityReviewView() {
               {selected ? (
                 <>
                   <h3>{selected.source_title || selected.normalized_title}</h3>
+
+                  {selectedActiveDecision ? (
+                    <div className="cockpit-decision-locked" role="status">
+                      <strong>Locked in</strong>
+                      <span>{formatDecisionLabel(selectedActiveDecision)}</span>
+                      <span className="cockpit-secondary">
+                        Authored decision is saved. This row stays in the stale match-run queue until
+                        you re-run the matcher. Re-confirming the same match does nothing; choose a
+                        different TMDB id or decision to update it.
+                      </span>
+                    </div>
+                  ) : (
+                    <p className="cockpit-secondary" role="status">
+                      No authored decision yet for this queue item.
+                    </p>
+                  )}
+
+                  {statusMessage ? (
+                    <p
+                      className={
+                        statusTone === 'success'
+                          ? 'cockpit-status is-success'
+                          : statusTone === 'error'
+                            ? 'cockpit-status is-error'
+                            : 'cockpit-status'
+                      }
+                      role="status"
+                    >
+                      {statusMessage}
+                    </p>
+                  ) : null}
+
                   <dl className="cockpit-kv">
                     <div>
                       <dt>Source</dt>
@@ -307,9 +454,29 @@ export default function FilmIdentityReviewView() {
                       <dd>{selected.normalized_title || '—'}</dd>
                     </div>
                     <div>
+                      <dt>Entity kind</dt>
+                      <dd>{selected.entity_kind || '—'}</dd>
+                    </div>
+                    <div>
                       <dt>Year / runtime</dt>
                       <dd>
-                        {selected.year_hint ?? '—'} / {selected.runtime_min ?? '—'}
+                        scoring {selected.year_hint ?? '—'}
+                        {selected.year_interpretation?.event_year != null
+                          ? ` · event ${selected.year_interpretation.event_year}`
+                          : ''}
+                        {selected.year_interpretation?.canonical_year_candidate != null
+                          ? ` · canonical ${selected.year_interpretation.canonical_year_candidate}`
+                          : ''}
+                        {selected.year_interpretation?.anniversary_years != null
+                          ? ` · anniv ${selected.year_interpretation.anniversary_years}`
+                          : ''}{' '}
+                        / {selected.runtime_min ?? '—'}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Presentation</dt>
+                      <dd>
+                        {(selected.presentation_labels || []).join(', ') || '—'}
                       </dd>
                     </div>
                     <div>
@@ -319,56 +486,80 @@ export default function FilmIdentityReviewView() {
                       </dd>
                     </div>
                     <div>
+                      <dt>Directors</dt>
+                      <dd>
+                        raw: {selected.directors_raw || '—'}
+                        <br />
+                        normalized:{' '}
+                        {(selected.directors_normalized || []).join(', ') || '—'}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Margin / blocked</dt>
+                      <dd>
+                        {selected.top_candidate_margin ?? '—'} /{' '}
+                        {selected.auto_confirm_blocked_reason || '—'}
+                      </dd>
+                    </div>
+                    <div>
                       <dt>Warnings</dt>
                       <dd>{(selected.warnings || []).join(', ') || '—'}</dd>
                     </div>
                   </dl>
 
-                  <h4>Candidates</h4>
-                  <ul className="cockpit-candidate-list">
-                    {(selected.candidates || []).map((candidate) => {
-                      const active = candidate.tmdb_id === selectedCandidateId;
-                      return (
-                        <li key={candidate.tmdb_id}>
-                          <button
-                            type="button"
-                            className={active ? 'cockpit-candidate is-selected' : 'cockpit-candidate'}
-                            onClick={() => setSelectedCandidateId(candidate.tmdb_id)}
-                          >
-                            {posterUrl(candidate.poster_path) ? (
-                              <img
-                                src={posterUrl(candidate.poster_path)}
-                                alt=""
-                                width="46"
-                                height="69"
-                              />
-                            ) : null}
-                            <span>
-                              <strong>
-                                {candidate.title} ({candidate.release_year ?? '?'})
-                              </strong>
-                              <br />
-                              TMDB {candidate.tmdb_id} · score {candidate.score}
-                              {candidate.original_title ? (
-                                <>
-                                  <br />
-                                  Original: {candidate.original_title}
-                                </>
+                  <h4>Candidates from match run</h4>
+                  {(selected.candidates || []).length === 0 ? (
+                    <p className="cockpit-secondary" role="status">
+                      No precomputed TMDB candidates for this title (common for festival/program
+                      listings). Use Search TMDB or Validate id below, then Confirm selected
+                      alternate — or Mark non-film / Mark unmapped.
+                    </p>
+                  ) : (
+                    <ul className="cockpit-candidate-list">
+                      {(selected.candidates || []).map((candidate) => {
+                        const active = candidate.tmdb_id === selectedCandidateId;
+                        return (
+                          <li key={candidate.tmdb_id}>
+                            <button
+                              type="button"
+                              className={active ? 'cockpit-candidate is-selected' : 'cockpit-candidate'}
+                              onClick={() => setSelectedCandidateId(candidate.tmdb_id)}
+                            >
+                              {posterUrl(candidate.poster_path) ? (
+                                <img
+                                  src={posterUrl(candidate.poster_path)}
+                                  alt=""
+                                  width="46"
+                                  height="69"
+                                />
                               ) : null}
-                              {candidate.overview_excerpt ? (
-                                <>
-                                  <br />
-                                  {candidate.overview_excerpt}
-                                </>
-                              ) : null}
-                              <br />
-                              Signals: {JSON.stringify(candidate.signals || {})}
-                            </span>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                              <span>
+                                <strong>
+                                  {candidate.title} ({candidate.release_year ?? '?'})
+                                </strong>
+                                <br />
+                                TMDB {candidate.tmdb_id} · score {candidate.score}
+                                {candidate.original_title ? (
+                                  <>
+                                    <br />
+                                    Original: {candidate.original_title}
+                                  </>
+                                ) : null}
+                                {candidate.overview_excerpt ? (
+                                  <>
+                                    <br />
+                                    {candidate.overview_excerpt}
+                                  </>
+                                ) : null}
+                                <br />
+                                Signals: {JSON.stringify(candidate.signals || {})}
+                              </span>
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
 
                   <div className="cockpit-film-identity-tools">
                     <label>
@@ -377,6 +568,12 @@ export default function FilmIdentityReviewView() {
                         value={manualSearch}
                         onChange={(event) => setManualSearch(event.target.value)}
                         placeholder={selected.normalized_title || 'Title'}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter') {
+                            event.preventDefault();
+                            runManualSearch();
+                          }
+                        }}
                       />
                     </label>
                     <button type="button" onClick={runManualSearch} disabled={busy}>
@@ -401,16 +598,38 @@ export default function FilmIdentityReviewView() {
                         <li key={row.id}>
                           <button
                             type="button"
-                            className="cockpit-candidate"
+                            className={
+                              row.id === selectedCandidateId
+                                ? 'cockpit-candidate is-selected'
+                                : 'cockpit-candidate'
+                            }
                             onClick={() => {
                               setSelectedCandidateId(row.id);
                               setManualTmdbId(String(row.id));
                             }}
                           >
-                            <strong>
-                              {row.title} ({String(row.release_date || '').slice(0, 4) || '?'})
-                            </strong>{' '}
-                            · TMDB {row.id}
+                            {posterUrl(row.poster_path) ? (
+                              <img
+                                src={posterUrl(row.poster_path)}
+                                alt=""
+                                width="46"
+                                height="69"
+                              />
+                            ) : null}
+                            <span>
+                              <strong>
+                                {row.title} ({String(row.release_date || '').slice(0, 4) || '?'})
+                              </strong>
+                              <br />
+                              TMDB {row.id}
+                              {row.overview ? (
+                                <>
+                                  <br />
+                                  {String(row.overview).slice(0, 180)}
+                                  {String(row.overview).length > 180 ? '…' : ''}
+                                </>
+                              ) : null}
+                            </span>
                           </button>
                         </li>
                       ))}
@@ -442,12 +661,6 @@ export default function FilmIdentityReviewView() {
               )}
             </div>
           </div>
-
-          {statusMessage ? (
-            <p className="cockpit-secondary" role="status">
-              {statusMessage}
-            </p>
-          ) : null}
         </>
       ) : null}
     </section>
