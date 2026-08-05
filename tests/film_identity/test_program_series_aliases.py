@@ -115,6 +115,50 @@ def test_preview_prefix_impacts_lists_affected_titles():
     assert "Austin Powers: International Man of Mystery" in remainders
 
 
+def test_truth_to_fiction_and_community_screening_prefixes():
+    sherman = extract_match_title(
+        "Truth To Fiction: Sherman's March (4K Restoration)",
+        source="nwff",
+    )
+    assert sherman.base_title == "Sherman's March"
+    assert sherman.program_series == "Truth To Fiction"
+    assert "4K Restoration" in " ".join(sherman.format_tags) or any(
+        "4K" in p or "4k" in p.lower() for p in sherman.removed_phrases
+    )
+    assert sherman.original_title.startswith("Truth To Fiction")
+
+    little = extract_match_title(
+        "Community Screening: Little Shop of Horrors",
+        source="siff",
+    )
+    assert little.base_title == "Little Shop of Horrors"
+    assert little.program_series == "Community Screening"
+    assert little.original_title == "Community Screening: Little Shop of Horrors"
+
+    # Inner subtitle after registered prefix remains intact.
+    nested = extract_match_title(
+        "Truth To Fiction: Some Film: Extended Cut",
+        source="nwff",
+    )
+    assert nested.base_title == "Some Film: Extended Cut"
+    assert nested.program_series == "Truth To Fiction"
+
+    # Unregistered colon prefixes are not removed.
+    assert (
+        normalize_match_title("Mystery Marathon: Some Obscure Film", source="siff")
+        == "Mystery Marathon: Some Obscure Film"
+    )
+
+    # Source scoping: Community Screening is SIFF-only.
+    assert (
+        extract_match_title(
+            "Community Screening: Little Shop of Horrors",
+            source="amc",
+        ).base_title
+        == "Community Screening: Little Shop of Horrors"
+    )
+
+
 def test_super_troopers_event_metadata_preserved():
     extracted = extract_match_title(
         "Super Troopers 3: Special Broken Lizard Fan Event",
@@ -123,3 +167,25 @@ def test_super_troopers_event_metadata_preserved():
     assert extracted.base_title == "Super Troopers 3"
     assert extracted.event_phrase == "Special Broken Lizard Fan Event"
     assert "event_suffix" in extracted.applied_rules
+
+
+def test_urgh_co_presentation_alias():
+    extracted = extract_match_title(
+        "URGH! A MUSIC WAR W/ THE PROFESSORS OF URGH",
+        source="beacon",
+    )
+    assert extracted.base_title == "Urgh! A Music War"
+    assert extracted.original_title.upper().startswith("URGH!")
+
+
+def test_program_series_preserved_in_diagnostics_transform():
+    from reel_seattle.film_identity.review_diagnostics import title_transform_diff
+
+    transform = title_transform_diff(
+        "Community Screening: Little Shop of Horrors",
+        "Little Shop of Horrors",
+        source="siff",
+    )
+    assert transform["program_series"] == "Community Screening"
+    assert transform["normalized_search_title"] == "Little Shop of Horrors"
+    assert transform["original_title"] == "Community Screening: Little Shop of Horrors"

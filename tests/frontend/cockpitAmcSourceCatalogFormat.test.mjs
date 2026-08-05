@@ -239,5 +239,11 @@ test('ALLOWED_DATA_ROUTES includes catalog paths and excludes arbitrary data pat
   assert.ok(
     Object.hasOwn(ALLOWED_DATA_ROUTES, '/data/film_identity/title_search_aliases.json'),
   );
-  assert.equal(Object.keys(ALLOWED_DATA_ROUTES).length, 13);
+  assert.ok(
+    Object.hasOwn(
+      ALLOWED_DATA_ROUTES,
+      '/data/film_identity/unresolved_event_classifications.json',
+    ),
+  );
+  assert.equal(Object.keys(ALLOWED_DATA_ROUTES).length, 14);
 });

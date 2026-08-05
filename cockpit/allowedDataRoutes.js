@@ -42,6 +42,12 @@ export const ALLOWED_DATA_ROUTES = Object.freeze({
       import.meta.url,
     ),
   ),
+  '/data/film_identity/unresolved_event_classifications.json': fileURLToPath(
+    new URL(
+      '../data/film_identity/unresolved_event_classifications.json',
+      import.meta.url,
+    ),
+  ),
   '/data/film_identity/title_search_aliases.json': fileURLToPath(
     new URL('../data/film_identity/title_search_aliases.json', import.meta.url),
   ),

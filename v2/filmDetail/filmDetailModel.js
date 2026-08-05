@@ -9,6 +9,7 @@ import {
   formatLocalDateLabel,
   formatUserFacingFormatLabel,
 } from '../topOpportunities/topOpportunityFormat.js';
+import { unresolvedProgramLabel } from './unresolvedProgramLabels.js';
 
 const PREMIUM_FORMAT_HINTS = Object.freeze([
   '70mm',
@@ -511,6 +512,15 @@ export function buildFilmHero(film, bestOpp) {
   const formatLabel = opportunityFormatLabel(bestOpp);
   if (formatLabel) {
     badges.push({ id: 'fmt', label: formatLabel.toUpperCase(), tone: 'neutral' });
+  }
+  // Reviewed non-TMDB programs/events: light distinction only when filmId is absent.
+  const programLabel = unresolvedProgramLabel(film);
+  if (programLabel) {
+    badges.push({
+      id: 'program',
+      label: programLabel.toUpperCase(),
+      tone: 'neutral',
+    });
   }
   return {
     filmKey: film.filmKey,

@@ -37,7 +37,7 @@ def resolve_tmdb_auth(
     environ: Mapping[str, str] | None = None,
     require: bool = True,
 ) -> TmdbAuth | None:
-    env = environ or os.environ
+    env = environ if environ is not None else os.environ
     bearer = (env.get("TMDB_READ_ACCESS_TOKEN") or "").strip()
     api_key = (env.get("TMDB_API_KEY") or "").strip()
     if bearer:
