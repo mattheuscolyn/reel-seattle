@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from typing import Any, Mapping, Sequence
 
 from reel_seattle.film_identity.constants import (
+    AUTO_CONFIRM_MIN_SCORE,
     IDENTITY_SOURCE,
     IDENTITY_SOURCE_KEY,
     IDENTITY_TMDB,
@@ -40,7 +41,10 @@ from reel_seattle.film_identity.scoring import (
     classify_match_bucket,
     rank_candidates,
     score_candidate,
+    top_candidate_margin,
 )
+from reel_seattle.film_identity.presentation import interpret_source_years
+from reel_seattle.film_identity.normalize_text import parse_person_names
 from reel_seattle.film_identity.tmdb_client import (
     TmdbAuthError,
     TmdbClient,
@@ -72,6 +76,23 @@ def match_source_identity(
     )
     parsed_fallback = parse_film_id(fallback)
 
+    year_info_raw = identity.get("year_interpretation")
+    if isinstance(year_info_raw, Mapping):
+        year_info = dict(year_info_raw)
+    else:
+        year_info = interpret_source_years(
+            source_title=identity.get("source_title"),
+            explicit_canonical_year=identity.get("release_year") or identity.get("year_hint"),
+            source=identity.get("source"),
+        ).to_dict()
+    scoring_year = year_info.get("scoring_year")
+    if scoring_year is None:
+        scoring_year = identity.get("release_year") or identity.get("year_hint")
+    event_relaxed = bool(year_info.get("event_year_not_canonical"))
+    directors_normalized = identity.get("directors_normalized") or parse_person_names(
+        identity.get("directors_raw")
+    )
+
     base = {
         "source_identities": [
             {
@@ -80,18 +101,31 @@ def match_source_identity(
             }
         ],
         "eligibility": identity.get("eligibility"),
-        "warnings": list(identity.get("eligibility_reasons") or []),
+        "entity_kind": identity.get("entity_kind"),
+        "warnings": list(
+            dict.fromkeys(
+                list(identity.get("eligibility_reasons") or [])
+                + list(year_info.get("warnings") or [])
+            )
+        ),
         "candidates": [],
         "signals": None,
         "normalized_title": identity.get("normalized_title"),
-        "year_hint": identity.get("year_hint") or identity.get("release_year"),
+        "year_hint": scoring_year,
         "runtime_min": identity.get("runtime_min"),
         "directors_raw": identity.get("directors_raw"),
+        "directors_normalized": directors_normalized,
+        "year_interpretation": year_info,
+        "presentation_labels": list(
+            identity.get("presentation_labels") or year_info.get("presentation_labels") or []
+        ),
         "first_observed_at": identity.get("first_start"),
         "last_observed_at": identity.get("last_start"),
         "provenance": {
             "source_identity_key": source_identity_key(source_identity),
         },
+        "auto_confirm_blocked_reason": None,
+        "top_candidate_margin": None,
     }
 
     active = active_decisions_by_source_key(decisions_doc).get(
@@ -152,6 +186,9 @@ def match_source_identity(
 
     eligibility = identity.get("eligibility")
     if eligibility == NON_FILM:
+        warnings = list(base["warnings"])
+        if "program_entity_not_tmdb_movie" not in warnings:
+            warnings.append("program_entity_not_tmdb_movie")
         return {
             **base,
             "film_id": fallback,
@@ -160,9 +197,12 @@ def match_source_identity(
             "match_status": STATUS_NON_FILM,
             "match_method": METHOD_NONE,
             "match_confidence": None,
+            "warnings": warnings,
         }
 
     if eligibility == AMBIGUOUS_PROGRAM:
+        # Keep as reviewable source entity; do not discard. Optional TMDB probe below
+        # is skipped to avoid forcing weak movie matches onto true programs.
         return {
             **base,
             "film_id": fallback,
@@ -172,6 +212,7 @@ def match_source_identity(
             "match_method": METHOD_NONE,
             "match_confidence": None,
             "warnings": list(base["warnings"]) + ["ambiguous_program_needs_review"],
+            "auto_confirm_blocked_reason": "program_entity_not_tmdb_movie",
         }
 
     if eligibility != ELIGIBLE:
@@ -210,8 +251,9 @@ def match_source_identity(
         }
 
     try:
-        year = identity.get("release_year") or identity.get("year_hint")
-        search = client.search_movie(str(search_title), year=year if isinstance(year, int) else None)
+        # Prefer canonical/scoring year for search; never send raw event year alone.
+        year = scoring_year if isinstance(scoring_year, int) else None
+        search = client.search_movie(str(search_title), year=year)
         results = [
             candidate_from_search_result(row)
             for row in (search.get("results") or [])[:10]
@@ -239,17 +281,33 @@ def match_source_identity(
         scored = [
             score_candidate(
                 search_title=str(search_title),
-                source_year=identity.get("release_year") or identity.get("year_hint"),
+                source_year=year,
                 source_runtime=identity.get("runtime_min"),
                 source_directors=identity.get("directors_raw"),
                 source_external_ids=None,
                 candidate=row,
+                event_year_relaxed=event_relaxed,
             )
             for row in enriched
         ]
         ranked = rank_candidates(scored)
         bucket, proposed = classify_match_bucket(ranked, rejected_ids=rejected)
         candidate_payloads = [_candidate_payload(c) for c in ranked[:8]]
+        margin = top_candidate_margin(ranked)
+        blocked = None
+        if bucket != "auto" and proposed is not None:
+            if "same_title_remake_ambiguity" in proposed.warnings:
+                blocked = "same_title_remake_ambiguity"
+            elif "top_candidate_margin_too_small" in proposed.warnings:
+                blocked = "top_candidate_margin_too_small"
+            elif proposed.signals.get("hard_conflict"):
+                blocked = "hard_conflict"
+            elif "weak_title_only_match" in proposed.warnings:
+                blocked = "weak_title_only_match"
+            elif proposed.score < AUTO_CONFIRM_MIN_SCORE:
+                blocked = "below_auto_threshold"
+        base["top_candidate_margin"] = margin
+        base["auto_confirm_blocked_reason"] = blocked
 
         if bucket == "auto" and proposed is not None:
             return {
@@ -382,6 +440,24 @@ def build_coverage_report(
     fallback = 0
     confidences: list[float] = []
     warning_counts: dict[str, int] = {}
+    entity_counts: dict[str, int] = {}
+    margins: list[float] = []
+    calibration = {
+        "event_year_titles": 0,
+        "anniversary_derived_years": 0,
+        "normalized_title_exact_matches": 0,
+        "director_comparisons": 0,
+        "director_unavailable": 0,
+        "auto_confirm_blocked_by_ambiguity": 0,
+        "auto_confirm_blocked_by_hard_conflict": 0,
+        "review_required_sparse_evidence": 0,
+        "top_candidate_margin_buckets": {
+            "none": 0,
+            "0.00-0.07": 0,
+            "0.08-0.19": 0,
+            "0.20+": 0,
+        },
+    }
 
     for film in films:
         status = str(film.get("match_status") or "unknown")
@@ -394,6 +470,42 @@ def build_coverage_report(
             confidences.append(float(conf))
         for warning in film.get("warnings") or []:
             warning_counts[str(warning)] = warning_counts.get(str(warning), 0) + 1
+        entity = film.get("entity_kind") or "unknown"
+        entity_counts[str(entity)] = entity_counts.get(str(entity), 0) + 1
+        year_info = film.get("year_interpretation") or {}
+        if isinstance(year_info, Mapping):
+            if year_info.get("event_year_not_canonical"):
+                calibration["event_year_titles"] += 1
+            if year_info.get("anniversary_year_derived"):
+                calibration["anniversary_derived_years"] += 1
+        signals = film.get("signals") or {}
+        if isinstance(signals, Mapping):
+            if signals.get("title_exact"):
+                calibration["normalized_title_exact_matches"] += 1
+            if signals.get("director_status") == "unavailable":
+                calibration["director_unavailable"] += 1
+            elif signals.get("director_status") in {"match", "weak", "conflict"}:
+                calibration["director_comparisons"] += 1
+        blocked = film.get("auto_confirm_blocked_reason")
+        if blocked in {"same_title_remake_ambiguity", "top_candidate_margin_too_small"}:
+            calibration["auto_confirm_blocked_by_ambiguity"] += 1
+        if blocked == "hard_conflict":
+            calibration["auto_confirm_blocked_by_hard_conflict"] += 1
+        if blocked == "weak_title_only_match" or "weak_title_only_match" in (
+            film.get("warnings") or []
+        ):
+            calibration["review_required_sparse_evidence"] += 1
+        margin = film.get("top_candidate_margin")
+        if isinstance(margin, (int, float)):
+            margins.append(float(margin))
+            if margin < 0.08:
+                calibration["top_candidate_margin_buckets"]["0.00-0.07"] += 1
+            elif margin < 0.20:
+                calibration["top_candidate_margin_buckets"]["0.08-0.19"] += 1
+            else:
+                calibration["top_candidate_margin_buckets"]["0.20+"] += 1
+        else:
+            calibration["top_candidate_margin_buckets"]["none"] += 1
         for src in film.get("source_identities") or []:
             source = str(src.get("source") or "unknown")
             bucket = by_source.setdefault(source, {"total": 0})
@@ -436,6 +548,8 @@ def build_coverage_report(
         "common_warning_categories": dict(
             sorted(warning_counts.items(), key=lambda kv: (-kv[1], kv[0]))[:20]
         ),
+        "entity_kind_counts": dict(sorted(entity_counts.items(), key=lambda kv: (-kv[1], kv[0]))),
+        "calibration": calibration,
         "duplicate_merge_counts": {
             "note": "Cross-source merges only via shared confirmed tmdb_id; not auto-merged in T-FILMID-01",
             "distinct_tmdb_ids": len(
@@ -472,6 +586,7 @@ def _build_review_items(films: Sequence[Mapping[str, Any]]) -> list[dict[str, An
                 "year_hint": film.get("year_hint"),
                 "runtime_min": film.get("runtime_min"),
                 "directors_raw": film.get("directors_raw"),
+                "directors_normalized": film.get("directors_normalized"),
                 "match_status": status,
                 "proposed_tmdb_id": proposed.get("tmdb_id"),
                 "match_confidence": film.get("match_confidence"),
@@ -479,6 +594,11 @@ def _build_review_items(films: Sequence[Mapping[str, Any]]) -> list[dict[str, An
                 "warnings": list(film.get("warnings") or []),
                 "candidates": candidates,
                 "film_id_fallback": film.get("film_id"),
+                "entity_kind": film.get("entity_kind"),
+                "year_interpretation": film.get("year_interpretation"),
+                "presentation_labels": film.get("presentation_labels") or [],
+                "top_candidate_margin": film.get("top_candidate_margin"),
+                "auto_confirm_blocked_reason": film.get("auto_confirm_blocked_reason"),
             }
         )
     return sorted(items, key=lambda i: (i.get("source") or "", i.get("queue_id") or ""))

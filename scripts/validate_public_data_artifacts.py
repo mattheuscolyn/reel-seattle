@@ -13,6 +13,12 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from reel_seattle.enrichment.validate import (  # noqa: E402
+    validate_film_enrichment_document,
+)
+from reel_seattle.film_identity.public_emit import (  # noqa: E402
+    assert_public_film_id_attach_not_regressed,
+)
 from reel_seattle.validate import (  # noqa: E402
     SchemaValidationError,
     validate_leaving_soon_current,
@@ -28,6 +34,7 @@ REQUIRED_ARTIFACTS: tuple[str, ...] = (
     "public/data/newly_added_current.json",
     "public/data/leaving_soon_current.json",
     "public/data/theaters.json",
+    "public/data/film_enrichment_current.json",
 )
 
 CANONICAL_THEATERS = "data/theaters.json"
@@ -44,6 +51,7 @@ VALIDATORS: dict[str, Callable[[dict[str, Any]], None]] = {
     "public/data/newly_added_current.json": validate_newly_added_current,
     "public/data/leaving_soon_current.json": validate_leaving_soon_current,
     "public/data/theaters.json": validate_theaters_registry,
+    "public/data/film_enrichment_current.json": validate_film_enrichment_document,
 }
 
 
@@ -101,6 +109,14 @@ def validate_public_data_artifacts(root: Path | None = None) -> list[str]:
                 errors.append(
                     f"obsolete path exists: {rel}/ — remove it; scrape JSON logs belong in data/daily_logs/"
                 )
+
+    # T-FILMID-02 gate: confirmed catalog matches must not silently detach in public emit.
+    try:
+        assert_public_film_id_attach_not_regressed(project_root)
+    except ValueError as exc:
+        errors.append(str(exc))
+    except Exception as exc:  # pragma: no cover - defensive
+        errors.append(f"public film_id attach gate failed: {exc}")
 
     return errors
 

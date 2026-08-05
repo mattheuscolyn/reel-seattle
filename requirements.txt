@@ -2,3 +2,5 @@
 requests>=2.31.0,<3
 beautifulsoup4>=4.12.0,<5
 jsonschema>=4.21.0,<5
+# Needed on Windows (and some minimal Linux images) for zoneinfo America/Los_Angeles.
+tzdata>=2024.1

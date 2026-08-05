@@ -157,7 +157,7 @@ def build_match_summary_markdown(
             "",
             "## Explicit non-actions",
             "",
-            "- No public identity emission (`T-FILMID-02`)",
+            "- Public identity emission enabled (`T-FILMID-02`); store migration deferred (`T-FILMID-03`)",
             "- No enrichment / UI activation (`T-ENR-01`)",
             "- No local-store migration (`T-FILMID-03`)",
             "- Authored decisions file was not modified by this matcher run",

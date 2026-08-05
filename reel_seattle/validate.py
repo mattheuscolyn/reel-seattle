@@ -14,7 +14,7 @@ from jsonschema.validators import validator_for
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_DIR = PROJECT_ROOT / "schema"
 
-THEATERS_SCHEMA_PATH = SCHEMA_DIR / "theaters" / "v1.0.0.json"
+THEATERS_SCHEMA_PATH = SCHEMA_DIR / "theaters" / "v1.1.0.json"
 SHOWTIMES_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "showtimes_current" / "v1.0.0.json"
 PIPELINE_REPORT_SCHEMA_PATH = SCHEMA_DIR / "pipeline_report" / "v1.0.0.json"
 NEWLY_ADDED_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "newly_added_current" / "v1.0.0.json"

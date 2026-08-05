@@ -1,6 +1,10 @@
 /**
- * Shared source + enrichment presentation merge (T-ENR-10).
+ * Shared source + enrichment presentation merge.
  * Join is exact canonical filmId only — never title / source id.
+ *
+ * Film-level precedence (canonical-film-contract):
+ * manual override → TMDB → theater source → unavailable.
+ * Home/Opening card titles still prefer opportunity/source titles.
  */
 
 import { asCanonicalFilmId, lookupEnrichment } from './enrichmentIndex.js';
@@ -63,7 +67,10 @@ export function formatDirectorLine(directors) {
  *     filmId?: string | null,
  *     title?: string | null,
  *     posterUrl?: string | null,
+ *     backdropUrl?: string | null,
  *     runtimeMin?: number | null,
+ *     synopsis?: string | null,
+ *     certification?: string | null,
  *   } | null,
  *   enrichment?: object | null,
  *   enrichmentIndex?: import('./enrichmentIndex.js').buildEnrichmentIndex extends Function
@@ -97,10 +104,13 @@ export function resolveEnrichedFilmPresentation({
       ? row.release_year
       : null;
 
-  const genreNames = formatGenreNames(row?.genres);
+  const genreNames = formatGenreNames(
+    row?.genres,
+    context === 'film-detail' ? 6 : MAX_GENRES_COMPACT,
+  );
   const genreLine = genreNames.length > 0 ? genreNames.join(', ') : null;
 
-  const overviewFull = asText(row?.overview);
+  const overviewFull = asText(row?.overview) ?? asText(sourceFilm?.synopsis);
   const synopsisParts = truncateSynopsis(overviewFull ?? '', SYNOPSIS_PREVIEW_CHARS);
 
   const sourcePoster = asText(sourceFilm?.posterUrl);
@@ -109,8 +119,64 @@ export function resolveEnrichedFilmPresentation({
     enrichmentIndex?.imageConfig ?? null,
     'poster',
   );
-  const posterUrl = sourcePoster ?? tmdbPoster ?? null;
-  const posterSource = sourcePoster ? 'source' : tmdbPoster ? 'tmdb' : 'none';
+  // Film-level media: TMDB first; theater fills gaps.
+  const posterUrl = tmdbPoster ?? sourcePoster ?? null;
+  const posterSource = tmdbPoster ? 'tmdb' : sourcePoster ? 'source' : 'none';
+
+  const tmdbBackdrop = resolveTmdbImageUrl(
+    row?.backdrop,
+    enrichmentIndex?.imageConfig ?? null,
+    'backdrop',
+  );
+  const sourceBackdrop = asText(sourceFilm?.backdropUrl);
+  const backdropUrl = tmdbBackdrop ?? sourceBackdrop ?? null;
+  const backdropSource = tmdbBackdrop ? 'tmdb' : sourceBackdrop ? 'source' : 'none';
+
+  const tmdbRuntime =
+    typeof row?.runtime_minutes === 'number' && Number.isFinite(row.runtime_minutes)
+      ? row.runtime_minutes
+      : null;
+  const sourceRuntime =
+    typeof sourceFilm?.runtimeMin === 'number' && Number.isFinite(sourceFilm.runtimeMin)
+      ? sourceFilm.runtimeMin
+      : null;
+  const runtimeMin = tmdbRuntime ?? sourceRuntime ?? null;
+  const runtimeSource =
+    tmdbRuntime != null ? 'tmdb' : sourceRuntime != null ? 'theater_source' : 'unavailable';
+
+  const usCertification =
+    asText(row?.us_certification) ?? asText(sourceFilm?.certification) ?? null;
+  const certificationSource = asText(row?.us_certification)
+    ? 'tmdb'
+    : asText(sourceFilm?.certification)
+      ? 'theater_source'
+      : 'unavailable';
+
+  /** @type {Record<string, string>} */
+  const fieldProvenance = {
+    ...(row?.field_provenance && typeof row.field_provenance === 'object'
+      ? row.field_provenance
+      : {}),
+    poster: posterSource === 'tmdb' ? 'tmdb' : posterSource === 'source' ? 'theater_source' : 'unavailable',
+    backdrop:
+      backdropSource === 'tmdb'
+        ? 'tmdb'
+        : backdropSource === 'source'
+          ? 'theater_source'
+          : 'unavailable',
+    runtime_minutes: runtimeSource,
+    us_certification: certificationSource,
+    overview: asText(row?.overview)
+      ? 'tmdb'
+      : asText(sourceFilm?.synopsis)
+        ? 'theater_source'
+        : 'unavailable',
+    canonical_title: canonicalTitle
+      ? 'tmdb'
+      : sourceTitle
+        ? 'theater_source'
+        : 'unavailable',
+  };
 
   return {
     filmId,
@@ -128,7 +194,11 @@ export function resolveEnrichedFilmPresentation({
     directors: formatDirectorLine(row?.directors),
     posterUrl,
     posterSource,
-    runtimeMin:
-      typeof sourceFilm?.runtimeMin === 'number' ? sourceFilm.runtimeMin : null,
+    backdropUrl,
+    backdropSource,
+    runtimeMin,
+    runtimeSource,
+    usCertification,
+    fieldProvenance,
   };
 }

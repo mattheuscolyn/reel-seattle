@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Exact reviewed source-title → TMDB search aliases. Use only when generalization is unsafe. Original source titles remain for display and tickets.",
+  "aliases": [
+    {
+      "id": "michael-manns-manhunter-final-cut",
+      "source_title": "Michael Mann's Manhunter: The Final Cut",
+      "search_title": "Manhunter",
+      "sources": ["siff"],
+      "reason": "Director-possessive + Final Cut branding; unsafe to generalize possessive or Final Cut stripping.",
+      "preserve_presentation_labels": ["final_cut", "director_possessive_branding"]
+    },
+    {
+      "id": "cabaret-with-charlies-queer-books",
+      "source_title": "Cabaret with Charlie's Queer Books",
+      "search_title": "Cabaret",
+      "sources": ["nwff"],
+      "reason": "Venue co-presentation after 'with'; unsafe to strip arbitrary with-clauses.",
+      "preserve_presentation_labels": ["co_presentation"]
+    },
+    {
+      "id": "urgh-with-professors-of-urgh",
+      "source_title": "URGH! A MUSIC WAR W/ THE PROFESSORS OF URGH",
+      "search_title": "Urgh! A Music War",
+      "sources": ["beacon"],
+      "reason": "Live host co-presentation after W/; unsafe to strip arbitrary with-clauses.",
+      "preserve_presentation_labels": ["co_presentation", "live_hosts"]
+    }
+  ]
+}

@@ -31,6 +31,12 @@ def test_eligibility_feature_vs_programs():
     assert classify_eligibility(source_title="NT Live: Hamlet").status == NON_FILM
     fest = classify_eligibility(source_title="Emerald City Short Film Festival")
     assert fest.status in {NON_FILM, AMBIGUOUS_PROGRAM}
+    ghibli = classify_eligibility(
+        source_title="Only Yesterday 35th Anniversary - Studio Ghibli Fest 2026"
+    )
+    assert ghibli.status == ELIGIBLE
+    assert ghibli.entity_kind == "feature_film"
+    assert ghibli.search_title == "Only Yesterday"
 
 
 def test_screening_qualifier_normalization():
@@ -107,4 +113,3 @@ def test_normalization_preserves_real_titles():
     # "Sing" as part of the title should be preserved
     assert normalize_search_title("Sing") == "Sing"
     assert normalize_search_title("Sing 2") == "Sing 2"
-

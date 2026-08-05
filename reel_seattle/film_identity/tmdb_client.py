@@ -37,7 +37,7 @@ def resolve_tmdb_auth(
     environ: Mapping[str, str] | None = None,
     require: bool = True,
 ) -> TmdbAuth | None:
-    env = environ or os.environ
+    env = environ if environ is not None else os.environ
     bearer = (env.get("TMDB_READ_ACCESS_TOKEN") or "").strip()
     api_key = (env.get("TMDB_API_KEY") or "").strip()
     if bearer:
@@ -93,7 +93,10 @@ class TmdbClient:
         return self._request(
             "movie",
             f"/movie/{int(tmdb_id)}",
-            {"language": TMDB_LANGUAGE, "append_to_response": "external_ids,credits"},
+            {
+                "language": TMDB_LANGUAGE,
+                "append_to_response": "external_ids,credits,release_dates",
+            },
         )
 
     def movie_external_ids(self, tmdb_id: int) -> dict[str, Any]:

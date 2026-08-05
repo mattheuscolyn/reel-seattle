@@ -1,62 +1,92 @@
 {
   "by_source": {
     "amc": {
-      "non_film": 1,
-      "review_required": 2,
-      "total": 52,
-      "unmatched": 49
+      "confirmed_automatic": 35,
+      "confirmed_manual": 11,
+      "non_film": 6,
+      "total": 52
     },
     "beacon": {
-      "total": 14,
-      "unmatched": 14
+      "confirmed_manual": 12,
+      "non_film": 2,
+      "total": 14
     },
     "central_cinema": {
-      "total": 10,
-      "unmatched": 10
+      "confirmed_manual": 8,
+      "non_film": 2,
+      "total": 10
     },
     "nwff": {
-      "total": 5,
-      "unmatched": 5
+      "confirmed_manual": 5,
+      "total": 5
     },
     "siff": {
-      "review_required": 1,
-      "total": 14,
-      "unmatched": 13
+      "confirmed_automatic": 4,
+      "confirmed_manual": 8,
+      "non_film": 2,
+      "total": 14
     }
   },
   "by_status": {
-    "non_film": 1,
-    "review_required": 3,
-    "unmatched": 91
+    "confirmed_automatic": 39,
+    "confirmed_manual": 44,
+    "non_film": 12
+  },
+  "calibration": {
+    "anniversary_derived_years": 9,
+    "auto_confirm_blocked_by_ambiguity": 0,
+    "auto_confirm_blocked_by_hard_conflict": 0,
+    "director_comparisons": 32,
+    "director_unavailable": 7,
+    "event_year_titles": 15,
+    "normalized_title_exact_matches": 39,
+    "review_required_sparse_evidence": 0,
+    "top_candidate_margin_buckets": {
+      "0.00-0.07": 0,
+      "0.08-0.19": 2,
+      "0.20+": 6,
+      "none": 87
+    }
   },
   "common_warning_categories": {
-    "ambiguous_program_needs_review": 3,
+    "anniversary_year_derived": 2,
+    "director_conflict": 2,
+    "director_unavailable": 4,
+    "event_year_not_canonical": 8,
+    "festival_presentation": 3,
+    "missing_year_supported_by_other_evidence": 4,
     "mystery_or_unannounced": 1,
-    "offline_no_tmdb_client": 91,
-    "shorts_or_festival_program": 3
+    "runtime_mismatch": 1,
+    "runtime_soft_penalty": 6,
+    "year_evidence_absent": 4,
+    "year_proximity": 1
   },
   "confidence_distribution": {
     "0.00-0.54": 0,
     "0.55-0.79": 0,
     "0.80-0.91": 0,
-    "0.92-1.00": 0
+    "0.92-1.00": 83
   },
-  "confirmed_automatic": 0,
-  "confirmed_manual": 0,
+  "confirmed_automatic": 39,
+  "confirmed_manual": 44,
   "deferred": 0,
   "duplicate_merge_counts": {
-    "distinct_tmdb_ids": 0,
+    "distinct_tmdb_ids": 74,
     "note": "Cross-source merges only via shared confirmed tmdb_id; not auto-merged in T-FILMID-01"
   },
   "eligible_movie_like": 94,
+  "entity_kind_counts": {
+    "feature_film": 94,
+    "mystery_screening": 1
+  },
   "errors": 0,
-  "fallback_usage": 95,
-  "generated_at": "2026-08-04T19:25:45+00:00",
-  "non_film": 1,
+  "fallback_usage": 12,
+  "generated_at": "2026-08-05T06:21:55+00:00",
+  "non_film": 12,
   "rejected": 0,
-  "review_queue_size": 3,
-  "review_required": 3,
+  "review_queue_size": 0,
+  "review_required": 0,
   "schema_version": "1.0.0",
   "total_unique_source_identities": 95,
-  "unmatched": 91
+  "unmatched": 0
 }

@@ -13,6 +13,7 @@ import {
   selectBestOpportunity,
   truncateSynopsis,
 } from './filmDetailModel.js';
+import { formatRuntimeLabel } from '../home/shelfData.js';
 import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
 import { FILM_DETAIL_DESIGN_FIXTURE } from '../fixtures/filmDetailVisualFixtures.js';
 
@@ -166,6 +167,10 @@ function composeRealPresentation(
   const directorLabel = enriched.directors
     ? `Directed by ${enriched.directors}`
     : null;
+  const runtimeLabel =
+    typeof enriched.runtimeMin === 'number'
+      ? formatRuntimeLabel(enriched.runtimeMin)
+      : baseHero.runtimeLabel;
 
   const hero = attachHeroBadges(
     homeData,
@@ -174,14 +179,15 @@ function composeRealPresentation(
       filmId: enriched.filmId,
       title: enriched.displayTitle ?? baseHero.title,
       posterUrl: enriched.posterUrl,
+      backdropUrl: enriched.backdropUrl,
+      runtimeLabel,
       year: yearLabel,
       genres: genresLabel,
       director: directorLabel,
-      // Rating / backdrop stay suppressed (not in approved enrichment activation).
-      rating: null,
-      backdropUrl: null,
+      rating: enriched.usCertification,
       synopsis: enriched.overview,
       hasEnrichment: enriched.hasEnrichment,
+      fieldProvenance: enriched.fieldProvenance,
     },
     film,
   );

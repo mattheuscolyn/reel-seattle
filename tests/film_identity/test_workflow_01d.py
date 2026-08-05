@@ -91,7 +91,7 @@ def test_summary_handles_empty_counts():
         auth_mode="bearer",
     )
     assert "confirmed_automatic: **0**" in markdown
-    assert "No public identity emission" in markdown
+    assert "Public identity emission enabled" in markdown
     assert "tmdb_auth_mode: `bearer`" in markdown
 
 

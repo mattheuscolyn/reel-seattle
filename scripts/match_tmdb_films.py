@@ -28,6 +28,7 @@ from reel_seattle.film_identity.constants import (  # noqa: E402
     REVIEW_QUEUE_REL,
 )
 from reel_seattle.film_identity.decisions import load_decisions  # noqa: E402
+from reel_seattle.film_identity.env_local import load_dotenv_local  # noqa: E402
 from reel_seattle.film_identity.inventory import inventory_source_identities  # noqa: E402
 from reel_seattle.film_identity.io_util import atomic_write_json  # noqa: E402
 from reel_seattle.film_identity.matcher import build_match_artifacts  # noqa: E402
@@ -89,6 +90,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: list[str] | None = None) -> int:
+    load_dotenv_local(PROJECT_ROOT)
     args = parse_args(argv)
     decisions = load_decisions(args.decisions_path)
     if args.dry_run_decisions_only:

@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Sanitized matcher regression cases from T-FILMID-01E manual review patterns.",
+  "cases": [
+    {
+      "id": "ghibli-only-yesterday-anniversary",
+      "source_title": "Only Yesterday 35th Anniversary - Studio Ghibli Fest 2026",
+      "product_year": 2026,
+      "runtime_min": 126,
+      "directors_raw": "Isao Takahata",
+      "expected": {
+        "normalized_title": "Only Yesterday",
+        "entity_kind": "feature_film",
+        "eligibility": "eligible",
+        "canonical_year_candidate": 1991,
+        "event_year": 2026,
+        "anniversary_years": 35,
+        "warnings_any": ["anniversary_year_derived", "event_year_not_canonical"],
+        "top_candidate_tmdb_id": 15080,
+        "bucket_in": ["auto", "review"],
+        "no_year_conflict_vs_1991": true
+      },
+      "offline_candidates": [
+        {
+          "id": 15080,
+          "title": "Only Yesterday",
+          "original_title": "おもひでぽろぽろ",
+          "release_date": "1991-07-20",
+          "runtime": 118,
+          "director": "Isao Takahata",
+          "popularity": 5,
+          "adult": false,
+          "media_type": "movie"
+        },
+        {
+          "id": 116671,
+          "title": "Only Yesterday",
+          "original_title": "Only Yesterday",
+          "release_date": "1933-11-01",
+          "runtime": 105,
+          "director": "John M. Stahl",
+          "popularity": 1,
+          "adult": false,
+          "media_type": "movie"
+        }
+      ]
+    },
+    {
+      "id": "title-case-whitespace",
+      "source_title": "  the  bad   guys  2 ",
+      "expected": {
+        "normalized_title_key": "badguys2",
+        "eligibility": "eligible"
+      }
+    },
+    {
+      "id": "ampersand-and-diacritics",
+      "source_title": "Amélie",
+      "directors_raw": "Jean-Pierre Jeunet",
+      "expected": {
+        "normalized_title_key": "amelie",
+        "director_key_contains": "jeanpierrejeunet"
+      }
+    },
+    {
+      "id": "same-title-remake",
+      "source_title": "Dune",
+      "expected": {
+        "eligibility": "eligible",
+        "bucket_in": ["review", "unmatched"],
+        "warnings_any_optional": ["remake_ambiguity", "same_title_remake_ambiguity", "weak_title_only_match"]
+      },
+      "offline_candidates": [
+        {
+          "id": 438631,
+          "title": "Dune",
+          "release_date": "2021-10-22",
+          "runtime": 155,
+          "popularity": 80,
+          "adult": false,
+          "media_type": "movie"
+        },
+        {
+          "id": 841,
+          "title": "Dune",
+          "release_date": "1984-12-14",
+          "runtime": 137,
+          "popularity": 20,
+          "adult": false,
+          "media_type": "movie"
+        }
+      ]
+    },
+    {
+      "id": "shorts-program",
+      "source_title": "Emerald City Short Film Festival",
+      "expected": {
+        "eligibility": "non_film",
+        "entity_kind": "shorts_program",
+        "warnings_any": ["program_entity_not_tmdb_movie", "shorts_or_festival_program"]
+      }
+    },
+    {
+      "id": "double-feature",
+      "source_title": "Anniversary Double Feature",
+      "expected": {
+        "eligibility": "non_film",
+        "entity_kind": "double_feature"
+      }
+    },
+    {
+      "id": "mystery-screening",
+      "source_title": "AMC Screen Unseen: July 20",
+      "expected": {
+        "eligibility": "non_film",
+        "entity_kind": "mystery_screening"
+      }
+    },
+    {
+      "id": "live-broadcast",
+      "source_title": "NT Live: Hamlet",
+      "expected": {
+        "eligibility": "non_film",
+        "entity_kind_in": ["live_event", "broadcast_event"]
+      }
+    },
+    {
+      "id": "restoration-presentation",
+      "source_title": "Seven Samurai 4K Restoration 2024",
+      "product_year": 2024,
+      "expected": {
+        "normalized_title_contains": "Seven Samurai",
+        "event_year_not_canonical": true,
+        "eligibility": "eligible"
+      }
+    },
+    {
+      "id": "sparse-indie-title-only",
+      "source_title": "Obscure Indie Title XYZ",
+      "expected": {
+        "eligibility": "eligible",
+        "bucket_in": ["review", "unmatched"]
+      },
+      "offline_candidates": [
+        {
+          "id": 999001,
+          "title": "Obscure Indie Title XYZ",
+          "release_date": null,
+          "runtime": null,
+          "popularity": 0.1,
+          "adult": false,
+          "media_type": "movie"
+        }
+      ]
+    }
+  ]
+}

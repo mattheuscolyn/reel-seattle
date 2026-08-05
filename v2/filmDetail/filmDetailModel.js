@@ -9,6 +9,7 @@ import {
   formatLocalDateLabel,
   formatUserFacingFormatLabel,
 } from '../topOpportunities/topOpportunityFormat.js';
+import { unresolvedProgramLabel } from './unresolvedProgramLabels.js';
 
 const PREMIUM_FORMAT_HINTS = Object.freeze([
   '70mm',
@@ -24,9 +25,63 @@ const PREMIUM_FORMAT_HINTS = Object.freeze([
  * @param {string} filmKey
  */
 export function resolveFilm(homeData, filmKey) {
-  return (Array.isArray(homeData?.films) ? homeData.films : []).find(
-    (f) => f.filmKey === filmKey,
-  ) ?? null;
+  const films = Array.isArray(homeData?.films) ? homeData.films : [];
+  const direct = films.find((f) => f.filmKey === filmKey) ?? null;
+  if (!direct) return null;
+  // Prefer the parent/standard film row for special-screening keys so Film Detail
+  // uses the canonical title while still retaining the entry filmKey.
+  const parentKey =
+    typeof direct.parentFilmKey === 'string' && direct.parentFilmKey.trim()
+      ? direct.parentFilmKey.trim()
+      : null;
+  if (parentKey && parentKey !== direct.filmKey) {
+    const parent = films.find((f) => f.filmKey === parentKey) ?? null;
+    if (parent) {
+      return {
+        ...parent,
+        // Keep entry key for nav, but expose parent presentation fields.
+        entryFilmKey: direct.filmKey,
+        screeningVariantType: direct.screeningVariantType ?? null,
+        isSpecialScreening: direct.isSpecialScreening === true,
+      };
+    }
+  }
+  return {
+    ...direct,
+    entryFilmKey: direct.filmKey,
+  };
+}
+
+/**
+ * Family keys that share a parent presentation or canonical filmId.
+ * @param {object | null} homeData
+ * @param {string} filmKey
+ * @returns {Set<string>}
+ */
+export function resolveFilmFamilyKeys(homeData, filmKey) {
+  const films = Array.isArray(homeData?.films) ? homeData.films : [];
+  const seed = films.find((f) => f.filmKey === filmKey);
+  /** @type {Set<string>} */
+  const keys = new Set([filmKey]);
+  if (!seed) return keys;
+
+  const parentKey =
+    (typeof seed.parentFilmKey === 'string' && seed.parentFilmKey.trim()) ||
+    seed.filmKey;
+  const filmId =
+    typeof seed.filmId === 'string' && seed.filmId.startsWith('tmdb:')
+      ? seed.filmId
+      : null;
+
+  for (const film of films) {
+    if (film.filmKey === parentKey || film.parentFilmKey === parentKey) {
+      keys.add(film.filmKey);
+    }
+    if (filmId && film.filmId === filmId) {
+      keys.add(film.filmKey);
+    }
+  }
+  return keys;
 }
 
 /**
@@ -34,8 +89,9 @@ export function resolveFilm(homeData, filmKey) {
  * @param {string} filmKey
  */
 export function listFilmOpportunities(homeData, filmKey) {
+  const family = resolveFilmFamilyKeys(homeData, filmKey);
   return (Array.isArray(homeData?.opportunities) ? homeData.opportunities : [])
-    .filter((opp) => opp.filmKey === filmKey)
+    .filter((opp) => family.has(opp.filmKey))
     .sort((a, b) => {
       if (a.sortableLocalDateTime !== b.sortableLocalDateTime) {
         return a.sortableLocalDateTime < b.sortableLocalDateTime ? -1 : 1;
@@ -99,6 +155,37 @@ export function opportunityFormatLabel(opportunity) {
     .map(formatUserFacingFormatLabel)
     .filter(Boolean);
   return labels[0] ?? null;
+}
+
+/**
+ * Human label for structured screening variant types.
+ * @param {string | null | undefined} variantType
+ * @returns {string | null}
+ */
+export function screeningVariantLabel(variantType) {
+  if (typeof variantType !== 'string' || !variantType.trim()) return null;
+  const key = variantType.trim().toLowerCase();
+  const labels = {
+    sensory_friendly: 'Sensory Friendly',
+    open_caption: 'Open Caption',
+    closed_caption: 'Closed Caption',
+    audio_description: 'Audio Description',
+    fan_event: 'Fan Event',
+    early_access: 'Early Access',
+    sing_along: 'Sing-Along',
+    anniversary: 'Anniversary',
+    premiere: 'Premiere',
+    special_event: 'Special Event',
+    dubbed: 'Dubbed',
+    subtitled: 'Subtitled',
+    none: null,
+  };
+  if (key in labels) return labels[key];
+  return key
+    .split('_')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 }
 
 /**
@@ -373,12 +460,17 @@ export function buildTodaysShowtimes(
     }
     const row = byTheater.get(id);
     const label = opportunityFormatLabel(opp);
+    const variant = screeningVariantLabel(opp.screeningVariantType);
+    if (variant) row.formats.add(variant);
     if (label) row.formats.add(label);
     row.times.push({
       opportunityKey: opp.opportunityKey,
       timeDisplay: opp.timeDisplay,
       emphasized: opp.opportunityKey === emphasizedOpportunityKey,
       ticketUrl: opp.ticketUrl ?? null,
+      screeningVariantType: opp.screeningVariantType ?? null,
+      screeningVariantLabel: variant,
+      isSpecialScreening: opp.isSpecialScreening === true,
     });
   }
 
@@ -393,7 +485,7 @@ export function buildTodaysShowtimes(
         theaterName: row.theaterName,
         venueMark: mark.label,
         accent: mark.accent,
-        formatChips: [...row.formats].slice(0, 2),
+        formatChips: [...row.formats].slice(0, 3),
         times: sortedTimes.slice(0, 3),
         extraTimeCount: Math.max(0, sortedTimes.length - 3),
         totalTimes: sortedTimes.length,
@@ -421,12 +513,20 @@ export function buildFilmHero(film, bestOpp) {
   if (formatLabel) {
     badges.push({ id: 'fmt', label: formatLabel.toUpperCase(), tone: 'neutral' });
   }
+  // Reviewed non-TMDB programs/events: light distinction only when filmId is absent.
+  const programLabel = unresolvedProgramLabel(film);
+  if (programLabel) {
+    badges.push({
+      id: 'program',
+      label: programLabel.toUpperCase(),
+      tone: 'neutral',
+    });
+  }
   return {
     filmKey: film.filmKey,
     filmId: film.filmId ?? null,
-    title: film.title,
+    title: film.parentDisplayTitle || film.title,
     posterUrl: film.posterUrl ?? null,
-    /** Backdrop enrichment deferred — poster soft-wash only. */
     backdropUrl: null,
     runtimeLabel: formatRuntimeLabel(film.runtimeMin),
     year: null,

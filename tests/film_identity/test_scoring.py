@@ -121,12 +121,27 @@ def test_remake_ambiguity_without_year():
         source_external_ids=None,
         candidate=_cand(id=3, title="Dune", release_date="2021-10-22"),
     )
-    assert "remake_ambiguity" in scored.warnings
+    assert "weak_title_only_match" in scored.warnings
+    assert scored.signals["year_evidence"] == "missing"
     bucket, _ = classify_match_bucket([scored])
     assert bucket != "auto"
 
 
-def test_title_only_low_confidence_unmatched():
+def test_title_only_exact_enters_review_not_unmatched():
+    scored = score_candidate(
+        search_title="Unique Title ZZZ",
+        source_year=None,
+        source_runtime=None,
+        source_directors=None,
+        source_external_ids=None,
+        candidate=_cand(id=9, title="Unique Title ZZZ", release_date=None, runtime=None, popularity=0),
+    )
+    assert scored.score >= REVIEW_MIN_SCORE
+    bucket, _ = classify_match_bucket([scored])
+    assert bucket == "review"
+
+
+def test_title_mismatch_stays_unmatched():
     scored = score_candidate(
         search_title="X",
         source_year=None,

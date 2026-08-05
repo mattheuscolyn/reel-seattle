@@ -402,6 +402,8 @@ test('production activates enrichment by exact filmId via shared resolver', () =
           { id: 27, name: 'Horror' },
         ],
         directors: [{ tmdb_person_id: 1, name: 'Ryan Coogler' }],
+        runtime_minutes: 138,
+        us_certification: 'R',
         poster: { path: '/sinners-tmdb.jpg', url: null },
         backdrop: { path: '/ignored.jpg', url: null },
       },
@@ -415,13 +417,13 @@ test('production activates enrichment by exact filmId via shared resolver', () =
   assert.equal(presentation.filmId, 'tmdb:1133620');
   assert.equal(presentation.displayTitle, 'Sinners');
   assert.equal(presentation.hero.year, '2025');
-  assert.equal(presentation.hero.genres, 'Action · Drama');
+  assert.equal(presentation.hero.genres, 'Action · Drama · Horror');
   assert.equal(presentation.hero.director, 'Directed by Ryan Coogler');
   assert.match(presentation.hero.metaLine, /2025/);
   assert.match(presentation.hero.metaLine, /h/);
-  assert.equal(presentation.hero.rating, null);
-  assert.equal(presentation.hero.backdropUrl, null);
-  assert.equal(presentation.hero.posterUrl, 'https://example.com/sinners.jpg');
+  assert.equal(presentation.hero.rating, 'R');
+  assert.match(presentation.hero.backdropUrl, /image\.tmdb\.org/);
+  assert.match(presentation.hero.posterUrl, /image\.tmdb\.org\/t\/p\/w500\/sinners-tmdb\.jpg/);
   assert.equal(presentation.synopsis.available, true);
   assert.match(presentation.synopsis.preview, /Twin brothers/);
   assert.equal(presentation.synopsis.tags.length, 0);

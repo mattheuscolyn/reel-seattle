@@ -74,7 +74,7 @@ test('join uses exact filmId only', () => {
   assert.ok(lookupEnrichment(index, 'tmdb:15080'));
 });
 
-test('poster precedence: source wins, TMDB fills gap', () => {
+test('poster precedence: TMDB wins, source fills gap', () => {
   const index = buildEnrichmentIndex(EXAMPLE);
   const withSource = resolveEnrichedFilmPresentation({
     sourceFilm: {
@@ -84,26 +84,39 @@ test('poster precedence: source wins, TMDB fills gap', () => {
       runtimeMin: 119,
     },
     enrichmentIndex: index,
+    context: 'film-detail',
   });
-  assert.equal(withSource.displayTitle, 'Only Yesterday 35th Anniversary');
+  assert.equal(withSource.displayTitle, 'Only Yesterday');
   assert.equal(withSource.canonicalTitle, 'Only Yesterday');
-  assert.equal(withSource.posterUrl, 'https://example.com/source.jpg');
-  assert.equal(withSource.posterSource, 'source');
+  assert.match(withSource.posterUrl, /image\.tmdb\.org/);
+  assert.equal(withSource.posterSource, 'tmdb');
   assert.equal(withSource.canonicalYear, 1991);
   assert.ok(withSource.synopsisPreview);
-  assert.equal(withSource.runtimeMin, 119);
+  assert.equal(withSource.runtimeMin, 118);
+  assert.equal(withSource.runtimeSource, 'tmdb');
+  assert.equal(withSource.usCertification, 'G');
+  assert.match(withSource.backdropUrl, /image\.tmdb\.org/);
 
-  const withoutSource = resolveEnrichedFilmPresentation({
+  const withoutTmdbPoster = resolveEnrichedFilmPresentation({
     sourceFilm: {
       filmId: 'tmdb:15080',
       title: 'Only Yesterday 35th Anniversary',
-      posterUrl: null,
+      posterUrl: 'https://example.com/source.jpg',
       runtimeMin: 119,
     },
+    enrichment: {
+      ...EXAMPLE.films[0],
+      poster: null,
+      runtime_minutes: null,
+      us_certification: null,
+    },
     enrichmentIndex: index,
+    context: 'film-detail',
   });
-  assert.equal(withoutSource.posterSource, 'tmdb');
-  assert.match(withoutSource.posterUrl, /image\.tmdb\.org/);
+  assert.equal(withoutTmdbPoster.posterSource, 'source');
+  assert.equal(withoutTmdbPoster.posterUrl, 'https://example.com/source.jpg');
+  assert.equal(withoutTmdbPoster.runtimeMin, 119);
+  assert.equal(withoutTmdbPoster.runtimeSource, 'theater_source');
 });
 
 test('null filmId suppresses enrichment fields but keeps film', () => {
@@ -240,7 +253,7 @@ test('Search prefers canonical title and activates enrichment by filmId', () => 
   assert.match(row.synopsis, /Twin brothers/);
   assert.equal(row.rating, null);
   assert.equal(row.director, 'Ryan Coogler'); // carried; Search UI does not render
-  assert.equal(row.posterUrl, 'https://example.com/sinners.jpg'); // source wins
+  assert.match(row.posterUrl, /image\.tmdb\.org\/t\/p\/w500\/sinners\.jpg/); // TMDB first
   assert.equal(row.hasEnrichment, true);
 
   const searchCtx = resolveEnrichedFilmPresentation({

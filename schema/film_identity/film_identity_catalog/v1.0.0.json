@@ -86,7 +86,19 @@
         "normalized_title": { "type": ["string", "null"] },
         "year_hint": { "type": ["integer", "null"] },
         "runtime_min": { "type": ["integer", "null"] },
-        "directors_raw": { "type": ["string", "null"] }
+        "directors_raw": { "type": ["string", "null"] },
+        "directors_normalized": {
+          "type": ["array", "null"],
+          "items": { "type": "string" }
+        },
+        "entity_kind": { "type": ["string", "null"] },
+        "year_interpretation": { "type": ["object", "null"] },
+        "presentation_labels": {
+          "type": ["array", "null"],
+          "items": { "type": "string" }
+        },
+        "top_candidate_margin": { "type": ["number", "null"] },
+        "auto_confirm_blocked_reason": { "type": ["string", "null"] }
       }
     }
   }

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Known theater programming-series prefixes for TMDB search title preparation. Prefer source scoping. Do not invent generic colon/dash stripping.",
+  "prefixes": [
+    {
+      "id": "cold-war-summer",
+      "prefix": "Cold War Summer",
+      "sources": ["siff"],
+      "metadata_field": "program_series",
+      "notes": "SIFF repertory series branding before the film title."
+    },
+    {
+      "id": "animation-domination",
+      "prefix": "Animation Domination",
+      "sources": ["nwff"],
+      "metadata_field": "program_series",
+      "notes": "NWFF animation program block introducing a feature title."
+    },
+    {
+      "id": "truth-to-fiction",
+      "prefix": "Truth To Fiction",
+      "sources": ["nwff"],
+      "metadata_field": "program_series",
+      "notes": "NWFF documentary/series framing before the feature title."
+    },
+    {
+      "id": "community-screening",
+      "prefix": "Community Screening",
+      "sources": ["siff"],
+      "metadata_field": "program_series",
+      "notes": "SIFF community screening series framing before the feature title."
+    }
+  ]
+}

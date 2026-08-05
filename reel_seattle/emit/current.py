@@ -39,6 +39,10 @@ from reel_seattle.analysis.film_identity import (
     build_film_key_identity_map,
     derive_parent_identity,
 )
+from reel_seattle.film_identity.public_emit import (
+    attach_public_film_ids,
+    write_identity_emit_report,
+)
 from reel_seattle.validate import validate_showtimes_current, validate_theaters_registry
 
 CURRENT_SCHEMA_VERSION = "1.0.0"
@@ -135,8 +139,13 @@ def build_showtimes_current(
     registry: Mapping[str, Any],
     reference_date: date | None = None,
     generated_at: datetime | None = None,
+    emit_report_out: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Build the showtimes_current artifact from history CSV rows."""
+    """Build the showtimes_current artifact from history CSV rows.
+
+    When ``emit_report_out`` is provided, it is filled with the T-FILMID-02
+    identity-emission coverage report (not part of the public artifact).
+    """
     ref = reference_date or datetime.now(ZoneInfo(DEFAULT_TIMEZONE)).date()
     start_date, end_date = _window_bounds(ref)
     theater_index = build_theater_index(registry)
@@ -320,6 +329,11 @@ def build_showtimes_current(
 
     theaters.sort(key=lambda item: item["id"])
     films = [films_by_key[key] for key in sorted(films_by_key)]
+    # T-FILMID-02: nullable canonical film_id from durable identity catalog.
+    identity_emit_report = attach_public_film_ids(films, showtimes)
+    if emit_report_out is not None:
+        emit_report_out.clear()
+        emit_report_out.update(identity_emit_report)
     sources = build_sources_metadata(showtimes, history_evidence)
 
     return {
@@ -359,10 +373,12 @@ def write_showtimes_current(
     registry = _load_registry(registry_path)
     validate_theaters_registry(registry)
 
+    emit_report: dict[str, Any] = {}
     artifact = build_showtimes_current(
         history_rows,
         registry=registry,
         reference_date=reference_date,
+        emit_report_out=emit_report,
     )
     validate_showtimes_current(artifact)
 
@@ -370,5 +386,8 @@ def write_showtimes_current(
     with output_path.open("w", encoding="utf-8") as handle:
         json.dump(artifact, handle, indent=2, ensure_ascii=False)
         handle.write("\n")
+
+    if emit_report:
+        write_identity_emit_report(emit_report)
 
     return artifact

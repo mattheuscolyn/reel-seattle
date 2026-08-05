@@ -1,0 +1,166 @@
+name: Film Enrichment — TMDB Public Artifact
+
+# Independent of daily showtimes scraping (T-ENR-01B).
+# Failures here must never block showtime publication.
+#
+# Production cadence (UTC):
+#   06:00 daily_scraping.yml  → ingest + parent identity + attach_public_film_ids
+#                               + emit showtimes_current.json (+ nullable film_id)
+#   08:00 film_enrichment.yml → enrichment from durable catalog → film_enrichment_current.json
+# Live TMDB matching remains workflow_dispatch (film_identity_match.yml), not daily.
+on:
+  schedule:
+    # After daily scrape window (approx 8 AM UTC)
+    - cron: "0 8 * * *"
+  workflow_dispatch:
+    inputs:
+      refresh_cache:
+        description: Bypass TMDB response cache and refresh enrichment rows
+        type: boolean
+        default: false
+      persist_mode:
+        description: How to publish the enrichment artifact
+        type: choice
+        options:
+          - artifact-only
+          - commit-main
+        default: commit-main
+      limit:
+        description: Optional --limit (leave empty for full run)
+        type: string
+        default: ""
+
+concurrency:
+  group: film-enrichment-tmdb
+  cancel-in-progress: false
+
+jobs:
+  enrich:
+    name: Build film enrichment
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Verify TMDB secrets are configured
+        env:
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: |
+          if [ -z "$TMDB_READ_ACCESS_TOKEN" ] && [ -z "$TMDB_API_KEY" ]; then
+            echo "Neither TMDB_READ_ACCESS_TOKEN nor TMDB_API_KEY is configured."
+            exit 1
+          fi
+          if [ -n "$TMDB_READ_ACCESS_TOKEN" ]; then
+            echo "AUTH_MODE=bearer" >> "$GITHUB_ENV"
+          else
+            echo "AUTH_MODE=api_key" >> "$GITHUB_ENV"
+          fi
+
+      - name: Restore TMDB response cache
+        if: ${{ inputs.refresh_cache != true }}
+        uses: actions/cache@v4
+        with:
+          path: data/cache/tmdb
+          key: tmdb-enrichment-v1-${{ runner.os }}-${{ hashFiles('data/film_identity/film_identity_catalog.json', 'reel_seattle/enrichment/**/*.py') }}
+          restore-keys: |
+            tmdb-enrichment-v1-${{ runner.os }}-
+            tmdb-film-identity-v1-${{ runner.os }}-
+
+      - name: Build enrichment artifact
+        env:
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: |
+          set -euo pipefail
+          ARGS=()
+          if [ "${{ inputs.refresh_cache }}" = "true" ]; then
+            ARGS+=(--refresh-cache)
+          fi
+          LIMIT_RAW='${{ inputs.limit }}'
+          if [ -n "$LIMIT_RAW" ]; then
+            ARGS+=(--limit "$LIMIT_RAW")
+          fi
+          python scripts/build_film_enrichment.py "${ARGS[@]}"
+
+      - name: Validate enrichment artifact
+        run: python scripts/validate_film_enrichment.py
+
+      - name: Summarize enrichment report
+        env:
+          AUTH_MODE: ${{ env.AUTH_MODE }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report = json.loads(
+              Path("data/audits/tmdb_enrichment_pipeline_report.json").read_text(
+                  encoding="utf-8"
+              )
+          )
+          lines = [
+              "## Film enrichment",
+              "",
+              f"- status: `{report.get('status')}`",
+              f"- auth: `{os.environ.get('AUTH_MODE', 'unknown')}`",
+              f"- eligible: {report.get('eligible_confirmed_tmdb_films')}",
+              f"- emitted: {report.get('emitted_rows')}",
+              f"- fresh fetches: {report.get('fresh_fetch_count')}",
+              f"- cache reuse: {report.get('cache_reuse_count')}",
+              f"- retained last-good: {report.get('retained_last_good_count')}",
+              f"- missing first-fetch: {report.get('missing_first_fetch_count')}",
+              f"- failed fetches: {report.get('failed_fetch_count')}",
+              f"- validation: `{report.get('validation_status')}`",
+              "",
+              "Showtime publication is independent of this job.",
+              "Consumers join enrichment by exact public film_id only.",
+          ]
+          text = "\n".join(lines) + "\n"
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as handle:
+              handle.write(text)
+          print(text, end="")
+          PY
+
+      - name: Commit enrichment artifact
+        if: ${{ github.event_name == 'schedule' || inputs.persist_mode == 'commit-main' }}
+        run: |
+          set -euo pipefail
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add public/data/film_enrichment_current.json
+          git add data/audits/tmdb_enrichment_pipeline_report.json
+          if git diff --cached --quiet; then
+            echo "No enrichment changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(enrichment): refresh TMDB film enrichment artifact"
+          git push
+
+      - name: Upload enrichment package
+        if: ${{ inputs.persist_mode == 'artifact-only' && github.event_name == 'workflow_dispatch' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: film-enrichment-${{ github.run_id }}
+          path: |
+            public/data/film_enrichment_current.json
+            data/audits/tmdb_enrichment_pipeline_report.json
+          retention-days: 30
+          if-no-files-found: error
