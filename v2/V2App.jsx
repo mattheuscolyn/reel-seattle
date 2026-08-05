@@ -1195,11 +1195,18 @@ export default function V2App() {
       >
         <div inert={isScheduleSettings || undefined}>
           <MyScheduleMonthSurface
+            homeData={sharedHomeData.homeData}
             acceptedPlansRevision={acceptedPlansRevision}
             scheduleSettingsRevision={scheduleSettingsRevision}
             onOpenWeek={handleOpenMyScheduleWeek}
             onOpenSearch={handleOpenScheduleSearch}
             onOpenSettings={handleOpenScheduleSettings}
+            onOpenFilmDetail={(params) =>
+              handleOpenFilmDetail({
+                ...params,
+                originPrimary: 'planner',
+              })
+            }
             onStubAction={(_actionId, label) => {
               setProfileStubStatus(
                 `${label} isn’t available in this Schedule shell yet.`,
