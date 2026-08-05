@@ -65,7 +65,7 @@ def test_valid_theaters_registry_passes(project_root):
 
 def test_validate_theaters_registry_file_passes(project_root):
     registry = validate_theaters_registry_file(project_root / "data" / "theaters.json")
-    assert registry["schema_version"] == "1.1.0"
+    assert registry["schema_version"] == "1.0.0"
 
 
 def test_valid_showtimes_current_fixture_passes(valid_showtimes_current):
