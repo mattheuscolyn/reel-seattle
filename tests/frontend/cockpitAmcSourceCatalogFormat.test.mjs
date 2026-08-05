@@ -233,5 +233,11 @@ test('ALLOWED_DATA_ROUTES includes catalog paths and excludes arbitrary data pat
     Object.hasOwn(ALLOWED_DATA_ROUTES, '/data/source_catalog/not_a_real_catalog.json'),
     false,
   );
-  assert.equal(Object.keys(ALLOWED_DATA_ROUTES).length, 11);
+  assert.ok(
+    Object.hasOwn(ALLOWED_DATA_ROUTES, '/data/film_identity/program_series_prefixes.json'),
+  );
+  assert.ok(
+    Object.hasOwn(ALLOWED_DATA_ROUTES, '/data/film_identity/title_search_aliases.json'),
+  );
+  assert.equal(Object.keys(ALLOWED_DATA_ROUTES).length, 13);
 });

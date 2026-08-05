@@ -58,9 +58,9 @@ class EligibilityResult:
     entity_kind: str = ENTITY_FEATURE_FILM
 
 
-def normalize_search_title(title: str | None) -> str | None:
+def normalize_search_title(title: str | None, *, source: str | None = None) -> str | None:
     """Conservative search title with presentation/festival stripping."""
-    return normalize_match_title(title)
+    return normalize_match_title(title, source=source)
 
 
 def classify_eligibility(
@@ -69,12 +69,13 @@ def classify_eligibility(
     screening_variant_type: str | None = None,
     is_special_screening: bool | None = None,
     extra: Mapping[str, Any] | None = None,
+    source: str | None = None,
 ) -> EligibilityResult:
     """Decide whether a source identity should be searched on TMDB movies."""
     _ = (is_special_screening, extra)
     title = (source_title or "").strip()
-    years = interpret_source_years(source_title=title)
-    search = years.base_title or normalize_search_title(title)
+    years = interpret_source_years(source_title=title, source=source)
+    search = years.base_title or normalize_search_title(title, source=source)
     reasons: list[str] = []
 
     if not search:

@@ -109,6 +109,7 @@ def inventory_source_identities(
             year_info = interpret_source_years(
                 source_title=source_title,
                 product_year=product_year,
+                source=source,
             )
             release_year = year_info.scoring_year()
             year_hint = release_year or extract_year_hint(source_title)
@@ -122,6 +123,7 @@ def inventory_source_identities(
                     if row.get("is_special_screening") is not None
                     else film.get("is_special_screening")
                 ),
+                source=source,
             )
             try:
                 fallback = fallback_film_id(
@@ -138,7 +140,7 @@ def inventory_source_identities(
                 source_title=source_title,
                 normalized_title=eligibility.search_title
                 or year_info.base_title
-                or normalize_search_title(source_title),
+                or normalize_search_title(source_title, source=source),
                 year_hint=year_hint,
                 runtime_min=runtime,
                 directors_raw=directors,

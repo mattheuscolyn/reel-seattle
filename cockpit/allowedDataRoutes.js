@@ -36,6 +36,15 @@ export const ALLOWED_DATA_ROUTES = Object.freeze({
       import.meta.url,
     ),
   ),
+  '/data/film_identity/program_series_prefixes.json': fileURLToPath(
+    new URL(
+      '../data/film_identity/program_series_prefixes.json',
+      import.meta.url,
+    ),
+  ),
+  '/data/film_identity/title_search_aliases.json': fileURLToPath(
+    new URL('../data/film_identity/title_search_aliases.json', import.meta.url),
+  ),
   '/data/audits/tmdb_film_identity_coverage.json': fileURLToPath(
     new URL('../data/audits/tmdb_film_identity_coverage.json', import.meta.url),
   ),

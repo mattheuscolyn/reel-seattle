@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-05T05:28:19+00:00",
+  "generated_at": "2026-08-05T06:02:00+00:00",
   "items": [
     {
       "auto_confirm_blocked_reason": "hard_conflict",
@@ -160,14 +160,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Elijah Peel",
         "canonical_year_candidate": 2026,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": 2026,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": 2026,
         "search_year": 2026,
@@ -339,14 +346,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Six: The Musical Live!",
         "canonical_year_candidate": 2026,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": 2026,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": 2026,
         "search_year": 2026,
@@ -354,6 +368,435 @@
         "warnings": [],
         "year_confidence": "product",
         "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
+          "director": "Jay Chandrasekhar",
+          "original_title": null,
+          "overview_excerpt": "When Farva’s wildly over-the-top Indian engagement to Thorny’s sister spirals into chaos, the Super Troopers must navigate Thorny’s schemes to break up the relationship, while trying to crack a pernicious new drug ring …",
+          "popularity": 6.8524,
+          "poster_path": "/eV2Uhn8A93V4ELySlrBGvBuQJLj.jpg",
+          "release_year": 2026,
+          "runtime_min": 104,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "jay chandrasekhar"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 6.8524,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 36,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Super Troopers 3",
+          "tmdb_id": 675871,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:amc:84350",
+      "match_confidence": 0.75,
+      "match_status": "review_required",
+      "normalized_title": "Super Troopers 3",
+      "presentation_labels": [
+        "fan event",
+        "special broken lizard fan event"
+      ],
+      "proposed_tmdb_id": 675871,
+      "queue_id": "amc:84350",
+      "runtime_min": 140,
+      "showtime_film_key": "super-troopers-3-special-broken-lizard-fan-event",
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "jay chandrasekhar"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": true,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 6.8524,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": true,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 36,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "conflict",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "amc",
+      "source_film_id": "84350",
+      "source_title": "Super Troopers 3: Special Broken Lizard Fan Event",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_conflict",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "event_suffix"
+        ],
+        "base_title": "Super Troopers 3",
+        "canonical_year_candidate": null,
+        "event_labels": [
+          "Special Broken Lizard Fan Event"
+        ],
+        "event_phrase": "Special Broken Lizard Fan Event",
+        "event_year": 2026,
+        "event_year_not_canonical": true,
+        "format_tags": [],
+        "presentation_labels": [
+          "fan event",
+          "special broken lizard fan event"
+        ],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [
+          "Special Broken Lizard Fan Event"
+        ],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
+        "year_confidence": "none",
+        "year_evidence": "uncertain_rerelease_restoration"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Lee Kirk",
+          "original_title": null,
+          "overview_excerpt": "Three friends journey from Kansas City to Los Angeles, mistakenly believing that their band is opening for Green Day on New Year’s Eve.",
+          "popularity": 5.3884,
+          "poster_path": "/tDTfqu5XJbtUwstRRnWaUcoHxM2.jpg",
+          "release_year": 2026,
+          "runtime_min": 116,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "lee kirk"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 5.3884,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 21,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Nimrods",
+          "tmdb_id": 1432474,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "When a young man comes to visit his friend Avery, their family gets more than they bargained for.",
+          "popularity": 0.1286,
+          "poster_path": null,
+          "release_year": null,
+          "runtime_min": 11,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.1286,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 126,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Nimrod's Christmas",
+          "tmdb_id": 1363822,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:amc:84421",
+      "match_confidence": 0.75,
+      "match_status": "review_required",
+      "normalized_title": "Nimrods",
+      "presentation_labels": [
+        "early access",
+        "early access – green day intro + bonus performance"
+      ],
+      "proposed_tmdb_id": 1432474,
+      "queue_id": "amc:84421",
+      "runtime_min": 137,
+      "showtime_film_key": "nimrods-early-access-green-day-intro-bonus-performance",
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "miss",
+            "matched": false,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "lee kirk"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": true,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 5.3884,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 21,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "miss",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "amc",
+      "source_film_id": "84421",
+      "source_title": "Nimrods Early Access – Green Day Intro + Bonus Performance",
+      "top_candidate_margin": 0.75,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_mismatch",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "event_suffix"
+        ],
+        "base_title": "Nimrods",
+        "canonical_year_candidate": null,
+        "event_labels": [
+          "Early Access – Green Day Intro + Bonus Performance"
+        ],
+        "event_phrase": "Early Access – Green Day Intro + Bonus Performance",
+        "event_year": 2026,
+        "event_year_not_canonical": true,
+        "format_tags": [],
+        "presentation_labels": [
+          "early access",
+          "early access – green day intro + bonus performance"
+        ],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [
+          "Early Access – Green Day Intro + Bonus Performance"
+        ],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
+        "year_confidence": "none",
+        "year_evidence": "uncertain_rerelease_restoration"
       }
     },
     {
@@ -514,14 +957,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "2026 Cortis Tour <Put Your Phone Down> In La: Live Viewing",
         "canonical_year_candidate": 2026,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": 2026,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": 2026,
         "search_year": 2026,
@@ -738,14 +1188,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Practical Magic",
         "canonical_year_candidate": 2026,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": 2026,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": 2026,
         "search_year": 2026,
@@ -1097,14 +1554,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Cinema Paradiso",
         "canonical_year_candidate": null,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": null,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": null,
         "search_year": null,
@@ -1258,14 +1722,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Knockabout",
         "canonical_year_candidate": null,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": null,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": null,
         "search_year": null,
@@ -1483,14 +1954,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Mikey And Nicky",
         "canonical_year_candidate": null,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": null,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": null,
         "search_year": null,
@@ -1710,14 +2188,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Take Care Of My Cat",
         "canonical_year_candidate": null,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": null,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": null,
         "search_year": null,
@@ -2140,14 +2625,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Lost Highway",
         "canonical_year_candidate": null,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": null,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": null,
         "search_year": null,
@@ -2745,14 +3237,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Romeo + Juliet",
         "canonical_year_candidate": null,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": null,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": null,
         "search_year": null,
@@ -3341,15 +3840,1205 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Valley Girl",
         "canonical_year_candidate": null,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": null,
+        "program_series": null,
         "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "same_title_remake_ambiguity",
+      "candidates": [
+        {
+          "director": "Cristóbal León",
+          "original_title": "La casa lobo",
+          "overview_excerpt": "After escaping from a religious colony in Chile, Maria seeks shelter in a mansion where she’s taken in by two pigs, its only inhabitants. Like in a stop-motion dream, the universe of the house reacts to her feelings. Th…",
+          "popularity": 1.6934,
+          "poster_path": "/kvgch2e25cd6dWhRJ6G8BCJ1Wcq.jpg",
+          "release_year": 2018,
+          "runtime_min": 74,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "cristobal leon"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 1.6934,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Wolf House",
+          "tmdb_id": 499537,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Nicholas Clausen",
+          "original_title": null,
+          "overview_excerpt": "A whimsical house goes up for sale. Who will buy it? And who created it?",
+          "popularity": 0.2945,
+          "poster_path": null,
+          "release_year": null,
+          "runtime_min": 9,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "nicholas clausen"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.2945,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 64,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Wolf House",
+          "tmdb_id": 516981,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Eben McGarr",
+          "original_title": null,
+          "overview_excerpt": "Five strangers are invited to a castle under the pretense that one may inherit it. Little do they know what dangers await at the House of the Wolfman.",
+          "popularity": 0.6836,
+          "poster_path": "/srn47fzrP5IoLxDngGdu6zA0wb2.jpg",
+          "release_year": 2009,
+          "runtime_min": 81,
+          "score": 0.1112,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 8,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.0667,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "eben mcgarr"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0667,
+            "original_title_exact": false,
+            "popularity": 0.6836,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 8,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "House of the Wolf Man",
+          "tmdb_id": 79119,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A lonely college coed wins a paid vacation to a remote seaside resort for spring break, but when one of her fellow guests leaves and the proprietors display a curious penchant for gluttony, she begins to think something…",
+          "popularity": 0.7708,
+          "poster_path": "/4hgLXROOwGem7rHxn9kV7gWUqO6.jpg",
+          "release_year": 1972,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.7708,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Terror at Red Wolf Inn",
+          "tmdb_id": 108743,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Paul Fierlinger",
+          "original_title": null,
+          "overview_excerpt": "An very very old man lives with his very old cat, his old old goldfish and his old dog on a houseboat, until one day the wolf Cuthbert Q Divine knocks on the door...",
+          "popularity": 0.6312,
+          "poster_path": null,
+          "release_year": 1979,
+          "runtime_min": 12,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "paul fierlinger"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.6312,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 61,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "It's So Nice to Have a Wolf Around the House",
+          "tmdb_id": 178354,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Gonzalo Suárez",
+          "original_title": "La loba y la Paloma",
+          "overview_excerpt": "A young woman just released from a mental institution returns home to her mansion and faces a new set of horrors.",
+          "popularity": 1.0619,
+          "poster_path": "/syRF15cBysh9BcIvhJVWvUVMROf.jpg",
+          "release_year": 1974,
+          "runtime_min": 94,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "gonzalo suarez"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.0619,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 21,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "House of the Damned",
+          "tmdb_id": 258923,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "El Cuento del Perro",
+          "overview_excerpt": "The Tale of the Dog is a short film made in five days by the participants of an intensive workshop guided by Cristóbal León and Joaquín Cociña in Balmaceda Arte Joven.",
+          "popularity": 0.2603,
+          "poster_path": "/hCBOgNQPWFpbg6edfwUR9F9Df1c.jpg",
+          "release_year": 2019,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.2603,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Tale of the Dog",
+          "tmdb_id": 1537417,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:nwff:animation-domination-the-wolf-house",
+      "match_confidence": 1.0,
+      "match_status": "review_required",
+      "normalized_title": "The Wolf House",
+      "presentation_labels": [
+        "animation domination"
+      ],
+      "proposed_tmdb_id": 499537,
+      "queue_id": "nwff:animation-domination-the-wolf-house",
+      "runtime_min": 73,
+      "showtime_film_key": "animation-domination-the-wolf-house",
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "cristobal leon"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 1.6934,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 1,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "nwff",
+      "source_film_id": "animation-domination-the-wolf-house",
+      "source_title": "Animation Domination - The Wolf House",
+      "top_candidate_margin": 0.25,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable",
+        "same_title_remake_ambiguity"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "program_series:animation-domination"
+        ],
+        "base_title": "The Wolf House",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [
+          "animation domination"
+        ],
+        "product_year": null,
+        "program_series": "Animation Domination",
+        "removed_phrases": [
+          "Animation Domination"
+        ],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "same_title_remake_ambiguity",
+      "candidates": [
+        {
+          "director": "Bob Fosse",
+          "original_title": null,
+          "overview_excerpt": "Inside the Kit Kat Club of 1931 Berlin, starry-eyed singer Sally Bowles and an impish emcee sound the clarion call to decadent fun, while outside a certain political party grows into a brutal force.",
+          "popularity": 4.4102,
+          "poster_path": "/fMhOeJ2TvuY46iYGmsowhgRXfnr.jpg",
+          "release_year": 1972,
+          "runtime_min": 124,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "bob fosse"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 4.4102,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cabaret",
+          "tmdb_id": 10784,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Sam Mendes",
+          "original_title": null,
+          "overview_excerpt": "Inside the Kit Kat Club in 1931 Berlin, starry-eyed singer Sally Bowles and the lewd Emcee sound the clarion call to decadence, while outside, the Nazi party grows into a brutal force. (Filmed live during the 1993 reviv…",
+          "popularity": 3.0414,
+          "poster_path": "/dwmPpekLC8WWpS0Chcy2i8Y10Ha.jpg",
+          "release_year": 1993,
+          "runtime_min": 107,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "sam mendes"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 3.0414,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 17,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cabaret",
+          "tmdb_id": 215768,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Haruki Kadokawa",
+          "original_title": "キャバレー",
+          "overview_excerpt": "A young jazz musician's desire to advance in his career runs afoul of organized crime in this thriller from Haruki Kadokawa. After a saxophonist starts playing at a particular nightspot, a thug from the Yakuza adopts hi…",
+          "popularity": 0.8237,
+          "poster_path": "/dKRP54n1qc7ndoor2ju7lJaurbS.jpg",
+          "release_year": 1986,
+          "runtime_min": 104,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "haruki kadokawa"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.8237,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 20,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cabaret",
+          "tmdb_id": 357299,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A news story in the newspapers announces the investigation by the police of a major scam. Precisely, following the steps of the author of that crime, we will know the cabaret where the whole action of this drama will ta…",
+          "popularity": 0.5541,
+          "poster_path": "/7f6XEotJSIIWvRurKcMTVgXnVrj.jpg",
+          "release_year": 1953,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.5541,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cabaret",
+          "tmdb_id": 438810,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Robert G. Vignola",
+          "original_title": null,
+          "overview_excerpt": "Gloria Trask, who has risen from a squalid East Side environment to stardom in Costigan's nightclub, is admired by Tom Westcott, detective, and Sam Roberts, a gangster with whom her brother is involved. Andy, threatened…",
+          "popularity": 1.5259,
+          "poster_path": "/uiyTZUboDgCcQLaTHoLcCza6mSf.jpg",
+          "release_year": 1927,
+          "runtime_min": 70,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "robert g vignola"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.5259,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 54,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cabaret",
+          "tmdb_id": 1187013,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Set during rehearsals for a cabaret show, this short film features singer Rosalind Melville.",
+          "popularity": 1.0995,
+          "poster_path": "/3HKVQASYsq7usdeRO3MD7AcmqOl.jpg",
+          "release_year": 1945,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.0995,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cabaret",
+          "tmdb_id": 1207856,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A pro-shot of Cabaret's 1987 Broadway revival.",
+          "popularity": 1.4396,
+          "poster_path": "/pu4G54FS26bhLqVxe29w73U6Jea.jpg",
+          "release_year": 1988,
+          "runtime_min": 146,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.4396,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 22,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cabaret",
+          "tmdb_id": 1408111,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "The 2023 West End revival of Cabaret.",
+          "popularity": 1.377,
+          "poster_path": null,
+          "release_year": null,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.377,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cabaret",
+          "tmdb_id": 1429205,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:nwff:cabaret-charlies-queer-books",
+      "match_confidence": 1.0,
+      "match_status": "review_required",
+      "normalized_title": "Cabaret",
+      "presentation_labels": [
+        "co_presentation"
+      ],
+      "proposed_tmdb_id": 10784,
+      "queue_id": "nwff:cabaret-charlies-queer-books",
+      "runtime_min": 124,
+      "showtime_film_key": "cabaret-with-charlie-s-queer-books",
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "bob fosse"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 4.4102,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "nwff",
+      "source_film_id": "cabaret-charlies-queer-books",
+      "source_title": "Cabaret with Charlie's Queer Books",
+      "top_candidate_margin": 0.25,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable",
+        "same_title_remake_ambiguity"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": "Cabaret",
+        "applied_alias_id": "cabaret-with-charlies-queer-books",
+        "applied_rules": [
+          "exact_alias:cabaret-with-charlies-queer-books"
+        ],
+        "base_title": "Cabaret",
+        "canonical_year_candidate": null,
+        "event_labels": [
+          "co_presentation"
+        ],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [
+          "co_presentation"
+        ],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [
+          "alias:Cabaret with Charlie's Queer Books"
+        ],
         "scoring_year": null,
         "search_year": null,
         "title_years": [],
@@ -3948,14 +5637,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Remake",
         "canonical_year_candidate": null,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": null,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": null,
         "search_year": null,
@@ -4556,14 +6252,21 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Boyhood",
         "canonical_year_candidate": null,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": null,
+        "program_series": null,
         "removed_phrases": [],
         "scoring_year": null,
         "search_year": null,
@@ -5157,15 +6860,639 @@
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
         "base_title": "Julian",
         "canonical_year_candidate": null,
         "event_labels": [],
+        "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
         "product_year": null,
+        "program_series": null,
         "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "same_title_remake_ambiguity",
+      "candidates": [
+        {
+          "director": "Michael Mann",
+          "original_title": null,
+          "overview_excerpt": "FBI Agent Will Graham, retired after catching notorious cannibal Hannibal Lecter, returns to duty to engage in a risky cat-and-mouse game with Lecter to capture a new killer.",
+          "popularity": 0.3421,
+          "poster_path": "/6rb24x39vV8n5301IelC8rCPJTH.jpg",
+          "release_year": 1986,
+          "runtime_min": 120,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "michael mann"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 0.3421,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Manhunter",
+          "tmdb_id": 11454,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Walter Grauman",
+          "original_title": null,
+          "overview_excerpt": "Pilot movie for the short-lived TV series set in the 1930's about a World War I ex-marine-turned-bounty-hunter, named Dave Barrett, who goes after two Bonnie-and-Clyde style bank robbers who murdered his former girlfrie…",
+          "popularity": 1.5002,
+          "poster_path": "/jkVpV6Crjc6i7sf5EjezAqam5oY.jpg",
+          "release_year": 1974,
+          "runtime_min": 74,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "walter grauman"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.5002,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 45,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Manhunter",
+          "tmdb_id": 100279,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Czesław Petelski",
+          "original_title": "Naganiacz",
+          "overview_excerpt": "1945. Home Army soldier who hides in the village must decide if he wants to engage into dangerous situation to help group of Jewish runaways.",
+          "popularity": 0.545,
+          "poster_path": "/uCArZu0r40TBvq4C6XiEr7lLVxJ.jpg",
+          "release_year": 1964,
+          "runtime_min": 80,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "czesław petelski"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.545,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 39,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Manhunter",
+          "tmdb_id": 833462,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Bored with their own town, three gay men decide to take a trip into the countryside. A blind date with a local turns out to be a bad decision as the man reveals himself to be a perverse psychopath that intends to do the…",
+          "popularity": 0.7294,
+          "poster_path": "/uaAWwFej69PCsdQ4kS1dZTj9PzE.jpg",
+          "release_year": 2011,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.7294,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Into the Lion's Den",
+          "tmdb_id": 103514,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "David Gregory",
+          "original_title": null,
+          "overview_excerpt": "A DVD Special Feature documentary on the experience of turning the chilling novel \"Red Dragon\" into a motion picture, all told through the actors and director of the first interpretation on film of the hideously complex…",
+          "popularity": 1.4277,
+          "poster_path": "/i0UJcrlADZ6vbv62g8Tb2eF5crr.jpg",
+          "release_year": 2001,
+          "runtime_min": 17,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "david gregory"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.4277,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 102,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Inside 'Manhunter'",
+          "tmdb_id": 219671,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A sequel to 1974's Challenge, in which the title character is assigned to gather incriminating evidence against his rival in the state senate, but his assignment gets complicated when the rival hires a group of killers …",
+          "popularity": 0.7277,
+          "poster_path": "/1tcMaqRCMmlc9WLqZTQW7dwhzfX.jpg",
+          "release_year": 1974,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.7277,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Brass Ring",
+          "tmdb_id": 294340,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Greek Spies are trying to give bad image about turkey, Metin a young police man who decides to go rogue and achieve justice after the murder of his partner and his family on the hands of Greek spies.",
+          "popularity": 0.6496,
+          "poster_path": "/fdL10EiI98s6GVBemA4NPRJ8bQL.jpg",
+          "release_year": 1975,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.6496,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "İnsan Avcısı",
+          "tmdb_id": 390684,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "An interview with Manhunter cinematographer Dante Spinotti.",
+          "popularity": 0.4081,
+          "poster_path": "/xaRz5R1431eB3TB1w90tEdEIDs7.jpg",
+          "release_year": 2001,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.4081,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The 'Manhunter' Look: A Conversation with Dante Spinotti",
+          "tmdb_id": 606475,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:siff:cinema/in-theaters/michael-manns-manhunter-the-final-cut",
+      "match_confidence": 1.0,
+      "match_status": "review_required",
+      "normalized_title": "Manhunter",
+      "presentation_labels": [
+        "final_cut",
+        "director_possessive_branding"
+      ],
+      "proposed_tmdb_id": 11454,
+      "queue_id": "siff:cinema/in-theaters/michael-manns-manhunter-the-final-cut",
+      "runtime_min": 119,
+      "showtime_film_key": "michael-mann-s-manhunter-the-final-cut",
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "michael mann"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 0.3421,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 1,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "siff",
+      "source_film_id": "cinema/in-theaters/michael-manns-manhunter-the-final-cut",
+      "source_title": "Michael Mann's Manhunter: The Final Cut",
+      "top_candidate_margin": 0.25,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable",
+        "same_title_remake_ambiguity"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": "Manhunter",
+        "applied_alias_id": "michael-manns-manhunter-final-cut",
+        "applied_rules": [
+          "exact_alias:michael-manns-manhunter-final-cut"
+        ],
+        "base_title": "Manhunter",
+        "canonical_year_candidate": null,
+        "event_labels": [
+          "final_cut",
+          "director_possessive_branding"
+        ],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [
+          "final_cut",
+          "director_possessive_branding"
+        ],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [
+          "alias:Michael Mann's Manhunter: The Final Cut"
+        ],
         "scoring_year": null,
         "search_year": null,
         "title_years": [],

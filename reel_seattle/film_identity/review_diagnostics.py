@@ -88,16 +88,25 @@ def redact_secrets(text: str | None) -> str:
     return _TOKEN_RE.sub(_sub, str(text))
 
 
-def title_transform_diff(original: str | None, normalized: str | None) -> dict[str, Any]:
+def title_transform_diff(
+    original: str | None,
+    normalized: str | None,
+    *,
+    source: str | None = None,
+) -> dict[str, Any]:
     """Compare original source title → normalized TMDB search title."""
     from reel_seattle.film_identity.presentation import extract_match_title
 
     src = (original or "").strip()
-    extracted = extract_match_title(src) if src else None
+    extracted = extract_match_title(src, source=source) if src else None
     norm = (normalized or (extracted.base_title if extracted else None) or "").strip()
     removed: list[str] = []
     if extracted and extracted.removed_phrases:
-        removed = list(extracted.removed_phrases)
+        removed = [
+            p for p in extracted.removed_phrases if not str(p).startswith("alias:")
+        ]
+        if extracted.applied_alias and src:
+            removed = [f"(alias) {src} → {extracted.applied_alias}", *removed]
     elif src and norm and src.casefold() != norm.casefold():
         if norm.casefold() in src.casefold():
             idx = src.casefold().find(norm.casefold())
@@ -116,6 +125,11 @@ def title_transform_diff(original: str | None, normalized: str | None) -> dict[s
         "removed_segments": removed,
         "format_tags": list(extracted.format_tags) if extracted else [],
         "event_labels": list(extracted.event_labels) if extracted else [],
+        "program_series": extracted.program_series if extracted else None,
+        "applied_alias": extracted.applied_alias if extracted else None,
+        "applied_alias_id": extracted.applied_alias_id if extracted else None,
+        "event_phrase": extracted.event_phrase if extracted else None,
+        "applied_rules": list(extracted.applied_rules) if extracted else [],
         "display": (
             f"{src} → {norm}" if src and norm and src.casefold() != norm.casefold() else (src or norm or None)
         ),
@@ -578,14 +592,20 @@ def build_review_pack(root: Path) -> dict[str, Any]:
         years = interpret_source_years(
             source_title=source_title,
             product_year=None,
+            source=source_name if source_name != "unknown" else None,
         )
         eligibility = classify_eligibility(
             source_title=source_title,
             screening_variant_type=film.get("screening_variant_type"),
             is_special_screening=film.get("is_special_screening"),
+            source=source_name if source_name != "unknown" else None,
         )
         search_title = eligibility.search_title or years.base_title or source_title
-        transform = title_transform_diff(source_title, search_title)
+        transform = title_transform_diff(
+            source_title,
+            search_title,
+            source=source_name if source_name != "unknown" else None,
+        )
         film_id = film.get("film_id") or (catalog_row or {}).get("film_id")
         match_status = (catalog_row or {}).get("match_status")
         if not match_status:
@@ -651,6 +671,12 @@ def build_review_pack(root: Path) -> dict[str, Any]:
                 "normalized_search_title": search_title,
                 "extracted_parent_title": years.base_title,
                 "title_transform": transform,
+                "program_series": years.program_series or transform.get("program_series"),
+                "applied_alias": years.applied_alias or transform.get("applied_alias"),
+                "applied_alias_id": years.applied_alias_id
+                or transform.get("applied_alias_id"),
+                "event_phrase": years.event_phrase or transform.get("event_phrase"),
+                "applied_rules": list(years.applied_rules or transform.get("applied_rules") or []),
                 "screening_variant_type": film.get("screening_variant_type"),
                 "is_special_screening": film.get("is_special_screening"),
                 "presentation_labels": list(years.presentation_labels),
@@ -662,7 +688,11 @@ def build_review_pack(root: Path) -> dict[str, Any]:
                 "venues": agg["venues"],
                 "venue_count": len(agg["venues"]),
                 "showtime_count": agg["showtime_count"],
-                "aliases": [],
+                "aliases": (
+                    [years.applied_alias]
+                    if years.applied_alias
+                    else []
+                ),
                 "canonical_key": film_id,
                 "match_status": match_status,
             },
@@ -923,6 +953,20 @@ def cluster_bulk_patterns(records: Sequence[Mapping[str, Any]]) -> list[dict[str
         "Try experimental alternate titles; check TMDB coverage.",
         "medium",
     )
+
+    series_groups: dict[str, list[Mapping[str, Any]]] = defaultdict(list)
+    for row in records:
+        series = (row.get("source") or {}).get("program_series")
+        if series:
+            series_groups[str(series)].append(row)
+    for series_name, rows in sorted(series_groups.items(), key=lambda kv: -len(kv[1])):
+        _emit(
+            f"program_series:{series_name.casefold()[:48]}",
+            f"Program series prefix “{series_name}”",
+            rows,
+            "Confirm whether to keep this series in program_series_prefixes.json.",
+            "low" if len(rows) >= 2 else "medium",
+        )
 
     clusters.sort(key=lambda c: (-int(c["showtime_count"]), -int(c["film_count"])))
     return clusters

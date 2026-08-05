@@ -748,6 +748,29 @@ export default function FilmIdentityReviewView() {
                         <div>{transform.normalized || '—'}</div>
                       </div>
                     </div>
+                    {selected.source?.program_series ? (
+                      <p>
+                        Program series: <code>{selected.source.program_series}</code>
+                      </p>
+                    ) : null}
+                    {selected.source?.event_phrase ? (
+                      <p>
+                        Removed event phrase: <code>{selected.source.event_phrase}</code>
+                      </p>
+                    ) : null}
+                    {selected.source?.applied_alias ? (
+                      <p>
+                        Exact alias: <code>{selected.source.applied_alias}</code>
+                        {selected.source.applied_alias_id
+                          ? ` (${selected.source.applied_alias_id})`
+                          : ''}
+                      </p>
+                    ) : null}
+                    {(selected.source?.applied_rules || []).length ? (
+                      <p className="cockpit-secondary">
+                        Rules: {(selected.source.applied_rules || []).join(' → ')}
+                      </p>
+                    ) : null}
                     {transform.removed?.length ? (
                       <p>
                         Removed / transformed:{' '}

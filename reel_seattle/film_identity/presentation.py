@@ -8,6 +8,12 @@ from dataclasses import dataclass
 from typing import Any
 
 from reel_seattle.normalize import normalize_film_title
+from reel_seattle.film_identity.title_rules import (
+    apply_program_series_prefix,
+    is_event_suffix_segment,
+    lookup_exact_alias,
+    strip_recognized_event_suffix,
+)
 
 _ANNIVERSARY_RE = re.compile(
     r"(?P<num>\d{1,3})(?:st|nd|rd|th)\s+anniversary",
@@ -126,6 +132,11 @@ class MatchTitleExtraction:
     presentation_labels: tuple[str, ...] = ()
     format_tags: tuple[str, ...] = ()
     event_labels: tuple[str, ...] = ()
+    program_series: str | None = None
+    applied_alias_id: str | None = None
+    applied_alias: str | None = None
+    event_phrase: str | None = None
+    applied_rules: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -135,6 +146,11 @@ class MatchTitleExtraction:
             "presentation_labels": list(self.presentation_labels),
             "format_tags": list(self.format_tags),
             "event_labels": list(self.event_labels),
+            "program_series": self.program_series,
+            "applied_alias_id": self.applied_alias_id,
+            "applied_alias": self.applied_alias,
+            "event_phrase": self.event_phrase,
+            "applied_rules": list(self.applied_rules),
         }
 
 
@@ -156,6 +172,11 @@ class YearInterpretation:
     removed_phrases: tuple[str, ...] = ()
     format_tags: tuple[str, ...] = ()
     event_labels: tuple[str, ...] = ()
+    program_series: str | None = None
+    applied_alias_id: str | None = None
+    applied_alias: str | None = None
+    event_phrase: str | None = None
+    applied_rules: tuple[str, ...] = ()
 
     def scoring_year(self) -> int | None:
         """Year used for TMDB year comparison (never raw event year alone)."""
@@ -187,6 +208,11 @@ class YearInterpretation:
             "removed_phrases": list(self.removed_phrases),
             "format_tags": list(self.format_tags),
             "event_labels": list(self.event_labels),
+            "program_series": self.program_series,
+            "applied_alias_id": self.applied_alias_id,
+            "applied_alias": self.applied_alias,
+            "event_phrase": self.event_phrase,
+            "applied_rules": list(self.applied_rules),
             "year_evidence": (
                 "missing"
                 if self.scoring_year() is None and not self.event_year_not_canonical
@@ -204,11 +230,12 @@ def interpret_source_years(
     source_title: str | None,
     product_year: int | None = None,
     explicit_canonical_year: int | None = None,
+    source: str | None = None,
 ) -> YearInterpretation:
     """Separate event/presentation years from a canonical film year candidate."""
     title = (source_title or "").strip()
     warnings: list[str] = []
-    extracted = extract_match_title(title)
+    extracted = extract_match_title(title, source=source)
     labels = list(extracted.presentation_labels) or _presentation_labels(title)
     base = extracted.base_title
     title_years = tuple(int(m.group(1)) for m in _YEAR_RE.finditer(title))
@@ -221,7 +248,13 @@ def interpret_source_years(
             warnings.append("implausible_anniversary_number")
             anniversary = None
 
-    has_presentation = bool(labels) or anniversary is not None or bool(extracted.removed_phrases)
+    has_presentation = (
+        bool(labels)
+        or anniversary is not None
+        or bool(extracted.removed_phrases)
+        or bool(extracted.program_series)
+        or bool(extracted.applied_alias_id)
+    )
     event_year = None
     if has_presentation and title_years:
         # Prefer trailing / fest-associated year as event year.
@@ -291,11 +324,27 @@ def interpret_source_years(
         removed_phrases=extracted.removed_phrases,
         format_tags=extracted.format_tags,
         event_labels=extracted.event_labels,
+        program_series=extracted.program_series,
+        applied_alias_id=extracted.applied_alias_id,
+        applied_alias=extracted.applied_alias,
+        event_phrase=extracted.event_phrase,
+        applied_rules=extracted.applied_rules,
     )
 
 
-def extract_match_title(title: str | None) -> MatchTitleExtraction:
-    """Phrase-aware strip of screening/event/format decorations for TMDB search."""
+def extract_match_title(
+    title: str | None,
+    *,
+    source: str | None = None,
+) -> MatchTitleExtraction:
+    """Prepare TMDB search title with documented precedence.
+
+    1. Exact reviewed source-title alias
+    2. Recognized series/program prefix extraction
+    3. Recognized screening/event suffix extraction
+    4. Existing format/accessibility normalization
+    5. Normalized source title fallback
+    """
     original = (title or "").strip()
     if not original:
         return MatchTitleExtraction(original_title="", base_title=None)
@@ -305,7 +354,43 @@ def extract_match_title(title: str | None) -> MatchTitleExtraction:
     removed: list[str] = []
     format_tags: list[str] = []
     event_labels: list[str] = []
+    applied_rules: list[str] = []
+    program_series: str | None = None
+    applied_alias_id: str | None = None
+    applied_alias: str | None = None
+    event_phrase: str | None = None
 
+    # 1) Exact reviewed alias (unsafe-to-generalize cases).
+    alias = lookup_exact_alias(original, source=source)
+    if alias is not None:
+        applied_alias_id = alias.alias_id
+        applied_alias = alias.search_title
+        applied_rules.append(f"exact_alias:{alias.alias_id}")
+        for label in alias.labels:
+            if label not in event_labels:
+                event_labels.append(label)
+        removed.append(f"alias:{original}")
+        working = alias.search_title
+        # Aliases replace search title; still allow light format cleanup below if needed.
+    else:
+        # 2) Registered program-series prefix (source-scoped when configured).
+        series = apply_program_series_prefix(working, source=source)
+        if series is not None:
+            program_series = series.prefix
+            removed.append(series.prefix)
+            applied_rules.append(f"program_series:{series.prefix_id}")
+            working = series.remainder
+
+        # 3) Recognized complete event suffixes.
+        head, event = strip_recognized_event_suffix(working)
+        if event and head:
+            removed.append(event)
+            event_labels.append(event)
+            event_phrase = event
+            applied_rules.append("event_suffix")
+            working = head
+
+    # 4) Existing format / accessibility / anniversary normalization.
     changed = True
     while changed:
         changed = False
@@ -323,10 +408,11 @@ def extract_match_title(title: str | None) -> MatchTitleExtraction:
                 event_labels.append(inner)
             working = working[: paren.start()].strip()
             working = _cleanup_title_fragment(working)
+            applied_rules.append("format_or_accessibility_paren")
             changed = True
             continue
 
-        # Prefer trailing separator segments classified as complete presentation phrases.
+        # Prefer trailing separator segments classified as complete presentation/event phrases.
         for sep in (" - ", " – ", " — ", ": ", ":"):
             if sep not in working:
                 continue
@@ -335,9 +421,14 @@ def extract_match_title(title: str | None) -> MatchTitleExtraction:
             tail = tail.strip()
             if not head or not tail:
                 continue
-            if _is_presentation_segment(tail):
+            if is_event_suffix_segment(tail) or _is_presentation_segment(tail):
                 removed.append(tail)
                 _classify_removed_phrase(tail, format_tags, event_labels)
+                if is_event_suffix_segment(tail):
+                    event_phrase = event_phrase or tail
+                    applied_rules.append("event_suffix_segment")
+                else:
+                    applied_rules.append("presentation_segment")
                 working = _cleanup_title_fragment(head)
                 changed = True
                 break
@@ -358,6 +449,7 @@ def extract_match_title(title: str | None) -> MatchTitleExtraction:
                 removed.append(tail)
                 _classify_removed_phrase(tail, format_tags, event_labels)
                 working = _cleanup_title_fragment(head)
+                applied_rules.append("presentation_trailing_atoms")
                 changed = True
                 continue
 
@@ -370,6 +462,7 @@ def extract_match_title(title: str | None) -> MatchTitleExtraction:
             working = _cleanup_title_fragment(
                 working[: inline.start()] + " " + working[inline.end() :]
             )
+            applied_rules.append("inline_anniversary")
             changed = True
             continue
 
@@ -384,6 +477,7 @@ def extract_match_title(title: str | None) -> MatchTitleExtraction:
             removed.append(phrase)
             event_labels.append(phrase)
             working = _cleanup_title_fragment(working[: fest.start()])
+            applied_rules.append("ghibli_fest_tail")
             changed = True
             continue
 
@@ -393,6 +487,7 @@ def extract_match_title(title: str | None) -> MatchTitleExtraction:
             phrase = trailing_year.group(0).strip()
             removed.append(phrase)
             working = _cleanup_title_fragment(working[: trailing_year.start()])
+            applied_rules.append("trailing_event_year")
             changed = True
 
     labels = _presentation_labels(original)
@@ -400,8 +495,15 @@ def extract_match_title(title: str | None) -> MatchTitleExtraction:
         folded = re.sub(r"\s+", " ", item.casefold().strip())
         if folded and folded not in labels:
             labels.append(folded)
+    if program_series:
+        folded = program_series.casefold()
+        if folded not in labels:
+            labels.append(folded)
 
     base = _cleanup_title_fragment(working) or None
+    if not applied_rules and base:
+        applied_rules.append("normalized_source_fallback")
+
     return MatchTitleExtraction(
         original_title=original,
         base_title=base,
@@ -409,12 +511,17 @@ def extract_match_title(title: str | None) -> MatchTitleExtraction:
         presentation_labels=tuple(labels),
         format_tags=tuple(dict.fromkeys(format_tags)),
         event_labels=tuple(dict.fromkeys(event_labels)),
+        program_series=program_series,
+        applied_alias_id=applied_alias_id,
+        applied_alias=applied_alias,
+        event_phrase=event_phrase,
+        applied_rules=tuple(dict.fromkeys(applied_rules)),
     )
 
 
-def normalize_match_title(title: str | None) -> str | None:
+def normalize_match_title(title: str | None, *, source: str | None = None) -> str | None:
     """Unicode-aware presentation strip → base search/compare title."""
-    return extract_match_title(title).base_title
+    return extract_match_title(title, source=source).base_title
 
 
 def looks_like_feature_presentation(source_title: str | None, base_title: str | None) -> bool:

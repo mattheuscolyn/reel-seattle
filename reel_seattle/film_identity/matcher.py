@@ -83,6 +83,7 @@ def match_source_identity(
         year_info = interpret_source_years(
             source_title=identity.get("source_title"),
             explicit_canonical_year=identity.get("release_year") or identity.get("year_hint"),
+            source=identity.get("source"),
         ).to_dict()
     scoring_year = year_info.get("scoring_year")
     if scoring_year is None:

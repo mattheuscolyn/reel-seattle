@@ -105,6 +105,16 @@ Named constants in `reel_seattle/film_identity/constants.py`:
 
 Missing year + multiple same-title TMDB hits → review (ambiguity). Missing year + exact title + compatible runtime with no competing remake → may auto-confirm.
 
+**Search-title preparation precedence:**
+
+1. Exact reviewed aliases — `data/film_identity/title_search_aliases.json`
+2. Registered program-series prefixes — `data/film_identity/program_series_prefixes.json` (prefer source-scoped)
+3. Recognized complete event suffixes (Fan Event / Early Access / bonus performance phrases)
+4. Format / accessibility / anniversary presentation stripping
+5. Normalized source-title fallback
+
+Original source titles remain for display, tickets, and cockpit diagnostics.
+
 **Auto-confirm rationale:** False merges are worse than temporary source fallbacks. Require strong title corroboration plus year, compatible runtime (when year absent), **or** exact external ID; popularity may break ties only and never override title/year/runtime conflicts or remake ambiguity.
 
 **Review rationale:** Mid-confidence candidates need a human in the cockpit queue.
