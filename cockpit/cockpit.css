@@ -504,8 +504,132 @@ code {
   margin: 0.15rem 0 0;
 }
 
+.cockpit-film-identity-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 0.85rem;
+  align-items: end;
+  margin: 0 0 1rem;
+}
+
+.cockpit-film-identity-toolbar label,
+.cockpit-check {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.85rem;
+}
+
+.cockpit-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.cockpit-title-transform {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 0 0 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  background: #fafafa;
+}
+
+.cockpit-arrow {
+  font-size: 1.25rem;
+  color: #444;
+}
+
+.cockpit-muted {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #666;
+}
+
+.cockpit-removed-seg {
+  display: inline-block;
+  margin: 0 0.25rem 0.25rem 0;
+  padding: 0.1rem 0.35rem;
+  background: #fde8e8;
+  border: 1px solid #e0b4b4;
+}
+
+.cockpit-pill {
+  display: inline-block;
+  margin: 0.15rem 0.35rem 0.15rem 0;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid #bbb;
+  font-size: 0.75rem;
+  background: #f0f0f0;
+}
+
+.cockpit-plain-reason {
+  padding: 0.65rem 0.75rem;
+  border-left: 3px solid #444;
+  background: #f7f7f7;
+}
+
+.cockpit-score-details {
+  margin-top: 0.35rem;
+}
+
+.cockpit-score-details ul {
+  margin: 0.35rem 0;
+  padding-left: 1.1rem;
+}
+
+.cockpit-notes-label {
+  flex: 1 1 100%;
+}
+
+.cockpit-notes-label textarea {
+  width: 100%;
+  min-height: 4.5rem;
+  font: inherit;
+}
+
+.cockpit-bulk-patterns ul,
+.cockpit-reference-cases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cockpit-bulk-patterns li,
+.cockpit-reference-card {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 0.75rem 0.9rem;
+}
+
+.cockpit-reference-card pre,
+.cockpit-rule-proposal pre {
+  overflow: auto;
+  max-height: 16rem;
+  background: #f5f5f5;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.cockpit-experimental-result {
+  margin: 0.5rem 0 1rem;
+  padding: 0.75rem;
+  border: 1px dashed #888;
+}
+
 @media (max-width: 900px) {
   .cockpit-film-identity-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cockpit-title-transform {
     grid-template-columns: 1fr;
   }
 }

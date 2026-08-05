@@ -58,6 +58,57 @@ function pythonBin() {
   return cockpitEnv.REEL_SEATTLE_PYTHON || 'python'
 }
 
+function redactServerText(text) {
+  return String(text || '')
+    .replace(/Bearer\s+\S+/gi, 'Bearer [redacted]')
+    .replace(/api_key=[^&\s]+/gi, 'api_key=[redacted]')
+    .replace(/Authorization:\s*\S+/gi, 'Authorization: [redacted]')
+}
+
+function pythonEnv() {
+  return {
+    ...cockpitEnv,
+    // Windows consoles often use cp1252; keep script stdout ASCII-safe.
+    PYTHONIOENCODING: 'utf-8',
+    PYTHONUTF8: '1',
+  }
+}
+
+function runReviewCli(command, body = null, extraArgs = []) {
+  const args = ['scripts/film_identity_review_cli.py', command, ...extraArgs]
+  const result = spawnSync(pythonBin(), args, {
+    cwd: repoRoot,
+    encoding: 'utf8',
+    input: body == null ? undefined : JSON.stringify(body),
+    env: pythonEnv(),
+    maxBuffer: 32 * 1024 * 1024,
+  })
+  const stdout = redactServerText(result.stdout || '')
+  const stderr = redactServerText(result.stderr || '')
+  let payload = null
+  try {
+    payload = JSON.parse(stdout || '{}')
+  } catch {
+    payload = null
+  }
+  if (result.status !== 0) {
+    const message =
+      (payload && payload.error) ||
+      stderr ||
+      stdout ||
+      `film_identity_review_cli ${command} failed`
+    const error = new Error(redactServerText(message))
+    error.status = 500
+    throw error
+  }
+  if (payload && payload.ok === false) {
+    const error = new Error(redactServerText(payload.error || 'review CLI error'))
+    error.status = 500
+    throw error
+  }
+  return payload
+}
+
 function applyDecisionPatch(patchDoc) {
   const dir = mkdtempSync(join(tmpdir(), 'reel-filmid-'))
   const patchPath = join(dir, 'patch.json')
@@ -68,18 +119,11 @@ function applyDecisionPatch(patchDoc) {
     {
       cwd: repoRoot,
       encoding: 'utf8',
-      env: {
-        ...cockpitEnv,
-        // Windows consoles often use cp1252; keep apply-script stdout ASCII-safe.
-        PYTHONIOENCODING: 'utf-8',
-        PYTHONUTF8: '1',
-      },
+      env: pythonEnv(),
     },
   )
   if (result.status !== 0) {
-    const message = (result.stderr || result.stdout || 'apply failed')
-      .replace(/Bearer\s+\S+/gi, 'Bearer [redacted]')
-      .replace(/api_key=[^&\s]+/gi, 'api_key=[redacted]')
+    const message = redactServerText(result.stderr || result.stdout || 'apply failed')
     throw new Error(message.trim() || 'apply_tmdb_match_decisions failed')
   }
   return { ok: true }
@@ -138,6 +182,51 @@ function serveAllowedPublicData() {
               const body = await readJsonBody(req)
               applyDecisionPatch(body)
               sendJson(res, 200, { ok: true })
+              return
+            }
+            if (req.method === 'GET' && path === '/api/film-identity/review-pack') {
+              const payload = runReviewCli('pack')
+              sendJson(res, 200, payload)
+              return
+            }
+            if (req.method === 'POST' && path === '/api/film-identity/review-pack') {
+              const payload = runReviewCli('pack')
+              sendJson(res, 200, payload)
+              return
+            }
+            if (req.method === 'POST' && path === '/api/film-identity/explain') {
+              const body = await readJsonBody(req)
+              const payload = runReviewCli('explain', body, ['--stdin-json'])
+              sendJson(res, 200, payload)
+              return
+            }
+            if (req.method === 'POST' && path === '/api/film-identity/experimental-search') {
+              const body = await readJsonBody(req)
+              const payload = runReviewCli('experimental', body, ['--stdin-json'])
+              sendJson(res, 200, payload)
+              return
+            }
+            if (req.method === 'GET' && path === '/api/film-identity/review-notes') {
+              const payload = runReviewCli('notes-get')
+              sendJson(res, 200, payload)
+              return
+            }
+            if (req.method === 'POST' && path === '/api/film-identity/review-notes') {
+              const body = await readJsonBody(req)
+              const payload = runReviewCli('notes-set', body, ['--stdin-json'])
+              sendJson(res, 200, payload)
+              return
+            }
+            if (req.method === 'POST' && path === '/api/film-identity/export-review') {
+              const body = await readJsonBody(req)
+              const payload = runReviewCli('export', body, ['--stdin-json'])
+              sendJson(res, 200, payload)
+              return
+            }
+            if (req.method === 'POST' && path === '/api/film-identity/propose-normalization') {
+              const body = await readJsonBody(req)
+              const payload = runReviewCli('propose-rule', body, ['--stdin-json'])
+              sendJson(res, 200, payload)
               return
             }
             if (req.method === 'GET' && path === '/api/film-identity/tmdb/search') {

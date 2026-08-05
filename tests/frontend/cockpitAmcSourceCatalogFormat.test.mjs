@@ -221,6 +221,10 @@ test('ALLOWED_DATA_ROUTES includes catalog paths and excludes arbitrary data pat
   assert.ok(
     Object.hasOwn(ALLOWED_DATA_ROUTES, '/data/film_identity/tmdb_match_decisions.json'),
   );
+  assert.ok(
+    Object.hasOwn(ALLOWED_DATA_ROUTES, '/data/audits/film_identity_review_pack.json'),
+  );
+  assert.ok(Object.hasOwn(ALLOWED_DATA_ROUTES, '/data/film_enrichment_current.json'));
   assert.equal(
     Object.hasOwn(ALLOWED_DATA_ROUTES, '/data/newly_added_current.json'),
     false,
@@ -229,5 +233,5 @@ test('ALLOWED_DATA_ROUTES includes catalog paths and excludes arbitrary data pat
     Object.hasOwn(ALLOWED_DATA_ROUTES, '/data/source_catalog/not_a_real_catalog.json'),
     false,
   );
-  assert.equal(Object.keys(ALLOWED_DATA_ROUTES).length, 9);
+  assert.equal(Object.keys(ALLOWED_DATA_ROUTES).length, 11);
 });
