@@ -24,6 +24,8 @@ import { resolveMyScheduleWeekPagePresentation } from '../fixtures/resolveMySche
 import { getScheduleSettings } from '../stores/scheduleSettingsStore.js';
 import { removeAcceptedPlan } from '../stores/acceptedPlansStore.js';
 import ScheduleModifyPlanSheet from './ScheduleModifyPlanSheet.jsx';
+import { resolveFilmDetailNavParams } from '../identity/filmIdentity.js';
+import { acceptedPlanToPlanDetailsPlan } from './acceptedPlanToPlanDetails.js';
 
 function getBrowserStorage() {
   try {
@@ -156,32 +158,46 @@ function ScheduleTimeRuler({ labels, timeRange }) {
   );
 }
 
-function ScheduleEventBlock({ event, timeRange, onSelect }) {
+function ScheduleEventBlock({ event, timeRange, onOpenFilmDetail }) {
   const geometry = eventBlockGeometry(event, timeRange);
-  const label = `${event.title}, ${event.theaterLabel}, ${event.showtimeLabel}`;
+  const groupLabel = `${event.title}, ${event.theaterLabel}, ${event.showtimeLabel}`;
+  const canOpenFilm = Boolean(event.filmKey || event.filmId || event.showtimeFilmKey);
   return (
-    <button
-      type="button"
+    <div
       className={`v2-msw-event v2-msw-event-${event.tone}`}
       style={{
         left: `${geometry.leftPercent}%`,
         width: `${geometry.widthPercent}%`,
       }}
-      aria-label={label}
+      role="group"
+      aria-label={groupLabel}
       data-schedule-event={event.id}
-      onClick={() => onSelect(event)}
     >
-      <img
-        className="v2-msw-event-thumb"
-        src={event.imageUrl || undefined}
-        alt=""
-      />
-      <span className="v2-msw-event-copy">
+      <button
+        type="button"
+        className="v2-msw-event-film"
+        aria-label={`Open Film Detail for ${event.title}`}
+        disabled={!canOpenFilm || typeof onOpenFilmDetail !== 'function'}
+        onClick={() => onOpenFilmDetail?.(event)}
+      >
+        <img
+          className="v2-msw-event-thumb"
+          src={event.imageUrl || undefined}
+          alt=""
+        />
         <span className="v2-msw-event-title">{event.title}</span>
+        <IconChevron
+          className="v2-msw-event-chevron"
+          width={12}
+          height={12}
+          aria-hidden="true"
+        />
+      </button>
+      <span className="v2-msw-event-meta">
         <span className="v2-msw-event-venue">{event.theaterLabel}</span>
         <span className="v2-msw-event-time">{event.showtimeLabel}</span>
       </span>
-    </button>
+    </div>
   );
 }
 
@@ -210,7 +226,7 @@ function SchedulePlanGroup({
   group,
   timeRange,
   onGroupSelect,
-  onEventSelect,
+  onOpenFilmDetail,
 }) {
   return (
     <div
@@ -232,7 +248,7 @@ function SchedulePlanGroup({
               key={item.id}
               event={item}
               timeRange={timeRange}
-              onSelect={(evt) => onEventSelect(evt)}
+              onOpenFilmDetail={onOpenFilmDetail}
             />
           ),
         )}
@@ -282,7 +298,7 @@ function ScheduleDayRow({
   currentTimeIndicator,
   onTimelineTap,
   onGroupSelect,
-  onEventSelect,
+  onOpenFilmDetail,
   onPlaceholderSelect,
 }) {
   const showNow =
@@ -327,7 +343,7 @@ function ScheduleDayRow({
                 group={group}
                 timeRange={timeRange}
                 onGroupSelect={onGroupSelect}
-                onEventSelect={onEventSelect}
+                onOpenFilmDetail={onOpenFilmDetail}
               />
             ))}
             {day.standaloneEvents.map((event) => (
@@ -335,7 +351,7 @@ function ScheduleDayRow({
                 key={event.id}
                 event={event}
                 timeRange={timeRange}
-                onSelect={onEventSelect}
+                onOpenFilmDetail={onOpenFilmDetail}
               />
             ))}
             {day.placeholders.map((placeholder) => (
@@ -366,6 +382,12 @@ function ScheduleDayRow({
  *   onOpenSettings?: () => void,
  *   onStubAction?: (actionId: string, label: string) => void,
  *   onOpenMonth?: () => void,
+ *   onOpenFilmDetail?: (payload: {
+ *     filmKey: string,
+ *     opportunityKey?: string | null,
+ *   }) => void,
+ *   onOpenPlanDetails?: (plan: object) => void,
+ *   homeData?: object | null,
  *   acceptedPlansRevision?: number,
  *   scheduleSettingsRevision?: number,
  *   onAcceptedPlanChange?: () => void,
@@ -377,6 +399,9 @@ export default function MyScheduleWeekSurface({
   onOpenSettings,
   onStubAction,
   onOpenMonth,
+  onOpenFilmDetail,
+  onOpenPlanDetails,
+  homeData = null,
   acceptedPlansRevision = 0,
   scheduleSettingsRevision = 0,
   onAcceptedPlanChange,
@@ -492,19 +517,17 @@ export default function MyScheduleWeekSurface({
     );
   };
 
-  const handleEventSelect = (event) => {
-    const group = week.days
-      .flatMap((d) => d.planGroups)
-      .find((g) => g.id === event.planGroupId);
-    if (group?.acceptedPlan) {
-      setModifyPlan(group.acceptedPlan);
+  const handleOpenFilmFromRecord = (record) => {
+    const params = resolveFilmDetailNavParams(record, homeData);
+    if (!params || typeof onOpenFilmDetail !== 'function') {
+      announce(
+        'film-detail',
+        record?.title ?? record?.filmTitle ?? 'Film',
+        'Film Detail isn’t available for this screening yet.',
+      );
       return;
     }
-    announce(
-      `event-${event.id}`,
-      event.title,
-      `${event.title} detail isn’t available from My Schedule yet.`,
-    );
+    onOpenFilmDetail(params);
   };
 
   const handleRemovePlan = (planId) => {
@@ -518,20 +541,44 @@ export default function MyScheduleWeekSurface({
     }
   };
 
+  const handleViewPlanDetails = (plan) => {
+    const adapted = acceptedPlanToPlanDetailsPlan(plan);
+    if (!adapted || typeof onOpenPlanDetails !== 'function') {
+      announce(
+        'plan-details',
+        'View plan details',
+        'Plan Details isn’t available for this accepted plan yet.',
+      );
+      return;
+    }
+    setModifyPlan(null);
+    onOpenPlanDetails(adapted);
+  };
+
   const handleNextUp = () => {
-    announce(
-      'next-up',
-      presentation.nextUp.filmTitle,
-      `${presentation.nextUp.ticketsLabel} isn’t available yet.`,
-    );
+    if (presentation.nextUp?.empty) {
+      announce(
+        'next-up',
+        presentation.nextUp.filmTitle,
+        'Accept a plan from Plan Results to see upcoming films.',
+      );
+      return;
+    }
+    handleOpenFilmFromRecord(presentation.nextUp);
   };
 
   const handleTickets = (event) => {
     event.stopPropagation();
+    const url = presentation.nextUp?.ticketUrl;
+    if (typeof url === 'string' && /^https?:\/\//i.test(url)) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+      setStatusMessage('Opening tickets.');
+      return;
+    }
     announce(
       'view-tickets',
       presentation.nextUp.ticketsLabel,
-      `${presentation.nextUp.ticketsLabel} isn’t available yet.`,
+      'Tickets aren’t available for this screening.',
     );
   };
 
@@ -633,7 +680,16 @@ export default function MyScheduleWeekSurface({
           {nextUp.label}
         </p>
         <div className="v2-msw-next-up-card">
-          <button type="button" className="v2-msw-next-up-main" onClick={handleNextUp}>
+          <button
+            type="button"
+            className="v2-msw-next-up-main"
+            aria-label={
+              nextUp.empty
+                ? nextUp.filmTitle
+                : `Open Film Detail for ${nextUp.filmTitle}`
+            }
+            onClick={handleNextUp}
+          >
             {nextUp.imageUrl ? (
               <img className="v2-msw-next-up-thumb" src={nextUp.imageUrl} alt="" />
             ) : (
@@ -689,7 +745,7 @@ export default function MyScheduleWeekSurface({
                 currentTimeIndicator={week.currentTimeIndicator}
                 onTimelineTap={handleTimelineTap}
                 onGroupSelect={handleGroupSelect}
-                onEventSelect={handleEventSelect}
+                onOpenFilmDetail={handleOpenFilmFromRecord}
                 onPlaceholderSelect={handlePlaceholderSelect}
               />
             ))}
@@ -733,6 +789,8 @@ export default function MyScheduleWeekSurface({
       plan={modifyPlan}
       onClose={() => setModifyPlan(null)}
       onRemove={handleRemovePlan}
+      onOpenFilmDetail={handleOpenFilmFromRecord}
+      onViewPlanDetails={handleViewPlanDetails}
     />
     </>
   );

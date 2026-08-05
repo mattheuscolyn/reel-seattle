@@ -8,6 +8,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   IconCalendar,
+  IconChevron,
   IconClock,
   IconCup,
   IconPin,
@@ -23,6 +24,7 @@ import {
 } from '../calendar/exportFromOpportunity.js';
 import { acceptResultsPlan } from './acceptPlanFromResults.js';
 import { derivePlanDetailsViewModel } from './derivePlanDetailsViewModel.js';
+import { resolveFilmDetailNavParams } from '../identity/filmIdentity.js';
 
 function selectedFilmsForCalendarExport(plan) {
   if (!plan || !Array.isArray(plan.items)) return [];
@@ -61,6 +63,11 @@ function selectedFilmsForCalendarExport(plan) {
  *   onBack: () => void,
  *   onShareReady?: (handler: (() => void) | null) => void,
  *   onAcceptedPlanChange?: () => void,
+ *   onOpenFilmDetail?: (payload: {
+ *     filmKey: string,
+ *     opportunityKey?: string | null,
+ *   }) => void,
+ *   homeData?: object | null,
  *   storage?: Storage | null,
  *   dateLabel?: string | null,
  * }} props
@@ -70,6 +77,8 @@ export default function BuildPlanPlanDetailsSurface({
   onBack,
   onShareReady = null,
   onAcceptedPlanChange = null,
+  onOpenFilmDetail = null,
+  homeData = null,
   storage = null,
   dateLabel = null,
 }) {
@@ -241,29 +250,52 @@ export default function BuildPlanPlanDetailsSurface({
                 <li key={row.id} className="v2-bpd-row v2-bpd-row-film">
                   <span className="v2-bpd-node v2-bpd-node-film" aria-hidden="true" />
                   <span className="v2-bpd-time v2-bpd-time-film">{row.timePill}</span>
-                  {row.imageUrl ? (
-                    <img
-                      className="v2-bpd-poster"
-                      src={row.imageUrl}
-                      alt=""
-                      width={50}
-                      height={73}
+                  <button
+                    type="button"
+                    className="v2-bpd-film-open"
+                    aria-label={`Open Film Detail for ${row.title}`}
+                    disabled={
+                      !resolveFilmDetailNavParams(row, homeData) ||
+                      typeof onOpenFilmDetail !== 'function'
+                    }
+                    onClick={() => {
+                      const params = resolveFilmDetailNavParams(row, homeData);
+                      if (params) onOpenFilmDetail?.(params);
+                    }}
+                  >
+                    {row.imageUrl ? (
+                      <img
+                        className="v2-bpd-poster"
+                        src={row.imageUrl}
+                        alt=""
+                        width={50}
+                        height={73}
+                      />
+                    ) : (
+                      <span
+                        className="v2-bpd-poster v2-bpd-poster-fallback"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <div className="v2-bpd-row-copy">
+                      <p className="v2-bpd-film-title">{row.title}</p>
+                      {row.theater ? (
+                        <p className="v2-bpd-film-theater">{row.theater}</p>
+                      ) : null}
+                      {row.formatBadge ? (
+                        <span className="v2-bpd-badge">{row.formatBadge}</span>
+                      ) : null}
+                      {row.rangeLine ? (
+                        <p className="v2-bpd-film-range">{row.rangeLine}</p>
+                      ) : null}
+                    </div>
+                    <IconChevron
+                      className="v2-bpd-film-chevron"
+                      width={16}
+                      height={16}
+                      aria-hidden="true"
                     />
-                  ) : (
-                    <span className="v2-bpd-poster v2-bpd-poster-fallback" aria-hidden="true" />
-                  )}
-                  <div className="v2-bpd-row-copy">
-                    <p className="v2-bpd-film-title">{row.title}</p>
-                    {row.theater ? (
-                      <p className="v2-bpd-film-theater">{row.theater}</p>
-                    ) : null}
-                    {row.formatBadge ? (
-                      <span className="v2-bpd-badge">{row.formatBadge}</span>
-                    ) : null}
-                    {row.rangeLine ? (
-                      <p className="v2-bpd-film-range">{row.rangeLine}</p>
-                    ) : null}
-                  </div>
+                  </button>
                 </li>
               ),
             )}

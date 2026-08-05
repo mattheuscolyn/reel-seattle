@@ -296,3 +296,55 @@ export function logFilmIdentityDiagnostics(film, context = {}) {
   // eslint-disable-next-line no-console
   console.debug('[film-identity]', explainFilmIdentity(film, context));
 }
+
+/**
+ * Resolve Film Detail navigation params from a schedule / accepted / itinerary
+ * film record. Never routes by display title alone.
+ *
+ * Precedence for `filmKey` route target:
+ * 1. parentFilmKey (variants → canonical parent)
+ * 2. HomeData parent when the stored key is a variant
+ * 3. showtimeFilmKey / filmKey
+ * 4. HomeData lookup by canonical filmId
+ *
+ * @param {object | null | undefined} record
+ * @param {object | null | undefined} [homeData]
+ * @returns {{ filmKey: string, opportunityKey: string | null } | null}
+ */
+export function resolveFilmDetailNavParams(record, homeData = null) {
+  if (!record || typeof record !== 'object') return null;
+
+  const opportunityKey = asOptionalString(record.opportunityKey);
+  const parentKey = normalizeShowtimeFilmKey(record.parentFilmKey);
+  const showtimeKey =
+    normalizeShowtimeFilmKey(record.showtimeFilmKey) ??
+    normalizeShowtimeFilmKey(record.filmKey);
+  const filmId = asCanonicalStoreFilmId(record.filmId ?? record.film_id ?? null);
+
+  /** @type {string | null} */
+  let filmKey = parentKey || showtimeKey;
+
+  const films = Array.isArray(homeData?.films) ? homeData.films : [];
+  const filmsByKey =
+    homeData?.filmsByKey instanceof Map
+      ? homeData.filmsByKey
+      : new Map(films.map((f) => [f.filmKey, f]));
+
+  if (!filmKey && filmId) {
+    const parentMatch =
+      films.find((f) => f.filmId === filmId && !f.parentFilmKey) ??
+      films.find((f) => f.filmId === filmId) ??
+      null;
+    filmKey = normalizeShowtimeFilmKey(parentMatch?.filmKey);
+  }
+
+  if (filmKey && filmsByKey.has(filmKey)) {
+    const row = filmsByKey.get(filmKey);
+    const resolvedParent = normalizeShowtimeFilmKey(row?.parentFilmKey);
+    if (resolvedParent) filmKey = resolvedParent;
+  }
+
+  if (!filmKey) return null;
+  return { filmKey, opportunityKey };
+}
+

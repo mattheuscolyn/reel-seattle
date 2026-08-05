@@ -370,7 +370,10 @@ export default function V2App() {
           params.returnSurface ??
           (current.surface?.type === 'collection' ||
           current.surface?.type === 'theater-detail' ||
-          current.surface?.type === 'showtimes-browse'
+          current.surface?.type === 'showtimes-browse' ||
+          current.surface?.type === 'my-schedule-week' ||
+          current.surface?.type === 'my-schedule-month' ||
+          current.surface?.type === 'build-plan-plan-details'
             ? current.surface
             : null),
       }),
@@ -500,8 +503,39 @@ export default function V2App() {
   }, []);
 
   const handleOpenBuildPlanPlanDetails = useCallback((plan, origin = {}) => {
-    setNav((current) =>
-      openBuildPlanPlanDetails(current, {
+    setNav((current) => {
+      const explicitReturn = origin.returnSurface ?? null;
+      const fromResults = current.surface?.type === 'build-plan-results';
+      const fromSchedule =
+        current.surface?.type === 'my-schedule-week' ||
+        current.surface?.type === 'my-schedule-month';
+      const returnSurface =
+        explicitReturn ??
+        (fromResults
+          ? {
+              ...current.surface,
+              sortId: origin.sortId ?? current.surface.sortId ?? null,
+              scrollY:
+                typeof origin.scrollY === 'number'
+                  ? origin.scrollY
+                  : typeof window !== 'undefined'
+                    ? window.scrollY
+                    : 0,
+              activePlanId: plan?.id ?? null,
+            }
+          : fromSchedule
+            ? current.surface
+            : {
+                type: 'build-plan-results',
+                originPrimary: 'planner',
+                returnSurface: null,
+                formConfig: current.surface?.formConfig ?? null,
+                sortId: origin.sortId ?? null,
+                scrollY:
+                  typeof origin.scrollY === 'number' ? origin.scrollY : 0,
+                activePlanId: plan?.id ?? null,
+              });
+      return openBuildPlanPlanDetails(current, {
         originPrimary: 'planner',
         plan,
         origin: {
@@ -513,31 +547,9 @@ export default function V2App() {
                 ? window.scrollY
                 : 0,
         },
-        returnSurface:
-          current.surface?.type === 'build-plan-results'
-            ? {
-                ...current.surface,
-                sortId: origin.sortId ?? current.surface.sortId ?? null,
-                scrollY:
-                  typeof origin.scrollY === 'number'
-                    ? origin.scrollY
-                    : typeof window !== 'undefined'
-                      ? window.scrollY
-                      : 0,
-                activePlanId: plan?.id ?? null,
-              }
-            : {
-                type: 'build-plan-results',
-                originPrimary: 'planner',
-                returnSurface: null,
-                formConfig: current.surface?.formConfig ?? null,
-                sortId: origin.sortId ?? null,
-                scrollY:
-                  typeof origin.scrollY === 'number' ? origin.scrollY : 0,
-                activePlanId: plan?.id ?? null,
-              },
-      }),
-    );
+        returnSurface,
+      });
+    });
     window.scrollTo(0, 0);
   }, []);
 
@@ -1103,8 +1115,15 @@ export default function V2App() {
     mainContent = (
       <BuildPlanPlanDetailsSurface
         plan={nav.surface?.plan ?? null}
+        homeData={sharedHomeData.homeData}
         onBack={handleBack}
         onShareReady={(handler) => setPlanDetailsShareHandler(() => handler)}
+        onOpenFilmDetail={(params) =>
+          handleOpenFilmDetail({
+            ...params,
+            originPrimary: 'planner',
+          })
+        }
         onAcceptedPlanChange={() =>
           setAcceptedPlansRevision((value) => value + 1)
         }
@@ -1117,6 +1136,7 @@ export default function V2App() {
       >
         <div inert={isScheduleSettings || undefined}>
           <MyScheduleWeekSurface
+            homeData={sharedHomeData.homeData}
             acceptedPlansRevision={acceptedPlansRevision}
             scheduleSettingsRevision={scheduleSettingsRevision}
             onAcceptedPlanChange={() =>
@@ -1125,6 +1145,21 @@ export default function V2App() {
             onOpenSearch={handleOpenScheduleSearch}
             onOpenSettings={handleOpenScheduleSettings}
             onOpenMonth={handleOpenMyScheduleMonth}
+            onOpenFilmDetail={(params) =>
+              handleOpenFilmDetail({
+                ...params,
+                originPrimary: 'planner',
+              })
+            }
+            onOpenPlanDetails={(plan) =>
+              handleOpenBuildPlanPlanDetails(plan, {
+                returnSurface: {
+                  type: 'my-schedule-week',
+                  originPrimary: 'planner',
+                  returnSurface: null,
+                },
+              })
+            }
             onStubAction={(_actionId, label) => {
               setProfileStubStatus(
                 `${label} isn’t available in this Schedule shell yet.`,
@@ -1198,6 +1233,7 @@ export default function V2App() {
       <div className="v2-schedule-with-sheet">
         <div inert>
           <MyScheduleWeekSurface
+            homeData={sharedHomeData.homeData}
             acceptedPlansRevision={acceptedPlansRevision}
             scheduleSettingsRevision={scheduleSettingsRevision}
             onAcceptedPlanChange={() =>
@@ -1206,6 +1242,21 @@ export default function V2App() {
             onOpenSearch={handleOpenScheduleSearch}
             onOpenSettings={handleOpenScheduleSettings}
             onOpenMonth={handleOpenMyScheduleMonth}
+            onOpenFilmDetail={(params) =>
+              handleOpenFilmDetail({
+                ...params,
+                originPrimary: 'planner',
+              })
+            }
+            onOpenPlanDetails={(plan) =>
+              handleOpenBuildPlanPlanDetails(plan, {
+                returnSurface: {
+                  type: 'my-schedule-week',
+                  originPrimary: 'planner',
+                  returnSurface: null,
+                },
+              })
+            }
           />
         </div>
         <ScheduleSettingsSurface

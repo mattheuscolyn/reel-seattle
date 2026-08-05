@@ -474,18 +474,21 @@ export function openBuildPlanPlanDetails(state, params = {}) {
               : state.surface.scrollY ?? null,
           activePlanId: params.plan?.id ?? state.surface.activePlanId ?? null,
         }
-      : {
-          type: 'build-plan-results',
-          originPrimary,
-          returnSurface: null,
-          formConfig: null,
-          sortId: resultsOrigin.sortId ?? null,
-          scrollY:
-            typeof resultsOrigin.scrollY === 'number'
-              ? resultsOrigin.scrollY
-              : null,
-          activePlanId: params.plan?.id ?? null,
-        });
+      : state.surface?.type === 'my-schedule-week' ||
+          state.surface?.type === 'my-schedule-month'
+        ? state.surface
+        : {
+            type: 'build-plan-results',
+            originPrimary,
+            returnSurface: null,
+            formConfig: null,
+            sortId: resultsOrigin.sortId ?? null,
+            scrollY:
+              typeof resultsOrigin.scrollY === 'number'
+                ? resultsOrigin.scrollY
+                : null,
+            activePlanId: params.plan?.id ?? null,
+          });
   return {
     ...state,
     primaryDestinationId: originPrimary,
