@@ -8,7 +8,12 @@ SCHEMA_VERSION = "1.0.0"
 AUTO_CONFIRM_MIN_SCORE = 0.92
 REVIEW_MIN_SCORE = 0.55
 YEAR_PROXIMITY_MAX = 1
-RUNTIME_PROXIMITY_MAX_MIN = 8
+# Runtime bands (minutes): compatible → soft → miss → conflict.
+RUNTIME_COMPATIBLE_MAX_MIN = 3
+RUNTIME_SOFT_MAX_MIN = 12
+RUNTIME_CONFLICT_MIN = 25
+# Backward-compatible alias: "near" means fully compatible (0–3 minutes).
+RUNTIME_PROXIMITY_MAX_MIN = RUNTIME_COMPATIBLE_MAX_MIN
 # Top vs second candidate margin; near-ties with same-title remakes go to review.
 TOP_CANDIDATE_MARGIN_MIN = 0.08
 

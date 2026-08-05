@@ -8,7 +8,10 @@ from typing import Any, Mapping, Sequence
 from reel_seattle.film_identity.constants import (
     AUTO_CONFIRM_MIN_SCORE,
     REVIEW_MIN_SCORE,
+    RUNTIME_COMPATIBLE_MAX_MIN,
+    RUNTIME_CONFLICT_MIN,
     RUNTIME_PROXIMITY_MAX_MIN,
+    RUNTIME_SOFT_MAX_MIN,
     TOP_CANDIDATE_MARGIN_MIN,
     WEIGHT_DIRECTOR_OVERLAP,
     WEIGHT_DIRECTOR_WEAK,
@@ -114,17 +117,31 @@ def score_candidate(
 
     runtime_delta = None
     runtime_near = False
+    runtime_soft = False
     runtime_conflict = False
     runtime_status = "unavailable"
+    runtime_soft_weight = 0.0
     if source_runtime is not None and runtime is not None:
         runtime_delta = abs(int(source_runtime) - int(runtime))
         runtime_status = "comparable"
-        runtime_near = runtime_delta <= RUNTIME_PROXIMITY_MAX_MIN
-        runtime_conflict = runtime_delta > max(RUNTIME_PROXIMITY_MAX_MIN * 2, 25)
-        if runtime_near:
+        if runtime_delta <= RUNTIME_COMPATIBLE_MAX_MIN:
+            runtime_near = True
             runtime_status = "match"
-        elif runtime_conflict:
+        elif runtime_delta <= RUNTIME_SOFT_MAX_MIN:
+            runtime_soft = True
+            # Gradual soft credit from just-over-compatible → soft max.
+            span = max(1, RUNTIME_SOFT_MAX_MIN - RUNTIME_COMPATIBLE_MAX_MIN)
+            soft_factor = max(
+                0.0,
+                1.0 - ((runtime_delta - RUNTIME_COMPATIBLE_MAX_MIN) / span),
+            )
+            runtime_soft_weight = round(WEIGHT_RUNTIME_NEAR * soft_factor, 4)
+            runtime_status = "soft"
+        elif runtime_delta >= RUNTIME_CONFLICT_MIN:
+            runtime_conflict = True
             runtime_status = "conflict"
+        else:
+            runtime_status = "miss"
 
     external_exact = False
     if source_external_ids:
@@ -192,13 +209,40 @@ def score_candidate(
         elif year_conflict:
             add_signal("year", WEIGHT_YEAR_EXACT, hit=False, kind="conflict")
             warnings.append("year_conflict")
+    elif source_year is None:
+        # Missing source year is absent evidence — not a conflict/penalty signal.
+        contributions["year"] = {
+            "weight": 0.0,
+            "matched": False,
+            "kind": "absent",
+        }
+        warnings.append("year_evidence_absent")
 
-    if runtime_status in {"match", "conflict", "comparable"}:
-        if runtime_near:
-            add_signal("runtime", WEIGHT_RUNTIME_NEAR, hit=True, kind="match")
-        elif runtime_conflict:
-            add_signal("runtime", WEIGHT_RUNTIME_NEAR, hit=False, kind="conflict")
-            warnings.append("runtime_conflict")
+    if runtime_status == "match":
+        add_signal("runtime", WEIGHT_RUNTIME_NEAR, hit=True, kind="match")
+    elif runtime_status == "soft":
+        available += WEIGHT_RUNTIME_NEAR
+        matched += runtime_soft_weight
+        contributions["runtime"] = {
+            "weight": WEIGHT_RUNTIME_NEAR,
+            "matched": True,
+            "kind": "soft",
+            "soft_weight": runtime_soft_weight,
+            "delta_minutes": runtime_delta,
+        }
+        warnings.append("runtime_soft_penalty")
+    elif runtime_status == "miss":
+        add_signal("runtime", WEIGHT_RUNTIME_NEAR, hit=False, kind="miss")
+        warnings.append("runtime_mismatch")
+    elif runtime_status == "conflict":
+        add_signal("runtime", WEIGHT_RUNTIME_NEAR, hit=False, kind="conflict")
+        warnings.append("runtime_conflict")
+    elif source_runtime is None:
+        contributions["runtime"] = {
+            "weight": 0.0,
+            "matched": False,
+            "kind": "absent",
+        }
 
     if director_status != "unavailable":
         if director_overlap:
@@ -227,6 +271,8 @@ def score_candidate(
     if adult or media_type != "movie":
         score = min(score, REVIEW_MIN_SCORE - 0.01)
 
+    year_unavailable = year_status == "unavailable"
+
     # Strong corroboration floors.
     if external_exact:
         score = max(score, AUTO_CONFIRM_MIN_SCORE)
@@ -236,18 +282,21 @@ def score_candidate(
         (runtime_near and director_overlap)
         or (year_near and runtime_near)
         or (year_exact and director_overlap)
+        # Missing year is absent evidence; exact title + compatible runtime can floor.
+        or (year_unavailable and runtime_near)
     ):
         score = max(score, AUTO_CONFIRM_MIN_SCORE)
 
     score = max(0.0, min(1.0, score))
 
-    # Title-only / missing year → remake ambiguity (review, not auto).
-    year_unavailable = year_status == "unavailable"
+    # Title-only with missing year and no supporting runtime/director → review band.
+    # Same-title remake ambiguity is decided later when multiple candidates compete.
     if (title_exact or token_equal or original_exact) and year_unavailable and not external_exact:
-        if not (runtime_near and director_overlap):
-            warnings.append("remake_ambiguity")
+        if not runtime_near and not director_overlap:
             warnings.append("weak_title_only_match")
             score = min(score, REVIEW_MIN_SCORE + 0.2)
+        else:
+            warnings.append("missing_year_supported_by_other_evidence")
 
     hard_conflict = bool(
         (year_conflict or runtime_conflict or (title_conflict and not external_exact))
@@ -271,10 +320,25 @@ def score_candidate(
         "year_near": year_near,
         "year_conflict": year_conflict,
         "year_status": year_status,
+        "year_evidence": (
+            "conflict"
+            if year_conflict
+            else "compatible"
+            if year_exact or year_near
+            else "uncertain_rerelease_restoration"
+            if event_year_relaxed and year_status == "unavailable"
+            else "missing"
+            if source_year is None
+            else year_status
+        ),
         "runtime_delta_minutes": runtime_delta,
         "runtime_near": runtime_near,
+        "runtime_soft": runtime_soft,
         "runtime_conflict": runtime_conflict,
         "runtime_status": runtime_status,
+        "runtime_compatible_max": RUNTIME_COMPATIBLE_MAX_MIN,
+        "runtime_soft_max": RUNTIME_SOFT_MAX_MIN,
+        "runtime_conflict_min": RUNTIME_CONFLICT_MIN,
         "external_id_exact": external_exact,
         "director_overlap": director_overlap,
         "director_weak_overlap": director_weak,
@@ -336,6 +400,9 @@ def classify_match_bucket(
             and c.signals.get("title_exact")
             and c.release_year != top.release_year
         ]
+        # Missing year + multiple same-title hits → require review, do not force a match.
+        if close_remakes and top.signals.get("year_status") == "unavailable":
+            return "review", _with_warning(top, "same_title_remake_ambiguity")
         # Year/external corroboration resolves remakes; keep review only when unresolved.
         if close_remakes and not (
             top.signals.get("year_exact")
@@ -413,6 +480,11 @@ def _auto_confirm_allowed(candidate: ScoredCandidate) -> bool:
         and candidate.signals.get("director_overlap")
     ):
         return True
+    # Exact title + compatible runtime with absent year is allowed when unambiguous
+    # (multi-candidate remake checks happen in classify_match_bucket).
+    if candidate.signals.get("title_exact") and candidate.signals.get("runtime_near"):
+        if candidate.signals.get("year_status") == "unavailable":
+            return True
     if (
         candidate.signals.get("title_exact")
         and candidate.signals.get("year_exact") is False

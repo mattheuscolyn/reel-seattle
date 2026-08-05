@@ -89,9 +89,23 @@ Named constants in `reel_seattle/film_identity/constants.py`:
 | `AUTO_CONFIRM_MIN_SCORE` | `0.92` | Auto-confirm only when score ≥ this **and** no hard conflict |
 | `REVIEW_MIN_SCORE` | `0.55` | Below → unmatched; ≥ → review_required unless auto-confirm |
 | `YEAR_PROXIMITY_MAX` | `1` | Soft year proximity window (years) |
-| `RUNTIME_PROXIMITY_MAX_MIN` | `8` | Soft runtime proximity (minutes) |
+| `RUNTIME_COMPATIBLE_MAX_MIN` | `3` | Full runtime credit (0–3 minute delta) |
+| `RUNTIME_SOFT_MAX_MIN` | `12` | Soft gradual runtime penalty band |
+| `RUNTIME_CONFLICT_MIN` | `25` | Hard runtime conflict |
+| `RUNTIME_PROXIMITY_MAX_MIN` | `3` | Alias of compatible band (backward compatible) |
 
-**Auto-confirm rationale:** False merges are worse than temporary source fallbacks. Require strong title corroboration plus year **or** exact external ID; popularity may break ties only and never override title/year/runtime conflicts or remake ambiguity.
+**Year evidence (do not invent calendar/screening years):**
+
+| Case | Behavior |
+|------|----------|
+| Missing source year | Absent evidence — omit year from TMDB search params; do not penalize like a conflict |
+| Compatible year | Exact or ≤`YEAR_PROXIMITY_MAX` supports corroboration / auto-confirm |
+| Incompatible year | Meaningful conflict warning; blocks auto-confirm |
+| Uncertain rerelease/restoration year | Event year neutralized; treated as unavailable for hard conflict, not invented |
+
+Missing year + multiple same-title TMDB hits → review (ambiguity). Missing year + exact title + compatible runtime with no competing remake → may auto-confirm.
+
+**Auto-confirm rationale:** False merges are worse than temporary source fallbacks. Require strong title corroboration plus year, compatible runtime (when year absent), **or** exact external ID; popularity may break ties only and never override title/year/runtime conflicts or remake ambiguity.
 
 **Review rationale:** Mid-confidence candidates need a human in the cockpit queue.
 

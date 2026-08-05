@@ -90,11 +90,15 @@ def redact_secrets(text: str | None) -> str:
 
 def title_transform_diff(original: str | None, normalized: str | None) -> dict[str, Any]:
     """Compare original source title → normalized TMDB search title."""
+    from reel_seattle.film_identity.presentation import extract_match_title
+
     src = (original or "").strip()
-    norm = (normalized or "").strip()
+    extracted = extract_match_title(src) if src else None
+    norm = (normalized or (extracted.base_title if extracted else None) or "").strip()
     removed: list[str] = []
-    if src and norm and src.casefold() != norm.casefold():
-        # Prefer longest contiguous removed segments by simple split heuristics.
+    if extracted and extracted.removed_phrases:
+        removed = list(extracted.removed_phrases)
+    elif src and norm and src.casefold() != norm.casefold():
         if norm.casefold() in src.casefold():
             idx = src.casefold().find(norm.casefold())
             before = src[:idx].strip(" :-–—")
@@ -110,6 +114,8 @@ def title_transform_diff(original: str | None, normalized: str | None) -> dict[s
         "normalized_search_title": norm or None,
         "changed": bool(src and norm and src.casefold() != norm.casefold()),
         "removed_segments": removed,
+        "format_tags": list(extracted.format_tags) if extracted else [],
+        "event_labels": list(extracted.event_labels) if extracted else [],
         "display": (
             f"{src} → {norm}" if src and norm and src.casefold() != norm.casefold() else (src or norm or None)
         ),
