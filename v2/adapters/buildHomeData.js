@@ -457,6 +457,12 @@ export function buildHomeData(input) {
         // Canonical identity from public film_id only (T-FILMID-02). Never invent from title/source id.
         filmId: asCanonicalFilmId(filmRef?.film_id),
         sourceTitle: asTrimmedString(raw.source_title),
+        screeningVariantType:
+          asTrimmedString(raw.screening_variant_type) ??
+          asTrimmedString(filmRef?.screening_variant_type),
+        isSpecialScreening:
+          raw.is_special_screening === true ||
+          filmRef?.is_special_screening === true,
         showtimeCount: 0,
         theaterIds: new Set(),
         firstShowtimeAt: null,
@@ -536,6 +542,8 @@ export function buildHomeData(input) {
       sourceFilmId: film.sourceFilmId,
       filmId: film.filmId ?? null,
       sourceTitle: film.sourceTitle,
+      screeningVariantType: film.screeningVariantType ?? null,
+      isSpecialScreening: film.isSpecialScreening === true,
       showtimeCount: film.showtimeCount,
       theaterCount: film.theaterIds.size,
       firstShowtimeAt: film.firstShowtimeAt,

@@ -9,6 +9,43 @@ AUTO_CONFIRM_MIN_SCORE = 0.92
 REVIEW_MIN_SCORE = 0.55
 YEAR_PROXIMITY_MAX = 1
 RUNTIME_PROXIMITY_MAX_MIN = 8
+# Top vs second candidate margin; near-ties with same-title remakes go to review.
+TOP_CANDIDATE_MARGIN_MIN = 0.08
+
+# Available-evidence weights (T-FILMID-01E). Missing signals do not enter the denominator.
+WEIGHT_EXTERNAL_EXACT = 0.70
+WEIGHT_TITLE_EXACT = 0.45
+WEIGHT_ORIGINAL_EXACT = 0.38
+WEIGHT_YEAR_EXACT = 0.30
+WEIGHT_YEAR_NEAR = 0.12
+WEIGHT_RUNTIME_NEAR = 0.15
+WEIGHT_DIRECTOR_OVERLAP = 0.20
+WEIGHT_DIRECTOR_WEAK = 0.08
+
+# Entity kinds for source-backed programs (still valid showtimes entities).
+ENTITY_FEATURE_FILM = "feature_film"
+ENTITY_SHORT_FILM = "short_film"
+ENTITY_SHORTS_PROGRAM = "shorts_program"
+ENTITY_DOUBLE_FEATURE = "double_feature"
+ENTITY_FESTIVAL_PROGRAM = "festival_program"
+ENTITY_MYSTERY_SCREENING = "mystery_screening"
+ENTITY_LIVE_EVENT = "live_event"
+ENTITY_BROADCAST_EVENT = "broadcast_event"
+ENTITY_UNKNOWN_PROGRAM = "unknown_program"
+
+ENTITY_KINDS = frozenset(
+    {
+        ENTITY_FEATURE_FILM,
+        ENTITY_SHORT_FILM,
+        ENTITY_SHORTS_PROGRAM,
+        ENTITY_DOUBLE_FEATURE,
+        ENTITY_FESTIVAL_PROGRAM,
+        ENTITY_MYSTERY_SCREENING,
+        ENTITY_LIVE_EVENT,
+        ENTITY_BROADCAST_EVENT,
+        ENTITY_UNKNOWN_PROGRAM,
+    }
+)
 
 DECISION_CONFIRM = "confirm"
 DECISION_REJECT_CANDIDATE = "reject_candidate"

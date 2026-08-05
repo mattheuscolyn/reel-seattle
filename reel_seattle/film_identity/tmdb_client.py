@@ -93,7 +93,10 @@ class TmdbClient:
         return self._request(
             "movie",
             f"/movie/{int(tmdb_id)}",
-            {"language": TMDB_LANGUAGE, "append_to_response": "external_ids,credits"},
+            {
+                "language": TMDB_LANGUAGE,
+                "append_to_response": "external_ids,credits,release_dates",
+            },
         )
 
     def movie_external_ids(self, tmdb_id: int) -> dict[str, Any]:

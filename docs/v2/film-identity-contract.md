@@ -1,10 +1,10 @@
 # Film Identity Contract (`T-FILMID-01`)
 
-**Status:** Authoritative Stage 4 identity contract (2026-07-27)  
+**Status:** Authoritative Stage 4 identity contract (2026-07-27); public enrichment + Film Detail activation live under [canonical-film-contract.md](./canonical-film-contract.md) / [tmdb-enrichment-contract.md](./tmdb-enrichment-contract.md) (2026-08-04)  
 **Workstream:** WS-FILMID · Gap G02  
-**Packet:** `T-FILMID-01` (foundation) — public enrichment activation remains deferred (`T-ENR-01` / later)
+**Packet:** `T-FILMID-01` (foundation) + `T-FILMID-02` public `film_id` emit + enrichment consumers
 
-**Related:** [film-identity-normalization.md](../film-identity-normalization.md) · [data-foundation-roadmap.md](../data-foundation-roadmap.md) · [v2-front-back-integration-roadmap.md](./v2-front-back-integration-roadmap.md) · [tmdb-film-identity-inventory.md](./research/tmdb-film-identity-inventory.md) · [tmdb-attribution.md](./research/tmdb-attribution.md)
+**Related:** [canonical-film-contract.md](./canonical-film-contract.md) · [film-identity-normalization.md](../film-identity-normalization.md) · [data-foundation-roadmap.md](../data-foundation-roadmap.md) · [v2-front-back-integration-roadmap.md](./v2-front-back-integration-roadmap.md) · [tmdb-film-identity-inventory.md](./research/tmdb-film-identity-inventory.md) · [tmdb-attribution.md](./research/tmdb-attribution.md)
 
 ---
 
@@ -109,6 +109,18 @@ Eligible for TMDB movie search when the title/context does **not** indicate:
 
 Repertory, restorations, and re-releases remain eligible (presentation layer separate).
 
+Festival-branded **feature** titles (e.g. Studio Ghibli Fest anniversary presentations) stay eligible; shorts festivals / mystery / double features / live events remain program entities with stable source fallbacks (not forced into TMDB). See [tmdb-matcher-calibration.md](./research/tmdb-matcher-calibration.md) (`T-FILMID-01E`).
+
+---
+
+## 7b. Scoring principles (`T-FILMID-01E`)
+
+- Score = matched evidence weight / **available** evidence weight (missing signals are neutral).
+- Event/presentation years are separated from canonical year candidates; anniversary arithmetic is supporting evidence only.
+- Same-title remakes require year/external (or strong runtime+director) corroboration before auto-confirm.
+- Thresholds remain `AUTO_CONFIRM_MIN_SCORE = 0.92` and `REVIEW_MIN_SCORE = 0.55` unless a later calibration changes them with evidence.
+- Authored decisions always win over automatic scoring.
+
 ---
 
 ## 8. Generated artifacts (internal)
@@ -128,21 +140,20 @@ TMDB HTTP cache: `data/cache/tmdb/` (**gitignored** — local reproducibility vi
 
 ---
 
-## 9. Local store migration boundary
+## 9. Local store migration (`T-FILMID-03` — complete 2026-07-28)
 
-Saved / Seen / Not Interested already accept optional `filmId` but still require `showtimeFilmKey` in v1.
+Saved / Seen / Not Interested use store contract **v2**:
 
-**This packet does not migrate user data.** Follow-on `T-FILMID-03` proposes alias rows:
+- Preferred identity: valid canonical `filmId` (`tmdb:<positive-int>`)
+- Fallback: `showtimeFilmKey` (+ optional `aliasKeys` after merges)
+- Storage keys unchanged (`reel-seattle.v2.savedFilms` / `seenFilms` / `dismissedFilms`)
+- Eager: v1→v2 on read (validate filmIds, collapse duplicates)
+- Lazy: `reconcileUserFilmStores(localStorage, homeData)` after Home load upgrades legacy keys when live films carry `filmId`
+- Merge: earliest `savedAt` / `seenAt` / `markedAt`; union alias keys; no cross-store transitions
+- Null `filmId` programs remain valid on showtime keys alone
+- Invalid / raw TMDB integers rejected
 
-```json
-{
-  "legacy_ref": { "showtimeFilmKey": "moana", "source": "amc", "sourceFilmId": "72474" },
-  "canonical_film_id": "tmdb:277355",
-  "source_fallback_id": "source:amc:72474"
-}
-```
-
-Requirements for that follow-on: idempotent; report conflicts; keep rejected/unmatched on fallback; never silently discard.
+Identity corrections later can still match via retained `showtimeFilmKey` / `aliasKeys`. No cloud sync in this task.
 
 ---
 
@@ -160,10 +171,25 @@ Requirements for that follow-on: idempotent; report conflicts; keep rejected/unm
 
 | ID | Scope |
 |----|--------|
-| `T-FILMID-01` (this) | Contract, inventory, schemas, decisions, matcher, review queue, cockpit review |
-| `T-FILMID-02` | Public artifact nullable identity emission + consumer tolerance |
-| `T-FILMID-03` | Local-store alias migration |
-| `T-ENR-01` | Selected enrichment fields + UI reactivation (with attribution) |
+| `T-FILMID-01` | Contract, inventory, schemas, decisions, matcher, review queue, cockpit review |
+| `T-FILMID-02` (**complete 2026-07-28**) | Public nullable `film_id` on `showtimes_current.json` films[]; HomeData `filmId` tolerance |
+| `T-FILMID-03` | Local-store alias migration (**complete 2026-07-28**) |
+| `T-ENR-01B` | Enrichment artifact (complete) |
+| `T-ENR-10` | Home/Opening enrichment UI activation (**unblocked** by 02) |
+
+### Public emission semantics (`T-FILMID-02`)
+
+| Case | Public `film_id` |
+|------|------------------|
+| Confirmed TMDB (manual or automatic) | `tmdb:<positive-int>` |
+| Unmatched / rejected / deferred / non-film / source fallback | `null` |
+| Mapping collision across sources on one film key | `null` + emit warning |
+
+**Source of truth:** `data/film_identity/film_identity_catalog.json`  
+**Mapping key:** `source_identity_key` → `{source}\|id\|{source_film_id}` (else `{source}\|key\|{showtime_film_key}`)  
+**Coverage audit:** `data/audits/tmdb_public_identity_emit.json`  
+**Preserved keys:** `showtime_film_key`, `source_film_id` (unchanged)  
+**Store migration:** **`T-FILMID-03` complete 2026-07-28** — Saved/Seen/NI v2 + Home reconcile
 
 ---
 

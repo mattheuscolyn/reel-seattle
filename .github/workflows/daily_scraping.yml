@@ -1,5 +1,18 @@
 name: Daily Showtime Scraping
 
+# Production order for a normal showtime publication run:
+#   1. scrape / ingest (run_daily_scraping.py → daily_processor.py)
+#   2. normalize titles + screening qualifiers / parent identity (emit path)
+#   3. resolve film identity from durable catalog + reviewed decisions
+#      (attach_public_film_ids inside write_showtimes_current — not a live TMDB match)
+#   4. emit showtimes_current.json with nullable film_id
+#   5. validate public artifacts (includes film_id attach regression gate)
+#   6. commit/publish showtimes (+ related public data)
+#
+# TMDB enrichment is intentionally a separate scheduled workflow
+# (film_enrichment.yml @ 08:00 UTC) so enrichment failures never block showtimes.
+# Live matcher remains manual (film_identity_match.yml).
+
 on:
   schedule:
     # Run daily at 6 AM UTC (10 PM PST)
@@ -39,6 +52,7 @@ jobs:
         # Indie collection (SIFF, Beacon, NWFF, Central Cinema) runs inside
         # webscrapetheaters.py via run_daily_scraping.py. Option C logs land in
         # data/daily_logs/ for NWFF and Central Cinema.
+        # daily_processor → write_showtimes_current → attach_public_film_ids.
         run: python run_daily_scraping.py
 
       - name: Validate public data artifacts
@@ -82,6 +96,9 @@ jobs:
           git add public/data/newly_announced.csv
           git add public/data/newly_added_current.json
           git add public/data/leaving_soon_current.json
+          if [ -f data/audits/tmdb_public_identity_emit.json ]; then
+            git add data/audits/tmdb_public_identity_emit.json
+          fi
           git add public/showtimes.csv
           git add public/indieshowtimes.csv
           git add public/marathon/

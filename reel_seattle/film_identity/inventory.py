@@ -9,6 +9,8 @@ from typing import Any, Mapping
 
 from reel_seattle.film_identity.eligibility import classify_eligibility, normalize_search_title
 from reel_seattle.film_identity.ids import fallback_film_id
+from reel_seattle.film_identity.normalize_text import parse_person_names
+from reel_seattle.film_identity.presentation import interpret_source_years
 from reel_seattle.normalize import extract_year_hint
 from reel_seattle.validate import PROJECT_ROOT
 
@@ -35,6 +37,10 @@ class SourceIdentityRecord:
     occurrence_count: int = 0
     first_start: str | None = None
     last_start: str | None = None
+    entity_kind: str | None = None
+    year_interpretation: dict | None = None
+    presentation_labels: list[str] = field(default_factory=list)
+    directors_normalized: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -95,11 +101,16 @@ def inventory_source_identities(
         if group_key not in grouped:
             runtime = _opt_int(film.get("runtime_min"))
             directors = None
-            release_year = None
+            product_year = None
             if product:
                 runtime = runtime or _opt_int(product.get("runtime_min"))
                 directors = _opt_str(product.get("directors_raw"))
-                release_year = _year_from_date(product.get("release_date_utc"))
+                product_year = _year_from_date(product.get("release_date_utc"))
+            year_info = interpret_source_years(
+                source_title=source_title,
+                product_year=product_year,
+            )
+            release_year = year_info.scoring_year()
             year_hint = release_year or extract_year_hint(source_title)
             eligibility = classify_eligibility(
                 source_title=source_title,
@@ -126,6 +137,7 @@ def inventory_source_identities(
                 showtime_film_key=showtime_film_key,
                 source_title=source_title,
                 normalized_title=eligibility.search_title
+                or year_info.base_title
                 or normalize_search_title(source_title),
                 year_hint=year_hint,
                 runtime_min=runtime,
@@ -141,6 +153,10 @@ def inventory_source_identities(
                 eligibility_reasons=list(eligibility.reasons),
                 film_id_fallback=fallback,
                 occurrence_count=0,
+                entity_kind=eligibility.entity_kind,
+                year_interpretation=year_info.to_dict(),
+                presentation_labels=list(year_info.presentation_labels),
+                directors_normalized=parse_person_names(directors),
             )
 
         record = grouped[group_key]

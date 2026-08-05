@@ -136,7 +136,7 @@
     },
     "film_ref": {
       "type": "object",
-      "required": ["showtime_film_key", "title", "parent_film_key", "parent_display_title", "screening_variant_type", "is_special_screening"],
+      "required": ["showtime_film_key", "title", "parent_film_key", "parent_display_title", "screening_variant_type", "is_special_screening", "film_id"],
       "additionalProperties": false,
       "properties": {
         "showtime_film_key": { "type": "string", "minLength": 1 },
@@ -187,6 +187,11 @@
         "source_film_id": {
           "type": ["string", "null"],
           "description": "Stable vendor film id when available (AMC movieId)."
+        },
+        "film_id": {
+          "type": ["string", "null"],
+          "description": "Nullable canonical namespaced film identity from the durable identity catalog (T-FILMID-02). Confirmed TMDB matches emit tmdb:<id>; unmatched/program/source fallbacks emit null. Parallel to showtime_film_key — does not replace schedule joins.",
+          "pattern": "^tmdb:[1-9][0-9]*$"
         }
       }
     },

@@ -35,6 +35,10 @@
         "year_hint": { "type": ["integer", "null"] },
         "runtime_min": { "type": ["integer", "null"] },
         "directors_raw": { "type": ["string", "null"] },
+        "directors_normalized": {
+          "type": ["array", "null"],
+          "items": { "type": "string" }
+        },
         "match_status": { "type": "string", "minLength": 1 },
         "proposed_tmdb_id": { "type": ["integer", "null"] },
         "match_confidence": { "type": ["number", "null"] },
@@ -44,7 +48,15 @@
           "items": { "type": "string" }
         },
         "candidates": { "type": "array" },
-        "film_id_fallback": { "type": "string", "minLength": 1 }
+        "film_id_fallback": { "type": "string", "minLength": 1 },
+        "entity_kind": { "type": ["string", "null"] },
+        "year_interpretation": { "type": ["object", "null"] },
+        "presentation_labels": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "top_candidate_margin": { "type": ["number", "null"] },
+        "auto_confirm_blocked_reason": { "type": ["string", "null"] }
       }
     }
   }
