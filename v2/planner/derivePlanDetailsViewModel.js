@@ -206,6 +206,12 @@ export function buildPlanDetailsItinerary(plan) {
       theater: asText(item.theater),
       formatBadge: asText(item.formatBadge) || null,
       imageUrl: asText(item.imageUrl) || null,
+      filmKey: asText(item.filmKey) || null,
+      filmId: asText(item.filmId) || null,
+      parentFilmKey: asText(item.parentFilmKey) || null,
+      showtimeFilmKey:
+        asText(item.showtimeFilmKey) || asText(item.filmKey) || null,
+      opportunityKey: asText(item.opportunityKey) || null,
       startMin: timing.startMin,
       endMin: timing.endMin,
       runtimeMin: timing.runtimeMin,

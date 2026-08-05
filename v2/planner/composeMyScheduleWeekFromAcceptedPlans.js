@@ -152,6 +152,10 @@ function performanceToFilmEvent(perf, planGroupId, timeFormatId = '12h') {
     imageUrl: perf.posterUrl,
     ticketUrl: perf.ticketUrl,
     performanceKey: perf.performanceKey,
+    filmId: perf.filmId ?? null,
+    filmKey: perf.filmKey ?? null,
+    showtimeFilmKey: perf.filmKey ?? null,
+    opportunityKey: perf.opportunityKey ?? null,
   };
 }
 

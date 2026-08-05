@@ -8,6 +8,7 @@
 
 import {
   findSchedules,
+  filmMatchesToken,
   DEFAULT_PLANNER_LIMITS,
 } from '../../src/utils/plannerEngine.js';
 import { calculateExpectedEndTime } from '../../src/utils/plannerBufferPolicy.js';
@@ -16,6 +17,9 @@ import { formatMinutesToTime } from '../../src/utils/timeUtils.js';
 import { formatTheaterAddressLabel } from '../theaters/resolveTheaterPresentation.js';
 import { homeDataToPlannerRows } from './homeDataToPlannerRows.js';
 import { mapBuildFormToPlannerFilters } from './mapBuildFormToPlannerFilters.js';
+import { filmIdentityTokensFromCards } from '../identity/filmIdentity.js';
+import { getNotInterestedFilms } from '../stores/notInterestedFilmsStore.js';
+import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 
 /**
  * @param {unknown} value
@@ -132,7 +136,11 @@ function movieToLiveResultsFilm(movie, homeData, planId, index, row = null) {
     theater_id: theaterId,
     theaterName: movie.theater,
     filmKey: asTrimmed(movie.showtime_film_key) ?? asTrimmed(row?.filmKey),
-    filmId: row?.filmId ?? null,
+    filmId: movie.filmId ?? row?.filmId ?? null,
+    parentFilmKey:
+      asTrimmed(movie.parent_film_key) ?? asTrimmed(row?.parentFilmKey),
+    showtimeFilmKey:
+      asTrimmed(movie.showtime_film_key) ?? asTrimmed(row?.filmKey),
     source: asTrimmed(row?.source),
     sourceShowtimeId: asTrimmed(row?.source_showtime_id),
     source_showtime_id: asTrimmed(row?.source_showtime_id),
@@ -219,18 +227,22 @@ export function mapEngineScheduleToResultsPlan(schedule, homeData, rows, rank) {
 }
 
 /**
- * @param {string} title
- * @param {string} key
+ * @param {object} row
  * @param {string[]} tokens
  */
-function matchesAnyToken(title, key, tokens) {
+function rowMatchesAnyToken(row, tokens) {
   if (!tokens.length) return false;
-  const t = title.toLowerCase();
-  const k = key.toLowerCase();
-  return tokens.some((token) => {
-    const raw = String(token).toLowerCase();
-    return t.includes(raw) || k === raw || k.includes(raw);
-  });
+  const identity = {
+    key: String(row.showtime_film_key ?? row.Film ?? '').trim(),
+    title: String(row.Film ?? '').trim(),
+    filmId: row.filmId ? String(row.filmId).trim() : null,
+    parentKey: row.parentFilmKey
+      ? String(row.parentFilmKey).trim()
+      : row.parent_film_key
+        ? String(row.parent_film_key).trim()
+        : null,
+  };
+  return tokens.some((token) => filmMatchesToken(token, identity));
 }
 
 /**
@@ -256,8 +268,8 @@ function buildSingleFilmSchedules(rows, filters) {
 
     const title = String(row.Film ?? '');
     const key = String(row.showtime_film_key ?? title);
-    if (exclude.length && matchesAnyToken(title, key, exclude)) continue;
-    if (include.length && !matchesAnyToken(title, key, include)) continue;
+    if (exclude.length && rowMatchesAnyToken(row, exclude)) continue;
+    if (include.length && !rowMatchesAnyToken(row, include)) continue;
 
     const startMin = parsePlannerShowtimeMinutes(row.Time);
     const runtime =
@@ -290,6 +302,8 @@ function buildSingleFilmSchedules(rows, filters) {
         {
           film: title,
           showtime_film_key: key,
+          filmId: row.filmId ?? null,
+          parent_film_key: row.parentFilmKey ?? row.parent_film_key ?? null,
           theater: row.Theater,
           theater_id: row.theater_id,
           date: row.Date,
@@ -347,12 +361,64 @@ function sortMergedSchedules(schedules, engineSort, preferred) {
 }
 
 /**
+ * Expand global Not Interested preferences into planner exclude tokens.
+ * @param {Storage | null | undefined} storage
+ * @param {object | null | undefined} homeData
+ * @returns {string[]}
+ */
+function globalNotInterestedTokens(storage, homeData) {
+  if (!storage) return [];
+  const items = getNotInterestedFilms(storage);
+  if (!items.length) return [];
+
+  /** @type {Set<string>} */
+  const tokens = new Set();
+  for (const item of items) {
+    const ref = item.filmRef;
+    if (!ref) continue;
+    if (ref.filmId) tokens.add(ref.filmId);
+    if (ref.showtimeFilmKey) tokens.add(ref.showtimeFilmKey);
+    for (const alias of ref.aliasKeys ?? []) {
+      if (alias) tokens.add(alias);
+    }
+  }
+
+  // Include variant filmKeys that share parent / filmId with a NI row.
+  for (const film of homeData?.films ?? []) {
+    const ref = filmRefFromHomeFilm(film);
+    if (!ref) continue;
+    const marked = items.some((item) => {
+      const a = item.filmRef;
+      if (!a) return false;
+      if (a.filmId && ref.filmId && a.filmId === ref.filmId) return true;
+      if (a.showtimeFilmKey === ref.showtimeFilmKey) return true;
+      const aliases = new Set([
+        a.showtimeFilmKey,
+        ...(a.aliasKeys ?? []),
+      ]);
+      return (
+        aliases.has(film.filmKey) ||
+        (film.parentFilmKey && aliases.has(film.parentFilmKey))
+      );
+    });
+    if (marked) {
+      for (const token of filmIdentityTokensFromCards([film])) {
+        tokens.add(token);
+      }
+    }
+  }
+
+  return [...tokens];
+}
+
+/**
  * @param {{
  *   homeData: object | null | undefined,
  *   form: object,
  *   sortId?: string | null,
  *   now?: Date | (() => Date),
  *   maxResults?: number,
+ *   storage?: Storage | null,
  * }} args
  */
 export function generateLivePlannerResults({
@@ -361,6 +427,7 @@ export function generateLivePlannerResults({
   sortId = 'best-match',
   now = new Date(),
   maxResults = 40,
+  storage = null,
 }) {
   if (!homeData) {
     return {
@@ -378,6 +445,14 @@ export function generateLivePlannerResults({
 
   const rows = homeDataToPlannerRows(homeData);
   const mapped = mapBuildFormToPlannerFilters(form, homeData, { now });
+  const globalExclude = globalNotInterestedTokens(storage, homeData);
+  if (globalExclude.length) {
+    const merged = new Set([
+      ...(mapped.filters.excludeFilms ?? []),
+      ...globalExclude,
+    ]);
+    mapped.filters.excludeFilms = [...merged];
+  }
   const engineSort = mapResultsSortToEngineSort(sortId);
   const countList =
     mapped.filmCounts === 'max'

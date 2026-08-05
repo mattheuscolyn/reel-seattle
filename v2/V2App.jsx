@@ -6,6 +6,7 @@ import { resolveActivePrimaryId } from './destinations.js';
 import { loadHomeData } from './data/loadHomeData.js';
 import { loadFilmEnrichment } from './enrichment/loadFilmEnrichment.js';
 import { reconcileUserFilmStores } from './stores/reconcileUserFilmStores.js';
+import { subscribeFilmStoreMutations } from './auth/filmStoreMutationBridge.js';
 import { isAllowedV2Hostname } from './isAllowedV2Hostname.js';
 import { startAuthController } from './auth/authSessionStore.js';
 import { consumeAuthReturnToProfile } from './auth/oauthRedirect.js';
@@ -153,6 +154,18 @@ export default function V2App() {
     index: null,
     warning: null,
   });
+
+  useEffect(() => {
+    return subscribeFilmStoreMutations((event) => {
+      if (event.preferenceType === 'saved') {
+        setSaveRevision((value) => value + 1);
+      } else if (event.preferenceType === 'seen') {
+        setSeenRevision((value) => value + 1);
+      } else if (event.preferenceType === 'not_interested') {
+        setNotInterestedRevision((value) => value + 1);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     // Auth is non-blocking — Home/Explore/Planner stay usable while this runs.

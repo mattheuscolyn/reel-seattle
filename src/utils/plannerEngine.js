@@ -109,14 +109,22 @@ function normalizeLimits(limits = {}) {
 function filmIdentityFromRow(row) {
   const title = String(row.Film ?? '').trim();
   const key = String(row.showtime_film_key ?? '').trim() || title;
-  return { key, title };
+  const filmId = String(row.filmId ?? '').trim() || null;
+  const parentKey = String(row.parent_film_key ?? row.parentFilmKey ?? '').trim() || null;
+  return { key, title, filmId, parentKey };
 }
 
-/** Match filter token against film key or display title (case-insensitive for titles). */
+/**
+ * Match filter token against film identity.
+ * Priority: filmId → showtime/parent key → exact title (legacy compatibility only).
+ */
 export function filmMatchesToken(token, identity) {
   const needle = String(token).trim();
   if (!needle) return false;
+  if (identity.filmId && needle === identity.filmId) return true;
   if (needle === identity.key) return true;
+  if (identity.parentKey && needle === identity.parentKey) return true;
+  // Title match is last-resort compatibility for legacy title-only tokens.
   if (needle.toLowerCase() === identity.title.toLowerCase()) return true;
   return false;
 }
@@ -169,6 +177,8 @@ function rowToCandidate(row) {
     identity,
     film: identity.title,
     filmKey: identity.key,
+    filmId: identity.filmId,
+    parentFilmKey: identity.parentKey,
     theater: String(row.Theater ?? '').trim(),
     theater_id: String(row.theater_id ?? '').trim(),
     date: String(row.Date ?? '').trim(),
@@ -187,7 +197,17 @@ function gapBetween(prev, next) {
 }
 
 function canFollow(prev, next, filters) {
-  if (!filters.allowRepeatFilms && prev.filmKey === next.filmKey) return false;
+  if (!filters.allowRepeatFilms) {
+    if (prev.filmKey === next.filmKey) return false;
+    if (prev.filmId && next.filmId && prev.filmId === next.filmId) return false;
+    if (
+      prev.parentFilmKey &&
+      next.parentFilmKey &&
+      prev.parentFilmKey === next.parentFilmKey
+    ) {
+      return false;
+    }
+  }
 
   // Same-theater chains always share venue context; also compare canonical IDs.
   const sameVenue = Boolean(
@@ -281,6 +301,8 @@ function summarizeChain(chain, filters) {
     movies: chain.map((c) => ({
       film: c.film,
       showtime_film_key: c.filmKey,
+      filmId: c.filmId ?? null,
+      parent_film_key: c.parentFilmKey ?? null,
       theater: c.theater,
       theater_id: c.theater_id,
       date: c.date,

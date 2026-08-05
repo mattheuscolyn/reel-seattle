@@ -326,7 +326,16 @@ function toFilmRow(homeData, film) {
   const next = findNextOpportunityForFilm(homeData, film.filmKey);
   return {
     filmKey: film.filmKey,
+    filmId: film.filmId ?? null,
+    parentFilmKey: film.parentFilmKey ?? null,
     title: film.title,
+    canonicalTitle: film.canonicalTitle ?? film.parentDisplayTitle ?? film.title ?? null,
+    releaseYear: film.releaseYear ?? film.year ?? null,
+    identityAliases: Array.isArray(film.identityAliases)
+      ? film.identityAliases
+      : undefined,
+    source: film.source ?? null,
+    sourceFilmId: film.sourceFilmId ?? null,
     posterUrl: film.posterUrl ?? null,
     metaLabel: next
       ? [next.theaterName, next.timeDisplay].filter(Boolean).join(' · ')

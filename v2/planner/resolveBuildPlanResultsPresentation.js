@@ -170,6 +170,7 @@ export function resolveBuildPlanResultsPagePresentation(options = {}) {
     form,
     sortId: options.sortId ?? chrome.defaultSortId,
     now: options.now,
+    storage: options.storage ?? null,
   });
 
   return {

@@ -14,6 +14,8 @@ import {
   isFilmNotInterested,
   toggleFilmNotInterested,
 } from '../stores/notInterestedFilmsStore.js';
+import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
+import { subscribeFilmStoreMutations } from '../auth/filmStoreMutationBridge.js';
 
 function getBrowserStorage() {
   try {
@@ -58,6 +60,12 @@ export default function FilmShelf({
   const panelRef = useRef(null);
   const [actionRevision, setActionRevision] = useState(0);
   const films = Array.isArray(shelf?.films) ? shelf.films : [];
+  useEffect(() => {
+    return subscribeFilmStoreMutations(() => {
+      setActionRevision((value) => value + 1);
+    });
+  }, []);
+
   const expandedFilm =
     films.find((film) => film.filmKey === expandedFilmKey) ?? null;
   const detail =
@@ -71,14 +79,8 @@ export default function FilmShelf({
 
   const storage = getBrowserStorage();
   void actionRevision;
-  const filmRef = detail
-    ? {
-        filmKey: detail.filmKey,
-        filmId: detail.filmId ?? null,
-        title: detail.title,
-        posterUrl: detail.posterUrl,
-      }
-    : null;
+  // Prefer shared parent-aware filmRef so variants share Saved/Seen/NI state.
+  const filmRef = detail ? filmRefFromHomeFilm(detail) : null;
   const saved = filmRef ? isFilmSaved(storage, filmRef) : false;
   const seen = filmRef ? isFilmSeen(storage, filmRef) : false;
   const notInterested = filmRef
