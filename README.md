@@ -1,6 +1,6 @@
 # Reel Seattle
 
-A Seattle-area movie planning app: browse current showtimes and plan same-theater movie schedules with the unified **Planner**.
+A Seattle-area movie planning app: browse current showtimes, save films for later, and plan same-theater movie schedules with the unified **Planner**.
 
 ## Features
 
