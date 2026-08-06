@@ -251,6 +251,8 @@ export function buildSearchFilmResult(
   return {
     filmKey: film.filmKey,
     filmId: enriched.filmId,
+    parentFilmKey: film.parentFilmKey ?? null,
+    showtimeFilmKey: film.filmKey,
     title: enriched.displayTitle ?? film.title,
     sourceTitle: film.sourceTitle ?? film.title ?? null,
     posterUrl: enriched.posterUrl,
@@ -287,6 +289,7 @@ export function buildSearchFilmResult(
  *   theaterIds?: string[],
  *   formatTags?: string[],
  *   dismissedKeys?: string[],
+ *   isDismissed?: (film: object) => boolean,
  *   runtimeMin?: number | null,
  *   runtimeMax?: number | null,
  *   enrichmentIndex?: object | null,
@@ -297,6 +300,8 @@ export function buildSearchResultsModel(homeData, query, options = {}) {
   const typeFilter = options.typeFilter ?? 'all';
   const timeFilter = options.timeFilter ?? null;
   const dismissed = new Set(options.dismissedKeys ?? []);
+  const isDismissed =
+    typeof options.isDismissed === 'function' ? options.isDismissed : null;
   const theaterIds = options.theaterIds ?? [];
   const formatTags = options.formatTags ?? [];
   const enrichmentIndex = options.enrichmentIndex ?? null;
@@ -326,7 +331,11 @@ export function buildSearchResultsModel(homeData, query, options = {}) {
   const q = normalized.toLowerCase();
 
   let filmMatches = listFilms(homeData).filter((film) => {
-    if (dismissed.has(film.filmKey)) return false;
+    if (isDismissed) {
+      if (isDismissed(film)) return false;
+    } else if (dismissed.has(film.filmKey)) {
+      return false;
+    }
     const title = String(film.title ?? '').toLowerCase();
     const source = String(film.sourceTitle ?? '').toLowerCase();
     const parent = String(film.parentDisplayTitle ?? '').toLowerCase();

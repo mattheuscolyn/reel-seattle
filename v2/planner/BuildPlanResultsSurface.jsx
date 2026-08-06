@@ -51,6 +51,8 @@ import {
   clearFilmNotInterested,
 } from '../stores/notInterestedFilmsStore.js';
 import { setBuildPlanFormSession } from './buildPlanFormSession.js';
+import { filmIdentitiesEqual } from '../identity/filmIdentity.js';
+import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 
 function getBrowserStorage() {
   try {
@@ -95,12 +97,14 @@ function selectedFilmsForCalendarExport(plan, selectedFilmIds) {
 }
 
 function filmRefFromResultsFilm(film) {
-  return {
-    filmId: film.filmId ?? null,
-    showtimeFilmKey: film.filmKey ?? film.id ?? null,
-    title: film.title ?? null,
-    posterUrl: film.imageUrl ?? null,
-  };
+  return (
+    filmRefFromHomeFilm(film) ?? {
+      filmId: film.filmId ?? null,
+      showtimeFilmKey: film.filmKey ?? film.id ?? null,
+      title: film.title ?? null,
+      posterUrl: film.imageUrl ?? null,
+    }
+  );
 }
 
 function normalizeBreakLabel(label) {
@@ -114,10 +118,8 @@ function normalizeBreakLabel(label) {
 }
 
 function preferenceFromForm(form, film) {
-  const title = String(film?.title ?? '').toLowerCase();
-  if (!title) return 'prefer';
   const inList = (list) =>
-    (list ?? []).some((f) => String(f.title ?? '').toLowerCase() === title);
+    (list ?? []).some((f) => filmIdentitiesEqual(f, film));
   if (inList(form?.mustInclude)) return 'require';
   if (inList(form?.notInterested)) return 'exclude';
   if (inList(form?.wouldLove)) return 'prefer';
@@ -125,18 +127,19 @@ function preferenceFromForm(form, film) {
 }
 
 function applyFilmPreferenceToForm(form, film, preference) {
-  const title = String(film.title ?? '');
   const card = {
     id: film.filmKey ?? film.id,
-    title,
+    filmKey: film.filmKey ?? film.id,
+    filmId: film.filmId ?? null,
+    parentFilmKey: film.parentFilmKey ?? null,
+    showtimeFilmKey: film.showtimeFilmKey ?? film.filmKey ?? film.id,
+    title: film.title ?? '',
     detailLabel: film.theater ? `${film.theater}` : 'Any theater',
     theaterLabel: film.theater ?? 'Any theater',
     imageUrl: film.imageUrl ?? '',
   };
   const without = (list) =>
-    (list ?? []).filter(
-      (f) => String(f.title ?? '').toLowerCase() !== title.toLowerCase(),
-    );
+    (list ?? []).filter((f) => !filmIdentitiesEqual(f, film));
   const next = {
     ...form,
     mustInclude: without(form.mustInclude),
@@ -157,22 +160,20 @@ function applyFilmPreferenceToForm(form, film, preference) {
  * Deterministic mockup re-filter after adjustments (does not invent live engine).
  */
 function filterMockupPlans(plans, form) {
-  const must = new Set(
-    (form?.mustInclude ?? []).map((f) => String(f.title).toLowerCase()),
-  );
-  const exclude = new Set(
-    (form?.notInterested ?? []).map((f) => String(f.title).toLowerCase()),
-  );
+  const must = form?.mustInclude ?? [];
+  const exclude = form?.notInterested ?? [];
   const maxGap = parseBreakLabelToMinutes(form?.maxGap);
   const minGap = parseBreakLabelToMinutes(form?.minGap ?? 'Any') ?? 0;
 
   return plans
     .map((plan, index) => {
-      const titles = plan.items
-        .filter((i) => i.type !== 'break')
-        .map((i) => String(i.title).toLowerCase());
-      if ([...must].some((t) => !titles.includes(t))) return null;
-      if (titles.some((t) => exclude.has(t))) return null;
+      const films = plan.items.filter((i) => i.type !== 'break');
+      if (must.some((card) => !films.some((f) => filmIdentitiesEqual(f, card)))) {
+        return null;
+      }
+      if (films.some((f) => exclude.some((card) => filmIdentitiesEqual(f, card)))) {
+        return null;
+      }
       if (maxGap != null || minGap > 0) {
         for (const item of plan.items) {
           if (item.type !== 'break') continue;
@@ -473,6 +474,7 @@ export default function BuildPlanResultsSurface({
       homeData,
       form: workingForm,
       sortId,
+      storage: getBrowserStorage(),
     });
     if (base.source !== 'mockup-fixture') return base;
     if (!adjustmentsApplied) {

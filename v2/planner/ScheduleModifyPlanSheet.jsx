@@ -2,10 +2,11 @@
  * Modify-plan scaffold for accepted My Schedule plans (T-SCH-01).
  *
  * Reads the real accepted plan. No reschedule/edit. Optional remove.
+ * Film rows open Film Detail; View plan details reopens Plan Details.
  */
 
 import { useEffect, useId, useRef } from 'react';
-import { IconClose } from '../icons.jsx';
+import { IconChevron, IconClose } from '../icons.jsx';
 
 /**
  * @param {{
@@ -13,6 +14,8 @@ import { IconClose } from '../icons.jsx';
  *   open: boolean,
  *   onClose: () => void,
  *   onRemove?: (planId: string) => void,
+ *   onOpenFilmDetail?: (perf: object) => void,
+ *   onViewPlanDetails?: (plan: object) => void,
  * }} props
  */
 export default function ScheduleModifyPlanSheet({
@@ -20,6 +23,8 @@ export default function ScheduleModifyPlanSheet({
   open,
   onClose,
   onRemove,
+  onOpenFilmDetail,
+  onViewPlanDetails,
 }) {
   const titleId = useId();
   const closeRef = useRef(null);
@@ -81,21 +86,48 @@ export default function ScheduleModifyPlanSheet({
         </header>
         <div className="v2-ss-body">
           <p className="v2-msw-modify-support">
-            Editing showtimes isn’t available yet. You can review this accepted
-            plan or remove it from My Schedule.
+            Editing showtimes isn’t available yet. You can open a film, view
+            plan details, or remove this plan from My Schedule.
           </p>
           <ul className="v2-msw-modify-list">
-            {films.map((perf) => (
-              <li key={perf.performanceKey} className="v2-msw-modify-row">
-                <span className="v2-msw-modify-title">{perf.title}</span>
-                <span className="v2-msw-modify-meta">
-                  {[perf.theaterName, perf.localTime, perf.format]
-                    .filter(Boolean)
-                    .join(' · ')}
-                </span>
-              </li>
-            ))}
+            {films.map((perf) => {
+              const canOpen = Boolean(
+                perf.filmKey || perf.filmId || perf.showtimeFilmKey,
+              );
+              return (
+                <li key={perf.performanceKey} className="v2-msw-modify-row">
+                  <button
+                    type="button"
+                    className="v2-msw-modify-film"
+                    aria-label={`Open Film Detail for ${perf.title}`}
+                    disabled={!canOpen || typeof onOpenFilmDetail !== 'function'}
+                    onClick={() => onOpenFilmDetail?.(perf)}
+                  >
+                    <span className="v2-msw-modify-title">{perf.title}</span>
+                    <span className="v2-msw-modify-meta">
+                      {[perf.theaterName, perf.localTime, perf.format]
+                        .filter(Boolean)
+                        .join(' · ')}
+                    </span>
+                    <IconChevron
+                      className="v2-msw-modify-chevron"
+                      width={14}
+                      height={14}
+                      aria-hidden="true"
+                    />
+                  </button>
+                </li>
+              );
+            })}
           </ul>
+          <button
+            type="button"
+            className="v2-msw-modify-details"
+            onClick={() => onViewPlanDetails?.(plan)}
+            disabled={typeof onViewPlanDetails !== 'function'}
+          >
+            View plan details
+          </button>
           <button
             type="button"
             className="v2-msw-modify-remove"

@@ -152,6 +152,12 @@ function performanceToFilmEvent(perf, planGroupId, timeFormatId = '12h') {
     imageUrl: perf.posterUrl,
     ticketUrl: perf.ticketUrl,
     performanceKey: perf.performanceKey,
+    filmId: perf.filmId ?? null,
+    filmKey: perf.filmKey ?? null,
+    parentFilmKey: perf.parentFilmKey ?? null,
+    showtimeFilmKey: perf.filmKey ?? null,
+    opportunityKey: perf.opportunityKey ?? null,
+    format: perf.format ?? null,
   };
 }
 
@@ -347,6 +353,15 @@ export function composeMyScheduleWeekFromAcceptedPlans(options = {}) {
           timeLabel: `${formatCompactDateLabel(upcoming.performance.localDate)} • ${formatShowtimeLabel(pacificMinutesFromIso(upcoming.performance.startsAt) ?? 0, timeFormatId)}`,
           ticketsLabel: 'View tickets',
           imageUrl: upcoming.performance.posterUrl,
+          filmId: upcoming.performance.filmId ?? null,
+          filmKey: upcoming.performance.filmKey ?? null,
+          parentFilmKey: upcoming.performance.parentFilmKey ?? null,
+          showtimeFilmKey: upcoming.performance.filmKey ?? null,
+          opportunityKey: upcoming.performance.opportunityKey ?? null,
+          ticketUrl: upcoming.performance.ticketUrl ?? null,
+          planId: upcoming.plan.planId,
+          format: upcoming.performance.format ?? null,
+          empty: false,
         }
       : {
           label: 'NEXT UP',

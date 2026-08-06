@@ -275,6 +275,8 @@ export function groupBrowseOpportunitiesByFilm(
     const theaterIds = new Set(rows.map((r) => r.theaterId).filter(Boolean));
     films.push({
       filmKey,
+      filmId: film.filmId ?? null,
+      parentFilmKey: film.parentFilmKey ?? null,
       title: film.title,
       posterUrl: film.posterUrl ?? null,
       runtimeMin: film.runtimeMin ?? null,

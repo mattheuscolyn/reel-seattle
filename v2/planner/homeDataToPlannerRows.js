@@ -92,6 +92,8 @@ export function homeDataToPlannerRows(homeData) {
       // Live accept / ICS fields
       filmKey: asTrimmed(opp.filmKey),
       filmId: film?.filmId ?? null,
+      parentFilmKey: film?.parentFilmKey ?? null,
+      parent_film_key: film?.parentFilmKey ?? null,
       localDate,
       localTime,
       source: asTrimmed(opp.source),

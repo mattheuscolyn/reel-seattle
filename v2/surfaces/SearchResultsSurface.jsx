@@ -7,12 +7,6 @@ import {
   saveRecentSearches,
 } from '../explore/recentSearchesStore.js';
 import {
-  dismissFilm,
-  loadDismissedFilmKeys,
-  saveDismissedFilmKeys,
-  undismissFilm,
-} from '../explore/dismissedFilmsStore.js';
-import {
   SEARCH_TIME_FILTERS,
   SEARCH_TYPE_FILTERS,
   buildSearchResultsModel,
@@ -26,7 +20,12 @@ import {
   applySaveToggle,
   buildSaveActionState,
 } from '../save/saveActionState.js';
-import { getSavedFilms } from '../stores/savedFilmsStore.js';
+import {
+  applyNotInterestedToggle,
+  buildNotInterestedActionState,
+} from '../save/notInterestedActionState.js';
+import { isFilmNotInterested } from '../stores/notInterestedFilmsStore.js';
+import { subscribeFilmStoreMutations } from '../auth/filmStoreMutationBridge.js';
 import { SEARCH_PLACEHOLDER } from '../explore/searchCopy.js';
 
 function getStorage() {
@@ -79,17 +78,38 @@ export default function SearchResultsSurface({
   const [expandedFilmKey, setExpandedFilmKey] = useState(
     searchUi?.expandedFilmKey ?? null,
   );
-  const [dismissedKeys, setDismissedKeys] = useState(() =>
-    loadDismissedFilmKeys(storage),
-  );
-  const [saveRevision, setSaveRevision] = useState(0);
+  const [prefRevision, setPrefRevision] = useState(0);
   const [saveErrorByKey, setSaveErrorByKey] = useState({});
+  const [niErrorByKey, setNiErrorByKey] = useState({});
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [draftTheaters, setDraftTheaters] = useState(theaterIds);
   const [draftFormats, setDraftFormats] = useState(formatTags);
   const [undoBanner, setUndoBanner] = useState(null);
   const listRef = useRef(null);
   const restoredScroll = useRef(false);
+
+  const homeFilmByKey = useMemo(() => {
+    const map = new Map();
+    for (const film of homeData?.films ?? []) {
+      map.set(film.filmKey, film);
+    }
+    return map;
+  }, [homeData]);
+
+  useEffect(() => {
+    return subscribeFilmStoreMutations(() => {
+      setPrefRevision((value) => value + 1);
+    });
+  }, []);
+
+  const isDismissedFilm = useMemo(() => {
+    void prefRevision;
+    return (film) => {
+      const homeFilm = homeFilmByKey.get(film.filmKey) ?? film;
+      const ref = filmRefFromHomeFilm(homeFilm);
+      return Boolean(ref && isFilmNotInterested(storage, ref));
+    };
+  }, [homeFilmByKey, storage, prefRevision]);
 
   const model = useMemo(
     () =>
@@ -98,7 +118,7 @@ export default function SearchResultsSurface({
         timeFilter,
         theaterIds,
         formatTags,
-        dismissedKeys,
+        isDismissed: isDismissedFilm,
         runtimeMin,
         runtimeMax,
         enrichmentIndex,
@@ -111,7 +131,7 @@ export default function SearchResultsSurface({
       timeFilter,
       theaterIds,
       formatTags,
-      dismissedKeys,
+      isDismissedFilm,
       runtimeMin,
       runtimeMax,
     ],
@@ -211,27 +231,40 @@ export default function SearchResultsSurface({
   };
 
   const handleNotInterested = (film) => {
-    const next = dismissFilm(film.filmKey, dismissedKeys);
-    setDismissedKeys(next);
-    saveDismissedFilmKeys(storage, next);
-    setExpandedFilmKey(null);
-    setUndoBanner({ filmKey: film.filmKey, title: film.title });
-  };
-
-  const homeFilmByKey = useMemo(() => {
-    const map = new Map();
-    for (const film of homeData?.films ?? []) {
-      map.set(film.filmKey, film);
+    const homeFilm = homeFilmByKey.get(film.filmKey) ?? film;
+    const action = buildNotInterestedActionState({
+      mode: 'production',
+      film: homeFilm,
+      storage,
+    });
+    if (!action.available || !action.filmRef) return;
+    const result = applyNotInterestedToggle({
+      storage,
+      filmRef: action.filmRef,
+      persist: true,
+      currentIsNotInterested: action.isNotInterested,
+    });
+    if (!result.ok) {
+      setNiErrorByKey((current) => ({
+        ...current,
+        [film.filmKey]: result.error ?? 'storage_set_failed',
+      }));
+      return;
     }
-    return map;
-  }, [homeData]);
-
-  const savedShowtimeKeys = useMemo(() => {
-    void saveRevision;
-    return new Set(
-      getSavedFilms(storage).map((item) => item.filmRef.showtimeFilmKey),
-    );
-  }, [storage, saveRevision]);
+    setNiErrorByKey((current) => {
+      if (!current[film.filmKey]) return current;
+      const next = { ...current };
+      delete next[film.filmKey];
+      return next;
+    });
+    setExpandedFilmKey(null);
+    setUndoBanner({
+      filmKey: film.filmKey,
+      title: film.title,
+      filmRef: action.filmRef,
+      wasNotInterested: action.isNotInterested,
+    });
+  };
 
   const handleToggleSave = (film) => {
     const homeFilm = homeFilmByKey.get(film.filmKey) ?? film;
@@ -260,14 +293,23 @@ export default function SearchResultsSurface({
       delete next[film.filmKey];
       return next;
     });
-    setSaveRevision((value) => value + 1);
   };
 
   const undoDismiss = () => {
-    if (!undoBanner) return;
-    const next = undismissFilm(undoBanner.filmKey, dismissedKeys);
-    setDismissedKeys(next);
-    saveDismissedFilmKeys(storage, next);
+    if (!undoBanner?.filmRef) {
+      setUndoBanner(null);
+      return;
+    }
+    // Undo restores prior NI state for this filmRef (mark or clear).
+    const currently = isFilmNotInterested(storage, undoBanner.filmRef);
+    if (currently !== Boolean(undoBanner.wasNotInterested)) {
+      applyNotInterestedToggle({
+        storage,
+        filmRef: undoBanner.filmRef,
+        persist: true,
+        currentIsNotInterested: currently,
+      });
+    }
     setUndoBanner(null);
   };
 
@@ -581,14 +623,16 @@ export default function SearchResultsSurface({
 
                           <div className="v2-search-expand-actions">
                             {(() => {
+                              void prefRevision;
                               const homeFilm =
                                 homeFilmByKey.get(film.filmKey) ?? film;
-                              const ref = filmRefFromHomeFilm(homeFilm);
-                              const isSaved = Boolean(
-                                ref &&
-                                  savedShowtimeKeys.has(ref.showtimeFilmKey),
-                              );
-                              const available = Boolean(ref);
+                              const action = buildSaveActionState({
+                                mode: 'production',
+                                film: homeFilm,
+                                storage,
+                              });
+                              const isSaved = action.isSaved;
+                              const available = action.available;
                               const label = isSaved ? 'Saved' : 'Save';
                               return (
                                 <button
@@ -619,10 +663,22 @@ export default function SearchResultsSurface({
                             <button
                               type="button"
                               className="v2-search-action"
+                              disabled={
+                                !buildNotInterestedActionState({
+                                  mode: 'production',
+                                  film: homeFilmByKey.get(film.filmKey) ?? film,
+                                  storage,
+                                }).available
+                              }
                               onClick={() => handleNotInterested(film)}
                             >
                               Not interested
                             </button>
+                            {niErrorByKey[film.filmKey] ? (
+                              <span className="v2-visually-hidden" role="status">
+                                Could not update Not Interested. Try again.
+                              </span>
+                            ) : null}
                             <button
                               type="button"
                               className="v2-search-more"

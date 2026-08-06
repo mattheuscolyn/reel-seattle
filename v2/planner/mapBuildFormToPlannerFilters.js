@@ -5,6 +5,7 @@
  */
 
 import { pacificDateString } from '../explore/exploreCatalog.js';
+import { filmIdentityTokensFromCards } from '../identity/filmIdentity.js';
 import { buildPlannerSearchFilters } from '../../src/utils/plannerDisplay.js';
 import { parseBreakLabelToMinutes } from './planBreakRange.js';
 
@@ -125,14 +126,14 @@ export function resolveTheaterFilterIds(form, homeData) {
 }
 
 /**
+ * Stable planner filter tokens from bucket cards.
+ * Prefers filmId + showtime keys; title only when no usable identity exists.
+ *
  * @param {object[]} filmCards
  * @returns {string[]}
  */
-function filmTitlesFromCards(filmCards) {
-  if (!Array.isArray(filmCards)) return [];
-  return filmCards
-    .map((f) => asTrimmed(f?.title) ?? asTrimmed(f?.filmKey))
-    .filter(Boolean);
+function filmTokensFromCards(filmCards) {
+  return filmIdentityTokensFromCards(filmCards);
 }
 
 /**
@@ -174,9 +175,9 @@ export function mapBuildFormToPlannerFilters(form, homeData, options = {}) {
     minGapMin: String(minGapMin),
     maxGapMin: maxGapMin != null ? String(maxGapMin) : '',
     maxGapExplicit: maxGapFieldSet,
-    includeFilms: filmTitlesFromCards(form?.mustInclude),
-    preferredFilms: filmTitlesFromCards(form?.wouldLove),
-    excludeFilms: filmTitlesFromCards(form?.notInterested),
+    includeFilms: filmTokensFromCards(form?.mustInclude),
+    preferredFilms: filmTokensFromCards(form?.wouldLove),
+    excludeFilms: filmTokensFromCards(form?.notInterested),
   });
 
   filters.allowRepeatFilms = Boolean(form?.allowRepeats);

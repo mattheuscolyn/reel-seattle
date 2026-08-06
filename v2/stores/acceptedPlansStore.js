@@ -35,6 +35,7 @@ export const ACCEPTED_PLANS_TIMEZONE = 'America/Los_Angeles';
  *   performanceKey: string,
  *   filmId: string | null,
  *   filmKey: string | null,
+ *   parentFilmKey?: string | null,
  *   title: string,
  *   theaterId: string,
  *   theaterName: string,
@@ -304,6 +305,7 @@ export function normalizeAcceptedPerformance(input) {
     filmKey:
       asOptionalString(record.filmKey) ??
       asOptionalString(record.showtimeFilmKey),
+    parentFilmKey: asOptionalString(record.parentFilmKey),
     title,
     theaterId,
     theaterName:

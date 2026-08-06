@@ -15,6 +15,7 @@ import {
   IconSliders,
   IconStarFill,
   IconTheaters,
+  IconTicket,
 } from '../icons.jsx';
 import {
   dotCountFromMovieCount,
@@ -22,6 +23,7 @@ import {
 } from '../fixtures/myScheduleMonthMockupFixture.js';
 import { resolveMyScheduleMonthPagePresentation } from './resolveMyScheduleMonthPresentation.js';
 import { getScheduleSettings } from '../stores/scheduleSettingsStore.js';
+import { resolveFilmDetailNavParams } from '../identity/filmIdentity.js';
 
 function getBrowserStorage() {
   try {
@@ -172,22 +174,215 @@ function BusiestDayCard({ card }) {
   );
 }
 
-function UpcomingHighlightRow({ row }) {
+function UpcomingHighlightRow({ row, onOpenFilmDetail, onOpenTickets }) {
+  const films = Array.isArray(row.films) ? row.films : [];
+  const primary = films[0] ?? null;
+  const multi = films.length > 1;
+
+  if (!multi && primary) {
+    const canOpen =
+      Boolean(primary.filmKey || primary.filmId || primary.showtimeFilmKey) &&
+      typeof onOpenFilmDetail === 'function';
+    return (
+      <div className="v2-msw-upcoming-row" data-schedule-upcoming={row.id}>
+        <button
+          type="button"
+          className="v2-msw-upcoming-film"
+          aria-label={`Open Film Detail for ${primary.title ?? row.description}`}
+          disabled={!canOpen}
+          onClick={() => onOpenFilmDetail?.(primary)}
+        >
+          {row.thumbUrl || primary.posterUrl ? (
+            <img
+              className="v2-msw-upcoming-thumb"
+              src={row.thumbUrl || primary.posterUrl}
+              alt=""
+            />
+          ) : (
+            <span className="v2-msw-upcoming-thumb v2-msw-upcoming-thumb-empty" aria-hidden="true" />
+          )}
+          <span className="v2-msw-upcoming-main">
+            <span className="v2-msw-upcoming-date">{row.dateLabel}</span>
+            <span className="v2-msw-upcoming-meta">
+              <span className="v2-msw-upcoming-films">{row.filmCountLabel}</span>
+              <SmallDayDotRow dots={row.dots} />
+              <span className="v2-msw-upcoming-desc">
+                {primary.title ?? row.description}
+              </span>
+            </span>
+          </span>
+          <span className="v2-msw-upcoming-arrow" aria-hidden="true">
+            <IconChevron />
+          </span>
+        </button>
+        {primary.ticketUrl ? (
+          <button
+            type="button"
+            className="v2-msw-upcoming-tickets"
+            aria-label={`View tickets for ${primary.title ?? 'film'}`}
+            onClick={(event) => {
+              event.stopPropagation();
+              onOpenTickets?.(primary);
+            }}
+          >
+            <IconTicket width={14} height={14} aria-hidden="true" />
+            Tickets
+          </button>
+        ) : null}
+      </div>
+    );
+  }
+
   return (
-    <div className="v2-msw-upcoming-row" data-schedule-upcoming={row.id}>
-      <img className="v2-msw-upcoming-thumb" src={row.thumbUrl} alt="" />
-      <div className="v2-msw-upcoming-main">
-        <p className="v2-msw-upcoming-date">{row.dateLabel}</p>
-        <div className="v2-msw-upcoming-meta">
-          <span className="v2-msw-upcoming-films">{row.filmCountLabel}</span>
-          <SmallDayDotRow dots={row.dots} />
-          <span className="v2-msw-upcoming-desc">{row.description}</span>
+    <div
+      className="v2-msw-upcoming-row v2-msw-upcoming-row-multi"
+      data-schedule-upcoming={row.id}
+    >
+      <div className="v2-msw-upcoming-day-head">
+        {row.thumbUrl ? (
+          <img className="v2-msw-upcoming-thumb" src={row.thumbUrl} alt="" />
+        ) : (
+          <span className="v2-msw-upcoming-thumb v2-msw-upcoming-thumb-empty" aria-hidden="true" />
+        )}
+        <div className="v2-msw-upcoming-main">
+          <p className="v2-msw-upcoming-date">{row.dateLabel}</p>
+          <div className="v2-msw-upcoming-meta">
+            <span className="v2-msw-upcoming-films">{row.filmCountLabel}</span>
+            <SmallDayDotRow dots={row.dots} />
+            <span className="v2-msw-upcoming-desc">{row.description}</span>
+          </div>
         </div>
       </div>
-      <span className="v2-msw-upcoming-arrow" aria-hidden="true">
-        <IconChevron />
-      </span>
+      {films.length > 0 ? (
+        <ul className="v2-msw-upcoming-film-list" role="list">
+          {films.map((film) => {
+            const canOpen =
+              Boolean(film.filmKey || film.filmId || film.showtimeFilmKey) &&
+              typeof onOpenFilmDetail === 'function';
+            return (
+              <li key={film.performanceKey ?? `${film.filmKey}-${film.localTime}`}>
+                <div className="v2-msw-upcoming-film-item">
+                  <button
+                    type="button"
+                    className="v2-msw-upcoming-film-open"
+                    aria-label={`Open Film Detail for ${film.title}`}
+                    disabled={!canOpen}
+                    onClick={() => onOpenFilmDetail?.(film)}
+                  >
+                    <span className="v2-msw-upcoming-film-title">{film.title}</span>
+                    <span className="v2-msw-upcoming-film-meta">
+                      {[film.localTime, film.format, film.theaterName]
+                        .filter(Boolean)
+                        .join(' · ')}
+                    </span>
+                    <IconChevron
+                      className="v2-msw-upcoming-film-chevron"
+                      width={14}
+                      height={14}
+                      aria-hidden="true"
+                    />
+                  </button>
+                  {film.ticketUrl ? (
+                    <button
+                      type="button"
+                      className="v2-msw-upcoming-tickets"
+                      aria-label={`View tickets for ${film.title}`}
+                      onClick={() => onOpenTickets?.(film)}
+                    >
+                      <IconTicket width={14} height={14} aria-hidden="true" />
+                      Tickets
+                    </button>
+                  ) : null}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
     </div>
+  );
+}
+
+function SelectedDayFilms({
+  day,
+  onOpenFilmDetail,
+  onOpenTickets,
+}) {
+  if (!day || !Array.isArray(day.films) || day.films.length === 0) return null;
+  return (
+    <section
+      className="v2-msw-month-section"
+      aria-label={`Films on ${day.dateLabel ?? day.id}`}
+      data-schedule-section="selected-day-films"
+    >
+      <div className="v2-msw-month-section-head">
+        <h2 className="v2-msw-month-section-title">
+          {day.dateLabel ?? day.id}
+        </h2>
+        <span className="v2-msw-month-day-count">
+          {day.movieCount} film{day.movieCount === 1 ? '' : 's'}
+        </span>
+      </div>
+      <div className="v2-msw-upcoming-list">
+        {day.films.map((film) => {
+          const canOpen =
+            Boolean(film.filmKey || film.filmId || film.showtimeFilmKey) &&
+            typeof onOpenFilmDetail === 'function';
+          return (
+            <div
+              key={film.performanceKey ?? `${film.filmKey}-${film.localTime}`}
+              className="v2-msw-upcoming-row"
+              data-schedule-day-film={film.performanceKey ?? film.filmKey}
+            >
+              <button
+                type="button"
+                className="v2-msw-upcoming-film"
+                aria-label={`Open Film Detail for ${film.title}`}
+                disabled={!canOpen}
+                onClick={() => onOpenFilmDetail?.(film)}
+              >
+                {film.posterUrl ? (
+                  <img
+                    className="v2-msw-upcoming-thumb"
+                    src={film.posterUrl}
+                    alt=""
+                  />
+                ) : (
+                  <span
+                    className="v2-msw-upcoming-thumb v2-msw-upcoming-thumb-empty"
+                    aria-hidden="true"
+                  />
+                )}
+                <span className="v2-msw-upcoming-main">
+                  <span className="v2-msw-upcoming-date">{film.title}</span>
+                  <span className="v2-msw-upcoming-meta">
+                    <span className="v2-msw-upcoming-desc">
+                      {[film.localTime, film.format, film.theaterName]
+                        .filter(Boolean)
+                        .join(' · ')}
+                    </span>
+                  </span>
+                </span>
+                <span className="v2-msw-upcoming-arrow" aria-hidden="true">
+                  <IconChevron />
+                </span>
+              </button>
+              {film.ticketUrl ? (
+                <button
+                  type="button"
+                  className="v2-msw-upcoming-tickets"
+                  aria-label={`View tickets for ${film.title}`}
+                  onClick={() => onOpenTickets?.(film)}
+                >
+                  <IconTicket width={14} height={14} aria-hidden="true" />
+                  Tickets
+                </button>
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
@@ -196,6 +391,8 @@ export default function MyScheduleMonthSurface({
   onOpenSearch,
   onOpenSettings,
   onStubAction,
+  onOpenFilmDetail,
+  homeData = null,
   acceptedPlansRevision = 0,
   scheduleSettingsRevision = 0,
   storage = null,
@@ -226,9 +423,39 @@ export default function MyScheduleMonthSurface({
     presentation.heatmapGrid.find((c) => c.selected)?.id ??
     presentation.heatmapGrid[0]?.id;
 
+  const selectedDay = useMemo(
+    () =>
+      presentation.heatmapGrid.find((c) => c.id === activeSelectedDayId) ??
+      null,
+    [presentation.heatmapGrid, activeSelectedDayId],
+  );
+
   const announce = (actionId, label, message) => {
     setStatusMessage(message ?? label);
     onStubAction?.(actionId, label);
+  };
+
+  const handleOpenFilmFromRecord = (record) => {
+    const params = resolveFilmDetailNavParams(record, homeData);
+    if (!params || typeof onOpenFilmDetail !== 'function') {
+      announce(
+        'film-detail',
+        record?.title ?? 'Film',
+        'Film Detail isn’t available for this screening yet.',
+      );
+      return;
+    }
+    onOpenFilmDetail(params);
+  };
+
+  const handleOpenTickets = (record) => {
+    const url = record?.ticketUrl;
+    if (typeof url === 'string' && /^https?:\/\//i.test(url)) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+      setStatusMessage('Opening tickets.');
+      return;
+    }
+    announce('view-tickets', 'Tickets', 'Tickets aren’t available for this screening.');
   };
 
   const handlePrevMonth = () => {
@@ -389,6 +616,12 @@ export default function MyScheduleMonthSurface({
         </div>
       </section>
 
+      <SelectedDayFilms
+        day={selectedDay}
+        onOpenFilmDetail={handleOpenFilmFromRecord}
+        onOpenTickets={handleOpenTickets}
+      />
+
       <section className="v2-msw-month-section" aria-label="Busiest days">
         <div className="v2-msw-month-section-head">
           <h2 className="v2-msw-month-section-title">Busiest days this month</h2>
@@ -414,7 +647,12 @@ export default function MyScheduleMonthSurface({
         </div>
         <div className="v2-msw-upcoming-list">
           {presentation.upcomingHighlights.map((row) => (
-            <UpcomingHighlightRow key={row.id} row={row} />
+            <UpcomingHighlightRow
+              key={row.id}
+              row={row}
+              onOpenFilmDetail={handleOpenFilmFromRecord}
+              onOpenTickets={handleOpenTickets}
+            />
           ))}
         </div>
       </section>

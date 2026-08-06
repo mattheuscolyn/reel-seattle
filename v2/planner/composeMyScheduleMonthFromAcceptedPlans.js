@@ -29,6 +29,33 @@ const WEEKDAY_SHORT = Object.freeze([
 ]);
 
 /**
+ * Portable film nav payload from an accepted performance (Month surfaces).
+ * @param {import('../stores/acceptedPlansStore.js').AcceptedPlanPerformance} perf
+ */
+export function monthFilmNavFromPerformance(perf) {
+  if (!perf || typeof perf !== 'object') return null;
+  const filmKey =
+    typeof perf.filmKey === 'string' && perf.filmKey.trim()
+      ? perf.filmKey.trim()
+      : null;
+  return {
+    filmId: perf.filmId ?? null,
+    filmKey,
+    parentFilmKey: perf.parentFilmKey ?? null,
+    showtimeFilmKey: filmKey,
+    opportunityKey: perf.opportunityKey ?? null,
+    title: perf.title,
+    ticketUrl: perf.ticketUrl ?? null,
+    format: perf.format ?? null,
+    posterUrl: perf.posterUrl ?? null,
+    theaterName: perf.theaterName ?? null,
+    localTime: perf.localTime ?? null,
+    localDate: perf.localDate ?? null,
+    performanceKey: perf.performanceKey ?? null,
+  };
+}
+
+/**
  * @param {string} yearMonth — YYYY-MM
  * @param {number} monthOffset
  */
@@ -154,6 +181,9 @@ export function composeMyScheduleMonthFromAcceptedPlans(options = {}) {
     const movieCount = rows.length;
     const dow = isoWeekday(iso);
     const dateNumber = Number(iso.slice(8, 10));
+    const films = rows
+      .map((r) => monthFilmNavFromPerformance(r.performance))
+      .filter(Boolean);
     return {
       id: iso,
       weekdayLabel: WEEKDAY_SHORT[dow],
@@ -163,6 +193,8 @@ export function composeMyScheduleMonthFromAcceptedPlans(options = {}) {
       dots: inMonth ? dotCountFromMovieCount(movieCount) : 0,
       selected: iso === today,
       inMonth,
+      films,
+      dateLabel: formatCompactDateLabel(iso),
     };
   });
 
@@ -194,14 +226,31 @@ export function composeMyScheduleMonthFromAcceptedPlans(options = {}) {
     .map((date) => {
       const rows = perfsByDate.get(date) ?? [];
       const count = rows.length;
+      const films = rows
+        .map((r) => monthFilmNavFromPerformance(r.performance))
+        .filter(Boolean);
+      const primary = films[0] ?? null;
       return {
         id: `upcoming-${date}`,
+        dateId: date,
         dateLabel: formatCompactDateLabel(date),
         filmCountLabel: `${count} film${count === 1 ? '' : 's'}`,
         dots: dotCountFromMovieCount(count),
         description:
-          count > 1 ? 'Multi-film day' : rows[0]?.performance.title ?? 'Planned film',
-        thumbUrl: rows[0]?.performance.posterUrl ?? null,
+          count > 1
+            ? 'Multi-film day'
+            : primary?.title ?? 'Planned film',
+        thumbUrl: primary?.posterUrl ?? null,
+        films,
+        // Convenience mirrors of primary film for single-film rows.
+        filmId: primary?.filmId ?? null,
+        filmKey: primary?.filmKey ?? null,
+        parentFilmKey: primary?.parentFilmKey ?? null,
+        showtimeFilmKey: primary?.showtimeFilmKey ?? null,
+        opportunityKey: primary?.opportunityKey ?? null,
+        ticketUrl: primary?.ticketUrl ?? null,
+        format: primary?.format ?? null,
+        title: primary?.title ?? null,
       };
     });
 

@@ -334,7 +334,7 @@ test('QC modes do not persist fixture Not Interested state', () => {
   assert.deepEqual(getNotInterestedFilms(storage), []);
 });
 
-test('Film Detail wires Not Interested through shared helpers; Search stays shim-based', () => {
+test('Film Detail and Search wire Not Interested through shared helpers', () => {
   assert.match(APP, /buildNotInterestedActionState/);
   assert.match(APP, /applyNotInterestedToggle/);
   assert.match(APP, /onToggleNotInterested/);
@@ -343,8 +343,9 @@ test('Film Detail wires Not Interested through shared helpers; Search stays shim
   assert.equal(SURFACE.includes('setHideOn'), false);
   assert.equal(SURFACE.includes('hideOn'), false);
   assert.match(SEARCH, /handleNotInterested/);
-  assert.match(SEARCH, /saveDismissedFilmKeys/);
-  assert.equal(SEARCH.includes('buildNotInterestedActionState'), false);
+  assert.match(SEARCH, /buildNotInterestedActionState/);
+  assert.match(SEARCH, /applyNotInterestedToggle/);
+  assert.equal(SEARCH.includes('saveDismissedFilmKeys'), false);
   assert.match(INLINE, /Not interested/);
   assert.match(INLINE, /onToggleNotInterested/);
   assert.match(QC, /dismissedFilms/);

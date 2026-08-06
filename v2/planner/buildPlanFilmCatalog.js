@@ -16,6 +16,7 @@ import {
 import { isFilmSaved } from '../stores/savedFilmsStore.js';
 import { isFilmNotInterested } from '../stores/notInterestedFilmsStore.js';
 import { isFilmSeen } from '../stores/seenFilmsStore.js';
+import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 import { MUST_INCLUDE_MAX, WOULD_LOVE_MAX } from './buildPlanFilmManageConfig.js';
 
 /**
@@ -99,7 +100,12 @@ export function listPlannerEligibleFilms(homeData, options = {}) {
       entry = {
         filmKey: film.filmKey,
         filmId: film.filmId ?? null,
+        parentFilmKey: film.parentFilmKey ?? null,
         title: film.title,
+        canonicalTitle: film.canonicalTitle ?? film.parentDisplayTitle ?? film.title,
+        releaseYear: film.releaseYear ?? film.year ?? null,
+        source: film.source ?? null,
+        sourceFilmId: film.sourceFilmId ?? null,
         posterUrl: film.posterUrl ?? null,
         runtimeMin: film.runtimeMin ?? null,
         rating: film.rating ?? film.mpaaRating ?? null,
@@ -143,7 +149,13 @@ export function listPlannerEligibleFilms(homeData, options = {}) {
       id: entry.filmKey,
       filmKey: entry.filmKey,
       filmId: entry.filmId,
+      parentFilmKey: entry.parentFilmKey,
+      showtimeFilmKey: entry.filmKey,
       title: entry.title,
+      canonicalTitle: entry.canonicalTitle,
+      releaseYear: entry.releaseYear,
+      source: entry.source,
+      sourceFilmId: entry.sourceFilmId,
       imageUrl: entry.posterUrl ?? '',
       posterUrl: entry.posterUrl ?? null,
       runtimeMin: entry.runtimeMin,
@@ -234,7 +246,17 @@ export function applyFilmBucketSelection(form, bucket, filmCard) {
   const card = {
     id,
     filmKey: filmCard.filmKey ?? id,
+    filmId: filmCard.filmId ?? null,
+    parentFilmKey: filmCard.parentFilmKey ?? null,
+    showtimeFilmKey: filmCard.showtimeFilmKey ?? filmCard.filmKey ?? id,
     title: filmCard.title,
+    canonicalTitle: filmCard.canonicalTitle ?? filmCard.title ?? null,
+    releaseYear: filmCard.releaseYear ?? null,
+    identityAliases: Array.isArray(filmCard.identityAliases)
+      ? filmCard.identityAliases
+      : undefined,
+    source: filmCard.source ?? null,
+    sourceFilmId: filmCard.sourceFilmId ?? null,
     detailLabel: filmCard.detailLabel ?? filmCard.theaterLabel ?? 'Any theater',
     theaterLabel: filmCard.theaterLabel ?? filmCard.detailLabel ?? 'Any theater',
     imageUrl: filmCard.imageUrl ?? filmCard.posterUrl ?? '',
@@ -244,24 +266,31 @@ export function applyFilmBucketSelection(form, bucket, filmCard) {
   let wouldLove = [...(form?.wouldLove ?? [])];
   let notInterested = [...(form?.notInterested ?? [])];
 
-  const drop = (list) =>
-    list.filter((f) => f.id !== id && f.filmKey !== id && f.filmKey !== card.filmKey);
+  const sameCard = (f) =>
+    (card.filmId && f.filmId && f.filmId === card.filmId) ||
+    f.id === id ||
+    f.filmKey === id ||
+    f.filmKey === card.filmKey ||
+    (card.parentFilmKey &&
+      (f.filmKey === card.parentFilmKey || f.parentFilmKey === card.parentFilmKey));
+
+  const drop = (list) => list.filter((f) => !sameCard(f));
 
   if (bucket === 'mustInclude') {
     wouldLove = drop(wouldLove);
     notInterested = drop(notInterested);
-    if (!mustInclude.some((f) => f.id === id || f.filmKey === id)) {
+    if (!mustInclude.some((f) => sameCard(f))) {
       if (mustInclude.length >= MUST_INCLUDE_MAX) {
         return { mustInclude, wouldLove, notInterested, rejected: 'cap' };
       }
       mustInclude = [...mustInclude, card];
     }
   } else if (bucket === 'wouldLove') {
-    if (mustInclude.some((f) => f.id === id || f.filmKey === id)) {
+    if (mustInclude.some((f) => sameCard(f))) {
       return { mustInclude, wouldLove, notInterested, rejected: 'must' };
     }
     notInterested = drop(notInterested);
-    if (!wouldLove.some((f) => f.id === id || f.filmKey === id)) {
+    if (!wouldLove.some((f) => sameCard(f))) {
       if (wouldLove.length >= WOULD_LOVE_MAX) {
         return { mustInclude, wouldLove, notInterested, rejected: 'cap' };
       }
@@ -270,7 +299,7 @@ export function applyFilmBucketSelection(form, bucket, filmCard) {
   } else if (bucket === 'notInterested') {
     mustInclude = drop(mustInclude);
     wouldLove = drop(wouldLove);
-    if (!notInterested.some((f) => f.id === id || f.filmKey === id)) {
+    if (!notInterested.some((f) => sameCard(f))) {
       notInterested = [...notInterested, card];
     }
   }
@@ -322,10 +351,9 @@ export function listPlannerCatalogFilterOptions(candidates) {
  */
 export function annotatePlannerFilmCandidates(candidates, storage = null) {
   return candidates.map((film) => {
-    const id = film.filmKey ?? film.id;
-    const ref = {
-      filmKey: id,
-      showtimeFilmKey: id,
+    const ref = filmRefFromHomeFilm(film) ?? {
+      filmKey: film.filmKey ?? film.id,
+      showtimeFilmKey: film.filmKey ?? film.id,
       filmId: film.filmId,
     };
     return {

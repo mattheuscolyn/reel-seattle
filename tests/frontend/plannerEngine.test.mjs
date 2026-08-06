@@ -388,11 +388,18 @@ test('generalizes 2-film schedule with default max gap', () => {
   assert.deepEqual(result.schedules[0].films, ['Alpha', 'Beta']);
 });
 
-test('filmMatchesToken accepts key or title', () => {
-  const identity = { key: 'toy-story', title: 'Toy Story' };
+test('filmMatchesToken accepts filmId, key, or title', () => {
+  const identity = {
+    key: 'toy-story',
+    title: 'Toy Story',
+    filmId: 'tmdb:862',
+    parentKey: null,
+  };
+  assert.equal(filmMatchesToken('tmdb:862', identity), true);
   assert.equal(filmMatchesToken('toy-story', identity), true);
   assert.equal(filmMatchesToken('Toy Story', identity), true);
   assert.equal(filmMatchesToken('Other', identity), false);
+  assert.equal(filmMatchesToken('tmdb:999', identity), false);
 });
 
 test('preferred films are soft — impossible prefs still yield valid schedules', () => {
