@@ -116,6 +116,24 @@ test('Theater Detail surface is designed page, not placeholder', () => {
   assert.ok(CSS.includes('.v2-td-page'));
 });
 
+test('live Theater Detail maps filmGroups to sibling cards (no nested all-films card)', () => {
+  assert.match(SURFACE_SRC, /hasFilmGroups/);
+  assert.match(SURFACE_SRC, /data-td-film-group/);
+  assert.match(SURFACE_SRC, /visibleFilmGroups\.map/);
+  // Live groups render before the mockup featuredFilm path.
+  const groupsIdx = SURFACE_SRC.indexOf('hasFilmGroups');
+  const featuredIdx = SURFACE_SRC.indexOf(
+    'presentation.todaysShowtimes.featuredFilm ?',
+  );
+  assert.ok(groupsIdx > 0);
+  assert.ok(featuredIdx > groupsIdx);
+  // Mockup path still nests auditorium screens inside one featured article.
+  assert.match(
+    SURFACE_SRC,
+    /featuredFilm \?[\s\S]*visibleScreens\.map[\s\S]*<\/article>/,
+  );
+});
+
 test('Theaters list wires More details for Beacon only', () => {
   assert.match(THEATERS_SRC, /THEATER_DETAIL_DEFAULT_THEATER_ID/);
   assert.match(THEATERS_SRC, /onOpenTheaterDetail/);

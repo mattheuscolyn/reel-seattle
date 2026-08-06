@@ -13,6 +13,31 @@ import {
   formatLocalDateLabel,
   formatUserFacingFormatLabel,
 } from '../topOpportunities/topOpportunityFormat.js';
+import { resolveFilmDetailNavParams } from '../identity/filmIdentity.js';
+import {
+  asCanonicalStoreFilmId,
+  normalizeShowtimeFilmKey,
+} from '../stores/savedFilmsStore.js';
+
+/**
+ * @param {unknown} raw
+ * @returns {string | null}
+ */
+function formatShowtimeVariantLabel(raw) {
+  const known = formatUserFacingFormatLabel(raw);
+  if (known) return known;
+  if (typeof raw !== 'string') return null;
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+  if (/^[a-z0-9]+(?:[_-][a-z0-9]+)+$/i.test(trimmed)) {
+    return trimmed
+      .split(/[_-]+/)
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+      .join(' ');
+  }
+  return null;
+}
 
 /**
  * @param {object | null | undefined} homeData
@@ -70,6 +95,7 @@ export function composeTheaterDetailPresentation(homeData, theaterId) {
         filtersLabel: 'Filters',
         screenTabs: [],
         featuredFilm: null,
+        filmGroups: [],
         screens: [],
       },
       sectionsVisible: {
@@ -151,7 +177,9 @@ export function composeTheaterDetailPresentation(homeData, theaterId) {
     sectionsVisible: {
       ...card.sectionsVisible,
       nowShowing: true,
-      todaysShowtimes: todaysShowtimes.screens.length > 0,
+      todaysShowtimes:
+        (todaysShowtimes.filmGroups?.length ?? 0) > 0 ||
+        todaysShowtimes.screens.length > 0,
       pricingHours: false,
       descriptionExpand:
         Boolean(card.description) && (card.description?.length ?? 0) > 180,
@@ -170,6 +198,9 @@ export function composeTheaterDetailPresentation(homeData, theaterId) {
 
 /**
  * Flat “today” showtimes for the venue (no auditorium model — G28 deferred).
+ * Emits one `filmGroups` card per canonical identity; `featuredFilm` stays null
+ * so live rendering does not nest every film inside the first mockup card.
+ *
  * @param {object | null | undefined} homeData
  * @param {string} theaterId
  */
@@ -180,6 +211,7 @@ function buildTodaysShowtimes(homeData, theaterId) {
     filtersLabel: 'Filters',
     screenTabs: [{ id: 'all', label: 'All Screens' }],
     featuredFilm: null,
+    filmGroups: [],
     screens: [],
   };
 
@@ -212,38 +244,136 @@ function buildTodaysShowtimes(homeData, theaterId) {
     ]),
   );
 
-  /** @type {Map<string, { id: string, label: string, times: object[] }>} */
-  const byFilm = new Map();
+  /**
+   * @type {Map<string, {
+   *   id: string,
+   *   filmKey: string,
+   *   filmId: string | null,
+   *   title: string,
+   *   posterUrl: string | null,
+   *   formatLabel: string | null,
+   *   metaLabel: string | null,
+   *   opportunityKey: string | null,
+   *   sortKey: string,
+   *   times: object[],
+   * }>}
+   */
+  const byGroup = new Map();
+
   for (const opp of todayOpps) {
-    const filmKey = opp.filmKey;
-    if (!filmKey) continue;
-    let bucket = byFilm.get(filmKey);
-    if (!bucket) {
-      const film = filmsByKey.get(filmKey);
-      bucket = {
-        id: `film-${filmKey}`,
-        label: film?.title ?? opp.title ?? filmKey,
-        times: [],
-      };
-      byFilm.set(filmKey, bucket);
+    const showtimeKey = normalizeShowtimeFilmKey(opp.filmKey);
+    if (!showtimeKey) continue;
+    const film = filmsByKey.get(showtimeKey) ?? null;
+    const filmId =
+      asCanonicalStoreFilmId(film?.filmId) ??
+      asCanonicalStoreFilmId(opp.filmId);
+    const parentKey =
+      normalizeShowtimeFilmKey(film?.parentFilmKey) ??
+      normalizeShowtimeFilmKey(opp.parentFilmKey);
+    // Self-parent rows (parentFilmKey === filmKey) are parents, not variants.
+    const effectiveParent =
+      parentKey && parentKey !== showtimeKey ? parentKey : null;
+
+    /** @type {string} */
+    let groupKey;
+    if (filmId) {
+      groupKey = `id:${filmId}`;
+    } else if (effectiveParent) {
+      groupKey = `parent:${effectiveParent}`;
+    } else {
+      groupKey = `key:${showtimeKey}`;
     }
+
     const timeLabel =
       typeof opp.localTime === 'string' && opp.localTime
         ? opp.localTime
         : formatLocalDateLabel(opp.localDate) ?? 'Showtime';
-    bucket.times.push({
-      id: opp.opportunityKey ?? `${filmKey}-${timeLabel}`,
+    const formatLabel =
+      (Array.isArray(opp.formatLabels) ? opp.formatLabels : [])
+        .map(formatUserFacingFormatLabel)
+        .find(Boolean) ?? null;
+    const variantLabel =
+      formatShowtimeVariantLabel(opp.screeningVariantType) ??
+      formatShowtimeVariantLabel(film?.screeningVariantType) ??
+      null;
+    const timeRow = {
+      id: opp.opportunityKey ?? `${showtimeKey}-${timeLabel}`,
       label: timeLabel,
-      formatLabel:
-        (Array.isArray(opp.formatLabels) ? opp.formatLabels : [])
-          .map(formatUserFacingFormatLabel)
-          .find(Boolean) ?? null,
-    });
+      formatLabel: formatLabel ?? variantLabel,
+      opportunityKey: opp.opportunityKey ?? null,
+    };
+
+    let bucket = byGroup.get(groupKey);
+    if (!bucket) {
+      const parentFilm = effectiveParent
+        ? filmsByKey.get(effectiveParent) ?? null
+        : null;
+      const parentById =
+        filmId &&
+        (Array.isArray(homeData.films) ? homeData.films : []).find(
+          (row) =>
+            asCanonicalStoreFilmId(row?.filmId) === filmId &&
+            (!normalizeShowtimeFilmKey(row?.parentFilmKey) ||
+              normalizeShowtimeFilmKey(row?.parentFilmKey) ===
+                normalizeShowtimeFilmKey(row?.filmKey)),
+        );
+      const headerFilm = parentFilm ?? parentById ?? film;
+      const nav = resolveFilmDetailNavParams(
+        {
+          filmKey: showtimeKey,
+          filmId,
+          parentFilmKey: effectiveParent,
+          opportunityKey: opp.opportunityKey ?? null,
+        },
+        homeData,
+      );
+      const navFilmKey = nav?.filmKey ?? effectiveParent ?? showtimeKey;
+      bucket = {
+        id: groupKey,
+        filmKey: navFilmKey,
+        filmId,
+        title:
+          headerFilm?.title ??
+          parentFilm?.title ??
+          opp.title ??
+          showtimeKey,
+        posterUrl: headerFilm?.posterUrl ?? film?.posterUrl ?? null,
+        formatLabel,
+        metaLabel: null,
+        opportunityKey: opp.opportunityKey ?? null,
+        sortKey:
+          String(opp.sortableLocalDateTime ?? '') ||
+          `${firstDate ?? ''}${timeLabel}`,
+        times: [],
+      };
+      byGroup.set(groupKey, bucket);
+    } else {
+      if (!bucket.formatLabel && (formatLabel || variantLabel)) {
+        bucket.formatLabel = formatLabel ?? variantLabel;
+      }
+      if (!bucket.opportunityKey && opp.opportunityKey) {
+        bucket.opportunityKey = opp.opportunityKey;
+      }
+      if (!bucket.posterUrl && (film?.posterUrl || filmsByKey.get(effectiveParent)?.posterUrl)) {
+        bucket.posterUrl =
+          filmsByKey.get(effectiveParent)?.posterUrl ?? film?.posterUrl ?? null;
+      }
+    }
+
+    bucket.times.push(timeRow);
   }
 
-  const screens = [...byFilm.values()];
-  const firstOpp = todayOpps[0];
-  const firstFilm = firstOpp ? filmsByKey.get(firstOpp.filmKey) : null;
+  const filmGroups = [...byGroup.values()].sort((a, b) =>
+    a.sortKey < b.sortKey ? -1 : a.sortKey > b.sortKey ? 1 : 0,
+  );
+
+  // Compatibility: keep `screens` as per-group time blocks (no nested featured card).
+  const screens = filmGroups.map((group) => ({
+    id: group.id,
+    label: group.title,
+    seatingNote: null,
+    times: group.times,
+  }));
 
   return {
     title: firstDate
@@ -252,22 +382,8 @@ function buildTodaysShowtimes(homeData, theaterId) {
     viewWeekLabel: 'View 7 days',
     filtersLabel: 'Filters',
     screenTabs: [{ id: 'all', label: 'All films' }],
-    featuredFilm: firstFilm
-      ? {
-          filmKey: firstFilm.filmKey,
-          title: firstFilm.title,
-          metaLabel: null,
-          formatLabel:
-            (Array.isArray(firstOpp.formatLabels)
-              ? firstOpp.formatLabels
-              : []
-            )
-              .map(formatUserFacingFormatLabel)
-              .find(Boolean) ?? null,
-          posterUrl: firstFilm.posterUrl ?? null,
-          seatingNote: null,
-        }
-      : null,
+    featuredFilm: null,
+    filmGroups: filmGroups.map(({ sortKey: _s, ...group }) => group),
     screens,
   };
 }

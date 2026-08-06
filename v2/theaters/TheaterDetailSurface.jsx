@@ -121,8 +121,13 @@ export default function TheaterDetailSurface({
     if (result.ok) setFavoriteRevision((v) => v + 1);
   };
 
+  const filmGroups = presentation.todaysShowtimes?.filmGroups ?? [];
+  const hasFilmGroups = filmGroups.length > 0;
   const visibleScreens = (presentation.todaysShowtimes?.screens ?? []).filter(
     (screen) => screenTabId === 'all' || screen.id === screenTabId,
+  );
+  const visibleFilmGroups = filmGroups.filter(
+    (group) => screenTabId === 'all' || group.id === screenTabId,
   );
 
   const resolvedBackLabel = backLabel ?? presentation.backLabel;
@@ -136,7 +141,9 @@ export default function TheaterDetailSurface({
     stats: (presentation.stats?.length ?? 0) > 0,
     pricingHours: (presentation.pricing?.rows?.length ?? 0) > 0,
     nowShowing: (presentation.nowShowing?.films?.length ?? 0) > 0,
-    todaysShowtimes: (presentation.todaysShowtimes?.screens?.length ?? 0) > 0,
+    todaysShowtimes:
+      (presentation.todaysShowtimes?.filmGroups?.length ?? 0) > 0 ||
+      (presentation.todaysShowtimes?.screens?.length ?? 0) > 0,
     descriptionExpand:
       Boolean(presentation.descriptionFull) &&
       presentation.descriptionFull !== presentation.descriptionPreview,
@@ -535,7 +542,96 @@ export default function TheaterDetailSurface({
           </button>
         </div>
 
-        {presentation.todaysShowtimes.featuredFilm ? (
+        {hasFilmGroups ? (
+          visibleFilmGroups.map((group) => (
+            <article
+              key={group.id}
+              className="v2-td-featured-film"
+              data-td-film-group={group.id}
+            >
+              <button
+                type="button"
+                className="v2-td-featured-main"
+                onClick={() =>
+                  onOpenFilmDetail?.({
+                    filmKey: group.filmKey,
+                    opportunityKey: group.opportunityKey ?? null,
+                  })
+                }
+              >
+                {group.posterUrl ? (
+                  <img
+                    className="v2-td-featured-poster"
+                    src={group.posterUrl}
+                    alt=""
+                  />
+                ) : (
+                  <span
+                    className="v2-td-featured-poster v2-shelf-poster-fallback"
+                    aria-hidden="true"
+                  />
+                )}
+                <span className="v2-td-featured-copy">
+                  <span className="v2-td-featured-title">
+                    {group.title}
+                    <IconChevron aria-hidden="true" />
+                  </span>
+                  {group.metaLabel ? (
+                    <span className="v2-td-featured-meta">{group.metaLabel}</span>
+                  ) : null}
+                  {group.formatLabel ? (
+                    <span className="v2-td-format-chip">{group.formatLabel}</span>
+                  ) : null}
+                </span>
+              </button>
+
+              <div
+                className="v2-td-time-row"
+                role="group"
+                aria-label={`${group.title} showtimes`}
+              >
+                {(() => {
+                  const showTimeFormats =
+                    new Set(
+                      group.times.map((row) => row.formatLabel).filter(Boolean),
+                    ).size > 1;
+                  return group.times.map((time) => (
+                    <button
+                      key={time.id}
+                      type="button"
+                      className={
+                        selectedTimeId === time.id
+                          ? 'v2-td-time-btn v2-td-time-btn-active'
+                          : 'v2-td-time-btn'
+                      }
+                      aria-pressed={selectedTimeId === time.id}
+                      aria-label={
+                        time.formatLabel
+                          ? `${time.label}, ${time.formatLabel}`
+                          : time.label
+                      }
+                      onClick={() => {
+                        setSelectedTimeId(time.id);
+                        announce(
+                          'showtime',
+                          time.label,
+                          presentation.deferredMessages?.showtime,
+                        );
+                      }}
+                    >
+                      {time.label}
+                      {showTimeFormats && time.formatLabel ? (
+                        <span className="v2-td-time-format">
+                          {time.formatLabel}
+                        </span>
+                      ) : null}
+                    </button>
+                  ));
+                })()}
+              </div>
+            </article>
+          ))
+        ) : presentation.todaysShowtimes.featuredFilm ? (
         <article className="v2-td-featured-film">
           <button
             type="button"
