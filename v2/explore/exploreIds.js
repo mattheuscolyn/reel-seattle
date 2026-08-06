@@ -1,6 +1,7 @@
 /**
  * Explore collection / directory identifiers.
  * Movies & Theaters are Explore concepts — never primary tabs.
+ * Saved collection added for user's bookmarked films.
  */
 
 export const COLLECTION_IDS = Object.freeze({
@@ -20,6 +21,7 @@ export const COLLECTION_IDS = Object.freeze({
   specialEvents: 'special-events',
   suggestedStarts: 'suggested-starts',
   filmActivity: 'film-activity',
+  saved: 'saved',
   seen: 'seen',
   /** Internal id; user-facing label is “Not interested”. */
   hidden: 'hidden',
@@ -45,6 +47,7 @@ export const COLLECTION_TITLES = Object.freeze({
   [COLLECTION_IDS.specialEvents]: 'Special Events',
   [COLLECTION_IDS.suggestedStarts]: 'Suggested Starts',
   [COLLECTION_IDS.filmActivity]: 'Film Activity',
+  [COLLECTION_IDS.saved]: 'Saved',
   [COLLECTION_IDS.seen]: 'Seen',
   [COLLECTION_IDS.hidden]: 'Not interested',
 });

@@ -15,6 +15,10 @@ import {
   saveSeenFilmKeys,
   unmarkFilmSeen,
 } from '../explore/seenFilmsStore.js';
+import {
+  getSavedFilms,
+  unsaveFilm,
+} from '../stores/savedFilmsStore.js';
 
 function getStorage() {
   try {
@@ -40,6 +44,11 @@ export default function CollectionSurface({
     loadDismissedFilmKeys(storage),
   );
   const [seenKeys, setSeenKeys] = useState(() => loadSeenFilmKeys(storage));
+  const [savedItems, setSavedItems] = useState(() => getSavedFilms(storage));
+  const savedKeys = useMemo(
+    () => savedItems.map((item) => item.filmRef.showtimeFilmKey),
+    [savedItems],
+  );
 
   const title = COLLECTION_TITLES[collectionId] ?? 'Explore';
 
@@ -62,6 +71,7 @@ export default function CollectionSurface({
         query,
         dismissedKeys,
         seenKeys,
+        savedKeys,
       }) ?? {
         status: 'unavailable',
         kind: 'empty',
@@ -71,7 +81,7 @@ export default function CollectionSurface({
         formats: [],
       }
     );
-  }, [collectionId, homeData, query, dismissedKeys, seenKeys]);
+  }, [collectionId, homeData, query, dismissedKeys, seenKeys, savedKeys]);
 
   const suggested = useMemo(() => buildSuggestedStarts(), []);
 
@@ -233,6 +243,18 @@ export default function CollectionSurface({
                       const next = unmarkFilmSeen(film.filmKey, seenKeys);
                       setSeenKeys(next);
                       saveSeenFilmKeys(storage, next);
+                    }}
+                  >
+                    remove
+                  </button>
+                ) : null}
+                {collectionId === COLLECTION_IDS.saved ? (
+                  <button
+                    type="button"
+                    className="v2-hidden-undo"
+                    onClick={() => {
+                      unsaveFilm(storage, film.filmKey);
+                      setSavedItems(getSavedFilms(storage));
                     }}
                   >
                     remove

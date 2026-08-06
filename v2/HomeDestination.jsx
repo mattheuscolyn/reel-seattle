@@ -115,6 +115,13 @@ export default function HomeDestination({
       });
       return;
     }
+    if (rowId === 'saved') {
+      onOpenCollection?.({
+        collectionId: COLLECTION_IDS.saved,
+        originPrimary: 'home',
+      });
+      return;
+    }
     if (rowId === 'seen') {
       onOpenCollection?.({
         collectionId: COLLECTION_IDS.seen,
@@ -122,7 +129,7 @@ export default function HomeDestination({
       });
       return;
     }
-    // Saved / Search → Explore landing until dedicated Saved surface ships.
+    // Search → Explore landing until dedicated Search surface ships.
     onSelectDestination?.('explore');
   };
 

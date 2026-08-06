@@ -348,7 +348,7 @@ function toFilmRow(homeData, film) {
  * Build collection content for an Explore collection id.
  * @param {object | null} homeData
  * @param {string} collectionId
- * @param {{ query?: string, dismissedKeys?: string[], seenKeys?: string[] }} [options]
+ * @param {{ query?: string, dismissedKeys?: string[], seenKeys?: string[], savedKeys?: string[] }} [options]
  */
 export function buildExploreCollection(homeData, collectionId, options = {}) {
   const today = pacificDateString();
@@ -534,6 +534,20 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
         seenKeys: options.seenKeys ?? [],
         dismissedKeys: options.dismissedKeys ?? [],
       };
+    case 'saved': {
+      const films = filmsForKeys(homeData, options.savedKeys ?? []);
+      return {
+        status: 'ready',
+        kind: 'saved',
+        reason:
+          films.length === 0
+            ? 'No films saved yet on this device.'
+            : 'Device-local Saved list. Missing catalog titles are omitted.',
+        films,
+        theaters: [],
+        formats: [],
+      };
+    }
     case 'seen': {
       const films = filmsForKeys(homeData, options.seenKeys ?? []);
       return {
