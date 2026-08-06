@@ -290,3 +290,280 @@ test('surfaces keep Theaters out of bottom nav and reject deprecated CTAs', () =
   assert.equal(destinationsSrc.includes("'theaters'"), false);
   assert.equal(destinationsSrc.includes('"theaters"'), false);
 });
+
+function amcMultiFilmHome() {
+  return {
+    theatersById: {
+      'amc-pacific-place-11': {
+        id: 'amc-pacific-place-11',
+        name: 'AMC Pacific Place 11',
+        city: 'Seattle',
+        enabled: true,
+        opportunityCount: 8,
+      },
+    },
+    films: [
+      {
+        filmKey: 'the-odyssey',
+        filmId: 'tmdb:1001',
+        title: 'The Odyssey',
+        posterUrl: 'https://example.com/odyssey.jpg',
+        parentFilmKey: null,
+      },
+      {
+        filmKey: 'spider-man-brand-new-day',
+        filmId: 'tmdb:1002',
+        title: 'Spider-Man: Brand New Day',
+        posterUrl: 'https://example.com/spiderman.jpg',
+        parentFilmKey: null,
+      },
+      {
+        filmKey: 'the-invite',
+        filmId: 'tmdb:1003',
+        title: 'The Invite',
+        posterUrl: 'https://example.com/invite.jpg',
+        parentFilmKey: null,
+      },
+      {
+        filmKey: 'the-odyssey-imax',
+        filmId: 'tmdb:1001',
+        title: 'The Odyssey',
+        posterUrl: 'https://example.com/odyssey.jpg',
+        parentFilmKey: 'the-odyssey',
+        screeningVariantType: 'imax',
+      },
+      {
+        filmKey: 'batman-2022',
+        filmId: 'tmdb:414906',
+        title: 'The Batman',
+        posterUrl: 'https://example.com/batman-2022.jpg',
+        parentFilmKey: null,
+      },
+      {
+        filmKey: 'batman-1989',
+        filmId: 'tmdb:268',
+        title: 'The Batman',
+        posterUrl: 'https://example.com/batman-1989.jpg',
+        parentFilmKey: null,
+      },
+      {
+        filmKey: 'local-shorts-night',
+        filmId: null,
+        title: 'Local Shorts Night',
+        posterUrl: null,
+        parentFilmKey: null,
+      },
+    ],
+    opportunities: [
+      {
+        opportunityKey: 'o-ody-1',
+        filmKey: 'the-odyssey',
+        filmId: 'tmdb:1001',
+        title: 'The Odyssey',
+        theaterId: 'amc-pacific-place-11',
+        localDate: '2026-08-10',
+        localTime: '1:00PM',
+        sortableLocalDateTime: '2026-08-10T13:00',
+        formatLabels: ['Digital'],
+      },
+      {
+        opportunityKey: 'o-ody-imax',
+        filmKey: 'the-odyssey-imax',
+        filmId: 'tmdb:1001',
+        title: 'The Odyssey',
+        theaterId: 'amc-pacific-place-11',
+        localDate: '2026-08-10',
+        localTime: '4:00PM',
+        sortableLocalDateTime: '2026-08-10T16:00',
+        formatLabels: ['IMAX'],
+        screeningVariantType: 'imax',
+        parentFilmKey: 'the-odyssey',
+      },
+      {
+        opportunityKey: 'o-spy-1',
+        filmKey: 'spider-man-brand-new-day',
+        filmId: 'tmdb:1002',
+        title: 'Spider-Man: Brand New Day',
+        theaterId: 'amc-pacific-place-11',
+        localDate: '2026-08-10',
+        localTime: '2:15PM',
+        sortableLocalDateTime: '2026-08-10T14:15',
+        formatLabels: ['Digital'],
+      },
+      {
+        opportunityKey: 'o-inv-1',
+        filmKey: 'the-invite',
+        filmId: 'tmdb:1003',
+        title: 'The Invite',
+        theaterId: 'amc-pacific-place-11',
+        localDate: '2026-08-10',
+        localTime: '7:30PM',
+        sortableLocalDateTime: '2026-08-10T19:30',
+        formatLabels: ['Digital'],
+      },
+      {
+        opportunityKey: 'o-bat-22',
+        filmKey: 'batman-2022',
+        filmId: 'tmdb:414906',
+        title: 'The Batman',
+        theaterId: 'amc-pacific-place-11',
+        localDate: '2026-08-10',
+        localTime: '8:00PM',
+        sortableLocalDateTime: '2026-08-10T20:00',
+        formatLabels: [],
+      },
+      {
+        opportunityKey: 'o-bat-89',
+        filmKey: 'batman-1989',
+        filmId: 'tmdb:268',
+        title: 'The Batman',
+        theaterId: 'amc-pacific-place-11',
+        localDate: '2026-08-10',
+        localTime: '9:00PM',
+        sortableLocalDateTime: '2026-08-10T21:00',
+        formatLabels: [],
+      },
+      {
+        opportunityKey: 'o-shorts',
+        filmKey: 'local-shorts-night',
+        filmId: null,
+        title: 'Local Shorts Night',
+        theaterId: 'amc-pacific-place-11',
+        localDate: '2026-08-10',
+        localTime: '10:00PM',
+        sortableLocalDateTime: '2026-08-10T22:00',
+        formatLabels: [],
+      },
+      {
+        opportunityKey: 'o-other-day',
+        filmKey: 'the-invite',
+        filmId: 'tmdb:1003',
+        title: 'The Invite',
+        theaterId: 'amc-pacific-place-11',
+        localDate: '2026-08-11',
+        localTime: '1:00PM',
+        sortableLocalDateTime: '2026-08-11T13:00',
+        formatLabels: ['Digital'],
+      },
+    ],
+  };
+}
+
+test('Theater Detail showtimes emit one filmGroup card per canonical identity', () => {
+  const detail = composeTheaterDetailPresentation(
+    amcMultiFilmHome(),
+    'amc-pacific-place-11',
+  );
+  const groups = detail.todaysShowtimes.filmGroups;
+  assert.equal(detail.todaysShowtimes.featuredFilm, null);
+  assert.equal(groups.length, 6);
+
+  const titles = groups.map((g) => g.title);
+  assert.deepEqual(titles, [
+    'The Odyssey',
+    'Spider-Man: Brand New Day',
+    'The Invite',
+    'The Batman',
+    'The Batman',
+    'Local Shorts Night',
+  ]);
+
+  const odyssey = groups[0];
+  assert.equal(odyssey.filmId, 'tmdb:1001');
+  assert.equal(odyssey.filmKey, 'the-odyssey');
+  assert.equal(odyssey.posterUrl, 'https://example.com/odyssey.jpg');
+  assert.equal(odyssey.times.length, 2);
+  assert.deepEqual(
+    odyssey.times.map((t) => t.label),
+    ['1:00PM', '4:00PM'],
+  );
+  assert.ok(odyssey.times.some((t) => t.formatLabel === 'IMAX'));
+
+  const spider = groups[1];
+  assert.equal(spider.filmId, 'tmdb:1002');
+  assert.equal(spider.times.length, 1);
+  assert.equal(spider.times[0].label, '2:15PM');
+  assert.equal(spider.posterUrl, 'https://example.com/spiderman.jpg');
+
+  const invite = groups[2];
+  assert.equal(invite.filmId, 'tmdb:1003');
+  assert.equal(invite.times.length, 1);
+  assert.equal(invite.times[0].label, '7:30PM');
+
+  // Same title, different TMDB IDs stay separate.
+  assert.equal(groups[3].filmId, 'tmdb:414906');
+  assert.equal(groups[3].filmKey, 'batman-2022');
+  assert.equal(groups[4].filmId, 'tmdb:268');
+  assert.equal(groups[4].filmKey, 'batman-1989');
+
+  // Source-based null filmId keeps its showtime key.
+  assert.equal(groups[5].filmId, null);
+  assert.equal(groups[5].filmKey, 'local-shorts-night');
+  assert.equal(groups[5].id, 'key:local-shorts-night');
+
+  // Later dates are excluded from the first-day section.
+  assert.equal(
+    groups.every((g) => g.times.every((t) => t.id !== 'o-other-day')),
+    true,
+  );
+});
+
+test('Theater Detail with a single film still renders one group', () => {
+  const home = {
+    theatersById: {
+      'thin-venue': {
+        id: 'thin-venue',
+        name: 'Thin Venue',
+        city: 'Seattle',
+        enabled: true,
+        opportunityCount: 1,
+      },
+    },
+    films: [
+      {
+        filmKey: 'only-film',
+        filmId: 'tmdb:9',
+        title: 'Only Film',
+        posterUrl: 'https://example.com/only.jpg',
+      },
+    ],
+    opportunities: [
+      {
+        opportunityKey: 'only-1',
+        filmKey: 'only-film',
+        filmId: 'tmdb:9',
+        title: 'Only Film',
+        theaterId: 'thin-venue',
+        localDate: '2026-08-10',
+        localTime: '6:00PM',
+        sortableLocalDateTime: '2026-08-10T18:00',
+        formatLabels: [],
+      },
+    ],
+  };
+  const detail = composeTheaterDetailPresentation(home, 'thin-venue');
+  assert.equal(detail.todaysShowtimes.filmGroups.length, 1);
+  assert.equal(detail.todaysShowtimes.filmGroups[0].title, 'Only Film');
+  assert.equal(detail.todaysShowtimes.filmGroups[0].times.length, 1);
+  assert.equal(detail.sectionsVisible.todaysShowtimes, true);
+});
+
+test('Theater Detail empty-date venue hides showtimes section', () => {
+  const home = {
+    theatersById: {
+      'empty-venue': {
+        id: 'empty-venue',
+        name: 'Empty Venue',
+        city: 'Seattle',
+        enabled: true,
+        opportunityCount: 0,
+      },
+    },
+    films: [],
+    opportunities: [],
+  };
+  const detail = composeTheaterDetailPresentation(home, 'empty-venue');
+  assert.equal(detail.todaysShowtimes.filmGroups.length, 0);
+  assert.equal(detail.todaysShowtimes.screens.length, 0);
+  assert.equal(detail.sectionsVisible.todaysShowtimes, false);
+});
