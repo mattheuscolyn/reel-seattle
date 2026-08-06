@@ -12,16 +12,31 @@ export const MAX_RELIABLE_ADDITIONAL_SHOWTIMES = 12;
 
 /** Known user-facing format labels. Raw source slugs are omitted. */
 const FORMAT_DISPLAY = Object.freeze({
+  // Premium formats
   imax: 'IMAX',
   'imax-at-amc': 'IMAX',
+  'imax-3d': 'IMAX 3D',
   'dolby cinema': 'Dolby Cinema',
   'dolby-cinema': 'Dolby Cinema',
   'dolby atmos': 'Dolby Atmos',
   'dolby-atmos': 'Dolby Atmos',
   '3d': '3D',
+  'reald-3d': 'RealD 3D',
   '4dx': '4DX',
   screenx: 'ScreenX',
+  'screen-x': 'ScreenX',
+  rpx: 'RPX',
   rpxt: 'RPX',
+  prime: 'Prime',
+  '70mm': '70mm',
+  'laser-at-amc': 'Laser at AMC',
+  xl: 'XL',
+  // Accessibility features
+  'open-caption': 'Open Captions',
+  'closed-caption': 'Closed Captions',
+  'audio-description': 'Audio Description',
+  oc: 'OC',
+  cc: 'CC',
 });
 
 /**

@@ -34,6 +34,8 @@ _KNOWN_FORMATS: dict[str, str] = {
     "cc": "closed-caption",
     "open caption": "open-caption",
     "oc": "open-caption",
+    "audio description": "audio-description",
+    "descriptive video": "audio-description",
 }
 
 

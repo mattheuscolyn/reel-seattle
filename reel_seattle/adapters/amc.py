@@ -116,6 +116,30 @@ def api_showtime_to_raw(showtime: Mapping[str, Any], theater_name: str) -> RawSh
     dt = datetime.fromisoformat(str(showtime["showDateTimeLocal"]))
     premium = showtime.get("premiumFormat")
     metadata = extract_showtime_metadata(showtime)
+    
+    # Extract accessibility attributes from AMC attributes array
+    accessibility_tags = []
+    attributes_list = showtime.get("attributes", [])
+    if isinstance(attributes_list, list):
+        for attr in attributes_list:
+            if isinstance(attr, dict):
+                code = attr.get("code", "").upper()
+                if code == "OPENCAPTION":
+                    accessibility_tags.append("OC")
+                elif code == "CLOSEDCAPTION":
+                    accessibility_tags.append("CC")
+                elif code == "DESCRIPTIVEVIDEO":
+                    accessibility_tags.append("Audio Description")
+    
+    # Combine premium format with accessibility tags
+    format_parts = []
+    premium_formatted = format_premium_format(premium)
+    if premium_formatted:
+        format_parts.append(premium_formatted)
+    if accessibility_tags:
+        format_parts.extend(accessibility_tags)
+    combined_format = ", ".join(format_parts) if format_parts else None
+    
     return RawShowtime(
         theater_name_raw=theater_name,
         date_raw=dt.strftime("%m/%d/%Y"),
@@ -129,7 +153,7 @@ def api_showtime_to_raw(showtime: Mapping[str, Any], theater_name: str) -> RawSh
             if showtime.get("isAlmostSoldOut") is not None
             else None
         ),
-        format_raw=format_premium_format(premium) or None,
+        format_raw=combined_format,
         source_showtime_id=str(showtime["id"]) if showtime.get("id") not in (None, "") else None,
         attributes={
             "has_trailers": showtime.get("hasTrailers"),
