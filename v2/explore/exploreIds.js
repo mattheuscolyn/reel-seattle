@@ -1,6 +1,7 @@
 /**
  * Explore collection / directory identifiers.
  * Movies & Theaters are Explore concepts — never primary tabs.
+ * Saved collection added for user's bookmarked films.
  */
 
 export const COLLECTION_IDS = Object.freeze({
