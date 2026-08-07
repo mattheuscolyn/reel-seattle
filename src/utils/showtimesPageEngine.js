@@ -75,6 +75,9 @@ export function groupShowtimesForDisplay(filteredRows) {
           isSpecialScreening: Boolean(row.is_special_screening),
         };
       }
+      if (!acc[key].poster && row.posterDynamic) {
+        acc[key].poster = row.posterDynamic;
+      }
       if (!acc[key].showtimes[row.Date]) acc[key].showtimes[row.Date] = {};
       if (!acc[key].showtimes[row.Date][row.Theater]) {
         acc[key].showtimes[row.Date][row.Theater] = [];
@@ -173,9 +176,21 @@ export function groupMoviesByParent(movies) {
     const parent = films[0];
     const variants = films.slice(1);
 
+    // Use poster from first film with a valid poster
+    let bestPoster = parent.poster;
+    if (!bestPoster) {
+      for (const variant of variants) {
+        if (variant.poster) {
+          bestPoster = variant.poster;
+          break;
+        }
+      }
+    }
+
     // Create parent entry with variants
     const parentEntry = {
       ...parent,
+      poster: bestPoster,
       variants: variants.length > 0 ? variants : undefined,
       hasVariants: variants.length > 0,
     };
