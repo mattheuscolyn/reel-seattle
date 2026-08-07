@@ -223,7 +223,7 @@ export function buildSearchFilmResult(
     enrichmentIndex,
     context: 'search',
   });
-  const runtime = formatRuntimeLabel(film.runtimeMin);
+  const runtime = formatRuntimeLabel(enriched.runtimeMin);
   const metaParts = [
     enriched.canonicalYear != null ? String(enriched.canonicalYear) : null,
     runtime,
@@ -256,12 +256,12 @@ export function buildSearchFilmResult(
     title: enriched.displayTitle ?? film.title,
     sourceTitle: film.sourceTitle ?? film.title ?? null,
     posterUrl: enriched.posterUrl,
-    runtimeMin: film.runtimeMin ?? null,
+    runtimeMin: enriched.runtimeMin,
     metaLine: metaParts.length ? metaParts.join(' · ') : null,
     year: enriched.canonicalYear,
     genre: enriched.genreLine,
     synopsis: enriched.synopsisPreview,
-    rating: null,
+    rating: enriched.usCertification,
     language: null,
     /** Carried for future slots; Search UI does not render directors yet. */
     director: enriched.directors,

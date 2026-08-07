@@ -17,6 +17,7 @@ import {
   parseLocalTimeMinutes,
   resolveShowtimesBrowseDateWindow,
 } from './showtimeEligibility.js';
+import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 
 export const SHOWTIMES_BROWSE_DATE_MODES = Object.freeze([
   Object.freeze({ id: 'today', label: 'Today' }),
@@ -206,11 +207,13 @@ function toShowtimeRow(opportunity, filmsByKey) {
  * @param {object[]} opportunities
  * @param {object | null | undefined} homeData
  * @param {'today' | 'tomorrow' | 'week'} dateMode
+ * @param {object | null | undefined} [enrichmentIndex]
  */
 export function groupBrowseOpportunitiesByFilm(
   opportunities,
   homeData,
   dateMode,
+  enrichmentIndex = null,
 ) {
   const filmsByKey = new Map(
     (Array.isArray(homeData?.films) ? homeData.films : []).map((f) => [
@@ -273,15 +276,18 @@ export function groupBrowseOpportunitiesByFilm(
       });
 
     const theaterIds = new Set(rows.map((r) => r.theaterId).filter(Boolean));
+    const enriched = enrichHomeFilm(film, enrichmentIndex, 'showtimes', homeData);
     films.push({
       filmKey,
-      filmId: film.filmId ?? null,
+      filmId: enriched.filmId ?? film.filmId ?? null,
       parentFilmKey: film.parentFilmKey ?? null,
-      title: film.title,
-      posterUrl: film.posterUrl ?? null,
-      runtimeMin: film.runtimeMin ?? null,
-      runtimeLabel: formatRuntimeLabel(film.runtimeMin),
-      ratingLabel: film.rating ?? film.mpaaRating ?? null,
+      title: enriched.displayTitle ?? film.title,
+      posterUrl: enriched.posterUrl,
+      runtimeMin: enriched.runtimeMin,
+      runtimeLabel: formatRuntimeLabel(enriched.runtimeMin),
+      ratingLabel: enriched.usCertification,
+      year: enriched.canonicalYear,
+      genreLine: enriched.genreLine,
       earliestSortable: rows[0]?.sortableKey ?? '',
       earliestTimeDisplay: rows[0]?.timeDisplay ?? '',
       showtimeCount: rows.length,
@@ -306,7 +312,7 @@ export function groupBrowseOpportunitiesByFilm(
  * Full browse page presentation.
  * @param {object | null | undefined} homeData
  * @param {ReturnType<typeof createDefaultShowtimesBrowseUi>} [ui]
- * @param {{ now?: Date | (() => Date) }} [options]
+ * @param {{ now?: Date | (() => Date), enrichmentIndex?: object | null }} [options]
  */
 export function buildShowtimesBrowsePresentation(
   homeData,
@@ -315,6 +321,7 @@ export function buildShowtimesBrowsePresentation(
 ) {
   const dateMode = ui?.dateMode ?? 'today';
   const now = options.now ?? new Date();
+  const enrichmentIndex = options.enrichmentIndex ?? null;
   const window = resolveShowtimesBrowseDateWindow(dateMode, now);
   const eligible = listEligibleBrowseOpportunities(homeData, dateMode, now);
   const theaterOptions = listBrowseTheaterFilterOptions(eligible);
@@ -326,7 +333,12 @@ export function buildShowtimesBrowsePresentation(
     timeRangeId: ui?.timeRangeId ?? 'any',
   };
   const filtered = filterBrowseOpportunities(eligible, filters);
-  const films = groupBrowseOpportunitiesByFilm(filtered, homeData, dateMode);
+  const films = groupBrowseOpportunitiesByFilm(
+    filtered,
+    homeData,
+    dateMode,
+    enrichmentIndex,
+  );
 
   const hasActiveFilters =
     (filters.theaterIds?.length ?? 0) > 0 ||

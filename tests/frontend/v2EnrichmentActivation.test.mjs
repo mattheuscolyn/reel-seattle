@@ -251,7 +251,7 @@ test('Search prefers canonical title and activates enrichment by filmId', () => 
   assert.match(row.metaLine, /2025/);
   assert.match(row.metaLine, /Action/);
   assert.match(row.synopsis, /Twin brothers/);
-  assert.equal(row.rating, null);
+  assert.equal(row.rating, 'G'); // TMDB US certification from enrichment
   assert.equal(row.director, 'Ryan Coogler'); // carried; Search UI does not render
   assert.match(row.posterUrl, /image\.tmdb\.org\/t\/p\/w500\/sinners\.jpg/); // TMDB first
   assert.equal(row.hasEnrichment, true);

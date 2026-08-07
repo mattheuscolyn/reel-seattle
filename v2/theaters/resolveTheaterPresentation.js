@@ -10,6 +10,7 @@ import {
   formatLocalDateLabel,
   formatUserFacingFormatLabel,
 } from '../topOpportunities/topOpportunityFormat.js';
+import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 import { addIsoDays, pacificDateString } from '../explore/exploreCatalog.js';
 import { resolveTheaterImagery } from './resolveTheaterImagery.js';
 
@@ -193,7 +194,7 @@ export function formatTheaterFormatsLabel(theater, homeData = null) {
  *
  * @param {object | null | undefined} homeData
  * @param {string | null | undefined} theaterId
- * @param {{ limit?: number, now?: Date, daySpan?: number }} [options]
+ * @param {{ limit?: number, now?: Date, daySpan?: number, enrichmentIndex?: object | null }} [options]
  * @returns {Array<{ filmKey: string, filmId: string | null, title: string, detailLabel: string | null, posterUrl: string | null, formatLabel: string | null, opportunityKey: string | null }>}
  */
 export function buildTheaterNowShowing(homeData, theaterId, options = {}) {
@@ -208,6 +209,7 @@ export function buildTheaterNowShowing(homeData, theaterId, options = {}) {
     typeof options.daySpan === 'number' && options.daySpan > 0
       ? options.daySpan
       : THEATER_NOW_SHOWING_DAY_SPAN;
+  const enrichmentIndex = options.enrichmentIndex ?? null;
   const today = pacificDateString(options.now ?? new Date());
   const windowEnd = addIsoDays(today, daySpan - 1);
 
@@ -250,18 +252,28 @@ export function buildTheaterNowShowing(homeData, theaterId, options = {}) {
         .map(formatUserFacingFormatLabel)
         .find(Boolean) ?? null;
 
+    const enriched = enrichHomeFilm(
+      film ?? {
+        filmKey,
+        filmId,
+        title: opp.title,
+        posterUrl: null,
+      },
+      enrichmentIndex,
+      'theater',
+      homeData,
+    );
+
     byIdentity.set(identityKey, {
       filmKey,
-      filmId,
+      filmId: enriched.filmId ?? filmId,
       title:
+        enriched.displayTitle ??
         asTheaterTrimmedString(film?.title) ??
         asTheaterTrimmedString(opp.title) ??
         filmKey,
       detailLabel: formatLocalDateLabel(localDate),
-      posterUrl:
-        asAbsoluteHttpUrl(film?.posterUrl) ??
-        asAbsoluteHttpUrl(film?.poster_url) ??
-        null,
+      posterUrl: enriched.posterUrl,
       formatLabel,
       opportunityKey: asTheaterTrimmedString(opp.opportunityKey),
       sortKey: sortKey || filmKey,

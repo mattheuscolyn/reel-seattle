@@ -58,6 +58,7 @@ function getBrowserStorage() {
  *   theaterId?: string,
  *   backLabel?: string,
  *   homeData?: object | null,
+ *   enrichmentIndex?: object | null,
  *   onBack: () => void,
  *   onOpenFilmDetail?: (payload: { filmKey: string, opportunityKey?: string | null }) => void,
  *   onStubAction?: (actionId: string, label: string) => void,
@@ -67,6 +68,7 @@ export default function TheaterDetailSurface({
   theaterId,
   backLabel,
   homeData = null,
+  enrichmentIndex = null,
   onBack,
   onOpenFilmDetail,
   onStubAction,
@@ -74,6 +76,7 @@ export default function TheaterDetailSurface({
   const { presentation } = resolveTheaterDetailPagePresentation({
     theaterId,
     homeData,
+    enrichmentIndex,
   });
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);

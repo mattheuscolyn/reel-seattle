@@ -171,6 +171,7 @@ export function resolveBuildPlanResultsPagePresentation(options = {}) {
     sortId: options.sortId ?? chrome.defaultSortId,
     now: options.now,
     storage: options.storage ?? null,
+    enrichmentIndex: options.enrichmentIndex ?? null,
   });
 
   return {

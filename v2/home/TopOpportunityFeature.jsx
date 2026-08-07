@@ -1,10 +1,11 @@
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import {
   canGoNext,
   canGoPrevious,
   clampSelectionIndex,
   selectTopOpportunities,
 } from '../adapters/selectTopOpportunities.js';
+import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 import { IconInfo, IconTicket } from '../icons.jsx';
 import OpportunityImageStage from '../topOpportunities/OpportunityImageStage.jsx';
 import {
@@ -21,6 +22,7 @@ import { formatRuntimeLabel } from './shelfData.js';
  * @param {{
  *   status: 'loading' | 'ready' | 'error',
  *   homeData: object | null,
+ *   enrichmentIndex?: object | null,
  *   errorMessage?: string | null,
  *   initialIndex?: number,
  *   onIndexChange?: (index: number) => void,
@@ -35,6 +37,7 @@ import { formatRuntimeLabel } from './shelfData.js';
 export default function TopOpportunityFeature({
   status,
   homeData,
+  enrichmentIndex = null,
   errorMessage = null,
   initialIndex = 0,
   onIndexChange,
@@ -51,7 +54,28 @@ export default function TopOpportunityFeature({
       : [];
   const length = selections.length;
   const safeIndex = clampSelectionIndex(index, length);
-  const active = selections[safeIndex] ?? null;
+  const rawActive = selections[safeIndex] ?? null;
+
+  const active = useMemo(() => {
+    if (!rawActive?.film) return rawActive;
+    if (Array.isArray(mockSelections)) return rawActive;
+    const enriched = enrichHomeFilm(
+      rawActive.film,
+      enrichmentIndex,
+      'home',
+      homeData,
+    );
+    return {
+      ...rawActive,
+      film: {
+        ...rawActive.film,
+        filmId: enriched.filmId ?? rawActive.film.filmId ?? null,
+        title: enriched.displayTitle ?? rawActive.film.title,
+        posterUrl: enriched.posterUrl ?? rawActive.film.posterUrl ?? null,
+        runtimeMin: enriched.runtimeMin ?? rawActive.film.runtimeMin ?? null,
+      },
+    };
+  }, [rawActive, enrichmentIndex, homeData, mockSelections]);
 
   useEffect(() => {
     setIndex((current) => clampSelectionIndex(current, length));

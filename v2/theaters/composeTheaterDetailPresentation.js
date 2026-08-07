@@ -18,6 +18,7 @@ import {
   asCanonicalStoreFilmId,
   normalizeShowtimeFilmKey,
 } from '../stores/savedFilmsStore.js';
+import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 
 /**
  * @param {unknown} raw
@@ -42,9 +43,14 @@ function formatShowtimeVariantLabel(raw) {
 /**
  * @param {object | null | undefined} homeData
  * @param {string | null | undefined} theaterId
+ * @param {object | null | undefined} [enrichmentIndex]
  * @returns {object}
  */
-export function composeTheaterDetailPresentation(homeData, theaterId) {
+export function composeTheaterDetailPresentation(
+  homeData,
+  theaterId,
+  enrichmentIndex = null,
+) {
   const id = typeof theaterId === 'string' ? theaterId.trim() : '';
   const theater =
     (id && homeData?.theatersById?.[id]) ||
@@ -125,12 +131,13 @@ export function composeTheaterDetailPresentation(homeData, theaterId) {
 
   const nowShowingFilms = buildTheaterNowShowing(homeData, id, {
     limit: THEATER_NOW_SHOWING_DETAIL_LIMIT,
+    enrichmentIndex,
   }).map((film) => ({
     ...film,
     badge: null,
   }));
 
-  const todaysShowtimes = buildTodaysShowtimes(homeData, id);
+  const todaysShowtimes = buildTodaysShowtimes(homeData, id, enrichmentIndex);
 
   return {
     source: 'home-data',
@@ -203,8 +210,9 @@ export function composeTheaterDetailPresentation(homeData, theaterId) {
  *
  * @param {object | null | undefined} homeData
  * @param {string} theaterId
+ * @param {object | null | undefined} [enrichmentIndex]
  */
-function buildTodaysShowtimes(homeData, theaterId) {
+function buildTodaysShowtimes(homeData, theaterId, enrichmentIndex = null) {
   const empty = {
     title: "Today's showtimes",
     viewWeekLabel: 'View 7 days',
@@ -328,18 +336,32 @@ function buildTodaysShowtimes(homeData, theaterId) {
         homeData,
       );
       const navFilmKey = nav?.filmKey ?? effectiveParent ?? showtimeKey;
+      const enriched = enrichHomeFilm(
+        headerFilm ?? {
+          filmKey: showtimeKey,
+          filmId,
+          parentFilmKey: effectiveParent,
+          title: opp.title,
+          posterUrl: film?.posterUrl ?? null,
+          runtimeMin: film?.runtimeMin ?? null,
+        },
+        enrichmentIndex,
+        'theater',
+        homeData,
+      );
+      const metaParts = [
+        enriched.canonicalYear != null ? String(enriched.canonicalYear) : null,
+        enriched.runtimeMin != null ? `${enriched.runtimeMin} min` : null,
+        enriched.usCertification,
+      ].filter(Boolean);
       bucket = {
         id: groupKey,
         filmKey: navFilmKey,
-        filmId,
-        title:
-          headerFilm?.title ??
-          parentFilm?.title ??
-          opp.title ??
-          showtimeKey,
-        posterUrl: headerFilm?.posterUrl ?? film?.posterUrl ?? null,
+        filmId: enriched.filmId ?? filmId,
+        title: enriched.displayTitle ?? headerFilm?.title ?? opp.title ?? showtimeKey,
+        posterUrl: enriched.posterUrl,
         formatLabel,
-        metaLabel: null,
+        metaLabel: metaParts.length ? metaParts.join(' · ') : null,
         opportunityKey: opp.opportunityKey ?? null,
         sortKey:
           String(opp.sortableLocalDateTime ?? '') ||
@@ -354,10 +376,7 @@ function buildTodaysShowtimes(homeData, theaterId) {
       if (!bucket.opportunityKey && opp.opportunityKey) {
         bucket.opportunityKey = opp.opportunityKey;
       }
-      if (!bucket.posterUrl && (film?.posterUrl || filmsByKey.get(effectiveParent)?.posterUrl)) {
-        bucket.posterUrl =
-          filmsByKey.get(effectiveParent)?.posterUrl ?? film?.posterUrl ?? null;
-      }
+      // Do not overwrite TMDB-resolved poster with later source-only art.
     }
 
     bucket.times.push(timeRow);

@@ -78,6 +78,8 @@ export function resolveMyScheduleWeekPagePresentation(options = {}) {
     timelineZoomId:
       options.timelineZoomId ?? settings?.timelineZoomId ?? '12-24',
     timeFormatId: options.timeFormatId ?? settings?.timeFormatId ?? '12h',
+    enrichmentIndex: options.enrichmentIndex ?? null,
+    homeData: options.homeData ?? null,
   });
 
   return {

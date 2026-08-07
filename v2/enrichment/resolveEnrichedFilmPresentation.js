@@ -76,7 +76,7 @@ export function formatDirectorLine(directors) {
  *   enrichmentIndex?: import('./enrichmentIndex.js').buildEnrichmentIndex extends Function
  *     ? ReturnType<typeof import('./enrichmentIndex.js').buildEnrichmentIndex>
  *     : never,
- *   context?: 'home' | 'opening' | 'search' | 'film-detail',
+ *   context?: 'home' | 'opening' | 'search' | 'film-detail' | 'theater' | 'showtimes' | 'planner' | 'schedule' | 'collection',
  * }} args
  */
 export function resolveEnrichedFilmPresentation({
@@ -92,12 +92,19 @@ export function resolveEnrichedFilmPresentation({
 
   const sourceTitle = asText(sourceFilm?.title);
   const canonicalTitle = asText(row?.display_title) ?? asText(row?.original_title);
-  // Home/Opening: opportunity title wins.
-  // Search / Film Detail: film-entity heading prefers canonical.
-  const displayTitle =
-    context === 'search' || context === 'film-detail'
-      ? canonicalTitle ?? sourceTitle
-      : sourceTitle ?? canonicalTitle;
+  // Film-entity surfaces prefer TMDB canonical title.
+  // Home/Opening cards still prefer opportunity/source titles.
+  const preferCanonicalTitle =
+    context === 'search' ||
+    context === 'film-detail' ||
+    context === 'theater' ||
+    context === 'showtimes' ||
+    context === 'planner' ||
+    context === 'schedule' ||
+    context === 'collection';
+  const displayTitle = preferCanonicalTitle
+    ? canonicalTitle ?? sourceTitle
+    : sourceTitle ?? canonicalTitle;
 
   const canonicalYear =
     typeof row?.release_year === 'number' && Number.isFinite(row.release_year)

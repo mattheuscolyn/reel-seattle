@@ -393,6 +393,7 @@ export default function MyScheduleMonthSurface({
   onStubAction,
   onOpenFilmDetail,
   homeData = null,
+  enrichmentIndex = null,
   acceptedPlansRevision = 0,
   scheduleSettingsRevision = 0,
   storage = null,
@@ -414,8 +415,17 @@ export default function MyScheduleMonthSurface({
       monthOffset,
       storage: resolvedStorage,
       settings,
+      enrichmentIndex,
+      homeData,
     });
-  }, [acceptedPlansRevision, monthOffset, resolvedStorage, settings]);
+  }, [
+    acceptedPlansRevision,
+    monthOffset,
+    resolvedStorage,
+    settings,
+    enrichmentIndex,
+    homeData,
+  ]);
 
   const isMockup = presentation.mode === 'mockup-fixture';
   const activeSelectedDayId =

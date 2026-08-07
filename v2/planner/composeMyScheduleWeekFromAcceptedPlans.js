@@ -20,6 +20,7 @@ import {
   timelineRangeFromZoomId,
   timelineRulerLabelsForRange,
 } from '../stores/scheduleSettingsStore.js';
+import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 
 const WEEKDAY_LETTERS = Object.freeze(['S', 'M', 'T', 'W', 'T', 'F', 'S']);
 const WEEKDAY_SHORT = Object.freeze([
@@ -129,8 +130,16 @@ function formatShowtimeLabel(minutes, timeFormatId = '12h') {
  * @param {import('../stores/acceptedPlansStore.js').AcceptedPlanPerformance} perf
  * @param {string} planGroupId
  * @param {string} [timeFormatId]
+ * @param {object | null | undefined} [enrichmentIndex]
+ * @param {object | null | undefined} [homeData]
  */
-function performanceToFilmEvent(perf, planGroupId, timeFormatId = '12h') {
+function performanceToFilmEvent(
+  perf,
+  planGroupId,
+  timeFormatId = '12h',
+  enrichmentIndex = null,
+  homeData = null,
+) {
   const startMinutes = pacificMinutesFromIso(perf.startsAt) ?? 0;
   let endMinutes = pacificMinutesFromIso(perf.expectedEndsAt);
   if (endMinutes == null || endMinutes <= startMinutes) {
@@ -139,20 +148,34 @@ function performanceToFilmEvent(perf, planGroupId, timeFormatId = '12h') {
   // Same-day timeline: clamp overnight ends into extended minutes for geometry.
   if (endMinutes < startMinutes) endMinutes += 1440;
 
+  const enriched = enrichHomeFilm(
+    {
+      filmId: perf.filmId ?? null,
+      filmKey: perf.filmKey ?? null,
+      parentFilmKey: perf.parentFilmKey ?? null,
+      title: perf.title,
+      posterUrl: perf.posterUrl ?? null,
+      runtimeMin: perf.runtimeMin ?? null,
+    },
+    enrichmentIndex,
+    'schedule',
+    homeData,
+  );
+
   return {
     id: `${planGroupId}:${perf.performanceKey}`,
     type: 'film',
-    title: perf.title,
+    title: enriched.displayTitle ?? perf.title,
     theaterLabel: perf.theaterName,
     showtimeLabel: formatShowtimeLabel(startMinutes, timeFormatId),
     startMinutes,
     endMinutes,
     planGroupId,
     tone: 'purple',
-    imageUrl: perf.posterUrl,
+    imageUrl: enriched.posterUrl ?? perf.posterUrl,
     ticketUrl: perf.ticketUrl,
     performanceKey: perf.performanceKey,
-    filmId: perf.filmId ?? null,
+    filmId: enriched.filmId ?? perf.filmId ?? null,
     filmKey: perf.filmKey ?? null,
     parentFilmKey: perf.parentFilmKey ?? null,
     showtimeFilmKey: perf.filmKey ?? null,
@@ -222,6 +245,8 @@ export function composeMyScheduleWeekFromAcceptedPlans(options = {}) {
     timelineRulerLabelsForRange(timeRange, timeFormatId),
   );
 
+  const enrichmentIndex = options.enrichmentIndex ?? null;
+  const homeData = options.homeData ?? null;
   const monday = addIsoDays(mondayOfWeekContaining(today), weekOffset * 7);
   const sunday = addIsoDays(monday, 6);
   const weekDates = Array.from({ length: 7 }, (_, i) => addIsoDays(monday, i));
@@ -248,7 +273,13 @@ export function composeMyScheduleWeekFromAcceptedPlans(options = {}) {
     const planGroups = dayPlans.map((plan) => {
       const groupId = plan.planId;
       const films = plan.performances.map((p) =>
-        performanceToFilmEvent(p, groupId, timeFormatId),
+        performanceToFilmEvent(
+          p,
+          groupId,
+          timeFormatId,
+          enrichmentIndex,
+          homeData,
+        ),
       );
       const items = withVisualBreaks(films, groupId, showBreaks);
       const kind = films.length > 1 ? 'multi' : 'single';
@@ -339,30 +370,48 @@ export function composeMyScheduleWeekFromAcceptedPlans(options = {}) {
     timeRange,
     timeRulerLabels,
     nextUp: upcoming
-      ? {
-          label: 'NEXT UP',
-          filmTitle: upcoming.performance.title,
-          detailLabel: [
-            upcoming.performance.format,
-            upcoming.performance.theaterName
-              ? `at ${upcoming.performance.theaterName}`
-              : null,
-          ]
-            .filter(Boolean)
-            .join(' '),
-          timeLabel: `${formatCompactDateLabel(upcoming.performance.localDate)} • ${formatShowtimeLabel(pacificMinutesFromIso(upcoming.performance.startsAt) ?? 0, timeFormatId)}`,
-          ticketsLabel: 'View tickets',
-          imageUrl: upcoming.performance.posterUrl,
-          filmId: upcoming.performance.filmId ?? null,
-          filmKey: upcoming.performance.filmKey ?? null,
-          parentFilmKey: upcoming.performance.parentFilmKey ?? null,
-          showtimeFilmKey: upcoming.performance.filmKey ?? null,
-          opportunityKey: upcoming.performance.opportunityKey ?? null,
-          ticketUrl: upcoming.performance.ticketUrl ?? null,
-          planId: upcoming.plan.planId,
-          format: upcoming.performance.format ?? null,
-          empty: false,
-        }
+      ? (() => {
+          const nextEnriched = enrichHomeFilm(
+            {
+              filmId: upcoming.performance.filmId ?? null,
+              filmKey: upcoming.performance.filmKey ?? null,
+              parentFilmKey: upcoming.performance.parentFilmKey ?? null,
+              title: upcoming.performance.title,
+              posterUrl: upcoming.performance.posterUrl ?? null,
+              runtimeMin: upcoming.performance.runtimeMin ?? null,
+            },
+            enrichmentIndex,
+            'schedule',
+            homeData,
+          );
+          return {
+            label: 'NEXT UP',
+            filmTitle:
+              nextEnriched.displayTitle ?? upcoming.performance.title,
+            detailLabel: [
+              upcoming.performance.format,
+              upcoming.performance.theaterName
+                ? `at ${upcoming.performance.theaterName}`
+                : null,
+            ]
+              .filter(Boolean)
+              .join(' '),
+            timeLabel: `${formatCompactDateLabel(upcoming.performance.localDate)} • ${formatShowtimeLabel(pacificMinutesFromIso(upcoming.performance.startsAt) ?? 0, timeFormatId)}`,
+            ticketsLabel: 'View tickets',
+            imageUrl:
+              nextEnriched.posterUrl ?? upcoming.performance.posterUrl,
+            filmId:
+              nextEnriched.filmId ?? upcoming.performance.filmId ?? null,
+            filmKey: upcoming.performance.filmKey ?? null,
+            parentFilmKey: upcoming.performance.parentFilmKey ?? null,
+            showtimeFilmKey: upcoming.performance.filmKey ?? null,
+            opportunityKey: upcoming.performance.opportunityKey ?? null,
+            ticketUrl: upcoming.performance.ticketUrl ?? null,
+            planId: upcoming.plan.planId,
+            format: upcoming.performance.format ?? null,
+            empty: false,
+          };
+        })()
       : {
           label: 'NEXT UP',
           filmTitle: 'No upcoming plans',

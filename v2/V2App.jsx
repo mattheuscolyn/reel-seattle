@@ -889,6 +889,7 @@ export default function V2App() {
     mainContent = (
       <ShowtimesBrowseSurface
         homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
         loadStatus={sharedHomeData.status}
         errorMessage={sharedHomeData.errorMessage}
         browseUi={nav.surface.browseUi}
@@ -972,6 +973,7 @@ export default function V2App() {
       <TheaterDetailSurface
         theaterId={nav.surface.theaterId}
         homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
         backLabel={
           nav.surface.returnSurface?.type === 'collection'
             ? 'Theaters'
@@ -1035,6 +1037,7 @@ export default function V2App() {
         collectionId={nav.surface.collectionId}
         query={nav.surface.query}
         homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
         onBack={handleBack}
         onOpenCollection={handleOpenCollection}
         onOpenFilmDetail={({ filmKey, opportunityKey }) =>
@@ -1084,6 +1087,7 @@ export default function V2App() {
         onDone={handleBack}
         onBack={handleBack}
         homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
       />
     );
   } else if (isBuildPlanResults) {
@@ -1092,6 +1096,7 @@ export default function V2App() {
         onBack={handleBack}
         backLabel="Build a Plan"
         homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
         formConfig={nav.surface?.formConfig ?? null}
         onAcceptedPlanChange={() =>
           setAcceptedPlansRevision((value) => value + 1)
@@ -1137,6 +1142,7 @@ export default function V2App() {
         <div inert={isScheduleSettings || undefined}>
           <MyScheduleWeekSurface
             homeData={sharedHomeData.homeData}
+            enrichmentIndex={enrichmentState.index}
             acceptedPlansRevision={acceptedPlansRevision}
             scheduleSettingsRevision={scheduleSettingsRevision}
             onAcceptedPlanChange={() =>
@@ -1196,6 +1202,7 @@ export default function V2App() {
         <div inert={isScheduleSettings || undefined}>
           <MyScheduleMonthSurface
             homeData={sharedHomeData.homeData}
+            enrichmentIndex={enrichmentState.index}
             acceptedPlansRevision={acceptedPlansRevision}
             scheduleSettingsRevision={scheduleSettingsRevision}
             onOpenWeek={handleOpenMyScheduleWeek}
@@ -1241,6 +1248,7 @@ export default function V2App() {
         <div inert>
           <MyScheduleWeekSurface
             homeData={sharedHomeData.homeData}
+            enrichmentIndex={enrichmentState.index}
             acceptedPlansRevision={acceptedPlansRevision}
             scheduleSettingsRevision={scheduleSettingsRevision}
             onAcceptedPlanChange={() =>

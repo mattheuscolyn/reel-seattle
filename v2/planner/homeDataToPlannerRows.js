@@ -5,6 +5,8 @@
  * compact 12h Times. Live-only fields needed for accept/ICS stay on the row.
  */
 
+import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
+
 /**
  * @param {unknown} value
  * @returns {string | null}
@@ -40,9 +42,11 @@ export function hhmmToLegacyPlannerTime(hhmm) {
 
 /**
  * @param {object | null | undefined} homeData
+ * @param {{ enrichmentIndex?: object | null }} [options]
  * @returns {object[]}
  */
-export function homeDataToPlannerRows(homeData) {
+export function homeDataToPlannerRows(homeData, options = {}) {
+  const enrichmentIndex = options.enrichmentIndex ?? null;
   const opportunities = Array.isArray(homeData?.opportunities)
     ? homeData.opportunities
     : [];
@@ -58,17 +62,23 @@ export function homeDataToPlannerRows(homeData) {
   for (const opp of opportunities) {
     if (!opp || typeof opp !== 'object') continue;
     const film = filmsByKey.get(opp.filmKey) ?? null;
-    const title = asTrimmed(film?.title) ?? asTrimmed(opp.title);
+    const enriched = enrichHomeFilm(film, enrichmentIndex, 'planner', homeData);
+    const title =
+      asTrimmed(enriched.displayTitle) ??
+      asTrimmed(film?.title) ??
+      asTrimmed(opp.title);
     const localDate = asTrimmed(opp.localDate);
     const localTime = asTrimmed(opp.localTime);
     const legacyTime = hhmmToLegacyPlannerTime(localTime);
     const theaterId = asTrimmed(opp.theaterId);
     const runtime =
-      typeof film?.runtimeMin === 'number' && Number.isFinite(film.runtimeMin)
-        ? film.runtimeMin
-        : typeof opp.runtimeMin === 'number' && Number.isFinite(opp.runtimeMin)
-          ? opp.runtimeMin
-          : null;
+      typeof enriched.runtimeMin === 'number' && Number.isFinite(enriched.runtimeMin)
+        ? enriched.runtimeMin
+        : typeof film?.runtimeMin === 'number' && Number.isFinite(film.runtimeMin)
+          ? film.runtimeMin
+          : typeof opp.runtimeMin === 'number' && Number.isFinite(opp.runtimeMin)
+            ? opp.runtimeMin
+            : null;
 
     if (!title || !localDate || !legacyTime || !theaterId || runtime == null) {
       continue;
@@ -86,12 +96,12 @@ export function homeDataToPlannerRows(homeData) {
       theater_id: theaterId,
       Runtime: runtime,
       showtime_film_key: asTrimmed(opp.filmKey) ?? asTrimmed(film?.filmKey),
-      posterDynamic: asTrimmed(film?.posterUrl) ?? null,
+      posterDynamic: asTrimmed(enriched.posterUrl) ?? asTrimmed(film?.posterUrl) ?? null,
       premiumFormat: formatLabels.join(', '),
       status: asTrimmed(opp.status),
       // Live accept / ICS fields
       filmKey: asTrimmed(opp.filmKey),
-      filmId: film?.filmId ?? null,
+      filmId: enriched.filmId ?? film?.filmId ?? null,
       parentFilmKey: film?.parentFilmKey ?? null,
       parent_film_key: film?.parentFilmKey ?? null,
       localDate,
