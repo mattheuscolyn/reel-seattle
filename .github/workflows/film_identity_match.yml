@@ -155,6 +155,60 @@ jobs:
           retention-days: 30
           if-no-files-found: error
 
+  commit_main:
+    name: Auto-commit to main (scheduled runs)
+    if: ${{ github.event_name == 'schedule' || github.event.inputs.persist_mode == 'commit-main' }}
+    needs: match
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Download match package
+        uses: actions/download-artifact@v4
+        with:
+          name: film-identity-match-${{ github.run_id }}
+          path: film-identity-match-package
+
+      - name: Import package into working tree
+        run: |
+          python scripts/import_film_identity_artifacts.py \
+            --from-dir film-identity-match-package
+          python scripts/validate_film_identity.py --require-generated
+
+      - name: Commit and push catalog updates
+        run: |
+          set -euo pipefail
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add \
+            data/film_identity/film_identity_catalog.json \
+            data/film_identity/tmdb_match_review_queue.json \
+            data/audits/tmdb_film_identity_coverage.json \
+            data/audits/tmdb_film_identity_match_summary.md
+          if git diff --cached --quiet; then
+            echo "No catalog changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(film-identity): automated TMDB match catalog update"
+          git push
+
   create_pr:
     name: Persist via pull request
     if: ${{ github.event.inputs.persist_mode == 'create-pr' }}

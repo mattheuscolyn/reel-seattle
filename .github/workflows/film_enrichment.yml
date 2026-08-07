@@ -4,10 +4,12 @@ name: Film Enrichment — TMDB Public Artifact
 # Failures here must never block showtime publication.
 #
 # Production cadence (UTC):
-#   06:00 daily_scraping.yml  → ingest + parent identity + attach_public_film_ids
-#                               + emit showtimes_current.json (+ nullable film_id)
-#   08:00 film_enrichment.yml → enrichment from durable catalog → film_enrichment_current.json
-# Live TMDB matching remains workflow_dispatch (film_identity_match.yml), not daily.
+#   06:00 daily_scraping.yml       → ingest + parent identity + attach_public_film_ids
+#                                     + emit showtimes_current.json (+ nullable film_id)
+#   07:00 film_identity_match.yml  → automated TMDB matching for new films
+#                                     + update film_identity_catalog.json
+#   08:00 film_enrichment.yml      → enrichment from updated catalog
+#                                     → film_enrichment_current.json
 on:
   schedule:
     # After daily scrape window (approx 8 AM UTC)
