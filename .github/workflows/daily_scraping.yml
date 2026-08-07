@@ -9,9 +9,9 @@ name: Daily Showtime Scraping
 #   5. validate public artifacts (includes film_id attach regression gate)
 #   6. commit/publish showtimes (+ related public data)
 #
-# TMDB enrichment is intentionally a separate scheduled workflow
-# (film_enrichment.yml @ 08:00 UTC) so enrichment failures never block showtimes.
-# Live matcher remains manual (film_identity_match.yml).
+# Downstream automated workflows (intentionally separate so failures never block showtimes):
+#   - 07:00 UTC: Film identity matching (film_identity_match.yml) - matches new films
+#   - 08:00 UTC: TMDB enrichment (film_enrichment.yml) - fetches metadata for matched films
 
 on:
   schedule:
