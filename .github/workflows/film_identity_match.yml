@@ -1,8 +1,12 @@
 name: Film Identity — Live TMDB Match
 
-# Manual live matching only (T-FILMID-01D). Does not schedule.
-# Default persist_mode=artifact-only: no branch/PR writes.
+# Automated daily matching after scraping completes (T-FILMID-01D).
+# Runs at 7 AM UTC (between scraping at 6 AM and enrichment at 8 AM).
+# Processes all current identities but only makes TMDB calls for new/unmatched films.
 on:
+  schedule:
+    # Run daily at 7 AM UTC, 1 hour after scraping completes
+    - cron: '0 7 * * *'
   workflow_dispatch:
     inputs:
       refresh_cache:
@@ -15,6 +19,7 @@ on:
         options:
           - artifact-only
           - create-pr
+          - commit-main
         default: artifact-only
       limit:
         description: Optional matcher --limit (leave empty for full run)
