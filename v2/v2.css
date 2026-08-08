@@ -3662,8 +3662,7 @@ button {
   color: var(--v2-muted);
 }
 
-.v2-opp,
-.v2-st {
+.v2-opp {
   padding-bottom: var(--v2-space-4);
 }
 
@@ -3702,6 +3701,55 @@ button {
   font-size: 0.72rem;
 }
 
+.v2-st {
+  padding: 0.35rem 0 5.5rem;
+}
+
+.v2-st-film-summary {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  margin: 0 0 0.85rem;
+}
+
+.v2-st-poster {
+  width: 3.25rem;
+  height: 4.75rem;
+  object-fit: cover;
+  border-radius: 0.35rem;
+  background: var(--v2-bg-raised);
+}
+
+.v2-st-poster-fallback {
+  display: block;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+}
+
+.v2-st-film-copy {
+  min-width: 0;
+}
+
+.v2-st-title {
+  margin: 0;
+  font-family: var(--v2-font-display, Georgia, serif);
+  font-size: 1.55rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.v2-st-film-meta {
+  margin: 0.35rem 0 0;
+  color: var(--v2-muted);
+  font-size: 0.82rem;
+}
+
 .v2-st-filter {
   margin: 0 0 0.75rem;
   color: var(--v2-muted);
@@ -3712,48 +3760,216 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.75rem;
 }
 
-.v2-st-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.v2-st-filter-bar {
   display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
-.v2-st-theater-name {
-  margin: 0 0 0.4rem;
-  font-size: 0.92rem;
+.v2-st-filter-btn {
+  border: 1px solid var(--v2-border);
+  background: var(--v2-bg-raised);
+  color: inherit;
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
 }
 
-.v2-st-times {
+.v2-st-filter-btn.is-active {
+  border-color: var(--v2-accent-border);
+  color: var(--v2-accent);
+}
+
+.v2-st-filter-btn:focus-visible,
+.v2-st-reset:focus-visible,
+.v2-st-calendar:focus-visible,
+.v2-st-theater-name:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-st-reset {
+  border: 0;
+  background: transparent;
+  color: var(--v2-accent);
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+  padding: 0;
+}
+
+.v2-st-filters {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: var(--v2-radius-sm);
+  background: var(--v2-bg-raised);
+  border: 1px solid var(--v2-border);
+}
+
+.v2-st-fieldset {
+  border: 0;
+  margin: 0 0 0.85rem;
+  padding: 0;
+}
+
+.v2-st-fieldset:last-child {
+  margin-bottom: 0;
+}
+
+.v2-st-fieldset legend {
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--v2-muted);
+  margin-bottom: 0.4rem;
+}
+
+.v2-st-chip-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
 }
 
-.v2-st-time {
+.v2-st-empty {
+  margin: 0.5rem 0 1rem;
+  color: var(--v2-muted);
+  font-size: 0.9rem;
+}
+
+.v2-st-empty p {
+  margin: 0 0 0.5rem;
+}
+
+.v2-st-theater-list {
+  list-style: none;
   margin: 0;
-  padding: 0.4rem 0.55rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.v2-st-theater {
+  min-width: 0;
+}
+
+.v2-st-theater-name,
+.v2-st-theater-name-static {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  width: 100%;
+  margin: 0 0 0.45rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 650;
+  text-align: left;
+  cursor: pointer;
+}
+
+.v2-st-theater-name-static {
+  cursor: default;
+}
+
+.v2-st-theater-bullet {
+  flex: 0 0 auto;
+  color: var(--v2-text, #fff);
+}
+
+.v2-st-theater-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.v2-st-times {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.v2-st-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0.38rem 0.55rem;
   border-radius: 999px;
   border: 1px solid var(--v2-border);
   background: var(--v2-bg-raised);
   color: var(--v2-muted);
   font-size: 0.75rem;
+  line-height: 1.2;
+  text-decoration: none;
   cursor: pointer;
+  max-width: 100%;
 }
 
-.v2-st-time-on {
+a.v2-st-time:hover {
+  border-color: var(--v2-accent-border);
+  color: var(--v2-text, #fff);
+}
+
+.v2-st-time.is-selected,
+.v2-st-time.is-best {
   border-color: var(--v2-accent-border);
   color: var(--v2-accent);
+}
+
+.v2-st-best-tag {
+  flex: 0 0 auto;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--v2-accent);
+}
+
+.v2-st-time-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .v2-st-time:focus-visible {
   outline: 2px solid var(--v2-focus);
   outline-offset: 2px;
+}
+
+.v2-st-timezone {
+  margin: 1rem 0 0.75rem;
+  color: var(--v2-muted-soft, var(--v2-muted));
+  font-size: 0.72rem;
+}
+
+.v2-st-actions {
+  margin-top: 0.25rem;
+}
+
+.v2-st-calendar {
+  border: 0;
+  border-radius: 0.45rem;
+  background: #d1d5db;
+  color: #111;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
 }
 
 .v2-planner-seed {

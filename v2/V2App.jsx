@@ -876,11 +876,18 @@ export default function V2App() {
     mainContent = (
       <ShowtimesSurface
         homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
         filmKey={nav.surface.filmKey}
         theaterId={nav.surface.theaterId}
         opportunityKey={nav.surface.opportunityKey}
         onBack={handleBack}
-        onOpenOpportunity={handleOpenOpportunity}
+        onOpenTheaterDetail={(params) =>
+          handleOpenTheaterDetail({
+            ...params,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
       />
     );
   } else if (isShowtimesBrowse) {
