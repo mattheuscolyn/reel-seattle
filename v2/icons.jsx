@@ -314,6 +314,14 @@ export function IconPlus(props) {
     </svg>
   );
 }
+export function IconCheck(props) {
+  return (
+    <svg {...base} width={20} height={20} {...props}>
+      <polyline points="6 12 9 15 18 6" />
+    </svg>
+  );
+}
+
 
 export function IconMore(props) {
   return (
