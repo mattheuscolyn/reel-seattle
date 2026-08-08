@@ -21,11 +21,14 @@ WORKFLOW = PROJECT_ROOT / ".github" / "workflows" / "film_identity_match.yml"
 def test_workflow_yaml_manual_defaults_and_secrets_env_only():
     text = WORKFLOW.read_text(encoding="utf-8")
     assert "name: Film Identity — Live TMDB Match" in text
+    # Daily automation after scraping (7 AM UTC); manual dispatch remains available.
+    assert "schedule:" in text
+    assert "cron: '0 7 * * *'" in text
     assert "workflow_dispatch:" in text
-    assert "schedule:" not in text
     assert "persist_mode:" in text
     assert "artifact-only" in text
     assert "create-pr" in text
+    assert "commit-main" in text
     assert "default: artifact-only" in text
     assert "refresh_cache:" in text
     assert "python scripts/match_tmdb_films.py" in text
@@ -40,6 +43,11 @@ def test_workflow_yaml_manual_defaults_and_secrets_env_only():
     assert "concurrency:" in text
     assert "group: film-identity-live-match" in text
     assert "cancel-in-progress: false" in text
+    # Scheduled runs persist via the dedicated commit-main job path.
+    assert (
+        "github.event_name == 'schedule' || github.event.inputs.persist_mode == 'commit-main'"
+        in text
+    )
     # Secrets must not be passed as CLI flags / query fragments.
     assert "--token" not in text
     assert "api_key=" not in text
