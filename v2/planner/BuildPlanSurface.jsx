@@ -85,7 +85,7 @@ const FINISH_BEFORE_OPTIONS = Object.freeze([
   '12:00 AM',
 ]);
 
-const LAUNCH_THEATER_PREF_IDS = Object.freeze(['any', 'amc', 'indie']);
+const LAUNCH_THEATER_PREF_IDS = Object.freeze(['any', 'amc', 'indie', 'custom']);
 
 const PRESET_ICONS = {
   briefcase: IconBriefcase,
