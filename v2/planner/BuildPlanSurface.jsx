@@ -177,6 +177,7 @@ function FilmChipRow({ films, moreLabel, onMore }) {
  *   onStubAction?: (actionId: string, label: string) => void,
  *   onRequestResults?: (form: object) => void,
  *   onOpenFilmManage?: (mode: 'mustInclude' | 'wouldLove' | 'notInterested') => void,
+ *   onOpenTheaterManage?: () => void,
  *   resumeOpenSection?: null | 'when' | 'what' | 'where' | 'fineTuning',
  * }} props
  */
@@ -186,6 +187,7 @@ export default function BuildPlanSurface({
   onStubAction,
   onRequestResults,
   onOpenFilmManage,
+  onOpenTheaterManage,
   resumeOpenSection = null,
 }) {
   const presentation = resolveBuildPlanPresentation();
@@ -688,9 +690,12 @@ export default function BuildPlanSurface({
                     role="radio"
                     aria-checked={selected}
                     className={`v2-bp-where-card${selected ? ' is-selected' : ''}`}
-                    onClick={() =>
-                      setForm((c) => ({ ...c, theaterPrefId: pref.id }))
-                    }
+                    onClick={() => {
+                      setForm((c) => ({ ...c, theaterPrefId: pref.id }));
+                      if (pref.id === 'custom' && typeof onOpenTheaterManage === 'function') {
+                        setTimeout(() => onOpenTheaterManage(), 100);
+                      }
+                    }}
                   >
                     {selected ? (
                       <span className="v2-bp-where-check" aria-hidden="true">
@@ -705,6 +710,26 @@ export default function BuildPlanSurface({
                 );
               })}
             </div>
+            {form.theaterPrefId === 'custom' ? (
+              <div className="v2-bp-theater-manage">
+                <p className="v2-bp-theater-count">
+                  {(form.selectedTheaters ?? []).length} {(form.selectedTheaters ?? []).length === 1 ? 'theater' : 'theaters'} selected
+                </p>
+                <button
+                  type="button"
+                  className="v2-bp-manage"
+                  onClick={() => {
+                    if (typeof onOpenTheaterManage === 'function') {
+                      onOpenTheaterManage();
+                    } else {
+                      announce('manage-theaters', 'Manage theaters');
+                    }
+                  }}
+                >
+                  Manage
+                </button>
+              </div>
+            ) : null}
           </div>,
         )}
 

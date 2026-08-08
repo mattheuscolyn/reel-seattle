@@ -548,6 +548,42 @@ export function openBuildPlanFilmManage(state, params = {}) {
 }
 
 /**
+ * Build a Plan theater-manage deep surface (custom theater selection).
+ * @param {object} state
+ * @param {{
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openBuildPlanTheaterManage(state, params = {}) {
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'planner',
+  );
+  const returnSurface =
+    params.returnSurface ??
+    (state.surface?.type === 'build-plan'
+      ? {
+          ...state.surface,
+          resumeOpenSection: 'where',
+        }
+      : {
+          type: 'build-plan',
+          originPrimary,
+          returnSurface: null,
+          resumeOpenSection: 'where',
+        });
+  return {
+    ...state,
+    primaryDestinationId: originPrimary,
+    surface: {
+      type: 'build-plan-theater-manage',
+      originPrimary,
+      returnSurface,
+    },
+  };
+}
+
+/**
  * Stage 1 My Schedule Week deep surface (fixture timeline).
  * Month view, settings sheet, persistence, and calendar sync deferred.
  * @param {object} state
