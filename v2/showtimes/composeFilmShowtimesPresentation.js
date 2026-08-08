@@ -455,7 +455,7 @@ function buildTheaterGroups(dayOpps, opts) {
     }
     const group = byTheater.get(theaterId);
     const format = opportunityFormatLabel(opp);
-    const variant = screeningVariantLabel(opp.screeningVariantType);
+    const variant = screeningVariantLabel(opp.screeningVariantType, opp);
     const sortable = opportunitySortableKey(opp) ?? '';
     if (sortable && sortable < group.earliestSortable) {
       group.earliestSortable = sortable;
