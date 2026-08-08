@@ -98,7 +98,6 @@ export function resolveBuildFormDateIso(form, now = new Date()) {
  */
 export function resolveTheaterFilterIds(form, homeData) {
   const pref = asTrimmed(form?.theaterPrefId) ?? 'any';
-  console.log('[resolveTheaterFilterIds] pref:', pref);
   if (pref === 'any') return [];
   
   // Custom: use explicitly selected theaters
@@ -106,7 +105,6 @@ export function resolveTheaterFilterIds(form, homeData) {
     const selected = Array.isArray(form?.selectedTheaters)
       ? form.selectedTheaters.filter(Boolean)
       : [];
-    console.log('[resolveTheaterFilterIds] custom selected:', selected);
     return selected;
   }
 
