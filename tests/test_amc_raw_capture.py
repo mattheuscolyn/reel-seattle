@@ -30,7 +30,9 @@ def test_existing_captured_fields_remain_unchanged():
     payload = _full_payload()
     raw = api_showtime_to_raw(payload, THEATER)
     assert raw.source_showtime_id == "show-12345"
-    assert raw.format_raw == "IMAX"
+    # Premium format plus accessibility tags (OPENCAPTION → OC) are combined.
+    assert raw.format_raw == "IMAX, OC"
+    assert raw.attributes["premium_format_raw"] == "IMAX"
     assert raw.canceled is False
     assert raw.almost_sold_out is False
     assert raw.attributes["movie_id"] == "movie-abc123"
