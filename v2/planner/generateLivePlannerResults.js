@@ -251,6 +251,7 @@ function rowMatchesAnyToken(row, tokens) {
  */
 function buildSingleFilmSchedules(rows, filters) {
   const theaterSet = Array.isArray(filters.theaters) ? filters.theaters : [];
+  console.log('[buildSingleFilmSchedules] theaterSet:', theaterSet);
   const include = filters.includeFilms ?? [];
   const exclude = filters.excludeFilms ?? [];
   /** @type {object[]} */
