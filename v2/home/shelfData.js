@@ -96,7 +96,7 @@ export function buildOpeningThisWeekShelf(homeData, enrichmentIndex = null) {
       enrichmentIndex,
       context: 'opening',
     });
-    const runtimeLabel = formatRuntimeLabel(film?.runtimeMin);
+    const runtimeLabel = formatRuntimeLabel(enriched.runtimeMin);
     const dateLabel =
       formatLocalDateLabel(entry.firstObservedAt) ??
       formatLocalDateLabel(entry.lastSeenDate);
@@ -113,7 +113,7 @@ export function buildOpeningThisWeekShelf(homeData, enrichmentIndex = null) {
       genre: genrePrimary,
       metaLabel,
       posterUrl: enriched.posterUrl,
-      runtimeMin: film?.runtimeMin ?? null,
+      runtimeMin: enriched.runtimeMin ?? null,
       theaterCount: film?.theaterCount ?? 0,
       showtimeCount: film?.showtimeCount ?? 0,
       nextOpportunityKey: next?.opportunityKey ?? null,
@@ -197,7 +197,7 @@ export function buildInlineQuickDetail(homeData, shelfFilm, enrichmentIndex = nu
   });
 
   const metaParts = [
-    formatRuntimeLabel(film?.runtimeMin ?? shelfFilm.runtimeMin),
+    formatRuntimeLabel(enriched.runtimeMin),
     enriched.genreLine,
     enriched.canonicalYear != null ? String(enriched.canonicalYear) : null,
   ].filter(Boolean);
@@ -210,7 +210,7 @@ export function buildInlineQuickDetail(homeData, shelfFilm, enrichmentIndex = nu
     title: enriched.displayTitle ?? shelfFilm.title,
     posterUrl: enriched.posterUrl,
     synopsis: enriched.synopsisPreview,
-    rating: null,
+    rating: enriched.usCertification,
     year: enriched.canonicalYear,
     genre: enriched.genreLine,
     metaLine: metaParts.length > 0 ? metaParts.join(' · ') : null,

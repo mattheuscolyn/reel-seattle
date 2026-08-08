@@ -198,7 +198,8 @@ test('Home shelf and quick detail activate enrichment fields', () => {
   assert.match(detail.metaLine, /2025/);
   assert.match(detail.metaLine, /Action/);
   assert.match(detail.synopsis, /Twin brothers/);
-  assert.equal(detail.rating, null);
+  assert.equal(detail.rating, 'G'); // TMDB US certification via shared resolver
+  assert.equal(detail.title, 'Sinners');
 });
 
 test('attribution copy includes required non-endorsement notice', () => {

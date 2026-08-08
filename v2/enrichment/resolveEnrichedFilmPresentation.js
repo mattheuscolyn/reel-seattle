@@ -2,9 +2,9 @@
  * Shared source + enrichment presentation merge.
  * Join is exact canonical filmId only — never title / source id.
  *
- * Film-level precedence (canonical-film-contract):
+ * Film-level precedence (canonical-film-contract), all surfaces:
  * manual override → TMDB → theater source → unavailable.
- * Home/Opening card titles still prefer opportunity/source titles.
+ * Screening/opportunity copy may still use source labels separately.
  */
 
 import { asCanonicalFilmId, lookupEnrichment } from './enrichmentIndex.js';
@@ -92,19 +92,10 @@ export function resolveEnrichedFilmPresentation({
 
   const sourceTitle = asText(sourceFilm?.title);
   const canonicalTitle = asText(row?.display_title) ?? asText(row?.original_title);
-  // Film-entity surfaces prefer TMDB canonical title.
-  // Home/Opening cards still prefer opportunity/source titles.
-  const preferCanonicalTitle =
-    context === 'search' ||
-    context === 'film-detail' ||
-    context === 'theater' ||
-    context === 'showtimes' ||
-    context === 'planner' ||
-    context === 'schedule' ||
-    context === 'collection';
-  const displayTitle = preferCanonicalTitle
-    ? canonicalTitle ?? sourceTitle
-    : sourceTitle ?? canonicalTitle;
+  // Canonical film presentation always prefers TMDB title when joined.
+  // Home/Opening no longer keep independent source-title precedence.
+  // Without filmId / enrichment, sourceTitle remains (source-based events).
+  const displayTitle = canonicalTitle ?? sourceTitle;
 
   const canonicalYear =
     typeof row?.release_year === 'number' && Number.isFinite(row.release_year)

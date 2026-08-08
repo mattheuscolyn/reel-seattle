@@ -16,6 +16,10 @@ import { composeFilmDetailPresentation } from '../../v2/filmDetail/composeFilmDe
 import { listPlannerEligibleFilms } from '../../v2/planner/buildPlanFilmCatalog.js';
 import { homeDataToPlannerRows } from '../../v2/planner/homeDataToPlannerRows.js';
 import { filmsForKeys } from '../../v2/explore/exploreCatalog.js';
+import {
+  buildInlineQuickDetail,
+  buildOpeningThisWeekShelf,
+} from '../../v2/home/shelfData.js';
 
 const TMDB_POSTER_PATH = '/tmdb-poster.jpg';
 const TMDB_BACKDROP_PATH = '/tmdb-backdrop.jpg';
@@ -231,6 +235,114 @@ test('shared resolver prefers TMDB poster/runtime/year/cert/genres over theater 
   assert.equal(enriched.directors, 'Jane Director');
 });
 
+test('Home uses canonical title when theater source title has screening qualifier', () => {
+  const index = buildEnrichmentIndex({
+    version: 1,
+    generated_at: '2026-08-07T00:00:00Z',
+    image_config: {
+      secure_base_url: 'https://image.tmdb.org/t/p/',
+      poster_size: 'w500',
+      backdrop_size: 'w780',
+    },
+    films: [
+      {
+        film_id: 'tmdb:424242',
+        display_title: 'Canonical Film Title',
+        release_year: 2026,
+        runtime_minutes: 110,
+        us_certification: 'PG-13',
+        overview: 'Canonical overview.',
+        genres: [{ id: 1, name: 'Drama' }],
+        directors: [],
+        poster: { path: '/canonical-poster.jpg' },
+        backdrop: null,
+      },
+    ],
+  });
+  const sourceFilm = {
+    filmKey: 'canonical-film-title',
+    filmId: 'tmdb:424242',
+    title: 'Canonical Film Title: Special Presentation',
+    posterUrl: 'https://example.com/source-special.jpg',
+    runtimeMin: 108,
+    parentFilmKey: null,
+  };
+  const home = {
+    theatersById: {
+      'amc-test': {
+        id: 'amc-test',
+        name: 'AMC Test',
+        city: 'Seattle',
+        enabled: true,
+        opportunityCount: 1,
+      },
+    },
+    films: [sourceFilm],
+    opportunities: [
+      {
+        opportunityKey: 'o-canonical-1',
+        filmKey: 'canonical-film-title',
+        filmId: 'tmdb:424242',
+        title: 'Canonical Film Title: Special Presentation',
+        theaterId: 'amc-test',
+        theaterName: 'AMC Test',
+        localDate: '2026-08-10',
+        localTime: '19:00',
+        timeDisplay: '7:00 PM',
+        sortableLocalDateTime: '2026-08-10T19:00',
+        formatLabels: ['Special Presentation'],
+        ticketUrl: 'https://example.com/tickets/canonical',
+        runtimeMin: 108,
+      },
+    ],
+    newlyAdded: [
+      {
+        filmKey: 'canonical-film-title',
+        title: 'Canonical Film Title: Special Presentation',
+        posterUrl: 'https://example.com/source-special.jpg',
+        firstObservedAt: '2026-08-07',
+        lastSeenDate: '2026-08-10',
+      },
+    ],
+  };
+
+  const homeCtx = enrichHomeFilm(sourceFilm, index, 'home', home);
+  const openingCtx = enrichHomeFilm(sourceFilm, index, 'opening', home);
+  const search = buildSearchFilmResult(home, sourceFilm, {}, index);
+  const theater = composeTheaterDetailPresentation(home, 'amc-test', index);
+  const group = theater.todaysShowtimes.filmGroups.find(
+    (g) => g.filmId === 'tmdb:424242',
+  );
+  const detail = composeFilmDetailPresentation(
+    home,
+    'canonical-film-title',
+    null,
+    { enrichmentIndex: index },
+  );
+  const shelf = buildOpeningThisWeekShelf(home, index);
+  const shelfCard = shelf.films.find((f) => f.filmKey === 'canonical-film-title');
+  const quick = buildInlineQuickDetail(home, shelfCard, index);
+
+  assert.equal(homeCtx.displayTitle, 'Canonical Film Title');
+  assert.equal(openingCtx.displayTitle, 'Canonical Film Title');
+  assert.equal(search.title, 'Canonical Film Title');
+  assert.ok(group);
+  assert.equal(group.title, 'Canonical Film Title');
+  assert.equal(detail.hero?.title ?? detail.displayTitle, 'Canonical Film Title');
+  assert.ok(shelfCard);
+  assert.equal(shelfCard.title, 'Canonical Film Title');
+  assert.equal(quick.title, 'Canonical Film Title');
+  // Screening metadata remains source-owned on the opportunity.
+  assert.equal(homeCtx.sourceTitle, 'Canonical Film Title: Special Presentation');
+  assert.equal(
+    home.opportunities[0].title,
+    'Canonical Film Title: Special Presentation',
+  );
+  assert.deepEqual(home.opportunities[0].formatLabels, [
+    'Special Presentation',
+  ]);
+});
+
 test('TMDB poster absent falls back to source poster', () => {
   const index = buildEnrichmentIndex({
     version: 1,
@@ -277,9 +389,11 @@ test('source-based event does not invent TMDB presentation', () => {
   const home = makeHomeData();
   const film = home.films.find((f) => f.filmKey === 'local-shorts-night');
   const enriched = enrichHomeFilm(film, index, 'theater', home);
+  const homeCtx = enrichHomeFilm(film, index, 'home', home);
   assert.equal(enriched.filmId, null);
   assert.equal(enriched.hasEnrichment, false);
   assert.equal(enriched.displayTitle, 'Local Shorts Night');
+  assert.equal(homeCtx.displayTitle, 'Local Shorts Night');
   assert.equal(enriched.posterUrl, 'https://example.com/shorts.jpg');
   assert.equal(enriched.canonicalYear, null);
   assert.equal(enriched.usCertification, null);

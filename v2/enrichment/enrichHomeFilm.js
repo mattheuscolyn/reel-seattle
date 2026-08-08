@@ -8,8 +8,13 @@ import { asCanonicalFilmId } from './enrichmentIndex.js';
 import { resolveEnrichedFilmPresentation } from './resolveEnrichedFilmPresentation.js';
 import { normalizeShowtimeFilmKey } from '../stores/savedFilmsStore.js';
 
-/** Contexts where film-entity headings prefer TMDB canonical title. */
+/**
+ * All presentation contexts prefer TMDB canonical title when filmId joins.
+ * Kept for callers/docs; precedence is now uniform in the shared resolver.
+ */
 export const CANONICAL_TITLE_CONTEXTS = Object.freeze([
+  'home',
+  'opening',
   'search',
   'film-detail',
   'theater',
