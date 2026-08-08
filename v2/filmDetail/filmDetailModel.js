@@ -151,7 +151,17 @@ function premiumScore(opp) {
  * @param {object} opportunity
  */
 export function opportunityFormatLabel(opportunity) {
+  const theaterName = String(opportunity?.theaterName ?? '').toLowerCase();
+  const isAMC = theaterName.includes('amc');
+  
   const labels = (opportunity?.formatLabels ?? [])
+    .filter((raw) => {
+      // AMC offers closed captions via device for all showings, not a special screening format
+      if (isAMC && String(raw).toLowerCase().includes('closed')) {
+        return false;
+      }
+      return true;
+    })
     .map(formatUserFacingFormatLabel)
     .filter(Boolean);
   return labels[0] ?? null;
@@ -160,11 +170,21 @@ export function opportunityFormatLabel(opportunity) {
 /**
  * Human label for structured screening variant types.
  * @param {string | null | undefined} variantType
+ * @param {object} [opportunity]
  * @returns {string | null}
  */
-export function screeningVariantLabel(variantType) {
+export function screeningVariantLabel(variantType, opportunity = null) {
   if (typeof variantType !== 'string' || !variantType.trim()) return null;
   const key = variantType.trim().toLowerCase();
+  
+  // AMC offers closed captions via device for all showings, not a special screening format
+  if (key === 'closed_caption' && opportunity) {
+    const theaterName = String(opportunity.theaterName ?? '').toLowerCase();
+    if (theaterName.includes('amc')) {
+      return null;
+    }
+  }
+  
   const labels = {
     sensory_friendly: 'Sensory Friendly',
     open_caption: 'Open Caption',
@@ -460,7 +480,7 @@ export function buildTodaysShowtimes(
     }
     const row = byTheater.get(id);
     const label = opportunityFormatLabel(opp);
-    const variant = screeningVariantLabel(opp.screeningVariantType);
+    const variant = screeningVariantLabel(opp.screeningVariantType, opp);
     if (variant) row.formats.add(variant);
     if (label) row.formats.add(label);
     row.times.push({
