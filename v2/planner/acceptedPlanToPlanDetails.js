@@ -4,7 +4,10 @@
  * Accepted plans store `performances[]` (no Results `items` / break rows).
  * Breaks are recomputed from expected end → next start (same approach as
  * My Schedule week visual breaks). Does not rewrite stored records.
+ * Film-level presentation prefers current canonical enrichment when available.
  */
+
+import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 
 /**
  * @param {unknown} value
@@ -47,16 +50,37 @@ function formatBreakLabel(minutes) {
 /**
  * @param {import('../stores/acceptedPlansStore.js').AcceptedPlanPerformance} perf
  * @param {number} index
+ * @param {object | null | undefined} [enrichmentIndex]
+ * @param {object | null | undefined} [homeData]
  */
-function performanceToPlanDetailsItem(perf, index) {
+function performanceToPlanDetailsItem(
+  perf,
+  index,
+  enrichmentIndex = null,
+  homeData = null,
+) {
   const filmKey = asTrimmed(perf.filmKey);
   const startTime =
     clockFromIso(perf.startsAt) || asTrimmed(perf.localTime) || '';
   const endTime = clockFromIso(perf.expectedEndsAt);
+  const enriched = enrichHomeFilm(
+    {
+      filmId: perf.filmId ?? null,
+      filmKey,
+      parentFilmKey: perf.parentFilmKey ?? null,
+      title: perf.title,
+      posterUrl: perf.posterUrl ?? null,
+      runtimeMin: perf.runtimeMin ?? null,
+    },
+    enrichmentIndex,
+    'schedule',
+    homeData,
+  );
+  const runtimeMin = enriched.runtimeMin ?? perf.runtimeMin;
   return {
     id: `${perf.performanceKey || `perf-${index}`}`,
     type: 'film',
-    title: perf.title,
+    title: enriched.displayTitle ?? perf.title,
     theater: perf.theaterName,
     theaterId: perf.theaterId,
     theater_id: perf.theaterId,
@@ -67,18 +91,18 @@ function performanceToPlanDetailsItem(perf, index) {
     localTime: perf.localTime,
     date: perf.localDate,
     localDate: perf.localDate,
-    runtime: perf.runtimeMin,
-    runtimeMin: perf.runtimeMin,
+    runtime: runtimeMin,
+    runtimeMin,
     runtimeLabel:
-      Number.isFinite(perf.runtimeMin) && perf.runtimeMin > 0
-        ? `${Math.floor(perf.runtimeMin / 60) > 0 ? `${Math.floor(perf.runtimeMin / 60)}h ` : ''}${perf.runtimeMin % 60}m`.trim()
+      Number.isFinite(runtimeMin) && runtimeMin > 0
+        ? `${Math.floor(runtimeMin / 60) > 0 ? `${Math.floor(runtimeMin / 60)}h ` : ''}${runtimeMin % 60}m`.trim()
         : '',
     format: perf.format,
     formatBadge: perf.format ? String(perf.format).toUpperCase() : null,
     formatLabel: perf.format,
-    imageUrl: perf.posterUrl,
-    posterUrl: perf.posterUrl,
-    filmId: perf.filmId ?? null,
+    imageUrl: enriched.posterUrl ?? perf.posterUrl,
+    posterUrl: enriched.posterUrl ?? perf.posterUrl,
+    filmId: enriched.filmId ?? perf.filmId ?? null,
     filmKey,
     parentFilmKey: perf.parentFilmKey ?? null,
     showtimeFilmKey: filmKey,
@@ -95,10 +119,13 @@ function performanceToPlanDetailsItem(perf, index) {
 
 /**
  * @param {import('../stores/acceptedPlansStore.js').AcceptedPlanItem | null | undefined} plan
+ * @param {{ enrichmentIndex?: object | null, homeData?: object | null }} [options]
  * @returns {object | null}
  */
-export function acceptedPlanToPlanDetailsPlan(plan) {
+export function acceptedPlanToPlanDetailsPlan(plan, options = {}) {
   if (!plan || typeof plan !== 'object') return null;
+  const enrichmentIndex = options.enrichmentIndex ?? null;
+  const homeData = options.homeData ?? null;
   const performances = Array.isArray(plan.performances)
     ? [...plan.performances]
     : [];
@@ -114,7 +141,9 @@ export function acceptedPlanToPlanDetailsPlan(plan) {
   const items = [];
   for (let i = 0; i < performances.length; i += 1) {
     const perf = performances[i];
-    items.push(performanceToPlanDetailsItem(perf, i));
+    items.push(
+      performanceToPlanDetailsItem(perf, i, enrichmentIndex, homeData),
+    );
     const next = performances[i + 1];
     if (!next) continue;
     const endMs = Date.parse(perf.expectedEndsAt);

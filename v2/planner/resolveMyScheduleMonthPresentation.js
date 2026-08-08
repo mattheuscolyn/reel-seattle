@@ -20,6 +20,8 @@ import { getScheduleSettings } from '../stores/scheduleSettingsStore.js';
  *   now?: Date | (() => Date),
  *   forceMockup?: boolean,
  *   settings?: object | null,
+ *   enrichmentIndex?: object | null,
+ *   homeData?: object | null,
  * }} [options]
  */
 export function resolveMyScheduleMonthPagePresentation(options = {}) {
@@ -42,6 +44,8 @@ export function resolveMyScheduleMonthPagePresentation(options = {}) {
     monthOffset: options.monthOffset ?? 0,
     now: options.now,
     hideCompleted: settings.hideCompleted !== false,
+    enrichmentIndex: options.enrichmentIndex ?? null,
+    homeData: options.homeData ?? null,
   });
 
   return {

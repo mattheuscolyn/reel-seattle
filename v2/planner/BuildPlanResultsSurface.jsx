@@ -395,6 +395,7 @@ export default function BuildPlanResultsSurface({
   onShareReady,
   storage = null,
   homeData = null,
+  enrichmentIndex = null,
   formConfig = null,
   initialSortId = null,
   restoreScrollY = null,
@@ -475,6 +476,7 @@ export default function BuildPlanResultsSurface({
       form: workingForm,
       sortId,
       storage: getBrowserStorage(),
+      enrichmentIndex,
     });
     if (base.source !== 'mockup-fixture') return base;
     if (!adjustmentsApplied) {
@@ -494,7 +496,7 @@ export default function BuildPlanResultsSurface({
           ? 'No plans match these adjustments. Try changing time, film, or break settings.'
           : null,
     };
-  }, [homeData, workingForm, sortId, adjustmentsApplied]);
+  }, [homeData, enrichmentIndex, workingForm, sortId, adjustmentsApplied]);
 
   const [ui, setUi] = useState(() =>
     createBuildPlanResultsUiStateFromPresentation(presentation),

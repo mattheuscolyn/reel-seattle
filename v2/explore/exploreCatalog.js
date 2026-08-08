@@ -12,6 +12,7 @@ import { findNextOpportunityForFilm } from '../home/shelfData.js';
 import { formatUserFacingFormatLabel } from '../topOpportunities/topOpportunityFormat.js';
 import { resolveTheaterPresentation } from '../theaters/resolveTheaterPresentation.js';
 import { SEARCH_EXPLORE_HONESTY_NOTE } from './searchCopy.js';
+import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 
 /**
  * Local calendar YYYY-MM-DD in America/Los_Angeles.
@@ -102,15 +103,16 @@ export function formatCompactDateRange(startIso, endIso) {
  * Resolve film rows for an ordered list of keys; skip missing/stale keys.
  * @param {object | null} homeData
  * @param {string[]} keys
+ * @param {object | null | undefined} [enrichmentIndex]
  */
-export function filmsForKeys(homeData, keys) {
+export function filmsForKeys(homeData, keys, enrichmentIndex = null) {
   const byKey = new Map(listFilms(homeData).map((film) => [film.filmKey, film]));
   /** @type {ReturnType<typeof toFilmRow>[]} */
   const out = [];
   for (const key of keys ?? []) {
     const film = byKey.get(key);
     if (!film) continue;
-    out.push(toFilmRow(homeData, film));
+    out.push(toFilmRow(homeData, film, enrichmentIndex));
   }
   return out;
 }
@@ -233,7 +235,7 @@ export function searchExplore(homeData, query) {
  * @param {object | null} homeData
  * @param {string} localDate
  */
-export function filmsOnDate(homeData, localDate) {
+export function filmsOnDate(homeData, localDate, enrichmentIndex = null) {
   const keys = new Set(
     listOpportunities(homeData)
       .filter((opp) => opp.localDate === localDate)
@@ -241,7 +243,7 @@ export function filmsOnDate(homeData, localDate) {
   );
   return listFilms(homeData)
     .filter((film) => keys.has(film.filmKey))
-    .map((film) => toFilmRow(homeData, film));
+    .map((film) => toFilmRow(homeData, film, enrichmentIndex));
 }
 
 /**
@@ -249,8 +251,9 @@ export function filmsOnDate(homeData, localDate) {
  * @param {object | null} homeData
  * @param {string} startDate
  * @param {string} endDate
+ * @param {object | null | undefined} [enrichmentIndex]
  */
-export function filmsInDateRange(homeData, startDate, endDate) {
+export function filmsInDateRange(homeData, startDate, endDate, enrichmentIndex = null) {
   const keys = new Set(
     listOpportunities(homeData)
       .filter(
@@ -263,16 +266,17 @@ export function filmsInDateRange(homeData, startDate, endDate) {
   );
   return listFilms(homeData)
     .filter((film) => keys.has(film.filmKey))
-    .map((film) => toFilmRow(homeData, film));
+    .map((film) => toFilmRow(homeData, film, enrichmentIndex));
 }
 
 /**
  * @param {object | null} homeData
+ * @param {object | null | undefined} [enrichmentIndex]
  */
-export function allPlayingFilms(homeData) {
+export function allPlayingFilms(homeData, enrichmentIndex = null) {
   return listFilms(homeData)
     .filter((film) => (film.showtimeCount ?? 0) > 0)
-    .map((film) => toFilmRow(homeData, film));
+    .map((film) => toFilmRow(homeData, film, enrichmentIndex));
 }
 
 /**
@@ -289,7 +293,7 @@ function hasMatchingFormat(tags, matchers) {
  * @param {object | null} homeData
  * @param {readonly string[]} matchers
  */
-export function filmsWithFormatTags(homeData, matchers) {
+export function filmsWithFormatTags(homeData, matchers, enrichmentIndex = null) {
   const keys = new Set(
     listOpportunities(homeData)
       .filter((opp) => hasMatchingFormat(opp.formatLabels, matchers))
@@ -297,7 +301,7 @@ export function filmsWithFormatTags(homeData, matchers) {
   );
   return listFilms(homeData)
     .filter((film) => keys.has(film.filmKey))
-    .map((film) => toFilmRow(homeData, film));
+    .map((film) => toFilmRow(homeData, film, enrichmentIndex));
 }
 
 /**
@@ -321,22 +325,29 @@ export function inventoryFormats(homeData) {
 /**
  * @param {object | null} homeData
  * @param {object} film
+ * @param {object | null | undefined} [enrichmentIndex]
  */
-function toFilmRow(homeData, film) {
+function toFilmRow(homeData, film, enrichmentIndex = null) {
   const next = findNextOpportunityForFilm(homeData, film.filmKey);
+  const enriched = enrichHomeFilm(film, enrichmentIndex, 'collection', homeData);
   return {
     filmKey: film.filmKey,
-    filmId: film.filmId ?? null,
+    filmId: enriched.filmId ?? film.filmId ?? null,
     parentFilmKey: film.parentFilmKey ?? null,
-    title: film.title,
-    canonicalTitle: film.canonicalTitle ?? film.parentDisplayTitle ?? film.title ?? null,
-    releaseYear: film.releaseYear ?? film.year ?? null,
+    title: enriched.displayTitle ?? film.title,
+    canonicalTitle:
+      enriched.canonicalTitle ??
+      film.canonicalTitle ??
+      film.parentDisplayTitle ??
+      film.title ??
+      null,
+    releaseYear: enriched.canonicalYear ?? film.releaseYear ?? film.year ?? null,
     identityAliases: Array.isArray(film.identityAliases)
       ? film.identityAliases
       : undefined,
     source: film.source ?? null,
     sourceFilmId: film.sourceFilmId ?? null,
-    posterUrl: film.posterUrl ?? null,
+    posterUrl: enriched.posterUrl,
     metaLabel: next
       ? [next.theaterName, next.timeDisplay].filter(Boolean).join(' · ')
       : null,
@@ -348,12 +359,13 @@ function toFilmRow(homeData, film) {
  * Build collection content for an Explore collection id.
  * @param {object | null} homeData
  * @param {string} collectionId
- * @param {{ query?: string, dismissedKeys?: string[], seenKeys?: string[], savedKeys?: string[] }} [options]
+ * @param {{ query?: string, dismissedKeys?: string[], seenKeys?: string[], savedKeys?: string[], enrichmentIndex?: object | null }} [options]
  */
 export function buildExploreCollection(homeData, collectionId, options = {}) {
   const today = pacificDateString();
   const weekEnd = addIsoDays(today, 6);
   const weekend = resolveWeekendRange(today);
+  const enrichmentIndex = options.enrichmentIndex ?? null;
 
   switch (collectionId) {
     case 'all-movies':
@@ -361,7 +373,7 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
         status: 'ready',
         kind: 'films',
         reason: null,
-        films: allPlayingFilms(homeData),
+        films: allPlayingFilms(homeData, enrichmentIndex),
         theaters: [],
         formats: [],
       };
@@ -370,7 +382,7 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
         status: 'ready',
         kind: 'films',
         reason: `Films with showtimes on ${today} (Pacific).`,
-        films: filmsOnDate(homeData, today),
+        films: filmsOnDate(homeData, today, enrichmentIndex),
         theaters: [],
         formats: [],
       };
@@ -379,7 +391,7 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
         status: 'ready',
         kind: 'films',
         reason: `Films with showtimes ${today}–${weekEnd} (Pacific, rolling 7-day window — not a calendar week).`,
-        films: filmsInDateRange(homeData, today, weekEnd),
+        films: filmsInDateRange(homeData, today, weekEnd, enrichmentIndex),
         theaters: [],
         formats: [],
       };
@@ -388,12 +400,12 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
         status: 'ready',
         kind: 'films',
         reason: `Films with showtimes ${weekend.start}–${weekend.end} (Pacific Friday–Sunday).`,
-        films: filmsInDateRange(homeData, weekend.start, weekend.end),
+        films: filmsInDateRange(homeData, weekend.start, weekend.end, enrichmentIndex),
         theaters: [],
         formats: [],
       };
     case 'imax': {
-      const films = filmsWithFormatTags(homeData, IMAX_FORMAT_TAGS);
+      const films = filmsWithFormatTags(homeData, IMAX_FORMAT_TAGS, enrichmentIndex);
       return {
         status: films.length > 0 ? 'ready' : 'unavailable',
         kind: 'films',
@@ -407,7 +419,11 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
       };
     }
     case '35mm': {
-      const films = filmsWithFormatTags(homeData, THIRTY_FIVE_MM_FORMAT_TAGS);
+      const films = filmsWithFormatTags(
+        homeData,
+        THIRTY_FIVE_MM_FORMAT_TAGS,
+        enrichmentIndex,
+      );
       return {
         status: films.length > 0 ? 'ready' : 'unavailable',
         kind: 'films',
@@ -535,7 +551,11 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
         dismissedKeys: options.dismissedKeys ?? [],
       };
     case 'saved': {
-      const films = filmsForKeys(homeData, options.savedKeys ?? []);
+      const films = filmsForKeys(
+        homeData,
+        options.savedKeys ?? [],
+        enrichmentIndex,
+      );
       return {
         status: 'ready',
         kind: 'saved',
@@ -549,7 +569,11 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
       };
     }
     case 'seen': {
-      const films = filmsForKeys(homeData, options.seenKeys ?? []);
+      const films = filmsForKeys(
+        homeData,
+        options.seenKeys ?? [],
+        enrichmentIndex,
+      );
       return {
         status: 'ready',
         kind: 'seen',
@@ -563,7 +587,11 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
       };
     }
     case 'hidden': {
-      const films = filmsForKeys(homeData, options.dismissedKeys ?? []);
+      const films = filmsForKeys(
+        homeData,
+        options.dismissedKeys ?? [],
+        enrichmentIndex,
+      );
       return {
         status: 'ready',
         kind: 'hidden',

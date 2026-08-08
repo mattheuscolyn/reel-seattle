@@ -428,6 +428,7 @@ export function generateLivePlannerResults({
   now = new Date(),
   maxResults = 40,
   storage = null,
+  enrichmentIndex = null,
 }) {
   if (!homeData) {
     return {
@@ -443,7 +444,7 @@ export function generateLivePlannerResults({
     };
   }
 
-  const rows = homeDataToPlannerRows(homeData);
+  const rows = homeDataToPlannerRows(homeData, { enrichmentIndex });
   const mapped = mapBuildFormToPlannerFilters(form, homeData, { now });
   const globalExclude = globalNotInterestedTokens(storage, homeData);
   if (globalExclude.length) {

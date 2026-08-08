@@ -77,6 +77,7 @@ export default function BuildPlanFilmManageSurface({
   onDone,
   onBack,
   homeData = null,
+  enrichmentIndex = null,
 }) {
   const config = getBuildPlanFilmManageConfig(mode);
   const searchId = useId();
@@ -109,9 +110,9 @@ export default function BuildPlanFilmManageSurface({
     void formTick;
     if (mockupMode) return [];
     return annotatePlannerFilmCandidates(
-      listPlannerEligibleFilms(homeData, { dateIso }),
+      listPlannerEligibleFilms(homeData, { dateIso, enrichmentIndex }),
     );
-  }, [homeData, dateIso, formTick, mockupMode]);
+  }, [homeData, enrichmentIndex, dateIso, formTick, mockupMode]);
 
   const candidates = useMemo(() => {
     void formTick;

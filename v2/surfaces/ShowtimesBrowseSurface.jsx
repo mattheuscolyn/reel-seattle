@@ -16,6 +16,7 @@ import {
  */
 export default function ShowtimesBrowseSurface({
   homeData,
+  enrichmentIndex = null,
   loadStatus = 'ready',
   errorMessage = null,
   browseUi = null,
@@ -65,14 +66,26 @@ export default function ShowtimesBrowseSurface({
 
   const presentation = useMemo(
     () =>
-      buildShowtimesBrowsePresentation(homeData, {
-        dateMode,
-        theaterIds,
-        formatKeys,
-        timeRangeId,
-        expandedFilmKey,
-      }),
-    [homeData, dateMode, theaterIds, formatKeys, timeRangeId, expandedFilmKey],
+      buildShowtimesBrowsePresentation(
+        homeData,
+        {
+          dateMode,
+          theaterIds,
+          formatKeys,
+          timeRangeId,
+          expandedFilmKey,
+        },
+        { enrichmentIndex },
+      ),
+    [
+      homeData,
+      enrichmentIndex,
+      dateMode,
+      theaterIds,
+      formatKeys,
+      timeRangeId,
+      expandedFilmKey,
+    ],
   );
 
   const setDate = (nextMode) => {

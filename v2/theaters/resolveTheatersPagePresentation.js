@@ -91,12 +91,14 @@ export function resolveTheatersPagePresentation({
  * @param {{
  *   theaterId?: string | null,
  *   homeData?: object | null,
+ *   enrichmentIndex?: object | null,
  *   forceMode?: 'production' | 'mockup-fixture' | null,
  * }} [params]
  */
 export function resolveTheaterDetailPagePresentation({
   theaterId = THEATER_DETAIL_DEFAULT_THEATER_ID,
   homeData = null,
+  enrichmentIndex = null,
   forceMode = null,
 } = {}) {
   const mode =
@@ -113,7 +115,11 @@ export function resolveTheaterDetailPagePresentation({
     };
   }
 
-  const presentation = composeTheaterDetailPresentation(homeData, theaterId);
+  const presentation = composeTheaterDetailPresentation(
+    homeData,
+    theaterId,
+    enrichmentIndex,
+  );
   return {
     mode: /** @type {'production'} */ ('production'),
     source: presentation.source,

@@ -18,6 +18,7 @@ import { isFilmNotInterested } from '../stores/notInterestedFilmsStore.js';
 import { isFilmSeen } from '../stores/seenFilmsStore.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 import { MUST_INCLUDE_MAX, WOULD_LOVE_MAX } from './buildPlanFilmManageConfig.js';
+import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 
 /**
  * Opportunity is eligible for the Manage catalog on a plan date:
@@ -60,12 +61,14 @@ export function isEligiblePlannerCatalogOpportunity(opportunity, options) {
  * @param {{
  *   dateIso?: string | null,
  *   now?: Date | (() => Date),
+ *   enrichmentIndex?: object | null,
  * }} [options]
  * @returns {object[]}
  */
 export function listPlannerEligibleFilms(homeData, options = {}) {
   const now = options.now ?? new Date();
   const nowFn = typeof now === 'function' ? now : () => now;
+  const enrichmentIndex = options.enrichmentIndex ?? null;
   const dateIso =
     typeof options.dateIso === 'string' &&
     /^\d{4}-\d{2}-\d{2}$/.test(options.dateIso)
@@ -97,19 +100,28 @@ export function listPlannerEligibleFilms(homeData, options = {}) {
 
     let entry = byFilm.get(opp.filmKey);
     if (!entry) {
+      const enriched = enrichHomeFilm(film, enrichmentIndex, 'planner', homeData);
       entry = {
         filmKey: film.filmKey,
-        filmId: film.filmId ?? null,
+        filmId: enriched.filmId ?? film.filmId ?? null,
         parentFilmKey: film.parentFilmKey ?? null,
-        title: film.title,
-        canonicalTitle: film.canonicalTitle ?? film.parentDisplayTitle ?? film.title,
-        releaseYear: film.releaseYear ?? film.year ?? null,
+        title: enriched.displayTitle ?? film.title,
+        canonicalTitle:
+          enriched.canonicalTitle ??
+          film.canonicalTitle ??
+          film.parentDisplayTitle ??
+          film.title,
+        releaseYear: enriched.canonicalYear ?? film.releaseYear ?? film.year ?? null,
         source: film.source ?? null,
         sourceFilmId: film.sourceFilmId ?? null,
-        posterUrl: film.posterUrl ?? null,
-        runtimeMin: film.runtimeMin ?? null,
-        rating: film.rating ?? film.mpaaRating ?? null,
-        genres: Array.isArray(film.genres) ? film.genres : [],
+        posterUrl: enriched.posterUrl,
+        runtimeMin: enriched.runtimeMin,
+        rating: enriched.usCertification ?? film.rating ?? film.mpaaRating ?? null,
+        genres: enriched.genres?.length
+          ? enriched.genres
+          : Array.isArray(film.genres)
+            ? film.genres
+            : [],
         theaters: new Map(),
         formats: new Map(),
         earliestSortable: null,

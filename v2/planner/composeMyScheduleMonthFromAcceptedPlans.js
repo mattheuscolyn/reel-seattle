@@ -11,6 +11,7 @@ import {
   isoWeekday,
   pacificDateString,
 } from '../explore/exploreCatalog.js';
+import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 import {
   dotCountFromMovieCount,
   heatLevelFromMovieCount,
@@ -30,24 +31,46 @@ const WEEKDAY_SHORT = Object.freeze([
 
 /**
  * Portable film nav payload from an accepted performance (Month surfaces).
+ * Prefer current canonical enrichment when filmId is present; keep source
+ * snapshot fields for navigation/fallback.
+ *
  * @param {import('../stores/acceptedPlansStore.js').AcceptedPlanPerformance} perf
+ * @param {object | null | undefined} [enrichmentIndex]
+ * @param {object | null | undefined} [homeData]
  */
-export function monthFilmNavFromPerformance(perf) {
+export function monthFilmNavFromPerformance(
+  perf,
+  enrichmentIndex = null,
+  homeData = null,
+) {
   if (!perf || typeof perf !== 'object') return null;
   const filmKey =
     typeof perf.filmKey === 'string' && perf.filmKey.trim()
       ? perf.filmKey.trim()
       : null;
+  const enriched = enrichHomeFilm(
+    {
+      filmId: perf.filmId ?? null,
+      filmKey,
+      parentFilmKey: perf.parentFilmKey ?? null,
+      title: perf.title,
+      posterUrl: perf.posterUrl ?? null,
+      runtimeMin: perf.runtimeMin ?? null,
+    },
+    enrichmentIndex,
+    'schedule',
+    homeData,
+  );
   return {
-    filmId: perf.filmId ?? null,
+    filmId: enriched.filmId ?? perf.filmId ?? null,
     filmKey,
     parentFilmKey: perf.parentFilmKey ?? null,
     showtimeFilmKey: filmKey,
     opportunityKey: perf.opportunityKey ?? null,
-    title: perf.title,
+    title: enriched.displayTitle ?? perf.title,
     ticketUrl: perf.ticketUrl ?? null,
     format: perf.format ?? null,
-    posterUrl: perf.posterUrl ?? null,
+    posterUrl: enriched.posterUrl ?? perf.posterUrl ?? null,
     theaterName: perf.theaterName ?? null,
     localTime: perf.localTime ?? null,
     localDate: perf.localDate ?? null,
@@ -138,6 +161,8 @@ export function longestPerformanceStreak(datesSorted) {
  *   monthOffset?: number,
  *   now?: Date | (() => Date),
  *   hideCompleted?: boolean,
+ *   enrichmentIndex?: object | null,
+ *   homeData?: object | null,
  * }} [options]
  */
 export function composeMyScheduleMonthFromAcceptedPlans(options = {}) {
@@ -150,6 +175,8 @@ export function composeMyScheduleMonthFromAcceptedPlans(options = {}) {
     ? Number(options.monthOffset)
     : 0;
   const hideCompleted = options.hideCompleted !== false;
+  const enrichmentIndex = options.enrichmentIndex ?? null;
+  const homeData = options.homeData ?? null;
   const yearMonth = shiftYearMonth(pacificYearMonth(now), monthOffset);
   const today = pacificDateString(now);
 
@@ -182,7 +209,9 @@ export function composeMyScheduleMonthFromAcceptedPlans(options = {}) {
     const dow = isoWeekday(iso);
     const dateNumber = Number(iso.slice(8, 10));
     const films = rows
-      .map((r) => monthFilmNavFromPerformance(r.performance))
+      .map((r) =>
+        monthFilmNavFromPerformance(r.performance, enrichmentIndex, homeData),
+      )
       .filter(Boolean);
     return {
       id: iso,
@@ -212,7 +241,14 @@ export function composeMyScheduleMonthFromAcceptedPlans(options = {}) {
         dots: dotCountFromMovieCount(rows.length),
         thumbUrls: rows
           .slice(0, 3)
-          .map((r) => r.performance.posterUrl)
+          .map(
+            (r) =>
+              monthFilmNavFromPerformance(
+                r.performance,
+                enrichmentIndex,
+                homeData,
+              )?.posterUrl,
+          )
           .filter(Boolean),
       };
     })
@@ -227,7 +263,9 @@ export function composeMyScheduleMonthFromAcceptedPlans(options = {}) {
       const rows = perfsByDate.get(date) ?? [];
       const count = rows.length;
       const films = rows
-        .map((r) => monthFilmNavFromPerformance(r.performance))
+        .map((r) =>
+          monthFilmNavFromPerformance(r.performance, enrichmentIndex, homeData),
+        )
         .filter(Boolean);
       const primary = films[0] ?? null;
       return {

@@ -402,6 +402,7 @@ export default function MyScheduleWeekSurface({
   onOpenFilmDetail,
   onOpenPlanDetails,
   homeData = null,
+  enrichmentIndex = null,
   acceptedPlansRevision = 0,
   scheduleSettingsRevision = 0,
   onAcceptedPlanChange,
@@ -425,8 +426,17 @@ export default function MyScheduleWeekSurface({
       weekOffset,
       storage: resolvedStorage,
       settings,
+      homeData,
+      enrichmentIndex,
     });
-  }, [acceptedPlansRevision, resolvedStorage, settings, weekOffset]);
+  }, [
+    acceptedPlansRevision,
+    resolvedStorage,
+    settings,
+    weekOffset,
+    homeData,
+    enrichmentIndex,
+  ]);
 
   const week = presentation.week;
   const isMockup = presentation.mode === 'mockup-fixture';
@@ -542,7 +552,10 @@ export default function MyScheduleWeekSurface({
   };
 
   const handleViewPlanDetails = (plan) => {
-    const adapted = acceptedPlanToPlanDetailsPlan(plan);
+    const adapted = acceptedPlanToPlanDetailsPlan(plan, {
+      enrichmentIndex,
+      homeData,
+    });
     if (!adapted || typeof onOpenPlanDetails !== 'function') {
       announce(
         'plan-details',

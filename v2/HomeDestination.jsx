@@ -143,6 +143,7 @@ export default function HomeDestination({
       <TopOpportunityFeature
         status={mockup ? 'ready' : loadStatus}
         homeData={effectiveHomeData}
+        enrichmentIndex={mockup ? null : enrichmentIndex}
         errorMessage={mockup ? null : errorMessage}
         initialIndex={topOppIndex}
         onIndexChange={setTopOppIndex}

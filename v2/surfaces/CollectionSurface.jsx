@@ -35,6 +35,7 @@ export default function CollectionSurface({
   collectionId,
   query = null,
   homeData,
+  enrichmentIndex = null,
   onBack,
   onOpenFilmDetail,
   onOpenCollection,
@@ -72,6 +73,7 @@ export default function CollectionSurface({
         dismissedKeys,
         seenKeys,
         savedKeys,
+        enrichmentIndex,
       }) ?? {
         status: 'unavailable',
         kind: 'empty',
@@ -81,7 +83,7 @@ export default function CollectionSurface({
         formats: [],
       }
     );
-  }, [collectionId, homeData, query, dismissedKeys, seenKeys, savedKeys]);
+  }, [collectionId, homeData, enrichmentIndex, query, dismissedKeys, seenKeys, savedKeys]);
 
   const suggested = useMemo(() => buildSuggestedStarts(), []);
 

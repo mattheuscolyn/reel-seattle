@@ -198,7 +198,8 @@ test('Home shelf and quick detail activate enrichment fields', () => {
   assert.match(detail.metaLine, /2025/);
   assert.match(detail.metaLine, /Action/);
   assert.match(detail.synopsis, /Twin brothers/);
-  assert.equal(detail.rating, null);
+  assert.equal(detail.rating, 'G'); // TMDB US certification via shared resolver
+  assert.equal(detail.title, 'Sinners');
 });
 
 test('attribution copy includes required non-endorsement notice', () => {
@@ -251,7 +252,7 @@ test('Search prefers canonical title and activates enrichment by filmId', () => 
   assert.match(row.metaLine, /2025/);
   assert.match(row.metaLine, /Action/);
   assert.match(row.synopsis, /Twin brothers/);
-  assert.equal(row.rating, null);
+  assert.equal(row.rating, 'G'); // TMDB US certification from enrichment
   assert.equal(row.director, 'Ryan Coogler'); // carried; Search UI does not render
   assert.match(row.posterUrl, /image\.tmdb\.org\/t\/p\/w500\/sinners\.jpg/); // TMDB first
   assert.equal(row.hasEnrichment, true);
