@@ -714,6 +714,7 @@ export function navigateBack(state) {
     state.surface.type === 'build-plan-results' ||
     state.surface.type === 'build-plan-plan-details' ||
     state.surface.type === 'build-plan-film-manage' ||
+    state.surface.type === 'build-plan-theater-manage' ||
     state.surface.type === 'my-schedule-week' ||
     state.surface.type === 'my-schedule-month' ||
     state.surface.type === 'schedule-settings' ||
