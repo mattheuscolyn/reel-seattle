@@ -880,7 +880,6 @@ export default function V2App() {
         filmKey={nav.surface.filmKey}
         theaterId={nav.surface.theaterId}
         opportunityKey={nav.surface.opportunityKey}
-        onBack={handleBack}
         onOpenTheaterDetail={(params) =>
           handleOpenTheaterDetail({
             ...params,
@@ -1367,7 +1366,9 @@ export default function V2App() {
         backLabel={
           isFilmDetail
             ? filmBackLabel
-            : isShowtimesBrowse
+            : isShowtimes
+              ? 'Film'
+              : isShowtimesBrowse
               ? nav.surface.originPrimary === 'home'
                 ? 'Home'
                 : 'Explore'
@@ -1382,6 +1383,7 @@ export default function V2App() {
         backStyle={isBuildPlanChrome ? 'chevron' : 'label'}
         onBack={
           isFilmDetail ||
+          isShowtimes ||
           isSearchResults ||
           isBuildPlanChrome ||
           isShowtimesBrowse

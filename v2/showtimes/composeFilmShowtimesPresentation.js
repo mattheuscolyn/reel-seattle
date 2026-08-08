@@ -17,6 +17,7 @@ import {
 import { pacificDateString } from '../explore/exploreCatalog.js';
 import { formatLocalDateLabel } from '../topOpportunities/topOpportunityFormat.js';
 import { normalizeExternalTicketUrl } from '../ticket/externalTicketUrl.js';
+import { resolveTheaterPresentation } from '../theaters/resolveTheaterPresentation.js';
 import {
   opportunitySortableKey,
   pacificSortableDateTime,
@@ -119,11 +120,14 @@ export function composeFilmShowtimesPresentation(
     selectedDate = dates.includes(today) ? today : dates[0] ?? null;
   }
 
-  const dateChips = dates.map((iso) => ({
-    id: iso,
-    label: formatLocalDateLabel(iso) ?? iso,
-    isToday: iso === today,
-  }));
+  const dateChips = dates.map((iso) => {
+    const isToday = iso === today;
+    return {
+      id: iso,
+      label: isToday ? 'Today' : formatLocalDateLabel(iso) ?? iso,
+      isToday,
+    };
+  });
 
   const formatOptions = collectFormatOptions(eligibleOpps);
   const theaterOptions = collectTheaterOptions(eligibleOpps);
@@ -173,6 +177,7 @@ export function composeFilmShowtimesPresentation(
     emphasizedKey,
     bestKey: bestOnDate?.opportunityKey ?? null,
     sortId,
+    homeData,
   });
 
   const selectedOpp =
@@ -373,8 +378,61 @@ function collectTheaterOptions(opportunities) {
 }
 
 /**
+ * @param {object | null | undefined} homeData
+ * @param {string | null | undefined} theaterId
+ */
+function lookupTheaterCardMeta(homeData, theaterId) {
+  if (!theaterId || !homeData) {
+    return { locationLabel: null, thumbnailUrl: null };
+  }
+  const theater =
+    homeData.theatersById?.[theaterId] ??
+    (Array.isArray(homeData.theaters)
+      ? homeData.theaters.find((t) => t?.id === theaterId)
+      : null);
+  if (!theater) {
+    return { locationLabel: null, thumbnailUrl: null };
+  }
+  const card = resolveTheaterPresentation({
+    theater,
+    homeData,
+    context: 'list',
+  });
+  return {
+    locationLabel:
+      card.neighborhood ?? card.city ?? card.addressLabel ?? null,
+    thumbnailUrl: card.thumbnailUrl ?? card.imageUrl ?? null,
+  };
+}
+
+/**
+ * Attributes shared by every screening in a theater group.
+ * @param {{ formatLabel: string | null, variantLabel: string | null }[]} times
+ */
+function computeSharedChips(times) {
+  if (!Array.isArray(times) || times.length === 0) return [];
+  /** @type {Map<string, number>} */
+  const counts = new Map();
+  for (const time of times) {
+    const labels = [time.variantLabel, time.formatLabel].filter(Boolean);
+    const unique = [...new Set(labels)];
+    for (const label of unique) {
+      counts.set(label, (counts.get(label) ?? 0) + 1);
+    }
+  }
+  return [...counts.entries()]
+    .filter(([, count]) => count === times.length)
+    .map(([label]) => ({ label }));
+}
+
+/**
  * @param {object[]} dayOpps
- * @param {{ emphasizedKey: string | null, bestKey: string | null, sortId: string }} opts
+ * @param {{
+ *   emphasizedKey: string | null,
+ *   bestKey: string | null,
+ *   sortId: string,
+ *   homeData?: object | null,
+ * }} opts
  */
 function buildTheaterGroups(dayOpps, opts) {
   /** @type {Map<string, object>} */
@@ -383,11 +441,14 @@ function buildTheaterGroups(dayOpps, opts) {
     const theaterId = opp.theaterId ?? opp.theaterName ?? opp.opportunityKey;
     if (!byTheater.has(theaterId)) {
       const mark = buildVenueMark(opp.theaterName, opp.theaterId);
+      const meta = lookupTheaterCardMeta(opts.homeData, opp.theaterId);
       byTheater.set(theaterId, {
         theaterId: opp.theaterId ?? theaterId,
         theaterName: opp.theaterName ?? 'Theater',
         venueMark: mark.label,
         accent: mark.accent,
+        locationLabel: meta.locationLabel,
+        thumbnailUrl: meta.thumbnailUrl,
         times: [],
         earliestSortable: opportunitySortableKey(opp) ?? '9999',
       });
@@ -395,7 +456,6 @@ function buildTheaterGroups(dayOpps, opts) {
     const group = byTheater.get(theaterId);
     const format = opportunityFormatLabel(opp);
     const variant = screeningVariantLabel(opp.screeningVariantType);
-    const detailParts = [variant, format].filter(Boolean);
     const sortable = opportunitySortableKey(opp) ?? '';
     if (sortable && sortable < group.earliestSortable) {
       group.earliestSortable = sortable;
@@ -408,7 +468,7 @@ function buildTheaterGroups(dayOpps, opts) {
       localTime: opp.localTime ?? null,
       formatLabel: format,
       variantLabel: variant,
-      detailLabel: detailParts.length ? detailParts.join(' · ') : null,
+      detailLabel: null,
       ticketUrl: normalizeExternalTicketUrl(opp.ticketUrl),
       isBest: opp.opportunityKey === opts.bestKey,
       isSelected: opp.opportunityKey === opts.emphasizedKey,
@@ -423,6 +483,16 @@ function buildTheaterGroups(dayOpps, opts) {
       if (a.sortable !== b.sortable) return a.sortable < b.sortable ? -1 : 1;
       return String(a.opportunityKey).localeCompare(String(b.opportunityKey));
     });
+    const sharedChips = computeSharedChips(group.times);
+    const sharedSet = new Set(sharedChips.map((c) => c.label));
+    for (const time of group.times) {
+      const distinct = [time.variantLabel, time.formatLabel].filter(
+        (label) => label && !sharedSet.has(label),
+      );
+      time.detailLabel = distinct.length ? [...new Set(distinct)].join(' · ') : null;
+    }
+    group.sharedChips = sharedChips;
+    group.isBestCard = group.times.some((t) => t.isBest);
     return group;
   });
 

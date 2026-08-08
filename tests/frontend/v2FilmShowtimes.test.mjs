@@ -282,13 +282,21 @@ test('designed surface replaces scaffold / deferred copy', () => {
   assert.equal(SURFACE.includes('scaffold'), false);
   assert.equal(SURFACE.includes('deferred'), false);
   assert.equal(SURFACE.includes('Film filter active'), false);
+  assert.equal(SURFACE.includes('v2-film-detail-back'), false);
   assert.ok(SURFACE.includes('composeFilmShowtimesPresentation'));
-  assert.ok(SURFACE.includes('v2-st-theater-list'));
+  assert.ok(SURFACE.includes('v2-st-theater-card'));
+  assert.ok(SURFACE.includes('v2-st-best-option'));
   assert.ok(SURFACE.includes('Add to calendar'));
   assert.ok(SURFACE.includes('externalTicketLinkProps'));
-  assert.ok(CSS.includes('.v2-st-theater-list'));
-  assert.ok(CSS.includes('.v2-st-best-tag'));
+  assert.ok(SURFACE.includes('Theater'));
+  assert.ok(SURFACE.includes('Format'));
+  assert.ok(SURFACE.includes('Sort'));
+  assert.ok(CSS.includes('.v2-st-theater-card'));
+  assert.ok(CSS.includes('.v2-st-best-option'));
+  assert.ok(CSS.includes('flex-wrap: nowrap'));
   assert.ok(COMPOSER.includes('enrichHomeFilm'));
+  assert.ok(APP.includes("isShowtimes"));
+  assert.match(APP, /isShowtimes[\s\S]*backLabel[\s\S]*Film/);
 });
 
 test('canonical film selected with TMDB presentation when enrichment joins', () => {
@@ -318,8 +326,16 @@ test('real date grouping excludes past days and started today times', () => {
     true,
   );
   assert.equal(
+    view.dateChips.find((c) => c.id === '2026-08-01')?.label,
+    'Today',
+  );
+  assert.equal(
     view.dateChips.find((c) => c.id === '2026-08-02')?.isToday,
     false,
+  );
+  assert.notEqual(
+    view.dateChips.find((c) => c.id === '2026-08-02')?.label,
+    'Today',
   );
 
   const keys = view.theaterGroups.flatMap((g) =>
@@ -329,6 +345,25 @@ test('real date grouping excludes past days and started today times', () => {
   assert.ok(!keys.includes('today-past'));
   assert.ok(keys.includes('today-imax'));
   assert.ok(keys.includes('today-digital'));
+});
+
+test('shared screening attributes lift to theater card; distinct stay on pills', () => {
+  const view = composeFilmShowtimesPresentation(sampleHome(), 'spider', {
+    now: NOW,
+    selectedDate: '2026-08-01',
+  });
+  const alder = view.theaterGroups.find((g) => g.theaterId === 'amc-alder');
+  assert.ok(alder);
+  assert.equal(alder.times[0].detailLabel, null);
+
+  const south = view.theaterGroups.find((g) => g.theaterId === 'amc-south');
+  assert.ok(south);
+  assert.ok(south.isBestCard);
+  const imax = south.times.find((t) => t.opportunityKey === 'today-imax');
+  const digital = south.times.find((t) => t.opportunityKey === 'today-digital');
+  assert.ok(imax?.detailLabel);
+  assert.match(imax.detailLabel, /IMAX/i);
+  assert.equal(digital?.isBest, false);
 });
 
 test('multiple theaters; each group only contains its showtimes', () => {
@@ -385,10 +420,17 @@ test('screening variant resolves into parent family showtimes', () => {
   assert.ok(parentKeys.includes('sensory-today'));
   assert.ok(variantKeys.includes('today-imax'));
   assert.ok(variantKeys.includes('sensory-today'));
-  const sensory = fromParent.theaterGroups
-    .flatMap((g) => g.times)
-    .find((t) => t.opportunityKey === 'sensory-today');
-  assert.match(sensory?.detailLabel ?? '', /Sensory/i);
+  const sensoryGroup = fromParent.theaterGroups.find((g) =>
+    g.times.some((t) => t.opportunityKey === 'sensory-today'),
+  );
+  const sensory = sensoryGroup?.times.find(
+    (t) => t.opportunityKey === 'sensory-today',
+  );
+  const sensoryAttr =
+    sensory?.detailLabel ||
+    sensoryGroup?.sharedChips?.map((c) => c.label).join(' ') ||
+    '';
+  assert.match(sensoryAttr, /Sensory/i);
 });
 
 test('same-title films with different identities stay distinct', () => {
@@ -500,8 +542,9 @@ test('mobile rendering structure uses wrapping times and bottom padding', () => 
   assert.ok(SURFACE.includes('role="toolbar"'));
   assert.ok(SURFACE.includes('aria-label="Showtime dates"'));
   assert.match(CSS, /\.v2-st-times\s*\{[^}]*flex-wrap:\s*wrap/);
-  assert.match(CSS, /\.v2-st\s*\{[^}]*padding:[^}]*5\.5rem/);
-  assert.match(CSS, /\.v2-st-theater-label\s*\{[^}]*overflow-wrap:\s*anywhere/);
+  assert.match(CSS, /\.v2-st-dates\s*\{[^}]*flex-wrap:\s*nowrap/);
+  assert.match(CSS, /\.v2-st\s*\{[^}]*padding:[^}]*5\.75rem/);
+  assert.match(CSS, /\.v2-st-theater-name\s*\{[^}]*overflow-wrap:\s*anywhere/);
 });
 
 test('dedupe drops duplicate showtimes from parent/variant grouping', () => {
