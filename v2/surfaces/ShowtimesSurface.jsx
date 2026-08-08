@@ -1,154 +1,449 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import {
   calendarExportStatusMessage,
   exportOpportunityToCalendar,
 } from '../calendar/exportFromOpportunity.js';
+import { resolveFilm } from '../filmDetail/filmDetailModel.js';
+import { IconChevron } from '../icons.jsx';
+import { TheaterVenueImage } from '../theaters/TheaterVenueImage.jsx';
 import {
-  listFilmOpportunities,
-  opportunityFormatLabel,
-  resolveFilm,
-  screeningVariantLabel,
-} from '../filmDetail/filmDetailModel.js';
-import { formatLocalDateLabel } from '../topOpportunities/topOpportunityFormat.js';
-import { pacificDateString } from '../explore/exploreCatalog.js';
+  EXTERNAL_TICKET_LINK_RELS,
+  EXTERNAL_TICKET_LINK_TARGET,
+  externalTicketLinkProps,
+} from '../ticket/externalTicketUrl.js';
+import { composeFilmShowtimesPresentation } from '../showtimes/composeFilmShowtimesPresentation.js';
 
 /**
- * Film-scoped showtimes surface (multi-day).
- * Uses parent-family opportunities so special screenings share the canonical film.
+ * Designed Film Showtimes page — Film Detail → See all showtimes.
+ * Live HomeData + canonical film presentation; not a mockup fixture route.
+ * Back navigation is owned by AppHeader.
  */
 export default function ShowtimesSurface({
   homeData,
+  enrichmentIndex = null,
   filmKey,
   theaterId = null,
   opportunityKey = null,
-  onBack,
-  onOpenOpportunity,
+  onOpenTheaterDetail,
 }) {
-  const film = resolveFilm(homeData, filmKey);
-  const today = pacificDateString();
-  const opps = useMemo(
-    () => listFilmOpportunities(homeData, filmKey),
-    [homeData, filmKey],
-  );
-  const dates = useMemo(() => {
-    const set = new Set(opps.map((o) => o.localDate).filter(Boolean));
-    return [...set].sort();
-  }, [opps]);
-  const [date, setDate] = useState(
-    dates.includes(today) ? today : dates[0] ?? today,
-  );
+  const titleId = useId();
+  const datesId = useId();
+  const theaterFilterId = useId();
+  const formatFilterId = useId();
+  const sortFilterId = useId();
+  const moreFiltersId = useId();
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [formatKeys, setFormatKeys] = useState([]);
+  const [timeRangeId, setTimeRangeId] = useState('any');
+  const [sortId, setSortId] = useState('time');
+  const [moreOpen, setMoreOpen] = useState(false);
+  const [theaterScope, setTheaterScope] = useState(theaterId);
   const [selectedKey, setSelectedKey] = useState(opportunityKey);
   const [calendarStatus, setCalendarStatus] = useState(null);
 
-  const filtered = opps.filter((o) => {
-    if (o.localDate !== date) return false;
-    if (theaterId && o.theaterId !== theaterId) return false;
-    return true;
-  });
+  useEffect(() => {
+    setSelectedKey(opportunityKey);
+    setTheaterScope(theaterId);
+  }, [opportunityKey, filmKey, theaterId]);
 
-  /** @type {Map<string, object[]>} */
-  const byTheater = new Map();
-  for (const opp of filtered) {
-    const id = opp.theaterId ?? opp.theaterName;
-    if (!byTheater.has(id)) byTheater.set(id, []);
-    byTheater.get(id).push(opp);
-  }
+  const presentation = useMemo(
+    () =>
+      composeFilmShowtimesPresentation(homeData, filmKey, {
+        selectedDate,
+        theaterId: theaterScope,
+        opportunityKey: selectedKey,
+        formatKeys,
+        timeRangeId,
+        sortId,
+        enrichmentIndex,
+      }),
+    [
+      homeData,
+      filmKey,
+      selectedDate,
+      theaterScope,
+      selectedKey,
+      formatKeys,
+      timeRangeId,
+      sortId,
+      enrichmentIndex,
+    ],
+  );
 
-  const selectedOpp =
-    filtered.find((o) => o.opportunityKey === selectedKey) ??
-    filtered.find((o) => o.opportunityKey === opportunityKey) ??
+  useEffect(() => {
+    if (
+      presentation.selectedDate &&
+      presentation.selectedDate !== selectedDate
+    ) {
+      setSelectedDate(presentation.selectedDate);
+    }
+  }, [presentation.selectedDate, selectedDate]);
+
+  const film = resolveFilm(homeData, filmKey);
+  const selectedTime =
+    presentation.theaterGroups
+      .flatMap((g) =>
+        g.times.map((t) => ({
+          ...t,
+          theaterName: g.theaterName,
+        })),
+      )
+      .find((t) => t.opportunityKey === (selectedKey ?? presentation.selectedOpportunityKey)) ??
     null;
 
+  const formatSelectValue = formatKeys[0] ?? '';
+  const hasMoreFilters = presentation.timeRangeOptions.length > 1;
+  const filtersActive =
+    formatKeys.length > 0 ||
+    timeRangeId !== 'any' ||
+    sortId !== 'time' ||
+    Boolean(theaterScope);
+
   const handleExport = () => {
-    if (!selectedOpp) {
+    const opp =
+      (selectedTime?.opportunityKey &&
+        (homeData?.opportunities ?? []).find(
+          (o) => o.opportunityKey === selectedTime.opportunityKey,
+        )) ||
+      null;
+    if (!opp) {
       setCalendarStatus('Select a showtime to add to your calendar.');
       return;
     }
     const result = exportOpportunityToCalendar({
-      opportunity: selectedOpp,
+      opportunity: opp,
       film,
       homeData,
     });
     setCalendarStatus(calendarExportStatusMessage(result));
   };
 
-  const displayTitle =
-    film?.parentDisplayTitle || film?.title || 'Showtimes';
+  const resetFilters = () => {
+    setFormatKeys([]);
+    setTimeRangeId('any');
+    setSortId('time');
+    setTheaterScope(null);
+  };
 
   return (
-    <section className="v2-st" aria-labelledby="v2-st-title">
-      <button type="button" className="v2-film-detail-back" onClick={onBack}>
-        ← Back
-      </button>
+    <section className="v2-st" aria-labelledby={titleId}>
       <p className="v2-destination-eyebrow">Showtimes</p>
-      <h1 id="v2-st-title">{displayTitle}</h1>
-      {theaterId ? (
-        <p className="v2-st-filter" role="status">
-          Filtered to one theater.
-        </p>
-      ) : null}
 
-      {dates.length > 0 ? (
-        <div className="v2-st-dates" role="toolbar" aria-label="Dates">
-          {dates.map((d) => (
+      <header className="v2-st-film-summary">
+        {presentation.posterUrl ? (
+          <img
+            className="v2-st-poster"
+            src={presentation.posterUrl}
+            alt=""
+            draggable="false"
+          />
+        ) : (
+          <span className="v2-st-poster v2-st-poster-fallback" aria-hidden="true" />
+        )}
+        <div className="v2-st-film-copy">
+          <h1 id={titleId} className="v2-st-title">
+            {presentation.title}
+          </h1>
+          {presentation.metaLine ? (
+            <p className="v2-st-film-meta">{presentation.metaLine}</p>
+          ) : null}
+          {presentation.genreLine ? (
+            <p className="v2-st-film-genres">{presentation.genreLine}</p>
+          ) : null}
+        </div>
+      </header>
+
+      {presentation.dateChips.length > 0 ? (
+        <div
+          id={datesId}
+          className="v2-st-dates"
+          role="toolbar"
+          aria-label="Showtime dates"
+        >
+          {presentation.dateChips.map((chip) => (
             <button
-              key={d}
+              key={chip.id}
               type="button"
-              className={
-                d === date ? 'v2-search-chip v2-search-chip-active' : 'v2-search-chip'
-              }
-              aria-pressed={d === date}
-              onClick={() => setDate(d)}
+              className={[
+                'v2-st-date-chip',
+                chip.id === presentation.selectedDate ? 'is-active' : '',
+                chip.isToday ? 'is-today' : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+              aria-pressed={chip.id === presentation.selectedDate}
+              onClick={() => {
+                setSelectedDate(chip.id);
+                setCalendarStatus(null);
+              }}
             >
-              {formatLocalDateLabel(d) ?? d}
+              {chip.label}
             </button>
           ))}
         </div>
       ) : null}
 
-      {filtered.length === 0 ? (
-        <p className="v2-fd-muted" role="status">
-          No showtimes for this date in the current window.
-        </p>
+      <div className="v2-st-controls" role="group" aria-label="Showtimes filters">
+        <label className="v2-st-control" htmlFor={theaterFilterId}>
+          <span className="v2-st-control-label">Theater</span>
+          <select
+            id={theaterFilterId}
+            className="v2-st-select"
+            value={theaterScope ?? ''}
+            onChange={(event) => {
+              setTheaterScope(event.target.value || null);
+              setCalendarStatus(null);
+            }}
+          >
+            <option value="">All theaters</option>
+            {presentation.theaterOptions.map((opt) => (
+              <option key={opt.id} value={opt.id}>
+                {opt.name}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        {presentation.formatOptions.length > 0 ? (
+          <label className="v2-st-control" htmlFor={formatFilterId}>
+            <span className="v2-st-control-label">Format</span>
+            <select
+              id={formatFilterId}
+              className="v2-st-select"
+              value={formatSelectValue}
+              onChange={(event) => {
+                const next = event.target.value;
+                setFormatKeys(next ? [next] : []);
+                setCalendarStatus(null);
+              }}
+            >
+              <option value="">Any format</option>
+              {presentation.formatOptions.map((opt) => (
+                <option key={opt.key} value={opt.key}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
+
+        <label className="v2-st-control" htmlFor={sortFilterId}>
+          <span className="v2-st-control-label">Sort</span>
+          <select
+            id={sortFilterId}
+            className="v2-st-select"
+            value={sortId}
+            onChange={(event) => {
+              setSortId(event.target.value === 'theater' ? 'theater' : 'time');
+            }}
+          >
+            {presentation.sortOptions.map((opt) => (
+              <option key={opt.id} value={opt.id}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        {hasMoreFilters ? (
+          <button
+            type="button"
+            className={
+              moreOpen || timeRangeId !== 'any'
+                ? 'v2-st-more-btn is-active'
+                : 'v2-st-more-btn'
+            }
+            aria-expanded={moreOpen}
+            aria-controls={moreFiltersId}
+            onClick={() => setMoreOpen((open) => !open)}
+          >
+            More
+          </button>
+        ) : null}
+
+        {filtersActive ? (
+          <button type="button" className="v2-st-reset" onClick={resetFilters}>
+            Reset
+          </button>
+        ) : null}
+      </div>
+
+      {moreOpen && hasMoreFilters ? (
+        <div id={moreFiltersId} className="v2-st-more-filters">
+          <fieldset className="v2-st-fieldset">
+            <legend>Time of day</legend>
+            <div className="v2-st-chip-row" role="group" aria-label="Time of day">
+              {presentation.timeRangeOptions.map((opt) => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  className={
+                    timeRangeId === opt.id
+                      ? 'v2-search-chip v2-search-chip-active'
+                      : 'v2-search-chip'
+                  }
+                  aria-pressed={timeRangeId === opt.id}
+                  onClick={() => setTimeRangeId(opt.id)}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      ) : null}
+
+      {presentation.empty ? (
+        <div className="v2-st-empty" role="status">
+          <p>{presentation.emptyMessage}</p>
+          {filtersActive ? (
+            <button type="button" className="v2-st-reset" onClick={resetFilters}>
+              Reset filters
+            </button>
+          ) : null}
+        </div>
       ) : (
         <ul className="v2-st-theater-list" role="list">
-          {[...byTheater.entries()].map(([id, rows]) => (
-            <li key={id} className="v2-st-theater">
-              <h2 className="v2-st-theater-name">
-                {rows[0]?.theaterName ?? 'Theater'}
-              </h2>
+          {presentation.theaterGroups.map((group) => (
+            <li
+              key={group.theaterId}
+              className={
+                group.isBestCard
+                  ? 'v2-st-theater-card is-best'
+                  : 'v2-st-theater-card'
+              }
+            >
+              {group.isBestCard ? (
+                <p className="v2-st-best-option">Best option</p>
+              ) : null}
+              <div className="v2-st-theater-head">
+                {typeof onOpenTheaterDetail === 'function' && group.theaterId ? (
+                  <button
+                    type="button"
+                    className={`v2-st-theater-open v2-st-accent-${group.accent}`}
+                    onClick={() =>
+                      onOpenTheaterDetail({ theaterId: group.theaterId })
+                    }
+                    aria-label={`${group.theaterName}, theater details`}
+                  >
+                    <span
+                      className={`v2-st-venue-mark v2-st-venue-mark-${group.venueMark}`}
+                      aria-hidden="true"
+                    >
+                      {group.thumbnailUrl ? (
+                        <TheaterVenueImage
+                          src={group.thumbnailUrl}
+                          className="v2-st-venue-img"
+                          fallbackClassName="v2-st-venue-fallback"
+                        />
+                      ) : (
+                        <span className="v2-st-venue-fallback">
+                          {group.venueMark}
+                        </span>
+                      )}
+                    </span>
+                    <span className="v2-st-theater-copy">
+                      <span className="v2-st-theater-name">{group.theaterName}</span>
+                      {group.locationLabel ? (
+                        <span className="v2-st-theater-loc">
+                          {group.locationLabel}
+                        </span>
+                      ) : null}
+                      {group.sharedChips?.length ? (
+                        <span className="v2-st-shared-chips">
+                          {group.sharedChips.map((chip) => (
+                            <span key={chip.label} className="v2-st-shared-chip">
+                              {chip.label}
+                            </span>
+                          ))}
+                        </span>
+                      ) : null}
+                    </span>
+                    <span className="v2-st-theater-chevron" aria-hidden="true">
+                      <IconChevron />
+                    </span>
+                  </button>
+                ) : (
+                  <div
+                    className={`v2-st-theater-open v2-st-theater-open-static v2-st-accent-${group.accent}`}
+                  >
+                    <span
+                      className={`v2-st-venue-mark v2-st-venue-mark-${group.venueMark}`}
+                      aria-hidden="true"
+                    >
+                      {group.thumbnailUrl ? (
+                        <TheaterVenueImage
+                          src={group.thumbnailUrl}
+                          className="v2-st-venue-img"
+                          fallbackClassName="v2-st-venue-fallback"
+                        />
+                      ) : (
+                        <span className="v2-st-venue-fallback">
+                          {group.venueMark}
+                        </span>
+                      )}
+                    </span>
+                    <span className="v2-st-theater-copy">
+                      <span className="v2-st-theater-name">{group.theaterName}</span>
+                      {group.locationLabel ? (
+                        <span className="v2-st-theater-loc">
+                          {group.locationLabel}
+                        </span>
+                      ) : null}
+                      {group.sharedChips?.length ? (
+                        <span className="v2-st-shared-chips">
+                          {group.sharedChips.map((chip) => (
+                            <span key={chip.label} className="v2-st-shared-chip">
+                              {chip.label}
+                            </span>
+                          ))}
+                        </span>
+                      ) : null}
+                    </span>
+                  </div>
+                )}
+              </div>
+
               <ul className="v2-st-times" role="list">
-                {rows.map((opp) => {
-                  const variant = screeningVariantLabel(opp.screeningVariantType);
-                  const format = opportunityFormatLabel(opp);
-                  const chips = [variant, format].filter(Boolean);
-                  const selected = opp.opportunityKey === selectedOpp?.opportunityKey;
+                {group.times.map((time) => {
+                  const ticket = externalTicketLinkProps(time.ticketUrl);
+                  const className = [
+                    'v2-st-time',
+                    time.isSelected ? 'is-selected' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ');
+                  const label = time.detailLabel
+                    ? `${time.timeDisplay} · ${time.detailLabel}`
+                    : time.timeDisplay;
+                  const selectTime = () => {
+                    setSelectedKey(time.opportunityKey);
+                    setCalendarStatus(null);
+                  };
                   return (
-                    <li key={opp.opportunityKey}>
-                      <button
-                        type="button"
-                        className={
-                          selected
-                            ? 'v2-st-time v2-st-time-selected'
-                            : 'v2-st-time'
-                        }
-                        aria-pressed={selected}
-                        onClick={() => {
-                          setSelectedKey(opp.opportunityKey);
-                          onOpenOpportunity?.(opp);
-                        }}
-                      >
-                        <span className="v2-st-time-label">{opp.timeDisplay}</span>
-                        {chips.length > 0 ? (
-                          <span className="v2-st-time-chips">
-                            {chips.map((chip) => (
-                              <span key={chip} className="v2-st-chip">
-                                {chip}
-                              </span>
-                            ))}
-                          </span>
-                        ) : null}
-                      </button>
+                    <li key={time.opportunityKey}>
+                      {ticket ? (
+                        <a
+                          className={className}
+                          href={ticket.href}
+                          target={EXTERNAL_TICKET_LINK_TARGET}
+                          rel={EXTERNAL_TICKET_LINK_RELS}
+                          aria-label={`${label} — opens ticket site in a new tab`}
+                          onClick={selectTime}
+                        >
+                          <span className="v2-st-time-label">{label}</span>
+                        </a>
+                      ) : (
+                        <button
+                          type="button"
+                          className={className}
+                          aria-pressed={time.isSelected}
+                          aria-label={label}
+                          onClick={selectTime}
+                        >
+                          <span className="v2-st-time-label">{label}</span>
+                        </button>
+                      )}
                     </li>
                   );
                 })}
@@ -158,16 +453,35 @@ export default function ShowtimesSurface({
         </ul>
       )}
 
-      <div className="v2-st-actions">
-        <button type="button" className="v2-fd-primary" onClick={handleExport}>
-          Add to calendar
-        </button>
-        {calendarStatus ? (
-          <p className="v2-fd-muted" role="status">
-            {calendarStatus}
+      <p className="v2-st-timezone" role="note">
+        {presentation.timezoneNote}
+      </p>
+
+      <div className="v2-st-calendar-bar">
+        <div className="v2-st-calendar-copy">
+          <p className="v2-st-calendar-kicker">Add to calendar</p>
+          <p className="v2-st-calendar-selection">
+            {selectedTime
+              ? `${selectedTime.theaterName} · ${selectedTime.timeDisplay}${
+                  selectedTime.detailLabel ? ` · ${selectedTime.detailLabel}` : ''
+                }`
+              : 'Select a showtime'}
           </p>
-        ) : null}
+        </div>
+        <button
+          type="button"
+          className="v2-st-calendar"
+          onClick={handleExport}
+          disabled={!selectedTime}
+        >
+          Add
+        </button>
       </div>
+      {calendarStatus ? (
+        <p className="v2-fd-muted v2-st-calendar-status" role="status">
+          {calendarStatus}
+        </p>
+      ) : null}
     </section>
   );
 }
