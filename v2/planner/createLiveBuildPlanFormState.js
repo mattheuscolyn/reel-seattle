@@ -44,6 +44,7 @@ export function createLiveBuildPlanFormState(now = new Date()) {
     wouldLove: [],
     notInterested: [],
     theaterPrefId: 'any',
+    selectedTheaters: [],
     locationDisplay: 'Seattle, WA',
     locationShort: 'Seattle',
     planSize: '1–3 movies',

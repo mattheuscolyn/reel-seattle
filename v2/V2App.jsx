@@ -18,6 +18,7 @@ import {
   openBuildPlan,
   openBuildPlanResults,
   openBuildPlanFilmManage,
+  openBuildPlanTheaterManage,
   openBuildPlanPlanDetails,
   openCollection,
   openFilmDetail,
@@ -44,6 +45,7 @@ import OpeningThisWeekSurface from './opening/OpeningThisWeekSurface.jsx';
 import BuildPlanSurface from './planner/BuildPlanSurface.jsx';
 import BuildPlanResultsSurface from './planner/BuildPlanResultsSurface.jsx';
 import BuildPlanFilmManageSurface from './planner/BuildPlanFilmManageSurface.jsx';
+import BuildPlanTheaterManageSurface from './planner/BuildPlanTheaterManageSurface.jsx';
 import BuildPlanPlanDetailsSurface from './planner/BuildPlanPlanDetailsSurface.jsx';
 import MyScheduleWeekSurface from './planner/MyScheduleWeekSurface.jsx';
 import MyScheduleMonthSurface from './planner/MyScheduleMonthSurface.jsx';
@@ -484,6 +486,27 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleOpenBuildPlanTheaterManage = useCallback(() => {
+    setNav((current) =>
+      openBuildPlanTheaterManage(current, {
+        originPrimary: 'planner',
+        returnSurface:
+          current.surface?.type === 'build-plan'
+            ? {
+                ...current.surface,
+                resumeOpenSection: 'where',
+              }
+            : {
+                type: 'build-plan',
+                originPrimary: 'planner',
+                returnSurface: null,
+                resumeOpenSection: 'where',
+              },
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleOpenBuildPlanResults = useCallback((formConfig = null) => {
     setNav((current) =>
       openBuildPlanResults(current, {
@@ -637,6 +660,8 @@ export default function V2App() {
     nav.surface?.type === 'build-plan-plan-details';
   const isBuildPlanFilmManage =
     nav.surface?.type === 'build-plan-film-manage';
+  const isBuildPlanTheaterManage =
+    nav.surface?.type === 'build-plan-theater-manage';
   const isBuildPlanChrome =
     isBuildPlan ||
     isBuildPlanFilmManage ||
@@ -1077,6 +1102,7 @@ export default function V2App() {
         backLabel="Planner"
         resumeOpenSection={nav.surface?.resumeOpenSection ?? null}
         onOpenFilmManage={handleOpenBuildPlanFilmManage}
+        onOpenTheaterManage={handleOpenBuildPlanTheaterManage}
         onRequestResults={handleOpenBuildPlanResults}
         onStubAction={(_actionId, label) => {
           setProfileStubStatus(
@@ -1094,6 +1120,13 @@ export default function V2App() {
         onBack={handleBack}
         homeData={sharedHomeData.homeData}
         enrichmentIndex={enrichmentState.index}
+      />
+    );
+  } else if (isBuildPlanTheaterManage) {
+    mainContent = (
+      <BuildPlanTheaterManageSurface
+        onDone={handleBack}
+        onBack={handleBack}
       />
     );
   } else if (isBuildPlanResults) {
