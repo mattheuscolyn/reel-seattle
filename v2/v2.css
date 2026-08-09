@@ -10686,8 +10686,14 @@ a.v2-st-time:hover {
   padding-top: 0.2rem;
 }
 
+.v2-bpd[data-bpd-mode='saved'] .v2-bpd-actions {
+  grid-template-columns: 1fr;
+}
+
 .v2-bpd-save,
-.v2-bpd-schedule {
+.v2-bpd-schedule,
+.v2-bpd-secondary,
+.v2-bpd-overflow-trigger {
   appearance: none;
   display: inline-flex;
   align-items: center;
@@ -10701,6 +10707,74 @@ a.v2-st-time:hover {
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
+}
+
+.v2-bpd-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(245, 245, 247, 0.94);
+}
+
+.v2-bpd-overflow {
+  position: relative;
+}
+
+.v2-bpd-overflow-trigger {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: rgba(214, 214, 220, 0.88);
+  font-weight: 500;
+}
+
+.v2-bpd-overflow-menu {
+  margin-top: 0.45rem;
+  padding: 0.35rem;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(20, 18, 28, 0.98);
+}
+
+.v2-bpd-overflow-item {
+  appearance: none;
+  width: 100%;
+  min-height: 2.4rem;
+  padding: 0.55rem 0.7rem;
+  border: 0;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: rgba(245, 245, 247, 0.94);
+  font: inherit;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.v2-bpd-overflow-item:hover,
+.v2-bpd-overflow-item:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.v2-bpd-overflow-danger {
+  color: #f0a8a8;
+}
+
+.v2-bpd-overflow-confirm {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.25rem 0.2rem 0.15rem;
+}
+
+.v2-bpd-overflow-confirm p {
+  margin: 0 0 0.25rem;
+  padding: 0 0.35rem;
+  color: rgba(214, 214, 220, 0.86);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.v2-planner-section[data-planner-section='pastPlans'] .v2-planner-plan-row {
+  opacity: 0.92;
 }
 
 .v2-bpd-save {

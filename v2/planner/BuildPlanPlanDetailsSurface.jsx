@@ -1,8 +1,9 @@
 /**
  * Build a Plan — Plan Details
  *
- * Origin: Results → View plan details.
- * Renders the selected Results plan (or Plan Details mockup fixture).
+ * Renders:
+ * 1) a transient generated Results plan (accept / add to schedule)
+ * 2) a persistent saved accepted plan (share / view schedule / remove)
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -28,7 +29,9 @@ import {
   getScheduleSettings,
   subscribeScheduleSettings,
 } from '../stores/scheduleSettingsStore.js';
+import { removeAcceptedPlan } from '../stores/acceptedPlansStore.js';
 import { resolveFilmDetailNavParams } from '../identity/filmIdentity.js';
+import { isSavedPlanDetailsPlan } from './planLifecycle.js';
 
 function selectedFilmsForCalendarExport(plan) {
   if (!plan || !Array.isArray(plan.items)) return [];
@@ -61,6 +64,7 @@ function selectedFilmsForCalendarExport(plan) {
   }
   return films;
 }
+
 /**
  * @param {{
  *   plan: object | null,
@@ -70,6 +74,10 @@ function selectedFilmsForCalendarExport(plan) {
  *   onOpenFilmDetail?: (payload: {
  *     filmKey: string,
  *     opportunityKey?: string | null,
+ *   }) => void,
+ *   onViewInSchedule?: (payload: {
+ *     planId: string | null,
+ *     focusDate: string | null,
  *   }) => void,
  *   homeData?: object | null,
  *   storage?: Storage | null,
@@ -82,18 +90,22 @@ export default function BuildPlanPlanDetailsSurface({
   onShareReady = null,
   onAcceptedPlanChange = null,
   onOpenFilmDetail = null,
+  onViewInSchedule = null,
   homeData = null,
   storage = null,
   dateLabel = null,
 }) {
   const mockup = isPlanDetailsMockupMode();
   const plan = mockup ? getBuildPlanPlanDetailsMockupPlan() : planProp;
+  const savedMode = !mockup && isSavedPlanDetailsPlan(plan);
 
   const backBusyRef = useRef(false);
   const actionBusyRef = useRef(false);
-  const [scheduled, setScheduled] = useState(false);
+  const [scheduled, setScheduled] = useState(savedMode);
   const [statusMessage, setStatusMessage] = useState(null);
   const [settingsTick, setSettingsTick] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [confirmRemove, setConfirmRemove] = useState(false);
 
   const resolvedStorage =
     storage ?? (typeof localStorage !== 'undefined' ? localStorage : null);
@@ -108,7 +120,10 @@ export default function BuildPlanPlanDetailsSurface({
 
   useEffect(() => {
     backBusyRef.current = false;
-  }, [plan?.id]);
+    setScheduled(savedMode);
+    setMenuOpen(false);
+    setConfirmRemove(false);
+  }, [plan?.id, plan?.planId, savedMode]);
 
   const handleBack = useCallback(() => {
     if (backBusyRef.current) return;
@@ -120,17 +135,19 @@ export default function BuildPlanPlanDetailsSurface({
     const films = selectedFilmsForCalendarExport(plan);
     if (!films.length) {
       setStatusMessage(
-        'Calendar export (.ics) needs real showtimes. Fixture plans can’t export yet.',
+        savedMode
+          ? 'Calendar export (.ics) needs complete showtime details for this plan.'
+          : 'Calendar export (.ics) needs real showtimes. Fixture plans can’t export yet.',
       );
       return;
     }
     const result = exportPlanToCalendar({
-      planId: plan?.id ?? null,
+      planId: plan?.planId ?? plan?.id ?? null,
       title: view?.title ?? 'Movie day plan',
       films,
     });
     setStatusMessage(calendarExportStatusMessage(result));
-  }, [plan, view?.title]);
+  }, [plan, view?.title, savedMode]);
 
   useEffect(() => {
     onShareReady?.(handleShare);
@@ -138,7 +155,7 @@ export default function BuildPlanPlanDetailsSurface({
   }, [onShareReady, handleShare]);
 
   const handleAddToSchedule = useCallback(() => {
-    if (actionBusyRef.current) return;
+    if (actionBusyRef.current || savedMode) return;
     if (scheduled) {
       setStatusMessage('Already in My Schedule.');
       return;
@@ -146,7 +163,10 @@ export default function BuildPlanPlanDetailsSurface({
     actionBusyRef.current = true;
     const result = acceptResultsPlan(plan, [], {
       storage: resolvedStorage,
-      provenance: mockup || plan?.source === 'mockup-fixture' ? 'fixture' : plan?.provenance ?? plan?.source,
+      provenance:
+        mockup || plan?.source === 'mockup-fixture'
+          ? 'fixture'
+          : plan?.provenance ?? plan?.source,
       label: view?.title ?? null,
     });
     setStatusMessage(result.message);
@@ -159,11 +179,44 @@ export default function BuildPlanPlanDetailsSurface({
     }, 400);
   }, [
     scheduled,
+    savedMode,
     plan,
     resolvedStorage,
     mockup,
     view?.title,
     onAcceptedPlanChange,
+  ]);
+
+  const handleViewInSchedule = useCallback(() => {
+    if (typeof onViewInSchedule !== 'function') return;
+    onViewInSchedule({
+      planId: plan?.planId ?? plan?.id ?? null,
+      focusDate: plan?.date ?? null,
+    });
+  }, [onViewInSchedule, plan]);
+
+  const handleRemovePlan = useCallback(() => {
+    if (actionBusyRef.current || !savedMode) return;
+    const planId = plan?.planId ?? plan?.id;
+    if (!planId) return;
+    actionBusyRef.current = true;
+    const result = removeAcceptedPlan(resolvedStorage, planId);
+    if (result.ok && result.changed) {
+      setStatusMessage(
+        'Plan removed. Its screenings were also removed from My Schedule.',
+      );
+      onAcceptedPlanChange?.();
+      onBack();
+    } else {
+      setStatusMessage('Couldn’t remove that plan.');
+      actionBusyRef.current = false;
+    }
+  }, [
+    savedMode,
+    plan,
+    resolvedStorage,
+    onAcceptedPlanChange,
+    onBack,
   ]);
 
   if (!view) {
@@ -174,11 +227,12 @@ export default function BuildPlanPlanDetailsSurface({
             Plan unavailable
           </h1>
           <p className="v2-bpd-empty-copy">
-            This plan is no longer available. Head back to your results to pick
-            another itinerary.
+            {savedMode
+              ? 'This saved plan could not be loaded. It may have been removed.'
+              : 'This plan is no longer available. Head back to your results to pick another itinerary.'}
           </p>
           <button type="button" className="v2-bpd-empty-back" onClick={handleBack}>
-            Back to results
+            {savedMode ? 'Back to Planner' : 'Back to results'}
           </button>
         </div>
       </article>
@@ -190,6 +244,7 @@ export default function BuildPlanPlanDetailsSurface({
       className="v2-bpd"
       aria-labelledby="v2-bpd-title"
       data-plan-id={view.planId ?? undefined}
+      data-bpd-mode={savedMode ? 'saved' : 'generated'}
       data-bpd-source={mockup ? 'mockup-fixture' : view.provenance || 'live'}
     >
       <div className="v2-bpd-card">
@@ -345,20 +400,83 @@ export default function BuildPlanPlanDetailsSurface({
         </section>
 
         <div className="v2-bpd-actions">
-          <button
-            type="button"
-            className={`v2-bpd-schedule${scheduled ? ' is-added' : ''}`}
-            aria-pressed={scheduled}
-            aria-label={
-              scheduled ? 'Added to My Schedule' : 'Add to My Schedule'
-            }
-            onClick={handleAddToSchedule}
-          >
-            <IconCalendar width={16} height={16} aria-hidden="true" />
-            <span>
-              {scheduled ? 'Added to My Schedule' : 'Add to My Schedule'}
-            </span>
-          </button>
+          {savedMode ? (
+            <>
+              {typeof onViewInSchedule === 'function' ? (
+                <button
+                  type="button"
+                  className="v2-bpd-secondary"
+                  onClick={handleViewInSchedule}
+                >
+                  View in My Schedule
+                </button>
+              ) : null}
+              <div className="v2-bpd-overflow">
+                <button
+                  type="button"
+                  className="v2-bpd-overflow-trigger"
+                  aria-expanded={menuOpen}
+                  aria-haspopup="menu"
+                  onClick={() => {
+                    setConfirmRemove(false);
+                    setMenuOpen((open) => !open);
+                  }}
+                >
+                  More
+                </button>
+                {menuOpen ? (
+                  <div className="v2-bpd-overflow-menu" role="menu">
+                    {!confirmRemove ? (
+                      <button
+                        type="button"
+                        className="v2-bpd-overflow-item v2-bpd-overflow-danger"
+                        role="menuitem"
+                        onClick={() => setConfirmRemove(true)}
+                      >
+                        Remove plan…
+                      </button>
+                    ) : (
+                      <div className="v2-bpd-overflow-confirm">
+                        <p>
+                          Remove this plan? Its screenings will also be removed
+                          from My Schedule.
+                        </p>
+                        <button
+                          type="button"
+                          className="v2-bpd-overflow-item v2-bpd-overflow-danger"
+                          onClick={handleRemovePlan}
+                        >
+                          Remove plan
+                        </button>
+                        <button
+                          type="button"
+                          className="v2-bpd-overflow-item"
+                          onClick={() => setConfirmRemove(false)}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : null}
+              </div>
+            </>
+          ) : (
+            <button
+              type="button"
+              className={`v2-bpd-schedule${scheduled ? ' is-added' : ''}`}
+              aria-pressed={scheduled}
+              aria-label={
+                scheduled ? 'Added to My Schedule' : 'Add to My Schedule'
+              }
+              onClick={handleAddToSchedule}
+            >
+              <IconCalendar width={16} height={16} aria-hidden="true" />
+              <span>
+                {scheduled ? 'Added to My Schedule' : 'Add to My Schedule'}
+              </span>
+            </button>
+          )}
         </div>
       </div>
 

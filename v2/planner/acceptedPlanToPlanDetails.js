@@ -20,6 +20,27 @@ function asTrimmed(value) {
 }
 
 /**
+ * @param {string | null | undefined} isoDate
+ * @returns {string}
+ */
+function formatLongPlanDateLabel(isoDate) {
+  if (!isoDate || typeof isoDate !== 'string') return '';
+  try {
+    const [y, m, d] = isoDate.split('-').map(Number);
+    if (!y || !m || !d) return isoDate;
+    const date = new Date(Date.UTC(y, m - 1, d, 12));
+    return new Intl.DateTimeFormat('en-US', {
+      timeZone: 'UTC',
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+    }).format(date);
+  } catch {
+    return isoDate;
+  }
+}
+
+/**
  * @param {string | null | undefined} iso
  * @returns {string}
  */
@@ -161,15 +182,20 @@ export function acceptedPlanToPlanDetailsPlan(plan, options = {}) {
     });
   }
 
+  const dateLabel = formatLongPlanDateLabel(plan.date) || plan.date;
+
   return {
     id: plan.planId,
     planId: plan.planId,
     provenance: 'live',
     source: 'accepted-plan',
+    mode: 'saved',
     label: plan.label,
     date: plan.date,
-    dateLabel: plan.date,
-    dateDisplay: plan.date,
+    dateLabel,
+    dateDisplay: dateLabel,
+    summaryDate: dateLabel,
+    acceptedAt: plan.acceptedAt ?? null,
     items,
   };
 }

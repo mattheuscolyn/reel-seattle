@@ -24,6 +24,8 @@ import ProfileDestination from './profile/ProfileDestination.jsx';
  *   onPlannerStubAction?: (actionId: string, label: string) => void,
  *   onOpenBuildPlan?: () => void,
  *   onOpenMyScheduleWeek?: () => void,
+ *   onOpenSavedPlan?: (planId: string) => void,
+ *   acceptedPlansRevision?: number,
  * }} props
  */
 export default function DestinationPlaceholder({
@@ -45,6 +47,8 @@ export default function DestinationPlaceholder({
   onPlannerStubAction,
   onOpenBuildPlan,
   onOpenMyScheduleWeek,
+  onOpenSavedPlan,
+  acceptedPlansRevision = 0,
 }) {
   const destination = getDestinationById(resolveDestinationId(destinationId));
 
@@ -92,6 +96,8 @@ export default function DestinationPlaceholder({
         onStubAction={onPlannerStubAction}
         onOpenBuildPlan={onOpenBuildPlan}
         onOpenMyScheduleWeek={onOpenMyScheduleWeek}
+        onOpenSavedPlan={onOpenSavedPlan}
+        acceptedPlansRevision={acceptedPlansRevision}
       />
     );
   }

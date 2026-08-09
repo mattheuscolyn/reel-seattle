@@ -5,6 +5,10 @@
 
 import { getAcceptedPlans } from '../stores/acceptedPlansStore.js';
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
+import {
+  formatLongPlanDateLabel,
+  partitionAcceptedPlans,
+} from './planLifecycle.js';
 
 /**
  * @param {string} isoDate
@@ -41,15 +45,22 @@ function formatClockLabel(localTime, timeFormatId = '12h') {
  * @param {import('../stores/acceptedPlansStore.js').AcceptedPlanItem} plan
  * @param {string} [timeFormatId]
  */
-function toUpcomingRow(plan, timeFormatId = '12h') {
+function toPlanRow(plan, timeFormatId = '12h') {
   const perfs = Array.isArray(plan.performances) ? plan.performances : [];
   const first = perfs[0] ?? null;
   const titles = perfs.map((p) => p.title).filter(Boolean);
   const title =
     plan.label?.trim() ||
     (titles.length > 1 ? titles.join(' + ') : titles[0]) ||
-    'Scheduled plan';
-  const venueLabel = first?.theaterName ?? null;
+    'Your Movie Day Plan';
+  const theaters = [
+    ...new Set(perfs.map((p) => p.theaterName).filter(Boolean)),
+  ];
+  let venueLabel = null;
+  if (theaters.length === 1) venueLabel = theaters[0];
+  else if (theaters.length > 1) {
+    venueLabel = `${theaters[0]} · ${theaters.length} theaters`;
+  }
   const whenLabel = formatWhenLabel(
     plan.date || first?.localDate,
     formatClockLabel(first?.localTime, timeFormatId) ?? first?.localTime,
@@ -70,10 +81,13 @@ function toUpcomingRow(plan, timeFormatId = '12h') {
   }
   return {
     id: plan.planId,
+    planId: plan.planId,
     title,
     venueLabel,
     whenLabel,
+    dateLabel: formatLongPlanDateLabel(plan.date) || plan.date || null,
     imageUrl: first?.posterUrl ?? null,
+    filmCount: perfs.length,
     badges,
   };
 }
@@ -135,16 +149,14 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
     typeof options.timeFormatId === 'string' && options.timeFormatId
       ? options.timeFormatId
       : '12h';
-  const plans = getAcceptedPlans(storage)
-    .slice()
-    .sort((a, b) => {
-      const aKey = `${a.date}|${a.performances?.[0]?.localTime ?? ''}`;
-      const bKey = `${b.date}|${b.performances?.[0]?.localTime ?? ''}`;
-      return aKey < bKey ? -1 : aKey > bKey ? 1 : 0;
-    });
+  const { upcoming, past } = partitionAcceptedPlans(
+    getAcceptedPlans(storage),
+    now,
+  );
 
-  const upcomingRows = plans.map((plan) => toUpcomingRow(plan, timeFormatId));
-  const next = plans[0] ?? null;
+  const upcomingRows = upcoming.map((plan) => toPlanRow(plan, timeFormatId));
+  const pastRows = past.map((plan) => toPlanRow(plan, timeFormatId));
+  const next = upcoming[0] ?? null;
   const nextSummary = nextPlanSummary(
     next?.date ?? next?.performances?.[0]?.localDate,
     next?.performances?.[0]?.localTime,
@@ -157,10 +169,12 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
     pageTitle: 'Planner',
     pageTagline: 'See what’s ahead or plan your next movie day.',
     summary: {
-      upcomingCount: plans.length,
+      upcomingCount: upcoming.length,
       draftCount: 0,
-      nextPlanValue: plans.length ? nextSummary.nextPlanValue : '—',
-      nextPlanLabel: plans.length ? nextSummary.nextPlanLabel : 'No next plan',
+      nextPlanValue: upcoming.length ? nextSummary.nextPlanValue : '—',
+      nextPlanLabel: upcoming.length
+        ? nextSummary.nextPlanLabel
+        : 'No next plan',
     },
     entries: [
       {
@@ -182,12 +196,20 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
     upcoming: {
       sectionTitle: 'Upcoming Plans',
       viewAllLabel: 'View all',
-      emptyTitle: plans.length === 0 ? 'No upcoming plans yet' : null,
+      emptyTitle: upcoming.length === 0 ? 'No upcoming plans yet' : null,
       emptyBody:
-        plans.length === 0
+        upcoming.length === 0
           ? 'Accepted plans will appear here. Build a Plan to get started.'
           : null,
       plans: upcomingRows.slice(0, 5),
+    },
+    past: {
+      sectionTitle: 'Past Plans',
+      viewAllLabel: past.length > 3 ? 'Show all' : null,
+      emptyTitle: null,
+      emptyBody: null,
+      plans: pastRows,
+      previewCount: 3,
     },
     // No draft persistence in this shell — omit the card on the normal route.
     draft: {

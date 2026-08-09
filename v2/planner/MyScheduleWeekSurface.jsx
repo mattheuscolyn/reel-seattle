@@ -6,7 +6,7 @@
  * Local-only — no calendar sync or cloud persistence.
  */
 
-import { useId, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import {
   IconChart,
   IconChevron,
@@ -26,6 +26,7 @@ import { removeAcceptedPlan } from '../stores/acceptedPlansStore.js';
 import ScheduleModifyPlanSheet from './ScheduleModifyPlanSheet.jsx';
 import { resolveFilmDetailNavParams } from '../identity/filmIdentity.js';
 import { acceptedPlanToPlanDetailsPlan } from './acceptedPlanToPlanDetails.js';
+import { weekOffsetForFocusDate } from './planLifecycle.js';
 
 function getBrowserStorage() {
   try {
@@ -392,6 +393,8 @@ function ScheduleDayRow({
  *   scheduleSettingsRevision?: number,
  *   onAcceptedPlanChange?: () => void,
  *   storage?: Storage | null,
+ *   focusDate?: string | null,
+ *   focusPlanId?: string | null,
  * }} [props]
  */
 export default function MyScheduleWeekSurface({
@@ -407,13 +410,27 @@ export default function MyScheduleWeekSurface({
   scheduleSettingsRevision = 0,
   onAcceptedPlanChange,
   storage = null,
+  focusDate = null,
+  focusPlanId = null,
 }) {
   const statusId = useId();
-  const [weekOffset, setWeekOffset] = useState(0);
+  const initialFocus =
+    typeof focusDate === 'string' && focusDate.trim() ? focusDate.trim() : null;
+  const [weekOffset, setWeekOffset] = useState(() =>
+    initialFocus ? weekOffsetForFocusDate(initialFocus) : 0,
+  );
   const [statusMessage, setStatusMessage] = useState(null);
-  const [selectedDateId, setSelectedDateId] = useState(null);
+  const [selectedDateId, setSelectedDateId] = useState(initialFocus);
   const [modifyPlan, setModifyPlan] = useState(null);
   const resolvedStorage = storage ?? getBrowserStorage();
+
+  useEffect(() => {
+    if (typeof focusDate === 'string' && focusDate.trim()) {
+      const next = focusDate.trim();
+      setSelectedDateId(next);
+      setWeekOffset(weekOffsetForFocusDate(next));
+    }
+  }, [focusDate, focusPlanId]);
 
   const settings = useMemo(() => {
     void scheduleSettingsRevision;
