@@ -43,8 +43,22 @@ data/film_identity/review_notes.json
 data/audits/film_identity_review_pack.json
 data/audits/film_identity_review_exports/
 
+# Regenerable local audit dumps (do not commit; tracked cockpit/workflow audits stay versioned)
+data/audits/canonical_film_current_window_report.json
+data/audits/canonical_focus_films_public_artifact_check.json
+data/audits/normalization_impact_current_window.json
+data/audits/nwff_match_rate_diagnosis.json
+data/audits/tmdb_enrichment_coverage.json
+data/audits/tmdb_match_manual_review_current.csv
+data/audits/tmdb_match_manual_review_current.json
+data/audits/tmdb_match_manual_review_shortlist.csv
+data/audits/tmdb_match_manual_review_shortlist.json
+
 # Atomic-write backups from identity/catalog scripts
 *.bak
+
+# One-off local diagnostic scripts
+scripts/_tmp_*.mjs
 
 # Local v2 QC / audit captures (never commit)
 tmp-v2-qc/
