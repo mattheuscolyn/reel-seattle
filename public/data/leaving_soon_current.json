@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-07T23:39:46-07:00",
+  "generated_at": "2026-08-08T23:43:18-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-08-07",
-    "end_date": "2026-08-21"
+    "start_date": "2026-08-08",
+    "end_date": "2026-08-22"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 52,
-    "flagged_film_count": 9
+    "candidate_film_count": 54,
+    "flagged_film_count": 11
   },
   "items": [
     {
@@ -168,6 +168,42 @@
       "runtime_min": 70
     },
     {
+      "film_key": "castle-in-the-sky-40th-anniversary-studio-ghibli-fest-2026",
+      "film_title": "Castle in the Sky 40th Anniversary - Studio Ghibli Fest 2026",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-22",
+      "max_show_date": "2026-08-22",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-08-22"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1778770280/amc-cdn/content/general/ph3oebtm74ux52kvhbnp.jpg",
+      "runtime_min": 111
+    },
+    {
       "film_key": "nimrods-early-access-green-day-intro-bonus-performance",
       "film_title": "Nimrods Early Access – Green Day Intro + Bonus Performance",
       "risk_level": "high",
@@ -238,6 +274,30 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1784027276/amc-cdn/production/2/movies/84500/84464/Poster/421772R1.jpg",
       "runtime_min": 98
+    },
+    {
+      "film_key": "paw-patrol-the-dino-movie-sensory-friendly-screening",
+      "film_title": "PAW Patrol: The Dino Movie: Sensory Friendly Screening",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-22",
+      "max_show_date": "2026-08-22",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-08-22"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780584445/amc-cdn/content/general/awy2orcjbpfczykymppv.jpg",
+      "runtime_min": null
     },
     {
       "film_key": "practical-magic",
