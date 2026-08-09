@@ -180,9 +180,13 @@ test('Film Detail planner seed still reaches Planner destination', () => {
 });
 
 test('Planner landing interactions do not mutate storage', () => {
-  assert.equal(PLANNER_SRC.includes('localStorage'), false);
+  // Landing may read localStorage for schedule settings / accepted plans, but
+  // must not write Saved/Favorite stores or call setItem itself.
+  assert.equal(PLANNER_SRC.includes('setItem'), false);
   assert.equal(PLANNER_SRC.includes('savedFilmsStore'), false);
   assert.equal(PLANNER_SRC.includes('getSavedFilms'), false);
+  assert.equal(PLANNER_SRC.includes('acceptPlan'), false);
+  assert.equal(PLANNER_SRC.includes('removeAcceptedPlan'), false);
   const storage = memoryStorage();
   assert.equal(getSavedFilms(storage).length, 0);
   assert.equal(getFavoriteTheaters(storage).length, 0);

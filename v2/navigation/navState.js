@@ -115,7 +115,8 @@ import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
  * @property {'build-plan-plan-details'} type
  * @property {string} originPrimary
  * @property {object | null} [returnSurface]
- * @property {object} plan
+ * @property {object | null} [plan]
+ * @property {string | null} [planId]
  */
 
 /**
@@ -123,6 +124,8 @@ import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
  * @property {'my-schedule-week'} type
  * @property {string} originPrimary
  * @property {object | null} [returnSurface]
+ * @property {string | null} [focusDate]
+ * @property {string | null} [focusPlanId]
  */
 
 /**
@@ -447,24 +450,37 @@ export function openBuildPlanResults(state, params = {}) {
 }
 
 /**
- * Plan Details deep surface opened from Build a Plan Results.
+ * Plan Details deep surface — generated Results plan and/or saved planId.
  * @param {object} state
  * @param {{
- *   plan: object,
+ *   plan?: object | null,
+ *   planId?: string | null,
  *   originPrimary?: string,
  *   returnSurface?: object | null,
+ *   origin?: object | null,
  * }} params
  */
 export function openBuildPlanPlanDetails(state, params = {}) {
-  if (!params.plan) return state;
+  const planId =
+    (typeof params.planId === 'string' && params.planId.trim()) ||
+    (typeof params.plan?.planId === 'string' && params.plan.planId.trim()) ||
+    (typeof params.plan?.id === 'string' &&
+    String(params.plan.id).startsWith('accepted:')
+      ? String(params.plan.id).trim()
+      : null);
+  if (!params.plan && !planId) return state;
   const originPrimary = resolveDestinationId(
     params.originPrimary ?? state.primaryDestinationId ?? 'planner',
   );
   const resultsOrigin =
     params.origin && typeof params.origin === 'object' ? params.origin : {};
-  const returnSurface =
-    params.returnSurface ??
-    (state.surface?.type === 'build-plan-results'
+  const hasExplicitReturn = Object.prototype.hasOwnProperty.call(
+    params,
+    'returnSurface',
+  );
+  const returnSurface = hasExplicitReturn
+    ? params.returnSurface ?? null
+    : state.surface?.type === 'build-plan-results'
       ? {
           ...state.surface,
           sortId: resultsOrigin.sortId ?? state.surface.sortId ?? null,
@@ -472,23 +488,13 @@ export function openBuildPlanPlanDetails(state, params = {}) {
             typeof resultsOrigin.scrollY === 'number'
               ? resultsOrigin.scrollY
               : state.surface.scrollY ?? null,
-          activePlanId: params.plan?.id ?? state.surface.activePlanId ?? null,
+          activePlanId:
+            params.plan?.id ?? planId ?? state.surface.activePlanId ?? null,
         }
       : state.surface?.type === 'my-schedule-week' ||
           state.surface?.type === 'my-schedule-month'
         ? state.surface
-        : {
-            type: 'build-plan-results',
-            originPrimary,
-            returnSurface: null,
-            formConfig: null,
-            sortId: resultsOrigin.sortId ?? null,
-            scrollY:
-              typeof resultsOrigin.scrollY === 'number'
-                ? resultsOrigin.scrollY
-                : null,
-            activePlanId: params.plan?.id ?? null,
-          });
+        : null;
   return {
     ...state,
     primaryDestinationId: originPrimary,
@@ -496,7 +502,8 @@ export function openBuildPlanPlanDetails(state, params = {}) {
       type: 'build-plan-plan-details',
       originPrimary,
       returnSurface,
-      plan: params.plan,
+      plan: params.plan ?? null,
+      planId,
     },
   };
 }
@@ -596,6 +603,14 @@ export function openMyScheduleWeek(state, params = {}) {
   const originPrimary = resolveDestinationId(
     params.originPrimary ?? state.primaryDestinationId ?? 'planner',
   );
+  const focusDate =
+    typeof params.focusDate === 'string' && params.focusDate.trim()
+      ? params.focusDate.trim()
+      : null;
+  const focusPlanId =
+    typeof params.focusPlanId === 'string' && params.focusPlanId.trim()
+      ? params.focusPlanId.trim()
+      : null;
   return {
     ...state,
     primaryDestinationId: originPrimary,
@@ -603,6 +618,8 @@ export function openMyScheduleWeek(state, params = {}) {
       type: 'my-schedule-week',
       originPrimary,
       returnSurface: params.returnSurface ?? null,
+      focusDate,
+      focusPlanId,
     },
   };
 }

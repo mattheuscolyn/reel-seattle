@@ -89,6 +89,12 @@ import {
   applyNotInterestedToggle,
   buildNotInterestedActionState,
 } from './save/notInterestedActionState.js';
+import {
+  isSavedPlanDetailsPlan,
+  readSavedPlanIdQuery,
+  resolveSavedPlanDetailsPlan,
+  syncSavedPlanIdQuery,
+} from './planner/planLifecycle.js';
 
 function resolveHostname() {
   if (typeof window === 'undefined' || !window.location) return '';
@@ -313,6 +319,45 @@ export default function V2App() {
   }, []);
 
   useEffect(() => {
+    const planId = readSavedPlanIdQuery();
+    if (!planId) return;
+    setNav((current) => {
+      if (
+        current.surface?.type === 'build-plan-plan-details' &&
+        (current.surface.planId === planId ||
+          current.surface.plan?.planId === planId ||
+          current.surface.plan?.id === planId)
+      ) {
+        return current;
+      }
+      const plan = resolveSavedPlanDetailsPlan(planId, {
+        storage: getBrowserStorage(),
+      });
+      return openBuildPlanPlanDetails(current, {
+        originPrimary: 'planner',
+        plan,
+        planId,
+        returnSurface: null,
+      });
+    });
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if (nav.surface?.type !== 'build-plan-plan-details') {
+      if (readSavedPlanIdQuery()) syncSavedPlanIdQuery(null);
+      return;
+    }
+    const planId =
+      nav.surface.planId ||
+      (isSavedPlanDetailsPlan(nav.surface.plan)
+        ? nav.surface.plan?.planId || nav.surface.plan?.id
+        : null);
+    if (planId) syncSavedPlanIdQuery(planId);
+    else if (readSavedPlanIdQuery()) syncSavedPlanIdQuery(null);
+  }, [nav.surface]);
+
+  useEffect(() => {
     if (!isMyScheduleMonthQueryOpen()) return;
     setNav((current) => {
       if (current.surface?.type === 'my-schedule-month') return current;
@@ -527,14 +572,17 @@ export default function V2App() {
 
   const handleOpenBuildPlanPlanDetails = useCallback((plan, origin = {}) => {
     setNav((current) => {
-      const explicitReturn = origin.returnSurface ?? null;
+      const hasExplicitReturn = Object.prototype.hasOwnProperty.call(
+        origin,
+        'returnSurface',
+      );
       const fromResults = current.surface?.type === 'build-plan-results';
       const fromSchedule =
         current.surface?.type === 'my-schedule-week' ||
         current.surface?.type === 'my-schedule-month';
-      const returnSurface =
-        explicitReturn ??
-        (fromResults
+      const returnSurface = hasExplicitReturn
+        ? origin.returnSurface ?? null
+        : fromResults
           ? {
               ...current.surface,
               sortId: origin.sortId ?? current.surface.sortId ?? null,
@@ -544,23 +592,22 @@ export default function V2App() {
                   : typeof window !== 'undefined'
                     ? window.scrollY
                     : 0,
-              activePlanId: plan?.id ?? null,
+              activePlanId: plan?.id ?? plan?.planId ?? null,
             }
           : fromSchedule
             ? current.surface
-            : {
-                type: 'build-plan-results',
-                originPrimary: 'planner',
-                returnSurface: null,
-                formConfig: current.surface?.formConfig ?? null,
-                sortId: origin.sortId ?? null,
-                scrollY:
-                  typeof origin.scrollY === 'number' ? origin.scrollY : 0,
-                activePlanId: plan?.id ?? null,
-              });
+            : null;
+      const planId =
+        typeof origin.planId === 'string'
+          ? origin.planId
+          : plan?.planId ||
+            (typeof plan?.id === 'string' && plan.id.startsWith('accepted:')
+              ? plan.id
+              : null);
       return openBuildPlanPlanDetails(current, {
         originPrimary: 'planner',
         plan,
+        planId,
         origin: {
           sortId: origin.sortId ?? null,
           scrollY:
@@ -576,9 +623,36 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleOpenMyScheduleWeek = useCallback(() => {
+  const handleOpenSavedPlan = useCallback(
+    (planId) => {
+      const id = typeof planId === 'string' ? planId.trim() : '';
+      if (!id) return;
+      const plan = resolveSavedPlanDetailsPlan(id, {
+        storage: getBrowserStorage(),
+        enrichmentIndex: enrichmentState.index,
+        homeData: sharedHomeData.homeData,
+      });
+      handleOpenBuildPlanPlanDetails(plan, {
+        planId: id,
+        returnSurface: null,
+      });
+    },
+    [enrichmentState.index, sharedHomeData.homeData, handleOpenBuildPlanPlanDetails],
+  );
+
+  const handleOpenMyScheduleWeek = useCallback((options = {}) => {
     setNav((current) =>
-      openMyScheduleWeek(current, { originPrimary: 'planner' }),
+      openMyScheduleWeek(current, {
+        originPrimary: 'planner',
+        focusDate: options.focusDate ?? null,
+        focusPlanId: options.focusPlanId ?? null,
+        returnSurface: Object.prototype.hasOwnProperty.call(
+          options,
+          'returnSurface',
+        )
+          ? options.returnSurface ?? null
+          : null,
+      }),
     );
     window.scrollTo(0, 0);
   }, []);
@@ -1156,9 +1230,19 @@ export default function V2App() {
       />
     );
   } else if (isBuildPlanPlanDetails) {
+    const detailsPlanId = nav.surface?.planId ?? null;
+    const detailsPlan =
+      nav.surface?.plan ??
+      (detailsPlanId
+        ? resolveSavedPlanDetailsPlan(detailsPlanId, {
+            storage: getBrowserStorage(),
+            enrichmentIndex: enrichmentState.index,
+            homeData: sharedHomeData.homeData,
+          })
+        : null);
     mainContent = (
       <BuildPlanPlanDetailsSurface
-        plan={nav.surface?.plan ?? null}
+        plan={detailsPlan}
         homeData={sharedHomeData.homeData}
         onBack={handleBack}
         onShareReady={(handler) => setPlanDetailsShareHandler(() => handler)}
@@ -1166,6 +1250,19 @@ export default function V2App() {
           handleOpenFilmDetail({
             ...params,
             originPrimary: 'planner',
+          })
+        }
+        onViewInSchedule={({ planId, focusDate }) =>
+          handleOpenMyScheduleWeek({
+            focusDate,
+            focusPlanId: planId,
+            returnSurface: {
+              type: 'build-plan-plan-details',
+              originPrimary: 'planner',
+              returnSurface: null,
+              plan: detailsPlan,
+              planId: planId ?? detailsPlanId,
+            },
           })
         }
         onAcceptedPlanChange={() =>
@@ -1184,6 +1281,8 @@ export default function V2App() {
             enrichmentIndex={enrichmentState.index}
             acceptedPlansRevision={acceptedPlansRevision}
             scheduleSettingsRevision={scheduleSettingsRevision}
+            focusDate={nav.surface?.focusDate ?? null}
+            focusPlanId={nav.surface?.focusPlanId ?? null}
             onAcceptedPlanChange={() =>
               setAcceptedPlansRevision((value) => value + 1)
             }
@@ -1202,6 +1301,8 @@ export default function V2App() {
                   type: 'my-schedule-week',
                   originPrimary: 'planner',
                   returnSurface: null,
+                  focusDate: nav.surface?.focusDate ?? null,
+                  focusPlanId: nav.surface?.focusPlanId ?? null,
                 },
               })
             }
@@ -1290,6 +1391,8 @@ export default function V2App() {
             enrichmentIndex={enrichmentState.index}
             acceptedPlansRevision={acceptedPlansRevision}
             scheduleSettingsRevision={scheduleSettingsRevision}
+            focusDate={nav.surface?.focusDate ?? null}
+            focusPlanId={nav.surface?.focusPlanId ?? null}
             onAcceptedPlanChange={() =>
               setAcceptedPlansRevision((value) => value + 1)
             }
@@ -1308,6 +1411,8 @@ export default function V2App() {
                   type: 'my-schedule-week',
                   originPrimary: 'planner',
                   returnSurface: null,
+                  focusDate: nav.surface?.focusDate ?? null,
+                  focusPlanId: nav.surface?.focusPlanId ?? null,
                 },
               })
             }
@@ -1349,7 +1454,9 @@ export default function V2App() {
         onExploreRestoreConsumed={() => setExploreRestorePending(null)}
         plannerSeed={nav.plannerSeed}
         onOpenBuildPlan={handleOpenBuildPlan}
-        onOpenMyScheduleWeek={handleOpenMyScheduleWeek}
+        onOpenMyScheduleWeek={() => handleOpenMyScheduleWeek()}
+        onOpenSavedPlan={handleOpenSavedPlan}
+        acceptedPlansRevision={acceptedPlansRevision}
         onProfileStubAction={(_actionId, label) => {
           setProfileStubStatus(
             `${label} isn’t available in this Stage 1 Profile shell yet.`,
@@ -1408,7 +1515,12 @@ export default function V2App() {
               : isSearchResults
                 ? 'Explore'
                 : isBuildPlanPlanDetails
-                  ? 'results'
+                  ? nav.surface?.returnSurface?.type === 'build-plan-results'
+                    ? 'results'
+                    : nav.surface?.returnSurface?.type === 'my-schedule-week' ||
+                        nav.surface?.returnSurface?.type === 'my-schedule-month'
+                      ? 'schedule'
+                      : 'Planner'
                   : isBuildPlanChrome
                     ? 'Planner'
                     : null
