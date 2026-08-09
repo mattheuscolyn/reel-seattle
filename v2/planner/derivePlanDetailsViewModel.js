@@ -3,6 +3,11 @@
  * Pure / data-driven — no fixture hardcoding in production paths.
  */
 
+import {
+  formatDisplayClock,
+  formatScheduleClock,
+} from '../stores/scheduleSettingsStore.js';
+
 /**
  * @param {unknown} value
  * @returns {string}
@@ -47,17 +52,12 @@ export function formatDurationMinutes(totalMin) {
 
 /**
  * @param {number | null} minutes
+ * @param {string} [timeFormatId]
  * @returns {string}
  */
-export function formatClockFromMinutes(minutes) {
+export function formatClockFromMinutes(minutes, timeFormatId = '12h') {
   if (minutes == null || !Number.isFinite(minutes)) return '';
-  const day = ((Math.round(minutes) % (24 * 60)) + 24 * 60) % (24 * 60);
-  let h = Math.floor(day / 60);
-  const m = day % 60;
-  const mer = h >= 12 ? 'PM' : 'AM';
-  h = h % 12;
-  if (h === 0) h = 12;
-  return `${h}:${String(m).padStart(2, '0')} ${mer}`;
+  return formatScheduleClock(minutes, timeFormatId);
 }
 
 /**
@@ -88,13 +88,15 @@ export function parseRuntimeMinutes(runtimeLabel) {
 /**
  * @param {number | null} start
  * @param {number | null} end
+ * @param {string} [timeFormatId]
  * @returns {string}
  */
-function formatRangePill(start, end) {
+function formatRangePill(start, end, timeFormatId = '12h') {
   if (start == null || end == null) return '';
-  const a = formatClockFromMinutes(start);
-  const b = formatClockFromMinutes(end);
+  const a = formatClockFromMinutes(start, timeFormatId);
+  const b = formatClockFromMinutes(end, timeFormatId);
   if (!a || !b) return a || b;
+  if (timeFormatId === '24h') return `${a}–${b}`;
   const aMer = a.slice(-2);
   const bMer = b.slice(-2);
   if (aMer === bMer) {
@@ -127,7 +129,7 @@ function filmTiming(film) {
  * Build chronological itinerary rows with transfer labeling.
  * @param {object | null | undefined} plan
  */
-export function buildPlanDetailsItinerary(plan) {
+export function buildPlanDetailsItinerary(plan, timeFormatId = '12h') {
   const items = Array.isArray(plan?.items) ? plan.items : [];
   /** @type {object[]} */
   const rows = [];
@@ -171,7 +173,11 @@ export function buildPlanDetailsItinerary(plan) {
         kind: 'break',
         startMin: prevTiming.endMin,
         endMin: nextTiming.startMin,
-        timePill: formatRangePill(prevTiming.endMin, nextTiming.startMin),
+        timePill: formatRangePill(
+          prevTiming.endMin,
+          nextTiming.startMin,
+          timeFormatId,
+        ),
         durationMin,
         durationLabel:
           durationMin != null ? formatDurationMinutes(durationMin) : '',
@@ -191,8 +197,12 @@ export function buildPlanDetailsItinerary(plan) {
     }
 
     const timing = filmTiming(item);
-    const startLabel = asText(item.startTime) || formatClockFromMinutes(timing.startMin);
-    const endLabel = asText(item.endTime) || formatClockFromMinutes(timing.endMin);
+    const startLabel =
+      formatDisplayClock(item.startTime ?? timing.startMin, timeFormatId) ||
+      formatClockFromMinutes(timing.startMin, timeFormatId);
+    const endLabel =
+      formatDisplayClock(item.endTime ?? timing.endMin, timeFormatId) ||
+      formatClockFromMinutes(timing.endMin, timeFormatId);
     const runtimeLabel =
       asText(item.runtimeLabel) ||
       (timing.runtimeMin != null
@@ -228,14 +238,18 @@ export function buildPlanDetailsItinerary(plan) {
 
 /**
  * @param {object | null | undefined} plan
- * @param {{ dateLabel?: string | null }} [options]
+ * @param {{ dateLabel?: string | null, timeFormatId?: string }} [options]
  */
 export function derivePlanDetailsViewModel(plan, options = {}) {
   if (!plan || typeof plan !== 'object') {
     return null;
   }
 
-  const itinerary = buildPlanDetailsItinerary(plan);
+  const timeFormatId =
+    typeof options.timeFormatId === 'string' && options.timeFormatId
+      ? options.timeFormatId
+      : '12h';
+  const itinerary = buildPlanDetailsItinerary(plan, timeFormatId);
   const films = itinerary.filter((r) => r.kind === 'film');
   const breaks = itinerary.filter((r) => r.kind === 'break');
 
@@ -275,8 +289,8 @@ export function derivePlanDetailsViewModel(plan, options = {}) {
     asText(plan.summaryDate) ||
     '';
 
-  const startClock = formatClockFromMinutes(earliestStartMin);
-  const endClock = formatClockFromMinutes(latestFinishMin);
+  const startClock = formatClockFromMinutes(earliestStartMin, timeFormatId);
+  const endClock = formatClockFromMinutes(latestFinishMin, timeFormatId);
   const windowLabel =
     startClock && endClock ? `${startClock}–${endClock}` : startClock || endClock;
 

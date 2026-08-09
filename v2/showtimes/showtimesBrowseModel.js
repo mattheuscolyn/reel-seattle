@@ -18,6 +18,7 @@ import {
   resolveShowtimesBrowseDateWindow,
 } from './showtimeEligibility.js';
 import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
+import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 
 export const SHOWTIMES_BROWSE_DATE_MODES = Object.freeze([
   Object.freeze({ id: 'today', label: 'Today' }),
@@ -171,8 +172,9 @@ export function listBrowseFormatFilterOptions(opportunities) {
 /**
  * @param {object} opportunity
  * @param {Map<string, object>} filmsByKey
+ * @param {string} [timeFormatId]
  */
-function toShowtimeRow(opportunity, filmsByKey) {
+function toShowtimeRow(opportunity, filmsByKey, timeFormatId = '12h') {
   const film = filmsByKey.get(opportunity.filmKey);
   const formats = (opportunity.formatLabels ?? [])
     .map((raw) => normalizeBrowseFormat(raw))
@@ -192,8 +194,10 @@ function toShowtimeRow(opportunity, filmsByKey) {
     theaterName: opportunity.theaterName ?? 'Theater',
     localDate: opportunity.localDate,
     localTime: opportunity.localTime,
-    timeDisplay:
+    timeDisplay: formatDisplayClock(
       opportunity.timeDisplay ?? opportunity.localTime ?? '',
+      timeFormatId,
+    ),
     sortableKey: opportunitySortableKey(opportunity),
     formatLabels: uniqueFormats.map((f) => f.label),
     formatKeys: uniqueFormats.map((f) => f.key),
@@ -208,12 +212,14 @@ function toShowtimeRow(opportunity, filmsByKey) {
  * @param {object | null | undefined} homeData
  * @param {'today' | 'tomorrow' | 'week'} dateMode
  * @param {object | null | undefined} [enrichmentIndex]
+ * @param {string} [timeFormatId]
  */
 export function groupBrowseOpportunitiesByFilm(
   opportunities,
   homeData,
   dateMode,
   enrichmentIndex = null,
+  timeFormatId = '12h',
 ) {
   const filmsByKey = new Map(
     (Array.isArray(homeData?.films) ? homeData.films : []).map((f) => [
@@ -236,7 +242,7 @@ export function groupBrowseOpportunitiesByFilm(
     const film = filmsByKey.get(filmKey);
     if (!film) continue;
     const rows = opps
-      .map((o) => toShowtimeRow(o, filmsByKey))
+      .map((o) => toShowtimeRow(o, filmsByKey, timeFormatId))
       .sort((a, b) => {
         if (a.sortableKey !== b.sortableKey) {
           return a.sortableKey < b.sortableKey ? -1 : 1;
@@ -312,7 +318,11 @@ export function groupBrowseOpportunitiesByFilm(
  * Full browse page presentation.
  * @param {object | null | undefined} homeData
  * @param {ReturnType<typeof createDefaultShowtimesBrowseUi>} [ui]
- * @param {{ now?: Date | (() => Date), enrichmentIndex?: object | null }} [options]
+ * @param {{
+ *   now?: Date | (() => Date),
+ *   enrichmentIndex?: object | null,
+ *   timeFormatId?: string,
+ * }} [options]
  */
 export function buildShowtimesBrowsePresentation(
   homeData,
@@ -322,6 +332,10 @@ export function buildShowtimesBrowsePresentation(
   const dateMode = ui?.dateMode ?? 'today';
   const now = options.now ?? new Date();
   const enrichmentIndex = options.enrichmentIndex ?? null;
+  const timeFormatId =
+    typeof options.timeFormatId === 'string' && options.timeFormatId
+      ? options.timeFormatId
+      : '12h';
   const window = resolveShowtimesBrowseDateWindow(dateMode, now);
   const eligible = listEligibleBrowseOpportunities(homeData, dateMode, now);
   const theaterOptions = listBrowseTheaterFilterOptions(eligible);
@@ -338,6 +352,7 @@ export function buildShowtimesBrowsePresentation(
     homeData,
     dateMode,
     enrichmentIndex,
+    timeFormatId,
   );
 
   const hasActiveFilters =

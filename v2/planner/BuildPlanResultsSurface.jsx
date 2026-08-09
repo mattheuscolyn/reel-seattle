@@ -46,6 +46,10 @@ import {
   markFilmUnseen,
 } from '../stores/seenFilmsStore.js';
 import {
+  getScheduleSettings,
+  subscribeScheduleSettings,
+} from '../stores/scheduleSettingsStore.js';
+import {
   isFilmNotInterested,
   markFilmNotInterested,
   clearFilmNotInterested,
@@ -470,13 +474,23 @@ export default function BuildPlanResultsSurface({
     }));
   }, [restoreActivePlanId]);
 
+  const [settingsTick, setSettingsTick] = useState(0);
+  useEffect(
+    () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
+    [],
+  );
+  void settingsTick;
+
   const presentation = useMemo(() => {
+    const storage = getBrowserStorage();
+    const timeFormatId = getScheduleSettings(storage).timeFormatId;
     const base = resolveBuildPlanResultsPagePresentation({
       homeData,
       form: workingForm,
       sortId,
-      storage: getBrowserStorage(),
+      storage,
       enrichmentIndex,
+      timeFormatId,
     });
     if (base.source !== 'mockup-fixture') return base;
     if (!adjustmentsApplied) {
@@ -496,7 +510,14 @@ export default function BuildPlanResultsSurface({
           ? 'No plans match these adjustments. Try changing time, film, or break settings.'
           : null,
     };
-  }, [homeData, enrichmentIndex, workingForm, sortId, adjustmentsApplied]);
+  }, [
+    homeData,
+    enrichmentIndex,
+    workingForm,
+    sortId,
+    adjustmentsApplied,
+    settingsTick,
+  ]);
 
   const [ui, setUi] = useState(() =>
     createBuildPlanResultsUiStateFromPresentation(presentation),

@@ -225,6 +225,9 @@ export function updateScheduleSettings(storage, patch) {
     };
   }
   const written = writeStore(storage, nextStore);
+  if (written.ok && changed) {
+    emitScheduleSettingsChange();
+  }
   return {
     ok: written.ok,
     store: written.ok ? nextStore : read.store,
@@ -287,4 +290,100 @@ export function formatScheduleClock(minutes, timeFormatId = '12h') {
   if (h === 0) h = 12;
   const period = h24 >= 12 ? 'PM' : 'AM';
   return `${h}:${mm} ${period}`;
+}
+
+/**
+ * Parse a clock value to minutes since midnight.
+ * Accepts minutes numbers, `HH:MM` / `H:MM`, and 12-hour strings with AM/PM.
+ *
+ * @param {unknown} value
+ * @returns {number | null}
+ */
+export function parseClockToMinutes(value) {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return ((Math.round(value) % 1440) + 1440) % 1440;
+  }
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+
+  const ampm = trimmed.match(/^(\d{1,2}):(\d{2})\s*([AaPp][Mm])$/);
+  if (ampm) {
+    let hours = Number(ampm[1]);
+    const minutes = Number(ampm[2]);
+    const period = ampm[3].toUpperCase();
+    if (
+      !Number.isInteger(hours) ||
+      !Number.isInteger(minutes) ||
+      hours < 1 ||
+      hours > 12 ||
+      minutes < 0 ||
+      minutes > 59
+    ) {
+      return null;
+    }
+    if (period === 'PM' && hours !== 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+    return hours * 60 + minutes;
+  }
+
+  const hhmm = trimmed.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+  if (hhmm) {
+    const hours = Number(hhmm[1]);
+    const minutes = Number(hhmm[2]);
+    if (
+      !Number.isInteger(hours) ||
+      !Number.isInteger(minutes) ||
+      hours < 0 ||
+      hours > 23 ||
+      minutes < 0 ||
+      minutes > 59
+    ) {
+      return null;
+    }
+    return hours * 60 + minutes;
+  }
+
+  return null;
+}
+
+/**
+ * Preference-aware human-readable clock label for UI display.
+ * Falls back to the original string when parsing fails.
+ *
+ * @param {unknown} value minutes, HH:MM, or AM/PM clock string
+ * @param {'12h' | '24h' | string} [timeFormatId]
+ */
+export function formatDisplayClock(value, timeFormatId = '12h') {
+  const minutes = parseClockToMinutes(value);
+  if (minutes == null) {
+    return typeof value === 'string' ? value.trim() : '';
+  }
+  return formatScheduleClock(minutes, timeFormatId);
+}
+
+/** @type {Set<() => void>} */
+const scheduleSettingsListeners = new Set();
+
+/**
+ * Subscribe to local schedule-settings mutations (same-tab).
+ * @param {() => void} listener
+ * @returns {() => void}
+ */
+export function subscribeScheduleSettings(listener) {
+  if (typeof listener !== 'function') return () => {};
+  scheduleSettingsListeners.add(listener);
+  return () => {
+    scheduleSettingsListeners.delete(listener);
+  };
+}
+
+function emitScheduleSettingsChange() {
+  for (const listener of scheduleSettingsListeners) {
+    try {
+      listener();
+    } catch {
+      // ignore subscriber errors
+    }
+  }
 }

@@ -9,6 +9,7 @@ import {
   formatLocalDateLabel,
   formatUserFacingFormatLabel,
 } from '../topOpportunities/topOpportunityFormat.js';
+import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 import { unresolvedProgramLabel } from './unresolvedProgramLabels.js';
 
 const PREMIUM_FORMAT_HINTS = Object.freeze([
@@ -456,13 +457,19 @@ export function buildVenueMark(theaterName, theaterId = null) {
  * @param {object | null} homeData
  * @param {string} filmKey
  * @param {string | null} [emphasizedOpportunityKey]
+ * @param {{ timeFormatId?: string }} [options]
  */
 export function buildTodaysShowtimes(
   homeData,
   filmKey,
   emphasizedOpportunityKey = null,
+  options = {},
 ) {
   const today = pacificDateString();
+  const timeFormatId =
+    typeof options.timeFormatId === 'string' && options.timeFormatId
+      ? options.timeFormatId
+      : '12h';
   const opps = listFilmOpportunities(homeData, filmKey).filter(
     (o) => o.localDate === today,
   );
@@ -485,7 +492,11 @@ export function buildTodaysShowtimes(
     if (label) row.formats.add(label);
     row.times.push({
       opportunityKey: opp.opportunityKey,
-      timeDisplay: opp.timeDisplay,
+      timeDisplay: formatDisplayClock(
+        opp.timeDisplay ?? opp.localTime,
+        timeFormatId,
+      ),
+      localTime: opp.localTime ?? null,
       emphasized: opp.opportunityKey === emphasizedOpportunityKey,
       ticketUrl: opp.ticketUrl ?? null,
       screeningVariantType: opp.screeningVariantType ?? null,
@@ -498,7 +509,9 @@ export function buildTodaysShowtimes(
     .map((row) => {
       const mark = buildVenueMark(row.theaterName, row.theaterId);
       const sortedTimes = row.times.sort((a, b) =>
-        String(a.timeDisplay).localeCompare(String(b.timeDisplay)),
+        String(a.localTime ?? a.timeDisplay).localeCompare(
+          String(b.localTime ?? b.timeDisplay),
+        ),
       );
       return {
         theaterId: row.theaterId,

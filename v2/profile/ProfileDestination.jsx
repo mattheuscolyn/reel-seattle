@@ -11,6 +11,7 @@ import {
   IconBookmark,
   IconCalendar,
   IconChevron,
+  IconClock,
   IconEye,
   IconHeart,
   IconInfo,
@@ -34,6 +35,20 @@ import {
 } from '../auth/profileIdentity.js';
 import { subscribeProfileActivity } from './profileActivity.js';
 import { resolveLiveProfilePresentation } from './resolveLiveProfilePresentation.js';
+import { SCHEDULE_SETTINGS_TIME_FORMATS } from '../fixtures/scheduleSettingsMockupFixture.js';
+import {
+  getScheduleSettings,
+  subscribeScheduleSettings,
+  updateScheduleSettings,
+} from '../stores/scheduleSettingsStore.js';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 const ACTIVITY_ICONS = {
   eye: IconEye,
@@ -60,6 +75,7 @@ const SETTINGS_ICONS = {
 export default function ProfileDestination({ onStubAction }) {
   const auth = useAuth();
   const stubStatusId = useId();
+  const storage = getBrowserStorage();
   const [activityTick, setActivityTick] = useState(0);
   const [stubMessage, setStubMessage] = useState(null);
   const [showDataSources, setShowDataSources] = useState(false);
@@ -68,12 +84,28 @@ export default function ProfileDestination({ onStubAction }) {
   const [editBusy, setEditBusy] = useState(false);
   const [editError, setEditError] = useState(null);
   const [profileRetryMessage, setProfileRetryMessage] = useState(null);
+  const [timeFormatId, setTimeFormatId] = useState(
+    () => getScheduleSettings(storage).timeFormatId,
+  );
 
   useEffect(() => {
     return subscribeProfileActivity(() => {
       setActivityTick((n) => n + 1);
     });
   }, []);
+
+  useEffect(() => {
+    return subscribeScheduleSettings(() => {
+      setTimeFormatId(getScheduleSettings(storage).timeFormatId);
+    });
+  }, [storage]);
+
+  const setTimeFormat = (nextId) => {
+    const result = updateScheduleSettings(storage, { timeFormatId: nextId });
+    if (result.ok) {
+      setTimeFormatId(result.settings.timeFormatId);
+    }
+  };
 
   useEffect(() => {
     if (auth.status !== 'signed_in') {
@@ -494,6 +526,46 @@ export default function ProfileDestination({ onStubAction }) {
         <h2 id="v2-profile-settings-h" className="v2-profile-section-label">
           {settingsSectionTitle}
         </h2>
+        <div
+          className="v2-profile-time-format"
+          data-profile-setting="time-format"
+        >
+          <div className="v2-profile-time-format-head">
+            <span className="v2-profile-settings-icon" aria-hidden="true">
+              <IconClock />
+            </span>
+            <span className="v2-profile-time-format-copy">
+              <span className="v2-profile-settings-label">Time format</span>
+              <span className="v2-profile-time-format-support">
+                12-hour with AM/PM, or 24-hour (e.g. 1:30 PM vs 13:30).
+              </span>
+            </span>
+          </div>
+          <div
+            className="v2-ss-segment v2-profile-time-format-segment"
+            role="group"
+            aria-label="Time format"
+          >
+            {SCHEDULE_SETTINGS_TIME_FORMATS.map((opt) => {
+              const selected = opt.id === timeFormatId;
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  className={
+                    selected
+                      ? 'v2-ss-segment-btn v2-ss-segment-btn-active'
+                      : 'v2-ss-segment-btn'
+                  }
+                  aria-pressed={selected}
+                  onClick={() => setTimeFormat(opt.id)}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
         <ul className="v2-profile-settings">
           {settingsRows.map((row) => {
             const Icon = SETTINGS_ICONS[row.icon] ?? IconInfo;

@@ -5,8 +5,8 @@
 
 export const BUILD_PLAN_ACCORDION_IDS = Object.freeze([
   'when',
-  'what',
   'where',
+  'what',
   'fineTuning',
 ]);
 

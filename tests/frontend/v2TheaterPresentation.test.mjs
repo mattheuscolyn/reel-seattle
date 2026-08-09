@@ -450,12 +450,17 @@ function amcMultiFilmHome() {
 }
 
 test('Theater Detail showtimes emit one filmGroup card per canonical identity', () => {
+  const now = () => new Date('2026-08-10T17:17:00-07:00');
   const detail = composeTheaterDetailPresentation(
     amcMultiFilmHome(),
     'amc-pacific-place-11',
+    null,
+    { now },
   );
   const groups = detail.todaysShowtimes.filmGroups;
   assert.equal(detail.todaysShowtimes.featuredFilm, null);
+  assert.equal(detail.todaysShowtimes.selectedDate, '2026-08-10');
+  assert.match(detail.todaysShowtimes.title, /Showtimes · Mon, Aug 10/i);
   assert.equal(groups.length, 6);
 
   const titles = groups.map((g) => g.title);
@@ -475,20 +480,20 @@ test('Theater Detail showtimes emit one filmGroup card per canonical identity', 
   assert.equal(odyssey.times.length, 2);
   assert.deepEqual(
     odyssey.times.map((t) => t.label),
-    ['1:00PM', '4:00PM'],
+    ['1:00 PM', '4:00 PM'],
   );
   assert.ok(odyssey.times.some((t) => t.formatLabel === 'IMAX'));
 
   const spider = groups[1];
   assert.equal(spider.filmId, 'tmdb:1002');
   assert.equal(spider.times.length, 1);
-  assert.equal(spider.times[0].label, '2:15PM');
+  assert.equal(spider.times[0].label, '2:15 PM');
   assert.equal(spider.posterUrl, 'https://example.com/spiderman.jpg');
 
   const invite = groups[2];
   assert.equal(invite.filmId, 'tmdb:1003');
   assert.equal(invite.times.length, 1);
-  assert.equal(invite.times[0].label, '7:30PM');
+  assert.equal(invite.times[0].label, '7:30 PM');
 
   // Same title, different TMDB IDs stay separate.
   assert.equal(groups[3].filmId, 'tmdb:414906');
@@ -501,10 +506,114 @@ test('Theater Detail showtimes emit one filmGroup card per canonical identity', 
   assert.equal(groups[5].filmKey, 'local-shorts-night');
   assert.equal(groups[5].id, 'key:local-shorts-night');
 
-  // Later dates are excluded from the first-day section.
+  // Later dates are excluded from the Pacific-today section.
   assert.equal(
     groups.every((g) => g.times.every((t) => t.id !== 'o-other-day')),
     true,
+  );
+});
+
+test('Theater Detail defaults to Pacific today, not earliest opportunity date', () => {
+  // UTC is already Sunday Aug 9 while Pacific is still Saturday Aug 8.
+  const now = () => new Date('2026-08-09T01:17:00.000Z');
+  const home = {
+    theatersById: {
+      'amc-pacific-place-11': {
+        id: 'amc-pacific-place-11',
+        name: 'AMC Pacific Place 11',
+        city: 'Seattle',
+        enabled: true,
+        opportunityCount: 2,
+      },
+    },
+    films: [
+      {
+        filmKey: 'the-odyssey',
+        filmId: 'tmdb:1001',
+        title: 'The Odyssey',
+        posterUrl: null,
+      },
+    ],
+    opportunities: [
+      {
+        opportunityKey: 'o-fri',
+        filmKey: 'the-odyssey',
+        filmId: 'tmdb:1001',
+        title: 'The Odyssey',
+        theaterId: 'amc-pacific-place-11',
+        localDate: '2026-08-07',
+        localTime: '19:30',
+        sortableLocalDateTime: '2026-08-07T19:30',
+        formatLabels: [],
+      },
+      {
+        opportunityKey: 'o-sat',
+        filmKey: 'the-odyssey',
+        filmId: 'tmdb:1001',
+        title: 'The Odyssey',
+        theaterId: 'amc-pacific-place-11',
+        localDate: '2026-08-08',
+        localTime: '13:30',
+        sortableLocalDateTime: '2026-08-08T13:30',
+        formatLabels: [],
+      },
+      {
+        opportunityKey: 'o-sun',
+        filmKey: 'the-odyssey',
+        filmId: 'tmdb:1001',
+        title: 'The Odyssey',
+        theaterId: 'amc-pacific-place-11',
+        localDate: '2026-08-09',
+        localTime: '16:00',
+        sortableLocalDateTime: '2026-08-09T16:00',
+        formatLabels: [],
+      },
+    ],
+  };
+
+  const detail = composeTheaterDetailPresentation(
+    home,
+    'amc-pacific-place-11',
+    null,
+    { now, timeFormatId: '12h' },
+  );
+  assert.equal(detail.todaysShowtimes.selectedDate, '2026-08-08');
+  assert.match(detail.todaysShowtimes.title, /Showtimes · Sat, Aug 8/i);
+  assert.equal(detail.todaysShowtimes.filmGroups.length, 1);
+  assert.deepEqual(
+    detail.todaysShowtimes.filmGroups[0].times.map((t) => t.label),
+    ['1:30 PM'],
+  );
+  assert.equal(
+    detail.todaysShowtimes.filmGroups[0].times.every(
+      (t) => t.localDate === '2026-08-08',
+    ),
+    true,
+  );
+
+  const emptyToday = composeTheaterDetailPresentation(
+    {
+      ...home,
+      opportunities: home.opportunities.filter((o) => o.localDate !== '2026-08-08'),
+    },
+    'amc-pacific-place-11',
+    null,
+    { now },
+  );
+  // Do not silently fall back to Friday when Saturday has no rows.
+  assert.equal(emptyToday.todaysShowtimes.selectedDate, '2026-08-08');
+  assert.match(emptyToday.todaysShowtimes.title, /Showtimes · Sat, Aug 8/i);
+  assert.equal(emptyToday.todaysShowtimes.filmGroups.length, 0);
+
+  const as24h = composeTheaterDetailPresentation(
+    home,
+    'amc-pacific-place-11',
+    null,
+    { now, timeFormatId: '24h' },
+  );
+  assert.deepEqual(
+    as24h.todaysShowtimes.filmGroups[0].times.map((t) => t.label),
+    ['13:30'],
   );
 });
 
@@ -541,10 +650,13 @@ test('Theater Detail with a single film still renders one group', () => {
       },
     ],
   };
-  const detail = composeTheaterDetailPresentation(home, 'thin-venue');
+  const detail = composeTheaterDetailPresentation(home, 'thin-venue', null, {
+    now: () => new Date('2026-08-10T12:00:00-07:00'),
+  });
   assert.equal(detail.todaysShowtimes.filmGroups.length, 1);
   assert.equal(detail.todaysShowtimes.filmGroups[0].title, 'Only Film');
   assert.equal(detail.todaysShowtimes.filmGroups[0].times.length, 1);
+  assert.equal(detail.todaysShowtimes.filmGroups[0].times[0].label, '6:00 PM');
   assert.equal(detail.sectionsVisible.todaysShowtimes, true);
 });
 

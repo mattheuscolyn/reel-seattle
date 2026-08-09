@@ -5,7 +5,7 @@
  * Does not implement planner generation, draft persistence, or calendar sync.
  */
 
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import {
   IconCalendar,
   IconChevron,
@@ -18,6 +18,18 @@ import {
   isPlannerMockupMode,
 } from '../fixtures/plannerLandingMockupFixture.js';
 import { composePlannerLandingFromAcceptedPlans } from './composePlannerLandingPresentation.js';
+import {
+  getScheduleSettings,
+  subscribeScheduleSettings,
+} from '../stores/scheduleSettingsStore.js';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * @param {{
@@ -36,9 +48,17 @@ export default function PlannerDestination({
   seedFilmTitle = null,
 }) {
   const mockupMode = isPlannerMockupMode();
+  const storage = getBrowserStorage();
+  const [settingsTick, setSettingsTick] = useState(0);
+  useEffect(
+    () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
+    [],
+  );
+  void settingsTick;
+  const timeFormatId = getScheduleSettings(storage).timeFormatId;
   const presentation = mockupMode
     ? getPlannerLandingMockupPresentation()
-    : composePlannerLandingFromAcceptedPlans();
+    : composePlannerLandingFromAcceptedPlans({ storage, timeFormatId });
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
 

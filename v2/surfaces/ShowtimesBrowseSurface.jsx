@@ -10,6 +10,18 @@ import {
   buildShowtimesBrowsePresentation,
   createDefaultShowtimesBrowseUi,
 } from '../showtimes/showtimesBrowseModel.js';
+import {
+  getScheduleSettings,
+  subscribeScheduleSettings,
+} from '../stores/scheduleSettingsStore.js';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * City-wide Showtimes browser — film-grouped, date modes + filters.
@@ -39,6 +51,13 @@ export default function ShowtimesBrowseSurface({
     initial.expandedFilmKey ?? null,
   );
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [settingsTick, setSettingsTick] = useState(0);
+  useEffect(
+    () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
+    [],
+  );
+  void settingsTick;
+  const timeFormatId = getScheduleSettings(getBrowserStorage()).timeFormatId;
 
   useEffect(() => {
     const y = browseUi?.scrollY;
@@ -75,7 +94,7 @@ export default function ShowtimesBrowseSurface({
           timeRangeId,
           expandedFilmKey,
         },
-        { enrichmentIndex },
+        { enrichmentIndex, timeFormatId },
       ),
     [
       homeData,
@@ -85,6 +104,7 @@ export default function ShowtimesBrowseSurface({
       formatKeys,
       timeRangeId,
       expandedFilmKey,
+      timeFormatId,
     ],
   );
 

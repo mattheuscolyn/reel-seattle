@@ -5,8 +5,21 @@
  * Film rows open Film Detail; View plan details reopens Plan Details.
  */
 
-import { useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { IconChevron, IconClose } from '../icons.jsx';
+import {
+  formatDisplayClock,
+  getScheduleSettings,
+  subscribeScheduleSettings,
+} from '../stores/scheduleSettingsStore.js';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * @param {{
@@ -29,6 +42,13 @@ export default function ScheduleModifyPlanSheet({
   const titleId = useId();
   const closeRef = useRef(null);
   const dialogRef = useRef(null);
+  const [settingsTick, setSettingsTick] = useState(0);
+  useEffect(
+    () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
+    [],
+  );
+  void settingsTick;
+  const timeFormatId = getScheduleSettings(getBrowserStorage()).timeFormatId;
 
   useEffect(() => {
     if (!open) return undefined;
@@ -105,7 +125,12 @@ export default function ScheduleModifyPlanSheet({
                   >
                     <span className="v2-msw-modify-title">{perf.title}</span>
                     <span className="v2-msw-modify-meta">
-                      {[perf.theaterName, perf.localTime, perf.format]
+                      {[
+                        perf.theaterName,
+                        formatDisplayClock(perf.localTime, timeFormatId) ||
+                          perf.localTime,
+                        perf.format,
+                      ]
                         .filter(Boolean)
                         .join(' · ')}
                     </span>

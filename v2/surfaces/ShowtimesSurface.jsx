@@ -12,6 +12,18 @@ import {
   externalTicketLinkProps,
 } from '../ticket/externalTicketUrl.js';
 import { composeFilmShowtimesPresentation } from '../showtimes/composeFilmShowtimesPresentation.js';
+import {
+  getScheduleSettings,
+  subscribeScheduleSettings,
+} from '../stores/scheduleSettingsStore.js';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Designed Film Showtimes page — Film Detail → See all showtimes.
@@ -40,6 +52,13 @@ export default function ShowtimesSurface({
   const [theaterScope, setTheaterScope] = useState(theaterId);
   const [selectedKey, setSelectedKey] = useState(opportunityKey);
   const [calendarStatus, setCalendarStatus] = useState(null);
+  const [settingsTick, setSettingsTick] = useState(0);
+  useEffect(
+    () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
+    [],
+  );
+  void settingsTick;
+  const timeFormatId = getScheduleSettings(getBrowserStorage()).timeFormatId;
 
   useEffect(() => {
     setSelectedKey(opportunityKey);
@@ -56,6 +75,7 @@ export default function ShowtimesSurface({
         timeRangeId,
         sortId,
         enrichmentIndex,
+        timeFormatId,
       }),
     [
       homeData,
@@ -67,6 +87,7 @@ export default function ShowtimesSurface({
       timeRangeId,
       sortId,
       enrichmentIndex,
+      timeFormatId,
     ],
   );
 

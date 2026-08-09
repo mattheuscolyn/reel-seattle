@@ -24,6 +24,10 @@ import {
 } from '../calendar/exportFromOpportunity.js';
 import { acceptResultsPlan } from './acceptPlanFromResults.js';
 import { derivePlanDetailsViewModel } from './derivePlanDetailsViewModel.js';
+import {
+  getScheduleSettings,
+  subscribeScheduleSettings,
+} from '../stores/scheduleSettingsStore.js';
 import { resolveFilmDetailNavParams } from '../identity/filmIdentity.js';
 
 function selectedFilmsForCalendarExport(plan) {
@@ -84,15 +88,23 @@ export default function BuildPlanPlanDetailsSurface({
 }) {
   const mockup = isPlanDetailsMockupMode();
   const plan = mockup ? getBuildPlanPlanDetailsMockupPlan() : planProp;
-  const view = derivePlanDetailsViewModel(plan, { dateLabel });
 
   const backBusyRef = useRef(false);
   const actionBusyRef = useRef(false);
   const [scheduled, setScheduled] = useState(false);
   const [statusMessage, setStatusMessage] = useState(null);
+  const [settingsTick, setSettingsTick] = useState(0);
 
   const resolvedStorage =
     storage ?? (typeof localStorage !== 'undefined' ? localStorage : null);
+
+  useEffect(
+    () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
+    [],
+  );
+  void settingsTick;
+  const timeFormatId = getScheduleSettings(resolvedStorage).timeFormatId;
+  const view = derivePlanDetailsViewModel(plan, { dateLabel, timeFormatId });
 
   useEffect(() => {
     backBusyRef.current = false;

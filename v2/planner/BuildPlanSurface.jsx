@@ -580,6 +580,69 @@ export default function BuildPlanSurface({
         )}
 
         {renderAccordion(
+          'where',
+          where.title,
+          collapsed.where,
+          <div className="v2-bp-acc-body">
+            <p className="v2-bp-field-label">{where.theaterPreferenceLabel}</p>
+            <div
+              className="v2-bp-where-row"
+              role="radiogroup"
+              aria-label={where.theaterPreferenceLabel}
+            >
+              {launchTheaterPrefs.map((pref) => {
+                const Icon = THEATER_ICONS[pref.icon] ?? IconGlobe;
+                const selected = form.theaterPrefId === pref.id;
+                return (
+                  <button
+                    key={pref.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={selected}
+                    className={`v2-bp-where-card${selected ? ' is-selected' : ''}`}
+                    onClick={() => {
+                      setForm((c) => ({ ...c, theaterPrefId: pref.id }));
+                      if (pref.id === 'custom' && typeof onOpenTheaterManage === 'function') {
+                        setTimeout(() => onOpenTheaterManage(), 100);
+                      }
+                    }}
+                  >
+                    {selected ? (
+                      <span className="v2-bp-where-check" aria-hidden="true">
+                        ✓
+                      </span>
+                    ) : null}
+                    <span className="v2-bp-where-icon" aria-hidden="true">
+                      <Icon width={18} height={18} />
+                    </span>
+                    <span className="v2-bp-where-title">{pref.title}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {form.theaterPrefId === 'custom' ? (
+              <div className="v2-bp-theater-manage">
+                <p className="v2-bp-theater-count">
+                  {(form.selectedTheaters ?? []).length} {(form.selectedTheaters ?? []).length === 1 ? 'theater' : 'theaters'} selected
+                </p>
+                <button
+                  type="button"
+                  className="v2-bp-manage"
+                  onClick={() => {
+                    if (typeof onOpenTheaterManage === 'function') {
+                      onOpenTheaterManage();
+                    } else {
+                      announce('manage-theaters', 'Manage theaters');
+                    }
+                  }}
+                >
+                  Manage
+                </button>
+              </div>
+            ) : null}
+          </div>,
+        )}
+        {renderAccordion(
           'what',
           what.title,
           collapsed.what,
@@ -666,70 +729,6 @@ export default function BuildPlanSurface({
                 />
               )}
             </div>
-          </div>,
-        )}
-
-        {renderAccordion(
-          'where',
-          where.title,
-          collapsed.where,
-          <div className="v2-bp-acc-body">
-            <p className="v2-bp-field-label">{where.theaterPreferenceLabel}</p>
-            <div
-              className="v2-bp-where-row"
-              role="radiogroup"
-              aria-label={where.theaterPreferenceLabel}
-            >
-              {launchTheaterPrefs.map((pref) => {
-                const Icon = THEATER_ICONS[pref.icon] ?? IconGlobe;
-                const selected = form.theaterPrefId === pref.id;
-                return (
-                  <button
-                    key={pref.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={selected}
-                    className={`v2-bp-where-card${selected ? ' is-selected' : ''}`}
-                    onClick={() => {
-                      setForm((c) => ({ ...c, theaterPrefId: pref.id }));
-                      if (pref.id === 'custom' && typeof onOpenTheaterManage === 'function') {
-                        setTimeout(() => onOpenTheaterManage(), 100);
-                      }
-                    }}
-                  >
-                    {selected ? (
-                      <span className="v2-bp-where-check" aria-hidden="true">
-                        ✓
-                      </span>
-                    ) : null}
-                    <span className="v2-bp-where-icon" aria-hidden="true">
-                      <Icon width={18} height={18} />
-                    </span>
-                    <span className="v2-bp-where-title">{pref.title}</span>
-                  </button>
-                );
-              })}
-            </div>
-            {form.theaterPrefId === 'custom' ? (
-              <div className="v2-bp-theater-manage">
-                <p className="v2-bp-theater-count">
-                  {(form.selectedTheaters ?? []).length} {(form.selectedTheaters ?? []).length === 1 ? 'theater' : 'theaters'} selected
-                </p>
-                <button
-                  type="button"
-                  className="v2-bp-manage"
-                  onClick={() => {
-                    if (typeof onOpenTheaterManage === 'function') {
-                      onOpenTheaterManage();
-                    } else {
-                      announce('manage-theaters', 'Manage theaters');
-                    }
-                  }}
-                >
-                  Manage
-                </button>
-              </div>
-            ) : null}
           </div>,
         )}
 

@@ -19,6 +19,7 @@ import {
  *   opportunityKey?: string | null,
  *   enrichmentIndex?: object | null,
  *   forceMode?: 'production' | 'visual-fixture' | 'mockup-fixture' | null,
+ *   timeFormatId?: string,
  * }} params
  */
 export function resolveFilmDetailPresentation({
@@ -27,6 +28,7 @@ export function resolveFilmDetailPresentation({
   opportunityKey = null,
   enrichmentIndex = null,
   forceMode = null,
+  timeFormatId = undefined,
 }) {
   const mode =
     forceMode ??
@@ -65,6 +67,7 @@ export function resolveFilmDetailPresentation({
       resolved: false,
       presentation: composeFilmDetailPresentation(homeData, '', opportunityKey, {
         enrichmentIndex,
+        timeFormatId,
       }),
     };
   }
@@ -73,7 +76,7 @@ export function resolveFilmDetailPresentation({
     homeData,
     key,
     opportunityKey,
-    { enrichmentIndex },
+    { enrichmentIndex, timeFormatId },
   );
   return {
     mode: /** @type {'production'} */ ('production'),

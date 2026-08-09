@@ -40,6 +40,7 @@ export function joinMetaParts(...parts) {
  *   longTitleDemo?: boolean,
  *   longTheaterDemo?: boolean,
  *   enrichmentIndex?: object | null,
+ *   timeFormatId?: string,
  * }} [options]
  */
 export function composeFilmDetailPresentation(
@@ -57,6 +58,7 @@ export function composeFilmDetailPresentation(
     filmKey,
     opportunityKey,
     options.enrichmentIndex ?? null,
+    options.timeFormatId,
   );
 }
 
@@ -121,6 +123,7 @@ function composeRealPresentation(
   filmKey,
   opportunityKey,
   enrichmentIndex = null,
+  timeFormatId = '12h',
 ) {
   const film = resolveFilm(homeData, filmKey);
   if (!film) {
@@ -198,6 +201,7 @@ function composeRealPresentation(
     homeData,
     filmKey,
     opportunityKey ?? bestOpp?.opportunityKey,
+    { timeFormatId },
   );
 
   // Prefer TMDB overview; allow source synopsis only as a non-provider fallback.

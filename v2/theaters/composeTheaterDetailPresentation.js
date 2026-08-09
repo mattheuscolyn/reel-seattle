@@ -19,6 +19,8 @@ import {
   normalizeShowtimeFilmKey,
 } from '../stores/savedFilmsStore.js';
 import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
+import { pacificDateString } from '../explore/exploreCatalog.js';
+import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 
 /**
  * @param {unknown} raw
@@ -44,12 +46,17 @@ function formatShowtimeVariantLabel(raw) {
  * @param {object | null | undefined} homeData
  * @param {string | null | undefined} theaterId
  * @param {object | null | undefined} [enrichmentIndex]
+ * @param {{
+ *   now?: Date | (() => Date),
+ *   timeFormatId?: string,
+ * }} [options]
  * @returns {object}
  */
 export function composeTheaterDetailPresentation(
   homeData,
   theaterId,
   enrichmentIndex = null,
+  options = {},
 ) {
   const id = typeof theaterId === 'string' ? theaterId.trim() : '';
   const theater =
@@ -137,7 +144,12 @@ export function composeTheaterDetailPresentation(
     badge: null,
   }));
 
-  const todaysShowtimes = buildTodaysShowtimes(homeData, id, enrichmentIndex);
+  const todaysShowtimes = buildTodaysShowtimes(
+    homeData,
+    id,
+    enrichmentIndex,
+    options,
+  );
 
   return {
     source: 'home-data',
@@ -208,13 +220,36 @@ export function composeTheaterDetailPresentation(
  * Emits one `filmGroups` card per canonical identity; `featuredFilm` stays null
  * so live rendering does not nest every film inside the first mockup card.
  *
+ * Selected calendar day is Pacific “today” (not the earliest opportunity date).
+ * The header stays on today even when no showtimes exist for that day.
+ *
  * @param {object | null | undefined} homeData
  * @param {string} theaterId
  * @param {object | null | undefined} [enrichmentIndex]
+ * @param {{
+ *   now?: Date | (() => Date),
+ *   timeFormatId?: string,
+ * }} [options]
  */
-function buildTodaysShowtimes(homeData, theaterId, enrichmentIndex = null) {
+function buildTodaysShowtimes(
+  homeData,
+  theaterId,
+  enrichmentIndex = null,
+  options = {},
+) {
+  const nowFn =
+    typeof options.now === 'function'
+      ? options.now
+      : () => options.now ?? new Date();
+  const today = pacificDateString(nowFn());
+  const timeFormatId =
+    typeof options.timeFormatId === 'string' && options.timeFormatId
+      ? options.timeFormatId
+      : '12h';
+  const dateTitle = `Showtimes · ${formatLocalDateLabel(today) ?? today}`;
   const empty = {
-    title: "Today's showtimes",
+    title: dateTitle,
+    selectedDate: today,
     viewWeekLabel: 'View 7 days',
     filtersLabel: 'Filters',
     screenTabs: [{ id: 'all', label: 'All Screens' }],
@@ -239,10 +274,7 @@ function buildTodaysShowtimes(homeData, theaterId, enrichmentIndex = null) {
 
   if (opps.length === 0) return empty;
 
-  const firstDate = opps[0]?.localDate ?? null;
-  const todayOpps = firstDate
-    ? opps.filter((opp) => opp.localDate === firstDate)
-    : opps.slice(0, 12);
+  const todayOpps = opps.filter((opp) => opp.localDate === today);
 
   /** @type {Map<string, object>} */
   const filmsByKey = new Map(
@@ -292,10 +324,16 @@ function buildTodaysShowtimes(homeData, theaterId, enrichmentIndex = null) {
       groupKey = `key:${showtimeKey}`;
     }
 
-    const timeLabel =
+    const rawTime =
       typeof opp.localTime === 'string' && opp.localTime
         ? opp.localTime
-        : formatLocalDateLabel(opp.localDate) ?? 'Showtime';
+        : typeof opp.timeDisplay === 'string'
+          ? opp.timeDisplay
+          : '';
+    const timeLabel =
+      formatDisplayClock(rawTime, timeFormatId) ||
+      formatLocalDateLabel(opp.localDate) ||
+      'Showtime';
     const formatLabel =
       (Array.isArray(opp.formatLabels) ? opp.formatLabels : [])
         .map(formatUserFacingFormatLabel)
@@ -309,6 +347,7 @@ function buildTodaysShowtimes(homeData, theaterId, enrichmentIndex = null) {
       label: timeLabel,
       formatLabel: formatLabel ?? variantLabel,
       opportunityKey: opp.opportunityKey ?? null,
+      localDate: today,
     };
 
     let bucket = byGroup.get(groupKey);
@@ -365,7 +404,7 @@ function buildTodaysShowtimes(homeData, theaterId, enrichmentIndex = null) {
         opportunityKey: opp.opportunityKey ?? null,
         sortKey:
           String(opp.sortableLocalDateTime ?? '') ||
-          `${firstDate ?? ''}${timeLabel}`,
+          `${today}${timeLabel}`,
         times: [],
       };
       byGroup.set(groupKey, bucket);
@@ -395,9 +434,8 @@ function buildTodaysShowtimes(homeData, theaterId, enrichmentIndex = null) {
   }));
 
   return {
-    title: firstDate
-      ? `Showtimes · ${formatLocalDateLabel(firstDate) ?? firstDate}`
-      : "Today's showtimes",
+    title: dateTitle,
+    selectedDate: today,
     viewWeekLabel: 'View 7 days',
     filtersLabel: 'Filters',
     screenTabs: [{ id: 'all', label: 'All films' }],

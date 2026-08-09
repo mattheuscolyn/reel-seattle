@@ -101,11 +101,15 @@ test('Build a Plan fixture matches canonical mockup regions', () => {
     'presets',
     'customDivider',
     'when',
-    'what',
     'where',
+    'what',
     'fineTuning',
     'summaryCta',
   ]);
+  assert.equal(p.when.step, 1);
+  assert.equal(p.where.step, 2);
+  assert.equal(p.what.step, 3);
+  assert.equal(p.fineTuning.step, 4);
 });
 
 test('Must include is optional; Save draft and Avoid late ends absent', () => {
@@ -192,8 +196,8 @@ test('Live form defaults stay empty of fixture films', () => {
 test('Single-open accordion helpers', () => {
   assert.deepEqual([...BUILD_PLAN_ACCORDION_IDS], [
     'when',
-    'what',
     'where',
+    'what',
     'fineTuning',
   ]);
   assert.equal(parseBuildPlanSectionQuery('none'), null);

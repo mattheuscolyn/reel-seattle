@@ -13,8 +13,8 @@ export const SCHEDULE_SETTINGS_SECTION_ORDER = Object.freeze([
 ]);
 
 export const SCHEDULE_SETTINGS_TIME_FORMATS = Object.freeze([
-  Object.freeze({ id: '12h', label: '12h' }),
-  Object.freeze({ id: '24h', label: '24h' }),
+  Object.freeze({ id: '12h', label: '12-hour' }),
+  Object.freeze({ id: '24h', label: '24-hour' }),
 ]);
 
 export const SCHEDULE_SETTINGS_ZOOM_OPTIONS = Object.freeze([
@@ -149,7 +149,7 @@ export const SCHEDULE_SETTINGS_MOCKUP_FIXTURE = Object.freeze({
       timeFormat: Object.freeze({
         id: 'time-format',
         label: 'Time format',
-        support: 'Choose how times are displayed.',
+        support: '12-hour with AM/PM, or 24-hour (e.g. 1:30 PM vs 13:30).',
         icon: 'clock',
       }),
       colorCoding: Object.freeze({

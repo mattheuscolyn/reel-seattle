@@ -13,13 +13,13 @@ import {
 } from '../../src/utils/plannerEngine.js';
 import { calculateExpectedEndTime } from '../../src/utils/plannerBufferPolicy.js';
 import { parsePlannerShowtimeMinutes } from '../../src/utils/timeUtils.js';
-import { formatMinutesToTime } from '../../src/utils/timeUtils.js';
 import { formatTheaterAddressLabel } from '../theaters/resolveTheaterPresentation.js';
 import { homeDataToPlannerRows } from './homeDataToPlannerRows.js';
 import { mapBuildFormToPlannerFilters } from './mapBuildFormToPlannerFilters.js';
 import { filmIdentityTokensFromCards } from '../identity/filmIdentity.js';
 import { getNotInterestedFilms } from '../stores/notInterestedFilmsStore.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
+import { formatScheduleClock } from '../stores/scheduleSettingsStore.js';
 
 /**
  * @param {unknown} value
@@ -50,15 +50,11 @@ export function mapResultsSortToEngineSort(sortId) {
 
 /**
  * @param {number} minutes
+ * @param {string} [timeFormatId]
  */
-function formatClockLabel(minutes) {
+function formatClockLabel(minutes, timeFormatId = '12h') {
   if (minutes == null || !Number.isFinite(minutes)) return '';
-  const within = ((minutes % 1440) + 1440) % 1440;
-  // Match Results mockup spacing ("2:00 PM") while engine Time stays compact.
-  return formatMinutesToTime(within, { showNextDayOffset: false }).replace(
-    /(AM|PM)$/i,
-    ' $1',
-  );
+  return formatScheduleClock(minutes, timeFormatId);
 }
 
 /**
@@ -91,8 +87,16 @@ function formatRuntimeLabel(runtime) {
  * @param {string} planId
  * @param {number} index
  * @param {object | null} [row]
+ * @param {string} [timeFormatId]
  */
-function movieToLiveResultsFilm(movie, homeData, planId, index, row = null) {
+function movieToLiveResultsFilm(
+  movie,
+  homeData,
+  planId,
+  index,
+  row = null,
+  timeFormatId = '12h',
+) {
   const theaterId =
     asTrimmed(movie.theater_id) ?? asTrimmed(row?.theater_id) ?? null;
   const theaterMeta =
@@ -119,8 +123,8 @@ function movieToLiveResultsFilm(movie, homeData, planId, index, row = null) {
   return {
     id: `${planId}-f${index + 1}`,
     title: movie.film,
-    startTime: formatClockLabel(movie.startMin),
-    endTime: formatClockLabel(movie.endMin),
+    startTime: formatClockLabel(movie.startMin, timeFormatId),
+    endTime: formatClockLabel(movie.endMin, timeFormatId),
     theater: movie.theater,
     runtimeLabel: formatRuntimeLabel(movie.runtime),
     formatBadge: format ? String(format).toUpperCase() : null,
@@ -173,8 +177,15 @@ function findRowForMovie(rows, movie) {
  * @param {object | null | undefined} homeData
  * @param {object[]} rows
  * @param {number} rank
+ * @param {string} [timeFormatId]
  */
-export function mapEngineScheduleToResultsPlan(schedule, homeData, rows, rank) {
+export function mapEngineScheduleToResultsPlan(
+  schedule,
+  homeData,
+  rows,
+  rank,
+  timeFormatId = '12h',
+) {
   const movies = Array.isArray(schedule.movies) ? schedule.movies : [];
   const planId = `live-${asTrimmed(schedule.theater_id) || 'theater'}-${rank}-${movies
     .map((m) => m.showtime_film_key || m.film)
@@ -186,7 +197,16 @@ export function mapEngineScheduleToResultsPlan(schedule, homeData, rows, rank) {
   const items = [];
   for (let i = 0; i < movies.length; i += 1) {
     const row = findRowForMovie(rows, movies[i]);
-    items.push(movieToLiveResultsFilm(movies[i], homeData, planId, i, row));
+    items.push(
+      movieToLiveResultsFilm(
+        movies[i],
+        homeData,
+        planId,
+        i,
+        row,
+        timeFormatId,
+      ),
+    );
     const next = movies[i + 1];
     if (!next) continue;
     const gap = next.startMin - movies[i].endMin;
@@ -204,7 +224,7 @@ export function mapEngineScheduleToResultsPlan(schedule, homeData, rows, rank) {
   }
 
   const breaks = items.filter((i) => i.type === 'break').length;
-  const finishLabel = formatClockLabel(schedule.endMin);
+  const finishLabel = formatClockLabel(schedule.endMin, timeFormatId);
 
   return {
     id: planId,
@@ -429,6 +449,7 @@ export function generateLivePlannerResults({
   maxResults = 40,
   storage = null,
   enrichmentIndex = null,
+  timeFormatId = '12h',
 }) {
   if (!homeData) {
     return {
@@ -507,7 +528,13 @@ export function generateLivePlannerResults({
   schedules = schedules.slice(0, maxResults);
 
   const plans = schedules.map((s, index) =>
-    mapEngineScheduleToResultsPlan(s, homeData, rows, index + 1),
+    mapEngineScheduleToResultsPlan(
+      s,
+      homeData,
+      rows,
+      index + 1,
+      timeFormatId,
+    ),
   );
 
   const summaryLine = [

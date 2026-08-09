@@ -5226,6 +5226,39 @@ a.v2-st-time:hover {
   color: var(--v2-muted);
 }
 
+.v2-profile-time-format {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0 0 0.75rem;
+  padding: 0.85rem 0.85rem;
+  border: 1px solid var(--v2-border);
+  border-radius: 0.75rem;
+  background: var(--v2-bg-raised);
+}
+
+.v2-profile-time-format-head {
+  display: grid;
+  grid-template-columns: 1.4rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.v2-profile-time-format-copy {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.v2-profile-time-format-support {
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--v2-muted);
+}
+
+.v2-profile-time-format-segment {
+  margin-left: calc(1.4rem + 0.75rem);
+}
+
 .v2-profile-settings {
   list-style: none;
   margin: 0;

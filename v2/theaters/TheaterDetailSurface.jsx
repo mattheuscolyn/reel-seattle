@@ -5,7 +5,7 @@
  * Website/Directions open external URLs; other actions are stubs.
  */
 
-import { useId, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import {
   IconAccessibility,
   IconChevron,
@@ -29,6 +29,10 @@ import {
   isTheaterFavorite,
   toggleFavoriteTheater,
 } from '../stores/favoriteTheatersStore.js';
+import {
+  getScheduleSettings,
+  subscribeScheduleSettings,
+} from '../stores/scheduleSettingsStore.js';
 
 const STAT_ICONS = {
   monitor: IconFilm,
@@ -73,10 +77,17 @@ export default function TheaterDetailSurface({
   onOpenFilmDetail,
   onStubAction,
 }) {
+  const storage = getBrowserStorage();
+  const [settingsTick, setSettingsTick] = useState(0);
+  useEffect(() => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)), []);
+  void settingsTick;
+  const timeFormatId = getScheduleSettings(storage).timeFormatId;
+
   const { presentation } = resolveTheaterDetailPagePresentation({
     theaterId,
     homeData,
     enrichmentIndex,
+    timeFormatId,
   });
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
@@ -87,7 +98,6 @@ export default function TheaterDetailSurface({
   );
   const [favoriteRevision, setFavoriteRevision] = useState(0);
 
-  const storage = getBrowserStorage();
   const isFavorite = useMemo(() => {
     void favoriteRevision;
     return isTheaterFavorite(storage, {

@@ -27,6 +27,7 @@ import {
   SHOWTIMES_BROWSE_TIME_RANGES,
   normalizeBrowseFormat,
 } from './showtimesBrowseModel.js';
+import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 
 export const FILM_SHOWTIMES_SORT_OPTIONS = Object.freeze([
   Object.freeze({ id: 'time', label: 'By time' }),
@@ -45,6 +46,7 @@ export const FILM_SHOWTIMES_SORT_OPTIONS = Object.freeze([
  *   sortId?: 'time' | 'theater',
  *   enrichmentIndex?: object | null,
  *   now?: Date | (() => Date),
+ *   timeFormatId?: string,
  * }} [options]
  */
 export function composeFilmShowtimesPresentation(
@@ -59,6 +61,10 @@ export function composeFilmShowtimesPresentation(
   const today = pacificDateString(nowFn());
   const nowKey = pacificSortableDateTime(nowFn());
   const enrichmentIndex = options.enrichmentIndex ?? null;
+  const timeFormatId =
+    typeof options.timeFormatId === 'string' && options.timeFormatId
+      ? options.timeFormatId
+      : '12h';
   const formatKeys = Array.isArray(options.formatKeys)
     ? options.formatKeys.filter(Boolean)
     : [];
@@ -178,6 +184,7 @@ export function composeFilmShowtimesPresentation(
     bestKey: bestOnDate?.opportunityKey ?? null,
     sortId,
     homeData,
+    timeFormatId,
   });
 
   const selectedOpp =
@@ -432,9 +439,11 @@ function computeSharedChips(times) {
  *   bestKey: string | null,
  *   sortId: string,
  *   homeData?: object | null,
+ *   timeFormatId?: string,
  * }} opts
  */
 function buildTheaterGroups(dayOpps, opts) {
+  const timeFormatId = opts.timeFormatId ?? '12h';
   /** @type {Map<string, object>} */
   const byTheater = new Map();
   for (const opp of dayOpps) {
@@ -464,7 +473,10 @@ function buildTheaterGroups(dayOpps, opts) {
       id: opp.opportunityKey,
       opportunityKey: opp.opportunityKey,
       filmKey: opp.filmKey,
-      timeDisplay: opp.timeDisplay ?? opp.localTime ?? '',
+      timeDisplay: formatDisplayClock(
+        opp.timeDisplay ?? opp.localTime ?? '',
+        timeFormatId,
+      ),
       localTime: opp.localTime ?? null,
       formatLabel: format,
       variantLabel: variant,

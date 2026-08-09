@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { resolveFilmDetailPresentation } from '../fixtures/resolveFilmDetailPresentation.js';
 import { toFilmDetailView } from '../filmDetail/toFilmDetailView.js';
 import {
@@ -15,6 +15,18 @@ import {
   IconSpark,
   IconStar,
 } from '../icons.jsx';
+import {
+  getScheduleSettings,
+  subscribeScheduleSettings,
+} from '../stores/scheduleSettingsStore.js';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 function formatFilmTitle(title) {
   if (!title || typeof title !== 'string') return title;
@@ -161,6 +173,14 @@ export default function FilmDetailSurface({
   onOpenOpportunity,
   onOpenShowtimes,
 }) {
+  const [settingsTick, setSettingsTick] = useState(0);
+  useEffect(
+    () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
+    [],
+  );
+  void settingsTick;
+  const timeFormatId = getScheduleSettings(getBrowserStorage()).timeFormatId;
+
   const resolved = useMemo(
     () =>
       resolveFilmDetailPresentation({
@@ -168,8 +188,9 @@ export default function FilmDetailSurface({
         filmKey,
         opportunityKey,
         enrichmentIndex,
+        timeFormatId,
       }),
-    [homeData, enrichmentIndex, filmKey, opportunityKey],
+    [homeData, enrichmentIndex, filmKey, opportunityKey, timeFormatId],
   );
   const view = useMemo(() => toFilmDetailView(resolved), [resolved]);
 

@@ -4,6 +4,7 @@
  */
 
 import { getAcceptedPlans } from '../stores/acceptedPlansStore.js';
+import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 
 /**
  * @param {string} isoDate
@@ -28,24 +29,19 @@ function formatWhenLabel(isoDate, localTime) {
 
 /**
  * @param {string} localTime HH:MM or display
+ * @param {string} [timeFormatId]
  */
-function formatClockLabel(localTime) {
+function formatClockLabel(localTime, timeFormatId = '12h') {
   if (!localTime || typeof localTime !== 'string') return null;
-  const trimmed = localTime.trim();
-  if (/[ap]m/i.test(trimmed)) return trimmed;
-  const match = trimmed.match(/^(\d{1,2}):(\d{2})$/);
-  if (!match) return trimmed;
-  let hour = Number(match[1]);
-  const min = match[2];
-  const suffix = hour >= 12 ? 'PM' : 'AM';
-  hour = hour % 12 || 12;
-  return `${hour}:${min} ${suffix}`;
+  const formatted = formatDisplayClock(localTime, timeFormatId);
+  return formatted || null;
 }
 
 /**
  * @param {import('../stores/acceptedPlansStore.js').AcceptedPlanItem} plan
+ * @param {string} [timeFormatId]
  */
-function toUpcomingRow(plan) {
+function toUpcomingRow(plan, timeFormatId = '12h') {
   const perfs = Array.isArray(plan.performances) ? plan.performances : [];
   const first = perfs[0] ?? null;
   const titles = perfs.map((p) => p.title).filter(Boolean);
@@ -56,7 +52,7 @@ function toUpcomingRow(plan) {
   const venueLabel = first?.theaterName ?? null;
   const whenLabel = formatWhenLabel(
     plan.date || first?.localDate,
-    formatClockLabel(first?.localTime) ?? first?.localTime,
+    formatClockLabel(first?.localTime, timeFormatId) ?? first?.localTime,
   );
   const badges = [];
   if (perfs.length >= 2) {
@@ -84,16 +80,18 @@ function toUpcomingRow(plan) {
 
 /**
  * @param {string} isoDate YYYY-MM-DD
+ * @param {string | null | undefined} localTime
  * @param {Date} now
+ * @param {string} [timeFormatId]
  */
-function nextPlanSummary(isoDate, localTime, now) {
+function nextPlanSummary(isoDate, localTime, now, timeFormatId = '12h') {
   if (!isoDate) {
     return { nextPlanValue: '—', nextPlanLabel: 'No next plan' };
   }
   const today = now.toLocaleDateString('en-CA', {
     timeZone: 'America/Los_Angeles',
   });
-  const clock = formatClockLabel(localTime);
+  const clock = formatClockLabel(localTime, timeFormatId);
   if (isoDate === today) {
     return {
       nextPlanValue: 'Tonight',
@@ -125,6 +123,7 @@ function nextPlanSummary(isoDate, localTime, now) {
  * @param {{
  *   storage?: Storage | null,
  *   now?: Date,
+ *   timeFormatId?: string,
  * }} [options]
  */
 export function composePlannerLandingFromAcceptedPlans(options = {}) {
@@ -132,6 +131,10 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
     options.storage ??
     (typeof localStorage !== 'undefined' ? localStorage : null);
   const now = options.now ?? new Date();
+  const timeFormatId =
+    typeof options.timeFormatId === 'string' && options.timeFormatId
+      ? options.timeFormatId
+      : '12h';
   const plans = getAcceptedPlans(storage)
     .slice()
     .sort((a, b) => {
@@ -140,12 +143,13 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
       return aKey < bKey ? -1 : aKey > bKey ? 1 : 0;
     });
 
-  const upcomingRows = plans.map(toUpcomingRow);
+  const upcomingRows = plans.map((plan) => toUpcomingRow(plan, timeFormatId));
   const next = plans[0] ?? null;
   const nextSummary = nextPlanSummary(
     next?.date ?? next?.performances?.[0]?.localDate,
     next?.performances?.[0]?.localTime,
     now,
+    timeFormatId,
   );
 
   return {

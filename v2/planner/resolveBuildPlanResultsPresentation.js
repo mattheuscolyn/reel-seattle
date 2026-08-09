@@ -172,6 +172,7 @@ export function resolveBuildPlanResultsPagePresentation(options = {}) {
     now: options.now,
     storage: options.storage ?? null,
     enrichmentIndex: options.enrichmentIndex ?? null,
+    timeFormatId: options.timeFormatId ?? '12h',
   });
 
   return {

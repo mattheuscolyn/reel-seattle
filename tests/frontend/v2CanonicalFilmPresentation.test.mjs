@@ -309,7 +309,9 @@ test('Home uses canonical title when theater source title has screening qualifie
   const homeCtx = enrichHomeFilm(sourceFilm, index, 'home', home);
   const openingCtx = enrichHomeFilm(sourceFilm, index, 'opening', home);
   const search = buildSearchFilmResult(home, sourceFilm, {}, index);
-  const theater = composeTheaterDetailPresentation(home, 'amc-test', index);
+  const theater = composeTheaterDetailPresentation(home, 'amc-test', index, {
+    now: () => new Date('2026-08-10T10:00:00-07:00'),
+  });
   const group = theater.todaysShowtimes.filmGroups.find(
     (g) => g.filmId === 'tmdb:424242',
   );
@@ -438,10 +440,12 @@ test('cross-surface adapters agree on Ice Cream Man canonical fields', () => {
   const film = home.films[0];
 
   const search = buildSearchFilmResult(home, film, {}, index);
+  const theaterNow = () => new Date('2026-08-10T10:00:00-07:00');
   const theater = composeTheaterDetailPresentation(
     home,
     'amc-pacific-place-11',
     index,
+    { now: theaterNow },
   );
   const icmGroup = theater.todaysShowtimes.filmGroups.find(
     (g) => g.filmId === 'tmdb:1477712',
@@ -487,8 +491,8 @@ test('cross-surface adapters agree on Ice Cream Man canonical fields', () => {
   assert.equal(search.year, 2026);
   assert.equal(search.rating, 'NR');
 
-  // Theater showtimes remain source-owned.
-  assert.ok(icmGroup.times.some((t) => t.label === '19:00' || t.label === '7:00 PM' || t.id === 'o-icm-1'));
+  // Theater showtimes remain preference-formatted display labels.
+  assert.ok(icmGroup.times.some((t) => t.label === '7:00 PM' || t.id === 'o-icm-1'));
   assert.ok(icmGroup.times.length >= 2); // parent + sensory merged
 });
 
@@ -499,6 +503,7 @@ test('Theater Detail no longer nests source poster from first film for later fil
     home,
     'amc-pacific-place-11',
     index,
+    { now: () => new Date('2026-08-10T10:00:00-07:00') },
   );
   assert.equal(theater.todaysShowtimes.featuredFilm, null);
   const groups = theater.todaysShowtimes.filmGroups;
@@ -522,7 +527,12 @@ test('planner rows use enriched posterDynamic when filmId present', () => {
 
 test('enrichment lookup failure does not break rendering', () => {
   const home = makeHomeData();
-  const theater = composeTheaterDetailPresentation(home, 'amc-pacific-place-11', null);
+  const theater = composeTheaterDetailPresentation(
+    home,
+    'amc-pacific-place-11',
+    null,
+    { now: () => new Date('2026-08-10T10:00:00-07:00') },
+  );
   assert.ok(theater.todaysShowtimes.filmGroups.length > 0);
   const icm = theater.todaysShowtimes.filmGroups.find(
     (g) => g.filmId === 'tmdb:1477712' || g.filmKey === 'ice-cream-man',
