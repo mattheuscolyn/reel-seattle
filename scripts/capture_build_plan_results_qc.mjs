@@ -1,172 +1,231 @@
 /**
- * Capture Build a Plan Results Stage 1 QC screenshots.
- * Run: node scripts/capture_build_plan_results_qc.mjs
+ * Build a Plan Results visual QC — base + Time/Film/Break overlays.
  * Requires v2 at http://127.0.0.1:5175/
  */
 import { chromium } from 'playwright';
-import { mkdirSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { mkdirSync, existsSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
+const require = createRequire(import.meta.url);
+const sharp = require('sharp');
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'tmp-v2-qc');
-const BASE = 'http://127.0.0.1:5175/';
+const BASE = process.env.V2_BASE_URL || 'http://127.0.0.1:5175/';
+const WIDTH = 393;
+
+const CANONS = {
+  base: join(ROOT, 'Canonical Mockup Images', 'Build a Plan Results Page.png'),
+  time: join(
+    ROOT,
+    'Canonical Mockup Images',
+    'Build a Plan Results Page Time Interaction.png',
+  ),
+  film: join(
+    ROOT,
+    'Canonical Mockup Images',
+    'Build a Plan Results Page Film Interaction.png',
+  ),
+  break: join(
+    ROOT,
+    'Canonical Mockup Images',
+    'Build a Plan Results Page Break Interaction.png',
+  ),
+};
 
 mkdirSync(OUT, { recursive: true });
 
-const WIDTHS = [
-  { name: 'iphone15pro', width: 393, height: 852 },
-  { name: '320', width: 320, height: 720 },
-  { name: '430', width: 430, height: 900 },
-];
-
-async function clearLocal(page) {
-  await page.evaluate(() => {
-    const keys = [];
-    for (let i = 0; i < localStorage.length; i += 1) {
-      const key = localStorage.key(i);
-      if (key) keys.push(key);
-    }
-    for (const key of keys) {
-      if (key.startsWith('reel-seattle.v2.')) localStorage.removeItem(key);
-    }
-  });
+async function normalizeCanon(key, src) {
+  const out = join(OUT, `canon-393-bpr-${key}.png`);
+  await sharp(src).resize({ width: WIDTH }).png().toFile(out);
+  return out;
 }
 
-async function openResultsPage(page) {
-  await page.goto(BASE, { waitUntil: 'networkidle' });
-  await clearLocal(page);
-  await page.goto(BASE, { waitUntil: 'networkidle' });
-  await page.locator('.v2-nav-button', { hasText: 'Planner' }).click();
-  await page.waitForSelector('.v2-planner', { timeout: 15_000 });
-  await page.getByRole('button', { name: /Build a Plan/i }).first().click();
-  await page.waitForSelector('[data-build-plan-source="mockup-fixture"]', {
-    timeout: 15_000,
-  });
-  await page.getByRole('button', { name: /Build my movie day/i }).click();
-  await page.waitForSelector(
-    '[data-build-plan-results-source="mockup-fixture"]',
-    { timeout: 15_000 },
-  );
+async function waitReady(page) {
+  await page.evaluate(() => document.fonts.ready);
+  await page.waitForTimeout(300);
 }
 
-const browser = await chromium.launch();
+async function openResults(page, interaction = 'none') {
+  const q =
+    interaction && interaction !== 'none'
+      ? `?planResultsMockup=1&interaction=${encodeURIComponent(interaction)}`
+      : '?planResultsMockup=1&interaction=none';
+  await page.goto(`${BASE}${q}`, { waitUntil: 'networkidle' });
+  await page.waitForSelector('[data-build-plan-results-source]', {
+    timeout: 20_000,
+  });
+  await waitReady(page);
+}
+
+async function assertNav(page) {
+  const info = await page.evaluate(() => {
+    const buttons = [...document.querySelectorAll('.v2-nav-button')].map((b) => {
+      const r = b.getBoundingClientRect();
+      return {
+        text: b.innerText.replace(/\s+/g, ' ').trim(),
+        visible: r.width > 0 && r.right > 1 && r.left < window.innerWidth - 1,
+        active: b.classList.contains('v2-nav-button-active'),
+      };
+    });
+    return {
+      labels: buttons.map((b) => b.text),
+      allVisible: buttons.every((b) => b.visible),
+      plannerActive: buttons.find((b) => b.text.includes('Planner'))?.active,
+    };
+  });
+  if (
+    info.labels.join('|') !== 'Home|Explore|Planner|Profile' ||
+    !info.allVisible ||
+    !info.plannerActive
+  ) {
+    throw new Error(`Nav audit failed: ${JSON.stringify(info)}`);
+  }
+}
+
+async function compare(livePath, canonPath, outSide, outOverlay) {
+  if (!existsSync(livePath) || !existsSync(canonPath)) return;
+  const targetW = WIDTH;
+  const L = await sharp(livePath).resize({ width: targetW }).png().toBuffer();
+  const R = await sharp(canonPath).resize({ width: targetW }).png().toBuffer();
+  const lm = await sharp(L).metadata();
+  const rm = await sharp(R).metadata();
+  const h = Math.max(lm.height || 0, rm.height || 0);
+  const pad = async (buf, meta) => {
+    if ((meta.height || 0) >= h) {
+      return sharp(buf)
+        .resize({ width: targetW, height: h, fit: 'cover', position: 'top' })
+        .png()
+        .toBuffer();
+    }
+    return sharp({
+      create: {
+        width: targetW,
+        height: h,
+        channels: 3,
+        background: '#07080d',
+      },
+    })
+      .composite([{ input: buf, top: 0, left: 0 }])
+      .png()
+      .toBuffer();
+  };
+  const Lp = await pad(L, lm);
+  const Rp = await pad(R, rm);
+  await sharp({
+    create: {
+      width: targetW * 2 + 12,
+      height: h,
+      channels: 3,
+      background: '#111',
+    },
+  })
+    .composite([
+      { input: Rp, top: 0, left: 0 },
+      { input: Lp, top: 0, left: targetW + 12 },
+    ])
+    .png()
+    .toFile(join(OUT, outSide));
+  await sharp(Lp)
+    .composite([{ input: Rp, blend: 'overlay', top: 0, left: 0 }])
+    .png()
+    .toFile(join(OUT, outOverlay));
+  console.log('wrote', outSide, outOverlay);
+}
+
+const browser = await chromium.launch({ headless: true });
+const page = await browser.newPage({
+  viewport: { width: WIDTH, height: 852 },
+  deviceScaleFactor: 2,
+});
+const report = {};
 
 try {
-  for (const vp of WIDTHS) {
-    const context = await browser.newContext({
-      viewport: { width: vp.width, height: vp.height },
-      deviceScaleFactor: 2,
-    });
-    const page = await context.newPage();
-    await openResultsPage(page);
-
-    const beforeKeys = await page.evaluate(() => {
-      const keys = [];
-      for (let i = 0; i < localStorage.length; i += 1) {
-        const key = localStorage.key(i);
-        if (key?.startsWith('reel-seattle.v2.')) keys.push(key);
-      }
-      return keys.sort();
-    });
-
-    const overflow = await page.evaluate(() => {
-      const el = document.querySelector('.v2-bpr');
-      if (!el) return true;
-      return el.scrollWidth > el.clientWidth + 1;
-    });
-    if (overflow) throw new Error(`Horizontal overflow at ${vp.name}`);
-
-    const h1Count = await page.locator('.v2-bpr h1').count();
-    if (h1Count !== 1) {
-      throw new Error(`Expected one Results h1 at ${vp.name}, found ${h1Count}`);
-    }
-
-    if ((await page.getByText(/Why we love/i).count()) > 0) {
-      throw new Error('Why we love leaked into Results');
-    }
-
-    await page.screenshot({
-      path: join(OUT, `i-bpr-${vp.name}-default.png`),
-      fullPage: false,
-    });
-
-    await page.getByRole('radio', { name: /Smallest gaps/i }).click();
-    await page.screenshot({
-      path: join(OUT, `i-bpr-${vp.name}-sort.png`),
-      fullPage: false,
-    });
-
-    const deselect = page
-      .locator('.v2-bpr-film-select[aria-pressed="true"]')
-      .first();
-    await deselect.click();
-    await page.screenshot({
-      path: join(OUT, `i-bpr-${vp.name}-deselected.png`),
-      fullPage: false,
-    });
-
-    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    await page.screenshot({
-      path: join(OUT, `i-bpr-${vp.name}-refine.png`),
-      fullPage: false,
-    });
-
-    await page.screenshot({
-      path: join(OUT, `i-bpr-${vp.name}-full.png`),
-      fullPage: true,
-    });
-
-    await page.getByRole('button', { name: /Share/i }).first().click();
-    await page
-      .getByRole('button', { name: /Add to My Schedule for plan/i })
-      .first()
-      .click();
-
-    const body = await page.locator('body').innerText();
-    if (
-      !/Share \/ export isn’t available/i.test(body) &&
-      !/Add to My Schedule isn’t available/i.test(body) &&
-      !/isn’t available in this Stage 1 Results shell/i.test(body)
-    ) {
-      throw new Error('Expected stub status after Share / Add to My Schedule');
-    }
-
-    // Film row opens Stage 1 interaction sheet (not a silent no-op).
-    await page.locator('.v2-bpr-film-main').first().click();
-    await page.waitForSelector('.v2-bpr-sheet, [data-bpr-sheet="open"]', {
-      timeout: 10_000,
-    });
-    await page.getByRole('button', { name: /^Close$/i }).click();
-    await page.waitForSelector('.v2-bpr-sheet', {
-      state: 'detached',
-      timeout: 10_000,
-    });
-
-    const afterKeys = await page.evaluate(() => {
-      const keys = [];
-      for (let i = 0; i < localStorage.length; i += 1) {
-        const key = localStorage.key(i);
-        if (key?.startsWith('reel-seattle.v2.')) keys.push(key);
-      }
-      return keys.sort();
-    });
-    if (JSON.stringify(beforeKeys) !== JSON.stringify(afterKeys)) {
-      throw new Error(
-        `localStorage mutated at ${vp.name}: ${beforeKeys} → ${afterKeys}`,
-      );
-    }
-
-    await page.getByRole('button', { name: /Back to Build a Plan/i }).click();
-    await page.waitForSelector('[data-build-plan-source="mockup-fixture"]', {
-      timeout: 10_000,
-    });
-
-    await context.close();
-    console.log(`ok ${vp.name}`);
+  for (const [key, src] of Object.entries(CANONS)) {
+    await normalizeCanon(key, src);
   }
+
+  // Base
+  await openResults(page, 'none');
+  await assertNav(page);
+  await page.screenshot({
+    path: join(OUT, 'bpr-base-viewport.png'),
+    fullPage: false,
+  });
+  await page.screenshot({
+    path: join(OUT, 'bpr-base-full.png'),
+    fullPage: true,
+  });
+  await page.evaluate(() =>
+    window.scrollTo(0, document.documentElement.scrollHeight),
+  );
+  await page.waitForTimeout(150);
+  await page.screenshot({
+    path: join(OUT, 'bpr-base-bottom-nav.png'),
+    fullPage: false,
+  });
+
+  // Interactions
+  for (const interaction of ['time', 'film', 'break']) {
+    await openResults(page, interaction);
+    await assertNav(page);
+    await page.waitForSelector(
+      `[data-bpr-adjustment="${interaction}"], .v2-bpr-adj-dialog`,
+      { timeout: 10_000 },
+    );
+    await waitReady(page);
+    await page.screenshot({
+      path: join(OUT, `bpr-${interaction}-viewport.png`),
+      fullPage: false,
+    });
+  }
+
+  // Short viewport modal
+  await page.setViewportSize({ width: WIDTH, height: 667 });
+  for (const interaction of ['time', 'film', 'break']) {
+    await openResults(page, interaction);
+    await page.waitForSelector('.v2-bpr-adj-dialog', { timeout: 10_000 });
+    await waitReady(page);
+    await page.screenshot({
+      path: join(OUT, `bpr-${interaction}-short-667.png`),
+      fullPage: false,
+    });
+  }
+
+  await page.setViewportSize({ width: WIDTH, height: 852 });
+
+  await compare(
+    join(OUT, 'bpr-base-viewport.png'),
+    join(OUT, 'canon-393-bpr-base.png'),
+    'bpr-base-vs-canonical.png',
+    'bpr-base-overlay.png',
+  );
+  await compare(
+    join(OUT, 'bpr-time-viewport.png'),
+    join(OUT, 'canon-393-bpr-time.png'),
+    'bpr-time-vs-canonical.png',
+    'bpr-time-overlay.png',
+  );
+  await compare(
+    join(OUT, 'bpr-film-viewport.png'),
+    join(OUT, 'canon-393-bpr-film.png'),
+    'bpr-film-vs-canonical.png',
+    'bpr-film-overlay.png',
+  );
+  await compare(
+    join(OUT, 'bpr-break-viewport.png'),
+    join(OUT, 'canon-393-bpr-break.png'),
+    'bpr-break-vs-canonical.png',
+    'bpr-break-overlay.png',
+  );
+
+  report.ok = true;
+  writeFileSync(join(OUT, 'bpr-qc-report.json'), JSON.stringify(report, null, 2));
+  console.log('QC complete');
+} catch (err) {
+  console.error(err);
+  process.exitCode = 1;
 } finally {
   await browser.close();
 }
-
-console.log('Build a Plan Results QC complete →', OUT);

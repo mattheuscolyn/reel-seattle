@@ -11,6 +11,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'tmp-v2-qc');
 const BASE = 'http://127.0.0.1:5175/';
+const MOCKUP_BASE = 'http://127.0.0.1:5175/?theaterMockup=1';
 
 mkdirSync(OUT, { recursive: true });
 
@@ -41,7 +42,7 @@ async function openTheatersPage(page) {
   await page.waitForSelector('.v2-explore-page', { timeout: 15_000 });
   const theatersBtn = page.getByRole('button', { name: /^Theaters$/i });
   await theatersBtn.first().click();
-  await page.waitForSelector('[data-theaters-source="mockup-fixture"]', {
+  await page.waitForSelector('[data-theaters-source="home-data"]', {
     timeout: 15_000,
   });
 }
@@ -121,6 +122,21 @@ try {
 
     await page.locator('.v2-theaters-page-back').click();
     await page.waitForSelector('.v2-explore-page', { timeout: 10_000 });
+
+    // Explicit mockup QC pass
+    await page.goto(MOCKUP_BASE, { waitUntil: 'networkidle' });
+    await clearLocal(page);
+    await page.goto(MOCKUP_BASE, { waitUntil: 'networkidle' });
+    await page.locator('.v2-nav-button', { hasText: 'Explore' }).click();
+    await page.waitForSelector('.v2-explore-page', { timeout: 15_000 });
+    await page.getByRole('button', { name: /^Theaters$/i }).first().click();
+    await page.waitForSelector('[data-theaters-source="mockup-fixture"]', {
+      timeout: 15_000,
+    });
+    await page.screenshot({
+      path: join(OUT, `i-theaters-mockup-${vp.name}.png`),
+      fullPage: false,
+    });
 
     await context.close();
     console.log(`captured ${vp.name}`);

@@ -34,9 +34,9 @@ async function clearLocal(page) {
 }
 
 async function openResults(page) {
-  await page.goto(BASE, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE}?planResultsMockup=1`, { waitUntil: 'networkidle' });
   await clearLocal(page);
-  await page.goto(BASE, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE}?planResultsMockup=1`, { waitUntil: 'networkidle' });
   await page.locator('.v2-nav-button', { hasText: 'Planner' }).click();
   await page.waitForSelector('.v2-planner', { timeout: 15_000 });
   await page.getByRole('button', { name: /Build a Plan/i }).first().click();
