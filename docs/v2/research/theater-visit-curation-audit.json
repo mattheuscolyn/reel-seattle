@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "theater-visit-curation-t-thea-10",
+  "verified_at": "2026-07-28",
+  "theaters_schema_version": "1.1.0",
+  "registry_path": "data/theaters.json",
+  "policy": {
+    "pricing_hours": "deferred",
+    "amenities": "omit unless official venue page states a stable amenity; none curated this pass",
+    "imagery": "omit until rights-cleared assets are staged under public/",
+    "screen_count": "AMC: from official theater name screen suffix; SIFF Uptown/Film Center: official venue copy; others null",
+    "coordinates": "from official AMC theatre page map deep-links when present; otherwise null (directions derived from curated address)"
+  },
+  "intentionally_deferred": [
+    "pricing",
+    "hours",
+    "amenities",
+    "image_url",
+    "capabilities (prefer showtimes-derived formats)",
+    "membership discount amounts"
+  ],
+  "enabled_venues": 13,
+  "disabled_venues": 2,
+  "evidence": [
+    {
+      "theater_id": "amc-pacific-place-11",
+      "field": "address+website+coords+screen_count",
+      "value": "600 Pine Street, Ste 400, Seattle, WA 98101; website AMC page; 11 screens; 47.612427,-122.335349",
+      "source_url": "https://www.amctheatres.com/movie-theatres/seattle-tacoma/amc-pacific-place-11",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "amc-oak-tree-6",
+      "field": "address+website+coords+screen_count",
+      "value": "10006 Aurora Avenue N., Seattle, WA 98133; 6 screens; 47.701935,-122.342656",
+      "source_url": "https://www.amctheatres.com/movie-theatres/seattle-tacoma/amc-oak-tree-6",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "amc-factoria-8",
+      "field": "address+website+coords+screen_count",
+      "value": "3505 Factoria Blvd SE, Bellevue, WA 98006; 8 screens; 47.57903,-122.170277",
+      "source_url": "https://www.amctheatres.com/movie-theatres/seattle-tacoma/amc-factoria-8",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "amc-alderwood-mall-16",
+      "field": "address+website+screen_count",
+      "value": "18733 33rd Avenue West, Lynnwood, WA 98037; 16 screens; coords deferred",
+      "source_url": "https://www.amctheatres.com/movie-theatres/seattle-tacoma/amc-alderwood-mall-16",
+      "verified_at": "2026-07-28",
+      "confidence": "high",
+      "notes": "Address confirmed via AMC theatre page listing; map coordinates not captured this pass"
+    },
+    {
+      "theater_id": "amc-southcenter-16",
+      "field": "address+website+coords+screen_count",
+      "value": "3600 Southcenter Mall, Tukwila, WA 98188; 16 screens; 47.458567,-122.261211",
+      "source_url": "https://www.amctheatres.com/movie-theatres/seattle-tacoma/amc-southcenter-16",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "amc-kent-station-14",
+      "field": "address+website+coords+screen_count",
+      "value": "426 Ramsay Way, Kent, WA 98032; 14 screens; 47.384948,-122.235058",
+      "source_url": "https://www.amctheatres.com/movie-theatres/seattle-tacoma/amc-kent-station-14",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "amc-woodinville-12",
+      "field": "address+website+coords+screen_count",
+      "value": "17640 Garden Way NE, Woodinville, WA 98072; 12 screens; 47.755873,-122.154261",
+      "source_url": "https://www.amctheatres.com/movie-theatres/seattle-tacoma/amc-woodinville-12",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "amc-*",
+      "field": "source_external_id",
+      "value": "AMC theatre_id from daily scrape logs mapped by theater_name_raw",
+      "source_url": "data/daily_logs/2026-07-27_amc.json",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "siff-cinema-downtown",
+      "field": "address+website",
+      "value": "2100 4th Ave, Seattle, WA 98121",
+      "source_url": "https://www.siff.net/cinema/cinema-venues",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "siff-cinema-uptown",
+      "field": "address+website+screen_count",
+      "value": "511 Queen Anne Ave N, Seattle, WA 98109; three screens (official venue copy)",
+      "source_url": "https://www.siff.net/cinema/cinema-venues",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "siff-film-center",
+      "field": "address+website+screen_count",
+      "value": "167 Republican St, Seattle, WA 98109; single-screen jewelbox (official venue copy)",
+      "source_url": "https://www.siff.net/cinema/cinema-venues/siff-film-center",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "the-beacon",
+      "field": "address+website+phone",
+      "value": "4405 Rainier Ave S, Seattle, WA 98118; (206) 420-7328",
+      "source_url": "https://thebeacon.film/contact",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "northwest-film-forum",
+      "field": "address+website+phone",
+      "value": "1515 12th Ave, Seattle, WA 98122; 206 329 2629",
+      "source_url": "https://nwfilmforum.org/",
+      "verified_at": "2026-07-28",
+      "confidence": "high"
+    },
+    {
+      "theater_id": "central-cinema",
+      "field": "address+website+phone",
+      "value": "1411 21st Ave, Seattle, WA 98122; 206-328-3230",
+      "source_url": "https://central-cinema.com/",
+      "verified_at": "2026-07-28",
+      "confidence": "high",
+      "notes": "Address from official Central Cinema site footer/contact block"
+    }
+  ],
+  "coverage_by_venue": {
+    "amc-pacific-place-11": { "address": true, "coords": true, "website": true, "phone": false, "description": true, "screen_count": true, "amenities": false, "image": false },
+    "amc-oak-tree-6": { "address": true, "coords": true, "website": true, "phone": false, "description": true, "screen_count": true, "amenities": false, "image": false },
+    "amc-factoria-8": { "address": true, "coords": true, "website": true, "phone": false, "description": true, "screen_count": true, "amenities": false, "image": false },
+    "amc-alderwood-mall-16": { "address": true, "coords": false, "website": true, "phone": false, "description": true, "screen_count": true, "amenities": false, "image": false },
+    "amc-southcenter-16": { "address": true, "coords": true, "website": true, "phone": false, "description": true, "screen_count": true, "amenities": false, "image": false },
+    "amc-kent-station-14": { "address": true, "coords": true, "website": true, "phone": false, "description": true, "screen_count": true, "amenities": false, "image": false },
+    "amc-woodinville-12": { "address": true, "coords": true, "website": true, "phone": false, "description": true, "screen_count": true, "amenities": false, "image": false },
+    "siff-cinema-downtown": { "address": true, "coords": false, "website": true, "phone": false, "description": true, "screen_count": false, "amenities": false, "image": false },
+    "siff-cinema-uptown": { "address": true, "coords": false, "website": true, "phone": false, "description": true, "screen_count": true, "amenities": false, "image": false },
+    "siff-film-center": { "address": true, "coords": false, "website": true, "phone": false, "description": true, "screen_count": true, "amenities": false, "image": false },
+    "the-beacon": { "address": true, "coords": false, "website": true, "phone": true, "description": true, "screen_count": false, "amenities": false, "image": false },
+    "northwest-film-forum": { "address": true, "coords": false, "website": true, "phone": true, "description": true, "screen_count": false, "amenities": false, "image": false },
+    "central-cinema": { "address": true, "coords": false, "website": true, "phone": true, "description": true, "screen_count": false, "amenities": false, "image": false }
+  },
+  "missing_fields_summary": [
+    "amenities[] empty for all enabled venues (not invented)",
+    "image_url null for all (rights not cleared for Theater Data/*.jpg)",
+    "coords missing for Alderwood + all indie/SIFF venues",
+    "screen_count null for SIFF Downtown, Beacon, NWFF, Central",
+    "phone null for AMC + SIFF"
+  ]
+}

@@ -507,7 +507,8 @@ Conceptual only — **not schemas**. Classification uses repository evidence (cu
 | Leaving-soon / newly-added style urgency artifacts | Dynamic opportunity signals | **Partial** |
 | Canonical Reel Seattle `film_id` | Stable cross-source identity | **Future-facing** ([roadmap](../../data-foundation-roadmap.md#planned-film-identity-and-enrichment)) |
 | Source↔canonical confidence mappings | Safe merges | **Future-facing** |
-| Release year, rating, synopsis, genre, filmmaker metadata | Hero / What it’s about / reference | **Future-facing** (not in current public film objects) |
+| Release year, synopsis, genre, filmmaker metadata | Hero / What it’s about | **Available when enrichment joins** (`T-ENR-30`; exact `filmId`) |
+| MPAA rating, thematic tags, Letterboxd ranks | Hero / Why See It | **Still suppressed** |
 | Landscape / backdrop artwork | Cinematic hero | **Future-facing** (posters exist; reliable landscape not established) |
 | Cultural signals (awards, festivals, polls, registries) | Why see it | **Future-facing** |
 | IMDb / TMDB / Letterboxd identifiers with provenance | Enrichment evidence | **Future-facing** (AMC IMDb audit showed poor Showtimes-path coverage; not production identity) |
@@ -621,9 +622,11 @@ Public `ticketUrl` (from `showtimes_current.ticket_url`) is **nullable**. When p
 | **Mockup QC** | `?fdMockup=1` or `localStorage` key `reel-seattle.v2.fdMockup` | Canonical `filmDetailMockupFixture.js` |
 | **Visual QC** | `?fdVisual=1` or `reel-seattle.v2.fdVisual` | `filmDetailVisualFixtures.js` |
 
-**Production-active today:** title, runtime, poster (or soft wash / fallback), format badges when present, schedule-derived Why See It signals, Best Way from real opportunities (no distance fabrication), today’s showtimes, per-performance `ticketUrl` on time models, origin-aware Back label.
+**Production-active today:** title, runtime, poster (source or TMDB fallback), format badges when present, schedule-derived Why See It signals, Best Way from real opportunities (no distance fabrication), today’s showtimes, per-performance `ticketUrl` on time models, origin-aware Back label, and enrichment-backed year/genres/director/synopsis when `filmId` joins (`T-ENR-30`).
 
-**Still suppressed in production (slots preserved):** year, MPAA rating, genres, director, synopsis, thematic tags, Letterboxd / cultural ranks, walking distance, membership pricing.
+**Still suppressed in production (slots preserved):** MPAA rating, thematic tags, Letterboxd / cultural ranks, walking distance, membership pricing. Backdrop imagery remains deferred.
+
+**Activated (T-ENR-30):** canonical year, genres, director, synopsis/overview, and TMDB poster fallback join by exact `filmId` via the shared enrichment loader/index/resolver (`context: 'film-detail'`). Null `filmId` or missing enrichment rows keep the page and suppress those fields only. Cast photos/IMDb links/ratings stay deferred.
 
 **Save (T-SAVE-03):** Functional and **device-local only** via versioned `reel-seattle.v2.savedFilms`. Distinct from Scheduled / Planner / Seen / Not interested. Uses `filmRefFromHomeFilm` (prefer `parentFilmKey` when present). Failed persistence keeps prior UI state (no false Saved). QC modes (`?fdMockup=1` / `?fdVisual=1`) may toggle visual Saved state but **do not** write fixture films into production storage. Accounts and cross-device sync remain deferred. Profile Saved counts / Saved management surfaces are not in this task.
 
@@ -631,13 +634,13 @@ Public `ticketUrl` (from `showtimes_current.ticket_url`) is **nullable**. When p
 
 **Not interested (T-NI-01 / T-NI-03):** Functional and **device-local only** via versioned `reel-seattle.v2.dismissedFilms`. Film Detail Not interested toggle uses `filmRefFromHomeFilm` and confirmed-write semantics; records action time (`user-recorded`); does **not** invent a reason. QC modes may toggle visual Not interested without writing production storage. Search / Collection / Explore Film Activity continue through compatibility key helpers backed by the same store. Profile counts, management UI, and ranking suppression remain deferred.
 
-**Add to calendar (T-CAL-01):** Shared local ICS export contract exists (`src/utils/calendarExport.js`) for real showtimes/plans. Film Detail does **not** yet expose an Add-to-Calendar control (deferred to T-CAL-02). Export is device-local only — no Google/Apple APIs, permissions, or sync. Account-linked one-way sync remains deferred (D09).
+**Add to calendar (T-CAL-02):** Film Detail exposes a Best Way “Add to calendar” control that downloads a local `.ics` via `src/utils/calendarExport.js` + `v2/calendar/exportFromOpportunity.js` for the selected/best HomeData opportunity. Showtimes scaffold exports the selected performance the same way. Export is device-local only — no Google/Apple APIs, permissions, or sync. Mockup-QC Film Detail disables the control (no invented showtimes). Account-linked one-way sync remains deferred (D09).
 
-**Unknown film:** honest not-found state — no silent mockup fallback.
+**Unknown film:** honest not-found state — no silent mockup fallback. QC capture: `node scripts/capture_film_detail_enrichment_qc.mjs` → `tmp-v2-qc/i06fd-enr-*.png`; mockup: `node scripts/capture_film_detail_qc.mjs` (enrichment verified with live `filmId` joins 2026-07-28).
 
-Reactivation / enrichment: T-ENR-*, T-EVID-10, T-TRAV-* as listed in the Stage 3 roadmap.
+Reactivation / remaining: deeper evidence (`T-EVID-10`), travel distance (`T-TRAV-*`) as listed in the Stage 3 roadmap. Planned enrichment UI consumers (`T-ENR-10`/`20`/`30`) and store migration (`T-FILMID-03`) are complete.
 
 ### Deferred work still logged
 
-Final showtimes page; final Opportunity expression polish; full Planner; durable share URLs; Profile Saved management; account sync; enrichment pipeline; sophisticated opportunity ranking.
+Final showtimes page; final Opportunity expression polish; full Planner; durable share URLs; Profile Saved management; account sync; sophisticated opportunity ranking.
 

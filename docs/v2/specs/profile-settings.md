@@ -353,7 +353,11 @@ Rules:
 
 ### Account and security
 
-Potential controls: email; password; sign-in method; devices; session management; account deletion.
+**Account (current):** Profile includes a compact Account block for Supabase Google sign-in / sign-out when `VITE_SUPABASE_*` is configured. Saved/Seen/NI and accepted plans remain usable device-locally; film-preference sync and schedule sync attach explicitly per browser (login alone does not sync). Favorite-theater cloud sync remains deferred. See [auth-foundation.md](../auth-foundation.md).
+
+Potential later controls: username editing; devices; session management; account deletion; Apple sign-in.
+
+Do **not** treat password UI as required for the Google-first foundation.
 
 Rules:
 

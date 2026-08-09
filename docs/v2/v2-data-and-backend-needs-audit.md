@@ -107,12 +107,12 @@ The approved v2 UI is **partially supportable** from current production data. Sh
 
 ## 2. Mockup inventory
 
-All images under `Canonical Mockup Images/` were listed and inspected (17 files). None failed to open.
+All images under `Canonical Mockup Images/` were listed and inspected at Stage 2 time (17 files). **Maintenance note (2026-08):** separate Home overlay PNG retired; Results film-click mockup renamed to `Build a Plan Results Page Film Interaction.png`; expanded Build-a-Plan / manage / results interaction states added as current canonical references.
 
 | # | File | Product area | Page / state | Canonical? | Notes / contradictions |
 |---|------|--------------|--------------|------------|------------------------|
 | 1 | `Home Landing Page.png` | Home | Landing — Top Opportunity, Opening, Leaving, Planner CTA, Explore More | **Canonical for regions** | Bottom nav shows **5 tabs** (Home, Movies, Theaters, Planner, Me) — **obsolete**; product decision is Home · Explore · Planner · Profile. Paramount Theatre is not in current registry. Runtime line “21h 14m” in one OCR pass is idealized/erroneous sample text — treat as runtime+genre capability, not literal. |
-| 2 | `Film Detail Overlay Example on Home Screen.png` | Home | Inline quick-detail expansion on Opening card | **Canonical** for inline expand | Four-tab nav (correct). Save + Not interested. Synopsis + rating + year + format on next showtime. |
+| 2 | *(retired)* `Film Detail Overlay Example on Home Screen.png` | Home | Inline quick-detail expansion on Opening card | **Retired** — production Home/`InlineQuickDetail` is SoT | Kept as historical Stage 2 row only. |
 | 3 | `Opening This Week Page.png` | Home / Explore collection | Full Opening This Week list + expand | **Canonical** for collection | Five-tab nav including Theaters — obsolete. Sort by opening date; Filters; Why See It; Also playing at; Save/Not interested. |
 | 4 | `Explore Home Page.png` | Explore | Landing | **Canonical** for Explore regions | Bottom nav shows **Saved** tab — obsolete (Saved is not a primary tab). Search placeholder includes “person”. Film Activity counts; Suggested Starts; Quick Start IMAX/35mm. |
 | 5 | `Search Results Page.png` | Explore | Search results for “Kurosawa” | **Canonical** | Four-tab nav. Person-as-query implied; results include year/genre/synopsis/director/language; fictional “Kurosawa Cinema” theater. |
@@ -122,7 +122,7 @@ All images under `Canonical Mockup Images/` were listed and inspected (17 files)
 | 9 | `Planner Landing Page.png` | Planner | Landing | **Canonical** | Upcoming plans, My Schedule + Build a Plan CTAs, Recent Activity event log. |
 | 10 | `Build a Plan Page.png` | Planner | Configuration | **Canonical** | Presets, multi-day, must/would/not, theater prefs, location, fine tuning, A-List/indie prefs. |
 | 11 | `Build a Plan Results Page.png` | Planner | Results list | **Canonical** | Ranked plans, breaks, walk miles, sorts including “Leaves soonest”, refine panel; 5-tab nav obsolete. |
-| 12 | `Build a Plan Results Page Film Click Interaction.png` | Planner | Film adjust sheet on results | **Canonical** | Must/Would/Neutral/Not interested + Replace + Film details. |
+| 12 | `Build a Plan Results Page Film Interaction.png` | Planner | Film adjust sheet on results | **Canonical** (renamed from Film Click Interaction) | Must/Would/Neutral/Not interested + Replace + Film details. |
 | 13 | `My Schedule Main Page.png` | My Schedule | Week view | **Canonical** | Timeline, multi-movie plan grouping, breaks, Next Up, July at a glance, color-coded events. |
 | 14 | `My Schedule Main Page Month Selected.png` | My Schedule | Month view | **Canonical** | Heatmap dots, insights stats, busiest days, upcoming highlights. |
 | 15 | `My Schedule Main Page Settings Interaction.png` | My Schedule | Schedule Settings sheet | **Canonical** | Display options, calendar sync Off, color coding modes, clear all. |
@@ -150,7 +150,7 @@ All images under `Canonical Mockup Images/` were listed and inspected (17 files)
 | Artifact | Schema | Role | Shipped to Pages? |
 |----------|--------|------|-------------------|
 | `showtimes_current.json` | `schema/showtimes_current/v1.0.0.json` | 14-day client showtimes | Yes |
-| `theaters.json` | `schema/theaters/v1.0.0.json` | Deployed registry copy | Yes |
+| `theaters.json` | `schema/theaters/v1.1.0.json` | Deployed registry copy | Yes |
 | `newly_added_current.json` | `schema/newly_added_current/v1.0.0.json` | Recently announced filmÃ—theater | Yes |
 | `pipeline_report.json` | `schema/pipeline_report/v1.0.0.json` | Source health | Yes |
 | `leaving_soon_current.json` | `schema/leaving_soon_current/v1.0.0.json` | AMC leaving-soon heuristic | **No** (review-only; v2 must 404) |
@@ -963,10 +963,10 @@ Availability codes: **A** available · **M** needs mapping · **P** partial · *
 | G10 | Save store | Many | Absent | Persistence | Auth decision optional | Product gap noted | D | Med | No | Local vs account |
 | G11 | Rich Seen/NI | Explore, Profile, ranking | Keys local max 50 | Richer store Â± sync | G10 optional | Roadmap dependency | D | Med | No | Sync |
 | G11b | Favorite theaters | Theaters, Profile, Planner | Store v1 (T-FAV-01); UI deferred | Wire UI + Profile | — | T-FAV-01 done; list/detail wiring with T-THEA-10 | B–D | Low | No | Local vs account |
-| G12 | Scheduled plans | Planner, Schedule, Profile | Absent | Plan schema + store | G05 helpful | Stage 2 note only | D | Med | No | Local vs account |
+| G12 | Scheduled plans | Planner, Schedule, Profile | Local store wired | Plan schema + store | G05 helpful | T-PLAN-01 done; live Results need T-PENG-01 | D | Med | No | Local vs account |
 | G13 | Multi-theater planner | Results | Same-theater engine | Engine + travel | G09 for miles | unified-planner docs | E | High | No | Same-theater MVP? |
 | G14 | Accounts / cross-device | Profile | Absent | Auth backend | Privacy | Profile spec future | E | High | No | Need accounts? |
-| G15 | Calendar capabilities | Settings, About | Absent | Separate modes §16.F | G12 | T-CAL-01 ICS contract done; T-CAL-02 UI + sync later | C–F | High | Bidirectional likely | ICS vs sync |
+| G15 | Calendar capabilities | Settings, About | ICS UI wired | Separate modes §16.F | G12 | T-CAL-01+02 done; one-way sync later | C–F | High | Bidirectional likely | ICS vs sync |
 | G16 | Cultural ranks (Letterboxd etc.) | FD Why See It | Fixture | Licensed source or omit | G01 | Letterboxd Planned optional; policy note | F | Very high | **Investigate then maybe Stage 5** | Allow? |
 | G17 | Person search | Explore, Search | Unsupported | People index | G01/E-005 | Explore dependency | E | High | Possible without cast data | Placeholder honesty |
 | G18 | Collections / Coming Soon / Events | Explore Browse By | Scaffolds | Curated/rules artifacts | G01 helpful | Explore dependency | D–E | Med | Editorial ops | Editorial? |

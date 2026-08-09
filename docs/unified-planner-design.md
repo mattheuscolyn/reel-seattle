@@ -5,6 +5,10 @@
 
 This document records how Reel Seattle replaced the separate **Double Feature** and **Marathon** tools with one **unified planner**. The v1 migration (engine, UI, redirects, legacy removal, Recently Added split, Share lineup) is **complete**. Use [planner-parity-qa.md](./planner-parity-qa.md) and [frontend-smoke-check.md](./frontend-smoke-check.md) for ongoing QA; deferred v2 ideas remain in §7 and §13.
 
+### v2 live Results (T-PENG-01)
+
+The local v2 shell reuses this engine via `v2/planner/generateLivePlannerResults.js`: HomeData opportunities → legacy rows → `findSchedules` (same-theater) plus a single-film path; Results chrome stays mockup-shaped. Multi-theater / walk miles remain deferred (`T-TRAV-10`). Product behavior for the Next Public Site track is governed by [docs/v2/specs/planner.md](./v2/specs/planner.md).
+
 ---
 
 ## 1. Product goal

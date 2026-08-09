@@ -18,7 +18,6 @@
 #   data/film_identity/** data/audits/** (matcher-only churn)
 #   reel_seattle/film_identity/** (except if build requires)
 #   Most scripts/capture_*_qc.mjs (local QC only)
-#   docs/v2/reel-seattle-stage-1-final-acceptance-audit-cursor-prompt.md
 
 ## Commit 1 — Prepare Reel Seattle v2 launch candidate
 

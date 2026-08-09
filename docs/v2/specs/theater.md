@@ -608,23 +608,27 @@ Separate from baseline:
 
 ## Implementation status (Stage 1 Theaters list — 2026-07-26)
 
-* **Stage 1 Theaters list implemented** as designed collection surface `theaters` → `v2/theaters/TheatersSurface.jsx` (replaces CollectionSurface scaffold for this id).
-* **Canonical fixture/model:** `v2/fixtures/theatersMockupFixture.js` via `resolveTheatersPresentation()` — matches `Canonical Mockup Images/Theaters Page.png`.
-* **Inline expand/collapse:** one theater expanded at a time; expanded region includes description (when present), unified **Now showing** strip, Save stub, **More details** opens Theater Detail for Beacon.
-* **Not production-backed:** addresses, imagery, screen counts, format strings, descriptions, and Now showing films are fixture-only (D06 visit meta + registry wiring deferred).
-* **Favorite / Save / Filters / View all** on the list remain Stage 1 stubs — no Favorite Theater store writes on the list.
-* Film posters in Now showing may call Film Detail with fixture keys (honest empty/unavailable when not in HomeData).
+* **Theaters list** → `v2/theaters/TheatersSurface.jsx`.
+* **Live default (T-THEA-10):** HomeData-backed presentation. Explicit mockup: `?theaterMockup=1`.
+* **Canonical fixture (QC):** `v2/fixtures/theatersMockupFixture.js` — matches `Canonical Mockup Images/Theaters Page.png`.
+* **Inline expand/collapse:** one theater expanded at a time; Now showing from showtimes (next 7 days); **More details** opens Theater Detail for every live venue.
+* **Favorite / Save / Filters / View all** on the list remain stubs — no Favorite Theater store writes on the list.
 * QC: `scripts/capture_theaters_qc.mjs`. Tests: `tests/frontend/v2TheatersList.test.mjs`.
-* Stage 4 theater tasks (`T-THEA-01`, `T-THEA-10`, production visit meta wiring) are **not** marked complete.
+* Stage 4: **`T-THEA-01` + `T-THEA-10` complete**.
+
+## Implementation status (Stage 4 theater foundation — T-THEA-01 / T-THEA-10)
+
+* Registry schema: `schema/theaters/v1.1.0.json` — optional D06 visit fields. Pricing/hours **not** in schema.
+* Curated (2026-07-28): address + website for all 13 enabled venues; coords where verified; AMC `source_external_id`; phones for Beacon/NWFF/Central; factual short descriptions; screen_count only when verified. Amenities empty (not invented). **Imagery (`T-TIMG-01` / `WS-TIMG`):** shared resolver + `/theater-images/` staging exists; live registry `image_*` fields remain null until rights-cleared venue photos are curated (SIFF JPGs under `Theater Data/` stay uncleared / unpublished).
+* Evidence: `docs/v2/research/theater-visit-curation-audit.json`.
+* Shared resolver + live-default mode. Now Showing = next seven local days (filmId dedupe). Search/Explore reuse resolver.
+* Tests: `tests/frontend/v2TheaterPresentation.test.mjs`.
 
 ## Implementation status (Stage 1 Theater Detail — 2026-07-27)
 
-* **Stage 1 Theater Detail implemented** as deep surface `theater-detail` → `v2/theaters/TheaterDetailSurface.jsx`.
-* **Canonical fixture:** `v2/fixtures/theaterDetailMockupFixture.js` via `resolveTheaterDetailPresentation()` — matches `Canonical Mockup Images/Theater Detail Page.png` (Beacon Cinema).
-* **Navigation:** `openTheaterDetail` from Theaters list Beacon **More details** + query `?theaterDetail=1`; Back restores Theaters list; Film Detail preserves theater context.
-* Hero, stats, amenities, pricing/hours, Now showing carousel, and Today's showtimes with screen tabs are fixture-backed; View all / View 7 days / Filters / showtime taps are honest stubs.
-* **Favorite** heart uses `favoriteTheatersStore` (real local toggle on Detail only).
-* Not production-backed: visit meta, real showtime program, ticket links, share URLs, or registry wiring.
+* **Theater Detail** → `v2/theaters/TheaterDetailSurface.jsx` — **live default**; mockup QC via `?theaterMockup=1`.
+* Unknown/disabled IDs: honest not-found (no mockup fallback). Empty visit sections suppressed; pricing/hours never invented.
+* **Favorite** heart uses `favoriteTheatersStore` on Detail.
 * QC: `scripts/capture_theater_detail_qc.mjs`. Tests: `tests/frontend/v2TheaterDetail.test.mjs`.
 
 ---
@@ -641,7 +645,7 @@ Separate from baseline:
 | Default schedule window vs user date picker | Open |
 | Screen/auditorium representation when partial | Open |
 | Operator and related-venue linking | Open |
-| Venue imagery sourcing and rights | Open |
+| Venue imagery sourcing and rights | Open — pipeline ready (`T-TIMG-01`); per-venue clearance pending |
 | Practical-information freshness policy | Open |
 | Map and directions integration | Open |
 | Same-theater Planner handoff (exact UX) | Open — direction approved |

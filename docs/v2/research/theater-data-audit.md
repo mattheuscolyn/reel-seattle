@@ -7,7 +7,9 @@
 **Authoritative inputs:**  
 [v2-front-back-integration-roadmap.md](../v2-front-back-integration-roadmap.md) · [v2-data-and-backend-needs-audit.md](../v2-data-and-backend-needs-audit.md) · [v2-stage-3-product-decisions.md](../v2-stage-3-product-decisions.md) (esp. **D06**) · [data-foundation-roadmap.md](../../data-foundation-roadmap.md) · [specs/theater.md](../specs/theater.md)
 
-**Follow-on (recommended):** **`T-THEA-01`** — Theater visit schema expansion for D06 first-release fields (still not Theater Detail UI). Then **`T-THEA-10`** curation + honest activation.
+**Follow-on (recommended):** Per-venue rights clearance + registry URLs after `T-TIMG-01` foundation. Pricing/hours remain deferred (`T-THEA-40/41`). **`T-THEA-01` + `T-THEA-10` complete 2026-07-28.** **`T-TIMG-01` foundation complete 2026-07-28** (resolver + staging; no uncleared SIFF JPGs published).
+
+Evidence artifact: [`theater-visit-curation-audit.json`](./theater-visit-curation-audit.json).
 
 ---
 
@@ -23,7 +25,7 @@
 | Can power Theater Detail today? | **Identity + current program** only. Almost all visit meta (address, map, amenities, hours, pricing, imagery, screens as entities) is missing |
 | Policy | **D06:** repo-curated visit meta; first release = address/geo/website/directions/description/screens/capabilities/amenities/imagery; **defer pricing & hours** |
 
-**Verdict:** Theater Detail must not be wired as “full mockup” yet. Smallest next production task is **schema + validation for curated visit fields (`T-THEA-01`)**, then fill enabled theaters (`T-THEA-10`), keeping pricing/hours sections suppressed.
+**Verdict:** Theater Detail must not be wired as “full mockup” by default yet. **`T-THEA-01` is complete** (schema + presentation foundation). Next production task is **curate enabled theaters (`T-THEA-10`)**, keeping pricing/hours sections suppressed.
 
 ---
 
@@ -36,13 +38,13 @@
 | **G11b** | Favorite theaters — **store done** (`T-FAV-01`); UI deferred |
 | **G22** | Venue coverage (Grand Illusion etc. not in registry) |
 | **WS-THEA / WS-TIMG** | Curation + imagery |
-| **T-THEA-01** | Expand registry schema (D06 fields); validate; sync — **next** |
-| **T-THEA-10** | Curate + activate list/detail sections with suppress-empty |
+| **T-THEA-01** | Expand registry schema (D06 fields); validate; sync; shared presentation resolver — **complete 2026-07-28** |
+| **T-THEA-10** | Curate enabled venues + honest activation — **complete 2026-07-28** |
 | **T-THEA-40 / 41** | Pricing / hours — later |
 | **T-TRAV-01** | Curate coords after visit meta path exists |
 | **D06** | Curated ownership; automation may verify but not silently overwrite |
 
-This audit satisfies the inventory gate before Phase 3 theater work. It does **not** complete `T-THEA-01` or `T-THEA-10`.
+This audit satisfied the inventory gate before Phase 3 theater work. **`T-THEA-01` and `T-THEA-10` are complete** (schema + curated visit meta + live activation). Amenities/imagery/pricing/hours remain open or deferred.
 
 ---
 
@@ -52,7 +54,7 @@ This audit satisfies the inventory gate before Phase 3 theater work. It does **n
 |----------|------|---------|--------------|
 | Canonical registry | `data/theaters.json` | Via sync | **SoT** for venue identity (+ future visit meta) |
 | Public registry | `public/data/theaters.json` | Yes | Byte-identical sync (`registry_sync.py` / daily processor) |
-| Registry schema | `schema/theaters/v1.0.0.json` | — | `additionalProperties: false` — expansion requires schema task |
+| Registry schema | `schema/theaters/v1.1.0.json` | — | D06 visit fields optional/nullable; pricing/hours excluded |
 | Showtimes current | `public/data/showtimes_current.json` | Yes | Schedule + embedded theater **snapshot** subset |
 | Showtimes schema | `schema/showtimes_current/v1.0.0.json` | — | `$defs.theater_snapshot` mirrors registry keys today |
 | Daily logs | `data/daily_logs/*_{source}.json` | No | Raw theater name + source-specific attrs |
@@ -339,24 +341,29 @@ Legend — **Owner:** registry | showtimes | logs | user | derived | none.
 
 ## 11. Recommended next task (smallest production slice)
 
-### Do next: `T-THEA-01` — Theater visit schema (D06 first-release)
+### Done: `T-THEA-01` — Theater visit schema + presentation foundation (2026-07-28)
 
-**In scope**
-- Expand `schema/theaters` (+ showtimes theater_snapshot if needed for optional denorm) for: address lines, city/state/ZIP (align with existing city), lat/lng, website, directions_url (optional), short_description, screen_count, capabilities[], amenities[], imagery fields with attribution
-- Validation + registry sync unchanged in spirit
-- Explicitly **exclude** pricing & hours from first schema slice (or mark optional unused)
-- Document suppress-empty consumer rules; **no** Theater Detail page implementation required in this task
+**Completed**
+- Expanded `schema/theaters/v1.1.0.json` for D06 first-release fields (address, geo, website, directions, short_description, screen_count, capabilities, amenities, imagery + attribution)
+- Validation + registry `schema_version` 1.1.0; values left empty (no invented curation)
+- Shared `resolveTheaterPresentation` + list/detail composers; Search/Explore reuse; suppress-empty consumer rules; pricing/hours deferred
+- UI default remains mockup; production path opt-in (`theaterLive`)
 
-**Out of scope**
-- Filling all venues (that’s `T-THEA-10`)
-- Theater Detail / list UI polish
-- Travel matrix (`T-TRAV-01`)
-- Auditorium entity model
-- New theater sources
+### Done: `T-THEA-10` — Curate + activate visit meta (2026-07-28)
 
-**Then:** `T-THEA-10` — curate enabled theaters’ first-release fields; wire list/search cards only as far as data exists; keep Detail sections honest.
+**Completed**
+- Curated address/website/(coords where verified)/phones where official for all **13 enabled** venues; AMC `source_external_id` from scrape logs
+- Amenities/imagery left empty (not invented; SIFF JPGs in `Theater Data/` not rights-cleared for public)
+- Live Theaters list/detail default; explicit mockup via `?theaterMockup=1`
+- Now Showing = next seven local days from HomeData; filmId dedupe; suppress empty visit sections; pricing/hours still deferred
+- Evidence: [`theater-visit-curation-audit.json`](./theater-visit-curation-audit.json)
 
-**Parallel (optional):** populate `source_external_id` for AMC from log `theatre_id` (curated verify) — small, not blocking visit schema.
+### Do next (optional theater follow-ons)
+
+- Rights-cleared venue imagery (`WS-TIMG`)
+- Verified stable amenities only where official
+- Coords for remaining indie/SIFF venues
+- Pricing/hours only after ownership + freshness (`T-THEA-40/41`)
 
 ---
 
@@ -375,8 +382,8 @@ Legend — **Owner:** registry | showtimes | logs | user | derived | none.
 |------------|------------|
 | G08 | Inventory + storage recommendations |
 | D06 | First-release vs deferred confirmed |
-| T-THEA-01 | **Ready to start** (schema) |
-| T-THEA-10 | Blocked on T-THEA-01 + curation labor |
+| T-THEA-01 | **Complete 2026-07-28** (schema + presentation) |
+| T-THEA-10 | **Complete 2026-07-28** (curation + live default) |
 | T-FAV-01 | Store available; classify favorite UI as B |
 | G09 / T-TRAV-01 | Needs coords from THEA path |
 | G28 | Auditorium remains research / later |

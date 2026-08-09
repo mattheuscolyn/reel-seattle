@@ -49,7 +49,7 @@ This report independently verifies whether the repository’s claimed **17 fully
 | # | Surface | Mockup | Implementation | Visual | Data mode | QC script |
 |---|---------|--------|----------------|--------|-----------|-----------|
 | 1 | Home Landing | `Home Landing Page.png` | `HomeDestination` | Pass (minor) | Production HomeData | — (no `capture_home_qc.mjs`) |
-| 2 | Home inline overlay | `Film Detail Overlay Example on Home Screen.png` | `InlineQuickDetail` | Pass | Production + suppress | Covered via Home / Explore / Search flows |
+| 2 | Home inline overlay | *(retired separate PNG — covered by production Home + `InlineQuickDetail`; see `Home Landing Page.png`)* | `InlineQuickDetail` | Pass | Production + suppress | Covered via Home / Explore / Search flows |
 | 3 | Explore | `Explore Home Page.png` | `ExploreDestination` | Pass | Production | `capture_explore_qc.mjs` |
 | 4 | Search Results | `Search Results Page.png` | `SearchResultsSurface` | Pass | Production | `capture_search_qc.mjs` |
 | 5 | Opening This Week | `Opening This Week Page.png` | `OpeningThisWeekSurface` | Pass | Fixture | `capture_opening_this_week_qc.mjs` |
@@ -60,7 +60,7 @@ This report independently verifies whether the repository’s claimed **17 fully
 | 10 | Planner Landing | `Planner Landing Page.png` | `PlannerDestination` | Pass | Fixture | `capture_planner_landing_qc.mjs` |
 | 11 | Build a Plan | `Build a Plan Page.png` | `BuildPlanSurface` | Pass | Fixture + local form | `capture_build_plan_qc.mjs` |
 | 12 | Build a Plan Results | `Build a Plan Results Page.png` | `BuildPlanResultsSurface` | Pass | Fixture itineraries | `capture_build_plan_results_qc.mjs` |
-| 13 | Results film-click | `…Film Click Interaction.png` | `PlanFilmInteractionSheet` | Pass | Local prefs only | `capture_plan_film_interaction_qc.mjs` |
+| 13 | Results film-click | `Build a Plan Results Page Film Interaction.png` | `PlanFilmInteractionSheet` | Pass | Local prefs only | `capture_plan_film_interaction_qc.mjs` |
 | 14 | My Schedule week | `My Schedule Main Page.png` | `MyScheduleWeekSurface` | Pass (minor) | Fixture timeline | `capture_my_schedule_week_qc.mjs` |
 | 15 | My Schedule month | `…Month Selected.png` | `MyScheduleMonthSurface` | Pass | Fixture heatmap | `capture_my_schedule_month_qc.mjs` |
 | 16 | Schedule Settings | `…Settings Interaction.png` | `ScheduleSettingsSurface` | Pass | Local prefs (no persist) | `capture_schedule_settings_qc.mjs` |
@@ -265,7 +265,7 @@ No copy found that silently promises working production calendar sync, multi-the
 | A-05 | Home By feature | Low | Planner CTA still described as placeholder | Stale row | Reconcile (done) | Stage 1 remediation (docs) |
 | A-06 | Opening / Home shelf | Info | Home Opening shelf still provisional `newly_added` | Home honesty + Opening fixture page | Opening classifier | Stage 4 integration |
 | A-07 | Theater production | Info | Registry visit meta empty; fixtures idealized | theater-data-audit | `T-THEA-01` then `T-THEA-10` | Stage 4 integration |
-| A-08 | About / Settings | Info | Sync copy still mockup-faithful vs D09 | About fixture | Copy revision with `T-CAL-02` | Deferred |
+| A-08 | About / Settings | Pass | D09 calendar copy revised with T-CAL-02 (one-time .ics; sync row still deferred) | About + Settings fixtures | — | Done |
 
 No Critical or High Stage 1 visual Failures.
 
