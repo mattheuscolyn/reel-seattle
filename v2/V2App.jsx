@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import DestinationPlaceholder from './DestinationPlaceholder.jsx';
 import AppHeader from './home/AppHeader.jsx';
 import PrimaryNav from './PrimaryNav.jsx';
@@ -77,6 +77,8 @@ import { isScheduleSettingsQueryOpen } from './fixtures/scheduleSettingsMockupFi
 import { isTheaterDetailQueryOpen } from './fixtures/theaterDetailMockupFixture.js';
 import { isFilmDetailMockupFixtureMode, getFilmDetailMockupPresentation } from './fixtures/filmDetailMockupFixture.js';
 import { isFilmDetailVisualFixtureMode } from './fixtures/filmDetailVisualFixtures.js';
+import { getCachedTmdbOnlyFilm } from './filmDetail/tmdbOnlyFilmCache.js';
+import { asTmdbFilmId } from './search/tmdbSearchClient.js';
 import {
   applySaveToggle,
   buildSaveActionState,
@@ -130,6 +132,36 @@ async function shareFilmDetail(title) {
     // fall through
   }
   return 'Sharing is not available in this browser';
+}
+
+/**
+ * Deep-link helper for TMDB-only (and any) Film Detail via `?filmId=`.
+ * Prefer `tmdb:<id>` for external-only films.
+ */
+function readFilmIdQuery() {
+  if (typeof window === 'undefined') return null;
+  try {
+    const value = new URLSearchParams(window.location.search).get('filmId');
+    return typeof value === 'string' && value.trim() ? value.trim() : null;
+  } catch {
+    return null;
+  }
+}
+
+function syncFilmIdQuery(filmId) {
+  if (typeof window === 'undefined' || !window.history?.replaceState) return;
+  try {
+    const url = new URL(window.location.href);
+    if (filmId) url.searchParams.set('filmId', filmId);
+    else url.searchParams.delete('filmId');
+    window.history.replaceState(
+      window.history.state,
+      '',
+      `${url.pathname}${url.search}${url.hash}`,
+    );
+  } catch {
+    // ignore
+  }
 }
 
 export default function V2App() {
@@ -390,6 +422,42 @@ export default function V2App() {
     });
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    const filmId = readFilmIdQuery();
+    if (!filmId) return;
+    setNav((current) => {
+      if (
+        current.surface?.type === 'film-detail' &&
+        current.surface.filmKey === filmId
+      ) {
+        return current;
+      }
+      return openFilmDetail(current, {
+        filmKey: filmId,
+        originPrimary: current.primaryDestinationId || 'explore',
+      });
+    });
+    window.scrollTo(0, 0);
+  }, []);
+
+  const prevFilmDetailRef = useRef(false);
+  useEffect(() => {
+    const isFilmDetailSurface = nav.surface?.type === 'film-detail';
+    if (isFilmDetailSurface) {
+      const key =
+        typeof nav.surface.filmKey === 'string'
+          ? nav.surface.filmKey.trim()
+          : '';
+      if (key) syncFilmIdQuery(key);
+      prevFilmDetailRef.current = true;
+      return;
+    }
+    if (prevFilmDetailRef.current) {
+      syncFilmIdQuery(null);
+      prevFilmDetailRef.current = false;
+    }
+  }, [nav.surface]);
 
   const handleSelectDestination = useCallback((destinationId) => {
     setHomeRestorePending(null);
@@ -762,12 +830,30 @@ export default function V2App() {
     : null;
   const filmFromHome =
     filmKey && Array.isArray(sharedHomeData.homeData?.films)
-      ? sharedHomeData.homeData.films.find((f) => f.filmKey === filmKey)
+      ? sharedHomeData.homeData.films.find(
+          (f) =>
+            f.filmKey === filmKey ||
+            (asTmdbFilmId(f.filmId) && asTmdbFilmId(f.filmId) === asTmdbFilmId(filmKey)),
+        )
       : null;
+  const tmdbOnlyFilm =
+    !filmFromHome && asTmdbFilmId(filmKey)
+      ? (() => {
+          const snapshot = getCachedTmdbOnlyFilm(filmKey);
+          return {
+            filmKey,
+            filmId: asTmdbFilmId(filmKey),
+            title: snapshot?.title ?? null,
+            posterUrl: snapshot?.posterUrl ?? null,
+            parentFilmKey: null,
+          };
+        })()
+      : null;
+  const filmForActions = filmFromHome ?? tmdbOnlyFilm;
   const filmTitle = isFilmDetail
     ? isFilmDetailMockupFixtureMode()
       ? getFilmDetailMockupPresentation().film.title
-      : filmFromHome?.title ?? null
+      : filmForActions?.title ?? null
     : null;
   const filmBackLabel = isFilmDetail
     ? isFilmDetailMockupFixtureMode()
@@ -793,7 +879,7 @@ export default function V2App() {
     }
     return buildSaveActionState({
       mode: filmDetailMode,
-      film: filmFromHome,
+      film: filmForActions,
       storage: getBrowserStorage(),
       fixtureIsSaved: fixtureSaved,
       error: saveError,
@@ -801,7 +887,7 @@ export default function V2App() {
   }, [
     isFilmDetail,
     filmDetailMode,
-    filmFromHome,
+    filmForActions,
     fixtureSaved,
     saveError,
     saveRevision,
@@ -835,7 +921,7 @@ export default function V2App() {
     }
     return buildSeenActionState({
       mode: filmDetailMode,
-      film: filmFromHome,
+      film: filmForActions,
       storage: getBrowserStorage(),
       fixtureIsSeen: fixtureSeen,
       error: seenError,
@@ -843,7 +929,7 @@ export default function V2App() {
   }, [
     isFilmDetail,
     filmDetailMode,
-    filmFromHome,
+    filmForActions,
     fixtureSeen,
     seenError,
     seenRevision,
@@ -877,7 +963,7 @@ export default function V2App() {
     }
     return buildNotInterestedActionState({
       mode: filmDetailMode,
-      film: filmFromHome,
+      film: filmForActions,
       storage: getBrowserStorage(),
       fixtureIsNotInterested: fixtureNotInterested,
       error: notInterestedError,
@@ -885,7 +971,7 @@ export default function V2App() {
   }, [
     isFilmDetail,
     filmDetailMode,
-    filmFromHome,
+    filmForActions,
     fixtureNotInterested,
     notInterestedError,
     notInterestedRevision,

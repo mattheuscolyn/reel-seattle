@@ -1,7 +1,10 @@
-# Supabase (auth + film preference sync)
+# Supabase (auth + film preference sync + TMDB search proxy)
 
 Reel Seattle v2 authentication and optional Saved / Seen / Not Interested sync.
 My Schedule / plans / favorites remain local-only.
+
+Production live TMDB Search/Detail (films without Seattle showtimes) uses Edge
+Function `tmdb-api` — see [TMDB Search Edge Function](#tmdb-search-edge-function).
 
 ## Apply migrations
 
@@ -88,9 +91,60 @@ Frontend may use only:
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_PUBLISHABLE_KEY`
+- optional `VITE_TMDB_PROXY_BASE` (override proxy base URL — not a TMDB secret)
 
-Never put service-role keys, DB passwords, or Google client secrets in the browser or this repo.
+Never put service-role keys, DB passwords, Google client secrets, or
+`TMDB_READ_ACCESS_TOKEN` / `TMDB_API_KEY` in the browser or this repo.
 
-Production Pages reads the two public values from GitHub Actions **Variables**
+Production Pages reads the two public Supabase values from GitHub Actions **Variables**
 (`vars.VITE_SUPABASE_*`) during `npm run build:v2`. See [docs/v2/auth-foundation.md](../docs/v2/auth-foundation.md)
 for the full dashboard checklist (Site URL, redirect allowlist, Google consent branding).
+
+## TMDB Search Edge Function
+
+Whitelisted public proxy for Phase 1 Search (no user login required):
+
+- Function name: `tmdb-api`
+- Source: `supabase/functions/tmdb-api/` + shared contract `_shared/tmdbProxyContract.js`
+- `verify_jwt = false` (configured in `supabase/config.toml`)
+- Operations:
+  - `GET .../functions/v1/tmdb-api?action=search&query=...&limit=5`
+  - `GET .../functions/v1/tmdb-api?action=movie&id=<numeric>`
+- CORS: `www.reelseattle.com`, `reelseattle.com`, `http://127.0.0.1:5175`, `http://localhost:5175`
+- Local dev: Vite still serves `/api/tmdb/*` from the same shared contract (see `vite.v2.config.js`)
+
+### Human setup (required once for production)
+
+1. Install/link Supabase CLI to the existing Reel Seattle project (`supabase link`).
+2. Set the TMDB credential as a **Supabase secret** (Dashboard → Edge Functions → Secrets, or CLI):
+
+   ```bash
+   supabase secrets set TMDB_READ_ACCESS_TOKEN=your_token_here
+   # optional fallback instead of bearer:
+   # supabase secrets set TMDB_API_KEY=your_api_key_here
+   ```
+
+3. Deploy the function:
+
+   ```bash
+   supabase functions deploy tmdb-api
+   ```
+
+   Confirm JWT verification is **disabled** for `tmdb-api` (config.toml `verify_jwt = false`, or dashboard equivalent). Search must work for signed-out visitors.
+
+4. Confirm GitHub Actions repository **Variables** already used by Pages deploy:
+
+   - `VITE_SUPABASE_URL` = `https://<project-ref>.supabase.co`
+   - `VITE_SUPABASE_PUBLISHABLE_KEY` = publishable/anon key
+
+   The SPA derives the Edge Function URL from `VITE_SUPABASE_URL`. No TMDB secret belongs in GitHub Pages build env.
+
+5. Smoke from a browser on an allowlisted origin (or curl with `Origin: https://www.reelseattle.com`):
+
+   ```text
+   {VITE_SUPABASE_URL}/functions/v1/tmdb-api?action=search&query=dune&limit=5
+   ```
+
+   Send header `apikey: <publishable key>` (and `Authorization: Bearer <publishable key>`).
+
+Until step 2–3 are done, production Search still returns local Reel Seattle matches; TMDB-only “More films” soft-fails empty.

@@ -2,6 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { resolveFilmDetailPresentation } from '../fixtures/resolveFilmDetailPresentation.js';
 import { toFilmDetailView } from '../filmDetail/toFilmDetailView.js';
 import {
+  cacheTmdbMovieDetail,
+  getCachedTmdbOnlyFilm,
+} from '../filmDetail/tmdbOnlyFilmCache.js';
+import {
+  asTmdbFilmId,
+  fetchTmdbMovieDetail,
+} from '../search/tmdbSearchClient.js';
+import {
   IconBookmark,
   IconCalendar,
   IconCalendarPlus,
@@ -174,12 +182,58 @@ export default function FilmDetailSurface({
   onOpenShowtimes,
 }) {
   const [settingsTick, setSettingsTick] = useState(0);
+  const [tmdbRevision, setTmdbRevision] = useState(0);
+  const [tmdbFetchState, setTmdbFetchState] = useState('idle');
   useEffect(
     () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
     [],
   );
   void settingsTick;
   const timeFormatId = getScheduleSettings(getBrowserStorage()).timeFormatId;
+
+  const tmdbFilmId = asTmdbFilmId(filmKey);
+
+  useEffect(() => {
+    if (!tmdbFilmId) {
+      setTmdbFetchState('idle');
+      return undefined;
+    }
+    const inHome =
+      Array.isArray(homeData?.films) &&
+      homeData.films.some(
+        (film) =>
+          film?.filmKey === filmKey ||
+          asTmdbFilmId(film?.filmId) === tmdbFilmId,
+      );
+    if (inHome) {
+      setTmdbFetchState('idle');
+      return undefined;
+    }
+    const cached = getCachedTmdbOnlyFilm(tmdbFilmId);
+    if (cached?.fetchedAt) {
+      setTmdbFetchState('ready');
+      return undefined;
+    }
+
+    const controller = new AbortController();
+    setTmdbFetchState(cached ? 'refreshing' : 'loading');
+    void (async () => {
+      const result = await fetchTmdbMovieDetail(tmdbFilmId, {
+        signal: controller.signal,
+      });
+      if (controller.signal.aborted) return;
+      if (result.ok && result.movie) {
+        cacheTmdbMovieDetail(result.movie);
+        setTmdbRevision((n) => n + 1);
+        setTmdbFetchState('ready');
+        return;
+      }
+      if (result.error === 'aborted') return;
+      setTmdbFetchState(cached ? 'ready' : 'error');
+    })();
+
+    return () => controller.abort();
+  }, [tmdbFilmId, filmKey, homeData]);
 
   const resolved = useMemo(
     () =>
@@ -190,7 +244,14 @@ export default function FilmDetailSurface({
         enrichmentIndex,
         timeFormatId,
       }),
-    [homeData, enrichmentIndex, filmKey, opportunityKey, timeFormatId],
+    [
+      homeData,
+      enrichmentIndex,
+      filmKey,
+      opportunityKey,
+      timeFormatId,
+      tmdbRevision,
+    ],
   );
   const view = useMemo(() => toFilmDetailView(resolved), [resolved]);
 
@@ -198,6 +259,9 @@ export default function FilmDetailSurface({
   const [plannerOpen, setPlannerOpen] = useState(false);
 
   if (!view.resolved) {
+    const waitingOnTmdb =
+      Boolean(tmdbFilmId) &&
+      (tmdbFetchState === 'loading' || tmdbFetchState === 'refreshing');
     return (
       <section
         className="v2-fd v2-fd-empty"
@@ -206,10 +270,13 @@ export default function FilmDetailSurface({
         data-fd-source={view.source}
         data-fd-resolved="false"
       >
-        <h1 id="v2-fd-title">Film not found</h1>
+        <h1 id="v2-fd-title">
+          {waitingOnTmdb ? 'Loading film…' : 'Film not found'}
+        </h1>
         <p className="v2-fd-muted" role="status">
-          This film is unavailable in the current showtimes window, or the link
-          is stale. Reel Seattle does not fall back to sample fixture films.
+          {waitingOnTmdb
+            ? 'Fetching film details.'
+            : 'This film is unavailable in the current showtimes window, or the link is stale. Reel Seattle does not fall back to sample fixture films.'}
         </p>
       </section>
     );
@@ -496,8 +563,8 @@ export default function FilmDetailSurface({
         </div>
         {view.bestWayEmpty || !bestWay ? (
           <p className="v2-fd-muted" role="status">
-            No upcoming opportunity is available for this film in the current
-            window.
+            {view.availabilityNote ||
+              'No upcoming opportunity is available for this film in the current window.'}
           </p>
         ) : (
           <button
@@ -563,9 +630,15 @@ export default function FilmDetailSurface({
           </button>
         </div>
         {today.empty ? (
-          <p className="v2-fd-muted" role="status">
-            No showtimes for today in the current window.
-          </p>
+          <div role="status">
+            <p className="v2-fd-muted">
+              {view.availabilityNote ??
+                'No showtimes for today in the current window.'}
+            </p>
+            {view.availabilityHint ? (
+              <p className="v2-fd-muted">{view.availabilityHint}</p>
+            ) : null}
+          </div>
         ) : (
           <ul className="v2-fd-today-list" role="list">
             {today.rows.map((row) => (

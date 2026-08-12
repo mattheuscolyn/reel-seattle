@@ -11,8 +11,8 @@ Reel Seattle uses The Movie Database (TMDB) API for:
 2. **Enrichment coverage audits** (`T-ENR-01A`) — bounded live field coverage for confirmed identities.  
 3. **Public enrichment artifact** (`T-ENR-01B`) — `public/data/film_enrichment_current.json` built server-side.  
 4. **Home / Opening This Week UI** (`T-ENR-10`) — year, genres, synopsis, poster fallback joined by canonical `filmId`.  
-5. **Search Results UI** (`T-ENR-20`) — same shared loader/index/resolver (`context: 'search'`); no second fetch path.  
-6. **Film Detail UI** (`T-ENR-30`) — same shared path (`context: 'film-detail'`); year/genres/director/synopsis/poster fallback; fixture modes unchanged.
+5. **Search Results UI** (`T-ENR-20`) — shared enrichment loader for local titles; Phase 1 also may call the Reel Seattle TMDB whitelist proxy for titles without Seattle showtimes.  
+6. **Film Detail UI** (`T-ENR-30`) — shared enrichment path for local titles; TMDB-only deep links resolve via the same whitelist proxy (`tmdb:<id>`).
 
 Attribution surfaces (T-ENR-10 / Home parity): primary expandable **About & data sources** from Profile → About Reel Seattle / Privacy & Data. Opening This Week collection may keep a compact notice. Home itself does **not** host a large attribution block — Profile remains the authoritative product placement so Home matches the canonical composition.
 
@@ -51,7 +51,22 @@ Field-level “Source: TMDB” chips are optional, not a substitute for the requ
 
 - Prefer `TMDB_READ_ACCESS_TOKEN` (Bearer).  
 - Optional fallback `TMDB_API_KEY`.  
-- Environment / Actions secrets only — never browser bundles, never commit.
+- Environment / Actions secrets / **Supabase Edge Function secrets** only — never browser bundles, never commit, never `VITE_*`.
+
+## Live Search / Film Detail (Phase 1 watchlist foundation)
+
+Browser Search may request TMDB-backed titles that are not yet in the Seattle showtimes catalog. The SPA **never** calls `api.themoviedb.org` directly.
+
+| Environment | Endpoint | Credential location |
+|-------------|----------|---------------------|
+| Local `npm run v2` | Vite middleware `GET /api/tmdb/search`, `GET /api/tmdb/movie/:id` | `.env.local` / shell `TMDB_READ_ACCESS_TOKEN` (or `TMDB_API_KEY`) |
+| Production (`www.reelseattle.com`) | Supabase Edge Function `tmdb-api` at `{VITE_SUPABASE_URL}/functions/v1/tmdb-api` | Supabase project secret `TMDB_READ_ACCESS_TOKEN` (or `TMDB_API_KEY`) |
+
+Shared whitelist/shaping: `supabase/functions/_shared/tmdbProxyContract.js` (search + movie detail only). Client resolver: `v2/search/tmdbApiConfig.js`.
+
+Optional override: `VITE_TMDB_PROXY_BASE` (public base URL only — still not a TMDB secret).
+
+See [supabase/README.md](../../supabase/README.md#tmdb-search-edge-function) for deploy steps.
 
 ## Before broader public TMDB-derived content
 

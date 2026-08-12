@@ -11,7 +11,7 @@ export const SEARCH_PLACEHOLDER = 'Search movies, theaters, and formats';
 
 /** Short capability line under the result summary. */
 export const SEARCH_CAPABILITY_NOTE =
-  'Search currently matches movie titles, theaters, and formats.';
+  'Search matches movie titles, theaters, and formats — including films not yet playing in Seattle.';
 
 /** Empty normalized query — no misleading “all results” claim. */
 export const SEARCH_EMPTY_QUERY_SUMMARY =
@@ -20,6 +20,12 @@ export const SEARCH_EMPTY_QUERY_SUMMARY =
 /** Body under a zero-result summary. */
 export const SEARCH_EMPTY_BODY =
   'Try another movie, theater, or format.';
+
+/** Secondary section for TMDB-only film matches. */
+export const SEARCH_MORE_FILMS_TITLE = 'More films';
+
+/** Availability copy for films without Seattle showtimes. */
+export const SEARCH_NO_SEATTLE_SHOWTIMES = 'No Seattle showtimes yet';
 
 /** Explore landing honesty note (dev details). */
 export const SEARCH_EXPLORE_HONESTY_NOTE =
