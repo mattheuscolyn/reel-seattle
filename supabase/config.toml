@@ -1,0 +1,11 @@
+# Supabase local/project config (minimal).
+# Auth + Postgres migrations live under supabase/migrations/.
+# Edge Functions: supabase/functions/
+
+[project]
+# Linked remotely via `supabase link` (not committed).
+
+[functions.tmdb-api]
+# Public movie search/detail for Reel Seattle Search — no user JWT required.
+verify_jwt = false
+entrypoint = "./functions/tmdb-api/index.js"

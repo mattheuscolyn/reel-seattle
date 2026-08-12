@@ -14,6 +14,24 @@ import {
   listFormatFilterOptions,
   listTheaterFilterOptions,
 } from '../explore/searchResultsModel.js';
+import {
+  SEARCH_MORE_FILMS_TITLE,
+  SEARCH_NO_SEATTLE_SHOWTIMES,
+  SEARCH_PLACEHOLDER,
+} from '../explore/searchCopy.js';
+import {
+  TMDB_SEARCH_DEBOUNCE_MS,
+  fetchTmdbMovieDetail,
+  fetchTmdbSearchResults,
+} from '../search/tmdbSearchClient.js';
+import {
+  mergeLocalAndTmdbSearchResults,
+  shouldSuppressTmdbSearch,
+} from '../search/mergeTmdbSearchResults.js';
+import {
+  cacheTmdbMovieDetail,
+  seedTmdbOnlyFilmFromSearchHit,
+} from '../filmDetail/tmdbOnlyFilmCache.js';
 import { IMAX_FORMAT_TAGS, THIRTY_FIVE_MM_FORMAT_TAGS } from '../explore/exploreIds.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 import {
@@ -26,7 +44,6 @@ import {
 } from '../save/notInterestedActionState.js';
 import { isFilmNotInterested } from '../stores/notInterestedFilmsStore.js';
 import { subscribeFilmStoreMutations } from '../auth/filmStoreMutationBridge.js';
-import { SEARCH_PLACEHOLDER } from '../explore/searchCopy.js';
 
 function getStorage() {
   try {
@@ -85,8 +102,11 @@ export default function SearchResultsSurface({
   const [draftTheaters, setDraftTheaters] = useState(theaterIds);
   const [draftFormats, setDraftFormats] = useState(formatTags);
   const [undoBanner, setUndoBanner] = useState(null);
+  const [tmdbHits, setTmdbHits] = useState([]);
+  const [tmdbStatus, setTmdbStatus] = useState('idle');
   const listRef = useRef(null);
   const restoredScroll = useRef(false);
+  const tmdbRequestId = useRef(0);
 
   const homeFilmByKey = useMemo(() => {
     const map = new Map();
@@ -111,7 +131,7 @@ export default function SearchResultsSurface({
     };
   }, [homeFilmByKey, storage, prefRevision]);
 
-  const model = useMemo(
+  const localModel = useMemo(
     () =>
       buildSearchResultsModel(homeData, query, {
         typeFilter,
@@ -136,6 +156,84 @@ export default function SearchResultsSurface({
       runtimeMax,
     ],
   );
+
+  const suppressTmdb = shouldSuppressTmdbSearch({
+    typeFilter,
+    timeFilter,
+    theaterIds,
+    formatTags,
+  });
+
+  useEffect(() => {
+    const normalized = String(query ?? '').trim();
+    if (!normalized || suppressTmdb) {
+      setTmdbHits([]);
+      setTmdbStatus(suppressTmdb ? 'suppressed' : 'idle');
+      return undefined;
+    }
+
+    setTmdbStatus('loading');
+    const requestId = ++tmdbRequestId.current;
+    const controller = new AbortController();
+    const timer = window.setTimeout(async () => {
+      const result = await fetchTmdbSearchResults(normalized, {
+        signal: controller.signal,
+      });
+      if (requestId !== tmdbRequestId.current) return;
+      if (result.error === 'aborted') return;
+      if (!result.ok) {
+        setTmdbHits([]);
+        setTmdbStatus('error');
+        return;
+      }
+      setTmdbHits(result.results);
+      setTmdbStatus('ready');
+    }, TMDB_SEARCH_DEBOUNCE_MS);
+
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
+    };
+  }, [query, suppressTmdb]);
+
+  const model = useMemo(
+    () =>
+      mergeLocalAndTmdbSearchResults(localModel, tmdbHits, {
+        typeFilter,
+        timeFilter,
+        theaterIds,
+        formatTags,
+        tmdbStatus,
+        catalogFilms: homeData?.films ?? [],
+      }),
+    [
+      localModel,
+      tmdbHits,
+      typeFilter,
+      timeFilter,
+      theaterIds,
+      formatTags,
+      tmdbStatus,
+      homeData,
+    ],
+  );
+
+  async function openFilmDetailFromResult(film) {
+    if (!film?.filmKey) return;
+    if (film.origin === 'tmdb') {
+      seedTmdbOnlyFilmFromSearchHit(film);
+      try {
+        const detail = await fetchTmdbMovieDetail(film.tmdbId ?? film.filmId);
+        if (detail?.ok && detail.movie) cacheTmdbMovieDetail(detail.movie);
+      } catch {
+        // Search snapshot is enough for first paint; detail can retry on surface.
+      }
+    }
+    onOpenFilmDetail?.({
+      filmKey: film.filmKey,
+      opportunityKey: film.opportunityKey ?? null,
+    });
+  }
 
   const advancedCount = countAdvancedFilters({
     theaterIds,
@@ -548,7 +646,10 @@ export default function SearchResultsSurface({
                             </span>
                           ) : (
                             <span className="v2-search-film-meta">
-                              No upcoming showtimes in the current window
+                              {film.origin === 'tmdb' || film.availabilityLabel
+                                ? film.availabilityLabel ||
+                                  SEARCH_NO_SEATTLE_SHOWTIMES
+                                : 'No upcoming showtimes in the current window'}
                             </span>
                           )}
                         </span>
@@ -682,12 +783,165 @@ export default function SearchResultsSurface({
                             <button
                               type="button"
                               className="v2-search-more"
-                              onClick={() =>
-                                onOpenFilmDetail?.({
-                                  filmKey: film.filmKey,
-                                  opportunityKey: film.opportunityKey,
-                                })
+                              onClick={() => {
+                                void openFilmDetailFromResult(film);
+                              }}
+                            >
+                              More details
+                              <IconChevron />
+                            </button>
+                          </div>
+                        </div>
+                      ) : null}
+                    </article>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ) : null}
+
+        {Array.isArray(model.moreFilms) && model.moreFilms.length > 0 ? (
+          <section
+            className="v2-search-section"
+            aria-labelledby="v2-search-more-films-h"
+          >
+            <div className="v2-search-section-head">
+              <h2 id="v2-search-more-films-h" className="v2-section-caps">
+                {SEARCH_MORE_FILMS_TITLE}
+              </h2>
+              <span className="v2-search-section-count">
+                {sectionCountLabel(model.moreFilms.length)}
+              </span>
+            </div>
+            <ul className="v2-search-film-list" role="list">
+              {model.moreFilms.map((film) => {
+                const expanded = expandedFilmKey === film.filmKey;
+                const panelId = `v2-search-expand-${film.filmKey}`;
+                return (
+                  <li key={film.filmKey}>
+                    <article
+                      className={
+                        expanded
+                          ? 'v2-search-film-card v2-search-film-card-expanded'
+                          : 'v2-search-film-card'
+                      }
+                    >
+                      <button
+                        type="button"
+                        className="v2-search-film-row"
+                        aria-expanded={expanded}
+                        aria-controls={panelId}
+                        onClick={() => toggleExpand(film.filmKey)}
+                      >
+                        <span className="v2-search-film-poster">
+                          {film.posterUrl ? (
+                            <img src={film.posterUrl} alt="" />
+                          ) : (
+                            <span
+                              className="v2-shelf-poster-fallback"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </span>
+                        <span className="v2-search-film-copy">
+                          <span className="v2-search-film-title">{film.title}</span>
+                          {film.metaLine ? (
+                            <span className="v2-search-film-meta">{film.metaLine}</span>
+                          ) : null}
+                          <span className="v2-search-film-meta">
+                            {SEARCH_NO_SEATTLE_SHOWTIMES}
+                          </span>
+                        </span>
+                        <span className="v2-search-film-chevron" aria-hidden="true">
+                          {expanded ? '⌃' : <IconChevron />}
+                        </span>
+                      </button>
+
+                      {expanded ? (
+                        <div
+                          id={panelId}
+                          className="v2-search-expand"
+                          role="region"
+                          aria-label={`Quick details for ${film.title}`}
+                        >
+                          <button
+                            type="button"
+                            className="v2-search-expand-collapse"
+                            aria-label="Collapse film details"
+                            onClick={() => setExpandedFilmKey(null)}
+                          >
+                            Collapse
+                          </button>
+
+                          <div className="v2-search-expand-facts">
+                            {film.metaLine ? (
+                              <p className="v2-search-expand-meta">{film.metaLine}</p>
+                            ) : null}
+                            {film.synopsis ? (
+                              <p className="v2-search-expand-synopsis">{film.synopsis}</p>
+                            ) : null}
+                          </div>
+
+                          <div className="v2-search-next">
+                            <p className="v2-search-next-label">Showtimes</p>
+                            <p className="v2-search-next-venue">
+                              {SEARCH_NO_SEATTLE_SHOWTIMES}
+                            </p>
+                          </div>
+
+                          <div className="v2-search-expand-actions">
+                            {(() => {
+                              void prefRevision;
+                              const action = buildSaveActionState({
+                                mode: 'production',
+                                film,
+                                storage,
+                              });
+                              const isSaved = action.isSaved;
+                              const available = action.available;
+                              const label = isSaved ? 'Saved' : 'Save';
+                              return (
+                                <button
+                                  type="button"
+                                  className={
+                                    isSaved
+                                      ? 'v2-search-action v2-search-action-save-on'
+                                      : 'v2-search-action'
+                                  }
+                                  aria-pressed={isSaved}
+                                  disabled={!available}
+                                  title={
+                                    available
+                                      ? undefined
+                                      : 'Save needs a valid film identity'
+                                  }
+                                  onClick={() => handleToggleSave(film)}
+                                >
+                                  {label}
+                                </button>
+                              );
+                            })()}
+                            <button
+                              type="button"
+                              className="v2-search-action"
+                              disabled={
+                                !buildNotInterestedActionState({
+                                  mode: 'production',
+                                  film,
+                                  storage,
+                                }).available
                               }
+                              onClick={() => handleNotInterested(film)}
+                            >
+                              Not interested
+                            </button>
+                            <button
+                              type="button"
+                              className="v2-search-more"
+                              onClick={() => {
+                                void openFilmDetailFromResult(film);
+                              }}
                             >
                               More details
                               <IconChevron />

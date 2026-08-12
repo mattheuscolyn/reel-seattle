@@ -3,9 +3,13 @@
  *
  * Production never falls back to mockup/visual fixture content.
  * QC modes require explicit query/localStorage flags.
+ * TMDB-only films resolve via session cache / live snapshot when not in HomeData.
  */
 
 import { composeFilmDetailPresentation } from '../filmDetail/composeFilmDetailPresentation.js';
+import { composeTmdbOnlyFilmDetailPresentation } from '../filmDetail/composeTmdbOnlyFilmDetail.js';
+import { getCachedTmdbOnlyFilm } from '../filmDetail/tmdbOnlyFilmCache.js';
+import { asTmdbFilmId } from '../search/tmdbSearchClient.js';
 import { isFilmDetailVisualFixtureMode } from './filmDetailVisualFixtures.js';
 import {
   getFilmDetailMockupPresentation,
@@ -20,6 +24,7 @@ import {
  *   enrichmentIndex?: object | null,
  *   forceMode?: 'production' | 'visual-fixture' | 'mockup-fixture' | null,
  *   timeFormatId?: string,
+ *   tmdbOnlySnapshot?: object | null,
  * }} params
  */
 export function resolveFilmDetailPresentation({
@@ -29,6 +34,7 @@ export function resolveFilmDetailPresentation({
   enrichmentIndex = null,
   forceMode = null,
   timeFormatId = undefined,
+  tmdbOnlySnapshot = null,
 }) {
   const mode =
     forceMode ??
@@ -78,10 +84,34 @@ export function resolveFilmDetailPresentation({
     opportunityKey,
     { enrichmentIndex, timeFormatId },
   );
+  if (composed.resolved) {
+    return {
+      mode: /** @type {'production'} */ ('production'),
+      source: composed.source,
+      resolved: true,
+      presentation: composed,
+    };
+  }
+
+  const tmdbId = asTmdbFilmId(key);
+  if (tmdbId) {
+    const snapshot = tmdbOnlySnapshot ?? getCachedTmdbOnlyFilm(tmdbId) ?? null;
+    const tmdbPresentation = composeTmdbOnlyFilmDetailPresentation(
+      snapshot,
+      tmdbId,
+    );
+    return {
+      mode: /** @type {'production'} */ ('production'),
+      source: 'tmdb-live',
+      resolved: tmdbPresentation.resolved,
+      presentation: tmdbPresentation,
+    };
+  }
+
   return {
     mode: /** @type {'production'} */ ('production'),
     source: composed.source,
-    resolved: composed.resolved,
+    resolved: false,
     presentation: composed,
   };
 }

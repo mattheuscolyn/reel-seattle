@@ -110,4 +110,4 @@ appear as showtime-row metadata, not as a separate Film Detail title.
 | `data/film_identity/tmdb_match_decisions.json` | Durable manual decisions |
 | `data/film_identity/tmdb_match_review_queue.json` | Ambiguous / unmatched review |
 
-Browser never calls TMDB. Token stays server-side / pipeline-only.
+Browser never calls TMDB **directly**. Live Search/Detail uses a Reel Seattle whitelist proxy (local Vite middleware or Supabase Edge Function `tmdb-api`). Token stays server-side / pipeline / Edge secret only — never `VITE_*`.

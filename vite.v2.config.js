@@ -8,11 +8,16 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { extname, join, normalize, relative, resolve } from 'node:path'
+import { env } from 'node:process'
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolveAllowedV2DataRoute } from './v2/data/allowedDataRoutes.js'
 import { copyAllowedV2DataArtifacts } from './v2/data/copyAllowedV2Data.js'
+import {
+  runTmdbMovieDetail,
+  runTmdbSearch,
+} from './supabase/functions/_shared/tmdbProxyContract.js'
 
 const repoRoot = fileURLToPath(new URL('.', import.meta.url))
 const v2Root = fileURLToPath(new URL('./v2', import.meta.url))
@@ -20,6 +25,10 @@ const v2OutDir = fileURLToPath(new URL('./dist-v2', import.meta.url))
 const theaterImagesRoot = fileURLToPath(
   new URL('./public/theater-images', import.meta.url),
 )
+
+// Shell env wins; merge gitignored .env / .env.local for local TMDB proxy only.
+const fileEnv = loadEnv(env.MODE || 'development', repoRoot, '')
+const v2ServerEnv = { ...fileEnv, ...env }
 
 const THEATER_IMAGE_CONTENT_TYPES = Object.freeze({
   '.svg': 'image/svg+xml; charset=utf-8',
@@ -29,6 +38,79 @@ const THEATER_IMAGE_CONTENT_TYPES = Object.freeze({
   '.webp': 'image/webp',
   '.gif': 'image/gif',
 })
+
+function sendJson(res, status, payload, extraHeaders = {}) {
+  res.statusCode = status
+  res.setHeader('Content-Type', 'application/json; charset=utf-8')
+  for (const [key, value] of Object.entries(extraHeaders)) {
+    res.setHeader(key, value)
+  }
+  res.end(JSON.stringify(payload))
+}
+
+/**
+ * Local-only TMDB search/detail proxy for v2 Search Phase 1.
+ * Shares whitelist/shaping with the production Supabase Edge Function.
+ * Secrets never ship to the browser bundle.
+ */
+function serveV2TmdbProxy() {
+  return {
+    name: 'v2-serve-tmdb-proxy',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        const path = (req.url || '').split('?')[0]
+        if (!path.startsWith('/api/tmdb/')) {
+          next()
+          return
+        }
+        if (req.method !== 'GET') {
+          sendJson(res, 405, { error: 'Method not allowed' })
+          return
+        }
+        try {
+          if (path === '/api/tmdb/search') {
+            const url = new URL(req.url || '', 'http://127.0.0.1')
+            const result = await runTmdbSearch(
+              {
+                query: url.searchParams.get('query'),
+                limit: url.searchParams.get('limit'),
+              },
+              v2ServerEnv,
+            )
+            sendJson(res, result.status, result.body, {
+              ...(result.cacheControl
+                ? { 'Cache-Control': result.cacheControl }
+                : {}),
+            })
+            return
+          }
+
+          const movieMatch = path.match(/^\/api\/tmdb\/movie\/(\d+)$/)
+          if (movieMatch) {
+            const result = await runTmdbMovieDetail(
+              { id: movieMatch[1] },
+              v2ServerEnv,
+            )
+            sendJson(res, result.status, result.body, {
+              ...(result.cacheControl
+                ? { 'Cache-Control': result.cacheControl }
+                : {}),
+            })
+            return
+          }
+
+          sendJson(res, 404, { error: 'Unknown TMDB proxy path' })
+        } catch (error) {
+          const status = Number(error?.status) || 502
+          sendJson(res, status, {
+            error: status === 503 ? 'tmdb_unconfigured' : 'tmdb_unavailable',
+          })
+        }
+      })
+    },
+  }
+}
 
 /**
  * Serve allowlisted public/data artifacts into the v2 Vite server only.
@@ -199,7 +281,12 @@ export default defineConfig({
   // Domain-root Pages deploy (matches main site vite.config.js). Absolute
   // `/data/...` URLs and BASE_URL=`/` stay aligned; resolveV2DataUrl honors BASE_URL.
   base: '/',
-  plugins: [react(), serveAllowedV2PublicData(), serveAllowedV2TheaterImages()],
+  plugins: [
+    react(),
+    serveAllowedV2PublicData(),
+    serveAllowedV2TheaterImages(),
+    serveV2TmdbProxy(),
+  ],
   // Do not serve/copy the public site `public/` directory into this app.
   // Allowlisted JSON is copied explicitly in closeBundle (see serveAllowedV2PublicData).
   publicDir: false,

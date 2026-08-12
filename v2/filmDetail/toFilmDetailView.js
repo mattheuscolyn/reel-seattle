@@ -77,6 +77,8 @@ function emptyView({ mode, source, filmKey }) {
       empty: true,
       timezoneNote: 'All times in PT',
     },
+    availabilityNote: null,
+    availabilityHint: null,
   };
 }
 
@@ -167,6 +169,8 @@ function mockupToView(p) {
       empty: (p.todaysShowtimes?.rows?.length ?? 0) === 0,
       timezoneNote: p.todaysShowtimes?.timezoneNote ?? 'All times in PT',
     },
+    availabilityNote: null,
+    availabilityHint: null,
   };
 }
 
@@ -272,5 +276,9 @@ function composedToView(p, mode) {
       empty: Boolean(p.today?.empty) || todayRows.length === 0,
       timezoneNote: 'All times in PT',
     },
+    availabilityNote:
+      typeof p.availabilityNote === 'string' ? p.availabilityNote : null,
+    availabilityHint:
+      typeof p.availabilityHint === 'string' ? p.availabilityHint : null,
   };
 }
