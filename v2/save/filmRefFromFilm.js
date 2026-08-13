@@ -62,6 +62,13 @@ export function filmRefFromHomeFilm(film) {
   const title =
     asOptionalString(film.title) ?? asOptionalString(film.parentDisplayTitle);
   const posterUrl = asOptionalString(film.posterUrl);
+  const yearRaw = film.year ?? film.canonicalYear ?? film.releaseYear ?? null;
+  const year =
+    typeof yearRaw === 'number' && Number.isFinite(yearRaw)
+      ? Math.round(yearRaw)
+      : typeof yearRaw === 'string' && /^\d{4}$/.test(yearRaw.trim())
+        ? Number(yearRaw.trim())
+        : null;
 
   /** @type {{
    *   filmId: string | null,
@@ -70,6 +77,7 @@ export function filmRefFromHomeFilm(film) {
    *   source: string | null,
    *   title?: string | null,
    *   posterUrl?: string | null,
+   *   year?: number | null,
    * }} */
   const ref = {
     filmId: asCanonicalStoreFilmId(film.filmId),
@@ -79,5 +87,6 @@ export function filmRefFromHomeFilm(film) {
   };
   if (title) ref.title = title;
   if (posterUrl) ref.posterUrl = posterUrl;
+  if (year != null) ref.year = year;
   return ref;
 }

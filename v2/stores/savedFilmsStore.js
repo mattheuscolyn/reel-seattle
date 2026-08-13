@@ -36,6 +36,7 @@ export const SAVED_FILMS_MAX = 100;
  *   source?: string | null,
  *   title?: string | null,
  *   posterUrl?: string | null,
+ *   year?: number | null,
  * }} SavedFilmRefInput
  */
 
@@ -55,6 +56,7 @@ export const SAVED_FILMS_MAX = 100;
  *   savedAt: string,
  *   title?: string | null,
  *   posterUrl?: string | null,
+ *   year?: number | null,
  * }} SavedFilmItem
  */
 
@@ -282,8 +284,13 @@ function normalizeSavedFilmItem(raw) {
   const item = { filmRef, savedAt };
   const title = asOptionalString(record.title);
   const posterUrl = asOptionalString(record.posterUrl);
+  const year =
+    typeof record.year === 'number' && Number.isFinite(record.year)
+      ? Math.round(record.year)
+      : null;
   if (title) item.title = title;
   if (posterUrl) item.posterUrl = posterUrl;
+  if (year != null) item.year = year;
   return item;
 }
 
@@ -304,8 +311,10 @@ export function mergeSavedFilmItems(a, b) {
   };
   const title = newer.title ?? earlier.title ?? null;
   const posterUrl = newer.posterUrl ?? earlier.posterUrl ?? null;
+  const year = newer.year ?? earlier.year ?? null;
   if (title) merged.title = title;
   if (posterUrl) merged.posterUrl = posterUrl;
+  if (year != null) merged.year = year;
   return merged;
 }
 
@@ -449,7 +458,14 @@ export function reconcileSavedItemsWithLiveRefs(items, liveRefs = []) {
         input && typeof input === 'object'
           ? asOptionalString(/** @type {SavedFilmRefInput} */ (input).posterUrl)
           : null;
-      return { ref, title, posterUrl };
+      const year =
+        input &&
+        typeof input === 'object' &&
+        typeof /** @type {SavedFilmRefInput} */ (input).year === 'number' &&
+        Number.isFinite(/** @type {SavedFilmRefInput} */ (input).year)
+          ? Math.round(/** @type {SavedFilmRefInput} */ (input).year)
+          : null;
+      return { ref, title, posterUrl, year };
     })
     .filter(Boolean);
   if (!items.length || !liveEntries.length) {
@@ -474,6 +490,7 @@ export function reconcileSavedItemsWithLiveRefs(items, liveRefs = []) {
     const mergedRef = mergeSavedFilmRefs(before.filmRef, live.ref);
     const title = live.title ?? before.title;
     const posterUrl = live.posterUrl ?? before.posterUrl;
+    const year = live.year ?? before.year ?? null;
     /** @type {SavedFilmItem} */
     const merged = {
       filmRef: mergedRef,
@@ -481,10 +498,12 @@ export function reconcileSavedItemsWithLiveRefs(items, liveRefs = []) {
     };
     if (title) merged.title = title;
     if (posterUrl) merged.posterUrl = posterUrl;
+    if (year != null) merged.year = year;
     const changedRef =
       JSON.stringify(before.filmRef) !== JSON.stringify(merged.filmRef) ||
       before.title !== merged.title ||
-      before.posterUrl !== merged.posterUrl;
+      before.posterUrl !== merged.posterUrl ||
+      before.year !== merged.year;
     if (changedRef) {
       next[idx] = merged;
       upgraded += 1;
@@ -638,7 +657,7 @@ function writeSavedFilmsStore(storage, store) {
 
 /**
  * @param {SavedFilmRefInput | string} filmRef
- * @param {{ now?: () => Date, title?: string | null, posterUrl?: string | null }} [options]
+ * @param {{ now?: () => Date, title?: string | null, posterUrl?: string | null, year?: number | null }} [options]
  * @returns {SavedFilmItem | null}
  */
 function buildSavedItem(filmRef, options = {}) {
@@ -650,6 +669,10 @@ function buildSavedItem(filmRef, options = {}) {
   const item = { filmRef: { ...ref }, savedAt };
   const title = asOptionalString(options.title);
   const posterUrl = asOptionalString(options.posterUrl);
+  const yearOpt =
+    typeof options.year === 'number' && Number.isFinite(options.year)
+      ? Math.round(options.year)
+      : null;
   // Prefer non-authoritative display hints from the ref input when provided.
   if (title) item.title = title;
   else if (typeof filmRef === 'object' && filmRef) {
@@ -661,6 +684,14 @@ function buildSavedItem(filmRef, options = {}) {
     const hint = asOptionalString(filmRef.posterUrl);
     if (hint) item.posterUrl = hint;
   }
+  if (yearOpt != null) item.year = yearOpt;
+  else if (typeof filmRef === 'object' && filmRef) {
+    const hintYear =
+      typeof filmRef.year === 'number' && Number.isFinite(filmRef.year)
+        ? Math.round(filmRef.year)
+        : null;
+    if (hintYear != null) item.year = hintYear;
+  }
   return item;
 }
 
@@ -669,7 +700,7 @@ function buildSavedItem(filmRef, options = {}) {
  *
  * @param {Storage | null | undefined} storage
  * @param {SavedFilmRefInput | string} filmRef
- * @param {{ now?: () => Date, title?: string | null, posterUrl?: string | null }} [options]
+ * @param {{ now?: () => Date, title?: string | null, posterUrl?: string | null, year?: number | null }} [options]
  * @returns {SavedFilmsWriteResult}
  */
 export function saveFilm(storage, filmRef, options = {}) {
@@ -707,11 +738,13 @@ export function saveFilm(storage, filmRef, options = {}) {
     const mergedRef = mergeSavedFilmRefs(already.filmRef, item.filmRef);
     const nextTitle = item.title ?? already.title ?? null;
     const nextPoster = item.posterUrl ?? already.posterUrl ?? null;
+    const nextYear = item.year ?? already.year ?? null;
     const refChanged =
       JSON.stringify(already.filmRef) !== JSON.stringify(mergedRef);
     const metaChanged =
       (nextTitle ?? null) !== (already.title ?? null) ||
-      (nextPoster ?? null) !== (already.posterUrl ?? null);
+      (nextPoster ?? null) !== (already.posterUrl ?? null) ||
+      (nextYear ?? null) !== (already.year ?? null);
     if (!refChanged && !metaChanged) {
       if (read.store.version === SAVED_FILMS_VERSION) {
         return {
@@ -734,6 +767,7 @@ export function saveFilm(storage, filmRef, options = {}) {
     };
     if (nextTitle) nextItem.title = nextTitle;
     if (nextPoster) nextItem.posterUrl = nextPoster;
+    if (nextYear != null) nextItem.year = nextYear;
     nextItems[alreadyIdx] = nextItem;
     return writeSavedFilmsStore(storage, {
       version: SAVED_FILMS_VERSION,
@@ -792,7 +826,7 @@ export function unsaveFilm(storage, filmRef) {
 /**
  * @param {Storage | null | undefined} storage
  * @param {SavedFilmRefInput | string} filmRef
- * @param {{ now?: () => Date, title?: string | null, posterUrl?: string | null }} [options]
+ * @param {{ now?: () => Date, title?: string | null, posterUrl?: string | null, year?: number | null }} [options]
  * @returns {SavedFilmsWriteResult & { saved?: boolean }}
  */
 export function toggleSavedFilm(storage, filmRef, options = {}) {
