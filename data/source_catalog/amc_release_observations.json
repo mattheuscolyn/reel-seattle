@@ -1,20 +1,55 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-12T00:14:54-07:00",
+  "generated_at": "2026-08-13T00:18:18-07:00",
   "source": "amc",
   "derivation": {
     "source_artifact": "data/source_catalog/amc_movie_products.json",
     "source_schema_version": "1.0.0",
     "classifier_version": "1.0.0",
-    "rebuilt_at": "2026-08-12T00:14:54-07:00"
+    "rebuilt_at": "2026-08-13T00:18:18-07:00"
   },
   "stats": {
-    "release_observations": 102,
-    "singleton_groups": 98,
-    "multi_product_groups": 4,
+    "release_observations": 112,
+    "singleton_groups": 107,
+    "multi_product_groups": 5,
     "largest_group": 6
   },
   "releases": [
+    {
+      "source": "amc",
+      "source_release_id": "11475",
+      "member_source_film_ids": [
+        "83783"
+      ],
+      "member_count": 1,
+      "observed_titles": [
+        "Hot Spot"
+      ],
+      "observed_runtimes_min": [
+        101
+      ],
+      "observed_release_dates_utc": [
+        "2026-08-21T05:00:00Z"
+      ],
+      "observed_distributor_codes": [
+        "FCS"
+      ],
+      "presentation_categories": [
+        "standard"
+      ],
+      "relationship_observations": {
+        "title_variation": false,
+        "runtime_variation": false,
+        "release_date_variation": false,
+        "media_variation": false,
+        "attribute_variation": false
+      },
+      "relationship_status": "grouping_evidence_only",
+      "lifecycle": {
+        "first_observed_at": "2026-08-13T00:17:45-07:00",
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
+      }
+    },
     {
       "source": "amc",
       "source_release_id": "16930",
@@ -47,7 +82,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-30T01:12:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -82,7 +117,42 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
+      }
+    },
+    {
+      "source": "amc",
+      "source_release_id": "36952",
+      "member_source_film_ids": [
+        "84537"
+      ],
+      "member_count": 1,
+      "observed_titles": [
+        "Harry Potter And The Chamber of Secrets"
+      ],
+      "observed_runtimes_min": [
+        161
+      ],
+      "observed_release_dates_utc": [
+        "2026-08-28T05:00:00Z"
+      ],
+      "observed_distributor_codes": [
+        "WB"
+      ],
+      "presentation_categories": [
+        "concert_or_event"
+      ],
+      "relationship_observations": {
+        "title_variation": false,
+        "runtime_variation": false,
+        "release_date_variation": false,
+        "media_variation": false,
+        "attribute_variation": false
+      },
+      "relationship_status": "grouping_evidence_only",
+      "lifecycle": {
+        "first_observed_at": "2026-08-13T00:17:45-07:00",
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -117,7 +187,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -152,30 +222,69 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-06T01:21:59-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
       "source": "amc",
       "source_release_id": "315543",
       "member_source_film_ids": [
+        "65798",
         "84596"
       ],
-      "member_count": 1,
+      "member_count": 2,
       "observed_titles": [
+        "Coyote vs. Acme",
         "Coyote vs. Acme Early Access"
       ],
       "observed_runtimes_min": [
         103
       ],
       "observed_release_dates_utc": [
-        "2026-08-23T05:00:00Z"
+        "2026-08-23T05:00:00Z",
+        "2026-08-28T05:00:00Z"
       ],
       "observed_distributor_codes": [
         "FFF"
       ],
       "presentation_categories": [
-        "concert_or_event"
+        "concert_or_event",
+        "standard"
+      ],
+      "relationship_observations": {
+        "title_variation": true,
+        "runtime_variation": false,
+        "release_date_variation": true,
+        "media_variation": true,
+        "attribute_variation": true
+      },
+      "relationship_status": "grouping_evidence_only",
+      "lifecycle": {
+        "first_observed_at": "2026-08-10T00:18:04-07:00",
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
+      }
+    },
+    {
+      "source": "amc",
+      "source_release_id": "321703",
+      "member_source_film_ids": [
+        "84536"
+      ],
+      "member_count": 1,
+      "observed_titles": [
+        "Harry Potter and the Sorcerer’s Stone: 25th Anniversary"
+      ],
+      "observed_runtimes_min": [
+        164
+      ],
+      "observed_release_dates_utc": [
+        "2026-08-28T05:00:00Z"
+      ],
+      "observed_distributor_codes": [
+        "WB"
+      ],
+      "presentation_categories": [
+        "anniversary_or_rerelease"
       ],
       "relationship_observations": {
         "title_variation": false,
@@ -186,8 +295,43 @@
       },
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
-        "first_observed_at": "2026-08-10T00:18:04-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "first_observed_at": "2026-08-13T00:17:45-07:00",
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
+      }
+    },
+    {
+      "source": "amc",
+      "source_release_id": "325608",
+      "member_source_film_ids": [
+        "84595"
+      ],
+      "member_count": 1,
+      "observed_titles": [
+        "Harry Potter And The Philosopher's Stone: 25th Anniversary"
+      ],
+      "observed_runtimes_min": [
+        164
+      ],
+      "observed_release_dates_utc": [
+        "2026-08-28T05:00:00Z"
+      ],
+      "observed_distributor_codes": [
+        "WB"
+      ],
+      "presentation_categories": [
+        "anniversary_or_rerelease"
+      ],
+      "relationship_observations": {
+        "title_variation": false,
+        "runtime_variation": false,
+        "release_date_variation": false,
+        "media_variation": false,
+        "attribute_variation": false
+      },
+      "relationship_status": "grouping_evidence_only",
+      "lifecycle": {
+        "first_observed_at": "2026-08-13T00:17:45-07:00",
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -222,7 +366,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -257,7 +401,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -312,7 +456,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -347,7 +491,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-30T01:12:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -382,7 +526,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-30T01:12:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -417,7 +561,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -452,7 +596,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -487,7 +631,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -522,7 +666,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-21T01:13:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -557,7 +701,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -592,7 +736,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-06T01:21:59-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -627,7 +771,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-06T01:21:59-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -662,7 +806,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-17T00:57:44-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -697,7 +841,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-06T01:21:59-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -732,7 +876,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -767,7 +911,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -802,7 +946,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -837,7 +981,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-30T01:12:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -872,7 +1016,42 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-30T01:12:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
+      }
+    },
+    {
+      "source": "amc",
+      "source_release_id": "373290",
+      "member_source_film_ids": [
+        "82868"
+      ],
+      "member_count": 1,
+      "observed_titles": [
+        "Finding Emily"
+      ],
+      "observed_runtimes_min": [
+        110
+      ],
+      "observed_release_dates_utc": [
+        "2026-08-28T05:00:00Z"
+      ],
+      "observed_distributor_codes": [
+        "FCS"
+      ],
+      "presentation_categories": [
+        "standard"
+      ],
+      "relationship_observations": {
+        "title_variation": false,
+        "runtime_variation": false,
+        "release_date_variation": false,
+        "media_variation": false,
+        "attribute_variation": false
+      },
+      "relationship_status": "grouping_evidence_only",
+      "lifecycle": {
+        "first_observed_at": "2026-08-13T00:17:45-07:00",
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -912,7 +1091,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-16T01:01:02-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -947,7 +1126,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-22T01:13:38-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -986,7 +1165,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1021,7 +1200,42 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
+      }
+    },
+    {
+      "source": "amc",
+      "source_release_id": "379897",
+      "member_source_film_ids": [
+        "72464"
+      ],
+      "member_count": 1,
+      "observed_titles": [
+        "The Dog Stars"
+      ],
+      "observed_runtimes_min": [
+        118
+      ],
+      "observed_release_dates_utc": [
+        "2026-08-28T05:00:00Z"
+      ],
+      "observed_distributor_codes": [
+        "FXD"
+      ],
+      "presentation_categories": [
+        "standard"
+      ],
+      "relationship_observations": {
+        "title_variation": false,
+        "runtime_variation": false,
+        "release_date_variation": false,
+        "media_variation": false,
+        "attribute_variation": false
+      },
+      "relationship_status": "grouping_evidence_only",
+      "lifecycle": {
+        "first_observed_at": "2026-08-13T00:17:45-07:00",
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1056,7 +1270,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-06T01:21:59-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1091,7 +1305,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1126,7 +1340,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-31T01:39:33-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1161,7 +1375,42 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-18T00:38:40-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
+      }
+    },
+    {
+      "source": "amc",
+      "source_release_id": "386049",
+      "member_source_film_ids": [
+        "83461"
+      ],
+      "member_count": 1,
+      "observed_titles": [
+        "Idiots"
+      ],
+      "observed_runtimes_min": [
+        99
+      ],
+      "observed_release_dates_utc": [
+        "2026-08-28T05:00:00Z"
+      ],
+      "observed_distributor_codes": [
+        "IFC"
+      ],
+      "presentation_categories": [
+        "standard"
+      ],
+      "relationship_observations": {
+        "title_variation": false,
+        "runtime_variation": false,
+        "release_date_variation": false,
+        "media_variation": false,
+        "attribute_variation": false
+      },
+      "relationship_status": "grouping_evidence_only",
+      "lifecycle": {
+        "first_observed_at": "2026-08-13T00:17:45-07:00",
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1196,7 +1445,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-12T00:14:20-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1231,7 +1480,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-30T01:12:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1266,7 +1515,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-29T01:27:23-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1301,7 +1550,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-05T01:24:26-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1336,7 +1585,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1371,7 +1620,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1406,7 +1655,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-23T01:17:56-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1441,7 +1690,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1476,7 +1725,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-23T01:17:56-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1511,7 +1760,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1546,7 +1795,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1581,7 +1830,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1616,7 +1865,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-03T02:30:07-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1651,7 +1900,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-23T01:17:56-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1690,7 +1939,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1725,7 +1974,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-05T01:24:26-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1760,7 +2009,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-23T01:17:56-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1795,7 +2044,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1830,7 +2079,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-23T01:17:56-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1865,7 +2114,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1900,7 +2149,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1935,7 +2184,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -1970,7 +2219,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-19T01:04:53-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2005,7 +2254,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2040,7 +2289,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-06T01:21:59-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2075,7 +2324,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-30T01:12:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2110,7 +2359,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2145,7 +2394,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-31T01:39:33-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2180,7 +2429,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2215,7 +2464,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-25T00:56:14-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2250,7 +2499,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-26T01:13:40-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2285,7 +2534,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-07T23:39:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2320,7 +2569,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2355,7 +2604,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2390,7 +2639,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2425,7 +2674,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-22T01:13:38-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2460,7 +2709,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-23T01:17:56-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2495,7 +2744,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2530,7 +2779,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2565,7 +2814,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2600,7 +2849,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-31T01:39:33-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2635,7 +2884,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-06T01:21:59-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2670,7 +2919,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2705,7 +2954,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2740,7 +2989,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-16T01:01:02-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2775,7 +3024,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2810,7 +3059,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2845,7 +3094,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2862,9 +3111,11 @@
         80
       ],
       "observed_release_dates_utc": [
-        "2026-08-14T05:00:00Z"
+        "2026-08-12T05:00:00Z"
       ],
-      "observed_distributor_codes": [],
+      "observed_distributor_codes": [
+        "TRL"
+      ],
       "presentation_categories": [
         "concert_or_event"
       ],
@@ -2878,7 +3129,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-29T01:27:23-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2913,7 +3164,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-23T01:17:56-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2948,7 +3199,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -2983,7 +3234,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-02T00:33:40-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3018,7 +3269,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-04T01:26:10-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3053,7 +3304,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-06T01:21:59-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3088,7 +3339,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-30T01:12:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3123,7 +3374,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-12T00:14:20-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3158,7 +3409,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-18T00:38:40-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3193,7 +3444,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-23T01:17:56-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3228,7 +3479,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3263,7 +3514,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-30T01:12:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3296,7 +3547,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-07T23:39:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3331,7 +3582,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-15T00:55:22-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3366,7 +3617,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-30T01:12:21-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3401,7 +3652,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-28T01:22:06-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3436,7 +3687,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-25T00:56:14-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3471,7 +3722,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-12T00:14:20-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3506,7 +3757,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-02T00:33:40-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3541,7 +3792,7 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-25T00:56:14-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3576,7 +3827,42 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-07-22T01:13:38-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
+      }
+    },
+    {
+      "source": "amc",
+      "source_release_id": "422290",
+      "member_source_film_ids": [
+        "84389"
+      ],
+      "member_count": 1,
+      "observed_titles": [
+        "If I Tell You"
+      ],
+      "observed_runtimes_min": [
+        98
+      ],
+      "observed_release_dates_utc": [
+        "2026-08-27T05:00:00Z"
+      ],
+      "observed_distributor_codes": [
+        "SUL"
+      ],
+      "presentation_categories": [
+        "standard"
+      ],
+      "relationship_observations": {
+        "title_variation": false,
+        "runtime_variation": false,
+        "release_date_variation": false,
+        "media_variation": false,
+        "attribute_variation": false
+      },
+      "relationship_status": "grouping_evidence_only",
+      "lifecycle": {
+        "first_observed_at": "2026-08-13T00:17:45-07:00",
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     },
     {
@@ -3611,7 +3897,77 @@
       "relationship_status": "grouping_evidence_only",
       "lifecycle": {
         "first_observed_at": "2026-08-05T01:24:26-07:00",
-        "last_rebuilt_at": "2026-08-12T00:14:54-07:00"
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
+      }
+    },
+    {
+      "source": "amc",
+      "source_release_id": "422806",
+      "member_source_film_ids": [
+        "84547"
+      ],
+      "member_count": 1,
+      "observed_titles": [
+        "The King of Cannabis"
+      ],
+      "observed_runtimes_min": [
+        135
+      ],
+      "observed_release_dates_utc": [
+        "2026-08-28T05:00:00Z"
+      ],
+      "observed_distributor_codes": [
+        "SIX"
+      ],
+      "presentation_categories": [
+        "standard"
+      ],
+      "relationship_observations": {
+        "title_variation": false,
+        "runtime_variation": false,
+        "release_date_variation": false,
+        "media_variation": false,
+        "attribute_variation": false
+      },
+      "relationship_status": "grouping_evidence_only",
+      "lifecycle": {
+        "first_observed_at": "2026-08-13T00:17:45-07:00",
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
+      }
+    },
+    {
+      "source": "amc",
+      "source_release_id": "423651",
+      "member_source_film_ids": [
+        "83566"
+      ],
+      "member_count": 1,
+      "observed_titles": [
+        "Colony"
+      ],
+      "observed_runtimes_min": [
+        122
+      ],
+      "observed_release_dates_utc": [
+        "2026-08-28T05:00:00Z"
+      ],
+      "observed_distributor_codes": [
+        "WGU"
+      ],
+      "presentation_categories": [
+        "standard"
+      ],
+      "relationship_observations": {
+        "title_variation": false,
+        "runtime_variation": false,
+        "release_date_variation": false,
+        "media_variation": false,
+        "attribute_variation": false
+      },
+      "relationship_status": "grouping_evidence_only",
+      "lifecycle": {
+        "first_observed_at": "2026-08-13T00:17:45-07:00",
+        "last_rebuilt_at": "2026-08-13T00:18:18-07:00"
       }
     }
   ]
