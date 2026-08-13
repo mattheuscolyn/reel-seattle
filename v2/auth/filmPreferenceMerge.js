@@ -74,7 +74,10 @@ export function localSavedItemToRecord(item, mutatedAt) {
     showtime_film_key: ref.showtimeFilmKey,
     alias_keys: ref.aliasKeys ?? [],
     title_snapshot: item.title ?? null,
-    year_snapshot: null,
+    year_snapshot:
+      typeof item.year === 'number' && Number.isFinite(item.year)
+        ? Math.round(item.year)
+        : null,
     poster_url_snapshot: item.posterUrl ?? null,
     preference_at: asIso(item.savedAt),
     preference_meta: {},
@@ -102,7 +105,10 @@ export function localSeenItemToRecord(item, mutatedAt) {
     showtime_film_key: ref.showtimeFilmKey,
     alias_keys: ref.aliasKeys ?? [],
     title_snapshot: item.title ?? null,
-    year_snapshot: null,
+    year_snapshot:
+      typeof item.year === 'number' && Number.isFinite(item.year)
+        ? Math.round(item.year)
+        : null,
     poster_url_snapshot: item.posterUrl ?? null,
     preference_at: asIso(item.seenAt),
     preference_meta: meta,
@@ -130,7 +136,10 @@ export function localNotInterestedItemToRecord(item, mutatedAt) {
     showtime_film_key: ref.showtimeFilmKey,
     alias_keys: ref.aliasKeys ?? [],
     title_snapshot: item.title ?? null,
-    year_snapshot: null,
+    year_snapshot:
+      typeof item.year === 'number' && Number.isFinite(item.year)
+        ? Math.round(item.year)
+        : null,
     poster_url_snapshot: item.posterUrl ?? null,
     preference_at: asIso(item.markedAt),
     preference_meta: meta,
@@ -152,6 +161,12 @@ export function recordToLocalSavedItem(record) {
   const item = { filmRef, savedAt };
   if (record.title_snapshot) item.title = record.title_snapshot;
   if (record.poster_url_snapshot) item.posterUrl = record.poster_url_snapshot;
+  if (
+    typeof record.year_snapshot === 'number' &&
+    Number.isFinite(record.year_snapshot)
+  ) {
+    item.year = Math.round(record.year_snapshot);
+  }
   return item;
 }
 
@@ -298,6 +313,7 @@ function mergeActiveRecords(a, b) {
       showtime_film_key:
         newer.showtime_film_key ?? older.showtime_film_key ?? null,
       title_snapshot: newer.title_snapshot ?? older.title_snapshot ?? null,
+      year_snapshot: newer.year_snapshot ?? older.year_snapshot ?? null,
       poster_url_snapshot:
         newer.poster_url_snapshot ?? older.poster_url_snapshot ?? null,
       preference_at: newer.preference_at ?? older.preference_at ?? null,

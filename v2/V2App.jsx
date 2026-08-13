@@ -36,6 +36,8 @@ import {
 } from './navigation/navState.js';
 import AboutMyScheduleSurface from './surfaces/AboutMyScheduleSurface.jsx';
 import CollectionSurface from './surfaces/CollectionSurface.jsx';
+import PersonalFilmCollectionSurface from './collections/PersonalFilmCollectionSurface.jsx';
+import { isPersonalCollectionId } from './collections/personalCollectionModel.js';
 import FilmDetailSurface from './surfaces/FilmDetailSurface.jsx';
 import OpportunityDetailSurface from './surfaces/OpportunityDetailSurface.jsx';
 import SearchResultsSurface from './surfaces/SearchResultsSurface.jsx';
@@ -790,6 +792,9 @@ export default function V2App() {
   const isTheatersList =
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.theaters;
+  const isPersonalCollection =
+    nav.surface?.type === 'collection' &&
+    isPersonalCollectionId(nav.surface.collectionId);
   const isTheaterDetail = nav.surface?.type === 'theater-detail';
   const isFilmDetail = nav.surface?.type === 'film-detail';
   const isOpportunityDetail = nav.surface?.type === 'opportunity-detail';
@@ -1223,7 +1228,30 @@ export default function V2App() {
       />
     );
   } else if (nav.surface?.type === 'collection') {
-    mainContent = (
+    mainContent = isPersonalCollectionId(nav.surface.collectionId) ? (
+      <PersonalFilmCollectionSurface
+        collectionId={nav.surface.collectionId}
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
+        onOpenCollection={(params) =>
+          handleOpenCollection({
+            ...params,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            exploreRestore: nav.surface.exploreRestore ?? null,
+          })
+        }
+        onOpenFilmDetail={({ filmKey, opportunityKey }) =>
+          handleOpenFilmDetail({
+            filmKey,
+            opportunityKey,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            exploreRestore: nav.surface.exploreRestore ?? null,
+            homeRestore: null,
+            returnSurface: nav.surface,
+          })
+        }
+      />
+    ) : (
       <CollectionSurface
         collectionId={nav.surface.collectionId}
         query={nav.surface.query}
@@ -1600,6 +1628,10 @@ export default function V2App() {
                 : 'Explore'
               : isSearchResults
                 ? 'Explore'
+                : isPersonalCollection
+                  ? nav.surface.originPrimary === 'home'
+                    ? 'Home'
+                    : 'Explore'
                 : isBuildPlanPlanDetails
                   ? nav.surface?.returnSurface?.type === 'build-plan-results'
                     ? 'results'
@@ -1611,11 +1643,14 @@ export default function V2App() {
                     ? 'Planner'
                     : null
         }
-        backStyle={isBuildPlanChrome ? 'chevron' : 'label'}
+        backStyle={
+          isPersonalCollection || isBuildPlanChrome ? 'chevron' : 'label'
+        }
         onBack={
           isFilmDetail ||
           isShowtimes ||
           isSearchResults ||
+          isPersonalCollection ||
           isBuildPlanChrome ||
           isShowtimesBrowse
             ? handleBack
