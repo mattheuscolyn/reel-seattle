@@ -1,18 +1,22 @@
 import {
+  IconBell,
   IconProfile,
   IconSettings,
   IconShare,
 } from '../icons.jsx';
+import { notificationBellAriaLabel } from '../notifications/notificationBellPresentation.js';
 
 /**
  * Top application header.
  * Modes:
- * - default: wordmark + profile
+ * - default: wordmark + profile (notifications bell in left slot when signed in)
  * - profile destination: wordmark + settings (mockup gear)
  * - search back: ← Explore
  * - film detail: ← Origin · wordmark (Save/Share live in the surface, not the header)
  * - build-plan: chevron back · wordmark · empty trailing spacer / Share
  * - plan-details: chevron back · centered Plan Details · Share icon
+ *
+ * Notifications never replace Back on detail/sub-pages.
  */
 export default function AppHeader({
   onProfileClick,
@@ -30,6 +34,9 @@ export default function AppHeader({
   saveAvailable = true,
   saveLabel = 'Save',
   centerTitle = null,
+  showNotificationsBell = false,
+  hasUnreadNotifications = false,
+  onNotificationsOpen = null,
 }) {
   const isFilmDetail = variant === 'film-detail';
   const showSettings =
@@ -39,6 +46,8 @@ export default function AppHeader({
     headerMode === 'build-plan' || showPlanDetailsChrome;
   const showBack = typeof onBack === 'function' && (backLabel || showBuildPlanChrome);
   const chevronOnly = backStyle === 'chevron' || showBuildPlanChrome;
+  const showBell = Boolean(showNotificationsBell) && !showBack;
+  const unread = Boolean(hasUnreadNotifications);
 
   if (showPlanDetailsChrome) {
     return (
@@ -98,6 +107,18 @@ export default function AppHeader({
         >
           <span aria-hidden="true">‹</span>
           {chevronOnly ? null : ` ${backLabel}`}
+        </button>
+      ) : showBell ? (
+        <button
+          type="button"
+          className="v2-header-notifications"
+          aria-label={notificationBellAriaLabel({ hasUnread: unread })}
+          onClick={() => onNotificationsOpen?.()}
+        >
+          <IconBell width={20} height={20} aria-hidden="true" />
+          {unread ? (
+            <span className="v2-header-notifications-dot" aria-hidden="true" />
+          ) : null}
         </button>
       ) : (
         <div className="v2-header-spacer" aria-hidden="true" />
