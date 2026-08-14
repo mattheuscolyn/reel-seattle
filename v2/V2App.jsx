@@ -9,7 +9,24 @@ import { reconcileUserFilmStores } from './stores/reconcileUserFilmStores.js';
 import { subscribeFilmStoreMutations } from './auth/filmStoreMutationBridge.js';
 import { isAllowedV2Hostname } from './isAllowedV2Hostname.js';
 import { startAuthController } from './auth/authSessionStore.js';
+import { useAuth } from './auth/useAuth.js';
 import { consumeAuthReturnToProfile } from './auth/oauthRedirect.js';
+import {
+  readQcHeaderNotificationsModeFromLocation,
+  resolveNotificationBellPresentation,
+} from './notifications/notificationBellPresentation.js';
+import {
+  applyNotificationReadOverrides,
+  countUnreadNotifications,
+  markAllNotificationsReadInOverrides,
+  markNotificationReadInOverrides,
+  notificationNavigationTarget,
+} from './notifications/notificationModel.js';
+import NotificationsSheet from './notifications/NotificationsSheet.jsx';
+import {
+  readQcNotificationsModeFromLocation,
+  resolveNotificationsDataSource,
+} from './fixtures/notificationsMockupFixture.js';
 import { COLLECTION_IDS } from './explore/exploreIds.js';
 import {
   createInitialNavState,
@@ -168,7 +185,12 @@ function syncFilmIdQuery(filmId) {
 
 export default function V2App() {
   const hostname = resolveHostname();
+  const auth = useAuth();
   const [nav, setNav] = useState(createInitialNavState);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [notificationReadOverrides, setNotificationReadOverrides] = useState(
+    {},
+  );
   const [homeRestorePending, setHomeRestorePending] = useState(null);
   const [exploreRestorePending, setExploreRestorePending] = useState(null);
   const [shareStatus, setShareStatus] = useState(null);
@@ -1590,12 +1612,91 @@ export default function V2App() {
   const isProfilePrimary =
     !nav.surface && nav.primaryDestinationId === 'profile';
 
+  const qcHeaderNotifications = readQcHeaderNotificationsModeFromLocation();
+  const qcNotifications = readQcNotificationsModeFromLocation();
+  const notificationsData = resolveNotificationsDataSource({
+    qcNotifications,
+    qcHeaderNotifications,
+  });
+  const notificationItems = applyNotificationReadOverrides(
+    notificationsData.items,
+    notificationReadOverrides,
+  );
+  const hasUnreadNotifications =
+    countUnreadNotifications(notificationItems) > 0;
+
+  const notificationBell = resolveNotificationBellPresentation({
+    signedIn: Boolean(auth?.signedIn),
+    hasUnreadNotifications,
+    qcMode:
+      qcHeaderNotifications ??
+      (qcNotifications === 'unread'
+        ? 'unread'
+        : qcNotifications === 'all-read' || qcNotifications === 'empty'
+          ? 'read'
+          : null),
+  });
+
+  useEffect(() => {
+    if (!notificationBell.visible && notificationsOpen) {
+      setNotificationsOpen(false);
+    }
+  }, [notificationBell.visible, notificationsOpen]);
+
+  const handleOpenNotifications = useCallback(() => {
+    if (!notificationBell.visible) return;
+    setNotificationsOpen(true);
+  }, [notificationBell.visible]);
+
+  const handleCloseNotifications = useCallback(() => {
+    setNotificationsOpen(false);
+    window.setTimeout(() => {
+      document.querySelector('.v2-header-notifications')?.focus?.();
+    }, 0);
+  }, []);
+
+  const handleMarkAllNotificationsRead = useCallback(() => {
+    setNotificationReadOverrides((current) =>
+      markAllNotificationsReadInOverrides(notificationItems, current),
+    );
+  }, [notificationItems]);
+
+  const handleOpenNotification = useCallback(
+    (item) => {
+      setNotificationReadOverrides((current) =>
+        markNotificationReadInOverrides(notificationItems, item?.id, current),
+      );
+      const target = notificationNavigationTarget(item);
+      setNotificationsOpen(false);
+      if (!target) return;
+      handleOpenFilmDetail({
+        filmKey: target.filmKey,
+        opportunityKey: target.opportunityKey,
+        originPrimary: nav.primaryDestinationId || 'home',
+      });
+    },
+    [handleOpenFilmDetail, nav.primaryDestinationId, notificationItems],
+  );
+
   return (
-    <div className={isFilmDetail ? 'v2-shell v2-shell-fd' : 'v2-shell'}>
+    <div
+      className={
+        [
+          isFilmDetail ? 'v2-shell v2-shell-fd' : 'v2-shell',
+          notificationsOpen ? 'v2-shell-with-notifications' : '',
+        ]
+          .filter(Boolean)
+          .join(' ')
+      }
+    >
       <span className="v2-visually-hidden">Local only</span>
 
+      <div inert={notificationsOpen || undefined}>
       <AppHeader
         onProfileClick={() => handleSelectDestination('profile')}
+        showNotificationsBell={notificationBell.visible}
+        hasUnreadNotifications={notificationBell.hasUnread}
+        onNotificationsOpen={handleOpenNotifications}
         headerMode={
           isBuildPlanPlanDetails
             ? 'plan-details'
@@ -1687,6 +1788,17 @@ export default function V2App() {
         activeDestinationId={activePrimaryId}
         onSelectDestination={handleSelectDestination}
       />
+      </div>
+
+      {notificationsOpen && notificationBell.visible ? (
+        <NotificationsSheet
+          items={notificationItems}
+          source={notificationsData.source}
+          onClose={handleCloseNotifications}
+          onMarkAllRead={handleMarkAllNotificationsRead}
+          onOpenNotification={handleOpenNotification}
+        />
+      ) : null}
     </div>
   );
 }
