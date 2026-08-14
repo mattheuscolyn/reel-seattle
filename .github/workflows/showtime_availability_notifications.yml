@@ -1,0 +1,48 @@
+name: Showtime Availability Notifications
+
+# Runs after Daily Showtime Scraping publishes canonical showtimes.
+# Failures here must not erase or block showtime artifacts (separate workflow).
+
+on:
+  workflow_run:
+    workflows: ["Daily Showtime Scraping"]
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          # Use the branch tip after scrape push — not workflow_run.head_sha
+          # (that SHA is the pre-commit checkout and would miss new showtimes).
+          ref: ${{ github.event.workflow_run.head_branch || github.ref_name }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Detect SHOWTIMES_AVAILABLE notifications
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "::warning::SUPABASE_URL (or VITE_SUPABASE_URL) / SUPABASE_SERVICE_ROLE_KEY not configured; skipping detector."
+            exit 0
+          fi
+          node scripts/detect_showtime_availability_notifications.mjs

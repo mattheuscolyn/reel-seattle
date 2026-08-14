@@ -22,6 +22,8 @@ Current migrations:
 3. `20260804000000_user_film_preferences_sync.sql` — `user_film_preferences` + `user_sync_state`, RLS, LWW tombstones
 4. `20260805000000_user_accepted_plans_sync.sql` — `user_accepted_plans` + schedule columns on `user_sync_state`
 5. `20260806000000_profiles_authenticated_grants_repair.sql` — grant SELECT/INSERT/UPDATE on `profiles` to `authenticated` (RLS still own-row only)
+6. `20260814000000_user_notifications_showtime_watches.sql` — `user_notifications` + `user_film_showtime_watches` (SHOWTIMES_AVAILABLE; service-role generate; client read/`read_at` only). See [docs/v2/showtime-availability-notifications.md](../docs/v2/showtime-availability-notifications.md).
+7. `20260814110000_service_role_showtime_notification_grants.sql` — minimum `service_role` table grants for the detector (SELECT prefs; SELECT/INSERT/UPDATE watches; INSERT notifications)
 
 ### After applying the profiles grants repair
 
@@ -99,6 +101,19 @@ Never put service-role keys, DB passwords, Google client secrets, or
 Production Pages reads the two public Supabase values from GitHub Actions **Variables**
 (`vars.VITE_SUPABASE_*`) during `npm run build:v2`. See [docs/v2/auth-foundation.md](../docs/v2/auth-foundation.md)
 for the full dashboard checklist (Site URL, redirect allowlist, Google consent branding).
+
+### Detector secrets (GitHub Actions only)
+
+SHOWTIMES_AVAILABLE generation (`.github/workflows/showtime_availability_notifications.yml`) needs repository **Secrets**:
+
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+Dry-run locally:
+
+```bash
+node scripts/detect_showtime_availability_notifications.mjs --dry-run
+```
 
 ## TMDB Search Edge Function
 

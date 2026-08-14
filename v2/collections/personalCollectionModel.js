@@ -16,7 +16,10 @@ import {
   normalizeShowtimeFilmKey,
   savedFilmRefsEqual,
 } from '../stores/savedFilmsStore.js';
-import { findNextOpportunityForFilm } from '../home/shelfData.js';
+import {
+  hasQualifyingFutureShowtimes,
+  pickEarliestQualifyingOpportunity,
+} from '../showtimes/qualifyingShowtimes.js';
 import {
   formatUserFacingFormatLabel,
 } from '../topOpportunities/topOpportunityFormat.js';
@@ -178,9 +181,9 @@ function normalizeYear(year) {
  * @param {object} homeFilm
  * @param {object | null} enrichmentIndex
  */
-function buildAvailableMeta(homeData, homeFilm, enrichmentIndex) {
+function buildAvailableMeta(homeData, homeFilm, enrichmentIndex, now = new Date()) {
   const enriched = enrichHomeFilm(homeFilm, enrichmentIndex, 'collection', homeData);
-  const next = findNextOpportunityForFilm(homeData, homeFilm.filmKey);
+  const next = pickEarliestQualifyingOpportunity(homeData, homeFilm.filmKey, now);
   const formatRaw = Array.isArray(next?.formatLabels) ? next.formatLabels[0] : null;
   const formatLabel = formatRaw
     ? formatUserFacingFormatLabel(formatRaw) || formatRaw
@@ -201,7 +204,11 @@ function buildAvailableMeta(homeData, homeFilm, enrichmentIndex) {
     showtimeLine,
     tags,
     nextOpportunityKey: next?.opportunityKey ?? null,
-    hasQualifyingShowtimes: Boolean(next),
+    hasQualifyingShowtimes: hasQualifyingFutureShowtimes(
+      homeData,
+      homeFilm.filmKey,
+      now,
+    ),
     year: normalizeYear(enriched.canonicalYear ?? homeFilm.releaseYear ?? homeFilm.year),
     genre,
     director: enriched.directors ?? null,
@@ -221,6 +228,7 @@ export function buildPersonalCollectionRow(
   homeData,
   enrichmentIndex,
   kind,
+  now = new Date(),
 ) {
   const filmRef = item?.filmRef;
   if (!filmRef?.showtimeFilmKey) return null;
@@ -239,7 +247,12 @@ export function buildPersonalCollectionRow(
       'collection',
       homeData,
     );
-    const available = buildAvailableMeta(homeData, homeFilm, enrichmentIndex);
+    const available = buildAvailableMeta(
+      homeData,
+      homeFilm,
+      enrichmentIndex,
+      now,
+    );
     const watching = kind === 'saved' && !available.hasQualifyingShowtimes;
     const year =
       available.year ??
@@ -434,6 +447,7 @@ export function buildPersonalCollectionModel({
   notInterestedItems = [],
   sortId = null,
   signedIn = false,
+  now = new Date(),
 }) {
   const copy =
     PERSONAL_COLLECTION_COPY[collectionId] ??
@@ -465,6 +479,7 @@ export function buildPersonalCollectionModel({
       homeData,
       enrichmentIndex,
       kind,
+      now,
     );
     if (row) rows.push(row);
   }

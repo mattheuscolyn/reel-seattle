@@ -76,6 +76,9 @@ tombstones via `is_active=false`, no routine DELETE).
 Login alone never uploads, downloads, merges, or attaches. Each browser keeps
 `reel-seattle.v2.filmSyncAttachment` after a successful Merge and enable sync.
 
+Showtime availability notifications (Phase 3): see
+[showtime-availability-notifications.md](./showtime-availability-notifications.md).
+
 ## Schedule sync (T-ACCOUNT-CLOUD-SYNC-SCHEDULE-01)
 
 Table: `public.user_accepted_plans` (durable `plan_snapshot` jsonb). Schedule
