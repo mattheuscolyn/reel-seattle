@@ -28,7 +28,7 @@ const SHEET = readFileSync(
 const HEADER = readFileSync(join(ROOT, 'v2/home/AppHeader.jsx'), 'utf8');
 const CSS = readFileSync(join(ROOT, 'v2/v2.css'), 'utf8');
 
-test('production notification source is empty (fixture cannot leak)', () => {
+test('production notification source uses productionItems (empty by default)', () => {
   const prod = resolveNotificationsDataSource({});
   assert.equal(prod.source, 'production');
   assert.deepEqual(prod.items, []);

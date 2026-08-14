@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-14T12:00:00-07:00",
+  "timezone": "America/Los_Angeles",
+  "window": {
+    "start_date": "2026-08-14",
+    "end_date": "2026-12-31"
+  },
+  "sources_included": ["siff"],
+  "stats": {
+    "showtime_count": 1,
+    "film_count": 1,
+    "theater_count": 1
+  },
+  "theaters": [
+    {
+      "id": "siff-cinema-downtown",
+      "name": "SIFF Downtown",
+      "source": "siff",
+      "enabled": true,
+      "type": "rep",
+      "city": "Seattle"
+    }
+  ],
+  "films": [
+    {
+      "showtime_film_key": "dune-part-three",
+      "title": "Dune: Part Three",
+      "runtime_min": null,
+      "poster_url": null,
+      "parent_film_key": null,
+      "source_film_id": null,
+      "film_id": "tmdb:1170608"
+    }
+  ],
+  "showtimes": [
+    {
+      "id": "fixture-dune-part-three-siff-downtown-2026-12-17-1900",
+      "date": "2026-12-17",
+      "time": "19:00",
+      "time_display": "7:00 PM",
+      "theater_id": "siff-cinema-downtown",
+      "showtime_film_key": "dune-part-three",
+      "film_title": "Dune: Part Three",
+      "runtime_min": null,
+      "poster_url": null,
+      "status": "active",
+      "format_tags": [],
+      "ticket_url": null,
+      "source": "siff",
+      "source_film_id": null,
+      "source_showtime_id": "fixture-dune-pt3-1",
+      "attributes": {},
+      "parent_film_key": null,
+      "parent_display_title": null
+    }
+  ]
+}

@@ -2,13 +2,16 @@
  * Notifications MOCKUP / QC FIXTURE — visual QA only.
  *
  * Activated only via query params (`qcNotifications` / related header QC).
- * Never written to localStorage or Supabase. Production source is always empty.
+ * Never written to localStorage or Supabase.
+ *
+ * Production source is authenticated Supabase rows mapped to NotificationItem[]
+ * (passed in as `productionItems`). QC fixtures never mix into production.
  */
 
 import { NOTIFICATION_TYPES } from '../notifications/notificationModel.js';
 
 function poster(label, from = '#2a2140', to = '#0f0c14') {
-  const safe = String(label).replace(/[<>&]/g, '');
+  const safe = String(label).replace(/[<>&']/g, '');
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600">
   <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
     <stop offset="0%" stop-color="${from}"/><stop offset="100%" stop-color="${to}"/>
@@ -142,13 +145,13 @@ export function readQcNotificationsModeFromLocation(
 }
 
 /**
- * Resolve which fixture (if any) feeds the notification list.
- * Production → empty. QC header unread also loads mixed fixture so the
- * unread bell indicator has a real source of truth.
+ * Resolve notification list source.
+ * QC params always win. Production uses `productionItems` from Supabase.
  *
  * @param {{
  *   qcNotifications?: 'unread' | 'all-read' | 'empty' | null,
  *   qcHeaderNotifications?: 'logged-out' | 'read' | 'unread' | null,
+ *   productionItems?: import('../notifications/notificationModel.js').NotificationItem[],
  * }} [input]
  * @returns {{
  *   source: 'production' | 'fixture',
@@ -159,6 +162,9 @@ export function readQcNotificationsModeFromLocation(
 export function resolveNotificationsDataSource(input = {}) {
   const sheet = input.qcNotifications ?? null;
   const header = input.qcHeaderNotifications ?? null;
+  const productionItems = Array.isArray(input.productionItems)
+    ? input.productionItems
+    : [];
 
   if (header === 'logged-out') {
     return { source: 'production', mode: 'production', items: [] };
@@ -184,5 +190,9 @@ export function resolveNotificationsDataSource(input = {}) {
       items: getNotificationsFixtureItems('unread'),
     };
   }
-  return { source: 'production', mode: 'production', items: [] };
+  return {
+    source: 'production',
+    mode: 'production',
+    items: productionItems,
+  };
 }

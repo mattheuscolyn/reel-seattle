@@ -38,6 +38,9 @@ import {
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 
+/** Frozen clock before sampleHome showtimes (2026-05-17). */
+const COLLECTION_NOW = new Date('2026-05-10T12:00:00-07:00');
+
 function memoryStorage(seed = {}) {
   const map = new Map(Object.entries(seed));
   return {
@@ -102,6 +105,7 @@ test('personal collection ids map to shared surface segments', () => {
 
 test('Saved renders a normal local catalog film under Available to watch', () => {
   const model = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.saved,
     homeData: sampleHome(),
     savedItems: [
@@ -128,6 +132,7 @@ test('Saved renders a normal local catalog film under Available to watch', () =>
 
 test('Saved renders tmdb-only film absent from HomeData via snapshot', () => {
   const model = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.saved,
     homeData: sampleHome(),
     savedItems: [
@@ -201,6 +206,7 @@ test('Saved upgrades by filmId/alias when showtimes appear without duplicates', 
   assert.equal(hit?.filmKey, 'nosferatu');
 
   const model = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.saved,
     homeData: home,
     savedItems: [
@@ -226,6 +232,7 @@ test('Saved upgrades by filmId/alias when showtimes appear without duplicates', 
 
 test('Watching for showtimes is derived, not persisted', () => {
   const model = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.saved,
     homeData: sampleHome(),
     savedItems: [
@@ -263,6 +270,7 @@ test('Watching for showtimes is derived, not persisted', () => {
 
 test('Available vs Watching grouping is correct with mixed Saved', () => {
   const model = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.saved,
     homeData: sampleHome(),
     savedItems: [
@@ -298,6 +306,7 @@ test('Available vs Watching grouping is correct with mixed Saved', () => {
 
 test('Saved TMDB-only row opens Film Detail via tmdb filmId key', () => {
   const model = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.saved,
     homeData: { films: [], opportunities: [] },
     savedItems: [
@@ -324,6 +333,7 @@ test('Seen still renders existing state with marked date metadata', () => {
   markFilmSeen(storage, { showtimeFilmKey: 'nosferatu', filmId: 'tmdb:426063' });
   const items = getSeenFilms(storage);
   const model = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.seen,
     homeData: sampleHome(),
     seenItems: items,
@@ -343,6 +353,7 @@ test('Not Interested still renders and Remove clears only that preference', () =
   });
   assert.equal(isFilmNotInterested(storage, 'nosferatu'), true);
   const model = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.hidden,
     homeData: sampleHome(),
     notInterestedItems: getNotInterestedFilms(storage),
@@ -359,6 +370,7 @@ test('Not Interested still renders and Remove clears only that preference', () =
 
 test('empty states and auth-aware privacy copy', () => {
   const emptyLocal = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.saved,
     homeData: sampleHome(),
     savedItems: [],
@@ -370,6 +382,7 @@ test('empty states and auth-aware privacy copy', () => {
   assert.doesNotMatch(emptyLocal.privacyNote, /syncs across your devices/i);
 
   const signedIn = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.saved,
     homeData: sampleHome(),
     savedItems: [],
@@ -378,6 +391,7 @@ test('empty states and auth-aware privacy copy', () => {
   assert.match(signedIn.privacyNote, /syncs across your devices/i);
 
   const emptySeen = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.seen,
     homeData: sampleHome(),
     seenItems: [],
@@ -385,6 +399,7 @@ test('empty states and auth-aware privacy copy', () => {
   assert.equal(emptySeen.emptyTitle, PERSONAL_COLLECTION_COPY[COLLECTION_IDS.seen].emptyTitle);
 
   const emptyNi = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.hidden,
     homeData: sampleHome(),
     notInterestedItems: [],
@@ -396,6 +411,7 @@ test('long titles and missing posters remain presentable in the model', () => {
   const longTitle =
     'An Extremely Long Film Title That Should Still Render Without Breaking The Personal Collection Row Layout Completely';
   const model = buildPersonalCollectionModel({
+    now: COLLECTION_NOW,
     collectionId: COLLECTION_IDS.saved,
     homeData: { films: [], opportunities: [] },
     savedItems: [

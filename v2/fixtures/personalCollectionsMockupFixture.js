@@ -74,6 +74,8 @@ const HOME = Object.freeze({
   ],
 });
 
+const MOCKUP_NOW = new Date('2026-05-10T12:00:00-07:00');
+
 /**
  * @param {'saved-mixed' | 'seen-populated' | 'not-interested-populated' | 'saved-empty'} state
  * @param {{ signedIn?: boolean }} [options]
@@ -85,6 +87,7 @@ export function getPersonalCollectionsMockupPresentation(
   const signedIn = Boolean(options.signedIn);
   if (state === 'saved-empty') {
     return buildPersonalCollectionModel({
+      now: MOCKUP_NOW,
       collectionId: COLLECTION_IDS.saved,
       homeData: HOME,
       savedItems: [],
@@ -93,6 +96,7 @@ export function getPersonalCollectionsMockupPresentation(
   }
   if (state === 'seen-populated') {
     return buildPersonalCollectionModel({
+      now: MOCKUP_NOW,
       collectionId: COLLECTION_IDS.seen,
       homeData: HOME,
       seenItems: [
@@ -124,6 +128,7 @@ export function getPersonalCollectionsMockupPresentation(
   }
   if (state === 'not-interested-populated') {
     return buildPersonalCollectionModel({
+      now: MOCKUP_NOW,
       collectionId: COLLECTION_IDS.hidden,
       homeData: HOME,
       notInterestedItems: [
@@ -158,6 +163,7 @@ export function getPersonalCollectionsMockupPresentation(
 
   // saved-mixed: Available + Watching
   return buildPersonalCollectionModel({
+    now: MOCKUP_NOW,
     collectionId: COLLECTION_IDS.saved,
     homeData: HOME,
     savedItems: [

@@ -24,6 +24,11 @@ import {
 } from './notifications/notificationModel.js';
 import NotificationsSheet from './notifications/NotificationsSheet.jsx';
 import {
+  fetchUserNotifications,
+  markAllUserNotificationsRead,
+  markUserNotificationRead,
+} from './notifications/notificationsSync.js';
+import {
   readQcNotificationsModeFromLocation,
   resolveNotificationsDataSource,
 } from './fixtures/notificationsMockupFixture.js';
@@ -188,6 +193,9 @@ export default function V2App() {
   const auth = useAuth();
   const [nav, setNav] = useState(createInitialNavState);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [cloudNotifications, setCloudNotifications] = useState(
+    /** @type {import('./notifications/notificationModel.js').NotificationItem[]} */ ([]),
+  );
   const [notificationReadOverrides, setNotificationReadOverrides] = useState(
     {},
   );
@@ -239,6 +247,43 @@ export default function V2App() {
       window.scrollTo(0, 0);
     });
   }, []);
+
+  const qcHeaderNotifications = readQcHeaderNotificationsModeFromLocation();
+  const qcNotifications = readQcNotificationsModeFromLocation();
+  const notificationsQcActive = Boolean(
+    qcNotifications ||
+      (qcHeaderNotifications && qcHeaderNotifications !== 'logged-out'),
+  );
+
+  useEffect(() => {
+    if (!auth?.signedIn || notificationsQcActive) {
+      if (!auth?.signedIn) {
+        setCloudNotifications([]);
+        setNotificationReadOverrides({});
+      }
+      return undefined;
+    }
+
+    let cancelled = false;
+
+    async function refreshNotifications() {
+      const result = await fetchUserNotifications();
+      if (cancelled || !result.ok) return;
+      setCloudNotifications(result.items);
+      setNotificationReadOverrides({});
+    }
+
+    void refreshNotifications();
+
+    const onFocus = () => {
+      void refreshNotifications();
+    };
+    window.addEventListener('focus', onFocus);
+    return () => {
+      cancelled = true;
+      window.removeEventListener('focus', onFocus);
+    };
+  }, [auth?.signedIn, notificationsQcActive]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1612,11 +1657,10 @@ export default function V2App() {
   const isProfilePrimary =
     !nav.surface && nav.primaryDestinationId === 'profile';
 
-  const qcHeaderNotifications = readQcHeaderNotificationsModeFromLocation();
-  const qcNotifications = readQcNotificationsModeFromLocation();
   const notificationsData = resolveNotificationsDataSource({
     qcNotifications,
     qcHeaderNotifications,
+    productionItems: auth?.signedIn ? cloudNotifications : [],
   });
   const notificationItems = applyNotificationReadOverrides(
     notificationsData.items,
@@ -1656,16 +1700,51 @@ export default function V2App() {
   }, []);
 
   const handleMarkAllNotificationsRead = useCallback(() => {
+    const stamp = new Date().toISOString();
     setNotificationReadOverrides((current) =>
-      markAllNotificationsReadInOverrides(notificationItems, current),
+      markAllNotificationsReadInOverrides(notificationItems, current, stamp),
     );
-  }, [notificationItems]);
+    if (notificationsData.source === 'production' && auth?.signedIn) {
+      void markAllUserNotificationsRead({ readAtIso: stamp }).then((result) => {
+        if (!result.ok) return;
+        setCloudNotifications((items) =>
+          items.map((item) =>
+            item.readAt ? item : { ...item, readAt: stamp, actionLabel: null },
+          ),
+        );
+      });
+    }
+  }, [auth?.signedIn, notificationItems, notificationsData.source]);
 
   const handleOpenNotification = useCallback(
     (item) => {
+      const stamp = new Date().toISOString();
       setNotificationReadOverrides((current) =>
-        markNotificationReadInOverrides(notificationItems, item?.id, current),
+        markNotificationReadInOverrides(
+          notificationItems,
+          item?.id,
+          current,
+          stamp,
+        ),
       );
+      if (
+        notificationsData.source === 'production' &&
+        auth?.signedIn &&
+        item?.id
+      ) {
+        void markUserNotificationRead(item.id, { readAtIso: stamp }).then(
+          (result) => {
+            if (!result.ok) return;
+            setCloudNotifications((items) =>
+              items.map((row) =>
+                row.id === item.id
+                  ? { ...row, readAt: stamp, actionLabel: null }
+                  : row,
+              ),
+            );
+          },
+        );
+      }
       const target = notificationNavigationTarget(item);
       setNotificationsOpen(false);
       if (!target) return;
@@ -1675,7 +1754,13 @@ export default function V2App() {
         originPrimary: nav.primaryDestinationId || 'home',
       });
     },
-    [handleOpenFilmDetail, nav.primaryDestinationId, notificationItems],
+    [
+      auth?.signedIn,
+      handleOpenFilmDetail,
+      nav.primaryDestinationId,
+      notificationItems,
+      notificationsData.source,
+    ],
   );
 
   return (
