@@ -2054,6 +2054,197 @@
       }
     },
     {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Sam Wrench",
+          "original_title": null,
+          "overview_excerpt": "Laufey takes the audience on a spell-binding sonic journey under the stars, performing alongside the legendary Los Angeles Philharmonic.",
+          "popularity": 0.7938,
+          "poster_path": "/loapY1ZOHLnNXMRY9bSpiGiiSfy.jpg",
+          "release_year": 2024,
+          "runtime_min": 93,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 7,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.0833,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "sam wrench"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.5333,
+            "original_title_exact": false,
+            "popularity": 0.7938,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 7,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Laufey's A Night at the Symphony: Hollywood Bowl",
+          "tmdb_id": 1375774,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:78244",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.75,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|78244"
+      },
+      "runtime_min": 100,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "delta_minutes": 7,
+            "kind": "soft",
+            "matched": true,
+            "soft_weight": 0.0833,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "sam wrench"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.5333,
+        "original_title_exact": false,
+        "popularity": 0.7938,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 7,
+        "runtime_near": false,
+        "runtime_soft": true,
+        "runtime_soft_max": 12,
+        "runtime_status": "soft",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "laufey-s-a-night-at-the-symphony-hollywood-bowl",
+          "source": "amc",
+          "source_film_id": "78244",
+          "source_title": "Laufey's A Night At The Symphony: Hollywood Bowl"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "Laufey takes the audience on a spell-binding sonic journey under the stars, performing alongside the legendary Los Angeles Philharmonic.",
+      "tmdb_poster_path": "/loapY1ZOHLnNXMRY9bSpiGiiSfy.jpg",
+      "tmdb_release_year": 2024,
+      "tmdb_runtime_min": 93,
+      "tmdb_title": "Laufey's A Night at the Symphony: Hollywood Bowl",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_soft_penalty",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
@@ -13942,6 +14133,639 @@
       }
     },
     {
+      "auto_confirm_blocked_reason": "same_title_remake_ambiguity",
+      "candidates": [
+        {
+          "director": "Macon Blair",
+          "original_title": null,
+          "overview_excerpt": "When two unqualified bozos are hired to transfer a rich teen to rehab, their straightforward gig quickly spirals into dangerous mayhem.",
+          "popularity": 6.1133,
+          "poster_path": "/l1JFNC1SdgyXVr7BaD5ehaYBvOC.jpg",
+          "release_year": 2026,
+          "runtime_min": 100,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "macon blair"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 6.1133,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Idiots",
+          "tmdb_id": 445466,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Lars von Trier",
+          "original_title": "Idioterne",
+          "overview_excerpt": "A group of people gather at a Copenhagen suburban home to break all the limitations and to bring out the 'inner idiot' in themselves.",
+          "popularity": 4.4093,
+          "poster_path": "/dZUgHe2XH8egBFerMC6yLoqUqii.jpg",
+          "release_year": 1998,
+          "runtime_min": 110,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 11,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.0167,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "lars von trier"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.4667,
+            "original_title_exact": false,
+            "popularity": 4.4093,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 11,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Idiots",
+          "tmdb_id": 452,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "It’s not a secret we love robots here at BLR (Big Lazy Robot), so we wanted them to be the heroes in our latest promo clip. Luxury cars with powerful engines to drive through roads under severe speed restrictions, cable…",
+          "popularity": 0.5833,
+          "poster_path": "/wJpmCffLEJFbua35cmfDzMp8vaX.jpg",
+          "release_year": 2013,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.5833,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "iDiots",
+          "tmdb_id": 288676,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Shusuke Kaneko",
+          "original_title": "ばかもの",
+          "overview_excerpt": "10 years ago Hide, a college student, meets Yuki Gakuko, an older woman, through work. They become lovers with Hide falling hard for Yuki Gakuko. The following year, Yuki abruptly announces one day that she is going to …",
+          "popularity": 1.1387,
+          "poster_path": "/kt4Ct7J4BrYCPunarKgD2lqOxDo.jpg",
+          "release_year": 2010,
+          "runtime_min": 120,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "shusuke kaneko"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.1387,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 21,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Idiots",
+          "tmdb_id": 437988,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Rajkumar Hirani",
+          "original_title": null,
+          "overview_excerpt": "Rascal. Joker. Dreamer. Genius... You've never met a college student quite like \"Rancho.\" From the moment he arrives at India's most prestigious university, Rancho's outlandish schemes turn the campus upside down—along …",
+          "popularity": 10.3421,
+          "poster_path": "/66A9MqXOyVFCssoloscw79z8Tew.jpg",
+          "release_year": 2009,
+          "runtime_min": 171,
+          "score": 0.0001,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "rajkumar hirani"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 10.3421,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 72,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "3 Idiots",
+          "tmdb_id": 20453,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Moe is on trial for assaulting Curly and Larry with an ax. Moe relates how Curly and Larry took him on a hunting trip for his nerves. Out in the woods they confronted a bear which Curly and Larry stunned, and thinking i…",
+          "popularity": 1.4275,
+          "poster_path": "/oRBPZynckSo10lrisYp42eL8trR.jpg",
+          "release_year": 1945,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.4275,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Idiots Deluxe",
+          "tmdb_id": 116090,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Based on a Jewish folk tale adapted by playwright John Lazarus, this animated short tells the story of Shmendrik, a simpleton living in a small Polish village. Weary of daily life in his native Chelm, Shmendrik sets out…",
+          "popularity": 0.6586,
+          "poster_path": "/1GUFCCIEvxMYu69adiV5wtyiOlg.jpg",
+          "release_year": 1999,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.6586,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Village of Idiots",
+          "tmdb_id": 196173,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Four friends embark on a cross-country journey to Las Vegas in an old RV to stop a wedding and save a friend from losing the love of his life.",
+          "popularity": 1.0738,
+          "poster_path": "/298oUKrVs26hrGbt2QJUohPSixz.jpg",
+          "release_year": 2013,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.0738,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "American Idiots",
+          "tmdb_id": 201485,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:84783",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Idiots",
+      "presentation_labels": [
+        "early access"
+      ],
+      "provenance": {
+        "source_identity_key": "amc|id|84783"
+      },
+      "runtime_min": 99,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "macon blair"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 6.1133,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 1,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "idiots-early-access",
+          "source": "amc",
+          "source_film_id": "84783",
+          "source_title": "Idiots Early Access"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "When two unqualified bozos are hired to transfer a rich teen to rehab, their straightforward gig quickly spirals into dangerous mayhem.",
+      "tmdb_poster_path": "/l1JFNC1SdgyXVr7BaD5ehaYBvOC.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 100,
+      "tmdb_title": "Idiots",
+      "top_candidate_margin": 0.25,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable",
+        "same_title_remake_ambiguity"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "event_suffix"
+        ],
+        "base_title": "Idiots",
+        "canonical_year_candidate": null,
+        "event_labels": [
+          "Early Access"
+        ],
+        "event_phrase": "Early Access",
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [
+          "early access"
+        ],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [
+          "Early Access"
+        ],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
       "auto_confirm_blocked_reason": "weak_title_only_match",
       "candidates": [
         {
@@ -17331,6 +18155,637 @@
       }
     },
     {
+      "auto_confirm_blocked_reason": "same_title_remake_ambiguity",
+      "candidates": [
+        {
+          "director": "Alfred Hitchcock",
+          "original_title": null,
+          "overview_excerpt": "Thousands of birds flock into a seaside town and terrorize the residents in a series of deadly attacks.",
+          "popularity": 7.0635,
+          "poster_path": "/eClg8QPg8mwB6INIC4pyR5pAbDr.jpg",
+          "release_year": 1963,
+          "runtime_min": 119,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "alfred hitchcock"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 7.0635,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Birds",
+          "tmdb_id": 571,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A remake of Alfred Hitchcock's 1963 horror film about a flock of birds that take over a quiet Northern California town.",
+          "popularity": 0.7131,
+          "poster_path": null,
+          "release_year": null,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.7131,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Birds",
+          "tmdb_id": 339109,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Clay Kaytis",
+          "original_title": null,
+          "overview_excerpt": "An island populated entirely by happy, flightless birds or almost entirely. In this paradise, Red, a bird with a temper problem, speedy Chuck, and the volatile Bomb have always been outsiders. But when the island is vis…",
+          "popularity": 12.5089,
+          "poster_path": "/iOH0fEFtV9z9rZp9zmBFGGeWicv.jpg",
+          "release_year": 2016,
+          "runtime_min": 97,
+          "score": 0.0001,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "clay kaytis"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 12.5089,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 22,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Angry Birds Movie",
+          "tmdb_id": 153518,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Thurop Van Orman",
+          "original_title": null,
+          "overview_excerpt": "Red, Chuck, Bomb and the rest of their feathered friends are surprised when a green pig suggests that they put aside their differences and unite to fight a common threat. Aggressive birds from an island covered in ice a…",
+          "popularity": 11.8217,
+          "poster_path": "/ebe8hJRCwdflNQbUjRrfmqtUiNi.jpg",
+          "release_year": 2019,
+          "runtime_min": 97,
+          "score": 0.0001,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "thurop van orman"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 11.8217,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 22,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Angry Birds Movie 2",
+          "tmdb_id": 454640,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Harley Quinn joins forces with a singer, an assassin and a police detective to help a young girl who had a hit placed on her after she stole a rare diamond from a crime lord.",
+          "popularity": 12.3962,
+          "poster_path": "/h4VB6m0RwcicVEZvzftYZyKXs6K.jpg",
+          "release_year": 2020,
+          "runtime_min": null,
+          "score": 0.0001,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 12.3962,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Birds of Prey (and the Fantabulous Emancipation of One Harley Quinn)",
+          "tmdb_id": 495764,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "John Rice",
+          "original_title": null,
+          "overview_excerpt": "Red faces his greatest challenge yet… surviving fatherhood while saving the world.",
+          "popularity": 5.8933,
+          "poster_path": "/oxaW6X3xohnzdFSBKCrCjRDckMe.jpg",
+          "release_year": 2026,
+          "runtime_min": 96,
+          "score": 0.0001,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "john rice"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 5.8933,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 23,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Angry Birds Movie 3",
+          "tmdb_id": 1300926,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Ralph Eggleston",
+          "original_title": null,
+          "overview_excerpt": "One by one, a flock of small birds perches on a telephone wire. Sitting close together has problems enough, and then comes along a large dopey bird that tries to join them. The birds of a feather can't help but make fun…",
+          "popularity": 3.6996,
+          "poster_path": "/7GogfWZYkZh802fnaMoDBnu8cfV.jpg",
+          "release_year": 2000,
+          "runtime_min": 4,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "ralph eggleston"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 3.6996,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 115,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "For the Birds",
+          "tmdb_id": 13930,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Two young soldiers, Bartle and Murph, navigate the terrors of the Iraq war under the command of the older, troubled Sergeant Sterling. All the while, Bartle is tortured by a promise he made to Murph's mother before thei…",
+          "popularity": 2.5784,
+          "poster_path": "/rSeZHcgmiNs6s5vfuIKHcQm84eA.jpg",
+          "release_year": 2018,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 2.5784,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Yellow Birds",
+          "tmdb_id": 383585,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:central_cinema:the-birds",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "The Birds",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "central_cinema|id|the-birds"
+      },
+      "runtime_min": 119,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "alfred hitchcock"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 7.0635,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "birds",
+          "source": "central_cinema",
+          "source_film_id": "the-birds",
+          "source_title": "The Birds"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "Thousands of birds flock into a seaside town and terrorize the residents in a series of deadly attacks.",
+      "tmdb_poster_path": "/eClg8QPg8mwB6INIC4pyR5pAbDr.jpg",
+      "tmdb_release_year": 1963,
+      "tmdb_runtime_min": 119,
+      "tmdb_title": "The Birds",
+      "top_candidate_margin": 0.25,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable",
+        "same_title_remake_ambiguity"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "The Birds",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
@@ -17497,6 +18952,258 @@
           "normalized_source_fallback"
         ],
         "base_title": "The Boy and the Heron",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Don Bluth",
+          "original_title": null,
+          "overview_excerpt": "A widowed field mouse must move her family -- including an ailing son -- to escape a farmer's plow. Aided by a crow and a pack of superintelligent, escaped lab rats, the brave mother struggles to transplant her home to …",
+          "popularity": 5.8071,
+          "poster_path": "/prNrnOKlkV9wl5Sl3zwHu1f3t2z.jpg",
+          "release_year": 1982,
+          "runtime_min": 83,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "don bluth"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 5.8071,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Secret of NIMH",
+          "tmdb_id": 11704,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Dick Sebast",
+          "original_title": null,
+          "overview_excerpt": "The rats and mice, made intellectually superior in the original Secret of N.I.M.H., return to Thorn Valley to groom their destined leader - young Timmy Brisby.",
+          "popularity": 3.1307,
+          "poster_path": "/m8CLj0g6hB2849rCLoWrkUkJpvK.jpg",
+          "release_year": 1999,
+          "runtime_min": 66,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "dick sebast"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 3.1307,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 17,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Secret of NIMH 2: Timmy to the Rescue",
+          "tmdb_id": 20756,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:11704",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "The Secret of NIMH",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "central_cinema|id|the-secret-of-nimh"
+      },
+      "runtime_min": 83,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "don bluth"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 5.8071,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "secret-of-nimh",
+          "source": "central_cinema",
+          "source_film_id": "the-secret-of-nimh",
+          "source_title": "The Secret of NIMH"
+        }
+      ],
+      "tmdb_id": 11704,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "A widowed field mouse must move her family -- including an ailing son -- to escape a farmer's plow. Aided by a crow and a pack of superintelligent, escaped lab rats, the brave mother struggles to transplant her home to …",
+      "tmdb_poster_path": "/prNrnOKlkV9wl5Sl3zwHu1f3t2z.jpg",
+      "tmdb_release_year": 1982,
+      "tmdb_runtime_min": 83,
+      "tmdb_title": "The Secret of NIMH",
+      "top_candidate_margin": 1.0,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "The Secret of NIMH",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -23050,6 +24757,6 @@
       }
     }
   ],
-  "generated_at": "2026-08-14T08:06:08+00:00",
+  "generated_at": "2026-08-15T07:20:02+00:00",
   "schema_version": "1.0.0"
 }
