@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-14T00:15:20-07:00",
+  "generated_at": "2026-08-14T23:26:25-07:00",
   "source": "amc",
   "window": {
     "start_date": "2026-08-14",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 60,
-    "flagged_film_count": 11
+    "candidate_film_count": 62,
+    "flagged_film_count": 13
   },
   "items": [
     {
@@ -196,6 +196,34 @@
       "runtime_min": 143
     },
     {
+      "film_key": "idiots-early-access",
+      "film_title": "Idiots Early Access",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-25",
+      "max_show_date": "2026-08-25",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-25"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": null,
+      "runtime_min": 99
+    },
+    {
       "film_key": "if-i-tell-you",
       "film_title": "If I Tell You",
       "risk_level": "high",
@@ -218,6 +246,30 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1785275839/amc-cdn/content/general/ottqqwsnzm2vvosynve0.jpg",
       "runtime_min": 98
+    },
+    {
+      "film_key": "laufey-s-a-night-at-the-symphony-hollywood-bowl",
+      "film_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-23",
+      "max_show_date": "2026-08-23",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-23"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1786717746/amc-cdn/content/general/aed7y97j9dikrbbkkga9.jpg",
+      "runtime_min": 100
     },
     {
       "film_key": "legend-of-the-white-dragon",
