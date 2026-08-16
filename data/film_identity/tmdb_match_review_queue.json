@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-15T07:20:02+00:00",
+  "generated_at": "2026-08-16T07:21:31+00:00",
   "items": [
     {
-      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "auto_confirm_blocked_reason": "hard_conflict",
       "candidates": [
         {
           "director": "Sam Wrench",
@@ -12,10 +12,15 @@
           "poster_path": "/loapY1ZOHLnNXMRY9bSpiGiiSfy.jpg",
           "release_year": 2024,
           "runtime_min": 93,
-          "score": 0.75,
+          "score": 0.6666,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
               "runtime": {
                 "delta_minutes": 7,
                 "kind": "soft",
@@ -29,23 +34,25 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
+                "kind": "conflict",
                 "matched": false,
-                "weight": 0.0
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
               "sam wrench"
             ],
             "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_overlap": true,
+            "director_source_normalized": [
+              "sam wrench"
+            ],
+            "director_status": "match",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.5333,
+            "hard_conflict": true,
+            "matched_weight": 0.7333,
             "original_title_exact": false,
             "popularity": 0.7938,
             "runtime_compatible_max": 3,
@@ -58,27 +65,27 @@
             "runtime_status": "soft",
             "title_conflict": false,
             "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
+            "year_conflict": true,
+            "year_evidence": "conflict",
             "year_exact": false,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "conflict"
           },
           "title": "Laufey's A Night at the Symphony: Hollywood Bowl",
           "tmdb_id": 1375774,
           "warnings": [
-            "year_evidence_absent",
-            "runtime_soft_penalty",
-            "weak_title_only_match",
-            "director_unavailable"
+            "year_conflict",
+            "runtime_soft_penalty"
           ]
         }
       ],
-      "directors_normalized": [],
-      "directors_raw": null,
+      "directors_normalized": [
+        "sam wrench"
+      ],
+      "directors_raw": "SAM WRENCH",
       "entity_kind": "feature_film",
       "film_id_fallback": "source:amc:78244",
-      "match_confidence": 0.75,
+      "match_confidence": 0.6666,
       "match_status": "review_required",
       "normalized_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
       "presentation_labels": [],
@@ -87,8 +94,13 @@
       "runtime_min": 100,
       "showtime_film_key": "laufey-s-a-night-at-the-symphony-hollywood-bowl",
       "signals": {
-        "available_weight": 0.6,
+        "available_weight": 1.1,
         "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
           "runtime": {
             "delta_minutes": 7,
             "kind": "soft",
@@ -102,23 +114,25 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "absent",
+            "kind": "conflict",
             "matched": false,
-            "weight": 0.0
+            "weight": 0.3
           }
         },
         "director_candidate_normalized": [
           "sam wrench"
         ],
         "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
+        "director_overlap": true,
+        "director_source_normalized": [
+          "sam wrench"
+        ],
+        "director_status": "match",
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.5333,
+        "hard_conflict": true,
+        "matched_weight": 0.7333,
         "original_title_exact": false,
         "popularity": 0.7938,
         "runtime_compatible_max": 3,
@@ -131,23 +145,21 @@
         "runtime_status": "soft",
         "title_conflict": false,
         "title_exact": true,
-        "year_conflict": false,
-        "year_evidence": "missing",
+        "year_conflict": true,
+        "year_evidence": "conflict",
         "year_exact": false,
         "year_near": false,
-        "year_status": "unavailable"
+        "year_status": "conflict"
       },
       "source": "amc",
       "source_film_id": "78244",
       "source_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
       "top_candidate_margin": null,
       "warnings": [
-        "year_evidence_absent",
-        "runtime_soft_penalty",
-        "weak_title_only_match",
-        "director_unavailable"
+        "year_conflict",
+        "runtime_soft_penalty"
       ],
-      "year_hint": null,
+      "year_hint": 2026,
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
@@ -157,22 +169,22 @@
           "normalized_source_fallback"
         ],
         "base_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
-        "canonical_year_candidate": null,
+        "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
+        "scoring_year": 2026,
+        "search_year": 2026,
         "title_years": [],
         "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -886,6 +898,170 @@
       "auto_confirm_blocked_reason": "hard_conflict",
       "candidates": [
         {
+          "director": "Mike Newell",
+          "original_title": null,
+          "overview_excerpt": "When his name emerges from the Goblet of Fire, Harry Potter becomes a competitor in a grueling battle for glory among three wizarding schools. Signs of Voldemort's return emerge as Harry's friends help him prepare for t…",
+          "popularity": 36.4884,
+          "poster_path": "/fECBtHlr0RB3foNHDiCBXeg9Bv9.jpg",
+          "release_year": 2005,
+          "runtime_min": 157,
+          "score": 0.667,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "mike newell"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 36.4884,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": true,
+            "year_evidence": "conflict",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "conflict"
+          },
+          "title": "Harry Potter and the Goblet of Fire",
+          "tmdb_id": 674,
+          "warnings": [
+            "year_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:amc:84539",
+      "match_confidence": 0.667,
+      "match_status": "review_required",
+      "normalized_title": "Harry Potter And The Goblet Of Fire",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 674,
+      "queue_id": "amc:84539",
+      "runtime_min": 157,
+      "showtime_film_key": "harry-potter-and-the-goblet-of-fire",
+      "signals": {
+        "available_weight": 0.9,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "mike newell"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 36.4884,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": true,
+        "year_evidence": "conflict",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "conflict"
+      },
+      "source": "amc",
+      "source_film_id": "84539",
+      "source_title": "Harry Potter And The Goblet Of Fire",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_conflict"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Harry Potter And The Goblet Of Fire",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
           "director": "Bikshu koyagura",
           "original_title": null,
           "overview_excerpt": "In a village, two teenagers, Ravi and Chitti, are drawn into a secret relationship as curiosity, adolescence, and bad influences shape their choices. When their families discover the affair, the couple defies them, sett…",
@@ -1101,7 +1277,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.6,
@@ -1118,7 +1294,7 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -1169,7 +1345,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.4667,
@@ -1186,7 +1362,7 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -1229,7 +1405,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -1246,7 +1422,7 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -1295,7 +1471,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -1312,7 +1488,7 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -1362,7 +1538,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -1379,7 +1555,7 @@
             "title_conflict": true,
             "title_exact": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -1422,7 +1598,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -1439,7 +1615,7 @@
             "title_conflict": true,
             "title_exact": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -1481,7 +1657,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -1498,7 +1674,7 @@
             "title_conflict": true,
             "title_exact": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -1540,7 +1716,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -1557,7 +1733,7 @@
             "title_conflict": true,
             "title_exact": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -1612,7 +1788,7 @@
         "director_source_normalized": [],
         "director_status": "unavailable",
         "director_weak_overlap": false,
-        "event_year_relaxed": false,
+        "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": false,
         "matched_weight": 0.6,
@@ -1629,7 +1805,7 @@
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "missing",
+        "year_evidence": "uncertain_rerelease_restoration",
         "year_exact": false,
         "year_near": false,
         "year_status": "unavailable"
@@ -1659,13 +1835,13 @@
           "Early Access"
         ],
         "event_phrase": "Early Access",
-        "event_year": null,
-        "event_year_not_canonical": false,
+        "event_year": 2026,
+        "event_year_not_canonical": true,
         "format_tags": [],
         "presentation_labels": [
           "early access"
         ],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [
           "Early Access"
@@ -1673,9 +1849,11 @@
         "scoring_year": null,
         "search_year": null,
         "title_years": [],
-        "warnings": [],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
         "year_confidence": "none",
-        "year_evidence": "missing"
+        "year_evidence": "uncertain_rerelease_restoration"
       }
     },
     {
@@ -3006,6 +3184,240 @@
       "auto_confirm_blocked_reason": "weak_title_only_match",
       "candidates": [
         {
+          "director": "Alain Resnais",
+          "original_title": "L'Année dernière à Marienbad",
+          "overview_excerpt": "At a weekend gathering, a man tells a woman that they had spent time there together a year prior. But, the woman has no recollection whatsoever and is convinced that he is simply fabricating the encounter. The more he s…",
+          "popularity": 2.7653,
+          "poster_path": "/syIJCqiSkGRJTlyaBtyI5jqPtE7.jpg",
+          "release_year": 1961,
+          "runtime_min": 95,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "alain resnais"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 2.7653,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Last Year at Marienbad",
+          "tmdb_id": 4024,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "James Quandt",
+          "original_title": null,
+          "overview_excerpt": "Film critic James Quandt looks at Alain Resnais' Last Year at Marienbad in 26 different ways, each corresponding to a letter in the alphabet",
+          "popularity": 0.4353,
+          "poster_path": "/7SygFJ7dzoEcEGhYuzIyOCOPw5J.jpg",
+          "release_year": 2019,
+          "runtime_min": 51,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "james quandt"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.4353,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Last Year at Marienbad A-Z",
+          "tmdb_id": 654396,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:beacon:last-year-at-marienbad",
+      "match_confidence": 0.75,
+      "match_status": "review_required",
+      "normalized_title": "Last Year At Marienbad",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 4024,
+      "queue_id": "beacon:last-year-at-marienbad",
+      "runtime_min": null,
+      "showtime_film_key": "last-year-at-marienbad",
+      "signals": {
+        "available_weight": 0.45,
+        "contributions": {
+          "runtime": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "alain resnais"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 2.7653,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": null,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "unavailable",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "beacon",
+      "source_film_id": "last-year-at-marienbad",
+      "source_title": "LAST YEAR AT MARIENBAD",
+      "top_candidate_margin": 0.75,
+      "warnings": [
+        "year_evidence_absent",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Last Year At Marienbad",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
           "director": "Charlie Chaplin",
           "original_title": null,
           "overview_excerpt": "A fading music hall comedian tries to help a despondent ballet dancer learn to walk and to again feel confident about life.",
@@ -3840,6 +4252,628 @@
           "normalized_source_fallback"
         ],
         "base_title": "Mysterious Skin",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Richard Lyford",
+          "original_title": null,
+          "overview_excerpt": "A mad doctor transforms into a monstrous killer after injecting a serum into his thyroid gland.",
+          "popularity": 0.6243,
+          "poster_path": "/F4IA9oIYtuXspcDG3LgwHBfPwC.jpg",
+          "release_year": 1936,
+          "runtime_min": 22,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "richard lyford"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.6243,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Scalpel",
+          "tmdb_id": 1265802,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Masahisa Sadanaga",
+          "original_title": "メス",
+          "overview_excerpt": "Surgeon Shūzō Shikine discovers his father Kikukawa’s rise in medicine was built on corruption and human experiments. After Kikukawa’s sudden death, hidden crimes surface, and Shikine takes action to expose those respon…",
+          "popularity": 0.6849,
+          "poster_path": "/3Rev22XOUHOAByVF0eTPfxic2aJ.jpg",
+          "release_year": 1974,
+          "runtime_min": 91,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "masahisa sadanaga"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.6849,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Scalpel",
+          "tmdb_id": 1551431,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Izuru Narushima",
+          "original_title": "孤高のメス",
+          "overview_excerpt": "Dr Toma, a skilled surgeon, starts work at a regional hospital in Japan. After performing an operation to remove a patient’s liver cancer, something that normally would not be done at this hospital, he quickly gains a v…",
+          "popularity": 1.252,
+          "poster_path": "/9bqy5fXMDKYDyMa3JuN0A5kRneZ.jpg",
+          "release_year": 2010,
+          "runtime_min": 126,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "izuru narushima"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.252,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "A Lone Scalpel",
+          "tmdb_id": 197916,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Jiří Svoboda",
+          "original_title": "Skalpel, prosím",
+          "overview_excerpt": "An aging professor at a Prague neurological clinic is forced to confront his personal values and the harsh boundaries of medical science. Already burdened by the ultimate questions of life and death, his ethical convict…",
+          "popularity": 0.8556,
+          "poster_path": "/bLHgvFWdxAT1DicLuqKKZ36mMFg.jpg",
+          "release_year": 1986,
+          "runtime_min": 114,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "jiri svoboda"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.8556,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Scalpel, Please",
+          "tmdb_id": 308732,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "When Linda, an outspoken lesbian psychotherapist, decided that George, a bulldozer-driving transsexual, was the woman for her, Two Brides and a Scalpel: Diary of a Lesbian Marriage was born. Directed and produced by Van…",
+          "popularity": 0.403,
+          "poster_path": "/uvdFU0VytPgZtpsnx4y5t5bl3Ta.jpg",
+          "release_year": 2000,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.403,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Two Brides and a Scalpel: Diary of a Lesbian Marriage",
+          "tmdb_id": 465269,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "The team behind 'The Crimson Rivers' explains how the autopsy scene was assembled.",
+          "popularity": 0.8031,
+          "poster_path": "/pONSa5Q7N3k7CndJj5AK7BxNQln.jpg",
+          "release_year": 2001,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.8031,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Making of \"la scène au scalpel\"",
+          "tmdb_id": 1162782,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Miss Plastic - A szikék szépe",
+          "overview_excerpt": "A shocking story about the girls who participated in Miss Plastic Hungary, the first beauty pageant for women who have undergone plastic surgery.",
+          "popularity": 0.6556,
+          "poster_path": "/yGq7sH6lo2s0EBC4kE9JO8ZXQ2o.jpg",
+          "release_year": 2009,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.6556,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Miss Plastic - The Beauty of the Scalpel",
+          "tmdb_id": 1314043,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Companion to Jonathan Doe's Carving the Cadaver Trilogy, an unsettling audio-visual art piece exhibiting graphic surgical procedures through archival footage, showcasing effects of blade to skin.",
+          "popularity": 0.6067,
+          "poster_path": "/7S3ifipQ2sGq9YWvGUfHIdOpyRm.jpg",
+          "release_year": 2019,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.6067,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Victims of the Surgeon's Scalpel",
+          "tmdb_id": 1316503,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:beacon:scalpel",
+      "match_confidence": 0.75,
+      "match_status": "review_required",
+      "normalized_title": "Scalpel",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 1265802,
+      "queue_id": "beacon:scalpel",
+      "runtime_min": null,
+      "showtime_film_key": "scalpel",
+      "signals": {
+        "available_weight": 0.45,
+        "contributions": {
+          "runtime": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "richard lyford"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 0.6243,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": null,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "unavailable",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "beacon",
+      "source_film_id": "scalpel",
+      "source_title": "SCALPEL",
+      "top_candidate_margin": 0.0,
+      "warnings": [
+        "year_evidence_absent",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Scalpel",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
