@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-15T23:28:25-07:00",
+  "generated_at": "2026-08-16T23:39:51-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-08-15",
-    "end_date": "2026-08-29"
+    "start_date": "2026-08-16",
+    "end_date": "2026-08-30"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 63,
-    "flagged_film_count": 13
+    "candidate_film_count": 65,
+    "flagged_film_count": 16
   },
   "items": [
     {
@@ -172,6 +172,34 @@
       "runtime_min": 157
     },
     {
+      "film_key": "harry-potter-and-the-order-of-the-phoenix-hpd26",
+      "film_title": "Harry Potter And The Order Of The Phoenix (HPD26)",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-30",
+      "max_show_date": "2026-08-30",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-30"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784816548/amc-cdn/content/general/dkwta8lvjaebpdws8fup.jpg",
+      "runtime_min": 138
+    },
+    {
       "film_key": "harry-potter-and-the-prisoner-of-azkaban-hpd26",
       "film_title": "Harry Potter And The Prisoner Of Azkaban (HPD26)",
       "risk_level": "high",
@@ -274,6 +302,70 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1785275839/amc-cdn/content/general/ottqqwsnzm2vvosynve0.jpg",
       "runtime_min": 98
+    },
+    {
+      "film_key": "katseye-wild-hearts",
+      "film_title": "Katseye: Wild Hearts",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-16",
+      "max_show_date": "2026-08-16",
+      "total_visible_showtimes": 5,
+      "total_visible_theaters": 3,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-16"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783624827/amc-cdn/content/general/oumeuffurmdhsczoyjyj.jpg",
+      "runtime_min": 80
+    },
+    {
+      "film_key": "last-blossom",
+      "film_title": "The Last Blossom",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-30",
+      "max_show_date": "2026-08-30",
+      "total_visible_showtimes": 3,
+      "total_visible_theaters": 3,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-30"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785236809/amc-cdn/production/2/movies/84100/84140/Poster/391298R1.jpg",
+      "runtime_min": 90
     },
     {
       "film_key": "laufey-s-a-night-at-the-symphony-hollywood-bowl",
