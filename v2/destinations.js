@@ -88,6 +88,14 @@ export function containsRejectedPrimaryNavLabel(labels) {
 export function resolveActivePrimaryId(nav) {
   const primary = resolveDestinationId(nav.primaryDestinationId);
   if (
+    nav.surface?.type === 'format-detail' ||
+    nav.surface?.type === 'experience-detail' ||
+    nav.surface?.type === 'compare-formats' ||
+    nav.surface?.type === 'format-recommendation'
+  ) {
+    return 'explore';
+  }
+  if (
     nav.surface?.type === 'film-detail' ||
     nav.surface?.type === 'opportunity-detail' ||
     nav.surface?.type === 'showtimes' ||
