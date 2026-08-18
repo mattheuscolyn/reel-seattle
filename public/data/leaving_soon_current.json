@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-16T23:39:51-07:00",
+  "generated_at": "2026-08-17T23:31:32-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-08-16",
-    "end_date": "2026-08-30"
+    "start_date": "2026-08-17",
+    "end_date": "2026-08-31"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,10 +15,34 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 65,
-    "flagged_film_count": 16
+    "candidate_film_count": 69,
+    "flagged_film_count": 20
   },
   "items": [
+    {
+      "film_key": "all-wishes-come-true",
+      "film_title": "All Wishes Come True!",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-21",
+      "max_show_date": "2026-08-21",
+      "total_visible_showtimes": 3,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-08-21"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785366274/amc-cdn/content/general/hm7o9qrvr3aycjnirysa.jpg",
+      "runtime_min": 144
+    },
     {
       "film_key": "amc-scream-unseen-august-17",
       "film_title": "AMC Scream Unseen: August 17",
@@ -75,7 +99,7 @@
       "visible_show_date_count": 1,
       "min_show_date": "2026-08-24",
       "max_show_date": "2026-08-24",
-      "total_visible_showtimes": 9,
+      "total_visible_showtimes": 8,
       "total_visible_theaters": 7,
       "theaters": [
         {
@@ -114,6 +138,54 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1785854329/amc-cdn/content/general/ym7jtjwqctnjbnjxcudp.jpg",
       "runtime_min": 101
+    },
+    {
+      "film_key": "dc",
+      "film_title": "DC",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-17",
+      "max_show_date": "2026-08-17",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-17"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785496023/amc-cdn/production/2/movies/84600/84568/Poster/422383R1.jpg",
+      "runtime_min": 160
+    },
+    {
+      "film_key": "end-of-oak-street-sensory-friendly-screening",
+      "film_title": "The End of Oak Street: Sensory Friendly Screening",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-26",
+      "max_show_date": "2026-08-26",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        }
+      ],
+      "show_dates": [
+        "2026-08-26"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785236992/amc-cdn/production/2/movies/84200/84170/Poster/359464R1.jpg",
+      "runtime_min": 99
     },
     {
       "film_key": "harry-potter-and-the-chamber-of-secrets",
@@ -170,6 +242,34 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1784816660/amc-cdn/content/general/lfa5boultdaxkbgndekz.jpg",
       "runtime_min": 157
+    },
+    {
+      "film_key": "harry-potter-and-the-half-blood-prince",
+      "film_title": "Harry Potter And The Half Blood Prince",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-31",
+      "max_show_date": "2026-08-31",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-31"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784816611/amc-cdn/content/general/ysykbjqhpxaj7kpnitve.jpg",
+      "runtime_min": 153
     },
     {
       "film_key": "harry-potter-and-the-order-of-the-phoenix-hpd26",
@@ -276,7 +376,7 @@
       ],
       "has_primetime": true,
       "has_weekend_show": false,
-      "poster_url": null,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1786980617/amc-cdn/content/general/fczrmozts4ztqnepaii0.jpg",
       "runtime_min": 99
     },
     {
@@ -304,70 +404,6 @@
       "runtime_min": 98
     },
     {
-      "film_key": "katseye-wild-hearts",
-      "film_title": "Katseye: Wild Hearts",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-16",
-      "max_show_date": "2026-08-16",
-      "total_visible_showtimes": 5,
-      "total_visible_theaters": 3,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-08-16"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783624827/amc-cdn/content/general/oumeuffurmdhsczoyjyj.jpg",
-      "runtime_min": 80
-    },
-    {
-      "film_key": "last-blossom",
-      "film_title": "The Last Blossom",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-30",
-      "max_show_date": "2026-08-30",
-      "total_visible_showtimes": 3,
-      "total_visible_theaters": 3,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-08-30"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785236809/amc-cdn/production/2/movies/84100/84140/Poster/391298R1.jpg",
-      "runtime_min": 90
-    },
-    {
       "film_key": "laufey-s-a-night-at-the-symphony-hollywood-bowl",
       "film_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
       "risk_level": "high",
@@ -390,6 +426,30 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1786717746/amc-cdn/content/general/aed7y97j9dikrbbkkga9.jpg",
       "runtime_min": 100
+    },
+    {
+      "film_key": "learning-to-fly",
+      "film_title": "Learning to Fly",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-21",
+      "max_show_date": "2026-08-21",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-08-21"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784777028/amc-cdn/content/general/nfb44lzpa2ch3nn96hzb.png",
+      "runtime_min": 102
     },
     {
       "film_key": "panchali-pancha-bhartruka",
@@ -423,9 +483,13 @@
       "visible_show_date_count": 1,
       "min_show_date": "2026-08-22",
       "max_show_date": "2026-08-22",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
       "theaters": [
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
         {
           "theater_id": "amc-woodinville-12",
           "theater_name": "AMC Woodinville 12"
@@ -438,6 +502,38 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1780584445/amc-cdn/content/general/awy2orcjbpfczykymppv.jpg",
       "runtime_min": 88
+    },
+    {
+      "film_key": "point-break-35th-anniversary",
+      "film_title": "Point Break 35th Anniversary",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-19",
+      "max_show_date": "2026-08-19",
+      "total_visible_showtimes": 3,
+      "total_visible_theaters": 3,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-19"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785195803/amc-cdn/content/general/m858pkr6blkapinjcgne.png",
+      "runtime_min": 132
     },
     {
       "film_key": "texas-chainsaw-day-2026",
