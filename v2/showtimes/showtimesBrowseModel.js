@@ -169,6 +169,41 @@ export function listBrowseFormatFilterOptions(opportunities) {
   return [...map.values()].sort((a, b) => a.label.localeCompare(b.label));
 }
 
+const SELECTED_FORMAT_LABELS = Object.freeze({
+  '35mm': '35mm',
+  '70mm': '70mm',
+  imax: 'IMAX',
+  'imax 70mm': 'IMAX 70mm',
+  'dolby cinema': 'Dolby Cinema',
+  'xl at amc': 'XL at AMC',
+  'reald 3d': 'RealD 3D',
+  'open captions': 'Open Captions',
+  'audio description': 'Audio Description',
+  'live score': 'Live Score',
+});
+
+/**
+ * Keep pre-applied filters visible even when their current result count is zero.
+ * This makes deep links from Formats & Experiences understandable and removable.
+ * @param {{ key: string, label: string, count: number }[]} options
+ * @param {string[]} selectedKeys
+ */
+export function ensureSelectedBrowseFormatOptions(options, selectedKeys) {
+  const merged = [...options];
+  const known = new Set(options.map((option) => option.key));
+  for (const rawKey of selectedKeys) {
+    const key = String(rawKey ?? '').trim().toLowerCase();
+    if (!key || known.has(key)) continue;
+    merged.push({
+      key,
+      label: SELECTED_FORMAT_LABELS[key] ?? rawKey,
+      count: 0,
+    });
+    known.add(key);
+  }
+  return merged.sort((a, b) => a.label.localeCompare(b.label));
+}
+
 /**
  * @param {object} opportunity
  * @param {Map<string, object>} filmsByKey
@@ -339,7 +374,10 @@ export function buildShowtimesBrowsePresentation(
   const window = resolveShowtimesBrowseDateWindow(dateMode, now);
   const eligible = listEligibleBrowseOpportunities(homeData, dateMode, now);
   const theaterOptions = listBrowseTheaterFilterOptions(eligible);
-  const formatOptions = listBrowseFormatFilterOptions(eligible);
+  const formatOptions = ensureSelectedBrowseFormatOptions(
+    listBrowseFormatFilterOptions(eligible),
+    ui?.formatKeys ?? [],
+  );
 
   const filters = {
     theaterIds: ui?.theaterIds ?? [],

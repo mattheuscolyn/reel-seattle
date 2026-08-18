@@ -51,6 +51,10 @@ import {
   openOpportunityDetail,
   openShowtimes,
   openShowtimesBrowse,
+  openFormatDetail,
+  openExperienceDetail,
+  openCompareFormats,
+  openFormatRecommendation,
   selectPrimaryDestination,
   startPlannerFromFilm,
   updateSearchUi,
@@ -76,6 +80,12 @@ import MyScheduleMonthSurface from './planner/MyScheduleMonthSurface.jsx';
 import ScheduleSettingsSurface from './planner/ScheduleSettingsSurface.jsx';
 import TheatersSurface from './theaters/TheatersSurface.jsx';
 import TheaterDetailSurface from './theaters/TheaterDetailSurface.jsx';
+import FormatsExperiencesSurface from './formatsExperiences/FormatsExperiencesSurface.jsx';
+import FormatDetailSurface from './formatsExperiences/FormatDetailSurface.jsx';
+import ExperienceDetailSurface from './formatsExperiences/ExperienceDetailSurface.jsx';
+import CompareFormatsSurface from './formatsExperiences/CompareFormatsSurface.jsx';
+import FormatRecommendationSurface from './formatsExperiences/FormatRecommendationSurface.jsx';
+import { createDefaultShowtimesBrowseUi } from './showtimes/showtimesBrowseModel.js';
 import { resolveFilmDetailBackLabel } from './filmDetail/filmDetailModel.js';
 import { isAboutMyScheduleQueryOpen } from './fixtures/aboutMyScheduleMockupFixture.js';
 import {
@@ -596,6 +606,69 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleOpenFormatDetail = useCallback((params) => {
+    setNav((current) =>
+      openFormatDetail(current, {
+        formatId: params.formatId,
+        originPrimary: params.originPrimary ?? current.primaryDestinationId,
+        returnSurface: params.returnSurface ?? current.surface,
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenExperienceDetail = useCallback((params) => {
+    setNav((current) =>
+      openExperienceDetail(current, {
+        experienceId: params.experienceId,
+        originPrimary: params.originPrimary ?? current.primaryDestinationId,
+        returnSurface: params.returnSurface ?? current.surface,
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenCompareFormats = useCallback((params = {}) => {
+    setNav((current) =>
+      openCompareFormats(current, {
+        originPrimary: params.originPrimary ?? current.primaryDestinationId,
+        returnSurface: params.returnSurface ?? current.surface,
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenFormatRecommendation = useCallback((params = {}) => {
+    setNav((current) =>
+      openFormatRecommendation(current, {
+        originPrimary: params.originPrimary ?? current.primaryDestinationId,
+        returnSurface: params.returnSurface ?? current.surface,
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleBrowseFormatShowtimes = useCallback(
+    ({ formatKeys, returnSurface } = {}) => {
+      setHomeRestorePending(null);
+      setNav((current) =>
+        openShowtimesBrowse(current, {
+          // Formats & Experiences is an Explore concept even when entered
+          // from the Home quick path; keep Explore active in Showtimes.
+          originPrimary: 'explore',
+          returnSurface: returnSurface ?? current.surface,
+          browseUi: {
+            ...createDefaultShowtimesBrowseUi(),
+            dateMode: 'week',
+            formatKeys: Array.isArray(formatKeys) ? formatKeys : [],
+          },
+        }),
+      );
+      window.scrollTo(0, 0);
+    },
+    [],
+  );
+
   const handleBack = useCallback(() => {
     setShareStatus(null);
     setSaveError(null);
@@ -859,6 +932,13 @@ export default function V2App() {
   const isTheatersList =
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.theaters;
+  const isFormatsExperiences =
+    nav.surface?.type === 'collection' &&
+    nav.surface.collectionId === COLLECTION_IDS.formats;
+  const isFormatDetail = nav.surface?.type === 'format-detail';
+  const isExperienceDetail = nav.surface?.type === 'experience-detail';
+  const isCompareFormats = nav.surface?.type === 'compare-formats';
+  const isFormatRecommendation = nav.surface?.type === 'format-recommendation';
   const isPersonalCollection =
     nav.surface?.type === 'collection' &&
     isPersonalCollectionId(nav.surface.collectionId);
@@ -1292,6 +1372,116 @@ export default function V2App() {
           );
           window.setTimeout(() => setProfileStubStatus(null), 2500);
         }}
+      />
+    );
+  } else if (isFormatsExperiences) {
+    mainContent = (
+      <FormatsExperiencesSurface
+        homeData={sharedHomeData.homeData}
+        onBack={handleBack}
+        onOpenFormatDetail={({ formatId }) =>
+          handleOpenFormatDetail({
+            formatId,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
+        onOpenExperienceDetail={({ experienceId }) =>
+          handleOpenExperienceDetail({
+            experienceId,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
+      />
+    );
+  } else if (isFormatDetail) {
+    mainContent = (
+      <FormatDetailSurface
+        formatId={nav.surface.formatId}
+        homeData={sharedHomeData.homeData}
+        onBack={handleBack}
+        onCompareFormats={() =>
+          handleOpenCompareFormats({
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
+        onBrowseShowtimes={({ formatKeys }) =>
+          handleBrowseFormatShowtimes({
+            formatKeys,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
+      />
+    );
+  } else if (isExperienceDetail) {
+    mainContent = (
+      <ExperienceDetailSurface
+        experienceId={nav.surface.experienceId}
+        homeData={sharedHomeData.homeData}
+        onBack={handleBack}
+        onBrowseShowtimes={({ formatKeys }) =>
+          handleBrowseFormatShowtimes({
+            formatKeys,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
+        onFeedback={() => {
+          setProfileStubStatus(
+            'Feedback isn’t wired in this Formats & Experiences shell yet.',
+          );
+          window.setTimeout(() => setProfileStubStatus(null), 2500);
+        }}
+      />
+    );
+  } else if (isCompareFormats) {
+    mainContent = (
+      <CompareFormatsSurface
+        homeData={sharedHomeData.homeData}
+        onBack={handleBack}
+        onHelpMeChoose={() =>
+          handleOpenFormatRecommendation({
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
+        onOpenFormatDetail={({ formatId }) =>
+          handleOpenFormatDetail({
+            formatId,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
+      />
+    );
+  } else if (isFormatRecommendation) {
+    mainContent = (
+      <FormatRecommendationSurface
+        homeData={sharedHomeData.homeData}
+        onBack={handleBack}
+        onCompareFormats={() =>
+          handleOpenCompareFormats({
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
+        onBrowseShowtimes={({ formatKeys } = {}) =>
+          handleBrowseFormatShowtimes({
+            formatKeys,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
+        onOpenFormatDetail={({ formatId }) =>
+          handleOpenFormatDetail({
+            formatId,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
       />
     );
   } else if (nav.surface?.type === 'collection') {

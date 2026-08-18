@@ -282,6 +282,7 @@ export function openShowtimesBrowse(state, params = {}) {
       homeRestore: params.homeRestore ?? null,
       exploreRestore: params.exploreRestore ?? null,
       browseUi: params.browseUi ?? null,
+      returnSurface: params.returnSurface ?? null,
     },
   };
 }
@@ -716,6 +717,108 @@ export function openTheaterDetail(state, params = {}) {
 }
 
 /**
+ * Format detail within Formats & Experiences.
+ * @param {object} state
+ * @param {{
+ *   formatId: string,
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openFormatDetail(state, params) {
+  if (!params?.formatId) return state;
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'explore',
+  );
+  return {
+    ...state,
+    primaryDestinationId: originPrimary === 'home' ? 'home' : 'explore',
+    plannerSeed: null,
+    surface: {
+      type: 'format-detail',
+      formatId: params.formatId,
+      originPrimary,
+      returnSurface: params.returnSurface ?? null,
+    },
+  };
+}
+
+/**
+ * Experience detail within Formats & Experiences.
+ * @param {object} state
+ * @param {{
+ *   experienceId: string,
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openExperienceDetail(state, params) {
+  if (!params?.experienceId) return state;
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'explore',
+  );
+  return {
+    ...state,
+    primaryDestinationId: originPrimary === 'home' ? 'home' : 'explore',
+    plannerSeed: null,
+    surface: {
+      type: 'experience-detail',
+      experienceId: params.experienceId,
+      originPrimary,
+      returnSurface: params.returnSurface ?? null,
+    },
+  };
+}
+
+/**
+ * Compare Formats surface.
+ * @param {object} state
+ * @param {{
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} [params]
+ */
+export function openCompareFormats(state, params = {}) {
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'explore',
+  );
+  return {
+    ...state,
+    primaryDestinationId: originPrimary === 'home' ? 'home' : 'explore',
+    plannerSeed: null,
+    surface: {
+      type: 'compare-formats',
+      originPrimary,
+      returnSurface: params.returnSurface ?? null,
+    },
+  };
+}
+
+/**
+ * Help Me Choose a Format surface.
+ * @param {object} state
+ * @param {{
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} [params]
+ */
+export function openFormatRecommendation(state, params = {}) {
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'explore',
+  );
+  return {
+    ...state,
+    primaryDestinationId: originPrimary === 'home' ? 'home' : 'explore',
+    plannerSeed: null,
+    surface: {
+      type: 'format-recommendation',
+      originPrimary,
+      returnSurface: params.returnSurface ?? null,
+    },
+  };
+}
+
+/**
  * Back from a deep surface.
  * @param {object} state
  */
@@ -735,9 +838,23 @@ export function navigateBack(state) {
     state.surface.type === 'my-schedule-week' ||
     state.surface.type === 'my-schedule-month' ||
     state.surface.type === 'schedule-settings' ||
-    state.surface.type === 'theater-detail'
+    state.surface.type === 'theater-detail' ||
+    state.surface.type === 'format-detail' ||
+    state.surface.type === 'experience-detail' ||
+    state.surface.type === 'compare-formats' ||
+    state.surface.type === 'format-recommendation'
   ) {
     if (state.surface.type === 'showtimes-browse') {
+      if (state.surface.returnSurface) {
+        return {
+          ...state,
+          primaryDestinationId: resolveDestinationId(
+            state.surface.originPrimary,
+          ),
+          surface: state.surface.returnSurface,
+          plannerSeed: null,
+        };
+      }
       return {
         ...state,
         primaryDestinationId: resolveDestinationId(state.surface.originPrimary),

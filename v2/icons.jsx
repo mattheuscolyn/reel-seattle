@@ -631,6 +631,86 @@ export function IconTarget(props) {
   );
 }
 
+export function IconChevronLeft(props) {
+  return (
+    <svg {...base} width={16} height={16} strokeWidth={1.8} {...props}>
+      <path d="m15 6-6 6 6 6" />
+    </svg>
+  );
+}
+
+export function IconCaption(props) {
+  return (
+    <svg {...base} width={18} height={18} {...props}>
+      <rect x="3.5" y="5" width="17" height="14" rx="2.5" />
+      <path d="M7 14h4M13 14h4M7 10.5h10" />
+    </svg>
+  );
+}
+
+export function IconHeadphones(props) {
+  return (
+    <svg {...base} width={18} height={18} {...props}>
+      <path d="M4.5 13.5v-2a7.5 7.5 0 0 1 15 0v2" />
+      <path d="M4.5 13.5v3.5a1.5 1.5 0 0 0 1.5 1.5H8v-5H6a1.5 1.5 0 0 0-1.5 1.5Z" />
+      <path d="M19.5 13.5v3.5a1.5 1.5 0 0 1-1.5 1.5H16v-5h2a1.5 1.5 0 0 1 1.5 1.5Z" />
+    </svg>
+  );
+}
+
+export function IconMusic(props) {
+  return (
+    <svg {...base} width={18} height={18} {...props}>
+      <path d="M9 18V6.5l11-2V16" />
+      <circle cx="7" cy="18" r="2.5" />
+      <circle cx="18" cy="16" r="2.5" />
+    </svg>
+  );
+}
+
+export function IconExpand(props) {
+  return (
+    <svg {...base} width={16} height={16} {...props}>
+      <path d="M9 4H4v5M15 20h5v-5M4 4l6 6M20 20l-6-6" />
+    </svg>
+  );
+}
+
+export function IconScales(props) {
+  return (
+    <svg {...base} width={18} height={18} {...props}>
+      <path d="M12 3v18M8 7h8" />
+      <path d="M8 7 4.5 14h7L8 7Zm8 0-3.5 7h7L16 7Z" />
+    </svg>
+  );
+}
+
+export function IconLightbulb(props) {
+  return (
+    <svg {...base} width={18} height={18} {...props}>
+      <path d="M9 18h6M10 21h4" />
+      <path d="M8.5 15.5c-2-1.2-3.5-3.4-3.5-6a7 7 0 1 1 14 0c0 2.6-1.5 4.8-3.5 6" />
+    </svg>
+  );
+}
+
+export function IconVolume(props) {
+  return (
+    <svg {...base} width={16} height={16} {...props}>
+      <path d="M4 10V8l5-3.5v11L4 12" />
+      <path d="M14 8.5a3.5 3.5 0 0 1 0 7M16.5 6.5a6.5 6.5 0 0 1 0 11" />
+    </svg>
+  );
+}
+
+export function IconAspect(props) {
+  return (
+    <svg {...base} width={16} height={16} {...props}>
+      <rect x="3.5" y="7" width="17" height="10" rx="1.5" />
+    </svg>
+  );
+}
+
 const NAV_ICONS = {
   home: IconHome,
   explore: IconExplore,
