@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-17T23:31:32-07:00",
+  "generated_at": "2026-08-18T23:32:58-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-08-17",
-    "end_date": "2026-08-31"
+    "start_date": "2026-08-18",
+    "end_date": "2026-09-01"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,82 +15,10 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 69,
-    "flagged_film_count": 20
+    "candidate_film_count": 70,
+    "flagged_film_count": 17
   },
   "items": [
-    {
-      "film_key": "all-wishes-come-true",
-      "film_title": "All Wishes Come True!",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-21",
-      "max_show_date": "2026-08-21",
-      "total_visible_showtimes": 3,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-08-21"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785366274/amc-cdn/content/general/hm7o9qrvr3aycjnirysa.jpg",
-      "runtime_min": 144
-    },
-    {
-      "film_key": "amc-scream-unseen-august-17",
-      "film_title": "AMC Scream Unseen: August 17",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-17",
-      "max_show_date": "2026-08-17",
-      "total_visible_showtimes": 8,
-      "total_visible_theaters": 7,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-factoria-8",
-          "theater_name": "AMC Factoria 8"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-oak-tree-6",
-          "theater_name": "AMC Oak Tree 6"
-        },
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-08-17"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785522706/amc-cdn/content/general/o8trjkakhxcgaphddyln.jpg",
-      "runtime_min": 97
-    },
     {
       "film_key": "amc-scream-unseen-august-24",
       "film_title": "AMC Scream Unseen: August 24",
@@ -140,28 +68,52 @@
       "runtime_min": 101
     },
     {
-      "film_key": "dc",
-      "film_title": "DC",
+      "film_key": "amc-screen-unseen-august-31",
+      "film_title": "AMC Screen Unseen: August 31",
       "risk_level": "high",
       "reason": "Only one visible AMC play date remains in the current schedule.",
       "visible_show_date_count": 1,
-      "min_show_date": "2026-08-17",
-      "max_show_date": "2026-08-17",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
+      "min_show_date": "2026-08-31",
+      "max_show_date": "2026-08-31",
+      "total_visible_showtimes": 9,
+      "total_visible_theaters": 7,
       "theaters": [
         {
           "theater_id": "amc-alderwood-mall-16",
           "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
         }
       ],
       "show_dates": [
-        "2026-08-17"
+        "2026-08-31"
       ],
       "has_primetime": true,
       "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785496023/amc-cdn/production/2/movies/84600/84568/Poster/422383R1.jpg",
-      "runtime_min": 160
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785855014/amc-cdn/content/general/cv5dtsj7q3ky6tl5nngc.jpg",
+      "runtime_min": 100
     },
     {
       "film_key": "end-of-oak-street-sensory-friendly-screening",
@@ -328,6 +280,34 @@
       "runtime_min": 141
     },
     {
+      "film_key": "harry-potter-deathly-hallows-part-1-hpd26",
+      "film_title": "Harry Potter & Deathly Hallows: Part 1 (HPD26)",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-09-01",
+      "max_show_date": "2026-09-01",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-01"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784816928/amc-cdn/content/general/xtoxcvbfubjwzhvi4b7g.jpg",
+      "runtime_min": 146
+    },
+    {
       "film_key": "hushar-pittalu",
       "film_title": "Hushar Pittalu",
       "risk_level": "high",
@@ -426,30 +406,6 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1786717746/amc-cdn/content/general/aed7y97j9dikrbbkkga9.jpg",
       "runtime_min": 100
-    },
-    {
-      "film_key": "learning-to-fly",
-      "film_title": "Learning to Fly",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-21",
-      "max_show_date": "2026-08-21",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-08-21"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784777028/amc-cdn/content/general/nfb44lzpa2ch3nn96hzb.png",
-      "runtime_min": 102
     },
     {
       "film_key": "panchali-pancha-bhartruka",
@@ -574,34 +530,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1783692876/amc-cdn/content/general/ipjl65uf7rga20wuf3tw.jpg",
       "runtime_min": 103
-    },
-    {
-      "film_key": "your-letter",
-      "film_title": "Your Letter",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-17",
-      "max_show_date": "2026-08-17",
-      "total_visible_showtimes": 2,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-08-17"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782323960/amc-cdn/content/general/vxhuyf9bneeo6pnxm9i6.png",
-      "runtime_min": 98
     }
   ]
 }
