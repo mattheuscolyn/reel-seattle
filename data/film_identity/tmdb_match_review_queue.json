@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T07:27:58+00:00",
+  "generated_at": "2026-08-19T07:28:26+00:00",
   "items": [
     {
       "auto_confirm_blocked_reason": "hard_conflict",
@@ -731,23 +731,25 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "same_title_remake_ambiguity",
+      "auto_confirm_blocked_reason": "weak_title_only_match",
       "candidates": [
         {
-          "director": "Max Lowe",
-          "original_title": null,
-          "overview_excerpt": "Aisha McAdams, a former competitive runner turned photographer, embarks on a journey to document the triumphs and struggles of famed ultra trailrunners, including Jim Walmsley and Eszter Csillag. Traveling to mythical r…",
-          "popularity": 0.4928,
-          "poster_path": "/7xCgsrxJ6u90Febv6D9klhCmgJE.jpg",
+          "director": "Shiva Nirvana",
+          "original_title": "ఇరుముడి",
+          "overview_excerpt": "An alcoholic with a violent past—living peacefully with his daughter beside a waterfall—decides to take Ayyappa Deeksha (a 41-day spiritual vow and period of intense austerity) at her request.",
+          "popularity": 2.4362,
+          "poster_path": "/qkmC1L0yM3SofGy9lFo7SXktQf9.jpg",
           "release_year": 2026,
-          "runtime_min": 103,
-          "score": 1.0,
+          "runtime_min": 152,
+          "score": 0.75,
           "signals": {
             "available_weight": 0.6,
             "contributions": {
               "runtime": {
-                "kind": "match",
+                "delta_minutes": 8,
+                "kind": "soft",
                 "matched": true,
+                "soft_weight": 0.0667,
                 "weight": 0.15
               },
               "title_exact": {
@@ -762,7 +764,7 @@
               }
             },
             "director_candidate_normalized": [
-              "max lowe"
+              "shiva nirvana"
             ],
             "director_conflict": false,
             "director_overlap": false,
@@ -772,83 +774,17 @@
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.6,
+            "matched_weight": 0.5167,
             "original_title_exact": false,
-            "popularity": 0.4928,
+            "popularity": 2.4362,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 1,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Learning to Fly",
-          "tmdb_id": 1537638,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Katarzyna Trzaska",
-          "original_title": "Nauka latania",
-          "overview_excerpt": "Each year in Poland around 70,000 children and teenagers remain in the foster care system. The great majority of them have living parents – dysfunctional, addicted. The film shows the first years of the independent live…",
-          "popularity": 0.3822,
-          "poster_path": "/1NRVmPzyHXqIvxIF9eJvz2lKwMO.jpg",
-          "release_year": 2022,
-          "runtime_min": 69,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "katarzyna trzaska"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.3822,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 33,
+            "runtime_delta_minutes": 8,
             "runtime_near": false,
-            "runtime_soft": false,
+            "runtime_soft": true,
             "runtime_soft_max": 12,
-            "runtime_status": "conflict",
+            "runtime_status": "soft",
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
@@ -857,388 +793,12 @@
             "year_near": false,
             "year_status": "unavailable"
           },
-          "title": "Learning to Fly",
-          "tmdb_id": 1031462,
+          "title": "Irumudi",
+          "tmdb_id": 1441228,
           "warnings": [
             "year_evidence_absent",
-            "runtime_conflict",
+            "runtime_soft_penalty",
             "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Urban birdwatchers wait for, observe and marvel at the peregrine falcon chicks taking their first flight, in Sheffield, UK.",
-          "popularity": 0.3492,
-          "poster_path": null,
-          "release_year": null,
-          "runtime_min": 3,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.3492,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 99,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Learning to Fly",
-          "tmdb_id": 1223396,
-          "warnings": [
-            "year_evidence_absent",
-            "runtime_conflict",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Celebrate the Chicago Bulls’ first NBA Championship with this incredible 6-disc DVD collector’s set. Relive the historic 1991 NBA Finals showdown against the Los Angeles Lakers with all 5 games, each in its entirety and…",
-          "popularity": 0.5512,
-          "poster_path": "/lmIGZ5U8mWJIGm3hrbJM6RqRHS7.jpg",
-          "release_year": 1991,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.5512,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Learning to Fly: The World Champion Chicago Bulls Rise to Glory",
-          "tmdb_id": 186679,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Chris Applebaum",
-          "original_title": null,
-          "overview_excerpt": "No, it's not a History Channel documentary about the Wright Brothers hosted by a famous songstress; this fascinating video features Hilary Duff's music video \"Fly\" and an exclusive behind-the-scenes look at the making o…",
-          "popularity": 0.7116,
-          "poster_path": "/qMd5gahStlFBIHwRlW3AitaPnAd.jpg",
-          "release_year": 2004,
-          "runtime_min": 31,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "chris applebaum"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.7116,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 71,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Hilary Duff: Learning to Fly",
-          "tmdb_id": 310308,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "As Spud Milton continues his awkward stagger through adolescence, he learns one of life's most important lessons: When dealing with women and cretins, nothing is ever quite as it seems. \"I'm practically a man in most ar…",
-          "popularity": 0.8392,
-          "poster_path": "/thxoT6FdQviEw015PlFYoUleryJ.jpg",
-          "release_year": 2014,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.8392,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Spud 3: Learning to Fly",
-          "tmdb_id": 317953,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": "Más allá de la cumbre: Aprendiendo a volar",
-          "overview_excerpt": "In some of the most extraordinary natural landscapes in Mexico, a group of mountaineers have set out to explore a world labeled as impossible, but from a space reserved only for birds.",
-          "popularity": 0.456,
-          "poster_path": "/1iAFGl03G2YkTmuntJxZeLxxiy4.jpg",
-          "release_year": 2011,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.456,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Beyond the Summit: Learning to Fly",
-          "tmdb_id": 674963,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Jamlec David",
-          "original_title": null,
-          "overview_excerpt": "Rae, a recent marketing graduate from a privileged background, struggles to find a “real” job while grappling with expectations of success. Her grounded best friend, Malik, her successful twin brother, Ollie, and her vi…",
-          "popularity": 0.4681,
-          "poster_path": "/dkHZjiG2FPrVWHBdvp6nU6jCA6H.jpg",
-          "release_year": 2025,
-          "runtime_min": 16,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "jamlec david"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.4681,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 86,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Learning How To Fly",
-          "tmdb_id": 1644431,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
             "director_unavailable"
           ]
         }
@@ -1246,21 +806,23 @@
       "directors_normalized": [],
       "directors_raw": null,
       "entity_kind": "feature_film",
-      "film_id_fallback": "source:amc:84497",
-      "match_confidence": 1.0,
+      "film_id_fallback": "source:amc:84139",
+      "match_confidence": 0.75,
       "match_status": "review_required",
-      "normalized_title": "Learning to Fly",
+      "normalized_title": "Irumudi",
       "presentation_labels": [],
-      "proposed_tmdb_id": 1537638,
-      "queue_id": "amc:84497",
-      "runtime_min": 102,
-      "showtime_film_key": "learning-to-fly",
+      "proposed_tmdb_id": 1441228,
+      "queue_id": "amc:84139",
+      "runtime_min": 160,
+      "showtime_film_key": "irumudi",
       "signals": {
         "available_weight": 0.6,
         "contributions": {
           "runtime": {
-            "kind": "match",
+            "delta_minutes": 8,
+            "kind": "soft",
             "matched": true,
+            "soft_weight": 0.0667,
             "weight": 0.15
           },
           "title_exact": {
@@ -1275,7 +837,7 @@
           }
         },
         "director_candidate_normalized": [
-          "max lowe"
+          "shiva nirvana"
         ],
         "director_conflict": false,
         "director_overlap": false,
@@ -1285,17 +847,17 @@
         "event_year_relaxed": false,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.6,
+        "matched_weight": 0.5167,
         "original_title_exact": false,
-        "popularity": 0.4928,
+        "popularity": 2.4362,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 1,
-        "runtime_near": true,
-        "runtime_soft": false,
+        "runtime_delta_minutes": 8,
+        "runtime_near": false,
+        "runtime_soft": true,
         "runtime_soft_max": 12,
-        "runtime_status": "match",
+        "runtime_status": "soft",
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
@@ -1305,14 +867,14 @@
         "year_status": "unavailable"
       },
       "source": "amc",
-      "source_film_id": "84497",
-      "source_title": "Learning to Fly",
-      "top_candidate_margin": 0.25,
+      "source_film_id": "84139",
+      "source_title": "Irumudi",
+      "top_candidate_margin": null,
       "warnings": [
         "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable",
-        "same_title_remake_ambiguity"
+        "runtime_soft_penalty",
+        "weak_title_only_match",
+        "director_unavailable"
       ],
       "year_hint": null,
       "year_interpretation": {
@@ -1323,7 +885,7 @@
         "applied_rules": [
           "normalized_source_fallback"
         ],
-        "base_title": "Learning to Fly",
+        "base_title": "Irumudi",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -6118,6 +5680,174 @@
           "normalized_source_fallback"
         ],
         "base_title": "Scalpel",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Wojciech Has",
+          "original_title": "Rękopis znaleziony w Saragossie",
+          "overview_excerpt": "During the Napoleonic wars, a Spanish officer and an opposing officer find a book written by the former's grandfather.",
+          "popularity": 1.0403,
+          "poster_path": "/YuhyU2fv3K3y0SrvZdw7v3Sk1k.jpg",
+          "release_year": 1966,
+          "runtime_min": 183,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "wojciech has"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.0403,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Saragossa Manuscript",
+          "tmdb_id": 8785,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:beacon:the-saragossa-manuscript",
+      "match_confidence": 0.75,
+      "match_status": "review_required",
+      "normalized_title": "The Saragossa Manuscript",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 8785,
+      "queue_id": "beacon:the-saragossa-manuscript",
+      "runtime_min": null,
+      "showtime_film_key": "saragossa-manuscript",
+      "signals": {
+        "available_weight": 0.45,
+        "contributions": {
+          "runtime": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "wojciech has"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 1.0403,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": null,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "unavailable",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "beacon",
+      "source_film_id": "the-saragossa-manuscript",
+      "source_title": "THE SARAGOSSA MANUSCRIPT",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "The Saragossa Manuscript",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,

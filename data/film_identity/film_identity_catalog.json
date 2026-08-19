@@ -3982,14 +3982,19 @@
           "director": "Jane Schoenbrun",
           "original_title": null,
           "overview_excerpt": "After years of slapdash sequels and waning fandom, the Camp Miasma slasher franchise is handed over to an enthusiastic young director for resurrection. But when she visits the original's star, a now-reclusive actress sh…",
-          "popularity": 20.9431,
+          "popularity": 25.7389,
           "poster_path": "/5Cz1EJOKpZ8hqvBNZYF9C2zTB2T.jpg",
           "release_year": 2026,
           "runtime_min": 112,
           "score": 1.0,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
               "runtime": {
                 "kind": "match",
                 "matched": true,
@@ -4001,29 +4006,31 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
               "jane schoenbrun"
             ],
             "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_overlap": true,
+            "director_source_normalized": [
+              "jane schoenbrun"
+            ],
+            "director_status": "match",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.6,
+            "matched_weight": 1.1,
             "original_title_exact": false,
-            "popularity": 20.9431,
+            "popularity": 25.7389,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
+            "runtime_delta_minutes": 1,
             "runtime_near": true,
             "runtime_soft": false,
             "runtime_soft_max": 12,
@@ -4031,22 +4038,20 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
           "title": "Teenage Sex and Death at Camp Miasma",
           "tmdb_id": 1240889,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
+          "warnings": []
         }
       ],
-      "directors_normalized": [],
-      "directors_raw": null,
+      "directors_normalized": [
+        "jane schoenbrun"
+      ],
+      "directors_raw": "JANE SCHOENBRUN",
       "eligibility": "eligible",
       "entity_kind": "feature_film",
       "film_id": "tmdb:1240889",
@@ -4061,10 +4066,15 @@
       "provenance": {
         "source_identity_key": "amc|id|82941"
       },
-      "runtime_min": 112,
+      "runtime_min": 113,
       "signals": {
-        "available_weight": 0.6,
+        "available_weight": 1.1,
         "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
           "runtime": {
             "kind": "match",
             "matched": true,
@@ -4076,29 +4086,31 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
           }
         },
         "director_candidate_normalized": [
           "jane schoenbrun"
         ],
         "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
+        "director_overlap": true,
+        "director_source_normalized": [
+          "jane schoenbrun"
+        ],
+        "director_status": "match",
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.6,
+        "matched_weight": 1.1,
         "original_title_exact": false,
-        "popularity": 20.9431,
+        "popularity": 25.7389,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
+        "runtime_delta_minutes": 1,
         "runtime_near": true,
         "runtime_soft": false,
         "runtime_soft_max": 12,
@@ -4106,10 +4118,10 @@
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
         "year_near": false,
-        "year_status": "unavailable"
+        "year_status": "match"
       },
       "source_identities": [
         {
@@ -4127,12 +4139,8 @@
       "tmdb_runtime_min": 112,
       "tmdb_title": "Teenage Sex and Death at Camp Miasma",
       "top_candidate_margin": null,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
-      "year_hint": null,
+      "warnings": [],
+      "year_hint": 2026,
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
@@ -4142,22 +4150,22 @@
           "normalized_source_fallback"
         ],
         "base_title": "Teenage Sex and Death at Camp Miasma",
-        "canonical_year_candidate": null,
+        "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
+        "scoring_year": 2026,
+        "search_year": 2026,
         "title_years": [],
         "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -7300,6 +7308,199 @@
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
+          "director": "Nadia Hallgren",
+          "original_title": null,
+          "overview_excerpt": "This celebrates the group's new era and the fans who made it possible. Features exclusive behind-the-scenes footage, EYEKONS fan videos, and intimate interviews with the members.",
+          "popularity": 4.2312,
+          "poster_path": "/bcAxxRpiBIT3JWXAYUAf10UG4LD.jpg",
+          "release_year": 2026,
+          "runtime_min": 80,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "nadia hallgren"
+            ],
+            "director_conflict": false,
+            "director_overlap": true,
+            "director_source_normalized": [
+              "nadia hallgren"
+            ],
+            "director_status": "match",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 1.1,
+            "original_title_exact": false,
+            "popularity": 4.2312,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "KATSEYE: WILD HEARTS",
+          "tmdb_id": 1728113,
+          "warnings": []
+        }
+      ],
+      "directors_normalized": [
+        "nadia hallgren"
+      ],
+      "directors_raw": "NADIA HALLGREN",
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:1728113",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Katseye: Wild Hearts",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|83778"
+      },
+      "runtime_min": 80,
+      "signals": {
+        "available_weight": 1.1,
+        "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "nadia hallgren"
+        ],
+        "director_conflict": false,
+        "director_overlap": true,
+        "director_source_normalized": [
+          "nadia hallgren"
+        ],
+        "director_status": "match",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 1.1,
+        "original_title_exact": false,
+        "popularity": 4.2312,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
+        "year_near": false,
+        "year_status": "match"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "katseye-wild-hearts",
+          "source": "amc",
+          "source_film_id": "83778",
+          "source_title": "KATSEYE: WILD HEARTS"
+        }
+      ],
+      "tmdb_id": 1728113,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "This celebrates the group's new era and the fans who made it possible. Features exclusive behind-the-scenes footage, EYEKONS fan videos, and intimate interviews with the members.",
+      "tmdb_poster_path": "/bcAxxRpiBIT3JWXAYUAf10UG4LD.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 80,
+      "tmdb_title": "KATSEYE: WILD HEARTS",
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Katseye: Wild Hearts",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
           "director": "Dylan Meyer",
           "original_title": null,
           "overview_excerpt": "Two codependent best friends living paycheck to paycheck and bong rip to bong rip get caught in a case of mistaken identity that throws their lives into chaos.",
@@ -9864,6 +10065,197 @@
       }
     },
     {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Shiva Nirvana",
+          "original_title": "ఇరుముడి",
+          "overview_excerpt": "An alcoholic with a violent past—living peacefully with his daughter beside a waterfall—decides to take Ayyappa Deeksha (a 41-day spiritual vow and period of intense austerity) at her request.",
+          "popularity": 2.4362,
+          "poster_path": "/qkmC1L0yM3SofGy9lFo7SXktQf9.jpg",
+          "release_year": 2026,
+          "runtime_min": 152,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 8,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.0667,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "shiva nirvana"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.5167,
+            "original_title_exact": false,
+            "popularity": 2.4362,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 8,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Irumudi",
+          "tmdb_id": 1441228,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:84139",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.75,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Irumudi",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84139"
+      },
+      "runtime_min": 160,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "delta_minutes": 8,
+            "kind": "soft",
+            "matched": true,
+            "soft_weight": 0.0667,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "shiva nirvana"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.5167,
+        "original_title_exact": false,
+        "popularity": 2.4362,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 8,
+        "runtime_near": false,
+        "runtime_soft": true,
+        "runtime_soft_max": 12,
+        "runtime_status": "soft",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "irumudi",
+          "source": "amc",
+          "source_film_id": "84139",
+          "source_title": "Irumudi"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": "ఇరుముడి",
+      "tmdb_overview_excerpt": "An alcoholic with a violent past—living peacefully with his daughter beside a waterfall—decides to take Ayyappa Deeksha (a 41-day spiritual vow and period of intense austerity) at her request.",
+      "tmdb_poster_path": "/qkmC1L0yM3SofGy9lFo7SXktQf9.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 152,
+      "tmdb_title": "Irumudi",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_soft_penalty",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Irumudi",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
@@ -10099,7 +10491,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.6,
@@ -10116,7 +10508,7 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -10176,7 +10568,7 @@
         "director_source_normalized": [],
         "director_status": "unavailable",
         "director_weak_overlap": false,
-        "event_year_relaxed": false,
+        "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": false,
         "matched_weight": 0.6,
@@ -10193,7 +10585,7 @@
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "missing",
+        "year_evidence": "uncertain_rerelease_restoration",
         "year_exact": false,
         "year_near": false,
         "year_status": "unavailable"
@@ -10234,13 +10626,13 @@
           "Sensory Friendly Screening"
         ],
         "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
+        "event_year": 2026,
+        "event_year_not_canonical": true,
         "format_tags": [],
         "presentation_labels": [
           "sensory friendly screening"
         ],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [
           "Sensory Friendly Screening"
@@ -10248,9 +10640,11 @@
         "scoring_year": null,
         "search_year": null,
         "title_years": [],
-        "warnings": [],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
         "year_confidence": "none",
-        "year_evidence": "missing"
+        "year_evidence": "uncertain_rerelease_restoration"
       }
     },
     {
@@ -10528,203 +10922,6 @@
           "anniversary_year_derived"
         ],
         "year_confidence": "derived",
-        "year_evidence": "derived_or_explicit"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "Kim Yong-hwan",
-          "original_title": "연의 편지",
-          "overview_excerpt": "After summer vacation, So-ri transfers to a new school and finds an anonymous letter in her desk drawer with an introduction to the school and a clue to finding the next letter.  \"If you want to keep reading, find my se…",
-          "popularity": 2.2754,
-          "poster_path": "/lC6PjARz6pq2kDpbnfkefytKf7O.jpg",
-          "release_year": 2025,
-          "runtime_min": 96,
-          "score": 1.0,
-          "signals": {
-            "available_weight": 0.92,
-            "contributions": {
-              "director": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.2
-              },
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "near",
-                "matched": true,
-                "weight": 0.12
-              }
-            },
-            "director_candidate_normalized": [
-              "kim yong-hwan"
-            ],
-            "director_conflict": false,
-            "director_overlap": true,
-            "director_source_normalized": [
-              "kim yong-hwan"
-            ],
-            "director_status": "match",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.92,
-            "original_title_exact": false,
-            "popularity": 2.2754,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 2,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": false,
-            "year_near": true,
-            "year_status": "near"
-          },
-          "title": "Your Letter",
-          "tmdb_id": 717787,
-          "warnings": [
-            "year_proximity"
-          ]
-        }
-      ],
-      "directors_normalized": [
-        "kim yong-hwan"
-      ],
-      "directors_raw": "KIM YONG-HWAN",
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:717787",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "Your Letter",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "amc|id|84259"
-      },
-      "runtime_min": 98,
-      "signals": {
-        "available_weight": 0.92,
-        "contributions": {
-          "director": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.2
-          },
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "near",
-            "matched": true,
-            "weight": 0.12
-          }
-        },
-        "director_candidate_normalized": [
-          "kim yong-hwan"
-        ],
-        "director_conflict": false,
-        "director_overlap": true,
-        "director_source_normalized": [
-          "kim yong-hwan"
-        ],
-        "director_status": "match",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.92,
-        "original_title_exact": false,
-        "popularity": 2.2754,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 2,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "title_conflict": false,
-        "title_exact": true,
-        "year_conflict": false,
-        "year_evidence": "compatible",
-        "year_exact": false,
-        "year_near": true,
-        "year_status": "near"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "your-letter",
-          "source": "amc",
-          "source_film_id": "84259",
-          "source_title": "Your Letter"
-        }
-      ],
-      "tmdb_id": 717787,
-      "tmdb_original_title": "연의 편지",
-      "tmdb_overview_excerpt": "After summer vacation, So-ri transfers to a new school and finds an anonymous letter in her desk drawer with an introduction to the school and a clue to finding the next letter.  \"If you want to keep reading, find my se…",
-      "tmdb_poster_path": "/lC6PjARz6pq2kDpbnfkefytKf7O.jpg",
-      "tmdb_release_year": 2025,
-      "tmdb_runtime_min": 96,
-      "tmdb_title": "Your Letter",
-      "top_candidate_margin": null,
-      "warnings": [
-        "year_proximity"
-      ],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Your Letter",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": 2026,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_year": 2026,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "product",
         "year_evidence": "derived_or_explicit"
       }
     },
@@ -12195,20 +12392,25 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "same_title_remake_ambiguity",
+      "auto_confirm_blocked_reason": null,
       "candidates": [
         {
           "director": "Max Lowe",
           "original_title": null,
           "overview_excerpt": "Aisha McAdams, a former competitive runner turned photographer, embarks on a journey to document the triumphs and struggles of famed ultra trailrunners, including Jim Walmsley and Eszter Csillag. Traveling to mythical r…",
-          "popularity": 0.4928,
+          "popularity": 0.6096,
           "poster_path": "/7xCgsrxJ6u90Febv6D9klhCmgJE.jpg",
           "release_year": 2026,
           "runtime_min": 103,
           "score": 1.0,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
               "runtime": {
                 "kind": "match",
                 "matched": true,
@@ -12220,25 +12422,27 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
               "max lowe"
             ],
             "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_overlap": true,
+            "director_source_normalized": [
+              "max lowe"
+            ],
+            "director_status": "match",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.6,
+            "matched_weight": 1.1,
             "original_title_exact": false,
-            "popularity": 0.4928,
+            "popularity": 0.6096,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -12250,474 +12454,29 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
           "title": "Learning to Fly",
           "tmdb_id": 1537638,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Katarzyna Trzaska",
-          "original_title": "Nauka latania",
-          "overview_excerpt": "Each year in Poland around 70,000 children and teenagers remain in the foster care system. The great majority of them have living parents – dysfunctional, addicted. The film shows the first years of the independent live…",
-          "popularity": 0.3822,
-          "poster_path": "/1NRVmPzyHXqIvxIF9eJvz2lKwMO.jpg",
-          "release_year": 2022,
-          "runtime_min": 69,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "katarzyna trzaska"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.3822,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 33,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Learning to Fly",
-          "tmdb_id": 1031462,
-          "warnings": [
-            "year_evidence_absent",
-            "runtime_conflict",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Urban birdwatchers wait for, observe and marvel at the peregrine falcon chicks taking their first flight, in Sheffield, UK.",
-          "popularity": 0.3492,
-          "poster_path": null,
-          "release_year": null,
-          "runtime_min": 3,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.3492,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 99,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Learning to Fly",
-          "tmdb_id": 1223396,
-          "warnings": [
-            "year_evidence_absent",
-            "runtime_conflict",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Celebrate the Chicago Bulls’ first NBA Championship with this incredible 6-disc DVD collector’s set. Relive the historic 1991 NBA Finals showdown against the Los Angeles Lakers with all 5 games, each in its entirety and…",
-          "popularity": 0.5512,
-          "poster_path": "/lmIGZ5U8mWJIGm3hrbJM6RqRHS7.jpg",
-          "release_year": 1991,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.5512,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Learning to Fly: The World Champion Chicago Bulls Rise to Glory",
-          "tmdb_id": 186679,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Chris Applebaum",
-          "original_title": null,
-          "overview_excerpt": "No, it's not a History Channel documentary about the Wright Brothers hosted by a famous songstress; this fascinating video features Hilary Duff's music video \"Fly\" and an exclusive behind-the-scenes look at the making o…",
-          "popularity": 0.7116,
-          "poster_path": "/qMd5gahStlFBIHwRlW3AitaPnAd.jpg",
-          "release_year": 2004,
-          "runtime_min": 31,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "chris applebaum"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.7116,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 71,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Hilary Duff: Learning to Fly",
-          "tmdb_id": 310308,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "As Spud Milton continues his awkward stagger through adolescence, he learns one of life's most important lessons: When dealing with women and cretins, nothing is ever quite as it seems. \"I'm practically a man in most ar…",
-          "popularity": 0.8392,
-          "poster_path": "/thxoT6FdQviEw015PlFYoUleryJ.jpg",
-          "release_year": 2014,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.8392,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Spud 3: Learning to Fly",
-          "tmdb_id": 317953,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": "Más allá de la cumbre: Aprendiendo a volar",
-          "overview_excerpt": "In some of the most extraordinary natural landscapes in Mexico, a group of mountaineers have set out to explore a world labeled as impossible, but from a space reserved only for birds.",
-          "popularity": 0.456,
-          "poster_path": "/1iAFGl03G2YkTmuntJxZeLxxiy4.jpg",
-          "release_year": 2011,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.456,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Beyond the Summit: Learning to Fly",
-          "tmdb_id": 674963,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Jamlec David",
-          "original_title": null,
-          "overview_excerpt": "Rae, a recent marketing graduate from a privileged background, struggles to find a “real” job while grappling with expectations of success. Her grounded best friend, Malik, her successful twin brother, Ollie, and her vi…",
-          "popularity": 0.4681,
-          "poster_path": "/dkHZjiG2FPrVWHBdvp6nU6jCA6H.jpg",
-          "release_year": 2025,
-          "runtime_min": 16,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "jamlec david"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.4681,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 86,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Learning How To Fly",
-          "tmdb_id": 1644431,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_unavailable"
-          ]
+          "warnings": []
         }
       ],
-      "directors_normalized": [],
-      "directors_raw": null,
+      "directors_normalized": [
+        "max lowe"
+      ],
+      "directors_raw": "MAX LOWE",
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:amc:84497",
+      "film_id": "tmdb:1537638",
       "first_observed_at": null,
-      "identity_type": "source",
+      "identity_type": "tmdb",
       "last_observed_at": null,
       "match_confidence": 1.0,
-      "match_method": "fallback",
-      "match_status": "review_required",
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
       "normalized_title": "Learning to Fly",
       "presentation_labels": [],
       "provenance": {
@@ -12725,8 +12484,13 @@
       },
       "runtime_min": 102,
       "signals": {
-        "available_weight": 0.6,
+        "available_weight": 1.1,
         "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
           "runtime": {
             "kind": "match",
             "matched": true,
@@ -12738,25 +12502,27 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
           }
         },
         "director_candidate_normalized": [
           "max lowe"
         ],
         "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
+        "director_overlap": true,
+        "director_source_normalized": [
+          "max lowe"
+        ],
+        "director_status": "match",
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.6,
+        "matched_weight": 1.1,
         "original_title_exact": false,
-        "popularity": 0.4928,
+        "popularity": 0.6096,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
@@ -12768,10 +12534,10 @@
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
         "year_near": false,
-        "year_status": "unavailable"
+        "year_status": "match"
       },
       "source_identities": [
         {
@@ -12781,21 +12547,16 @@
           "source_title": "Learning to Fly"
         }
       ],
-      "tmdb_id": null,
+      "tmdb_id": 1537638,
       "tmdb_original_title": null,
       "tmdb_overview_excerpt": "Aisha McAdams, a former competitive runner turned photographer, embarks on a journey to document the triumphs and struggles of famed ultra trailrunners, including Jim Walmsley and Eszter Csillag. Traveling to mythical r…",
       "tmdb_poster_path": "/7xCgsrxJ6u90Febv6D9klhCmgJE.jpg",
       "tmdb_release_year": 2026,
       "tmdb_runtime_min": 103,
       "tmdb_title": "Learning to Fly",
-      "top_candidate_margin": 0.25,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable",
-        "same_title_remake_ambiguity"
-      ],
-      "year_hint": null,
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 2026,
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
@@ -12805,22 +12566,22 @@
           "normalized_source_fallback"
         ],
         "base_title": "Learning to Fly",
-        "canonical_year_candidate": null,
+        "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
+        "scoring_year": 2026,
+        "search_year": 2026,
         "title_years": [],
         "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -14150,6 +13911,183 @@
       }
     },
     {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
+          "director": "David Yates",
+          "original_title": null,
+          "overview_excerpt": "Harry, Ron and Hermione walk away from their last year at Hogwarts to find and destroy the remaining Horcruxes, putting an end to Voldemort's bid for immortality. But with Harry's beloved Dumbledore dead and Voldemort's…",
+          "popularity": 35.3087,
+          "poster_path": "/iGoXIpQb7Pot00EEdwpwPajheZ5.jpg",
+          "release_year": 2010,
+          "runtime_min": 146,
+          "score": 0.167,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "david yates"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.15,
+            "original_title_exact": false,
+            "popularity": 35.3087,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": true,
+            "year_evidence": "conflict",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "conflict"
+          },
+          "title": "Harry Potter and the Deathly Hallows: Part 1",
+          "tmdb_id": 12444,
+          "warnings": [
+            "title_conflict",
+            "year_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:84542",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.167,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Harry Potter & Deathly Hallows: Part 1 (HPD26)",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84542"
+      },
+      "runtime_min": 146,
+      "signals": {
+        "available_weight": 0.9,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "david yates"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.15,
+        "original_title_exact": false,
+        "popularity": 35.3087,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": true,
+        "title_exact": false,
+        "year_conflict": true,
+        "year_evidence": "conflict",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "conflict"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "harry-potter-deathly-hallows-part-1-hpd26",
+          "source": "amc",
+          "source_film_id": "84542",
+          "source_title": "Harry Potter & Deathly Hallows: Part 1 (HPD26)"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "title_conflict",
+        "year_conflict"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Harry Potter & Deathly Hallows: Part 1 (HPD26)",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
@@ -14349,14 +14287,19 @@
           "director": "Mu Zhengyang",
           "original_title": "八仙！",
           "overview_excerpt": "Eight grassroot mortals use their street smarts and hilarious schemes to defy powerful gods, earning their title as the Eight Immortals.",
-          "popularity": 7.0183,
+          "popularity": 6.5708,
           "poster_path": "/wJ9FLxq3Q6D4ve8TUepYsr0PL3p.jpg",
           "release_year": 2026,
           "runtime_min": 143,
-          "score": 1.0,
+          "score": 0.92,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
               "runtime": {
                 "kind": "match",
                 "matched": true,
@@ -14368,25 +14311,27 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
               "mu zhengyang"
             ],
-            "director_conflict": false,
+            "director_conflict": true,
             "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_source_normalized": [
+              "zhengyang mu"
+            ],
+            "director_status": "conflict",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.6,
+            "matched_weight": 0.9,
             "original_title_exact": false,
-            "popularity": 7.0183,
+            "popularity": 6.5708,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -14398,96 +14343,29 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
           "title": "All Wishes Come True!",
           "tmdb_id": 1633056,
           "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Noga Tendler",
-          "original_title": null,
-          "overview_excerpt": "Beyond troubles, beyond shapes. When I close my eyes a realm of dreams awakes.",
-          "popularity": 0.3865,
-          "poster_path": "/jj4xUzmBtZSOiAhO1TY3186RGtE.jpg",
-          "release_year": 2023,
-          "runtime_min": 4,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "noga tendler"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.3865,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 140,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "I Wish all of My Wishes Would Come True",
-          "tmdb_id": 1208371,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_unavailable"
+            "director_conflict"
           ]
         }
       ],
-      "directors_normalized": [],
-      "directors_raw": null,
+      "directors_normalized": [
+        "zhengyang mu"
+      ],
+      "directors_raw": "ZHENGYANG MU",
       "eligibility": "eligible",
       "entity_kind": "feature_film",
       "film_id": "tmdb:1633056",
       "first_observed_at": null,
       "identity_type": "tmdb",
       "last_observed_at": null,
-      "match_confidence": 1.0,
+      "match_confidence": 0.92,
       "match_method": "automatic",
       "match_status": "confirmed_automatic",
       "normalized_title": "All Wishes Come True!",
@@ -14497,8 +14375,13 @@
       },
       "runtime_min": 144,
       "signals": {
-        "available_weight": 0.6,
+        "available_weight": 1.1,
         "contributions": {
+          "director": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.2
+          },
           "runtime": {
             "kind": "match",
             "matched": true,
@@ -14510,25 +14393,27 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
           }
         },
         "director_candidate_normalized": [
           "mu zhengyang"
         ],
-        "director_conflict": false,
+        "director_conflict": true,
         "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
+        "director_source_normalized": [
+          "zhengyang mu"
+        ],
+        "director_status": "conflict",
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.6,
+        "matched_weight": 0.9,
         "original_title_exact": false,
-        "popularity": 7.0183,
+        "popularity": 6.5708,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
@@ -14540,10 +14425,10 @@
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
         "year_near": false,
-        "year_status": "unavailable"
+        "year_status": "match"
       },
       "source_identities": [
         {
@@ -14560,647 +14445,9 @@
       "tmdb_release_year": 2026,
       "tmdb_runtime_min": 143,
       "tmdb_title": "All Wishes Come True!",
-      "top_candidate_margin": 1.0,
+      "top_candidate_margin": null,
       "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "All Wishes Come True!",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "Arun Matheswaran",
-          "original_title": "டிசி",
-          "overview_excerpt": "Rebel Devadas joins forces with Chandra in a dangerous world where passion and peril collide. Their turbulent alliance demands bloodshed and tests loyalties as survival becomes the ultimate stake in their fight.",
-          "popularity": 23.1224,
-          "poster_path": "/nmQ799Pa5EKczJvQPzlvhtW0CBW.jpg",
-          "release_year": 2026,
-          "runtime_min": 141,
-          "score": 0.92,
-          "signals": {
-            "available_weight": 1.1,
-            "contributions": {
-              "director": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.2
-              },
-              "runtime": {
-                "kind": "miss",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [
-              "arun matheswaran"
-            ],
-            "director_conflict": false,
-            "director_overlap": true,
-            "director_source_normalized": [
-              "arun matheswaran"
-            ],
-            "director_status": "match",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.95,
-            "original_title_exact": false,
-            "popularity": 23.1224,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 19,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "miss",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "DC",
-          "tmdb_id": 1479832,
-          "warnings": [
-            "runtime_mismatch"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "An empire in decay. A ruler consumed by fear. A star rising over Bethlehem. When Christ is born, Herod’s terror erupts into the slaughter of the innocents, and Mary must protect the child promised to save the world. As …",
-          "popularity": 3.4574,
-          "poster_path": "/dUeEofJFpp04OjRr2hatZGCFrlR.jpg",
-          "release_year": 2026,
-          "runtime_min": null,
-          "score": 0.4,
-          "signals": {
-            "available_weight": 0.75,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [
-              "arun matheswaran"
-            ],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.3,
-            "original_title_exact": false,
-            "popularity": 3.4574,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "Zero A.D.",
-          "tmdb_id": 1408207,
-          "warnings": [
-            "title_conflict"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Jon Gabrus and Katie Dippold are joined by an elite cadre of improvisers to bring you an Improv Force Multiplier! Filmed live at the 2026 Del Close Marathon.",
-          "popularity": 0.8342,
-          "poster_path": "/7EZe2Pkn4kenwKOlFATp27ljGs3.jpg",
-          "release_year": 2026,
-          "runtime_min": null,
-          "score": 0.4,
-          "signals": {
-            "available_weight": 0.75,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [
-              "arun matheswaran"
-            ],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.3,
-            "original_title_exact": false,
-            "popularity": 0.8342,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "Gabrus Force Live: DCM '26",
-          "tmdb_id": 1717372,
-          "warnings": [
-            "title_conflict"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Dinosaur Improv brings together some of comedy’s biggest stars for a completely unscripted evening of entertainment. Nothing is prepared beforehand — every show is built from scratch using stories shared by the audience…",
-          "popularity": 1.056,
-          "poster_path": "/bWc6cro7v5At1eOPTTDL0rdDZoJ.jpg",
-          "release_year": 2026,
-          "runtime_min": null,
-          "score": 0.4,
-          "signals": {
-            "available_weight": 0.75,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [
-              "arun matheswaran"
-            ],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.3,
-            "original_title_exact": false,
-            "popularity": 1.056,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "Dinosaur Improv: DCM '26",
-          "tmdb_id": 1717375,
-          "warnings": [
-            "title_conflict"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Loosely based on the gameshow Match Game. Filmed live at the 2026 Del Close Marathon.",
-          "popularity": 1.1579,
-          "poster_path": "/9whAoWDMeIHHDsx70vvRZwdRw3K.jpg",
-          "release_year": 2026,
-          "runtime_min": null,
-          "score": 0.4,
-          "signals": {
-            "available_weight": 0.75,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [
-              "arun matheswaran"
-            ],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.3,
-            "original_title_exact": false,
-            "popularity": 1.1579,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "Match Game 76: DCM '26",
-          "tmdb_id": 1717380,
-          "warnings": [
-            "title_conflict"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Discovery Channel's DC Air Disaster: Final Minutes Revealed (airing Jan. 29, 2026) investigates the Jan. 29, 2025, midair collision between a PSA Airlines jet and an Army Black Hawk over the Potomac, revealing fatal, un…",
-          "popularity": 0.536,
-          "poster_path": "/1EQOnRLX0jyBfHdILll2IpFpX7V.jpg",
-          "release_year": 2026,
-          "runtime_min": 83,
-          "score": 0.3333,
-          "signals": {
-            "available_weight": 0.9,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [
-              "arun matheswaran"
-            ],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.3,
-            "original_title_exact": false,
-            "popularity": 0.536,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 77,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "DC Air Disaster: Final Minutes Revealed",
-          "tmdb_id": 1624054,
-          "warnings": [
-            "title_conflict",
-            "runtime_conflict"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Experience the thunderous power and precision of the world’s finest marching music ensembles. “Big, Loud & Live” brings the 2026 Drum Corps International World Championship Prelims to the big screen, broadcast live from…",
-          "popularity": 0.6608,
-          "poster_path": "/jWvpPJGskVXoaQOOwzy7pWrfYyV.jpg",
-          "release_year": 2026,
-          "runtime_min": 315,
-          "score": 0.3333,
-          "signals": {
-            "available_weight": 0.9,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [
-              "arun matheswaran"
-            ],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.3,
-            "original_title_exact": false,
-            "popularity": 0.6608,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 155,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "DCI 2026: Big, Loud and Live",
-          "tmdb_id": 1683683,
-          "warnings": [
-            "title_conflict",
-            "runtime_conflict"
-          ]
-        },
-        {
-          "director": "Stu Gamble",
-          "original_title": null,
-          "overview_excerpt": "A pair of inept detectives dream of a more thrilling caseload. Then a dead body turns up and they are accused of murder and pulled into a world of mayhem, torture-and laughs.",
-          "popularity": 2.7059,
-          "poster_path": "/8tSgyH3rED4gsVWqIeQZWzcMYPt.jpg",
-          "release_year": 2026,
-          "runtime_min": 90,
-          "score": 0.2728,
-          "signals": {
-            "available_weight": 1.1,
-            "contributions": {
-              "director": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.2
-              },
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [
-              "stu gamble"
-            ],
-            "director_conflict": true,
-            "director_overlap": false,
-            "director_source_normalized": [
-              "arun matheswaran"
-            ],
-            "director_status": "conflict",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.3,
-            "original_title_exact": false,
-            "popularity": 2.7059,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 70,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "D*CKS",
-          "tmdb_id": 1379579,
-          "warnings": [
-            "title_conflict",
-            "runtime_conflict",
-            "director_conflict"
-          ]
-        }
-      ],
-      "directors_normalized": [
-        "arun matheswaran"
-      ],
-      "directors_raw": "ARUN MATHESWARAN",
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:1479832",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 0.92,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "DC",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "amc|id|84568"
-      },
-      "runtime_min": 160,
-      "signals": {
-        "available_weight": 1.1,
-        "contributions": {
-          "director": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.2
-          },
-          "runtime": {
-            "kind": "miss",
-            "matched": false,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.3
-          }
-        },
-        "director_candidate_normalized": [
-          "arun matheswaran"
-        ],
-        "director_conflict": false,
-        "director_overlap": true,
-        "director_source_normalized": [
-          "arun matheswaran"
-        ],
-        "director_status": "match",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.95,
-        "original_title_exact": false,
-        "popularity": 23.1224,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 19,
-        "runtime_near": false,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "miss",
-        "title_conflict": false,
-        "title_exact": true,
-        "year_conflict": false,
-        "year_evidence": "compatible",
-        "year_exact": true,
-        "year_near": false,
-        "year_status": "match"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "dc",
-          "source": "amc",
-          "source_film_id": "84568",
-          "source_title": "DC"
-        }
-      ],
-      "tmdb_id": 1479832,
-      "tmdb_original_title": "டிசி",
-      "tmdb_overview_excerpt": "Rebel Devadas joins forces with Chandra in a dangerous world where passion and peril collide. Their turbulent alliance demands bloodshed and tests loyalties as survival becomes the ultimate stake in their fight.",
-      "tmdb_poster_path": "/nmQ799Pa5EKczJvQPzlvhtW0CBW.jpg",
-      "tmdb_release_year": 2026,
-      "tmdb_runtime_min": 141,
-      "tmdb_title": "DC",
-      "top_candidate_margin": 0.52,
-      "warnings": [
-        "runtime_mismatch"
+        "director_conflict"
       ],
       "year_hint": 2026,
       "year_interpretation": {
@@ -15211,7 +14458,7 @@
         "applied_rules": [
           "normalized_source_fallback"
         ],
-        "base_title": "DC",
+        "base_title": "All Wishes Come True!",
         "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
@@ -15624,69 +14871,6 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "non_film",
-      "entity_kind": "mystery_screening",
-      "film_id": "source:amc:84660",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "none",
-      "match_status": "non_film",
-      "normalized_title": "AMC Scream Unseen: August 17",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "amc|id|84660"
-      },
-      "runtime_min": 97,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "amc-scream-unseen-august-17",
-          "source": "amc",
-          "source_film_id": "84660",
-          "source_title": "AMC Scream Unseen: August 17"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [
-        "mystery_or_unannounced",
-        "program_entity_not_tmdb_movie"
-      ],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "AMC Scream Unseen: August 17",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": 2026,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_year": 2026,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit"
-      }
-    },
-    {
       "auto_confirm_blocked_reason": "hard_conflict",
       "candidates": [
         {
@@ -15944,6 +15128,69 @@
         "warnings": [],
         "year_confidence": "product",
         "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "non_film",
+      "entity_kind": "mystery_screening",
+      "film_id": "source:amc:84689",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "none",
+      "match_status": "non_film",
+      "normalized_title": "AMC Screen Unseen: August 31",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84689"
+      },
+      "runtime_min": 100,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "amc-screen-unseen-august-31",
+          "source": "amc",
+          "source_film_id": "84689",
+          "source_title": "AMC Screen Unseen: August 31"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "mystery_or_unannounced",
+        "program_entity_not_tmdb_movie"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "AMC Screen Unseen: August 31",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
       }
     },
     {
@@ -18476,67 +17723,6 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:39901",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "manual",
-      "match_status": "confirmed_manual",
-      "normalized_title": "Knockabout",
-      "presentation_labels": [],
-      "provenance": {
-        "decision_id": "dec_e626cf13e7fc",
-        "source_identity_key": "beacon|id|knockabout"
-      },
-      "runtime_min": null,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "knockabout",
-          "source": "beacon",
-          "source_film_id": "knockabout",
-          "source_title": "KNOCKABOUT"
-        }
-      ],
-      "tmdb_id": 39901,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": null,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Knockabout",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
-      }
-    },
-    {
       "auto_confirm_blocked_reason": "weak_title_only_match",
       "candidates": [
         {
@@ -20505,6 +19691,191 @@
       }
     },
     {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Wojciech Has",
+          "original_title": "Rękopis znaleziony w Saragossie",
+          "overview_excerpt": "During the Napoleonic wars, a Spanish officer and an opposing officer find a book written by the former's grandfather.",
+          "popularity": 1.0403,
+          "poster_path": "/YuhyU2fv3K3y0SrvZdw7v3Sk1k.jpg",
+          "release_year": 1966,
+          "runtime_min": 183,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "wojciech has"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.0403,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Saragossa Manuscript",
+          "tmdb_id": 8785,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:beacon:the-saragossa-manuscript",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.75,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "The Saragossa Manuscript",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "beacon|id|the-saragossa-manuscript"
+      },
+      "runtime_min": null,
+      "signals": {
+        "available_weight": 0.45,
+        "contributions": {
+          "runtime": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "wojciech has"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 1.0403,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": null,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "unavailable",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "saragossa-manuscript",
+          "source": "beacon",
+          "source_film_id": "the-saragossa-manuscript",
+          "source_title": "THE SARAGOSSA MANUSCRIPT"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": "Rękopis znaleziony w Saragossie",
+      "tmdb_overview_excerpt": "During the Napoleonic wars, a Spanish officer and an opposing officer find a book written by the former's grandfather.",
+      "tmdb_poster_path": "/YuhyU2fv3K3y0SrvZdw7v3Sk1k.jpg",
+      "tmdb_release_year": 1966,
+      "tmdb_runtime_min": 183,
+      "tmdb_title": "The Saragossa Manuscript",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "The Saragossa Manuscript",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
       "auto_confirm_blocked_reason": null,
       "candidates": [],
       "directors_normalized": [],
@@ -21151,67 +20522,6 @@
           "normalized_source_fallback"
         ],
         "base_title": "Private Rental Event",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:454",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "manual",
-      "match_status": "confirmed_manual",
-      "normalized_title": "Romeo + Juliet",
-      "presentation_labels": [],
-      "provenance": {
-        "decision_id": "dec_2be8bda74e7a",
-        "source_identity_key": "central_cinema|id|romeo-juliet"
-      },
-      "runtime_min": 120,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "romeo-juliet",
-          "source": "central_cinema",
-          "source_film_id": "romeo-juliet",
-          "source_title": "Romeo + Juliet"
-        }
-      ],
-      "tmdb_id": 454,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": null,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Romeo + Juliet",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -24076,6 +23386,376 @@
     },
     {
       "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Poh Si Teng",
+          "original_title": null,
+          "overview_excerpt": "When three American doctors — Palestinian, Jewish, and Zoroastrian — enter Gaza to save lives, they find themselves caught between medicine and politics, risking everything to expose the truth.",
+          "popularity": 1.9346,
+          "poster_path": "/5yRLsslzgs8FjhZO6UsyTPYqavz.jpg",
+          "release_year": 2026,
+          "runtime_min": 93,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "poh si teng"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 1.9346,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "American Doctor",
+          "tmdb_id": 1596332,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:1596332",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "American Doctor",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "siff|id|cinema/in-theaters/american-doctor"
+      },
+      "runtime_min": 93,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "poh si teng"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 1.9346,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "american-doctor",
+          "source": "siff",
+          "source_film_id": "cinema/in-theaters/american-doctor",
+          "source_title": "American Doctor"
+        }
+      ],
+      "tmdb_id": 1596332,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "When three American doctors — Palestinian, Jewish, and Zoroastrian — enter Gaza to save lives, they find themselves caught between medicine and politics, risking everything to expose the truth.",
+      "tmdb_poster_path": "/5yRLsslzgs8FjhZO6UsyTPYqavz.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 93,
+      "tmdb_title": "American Doctor",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "American Doctor",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Douglas Tirola",
+          "original_title": null,
+          "overview_excerpt": "An enlightening, complex look at one of the greatest figures in 20th century classical music whose passion and creativity guided him well beyond the concert hall.",
+          "popularity": 0.3452,
+          "poster_path": "/sgCNmqNPcm1RCgR1u9kxyJWjE51.jpg",
+          "release_year": 2021,
+          "runtime_min": 100,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "douglas tirola"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 0.3452,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Bernstein's Wall",
+          "tmdb_id": 822252,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:822252",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Bernstein's Wall",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "siff|id|cinema/in-theaters/bernsteins-wall"
+      },
+      "runtime_min": 100,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "douglas tirola"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 0.3452,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "bernstein-s-wall",
+          "source": "siff",
+          "source_film_id": "cinema/in-theaters/bernsteins-wall",
+          "source_title": "Bernstein's Wall"
+        }
+      ],
+      "tmdb_id": 822252,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "An enlightening, complex look at one of the greatest figures in 20th century classical music whose passion and creativity guided him well beyond the concert hall.",
+      "tmdb_poster_path": "/sgCNmqNPcm1RCgR1u9kxyJWjE51.jpg",
+      "tmdb_release_year": 2021,
+      "tmdb_runtime_min": 100,
+      "tmdb_title": "Bernstein's Wall",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Bernstein's Wall",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
       "candidates": [],
       "directors_normalized": [],
       "directors_raw": null,
@@ -24688,6 +24368,191 @@
           "normalized_source_fallback"
         ],
         "base_title": "Seattle 48 Hour Film Project Awards Show",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Jane Schoenbrun",
+          "original_title": null,
+          "overview_excerpt": "After years of slapdash sequels and waning fandom, the Camp Miasma slasher franchise is handed over to an enthusiastic young director for resurrection. But when she visits the original's star, a now-reclusive actress sh…",
+          "popularity": 20.9431,
+          "poster_path": "/5Cz1EJOKpZ8hqvBNZYF9C2zTB2T.jpg",
+          "release_year": 2026,
+          "runtime_min": 112,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "jane schoenbrun"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 20.9431,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Teenage Sex and Death at Camp Miasma",
+          "tmdb_id": 1240889,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:1240889",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Teenage Sex and Death at Camp Miasma",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "siff|id|cinema/in-theaters/teenage-sex-and-death-at-camp-miasma"
+      },
+      "runtime_min": 113,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "jane schoenbrun"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 20.9431,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 1,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "teenage-sex-and-death-at-camp-miasma",
+          "source": "siff",
+          "source_film_id": "cinema/in-theaters/teenage-sex-and-death-at-camp-miasma",
+          "source_title": "Teenage Sex and Death at Camp Miasma"
+        }
+      ],
+      "tmdb_id": 1240889,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "After years of slapdash sequels and waning fandom, the Camp Miasma slasher franchise is handed over to an enthusiastic young director for resurrection. But when she visits the original's star, a now-reclusive actress sh…",
+      "tmdb_poster_path": "/5Cz1EJOKpZ8hqvBNZYF9C2zTB2T.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 112,
+      "tmdb_title": "Teenage Sex and Death at Camp Miasma",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Teenage Sex and Death at Camp Miasma",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -26869,6 +26734,6 @@
       }
     }
   ],
-  "generated_at": "2026-08-18T07:27:58+00:00",
+  "generated_at": "2026-08-19T07:28:26+00:00",
   "schema_version": "1.0.0"
 }
