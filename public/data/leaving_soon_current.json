@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T23:32:58-07:00",
+  "generated_at": "2026-08-19T23:35:03-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-08-18",
-    "end_date": "2026-09-01"
+    "start_date": "2026-08-19",
+    "end_date": "2026-09-02"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 70,
-    "flagged_film_count": 17
+    "candidate_film_count": 71,
+    "flagged_film_count": 23
   },
   "items": [
     {
@@ -114,6 +114,30 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1785855014/amc-cdn/content/general/cv5dtsj7q3ky6tl5nngc.jpg",
       "runtime_min": 100
+    },
+    {
+      "film_key": "elijah-peel",
+      "film_title": "Elijah Peel",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-19",
+      "max_show_date": "2026-08-19",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-19"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784912272/amc-cdn/content/general/xzesrovensziilyfooz8.png",
+      "runtime_min": 107
     },
     {
       "film_key": "end-of-oak-street-sensory-friendly-screening",
@@ -308,28 +332,32 @@
       "runtime_min": 146
     },
     {
-      "film_key": "hushar-pittalu",
-      "film_title": "Hushar Pittalu",
+      "film_key": "harry-potter-deathly-hallows-part-2-hpd26",
+      "film_title": "Harry Potter & Deathly Hallows: Part 2 (HPD26)",
       "risk_level": "high",
       "reason": "Only one visible AMC play date remains in the current schedule.",
       "visible_show_date_count": 1,
-      "min_show_date": "2026-08-18",
-      "max_show_date": "2026-08-18",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
+      "min_show_date": "2026-09-02",
+      "max_show_date": "2026-09-02",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
       "theaters": [
         {
           "theater_id": "amc-alderwood-mall-16",
           "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
         }
       ],
       "show_dates": [
-        "2026-08-18"
+        "2026-09-02"
       ],
       "has_primetime": true,
       "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1786532896/amc-cdn/production/2/movies/84700/84677/Poster/422871R1.jpg",
-      "runtime_min": 143
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784816881/amc-cdn/content/general/vbhs0ce3j0kzmm65km90.jpg",
+      "runtime_min": 130
     },
     {
       "film_key": "idiots-early-access",
@@ -384,6 +412,34 @@
       "runtime_min": 98
     },
     {
+      "film_key": "katy-perry-the-lifetimes-tour-live-from-paris",
+      "film_title": "Katy Perry: The Lifetimes Tour - Live From Paris",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-09-02",
+      "max_show_date": "2026-09-02",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-02"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784902483/amc-cdn/content/general/sglh9rbex3xzxi2h8ulx.jpg",
+      "runtime_min": 132
+    },
+    {
       "film_key": "laufey-s-a-night-at-the-symphony-hollywood-bowl",
       "film_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
       "risk_level": "high",
@@ -406,6 +462,30 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1786717746/amc-cdn/content/general/aed7y97j9dikrbbkkga9.jpg",
       "runtime_min": 100
+    },
+    {
+      "film_key": "namaslay",
+      "film_title": "Namaslay",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-19",
+      "max_show_date": "2026-08-19",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-19"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1780450951/amc-cdn/content/general/aaywumgm8ncombwmmrp4.jpg",
+      "runtime_min": 112
     },
     {
       "film_key": "panchali-pancha-bhartruka",
@@ -492,44 +572,108 @@
       "runtime_min": 132
     },
     {
-      "film_key": "texas-chainsaw-day-2026",
-      "film_title": "Texas Chainsaw Day (2026)",
+      "film_key": "samurai-and-the-prisoner",
+      "film_title": "The Samurai and the Prisoner",
       "risk_level": "high",
       "reason": "Only one visible AMC play date remains in the current schedule.",
       "visible_show_date_count": 1,
-      "min_show_date": "2026-08-18",
-      "max_show_date": "2026-08-18",
-      "total_visible_showtimes": 5,
-      "total_visible_theaters": 5,
+      "min_show_date": "2026-08-19",
+      "max_show_date": "2026-08-19",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-19"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784236755/amc-cdn/content/general/vedzxyd2j2sctbgfmtwq.jpg",
+      "runtime_min": 147
+    },
+    {
+      "film_key": "sara-bareilles-good-grief",
+      "film_title": "Sara Bareilles: Good Grief",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-09-02",
+      "max_show_date": "2026-09-02",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-02"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1787066541/amc-cdn/content/general/wlh7ckoiygrw0rlyatnp.jpg",
+      "runtime_min": 91
+    },
+    {
+      "film_key": "train-to-busan-10th-anniversary-remastered-revived",
+      "film_title": "Train to Busan - 10th Anniversary Remastered & Revived",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-19",
+      "max_show_date": "2026-08-19",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 2,
       "theaters": [
         {
           "theater_id": "amc-alderwood-mall-16",
           "theater_name": "AMC Alderwood Mall 16"
         },
         {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-08-19"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784055359/amc-cdn/content/general/oyxkaxvnruxefiijhnyt.jpg",
+      "runtime_min": 118
+    },
+    {
+      "film_key": "wet-hot-american-summer-25th-anniversary",
+      "film_title": "Wet Hot American Summer: 25th Anniversary",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-08-19",
+      "max_show_date": "2026-08-19",
+      "total_visible_showtimes": 3,
+      "total_visible_theaters": 2,
+      "theaters": [
         {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
         },
         {
           "theater_id": "amc-southcenter-16",
           "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
         }
       ],
       "show_dates": [
-        "2026-08-18"
+        "2026-08-19"
       ],
       "has_primetime": true,
       "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783692876/amc-cdn/content/general/ipjl65uf7rga20wuf3tw.jpg",
-      "runtime_min": 103
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782817726/amc-cdn/production/2/movies/84000/84039/Poster/418822R1.jpg",
+      "runtime_min": 97
     }
   ]
 }
