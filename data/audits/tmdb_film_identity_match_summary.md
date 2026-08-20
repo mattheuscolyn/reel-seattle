@@ -1,28 +1,28 @@
 # Film identity live match summary
 
 - schema_version: `1.0.0`
-- generated_at: `2026-08-19T07:28:26+00:00`
-- total_unique_source_identities: **122**
-- confirmed_automatic: **61**
+- generated_at: `2026-08-20T07:31:36+00:00`
+- total_unique_source_identities: **125**
+- confirmed_automatic: **64**
 - confirmed_manual: **7**
-- review_required: **27**
-- unmatched: **20**
-- non_film: **7**
+- review_required: **26**
+- unmatched: **22**
+- non_film: **6**
 - deferred: **0**
 - rejected: **0**
 - errors: **0**
 - fallback_usage: **54**
-- review_queue_size: **27**
+- review_queue_size: **26**
 - tmdb_auth_mode: `bearer`
 
 ## Coverage by source
 
 | source | total | auto | manual | review | unmatched | non_film | errors |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| amc | 70 | 49 | 2 | 10 | 5 | 4 | 0 |
-| beacon | 15 | 0 | 2 | 11 | 2 | 0 | 0 |
+| amc | 71 | 52 | 2 | 8 | 6 | 3 | 0 |
+| beacon | 16 | 0 | 2 | 12 | 2 | 0 | 0 |
 | central_cinema | 13 | 3 | 1 | 1 | 6 | 2 | 0 |
-| nwff | 9 | 1 | 0 | 3 | 5 | 0 | 0 |
+| nwff | 10 | 1 | 0 | 3 | 6 | 0 | 0 |
 | siff | 15 | 8 | 2 | 2 | 2 | 1 | 0 |
 
 ## Generated path changes

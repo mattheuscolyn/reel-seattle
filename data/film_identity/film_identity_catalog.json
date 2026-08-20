@@ -10065,20 +10065,25 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "auto_confirm_blocked_reason": null,
       "candidates": [
         {
           "director": "Shiva Nirvana",
           "original_title": "ఇరుముడి",
           "overview_excerpt": "An alcoholic with a violent past—living peacefully with his daughter beside a waterfall—decides to take Ayyappa Deeksha (a 41-day spiritual vow and period of intense austerity) at her request.",
-          "popularity": 2.4362,
+          "popularity": 2.261,
           "poster_path": "/qkmC1L0yM3SofGy9lFo7SXktQf9.jpg",
           "release_year": 2026,
           "runtime_min": 152,
-          "score": 0.75,
+          "score": 0.9243,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
               "runtime": {
                 "delta_minutes": 8,
                 "kind": "soft",
@@ -10092,25 +10097,27 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
               "shiva nirvana"
             ],
             "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_overlap": true,
+            "director_source_normalized": [
+              "shiva nirvana"
+            ],
+            "director_status": "match",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.5167,
+            "matched_weight": 1.0167,
             "original_title_exact": false,
-            "popularity": 2.4362,
+            "popularity": 2.261,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -10122,32 +10129,31 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
           "title": "Irumudi",
           "tmdb_id": 1441228,
           "warnings": [
-            "year_evidence_absent",
-            "runtime_soft_penalty",
-            "weak_title_only_match",
-            "director_unavailable"
+            "runtime_soft_penalty"
           ]
         }
       ],
-      "directors_normalized": [],
-      "directors_raw": null,
+      "directors_normalized": [
+        "shiva nirvana"
+      ],
+      "directors_raw": "SHIVA NIRVANA",
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:amc:84139",
+      "film_id": "tmdb:1441228",
       "first_observed_at": null,
-      "identity_type": "source",
+      "identity_type": "tmdb",
       "last_observed_at": null,
-      "match_confidence": 0.75,
-      "match_method": "fallback",
-      "match_status": "review_required",
+      "match_confidence": 0.9243,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
       "normalized_title": "Irumudi",
       "presentation_labels": [],
       "provenance": {
@@ -10155,8 +10161,13 @@
       },
       "runtime_min": 160,
       "signals": {
-        "available_weight": 0.6,
+        "available_weight": 1.1,
         "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
           "runtime": {
             "delta_minutes": 8,
             "kind": "soft",
@@ -10170,25 +10181,27 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
           }
         },
         "director_candidate_normalized": [
           "shiva nirvana"
         ],
         "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
+        "director_overlap": true,
+        "director_source_normalized": [
+          "shiva nirvana"
+        ],
+        "director_status": "match",
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.5167,
+        "matched_weight": 1.0167,
         "original_title_exact": false,
-        "popularity": 2.4362,
+        "popularity": 2.261,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
@@ -10200,10 +10213,10 @@
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
         "year_near": false,
-        "year_status": "unavailable"
+        "year_status": "match"
       },
       "source_identities": [
         {
@@ -10213,7 +10226,7 @@
           "source_title": "Irumudi"
         }
       ],
-      "tmdb_id": null,
+      "tmdb_id": 1441228,
       "tmdb_original_title": "ఇరుముడి",
       "tmdb_overview_excerpt": "An alcoholic with a violent past—living peacefully with his daughter beside a waterfall—decides to take Ayyappa Deeksha (a 41-day spiritual vow and period of intense austerity) at her request.",
       "tmdb_poster_path": "/qkmC1L0yM3SofGy9lFo7SXktQf9.jpg",
@@ -10222,12 +10235,9 @@
       "tmdb_title": "Irumudi",
       "top_candidate_margin": null,
       "warnings": [
-        "year_evidence_absent",
-        "runtime_soft_penalty",
-        "weak_title_only_match",
-        "director_unavailable"
+        "runtime_soft_penalty"
       ],
-      "year_hint": null,
+      "year_hint": 2026,
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
@@ -10237,22 +10247,22 @@
           "normalized_source_fallback"
         ],
         "base_title": "Irumudi",
-        "canonical_year_candidate": null,
+        "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
+        "scoring_year": 2026,
+        "search_year": 2026,
         "title_years": [],
         "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -10645,70 +10655,6 @@
         ],
         "year_confidence": "none",
         "year_evidence": "uncertain_rerelease_restoration"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [
-        "tobe hooper"
-      ],
-      "directors_raw": "TOBE HOOPER",
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "source:amc:84239",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "manual",
-      "match_status": "non_film",
-      "normalized_title": "Texas Chainsaw Day (2026)",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "amc|id|84239"
-      },
-      "runtime_min": 103,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "texas-chainsaw-day-2026",
-          "source": "amc",
-          "source_film_id": "84239",
-          "source_title": "Texas Chainsaw Day (2026)"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Texas Chainsaw Day (2026)",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": 2026,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_year": 2026,
-        "title_years": [
-          2026
-        ],
-        "warnings": [],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -11757,6 +11703,203 @@
           "normalized_source_fallback"
         ],
         "base_title": "If I Tell You",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Paul Dugdale",
+          "original_title": null,
+          "overview_excerpt": "Capturing Katy Perry’s electrifying, immersive concert experience, Katy Perry: The Lifetimes Tour – Live from Paris blends powerhouse performances, exhilarating cinematography, and intimate moments to bring audiences in…",
+          "popularity": 1.6464,
+          "poster_path": "/2nRLiwq897BFLRwLMIdA5TI3sX8.jpg",
+          "release_year": 2026,
+          "runtime_min": 119,
+          "score": 0.92,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "paul dugdale"
+            ],
+            "director_conflict": false,
+            "director_overlap": true,
+            "director_source_normalized": [
+              "paul dugdale"
+            ],
+            "director_status": "match",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.95,
+            "original_title_exact": false,
+            "popularity": 1.6464,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 13,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "Katy Perry: The Lifetimes Tour - Live from Paris",
+          "tmdb_id": 1684016,
+          "warnings": [
+            "runtime_mismatch"
+          ]
+        }
+      ],
+      "directors_normalized": [
+        "paul dugdale"
+      ],
+      "directors_raw": "Paul Dugdale",
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:1684016",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 0.92,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Katy Perry: The Lifetimes Tour - Live From Paris",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84442"
+      },
+      "runtime_min": 132,
+      "signals": {
+        "available_weight": 1.1,
+        "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
+          "runtime": {
+            "kind": "miss",
+            "matched": false,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "paul dugdale"
+        ],
+        "director_conflict": false,
+        "director_overlap": true,
+        "director_source_normalized": [
+          "paul dugdale"
+        ],
+        "director_status": "match",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.95,
+        "original_title_exact": false,
+        "popularity": 1.6464,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 13,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "miss",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
+        "year_near": false,
+        "year_status": "match"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "katy-perry-the-lifetimes-tour-live-from-paris",
+          "source": "amc",
+          "source_film_id": "84442",
+          "source_title": "Katy Perry: The Lifetimes Tour - Live From Paris"
+        }
+      ],
+      "tmdb_id": 1684016,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "Capturing Katy Perry’s electrifying, immersive concert experience, Katy Perry: The Lifetimes Tour – Live from Paris blends powerhouse performances, exhilarating cinematography, and intimate moments to bring audiences in…",
+      "tmdb_poster_path": "/2nRLiwq897BFLRwLMIdA5TI3sX8.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 119,
+      "tmdb_title": "Katy Perry: The Lifetimes Tour - Live from Paris",
+      "top_candidate_margin": null,
+      "warnings": [
+        "runtime_mismatch"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Katy Perry: The Lifetimes Tour - Live From Paris",
         "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
@@ -14088,6 +14231,183 @@
       }
     },
     {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
+          "director": "David Yates",
+          "original_title": null,
+          "overview_excerpt": "Harry, Ron and Hermione continue their quest to vanquish the evil Voldemort once and for all. Just as things begin to look hopeless for the young wizards, Harry discovers a trio of magical objects that endow him with po…",
+          "popularity": 32.4161,
+          "poster_path": "/c54HpQmuwXjHq2C9wmoACjxoom3.jpg",
+          "release_year": 2011,
+          "runtime_min": 130,
+          "score": 0.167,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "david yates"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.15,
+            "original_title_exact": false,
+            "popularity": 32.4161,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": true,
+            "year_evidence": "conflict",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "conflict"
+          },
+          "title": "Harry Potter and the Deathly Hallows: Part 2",
+          "tmdb_id": 12445,
+          "warnings": [
+            "title_conflict",
+            "year_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:84543",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.167,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Harry Potter & Deathly Hallows: Part 2 (HPD26)",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84543"
+      },
+      "runtime_min": 130,
+      "signals": {
+        "available_weight": 0.9,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "david yates"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.15,
+        "original_title_exact": false,
+        "popularity": 32.4161,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": true,
+        "title_exact": false,
+        "year_conflict": true,
+        "year_evidence": "conflict",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "conflict"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "harry-potter-deathly-hallows-part-2-hpd26",
+          "source": "amc",
+          "source_film_id": "84543",
+          "source_title": "Harry Potter & Deathly Hallows: Part 2 (HPD26)"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "title_conflict",
+        "year_conflict"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Harry Potter & Deathly Hallows: Part 2 (HPD26)",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
@@ -14871,28 +15191,23 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "hard_conflict",
+      "auto_confirm_blocked_reason": null,
       "candidates": [
         {
-          "director": "Bikshu koyagura",
+          "director": "Josh Alexander",
           "original_title": null,
-          "overview_excerpt": "In a village, two teenagers, Ravi and Chitti, are drawn into a secret relationship as curiosity, adolescence, and bad influences shape their choices. When their families discover the affair, the couple defies them, sett…",
-          "popularity": 0.9762,
-          "poster_path": "/cjmuneS7Z07dYzY9eDwkIT1sntC.jpg",
+          "overview_excerpt": "Seven years after her Grammy Award-winning Amidst the Chaos, Sara Bareilles reunites with her closest collaborators to record a new album. What emerges is an intimate, cinematic process that lays bare the musician's dee…",
+          "popularity": 0.3841,
+          "poster_path": null,
           "release_year": 2026,
-          "runtime_min": 0,
-          "score": 0.91,
+          "runtime_min": 94,
+          "score": 1.0,
           "signals": {
-            "available_weight": 1.1,
+            "available_weight": 0.6,
             "contributions": {
-              "director": {
+              "runtime": {
                 "kind": "match",
                 "matched": true,
-                "weight": 0.2
-              },
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
                 "weight": 0.15
               },
               "title_exact": {
@@ -14901,80 +15216,73 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
               }
             },
             "director_candidate_normalized": [
-              "bikshu koyagura"
+              "josh alexander"
             ],
             "director_conflict": false,
-            "director_overlap": true,
-            "director_source_normalized": [
-              "bikshu koyagura"
-            ],
-            "director_status": "match",
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.95,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
             "original_title_exact": false,
-            "popularity": 0.9762,
+            "popularity": 0.3841,
             "runtime_compatible_max": 3,
-            "runtime_conflict": true,
+            "runtime_conflict": false,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 143,
-            "runtime_near": false,
+            "runtime_delta_minutes": 3,
+            "runtime_near": true,
             "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "conflict",
+            "runtime_status": "match",
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
+            "year_evidence": "missing",
+            "year_exact": false,
             "year_near": false,
-            "year_status": "match"
+            "year_status": "unavailable"
           },
-          "title": "Hushar Pittalu",
-          "tmdb_id": 1742434,
+          "title": "Sara Bareilles: Good Grief",
+          "tmdb_id": 1675218,
           "warnings": [
-            "runtime_conflict"
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
           ]
         }
       ],
-      "directors_normalized": [
-        "bikshu koyagura"
-      ],
-      "directors_raw": "BIKSHU KOYAGURA",
+      "directors_normalized": [],
+      "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:amc:84677",
+      "film_id": "tmdb:1675218",
       "first_observed_at": null,
-      "identity_type": "source",
+      "identity_type": "tmdb",
       "last_observed_at": null,
-      "match_confidence": 0.91,
-      "match_method": "fallback",
-      "match_status": "review_required",
-      "normalized_title": "Hushar Pittalu",
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Sara Bareilles: Good Grief",
       "presentation_labels": [],
       "provenance": {
-        "source_identity_key": "amc|id|84677"
+        "source_identity_key": "amc|id|84675"
       },
-      "runtime_min": 143,
+      "runtime_min": 91,
       "signals": {
-        "available_weight": 1.1,
+        "available_weight": 0.6,
         "contributions": {
-          "director": {
+          "runtime": {
             "kind": "match",
             "matched": true,
-            "weight": 0.2
-          },
-          "runtime": {
-            "kind": "conflict",
-            "matched": false,
             "weight": 0.15
           },
           "title_exact": {
@@ -14983,63 +15291,63 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.3
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
           }
         },
         "director_candidate_normalized": [
-          "bikshu koyagura"
+          "josh alexander"
         ],
         "director_conflict": false,
-        "director_overlap": true,
-        "director_source_normalized": [
-          "bikshu koyagura"
-        ],
-        "director_status": "match",
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
-        "hard_conflict": true,
-        "matched_weight": 0.95,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
         "original_title_exact": false,
-        "popularity": 0.9762,
+        "popularity": 0.3841,
         "runtime_compatible_max": 3,
-        "runtime_conflict": true,
+        "runtime_conflict": false,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 143,
-        "runtime_near": false,
+        "runtime_delta_minutes": 3,
+        "runtime_near": true,
         "runtime_soft": false,
         "runtime_soft_max": 12,
-        "runtime_status": "conflict",
+        "runtime_status": "match",
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "compatible",
-        "year_exact": true,
+        "year_evidence": "missing",
+        "year_exact": false,
         "year_near": false,
-        "year_status": "match"
+        "year_status": "unavailable"
       },
       "source_identities": [
         {
-          "showtime_film_key": "hushar-pittalu",
+          "showtime_film_key": "sara-bareilles-good-grief",
           "source": "amc",
-          "source_film_id": "84677",
-          "source_title": "Hushar Pittalu"
+          "source_film_id": "84675",
+          "source_title": "Sara Bareilles: Good Grief"
         }
       ],
-      "tmdb_id": null,
+      "tmdb_id": 1675218,
       "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "In a village, two teenagers, Ravi and Chitti, are drawn into a secret relationship as curiosity, adolescence, and bad influences shape their choices. When their families discover the affair, the couple defies them, sett…",
-      "tmdb_poster_path": "/cjmuneS7Z07dYzY9eDwkIT1sntC.jpg",
+      "tmdb_overview_excerpt": "Seven years after her Grammy Award-winning Amidst the Chaos, Sara Bareilles reunites with her closest collaborators to record a new album. What emerges is an intimate, cinematic process that lays bare the musician's dee…",
+      "tmdb_poster_path": null,
       "tmdb_release_year": 2026,
-      "tmdb_runtime_min": 0,
-      "tmdb_title": "Hushar Pittalu",
+      "tmdb_runtime_min": 94,
+      "tmdb_title": "Sara Bareilles: Good Grief",
       "top_candidate_margin": null,
       "warnings": [
-        "runtime_conflict"
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
       ],
-      "year_hint": 2026,
+      "year_hint": null,
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
@@ -15048,23 +15356,23 @@
         "applied_rules": [
           "normalized_source_fallback"
         ],
-        "base_title": "Hushar Pittalu",
-        "canonical_year_candidate": 2026,
+        "base_title": "Sara Bareilles: Good Grief",
+        "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": 2026,
+        "product_year": null,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_year": 2026,
+        "scoring_year": null,
+        "search_year": null,
         "title_years": [],
         "warnings": [],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit"
+        "year_confidence": "none",
+        "year_evidence": "missing"
       }
     },
     {
@@ -15165,7 +15473,7 @@
         "mystery_or_unannounced",
         "program_entity_not_tmdb_movie"
       ],
-      "year_hint": null,
+      "year_hint": 2026,
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
@@ -15175,22 +15483,22 @@
           "normalized_source_fallback"
         ],
         "base_title": "AMC Screen Unseen: August 31",
-        "canonical_year_candidate": null,
+        "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
+        "scoring_year": 2026,
+        "search_year": 2026,
         "title_years": [],
         "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -19694,6 +20002,387 @@
       "auto_confirm_blocked_reason": "weak_title_only_match",
       "candidates": [
         {
+          "director": "Orson Welles",
+          "original_title": null,
+          "overview_excerpt": "An aged, wealthy trader plots with his servant to recreate a maritime tall tale, using a local woman and an unknown sailor as actors.",
+          "popularity": 0.9442,
+          "poster_path": "/cI0IdXJWemWTyombF1n1FwK6KYT.jpg",
+          "release_year": 1968,
+          "runtime_min": 58,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "orson welles"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.9442,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Immortal Story",
+          "tmdb_id": 84636,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Luiz Bolognesi",
+          "original_title": "Uma História de Amor e Fúria",
+          "overview_excerpt": "“Rio 2096 – A Story of Love and Fury” is an animated film that portrays the love between an immortal hero and Janaína, the woman he has been in love with for 600 years. As a backdrop to the romance, the feature highligh…",
+          "popularity": 1.0549,
+          "poster_path": "/aqvJxBR3Tpj9semsPYgCZ2tE3UZ.jpg",
+          "release_year": 2013,
+          "runtime_min": 74,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "luiz bolognesi"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.0549,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Rio 2096: A Story of Love and Fury",
+          "tmdb_id": 173443,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Tomoki Sano",
+          "original_title": "ウルトラマンメビウス外伝 ゴーストリバース - STAGE II 不滅の魔鎧装",
+          "overview_excerpt": "While the Subordinate weeped, Mirai informed him that Ryu was alive, saved by the power of Ultraman King. He revealed that after Alien Emperor's defeat, Armored Darkness had been known for some time and Ultraman Hikari …",
+          "popularity": 0.3482,
+          "poster_path": "/vAC5u1qSLZJ7y0GFLiHQRgiP3T9.jpg",
+          "release_year": 2008,
+          "runtime_min": 24,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "tomoki sano"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.3482,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Ultraman Mebius Side Story: Armored Darkness - STAGE II: The Immortal Wicked Armor",
+          "tmdb_id": 479554,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Timed to bolster public morale at the end of the Great War, Maurice Elvey’s biopic of Nelson frequently steps out of its period setting to give us historical background or contemporary relevance. There are some nice loc…",
+          "popularity": 0.3054,
+          "poster_path": null,
+          "release_year": 1918,
+          "runtime_min": 126,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.3054,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Nelson; The Story of England's Immortal Naval Hero",
+          "tmdb_id": 1155362,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:beacon:the-immortal-story",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.75,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "The Immortal Story",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "beacon|id|the-immortal-story"
+      },
+      "runtime_min": null,
+      "signals": {
+        "available_weight": 0.45,
+        "contributions": {
+          "runtime": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "orson welles"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 0.9442,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": null,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "unavailable",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "immortal-story",
+          "source": "beacon",
+          "source_film_id": "the-immortal-story",
+          "source_title": "THE IMMORTAL STORY"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "An aged, wealthy trader plots with his servant to recreate a maritime tall tale, using a local woman and an unknown sailor as actors.",
+      "tmdb_poster_path": "/cI0IdXJWemWTyombF1n1FwK6KYT.jpg",
+      "tmdb_release_year": 1968,
+      "tmdb_runtime_min": 58,
+      "tmdb_title": "The Immortal Story",
+      "top_candidate_margin": 0.75,
+      "warnings": [
+        "year_evidence_absent",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "The Immortal Story",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
           "director": "Wojciech Has",
           "original_title": "Rękopis znaleziony w Saragossie",
           "overview_excerpt": "During the Napoleonic wars, a Spanish officer and an opposing officer find a book written by the former's grandfather.",
@@ -20037,6 +20726,66 @@
           "normalized_source_fallback"
         ],
         "base_title": "Cartoon Happy Hour",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:central_cinema:cinemancy-amlie",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Cinemancy: Amélie",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "central_cinema|id|cinemancy-amlie"
+      },
+      "runtime_min": 122,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "cinemancy-am-lie",
+          "source": "central_cinema",
+          "source_film_id": "cinemancy-amlie",
+          "source_title": "Cinemancy: Amélie"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Cinemancy: Amélie",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -21615,74 +22364,6 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:central_cinema:the-totally-90s-sing-along",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "fallback",
-      "match_status": "unmatched",
-      "normalized_title": "The Totally 90s",
-      "presentation_labels": [
-        "sing along"
-      ],
-      "provenance": {
-        "source_identity_key": "central_cinema|id|the-totally-90s-sing-along"
-      },
-      "runtime_min": 180,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "totally-90s-sing-along",
-          "source": "central_cinema",
-          "source_film_id": "the-totally-90s-sing-along",
-          "source_title": "The Totally 90s Sing Along"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": null,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "presentation_trailing_atoms"
-        ],
-        "base_title": "The Totally 90s",
-        "canonical_year_candidate": null,
-        "event_labels": [
-          "Sing Along"
-        ],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [
-          "sing along"
-        ],
-        "product_year": null,
-        "program_series": null,
-        "removed_phrases": [
-          "Sing Along"
-        ],
-        "scoring_year": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
       "film_id": "tmdb:19053",
       "first_observed_at": null,
       "identity_type": "tmdb",
@@ -22800,6 +23481,66 @@
           "normalized_source_fallback"
         ],
         "base_title": "SFCS at 10: First Cow",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:nwff:sleepbomb-presents-the-cabinet-of-dr-caligari",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Sleepbomb Presents: The Cabinet of Dr. Caligari",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|sleepbomb-presents-the-cabinet-of-dr-caligari"
+      },
+      "runtime_min": 77,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "sleepbomb-presents-the-cabinet-of-dr-caligari",
+          "source": "nwff",
+          "source_film_id": "sleepbomb-presents-the-cabinet-of-dr-caligari",
+          "source_title": "Sleepbomb Presents: The Cabinet of Dr. Caligari"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Sleepbomb Presents: The Cabinet of Dr. Caligari",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -26734,6 +27475,6 @@
       }
     }
   ],
-  "generated_at": "2026-08-19T07:28:26+00:00",
+  "generated_at": "2026-08-20T07:31:36+00:00",
   "schema_version": "1.0.0"
 }
