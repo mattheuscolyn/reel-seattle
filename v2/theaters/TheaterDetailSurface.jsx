@@ -1,8 +1,9 @@
 /**
  * Stage 1 Theater Detail — fixture-backed replica of Theater Detail Page.png.
  *
- * Beacon Cinema fixture. Favorite uses favoriteTheatersStore.
- * Website/Directions open external URLs; other actions are stubs.
+ * Favorite uses favoriteTheatersStore.
+ * Now Showing “View all” opens Browse Showtimes with this theater preselected.
+ * Website/Directions open external URLs; remaining actions are stubs.
  */
 
 import { useEffect, useId, useMemo, useState } from 'react';
@@ -65,6 +66,7 @@ function getBrowserStorage() {
  *   enrichmentIndex?: object | null,
  *   onBack: () => void,
  *   onOpenFilmDetail?: (payload: { filmKey: string, opportunityKey?: string | null }) => void,
+ *   onOpenShowtimesBrowse?: (payload: { theaterId: string }) => void,
  *   onStubAction?: (actionId: string, label: string) => void,
  * }} props
  */
@@ -75,6 +77,7 @@ export default function TheaterDetailSurface({
   enrichmentIndex = null,
   onBack,
   onOpenFilmDetail,
+  onOpenShowtimesBrowse,
   onStubAction,
 }) {
   const storage = getBrowserStorage();
@@ -435,13 +438,18 @@ export default function TheaterDetailSurface({
           <button
             type="button"
             className="v2-td-link-btn"
-            onClick={() =>
+            onClick={() => {
+              const id = presentation.theaterId;
+              if (typeof onOpenShowtimesBrowse === 'function' && id) {
+                onOpenShowtimesBrowse({ theaterId: id });
+                return;
+              }
               announce(
                 'view-all',
                 presentation.nowShowing.viewAllLabel,
                 presentation.deferredMessages?.viewAll,
-              )
-            }
+              );
+            }}
           >
             {presentation.nowShowing.viewAllLabel}
           </button>

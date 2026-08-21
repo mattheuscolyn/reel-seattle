@@ -110,10 +110,11 @@ test('Opening page renders filters and expand affordances', () => {
   assert.match(OPENING_SRC, /More details/);
 });
 
-test('More details wires to Film Detail without mutating stores', () => {
+test('More details wires to Film Detail; Save/NI use shared film stores', () => {
   assert.match(OPENING_SRC, /onOpenFilmDetail/);
-  assert.equal(/localStorage/.test(OPENING_SRC), false);
-  assert.equal(OPENING_SRC.includes('savedFilmsStore'), false);
+  assert.match(OPENING_SRC, /savedFilmsStore/);
+  assert.match(OPENING_SRC, /notInterestedFilmsStore/);
+  assert.match(OPENING_SRC, /toggleSavedFilm/);
   assert.equal(OPENING_SRC.includes('applySaveToggle'), false);
   assert.equal(FIXTURE_SRC.includes('stores/'), false);
   const storage = memoryStorage();
