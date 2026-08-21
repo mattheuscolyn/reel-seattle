@@ -21,7 +21,7 @@ export const PRIMARY_DESTINATIONS = Object.freeze([
     label: 'Explore',
     title: 'Explore',
     description:
-      'User-directed discovery — search, Quick Start, Browse By, Suggested Starts, Film Activity, and recent searches.',
+      'User-directed discovery — search, Quick Start, Browse By, Film Activity, and recent searches.',
   }),
   Object.freeze({
     id: 'planner',

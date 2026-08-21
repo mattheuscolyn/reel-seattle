@@ -18,7 +18,6 @@ import ExploreFilmActivity from './ExploreFilmActivity.jsx';
 import ExploreQuickStart from './ExploreQuickStart.jsx';
 import ExploreRecentSearches from './ExploreRecentSearches.jsx';
 import ExploreSearch from './ExploreSearch.jsx';
-import ExploreSuggestedStarts from './ExploreSuggestedStarts.jsx';
 import { captureExploreRestore } from '../navigation/navState.js';
 import { SEARCH_EXPLORE_HONESTY_NOTE } from './searchCopy.js';
 import { SHOWTIMES_BROWSE_QUICK_START_ID } from '../showtimes/showtimesBrowseModel.js';
@@ -34,8 +33,8 @@ function getStorage() {
 /**
  * Explore landing — discovery hub (not an exhaustive movie list).
  *
- * Section order: Search → Quick Start → Browse By → Suggested Starts →
- * Your Film Activity → Recent Searches.
+ * Section order: Search → Quick Start → Browse By → Your Film Activity →
+ * Recent Searches. Suggested-starts landing cards removed until personalized (EXP-03).
  */
 export default function ExploreDestination({
   homeData,
@@ -101,11 +100,6 @@ export default function ExploreDestination({
       <ExploreQuickStart onSelect={handleQuickStart} />
 
       <ExploreBrowseBy onSelect={(id) => openSurface(id)} />
-
-      <ExploreSuggestedStarts
-        onSelect={(id) => openSurface(id)}
-        onViewAll={(id) => openSurface(id)}
-      />
 
       <ExploreFilmActivity
         homeData={homeData}

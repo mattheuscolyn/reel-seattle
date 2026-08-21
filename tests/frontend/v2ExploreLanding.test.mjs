@@ -147,13 +147,12 @@ test('Explore landing source section order and Hidden preview absence', () => {
   );
   const quick = source.indexOf('<ExploreQuickStart');
   const browse = source.indexOf('<ExploreBrowseBy');
-  const suggested = source.indexOf('<ExploreSuggestedStarts');
   const activity = source.indexOf('<ExploreFilmActivity');
   const recent = source.indexOf('<ExploreRecentSearches');
   assert.ok(quick > 0 && browse > quick);
-  assert.ok(suggested > browse);
-  assert.ok(activity > suggested);
+  assert.ok(activity > browse);
   assert.ok(recent > activity);
+  assert.equal(source.includes('ExploreSuggestedStarts'), false);
   assert.equal(source.includes('ExploreHiddenPreview'), false);
   assert.equal(source.includes('Everything Everywhere All at Once'), false);
   assert.equal(source.includes('Young Washington'), false);
@@ -184,7 +183,7 @@ test('Film Activity copy and cards avoid device-only / gradient treatments', () 
   );
 });
 
-test('Suggested Starts contains Everything / Today / This Week / Weekend', () => {
+test('Suggested Starts helper still builds date scopes for catalog/deep links', () => {
   const items = buildSuggestedStarts();
   assert.deepEqual(
     items.map((item) => item.title),

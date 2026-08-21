@@ -55,13 +55,15 @@ export default function CollectionSurface({
 
   const content = useMemo(() => {
     // Opening This Week is a designed Stage 1 surface (OpeningThisWeekSurface).
-    // Keep Leaving Soon and other collections on this scaffold.
+    // Leaving Soon stays gated with honest unavailable copy (LEAVE-01).
     if (collectionId === COLLECTION_IDS.leavingSoon) {
       const shelf = buildLeavingSoonShelf(homeData);
       return {
         status: 'unavailable',
-        kind: 'films',
+        kind: 'leaving-soon',
         reason: shelf.reason,
+        emptyTitle: shelf.emptyTitle,
+        emptyBody: shelf.emptyBody,
         films: [],
         theaters: [],
         formats: [],
@@ -86,13 +88,16 @@ export default function CollectionSurface({
   }, [collectionId, homeData, enrichmentIndex, query, dismissedKeys, seenKeys, savedKeys]);
 
   const suggested = useMemo(() => buildSuggestedStarts(), []);
+  const isLeavingSoon = collectionId === COLLECTION_IDS.leavingSoon;
 
   return (
     <section className="v2-collection" aria-labelledby="v2-collection-title">
       <button type="button" className="v2-film-detail-back" onClick={onBack}>
         ← Back
       </button>
-      <p className="v2-destination-eyebrow">Explore · scaffold</p>
+      {isLeavingSoon ? null : (
+        <p className="v2-destination-eyebrow">Explore · scaffold</p>
+      )}
       <h1 id="v2-collection-title">{title}</h1>
       {query ? (
         <p className="v2-collection-query">
@@ -100,7 +105,16 @@ export default function CollectionSurface({
         </p>
       ) : null}
 
-      {content.reason ? (
+      {isLeavingSoon ? (
+        <div className="v2-collection-leaving-soon" role="status">
+          <p className="v2-collection-leaving-soon-title">
+            {content.emptyTitle ?? content.reason}
+          </p>
+          {content.emptyBody ? (
+            <p className="v2-collection-leaving-soon-body">{content.emptyBody}</p>
+          ) : null}
+        </div>
+      ) : content.reason ? (
         <p
           className={
             content.status === 'unavailable'
@@ -113,7 +127,7 @@ export default function CollectionSurface({
         </p>
       ) : null}
 
-      {content.note ? (
+      {content.note && !isLeavingSoon ? (
         <p className="v2-shelf-provisional" role="note">
           {content.note}
         </p>

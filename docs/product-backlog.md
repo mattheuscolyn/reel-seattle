@@ -54,7 +54,7 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 | QW-13 | Explore | Remove gradients from Seen and Not Interested buttons | Visual polish | Medium | XS | Done | Replace with normal Reel Seattle surface/button styling. |
 | QW-14 | Explore | Copy says "Activity stays on this device" even though accounts/sync now exist | Copy correctness | High | XS | Done | Rewrite to reflect current behavior accurately. |
 | QW-15 | Overall | TMDB data credit looks awkward/unprofessional where it appears | Visual system | Medium | S | Done | Shared muted TmdbAttribution treatment. |
-| QW-16 | Browse All Showtimes | Theater name link underline feels sloppy in expanded detail | Visual polish | Medium | XS-S | Outstanding | Restyle navigation affordance. |
+| QW-16 | Browse All Showtimes | Theater name link underline feels sloppy in expanded detail | Visual polish | Medium | XS-S | Done | Accent link without default underline; hover underline + focus ring. |
 | QW-17 | Browse All Showtimes | Showtime pills do nothing on click | Interaction bug | High | S-M | Outstanding | At minimum expose Add to Calendar / Add to My Schedule / Tickets actions. |
 
 ---
@@ -117,7 +117,8 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 | OPEN-04 | Film cards show only one theater/showtime and therefore look like a single-screening advertisement | UX / card semantics | High | M | Outstanding | Card represents a film. Prefer summary such as "4 theaters · 17 showtimes" plus optional next screening. |
 | OPEN-05 | Explore tab is highlighted although page behaves as a Home child | Navigation | High | S | Done | Same as SYS-04. |
 | OPEN-06 | Review opening-this-week business logic | Logic | High | M | Outstanding | Same as HOME-02. |
-| OPEN-07 | Opening card Save and Not interested actions are still stubs | Bug | Medium | S | Outstanding | Wire to existing Saved / Not Interested stores or remove until ready. |
+| OPEN-07 | Opening card Save and Not interested actions are still stubs | Bug | Medium | S | Done | Wired to savedFilmsStore / notInterestedFilmsStore. |
+| OPEN-08 | Opening card “Also playing at” theater jump is still a stub | Bug | Medium | S | Outstanding | Should open Theater Detail or showtimes for that venue. |
 
 ---
 
@@ -125,7 +126,7 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 
 | ID | Outstanding item | Type | Priority | Effort | Status | Notes / dependencies |
 |---|---|---|---|---|---|---|
-| LEAVE-01 | Remove weird scaffold text | Polish | High | XS-S | Outstanding | Immediate cleanup. |
+| LEAVE-01 | Remove weird scaffold text | Polish | High | XS-S | Done | Removed “Explore · scaffold”; honest gated Leaving Soon copy. |
 | LEAVE-02 | Match the visual design/pattern of Opening This Week even before the data model is fully powered | Design consistency | High | S-M | Outstanding | Reuse shared film-card/surface design. |
 | LEAVE-03 | Build a real Leaving Soon data model | Data model | High | XL | Outstanding | Same as HOME-03; likely separate data-science track. |
 
@@ -157,7 +158,7 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 | THEATER-03 | Remove Save button | Cleanup | Medium | XS | Done | Same as QW-10. |
 | THEATER-04 | Favorite button does not work | Bug | High | S-M | Done | Same as QW-11. |
 | THEATER-05 | Film Detail opened from a theater should stay theater-contextual | Contextual navigation | High | M | Outstanding | Same as FILM-06. |
-| THEATER-06 | Theater Detail “View all” is still a stub | Bug | High | S | Outstanding | Should match Theater list: open showtimes browse with theater preselected and sensible back. |
+| THEATER-06 | Theater Detail “View all” is still a stub | Bug | High | S | Done | Same helper as list: showtimes browse with theaterIds + returnSurface. |
 | THEATER-07 | Theater list Filters control is still a stub | Bug | Medium | S | Outstanding | Implement bounded theater filters or remove until ready. |
 
 ---
@@ -168,7 +169,7 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 |---|---|---|---|---|---|---|
 | EXP-01 | Quick Start section looks unprofessional | Visual redesign | High | S-M | Outstanding | Revisit after deciding which quick starts should remain. |
 | EXP-02 | Quick links currently lead to scaffold placeholders | IA / routing | High | M | Outstanding | Where possible route to Browse All Showtimes with filters pre-applied. |
-| EXP-03 | Suggested Starts feels duplicative of Quick Start | IA | High | S | Outstanding | Remove for now unless it becomes genuinely personalized. |
+| EXP-03 | Suggested Starts feels duplicative of Quick Start | IA | High | S | Done | Removed from Explore landing; EXP-04 keeps future personalized version. |
 | EXP-04 | Long-term: Suggested Starts should be powered by user behavior/preferences | Personalization | Low / future | XL | Outstanding | Could use saved genres, favorite theaters, clicked films, time preferences, seen history, etc. |
 | EXP-05 | Seen and Not Interested gradients feel embarrassing / overly AI-styled | Visual polish | Medium | XS | Done | Same as QW-13. |
 | EXP-06 | "Seen films can still appear... Activity stays on this device" copy is outdated | Copy correctness | High | XS | Done | Same as QW-14. |
@@ -249,7 +250,7 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 |---|---|---|---|---|---|---|
 | CONS-01 | Decide which placeholder pages should be removed in favor of Browse All Showtimes with pre-applied filters | Architecture / IA | High | M | Outstanding | Coming Soon, Special Events, some Quick Starts, possibly some Collections. |
 | CONS-02 | Decide whether Collections deserves a standalone product surface | Product decision | Medium | M | Outstanding | Could instead be editorial/saved filter presets. |
-| CONS-03 | Remove Suggested Starts until it is truly personalized | Product cleanup | High | S | Outstanding | Avoid implying personalization that does not exist. |
+| CONS-03 | Remove Suggested Starts until it is truly personalized | Product cleanup | High | S | Done | Same as EXP-03. |
 
 ---
 

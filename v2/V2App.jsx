@@ -1380,6 +1380,12 @@ export default function V2App() {
             returnSurface: nav.surface,
           })
         }
+        onOpenShowtimesBrowse={({ theaterId: browseTheaterId }) =>
+          handleBrowseTheaterShowtimes({
+            theaterId: browseTheaterId,
+            returnSurface: nav.surface,
+          })
+        }
         onStubAction={(_actionId, label) => {
           setProfileStubStatus(
             `${label} isn’t available in this Stage 1 Theater Detail shell yet.`,

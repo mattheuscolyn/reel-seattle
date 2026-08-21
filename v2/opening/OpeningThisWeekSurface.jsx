@@ -2,8 +2,8 @@
  * Opening This Week — live HomeData + enrichment when available (T-ENR-10),
  * otherwise Stage 1 mockup fixture for visual QC.
  *
- * Expand / More details / Sort / Filters are real.
- * Save and Not interested remain Stage 1 stubs.
+ * Expand / More details / Sort / Filters / Save / Not interested are real.
+ * Also-playing theater jump remains a Stage 1 stub.
  */
 
 import { useId, useMemo, useState } from 'react';
@@ -19,6 +19,15 @@ import {
 } from '../icons.jsx';
 import TmdbAttribution from '../enrichment/TmdbAttribution.jsx';
 import { resolveOpeningThisWeekPresentation } from '../fixtures/openingThisWeekMockupFixture.js';
+import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
+import {
+  isFilmSaved,
+  toggleSavedFilm,
+} from '../stores/savedFilmsStore.js';
+import {
+  isFilmNotInterested,
+  toggleFilmNotInterested,
+} from '../stores/notInterestedFilmsStore.js';
 import { buildLiveOpeningThisWeekPresentation } from './buildLiveOpeningPresentation.js';
 import {
   OPENING_SORT_OPTIONS,
@@ -28,6 +37,14 @@ import {
   resolveOpeningSortOption,
   sortOpeningFilms,
 } from './openingListControls.js';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * @param {{
@@ -50,11 +67,13 @@ export default function OpeningThisWeekSurface({
   const presentation = homeData
     ? buildLiveOpeningThisWeekPresentation(homeData, enrichmentIndex)
     : resolveOpeningThisWeekPresentation();
+  const storage = getBrowserStorage();
   const stubStatusId = useId();
   const sortMenuId = useId();
   const filterMenuId = useId();
   const [stubMessage, setStubMessage] = useState(null);
   const [expandedFilmKey, setExpandedFilmKey] = useState(null);
+  const [actionRevision, setActionRevision] = useState(0);
   const [sortId, setSortId] = useState('opening-date');
   const [sortOpen, setSortOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -72,6 +91,36 @@ export default function OpeningThisWeekSurface({
 
   const toggleExpand = (filmKey) => {
     setExpandedFilmKey((current) => (current === filmKey ? null : filmKey));
+  };
+
+  const filmActionState = (film) => {
+    void actionRevision;
+    const filmRef = filmRefFromHomeFilm(film);
+    return {
+      filmRef,
+      saved: filmRef ? isFilmSaved(storage, filmRef) : false,
+      notInterested: filmRef ? isFilmNotInterested(storage, filmRef) : false,
+    };
+  };
+
+  const handleToggleSave = (film) => {
+    const { filmRef } = filmActionState(film);
+    if (!filmRef) return;
+    toggleSavedFilm(storage, filmRef, {
+      title: film.title,
+      posterUrl: film.posterUrl,
+    });
+    setActionRevision((n) => n + 1);
+  };
+
+  const handleToggleNotInterested = (film) => {
+    const { filmRef } = filmActionState(film);
+    if (!filmRef) return;
+    toggleFilmNotInterested(storage, filmRef, {
+      title: film.title,
+      posterUrl: film.posterUrl,
+    });
+    setActionRevision((n) => n + 1);
   };
 
   const sortOption = resolveOpeningSortOption(sortId);
@@ -480,40 +529,51 @@ export default function OpeningThisWeekSurface({
                       )}
 
                       <div className="v2-opening-card-actions">
-                        <button
-                          type="button"
-                          className="v2-opening-card-action"
-                          onClick={() =>
-                            announceStub(
-                              `save-${film.filmKey}`,
-                              `Save ${film.title}`,
-                            )
-                          }
-                        >
-                          <IconBookmark
-                            width={16}
-                            height={16}
-                            aria-hidden="true"
-                          />
-                          Save
-                        </button>
-                        <button
-                          type="button"
-                          className="v2-opening-card-action"
-                          onClick={() =>
-                            announceStub(
-                              `ni-${film.filmKey}`,
-                              `Not interested · ${film.title}`,
-                            )
-                          }
-                        >
-                          <IconEyeOff
-                            width={16}
-                            height={16}
-                            aria-hidden="true"
-                          />
-                          Not interested
-                        </button>
+                        {(() => {
+                          const { filmRef, saved, notInterested } =
+                            filmActionState(film);
+                          const canAct = Boolean(filmRef);
+                          return (
+                            <>
+                              <button
+                                type="button"
+                                className={
+                                  saved
+                                    ? 'v2-opening-card-action is-active'
+                                    : 'v2-opening-card-action'
+                                }
+                                aria-pressed={saved}
+                                disabled={!canAct}
+                                onClick={() => handleToggleSave(film)}
+                              >
+                                <IconBookmark
+                                  width={16}
+                                  height={16}
+                                  aria-hidden="true"
+                                />
+                                {saved ? 'Saved' : 'Save'}
+                              </button>
+                              <button
+                                type="button"
+                                className={
+                                  notInterested
+                                    ? 'v2-opening-card-action is-active'
+                                    : 'v2-opening-card-action'
+                                }
+                                aria-pressed={notInterested}
+                                disabled={!canAct}
+                                onClick={() => handleToggleNotInterested(film)}
+                              >
+                                <IconEyeOff
+                                  width={16}
+                                  height={16}
+                                  aria-hidden="true"
+                                />
+                                Not interested
+                              </button>
+                            </>
+                          );
+                        })()}
                         <button
                           type="button"
                           className="v2-opening-card-more"

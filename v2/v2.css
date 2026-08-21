@@ -2083,6 +2083,27 @@ button {
   font-size: 0.85rem;
 }
 
+.v2-collection-leaving-soon {
+  margin: var(--v2-space-3) 0 0;
+  padding: 0.85rem 0.9rem;
+  border-radius: var(--v2-radius-sm);
+  border: 1px dashed var(--v2-border);
+}
+
+.v2-collection-leaving-soon-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: var(--v2-fg);
+}
+
+.v2-collection-leaving-soon-body {
+  margin: 0.4rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--v2-muted);
+}
+
 .v2-collection-row-wrap {
   display: flex;
   flex-direction: column;
@@ -6376,6 +6397,16 @@ a.v2-st-time:hover {
 
 .v2-opening-card-action svg {
   color: var(--v2-accent);
+}
+
+.v2-opening-card-action.is-active {
+  color: var(--v2-accent);
+  font-weight: 650;
+}
+
+.v2-opening-card-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .v2-opening-card-more {
@@ -13618,17 +13649,22 @@ a.v2-st-time:hover {
   color: var(--v2-accent, #a78bfa);
   font: inherit;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 650;
   text-align: left;
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 0.12em;
+  text-decoration: none;
 }
 
 .v2-stb-theater-name-static {
   cursor: default;
-  text-decoration: none;
   color: inherit;
+  font-weight: 600;
+}
+
+.v2-stb-theater-name:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: from-font;
 }
 
 .v2-stb-theater-name:focus-visible {
