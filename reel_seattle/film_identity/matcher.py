@@ -19,6 +19,7 @@ from reel_seattle.film_identity.constants import (
     STATUS_CONFIRMED_MANUAL,
     STATUS_DEFERRED,
     STATUS_ERROR,
+    STATUS_MULTIPLE_SHORTS,
     STATUS_NON_FILM,
     STATUS_REJECTED,
     STATUS_REVIEW_REQUIRED,
@@ -27,11 +28,12 @@ from reel_seattle.film_identity.constants import (
 from reel_seattle.film_identity.decisions import (
     DECISION_CONFIRM,
     DECISION_DEFER,
+    DECISION_MULTIPLE_SHORTS,
     DECISION_NON_FILM,
     DECISION_REJECT_CANDIDATE,
     DECISION_UNMAPPED,
-    active_decisions_by_source_key,
     rejected_tmdb_ids_for,
+    resolve_active_decision,
     source_identity_key,
 )
 from reel_seattle.film_identity.eligibility import AMBIGUOUS_PROGRAM, ELIGIBLE, NON_FILM
@@ -58,6 +60,7 @@ def match_source_identity(
     *,
     client: TmdbClient | None,
     decisions_doc: Mapping[str, Any],
+    admin_decisions_doc: Mapping[str, Any] | None = None,
     enrich_top_n: int = 5,
 ) -> dict[str, Any]:
     """Match one inventoried source identity; never raises for per-item API errors."""
@@ -128,10 +131,14 @@ def match_source_identity(
         "top_candidate_margin": None,
     }
 
-    active = active_decisions_by_source_key(decisions_doc).get(
-        source_identity_key(source_identity)
+    active = resolve_active_decision(
+        source_identity,
+        decisions_doc,
+        admin_decisions_doc,
     )
     rejected = rejected_tmdb_ids_for(source_identity, decisions_doc)
+    if admin_decisions_doc:
+        rejected |= rejected_tmdb_ids_for(source_identity, admin_decisions_doc)
 
     if active:
         decision = active.get("decision")
@@ -157,6 +164,16 @@ def match_source_identity(
                 "identity_type": parsed_fallback.identity_type,
                 "tmdb_id": None,
                 "match_status": STATUS_NON_FILM,
+                "match_method": METHOD_MANUAL,
+                "match_confidence": None,
+            }
+        if decision == DECISION_MULTIPLE_SHORTS:
+            return {
+                **base,
+                "film_id": fallback,
+                "identity_type": parsed_fallback.identity_type,
+                "tmdb_id": None,
+                "match_status": STATUS_MULTIPLE_SHORTS,
                 "match_method": METHOD_MANUAL,
                 "match_confidence": None,
             }
@@ -384,6 +401,7 @@ def build_match_artifacts(
     *,
     client: TmdbClient | None,
     decisions_doc: Mapping[str, Any],
+    admin_decisions_doc: Mapping[str, Any] | None = None,
     generated_at: str | None = None,
 ) -> dict[str, Any]:
     stamp = generated_at or datetime.now(timezone.utc).replace(microsecond=0).isoformat()
@@ -394,6 +412,7 @@ def build_match_artifacts(
             identity,
             client=client,
             decisions_doc=decisions_doc,
+            admin_decisions_doc=admin_decisions_doc,
         )
         if result.get("match_status") == STATUS_ERROR:
             errors += 1
@@ -537,6 +556,7 @@ def build_coverage_report(
         "review_required": by_status.get(STATUS_REVIEW_REQUIRED, 0),
         "unmatched": by_status.get(STATUS_UNMATCHED, 0),
         "non_film": by_status.get(STATUS_NON_FILM, 0),
+        "multiple_shorts": by_status.get(STATUS_MULTIPLE_SHORTS, 0),
         "deferred": by_status.get(STATUS_DEFERRED, 0),
         "rejected": by_status.get(STATUS_REJECTED, 0),
         "errors": by_status.get(STATUS_ERROR, 0) or errors,

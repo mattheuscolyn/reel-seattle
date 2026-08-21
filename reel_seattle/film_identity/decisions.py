@@ -10,8 +10,10 @@ from typing import Any, Mapping
 from uuid import uuid4
 
 from reel_seattle.film_identity.constants import (
+    ADMIN_OVERRIDES_REL,
     DECISION_CONFIRM,
     DECISION_DEFER,
+    DECISION_MULTIPLE_SHORTS,
     DECISION_NON_FILM,
     DECISION_REJECT_CANDIDATE,
     DECISION_UNMAPPED,
@@ -47,6 +49,38 @@ def load_decisions(path: Path | None = None) -> dict[str, Any]:
         doc = json.load(handle)
     validate_decisions_document(doc)
     return doc
+
+
+def admin_overrides_path(root: Path | None = None) -> Path:
+    return (root or PROJECT_ROOT) / ADMIN_OVERRIDES_REL
+
+
+def load_admin_override_decisions(path: Path | None = None) -> dict[str, Any]:
+    """Optional overlay exported from Supabase admin reviews.
+
+    Missing file is a no-op so local/CI matching still works without Supabase.
+    """
+    target = path or admin_overrides_path()
+    if not target.exists():
+        return empty_decisions_document()
+    with target.open(encoding="utf-8") as handle:
+        doc = json.load(handle)
+    validate_decisions_document(doc)
+    return doc
+
+
+def resolve_active_decision(
+    source_identity: Mapping[str, Any],
+    authored_doc: Mapping[str, Any],
+    admin_doc: Mapping[str, Any] | None = None,
+) -> dict[str, Any] | None:
+    """Admin overlay wins over authored JSON for the same source identity."""
+    key = source_identity_key(source_identity)
+    if admin_doc:
+        admin_hit = active_decisions_by_source_key(admin_doc).get(key)
+        if admin_hit:
+            return admin_hit
+    return active_decisions_by_source_key(authored_doc).get(key)
 
 
 def validate_decisions_document(doc: Mapping[str, Any]) -> None:
@@ -171,7 +205,12 @@ def _validate_semantics(doc: Mapping[str, Any]) -> None:
             tid = decision.get("tmdb_id")
             if not isinstance(tid, int) or tid < 1:
                 raise ValueError(f"confirm decision {did} missing tmdb_id")
-        if name in {DECISION_UNMAPPED, DECISION_NON_FILM, DECISION_DEFER}:
+        if name in {
+            DECISION_UNMAPPED,
+            DECISION_NON_FILM,
+            DECISION_MULTIPLE_SHORTS,
+            DECISION_DEFER,
+        }:
             # Distinct states — confirm they are not overloaded.
             pass
         if decision.get("active", True):

@@ -116,6 +116,11 @@ export function mapTmdbSearchHitToFilmResult(row) {
       : null;
   const metaParts = [year != null ? String(year) : null].filter(Boolean);
 
+  const originalTitle =
+    typeof row.original_title === 'string' && row.original_title.trim()
+      ? row.original_title.trim()
+      : null;
+
   const tmdbId = Number(filmId.slice('tmdb:'.length));
 
   return {
@@ -126,6 +131,8 @@ export function mapTmdbSearchHitToFilmResult(row) {
     parentFilmKey: null,
     showtimeFilmKey: filmId,
     title,
+    originalTitle:
+      originalTitle && originalTitle !== title ? originalTitle : null,
     sourceTitle: title,
     posterUrl: posterUrlFromTmdbPath(row.poster_path),
     runtimeMin: null,

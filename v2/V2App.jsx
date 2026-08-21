@@ -55,6 +55,7 @@ import {
   openExperienceDetail,
   openCompareFormats,
   openFormatRecommendation,
+  openAdminTmdbReview,
   selectPrimaryDestination,
   startPlannerFromFilm,
   updateSearchUi,
@@ -85,6 +86,7 @@ import FormatDetailSurface from './formatsExperiences/FormatDetailSurface.jsx';
 import ExperienceDetailSurface from './formatsExperiences/ExperienceDetailSurface.jsx';
 import CompareFormatsSurface from './formatsExperiences/CompareFormatsSurface.jsx';
 import FormatRecommendationSurface from './formatsExperiences/FormatRecommendationSurface.jsx';
+import TmdbMatchReviewSurface from './admin/tmdbReview/TmdbMatchReviewSurface.jsx';
 import { createDefaultShowtimesBrowseUi } from './showtimes/showtimesBrowseModel.js';
 import { resolveFilmDetailBackLabel } from './filmDetail/filmDetailModel.js';
 import { isAboutMyScheduleQueryOpen } from './fixtures/aboutMyScheduleMockupFixture.js';
@@ -548,6 +550,27 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleOpenAdminTmdbReview = useCallback(() => {
+    setNav((current) =>
+      openAdminTmdbReview(current, {
+        originPrimary: 'profile',
+        returnSurface: null,
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('admin') !== 'tmdb-review') return;
+    setNav((current) => {
+      if (current.surface?.type === 'admin-tmdb-review') return current;
+      return openAdminTmdbReview(current, { originPrimary: 'profile' });
+    });
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleOpenFilmDetail = useCallback((params) => {
     setShareStatus(null);
     setSaveError(null);
@@ -939,6 +962,7 @@ export default function V2App() {
   const isExperienceDetail = nav.surface?.type === 'experience-detail';
   const isCompareFormats = nav.surface?.type === 'compare-formats';
   const isFormatRecommendation = nav.surface?.type === 'format-recommendation';
+  const isAdminTmdbReview = nav.surface?.type === 'admin-tmdb-review';
   const isPersonalCollection =
     nav.surface?.type === 'collection' &&
     isPersonalCollectionId(nav.surface.collectionId);
@@ -1807,6 +1831,14 @@ export default function V2App() {
         />
       </div>
     );
+  } else if (isAdminTmdbReview) {
+    mainContent = (
+      <TmdbMatchReviewSurface
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
+        onBack={handleBack}
+      />
+    );
   } else {
     mainContent = (
       <DestinationPlaceholder
@@ -1834,6 +1866,7 @@ export default function V2App() {
           );
           window.setTimeout(() => setProfileStubStatus(null), 2500);
         }}
+        onOpenAdminTmdbReview={handleOpenAdminTmdbReview}
         onPlannerStubAction={(_actionId, label) => {
           setProfileStubStatus(
             `${label} isn’t available in this Stage 1 Planner shell yet.`,
@@ -2059,10 +2092,12 @@ export default function V2App() {
         </p>
       ) : null}
 
-      <PrimaryNav
-        activeDestinationId={activePrimaryId}
-        onSelectDestination={handleSelectDestination}
-      />
+      {isAdminTmdbReview ? null : (
+        <PrimaryNav
+          activeDestinationId={activePrimaryId}
+          onSelectDestination={handleSelectDestination}
+        />
+      )}
       </div>
 
       {notificationsOpen && notificationBell.visible ? (

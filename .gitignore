@@ -40,8 +40,16 @@ data/cache/
 
 # Local film-identity review notes + generated review exports (unstaged by default)
 data/film_identity/review_notes.json
+data/film_identity/admin_match_overrides.json
+data/audits/admin_film_identity_reviews_export.json
+data/audits/admin_confirmed_match_diagnostics.json
+data/audits/admin_confirmed_match_summary.json
+data/audits/film_identity_catalog_before_rematch.json
+data/audits/tmdb_match_review_queue_before_rematch.json
+data/audits/precommit_live_rematch_validation.json
 data/audits/film_identity_review_pack.json
 data/audits/film_identity_review_exports/
+
 
 # Regenerable local audit dumps (do not commit; tracked cockpit/workflow audits stay versioned)
 data/audits/canonical_film_current_window_report.json

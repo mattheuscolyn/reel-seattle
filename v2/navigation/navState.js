@@ -151,6 +151,13 @@ import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
  */
 
 /**
+ * @typedef {object} AdminTmdbReviewSurface
+ * @property {'admin-tmdb-review'} type
+ * @property {string} originPrimary
+ * @property {object | null} [returnSurface]
+ */
+
+/**
  * @returns {{
  *   primaryDestinationId: string,
  *   surface: null | FilmDetailSurface | CollectionSurface | OpportunityDetailSurface | ShowtimesSurface | AboutMyScheduleSurface | BuildPlanSurface | BuildPlanResultsSurface | BuildPlanPlanDetailsSurface | MyScheduleWeekSurface | MyScheduleMonthSurface | ScheduleSettingsSurface | TheaterDetailSurface,
@@ -819,6 +826,30 @@ export function openFormatRecommendation(state, params = {}) {
 }
 
 /**
+ * Internal TMDB match review (admin-only).
+ * @param {object} state
+ * @param {{
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} [params]
+ */
+export function openAdminTmdbReview(state, params = {}) {
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'profile',
+  );
+  return {
+    ...state,
+    primaryDestinationId: 'profile',
+    plannerSeed: null,
+    surface: {
+      type: 'admin-tmdb-review',
+      originPrimary,
+      returnSurface: params.returnSurface ?? null,
+    },
+  };
+}
+
+/**
  * Back from a deep surface.
  * @param {object} state
  */
@@ -842,7 +873,8 @@ export function navigateBack(state) {
     state.surface.type === 'format-detail' ||
     state.surface.type === 'experience-detail' ||
     state.surface.type === 'compare-formats' ||
-    state.surface.type === 'format-recommendation'
+    state.surface.type === 'format-recommendation' ||
+    state.surface.type === 'admin-tmdb-review'
   ) {
     if (state.surface.type === 'showtimes-browse') {
       if (state.surface.returnSurface) {

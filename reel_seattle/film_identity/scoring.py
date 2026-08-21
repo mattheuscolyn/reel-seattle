@@ -7,6 +7,7 @@ from typing import Any, Mapping, Sequence
 
 from reel_seattle.film_identity.constants import (
     AUTO_CONFIRM_MIN_SCORE,
+    REMAKE_RUNTIME_AUTO_MARGIN_MIN,
     REVIEW_MIN_SCORE,
     RUNTIME_COMPATIBLE_MAX_MIN,
     RUNTIME_CONFLICT_MIN,
@@ -400,13 +401,23 @@ def classify_match_bucket(
             and c.signals.get("title_exact")
             and c.release_year != top.release_year
         ]
-        # Missing year + multiple same-title hits → require review, do not force a match.
+        remake_resolved_by_runtime = (
+            margin is not None
+            and margin >= REMAKE_RUNTIME_AUTO_MARGIN_MIN
+            and top.signals.get("title_exact")
+            and top.signals.get("runtime_near")
+        )
+        # Missing year + multiple same-title hits → require review, do not force a match
+        # unless runtime corroboration and a clear score margin resolve the remake.
         if close_remakes and top.signals.get("year_status") == "unavailable":
+            if remake_resolved_by_runtime:
+                return "auto", top
             return "review", _with_warning(top, "same_title_remake_ambiguity")
         # Year/external corroboration resolves remakes; keep review only when unresolved.
         if close_remakes and not (
             top.signals.get("year_exact")
             or top.signals.get("external_id_exact")
+            or remake_resolved_by_runtime
             or (
                 top.signals.get("runtime_near")
                 and top.signals.get("director_overlap")

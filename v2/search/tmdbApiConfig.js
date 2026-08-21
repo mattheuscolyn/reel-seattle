@@ -7,7 +7,7 @@
  * 3. VITE_SUPABASE_URL — production Supabase Edge Function tmdb-api
  * 4. unavailable — client soft-fails; local search still works
  *
- * Never reads TMDB_READ_ACCESS_TOKEN / TMDB_API_KEY (server-only).
+ * Never reads server-only TMDB credential env vars (proxy/Edge Function only).
  */
 
 export const TMDB_EDGE_FUNCTION_NAME = 'tmdb-api';

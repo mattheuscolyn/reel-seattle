@@ -17,8 +17,15 @@ import {
   profileSeedFromAuthUser,
 } from './profileIdentity.js';
 
-const PROFILE_SELECT =
+const PROFILE_SELECT_BASE =
   'id, username, display_name, avatar_url, created_at, updated_at';
+const PROFILE_SELECT =
+  'id, username, display_name, avatar_url, is_admin, created_at, updated_at';
+
+function withAdminFlag(row) {
+  if (!row || typeof row !== 'object') return row;
+  return { ...row, is_admin: row.is_admin === true };
+}
 
 /**
  * @param {import('@supabase/supabase-js').SupabaseClient} client
@@ -34,7 +41,26 @@ async function selectOwnProfile(client, userId, generation) {
   if (generation !== getProfileFetchGeneration()) {
     return { stale: true, data: null, error: null };
   }
-  return { stale: false, data: data ?? null, error: error ?? null };
+  if (error && /is_admin/i.test(String(error.message || ''))) {
+    const fallback = await client
+      .from('profiles')
+      .select(PROFILE_SELECT_BASE)
+      .eq('id', userId)
+      .maybeSingle();
+    if (generation !== getProfileFetchGeneration()) {
+      return { stale: true, data: null, error: null };
+    }
+    return {
+      stale: false,
+      data: withAdminFlag(fallback.data ?? null),
+      error: fallback.error ?? null,
+    };
+  }
+  return {
+    stale: false,
+    data: withAdminFlag(data ?? null),
+    error: error ?? null,
+  };
 }
 
 /**
@@ -144,10 +170,10 @@ export async function refreshOwnProfile(options = {}) {
     }
 
     setAuthProfilePatch({
-      profile: data ?? null,
+      profile: withAdminFlag(data ?? null),
       profileStatus: 'ready',
     });
-    return { ok: true, profile: data ?? null, recovered };
+    return { ok: true, profile: withAdminFlag(data ?? null), recovered };
   } catch {
     if (generation !== getProfileFetchGeneration()) {
       return { ok: false, profile: null, reason: 'stale' };
@@ -258,11 +284,13 @@ export async function updateOwnDisplayName(nextDisplayName, options = {}) {
     }
 
     setAuthProfilePatch({
-      profile: data ?? {
-        ...(prior && typeof prior === 'object' ? prior : {}),
-        id: userId,
-        display_name: normalized.value,
-      },
+      profile: withAdminFlag(
+        data ?? {
+          ...(prior && typeof prior === 'object' ? prior : {}),
+          id: userId,
+          display_name: normalized.value,
+        },
+      ),
       profileStatus: 'ready',
     });
     return { ok: true, profile: getAuthState().profile };

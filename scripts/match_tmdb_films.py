@@ -22,12 +22,16 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from reel_seattle.film_identity.cache import TmdbResponseCache  # noqa: E402
 from reel_seattle.film_identity.constants import (  # noqa: E402
+    ADMIN_OVERRIDES_REL,
     CATALOG_REL,
     COVERAGE_REL,
     DECISIONS_REL,
     REVIEW_QUEUE_REL,
 )
-from reel_seattle.film_identity.decisions import load_decisions  # noqa: E402
+from reel_seattle.film_identity.decisions import (  # noqa: E402
+    load_admin_override_decisions,
+    load_decisions,
+)
 from reel_seattle.film_identity.env_local import load_dotenv_local  # noqa: E402
 from reel_seattle.film_identity.inventory import inventory_source_identities  # noqa: E402
 from reel_seattle.film_identity.io_util import atomic_write_json  # noqa: E402
@@ -93,8 +97,15 @@ def main(argv: list[str] | None = None) -> int:
     load_dotenv_local(PROJECT_ROOT)
     args = parse_args(argv)
     decisions = load_decisions(args.decisions_path)
+    admin_decisions = load_admin_override_decisions(
+        PROJECT_ROOT / ADMIN_OVERRIDES_REL
+    )
     if args.dry_run_decisions_only:
         print(f"Decisions OK ({len(decisions.get('decisions') or [])} rows)")
+        print(
+            "Admin overrides OK "
+            f"({len(admin_decisions.get('decisions') or [])} rows)"
+        )
         return 0
 
     inventory = inventory_source_identities(
@@ -124,6 +135,7 @@ def main(argv: list[str] | None = None) -> int:
         identities,
         client=client,
         decisions_doc=decisions,
+        admin_decisions_doc=admin_decisions,
     )
 
     catalog = artifacts["catalog"]

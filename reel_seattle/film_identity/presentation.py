@@ -80,13 +80,22 @@ _PAREN_PRESENTATION_RE = re.compile(
     r"sensory\s+friendly|dubbed|subtitled|restored|remastered|"
     r"special\s+presentation|fan\s+event|one\s+night\s+only|"
     r"\d+(?:st|nd|rd|th)\s+anniversary|"
-    r"\d{4}\s+event|3d"
+    r"\d{4}\s+event|3d|"
+    # Theater event codes / co-presentation (not part of the film title).
+    r"hpd\d+|"
+    r"presented\s+with\s+[^)]+"
+    # Do NOT strip bare (YYYY): that destroys legitimate release-year titles.
     r")\s*\)\s*$",
     re.IGNORECASE,
 )
 # Mid-title anniversary phrase (e.g. "Only Yesterday 35th Anniversary …").
 _INLINE_ANNIVERSARY_RE = re.compile(
     r"\s+\d+(?:st|nd|rd|th)\s+anniversary(?:\s+screening)?\b",
+    re.IGNORECASE,
+)
+# Event-day titles with a screening-year paren (not a film release-year title).
+_EVENT_DAY_YEAR_PAREN_RE = re.compile(
+    r"^(?P<head>.+\bDay)\s*\(\s*(?P<year>(?:19|20)\d{2})\s*\)\s*$",
     re.IGNORECASE,
 )
 _PRESENTATION_TOKEN_RE = re.compile(
@@ -463,6 +472,19 @@ def extract_match_title(
                 working[: inline.start()] + " " + working[inline.end() :]
             )
             applied_rules.append("inline_anniversary")
+            changed = True
+            continue
+
+        # Event-day + screening year paren (Texas Chainsaw Day (2026)).
+        # Narrow: only when the head ends with "Day" — never bare (YYYY) titles.
+        day_year = _EVENT_DAY_YEAR_PAREN_RE.match(working)
+        if day_year:
+            head = day_year.group("head").strip()
+            year = day_year.group("year")
+            removed.append(f"({year})")
+            event_labels.append(year)
+            working = _cleanup_title_fragment(head)
+            applied_rules.append("event_day_year_paren")
             changed = True
             continue
 

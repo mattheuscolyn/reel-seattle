@@ -21,6 +21,7 @@ import ProfileDestination from './profile/ProfileDestination.jsx';
  *   onExploreRestoreConsumed?: () => void,
  *   plannerSeed?: object | null,
  *   onProfileStubAction?: (actionId: string, label: string) => void,
+ *   onOpenAdminTmdbReview?: () => void,
  *   onPlannerStubAction?: (actionId: string, label: string) => void,
  *   onOpenBuildPlan?: () => void,
  *   onOpenMyScheduleWeek?: () => void,
@@ -44,6 +45,7 @@ export default function DestinationPlaceholder({
   onExploreRestoreConsumed,
   plannerSeed = null,
   onProfileStubAction,
+  onOpenAdminTmdbReview,
   onPlannerStubAction,
   onOpenBuildPlan,
   onOpenMyScheduleWeek,
@@ -103,7 +105,12 @@ export default function DestinationPlaceholder({
   }
 
   if (destination.id === 'profile') {
-    return <ProfileDestination onStubAction={onProfileStubAction} />;
+    return (
+      <ProfileDestination
+        onStubAction={onProfileStubAction}
+        onOpenAdminTmdbReview={onOpenAdminTmdbReview}
+      />
+    );
   }
 
   return (
