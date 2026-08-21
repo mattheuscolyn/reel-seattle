@@ -2,13 +2,12 @@
  * Stage 1 Theaters list — fixture-backed replica of Theaters Page.png.
  *
  * Replaces CollectionSurface scaffold for collectionId theaters.
- * Expand/collapse is real. Favorite, Save, Filters, View all remain Stage 1 stubs
+ * Expand/collapse is real. Favorite, Filters, View all remain Stage 1 stubs
  * on the list (no store mutation). More details opens Theater Detail for Beacon.
  */
 
 import { useId, useState } from 'react';
 import {
-  IconBookmark,
   IconBuilding,
   IconChevron,
   IconFilm,
@@ -185,19 +184,6 @@ function TheaterListItem({
           <div className="v2-theaters-card-actions">
             <button
               type="button"
-              className="v2-theaters-card-action"
-              onClick={() =>
-                onStubAction?.(
-                  `save-${theater.id}`,
-                  `${labels.saveLabel} ${theater.name}`,
-                )
-              }
-            >
-              <IconBookmark width={16} height={16} aria-hidden="true" />
-              {labels.saveLabel}
-            </button>
-            <button
-              type="button"
               className="v2-theaters-card-more"
               aria-label={`${labels.moreDetailsLabel} for ${theater.name}`}
               onClick={() => {
@@ -247,11 +233,7 @@ export default function TheatersSurface({
   const { presentation } = resolveTheatersPagePresentation({ homeData });
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
-  const initialExpanded =
-    presentation.theaters.find((t) => t.initiallyExpanded)?.id ??
-    presentation.theaters[0]?.id ??
-    null;
-  const [expandedTheaterId, setExpandedTheaterId] = useState(initialExpanded);
+  const [expandedTheaterId, setExpandedTheaterId] = useState(null);
 
   const announceStub = (actionId, label) => {
     const message =
@@ -273,7 +255,6 @@ export default function TheatersSurface({
     nowShowingLabel: presentation.nowShowingLabel,
     viewAllLabel: presentation.viewAllLabel,
     moreDetailsLabel: presentation.moreDetailsLabel,
-    saveLabel: presentation.saveLabel,
   };
 
   return (

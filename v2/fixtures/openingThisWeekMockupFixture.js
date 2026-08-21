@@ -49,7 +49,7 @@ export const OPENING_THIS_WEEK_MOCKUP_FIXTURE = Object.freeze({
         theaterName: 'SIFF Cinema Uptown',
         detailLabel: 'May 23 • 7:15pm',
       }),
-      initiallyExpanded: true,
+      initiallyExpanded: false,
     }),
     Object.freeze({
       filmKey: 'fixture-opening-quiet-city',

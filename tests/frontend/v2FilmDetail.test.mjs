@@ -119,6 +119,18 @@ test('Film Detail surface preserves structural contract', () => {
   assert.equal(SURFACE.includes('loadHomeData'), false);
 });
 
+test('Best Way card and Newly Added badges stay contained', () => {
+  assert.match(CSS, /\.v2-fd-best\s*\{[^}]*max-width:\s*100%/s);
+  assert.match(CSS, /\.v2-fd-best\s*\{[^}]*min-width:\s*0/s);
+  assert.match(
+    CSS,
+    /\.v2-fd-best-top\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*auto\)\s+minmax\(0,\s*1fr\)\s+auto/s,
+  );
+  assert.match(CSS, /\.v2-fd-badges\s*\{[^}]*flex-wrap:\s*wrap/s);
+  assert.match(CSS, /\.v2-fd-badges\s*\{[^}]*overflow:\s*visible/s);
+  assert.equal(/\.v2-fd-badges\s*\{[^}]*overflow:\s*hidden/s.test(CSS), false);
+});
+
 test('Film Detail Share lives in hero, not header', () => {
   assert.ok(SURFACE.includes('v2-fd-share'));
   assert.ok(SURFACE.includes("className=\"v2-fd-share\""));

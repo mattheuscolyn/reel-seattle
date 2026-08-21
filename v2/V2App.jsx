@@ -2015,16 +2015,6 @@ export default function V2App() {
                 : 'default'
         }
         centerTitle={isBuildPlanPlanDetails ? 'Plan Details' : null}
-        onSettingsClick={
-          isProfilePrimary
-            ? () => {
-                setProfileStubStatus(
-                  'Settings isn’t available in this Stage 1 Profile shell yet.',
-                );
-                window.setTimeout(() => setProfileStubStatus(null), 2500);
-              }
-            : null
-        }
         variant={isFilmDetail ? 'film-detail' : 'default'}
         backLabel={
           isFilmDetail

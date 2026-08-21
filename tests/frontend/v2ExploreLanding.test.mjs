@@ -160,6 +160,30 @@ test('Explore landing source section order and Hidden preview absence', () => {
   assert.equal(source.includes('The Odyssey'), false);
 });
 
+test('Film Activity copy and cards avoid device-only / gradient treatments', () => {
+  const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+  const activitySrc = readFileSync(
+    join(root, 'v2/explore/ExploreFilmActivity.jsx'),
+    'utf8',
+  );
+  const css = readFileSync(join(root, 'v2/v2.css'), 'utf8');
+  assert.match(
+    activitySrc,
+    /Seen films can still appear for special opportunities\. With an account,\s*activity can sync across devices\./,
+  );
+  assert.equal(activitySrc.includes('Activity stays on this device'), false);
+  assert.match(css, /\.v2-activity-card-seen\s*\{[^}]*background:\s*var\(--v2-bg-raised\)/s);
+  assert.match(css, /\.v2-activity-card-hidden\s*\{[^}]*background:\s*var\(--v2-bg-raised\)/s);
+  assert.equal(
+    /\.v2-activity-card-seen\s*\{[^}]*linear-gradient/s.test(css),
+    false,
+  );
+  assert.equal(
+    /\.v2-activity-card-hidden\s*\{[^}]*linear-gradient/s.test(css),
+    false,
+  );
+});
+
 test('Suggested Starts contains Everything / Today / This Week / Weekend', () => {
   const items = buildSuggestedStarts();
   assert.deepEqual(

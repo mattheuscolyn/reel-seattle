@@ -63,7 +63,7 @@ test('Opening This Week fixture matches canonical mockup regions', () => {
   assert.equal(p.filtersLabel, 'Filters');
   assert.equal(p.films.length, 5);
   assert.equal(p.films[0].title, 'The Long Horizon');
-  assert.equal(p.films[0].initiallyExpanded, true);
+  assert.equal(p.films[0].initiallyExpanded, false);
   assert.equal(p.films[0].formatLabel, '70MM');
   assert.match(p.films[0].whySeeIt, /70mm/);
   assert.equal(p.films[1].title, 'Quiet City');
@@ -90,6 +90,14 @@ test('Opening designed page replaces CollectionSurface scaffold', () => {
   );
   assert.match(CSS, /\.v2-opening-page\b/);
   assert.match(CSS, /\.v2-opening-card\b/);
+});
+
+test('Opening page starts with all cards collapsed', () => {
+  assert.match(OPENING_SRC, /useState\(null\)/);
+  assert.equal(OPENING_SRC.includes('films[0]?.filmKey'), false);
+  assert.equal(OPENING_SRC.includes('initiallyExpanded'), false);
+  const p = getOpeningThisWeekMockupPresentation();
+  assert.ok(p.films.every((film) => film.initiallyExpanded === false));
 });
 
 test('Opening page renders filters and expand affordances', () => {

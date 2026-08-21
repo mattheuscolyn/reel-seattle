@@ -1871,13 +1871,13 @@ button {
 }
 
 .v2-activity-card-seen {
-  background: linear-gradient(165deg, rgba(46, 110, 96, 0.28), rgba(18, 20, 28, 0.95));
-  border-color: rgba(90, 160, 140, 0.28);
+  background: var(--v2-bg-raised);
+  border-color: rgba(90, 160, 140, 0.42);
 }
 
 .v2-activity-card-hidden {
-  background: linear-gradient(165deg, rgba(120, 58, 68, 0.3), rgba(18, 20, 28, 0.95));
-  border-color: rgba(180, 100, 110, 0.28);
+  background: var(--v2-bg-raised);
+  border-color: rgba(180, 100, 110, 0.4);
 }
 
 .v2-activity-card-top {
@@ -2885,9 +2885,9 @@ button {
   margin: 0.32rem 0 0;
   padding: 0;
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 0.28rem;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .v2-fd-badge-spacer {
@@ -2896,7 +2896,7 @@ button {
 
 .v2-fd-badge {
   margin: 0;
-  padding: 0.2rem 0.38rem;
+  padding: 0.22rem 0.4rem;
   border-radius: 0.25rem;
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.28);
@@ -2904,6 +2904,7 @@ button {
   font-size: 0.62rem;
   font-weight: 650;
   letter-spacing: 0.03em;
+  line-height: 1.25;
   display: inline-flex;
   align-items: center;
   gap: 0.18rem;
@@ -3301,9 +3302,12 @@ button {
   flex-direction: column;
   gap: 0.7rem;
   width: 100%;
+  max-width: 100%;
   margin: 0;
   padding: 0.95rem 0.85rem 0.85rem;
   min-height: 8.15rem;
+  min-width: 0;
+  box-sizing: border-box;
   border-radius: 0.7rem;
   border: 1.5px solid var(--v2-accent-border);
   background: rgba(139, 92, 246, 0.09);
@@ -3325,9 +3329,11 @@ button {
 
 .v2-fd-best-top {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
   gap: 0.75rem;
   align-items: center;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .v2-fd-best-format {
@@ -3335,12 +3341,14 @@ button {
   flex-direction: column;
   justify-content: center;
   gap: 0.32rem;
-  min-width: 5rem;
-  width: 5rem;
+  min-width: 0;
+  max-width: 5.5rem;
+  width: max-content;
   min-height: 4.1rem;
   padding: 0.6rem 0.55rem;
   border-radius: 0.45rem;
   background: rgba(0, 0, 0, 0.42);
+  box-sizing: border-box;
 }
 
 .v2-fd-best-kicker {
@@ -3352,10 +3360,12 @@ button {
 }
 
 .v2-fd-best-format-value {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--v2-fg);
-  line-height: 1.1;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .v2-fd-best-copy {
@@ -3391,6 +3401,8 @@ button {
   flex-wrap: nowrap;
   align-items: center;
   gap: 0;
+  min-width: 0;
+  max-width: 100%;
   min-height: 1.4rem;
   padding-top: 0.45rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -3413,10 +3425,11 @@ button {
   margin-right: 0.55rem;
   border-right: 0;
   position: relative;
+  flex-shrink: 0;
 }
 
 .v2-fd-best-fact:not(:last-child)::after {
-  content: '?';
+  content: '·';
   position: absolute;
   right: -0.05rem;
   color: rgba(180, 186, 200, 0.55);
@@ -3433,6 +3446,12 @@ button {
   width: 0.95rem;
   height: 0.95rem;
   flex-shrink: 0;
+}
+
+.v2-fd-best-top > svg {
+  flex-shrink: 0;
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
 .v2-fd-best-export {
@@ -5832,24 +5851,6 @@ a.v2-st-time:hover {
   border-top: 1px solid var(--v2-border);
 }
 
-.v2-theaters-card-action {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin: 0;
-  padding: 0.35rem 0;
-  border: 0;
-  background: transparent;
-  color: var(--v2-fg);
-  font: inherit;
-  font-size: 0.78rem;
-  cursor: pointer;
-}
-
-.v2-theaters-card-action svg {
-  color: var(--v2-accent);
-}
-
 .v2-theaters-card-more {
   display: inline-flex;
   align-items: center;
@@ -5865,7 +5866,6 @@ a.v2-st-time:hover {
   cursor: pointer;
 }
 
-.v2-theaters-card-action:focus-visible,
 .v2-theaters-card-more:focus-visible {
   outline: 2px solid var(--v2-focus);
   outline-offset: 2px;

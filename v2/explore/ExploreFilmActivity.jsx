@@ -51,7 +51,7 @@ function recentTitles(films) {
 }
 
 /**
- * Your Film Activity — Seen + Not interested summaries (device-local).
+ * Your Film Activity — Seen + Not interested summaries.
  */
 export default function ExploreFilmActivity({
   homeData,
@@ -131,8 +131,8 @@ export default function ExploreFilmActivity({
       </div>
 
       <p className="v2-activity-note" role="note">
-        Seen films can still appear for special opportunities. Activity stays on
-        this device.
+        Seen films can still appear for special opportunities. With an account,
+        activity can sync across devices.
       </p>
     </section>
   );

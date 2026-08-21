@@ -124,16 +124,18 @@ test('Profile surface keeps interactive rows as buttons', () => {
   assert.match(PROFILE_SRC, /aria-hidden="true"/);
 });
 
-test('Profile CSS and header gear exist', () => {
+test('Profile CSS exists; header has no dead settings gear', () => {
   assert.match(CSS, /\.v2-profile\b/);
   assert.match(CSS, /\.v2-profile-activity\b/);
   assert.match(CSS, /\.v2-profile-edit\b/);
   assert.match(CSS, /\.v2-profile-settings-row\b/);
-  assert.match(HEADER_SRC, /IconSettings/);
+  assert.equal(HEADER_SRC.includes('IconSettings'), false);
+  assert.equal(HEADER_SRC.includes('onSettingsClick'), false);
   assert.match(HEADER_SRC, /headerMode === 'profile'/);
   assert.match(APP_SRC, /headerMode=\{/);
   assert.match(APP_SRC, /isProfilePrimary/);
   assert.match(APP_SRC, /'profile'/);
+  assert.equal(APP_SRC.includes('onSettingsClick'), false);
 });
 
 test('four-tab nav unchanged and Profile activates correctly', () => {

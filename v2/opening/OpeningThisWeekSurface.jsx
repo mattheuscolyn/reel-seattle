@@ -43,11 +43,7 @@ export default function OpeningThisWeekSurface({
     : resolveOpeningThisWeekPresentation();
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
-  const initialExpanded =
-    presentation.films.find((f) => f.initiallyExpanded)?.filmKey ??
-    presentation.films[0]?.filmKey ??
-    null;
-  const [expandedFilmKey, setExpandedFilmKey] = useState(initialExpanded);
+  const [expandedFilmKey, setExpandedFilmKey] = useState(null);
 
   const announceStub = (actionId, label) => {
     const message = `${label} isn’t available in this Stage 1 Opening shell yet.`;
