@@ -50,7 +50,7 @@ export function composeTheatersListPresentation(homeData) {
         formatsLabel: card.formatsLabel,
         description: card.description,
         favorite: card.favorite,
-        initiallyExpanded: index === 0,
+        initiallyExpanded: false,
         nowShowing: card.nowShowing.slice(0, THEATER_NOW_SHOWING_LIST_LIMIT),
         sectionsVisible: card.sectionsVisible,
         openDetailEnabled: true,
@@ -67,7 +67,6 @@ export function composeTheatersListPresentation(homeData) {
     nowShowingLabel: 'Now showing',
     viewAllLabel: 'View all',
     moreDetailsLabel: 'More details',
-    saveLabel: 'Save',
     favoriteLabel: 'Favorite',
     theaters,
     emptyMessage:

@@ -1,7 +1,6 @@
 import {
   IconBell,
   IconProfile,
-  IconSettings,
   IconShare,
 } from '../icons.jsx';
 import { notificationBellAriaLabel } from '../notifications/notificationBellPresentation.js';
@@ -10,7 +9,7 @@ import { notificationBellAriaLabel } from '../notifications/notificationBellPres
  * Top application header.
  * Modes:
  * - default: wordmark + profile (notifications bell in left slot when signed in)
- * - profile destination: wordmark + settings (mockup gear)
+ * - profile destination: wordmark + trailing spacer (settings live on the page)
  * - search back: ← Explore
  * - film detail: ← Origin · wordmark (Save/Share live in the surface, not the header)
  * - build-plan: chevron back · wordmark · empty trailing spacer / Share
@@ -20,7 +19,6 @@ import { notificationBellAriaLabel } from '../notifications/notificationBellPres
  */
 export default function AppHeader({
   onProfileClick,
-  onSettingsClick = null,
   headerMode = 'default',
   backLabel = null,
   onBack = null,
@@ -39,8 +37,7 @@ export default function AppHeader({
   onNotificationsOpen = null,
 }) {
   const isFilmDetail = variant === 'film-detail';
-  const showSettings =
-    headerMode === 'profile' && typeof onSettingsClick === 'function';
+  const isProfile = headerMode === 'profile';
   const showPlanDetailsChrome = headerMode === 'plan-details';
   const showBuildPlanChrome =
     headerMode === 'build-plan' || showPlanDetailsChrome;
@@ -127,17 +124,8 @@ export default function AppHeader({
         <span className="v2-wordmark-line">REEL</span>
         <span className="v2-wordmark-line">SEATTLE</span>
       </p>
-      {isFilmDetail ? (
+      {isFilmDetail || isProfile ? (
         <div className="v2-header-spacer" aria-hidden="true" />
-      ) : showSettings ? (
-        <button
-          type="button"
-          className="v2-header-profile"
-          aria-label="Settings (Stage 1 placeholder)"
-          onClick={onSettingsClick}
-        >
-          <IconSettings />
-        </button>
       ) : showBuildPlanChrome ? (
         typeof onShare === 'function' ? (
           <button

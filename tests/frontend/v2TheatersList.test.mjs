@@ -64,7 +64,7 @@ test('Theaters fixture matches canonical mockup regions', () => {
   assert.equal(p.filtersLabel, 'Filters');
   assert.equal(p.theaters.length, 8);
   assert.equal(p.theaters[0].name, 'SIFF Cinema Downtown');
-  assert.equal(p.theaters[0].initiallyExpanded, true);
+  assert.equal(p.theaters[0].initiallyExpanded, false);
   assert.equal(p.theaters[0].nowShowing.length, 5);
   assert.equal(p.theaters[0].nowShowing[0].title, 'Blue Hour');
   assert.equal(p.theaters[1].name, 'The Beacon Cinema');
@@ -86,6 +86,21 @@ test('Theaters designed page replaces CollectionSurface scaffold', () => {
   assert.match(CSS, /\.v2-theaters-page\b/);
   assert.match(CSS, /\.v2-theaters-card\b/);
   assert.match(CSS, /\.v2-theaters-now\b/);
+});
+
+test('Theaters page starts with all cards collapsed', () => {
+  assert.match(THEATERS_SRC, /useState\(null\)/);
+  assert.equal(THEATERS_SRC.includes('theaters[0]?.id'), false);
+  assert.equal(THEATERS_SRC.includes('initiallyExpanded'), false);
+  const p = getTheatersMockupPresentation();
+  assert.ok(p.theaters.every((theater) => theater.initiallyExpanded === false));
+});
+
+test('Theaters list does not offer theater Save', () => {
+  assert.equal(THEATERS_SRC.includes('saveLabel'), false);
+  assert.equal(THEATERS_SRC.includes('IconBookmark'), false);
+  assert.equal(THEATERS_SRC.includes('`save-${theater.id}`'), false);
+  assert.equal(Object.hasOwn(resolveTheatersPresentation(), 'saveLabel'), false);
 });
 
 test('Expanded Now showing is unified; rejected section labels absent', () => {

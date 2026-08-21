@@ -91,7 +91,7 @@ export function buildLiveOpeningThisWeekPresentation(
               detailLabel: 'See showtimes',
             }
           : null,
-      initiallyExpanded: index === 0,
+      initiallyExpanded: false,
       hasEnrichment: enriched.hasEnrichment,
       opportunityKey: opportunity?.opportunityKey ?? null,
     };

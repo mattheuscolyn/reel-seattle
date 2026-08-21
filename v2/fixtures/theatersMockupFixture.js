@@ -39,7 +39,6 @@ export const THEATERS_MOCKUP_FIXTURE = Object.freeze({
   nowShowingLabel: 'Now showing',
   viewAllLabel: 'View all',
   moreDetailsLabel: 'More details',
-  saveLabel: 'Save',
   favoriteLabel: 'Favorite',
   theaters: Object.freeze([
     Object.freeze({
@@ -53,7 +52,7 @@ export const THEATERS_MOCKUP_FIXTURE = Object.freeze({
       description:
         "Seattle's flagship nonprofit cinema in the heart of Belltown. Premieres, festivals, and the best in independent and international film.",
       favorite: false,
-      initiallyExpanded: true,
+      initiallyExpanded: false,
       nowShowing: Object.freeze([
         Object.freeze({
           filmKey: 'fixture-theater-blue-hour',
