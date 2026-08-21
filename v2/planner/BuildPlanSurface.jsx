@@ -60,14 +60,31 @@ import {
   formatBreakMinutes,
 } from './planBreakRange.js';
 import { formatPlanSizeLabel, normalizePlanSize } from './planSize.js';
+import {
+  PLAN_SIZE_COUNT_OPTIONS,
+  planSizeFromUiMode,
+  planSizeUiMode,
+} from './planSizeUi.js';
+import {
+  formatLockedShowtimeDetail,
+  isLockedShowtimeEligibleUnderForm,
+  removeLockedShowtimeFromForm,
+} from './buildPlanPerformanceCatalog.js';
+import {
+  filmCardHasEligibleShowtimes,
+} from './buildPlanFilmCatalog.js';
+import { resolveBuildPlanHardConstraints } from './buildPlanHardConstraints.js';
+import { validateBuildPlanDraftForGenerate } from './buildPlanDraftValidation.js';
+import {
+  conflictsForFilmCard,
+  conflictsForPerformance,
+  formatPlannerConflictMessages,
+} from './buildPlanConflictCopy.js';
 
-const PLAN_SIZE_OPTIONS = Object.freeze([
-  '1 movie',
-  '1–3 movies',
-  '2 movies',
-  '2–4 movies',
-  '3 movies',
-  'As many as possible',
+const PLAN_SIZE_MODE_OPTIONS = Object.freeze([
+  { id: 'exact', label: 'Exactly' },
+  { id: 'range', label: 'Range' },
+  { id: 'max', label: 'As many as possible' },
 ]);
 
 const START_AFTER_OPTIONS = Object.freeze([
@@ -129,11 +146,11 @@ function PlanToggle({ id, label, checked, onChange }) {
   );
 }
 
-function MustFilmRow({ film, onOpen }) {
+function MustFilmRow({ film, onOpen, warning = null }) {
   return (
     <button
       type="button"
-      className="v2-bp-must-row"
+      className={`v2-bp-must-row${warning ? ' is-ineligible' : ''}`}
       onClick={onOpen}
       aria-label={film.title}
     >
@@ -141,13 +158,172 @@ function MustFilmRow({ film, onOpen }) {
       <span className="v2-bp-film-copy">
         <span className="v2-bp-film-title">{film.title}</span>
         <span className="v2-bp-film-detail">
-          {film.detailLabel ?? film.theaterLabel}
+          {warning ?? film.detailLabel ?? film.theaterLabel}
         </span>
       </span>
       <span className="v2-bp-row-chevron" aria-hidden="true">
         <IconChevron width={14} height={14} />
       </span>
     </button>
+  );
+}
+
+function LockedShowtimeRow({ lock, warning = null, onRemove }) {
+  return (
+    <div
+      className={`v2-bp-locked-row${warning ? ' is-incompatible' : ''}`}
+      data-performance-key={lock.performanceKey}
+    >
+      {lock.posterUrl ? (
+        <img className="v2-bp-must-thumb" src={lock.posterUrl} alt="" />
+      ) : (
+        <span className="v2-bp-must-thumb v2-bp-must-thumb-fallback" />
+      )}
+      <span className="v2-bp-film-copy">
+        <span className="v2-bp-film-title">
+          <span className="v2-bp-lock-mark" aria-hidden="true">
+            Locked
+          </span>{' '}
+          {lock.title}
+        </span>
+        <span className="v2-bp-film-detail">
+          {warning ?? formatLockedShowtimeDetail(lock)}
+        </span>
+      </span>
+      <button
+        type="button"
+        className="v2-bp-locked-remove"
+        aria-label={`Remove locked showtime ${lock.title}`}
+        onClick={onRemove}
+      >
+        Remove
+      </button>
+    </div>
+  );
+}
+
+function PlanSizeControl({ planSize, onChange }) {
+  const size = normalizePlanSize(planSize);
+  const mode = planSizeUiMode(size);
+  return (
+    <div
+      className={`v2-bp-plan-size v2-bp-plan-size--${mode}`}
+      role="group"
+      aria-label="Plan size"
+      data-plan-size-mode={mode}
+    >
+      <span className="v2-bp-fine-label">Plan size</span>
+      <div
+        className="v2-bp-plan-size-modes"
+        role="radiogroup"
+        aria-label="Plan size mode"
+      >
+        {PLAN_SIZE_MODE_OPTIONS.map((opt) => (
+          <button
+            key={opt.id}
+            type="button"
+            role="radio"
+            aria-checked={mode === opt.id}
+            className={`v2-bp-plan-size-mode${mode === opt.id ? ' is-selected' : ''}`}
+            onClick={() => {
+              if (opt.id === 'exact') {
+                onChange(planSizeFromUiMode('exact', { exact: size.min }));
+              } else if (opt.id === 'range') {
+                const min = size.min;
+                const max =
+                  size.max === size.min
+                    ? Math.min(6, size.min + 2)
+                    : size.max;
+                onChange(planSizeFromUiMode('range', { min, max }));
+              } else {
+                onChange(planSizeFromUiMode('max'));
+              }
+            }}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+      {mode === 'exact' ? (
+        <label className="v2-bp-plan-size-field v2-bp-plan-size-field-exact">
+          <span className="v2-bp-plan-size-sublabel">Films</span>
+          <select
+            className="v2-bp-select"
+            value={size.min}
+            aria-label="Exact film count"
+            onChange={(e) =>
+              onChange(
+                planSizeFromUiMode('exact', { exact: Number(e.target.value) }),
+              )
+            }
+          >
+            {PLAN_SIZE_COUNT_OPTIONS.map((n) => (
+              <option key={n} value={n}>
+                {n === 1 ? '1 film' : `${n} films`}
+              </option>
+            ))}
+          </select>
+        </label>
+      ) : null}
+      {mode === 'range' ? (
+        <div className="v2-bp-plan-size-range">
+          <label className="v2-bp-plan-size-field">
+            <span className="v2-bp-plan-size-sublabel">Min</span>
+            <select
+              className="v2-bp-select"
+              value={size.min}
+              aria-label="Minimum films"
+              onChange={(e) => {
+                const min = Number(e.target.value);
+                onChange(
+                  planSizeFromUiMode('range', {
+                    min,
+                    max: Math.max(min, size.max),
+                  }),
+                );
+              }}
+            >
+              {PLAN_SIZE_COUNT_OPTIONS.map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
+            </select>
+          </label>
+          <span className="v2-bp-plan-size-sep" aria-hidden="true">
+            –
+          </span>
+          <label className="v2-bp-plan-size-field">
+            <span className="v2-bp-plan-size-sublabel">Max</span>
+            <select
+              className="v2-bp-select"
+              value={size.max}
+              aria-label="Maximum films"
+              onChange={(e) => {
+                const max = Number(e.target.value);
+                onChange(
+                  planSizeFromUiMode('range', {
+                    min: Math.min(size.min, max),
+                    max,
+                  }),
+                );
+              }}
+            >
+              {PLAN_SIZE_COUNT_OPTIONS.map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      ) : null}
+      {mode === 'max' ? (
+        <p className="v2-bp-plan-size-hint">
+          Pack as many compatible films as fit your day.
+        </p>
+      ) : null}
+    </div>
   );
 }
 
@@ -178,8 +354,11 @@ function FilmChipRow({ films, moreLabel, onMore }) {
  *   onStubAction?: (actionId: string, label: string) => void,
  *   onRequestResults?: (form: object) => void,
  *   onOpenFilmManage?: (mode: 'mustInclude' | 'wouldLove' | 'notInterested') => void,
+ *   onOpenShowtimeManage?: () => void,
  *   onOpenTheaterManage?: () => void,
  *   resumeOpenSection?: null | 'when' | 'what' | 'where' | 'fineTuning',
+ *   homeData?: object | null,
+ *   enrichmentIndex?: object | null,
  * }} props
  */
 export default function BuildPlanSurface({
@@ -188,8 +367,11 @@ export default function BuildPlanSurface({
   onStubAction,
   onRequestResults,
   onOpenFilmManage,
+  onOpenShowtimeManage,
   onOpenTheaterManage,
   resumeOpenSection = null,
+  homeData = null,
+  enrichmentIndex = null,
 }) {
   const presentation = resolveBuildPlanPresentation();
   const mockupMode = isBuildPlanMockupMode();
@@ -205,6 +387,7 @@ export default function BuildPlanSurface({
   });
   const [statusMessage, setStatusMessage] = useState(null);
   const [ctaBusy, setCtaBusy] = useState(false);
+  const [draftConflicts, setDraftConflicts] = useState([]);
   const scrollIntentRef = useRef(null);
   const headerRefs = useRef({});
   const resumedScrollRef = useRef(false);
@@ -244,6 +427,7 @@ export default function BuildPlanSurface({
 
   const setPlanDate = (dateIso) => {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(dateIso)) return;
+    setDraftConflicts([]);
     setForm((c) => ({
       ...c,
       dateIso,
@@ -264,7 +448,34 @@ export default function BuildPlanSurface({
     announce(`manage-${manageMode}`, 'Manage');
   };
 
+  const openShowtimeManage = () => {
+    if (typeof onOpenShowtimeManage === 'function') {
+      onOpenShowtimeManage();
+      return;
+    }
+    announce('manage-locked-showtimes', 'Add a showtime');
+  };
+
+  const hardConstraints = resolveBuildPlanHardConstraints(form, homeData);
+  const filmEligibilityOptions = {
+    dateIso: hardConstraints.dateIso,
+    theaterIds: hardConstraints.theaterIds,
+    startAfterMin: hardConstraints.startAfterMin,
+    finishByMin: hardConstraints.finishByMin,
+    enrichmentIndex,
+  };
+
+  const liveValidation = mockupMode
+    ? { ok: true, conflicts: [] }
+    : validateBuildPlanDraftForGenerate(form, homeData, {
+        enrichmentIndex,
+      });
+  const activeConflicts =
+    draftConflicts.length > 0 ? draftConflicts : liveValidation.conflicts ?? [];
+  const conflictMessages = formatPlannerConflictMessages(activeConflicts);
+
   const selectPreset = (presetId) => {
+    setDraftConflicts([]);
     setForm((current) => {
       if (current.selectedPresetId === presetId) {
         return { ...current, selectedPresetId: null };
@@ -275,6 +486,21 @@ export default function BuildPlanSurface({
 
   const handleCta = () => {
     if (ctaBusy) return;
+    if (!mockupMode) {
+      const validation = validateBuildPlanDraftForGenerate(form, homeData, {
+        enrichmentIndex,
+      });
+      if (!validation.ok) {
+        setDraftConflicts(validation.conflicts);
+        setStatusMessage(
+          formatPlannerConflictMessages(validation.conflicts)[0] ??
+            'Fix plan conflicts before generating.',
+        );
+        setOpenSection('what');
+        return;
+      }
+    }
+    setDraftConflicts([]);
     setCtaBusy(true);
     onRequestResults?.(form);
     onStubAction?.('build-results', presentation.ctaLabel);
@@ -652,6 +878,76 @@ export default function BuildPlanSurface({
 
             <div className="v2-bp-what-group">
               <div className="v2-bp-what-head">
+                <p className="v2-bp-must-label">
+                  {what.lockedShowtimesLabel ?? 'Locked showtimes'}
+                </p>
+                <button
+                  type="button"
+                  className="v2-bp-manage"
+                  onClick={openShowtimeManage}
+                >
+                  {what.manageLabel}
+                </button>
+              </div>
+              <div className="v2-bp-film-stack">
+                {(form.lockedShowtimes ?? []).length === 0 ? (
+                  <p className="v2-bp-empty-hint">No showtimes locked yet</p>
+                ) : (
+                  (form.lockedShowtimes ?? []).map((lock) => {
+                    const related = conflictsForPerformance(
+                      activeConflicts,
+                      lock.performanceKey,
+                    );
+                    const eligible = mockupMode
+                      ? true
+                      : isLockedShowtimeEligibleUnderForm(
+                          lock,
+                          form,
+                          homeData,
+                        );
+                    const warning =
+                      related[0]?.message ??
+                      (!eligible
+                        ? what.incompatibleLockHint ??
+                          'Doesn’t match your current constraints'
+                        : null);
+                    return (
+                      <LockedShowtimeRow
+                        key={lock.performanceKey}
+                        lock={lock}
+                        warning={warning}
+                        onRemove={() => {
+                          setDraftConflicts([]);
+                          setForm((c) =>
+                            removeLockedShowtimeFromForm(
+                              c,
+                              lock.performanceKey,
+                            ),
+                          );
+                        }}
+                      />
+                    );
+                  })
+                )}
+                <button
+                  type="button"
+                  className="v2-bp-film-add"
+                  onClick={openShowtimeManage}
+                >
+                  <span aria-hidden="true">
+                    <IconPlus width={14} height={14} />
+                  </span>
+                  <span>
+                    {(form.lockedShowtimes ?? []).length > 0
+                      ? 'Add another showtime'
+                      : what.addShowtimeLabel ?? 'Add a showtime'}
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <div className="v2-bp-what-group">
+              <div className="v2-bp-what-head">
                 <p className="v2-bp-must-label">{what.mustIncludeLabel}</p>
                 <button
                   type="button"
@@ -662,13 +958,33 @@ export default function BuildPlanSurface({
                 </button>
               </div>
               <div className="v2-bp-film-stack">
-                {form.mustInclude.map((film) => (
-                  <MustFilmRow
-                    key={film.id}
-                    film={film}
-                    onOpen={() => openManage('mustInclude')}
-                  />
-                ))}
+                {form.mustInclude.length === 0 ? (
+                  <p className="v2-bp-empty-hint">No films added yet</p>
+                ) : null}
+                {form.mustInclude.map((film) => {
+                  const related = conflictsForFilmCard(activeConflicts, film);
+                  const eligible = mockupMode
+                    ? true
+                    : filmCardHasEligibleShowtimes(
+                        film,
+                        homeData,
+                        filmEligibilityOptions,
+                      );
+                  const warning =
+                    related[0]?.message ??
+                    (!eligible
+                      ? what.ineligibleFilmHint ??
+                        'No showtimes match your current constraints'
+                      : null);
+                  return (
+                    <MustFilmRow
+                      key={film.id}
+                      film={film}
+                      warning={warning}
+                      onOpen={() => openManage('mustInclude')}
+                    />
+                  );
+                })}
                 {form.mustInclude.length < MUST_INCLUDE_MAX ? (
                   <button
                     type="button"
@@ -678,7 +994,11 @@ export default function BuildPlanSurface({
                     <span aria-hidden="true">
                       <IconPlus width={14} height={14} />
                     </span>
-                    <span>{what.addAnotherLabel}</span>
+                    <span>
+                      {form.mustInclude.length > 0
+                        ? 'Add another film'
+                        : what.addAnotherLabel ?? 'Add film'}
+                    </span>
                   </button>
                 ) : null}
               </div>
@@ -695,14 +1015,57 @@ export default function BuildPlanSurface({
                   {what.manageLabel}
                 </button>
               </div>
-              {form.wouldLove.length === 0 ? (
-                <p className="v2-bp-empty-hint">No films added yet</p>
-              ) : (
-                <FilmChipRow
-                  films={form.wouldLove}
-                  onMore={() => openManage('wouldLove')}
-                />
-              )}
+              <div className="v2-bp-film-stack">
+                {form.wouldLove.length === 0 ? (
+                  <p className="v2-bp-empty-hint">No films added yet</p>
+                ) : (
+                  form.wouldLove.slice(0, 4).map((film) => {
+                    const eligible = mockupMode
+                      ? true
+                      : filmCardHasEligibleShowtimes(
+                          film,
+                          homeData,
+                          filmEligibilityOptions,
+                        );
+                    return (
+                      <MustFilmRow
+                        key={film.id}
+                        film={film}
+                        warning={
+                          eligible
+                            ? null
+                            : what.ineligibleFilmHint ??
+                              'No showtimes match your current constraints'
+                        }
+                        onOpen={() => openManage('wouldLove')}
+                      />
+                    );
+                  })
+                )}
+                {form.wouldLove.length > 4 ? (
+                  <button
+                    type="button"
+                    className="v2-bp-film-add"
+                    onClick={() => openManage('wouldLove')}
+                  >
+                    + {form.wouldLove.length - 4} more
+                  </button>
+                ) : null}
+                <button
+                  type="button"
+                  className="v2-bp-film-add"
+                  onClick={() => openManage('wouldLove')}
+                >
+                  <span aria-hidden="true">
+                    <IconPlus width={14} height={14} />
+                  </span>
+                  <span>
+                    {form.wouldLove.length > 0
+                      ? 'Add another film'
+                      : what.addAnotherLabel ?? 'Add film'}
+                  </span>
+                </button>
+              </div>
             </div>
 
             <div className="v2-bp-what-group">
@@ -716,19 +1079,35 @@ export default function BuildPlanSurface({
                   {what.manageLabel}
                 </button>
               </div>
-              {form.notInterested.length > 0 ? (
-                <p className="v2-bp-excluded-count">
-                  {form.notInterested.length} films excluded
-                </p>
-              ) : null}
-              {form.notInterested.length === 0 ? (
-                <p className="v2-bp-empty-hint">No exclusions yet</p>
-              ) : (
-                <FilmChipRow
-                  films={form.notInterested}
-                  onMore={() => openManage('notInterested')}
-                />
-              )}
+              <div className="v2-bp-film-stack">
+                {form.notInterested.length > 0 ? (
+                  <p className="v2-bp-excluded-count">
+                    {form.notInterested.length} films excluded
+                  </p>
+                ) : null}
+                {form.notInterested.length === 0 ? (
+                  <p className="v2-bp-empty-hint">No exclusions yet</p>
+                ) : (
+                  <FilmChipRow
+                    films={form.notInterested}
+                    onMore={() => openManage('notInterested')}
+                  />
+                )}
+                <button
+                  type="button"
+                  className="v2-bp-film-add"
+                  onClick={() => openManage('notInterested')}
+                >
+                  <span aria-hidden="true">
+                    <IconPlus width={14} height={14} />
+                  </span>
+                  <span>
+                    {form.notInterested.length > 0
+                      ? 'Add another film'
+                      : what.addAnotherLabel ?? 'Add film'}
+                  </span>
+                </button>
+              </div>
             </div>
           </div>,
         )}
@@ -739,34 +1118,15 @@ export default function BuildPlanSurface({
           collapsed.fineTuning,
           <div className="v2-bp-acc-body">
             <div className="v2-bp-fine-grid v2-bp-fine-grid-live">
-              <label className="v2-bp-fine-field">
-                <span className="v2-bp-fine-label">Plan size</span>
-                <select
-                  className="v2-bp-select"
-                  value={formatPlanSizeLabel(form.planSize)}
-                  aria-label="Plan size"
-                  onChange={(e) =>
-                    setForm((c) => ({
-                      ...c,
-                      planSize: normalizePlanSize(e.target.value),
-                    }))
-                  }
-                >
-                  {(PLAN_SIZE_OPTIONS.includes(
-                    formatPlanSizeLabel(form.planSize),
-                  )
-                    ? PLAN_SIZE_OPTIONS
-                    : [
-                        formatPlanSizeLabel(form.planSize),
-                        ...PLAN_SIZE_OPTIONS,
-                      ]
-                  ).map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <div className="v2-bp-fine-field v2-bp-fine-field-plan-size">
+                <PlanSizeControl
+                  planSize={form.planSize}
+                  onChange={(nextSize) => {
+                    setDraftConflicts([]);
+                    setForm((c) => ({ ...c, planSize: nextSize }));
+                  }}
+                />
+              </div>
               <label className="v2-bp-fine-field">
                 <span className="v2-bp-fine-label">Minimum break</span>
                 <select
@@ -844,6 +1204,20 @@ export default function BuildPlanSurface({
         aria-label="Plan summary"
       >
         <div className="v2-bp-summary-card">
+          {conflictMessages.length > 0 ? (
+            <div
+              className="v2-bp-conflicts"
+              role="alert"
+              aria-label="Plan conflicts"
+            >
+              <p className="v2-bp-conflicts-title">Fix these before generating</p>
+              <ul className="v2-bp-conflicts-list">
+                {conflictMessages.slice(0, 4).map((message) => (
+                  <li key={message}>{message}</li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
           <ul className="v2-bp-summary-meta">
             <li>
               <IconCalendar width={14} height={14} aria-hidden="true" />
@@ -852,6 +1226,10 @@ export default function BuildPlanSurface({
             <li>
               <IconPeople width={14} height={14} aria-hidden="true" />
               <span>{summary.line2}</span>
+            </li>
+            <li>
+              <IconTicket width={14} height={14} aria-hidden="true" />
+              <span>{formatPlanSizeLabel(form.planSize)}</span>
             </li>
           </ul>
           <button

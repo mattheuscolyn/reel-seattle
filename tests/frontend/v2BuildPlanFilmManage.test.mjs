@@ -144,11 +144,10 @@ test('manage navigation opens mode and Done/Back return to What', () => {
   assert.equal(nav.surface?.resumeOpenSection, 'what');
 });
 
-test('footer is not sticky; manage query constant exists', () => {
+test('manage footer pins above tab bar; manage query constant exists', () => {
   assert.equal(BUILD_PLAN_MANAGE_QUERY, 'manage');
   assert.match(CSS, /\.v2-bp-manage-footer\b/);
-  assert.match(CSS, /\.v2-bp-manage-footer\s*\{[^}]*position:\s*static/s);
-  assert.equal(/\.v2-bp-manage-footer\s*\{[^}]*position:\s*sticky/s.test(CSS), false);
+  assert.match(CSS, /\.v2-bp-manage-footer\s*\{[^}]*position:\s*fixed/s);
   assert.match(SURFACE_SRC, /aria-expanded=\{selectedOpen\}/);
   assert.match(SURFACE_SRC, /v2-bp-manage-section-head/);
   assert.match(SURFACE_SRC, /v2-bp-manage-block/);
