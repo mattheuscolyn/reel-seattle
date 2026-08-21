@@ -124,7 +124,16 @@ test('Best Way card and Newly Added badges stay contained', () => {
   assert.match(CSS, /\.v2-fd-best\s*\{[^}]*min-width:\s*0/s);
   assert.match(
     CSS,
-    /\.v2-fd-best-top\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*auto\)\s+minmax\(0,\s*1fr\)\s+auto/s,
+    /\.v2-fd-best-top\s*\{[^}]*grid-template-columns:\s*minmax\(5\.5rem,\s*0\.85fr\)\s+minmax\(0,\s*2\.1fr\)\s+auto/s,
+  );
+  assert.match(
+    CSS,
+    /\.v2-fd-best-format-value\s*\{[^}]*overflow-wrap:\s*normal/s,
+  );
+  assert.match(CSS, /\.v2-fd-best-format-value\s*\{[^}]*word-break:\s*normal/s);
+  assert.equal(
+    /\.v2-fd-best-format\s*\{[^}]*max-width:\s*5\.5rem/s.test(CSS),
+    false,
   );
   assert.match(CSS, /\.v2-fd-badges\s*\{[^}]*flex-wrap:\s*wrap/s);
   assert.match(CSS, /\.v2-fd-badges\s*\{[^}]*overflow:\s*visible/s);
