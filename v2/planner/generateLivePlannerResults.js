@@ -16,10 +16,13 @@ import { parsePlannerShowtimeMinutes } from '../../src/utils/timeUtils.js';
 import { formatTheaterAddressLabel } from '../theaters/resolveTheaterPresentation.js';
 import { homeDataToPlannerRows } from './homeDataToPlannerRows.js';
 import { mapBuildFormToPlannerFilters } from './mapBuildFormToPlannerFilters.js';
+import { formatPlanSizeLabel } from './planSize.js';
+import { validatePlannerDraftConstraints } from './validatePlannerDraftConstraints.js';
 import { filmIdentityTokensFromCards } from '../identity/filmIdentity.js';
 import { getNotInterestedFilms } from '../stores/notInterestedFilmsStore.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 import { formatScheduleClock } from '../stores/scheduleSettingsStore.js';
+import { buildPerformanceKeyFromPlannerRow } from '../identity/performanceIdentity.js';
 
 /**
  * @param {unknown} value
@@ -149,6 +152,11 @@ function movieToLiveResultsFilm(
     sourceShowtimeId: asTrimmed(row?.source_showtime_id),
     source_showtime_id: asTrimmed(row?.source_showtime_id),
     opportunityKey: asTrimmed(row?.opportunityKey),
+    performanceKey:
+      asTrimmed(movie.performanceKey) ??
+      buildPerformanceKeyFromPlannerRow(row) ??
+      null,
+    locked: Boolean(movie.locked),
     ticketUrl: row?.ticket_url ?? null,
     ticket_url: row?.ticket_url ?? null,
     addressLabel: formatTheaterAddressLabel(theaterMeta),
@@ -454,11 +462,18 @@ export function generateLivePlannerResults({
   if (!homeData) {
     return {
       ok: false,
+      status: 'invalid_constraints',
       source: 'live',
       provenance: 'live',
       plans: [],
       error: 'missing_home_data',
       message: 'Showtimes aren’t loaded yet.',
+      conflicts: [
+        {
+          code: 'missing_home_data',
+          message: 'Showtimes aren’t loaded yet.',
+        },
+      ],
       meta: null,
       summaryLine: '',
       plansFoundLabel: '0 plans found',
@@ -475,6 +490,49 @@ export function generateLivePlannerResults({
     ]);
     mapped.filters.excludeFilms = [...merged];
   }
+
+  const validation = validatePlannerDraftConstraints({
+    form,
+    rows,
+    filters: mapped.filters,
+    dateIso: mapped.dateIso,
+    theaterIds: mapped.theaterIds ?? [],
+  });
+
+  if (!validation.ok) {
+    return {
+      ok: false,
+      status: 'invalid_constraints',
+      source: 'live',
+      provenance: 'live',
+      plans: [],
+      error: 'invalid_constraints',
+      message:
+        validation.conflicts[0]?.message ??
+        'These plan constraints conflict. Adjust locks, films, or the time window.',
+      conflicts: validation.conflicts,
+      meta: {
+        rowCount: rows.length,
+        planCount: 0,
+        truncated: false,
+        suppressed: mapped.suppressed,
+        dateIso: mapped.dateIso,
+        planSize: validation.planSize,
+        lockedCount: mapped.lockedShowtimes.length,
+      },
+      summaryLine: [
+        mapped.dateIso,
+        form?.startAfter && form?.finishBefore
+          ? `${form.startAfter} – ${form.finishBefore}`
+          : null,
+        formatPlanSizeLabel(form?.planSize),
+      ]
+        .filter(Boolean)
+        .join(' • '),
+      plansFoundLabel: '0 plans found',
+    };
+  }
+
   const engineSort = mapResultsSortToEngineSort(sortId);
   const countList =
     mapped.filmCounts === 'max'
@@ -483,11 +541,14 @@ export function generateLivePlannerResults({
         ? mapped.filmCounts
         : [2];
 
+  const lockedCandidates = validation.resolvedLocks;
+  const hasLocks = lockedCandidates.length > 0;
+
   /** @type {object[]} */
   let schedules = [];
 
   for (const count of countList) {
-    if (count === 1) {
+    if (count === 1 && !hasLocks) {
       schedules = schedules.concat(
         buildSingleFilmSchedules(rows, mapped.filters),
       );
@@ -504,6 +565,7 @@ export function generateLivePlannerResults({
         ...DEFAULT_PLANNER_LIMITS,
         maxResults: maxResults * 2,
       },
+      lockedCandidates,
     });
     schedules = schedules.concat(found);
   }
@@ -517,7 +579,7 @@ export function generateLivePlannerResults({
   const seen = new Set();
   schedules = schedules.filter((s) => {
     const key = `${s.theater_id}|${(s.movies ?? [])
-      .map((m) => `${m.showtime_film_key}:${m.startMin}`)
+      .map((m) => `${m.performanceKey || m.showtime_film_key}:${m.startMin}`)
       .join('>')}`;
     if (seen.has(key)) return false;
     seen.add(key);
@@ -542,26 +604,53 @@ export function generateLivePlannerResults({
     form?.startAfter && form?.finishBefore
       ? `${form.startAfter} – ${form.finishBefore}`
       : null,
-    form?.planSize ?? null,
+    formatPlanSizeLabel(form?.planSize),
   ]
     .filter(Boolean)
     .join(' • ');
 
+  if (!plans.length) {
+    return {
+      ok: false,
+      status: 'no_feasible_plan',
+      source: 'live',
+      provenance: 'live',
+      plans: [],
+      error: 'no_feasible_plan',
+      message:
+        'No same-theater plans fit these filters. Try a wider time window, fewer must-include films, or unlock a screening.',
+      conflicts: [],
+      meta: {
+        rowCount: rows.length,
+        planCount: 0,
+        truncated: false,
+        suppressed: mapped.suppressed,
+        dateIso: mapped.dateIso,
+        planSize: mapped.planSize,
+        lockedCount: lockedCandidates.length,
+      },
+      summaryLine,
+      plansFoundLabel: '0 plans found',
+    };
+  }
+
   return {
     ok: true,
+    status: 'ok',
     source: 'live',
     provenance: 'live',
     plans,
     error: null,
-    message: plans.length
-      ? null
-      : 'No same-theater plans fit these filters. Try a wider time window or fewer must-include films.',
+    message: null,
+    conflicts: [],
     meta: {
       rowCount: rows.length,
       planCount: plans.length,
       truncated,
       suppressed: mapped.suppressed,
       dateIso: mapped.dateIso,
+      planSize: mapped.planSize,
+      lockedCount: lockedCandidates.length,
     },
     summaryLine,
     plansFoundLabel: `${plans.length} plan${plans.length === 1 ? '' : 's'} found`,

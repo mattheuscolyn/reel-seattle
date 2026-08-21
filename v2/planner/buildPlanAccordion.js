@@ -3,6 +3,8 @@
  * No React; safe for node tests.
  */
 
+import { formatPlanSizeLabel } from './planSize.js';
+
 export const BUILD_PLAN_ACCORDION_IDS = Object.freeze([
   'when',
   'where',
@@ -123,7 +125,7 @@ export function buildCollapsedSectionSummaries(form, chrome = {}) {
   const gapLabel = String(form.maxGap || '')
     .replace(/^Max\s+/i, '')
     .trim();
-  const fine = `${form.planSize} · Max ${gapLabel} gap · Premium formats`;
+  const fine = `${formatPlanSizeLabel(form.planSize)} · Max ${gapLabel} gap · Premium formats`;
   return { when, what, where, fineTuning: fine };
 }
 

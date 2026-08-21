@@ -151,7 +151,7 @@ test('Clear all restores fixture defaults; presets apply locally', () => {
   assert.equal(form.selectedPresetId, 'after-work');
   form = applyBuildPlanPreset('saturday-marathon', form);
   assert.equal(form.selectedPresetId, 'saturday-marathon');
-  assert.equal(form.planSize, '3 movies');
+  assert.deepEqual(form.planSize, { min: 3, max: 3 });
   form.mustInclude = [];
   form.flexible = false;
   form = createBuildPlanFormState();

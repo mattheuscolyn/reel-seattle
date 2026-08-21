@@ -59,6 +59,7 @@ import {
   MIN_BREAK_PRESETS,
   formatBreakMinutes,
 } from './planBreakRange.js';
+import { formatPlanSizeLabel, normalizePlanSize } from './planSize.js';
 
 const PLAN_SIZE_OPTIONS = Object.freeze([
   '1 movie',
@@ -742,15 +743,23 @@ export default function BuildPlanSurface({
                 <span className="v2-bp-fine-label">Plan size</span>
                 <select
                   className="v2-bp-select"
-                  value={form.planSize}
+                  value={formatPlanSizeLabel(form.planSize)}
                   aria-label="Plan size"
                   onChange={(e) =>
-                    setForm((c) => ({ ...c, planSize: e.target.value }))
+                    setForm((c) => ({
+                      ...c,
+                      planSize: normalizePlanSize(e.target.value),
+                    }))
                   }
                 >
-                  {(PLAN_SIZE_OPTIONS.includes(form.planSize)
+                  {(PLAN_SIZE_OPTIONS.includes(
+                    formatPlanSizeLabel(form.planSize),
+                  )
                     ? PLAN_SIZE_OPTIONS
-                    : [form.planSize, ...PLAN_SIZE_OPTIONS]
+                    : [
+                        formatPlanSizeLabel(form.planSize),
+                        ...PLAN_SIZE_OPTIONS,
+                      ]
                   ).map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}

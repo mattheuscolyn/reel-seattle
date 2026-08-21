@@ -8,6 +8,15 @@ import { pacificDateString } from '../explore/exploreCatalog.js';
 import { filmIdentityTokensFromCards } from '../identity/filmIdentity.js';
 import { buildPlannerSearchFilters } from '../../src/utils/plannerDisplay.js';
 import { parseBreakLabelToMinutes } from './planBreakRange.js';
+import {
+  normalizePlanSize,
+  planSizeToFilmCounts,
+  parsePlanSizeFilmCounts,
+} from './planSize.js';
+import { normalizeLockedShowtimes } from './lockedShowtimes.js';
+
+export { normalizePlanSize, planSizeToFilmCounts, parsePlanSizeFilmCounts };
+export { formatPlanSizeLabel } from './planSize.js';
 
 /**
  * @param {unknown} value
@@ -17,29 +26,6 @@ function asTrimmed(value) {
   if (typeof value !== 'string') return null;
   const trimmed = value.trim();
   return trimmed || null;
-}
-
-/**
- * @param {string | null | undefined} planSize
- * @returns {number[] | 'max'}
- */
-export function parsePlanSizeFilmCounts(planSize) {
-  const raw = asTrimmed(planSize) ?? '';
-  if (/as many|max/i.test(raw)) return 'max';
-  const range = raw.match(/(\d+)\s*[–-]\s*(\d+)/);
-  if (range) {
-    const a = Number(range[1]);
-    const b = Number(range[2]);
-    if (Number.isFinite(a) && Number.isFinite(b) && a >= 1 && b >= a && b <= 6) {
-      return Array.from({ length: b - a + 1 }, (_, i) => a + i);
-    }
-  }
-  const single = raw.match(/(\d+)\s*movies?/i);
-  if (single) {
-    const n = Number(single[1]);
-    if (n >= 1 && n <= 6) return [n];
-  }
-  return [2, 3, 4];
 }
 
 /**
@@ -163,7 +149,8 @@ function compactPlannerClock(value) {
 export function mapBuildFormToPlannerFilters(form, homeData, options = {}) {
   const date = resolveBuildFormDateIso(form, options.now);
   const theaters = resolveTheaterFilterIds(form, homeData);
-  const counts = parsePlanSizeFilmCounts(form?.planSize);
+  const planSize = normalizePlanSize(form?.planSize);
+  const counts = planSizeToFilmCounts(planSize);
   // Engine filmCount is a single mode; caller may loop. Default to 2 for filter shell.
   const filmCount = counts === 'max' ? 'max' : counts.includes(2) ? 2 : counts[0] ?? 2;
   const { minGapMin, maxGapMin } = normalizeBreakGapRange(
@@ -196,7 +183,10 @@ export function mapBuildFormToPlannerFilters(form, homeData, options = {}) {
   return {
     filters,
     filmCounts: counts,
+    planSize,
+    lockedShowtimes: normalizeLockedShowtimes(form?.lockedShowtimes),
     dateIso: date,
+    theaterIds: theaters,
     suppressed: Object.freeze({
       walking: true,
       budget: true,

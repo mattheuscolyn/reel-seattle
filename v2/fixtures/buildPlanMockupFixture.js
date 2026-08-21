@@ -291,7 +291,7 @@ export const BUILD_PLAN_MOCKUP_FIXTURE = Object.freeze({
     selectedTheaters: [],
     locationDisplay: 'Capitol Hill, Seattle, WA',
     locationShort: 'Capitol Hill',
-    planSize: '2–4 movies',
+    planSize: { min: 2, max: 4 },
     maxGap: '90 min',
     minGap: '45m',
     walking: '15 min',
@@ -320,6 +320,7 @@ export function createBuildPlanFormState() {
     mustInclude: d.mustInclude.map((f) => ({ ...f })),
     wouldLove: d.wouldLove.map((f) => ({ ...f })),
     notInterested: d.notInterested.map((f) => ({ ...f })),
+    lockedShowtimes: [],
     theaterPrefId: d.theaterPrefId,
     selectedTheaters: d.selectedTheaters ?? [],
     locationDisplay: d.locationDisplay,
@@ -343,17 +344,23 @@ export function createBuildPlanFormState() {
  * @param {ReturnType<typeof createBuildPlanFormState>} base
  */
 export function applyBuildPlanPreset(presetId, base) {
-  const next = { ...base, selectedPresetId: presetId };
+  const next = {
+    ...base,
+    selectedPresetId: presetId,
+    lockedShowtimes: Array.isArray(base?.lockedShowtimes)
+      ? base.lockedShowtimes
+      : [],
+  };
   if (presetId === 'after-work') {
     next.startAfter = '5:00 PM';
     next.finishBefore = '11:00 PM';
-    next.planSize = '1–2 movies';
+    next.planSize = { min: 1, max: 2 };
   } else if (presetId === 'saturday-marathon') {
     next.startAfter = '11:00 AM';
     next.finishBefore = '11:00 PM';
-    next.planSize = '3 movies';
+    next.planSize = { min: 3, max: 3 };
   } else if (presetId === 'last-chance') {
-    next.planSize = '1–2 movies';
+    next.planSize = { min: 1, max: 2 };
   }
   return next;
 }

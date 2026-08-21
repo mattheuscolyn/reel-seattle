@@ -37,6 +37,7 @@ import {
   formatBreakMinutes,
   parseBreakLabelToMinutes,
 } from './planBreakRange.js';
+import { formatPlanSizeLabel } from './planSize.js';
 import AdjustTimeWindowOverlay from './AdjustTimeWindowOverlay.jsx';
 import AdjustFilmInPlansOverlay from './AdjustFilmInPlansOverlay.jsx';
 import AdjustBreakLengthOverlay from './AdjustBreakLengthOverlay.jsx';
@@ -197,7 +198,7 @@ function buildSummaryLine(form, fallback) {
   if (!form) return fallback;
   const date = form.dateShort ?? form.dateDisplay ?? '';
   const window = `${form.startAfter} – ${form.finishBefore}`;
-  const size = form.planSize ?? '';
+  const size = formatPlanSizeLabel(form.planSize);
   const parts = [date, window, size].filter(Boolean);
   return parts.join(' • ') || fallback;
 }

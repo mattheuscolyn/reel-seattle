@@ -24,6 +24,7 @@ import {
 } from '../../src/utils/plannerBufferPolicy.js';
 import { parseRuntimeMinutes } from '../../src/utils/timeUtils.js';
 import { notifyScheduleStoreMutation } from '../auth/scheduleStoreMutationBridge.js';
+import { buildPerformanceKey } from '../../src/utils/performanceIdentity.js';
 
 export const ACCEPTED_PLANS_STORAGE_KEY = 'reel-seattle.v2.acceptedPlans';
 export const ACCEPTED_PLANS_VERSION = 1;
@@ -122,37 +123,12 @@ export function emptyAcceptedPlansStore() {
 
 /**
  * Durable performance identity. Never title-only.
+ * Re-export shared helper (Planner locks use the same identity).
  * @param {Record<string, unknown>} input
  * @returns {string | null}
  */
 export function buildAcceptedPerformanceKey(input) {
-  if (!input || typeof input !== 'object') return null;
-  const source = asOptionalString(input.source);
-  const sourceShowtimeId =
-    asOptionalString(input.sourceShowtimeId) ??
-    asOptionalString(input.source_showtime_id);
-  const theaterId =
-    asOptionalString(input.theaterId) ?? asOptionalString(input.theater_id);
-  if (source && sourceShowtimeId) {
-    return `src:${source}:${theaterId ?? 'theater'}:${sourceShowtimeId}`;
-  }
-  const opportunityKey = asOptionalString(input.opportunityKey);
-  if (opportunityKey) return `opp:${opportunityKey}`;
-
-  const filmKey =
-    asOptionalString(input.filmKey) ?? asOptionalString(input.showtimeFilmKey);
-  const date =
-    asOptionalString(input.localDate) ??
-    asOptionalString(input.date) ??
-    asOptionalString(input.showDate);
-  const time =
-    asOptionalString(input.localTime) ??
-    asOptionalString(input.time) ??
-    asOptionalString(input.startTime);
-  if (filmKey && theaterId && date && time) {
-    return `comp:${filmKey}:${theaterId}:${date}:${time}`;
-  }
-  return null;
+  return buildPerformanceKey(input);
 }
 
 /**
