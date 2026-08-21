@@ -152,7 +152,7 @@ export const FILM_DETAIL_MOCKUP_FIXTURE = Object.freeze({
 
   whySeeIt: Object.freeze({
 
-    totalCount: 7,
+    totalCount: 5,
 
     signals: Object.freeze([
 
@@ -210,6 +210,20 @@ export const FILM_DETAIL_MOCKUP_FIXTURE = Object.freeze({
         primary: 'Only at SIFF\nDowntown',
 
         secondary: 'Premium format engagement',
+
+      }),
+
+      Object.freeze({
+
+        id: 'sig-event',
+
+        icon: 'spark',
+
+        tone: 'violet',
+
+        primary: 'Special\nscreening',
+
+        secondary: 'One-night program',
 
       }),
 

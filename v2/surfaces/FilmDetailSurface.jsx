@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { resolveFilmDetailPresentation } from '../fixtures/resolveFilmDetailPresentation.js';
 import { toFilmDetailView } from '../filmDetail/toFilmDetailView.js';
+import { WHY_SEE_IT_PREVIEW_LIMIT } from '../filmDetail/filmDetailModel.js';
 import {
   cacheTmdbMovieDetail,
   getCachedTmdbOnlyFilm,
@@ -256,6 +257,7 @@ export default function FilmDetailSurface({
   const view = useMemo(() => toFilmDetailView(resolved), [resolved]);
 
   const [synopsisExpanded, setSynopsisExpanded] = useState(false);
+  const [whySeeItExpanded, setWhySeeItExpanded] = useState(false);
   const [plannerOpen, setPlannerOpen] = useState(false);
 
   if (!view.resolved) {
@@ -481,8 +483,17 @@ export default function FilmDetailSurface({
           <h2 id="v2-fd-why-h" className="v2-section-caps">
             Why see it now
           </h2>
-          {whySeeIt.totalCount > 0 ? (
-            <span className="v2-fd-link">See all ({whySeeIt.totalCount})</span>
+          {whySeeIt.signals.length > WHY_SEE_IT_PREVIEW_LIMIT ? (
+            <button
+              type="button"
+              className="v2-fd-link"
+              aria-expanded={whySeeItExpanded}
+              onClick={() => setWhySeeItExpanded((open) => !open)}
+            >
+              {whySeeItExpanded
+                ? 'Show less'
+                : `See all (${whySeeIt.signals.length})`}
+            </button>
           ) : null}
         </div>
         {whySeeIt.empty ? (
@@ -490,8 +501,18 @@ export default function FilmDetailSurface({
             No schedule-backed reasons are available for this title right now.
           </p>
         ) : (
-          <ul className="v2-fd-signals v2-fd-signals-grid" role="list">
-            {whySeeIt.signals.map((signal) => (
+          <ul
+            className={
+              whySeeItExpanded
+                ? 'v2-fd-signals v2-fd-signals-grid v2-fd-signals-expanded'
+                : 'v2-fd-signals v2-fd-signals-grid'
+            }
+            role="list"
+          >
+            {(whySeeItExpanded
+              ? whySeeIt.signals
+              : whySeeIt.signals.slice(0, WHY_SEE_IT_PREVIEW_LIMIT)
+            ).map((signal) => (
               <li
                 key={signal.id}
                 className={`v2-fd-signal v2-fd-signal-${signal.tone}`}
@@ -681,10 +702,21 @@ export default function FilmDetailSurface({
                     {row.times.map((time) => (
                       <span
                         key={`${time.opportunityKey ?? ''}:${time.timeDisplay}`}
-                        className="v2-fd-today-time"
+                        className={
+                          time.emphasized
+                            ? 'v2-fd-today-time v2-fd-today-time-on'
+                            : 'v2-fd-today-time'
+                        }
                         data-ticket-url={time.ticketUrl ? '1' : '0'}
                       >
-                        {time.timeDisplay}
+                        <span className="v2-fd-today-time-clock">
+                          {time.timeDisplay}
+                        </span>
+                        {time.detailLabel ? (
+                          <span className="v2-fd-today-time-detail">
+                            {time.detailLabel}
+                          </span>
+                        ) : null}
                       </span>
                     ))}
                   </span>

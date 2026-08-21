@@ -114,6 +114,9 @@ export function resolveActivePrimaryId(nav) {
     return resolveDestinationId(nav.surface.originPrimary ?? primary);
   }
   if (nav.surface?.type === 'collection') {
+    if (nav.surface.collectionId === 'opening-this-week') {
+      return resolveDestinationId(nav.surface.originPrimary ?? primary);
+    }
     return 'explore';
   }
   return primary;

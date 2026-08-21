@@ -132,11 +132,11 @@ test('Expand controls and stubs are accessible buttons', () => {
   assert.match(THEATERS_SRC, /toggleExpand/);
 });
 
-test('Beacon More details opens Theater Detail; list favorite still stubbed', () => {
+test('Beacon More details opens Theater Detail; list Favorite uses store', () => {
   assert.match(THEATERS_SRC, /onOpenTheaterDetail/);
   assert.match(THEATERS_SRC, /THEATER_DETAIL_DEFAULT_THEATER_ID/);
-  assert.equal(/localStorage/.test(THEATERS_SRC), false);
-  assert.equal(THEATERS_SRC.includes('favoriteTheatersStore'), false);
+  assert.match(THEATERS_SRC, /favoriteTheatersStore/);
+  assert.match(THEATERS_SRC, /toggleFavoriteTheater/);
   assert.equal(FIXTURE_SRC.includes('stores/'), false);
   assert.equal(FIXTURE_SRC.includes('public/data'), false);
   assert.equal(FIXTURE_SRC.includes('theaters.json'), false);

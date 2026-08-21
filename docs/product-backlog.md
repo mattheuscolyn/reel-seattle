@@ -39,21 +39,21 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 
 | ID | Area | Outstanding item | Type | Priority | Effort | Status | Notes / dependencies |
 |---|---|---|---|---|---|---|---|
-| QW-01 | Film Detail | "Why See It Now" → "See all" does nothing | Bug | High | XS-S | Outstanding | Either make it expand/navigate or remove until meaningful. |
+| QW-01 | Film Detail | "Why See It Now" → "See all" does nothing | Bug | High | XS-S | Done | Inline expand/collapse when more than preview signals exist. |
 | QW-02 | Film Detail | "Best Way To See It" showtime card visually bleeds outside its container | Visual bug | High | XS-S | Done | CSS/layout containment issue. |
-| QW-03 | Film Detail / Showtimes | Audio Description is listed under every showtime for some films | Data/UI correctness | High | S-M | Outstanding | Likely film-level metadata leaking into performance-level labeling. |
+| QW-03 | Film Detail / Showtimes | Audio Description is listed under every showtime for some films | Data/UI correctness | High | S-M | Done | Theater-row chip union fixed to shared-only labels. |
 | QW-04 | Film Detail | Newly Added tag is cut off | Visual bug | High | XS | Done | Badge/container clipping. |
 | QW-05 | Opening This Week | First film card starts in the expanded/"opened" interaction state | Bug | High | XS | Done | Initial state should be collapsed. |
-| QW-06 | Opening This Week | Sort button does not work | Bug | High | S | Outstanding | Implement or temporarily remove. |
-| QW-07 | Opening This Week | Filter button does not work | Bug | High | S | Outstanding | Implement or temporarily remove. |
+| QW-06 | Opening This Week | Sort button does not work | Bug | High | S | Done | Opening date / Title A–Z / Most showtimes / Most theaters. |
+| QW-07 | Opening This Week | Filter button does not work | Bug | High | S | Done | Theater / format / opening day filters. |
 | QW-08 | Theaters | First theater card starts expanded on page load | Bug | High | XS | Done | Initial state should be collapsed. |
-| QW-09 | Theaters | "View all" under Now Showing does not work | Bug | High | S | Outstanding | Route/filter wiring. |
+| QW-09 | Theaters | "View all" under Now Showing does not work | Bug | High | S | Done | Opens showtimes browse with theaterIds preselected. |
 | QW-10 | Theaters | Remove Save button | Cleanup | Medium | XS | Done | Favorite is the intended theater-level action. |
-| QW-11 | Theaters | Favorite button does not work | Bug | High | S-M | Outstanding | Verify persistence/auth sync. |
+| QW-11 | Theaters | Favorite button does not work | Bug | High | S-M | Done | Uses device-local favoriteTheatersStore. |
 | QW-12 | Profile | Settings gear in top-right does nothing | Cleanup | Medium | XS | Done | Probably remove because settings navigation already exists on page. |
 | QW-13 | Explore | Remove gradients from Seen and Not Interested buttons | Visual polish | Medium | XS | Done | Replace with normal Reel Seattle surface/button styling. |
 | QW-14 | Explore | Copy says "Activity stays on this device" even though accounts/sync now exist | Copy correctness | High | XS | Done | Rewrite to reflect current behavior accurately. |
-| QW-15 | Overall | TMDB data credit looks awkward/unprofessional where it appears | Visual system | Medium | S | Outstanding | Create one consistent, unobtrusive attribution treatment. |
+| QW-15 | Overall | TMDB data credit looks awkward/unprofessional where it appears | Visual system | Medium | S | Done | Shared muted TmdbAttribution treatment. |
 | QW-16 | Browse All Showtimes | Theater name link underline feels sloppy in expanded detail | Visual polish | Medium | XS-S | Outstanding | Restyle navigation affordance. |
 | QW-17 | Browse All Showtimes | Showtime pills do nothing on click | Interaction bug | High | S-M | Outstanding | At minimum expose Add to Calendar / Add to My Schedule / Tickets actions. |
 
@@ -66,7 +66,7 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 | SYS-01 | Overall | Back button styling is inconsistent across pages | Design system | High | M | Outstanding | Create one canonical back-button component/variant set. |
 | SYS-02 | Overall | Bottom navigation bar is inconsistent | Design system / navigation | High | M | Outstanding | Every child page should declare its owning root destination. |
 | SYS-03 | Overall | Top bar is inconsistent | Design system | High | M | Outstanding | Standardize root vs child page headers. |
-| SYS-04 | Opening This Week | Explore tab is highlighted even though back goes to Home | Navigation bug | High | S | Outstanding | Decide route ownership and fix active-nav state. |
+| SYS-04 | Opening This Week | Explore tab is highlighted even though back goes to Home | Navigation bug | High | S | Done | Opening uses originPrimary for active nav. |
 
 ---
 
@@ -89,9 +89,9 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 | ID | Outstanding item | Type | Priority | Effort | Status | Notes / dependencies |
 |---|---|---|---|---|---|---|
 | FILM-01 | Perform a formal review of "Why See It Now" logic | Logic / product | High | M-L | Outstanding | Define allowed reasons, evidence thresholds, priority, copy, confidence, and whether reasons stack. |
-| FILM-02 | Fix "Why See It Now" See All behavior | Bug | High | XS-S | Outstanding | Same as QW-01. |
+| FILM-02 | Fix "Why See It Now" See All behavior | Bug | High | XS-S | Done | Same as QW-01. |
 | FILM-03 | Fix "Best Way To See It" card visual bleed | Visual bug | High | XS-S | Done | Same as QW-02. |
-| FILM-04 | Fix Audio Description being shown on inappropriate showtimes | Data/UI correctness | High | S-M | Outstanding | Same as QW-03. |
+| FILM-04 | Fix Audio Description being shown on inappropriate showtimes | Data/UI correctness | High | S-M | Done | Same as QW-03. |
 | FILM-05 | Fix Newly Added badge clipping | Visual bug | High | XS | Done | Same as QW-04. |
 | FILM-06 | When arriving from a Theater page, adapt Film Detail to emphasize that theater's showtimes | Contextual navigation / product | High | M | Outstanding | Preserve origin context; offer broaden-to-all-Seattle option rather than silently losing theater intent. |
 
@@ -112,11 +112,12 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 | ID | Outstanding item | Type | Priority | Effort | Status | Notes / dependencies |
 |---|---|---|---|---|---|---|
 | OPEN-01 | First film card is expanded by default | Bug | High | XS | Done | Same as QW-05. |
-| OPEN-02 | Sort button does not work | Bug | High | S | Outstanding | Same as QW-06. |
-| OPEN-03 | Filter button does not work | Bug | High | S | Outstanding | Same as QW-07. |
+| OPEN-02 | Sort button does not work | Bug | High | S | Done | Same as QW-06. |
+| OPEN-03 | Filter button does not work | Bug | High | S | Done | Same as QW-07. |
 | OPEN-04 | Film cards show only one theater/showtime and therefore look like a single-screening advertisement | UX / card semantics | High | M | Outstanding | Card represents a film. Prefer summary such as "4 theaters · 17 showtimes" plus optional next screening. |
-| OPEN-05 | Explore tab is highlighted although page behaves as a Home child | Navigation | High | S | Outstanding | Same as SYS-04. |
+| OPEN-05 | Explore tab is highlighted although page behaves as a Home child | Navigation | High | S | Done | Same as SYS-04. |
 | OPEN-06 | Review opening-this-week business logic | Logic | High | M | Outstanding | Same as HOME-02. |
+| OPEN-07 | Opening card Save and Not interested actions are still stubs | Bug | Medium | S | Outstanding | Wire to existing Saved / Not Interested stores or remove until ready. |
 
 ---
 
@@ -152,10 +153,12 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 | ID | Outstanding item | Type | Priority | Effort | Status | Notes / dependencies |
 |---|---|---|---|---|---|---|
 | THEATER-01 | First theater card starts expanded | Bug | High | XS | Done | Same as QW-08. |
-| THEATER-02 | Now Showing "View all" does nothing | Bug | High | S | Outstanding | Same as QW-09. |
+| THEATER-02 | Now Showing "View all" does nothing | Bug | High | S | Done | Same as QW-09. |
 | THEATER-03 | Remove Save button | Cleanup | Medium | XS | Done | Same as QW-10. |
-| THEATER-04 | Favorite button does not work | Bug | High | S-M | Outstanding | Same as QW-11. |
+| THEATER-04 | Favorite button does not work | Bug | High | S-M | Done | Same as QW-11. |
 | THEATER-05 | Film Detail opened from a theater should stay theater-contextual | Contextual navigation | High | M | Outstanding | Same as FILM-06. |
+| THEATER-06 | Theater Detail “View all” is still a stub | Bug | High | S | Outstanding | Should match Theater list: open showtimes browse with theater preselected and sensible back. |
+| THEATER-07 | Theater list Filters control is still a stub | Bug | Medium | S | Outstanding | Implement bounded theater filters or remove until ready. |
 
 ---
 
