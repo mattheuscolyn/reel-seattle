@@ -108,7 +108,8 @@ export function resolveActivePrimaryId(nav) {
     nav.surface?.type === 'my-schedule-week' ||
     nav.surface?.type === 'my-schedule-month' ||
     nav.surface?.type === 'schedule-settings' ||
-    nav.surface?.type === 'theater-detail'
+    nav.surface?.type === 'theater-detail' ||
+    nav.surface?.type === 'admin-tmdb-review'
   ) {
     return resolveDestinationId(nav.surface.originPrimary ?? primary);
   }

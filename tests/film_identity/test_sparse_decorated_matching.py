@@ -51,14 +51,25 @@ def test_missing_year_does_not_penalize_unambiguous_exact_title():
     assert bucket == "auto"
 
 
-def test_missing_year_same_title_remakes_require_review():
+def test_missing_year_same_title_remakes_require_review_when_margin_unclear():
+    """Close same-title remakes without year still go to review.
+
+    When runtime clearly separates the lead (margin >= REMAKE_RUNTIME_AUTO_MARGIN_MIN),
+    auto-confirm is allowed — covered in test_admin_confirmed_improvements.
+    """
     a = score_candidate(
         search_title="Dune",
         source_year=None,
         source_runtime=155,
         source_directors=None,
         source_external_ids=None,
-        candidate=_cand(id=2, title="Dune", release_date="2021-10-22", runtime=155),
+        candidate=_cand(
+            id=2,
+            title="Dune",
+            release_date="2021-10-22",
+            runtime=155,
+            popularity=10,
+        ),
     )
     b = score_candidate(
         search_title="Dune",
@@ -66,10 +77,19 @@ def test_missing_year_same_title_remakes_require_review():
         source_runtime=155,
         source_directors=None,
         source_external_ids=None,
-        candidate=_cand(id=3, title="Dune", release_date="1984-12-14", runtime=137),
+        candidate=_cand(
+            id=3,
+            title="Dune",
+            release_date="1984-12-14",
+            runtime=155,
+            popularity=9,
+        ),
     )
     ranked = rank_candidates([a, b])
     bucket, proposed = classify_match_bucket(ranked)
+    assert a.signals.get("runtime_near") is True
+    assert b.signals.get("runtime_near") is True
+    assert (ranked[0].score - ranked[1].score) < 0.20
     assert bucket == "review"
     assert proposed is not None
     assert "same_title_remake_ambiguity" in proposed.warnings

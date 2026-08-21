@@ -24,6 +24,16 @@ Current migrations:
 5. `20260806000000_profiles_authenticated_grants_repair.sql` — grant SELECT/INSERT/UPDATE on `profiles` to `authenticated` (RLS still own-row only)
 6. `20260814000000_user_notifications_showtime_watches.sql` — `user_notifications` + `user_film_showtime_watches` (SHOWTIMES_AVAILABLE; service-role generate; client read/`read_at` only). See [docs/v2/showtime-availability-notifications.md](../docs/v2/showtime-availability-notifications.md).
 7. `20260814110000_service_role_showtime_notification_grants.sql` — minimum `service_role` table grants for the detector (SELECT prefs; SELECT/INSERT/UPDATE watches; INSERT notifications)
+8. `20260818000000_admin_film_identity_reviews.sql` — `profiles.is_admin` (client-immutable) + `film_identity_reviews` (admin-only RLS). See [docs/v2/tmdb-match-review-admin.md](../docs/v2/tmdb-match-review-admin.md).
+9. `20260821000000_film_identity_review_events.sql` — append-only `film_identity_review_events` audit trail (trigger on review upsert).
+
+After applying migration 8, mark the authorized account in the SQL editor (postgres / service role only — there is no self-serve admin UI):
+
+```sql
+update public.profiles
+   set is_admin = true
+ where id = '<auth.users id for the admin account>';
+```
 
 ### After applying the profiles grants repair
 

@@ -44,5 +44,19 @@ Authored decisions remain authoritative. Score changes do not rewrite `tmdb_matc
 
 - Constituent shorts inside programs are not modeled.
 - Description-derived program contents are not ingested yet.
-- Sparse title-only hits stay in review (not auto).
+- Sparse title-only hits stay in review (not auto) unless runtime corroborates.
+- Same-title remakes without year still require review unless title+runtime agree
+  and the top-candidate margin is ≥ `REMAKE_RUNTIME_AUTO_MARGIN_MIN` (0.20).
 - Public `film_id` emit / enrichment UI still deferred (`T-FILMID-02`, `T-ENR-01`).
+
+## Admin-confirmed evaluation (2026-08)
+
+Offline corpus: `tests/fixtures/film_identity/admin_confirmed_eval_cases.json`
+
+```bash
+python scripts/evaluate_tmdb_matcher.py
+```
+
+After presentation + remake-margin changes on the Aug 2026 admin confirmations:
+auto-correct 6→12, false autos 0, review 20→14 (cases lacking offline candidate
+snapshots remain unmatched in the offline harness).

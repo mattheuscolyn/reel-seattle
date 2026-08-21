@@ -113,6 +113,58 @@ function serveV2TmdbProxy() {
 }
 
 /**
+ * Local-only admin film-identity artifacts for matcher telemetry.
+ * Not part of public Pages allowlist; serve middleware only.
+ */
+function serveAdminFilmIdentityData() {
+  const routes = Object.freeze({
+    '/admin-data/film_identity_catalog.json': join(
+      repoRoot,
+      'data',
+      'film_identity',
+      'film_identity_catalog.json',
+    ),
+    '/admin-data/tmdb_match_review_queue.json': join(
+      repoRoot,
+      'data',
+      'film_identity',
+      'tmdb_match_review_queue.json',
+    ),
+  })
+  return {
+    name: 'v2-serve-admin-film-identity-data',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const path = (req.url || '').split('?')[0]
+        const filePath = routes[path]
+        if (!filePath) {
+          next()
+          return
+        }
+        if (req.method !== 'GET') {
+          sendJson(res, 405, { error: 'Method not allowed' })
+          return
+        }
+        if (!existsSync(filePath)) {
+          sendJson(res, 404, { error: 'admin_film_identity_artifact_missing' })
+          return
+        }
+        try {
+          const body = readFileSync(filePath, 'utf8')
+          res.statusCode = 200
+          res.setHeader('Content-Type', 'application/json; charset=utf-8')
+          res.setHeader('Cache-Control', 'no-store')
+          res.end(body)
+        } catch {
+          sendJson(res, 500, { error: 'admin_film_identity_read_failed' })
+        }
+      })
+    },
+  }
+}
+
+/**
  * Serve allowlisted public/data artifacts into the v2 Vite server only.
  * Does not enable publicDir or expose the rest of public/.
  * Build copy uses the same allowlist via `copyAllowedV2DataArtifacts`.
@@ -284,6 +336,7 @@ export default defineConfig({
   plugins: [
     react(),
     serveAllowedV2PublicData(),
+    serveAdminFilmIdentityData(),
     serveAllowedV2TheaterImages(),
     serveV2TmdbProxy(),
   ],

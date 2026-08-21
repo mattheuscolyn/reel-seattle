@@ -1,0 +1,2575 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Human-confirmed admin TMDB matches with offline candidate snapshots from film_identity_catalog.json. Used by scripts/evaluate_tmdb_matcher.py.",
+  "source_reviews": "data/audits/admin_film_identity_reviews_export.json",
+  "source_catalog": "data/film_identity/film_identity_catalog.json",
+  "cases": [
+    {
+      "id": "amc|id|78244",
+      "source": "amc",
+      "source_film_id": "78244",
+      "showtime_film_key": "laufey-s-a-night-at-the-symphony-hollywood-bowl",
+      "source_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
+      "runtime_min": 100,
+      "directors_raw": "SAM WRENCH",
+      "expected": {
+        "confirmed_tmdb_id": 1375774,
+        "normalized_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:28:37.340943+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "hard_conflict",
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 1375774
+      },
+      "offline_candidates": [
+        {
+          "id": 1375774,
+          "title": "Laufey's A Night at the Symphony: Hollywood Bowl",
+          "original_title": null,
+          "release_date": "2024-01-01",
+          "runtime": 93,
+          "director": "Sam Wrench",
+          "popularity": 0.4721,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.6666,
+          "snapshot_warnings": [
+            "year_conflict",
+            "runtime_soft_penalty"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|84239",
+      "source": "amc",
+      "source_film_id": "84239",
+      "showtime_film_key": "texas-chainsaw-day-2026",
+      "source_title": "Texas Chainsaw Day (2026)",
+      "runtime_min": 103,
+      "directors_raw": "TOBE HOOPER",
+      "expected": {
+        "confirmed_tmdb_id": 30497,
+        "normalized_title": "Texas Chainsaw Day",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:28:31.858855+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "non_film",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": null
+      },
+      "offline_candidates": []
+    },
+    {
+      "id": "amc|id|84677",
+      "source": "amc",
+      "source_film_id": "84677",
+      "showtime_film_key": "hushar-pittalu",
+      "source_title": "Hushar Pittalu",
+      "runtime_min": 143,
+      "directors_raw": "BIKSHU KOYAGURA",
+      "expected": {
+        "confirmed_tmdb_id": 1742434,
+        "normalized_title": "Hushar Pittalu",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:27:29.2712+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "hard_conflict",
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 1742434
+      },
+      "offline_candidates": [
+        {
+          "id": 1742434,
+          "title": "Hushar Pittalu",
+          "original_title": null,
+          "release_date": "2026-01-01",
+          "runtime": 0,
+          "director": "Bikshu koyagura",
+          "popularity": 1.4628,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.91,
+          "snapshot_warnings": [
+            "runtime_conflict"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|83394",
+      "source": "amc",
+      "source_film_id": "83394",
+      "showtime_film_key": "six-the-musical-live",
+      "source_title": "Six: The Musical Live!",
+      "runtime_min": 95,
+      "directors_raw": "LIZ CLARE",
+      "expected": {
+        "confirmed_tmdb_id": 1417019,
+        "normalized_title": "Six: The Musical Live!",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:27:14.079389+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "non_film",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": null
+      },
+      "offline_candidates": []
+    },
+    {
+      "id": "nwff|id|sfcs-10-first-cow",
+      "source": "nwff",
+      "source_film_id": "sfcs-10-first-cow",
+      "showtime_film_key": "sfcs-at-10-first-cow",
+      "source_title": "SFCS at 10: First Cow",
+      "runtime_min": 122,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 558582,
+        "normalized_title": "First Cow",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:27:09.32824+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": 1.0,
+        "proposed_tmdb_id": 558582
+      },
+      "offline_candidates": [
+        {
+          "id": 558582,
+          "title": "First Cow",
+          "original_title": null,
+          "release_date": "2020-01-01",
+          "runtime": 122,
+          "director": "Kelly Reichardt",
+          "popularity": 2.6718,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 109500,
+          "title": "Dawn Rider",
+          "original_title": null,
+          "release_date": "2012-01-01",
+          "runtime": 94,
+          "director": "Terry Miles",
+          "popularity": 1.2232,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 766267,
+          "title": "First Cow: A Place in This World",
+          "original_title": null,
+          "release_date": "2020-01-01",
+          "runtime": 27,
+          "director": "Jonathan Mefford",
+          "popularity": 0.4872,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1183398,
+          "title": "A Feeling of Home: The Making of First Cow",
+          "original_title": null,
+          "release_date": "2020-01-01",
+          "runtime": 7,
+          "director": null,
+          "popularity": 0.2114,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nwff|id|unstreamable-tekkonkinkreet",
+      "source": "nwff",
+      "source_film_id": "unstreamable-tekkonkinkreet",
+      "showtime_film_key": "unstreamable-tekkonkinkreet-4k-restoration",
+      "source_title": "Unstreamable - Tekkonkinkreet (4K Restoration)",
+      "runtime_min": 103,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 13754,
+        "normalized_title": "Tekkonkinkreet",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:26:52.825143+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": 1.0,
+        "proposed_tmdb_id": 13754
+      },
+      "offline_candidates": [
+        {
+          "id": 13754,
+          "title": "Tekkonkinkreet",
+          "original_title": "\u9244\u30b3\u30f3\u7b4b\u30af\u30ea\u30fc\u30c8",
+          "release_date": "2006-01-01",
+          "runtime": 103,
+          "director": "Michael Arias",
+          "popularity": 3.0008,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 917696,
+          "title": "Tekkonkinkreet Pilot",
+          "original_title": "\u9244\u30b3\u30f3\u7b4b\u30af\u30ea\u30fc\u30c8",
+          "release_date": "1999-01-01",
+          "runtime": 4,
+          "director": "Koji Morimoto",
+          "popularity": 0.3571,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|84783",
+      "source": "amc",
+      "source_film_id": "84783",
+      "showtime_film_key": "idiots-early-access",
+      "source_title": "Idiots Early Access",
+      "runtime_min": 99,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 445466,
+        "normalized_title": "Idiots",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:24:33.098396+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": 0.25,
+        "proposed_tmdb_id": 445466
+      },
+      "offline_candidates": [
+        {
+          "id": 445466,
+          "title": "Idiots",
+          "original_title": null,
+          "release_date": "2026-01-01",
+          "runtime": 100,
+          "director": "Macon Blair",
+          "popularity": 6.0609,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 452,
+          "title": "The Idiots",
+          "original_title": "Idioterne",
+          "release_date": "1998-01-01",
+          "runtime": 110,
+          "director": "Lars von Trier",
+          "popularity": 3.4231,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 288676,
+          "title": "iDiots",
+          "original_title": null,
+          "release_date": "2013-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.2803,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 437988,
+          "title": "The Idiots",
+          "original_title": "\u3070\u304b\u3082\u306e",
+          "release_date": "2010-01-01",
+          "runtime": 120,
+          "director": "Shusuke Kaneko",
+          "popularity": 0.6254,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 20453,
+          "title": "3 Idiots",
+          "original_title": null,
+          "release_date": "2009-01-01",
+          "runtime": 171,
+          "director": "Rajkumar Hirani",
+          "popularity": 10.4765,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0001,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 116090,
+          "title": "Idiots Deluxe",
+          "original_title": null,
+          "release_date": "1945-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 1.1258,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 196173,
+          "title": "Village of Idiots",
+          "original_title": null,
+          "release_date": "1999-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.3583,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 201485,
+          "title": "American Idiots",
+          "original_title": null,
+          "release_date": "2013-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.9003,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "beacon|id|gandahar",
+      "source": "beacon",
+      "source_film_id": "gandahar",
+      "showtime_film_key": "gandahar",
+      "source_title": "GANDAHAR",
+      "runtime_min": null,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 22500,
+        "normalized_title": "Gandahar",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:24:22.7695+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "weak_title_only_match",
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 22500
+      },
+      "offline_candidates": [
+        {
+          "id": 22500,
+          "title": "Gandahar",
+          "original_title": null,
+          "release_date": "1987-01-01",
+          "runtime": 83,
+          "director": "Ren\u00e9 Laloux",
+          "popularity": 2.5311,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "beacon|id|mysterious-skin",
+      "source": "beacon",
+      "source_film_id": "mysterious-skin",
+      "showtime_film_key": "mysterious-skin",
+      "source_title": "MYSTERIOUS SKIN",
+      "runtime_min": null,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 11171,
+        "normalized_title": "Mysterious Skin",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:22:32.548861+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "weak_title_only_match",
+        "top_candidate_margin": 0.0,
+        "proposed_tmdb_id": 11171
+      },
+      "offline_candidates": [
+        {
+          "id": 11171,
+          "title": "Mysterious Skin",
+          "original_title": null,
+          "release_date": "2005-01-01",
+          "runtime": 105,
+          "director": "Gregg Araki",
+          "popularity": 6.462,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1613196,
+          "title": "Mysterious Skin",
+          "original_title": null,
+          "release_date": null,
+          "runtime": 1,
+          "director": null,
+          "popularity": 0.2338,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "central_cinema|id|little-shop-of-horrors",
+      "source": "central_cinema",
+      "source_film_id": "little-shop-of-horrors",
+      "showtime_film_key": "little-shop-of-horrors-with-live-shadow-cast",
+      "source_title": "Little Shop of Horrors with Live Shadow Cast",
+      "runtime_min": 94,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 10776,
+        "normalized_title": "Little Shop of Horrors",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:21:23.450678+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": 0.25,
+        "proposed_tmdb_id": 10776
+      },
+      "offline_candidates": [
+        {
+          "id": 10776,
+          "title": "Little Shop of Horrors",
+          "original_title": null,
+          "release_date": "1986-01-01",
+          "runtime": 94,
+          "director": "Frank Oz",
+          "popularity": 4.0747,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 24452,
+          "title": "The Little Shop of Horrors",
+          "original_title": null,
+          "release_date": "1960-01-01",
+          "runtime": 73,
+          "director": "Roger Corman",
+          "popularity": 1.8919,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 825751,
+          "title": "Little Shop of Horrors",
+          "original_title": "\u30ea\u30c8\u30eb\u30fb\u30b7\u30e7\u30c3\u30d7\u30fb\u30aa\u30d6\u30fb\u30db\u30e9\u30fc\u30ba",
+          "release_date": "1987-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.2818,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1506774,
+          "title": "Little shop of horrors",
+          "original_title": null,
+          "release_date": null,
+          "runtime": 0,
+          "director": "Blake Buchanan",
+          "popularity": 0.4699,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1355134,
+          "title": "Little Barber Shop of Horrors",
+          "original_title": null,
+          "release_date": "2015-01-01",
+          "runtime": 7,
+          "director": "Fry J. Apocaloso",
+          "popularity": 0.2325,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1739265,
+          "title": "Little Pet Shop of Horrors",
+          "original_title": null,
+          "release_date": "2005-01-01",
+          "runtime": 3,
+          "director": null,
+          "popularity": 0.217,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|83783",
+      "source": "amc",
+      "source_film_id": "83783",
+      "showtime_film_key": "hot-spot",
+      "source_title": "Hot Spot",
+      "runtime_min": 101,
+      "directors_raw": "Agnieszka Smoczynska",
+      "expected": {
+        "confirmed_tmdb_id": 813418,
+        "normalized_title": "Hot Spot",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:20:28.922162+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 813418
+      },
+      "offline_candidates": [
+        {
+          "id": 813418,
+          "title": "Hot Spot",
+          "original_title": null,
+          "release_date": "2026-01-01",
+          "runtime": 101,
+          "director": "Agnieszka Smoczy\u0144ska",
+          "popularity": 2.2204,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": []
+        }
+      ]
+    },
+    {
+      "id": "beacon|id|scalpel",
+      "source": "beacon",
+      "source_film_id": "scalpel",
+      "showtime_film_key": "scalpel",
+      "source_title": "SCALPEL",
+      "runtime_min": null,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 145444,
+        "normalized_title": "Scalpel",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:20:23.585412+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "weak_title_only_match",
+        "top_candidate_margin": 0.0,
+        "proposed_tmdb_id": 1265802
+      },
+      "offline_candidates": [
+        {
+          "id": 1265802,
+          "title": "The Scalpel",
+          "original_title": null,
+          "release_date": "1936-01-01",
+          "runtime": 22,
+          "director": "Richard Lyford",
+          "popularity": 0.5003,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1551431,
+          "title": "Scalpel",
+          "original_title": "\u30e1\u30b9",
+          "release_date": "1974-01-01",
+          "runtime": 91,
+          "director": "Masahisa Sadanaga",
+          "popularity": 0.4849,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 197916,
+          "title": "A Lone Scalpel",
+          "original_title": "\u5b64\u9ad8\u306e\u30e1\u30b9",
+          "release_date": "2010-01-01",
+          "runtime": 126,
+          "director": "Izuru Narushima",
+          "popularity": 0.9116,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 308732,
+          "title": "Scalpel, Please",
+          "original_title": "Skalpel, pros\u00edm",
+          "release_date": "1986-01-01",
+          "runtime": 114,
+          "director": "Ji\u0159\u00ed Svoboda",
+          "popularity": 0.581,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 465269,
+          "title": "Two Brides and a Scalpel: Diary of a Lesbian Marriage",
+          "original_title": null,
+          "release_date": "2000-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.1982,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1162782,
+          "title": "Making of \"la sc\u00e8ne au scalpel\"",
+          "original_title": null,
+          "release_date": "2001-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.3878,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1314043,
+          "title": "Miss Plastic - The Beauty of the Scalpel",
+          "original_title": "Miss Plastic - A szik\u00e9k sz\u00e9pe",
+          "release_date": "2009-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.5392,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1316503,
+          "title": "Victims of the Surgeon's Scalpel",
+          "original_title": null,
+          "release_date": "2019-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.2621,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|84140",
+      "source": "amc",
+      "source_film_id": "84140",
+      "showtime_film_key": "last-blossom",
+      "source_title": "The Last Blossom",
+      "runtime_min": 90,
+      "directors_raw": "BAKU KINOSHITA",
+      "expected": {
+        "confirmed_tmdb_id": 1294972,
+        "normalized_title": "The Last Blossom",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:14:04.491894+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 1294972
+      },
+      "offline_candidates": [
+        {
+          "id": 1294972,
+          "title": "The Last Blossom",
+          "original_title": "\u30db\u30a6\u30bb\u30f3\u30ab",
+          "release_date": "2025-01-01",
+          "runtime": 91,
+          "director": "Baku Kinoshita",
+          "popularity": 1.2352,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_proximity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "beacon|id|colossal-youth",
+      "source": "beacon",
+      "source_film_id": "colossal-youth",
+      "showtime_film_key": "colossal-youth",
+      "source_title": "COLOSSAL YOUTH",
+      "runtime_min": null,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 82404,
+        "normalized_title": "Colossal Youth",
+        "decision": "matched",
+        "reviewed_at": "2026-08-21T03:13:15.325348+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "weak_title_only_match",
+        "top_candidate_margin": 0.0,
+        "proposed_tmdb_id": 82404
+      },
+      "offline_candidates": [
+        {
+          "id": 82404,
+          "title": "Colossal Youth",
+          "original_title": "Juventude Em Marcha",
+          "release_date": "2006-01-01",
+          "runtime": 156,
+          "director": "Pedro Costa",
+          "popularity": 0.5435,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 463258,
+          "title": "Colossal Youth",
+          "original_title": null,
+          "release_date": "2018-01-01",
+          "runtime": 98,
+          "director": "R. Scott Leisk",
+          "popularity": 1.0978,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|84538",
+      "source": "amc",
+      "source_film_id": "84538",
+      "showtime_film_key": "harry-potter-and-the-prisoner-of-azkaban-hpd26",
+      "source_title": "Harry Potter And The Prisoner Of Azkaban (HPD26)",
+      "runtime_min": 141,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 673,
+        "normalized_title": "Harry Potter And The Prisoner Of Azkaban",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:28:11.02199+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 673
+      },
+      "offline_candidates": [
+        {
+          "id": 673,
+          "title": "Harry Potter and the Prisoner of Azkaban",
+          "original_title": null,
+          "release_date": "2004-01-01",
+          "runtime": 141,
+          "director": "Alfonso Cuar\u00f3n",
+          "popularity": 32.7176,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "beacon|id|crocodile-dose",
+      "source": "beacon",
+      "source_film_id": "crocodile-dose",
+      "showtime_film_key": "crocodile-dose",
+      "source_title": "CROCODILE DOSE",
+      "runtime_min": null,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 1623350,
+        "normalized_title": "Crocodile Dose",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:27:59.941671+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "weak_title_only_match",
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 1623350
+      },
+      "offline_candidates": [
+        {
+          "id": 1623350,
+          "title": "Crocodile Dose",
+          "original_title": null,
+          "release_date": "2026-01-01",
+          "runtime": 70,
+          "director": "Jason Waters",
+          "popularity": 3.2549,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "beacon|id|eyes-without-a-face",
+      "source": "beacon",
+      "source_film_id": "eyes-without-a-face",
+      "showtime_film_key": "eyes-without-a-face",
+      "source_title": "EYES WITHOUT A FACE",
+      "runtime_min": null,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 31417,
+        "normalized_title": "Eyes Without A Face",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:27:54.562175+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "weak_title_only_match",
+        "top_candidate_margin": 0.0,
+        "proposed_tmdb_id": 31417
+      },
+      "offline_candidates": [
+        {
+          "id": 31417,
+          "title": "Eyes Without a Face",
+          "original_title": "Les Yeux sans visage",
+          "release_date": "1960-01-01",
+          "runtime": 84,
+          "director": "Georges Franju",
+          "popularity": 2.5824,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1144418,
+          "title": "Eyes Without a Face",
+          "original_title": null,
+          "release_date": "2023-01-01",
+          "runtime": 8,
+          "director": "Joshua Brock",
+          "popularity": 0.263,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 105840,
+          "title": "Madness",
+          "original_title": "Occhi senza volto",
+          "release_date": "1994-01-01",
+          "runtime": 83,
+          "director": "Bruno Mattei",
+          "popularity": 0.5342,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 282261,
+          "title": "The Man Without a Face",
+          "original_title": "L'Homme sans visage",
+          "release_date": "1919-01-01",
+          "runtime": 60,
+          "director": "Louis Feuillade",
+          "popularity": 0.6109,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|84091",
+      "source": "amc",
+      "source_film_id": "84091",
+      "showtime_film_key": "ghost-2-big-to-rig",
+      "source_title": "GHOST: 2 Big To Rig",
+      "runtime_min": 115,
+      "directors_raw": "AMIR JUAN CHAMDIN, JIM PARSONS",
+      "expected": {
+        "confirmed_tmdb_id": 1693400,
+        "normalized_title": "GHOST: 2 Big To Rig",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:27:48.491117+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "hard_conflict",
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 1693400
+      },
+      "offline_candidates": [
+        {
+          "id": 1693400,
+          "title": "2 Big to Rig",
+          "original_title": null,
+          "release_date": "2026-01-01",
+          "runtime": 115,
+          "director": "Amir Juan Chamdin",
+          "popularity": 2.2314,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.5909,
+          "snapshot_warnings": [
+            "title_conflict"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nwff|id|welcome-to-the-dollhouse",
+      "source": "nwff",
+      "source_film_id": "welcome-to-the-dollhouse",
+      "showtime_film_key": "welcome-to-the-dollhouse",
+      "source_title": "Welcome to The Dollhouse",
+      "runtime_min": 88,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 11446,
+        "normalized_title": "Welcome to The Dollhouse",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:27:24.144397+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": 0.25,
+        "proposed_tmdb_id": 11446
+      },
+      "offline_candidates": [
+        {
+          "id": 11446,
+          "title": "Welcome to the Dollhouse",
+          "original_title": null,
+          "release_date": "1996-01-01",
+          "runtime": 88,
+          "director": "Todd Solondz",
+          "popularity": 2.4497,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 937319,
+          "title": "Welcome to the Dollhouse",
+          "original_title": null,
+          "release_date": "2021-01-01",
+          "runtime": 20,
+          "director": "Elizabeth Miller-Derstine",
+          "popularity": 0.3521,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|84537",
+      "source": "amc",
+      "source_film_id": "84537",
+      "showtime_film_key": "harry-potter-and-the-chamber-of-secrets",
+      "source_title": "Harry Potter And The Chamber of Secrets",
+      "runtime_min": 161,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 672,
+        "normalized_title": "Harry Potter And The Chamber of Secrets",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:27:16.1854+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "hard_conflict",
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 672
+      },
+      "offline_candidates": [
+        {
+          "id": 672,
+          "title": "Harry Potter and the Chamber of Secrets",
+          "original_title": null,
+          "release_date": "2002-01-01",
+          "runtime": 161,
+          "director": "Chris Columbus",
+          "popularity": 34.7417,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.667,
+          "snapshot_warnings": [
+            "year_conflict"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "siff|id|programs-and-events/cold-war-summer/goldeneye",
+      "source": "siff",
+      "source_film_id": "programs-and-events/cold-war-summer/goldeneye",
+      "showtime_film_key": "cold-war-summer-goldeneye-35mm",
+      "source_title": "Cold War Summer: GoldenEye (35mm)",
+      "runtime_min": 130,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 710,
+        "normalized_title": "GoldenEye",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:27:05.9771+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": 0.25,
+        "proposed_tmdb_id": 710
+      },
+      "offline_candidates": [
+        {
+          "id": 710,
+          "title": "GoldenEye",
+          "original_title": null,
+          "release_date": "1995-01-01",
+          "runtime": 130,
+          "director": "Martin Campbell",
+          "popularity": 8.7883,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 141859,
+          "title": "Goldeneye",
+          "original_title": null,
+          "release_date": "1989-01-01",
+          "runtime": 105,
+          "director": "Don Boyd",
+          "popularity": 0.9953,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 357723,
+          "title": "Goldeneye: The Secret Files",
+          "original_title": null,
+          "release_date": "1995-01-01",
+          "runtime": 41,
+          "director": "Jim Sturgeon",
+          "popularity": 0.988,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 513455,
+          "title": "Going for Golden Eye",
+          "original_title": null,
+          "release_date": "2017-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.7889,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 685338,
+          "title": "The Making of 'GoldenEye': A Video Journal",
+          "original_title": null,
+          "release_date": "1999-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.23,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 777810,
+          "title": "The Exotic Locations of 'GoldenEye'",
+          "original_title": null,
+          "release_date": "2006-01-01",
+          "runtime": 3,
+          "director": null,
+          "popularity": 0.3336,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 777826,
+          "title": "GoldenEye: The Secret Files - The Cast",
+          "original_title": null,
+          "release_date": "1995-01-01",
+          "runtime": 12,
+          "director": null,
+          "popularity": 0.9615,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 886760,
+          "title": "Bringing Back Golden Eye",
+          "original_title": null,
+          "release_date": "2021-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.4843,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "central_cinema|id|hundreds-of-beavers",
+      "source": "central_cinema",
+      "source_film_id": "hundreds-of-beavers",
+      "showtime_film_key": "hundreds-of-beavers-presented-with-the-grand-illusion",
+      "source_title": "Hundreds Of Beavers (Presented with The Grand Illusion)",
+      "runtime_min": 108,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 1019939,
+        "normalized_title": "Hundreds Of Beavers",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:26:50.02526+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 1019939
+      },
+      "offline_candidates": [
+        {
+          "id": 1019939,
+          "title": "Hundreds of Beavers",
+          "original_title": null,
+          "release_date": "2024-01-01",
+          "runtime": 108,
+          "director": "Mike Cheslik",
+          "popularity": 2.9119,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nwff|id|bottoms",
+      "source": "nwff",
+      "source_film_id": "bottoms",
+      "showtime_film_key": "bottoms",
+      "source_title": "Bottoms",
+      "runtime_min": 92,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 814776,
+        "normalized_title": "Bottoms",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:26:35.304243+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": 0.25,
+        "proposed_tmdb_id": 814776
+      },
+      "offline_candidates": [
+        {
+          "id": 814776,
+          "title": "Bottoms",
+          "original_title": null,
+          "release_date": "2023-01-01",
+          "runtime": 91,
+          "director": "Emma Seligman",
+          "popularity": 5.4545,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 674804,
+          "title": "Bottoms",
+          "original_title": null,
+          "release_date": "1967-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.3648,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 14619,
+          "title": "Bottoms Up",
+          "original_title": null,
+          "release_date": "2006-01-01",
+          "runtime": 89,
+          "director": "Erik MacArthur",
+          "popularity": 1.3226,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.25,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 164107,
+          "title": "Bottoms Up!",
+          "original_title": null,
+          "release_date": "1960-01-01",
+          "runtime": 90,
+          "director": "Mario Zampi",
+          "popularity": 0.6216,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.25,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 180395,
+          "title": "Bottoms Up",
+          "original_title": null,
+          "release_date": "1934-01-01",
+          "runtime": 85,
+          "director": "David Butler",
+          "popularity": 0.6589,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.1388,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 6658,
+          "title": "Bottoms Up",
+          "original_title": "Auf der Alm, da gibt's koa S\u00fcnd'",
+          "release_date": "1974-01-01",
+          "runtime": 81,
+          "director": "Franz Josef Gottlieb",
+          "popularity": 1.1108,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0278,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 305206,
+          "title": "Bottoms Up",
+          "original_title": null,
+          "release_date": "2014-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.7802,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 677575,
+          "title": "Tops & Bottoms",
+          "original_title": null,
+          "release_date": "1999-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.6772,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "siff|id|programs-and-events/stage-to-screen/nt-live-les-liaisons-dangereuses",
+      "source": "siff",
+      "source_film_id": "programs-and-events/stage-to-screen/nt-live-les-liaisons-dangereuses",
+      "showtime_film_key": "nt-live-les-liaisons-dangereuses",
+      "source_title": "NT Live: Les Liaisons Dangereuses",
+      "runtime_min": 180,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 1598667,
+        "normalized_title": "Les Liaisons Dangereuses",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:26:27.119412+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "non_film",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": null
+      },
+      "offline_candidates": []
+    },
+    {
+      "id": "beacon|id|limelight",
+      "source": "beacon",
+      "source_film_id": "limelight",
+      "showtime_film_key": "limelight",
+      "source_title": "LIMELIGHT",
+      "runtime_min": null,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 28971,
+        "normalized_title": "Limelight",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:26:01.917411+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "weak_title_only_match",
+        "top_candidate_margin": 0.0,
+        "proposed_tmdb_id": 28971
+      },
+      "offline_candidates": [
+        {
+          "id": 28971,
+          "title": "Limelight",
+          "original_title": null,
+          "release_date": "1952-01-01",
+          "runtime": 137,
+          "director": "Charlie Chaplin",
+          "popularity": 3.006,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 73941,
+          "title": "Limelight",
+          "original_title": null,
+          "release_date": "2011-01-01",
+          "runtime": 102,
+          "director": "Billy Corben",
+          "popularity": 0.52,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 568623,
+          "title": "Limelight",
+          "original_title": null,
+          "release_date": "1936-01-01",
+          "runtime": 80,
+          "director": "Herbert Wilcox",
+          "popularity": 0.3437,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 630594,
+          "title": "Limelight",
+          "original_title": null,
+          "release_date": "2017-01-01",
+          "runtime": 96,
+          "director": "James Cullen Bressack",
+          "popularity": 1.0882,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 794338,
+          "title": "Limelight",
+          "original_title": null,
+          "release_date": "2020-01-01",
+          "runtime": 12,
+          "director": "Claire Gostin",
+          "popularity": 1.1486,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 989452,
+          "title": "Limelight",
+          "original_title": null,
+          "release_date": "2022-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.5837,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1441386,
+          "title": "Limelight",
+          "original_title": null,
+          "release_date": "2024-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.2231,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1486311,
+          "title": "Limelight",
+          "original_title": null,
+          "release_date": "2009-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 0.6213,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "central_cinema|id|baron-von-terror-presents-in-the-mouth-of-madness",
+      "source": "central_cinema",
+      "source_film_id": "baron-von-terror-presents-in-the-mouth-of-madness",
+      "showtime_film_key": "baron-von-terror-presents-in-the-mouth-of-madness",
+      "source_title": "Baron Von Terror presents: In the Mouth of Madness",
+      "runtime_min": 95,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 2654,
+        "normalized_title": "In the Mouth of Madness",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:25:41.48845+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": 0.25,
+        "proposed_tmdb_id": 2654
+      },
+      "offline_candidates": [
+        {
+          "id": 2654,
+          "title": "In the Mouth of Madness",
+          "original_title": null,
+          "release_date": "1995-01-01",
+          "runtime": 95,
+          "director": "John Carpenter",
+          "popularity": 6.1019,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1129076,
+          "title": "In The Mouth of Madness",
+          "original_title": null,
+          "release_date": null,
+          "runtime": 27,
+          "director": "Charls Carroll",
+          "popularity": 0.2064,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1514514,
+          "title": "Raoul Walsh In the Mouth of Madness",
+          "original_title": null,
+          "release_date": "2013-01-01",
+          "runtime": 0,
+          "director": "Lu\u00eds Mendon\u00e7a",
+          "popularity": 0.4882,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "siff|id|cinema/in-theaters/the-odyssey-(70mm)",
+      "source": "siff",
+      "source_film_id": "cinema/in-theaters/the-odyssey-(70mm)",
+      "showtime_film_key": "odyssey-70mm",
+      "source_title": "The Odyssey (70mm)",
+      "runtime_min": 172,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 1368337,
+        "normalized_title": "The Odyssey",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:25:03.827618+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": 0.25,
+        "proposed_tmdb_id": 1368337
+      },
+      "offline_candidates": [
+        {
+          "id": 1368337,
+          "title": "The Odyssey",
+          "original_title": null,
+          "release_date": "2026-01-01",
+          "runtime": 173,
+          "director": "Christopher Nolan",
+          "popularity": 684.2902,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 42853,
+          "title": "The Odyssey",
+          "original_title": "Odissea",
+          "release_date": "1969-01-01",
+          "runtime": 110,
+          "director": "Franco Rossi",
+          "popularity": 1.9028,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 219197,
+          "title": "The Odyssey",
+          "original_title": null,
+          "release_date": "1991-01-01",
+          "runtime": 55,
+          "director": "Warwick Gilbert",
+          "popularity": 1.3299,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 332794,
+          "title": "The Odyssey",
+          "original_title": "L'Odyss\u00e9e",
+          "release_date": "2016-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 2.4746,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1698863,
+          "title": "The Odyssey",
+          "original_title": null,
+          "release_date": "2026-01-01",
+          "runtime": 86,
+          "director": "Marcel Walz",
+          "popularity": 95.352,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 113094,
+          "title": "Ultraman Tiga: The Final Odyssey",
+          "original_title": "\u30a6\u30eb\u30c8\u30e9\u30de\u30f3\u30c6\u30a3\u30ac THE FINAL ODYSSEY",
+          "release_date": "2000-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 3.2304,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 493416,
+          "title": "Troy: The Odyssey",
+          "original_title": null,
+          "release_date": "2017-01-01",
+          "runtime": 90,
+          "director": "Tekin Girgin",
+          "popularity": 4.0116,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 607395,
+          "title": "The Odyssey Of Felines",
+          "original_title": null,
+          "release_date": "2015-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 2.2834,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|84539",
+      "source": "amc",
+      "source_film_id": "84539",
+      "showtime_film_key": "harry-potter-and-the-goblet-of-fire",
+      "source_title": "Harry Potter And The Goblet Of Fire",
+      "runtime_min": 157,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 674,
+        "normalized_title": "Harry Potter And The Goblet Of Fire",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:24:24.848163+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "hard_conflict",
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 674
+      },
+      "offline_candidates": [
+        {
+          "id": 674,
+          "title": "Harry Potter and the Goblet of Fire",
+          "original_title": null,
+          "release_date": "2005-01-01",
+          "runtime": 157,
+          "director": "Mike Newell",
+          "popularity": 34.0631,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.667,
+          "snapshot_warnings": [
+            "year_conflict"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "beacon|id|last-year-at-marienbad",
+      "source": "beacon",
+      "source_film_id": "last-year-at-marienbad",
+      "showtime_film_key": "last-year-at-marienbad",
+      "source_title": "LAST YEAR AT MARIENBAD",
+      "runtime_min": null,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 4024,
+        "normalized_title": "Last Year At Marienbad",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:24:15.124392+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "weak_title_only_match",
+        "top_candidate_margin": 0.75,
+        "proposed_tmdb_id": 4024
+      },
+      "offline_candidates": [
+        {
+          "id": 4024,
+          "title": "Last Year at Marienbad",
+          "original_title": "L'Ann\u00e9e derni\u00e8re \u00e0 Marienbad",
+          "release_date": "1961-01-01",
+          "runtime": 95,
+          "director": "Alain Resnais",
+          "popularity": 2.4217,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 654396,
+          "title": "Last Year at Marienbad A-Z",
+          "original_title": null,
+          "release_date": "2019-01-01",
+          "runtime": 51,
+          "director": "James Quandt",
+          "popularity": 0.1307,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "beacon|id|a-king-in-new-york",
+      "source": "beacon",
+      "source_film_id": "a-king-in-new-york",
+      "showtime_film_key": "king-in-new-york",
+      "source_title": "A KING IN NEW YORK",
+      "runtime_min": null,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 28973,
+        "normalized_title": "A King In New York",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:24:02.41026+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "weak_title_only_match",
+        "top_candidate_margin": 0.75,
+        "proposed_tmdb_id": 28973
+      },
+      "offline_candidates": [
+        {
+          "id": 28973,
+          "title": "A King in New York",
+          "original_title": null,
+          "release_date": "1957-01-01",
+          "runtime": 104,
+          "director": "Charlie Chaplin",
+          "popularity": 2.3172,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 289461,
+          "title": "Chaplin Today: A King in New York",
+          "original_title": null,
+          "release_date": "2003-01-01",
+          "runtime": 27,
+          "director": "Jerome de Missolz",
+          "popularity": 0.4456,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|84540",
+      "source": "amc",
+      "source_film_id": "84540",
+      "showtime_film_key": "harry-potter-and-the-order-of-the-phoenix-hpd26",
+      "source_title": "Harry Potter And The Order Of The Phoenix (HPD26)",
+      "runtime_min": 138,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 675,
+        "normalized_title": "Harry Potter And The Order Of The Phoenix",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:23:53.535417+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 675
+      },
+      "offline_candidates": [
+        {
+          "id": 675,
+          "title": "Harry Potter and the Order of the Phoenix",
+          "original_title": null,
+          "release_date": "2007-01-01",
+          "runtime": 138,
+          "director": "David Yates",
+          "popularity": 30.1221,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nwff|id|mysterious-skin-4k-restoration",
+      "source": "nwff",
+      "source_film_id": "mysterious-skin-4k-restoration",
+      "showtime_film_key": "mysterious-skin-4k-restoration",
+      "source_title": "Mysterious Skin (4K Restoration)",
+      "runtime_min": 99,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 11171,
+        "normalized_title": "Mysterious Skin",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:23:26.26179+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "weak_title_only_match",
+        "top_candidate_margin": 0.0,
+        "proposed_tmdb_id": 11171
+      },
+      "offline_candidates": [
+        {
+          "id": 11171,
+          "title": "Mysterious Skin",
+          "original_title": null,
+          "release_date": "2005-01-01",
+          "runtime": 105,
+          "director": "Gregg Araki",
+          "popularity": 6.462,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1613196,
+          "title": "Mysterious Skin",
+          "original_title": null,
+          "release_date": null,
+          "runtime": 1,
+          "director": null,
+          "popularity": 0.2338,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|83347",
+      "source": "amc",
+      "source_film_id": "83347",
+      "showtime_film_key": "legend-of-the-white-dragon",
+      "source_title": "Legend of the White Dragon",
+      "runtime_min": 97,
+      "directors_raw": "AARON SCHOENKE",
+      "expected": {
+        "confirmed_tmdb_id": 843352,
+        "normalized_title": "Legend of the White Dragon",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:23:12.065063+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "review_required",
+        "auto_confirm_blocked_reason": "hard_conflict",
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 843352
+      },
+      "offline_candidates": [
+        {
+          "id": 843352,
+          "title": "Legend of the White Dragon",
+          "original_title": null,
+          "release_date": "2026-01-01",
+          "runtime": 0,
+          "director": "Aaron Schoenke",
+          "popularity": 2.4347,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.91,
+          "snapshot_warnings": [
+            "runtime_conflict"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|84536",
+      "source": "amc",
+      "source_film_id": "84536",
+      "showtime_film_key": "harry-potter-and-the-sorcerer-s-stone-25th-anniversary",
+      "source_title": "Harry Potter and the Sorcerer\u2019s Stone: 25th Anniversary",
+      "runtime_min": 164,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 671,
+        "normalized_title": "Harry Potter and the Sorcerer\u2019s Stone",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:22:58.7165+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "unmatched",
+        "auto_confirm_blocked_reason": "hard_conflict",
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 671
+      },
+      "offline_candidates": [
+        {
+          "id": 671,
+          "title": "Harry Potter and the Philosopher's Stone",
+          "original_title": null,
+          "release_date": "2001-01-01",
+          "runtime": 152,
+          "director": "Chris Columbus",
+          "popularity": 44.1782,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.3338,
+          "snapshot_warnings": [
+            "title_conflict",
+            "runtime_soft_penalty"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "central_cinema|id|the-birds",
+      "source": "central_cinema",
+      "source_film_id": "the-birds",
+      "showtime_film_key": "birds",
+      "source_title": "The Birds",
+      "runtime_min": 119,
+      "directors_raw": null,
+      "expected": {
+        "confirmed_tmdb_id": 571,
+        "normalized_title": "The Birds",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:22:31.963092+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": 0.25,
+        "proposed_tmdb_id": 571
+      },
+      "offline_candidates": [
+        {
+          "id": 571,
+          "title": "The Birds",
+          "original_title": null,
+          "release_date": "1963-01-01",
+          "runtime": 119,
+          "director": "Alfred Hitchcock",
+          "popularity": 6.4335,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 339109,
+          "title": "The Birds",
+          "original_title": null,
+          "release_date": null,
+          "runtime": null,
+          "director": null,
+          "popularity": 0.3816,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.75,
+          "snapshot_warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 153518,
+          "title": "The Angry Birds Movie",
+          "original_title": null,
+          "release_date": "2016-01-01",
+          "runtime": 97,
+          "director": "Clay Kaytis",
+          "popularity": 13.731,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0001,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 454640,
+          "title": "The Angry Birds Movie 2",
+          "original_title": null,
+          "release_date": "2019-01-01",
+          "runtime": 97,
+          "director": "Thurop Van Orman",
+          "popularity": 9.8376,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0001,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 495764,
+          "title": "Birds of Prey (and the Fantabulous Emancipation of One Harley Quinn)",
+          "original_title": null,
+          "release_date": "2020-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 12.0613,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0001,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 1300926,
+          "title": "The Angry Birds Movie 3",
+          "original_title": null,
+          "release_date": "2026-01-01",
+          "runtime": 96,
+          "director": "John Rice",
+          "popularity": 5.5878,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0001,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 13930,
+          "title": "For the Birds",
+          "original_title": null,
+          "release_date": "2000-01-01",
+          "runtime": 4,
+          "director": "Ralph Eggleston",
+          "popularity": 1.96,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "id": 383585,
+          "title": "The Yellow Birds",
+          "original_title": null,
+          "release_date": "2018-01-01",
+          "runtime": null,
+          "director": null,
+          "popularity": 2.208,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 0.0,
+          "snapshot_warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amc|id|65798",
+      "source": "amc",
+      "source_film_id": "65798",
+      "showtime_film_key": "coyote-vs-acme",
+      "source_title": "Coyote vs. Acme",
+      "runtime_min": 103,
+      "directors_raw": "DAVE GREEN",
+      "expected": {
+        "confirmed_tmdb_id": 1204680,
+        "normalized_title": "Coyote vs. Acme",
+        "decision": "matched",
+        "reviewed_at": "2026-08-20T08:10:29.340475+00:00"
+      },
+      "catalog_snapshot": {
+        "match_status": "confirmed_automatic",
+        "auto_confirm_blocked_reason": null,
+        "top_candidate_margin": null,
+        "proposed_tmdb_id": 1204680
+      },
+      "offline_candidates": [
+        {
+          "id": 1204680,
+          "title": "Coyote vs. Acme",
+          "original_title": null,
+          "release_date": "2026-01-01",
+          "runtime": 103,
+          "director": "Dave Green",
+          "popularity": 22.0852,
+          "adult": false,
+          "media_type": "movie",
+          "snapshot_score": 1.0,
+          "snapshot_warnings": []
+        }
+      ]
+    }
+  ]
+}

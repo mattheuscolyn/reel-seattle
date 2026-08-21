@@ -213,6 +213,14 @@ _EVENT_SUFFIX_RES: tuple[re.Pattern[str], ...] = (
         r")\s*$",
         re.IGNORECASE,
     ),
+    # Live theater accompaniment (shadow cast, etc.) — complete trailing phrase.
+    re.compile(
+        r"^(?P<head>.+?)(?P<sep>\s+)(?P<event>"
+        r"with\s+Live\s+Shadow\s+Cast|"
+        r"Live\s+Shadow\s+Cast"
+        r")\s*$",
+        re.IGNORECASE,
+    ),
 )
 
 

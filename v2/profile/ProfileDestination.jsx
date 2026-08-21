@@ -35,6 +35,7 @@ import {
 } from '../auth/profileIdentity.js';
 import { subscribeProfileActivity } from './profileActivity.js';
 import { resolveLiveProfilePresentation } from './resolveLiveProfilePresentation.js';
+import { profileIsAdmin } from '../admin/tmdbReview/sourceIdentity.js';
 import { SCHEDULE_SETTINGS_TIME_FORMATS } from '../fixtures/scheduleSettingsMockupFixture.js';
 import {
   getScheduleSettings,
@@ -70,9 +71,13 @@ const SETTINGS_ICONS = {
 /**
  * @param {{
  *   onStubAction?: (actionId: string, label: string) => void,
+ *   onOpenAdminTmdbReview?: () => void,
  * }} [props]
  */
-export default function ProfileDestination({ onStubAction }) {
+export default function ProfileDestination({
+  onStubAction,
+  onOpenAdminTmdbReview,
+}) {
   const auth = useAuth();
   const stubStatusId = useId();
   const storage = getBrowserStorage();
@@ -328,6 +333,25 @@ export default function ProfileDestination({ onStubAction }) {
       <ProfileAccountPanel
         onAuthAction={(actionId) => onStubAction?.(actionId, actionId)}
       />
+
+      {auth.signedIn && profileIsAdmin(auth.profile) ? (
+        <section
+          className="v2-profile-section"
+          data-profile-section="admin"
+          aria-labelledby="v2-profile-admin-h"
+        >
+          <h2 id="v2-profile-admin-h" className="v2-profile-section-label">
+            Admin
+          </h2>
+          <button
+            type="button"
+            className="v2-profile-link"
+            onClick={() => onOpenAdminTmdbReview?.()}
+          >
+            TMDB Match Review
+          </button>
+        </section>
+      ) : null}
 
       <section
         className="v2-profile-section"

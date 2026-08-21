@@ -43,6 +43,7 @@ This directory is the **canonical source of truth** for Reel Seattle v2 product 
 | [Stage 3 — Product decision packet](./v2-stage-3-product-decisions.md) | PO decisions D01–D17 | **Approved** 2026-07-24 |
 | [Stage 3 — Front–back integration roadmap](./v2-front-back-integration-roadmap.md) | Connect fixtures→real data while preserving designs | Authoritative Stage 3; Stage 4 executes tasks |
 | [Auth foundation (T-AUTH-01)](./auth-foundation.md) | Supabase Google sign-in + profiles RLS; film + schedule cloud sync with explicit attach | Complete (auth + film/schedule sync) |
+| [TMDB Match Review admin](./tmdb-match-review-admin.md) | Admin-only film identity review; `profiles.is_admin` + `film_identity_reviews` RLS | Implemented; requires human DB setup |
 | [Film identity contract (T-FILMID-01/02/03)](./film-identity-contract.md) | Namespaced `film_id`, TMDB matching, public nullable emit, store migration | Foundation + public emit + store v2 migration complete 2026-07-28 |
 | [TMDB enrichment contract (T-ENR-01A/01B/10/20/30)](./tmdb-enrichment-contract.md) | Minimal TMDB enrichment + Home/Opening/Search/Film Detail activation | Artifact + all planned UI consumers complete 2026-07-28 |
 | [Canonical screen specs](./specs/) | Implementation-authoritative per-surface specs | Home, Film Detail, Planner, Theater, Explore/Search (D-17–D-20, D-23); Opportunity expression (D-24); Profile/Settings (D-25); Global navigation (D-26); Home reconciled with Design Review v3 (D-22) |

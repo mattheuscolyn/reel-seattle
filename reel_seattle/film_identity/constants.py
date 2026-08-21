@@ -16,6 +16,9 @@ RUNTIME_CONFLICT_MIN = 25
 RUNTIME_PROXIMITY_MAX_MIN = RUNTIME_COMPATIBLE_MAX_MIN
 # Top vs second candidate margin; near-ties with same-title remakes go to review.
 TOP_CANDIDATE_MARGIN_MIN = 0.08
+# When year is missing but title+runtime corroborate and the lead is clear, remakes may auto.
+# Calibrated on admin-confirmed cases (all observed margins were 0.25 with runtime_near).
+REMAKE_RUNTIME_AUTO_MARGIN_MIN = 0.20
 
 # Available-evidence weights (T-FILMID-01E). Missing signals do not enter the denominator.
 WEIGHT_EXTERNAL_EXACT = 0.70
@@ -56,6 +59,7 @@ DECISION_CONFIRM = "confirm"
 DECISION_REJECT_CANDIDATE = "reject_candidate"
 DECISION_UNMAPPED = "unmapped"
 DECISION_NON_FILM = "non_film"
+DECISION_MULTIPLE_SHORTS = "multiple_shorts"
 DECISION_DEFER = "defer"
 
 DECISIONS = frozenset(
@@ -64,6 +68,7 @@ DECISIONS = frozenset(
         DECISION_REJECT_CANDIDATE,
         DECISION_UNMAPPED,
         DECISION_NON_FILM,
+        DECISION_MULTIPLE_SHORTS,
         DECISION_DEFER,
     }
 )
@@ -74,6 +79,7 @@ STATUS_REVIEW_REQUIRED = "review_required"
 STATUS_UNMATCHED = "unmatched"
 STATUS_REJECTED = "rejected"
 STATUS_NON_FILM = "non_film"
+STATUS_MULTIPLE_SHORTS = "multiple_shorts"
 STATUS_DEFERRED = "deferred"
 STATUS_ERROR = "error"
 
@@ -92,6 +98,7 @@ TMDB_LANGUAGE = "en-US"
 
 CACHE_DIR_REL = "data/cache/tmdb"
 DECISIONS_REL = "data/film_identity/tmdb_match_decisions.json"
+ADMIN_OVERRIDES_REL = "data/film_identity/admin_match_overrides.json"
 CATALOG_REL = "data/film_identity/film_identity_catalog.json"
 REVIEW_QUEUE_REL = "data/film_identity/tmdb_match_review_queue.json"
 COVERAGE_REL = "data/audits/tmdb_film_identity_coverage.json"

@@ -87,6 +87,13 @@ jobs:
       - name: Preflight validate decisions
         run: python scripts/validate_film_identity.py
 
+      - name: Export admin TMDB match reviews
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: python scripts/export_admin_film_identity_reviews.py
+
       - name: Preflight film identity tests
         run: python -m pytest tests/film_identity -q
 
