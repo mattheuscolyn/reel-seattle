@@ -9,6 +9,7 @@ import {
   formatCompactDateLabel,
   pacificDateString,
 } from '../explore/exploreCatalog.js';
+import { DEFAULT_PLAN_SIZE } from './planSize.js';
 
 /**
  * @param {string} isoDate
@@ -43,11 +44,12 @@ export function createLiveBuildPlanFormState(now = new Date()) {
     mustInclude: [],
     wouldLove: [],
     notInterested: [],
+    lockedShowtimes: [],
     theaterPrefId: 'any',
     selectedTheaters: [],
     locationDisplay: 'Seattle, WA',
     locationShort: 'Seattle',
-    planSize: '1–3 movies',
+    planSize: { ...DEFAULT_PLAN_SIZE },
     maxGap: '90 min',
     minGap: 'Any',
     walking: 'Deferred',

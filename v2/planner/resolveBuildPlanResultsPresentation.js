@@ -15,6 +15,7 @@ import {
 } from '../fixtures/buildPlanResultsMockupFixture.js';
 import { generateLivePlannerResults } from './generateLivePlannerResults.js';
 import { createLiveBuildPlanFormState } from './createLiveBuildPlanFormState.js';
+import { formatPlanSizeLabel } from './planSize.js';
 
 export const PLAN_RESULTS_MOCKUP_FLAG_QUERY = 'planResultsMockup';
 export const PLAN_RESULTS_MOCKUP_STORAGE_KEY =
@@ -102,7 +103,10 @@ function quickAdjustFromForm(form, chrome) {
       return { ...item, value: form?.finishBefore ?? item.value };
     }
     if (item.id === 'planSize') {
-      return { ...item, value: form?.planSize ?? item.value };
+      return {
+        ...item,
+        value: formatPlanSizeLabel(form?.planSize ?? item.value),
+      };
     }
     if (item.id === 'maxWalk') {
       // Travel suppressed — keep control shell, no live miles claim.
@@ -127,7 +131,10 @@ function refineFromForm(form, chrome) {
         return { ...field, value: form?.finishBefore ?? field.value };
       }
       if (field.id === 'planSize') {
-        return { ...field, value: form?.planSize ?? field.value };
+        return {
+          ...field,
+          value: formatPlanSizeLabel(form?.planSize ?? field.value),
+        };
       }
       if (field.id === 'maxWalk') {
         return { ...field, value: 'Deferred' };

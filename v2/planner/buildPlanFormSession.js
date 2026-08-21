@@ -4,6 +4,9 @@
  * Cleared when leaving the Build a Plan surface tree (not Manage).
  */
 
+import { normalizeLockedShowtimes } from './lockedShowtimes.js';
+import { normalizePlanSize } from './planSize.js';
+
 let sessionForm = null;
 let sessionListeners = new Set();
 
@@ -18,12 +21,25 @@ function notify() {
 }
 
 /**
+ * @param {object | null | undefined} form
+ * @returns {object | null}
+ */
+function normalizeSessionForm(form) {
+  if (!form || typeof form !== 'object') return form ?? null;
+  return {
+    ...form,
+    planSize: normalizePlanSize(form.planSize),
+    lockedShowtimes: normalizeLockedShowtimes(form.lockedShowtimes),
+  };
+}
+
+/**
  * @param {() => object} createFn
  * @returns {object}
  */
 export function ensureBuildPlanFormSession(createFn) {
   if (!sessionForm) {
-    sessionForm = createFn();
+    sessionForm = normalizeSessionForm(createFn());
   }
   return sessionForm;
 }
@@ -39,9 +55,9 @@ export function getBuildPlanFormSession() {
  */
 export function setBuildPlanFormSession(next) {
   if (typeof next === 'function') {
-    sessionForm = next(sessionForm);
+    sessionForm = normalizeSessionForm(next(sessionForm));
   } else {
-    sessionForm = next;
+    sessionForm = normalizeSessionForm(next);
   }
   notify();
   return sessionForm;

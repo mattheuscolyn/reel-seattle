@@ -327,9 +327,16 @@ test('empty results when must-include cannot fit', () => {
       mustInclude: [{ id: 'x', title: 'Not A Real Film' }],
     }),
   });
-  assert.equal(result.ok, true);
+  // No eligible performance under date/theater/time → structured invalid constraints
+  // (distinct from valid constraints with zero feasible lineups).
+  assert.equal(result.ok, false);
+  assert.equal(result.status, 'invalid_constraints');
   assert.equal(result.plans.length, 0);
-  assert.match(result.message ?? '', /No same-theater plans/i);
+  assert.ok(
+    result.conflicts.some(
+      (c) => c.code === 'must_include_no_eligible_performance',
+    ),
+  );
 });
 
 test('live plan accept + calendar ICS contract', () => {
