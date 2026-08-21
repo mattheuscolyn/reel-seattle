@@ -120,7 +120,7 @@ export function buildCollapsedSectionSummaries(form, chrome = {}) {
     'Any theater';
   const flexibleBit = form.flexible ? ' · Flexible' : '';
   const when = `${form.dateDisplay} · ${form.startAfter}–${form.finishBefore}${flexibleBit}`;
-  const what = `${form.mustInclude.length} must include · ${form.wouldLove.length} interested · ${form.notInterested.length} excluded`;
+  const what = `${form.mustInclude.length} must include · ${(form.lockedShowtimes ?? []).length} locked · ${form.wouldLove.length} interested · ${form.notInterested.length} excluded`;
   const where = `${theater} · ${form.locationDisplay}`;
   const gapLabel = String(form.maxGap || '')
     .replace(/^Max\s+/i, '')

@@ -16,6 +16,7 @@ import {
 import { generateLivePlannerResults } from './generateLivePlannerResults.js';
 import { createLiveBuildPlanFormState } from './createLiveBuildPlanFormState.js';
 import { formatPlanSizeLabel } from './planSize.js';
+import { formatPlannerConflictMessages } from './buildPlanConflictCopy.js';
 
 export const PLAN_RESULTS_MOCKUP_FLAG_QUERY = 'planResultsMockup';
 export const PLAN_RESULTS_MOCKUP_STORAGE_KEY =
@@ -182,6 +183,14 @@ export function resolveBuildPlanResultsPagePresentation(options = {}) {
     timeFormatId: options.timeFormatId ?? '12h',
   });
 
+  const conflictMessages = formatPlannerConflictMessages(
+    generated.conflicts ?? [],
+  );
+  const emptyMessage =
+    generated.status === 'invalid_constraints' && conflictMessages.length
+      ? conflictMessages.join(' ')
+      : generated.message;
+
   return {
     mode: 'live',
     source: 'live',
@@ -204,7 +213,9 @@ export function resolveBuildPlanResultsPagePresentation(options = {}) {
     defaultSortId: chrome.defaultSortId,
     defaultActivePlanId: generated.plans[0]?.id ?? null,
     plans: generated.plans,
-    emptyMessage: generated.message,
+    emptyMessage,
+    conflicts: generated.conflicts ?? [],
+    status: generated.status ?? null,
     generation: generated,
   };
 }

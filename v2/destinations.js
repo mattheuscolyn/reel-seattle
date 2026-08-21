@@ -104,6 +104,7 @@ export function resolveActivePrimaryId(nav) {
     nav.surface?.type === 'build-plan' ||
     nav.surface?.type === 'build-plan-results' ||
     nav.surface?.type === 'build-plan-film-manage' ||
+    nav.surface?.type === 'build-plan-showtime-manage' ||
     nav.surface?.type === 'build-plan-plan-details' ||
     nav.surface?.type === 'my-schedule-week' ||
     nav.surface?.type === 'my-schedule-month' ||

@@ -30,23 +30,28 @@ import { isBuildPlanMockupMode } from '../fixtures/buildPlanMockupFixture.js';
 import {
   annotatePlannerFilmCandidates,
   applyFilmBucketSelection,
+  filmCardHasEligibleShowtimes,
   filterPlannerFilmCandidates,
   listPlannerCatalogFilterOptions,
   listPlannerEligibleFilms,
 } from './buildPlanFilmCatalog.js';
+import { resolveBuildPlanHardConstraints } from './buildPlanHardConstraints.js';
 import { pacificDateString } from '../explore/exploreCatalog.js';
 
-function filmMeta(film) {
+function filmMeta(film, options = {}) {
+  if (options.ineligible) {
+    return 'No showtimes match your current constraints';
+  }
   const bits = [film.detailLabel ?? film.theaterLabel ?? 'Any theater'];
   if (film.isNotInterested) bits.push('Not interested');
   if (film.isSaved) bits.push('Saved');
   return bits.join(' · ');
 }
 
-function FilmRow({ film, action }) {
+function FilmRow({ film, action, ineligible = false }) {
   return (
     <div
-      className="v2-bp-manage-row"
+      className={`v2-bp-manage-row${ineligible ? ' is-ineligible' : ''}`}
       data-ni={film.isNotInterested ? '1' : undefined}
       data-saved={film.isSaved ? '1' : undefined}
     >
@@ -57,7 +62,9 @@ function FilmRow({ film, action }) {
       )}
       <span className="v2-bp-manage-row-copy">
         <span className="v2-bp-manage-row-title">{film.title}</span>
-        <span className="v2-bp-manage-row-meta">{filmMeta(film)}</span>
+        <span className="v2-bp-manage-row-meta">
+          {filmMeta(film, { ineligible })}
+        </span>
       </span>
       {action}
     </div>
@@ -106,13 +113,22 @@ export default function BuildPlanFilmManageSurface({
       ? form.dateIso
       : pacificDateString(new Date());
 
+  const hard = resolveBuildPlanHardConstraints(form, homeData);
+  const filmEligibilityOptions = {
+    dateIso: hard.dateIso || dateIso,
+    theaterIds: hard.theaterIds,
+    startAfterMin: hard.startAfterMin,
+    finishByMin: hard.finishByMin,
+    enrichmentIndex,
+  };
+
   const liveCatalog = useMemo(() => {
     void formTick;
     if (mockupMode) return [];
     return annotatePlannerFilmCandidates(
-      listPlannerEligibleFilms(homeData, { dateIso, enrichmentIndex }),
+      listPlannerEligibleFilms(homeData, filmEligibilityOptions),
     );
-  }, [homeData, enrichmentIndex, dateIso, formTick, mockupMode]);
+  }, [homeData, enrichmentIndex, dateIso, formTick, mockupMode, form]);
 
   const candidates = useMemo(() => {
     void formTick;
@@ -389,22 +405,33 @@ export default function BuildPlanFilmManageSurface({
           {selected.length === 0 ? (
             <p className="v2-bp-manage-empty">{config.emptySelected}</p>
           ) : (
-            selected.map((film) => (
-              <FilmRow
-                key={film.id}
-                film={film}
-                action={
-                  <button
-                    type="button"
-                    className="v2-bp-manage-remove"
-                    aria-label={config.removeAria(film.title)}
-                    onClick={() => handleRemove(film.id)}
-                  >
-                    <IconClose width={8} height={8} aria-hidden="true" />
-                  </button>
-                }
-              />
-            ))
+            selected.map((film) => {
+              const ineligible =
+                !mockupMode &&
+                mode !== 'notInterested' &&
+                !filmCardHasEligibleShowtimes(
+                  film,
+                  homeData,
+                  filmEligibilityOptions,
+                );
+              return (
+                <FilmRow
+                  key={film.id}
+                  film={film}
+                  ineligible={ineligible}
+                  action={
+                    <button
+                      type="button"
+                      className="v2-bp-manage-remove"
+                      aria-label={config.removeAria(film.title)}
+                      onClick={() => handleRemove(film.id)}
+                    >
+                      <IconClose width={8} height={8} aria-hidden="true" />
+                    </button>
+                  }
+                />
+              );
+            })
           )}
         </div>
       </section>
@@ -417,6 +444,12 @@ export default function BuildPlanFilmManageSurface({
           <h2 id="v2-bp-manage-cand-h" className="v2-bp-manage-section-title">
             {config.candidateHeading}
           </h2>
+          <span className="v2-bp-manage-list-mode" aria-hidden="true">
+            <span>{config.listModeLabel}</span>
+            <span>
+              <IconChevron width={11} height={11} />
+            </span>
+          </span>
         </div>
         <div className="v2-bp-manage-list">
           {filteredCandidates.length === 0 ? (

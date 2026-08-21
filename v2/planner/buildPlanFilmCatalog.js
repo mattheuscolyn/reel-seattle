@@ -4,7 +4,6 @@
  */
 
 import {
-  formatCompactDateLabel,
   pacificDateString,
 } from '../explore/exploreCatalog.js';
 import { formatRuntimeLabel } from '../home/shelfData.js';
@@ -19,6 +18,10 @@ import { isFilmSeen } from '../stores/seenFilmsStore.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 import { MUST_INCLUDE_MAX, WOULD_LOVE_MAX } from './buildPlanFilmManageConfig.js';
 import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
+import {
+  formatEligibleShowtimeSummary,
+  opportunityMatchesHardConstraints,
+} from './buildPlanHardConstraints.js';
 
 /**
  * Opportunity is eligible for the Manage catalog on a plan date:
@@ -62,6 +65,9 @@ export function isEligiblePlannerCatalogOpportunity(opportunity, options) {
  *   dateIso?: string | null,
  *   now?: Date | (() => Date),
  *   enrichmentIndex?: object | null,
+ *   theaterIds?: string[],
+ *   startAfterMin?: number | null,
+ *   finishByMin?: number | null,
  * }} [options]
  * @returns {object[]}
  */
@@ -74,6 +80,17 @@ export function listPlannerEligibleFilms(homeData, options = {}) {
     /^\d{4}-\d{2}-\d{2}$/.test(options.dateIso)
       ? options.dateIso
       : pacificDateString(nowFn());
+  const theaterIds = Array.isArray(options.theaterIds)
+    ? options.theaterIds.filter(Boolean)
+    : [];
+  const startAfterMin =
+    options.startAfterMin == null || options.startAfterMin === ''
+      ? null
+      : Number(options.startAfterMin);
+  const finishByMin =
+    options.finishByMin == null || options.finishByMin === ''
+      ? null
+      : Number(options.finishByMin);
 
   const films = Array.isArray(homeData?.films) ? homeData.films : [];
   const opportunities = Array.isArray(homeData?.opportunities)
@@ -98,9 +115,37 @@ export function listPlannerEligibleFilms(homeData, options = {}) {
     const film = filmsByKey.get(opp.filmKey);
     if (!film) continue;
 
+    const enrichedPreview = enrichHomeFilm(
+      film,
+      enrichmentIndex,
+      'planner',
+      homeData,
+    );
+    const runtimeMin =
+      typeof enrichedPreview.runtimeMin === 'number' &&
+      Number.isFinite(enrichedPreview.runtimeMin)
+        ? enrichedPreview.runtimeMin
+        : typeof film.runtimeMin === 'number'
+          ? film.runtimeMin
+          : typeof opp.runtimeMin === 'number'
+            ? opp.runtimeMin
+            : null;
+
+    if (
+      !opportunityMatchesHardConstraints(opp, {
+        dateIso,
+        theaterIds,
+        startAfterMin: Number.isFinite(startAfterMin) ? startAfterMin : null,
+        finishByMin: Number.isFinite(finishByMin) ? finishByMin : null,
+        runtimeMin,
+      })
+    ) {
+      continue;
+    }
+
     let entry = byFilm.get(opp.filmKey);
     if (!entry) {
-      const enriched = enrichHomeFilm(film, enrichmentIndex, 'planner', homeData);
+      const enriched = enrichedPreview;
       entry = {
         filmKey: film.filmKey,
         filmId: enriched.filmId ?? film.filmId ?? null,
@@ -124,25 +169,19 @@ export function listPlannerEligibleFilms(homeData, options = {}) {
             : [],
         theaters: new Map(),
         formats: new Map(),
+        eligibleShowtimeCount: 0,
         earliestSortable: null,
-        earliestLabel: null,
       };
       byFilm.set(opp.filmKey, entry);
     }
 
+    entry.eligibleShowtimeCount += 1;
     const sortable = opportunitySortableKey(opp);
     if (
       sortable &&
       (entry.earliestSortable == null || sortable < entry.earliestSortable)
     ) {
       entry.earliestSortable = sortable;
-      entry.earliestLabel = [
-        opp.theaterName,
-        formatCompactDateLabel(opp.localDate),
-        opp.timeDisplay ?? opp.localTime,
-      ]
-        .filter(Boolean)
-        .join(' · ');
     }
     if (opp.theaterId) {
       entry.theaters.set(opp.theaterId, opp.theaterName ?? opp.theaterId);
@@ -157,37 +196,68 @@ export function listPlannerEligibleFilms(homeData, options = {}) {
   }
 
   return [...byFilm.values()]
-    .map((entry) => ({
-      id: entry.filmKey,
-      filmKey: entry.filmKey,
-      filmId: entry.filmId,
-      parentFilmKey: entry.parentFilmKey,
-      showtimeFilmKey: entry.filmKey,
-      title: entry.title,
-      canonicalTitle: entry.canonicalTitle,
-      releaseYear: entry.releaseYear,
-      source: entry.source,
-      sourceFilmId: entry.sourceFilmId,
-      imageUrl: entry.posterUrl ?? '',
-      posterUrl: entry.posterUrl ?? null,
-      runtimeMin: entry.runtimeMin,
-      runtimeLabel: formatRuntimeLabel(entry.runtimeMin),
-      ratingLabel: entry.rating,
-      genres: entry.genres,
-      detailLabel: entry.earliestLabel ?? 'Any theater',
-      theaterLabel: entry.earliestLabel ?? 'Any theater',
-      theaterIds: [...entry.theaters.keys()],
-      theaterNames: [...entry.theaters.values()],
-      formatKeys: [...entry.formats.keys()],
-      formatLabels: [...entry.formats.values()],
-      earliestSortable: entry.earliestSortable,
-    }))
+    .map((entry) => {
+      const theaterCount = entry.theaters.size;
+      const availabilityLabel = formatEligibleShowtimeSummary({
+        showtimeCount: entry.eligibleShowtimeCount,
+        theaterCount,
+      });
+      return {
+        id: entry.filmKey,
+        filmKey: entry.filmKey,
+        filmId: entry.filmId,
+        parentFilmKey: entry.parentFilmKey,
+        showtimeFilmKey: entry.filmKey,
+        title: entry.title,
+        canonicalTitle: entry.canonicalTitle,
+        releaseYear: entry.releaseYear,
+        source: entry.source,
+        sourceFilmId: entry.sourceFilmId,
+        imageUrl: entry.posterUrl ?? '',
+        posterUrl: entry.posterUrl ?? null,
+        runtimeMin: entry.runtimeMin,
+        runtimeLabel: formatRuntimeLabel(entry.runtimeMin),
+        ratingLabel: entry.rating,
+        genres: entry.genres,
+        detailLabel: availabilityLabel,
+        theaterLabel: availabilityLabel,
+        eligibleShowtimeCount: entry.eligibleShowtimeCount,
+        eligibleTheaterCount: theaterCount,
+        theaterIds: [...entry.theaters.keys()],
+        theaterNames: [...entry.theaters.values()],
+        formatKeys: [...entry.formats.keys()],
+        formatLabels: [...entry.formats.values()],
+        earliestSortable: entry.earliestSortable,
+      };
+    })
     .sort((a, b) => {
       if (a.earliestSortable !== b.earliestSortable) {
         return (a.earliestSortable ?? '') < (b.earliestSortable ?? '') ? -1 : 1;
       }
       return String(a.title).localeCompare(String(b.title));
     });
+}
+
+/**
+ * Whether a selected film card still has ≥1 eligible performance.
+ * @param {object} filmCard
+ * @param {object | null | undefined} homeData
+ * @param {Parameters<typeof listPlannerEligibleFilms>[1]} [options]
+ */
+export function filmCardHasEligibleShowtimes(filmCard, homeData, options = {}) {
+  const eligible = listPlannerEligibleFilms(homeData, options);
+  const tokens = new Set(
+    [filmCard?.filmId, filmCard?.filmKey, filmCard?.id, filmCard?.showtimeFilmKey]
+      .map((t) => String(t ?? '').trim())
+      .filter(Boolean),
+  );
+  if (!tokens.size) return false;
+  return eligible.some((film) => {
+    const ids = [film.filmId, film.filmKey, film.id]
+      .map((t) => String(t ?? '').trim())
+      .filter(Boolean);
+    return ids.some((id) => tokens.has(id));
+  });
 }
 
 /**

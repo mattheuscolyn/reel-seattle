@@ -563,6 +563,42 @@ export function openBuildPlanFilmManage(state, params = {}) {
 }
 
 /**
+ * Build a Plan locked-showtime performance picker.
+ * @param {object} state
+ * @param {{
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openBuildPlanShowtimeManage(state, params = {}) {
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'planner',
+  );
+  const returnSurface =
+    params.returnSurface ??
+    (state.surface?.type === 'build-plan'
+      ? {
+          ...state.surface,
+          resumeOpenSection: 'what',
+        }
+      : {
+          type: 'build-plan',
+          originPrimary,
+          returnSurface: null,
+          resumeOpenSection: 'what',
+        });
+  return {
+    ...state,
+    primaryDestinationId: originPrimary,
+    surface: {
+      type: 'build-plan-showtime-manage',
+      originPrimary,
+      returnSurface,
+    },
+  };
+}
+
+/**
  * Build a Plan theater-manage deep surface (custom theater selection).
  * @param {object} state
  * @param {{
@@ -865,6 +901,7 @@ export function navigateBack(state) {
     state.surface.type === 'build-plan-results' ||
     state.surface.type === 'build-plan-plan-details' ||
     state.surface.type === 'build-plan-film-manage' ||
+    state.surface.type === 'build-plan-showtime-manage' ||
     state.surface.type === 'build-plan-theater-manage' ||
     state.surface.type === 'my-schedule-week' ||
     state.surface.type === 'my-schedule-month' ||
@@ -906,6 +943,7 @@ export function navigateBack(state) {
         state.surface.type === 'build-plan-results' ||
         state.surface.type === 'build-plan-plan-details' ||
         state.surface.type === 'build-plan-film-manage' ||
+        state.surface.type === 'build-plan-showtime-manage' ||
         state.surface.type === 'my-schedule-week' ||
         state.surface.type === 'my-schedule-month' ||
         state.surface.type === 'schedule-settings'

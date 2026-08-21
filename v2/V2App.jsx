@@ -40,6 +40,7 @@ import {
   openBuildPlan,
   openBuildPlanResults,
   openBuildPlanFilmManage,
+  openBuildPlanShowtimeManage,
   openBuildPlanTheaterManage,
   openBuildPlanPlanDetails,
   openCollection,
@@ -74,6 +75,7 @@ import OpeningThisWeekSurface from './opening/OpeningThisWeekSurface.jsx';
 import BuildPlanSurface from './planner/BuildPlanSurface.jsx';
 import BuildPlanResultsSurface from './planner/BuildPlanResultsSurface.jsx';
 import BuildPlanFilmManageSurface from './planner/BuildPlanFilmManageSurface.jsx';
+import BuildPlanShowtimeManageSurface from './planner/BuildPlanShowtimeManageSurface.jsx';
 import BuildPlanTheaterManageSurface from './planner/BuildPlanTheaterManageSurface.jsx';
 import BuildPlanPlanDetailsSurface from './planner/BuildPlanPlanDetailsSurface.jsx';
 import MyScheduleWeekSurface from './planner/MyScheduleWeekSurface.jsx';
@@ -727,10 +729,14 @@ export default function V2App() {
       const stillInBuildPlanTree =
         nextType === 'build-plan' ||
         nextType === 'build-plan-film-manage' ||
+        nextType === 'build-plan-showtime-manage' ||
+        nextType === 'build-plan-theater-manage' ||
         nextType === 'build-plan-results';
       if (
         (prevType === 'build-plan' ||
           prevType === 'build-plan-film-manage' ||
+          prevType === 'build-plan-showtime-manage' ||
+          prevType === 'build-plan-theater-manage' ||
           prevType === 'build-plan-results') &&
         !stillInBuildPlanTree
       ) {
@@ -770,6 +776,27 @@ export default function V2App() {
       openBuildPlanFilmManage(current, {
         originPrimary: 'planner',
         mode,
+        returnSurface:
+          current.surface?.type === 'build-plan'
+            ? {
+                ...current.surface,
+                resumeOpenSection: 'what',
+              }
+            : {
+                type: 'build-plan',
+                originPrimary: 'planner',
+                returnSurface: null,
+                resumeOpenSection: 'what',
+              },
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenBuildPlanShowtimeManage = useCallback(() => {
+    setNav((current) =>
+      openBuildPlanShowtimeManage(current, {
+        originPrimary: 'planner',
         returnSurface:
           current.surface?.type === 'build-plan'
             ? {
@@ -1001,11 +1028,14 @@ export default function V2App() {
     nav.surface?.type === 'build-plan-plan-details';
   const isBuildPlanFilmManage =
     nav.surface?.type === 'build-plan-film-manage';
+  const isBuildPlanShowtimeManage =
+    nav.surface?.type === 'build-plan-showtime-manage';
   const isBuildPlanTheaterManage =
     nav.surface?.type === 'build-plan-theater-manage';
   const isBuildPlanChrome =
     isBuildPlan ||
     isBuildPlanFilmManage ||
+    isBuildPlanShowtimeManage ||
     isBuildPlanResults ||
     isBuildPlanPlanDetails;
   const isMyScheduleWeek = nav.surface?.type === 'my-schedule-week';
@@ -1606,8 +1636,11 @@ export default function V2App() {
         backLabel="Planner"
         resumeOpenSection={nav.surface?.resumeOpenSection ?? null}
         onOpenFilmManage={handleOpenBuildPlanFilmManage}
+        onOpenShowtimeManage={handleOpenBuildPlanShowtimeManage}
         onOpenTheaterManage={handleOpenBuildPlanTheaterManage}
         onRequestResults={handleOpenBuildPlanResults}
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
         onStubAction={(_actionId, label) => {
           setProfileStubStatus(
             `${label} isn’t available in this Stage 1 Build a Plan shell yet.`,
@@ -1620,6 +1653,15 @@ export default function V2App() {
     mainContent = (
       <BuildPlanFilmManageSurface
         mode={nav.surface?.mode ?? 'wouldLove'}
+        onDone={handleBack}
+        onBack={handleBack}
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
+      />
+    );
+  } else if (isBuildPlanShowtimeManage) {
+    mainContent = (
+      <BuildPlanShowtimeManageSurface
         onDone={handleBack}
         onBack={handleBack}
         homeData={sharedHomeData.homeData}

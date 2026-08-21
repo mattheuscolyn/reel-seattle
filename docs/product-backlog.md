@@ -206,17 +206,17 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 
 | ID | Outstanding item | Type | Priority | Effort | Status | Notes / dependencies |
 |---|---|---|---|---|---|---|
-| PLAN-01 | Audit Build a Plan for whether users truly have full control over output | Product audit | High | M-L | Outstanding | Partially addressed by PLAN-06–11; keep until locked showtimes + exact size + constraint-aware pickers ship. |
-| PLAN-02 | Replace weird plan-size range presets with a better range selector / min-max control | UX | High | M | Outstanding | Superseded in scope by PLAN-06 (exact + range via min/max). Keep until UI ships. |
+| PLAN-01 | Audit Build a Plan for whether users truly have full control over output | Product audit | High | M-L | Outstanding | Largely addressed by PLAN-06–11; keep open until Results Lock (RESULT-03) and any residual control gaps are reviewed. |
+| PLAN-02 | Replace weird plan-size range presets with a better range selector / min-max control | UX | High | M | Done | Replaced by Exact / Range / As many plan-size control (PLAN-06). |
 | PLAN-03 | "When?" time-window filter needs full control | UX | High | M | Outstanding | Explicit start/end controls. |
 | PLAN-04 | Add a "no time filter / any time is fine" option | UX | High | S | Outstanding | Required for unconstrained planning. |
-| PLAN-05 | "What?" selector has Add Another only for Must Include | UX consistency | Medium | S-M | Outstanding | Fold into PLAN-09 locked-showtime + film bucket UX consistency. |
-| PLAN-06 | Exact plan size (e.g. exactly 4 films) via domain min/max | Feature / solver | High | M | In Progress | Domain `{ min, max }` + legacy string normalize shipped (PR1). UI still uses select labels; dedicated exact-size UX may refine in PR2. |
-| PLAN-07 | Locked showtimes / locked performances as hard constraints | Feature / solver | High | L | In Progress | PR1: domain `lockedShowtimes[]`, identity via `buildPerformanceKey`, seeded solver. PR2 adds Add-a-showtime UI. |
-| PLAN-08 | Constraint-aware film picker (date / theater / time window eligibility) | Feature / UX | High | M | Outstanding | Basic candidate eligibility only — not full plan feasibility. Keep incompatible selections visible + flagged. |
-| PLAN-09 | Separate film-level vs performance-level “What?” pickers and copy | UX / IA | High | M | Outstanding | Film picker: availability summary (“3 eligible showtimes”). Performance picker: exact title/theater/time/format. Fixes misleading earliest-showtime `detailLabel`. |
-| PLAN-10 | Pre-generation conflict validation for locked + film constraints | Feature / UX | High | M | In Progress | PR1: `validatePlannerDraftConstraints` + structured `conflicts` / `status`. PR2 surfaces in UI. |
-| PLAN-11 | Locked-showtime picker (“Add a showtime”) under What? | Feature / UX | High | M | Outstanding | New performance catalog surface; reuse Manage navigation pattern; respect date/theater/time hard constraints. |
+| PLAN-05 | "What?" selector has Add Another only for Must Include | UX consistency | Medium | S-M | Done | Locked showtimes + film buckets each have add/manage affordances. |
+| PLAN-06 | Exact plan size (e.g. exactly 4 films) via domain min/max | Feature / solver | High | M | Done | Domain `{ min, max }` + Exact/Range/As many UI. |
+| PLAN-07 | Locked showtimes / locked performances as hard constraints | Feature / solver | High | L | Done | Build-a-Plan add/remove locks + seeded solver. Results Lock/Unlock is RESULT-03. |
+| PLAN-08 | Constraint-aware film picker (date / theater / time window eligibility) | Feature / UX | High | M | Done | Candidate eligibility under hard constraints; selected-but-ineligible films retained + flagged. |
+| PLAN-09 | Separate film-level vs performance-level “What?” pickers and copy | UX / IA | High | M | Done | Film picker uses “N eligible showtimes”; performance picker shows exact screening metadata. |
+| PLAN-10 | Pre-generation conflict validation for locked + film constraints | Feature / UX | High | M | Done | Structured conflicts surfaced near Generate and on incompatible rows. |
+| PLAN-11 | Locked-showtime picker (“Add a showtime”) under What? | Feature / UX | High | M | Done | `build-plan-showtime-manage` performance catalog under hard constraints. |
 
 ---
 
