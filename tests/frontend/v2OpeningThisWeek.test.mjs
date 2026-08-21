@@ -137,7 +137,7 @@ test('Home See all opens Opening with Home origin and Back restores', () => {
       primaryDestinationId: nav.primaryDestinationId,
       surface: nav.surface,
     }),
-    'explore',
+    'home',
   );
   nav = navigateBack(nav);
   assert.equal(nav.surface, null);

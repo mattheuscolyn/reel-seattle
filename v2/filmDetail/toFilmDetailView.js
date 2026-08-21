@@ -264,12 +264,18 @@ function composedToView(p, mode) {
         ),
         times: (row.times ?? []).map((time) =>
           typeof time === 'string'
-            ? { timeDisplay: time, opportunityKey: null, ticketUrl: null }
+            ? {
+                timeDisplay: time,
+                opportunityKey: null,
+                ticketUrl: null,
+                detailLabel: null,
+              }
             : {
                 timeDisplay: time.timeDisplay,
                 opportunityKey: time.opportunityKey ?? null,
                 ticketUrl: time.ticketUrl ?? null,
                 emphasized: Boolean(time.emphasized),
+                detailLabel: time.detailLabel ?? null,
               },
         ),
       })),

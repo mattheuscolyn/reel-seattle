@@ -21,6 +21,31 @@ const PREMIUM_FORMAT_HINTS = Object.freeze([
   'screenx',
 ]);
 
+/** Preview cap for Why see it now before “See all” expands the full list. */
+export const WHY_SEE_IT_PREVIEW_LIMIT = 4;
+
+/**
+ * Labels present on every showtime in a theater group (Film Showtimes pattern).
+ * @param {{ formatLabel?: string | null, screeningVariantLabel?: string | null }[]} times
+ * @returns {string[]}
+ */
+function computeSharedShowtimeChips(times) {
+  if (!Array.isArray(times) || times.length === 0) return [];
+  /** @type {Map<string, number>} */
+  const counts = new Map();
+  for (const time of times) {
+    const labels = [time.screeningVariantLabel, time.formatLabel].filter(
+      Boolean,
+    );
+    for (const label of new Set(labels)) {
+      counts.set(label, (counts.get(label) ?? 0) + 1);
+    }
+  }
+  return [...counts.entries()]
+    .filter(([, count]) => count === times.length)
+    .map(([label]) => label);
+}
+
 /**
  * @param {object | null} homeData
  * @param {string} filmKey
@@ -473,7 +498,6 @@ export function buildTodaysShowtimes(
   const opps = listFilmOpportunities(homeData, filmKey).filter(
     (o) => o.localDate === today,
   );
-  /** @type {Map<string, object>} */
   const byTheater = new Map();
   for (const opp of opps) {
     const id = opp.theaterId ?? opp.theaterName ?? opp.opportunityKey;
@@ -481,15 +505,12 @@ export function buildTodaysShowtimes(
       byTheater.set(id, {
         theaterId: opp.theaterId ?? id,
         theaterName: opp.theaterName ?? 'Theater',
-        formats: new Set(),
         times: [],
       });
     }
     const row = byTheater.get(id);
     const label = opportunityFormatLabel(opp);
     const variant = screeningVariantLabel(opp.screeningVariantType, opp);
-    if (variant) row.formats.add(variant);
-    if (label) row.formats.add(label);
     row.times.push({
       opportunityKey: opp.opportunityKey,
       timeDisplay: formatDisplayClock(
@@ -501,6 +522,7 @@ export function buildTodaysShowtimes(
       ticketUrl: opp.ticketUrl ?? null,
       screeningVariantType: opp.screeningVariantType ?? null,
       screeningVariantLabel: variant,
+      formatLabel: label,
       isSpecialScreening: opp.isSpecialScreening === true,
     });
   }
@@ -513,15 +535,28 @@ export function buildTodaysShowtimes(
           String(b.localTime ?? b.timeDisplay),
         ),
       );
+      const sharedChips = computeSharedShowtimeChips(sortedTimes);
+      const sharedSet = new Set(sharedChips);
+      const timesWithDetail = sortedTimes.map((time) => {
+        const distinct = [time.screeningVariantLabel, time.formatLabel].filter(
+          (chip) => chip && !sharedSet.has(chip),
+        );
+        return {
+          ...time,
+          detailLabel: distinct.length
+            ? [...new Set(distinct)].join(' · ')
+            : null,
+        };
+      });
       return {
         theaterId: row.theaterId,
         theaterName: row.theaterName,
         venueMark: mark.label,
         accent: mark.accent,
-        formatChips: [...row.formats].slice(0, 3),
-        times: sortedTimes.slice(0, 3),
-        extraTimeCount: Math.max(0, sortedTimes.length - 3),
-        totalTimes: sortedTimes.length,
+        formatChips: sharedChips.slice(0, 3),
+        times: timesWithDetail.slice(0, 3),
+        extraTimeCount: Math.max(0, timesWithDetail.length - 3),
+        totalTimes: timesWithDetail.length,
       };
     })
     .sort((a, b) => String(a.theaterName).localeCompare(String(b.theaterName)));

@@ -1,22 +1,34 @@
 /**
- * Stage 1 Theaters list — fixture-backed replica of Theaters Page.png.
+ * Theaters list — live HomeData presentation with fixture fallback.
  *
- * Replaces CollectionSurface scaffold for collectionId theaters.
- * Expand/collapse is real. Favorite, Filters, View all remain Stage 1 stubs
- * on the list (no store mutation). More details opens Theater Detail for Beacon.
+ * Expand/collapse, Favorite, View all, and More details are real.
+ * Filters remain a Stage 1 stub on the list.
  */
 
-import { useId, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 import {
   IconBuilding,
   IconChevron,
   IconFilm,
   IconSliders,
   IconStar,
+  IconStarFill,
 } from '../icons.jsx';
 import { THEATER_DETAIL_DEFAULT_THEATER_ID } from '../fixtures/theaterDetailMockupFixture.js';
+import {
+  isTheaterFavorite,
+  toggleFavoriteTheater,
+} from '../stores/favoriteTheatersStore.js';
 import { resolveTheatersPagePresentation } from './resolveTheatersPagePresentation.js';
 import { TheaterVenueImage } from './TheaterVenueImage.jsx';
+
+function getBrowserStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 function TheaterNowShowing({
   theater,
@@ -84,6 +96,9 @@ function TheaterListItem({
   onStubAction,
   onOpenFilmDetail,
   onOpenTheaterDetail,
+  onOpenShowtimesBrowse,
+  isFavorite,
+  onToggleFavorite,
   labels,
 }) {
   return (
@@ -143,16 +158,20 @@ function TheaterListItem({
 
         <button
           type="button"
-          className="v2-theaters-card-fav-btn"
-          aria-label={`${labels.favoriteLabel} ${theater.name}`}
-          onClick={() =>
-            onStubAction?.(
-              `favorite-${theater.id}`,
-              `${labels.favoriteLabel} ${theater.name}`,
-            )
+          className={
+            isFavorite
+              ? 'v2-theaters-card-fav-btn is-active'
+              : 'v2-theaters-card-fav-btn'
           }
+          aria-label={`${labels.favoriteLabel} ${theater.name}`}
+          aria-pressed={isFavorite}
+          onClick={() => onToggleFavorite?.(theater)}
         >
-          <IconStar width={12} height={12} aria-hidden="true" />
+          {isFavorite ? (
+            <IconStarFill width={12} height={12} aria-hidden="true" />
+          ) : (
+            <IconStar width={12} height={12} aria-hidden="true" />
+          )}
           {labels.favoriteLabel}
         </button>
       </div>
@@ -172,12 +191,16 @@ function TheaterListItem({
             theater={theater}
             nowShowingLabel={labels.nowShowingLabel}
             viewAllLabel={labels.viewAllLabel}
-            onViewAll={() =>
+            onViewAll={() => {
+              if (typeof onOpenShowtimesBrowse === 'function' && theater.id) {
+                onOpenShowtimesBrowse({ theaterId: theater.id });
+                return;
+              }
               onStubAction?.(
                 `view-all-${theater.id}`,
                 `${labels.viewAllLabel} · ${theater.name}`,
-              )
-            }
+              );
+            }}
             onOpenFilm={onOpenFilmDetail}
           />
 
@@ -219,6 +242,7 @@ function TheaterListItem({
  *   homeData?: object | null,
  *   onOpenFilmDetail?: (payload: { filmKey: string, opportunityKey?: string | null }) => void,
  *   onOpenTheaterDetail?: (payload: { theaterId: string }) => void,
+ *   onOpenShowtimesBrowse?: (payload: { theaterId: string }) => void,
  *   onStubAction?: (actionId: string, label: string) => void,
  * }} props
  */
@@ -229,11 +253,13 @@ export default function TheatersSurface({
   onOpenFilmDetail,
   onStubAction,
   onOpenTheaterDetail,
+  onOpenShowtimesBrowse,
 }) {
   const { presentation } = resolveTheatersPagePresentation({ homeData });
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
   const [expandedTheaterId, setExpandedTheaterId] = useState(null);
+  const [favoriteRevision, setFavoriteRevision] = useState(0);
 
   const announceStub = (actionId, label) => {
     const message =
@@ -248,6 +274,41 @@ export default function TheatersSurface({
     setExpandedTheaterId((current) =>
       current === theaterId ? null : theaterId,
     );
+  };
+
+  const favoriteIds = useMemo(() => {
+    void favoriteRevision;
+    const storage = getBrowserStorage();
+    const ids = new Set();
+    for (const theater of presentation.theaters) {
+      if (
+        isTheaterFavorite(storage, {
+          theaterId: theater.id,
+          name: theater.name,
+        })
+      ) {
+        ids.add(theater.id);
+      }
+    }
+    return ids;
+  }, [presentation.theaters, favoriteRevision]);
+
+  const handleToggleFavorite = (theater) => {
+    const result = toggleFavoriteTheater(
+      getBrowserStorage(),
+      {
+        theaterId: theater.id,
+        name: theater.name,
+        neighborhood: theater.neighborhood ?? null,
+        imageUrl: theater.thumbnailUrl ?? theater.imageUrl ?? null,
+      },
+      {
+        name: theater.name,
+        neighborhood: theater.neighborhood ?? null,
+        imageUrl: theater.thumbnailUrl ?? theater.imageUrl ?? null,
+      },
+    );
+    if (result.ok) setFavoriteRevision((n) => n + 1);
   };
 
   const labels = {
@@ -312,6 +373,9 @@ export default function TheatersSurface({
                 onStubAction={announceStub}
                 onOpenFilmDetail={onOpenFilmDetail}
                 onOpenTheaterDetail={onOpenTheaterDetail}
+                onOpenShowtimesBrowse={onOpenShowtimesBrowse}
+                isFavorite={favoriteIds.has(theater.id)}
+                onToggleFavorite={handleToggleFavorite}
                 labels={labels}
               />
             </li>

@@ -63,7 +63,7 @@ test('mockup fixture contains all major Film Detail sections', () => {
   assert.ok(p.film?.year);
   assert.ok(p.film?.director);
   assert.ok(p.actions);
-  assert.equal(p.whySeeIt.signals.length, 4);
+  assert.equal(p.whySeeIt.signals.length, 5);
   assert.ok(p.synopsis?.preview);
   assert.equal(p.synopsis.tags.length, 3);
   assert.ok(p.bestWay?.formatLabel);
@@ -194,7 +194,7 @@ test('Why See It uses a four-column row at the mobile target', () => {
     false,
   );
   assert.match(CSS, /@media \(max-width:\s*319px\)/);
-  assert.equal(FILM_DETAIL_MOCKUP_FIXTURE.whySeeIt.signals.length, 4);
+  assert.equal(FILM_DETAIL_MOCKUP_FIXTURE.whySeeIt.signals.length, 5);
 });
 
 test('canonical bottom navigation remains Home / Explore / Planner / Profile', () => {

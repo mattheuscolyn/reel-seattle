@@ -79,10 +79,15 @@ export function buildLiveOpeningThisWeekPresentation(
       metaLine: metaParts.length > 0 ? metaParts.join(' · ') : null,
       synopsis: enriched.synopsisPreview,
       posterUrl: enriched.posterUrl,
+      openingDate: opportunity?.localDate ?? null,
       dateLabel: formatLocalDateLabel(opportunity?.localDate) ?? shelfFilm.metaLabel,
+      theaterId: opportunity?.theaterId ?? null,
       theaterName: opportunity?.theaterName ?? null,
       timeLabel: opportunity?.timeDisplay ?? null,
       formatLabel: formatLabels[0] ?? null,
+      formatLabels,
+      showtimeCount: film?.showtimeCount ?? shelfFilm.showtimeCount ?? 0,
+      theaterCount: film?.theaterCount ?? shelfFilm.theaterCount ?? 0,
       whySeeIt: null,
       alsoPlaying:
         (film?.theaterCount ?? 0) >= 2

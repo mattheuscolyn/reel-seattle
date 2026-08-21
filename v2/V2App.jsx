@@ -692,6 +692,29 @@ export default function V2App() {
     [],
   );
 
+  const handleBrowseTheaterShowtimes = useCallback(
+    ({ theaterId, returnSurface } = {}) => {
+      if (!theaterId) return;
+      setHomeRestorePending(null);
+      setNav((current) =>
+        openShowtimesBrowse(current, {
+          originPrimary:
+            current.surface?.originPrimary ??
+            current.primaryDestinationId ??
+            'explore',
+          returnSurface: returnSurface ?? current.surface,
+          browseUi: {
+            ...createDefaultShowtimesBrowseUi(),
+            dateMode: 'week',
+            theaterIds: [theaterId],
+          },
+        }),
+      );
+      window.scrollTo(0, 0);
+    },
+    [],
+  );
+
   const handleBack = useCallback(() => {
     setShareStatus(null);
     setSaveError(null);
@@ -1387,6 +1410,12 @@ export default function V2App() {
             originPrimary: nav.surface.originPrimary ?? 'explore',
             exploreRestore: nav.surface.exploreRestore ?? null,
             homeRestore: null,
+            returnSurface: nav.surface,
+          })
+        }
+        onOpenShowtimesBrowse={({ theaterId }) =>
+          handleBrowseTheaterShowtimes({
+            theaterId,
             returnSurface: nav.surface,
           })
         }

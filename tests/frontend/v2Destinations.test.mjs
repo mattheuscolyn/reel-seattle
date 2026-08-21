@@ -58,11 +58,26 @@ test('Film Detail keeps originating primary active', () => {
   );
 });
 
-test('collection surfaces highlight Explore', () => {
+test('collection surfaces highlight Explore except Home-owned Opening', () => {
   assert.equal(
     resolveActivePrimaryId({
       primaryDestinationId: 'home',
-      surface: { type: 'collection', collectionId: 'opening-this-week' },
+      surface: {
+        type: 'collection',
+        collectionId: 'opening-this-week',
+        originPrimary: 'home',
+      },
+    }),
+    'home',
+  );
+  assert.equal(
+    resolveActivePrimaryId({
+      primaryDestinationId: 'home',
+      surface: {
+        type: 'collection',
+        collectionId: 'theaters',
+        originPrimary: 'explore',
+      },
     }),
     'explore',
   );

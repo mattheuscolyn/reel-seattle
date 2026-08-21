@@ -1409,47 +1409,48 @@ button {
 }
 
 .v2-tmdb-attribution {
-  margin: var(--v2-space-4) 0 var(--v2-space-2);
-  padding: var(--v2-space-3) 0;
-  border-top: 1px solid var(--v2-border);
-  color: var(--v2-muted);
-  font-size: 0.75rem;
+  margin: var(--v2-space-5) 0 var(--v2-space-2);
+  padding: var(--v2-space-3) 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--v2-muted-soft);
+  font-size: 0.68rem;
   line-height: 1.45;
-  max-width: 36rem;
+  max-width: 28rem;
 }
 
 .v2-tmdb-attribution-compact {
-  margin-top: var(--v2-space-3);
+  margin-top: var(--v2-space-4);
   padding-top: var(--v2-space-3);
 }
 
 .v2-tmdb-attribution-logo-link {
   display: inline-block;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.3rem;
 }
 
 .v2-tmdb-attribution-logo {
   display: block;
-  height: 14px;
+  height: 11px;
   width: auto;
-  opacity: 0.85;
+  opacity: 0.55;
 }
 
 .v2-tmdb-attribution-heading {
-  margin: 0 0 0.25rem;
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
+  margin: 0 0 0.2rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--v2-muted-soft);
+  font-weight: 600;
 }
 
 .v2-tmdb-attribution-body,
 .v2-tmdb-attribution-link-row {
-  margin: 0.2rem 0 0;
+  margin: 0.15rem 0 0;
 }
 
 .v2-tmdb-attribution a {
-  color: var(--v2-muted);
+  color: var(--v2-muted-soft);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -1461,6 +1462,11 @@ button {
 
 .v2-profile-data-sources {
   margin-top: var(--v2-space-3);
+}
+
+.v2-profile-data-sources .v2-tmdb-attribution {
+  margin-top: 0.35rem;
+  max-width: 32rem;
 }
 
 .v2-data-status {
@@ -3629,6 +3635,10 @@ button {
 }
 
 .v2-fd-today-time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.05rem;
   font-size: 0.88rem;
   color: var(--v2-accent);
   font-weight: 600;
@@ -3636,6 +3646,15 @@ button {
 
 .v2-fd-today-time-on {
   color: var(--v2-accent);
+}
+
+.v2-fd-today-time-detail {
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--v2-muted-soft);
+  text-align: right;
+  max-width: 7.5rem;
+  line-height: 1.2;
 }
 
 .v2-fd-today-more {
@@ -5718,6 +5737,12 @@ a.v2-st-time:hover {
   cursor: pointer;
 }
 
+.v2-theaters-card-fav-btn.is-active {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(196, 181, 253, 0.55);
+  color: #ddd6fe;
+}
+
 .v2-theaters-card-fav-btn:focus-visible {
   outline: 2px solid var(--v2-focus);
   outline-offset: 2px;
@@ -5941,7 +5966,12 @@ a.v2-st-time:hover {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: var(--v2-space-2);
-  align-items: center;
+  align-items: start;
+}
+
+.v2-opening-control {
+  position: relative;
+  min-width: 0;
 }
 
 .v2-opening-page-sort,
@@ -5962,6 +5992,7 @@ a.v2-st-time:hover {
 
 .v2-opening-page-sort {
   justify-content: space-between;
+  width: 100%;
   min-width: 0;
 }
 
@@ -5979,6 +6010,11 @@ a.v2-st-time:hover {
   color: var(--v2-fg);
 }
 
+.v2-opening-page-filters.is-active {
+  border-color: var(--v2-accent-border);
+  color: var(--v2-accent);
+}
+
 .v2-opening-page-filters svg {
   color: var(--v2-accent);
 }
@@ -5987,6 +6023,96 @@ a.v2-st-time:hover {
 .v2-opening-page-filters:focus-visible {
   outline: 2px solid var(--v2-focus);
   outline-offset: 2px;
+}
+
+.v2-opening-menu {
+  position: absolute;
+  z-index: 8;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  border: 1px solid var(--v2-border);
+  border-radius: 0.55rem;
+  background: var(--v2-bg-raised);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  max-height: min(18rem, calc(100dvh - 7.5rem));
+  overflow: auto;
+}
+
+.v2-opening-menu-filters {
+  left: auto;
+  right: 0;
+  width: min(18rem, calc(100vw - 1.5rem));
+  max-height: min(22rem, calc(100dvh - 7.5rem));
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.v2-opening-filter-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.v2-opening-filter-group legend {
+  margin: 0 0 0.25rem;
+  padding: 0;
+  color: var(--v2-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 650;
+}
+
+.v2-opening-menu-item {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0.45rem 0.55rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: var(--v2-fg);
+  font: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.v2-opening-menu-item.is-active {
+  background: rgba(139, 92, 246, 0.16);
+  color: #ddd6fe;
+}
+
+.v2-opening-menu-item:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.v2-opening-menu-item:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: -2px;
+}
+
+.v2-opening-filter-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  padding-top: 0.2rem;
+  border-top: 1px solid var(--v2-border);
+}
+
+.v2-opening-empty {
+  margin: 0.75rem 0 0;
+  padding: 0.85rem 0.2rem;
+  color: var(--v2-muted);
+  font-size: 0.88rem;
+  line-height: 1.4;
 }
 
 .v2-opening-page-list {
