@@ -64,6 +64,14 @@ function film({
   formatBadge,
   imageUrl,
   preference = 'neutral',
+  performanceKey = null,
+  filmKey = null,
+  theaterId = null,
+  localDate = null,
+  localTime = null,
+  source = null,
+  sourceShowtimeId = null,
+  runtimeMin = null,
 }) {
   return Object.freeze({
     id,
@@ -75,6 +83,18 @@ function film({
     formatBadge,
     imageUrl,
     preference,
+    performanceKey,
+    filmKey,
+    theaterId,
+    localDate,
+    localTime,
+    date: localDate,
+    time: localTime,
+    source,
+    sourceShowtimeId,
+    source_showtime_id: sourceShowtimeId,
+    runtime: runtimeMin,
+    runtimeMin,
   });
 }
 
@@ -269,6 +289,14 @@ export const BUILD_PLAN_RESULTS_MOCKUP_FIXTURE = Object.freeze({
           formatBadge: '70MM',
           imageUrl: PLACEHOLDER_POSTERS.spaceOdyssey,
           preference: 'must',
+          performanceKey: 'src:fixture:central:2001-1415',
+          filmKey: '2001-a-space-odyssey',
+          theaterId: 'central-cinema',
+          localDate: '2026-07-29',
+          localTime: '14:15',
+          source: 'fixture',
+          sourceShowtimeId: '2001-1415',
+          runtimeMin: 169,
         }),
         breakRow({ id: 'p1-b1', label: '1h 16m break' }),
         film({

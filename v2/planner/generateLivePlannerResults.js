@@ -123,6 +123,11 @@ function movieToLiveResultsFilm(
     (Array.isArray(row?.formatLabels) ? row.formatLabels[0] : null) ||
     null;
 
+  const performanceKey =
+    asTrimmed(movie.performanceKey) ??
+    buildPerformanceKeyFromPlannerRow(row) ??
+    null;
+
   return {
     id: `${planId}-f${index + 1}`,
     title: movie.film,
@@ -148,14 +153,17 @@ function movieToLiveResultsFilm(
       asTrimmed(movie.parent_film_key) ?? asTrimmed(row?.parentFilmKey),
     showtimeFilmKey:
       asTrimmed(movie.showtime_film_key) ?? asTrimmed(row?.filmKey),
-    source: asTrimmed(row?.source),
-    sourceShowtimeId: asTrimmed(row?.source_showtime_id),
-    source_showtime_id: asTrimmed(row?.source_showtime_id),
-    opportunityKey: asTrimmed(row?.opportunityKey),
-    performanceKey:
-      asTrimmed(movie.performanceKey) ??
-      buildPerformanceKeyFromPlannerRow(row) ??
-      null,
+    source: asTrimmed(row?.source) ?? asTrimmed(movie.source),
+    sourceShowtimeId:
+      asTrimmed(row?.source_showtime_id) ??
+      asTrimmed(movie.sourceShowtimeId) ??
+      asTrimmed(movie.source_showtime_id),
+    source_showtime_id:
+      asTrimmed(row?.source_showtime_id) ??
+      asTrimmed(movie.source_showtime_id),
+    opportunityKey:
+      asTrimmed(row?.opportunityKey) ?? asTrimmed(movie.opportunityKey),
+    performanceKey,
     locked: Boolean(movie.locked),
     ticketUrl: row?.ticket_url ?? null,
     ticket_url: row?.ticket_url ?? null,

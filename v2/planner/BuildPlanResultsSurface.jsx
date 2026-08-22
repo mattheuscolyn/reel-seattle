@@ -17,6 +17,7 @@ import {
   IconClock,
   IconCup,
   IconHourglass,
+  IconLock,
   IconPopcorn,
   IconSpark,
   IconTicket,
@@ -58,6 +59,15 @@ import {
 import { setBuildPlanFormSession } from './buildPlanFormSession.js';
 import { filmIdentitiesEqual } from '../identity/filmIdentity.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
+import {
+  applyShowtimeLockToForm,
+  isResultsFilmPerformanceLocked,
+} from './resultsShowtimeLock.js';
+
+export {
+  applyShowtimeLockToForm,
+  isResultsFilmPerformanceLocked,
+} from './resultsShowtimeLock.js';
 
 function getBrowserStorage() {
   try {
@@ -224,13 +234,19 @@ function PlanBreakRow({ item, onOpenBreak, breakButtonRef }) {
 
 function PlanFilmRow({
   film,
+  locked,
   timeButtonRef,
   filmButtonRef,
   onOpenTime,
   onOpenFilm,
 }) {
   return (
-    <div className="v2-bpr-film" data-film-id={film.id}>
+    <div
+      className={`v2-bpr-film${locked ? ' is-locked' : ''}`}
+      data-film-id={film.id}
+      data-performance-key={film.performanceKey ?? undefined}
+      data-locked={locked ? 'true' : 'false'}
+    >
       <span className="v2-bpr-film-dot" aria-hidden="true" />
       <button
         ref={timeButtonRef}
@@ -261,6 +277,12 @@ function PlanFilmRow({
             {film.formatBadge ? (
               <span className="v2-bpr-badge">{film.formatBadge}</span>
             ) : null}
+            {locked ? (
+              <span className="v2-bpr-locked-badge" title="Locked showtime">
+                <IconLock width={10} height={10} aria-hidden="true" />
+                <span>Locked</span>
+              </span>
+            ) : null}
           </span>
           {film.theater ? (
             <span className="v2-bpr-film-theater">{film.theater}</span>
@@ -274,6 +296,7 @@ function PlanFilmRow({
 function PlanItineraryCard({
   plan,
   saved,
+  lockedPerformanceKeys,
   timeButtonRefs,
   filmButtonRefs,
   breakButtonRefs,
@@ -320,6 +343,10 @@ function PlanItineraryCard({
                 <PlanFilmRow
                   key={item.id}
                   film={item}
+                  locked={Boolean(
+                    item.performanceKey &&
+                      lockedPerformanceKeys?.has(item.performanceKey),
+                  )}
                   timeButtonRef={(node) => {
                     if (node) timeButtonRefs.current.set(item.id, node);
                     else timeButtonRefs.current.delete(item.id);
@@ -546,6 +573,17 @@ export default function BuildPlanResultsSurface({
   };
 
   const orderedPlans = presentation.plans;
+  const lockedPerformanceKeys = useMemo(() => {
+    const keys = new Set();
+    for (const lock of workingForm?.lockedShowtimes ?? []) {
+      const key =
+        typeof lock?.performanceKey === 'string'
+          ? lock.performanceKey.trim()
+          : '';
+      if (key) keys.add(key);
+    }
+    return keys;
+  }, [workingForm?.lockedShowtimes]);
   const activePlan =
     orderedPlans.find((p) => p.id === ui.activePlanId) ??
     orderedPlans[0] ??
@@ -648,10 +686,15 @@ export default function BuildPlanResultsSurface({
     } else if (!next.seen) {
       clearFilmNotInterested(resolvedStorage, ref);
     }
-    const nextForm = applyFilmPreferenceToForm(
+    let nextForm = applyFilmPreferenceToForm(
       workingForm,
       adjustmentFilm,
       next.preference,
+    );
+    nextForm = applyShowtimeLockToForm(
+      nextForm,
+      adjustmentFilm,
+      Boolean(next.lockShowtime),
     );
     setStoreTick((n) => n + 1);
     commitForm(nextForm);
@@ -725,6 +768,14 @@ export default function BuildPlanResultsSurface({
           filmRefFromResultsFilm(adjustmentFilm),
         )
       : false;
+  const filmLockShowtime =
+    adjustmentFilm != null
+      ? isResultsFilmPerformanceLocked(workingForm, adjustmentFilm)
+      : false;
+  const canLockShowtime = Boolean(
+    adjustmentFilm?.performanceKey &&
+      String(adjustmentFilm.performanceKey).trim(),
+  );
   void storeTick;
 
   const minBreakMinutes =
@@ -742,7 +793,7 @@ export default function BuildPlanResultsSurface({
         aria-labelledby="v2-bpr-title"
         data-build-plan-results-source={presentation.source}
         data-bpr-interaction={activeAdjustment ?? 'none'}
-        {...(overlayOpen ? { inert: '' } : {})}
+        inert={overlayOpen ? true : undefined}
       >
         <p
           id={statusId}
@@ -848,6 +899,7 @@ export default function BuildPlanResultsSurface({
               key={plan.id}
               plan={plan}
               saved={savedPlanIds.includes(plan.id)}
+              lockedPerformanceKeys={lockedPerformanceKeys}
               timeButtonRefs={timeButtonRefs}
               filmButtonRefs={filmButtonRefs}
               breakButtonRefs={breakButtonRefs}
@@ -900,6 +952,8 @@ export default function BuildPlanResultsSurface({
           preference={filmPref}
           seen={filmSeen}
           notInterested={filmNi}
+          lockShowtime={filmLockShowtime}
+          canLockShowtime={canLockShowtime}
           onCancel={closeAdjustment}
           onApply={handleApplyFilm}
         />

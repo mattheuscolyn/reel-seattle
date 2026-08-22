@@ -1,5 +1,9 @@
 /**
- * Adjust Film in Plans — Require / Prefer / Exclude + Seen / Not interested.
+ * Adjust Film in Plans — Require / Prefer / Exclude + Seen / Not interested
+ * + exact-showtime Lock / Unlock (orthogonal to film preference).
+ *
+ * Lock switch semantics: checked = exact showtime is locked (draftLock).
+ * Label/copy derive from that staged checked state — never invert the boolean.
  */
 
 import { useEffect, useId, useState } from 'react';
@@ -9,8 +13,12 @@ import {
   IconClapper,
   IconEye,
   IconHeart,
+  IconLock,
 } from '../icons.jsx';
 import PlanAdjustmentDialog from './PlanAdjustmentDialog.jsx';
+import { exactScreeningLockCopy } from './resultsShowtimeLock.js';
+
+export { exactScreeningLockCopy } from './resultsShowtimeLock.js';
 
 export const FILM_PLAN_PREFERENCES = Object.freeze([
   Object.freeze({
@@ -41,15 +49,18 @@ const PREF_ICONS = {
 
 /**
  * @param {{
- *   film: { id: string, title: string, imageUrl?: string },
+ *   film: { id: string, title: string, imageUrl?: string, performanceKey?: string | null },
  *   preference: 'require' | 'prefer' | 'exclude',
  *   seen: boolean,
  *   notInterested: boolean,
+ *   lockShowtime?: boolean,
+ *   canLockShowtime?: boolean,
  *   onCancel: () => void,
  *   onApply: (next: {
  *     preference: 'require' | 'prefer' | 'exclude',
  *     seen: boolean,
  *     notInterested: boolean,
+ *     lockShowtime: boolean,
  *   }) => void,
  * }} props
  */
@@ -58,21 +69,34 @@ export default function AdjustFilmInPlansOverlay({
   preference,
   seen,
   notInterested,
+  lockShowtime = false,
+  canLockShowtime = true,
   onCancel,
   onApply,
 }) {
   const groupId = useId();
+  const lockSectionId = useId();
   const [draftPref, setDraftPref] = useState(preference);
-  const [draftSeen, setDraftSeen] = useState(seen);
-  const [draftNi, setDraftNi] = useState(notInterested);
+  const [draftSeen, setDraftSeen] = useState(Boolean(seen));
+  const [draftNi, setDraftNi] = useState(Boolean(notInterested));
+  /** Staged: exact showtime is locked (checked = locked). */
+  const [draftLock, setDraftLock] = useState(Boolean(lockShowtime));
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     setDraftPref(preference);
-    setDraftSeen(seen);
-    setDraftNi(notInterested);
+    setDraftSeen(Boolean(seen));
+    setDraftNi(Boolean(notInterested));
+    setDraftLock(Boolean(lockShowtime));
     setBusy(false);
-  }, [preference, seen, notInterested, film?.id]);
+  }, [
+    preference,
+    seen,
+    notInterested,
+    lockShowtime,
+    film?.id,
+    film?.performanceKey,
+  ]);
 
   const handleApply = () => {
     if (busy) return;
@@ -81,8 +105,11 @@ export default function AdjustFilmInPlansOverlay({
       preference: draftPref,
       seen: draftSeen,
       notInterested: draftNi,
+      lockShowtime: canLockShowtime ? draftLock : false,
     });
   };
+
+  const lockCopy = exactScreeningLockCopy(draftLock);
 
   return (
     <PlanAdjustmentDialog
@@ -149,6 +176,41 @@ export default function AdjustFilmInPlansOverlay({
         })}
       </div>
 
+      {canLockShowtime ? (
+        <div className="v2-bpr-adj-lock" data-adj-section="exact-screening">
+          <p id={lockSectionId} className="v2-bpr-adj-status-label">
+            Exact screening
+          </p>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={draftLock}
+            aria-labelledby={lockSectionId}
+            className={`v2-bpr-adj-pref v2-bpr-adj-lock-toggle${
+              draftLock ? ' is-selected' : ''
+            }`}
+            onClick={() => setDraftLock((v) => !v)}
+            data-lock-checked={draftLock ? 'true' : 'false'}
+            data-lock-action={draftLock ? 'unlock' : 'lock'}
+          >
+            <span className="v2-bpr-adj-pref-icon" aria-hidden="true">
+              <IconLock width={16} height={16} />
+            </span>
+            <span className="v2-bpr-adj-pref-copy">
+              <span className="v2-bpr-adj-pref-label">{lockCopy.label}</span>
+              <span className="v2-bpr-adj-pref-support">{lockCopy.support}</span>
+            </span>
+            <span
+              className={`v2-bp-switch${draftLock ? ' is-on' : ''}`}
+              aria-hidden="true"
+              data-switch-on={draftLock ? 'true' : 'false'}
+            >
+              <span className="v2-bp-switch-track" />
+            </span>
+          </button>
+        </div>
+      ) : null}
+
       <div className="v2-bpr-adj-status">
         <p className="v2-bpr-adj-status-label">Your film status</p>
         <div className="v2-bpr-adj-status-card">
@@ -163,6 +225,7 @@ export default function AdjustFilmInPlansOverlay({
               role="switch"
               aria-checked={draftSeen}
               aria-label={`Seen: ${film.title}`}
+              data-switch-on={draftSeen ? 'true' : 'false'}
               onClick={() => {
                 setDraftSeen((v) => {
                   const next = !v;
@@ -185,6 +248,7 @@ export default function AdjustFilmInPlansOverlay({
               role="switch"
               aria-checked={draftNi}
               aria-label={`Not interested: ${film.title}`}
+              data-switch-on={draftNi ? 'true' : 'false'}
               onClick={() => {
                 setDraftNi((v) => {
                   const next = !v;
