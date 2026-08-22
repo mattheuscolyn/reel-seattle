@@ -212,7 +212,7 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 | PLAN-04 | Add a "no time filter / any time is fine" option | UX | High | S | Outstanding | Required for unconstrained planning. |
 | PLAN-05 | "What?" selector has Add Another only for Must Include | UX consistency | Medium | S-M | Done | Locked showtimes + film buckets each have add/manage affordances. |
 | PLAN-06 | Exact plan size (e.g. exactly 4 films) via domain min/max | Feature / solver | High | M | Done | Domain `{ min, max }` + Exact/Range/As many UI. |
-| PLAN-07 | Locked showtimes / locked performances as hard constraints | Feature / solver | High | L | Done | Build-a-Plan add/remove locks + seeded solver. Results Lock/Unlock is RESULT-03. |
+| PLAN-07 | Locked showtimes / locked performances as hard constraints | Feature / solver | High | L | Done | Locks can be created from Build a Plan and from Results (RESULT-03). Seeded solver + session draft state. |
 | PLAN-08 | Constraint-aware film picker (date / theater / time window eligibility) | Feature / UX | High | M | Done | Candidate eligibility under hard constraints; selected-but-ineligible films retained + flagged. |
 | PLAN-09 | Separate film-level vs performance-level “What?” pickers and copy | UX / IA | High | M | Done | Film picker uses “N eligible showtimes”; performance picker shows exact screening metadata. |
 | PLAN-10 | Pre-generation conflict validation for locked + film constraints | Feature / UX | High | M | Done | Structured conflicts surfaced near Generate and on incompatible rows. |
@@ -226,7 +226,7 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 |---|---|---|---|---|---|---|
 | RESULT-01 | Single-film plans have too much blank space | Layout | Medium | S-M | Outstanding | Need responsive plan-size-aware composition. |
 | RESULT-02 | "Add to My Schedule" design is sloppy | Visual / interaction design | High | M | Outstanding | Revisit hierarchy and action treatment. |
-| RESULT-03 | Lock / Unlock this showtime from Results film overlay | Feature / UX | High | M | Outstanding | Depends on PR1 lock domain (shipped). Extends AdjustFilmInPlansOverlay; regenerates from draft session. |
+| RESULT-03 | Lock / Unlock this showtime from Results film overlay | Feature / UX | High | M | Done | Extends AdjustFilmInPlansOverlay; reuses Build-a-Plan lock helpers; regenerates Results in place from draft session. |
 
 ---
 

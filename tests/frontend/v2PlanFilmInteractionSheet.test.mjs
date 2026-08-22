@@ -44,6 +44,22 @@ test('seen and not interested switches are isolated from preference radios', () 
   assert.match(RESULTS, /markFilmNotInterested|isFilmNotInterested/);
 });
 
+test('exact screening lock is separate from require/prefer/exclude radios', () => {
+  assert.match(OVERLAY, /Exact screening/);
+  assert.match(OVERLAY, /exactScreeningLockCopy\(draftLock\)/);
+  assert.match(OVERLAY, /lockShowtime/);
+  assert.match(OVERLAY, /aria-checked=\{draftLock\}/);
+  assert.match(OVERLAY, /draftLock \? ' is-on'/);
+  assert.doesNotMatch(OVERLAY, /id: 'lock'/);
+});
+
+test('seen and not interested use controlled is-on switch state', () => {
+  assert.match(OVERLAY, /aria-checked=\{draftSeen\}/);
+  assert.match(OVERLAY, /aria-checked=\{draftNi\}/);
+  assert.match(OVERLAY, /draftSeen \? ' is-on'/);
+  assert.match(OVERLAY, /draftNi \? ' is-on'/);
+});
+
 test('results no longer mounts legacy PlanFilmInteractionSheet', () => {
   assert.doesNotMatch(RESULTS, /PlanFilmInteractionSheet/);
 });
