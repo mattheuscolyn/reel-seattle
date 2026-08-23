@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-21T23:28:46-07:00",
+  "generated_at": "2026-08-22T23:29:53-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-08-21",
-    "end_date": "2026-09-04"
+    "start_date": "2026-08-22",
+    "end_date": "2026-09-05"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 67,
-    "flagged_film_count": 22
+    "candidate_film_count": 69,
+    "flagged_film_count": 23
   },
   "items": [
     {
@@ -142,30 +142,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787332495/amc-cdn/content/general/pugx74y5oeuejl2axcpx.jpg",
       "runtime_min": 187
-    },
-    {
-      "film_key": "dreams-in-nightmares",
-      "film_title": "Dreams in Nightmares",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-09-04",
-      "max_show_date": "2026-09-04",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-09-04"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785267702/amc-cdn/content/general/dgeboxlf5kgkaihggkpx.jpg",
-      "runtime_min": 128
     },
     {
       "film_key": "end-of-oak-street-sensory-friendly-screening",
@@ -484,6 +460,42 @@
       "runtime_min": 147
     },
     {
+      "film_key": "hunger-games-mockingjay-part-1-2026",
+      "film_title": "The Hunger Games: Mockingjay - Part 1 (2026)",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-09-05",
+      "max_show_date": "2026-09-05",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-09-05"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785194319/amc-cdn/content/general/nhwgnue2hlpkpy9kle1t.jpg",
+      "runtime_min": 123
+    },
+    {
       "film_key": "idiots-early-access",
       "film_title": "Idiots Early Access",
       "risk_level": "high",
@@ -638,6 +650,34 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787066541/amc-cdn/content/general/wlh7ckoiygrw0rlyatnp.jpg",
       "runtime_min": 91
+    },
+    {
+      "film_key": "space-seed-star-trek-ii-the-wrath-of-khan-director-s-cut-60th-anniversary-event",
+      "film_title": "Space Seed + Star Trek II: The Wrath of Khan - Director's Cut 60th Anniversary Event",
+      "risk_level": "high",
+      "reason": "Only one visible AMC play date remains in the current schedule.",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-09-05",
+      "max_show_date": "2026-09-05",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-05"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1787396992/amc-cdn/production/2/movies/84700/84714/Poster/424011R1.jpg",
+      "runtime_min": 163
     },
     {
       "film_key": "uprising-early-access-live-q-a-with-paul-greengrass-and-andrew-garfield",
