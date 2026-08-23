@@ -977,7 +977,7 @@ Availability codes: **A** available · **M** needs mapping · **P** partial · *
 | G23 | Landscape imagery pipeline | Home, FD | Poster / fixture | Catalog media and/or external | G01 | — | D | Med | No | Source choice |
 | G24 | Sold-out freshness | Planner exclude | Status field | Cadence + stale UX | — | — | C | Med | True realtime unlikely | Honesty copy |
 | G25 | Insights definitions | Month view | Absent | Spec + compute | G12 | — | C | Med | No | Definitions |
-| G26 | Runtime end-time buffer policy | Planner, Schedule | Runtime-only end | Product rule | E-001 | T-BUF-01 done (15/10/5 in `plannerBufferPolicy`) | C | Low | No | Theater-specific / user adjust later |
+| G26 | Runtime end-time buffer policy | Planner, Schedule | Runtime-only end | Product rule | E-001 | T-BUF-01 done (start+runtime; transfer 10/5; universal +15 removed 2026-08) | C | Low | No | Screening-specific trailer later (PLAN-12) |
 | G27 | Share payloads | FD, Planner, Theater | Absent | URL/state design | — | v1 planner share exists partially | C | Low | No | What is shared |
 | G28 | Screen/auditorium public model | Theater Detail | AMC log only | Emit + entity | G07 helpful | Auditoriums Research needed | E | Med | No | Need screens? |
 
@@ -1144,7 +1144,7 @@ Cross-walk between [docs/data-foundation-roadmap.md](../data-foundation-roadmap.
 
 **Travel:** not in legacy engine; required for mockup miles; depends G09.
 
-**Runtime/end-time:** legacy `getMovieEndTime` = start+runtime only for showtimes display (**Confirmed**). Planner expected end / transfer validity use D17 policy via `plannerBufferPolicy` (T-BUF-01: +15m preshow, +10m general / +5m same-venue).
+**Runtime/end-time:** legacy `getMovieEndTime` = start+runtime only for showtimes display (**Confirmed**). Planner scheduling end / transfer validity use D17 policy via `plannerBufferPolicy` (T-BUF-01 revised: start+runtime; +10m general / +5m same-venue transfer; universal +15m preshow removed).
 
 **Sold-out / cancel:** legacy filters canceled via `isShowtimeCanceled`; status `sold_out` exists. Recalc when refresh shows changes — product rules for scheduled plans.
 

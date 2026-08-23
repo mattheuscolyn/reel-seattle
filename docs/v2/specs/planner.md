@@ -210,7 +210,7 @@ Conceptually, the engine should:
 * Rank or group plans using **explainable** preference criteria
 * **Not** silently discard valid plans merely because they rank poorly
 
-**Buffer policy (T-BUF-01 / D17):** Expected film end = advertised showtime + **15** minutes preshow + runtime. Transfer minimum is **5** minutes for the same canonical theater ID (same venue/building) and **10** minutes otherwise. These are policy buffers, not walking-distance claims. Missing runtime makes sequence validation indeterminate (candidate excluded) — do not invent a default runtime. Engine validity and displayed end/break times must share `src/utils/plannerBufferPolicy.js`. Theater-specific and user-adjustable buffers remain deferred.
+**Buffer policy (T-BUF-01 / D17, revised):** Planner **scheduling end** = advertised showtime + **runtime** only. A universal trailer/preshow offset is **intentionally not applied**: absent screening-specific trailer data, applying the same assumed offset to every screening cancels out for relative chaining and produced inconsistent feasibility. Transfer minimum is **5** minutes for the same canonical theater ID (same venue/building) and **10** minutes otherwise. These are policy buffers, not walking-distance claims. Missing runtime makes sequence validation indeterminate (candidate excluded) — do not invent a default runtime. Engine validity, finish-by checks, and displayed end/break times must share `src/utils/plannerBufferPolicy.js`. Theater-specific buffers, user-adjustable buffers, and **screening-specific trailer / no-trailer / special-event** modeling remain deferred.
 
 **Do not** define the algorithm, complexity limits, graph models, or schemas in this document.
 
@@ -432,7 +432,7 @@ Support the path from plan to attendance:
 
 Reel Seattle does **not** own ticket transactions. Do not implement purchasing, account-linked calendar sync, or booking state in this task. Bidirectional calendar sync is out of scope (D09).
 
-**Calendar export (T-CAL-01 / T-CAL-02):** Local-only ICS via `src/utils/calendarExport.js`. Event start is the advertised showtime; end uses D17 expected end (start + 15-minute preshow + runtime). Missing runtime prevents export. Multi-film plans export one event per film and fail closed if any item is incomplete. Breaks are not separate events. UI: Film Detail Best Way + Showtimes selected time; Plan Results Share attempts export and fails closed on fixture-only rows. About My Schedule + Schedule Settings copy describe one-time `.ics` (D09); Settings “Sync with calendar” remains disabled. One-way OAuth sync remains deferred.
+**Calendar export (T-CAL-01 / T-CAL-02):** Local-only ICS via `src/utils/calendarExport.js`. Event start is the advertised showtime; end uses the same Planner scheduling end (start + runtime). Missing runtime prevents export. Multi-film plans export one event per film and fail closed if any item is incomplete. Breaks are not separate events. UI: Film Detail Best Way + Showtimes selected time; Plan Results Share attempts export and fails closed on fixture-only rows. About My Schedule + Schedule Settings copy describe one-time `.ics` (D09); Settings “Sync with calendar” remains disabled. One-way OAuth sync remains deferred.
 
 ---
 

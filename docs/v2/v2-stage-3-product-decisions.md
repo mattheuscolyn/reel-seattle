@@ -567,7 +567,7 @@ Hard ≠ Group C. Live A-List and Letterboxd are hard **and** deferrable.
 | D14 | Disable genre colors; default opportunity-type | Temporary compromise |
 | D15 | Allow special/rare/leaving exceptions for seen films | Reversible MVP |
 | D16 | Defer budget control | Deferred feature |
-| D17 | Fixed +15m preshow, +10m transfer (tunable) | Reversible MVP |
+| D17 | Fixed +15m preshow, +10m transfer (tunable) | Reversible MVP — **revised 2026-08-22:** universal +15m preshow removed from feasibility; scheduling end = start + runtime; transfer 10/5 retained (see PLAN-12 for screening-specific trailer work) |
 
 **What this package deliberately postpones:** accounts, routing APIs, Letterboxd, live A-List, Leaving Soon ship, multi-theater miles, pricing/hours completeness, person search, new theater scrapers.
 

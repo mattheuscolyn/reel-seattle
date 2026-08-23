@@ -233,6 +233,7 @@ Product definition (clarified 2026-08): My Schedule is the user’s **personal t
 | PLAN-09 | Separate film-level vs performance-level “What?” pickers and copy | UX / IA | High | M | Done | Film picker uses “N eligible showtimes”; performance picker shows exact screening metadata. |
 | PLAN-10 | Pre-generation conflict validation for locked + film constraints | Feature / UX | High | M | Done | Structured conflicts surfaced near Generate and on incompatible rows. |
 | PLAN-11 | Locked-showtime picker (“Add a showtime”) under What? | Feature / UX | High | M | Done | `build-plan-showtime-manage` performance catalog under hard constraints. |
+| PLAN-12 | Screening-specific trailer / no-trailer / special-event end modeling | Feature / solver | Medium | L | Outstanding | Deferred: distinguish trailers, repertory, festivals, Q&As, theater-specific preshow. Until then Planner uses advertised start + runtime only (no universal +15). |
 
 ---
 

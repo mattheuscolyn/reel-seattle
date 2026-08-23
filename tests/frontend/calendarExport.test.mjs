@@ -19,7 +19,6 @@ import {
   pacificWallTimeToUtcDate,
   serializeCalendar,
 } from '../../src/utils/calendarExport.js';
-import { PLANNER_BUFFER_POLICY_V1 } from '../../src/utils/plannerBufferPolicy.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const MODULE_SRC = readFileSync(
@@ -54,11 +53,11 @@ test('valid showtime creates one event with advertised start and buffered end', 
 
   // 7:00PM PDT on 2026-07-25 → 02:00Z next calendar day.
   assert.equal(formatIcsUtcStamp(result.event.start), '20260726T020000Z');
-  // End = start + 15 + 120 = 9:15PM PDT → 04:15Z.
-  assert.equal(formatIcsUtcStamp(result.event.end), '20260726T041500Z');
+  // End = start + 120 = 9:00PM PDT → 04:00Z.
+  assert.equal(formatIcsUtcStamp(result.event.end), '20260726T040000Z');
   assert.equal(
     result.event.end.getTime() - result.event.start.getTime(),
-    (PLANNER_BUFFER_POLICY_V1.preshowMinutes + 120) * 60_000,
+    120 * 60_000,
   );
 
   const withAddress = buildShowtimeCalendarEvent({
@@ -75,12 +74,12 @@ test('valid showtime creates one event with advertised start and buffered end', 
   );
 });
 
-test('preshow is applied once; missing runtime and identity fail', () => {
+test('scheduling end is start + runtime; missing runtime and identity fail', () => {
   const once = buildShowtimeCalendarEvent(BASE_SHOWTIME);
   assert.equal(once.ok, true);
   assert.equal(
     once.event.end.getTime() - once.event.start.getTime(),
-    135 * 60_000,
+    120 * 60_000,
   );
 
   const noRuntime = buildShowtimeCalendarEvent({
@@ -120,9 +119,9 @@ test('midnight rollover and Pacific winter DST', () => {
     filmKey: 'late-show',
   });
   assert.equal(late.ok, true);
-  // Start 11:30PM PDT → 06:30Z next day; end +135m → 08:45Z.
+  // Start 11:30PM PDT → 06:30Z next day; end +120m → 08:30Z.
   assert.equal(formatIcsUtcStamp(late.event.start), '20260726T063000Z');
-  assert.equal(formatIcsUtcStamp(late.event.end), '20260726T084500Z');
+  assert.equal(formatIcsUtcStamp(late.event.end), '20260726T083000Z');
 
   const winter = buildShowtimeCalendarEvent({
     title: 'Winter Film',
@@ -133,9 +132,9 @@ test('midnight rollover and Pacific winter DST', () => {
     filmKey: 'winter-film',
   });
   assert.equal(winter.ok, true);
-  // PST (UTC-8): 7:00PM → 03:00Z next day.
+  // PST (UTC-8): 7:00PM → 03:00Z next day; +100m → 04:40Z.
   assert.equal(formatIcsUtcStamp(winter.event.start), '20260116T030000Z');
-  assert.equal(formatIcsUtcStamp(winter.event.end), '20260116T045500Z');
+  assert.equal(formatIcsUtcStamp(winter.event.end), '20260116T044000Z');
 
   const h24 = buildShowtimeCalendarEvent({
     title: 'Twenty Four',
@@ -214,7 +213,7 @@ test('ICS serialization uses CRLF, escaping, folding, and injected DTSTAMP', () 
   assert.match(ics, /\r\nBEGIN:VEVENT\r\n/);
   assert.match(ics, /\r\nDTSTAMP:20260725T180000Z\r\n/);
   assert.match(ics, /\r\nDTSTART:20260726T020000Z\r\n/);
-  assert.match(ics, /\r\nDTEND:20260726T041500Z\r\n/);
+  assert.match(ics, /\r\nDTEND:20260726T040000Z\r\n/);
   assert.match(ics, /SUMMARY:Comma\\, Semicolon\\; Slash\\\\ Film/);
   assert.match(ics, /LOCATION:Line\\nBreak Theater/);
   assert.match(ics, /\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n$/);
@@ -288,7 +287,7 @@ test('plan export creates one event per film; invalid item fails closed', () => 
   assert.match(built.events[1].description ?? '', /Reel Seattle plan: Capitol Hill night/);
   assert.equal(
     built.events[0].end.getTime() - built.events[0].start.getTime(),
-    105 * 60_000,
+    90 * 60_000,
   );
 
   const bad = buildPlanCalendarEvents({

@@ -163,7 +163,7 @@ function rowToCandidate(row) {
   const runtime = parseRuntimeMinutes(row.Runtime);
   if (startMin === null || runtime === null) return null;
 
-  // D17 / T-BUF-01: expected end = advertised start + preshow + runtime.
+  // Scheduling end = advertised start + runtime (no universal preshow).
   const expected = calculateExpectedEndTime(
     { startMin, runtime },
     runtime,
@@ -290,8 +290,8 @@ function summarizeChain(chain, filters) {
   const last = chain[chain.length - 1];
   const totalSpanMin = last.endMin - first.startMin;
   const filmRuntimeMin = chain.reduce((sum, c) => sum + c.runtime, 0);
-  // Break/gap time is idle after each expected end (includes transfer window).
-  // Do not use totalSpan − runtime — that would fold preshow into “gap”.
+  // Break/gap time is idle between scheduling end and next advertised start.
+  // Do not use totalSpan − runtime — gaps are per adjacent pair.
   let gapTimeMin = 0;
   for (let i = 0; i < chain.length - 1; i += 1) {
     gapTimeMin += chain[i + 1].startMin - chain[i].endMin;

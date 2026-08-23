@@ -4,9 +4,9 @@
  * Local-only ICS generation for a single real showtime or a validated
  * multi-film plan. No Google/Apple APIs, OAuth, permissions, or sync.
  *
- * Event start = advertised showtime (not shifted by preshow).
- * Event end = advertised start + D17 15-minute preshow + runtime
- * (via `calculateExpectedEndTime`). Missing runtime fails explicitly.
+ * Event start = advertised showtime.
+ * Event end = advertised start + runtime (same scheduling end as Planner;
+ * no universal trailer/preshow offset). Missing runtime fails explicitly.
  *
  * UID precedence (deterministic; never wall-clock / random):
  * 1. Public showtime ID

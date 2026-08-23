@@ -1,19 +1,25 @@
 /**
- * Planner runtime and transfer buffer policy (T-BUF-01 / D17).
+ * Planner runtime and transfer buffer policy (T-BUF-01 / D17, revised).
  *
  * Single source of truth for:
- * - Preshow buffer (15) — included once in expected end time
+ * - Scheduling end = advertised start + runtime (no universal trailer/preshow)
  * - General transfer buffer (10) — minimum between venues
  * - Same-venue / same-building transfer (5)
  *
- * These are policy buffers, not walking-distance or travel-time claims.
- * Theater-specific and user-adjustable overrides are deferred.
+ * A universal trailer/preshow offset is intentionally not applied: absent
+ * screening-specific trailer data, the same assumed offset on every screening
+ * cancels out for relative chaining and produced inconsistent feasibility.
+ * Screening-specific trailer / no-trailer modeling is deferred.
+ *
+ * These transfer buffers are policy minima, not walking-distance claims.
+ * Theater-specific and user-adjustable overrides remain deferred.
  *
  * Missing runtime: expected end and sequence validity are indeterminate
  * (`missing_runtime`) — never fabricate a default runtime.
  *
- * Legacy `getMovieEndTime` remains start+runtime only for showtimes display.
- * Planner validity and displayed planner end/break times must use these helpers.
+ * Legacy `getMovieEndTime` remains start+runtime for showtimes display.
+ * Planner validity, finish-by checks, and displayed end/break times share
+ * `calculateExpectedEndTime` from this module.
  */
 
 import {
@@ -23,9 +29,10 @@ import {
 } from './timeUtils.js';
 
 export const PLANNER_BUFFER_POLICY_V1 = Object.freeze({
-  version: 1,
-  id: 'planner-buffer-v1',
-  preshowMinutes: 15,
+  version: 2,
+  id: 'planner-buffer-v2',
+  /** @deprecated Universal preshow is no longer applied; always 0. */
+  preshowMinutes: 0,
   generalTransferMinutes: 10,
   sameVenueTransferMinutes: 5,
 });
@@ -65,11 +72,15 @@ function theaterIdFrom(value) {
 }
 
 /**
+ * Universal preshow is not applied (always 0). Kept for callers that still
+ * read the field; do not use for schedule validity.
+ *
  * @param {{ policy?: typeof PLANNER_BUFFER_POLICY_V1 } | null | undefined} [context]
+ * @returns {0}
  */
 export function getPreshowMinutes(context = null) {
   const policy = context?.policy ?? getPlannerBufferPolicy();
-  return policy.preshowMinutes;
+  return policy.preshowMinutes ?? 0;
 }
 
 /**
@@ -160,8 +171,8 @@ export function resolveRuntimeMinutes(runtimeOrPerformance) {
 }
 
 /**
- * Expected film end = advertised start + preshow + runtime.
- * Preshow is applied once. Missing/invalid runtime → indeterminate.
+ * Scheduling end = advertised start + runtime.
+ * No universal trailer/preshow offset. Missing/invalid runtime → indeterminate.
  *
  * @param {unknown} showtime
  * @param {unknown} [runtimeMinutes]
@@ -174,7 +185,7 @@ export function resolveRuntimeMinutes(runtimeOrPerformance) {
  *   endMin: number | null,
  *   startMin: number | null,
  *   runtimeMinutes: number | null,
- *   preshowMinutes: number,
+ *   preshowMinutes: 0,
  *   error: string | null,
  * }}
  */
@@ -183,8 +194,6 @@ export function calculateExpectedEndTime(
   runtimeMinutes = null,
   context = null,
 ) {
-  const policy = context?.policy ?? getPlannerBufferPolicy();
-  const preshowMinutes = policy.preshowMinutes;
   const startMin = resolveAdvertisedStartMinutes(showtime, {
     planner: context?.planner !== false,
   });
@@ -192,6 +201,7 @@ export function calculateExpectedEndTime(
     runtimeMinutes == null && showtime && typeof showtime === 'object'
       ? resolveRuntimeMinutes(showtime)
       : resolveRuntimeMinutes(runtimeMinutes);
+  const preshowMinutes = 0;
 
   if (startMin === null) {
     return {
@@ -214,7 +224,7 @@ export function calculateExpectedEndTime(
     };
   }
 
-  const endMin = startMin + preshowMinutes + runtime;
+  const endMin = startMin + runtime;
   if (!Number.isFinite(endMin)) {
     return {
       ok: false,
@@ -237,7 +247,7 @@ export function calculateExpectedEndTime(
 }
 
 /**
- * Earliest valid next advertised start after previous expected end + transfer.
+ * Earliest valid next advertised start after previous scheduling end + transfer.
  *
  * @param {unknown} previous
  * @param {unknown} next
@@ -277,7 +287,7 @@ export function calculateRequiredNextStart(previous, next = null, context = null
 }
 
 /**
- * Break minutes = next advertised start − previous expected end.
+ * Break minutes = next advertised start − previous scheduling end.
  * May be negative when performances overlap under the policy.
  *
  * @param {unknown} previous
@@ -341,7 +351,7 @@ export function calculateBreakMinutes(previous, next, context = null) {
 }
 
 /**
- * Sequence validity: next start >= previous expected end + transfer buffer.
+ * Sequence validity: next start >= previous scheduling end + transfer buffer.
  * Missing runtime never reports valid:true.
  *
  * @param {unknown} previous
