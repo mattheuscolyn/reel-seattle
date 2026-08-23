@@ -12,6 +12,7 @@ import {
   buildPlanFooterSummary,
   parseBuildPlanSectionQuery,
 } from '../planner/buildPlanAccordion.js';
+import { formatBuildPlanTimeWindowSummary } from '../planner/buildPlanTimeWindow.js';
 
 export const BUILD_PLAN_MOCKUP_QUERY = 'buildPlanMockup';
 export const BUILD_PLAN_SECTION_QUERY = 'section';
@@ -215,6 +216,7 @@ export const BUILD_PLAN_MOCKUP_FIXTURE = Object.freeze({
     dateShort: 'Sat, Jul 19',
     startAfter: '2:00 PM',
     finishBefore: '11:00 PM',
+    finishBeforeNextDay: false,
     mustInclude: Object.freeze([
       filmCard({
         id: 'must-2001',
@@ -321,6 +323,7 @@ export function createBuildPlanFormState() {
     dateShort: d.dateShort,
     startAfter: d.startAfter,
     finishBefore: d.finishBefore,
+    finishBeforeNextDay: d.finishBeforeNextDay ?? false,
     mustInclude: d.mustInclude.map((f) => ({ ...f })),
     wouldLove: d.wouldLove.map((f) => ({ ...f })),
     notInterested: d.notInterested.map((f) => ({ ...f })),
@@ -358,10 +361,12 @@ export function applyBuildPlanPreset(presetId, base) {
   if (presetId === 'after-work') {
     next.startAfter = '5:00 PM';
     next.finishBefore = '11:00 PM';
+    next.finishBeforeNextDay = false;
     next.planSize = { min: 1, max: 2 };
   } else if (presetId === 'saturday-marathon') {
     next.startAfter = '11:00 AM';
     next.finishBefore = '11:00 PM';
+    next.finishBeforeNextDay = false;
     next.planSize = { min: 3, max: 3 };
   } else if (presetId === 'last-chance') {
     next.planSize = { min: 1, max: 2 };
@@ -390,7 +395,7 @@ export function buildPlanSummaryLines(form) {
     )?.title ?? 'Any theater';
   return {
     dateShort: form.dateShort,
-    timeWindow: `${form.startAfter}–${form.finishBefore}`,
+    timeWindow: formatBuildPlanTimeWindowSummary(form),
     planSize: form.planSize,
     locationShort: form.locationShort,
     line1: footer.line1,

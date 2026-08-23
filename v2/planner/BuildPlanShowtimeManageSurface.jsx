@@ -28,6 +28,7 @@ import {
   removeLockedShowtimeFromForm,
 } from './buildPlanPerformanceCatalog.js';
 import { resolveBuildPlanHardConstraints } from './buildPlanHardConstraints.js';
+import { formatBuildPlanTimeWindowSummary } from './buildPlanTimeWindow.js';
 
 /**
  * @param {object | null} form
@@ -71,16 +72,7 @@ function constraintChips(form, homeData) {
       ? String(hit.name).replace(/^AMC\s+/i, 'AMC ').slice(0, 22)
       : pref;
   }
-  const start = form.startAfter || '';
-  const finish = form.finishBefore || '';
-  const timeLabel =
-    !start && !finish
-      ? 'Any time'
-      : start === '10:00 AM' && finish === '11:00 PM'
-        ? 'Any time'
-        : start === '11:00 AM' && (finish === '11:00 PM' || !finish)
-          ? 'Any time'
-          : `${start}–${finish}`.replace(/^\–|–$/g, '') || 'Time window';
+  const timeLabel = formatBuildPlanTimeWindowSummary(form);
 
   return [
     { id: 'date', label: dateLabel, Icon: IconCalendar },

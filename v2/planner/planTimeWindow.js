@@ -1,26 +1,23 @@
 /**
  * Clock helpers for Adjust Time Window (display strings like "2:15 PM").
+ * Delegates unbounded / overnight semantics to buildPlanTimeWindow.
  */
+
+import {
+  formatBuildPlanTimeWindowSummary,
+  isValidBuildPlanTimeWindow,
+  normalizeBuildPlanClock,
+  parseBuildPlanClockToSameDayMinutes,
+  resolveBuildPlanFinishByMin,
+  resolveBuildPlanStartAfterMin,
+} from './buildPlanTimeWindow.js';
 
 /**
  * @param {string | null | undefined} value
- * @returns {number | null} minutes from midnight
+ * @returns {number | null} minutes from midnight (same day)
  */
 export function parseClockToMinutes(value) {
-  if (typeof value !== 'string') return null;
-  const match = value.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-  if (!match) return null;
-  let hour = Number(match[1]);
-  const minute = Number(match[2]);
-  const meridiem = match[3].toUpperCase();
-  if (!Number.isFinite(hour) || !Number.isFinite(minute)) return null;
-  if (hour < 1 || hour > 12 || minute < 0 || minute > 59) return null;
-  if (meridiem === 'AM') {
-    if (hour === 12) hour = 0;
-  } else if (hour !== 12) {
-    hour += 12;
-  }
-  return hour * 60 + minute;
+  return parseBuildPlanClockToSameDayMinutes(value);
 }
 
 /**
@@ -38,25 +35,36 @@ export function formatMinutesToClock(totalMinutes) {
 }
 
 /**
- * @param {string} clock
+ * @param {string | null | undefined} clock
  * @param {number} deltaMinutes
- * @returns {string}
+ * @returns {string | null}
  */
 export function addMinutesToClock(clock, deltaMinutes) {
   const base = parseClockToMinutes(clock);
-  if (base == null) return clock;
+  if (base == null) {
+    // Unbounded start: treat quick-add as from noon so the control becomes custom.
+    const fromNoon = 12 * 60 + deltaMinutes;
+    return formatMinutesToClock(fromNoon);
+  }
   return formatMinutesToClock(base + deltaMinutes);
 }
 
 /**
- * End must be strictly later than start (no overnight in this shell).
- * @param {string} startAfter
- * @param {string} endBefore
+ * End must be strictly later than start in extended planner minutes.
+ * Null on either side (no limit) is valid.
+ *
+ * @param {string | null | undefined} startAfter
+ * @param {string | null | undefined} endBefore
+ * @param {{ finishBeforeNextDay?: boolean | null }} [options]
  * @returns {boolean}
  */
-export function isValidTimeWindow(startAfter, endBefore) {
-  const start = parseClockToMinutes(startAfter);
-  const end = parseClockToMinutes(endBefore);
-  if (start == null || end == null) return false;
-  return end > start;
+export function isValidTimeWindow(startAfter, endBefore, options = {}) {
+  return isValidBuildPlanTimeWindow(startAfter, endBefore, options);
 }
+
+export {
+  formatBuildPlanTimeWindowSummary,
+  normalizeBuildPlanClock,
+  resolveBuildPlanFinishByMin,
+  resolveBuildPlanStartAfterMin,
+};

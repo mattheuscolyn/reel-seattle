@@ -6,6 +6,7 @@
 
 import { normalizeLockedShowtimes } from './lockedShowtimes.js';
 import { normalizePlanSize } from './planSize.js';
+import { normalizeBuildPlanTimeWindowFields } from './buildPlanTimeWindow.js';
 
 let sessionForm = null;
 let sessionListeners = new Set();
@@ -26,10 +27,11 @@ function notify() {
  */
 function normalizeSessionForm(form) {
   if (!form || typeof form !== 'object') return form ?? null;
+  const withTime = normalizeBuildPlanTimeWindowFields(form);
   return {
-    ...form,
-    planSize: normalizePlanSize(form.planSize),
-    lockedShowtimes: normalizeLockedShowtimes(form.lockedShowtimes),
+    ...withTime,
+    planSize: normalizePlanSize(withTime.planSize),
+    lockedShowtimes: normalizeLockedShowtimes(withTime.lockedShowtimes),
   };
 }
 

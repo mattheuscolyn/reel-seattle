@@ -98,10 +98,16 @@ function preferenceChipsFromForm(form) {
 function quickAdjustFromForm(form, chrome) {
   return chrome.quickAdjust.map((item) => {
     if (item.id === 'startAfter') {
-      return { ...item, value: form?.startAfter ?? item.value };
+      return {
+        ...item,
+        value: form?.startAfter ?? 'No limit',
+      };
     }
     if (item.id === 'endBefore') {
-      return { ...item, value: form?.finishBefore ?? item.value };
+      return {
+        ...item,
+        value: form?.finishBefore ?? 'No limit',
+      };
     }
     if (item.id === 'planSize') {
       return {
@@ -126,10 +132,10 @@ function refineFromForm(form, chrome) {
     ...chrome.refine,
     fields: chrome.refine.fields.map((field) => {
       if (field.id === 'startAfter') {
-        return { ...field, value: form?.startAfter ?? field.value };
+        return { ...field, value: form?.startAfter ?? 'No limit' };
       }
       if (field.id === 'endBefore') {
-        return { ...field, value: form?.finishBefore ?? field.value };
+        return { ...field, value: form?.finishBefore ?? 'No limit' };
       }
       if (field.id === 'planSize') {
         return {

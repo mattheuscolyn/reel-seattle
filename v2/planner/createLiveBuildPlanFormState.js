@@ -39,8 +39,10 @@ export function createLiveBuildPlanFormState(now = new Date()) {
     dateIso,
     dateDisplay: formatBuildPlanDateDisplay(dateIso),
     dateShort: formatCompactDateLabel(dateIso),
-    startAfter: '11:00 AM',
-    finishBefore: '11:00 PM',
+    // Null = no time constraint (true “Any time”). Do not use sentinel clocks.
+    startAfter: null,
+    finishBefore: null,
+    finishBeforeNextDay: false,
     mustInclude: [],
     wouldLove: [],
     notInterested: [],

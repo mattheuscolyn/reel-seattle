@@ -4,6 +4,7 @@
  */
 
 import { formatPlanSizeLabel } from './planSize.js';
+import { formatBuildPlanTimeWindowSummary } from './buildPlanTimeWindow.js';
 
 export const BUILD_PLAN_ACCORDION_IDS = Object.freeze([
   'when',
@@ -119,7 +120,8 @@ export function buildCollapsedSectionSummaries(form, chrome = {}) {
     theaterPrefs.find((p) => p.id === form.theaterPrefId)?.title ??
     'Any theater';
   const flexibleBit = form.flexible ? ' · Flexible' : '';
-  const when = `${form.dateDisplay} · ${form.startAfter}–${form.finishBefore}${flexibleBit}`;
+  const timeLabel = formatBuildPlanTimeWindowSummary(form);
+  const when = `${form.dateDisplay} · ${timeLabel}${flexibleBit}`;
   const what = `${form.mustInclude.length} must include · ${(form.lockedShowtimes ?? []).length} locked · ${form.wouldLove.length} interested · ${form.notInterested.length} excluded`;
   const where = `${theater} · ${form.locationDisplay}`;
   const gapLabel = String(form.maxGap || '')
@@ -135,7 +137,7 @@ export function buildCollapsedSectionSummaries(form, chrome = {}) {
  */
 export function buildPlanFooterSummary(form) {
   return {
-    line1: `${form.dateShort} · ${form.startAfter}–${form.finishBefore}`,
+    line1: `${form.dateShort} · ${formatBuildPlanTimeWindowSummary(form)}`,
     line2: `${form.mustInclude.length} must include · ${form.wouldLove.length} interested · ${form.locationShort}`,
   };
 }

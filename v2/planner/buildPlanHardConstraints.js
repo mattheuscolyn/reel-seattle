@@ -3,7 +3,6 @@
  * Candidate eligibility only — not full schedule feasibility.
  */
 
-import { parsePlannerTimeInput } from '../../src/utils/plannerDisplay.js';
 import { calculateExpectedEndTime } from '../../src/utils/plannerBufferPolicy.js';
 import { parsePlannerShowtimeMinutes } from '../../src/utils/timeUtils.js';
 import { parseLocalTimeMinutes } from '../showtimes/showtimeEligibility.js';
@@ -11,15 +10,7 @@ import {
   resolveBuildFormDateIso,
   resolveTheaterFilterIds,
 } from './mapBuildFormToPlannerFilters.js';
-
-/**
- * @param {unknown} value
- * @returns {string}
- */
-function compactClock(value) {
-  if (typeof value !== 'string') return '';
-  return value.trim().replace(/\s+/g, '');
-}
+import { resolveBuildPlanTimeWindowMinutes } from './buildPlanTimeWindow.js';
 
 /**
  * Parse opportunity localTime (HH:MM) or legacy compact 12h for hard constraints.
@@ -49,17 +40,12 @@ export function parseOpportunityStartMinutes(localTime) {
 export function resolveBuildPlanHardConstraints(form, homeData, options = {}) {
   const dateIso = resolveBuildFormDateIso(form, options.now);
   const theaterIds = resolveTheaterFilterIds(form, homeData);
-  const startAfterMin = parsePlannerTimeInput(compactClock(form?.startAfter));
-  const finishByMin = parsePlannerTimeInput(compactClock(form?.finishBefore));
+  const { startAfterMin, finishByMin } = resolveBuildPlanTimeWindowMinutes(form);
   return {
     dateIso,
     theaterIds: Array.isArray(theaterIds) ? theaterIds.filter(Boolean) : [],
-    startAfterMin:
-      startAfterMin == null || !Number.isFinite(startAfterMin)
-        ? null
-        : startAfterMin,
-    finishByMin:
-      finishByMin == null || !Number.isFinite(finishByMin) ? null : finishByMin,
+    startAfterMin,
+    finishByMin,
   };
 }
 
