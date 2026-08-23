@@ -147,18 +147,18 @@ test('arbitrary Finish before 9:43 PM uses expected end not advertised start', (
   });
   const hard = resolveBuildPlanHardConstraints(form, { theaters: [] });
   assert.equal(hard.finishByMin, 21 * 60 + 43);
-  // 8:00 PM start + 15 buffer + 90 runtime = 9:45 PM end → excluded
+  // 8:00 PM + 105 runtime = 9:45 PM end → excluded
   assert.equal(
     opportunityMatchesHardConstraints(
-      lateOpp({ id: 'long', title: 'Long', localTime: '20:00', runtimeMin: 90 }),
+      lateOpp({ id: 'long', title: 'Long', localTime: '20:00', runtimeMin: 105 }),
       hard,
     ),
     false,
   );
-  // 8:00 PM + 15 + 80 = 9:35 PM → eligible
+  // 8:00 PM + 100 = 9:40 PM → eligible
   assert.equal(
     opportunityMatchesHardConstraints(
-      lateOpp({ id: 'fit', title: 'Fit', localTime: '20:00', runtimeMin: 80 }),
+      lateOpp({ id: 'fit', title: 'Fit', localTime: '20:00', runtimeMin: 100 }),
       hard,
     ),
     true,
@@ -174,12 +174,12 @@ test('overnight Finish before 1:30 AM next day uses extended minutes', () => {
   assert.equal(mins.finishByMin, 90 + 1440);
 
   const hard = resolveBuildPlanHardConstraints(form, { theaters: [] });
-  // 11:00 PM + 15 + 120 = 1:15 AM → eligible
+  // 11:00 PM + 120 = 1:00 AM → eligible vs finish 1:30 AM
   assert.equal(
     opportunityMatchesHardConstraints(
       lateOpp({
         id: 'ok',
-        title: 'Ends 1:15',
+        title: 'Ends 1:00',
         localTime: '23:00',
         runtimeMin: 120,
       }),
@@ -187,14 +187,14 @@ test('overnight Finish before 1:30 AM next day uses extended minutes', () => {
     ),
     true,
   );
-  // 11:00 PM + 15 + 150 = 1:45 AM → excluded
+  // 11:00 PM + 160 = 1:40 AM → excluded
   assert.equal(
     opportunityMatchesHardConstraints(
       lateOpp({
         id: 'late',
-        title: 'Ends 1:45',
+        title: 'Ends 1:40',
         localTime: '23:00',
-        runtimeMin: 150,
+        runtimeMin: 160,
       }),
       hard,
     ),

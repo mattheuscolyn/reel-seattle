@@ -407,18 +407,18 @@ test('Accepted plans preserve filmId + showtime key; legacy plans still load', (
         date: '2026-07-28',
         time: '7:00PM',
         startMin: 19 * 60,
-        endMin: 19 * 60 + 176 + 15,
+        endMin: 19 * 60 + 176,
         runtime: 176,
         poster: '/p-batman.png',
         premiumFormat: 'Standard',
         formatTags: ['Standard'],
       },
     ],
-    totalSpanMin: 191,
+    totalSpanMin: 176,
     filmRuntimeMin: 176,
     gapTimeMin: 0,
     startMin: 19 * 60,
-    endMin: 19 * 60 + 191,
+    endMin: 19 * 60 + 176,
   };
   const plan = mapEngineScheduleToResultsPlan(schedule, home, rows, 1);
   const film = plan.items.find((i) => i.type !== 'break');
