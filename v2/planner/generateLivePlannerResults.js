@@ -17,6 +17,7 @@ import { formatTheaterAddressLabel } from '../theaters/resolveTheaterPresentatio
 import { homeDataToPlannerRows } from './homeDataToPlannerRows.js';
 import { mapBuildFormToPlannerFilters } from './mapBuildFormToPlannerFilters.js';
 import { formatPlanSizeLabel } from './planSize.js';
+import { formatBuildPlanTimeWindowSummary } from './buildPlanTimeWindow.js';
 import { validatePlannerDraftConstraints } from './validatePlannerDraftConstraints.js';
 import { filmIdentityTokensFromCards } from '../identity/filmIdentity.js';
 import { getNotInterestedFilms } from '../stores/notInterestedFilmsStore.js';
@@ -530,9 +531,7 @@ export function generateLivePlannerResults({
       },
       summaryLine: [
         mapped.dateIso,
-        form?.startAfter && form?.finishBefore
-          ? `${form.startAfter} – ${form.finishBefore}`
-          : null,
+        formatBuildPlanTimeWindowSummary(form),
         formatPlanSizeLabel(form?.planSize),
       ]
         .filter(Boolean)
@@ -609,9 +608,7 @@ export function generateLivePlannerResults({
 
   const summaryLine = [
     mapped.dateIso,
-    form?.startAfter && form?.finishBefore
-      ? `${form.startAfter} – ${form.finishBefore}`
-      : null,
+    formatBuildPlanTimeWindowSummary(form),
     formatPlanSizeLabel(form?.planSize),
   ]
     .filter(Boolean)

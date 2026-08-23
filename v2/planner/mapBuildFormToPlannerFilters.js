@@ -14,6 +14,7 @@ import {
   parsePlanSizeFilmCounts,
 } from './planSize.js';
 import { normalizeLockedShowtimes } from './lockedShowtimes.js';
+import { resolveBuildPlanTimeWindowMinutes } from './buildPlanTimeWindow.js';
 
 export { normalizePlanSize, planSizeToFilmCounts, parsePlanSizeFilmCounts };
 export { formatPlanSizeLabel } from './planSize.js';
@@ -131,17 +132,6 @@ function filmTokensFromCards(filmCards) {
 }
 
 /**
- * @param {unknown} value
- * @returns {string}
- */
-function compactPlannerClock(value) {
-  const raw = asTrimmed(value);
-  if (!raw) return '';
-  // Fixture / UI clocks are "2:00 PM"; engine parse needs "2:00PM".
-  return raw.replace(/\s+/g, '');
-}
-
-/**
  * @param {object} form
  * @param {object | null | undefined} homeData
  * @param {{ now?: Date | (() => Date) }} [options]
@@ -161,12 +151,17 @@ export function mapBuildFormToPlannerFilters(form, homeData, options = {}) {
   // the 2-film engine default when the user cleared the ceiling.
   const maxGapFieldSet = asTrimmed(form?.maxGap) != null;
 
+  // Time window minutes come from buildPlanTimeWindow (null = unbounded).
+  // Do not route through parsePlannerFilterMinutes for startAfter — that helper
+  // bumps early AM to next day, which is wrong for earliest-start.
+  const { startAfterMin, finishByMin } = resolveBuildPlanTimeWindowMinutes(form);
+
   const filters = buildPlannerSearchFilters({
     date,
     theaters,
     filmCount,
-    startAfter: compactPlannerClock(form?.startAfter),
-    finishBy: compactPlannerClock(form?.finishBefore),
+    startAfter: '',
+    finishBy: '',
     minGapMin: String(minGapMin),
     maxGapMin: maxGapMin != null ? String(maxGapMin) : '',
     maxGapExplicit: maxGapFieldSet,
@@ -175,6 +170,8 @@ export function mapBuildFormToPlannerFilters(form, homeData, options = {}) {
     excludeFilms: filmTokensFromCards(form?.notInterested),
   });
 
+  filters.startAfterMin = startAfterMin;
+  filters.finishByMin = finishByMin;
   filters.allowRepeatFilms = Boolean(form?.allowRepeats);
 
   // Premium format preference is soft — engine has no format hard-filter.

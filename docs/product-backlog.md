@@ -55,7 +55,7 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 | QW-14 | Explore | Copy says "Activity stays on this device" even though accounts/sync now exist | Copy correctness | High | XS | Done | Rewrite to reflect current behavior accurately. |
 | QW-15 | Overall | TMDB data credit looks awkward/unprofessional where it appears | Visual system | Medium | S | Done | Shared muted TmdbAttribution treatment. |
 | QW-16 | Browse All Showtimes | Theater name link underline feels sloppy in expanded detail | Visual polish | Medium | XS-S | Done | Accent link without default underline; hover underline + focus ring. |
-| QW-17 | Browse All Showtimes | Showtime pills do nothing on click | Interaction bug | High | S-M | Outstanding | At minimum expose Add to Calendar / Add to My Schedule / Tickets actions. |
+| QW-17 | Browse All Showtimes | Showtime pills do nothing on click | Interaction bug | High | S-M | Outstanding | Action sheet: Add to My Schedule (SCHED-14), Add to Calendar, Tickets. Depends on SCHED-12 domain. |
 
 ---
 
@@ -102,7 +102,7 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 | ID | Outstanding item | Type | Priority | Effort | Status | Notes / dependencies |
 |---|---|---|---|---|---|---|
 | FSHOW-01 | Replace "before noon / afternoon" style filters with specific start/end time controls | UX / filter model | High | M | Outstanding | Should include Any time/no-filter state. Align with Browse All Showtimes filter model. |
-| FSHOW-02 | Add to Calendar should account for Reel Seattle Planner/My Schedule | Feature / UX | High | M | Outstanding | Could be separate actions or one action sheet with both "Add to My Schedule" and device calendar. |
+| FSHOW-02 | Add to Calendar should account for Reel Seattle Planner/My Schedule | Feature / UX | High | M | Outstanding | Action sheet: Add to My Schedule (SCHED-14) vs device calendar (SCHED-10 escalation). Same canonical schedule helper. |
 | FSHOW-03 | Limit initially visible showtimes and provide expand/collapse | UX | Medium | S-M | Outstanding | Avoid excessively long pages while preserving access to all performances. |
 
 ---
@@ -144,7 +144,7 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 | SHOW-06 | Add rating multiselect | Filter | Medium | M | Outstanding | Clarify whether MPAA/content rating. |
 | SHOW-07 | Consider format/experience/event filters | Filter | Medium | M | Outstanding | 35mm/70mm/IMAX/Dolby/accessibility/special-event flags. |
 | SHOW-08 | Improve expanded-detail design | UX | High | M | Outstanding | Includes sloppy theater link and dead showtime pills. |
-| SHOW-09 | Showtime pill should expose useful screening actions | Interaction | High | S-M | Outstanding | Add to My Schedule, Add to Calendar, Tickets; possibly details. |
+| SHOW-09 | Showtime pill should expose useful screening actions | Interaction | High | S-M | Outstanding | Add to My Schedule (SCHED-14), Add to Calendar, Tickets; possibly details. Same helper as QW-17 / FSHOW-02. |
 | SHOW-10 | Reuse this page as the destination for scaffold/quick-link categories with pre-applied filters | Architecture / IA | High | M-L | Outstanding | Key dependency for Explore cleanup, Coming Soon, Special Events, some Collections. |
 
 ---
@@ -195,10 +195,26 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 
 # My Schedule
 
+Product definition (clarified 2026-08): My Schedule is the user’s **personal tracker for exact theatrical screenings** — not only an operational view of accepted Planner plans. It must support (1) saving specific future showtimes without manufacturing a one-film plan, (2) tracking commitment (interested vs tickets purchased — never inferred from outbound ticket clicks), and (3) a moviegoing history / stats foundation. Planner plans remain a first-class way to *create sets* of screenings; they do not own the screening identity.
+
 | ID | Outstanding item | Type | Priority | Effort | Status | Notes / dependencies |
 |---|---|---|---|---|---|---|
-| SCHED-01 | Perform a full in-depth My Schedule UX/product audit | Audit / redesign | High | L-XL | Outstanding | User considers this probably the least polished feature overall; audit instead of patching isolated symptoms first. |
-| SCHED-02 | Review timeline scale, scrolling, film-card layout, conflicts, plan grouping, empty/past states, deletion, navigation, and calendar behavior | Audit scope | High | L | Outstanding | Child scope of SCHED-01. |
+| SCHED-01 | Perform a full in-depth My Schedule UX/product audit | Audit / redesign | High | L-XL | In Progress | Initial plan-centric audit + 2026-08 product-model revisit (screening tracker). Redesign not implemented. |
+| SCHED-02 | Review timeline scale, scrolling, film-card layout, conflicts, plan grouping, empty/past states, deletion, navigation, and calendar behavior | Audit scope | High | L | In Progress | Still in scope; timeline is now a *secondary* dense-day visualization under Upcoming-first IA. |
+| SCHED-12 | Introduce screening-level schedule-item source of truth (performanceKey) | Domain / store | High | L | Outstanding | Canonical saved screening independent of accepted plans; plans attach/link rather than solely own rows. Migration from acceptedPlansStore required. Blocks SCHED-14. |
+| SCHED-13 | Commitment / ticket-purchased status on schedule items | Feature / UX | High | M | Outstanding | Explicit user-reported tickets/going state — never inferred from ticket-link clicks. Minimal v1: tracking vs tickets (+ optional later attended). |
+| SCHED-14 | Canonical “Add to My Schedule” for exact showtimes | Feature / UX | High | M | Outstanding | One helper from Film Showtimes, Browse, Theater, Results, etc. Dedupes on performanceKey. Cross-ref QW-17, SHOW-09, FSHOW-02. Depends on SCHED-12. |
+| SCHED-15 | History / watch-confirmation model (past ≠ watched) | Feature / UX | High | M | Outstanding | Past unconfirmed vs watched; optional film-level Seen prompt; foundation for moviegoing stats. Connects to seenFilmsStore carefully. |
+| SCHED-03 | Proportional horizontal timeline (dense movie days) | Feature / UX | High | L | Outstanding | True duration scale (~2 px/min); ~3–3.5h visible at 393; horizontal scroll expected (no “swipe” tutorial). Secondary to Upcoming list. |
+| SCHED-04 | Scheduled-screening card (list + timeline variants) | UX | High | M | Outstanding | Poster, start, title, theater; commitment badge; tickets/calendar as escalation actions. |
+| SCHED-05 | Day/date navigation (Upcoming ↔ Timeline ↔ Month/History) | Navigation | High | M | Outstanding | Day strip / month heat focus; Month→day still useful as calendar entry. |
+| SCHED-06 | Plan-group chrome for multi-film accepted plans | UX | Medium | S-M | Outstanding | Envelope spans plan time range only; minimize for singles; plan membership is metadata on screenings. |
+| SCHED-07 | Surface schedule conflicts / overlaps | Feature / UX | High | M | Outstanding | Cross-item overlaps & duplicate performanceKeys; banner/badge. |
+| SCHED-08 | Breaks / transfers on timeline vs Plan Detail | UX | Medium | M | Outstanding | Compact Break chips on dense-day timeline; transfer detail in Plan Detail. |
+| SCHED-09 | Empty + Upcoming/History empty states | UX | High | M | Outstanding | CTAs: save a showtime / Build a Plan / browse; distinct past-only state. |
+| SCHED-10 | Calendar escalation (optional ICS) | Feature | Medium | M | Outstanding | My Schedule = lightweight tracking; device calendar = stronger commitment. Plan- or screening-level ICS optional — not mandatory. |
+| SCHED-11 | Schedule navigation & actions polish | Navigation | Medium | M | Outstanding | Theater Detail, Film Detail, Plan Detail ownership; tickets outbound separate from “tickets purchased.” |
+| SCHED-16 | Screening reminder notifications (future) | Feature | Medium | L | Outstanding | Opt-in reminders (e.g. 1 week / 2 days / tomorrow) for saved screenings. Architecture only until SCHED-12/13 land. Current notifications are showtimes-available focused. |
 
 ---
 
@@ -206,10 +222,10 @@ This document is the canonical list of outstanding product, UX, logic, and polis
 
 | ID | Outstanding item | Type | Priority | Effort | Status | Notes / dependencies |
 |---|---|---|---|---|---|---|
-| PLAN-01 | Audit Build a Plan for whether users truly have full control over output | Product audit | High | M-L | Outstanding | Largely addressed by PLAN-06–11; keep open until Results Lock (RESULT-03) and any residual control gaps are reviewed. |
+| PLAN-01 | Audit Build a Plan for whether users truly have full control over output | Product audit | High | M-L | Outstanding | PLAN-06–11 and RESULT-03 shipped; keep open for residual control gaps after My Schedule redesign feedback. |
 | PLAN-02 | Replace weird plan-size range presets with a better range selector / min-max control | UX | High | M | Done | Replaced by Exact / Range / As many plan-size control (PLAN-06). |
-| PLAN-03 | "When?" time-window filter needs full control | UX | High | M | Outstanding | Explicit start/end controls. |
-| PLAN-04 | Add a "no time filter / any time is fine" option | UX | High | S | Outstanding | Required for unconstrained planning. |
+| PLAN-03 | "When?" time-window filter needs full control | UX | High | M | Done | Arbitrary minute clocks via No limit / Custom + `input type="time"`; null = unbounded. |
+| PLAN-04 | Add a "no time filter / any time is fine" option | UX | High | S | Done | Live defaults `startAfter`/`finishBefore` null; summaries say Any time; late showtimes eligible. |
 | PLAN-05 | "What?" selector has Add Another only for Must Include | UX consistency | Medium | S-M | Done | Locked showtimes + film buckets each have add/manage affordances. |
 | PLAN-06 | Exact plan size (e.g. exactly 4 films) via domain min/max | Feature / solver | High | M | Done | Domain `{ min, max }` + Exact/Range/As many UI. |
 | PLAN-07 | Locked showtimes / locked performances as hard constraints | Feature / solver | High | L | Done | Locks can be created from Build a Plan and from Results (RESULT-03). Seeded solver + session draft state. |
@@ -284,6 +300,6 @@ These product judgments should not be lost when implementation details change:
 - Theater-origin navigation should preserve theater intent when opening Film Detail.
 - Suggested Starts should not pretend to be personalized before it actually is.
 - Coming Soon, Special Events, Quick Starts, and some Collections may be better expressed as pre-filtered Browse All Showtimes states instead of separate thin pages.
-- My Schedule is likely best handled via a full audit/redesign rather than by accumulating isolated micro-fixes.
+- My Schedule is a personal exact-showtime tracker (save / tickets commitment / history), not only accepted Planner itineraries. Audit SCHED-01/02 In Progress; domain SCHED-12–16; surface SCHED-03–11. Prefer redesign over isolated micro-fixes.
 - Build a Plan needs truly unconstrained/precise controls where appropriate, including an explicit "Any time" state.
 - Account/sync messaging should be concise and accurate now that user accounts exist.

@@ -7692,6 +7692,126 @@ a.v2-st-time:hover {
   gap: 0.45rem;
 }
 
+.v2-bp-time-window {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.v2-bp-time-bound {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.v2-bp-time-bound-label {
+  color: var(--v2-muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.v2-bp-time-bound-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+}
+
+.v2-bp-time-bound-mode {
+  appearance: none;
+  min-height: 2.2rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.55rem;
+  background: var(--v2-bg-raised);
+  color: var(--v2-fg);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.v2-bp-time-bound-mode.is-selected {
+  border-color: rgba(255, 255, 255, 0.36);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.v2-bp-time-bound-mode:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-bp-time-input-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 2.45rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.55rem;
+  background: var(--v2-bg-raised);
+  color: var(--v2-fg);
+  cursor: pointer;
+}
+
+.v2-bp-time-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border: 0;
+  color-scheme: dark;
+}
+
+.v2-bp-time-input-value {
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+
+.v2-bp-time-input-row:focus-within {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-bp-time-finish-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.v2-bp-time-finish-row .v2-bp-time-input-row {
+  flex: 1;
+  min-width: 0;
+}
+
+.v2-bp-time-nextday {
+  flex-shrink: 0;
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--v2-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.v2-bp-time-summary {
+  margin: 0.15rem 0 0;
+  color: var(--v2-muted-soft);
+  font-size: 0.78rem;
+}
+
+.v2-bpr-adj-limit-modes {
+  flex: 1;
+  min-width: 0;
+}
+
+.v2-bpr-adj-time-input {
+  margin-top: 0.45rem;
+}
+
 .v2-bp-time-field {
   display: flex;
   flex-direction: column;

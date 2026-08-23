@@ -80,27 +80,18 @@ import {
   conflictsForPerformance,
   formatPlannerConflictMessages,
 } from './buildPlanConflictCopy.js';
+import {
+  buildPlanClockToHtmlTime,
+  formatBuildPlanTimeWindowSummary,
+  htmlTimeToBuildPlanFinish,
+  htmlTimeToBuildPlanStart,
+  resolveFinishBeforeNextDayFlag,
+} from './buildPlanTimeWindow.js';
 
 const PLAN_SIZE_MODE_OPTIONS = Object.freeze([
   { id: 'exact', label: 'Exactly' },
   { id: 'range', label: 'Range' },
   { id: 'max', label: 'As many as possible' },
-]);
-
-const START_AFTER_OPTIONS = Object.freeze([
-  '10:00 AM',
-  '11:00 AM',
-  '12:00 PM',
-  '2:00 PM',
-  '5:00 PM',
-  '7:00 PM',
-]);
-
-const FINISH_BEFORE_OPTIONS = Object.freeze([
-  '9:00 PM',
-  '10:00 PM',
-  '11:00 PM',
-  '12:00 AM',
 ]);
 
 const LAUNCH_THEATER_PREF_IDS = Object.freeze(['any', 'amc', 'indie', 'custom']);
@@ -198,6 +189,142 @@ function LockedShowtimeRow({ lock, warning = null, onRemove }) {
       >
         Remove
       </button>
+    </div>
+  );
+}
+
+function TimeBoundControl({
+  startAfter,
+  finishBefore,
+  finishBeforeNextDay,
+  startLabel,
+  finishLabel,
+  onChange,
+}) {
+  const startCustom = startAfter != null;
+  const finishCustom = finishBefore != null;
+  const startHtml = buildPlanClockToHtmlTime(startAfter) || '12:00';
+  const finishHtml = buildPlanClockToHtmlTime(finishBefore) || '23:00';
+
+  return (
+    <div className="v2-bp-time-window" role="group" aria-label="Time window">
+      <div className="v2-bp-time-bound">
+        <span className="v2-bp-time-bound-label">{startLabel}</span>
+        <div
+          className="v2-bp-time-bound-modes"
+          role="radiogroup"
+          aria-label={startLabel}
+        >
+          <button
+            type="button"
+            role="radio"
+            aria-checked={!startCustom}
+            className={`v2-bp-time-bound-mode${!startCustom ? ' is-selected' : ''}`}
+            onClick={() => onChange({ startAfter: null })}
+          >
+            No limit
+          </button>
+          <button
+            type="button"
+            role="radio"
+            aria-checked={startCustom}
+            className={`v2-bp-time-bound-mode${startCustom ? ' is-selected' : ''}`}
+            onClick={() => {
+              if (!startCustom) {
+                onChange({ startAfter: htmlTimeToBuildPlanStart('12:00') });
+              }
+            }}
+          >
+            Custom
+          </button>
+        </div>
+        {startCustom ? (
+          <label className="v2-bp-time-input-row">
+            <span className="v2-visually-hidden">{startLabel} time</span>
+            <input
+              type="time"
+              className="v2-bp-time-input"
+              value={startHtml}
+              aria-label={`${startLabel} time`}
+              onChange={(e) => {
+                const clock = htmlTimeToBuildPlanStart(e.target.value);
+                if (clock) onChange({ startAfter: clock });
+              }}
+            />
+            <span className="v2-bp-time-input-value" aria-hidden="true">
+              {startAfter}
+            </span>
+          </label>
+        ) : null}
+      </div>
+
+      <div className="v2-bp-time-bound">
+        <span className="v2-bp-time-bound-label">{finishLabel}</span>
+        <div
+          className="v2-bp-time-bound-modes"
+          role="radiogroup"
+          aria-label={finishLabel}
+        >
+          <button
+            type="button"
+            role="radio"
+            aria-checked={!finishCustom}
+            className={`v2-bp-time-bound-mode${!finishCustom ? ' is-selected' : ''}`}
+            onClick={() =>
+              onChange({ finishBefore: null, finishBeforeNextDay: false })
+            }
+          >
+            No limit
+          </button>
+          <button
+            type="button"
+            role="radio"
+            aria-checked={finishCustom}
+            className={`v2-bp-time-bound-mode${finishCustom ? ' is-selected' : ''}`}
+            onClick={() => {
+              if (!finishCustom) {
+                const next = htmlTimeToBuildPlanFinish('23:00');
+                onChange({
+                  finishBefore: next.clock,
+                  finishBeforeNextDay: next.finishBeforeNextDay,
+                });
+              }
+            }}
+          >
+            Custom
+          </button>
+        </div>
+        {finishCustom ? (
+          <div className="v2-bp-time-finish-row">
+            <label className="v2-bp-time-input-row">
+              <span className="v2-visually-hidden">{finishLabel} time</span>
+              <input
+                type="time"
+                className="v2-bp-time-input"
+                value={finishHtml}
+                aria-label={`${finishLabel} time`}
+                onChange={(e) => {
+                  const next = htmlTimeToBuildPlanFinish(e.target.value);
+                  if (next.clock) {
+                    onChange({
+                      finishBefore: next.clock,
+                      finishBeforeNextDay: next.finishBeforeNextDay,
+                    });
+                  }
+                }}
+              />
+              <span className="v2-bp-time-input-value" aria-hidden="true">
+                {finishBefore}
+              </span>
+            </label>
+            {finishBeforeNextDay ? (
+              <span className="v2-bp-time-nextday" title="Next calendar day">
+                +1 day
+              </span>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }
@@ -755,53 +882,25 @@ export default function BuildPlanSurface({
                 </div>
               </div>
               <p className="v2-bp-field-label">{when.timeWindowLabel}</p>
-              <div className="v2-bp-time-row">
-                <label className="v2-bp-time-field">
-                  <span className="v2-visually-hidden">{when.startAfterLabel}</span>
-                  <select
-                    className="v2-bp-select"
-                    value={form.startAfter}
-                    aria-label={when.startAfterLabel}
-                    onChange={(e) =>
-                      setForm((c) => ({ ...c, startAfter: e.target.value }))
-                    }
-                  >
-                    {(START_AFTER_OPTIONS.includes(form.startAfter)
-                      ? START_AFTER_OPTIONS
-                      : [form.startAfter, ...START_AFTER_OPTIONS]
-                    ).map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <span className="v2-bp-time-sep" aria-hidden="true">
-                  –
-                </span>
-                <label className="v2-bp-time-field">
-                  <span className="v2-visually-hidden">
-                    {when.finishBeforeLabel}
-                  </span>
-                  <select
-                    className="v2-bp-select"
-                    value={form.finishBefore}
-                    aria-label={when.finishBeforeLabel}
-                    onChange={(e) =>
-                      setForm((c) => ({ ...c, finishBefore: e.target.value }))
-                    }
-                  >
-                    {(FINISH_BEFORE_OPTIONS.includes(form.finishBefore)
-                      ? FINISH_BEFORE_OPTIONS
-                      : [form.finishBefore, ...FINISH_BEFORE_OPTIONS]
-                    ).map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
+              <TimeBoundControl
+                startAfter={form.startAfter}
+                finishBefore={form.finishBefore}
+                finishBeforeNextDay={resolveFinishBeforeNextDayFlag(
+                  form.finishBefore,
+                  form.finishBeforeNextDay,
+                )}
+                startLabel={when.startAfterLabel}
+                finishLabel={when.finishBeforeLabel}
+                onChange={(patch) =>
+                  setForm((c) => ({
+                    ...c,
+                    ...patch,
+                  }))
+                }
+              />
+              <p className="v2-bp-time-summary" aria-live="polite">
+                {formatBuildPlanTimeWindowSummary(form)}
+              </p>
             </div>
           </div>,
         )}

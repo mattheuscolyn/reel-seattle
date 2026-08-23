@@ -39,6 +39,10 @@ import {
   parseBreakLabelToMinutes,
 } from './planBreakRange.js';
 import { formatPlanSizeLabel } from './planSize.js';
+import {
+  formatBuildPlanTimeWindowSummary,
+  resolveFinishBeforeNextDayFlag,
+} from './buildPlanTimeWindow.js';
 import AdjustTimeWindowOverlay from './AdjustTimeWindowOverlay.jsx';
 import AdjustFilmInPlansOverlay from './AdjustFilmInPlansOverlay.jsx';
 import AdjustBreakLengthOverlay from './AdjustBreakLengthOverlay.jsx';
@@ -207,7 +211,7 @@ function filterMockupPlans(plans, form) {
 function buildSummaryLine(form, fallback) {
   if (!form) return fallback;
   const date = form.dateShort ?? form.dateDisplay ?? '';
-  const window = `${form.startAfter} – ${form.finishBefore}`;
+  const window = formatBuildPlanTimeWindowSummary(form);
   const size = formatPlanSizeLabel(form.planSize);
   const parts = [date, window, size].filter(Boolean);
   return parts.join(' • ') || fallback;
@@ -667,6 +671,7 @@ export default function BuildPlanResultsSurface({
       ...workingForm,
       startAfter: next.startAfter,
       finishBefore: next.endBefore,
+      finishBeforeNextDay: Boolean(next.finishBeforeNextDay),
     });
   };
 
@@ -942,6 +947,14 @@ export default function BuildPlanResultsSurface({
         <AdjustTimeWindowOverlay
           startAfter={workingForm.startAfter}
           endBefore={workingForm.finishBefore}
+          finishBeforeNextDay={
+            workingForm.finishBefore != null
+              ? resolveFinishBeforeNextDayFlag(
+                  workingForm.finishBefore,
+                  workingForm.finishBeforeNextDay,
+                )
+              : undefined
+          }
           onCancel={closeAdjustment}
           onApply={handleApplyTime}
         />
