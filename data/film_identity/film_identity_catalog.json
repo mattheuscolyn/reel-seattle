@@ -1925,69 +1925,6 @@
     },
     {
       "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [
-        "sam wrench"
-      ],
-      "directors_raw": "SAM WRENCH",
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:1375774",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "manual",
-      "match_status": "confirmed_manual",
-      "normalized_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
-      "presentation_labels": [],
-      "provenance": {
-        "decision_id": "admin_23b5d926-04c0-4ab5-a9b3-3901910b3ee7",
-        "source_identity_key": "amc|id|78244"
-      },
-      "runtime_min": 100,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "laufey-s-a-night-at-the-symphony-hollywood-bowl",
-          "source": "amc",
-          "source_film_id": "78244",
-          "source_title": "Laufey's A Night At The Symphony: Hollywood Bowl"
-        }
-      ],
-      "tmdb_id": 1375774,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Laufey's A Night At The Symphony: Hollywood Bowl",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": 2026,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_year": 2026,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
       "candidates": [
         {
           "director": "Destin Daniel Cretton",
@@ -5719,25 +5656,20 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": null,
+      "auto_confirm_blocked_reason": "same_title_remake_ambiguity",
       "candidates": [
         {
-          "director": "Nadia Hallgren",
+          "director": "Michael Herbig",
           "original_title": null,
-          "overview_excerpt": "This celebrates the group's new era and the fans who made it possible. Features exclusive behind-the-scenes footage, EYEKONS fan videos, and intimate interviews with the members.",
-          "popularity": 4.2312,
-          "poster_path": "/bcAxxRpiBIT3JWXAYUAf10UG4LD.jpg",
-          "release_year": 2026,
-          "runtime_min": 80,
+          "overview_excerpt": "Inexperienced guardian angel, Buddy arrives to assist Eddie with getting his life back on track, but instead only causes more chaos.",
+          "popularity": 0.8968,
+          "poster_path": "/uWGfl0DHyUvCdXLdQmC3n5bZsPR.jpg",
+          "release_year": 2013,
+          "runtime_min": 94,
           "score": 1.0,
           "signals": {
-            "available_weight": 1.1,
+            "available_weight": 0.6,
             "contributions": {
-              "director": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.2
-              },
               "runtime": {
                 "kind": "match",
                 "matched": true,
@@ -5749,27 +5681,91 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
               }
             },
             "director_candidate_normalized": [
-              "nadia hallgren"
+              "michael herbig"
             ],
             "director_conflict": false,
-            "director_overlap": true,
-            "director_source_normalized": [
-              "nadia hallgren"
-            ],
-            "director_status": "match",
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 1.1,
+            "matched_weight": 0.6,
             "original_title_exact": false,
-            "popularity": 4.2312,
+            "popularity": 0.8968,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Buddy",
+          "tmdb_id": 246894,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Casper Kelly",
+          "original_title": null,
+          "overview_excerpt": "Remember BUDDY—the bright orange unicorn and star of that classic childrens' television show who brought joy and life lessons into your living room?  Inside the colorful world of \"It's Buddy!\", a group of children spend…",
+          "popularity": 8.5165,
+          "poster_path": "/6Lh4ZlsAISFQFVfLZ90sE9ycVnN.jpg",
+          "release_year": 2026,
+          "runtime_min": 95,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "casper kelly"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 8.5165,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -5781,43 +5777,411 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
+            "year_evidence": "missing",
+            "year_exact": false,
             "year_near": false,
-            "year_status": "match"
+            "year_status": "unavailable"
           },
-          "title": "KATSEYE: WILD HEARTS",
-          "tmdb_id": 1728113,
-          "warnings": []
+          "title": "Buddy",
+          "tmdb_id": 1514026,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "An eccentric socialite raises a gorilla as her son.",
+          "popularity": 1.8567,
+          "poster_path": "/88l3mMtQcHE5JW8gJmQJm9fmpAH.jpg",
+          "release_year": 1997,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.8567,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Buddy",
+          "tmdb_id": 15170,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Kristoffer lives in Oslo with his friends Geir and Stig Inge.  He works as a billboard installer, and in his spare time he makes a video diary with Geir and Stig, containing stunts of a Jackass-nature. When Kristoffer's…",
+          "popularity": 0.9969,
+          "poster_path": "/1W3M9AbhEsrZ6FigFSU3GR9WEEb.jpg",
+          "release_year": 2003,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.9969,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Buddy",
+          "tmdb_id": 15177,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A young man agrees to support his ex lover during an HIV test. What starts out as an awkward reunion, soon becomes something more tender. Is there still hope for reconciliation?",
+          "popularity": 1.2036,
+          "poster_path": "/mJOa7URMEny2D05WbMQGISIyKmm.jpg",
+          "release_year": 2015,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.2036,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Buddy",
+          "tmdb_id": 457620,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Heddy Honigmann",
+          "original_title": null,
+          "overview_excerpt": "Walking in the forest without being able to see, coming down the stairs or going shopping when one is paralysed, falling asleep with post-traumatic stress disorder: for the protagonists of Buddy, all of this is made pos…",
+          "popularity": 1.2394,
+          "poster_path": "/nOp5TfPJ6iiBofMbfbgvNHjNJL1.jpg",
+          "release_year": 2019,
+          "runtime_min": 86,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 9,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.05,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "heddy honigmann"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.5,
+            "original_title_exact": false,
+            "popularity": 1.2394,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 9,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Buddy",
+          "tmdb_id": 562688,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Two buddies, two dudes and two homies hang out on a train.",
+          "popularity": 1.1949,
+          "poster_path": "/bTtGUbgXYnALUFuJ9PucBYUKgDT.jpg",
+          "release_year": 1993,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.1949,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Buddy",
+          "tmdb_id": 940002,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Billy Wilder",
+          "original_title": null,
+          "overview_excerpt": "During a high-profile Mafia testimony case in Riverside County, a hired killer checks into a hotel room near the courthouse, while his depressed neighbor contemplates suicide over marital problems.",
+          "popularity": 1.7111,
+          "poster_path": "/7oZcpghGYhLgw60JbJU3btDCHMg.jpg",
+          "release_year": 1981,
+          "runtime_min": 96,
+          "score": 0.25,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "billy wilder"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.15,
+            "original_title_exact": false,
+            "popularity": 1.7111,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Buddy Buddy",
+          "tmdb_id": 36133,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
         }
       ],
-      "directors_normalized": [
-        "nadia hallgren"
-      ],
-      "directors_raw": "NADIA HALLGREN",
+      "directors_normalized": [],
+      "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "tmdb:1728113",
+      "film_id": "source:amc:83749",
       "first_observed_at": null,
-      "identity_type": "tmdb",
+      "identity_type": "source",
       "last_observed_at": null,
       "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "Katseye: Wild Hearts",
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Buddy",
       "presentation_labels": [],
       "provenance": {
-        "source_identity_key": "amc|id|83778"
+        "source_identity_key": "amc|id|83749"
       },
-      "runtime_min": 80,
+      "runtime_min": 95,
       "signals": {
-        "available_weight": 1.1,
+        "available_weight": 0.6,
         "contributions": {
-          "director": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.2
-          },
           "runtime": {
             "kind": "match",
             "matched": true,
@@ -5829,31 +6193,29 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.3
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
           }
         },
         "director_candidate_normalized": [
-          "nadia hallgren"
+          "michael herbig"
         ],
         "director_conflict": false,
-        "director_overlap": true,
-        "director_source_normalized": [
-          "nadia hallgren"
-        ],
-        "director_status": "match",
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 1.1,
+        "matched_weight": 0.6,
         "original_title_exact": false,
-        "popularity": 4.2312,
+        "popularity": 0.8968,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
+        "runtime_delta_minutes": 1,
         "runtime_near": true,
         "runtime_soft": false,
         "runtime_soft_max": 12,
@@ -5861,29 +6223,34 @@
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "compatible",
-        "year_exact": true,
+        "year_evidence": "missing",
+        "year_exact": false,
         "year_near": false,
-        "year_status": "match"
+        "year_status": "unavailable"
       },
       "source_identities": [
         {
-          "showtime_film_key": "katseye-wild-hearts",
+          "showtime_film_key": "buddy",
           "source": "amc",
-          "source_film_id": "83778",
-          "source_title": "KATSEYE: WILD HEARTS"
+          "source_film_id": "83749",
+          "source_title": "Buddy"
         }
       ],
-      "tmdb_id": 1728113,
+      "tmdb_id": null,
       "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "This celebrates the group's new era and the fans who made it possible. Features exclusive behind-the-scenes footage, EYEKONS fan videos, and intimate interviews with the members.",
-      "tmdb_poster_path": "/bcAxxRpiBIT3JWXAYUAf10UG4LD.jpg",
-      "tmdb_release_year": 2026,
-      "tmdb_runtime_min": 80,
-      "tmdb_title": "KATSEYE: WILD HEARTS",
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 2026,
+      "tmdb_overview_excerpt": "Inexperienced guardian angel, Buddy arrives to assist Eddie with getting his life back on track, but instead only causes more chaos.",
+      "tmdb_poster_path": "/uWGfl0DHyUvCdXLdQmC3n5bZsPR.jpg",
+      "tmdb_release_year": 2013,
+      "tmdb_runtime_min": 94,
+      "tmdb_title": "Buddy",
+      "top_candidate_margin": 0.0,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable",
+        "same_title_remake_ambiguity"
+      ],
+      "year_hint": null,
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
@@ -5892,23 +6259,23 @@
         "applied_rules": [
           "normalized_source_fallback"
         ],
-        "base_title": "Katseye: Wild Hearts",
-        "canonical_year_candidate": 2026,
+        "base_title": "Buddy",
+        "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": 2026,
+        "product_year": null,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_year": 2026,
+        "scoring_year": null,
+        "search_year": null,
         "title_years": [],
         "warnings": [],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit"
+        "year_confidence": "none",
+        "year_evidence": "missing"
       }
     },
     {
@@ -6165,6 +6532,636 @@
         "warnings": [],
         "year_confidence": "product",
         "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Beth Murphy",
+          "original_title": null,
+          "overview_excerpt": "When terrorists shattered their lives, two women set off on an extraordinary journey to rebuild themselves and the lives of women half a world away.",
+          "popularity": 1.4799,
+          "poster_path": null,
+          "release_year": 2007,
+          "runtime_min": 92,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "beth murphy"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.4799,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 24,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Beyond Belief",
+          "tmdb_id": 14420,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Beyond Belief explores the role beliefs and the subconscious mind play in creating your experience.",
+          "popularity": 0.4544,
+          "poster_path": "/exhHZfILxCRVjvA9rBRd4ApROf7.jpg",
+          "release_year": 2010,
+          "runtime_min": 80,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.4544,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 36,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Beyond Belief",
+          "tmdb_id": 186368,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Alan Baker",
+          "original_title": null,
+          "overview_excerpt": "Documentary about psychic phenomena and UFOs.\r Footage is shown involving psychic experiments, poltergeists, key bending and UFOs.",
+          "popularity": 0.4794,
+          "poster_path": "/2Vs1OTksxnLLFctCoBCEsVDB1qQ.jpg",
+          "release_year": 1976,
+          "runtime_min": 92,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "alan baker"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.4794,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 24,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Beyond Belief",
+          "tmdb_id": 458051,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Johnny Meier",
+          "original_title": null,
+          "overview_excerpt": "An aspiring teenage rock star trains for a marathon after hearing a mysterious voice.",
+          "popularity": 2.0302,
+          "poster_path": "/f0dJH9KrWIPShBiYdtwmx73G25W.jpg",
+          "release_year": 2026,
+          "runtime_min": 0,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "johnny meier"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 2.0302,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 116,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Beyond Belief",
+          "tmdb_id": 1475440,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A young woman from Cleveland, Ohio earns a scholarship to attend a 4-day river trip through the wild Green River's Gates of Lodore Canyon. The only catch: she doesn't know how to swim and is terrified of water.",
+          "popularity": 0.2286,
+          "poster_path": "/86XspOIGlnmuzAPGQnGvv5Rw3Nc.jpg",
+          "release_year": null,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.2286,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Beyond Belief",
+          "tmdb_id": 1537871,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Kalu Anya",
+          "original_title": null,
+          "overview_excerpt": "Two siblings are on campus. They have to fend for themselves no matter how. The eldest is a member of a gang of armed robbers and the sister follows men for money. Their parents fon't ask questions.",
+          "popularity": 2.6986,
+          "poster_path": null,
+          "release_year": null,
+          "runtime_min": 0,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "kalu anya"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 2.6986,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 116,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Beyond Belief",
+          "tmdb_id": 1584588,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Lewis Black hosts this comedic documentary about the US income tax system. Set at St John’s University, Lewis, as Professor Black, teaches a ‘Taxes 101’ course to students which highlights the utter stupidity of our tax…",
+          "popularity": 0.5979,
+          "poster_path": "/hRAwcOPv0qSYJ7NB2LyTRuDQYok.jpg",
+          "release_year": 2002,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.5979,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Lewis Black: Taxed Beyond Belief",
+          "tmdb_id": 69077,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "All over the world, in every society, there are objects that have special power over people. People climb mountains or make pilgrimages just to see or touch them. They prostrate themselves or engage in rituals in their …",
+          "popularity": 0.8342,
+          "poster_path": null,
+          "release_year": 2004,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.8342,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Mana: Beyond Belief",
+          "tmdb_id": 310282,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:83794",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.75,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Beyond Belief",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|83794"
+      },
+      "runtime_min": 116,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "miss",
+            "matched": false,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "beth murphy"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 1.4799,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 24,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "miss",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "beyond-belief",
+          "source": "amc",
+          "source_film_id": "83794",
+          "source_title": "Beyond Belief"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "When terrorists shattered their lives, two women set off on an extraordinary journey to rebuild themselves and the lives of women half a world away.",
+      "tmdb_poster_path": null,
+      "tmdb_release_year": 2007,
+      "tmdb_runtime_min": 92,
+      "tmdb_title": "Beyond Belief",
+      "top_candidate_margin": 0.0,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_mismatch",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Beyond Belief",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
       }
     },
     {
@@ -7891,6 +8888,639 @@
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
+          "director": "John Lasseter",
+          "original_title": null,
+          "overview_excerpt": "Lightning McQueen, a hotshot rookie race car driven to succeed, discovers that life is about the journey, not the finish line, when he finds himself unexpectedly detoured in the sleepy Route 66 town of Radiator Springs.…",
+          "popularity": 19.0233,
+          "poster_path": "/2Touk3m5gzsqr1VsvxypdyHY5ci.jpg",
+          "release_year": 2006,
+          "runtime_min": 117,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "john lasseter"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 19.0233,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cars",
+          "tmdb_id": 920,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "“I don’t drive, but I know people who’ll drive 100 metres to go to the shops. Our society is obsessed with the car, with coming and going, getting somewhere. I used very intricate matting, some shaped like knives. I wan…",
+          "popularity": 1.0441,
+          "poster_path": "/szp2sWDXh6uhaEAA00U1Dhlxptk.jpg",
+          "release_year": 1979,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.0441,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cars",
+          "tmdb_id": 811913,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Robert Zemeckis",
+          "original_title": null,
+          "overview_excerpt": "When the owner of a struggling used car lot is killed, it's up to the lot's hot-shot salesman to save the property from falling into the hands of the owner's ruthless brother and used-car rival.",
+          "popularity": 3.4922,
+          "poster_path": "/h9hqesyEBaag8ZkgrBSaUGgGNFF.jpg",
+          "release_year": 1980,
+          "runtime_min": 113,
+          "score": 0.25,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "robert zemeckis"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.15,
+            "original_title_exact": false,
+            "popularity": 3.4922,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 3,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Used Cars",
+          "tmdb_id": 14475,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "John Lasseter",
+          "original_title": null,
+          "overview_excerpt": "Star race car Lightning McQueen and his pal Mater head overseas to compete in the World Grand Prix race. But the road to the championship becomes rocky as Mater gets caught up in an intriguing adventure of his own: inte…",
+          "popularity": 21.8695,
+          "poster_path": "/okIz1HyxeVOMzYwwHUjH2pHi74I.jpg",
+          "release_year": 2011,
+          "runtime_min": 106,
+          "score": 0.0557,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 10,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.0333,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "john lasseter"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0333,
+            "original_title_exact": false,
+            "popularity": 21.8695,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 10,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cars 2",
+          "tmdb_id": 49013,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Brian Fee",
+          "original_title": null,
+          "overview_excerpt": "Blindsided by a new generation of blazing-fast racers, the legendary Lightning McQueen finds himself pushed to the brink—and suddenly, the champion who once ruled the track is fighting just to stay in the race. With his…",
+          "popularity": 24.7794,
+          "poster_path": "/zg5RDxvIIAKsucjuU2EZJIHEIvz.jpg",
+          "release_year": 2017,
+          "runtime_min": 102,
+          "score": 0.0002,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "brian fee"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 24.7794,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 14,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cars 3",
+          "tmdb_id": 260514,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Story of a salesman lured into the \"hot car\" racket.",
+          "popularity": 1.7526,
+          "poster_path": "/zAZ16WP0BWwAtdgfVGo1pFn8Ha4.jpg",
+          "release_year": 1956,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.7526,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Hot Cars",
+          "tmdb_id": 38338,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A rebellious teenager navigates his way through the juvenile court system.",
+          "popularity": 1.6919,
+          "poster_path": "/8gQrJqQXksT9RCPbmd8AFQtx7vT.jpg",
+          "release_year": 2016,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.6919,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Stealing Cars",
+          "tmdb_id": 345874,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Max, a failed writer, goes in search of her estranged girlfriend while simultaneously, trying to unload a large quantity of drugs she stole off her bosses to pay for a trip back East to care for her dying mother. She al…",
+          "popularity": 0.6411,
+          "poster_path": "/A0F9HKeyZJL9Y5TAzVD1UKhsmD5.jpg",
+          "release_year": 2021,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.6411,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Eating Cars",
+          "tmdb_id": 814764,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:920",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Cars",
+      "presentation_labels": [
+        "anniversary",
+        "20th anniversary"
+      ],
+      "provenance": {
+        "source_identity_key": "amc|id|84149"
+      },
+      "runtime_min": 116,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "john lasseter"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 19.0233,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 1,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "cars-20th-anniversary",
+          "source": "amc",
+          "source_film_id": "84149",
+          "source_title": "Cars: 20th Anniversary"
+        }
+      ],
+      "tmdb_id": 920,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "Lightning McQueen, a hotshot rookie race car driven to succeed, discovers that life is about the journey, not the finish line, when he finds himself unexpectedly detoured in the sleepy Route 66 town of Radiator Springs.…",
+      "tmdb_poster_path": "/2Touk3m5gzsqr1VsvxypdyHY5ci.jpg",
+      "tmdb_release_year": 2006,
+      "tmdb_runtime_min": 117,
+      "tmdb_title": "Cars",
+      "top_candidate_margin": 0.25,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": 20,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "presentation_segment"
+        ],
+        "base_title": "Cars",
+        "canonical_year_candidate": null,
+        "event_labels": [
+          "20th Anniversary"
+        ],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [
+          "anniversary",
+          "20th anniversary"
+        ],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [
+          "20th Anniversary"
+        ],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
           "director": "David Robert Mitchell",
           "original_title": null,
           "overview_excerpt": "After a mysterious cosmic event rips Oak Street from suburbia and transports their neighborhood to someplace unknown, the Platt family soon discovers that their very survival depends on them sticking together as they na…",
@@ -8639,6 +10269,630 @@
         ],
         "year_confidence": "derived",
         "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Alexander Ullom",
+          "original_title": null,
+          "overview_excerpt": "A group of recent grads head out on a late night drive for grub, hoping to enjoy one final hangout before their paths diverge. Instead, they accidentally turn onto a never-ending, two-lane hellscape surrounded by untold…",
+          "popularity": 11.0801,
+          "poster_path": "/6dfAGvZWbJnzWfSZ8gxFj63BNAH.jpg",
+          "release_year": 2026,
+          "runtime_min": 89,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "alexander ullom"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 11.0801,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "It Ends",
+          "tmdb_id": 1422011,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Daryl Wein",
+          "original_title": null,
+          "overview_excerpt": "Liza scores an invite to one last wild party before the world ends. But making it there won't be easy: her car has been stolen, and the clock is ticking on her plan to tie up loose ends with friends and family. Accompan…",
+          "popularity": 2.5057,
+          "poster_path": "/h4FQ8H77z6rIY82HzR5wgOYoxCA.jpg",
+          "release_year": 2021,
+          "runtime_min": 83,
+          "score": 0.1667,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 6,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.1,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "daryl wein"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.1,
+            "original_title_exact": false,
+            "popularity": 2.5057,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 6,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "How It Ends",
+          "tmdb_id": 776559,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Justin Baldoni",
+          "original_title": null,
+          "overview_excerpt": "When a woman's first love suddenly reenters her life, her relationship with a charming, but abusive neurosurgeon is upended, and she realizes she must learn to rely on her own strength to make an impossible choice for h…",
+          "popularity": 12.7037,
+          "poster_path": "/AjV6jFJ2YFIluYo4GQf13AA1tqu.jpg",
+          "release_year": 2024,
+          "runtime_min": 131,
+          "score": 0.0001,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "justin baldoni"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 12.7037,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 42,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "It Ends with Us",
+          "tmdb_id": 1079091,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "David M. Rosenthal",
+          "original_title": null,
+          "overview_excerpt": "A desperate father tries to return home to his pregnant wife after a mysterious apocalyptic event turns everything to chaos.",
+          "popularity": 3.7657,
+          "poster_path": "/prdFM08mGvVDA6uQxKJh8n8Vek1.jpg",
+          "release_year": 2018,
+          "runtime_min": 113,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "david m rosenthal"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 3.7657,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 24,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "How It Ends",
+          "tmdb_id": 475210,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "This documentary focuses on the actors and their journey over two summers to create the remake to the original IT, by Stephen King. The documentary originally released as bonus material, bundled with IT: Chapter Two.",
+          "popularity": 2.6157,
+          "poster_path": "/oXtw9zyoRtt1PiF6MSBNpSYSHRu.jpg",
+          "release_year": 2019,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 2.6157,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Summers of It - Chapter Two: It Ends",
+          "tmdb_id": 661289,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Når befrielsen kommer",
+          "overview_excerpt": "When a folk high school is turned into an internment camp for German refugees, the headmaster couple Jakob and Lis and their children are thrust into an impossible situation. Should the family help the refugees — or sta…",
+          "popularity": 2.1816,
+          "poster_path": "/hPnW1JMogaNrq84D9XOp1lU8fNg.jpg",
+          "release_year": 2023,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 2.1816,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Before It Ends",
+          "tmdb_id": 1120543,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Actor Jack joins a panto tour of care homes, where he is confronted with the reality of where it ends.",
+          "popularity": 0.4327,
+          "poster_path": "/nF08wU39cGG5H3WeijsMSlD3TxC.jpg",
+          "release_year": 2023,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.4327,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Where It Ends",
+          "tmdb_id": 1140807,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Svemu dođe kraj",
+          "overview_excerpt": "Maks is a brilliant lawyer who has been serving for years one of Croatia’s most powerful and ruthless businessmen, who made his fortune in the aftermath of the Balkan War. Maks’ latest service has been to have his clien…",
+          "popularity": 0.7603,
+          "poster_path": "/2DRtY362sX143UmHhXeehFvnIER.jpg",
+          "release_year": 2024,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.7603,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "It All Ends Here",
+          "tmdb_id": 1301337,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:1422011",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "It Ends",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84289"
+      },
+      "runtime_min": 89,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "alexander ullom"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 11.0801,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "it-ends",
+          "source": "amc",
+          "source_film_id": "84289",
+          "source_title": "It Ends"
+        }
+      ],
+      "tmdb_id": 1422011,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "A group of recent grads head out on a late night drive for grub, hoping to enjoy one final hangout before their paths diverge. Instead, they accidentally turn onto a never-ending, two-lane hellscape surrounded by untold…",
+      "tmdb_poster_path": "/6dfAGvZWbJnzWfSZ8gxFj63BNAH.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 89,
+      "tmdb_title": "It Ends",
+      "top_candidate_margin": 0.8333,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "It Ends",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
       }
     },
     {
@@ -9742,6 +11996,191 @@
           "normalized_source_fallback"
         ],
         "base_title": "The Hunger Games: Mockingjay - Part 2 (2026)",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [
+          2026
+        ],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
+          "director": "Francis Lawrence",
+          "original_title": null,
+          "overview_excerpt": "64 years before he becomes the tyrannical president of Panem, Coriolanus Snow sees a chance for a change in fortunes when he mentors Lucy Gray Baird, the female tribute from District 12.",
+          "popularity": 13.0285,
+          "poster_path": "/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg",
+          "release_year": 2023,
+          "runtime_min": 157,
+          "score": 0.0371,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 10,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.0333,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "francis lawrence"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0333,
+            "original_title_exact": false,
+            "popularity": 13.0285,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 10,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": true,
+            "year_evidence": "conflict",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "conflict"
+          },
+          "title": "The Hunger Games: The Ballad of Songbirds & Snakes",
+          "tmdb_id": 695721,
+          "warnings": [
+            "title_conflict",
+            "year_conflict",
+            "runtime_soft_penalty"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:84393",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.0371,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "The Hunger Games: The Ballad of Songbirds & Snakes (2026)",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84393"
+      },
+      "runtime_min": 167,
+      "signals": {
+        "available_weight": 0.9,
+        "contributions": {
+          "runtime": {
+            "delta_minutes": 10,
+            "kind": "soft",
+            "matched": true,
+            "soft_weight": 0.0333,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "francis lawrence"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.0333,
+        "original_title_exact": false,
+        "popularity": 13.0285,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 10,
+        "runtime_near": false,
+        "runtime_soft": true,
+        "runtime_soft_max": 12,
+        "runtime_status": "soft",
+        "title_conflict": true,
+        "title_exact": false,
+        "year_conflict": true,
+        "year_evidence": "conflict",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "conflict"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "hunger-games-the-ballad-of-songbirds-snakes-2026",
+          "source": "amc",
+          "source_film_id": "84393",
+          "source_title": "The Hunger Games: The Ballad of Songbirds & Snakes (2026)"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "title_conflict",
+        "year_conflict",
+        "runtime_soft_penalty"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "The Hunger Games: The Ballad of Songbirds & Snakes (2026)",
         "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
@@ -12310,199 +14749,6 @@
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
-          "director": "Sixx King",
-          "original_title": null,
-          "overview_excerpt": "Inspired by true events, this crime drama follows the rise of Terrence \"Tee\" Jackson as he builds a drug empire.",
-          "popularity": 1.4801,
-          "poster_path": "/v5fiFaGykYFEq79ucgcXrvyJ9bb.jpg",
-          "release_year": 2026,
-          "runtime_min": 135,
-          "score": 1.0,
-          "signals": {
-            "available_weight": 1.1,
-            "contributions": {
-              "director": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.2
-              },
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [
-              "sixx king"
-            ],
-            "director_conflict": false,
-            "director_overlap": true,
-            "director_source_normalized": [
-              "sixx king"
-            ],
-            "director_status": "match",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 1.1,
-            "original_title_exact": false,
-            "popularity": 1.4801,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "The King of Cannabis",
-          "tmdb_id": 1744632,
-          "warnings": []
-        }
-      ],
-      "directors_normalized": [
-        "sixx king"
-      ],
-      "directors_raw": "SIXX KING",
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:1744632",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "The King of Cannabis",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "amc|id|84547"
-      },
-      "runtime_min": 135,
-      "signals": {
-        "available_weight": 1.1,
-        "contributions": {
-          "director": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.2
-          },
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.3
-          }
-        },
-        "director_candidate_normalized": [
-          "sixx king"
-        ],
-        "director_conflict": false,
-        "director_overlap": true,
-        "director_source_normalized": [
-          "sixx king"
-        ],
-        "director_status": "match",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 1.1,
-        "original_title_exact": false,
-        "popularity": 1.4801,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "title_conflict": false,
-        "title_exact": true,
-        "year_conflict": false,
-        "year_evidence": "compatible",
-        "year_exact": true,
-        "year_near": false,
-        "year_status": "match"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "king-of-cannabis",
-          "source": "amc",
-          "source_film_id": "84547",
-          "source_title": "The King of Cannabis"
-        }
-      ],
-      "tmdb_id": 1744632,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "Inspired by true events, this crime drama follows the rise of Terrence \"Tee\" Jackson as he builds a drug empire.",
-      "tmdb_poster_path": "/v5fiFaGykYFEq79ucgcXrvyJ9bb.jpg",
-      "tmdb_release_year": 2026,
-      "tmdb_runtime_min": 135,
-      "tmdb_title": "The King of Cannabis",
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "The King of Cannabis",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": 2026,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_year": 2026,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
           "director": "Mu Zhengyang",
           "original_title": "八仙！",
           "overview_excerpt": "Eight grassroot mortals use their street smarts and hilarious schemes to defy powerful gods, earning their title as the Eight Immortals.",
@@ -12694,6 +14940,193 @@
         "warnings": [],
         "year_confidence": "product",
         "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Thắng Vũ",
+          "original_title": "Mesdames Thanh Sắc",
+          "overview_excerpt": "Mesdames Thanh Sắc follows the intertwined lives of the captivating beauty Cầm Thanh (Thanh Hằng) and Madame Sắc (Hồng Ánh), the wealthy owner of the prestigious Kim Đô nightclub, renowned for her fortune and vast colle…",
+          "popularity": 1.0663,
+          "poster_path": "/qWmkDROhQ3NIRl3bwfuozlalV5P.jpg",
+          "release_year": 2026,
+          "runtime_min": 125,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "thang vu"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.0663,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 20,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Madame in Saigon",
+          "tmdb_id": 1694531,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:84581",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.75,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Madame in Saigon",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84581"
+      },
+      "runtime_min": 105,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "miss",
+            "matched": false,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "thang vu"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 1.0663,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 20,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "miss",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "madame-in-saigon",
+          "source": "amc",
+          "source_film_id": "84581",
+          "source_title": "Madame in Saigon"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": "Mesdames Thanh Sắc",
+      "tmdb_overview_excerpt": "Mesdames Thanh Sắc follows the intertwined lives of the captivating beauty Cầm Thanh (Thanh Hằng) and Madame Sắc (Hồng Ánh), the wealthy owner of the prestigious Kim Đô nightclub, renowned for her fortune and vast colle…",
+      "tmdb_poster_path": "/qWmkDROhQ3NIRl3bwfuozlalV5P.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 125,
+      "tmdb_title": "Madame in Saigon",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_mismatch",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Madame in Saigon",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
       }
     },
     {
@@ -12892,201 +15325,6 @@
         ],
         "year_confidence": "derived",
         "year_evidence": "derived_or_explicit"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "Dave Green",
-          "original_title": null,
-          "overview_excerpt": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
-          "popularity": 16.2774,
-          "poster_path": "/7zNmJP6z6mDAp4LouacYkGSBUQv.jpg",
-          "release_year": 2026,
-          "runtime_min": 103,
-          "score": 1.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "dave green"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": true,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 16.2774,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "uncertain_rerelease_restoration",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Coyote vs. Acme",
-          "tmdb_id": 1204680,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:1204680",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "Coyote vs. Acme",
-      "presentation_labels": [
-        "early access"
-      ],
-      "provenance": {
-        "source_identity_key": "amc|id|84596"
-      },
-      "runtime_min": 103,
-      "signals": {
-        "available_weight": 0.6,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "dave green"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": true,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.6,
-        "original_title_exact": false,
-        "popularity": 16.2774,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "title_conflict": false,
-        "title_exact": true,
-        "year_conflict": false,
-        "year_evidence": "uncertain_rerelease_restoration",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "coyote-vs-acme-early-access",
-          "source": "amc",
-          "source_film_id": "84596",
-          "source_title": "Coyote vs. Acme Early Access"
-        }
-      ],
-      "tmdb_id": 1204680,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
-      "tmdb_poster_path": "/7zNmJP6z6mDAp4LouacYkGSBUQv.jpg",
-      "tmdb_release_year": 2026,
-      "tmdb_runtime_min": 103,
-      "tmdb_title": "Coyote vs. Acme",
-      "top_candidate_margin": null,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "event_suffix"
-        ],
-        "base_title": "Coyote vs. Acme",
-        "canonical_year_candidate": null,
-        "event_labels": [
-          "Early Access"
-        ],
-        "event_phrase": "Early Access",
-        "event_year": 2026,
-        "event_year_not_canonical": true,
-        "format_tags": [],
-        "presentation_labels": [
-          "early access"
-        ],
-        "product_year": 2026,
-        "program_series": null,
-        "removed_phrases": [
-          "Early Access"
-        ],
-        "scoring_year": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [
-          "event_year_not_canonical"
-        ],
-        "year_confidence": "none",
-        "year_evidence": "uncertain_rerelease_restoration"
       }
     },
     {
@@ -13636,6 +15874,154 @@
         ],
         "year_confidence": "derived",
         "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:84716",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "The City on The Edge of Forever + Star Trek IV: The Voyage Home",
+      "presentation_labels": [
+        "anniversary",
+        "60th anniversary event"
+      ],
+      "provenance": {
+        "source_identity_key": "amc|id|84716"
+      },
+      "runtime_min": 169,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "city-on-the-edge-of-forever-star-trek-iv-the-voyage-home-60th-anniversary-event",
+          "source": "amc",
+          "source_film_id": "84716",
+          "source_title": "The City on The Edge of Forever + Star Trek IV: The Voyage Home 60th Anniversary Event"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "event_year_not_canonical",
+        "anniversary_year_derived"
+      ],
+      "year_hint": 1966,
+      "year_interpretation": {
+        "anniversary_year_derived": true,
+        "anniversary_years": 60,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "presentation_trailing_atoms"
+        ],
+        "base_title": "The City on The Edge of Forever + Star Trek IV: The Voyage Home",
+        "canonical_year_candidate": 1966,
+        "event_labels": [
+          "60th Anniversary Event"
+        ],
+        "event_phrase": null,
+        "event_year": 2026,
+        "event_year_not_canonical": true,
+        "format_tags": [],
+        "presentation_labels": [
+          "anniversary",
+          "60th anniversary event"
+        ],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [
+          "60th Anniversary Event"
+        ],
+        "scoring_year": 1966,
+        "search_year": 1966,
+        "title_years": [],
+        "warnings": [
+          "event_year_not_canonical",
+          "anniversary_year_derived"
+        ],
+        "year_confidence": "derived",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:84769",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "HOPE Premium",
+      "presentation_labels": [
+        "early access"
+      ],
+      "provenance": {
+        "source_identity_key": "amc|id|84769"
+      },
+      "runtime_min": 157,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "hope-premium-early-access",
+          "source": "amc",
+          "source_film_id": "84769",
+          "source_title": "HOPE Premium Early Access"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "event_year_not_canonical"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "event_suffix"
+        ],
+        "base_title": "HOPE Premium",
+        "canonical_year_candidate": null,
+        "event_labels": [
+          "Early Access"
+        ],
+        "event_phrase": "Early Access",
+        "event_year": 2026,
+        "event_year_not_canonical": true,
+        "format_tags": [],
+        "presentation_labels": [
+          "early access"
+        ],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [
+          "Early Access"
+        ],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
+        "year_confidence": "none",
+        "year_evidence": "uncertain_rerelease_restoration"
       }
     },
     {
@@ -15076,6 +17462,191 @@
           "normalized_source_fallback"
         ],
         "base_title": "Faceless",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Bill Karn",
+          "original_title": null,
+          "overview_excerpt": "A guitar playing killer terrorizes a housewife while his partner robs the bank where her husband works.",
+          "popularity": 1.3172,
+          "poster_path": "/aIduD55OQKSwC3XU34PF3ClwIW7.jpg",
+          "release_year": 1961,
+          "runtime_min": 73,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "bill karn"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.3172,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Five Minutes to Live",
+          "tmdb_id": 37560,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:beacon:five-minutes-to-live",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.75,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Five Minutes To Live!",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "beacon|id|five-minutes-to-live"
+      },
+      "runtime_min": null,
+      "signals": {
+        "available_weight": 0.45,
+        "contributions": {
+          "runtime": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "bill karn"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 1.3172,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": null,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "unavailable",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "five-minutes-to-live",
+          "source": "beacon",
+          "source_film_id": "five-minutes-to-live",
+          "source_title": "FIVE MINUTES TO LIVE!"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "A guitar playing killer terrorizes a housewife while his partner robs the bank where her husband works.",
+      "tmdb_poster_path": "/aIduD55OQKSwC3XU34PF3ClwIW7.jpg",
+      "tmdb_release_year": 1961,
+      "tmdb_runtime_min": 73,
+      "tmdb_title": "Five Minutes to Live",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Five Minutes To Live!",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -18628,6 +21199,66 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
+      "film_id": "source:central_cinema:seattle-scare-society-presents-the-craft",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Seattle Scare Society presents: The Craft",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "central_cinema|id|seattle-scare-society-presents-the-craft"
+      },
+      "runtime_min": 101,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "seattle-scare-society-presents-the-craft",
+          "source": "central_cinema",
+          "source_film_id": "seattle-scare-society-presents-the-craft",
+          "source_title": "Seattle Scare Society presents: The Craft"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Seattle Scare Society presents: The Craft",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
       "film_id": "tmdb:571",
       "first_observed_at": null,
       "identity_type": "tmdb",
@@ -21063,578 +23694,6 @@
     },
     {
       "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "source:siff:cinema/in-theaters/bfdi-and-inanimate-insanity-2026-tour",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "fallback",
-      "match_status": "unmatched",
-      "normalized_title": "BFDI & Inanimate Insanity 2026 Tour",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "siff|id|cinema/in-theaters/bfdi-and-inanimate-insanity-2026-tour"
-      },
-      "runtime_min": 110,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "bfdi-inanimate-insanity-2026-tour-2026",
-          "source": "siff",
-          "source_film_id": "cinema/in-theaters/bfdi-and-inanimate-insanity-2026-tour",
-          "source_title": "BFDI & Inanimate Insanity 2026 Tour"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "BFDI & Inanimate Insanity 2026 Tour",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_year": 2026,
-        "title_years": [
-          2026
-        ],
-        "warnings": [],
-        "year_confidence": "title",
-        "year_evidence": "derived_or_explicit"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "Carla Simón",
-          "original_title": null,
-          "overview_excerpt": "With her mother's diary in hand, Marina's search for official documents for university leads her to her biological family on the Atlantic coast. What starts as an administrative quest reveals long-buried family secrets.",
-          "popularity": 4.3984,
-          "poster_path": "/6Wo9z9dvy0ns1Q84OLEHXemRpeh.jpg",
-          "release_year": 2025,
-          "runtime_min": 112,
-          "score": 1.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "carla simon"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 4.3984,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 2,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Romería",
-          "tmdb_id": 1182861,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Justo de la Cueva",
-          "original_title": "Romería asturiana",
-          "overview_excerpt": "In the Asturian town of Llanes (Spain), we see an example of Asturian pilgrimage, with the festival dedicated to San Roque.",
-          "popularity": 0.5871,
-          "poster_path": null,
-          "release_year": 1942,
-          "runtime_min": 10,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "justo de la cueva"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.5871,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 104,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Asturian pilgrimage",
-          "tmdb_id": 347991,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": "Bal espagnol dans la rue (Mexique)",
-          "overview_excerpt": "Short made in Mexico",
-          "popularity": 0.6704,
-          "poster_path": "/vV20U3NviL1meSKC33mOrGwtQjK.jpg",
-          "release_year": 1896,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.6704,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Mexico, Spanish Street Dance",
-          "tmdb_id": 404016,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Alejandro Olavarria",
-          "original_title": null,
-          "overview_excerpt": "A four-part comedy featuring brass bands, dancers, and big heads.",
-          "popularity": 0.4549,
-          "poster_path": null,
-          "release_year": 1925,
-          "runtime_min": 0,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "alejandro olavarria"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.4549,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 114,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Martinchu Perrugorria en día de romería",
-          "tmdb_id": 771480,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Alberto Estévez Piña",
-          "original_title": null,
-          "overview_excerpt": null,
-          "popularity": 0.4225,
-          "poster_path": null,
-          "release_year": 1974,
-          "runtime_min": 0,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "alberto estevez pina"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.4225,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 114,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "A Romería da Morte",
-          "tmdb_id": 1558647,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Olimpo cinema company.",
-          "popularity": 0.399,
-          "poster_path": null,
-          "release_year": 1910,
-          "runtime_min": 0,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.399,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 114,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Romería al cementerio de las sociedades de tiro en honor del comandante Max Salazar",
-          "tmdb_id": 1708527,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_unavailable"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:1182861",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "Romería",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "siff|id|cinema/in-theaters/romeria"
-      },
-      "runtime_min": 114,
-      "signals": {
-        "available_weight": 0.6,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "carla simon"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.6,
-        "original_title_exact": false,
-        "popularity": 4.3984,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 2,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "title_conflict": false,
-        "title_exact": true,
-        "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "romer-a",
-          "source": "siff",
-          "source_film_id": "cinema/in-theaters/romeria",
-          "source_title": "Romería"
-        }
-      ],
-      "tmdb_id": 1182861,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "With her mother's diary in hand, Marina's search for official documents for university leads her to her biological family on the Atlantic coast. What starts as an administrative quest reveals long-buried family secrets.",
-      "tmdb_poster_path": "/6Wo9z9dvy0ns1Q84OLEHXemRpeh.jpg",
-      "tmdb_release_year": 2025,
-      "tmdb_runtime_min": 112,
-      "tmdb_title": "Romería",
-      "top_candidate_margin": 1.0,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Romería",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
       "candidates": [
         {
           "director": "Jane Schoenbrun",
@@ -22902,6 +24961,6 @@
       }
     }
   ],
-  "generated_at": "2026-08-24T07:47:18+00:00",
+  "generated_at": "2026-08-25T07:33:53+00:00",
   "schema_version": "1.0.0"
 }
