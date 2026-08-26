@@ -5656,86 +5656,25 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "same_title_remake_ambiguity",
+      "auto_confirm_blocked_reason": null,
       "candidates": [
-        {
-          "director": "Michael Herbig",
-          "original_title": null,
-          "overview_excerpt": "Inexperienced guardian angel, Buddy arrives to assist Eddie with getting his life back on track, but instead only causes more chaos.",
-          "popularity": 0.8968,
-          "poster_path": "/uWGfl0DHyUvCdXLdQmC3n5bZsPR.jpg",
-          "release_year": 2013,
-          "runtime_min": 94,
-          "score": 1.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "michael herbig"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 0.8968,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 1,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Buddy",
-          "tmdb_id": 246894,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        },
         {
           "director": "Casper Kelly",
           "original_title": null,
           "overview_excerpt": "Remember BUDDY—the bright orange unicorn and star of that classic childrens' television show who brought joy and life lessons into your living room?  Inside the colorful world of \"It's Buddy!\", a group of children spend…",
-          "popularity": 8.5165,
+          "popularity": 10.0904,
           "poster_path": "/6Lh4ZlsAISFQFVfLZ90sE9ycVnN.jpg",
           "release_year": 2026,
           "runtime_min": 95,
           "score": 1.0,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
               "runtime": {
                 "kind": "match",
                 "matched": true,
@@ -5747,25 +5686,27 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
               "casper kelly"
             ],
             "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_overlap": true,
+            "director_source_normalized": [
+              "casper kelly"
+            ],
+            "director_status": "match",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.6,
+            "matched_weight": 1.1,
             "original_title_exact": false,
-            "popularity": 8.5165,
+            "popularity": 10.0904,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -5777,213 +5718,35 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
           "title": "Buddy",
           "tmdb_id": 1514026,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
+          "warnings": []
         },
         {
-          "director": null,
+          "director": "Tristan Deschamps",
           "original_title": null,
-          "overview_excerpt": "An eccentric socialite raises a gorilla as her son.",
-          "popularity": 1.8567,
-          "poster_path": "/88l3mMtQcHE5JW8gJmQJm9fmpAH.jpg",
-          "release_year": 1997,
-          "runtime_min": null,
-          "score": 0.75,
+          "overview_excerpt": "A young man is recruited for a mysterious manual labour job, under the watchful  eye of a government he cannot trust.",
+          "popularity": 0.7291,
+          "poster_path": "/fdUJRAai72JM5sbvVoIvkw9dsaW.jpg",
+          "release_year": 2026,
+          "runtime_min": 21,
+          "score": 0.91,
           "signals": {
-            "available_weight": 0.45,
+            "available_weight": 1.1,
             "contributions": {
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
+              "director": {
+                "kind": "conflict",
                 "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 1.8567,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Buddy",
-          "tmdb_id": 15170,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Kristoffer lives in Oslo with his friends Geir and Stig Inge.  He works as a billboard installer, and in his spare time he makes a video diary with Geir and Stig, containing stunts of a Jackass-nature. When Kristoffer's…",
-          "popularity": 0.9969,
-          "poster_path": "/1W3M9AbhEsrZ6FigFSU3GR9WEEb.jpg",
-          "release_year": 2003,
-          "runtime_min": null,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
+                "weight": 0.2
               },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.9969,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Buddy",
-          "tmdb_id": 15177,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "A young man agrees to support his ex lover during an HIV test. What starts out as an awkward reunion, soon becomes something more tender. Is there still hope for reconciliation?",
-          "popularity": 1.2036,
-          "poster_path": "/mJOa7URMEny2D05WbMQGISIyKmm.jpg",
-          "release_year": 2015,
-          "runtime_min": null,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 1.2036,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Buddy",
-          "tmdb_id": 457620,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Heddy Honigmann",
-          "original_title": null,
-          "overview_excerpt": "Walking in the forest without being able to see, coming down the stairs or going shopping when one is paralysed, falling asleep with post-traumatic stress disorder: for the protagonists of Buddy, all of this is made pos…",
-          "popularity": 1.2394,
-          "poster_path": "/nOp5TfPJ6iiBofMbfbgvNHjNJL1.jpg",
-          "release_year": 2019,
-          "runtime_min": 86,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
               "runtime": {
-                "delta_minutes": 9,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.05,
+                "kind": "conflict",
+                "matched": false,
                 "weight": 0.15
               },
               "title_exact": {
@@ -5992,85 +5755,87 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
-              "heddy honigmann"
+              "tristan deschamps"
             ],
-            "director_conflict": false,
+            "director_conflict": true,
             "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_source_normalized": [
+              "casper kelly"
+            ],
+            "director_status": "conflict",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.5,
+            "hard_conflict": true,
+            "matched_weight": 0.75,
             "original_title_exact": false,
-            "popularity": 1.2394,
+            "popularity": 0.7291,
             "runtime_compatible_max": 3,
-            "runtime_conflict": false,
+            "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 9,
+            "runtime_delta_minutes": 74,
             "runtime_near": false,
-            "runtime_soft": true,
+            "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "soft",
+            "runtime_status": "conflict",
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
-          "title": "Buddy",
-          "tmdb_id": 562688,
+          "title": "BUDDY",
+          "tmdb_id": 1664252,
           "warnings": [
-            "year_evidence_absent",
-            "runtime_soft_penalty",
-            "weak_title_only_match",
-            "director_unavailable"
+            "runtime_conflict",
+            "director_conflict"
           ]
         },
         {
           "director": null,
           "original_title": null,
-          "overview_excerpt": "Two buddies, two dudes and two homies hang out on a train.",
-          "popularity": 1.1949,
-          "poster_path": "/bTtGUbgXYnALUFuJ9PucBYUKgDT.jpg",
-          "release_year": 1993,
+          "overview_excerpt": "Recently dumped by his girlfriend, Dylan throws himself into the fitness, making friends with the muscular and charismatic Noah in the process. But is his admiration for Noah's physique more than aesthetic?",
+          "popularity": 1.7744,
+          "poster_path": "/sF70TwASX2M4OMmHDgE73NS1GHC.jpg",
+          "release_year": 2026,
           "runtime_min": null,
-          "score": 0.75,
+          "score": 0.4,
           "signals": {
-            "available_weight": 0.45,
+            "available_weight": 0.75,
             "contributions": {
               "title_exact": {
-                "kind": "match",
-                "matched": true,
+                "kind": "conflict",
+                "matched": false,
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [],
             "director_conflict": false,
             "director_overlap": false,
-            "director_source_normalized": [],
+            "director_source_normalized": [
+              "casper kelly"
+            ],
             "director_status": "unavailable",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
+            "hard_conflict": true,
+            "matched_weight": 0.3,
             "original_title_exact": false,
-            "popularity": 1.1949,
+            "popularity": 1.7744,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -6079,34 +5844,169 @@
             "runtime_soft": false,
             "runtime_soft_max": 12,
             "runtime_status": "unavailable",
-            "title_conflict": false,
-            "title_exact": true,
+            "title_conflict": true,
+            "title_exact": false,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
-          "title": "Buddy",
-          "tmdb_id": 940002,
+          "title": "Gym Buddy",
+          "tmdb_id": 1640500,
           "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
+            "title_conflict"
           ]
         },
         {
-          "director": "Billy Wilder",
+          "director": null,
           "original_title": null,
-          "overview_excerpt": "During a high-profile Mafia testimony case in Riverside County, a hired killer checks into a hotel room near the courthouse, while his depressed neighbor contemplates suicide over marital problems.",
-          "popularity": 1.7111,
-          "poster_path": "/7oZcpghGYhLgw60JbJU3btDCHMg.jpg",
-          "release_year": 1981,
-          "runtime_min": 96,
-          "score": 0.25,
+          "overview_excerpt": "Bruce Wensley Lee Joseph, a promising scholar-athlete who had dreams of being both a dentist and an NBA player, is brutally killed by gang members in Cité Soleil, Haiti on December 1st, 2022. A recent high school gradua…",
+          "popularity": 0.4459,
+          "poster_path": null,
+          "release_year": 2026,
+          "runtime_min": null,
+          "score": 0.4,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 0.75,
             "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "casper kelly"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.3,
+            "original_title_exact": false,
+            "popularity": 0.4459,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "My Buddy Bruce",
+          "tmdb_id": 1663217,
+          "warnings": [
+            "title_conflict"
+          ]
+        },
+        {
+          "director": "Aco Tenriyagelli",
+          "original_title": "Suka Duka Tawa",
+          "overview_excerpt": "Tawa, a rising stand-up comedian, builds her fame on jokes about her estranged father, Pak Keset, a veteran comic whose career collapses as hers takes off. When she reunites with him to find new material, their uneasy c…",
+          "popularity": 1.7823,
+          "poster_path": "/8YzFxF44uaDxzLEGa64etR0vDzT.jpg",
+          "release_year": 2026,
+          "runtime_min": 127,
+          "score": 0.2727,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "aco tenriyagelli"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "casper kelly"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.3,
+            "original_title_exact": false,
+            "popularity": 1.7823,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 32,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "Comedy Buddy",
+          "tmdb_id": 1565069,
+          "warnings": [
+            "title_conflict",
+            "runtime_conflict",
+            "director_conflict"
+          ]
+        },
+        {
+          "director": "Josh Duhamel",
+          "original_title": null,
+          "overview_excerpt": "After six lifelong friends have a five-year falling out, “The Bobfather”, reunites his pals for the Buddy Games, an insane competition of absurd physical and mental challenges with the chance to win a $150,000 pot. Now …",
+          "popularity": 3.1103,
+          "poster_path": "/uNCZh6YGg6r0GMyrctI14R0lHGL.jpg",
+          "release_year": 2019,
+          "runtime_min": 97,
+          "score": 0.1364,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
               "runtime": {
                 "kind": "match",
                 "matched": true,
@@ -6118,61 +6018,185 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
+                "kind": "conflict",
                 "matched": false,
-                "weight": 0.0
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
-              "billy wilder"
+              "josh duhamel"
             ],
-            "director_conflict": false,
+            "director_conflict": true,
             "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_source_normalized": [
+              "casper kelly"
+            ],
+            "director_status": "conflict",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.15,
             "original_title_exact": false,
-            "popularity": 1.7111,
+            "popularity": 3.1103,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 1,
+            "runtime_delta_minutes": 2,
             "runtime_near": true,
             "runtime_soft": false,
             "runtime_soft_max": 12,
             "runtime_status": "match",
             "title_conflict": true,
             "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
+            "year_conflict": true,
+            "year_evidence": "conflict",
             "year_exact": false,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "conflict"
           },
-          "title": "Buddy Buddy",
-          "tmdb_id": 36133,
+          "title": "Buddy Games",
+          "tmdb_id": 472815,
           "warnings": [
             "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
+            "year_conflict",
+            "director_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Piedone lo sbirro",
+          "overview_excerpt": "Inspector “Flatfoot” Rizzo investigates crime and corruption in Naples.",
+          "popularity": 2.3223,
+          "poster_path": "/sLL24J9UmCygAXJrW9Y8qBtdfnj.jpg",
+          "release_year": 1973,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.75,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "casper kelly"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 2.3223,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": true,
+            "year_evidence": "conflict",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "conflict"
+          },
+          "title": "The Knock Out Cop",
+          "tmdb_id": 11048,
+          "warnings": [
+            "title_conflict",
+            "year_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Piedone a Hong Kong",
+          "overview_excerpt": "Inspector Rizzo is accused of drug trafficking. In order to clear his name he has to find out who is the person, from a Mafia ring, who has infiltrated his police department.",
+          "popularity": 2.7855,
+          "poster_path": "/pQuv3NrVxFFAtkVrcoHtNM8qHSt.jpg",
+          "release_year": 1975,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.75,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "casper kelly"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 2.7855,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": true,
+            "year_evidence": "conflict",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "conflict"
+          },
+          "title": "Flatfoot in Hong Kong",
+          "tmdb_id": 11053,
+          "warnings": [
+            "title_conflict",
+            "year_conflict"
           ]
         }
       ],
-      "directors_normalized": [],
-      "directors_raw": null,
+      "directors_normalized": [
+        "casper kelly"
+      ],
+      "directors_raw": "CASPER KELLY",
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:amc:83749",
+      "film_id": "tmdb:1514026",
       "first_observed_at": null,
-      "identity_type": "source",
+      "identity_type": "tmdb",
       "last_observed_at": null,
       "match_confidence": 1.0,
-      "match_method": "fallback",
-      "match_status": "review_required",
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
       "normalized_title": "Buddy",
       "presentation_labels": [],
       "provenance": {
@@ -6180,8 +6204,13 @@
       },
       "runtime_min": 95,
       "signals": {
-        "available_weight": 0.6,
+        "available_weight": 1.1,
         "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
           "runtime": {
             "kind": "match",
             "matched": true,
@@ -6193,29 +6222,31 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
           }
         },
         "director_candidate_normalized": [
-          "michael herbig"
+          "casper kelly"
         ],
         "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
+        "director_overlap": true,
+        "director_source_normalized": [
+          "casper kelly"
+        ],
+        "director_status": "match",
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.6,
+        "matched_weight": 1.1,
         "original_title_exact": false,
-        "popularity": 0.8968,
+        "popularity": 10.0904,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 1,
+        "runtime_delta_minutes": 0,
         "runtime_near": true,
         "runtime_soft": false,
         "runtime_soft_max": 12,
@@ -6223,10 +6254,10 @@
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
         "year_near": false,
-        "year_status": "unavailable"
+        "year_status": "match"
       },
       "source_identities": [
         {
@@ -6236,21 +6267,16 @@
           "source_title": "Buddy"
         }
       ],
-      "tmdb_id": null,
+      "tmdb_id": 1514026,
       "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "Inexperienced guardian angel, Buddy arrives to assist Eddie with getting his life back on track, but instead only causes more chaos.",
-      "tmdb_poster_path": "/uWGfl0DHyUvCdXLdQmC3n5bZsPR.jpg",
-      "tmdb_release_year": 2013,
-      "tmdb_runtime_min": 94,
+      "tmdb_overview_excerpt": "Remember BUDDY—the bright orange unicorn and star of that classic childrens' television show who brought joy and life lessons into your living room?  Inside the colorful world of \"It's Buddy!\", a group of children spend…",
+      "tmdb_poster_path": "/6Lh4ZlsAISFQFVfLZ90sE9ycVnN.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 95,
       "tmdb_title": "Buddy",
-      "top_candidate_margin": 0.0,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable",
-        "same_title_remake_ambiguity"
-      ],
-      "year_hint": null,
+      "top_candidate_margin": 0.09,
+      "warnings": [],
+      "year_hint": 2026,
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
@@ -6260,22 +6286,22 @@
           "normalized_source_fallback"
         ],
         "base_title": "Buddy",
-        "canonical_year_candidate": null,
+        "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
+        "scoring_year": 2026,
+        "search_year": 2026,
         "title_years": [],
         "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -6535,219 +6561,25 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "auto_confirm_blocked_reason": "hard_conflict",
       "candidates": [
-        {
-          "director": "Beth Murphy",
-          "original_title": null,
-          "overview_excerpt": "When terrorists shattered their lives, two women set off on an extraordinary journey to rebuild themselves and the lives of women half a world away.",
-          "popularity": 1.4799,
-          "poster_path": null,
-          "release_year": 2007,
-          "runtime_min": 92,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "miss",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "beth murphy"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 1.4799,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 24,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "miss",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Beyond Belief",
-          "tmdb_id": 14420,
-          "warnings": [
-            "year_evidence_absent",
-            "runtime_mismatch",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Beyond Belief explores the role beliefs and the subconscious mind play in creating your experience.",
-          "popularity": 0.4544,
-          "poster_path": "/exhHZfILxCRVjvA9rBRd4ApROf7.jpg",
-          "release_year": 2010,
-          "runtime_min": 80,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.4544,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 36,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Beyond Belief",
-          "tmdb_id": 186368,
-          "warnings": [
-            "year_evidence_absent",
-            "runtime_conflict",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Alan Baker",
-          "original_title": null,
-          "overview_excerpt": "Documentary about psychic phenomena and UFOs.\r Footage is shown involving psychic experiments, poltergeists, key bending and UFOs.",
-          "popularity": 0.4794,
-          "poster_path": "/2Vs1OTksxnLLFctCoBCEsVDB1qQ.jpg",
-          "release_year": 1976,
-          "runtime_min": 92,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "miss",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "alan baker"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.4794,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 24,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "miss",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Beyond Belief",
-          "tmdb_id": 458051,
-          "warnings": [
-            "year_evidence_absent",
-            "runtime_mismatch",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
         {
           "director": "Johnny Meier",
           "original_title": null,
           "overview_excerpt": "An aspiring teenage rock star trains for a marathon after hearing a mysterious voice.",
-          "popularity": 2.0302,
+          "popularity": 3.0341,
           "poster_path": "/f0dJH9KrWIPShBiYdtwmx73G25W.jpg",
           "release_year": 2026,
           "runtime_min": 0,
-          "score": 0.75,
+          "score": 0.91,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
               "runtime": {
                 "kind": "conflict",
                 "matched": false,
@@ -6759,25 +6591,27 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
               "johnny meier"
             ],
             "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_overlap": true,
+            "director_source_normalized": [
+              "johnny meier"
+            ],
+            "director_status": "match",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": true,
-            "matched_weight": 0.45,
+            "matched_weight": 0.95,
             "original_title_exact": false,
-            "popularity": 2.0302,
+            "popularity": 3.0341,
             "runtime_compatible_max": 3,
             "runtime_conflict": true,
             "runtime_conflict_min": 25,
@@ -6789,274 +6623,29 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
           "title": "Beyond Belief",
           "tmdb_id": 1475440,
           "warnings": [
-            "year_evidence_absent",
-            "runtime_conflict",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "A young woman from Cleveland, Ohio earns a scholarship to attend a 4-day river trip through the wild Green River's Gates of Lodore Canyon. The only catch: she doesn't know how to swim and is terrified of water.",
-          "popularity": 0.2286,
-          "poster_path": "/86XspOIGlnmuzAPGQnGvv5Rw3Nc.jpg",
-          "release_year": null,
-          "runtime_min": null,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.2286,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Beyond Belief",
-          "tmdb_id": 1537871,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Kalu Anya",
-          "original_title": null,
-          "overview_excerpt": "Two siblings are on campus. They have to fend for themselves no matter how. The eldest is a member of a gang of armed robbers and the sister follows men for money. Their parents fon't ask questions.",
-          "popularity": 2.6986,
-          "poster_path": null,
-          "release_year": null,
-          "runtime_min": 0,
-          "score": 0.75,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "kalu anya"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 2.6986,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 116,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Beyond Belief",
-          "tmdb_id": 1584588,
-          "warnings": [
-            "year_evidence_absent",
-            "runtime_conflict",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Lewis Black hosts this comedic documentary about the US income tax system. Set at St John’s University, Lewis, as Professor Black, teaches a ‘Taxes 101’ course to students which highlights the utter stupidity of our tax…",
-          "popularity": 0.5979,
-          "poster_path": "/hRAwcOPv0qSYJ7NB2LyTRuDQYok.jpg",
-          "release_year": 2002,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.5979,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Lewis Black: Taxed Beyond Belief",
-          "tmdb_id": 69077,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "All over the world, in every society, there are objects that have special power over people. People climb mountains or make pilgrimages just to see or touch them. They prostrate themselves or engage in rituals in their …",
-          "popularity": 0.8342,
-          "poster_path": null,
-          "release_year": 2004,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.8342,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Mana: Beyond Belief",
-          "tmdb_id": 310282,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
+            "runtime_conflict"
           ]
         }
       ],
-      "directors_normalized": [],
-      "directors_raw": null,
+      "directors_normalized": [
+        "johnny meier"
+      ],
+      "directors_raw": "JOHNNY MEIER",
       "eligibility": "eligible",
       "entity_kind": "feature_film",
       "film_id": "source:amc:83794",
       "first_observed_at": null,
       "identity_type": "source",
       "last_observed_at": null,
-      "match_confidence": 0.75,
+      "match_confidence": 0.91,
       "match_method": "fallback",
       "match_status": "review_required",
       "normalized_title": "Beyond Belief",
@@ -7066,10 +6655,15 @@
       },
       "runtime_min": 116,
       "signals": {
-        "available_weight": 0.6,
+        "available_weight": 1.1,
         "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
           "runtime": {
-            "kind": "miss",
+            "kind": "conflict",
             "matched": false,
             "weight": 0.15
           },
@@ -7079,40 +6673,42 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
           }
         },
         "director_candidate_normalized": [
-          "beth murphy"
+          "johnny meier"
         ],
         "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
+        "director_overlap": true,
+        "director_source_normalized": [
+          "johnny meier"
+        ],
+        "director_status": "match",
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.45,
+        "hard_conflict": true,
+        "matched_weight": 0.95,
         "original_title_exact": false,
-        "popularity": 1.4799,
+        "popularity": 3.0341,
         "runtime_compatible_max": 3,
-        "runtime_conflict": false,
+        "runtime_conflict": true,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 24,
+        "runtime_delta_minutes": 116,
         "runtime_near": false,
         "runtime_soft": false,
         "runtime_soft_max": 12,
-        "runtime_status": "miss",
+        "runtime_status": "conflict",
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
         "year_near": false,
-        "year_status": "unavailable"
+        "year_status": "match"
       },
       "source_identities": [
         {
@@ -7124,19 +6720,16 @@
       ],
       "tmdb_id": null,
       "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "When terrorists shattered their lives, two women set off on an extraordinary journey to rebuild themselves and the lives of women half a world away.",
-      "tmdb_poster_path": null,
-      "tmdb_release_year": 2007,
-      "tmdb_runtime_min": 92,
+      "tmdb_overview_excerpt": "An aspiring teenage rock star trains for a marathon after hearing a mysterious voice.",
+      "tmdb_poster_path": "/f0dJH9KrWIPShBiYdtwmx73G25W.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 0,
       "tmdb_title": "Beyond Belief",
-      "top_candidate_margin": 0.0,
+      "top_candidate_margin": null,
       "warnings": [
-        "year_evidence_absent",
-        "runtime_mismatch",
-        "weak_title_only_match",
-        "director_unavailable"
+        "runtime_conflict"
       ],
-      "year_hint": null,
+      "year_hint": 2026,
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
@@ -7146,22 +6739,22 @@
           "normalized_source_fallback"
         ],
         "base_title": "Beyond Belief",
-        "canonical_year_candidate": null,
+        "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
+        "scoring_year": 2026,
+        "search_year": 2026,
         "title_years": [],
         "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -8891,14 +8484,19 @@
           "director": "John Lasseter",
           "original_title": null,
           "overview_excerpt": "Lightning McQueen, a hotshot rookie race car driven to succeed, discovers that life is about the journey, not the finish line, when he finds himself unexpectedly detoured in the sleepy Route 66 town of Radiator Springs.…",
-          "popularity": 19.0233,
+          "popularity": 20.7052,
           "poster_path": "/2Touk3m5gzsqr1VsvxypdyHY5ci.jpg",
           "release_year": 2006,
           "runtime_min": 117,
           "score": 1.0,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
               "runtime": {
                 "kind": "match",
                 "matched": true,
@@ -8910,25 +8508,28 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
               "john lasseter"
             ],
             "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_overlap": true,
+            "director_source_normalized": [
+              "joe ranft",
+              "john lasseter"
+            ],
+            "director_status": "match",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.6,
+            "matched_weight": 1.1,
             "original_title_exact": false,
-            "popularity": 19.0233,
+            "popularity": 20.7052,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -8940,227 +8541,329 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
           "title": "Cars",
           "tmdb_id": 920,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
+          "warnings": []
         },
         {
           "director": null,
-          "original_title": null,
-          "overview_excerpt": "“I don’t drive, but I know people who’ll drive 100 metres to go to the shops. Our society is obsessed with the car, with coming and going, getting somewhere. I used very intricate matting, some shaped like knives. I wan…",
-          "popularity": 1.0441,
-          "poster_path": "/szp2sWDXh6uhaEAA00U1Dhlxptk.jpg",
-          "release_year": 1979,
+          "original_title": "Babas bilar",
+          "overview_excerpt": "Jojo is out of money and must work for his stepfather's shady car dealership to pick up a car that belongs to a Russian gangster.",
+          "popularity": 0.9351,
+          "poster_path": "/sT9WRzo9hPc4w8A6UTEPrGhlJ7c.jpg",
+          "release_year": 2006,
           "runtime_min": null,
-          "score": 0.75,
+          "score": 0.4,
           "signals": {
-            "available_weight": 0.45,
+            "available_weight": 0.75,
             "contributions": {
               "title_exact": {
-                "kind": "match",
-                "matched": true,
+                "kind": "conflict",
+                "matched": false,
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [],
             "director_conflict": false,
             "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 1.0441,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Cars",
-          "tmdb_id": 811913,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Robert Zemeckis",
-          "original_title": null,
-          "overview_excerpt": "When the owner of a struggling used car lot is killed, it's up to the lot's hot-shot salesman to save the property from falling into the hands of the owner's ruthless brother and used-car rival.",
-          "popularity": 3.4922,
-          "poster_path": "/h9hqesyEBaag8ZkgrBSaUGgGNFF.jpg",
-          "release_year": 1980,
-          "runtime_min": 113,
-          "score": 0.25,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "robert zemeckis"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.15,
-            "original_title_exact": false,
-            "popularity": 3.4922,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 3,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Used Cars",
-          "tmdb_id": 14475,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "John Lasseter",
-          "original_title": null,
-          "overview_excerpt": "Star race car Lightning McQueen and his pal Mater head overseas to compete in the World Grand Prix race. But the road to the championship becomes rocky as Mater gets caught up in an intriguing adventure of his own: inte…",
-          "popularity": 21.8695,
-          "poster_path": "/okIz1HyxeVOMzYwwHUjH2pHi74I.jpg",
-          "release_year": 2011,
-          "runtime_min": 106,
-          "score": 0.0557,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "delta_minutes": 10,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.0333,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
+            "director_source_normalized": [
+              "joe ranft",
               "john lasseter"
             ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
-            "matched_weight": 0.0333,
+            "matched_weight": 0.3,
             "original_title_exact": false,
-            "popularity": 21.8695,
+            "popularity": 0.9351,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 10,
+            "runtime_delta_minutes": null,
             "runtime_near": false,
-            "runtime_soft": true,
+            "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "soft",
+            "runtime_status": "unavailable",
             "title_conflict": true,
             "title_exact": false,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
-          "title": "Cars 2",
-          "tmdb_id": 49013,
+          "title": "Baba's Cars",
+          "tmdb_id": 21011,
           "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_soft_penalty",
-            "director_unavailable"
+            "title_conflict"
           ]
         },
         {
-          "director": "Brian Fee",
+          "director": null,
           "original_title": null,
-          "overview_excerpt": "Blindsided by a new generation of blazing-fast racers, the legendary Lightning McQueen finds himself pushed to the brink—and suddenly, the champion who once ruled the track is fighting just to stay in the race. With his…",
-          "popularity": 24.7794,
-          "poster_path": "/zg5RDxvIIAKsucjuU2EZJIHEIvz.jpg",
-          "release_year": 2017,
-          "runtime_min": 102,
-          "score": 0.0002,
+          "overview_excerpt": "This is the whole Porsche sports car story from the 356 models up to the Boxster convertibles and GT3 coupes of the present day.",
+          "popularity": 0.3748,
+          "poster_path": null,
+          "release_year": 2006,
+          "runtime_min": null,
+          "score": 0.4,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 0.75,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "joe ranft",
+              "john lasseter"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.3,
+            "original_title_exact": false,
+            "popularity": 0.3748,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "Porsche: The Legendary Cars",
+          "tmdb_id": 66116,
+          "warnings": [
+            "title_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Os Carrinhos em: A Grande Corrida",
+          "overview_excerpt": "Three friends have been anxiously awaiting  for the great race to return to their town! Their champion hasn't lost a race in eight years. Once things start to go wrong, will Tony find strength to save the day? Will his …",
+          "popularity": 1.1474,
+          "poster_path": "/9bA11rxTYfwU3ht7rNPJTpocyCr.jpg",
+          "release_year": 2006,
+          "runtime_min": null,
+          "score": 0.4,
+          "signals": {
+            "available_weight": 0.75,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "joe ranft",
+              "john lasseter"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.3,
+            "original_title_exact": false,
+            "popularity": 1.1474,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "The Little Cars in the Great Race",
+          "tmdb_id": 154634,
+          "warnings": [
+            "title_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Sparky is an adventurous young car trying to find his own road through life. Despite his father's attempts to instill the virtues of restraint and caution, Sparky repeatedly follows the deceitful Diesel into problematic…",
+          "popularity": 0.7039,
+          "poster_path": "/vsQrXYysVfrITR97xS3U7fOlTS6.jpg",
+          "release_year": 2006,
+          "runtime_min": null,
+          "score": 0.4,
+          "signals": {
+            "available_weight": 0.75,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "joe ranft",
+              "john lasseter"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.3,
+            "original_title_exact": false,
+            "popularity": 0.7039,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "A Car's Life: Sparky's Big Adventure",
+          "tmdb_id": 258716,
+          "warnings": [
+            "title_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Behind the scenes footage of Pixar’s Cars (2006), included as a bonus on the films DVD.",
+          "popularity": 0.3678,
+          "poster_path": "/fXgaON6ytWj0BewuvmwYfSguaNF.jpg",
+          "release_year": 2006,
+          "runtime_min": null,
+          "score": 0.4,
+          "signals": {
+            "available_weight": 0.75,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "joe ranft",
+              "john lasseter"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.3,
+            "original_title_exact": false,
+            "popularity": 0.3678,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "The making of Cars | Behind the Scenes",
+          "tmdb_id": 1617771,
+          "warnings": [
+            "title_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "This revved-up ride takes you through a day at the garage. You’ll see how the pros change a tire, change the oil, analyze an engine and even get a car squeaky clean! With pit stops at a service bay, gas station and car …",
+          "popularity": 0.3568,
+          "poster_path": null,
+          "release_year": 2006,
+          "runtime_min": 78,
+          "score": 0.3333,
+          "signals": {
+            "available_weight": 0.9,
             "contributions": {
               "runtime": {
-                "kind": "miss",
+                "kind": "conflict",
                 "matched": false,
                 "weight": 0.15
               },
@@ -9170,230 +8873,129 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "joe ranft",
+              "john lasseter"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.3,
+            "original_title_exact": false,
+            "popularity": 0.3568,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 38,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "All About Cars / All About Motorcycles",
+          "tmdb_id": 185419,
+          "warnings": [
+            "title_conflict",
+            "runtime_conflict"
+          ]
+        },
+        {
+          "director": "Eron Otcasek",
+          "original_title": null,
+          "overview_excerpt": "Featuring over twenty never-before-seen live performances from their sold-out U.S. tours, interview footage, sound checks, slide shows, backstage antics, and home video shot by the band, this limited edition set is your…",
+          "popularity": 0.6406,
+          "poster_path": "/9UjS3F1RyqMGEwqIcC1IPAWKNEP.jpg",
+          "release_year": 2006,
+          "runtime_min": 72,
+          "score": 0.2727,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
                 "matched": false,
-                "weight": 0.0
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
-              "brian fee"
+              "eron otcasek"
             ],
-            "director_conflict": false,
+            "director_conflict": true,
             "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_source_normalized": [
+              "joe ranft",
+              "john lasseter"
+            ],
+            "director_status": "conflict",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
-            "matched_weight": 0.0,
+            "matched_weight": 0.3,
             "original_title_exact": false,
-            "popularity": 24.7794,
+            "popularity": 0.6406,
             "runtime_compatible_max": 3,
-            "runtime_conflict": false,
+            "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 14,
+            "runtime_delta_minutes": 44,
             "runtime_near": false,
             "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "miss",
+            "runtime_status": "conflict",
             "title_conflict": true,
             "title_exact": false,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
-          "title": "Cars 3",
-          "tmdb_id": 260514,
+          "title": "The Cars: Unlocked",
+          "tmdb_id": 340809,
           "warnings": [
             "title_conflict",
-            "year_evidence_absent",
-            "runtime_mismatch",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Story of a salesman lured into the \"hot car\" racket.",
-          "popularity": 1.7526,
-          "poster_path": "/zAZ16WP0BWwAtdgfVGo1pFn8Ha4.jpg",
-          "release_year": 1956,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 1.7526,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Hot Cars",
-          "tmdb_id": 38338,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "A rebellious teenager navigates his way through the juvenile court system.",
-          "popularity": 1.6919,
-          "poster_path": "/8gQrJqQXksT9RCPbmd8AFQtx7vT.jpg",
-          "release_year": 2016,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 1.6919,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Stealing Cars",
-          "tmdb_id": 345874,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Max, a failed writer, goes in search of her estranged girlfriend while simultaneously, trying to unload a large quantity of drugs she stole off her bosses to pay for a trip back East to care for her dying mother. She al…",
-          "popularity": 0.6411,
-          "poster_path": "/A0F9HKeyZJL9Y5TAzVD1UKhsmD5.jpg",
-          "release_year": 2021,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.6411,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Eating Cars",
-          "tmdb_id": 814764,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
+            "runtime_conflict",
+            "director_conflict"
           ]
         }
       ],
-      "directors_normalized": [],
-      "directors_raw": null,
+      "directors_normalized": [
+        "joe ranft",
+        "john lasseter"
+      ],
+      "directors_raw": "JOE RANFT, John Lasseter",
       "eligibility": "eligible",
       "entity_kind": "feature_film",
       "film_id": "tmdb:920",
@@ -9413,8 +9015,13 @@
       },
       "runtime_min": 116,
       "signals": {
-        "available_weight": 0.6,
+        "available_weight": 1.1,
         "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
           "runtime": {
             "kind": "match",
             "matched": true,
@@ -9426,25 +9033,28 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
           }
         },
         "director_candidate_normalized": [
           "john lasseter"
         ],
         "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
+        "director_overlap": true,
+        "director_source_normalized": [
+          "joe ranft",
+          "john lasseter"
+        ],
+        "director_status": "match",
         "director_weak_overlap": false,
-        "event_year_relaxed": false,
+        "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.6,
+        "matched_weight": 1.1,
         "original_title_exact": false,
-        "popularity": 19.0233,
+        "popularity": 20.7052,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
@@ -9456,10 +9066,10 @@
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
         "year_near": false,
-        "year_status": "unavailable"
+        "year_status": "match"
       },
       "source_identities": [
         {
@@ -9476,15 +9086,11 @@
       "tmdb_release_year": 2006,
       "tmdb_runtime_min": 117,
       "tmdb_title": "Cars",
-      "top_candidate_margin": 0.25,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
-      "year_hint": null,
+      "top_candidate_margin": 0.6,
+      "warnings": [],
+      "year_hint": 2006,
       "year_interpretation": {
-        "anniversary_year_derived": false,
+        "anniversary_year_derived": true,
         "anniversary_years": 20,
         "applied_alias": null,
         "applied_alias_id": null,
@@ -9492,29 +9098,32 @@
           "presentation_segment"
         ],
         "base_title": "Cars",
-        "canonical_year_candidate": null,
+        "canonical_year_candidate": 2006,
         "event_labels": [
           "20th Anniversary"
         ],
         "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
+        "event_year": 2026,
+        "event_year_not_canonical": true,
         "format_tags": [],
         "presentation_labels": [
           "anniversary",
           "20th anniversary"
         ],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [
           "20th Anniversary"
         ],
-        "scoring_year": null,
-        "search_year": null,
+        "scoring_year": 2006,
+        "search_year": 2006,
         "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
+        "warnings": [
+          "event_year_not_canonical",
+          "anniversary_year_derived"
+        ],
+        "year_confidence": "derived",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -10278,14 +9887,19 @@
           "director": "Alexander Ullom",
           "original_title": null,
           "overview_excerpt": "A group of recent grads head out on a late night drive for grub, hoping to enjoy one final hangout before their paths diverge. Instead, they accidentally turn onto a never-ending, two-lane hellscape surrounded by untold…",
-          "popularity": 11.0801,
+          "popularity": 12.1426,
           "poster_path": "/6dfAGvZWbJnzWfSZ8gxFj63BNAH.jpg",
           "release_year": 2026,
           "runtime_min": 89,
-          "score": 1.0,
+          "score": 0.92,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
               "runtime": {
                 "kind": "match",
                 "matched": true,
@@ -10297,25 +9911,27 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
               "alexander ullom"
             ],
-            "director_conflict": false,
+            "director_conflict": true,
             "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_source_normalized": [
+              "alex ullom"
+            ],
+            "director_status": "conflict",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.6,
+            "matched_weight": 0.9,
             "original_title_exact": false,
-            "popularity": 11.0801,
+            "popularity": 12.1426,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -10327,36 +9943,37 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
           "title": "It Ends",
           "tmdb_id": 1422011,
           "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
+            "director_conflict"
           ]
         },
         {
-          "director": "Daryl Wein",
+          "director": "Matthias Julian Wörz",
           "original_title": null,
-          "overview_excerpt": "Liza scores an invite to one last wild party before the world ends. But making it there won't be easy: her car has been stolen, and the clock is ticking on her plan to tie up loose ends with friends and family. Accompan…",
-          "popularity": 2.5057,
-          "poster_path": "/h4FQ8H77z6rIY82HzR5wgOYoxCA.jpg",
-          "release_year": 2021,
-          "runtime_min": 83,
-          "score": 0.1667,
+          "overview_excerpt": "At the last party before the end of school, a shy young man drifts into a daydream and, in a moment between life and death, finds the courage to reach out for love in real life.",
+          "popularity": 0.887,
+          "poster_path": "/5fWgNVFn9kxIfSRDH4OeesBbqer.jpg",
+          "release_year": 2026,
+          "runtime_min": 13,
+          "score": 0.2727,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
               "runtime": {
-                "delta_minutes": 6,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.1,
+                "kind": "conflict",
+                "matched": false,
                 "weight": 0.15
               },
               "title_exact": {
@@ -10365,62 +9982,141 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
-              "daryl wein"
+              "matthias julian worz"
             ],
-            "director_conflict": false,
+            "director_conflict": true,
             "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_source_normalized": [
+              "alex ullom"
+            ],
+            "director_status": "conflict",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": true,
-            "matched_weight": 0.1,
+            "matched_weight": 0.3,
             "original_title_exact": false,
-            "popularity": 2.5057,
+            "popularity": 0.887,
             "runtime_compatible_max": 3,
-            "runtime_conflict": false,
+            "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 6,
+            "runtime_delta_minutes": 76,
             "runtime_near": false,
-            "runtime_soft": true,
+            "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "soft",
+            "runtime_status": "conflict",
             "title_conflict": true,
             "title_exact": false,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
-          "title": "How It Ends",
-          "tmdb_id": 776559,
+          "title": "Before It Ends",
+          "tmdb_id": 1596378,
           "warnings": [
             "title_conflict",
-            "year_evidence_absent",
-            "runtime_soft_penalty",
-            "director_unavailable"
+            "runtime_conflict",
+            "director_conflict"
+          ]
+        },
+        {
+          "director": "Ana Skorić",
+          "original_title": null,
+          "overview_excerpt": "While searching for her missing sister, a grieving woman discovers a hidden cottage where reality begins to fracture, and the truth may be something her mind refuses to face.",
+          "popularity": 0.9995,
+          "poster_path": "/q1pnd35SQnbENF7hAjvR2xmDGd8.jpg",
+          "release_year": 2026,
+          "runtime_min": 21,
+          "score": 0.2727,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "ana skoric"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "alex ullom"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.3,
+            "original_title_exact": false,
+            "popularity": 0.9995,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 68,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "How can you tell where it begins and where it ends?",
+          "tmdb_id": 1716294,
+          "warnings": [
+            "title_conflict",
+            "runtime_conflict",
+            "director_conflict"
           ]
         },
         {
           "director": "Justin Baldoni",
           "original_title": null,
           "overview_excerpt": "When a woman's first love suddenly reenters her life, her relationship with a charming, but abusive neurosurgeon is upended, and she realizes she must learn to rely on her own strength to make an impossible choice for h…",
-          "popularity": 12.7037,
+          "popularity": 13.3055,
           "poster_path": "/AjV6jFJ2YFIluYo4GQf13AA1tqu.jpg",
           "release_year": 2024,
           "runtime_min": 131,
           "score": 0.0001,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
               "runtime": {
                 "kind": "conflict",
                 "matched": false,
@@ -10432,25 +10128,27 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
+                "kind": "conflict",
                 "matched": false,
-                "weight": 0.0
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
               "justin baldoni"
             ],
-            "director_conflict": false,
+            "director_conflict": true,
             "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_source_normalized": [
+              "alex ullom"
+            ],
+            "director_status": "conflict",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
             "original_title_exact": false,
-            "popularity": 12.7037,
+            "popularity": 13.3055,
             "runtime_compatible_max": 3,
             "runtime_conflict": true,
             "runtime_conflict_min": 25,
@@ -10461,334 +10159,33 @@
             "runtime_status": "conflict",
             "title_conflict": true,
             "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
+            "year_conflict": true,
+            "year_evidence": "conflict",
             "year_exact": false,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "conflict"
           },
           "title": "It Ends with Us",
           "tmdb_id": 1079091,
           "warnings": [
             "title_conflict",
-            "year_evidence_absent",
+            "year_conflict",
             "runtime_conflict",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "David M. Rosenthal",
-          "original_title": null,
-          "overview_excerpt": "A desperate father tries to return home to his pregnant wife after a mysterious apocalyptic event turns everything to chaos.",
-          "popularity": 3.7657,
-          "poster_path": "/prdFM08mGvVDA6uQxKJh8n8Vek1.jpg",
-          "release_year": 2018,
-          "runtime_min": 113,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "miss",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "david m rosenthal"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 3.7657,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 24,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "miss",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "How It Ends",
-          "tmdb_id": 475210,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_mismatch",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "This documentary focuses on the actors and their journey over two summers to create the remake to the original IT, by Stephen King. The documentary originally released as bonus material, bundled with IT: Chapter Two.",
-          "popularity": 2.6157,
-          "poster_path": "/oXtw9zyoRtt1PiF6MSBNpSYSHRu.jpg",
-          "release_year": 2019,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 2.6157,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "The Summers of It - Chapter Two: It Ends",
-          "tmdb_id": 661289,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": "Når befrielsen kommer",
-          "overview_excerpt": "When a folk high school is turned into an internment camp for German refugees, the headmaster couple Jakob and Lis and their children are thrust into an impossible situation. Should the family help the refugees — or sta…",
-          "popularity": 2.1816,
-          "poster_path": "/hPnW1JMogaNrq84D9XOp1lU8fNg.jpg",
-          "release_year": 2023,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 2.1816,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Before It Ends",
-          "tmdb_id": 1120543,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Actor Jack joins a panto tour of care homes, where he is confronted with the reality of where it ends.",
-          "popularity": 0.4327,
-          "poster_path": "/nF08wU39cGG5H3WeijsMSlD3TxC.jpg",
-          "release_year": 2023,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.4327,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Where It Ends",
-          "tmdb_id": 1140807,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": "Svemu dođe kraj",
-          "overview_excerpt": "Maks is a brilliant lawyer who has been serving for years one of Croatia’s most powerful and ruthless businessmen, who made his fortune in the aftermath of the Balkan War. Maks’ latest service has been to have his clien…",
-          "popularity": 0.7603,
-          "poster_path": "/2DRtY362sX143UmHhXeehFvnIER.jpg",
-          "release_year": 2024,
-          "runtime_min": null,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.7603,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "It All Ends Here",
-          "tmdb_id": 1301337,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
+            "director_conflict"
           ]
         }
       ],
-      "directors_normalized": [],
-      "directors_raw": null,
+      "directors_normalized": [
+        "alex ullom"
+      ],
+      "directors_raw": "ALEX ULLOM",
       "eligibility": "eligible",
       "entity_kind": "feature_film",
       "film_id": "tmdb:1422011",
       "first_observed_at": null,
       "identity_type": "tmdb",
       "last_observed_at": null,
-      "match_confidence": 1.0,
+      "match_confidence": 0.92,
       "match_method": "automatic",
       "match_status": "confirmed_automatic",
       "normalized_title": "It Ends",
@@ -10798,8 +10195,13 @@
       },
       "runtime_min": 89,
       "signals": {
-        "available_weight": 0.6,
+        "available_weight": 1.1,
         "contributions": {
+          "director": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.2
+          },
           "runtime": {
             "kind": "match",
             "matched": true,
@@ -10811,25 +10213,27 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
           }
         },
         "director_candidate_normalized": [
           "alexander ullom"
         ],
-        "director_conflict": false,
+        "director_conflict": true,
         "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
+        "director_source_normalized": [
+          "alex ullom"
+        ],
+        "director_status": "conflict",
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.6,
+        "matched_weight": 0.9,
         "original_title_exact": false,
-        "popularity": 11.0801,
+        "popularity": 12.1426,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
@@ -10841,10 +10245,10 @@
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
         "year_near": false,
-        "year_status": "unavailable"
+        "year_status": "match"
       },
       "source_identities": [
         {
@@ -10861,13 +10265,11 @@
       "tmdb_release_year": 2026,
       "tmdb_runtime_min": 89,
       "tmdb_title": "It Ends",
-      "top_candidate_margin": 0.8333,
+      "top_candidate_margin": 0.6473,
       "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
+        "director_conflict"
       ],
-      "year_hint": null,
+      "year_hint": 2026,
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
@@ -10877,22 +10279,22 @@
           "normalized_source_fallback"
         ],
         "base_title": "It Ends",
-        "canonical_year_candidate": null,
+        "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
+        "scoring_year": 2026,
+        "search_year": 2026,
         "title_years": [],
         "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -14943,20 +14345,25 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "auto_confirm_blocked_reason": null,
       "candidates": [
         {
           "director": "Thắng Vũ",
           "original_title": "Mesdames Thanh Sắc",
           "overview_excerpt": "Mesdames Thanh Sắc follows the intertwined lives of the captivating beauty Cầm Thanh (Thanh Hằng) and Madame Sắc (Hồng Ánh), the wealthy owner of the prestigious Kim Đô nightclub, renowned for her fortune and vast colle…",
-          "popularity": 1.0663,
+          "popularity": 1.4021,
           "poster_path": "/qWmkDROhQ3NIRl3bwfuozlalV5P.jpg",
           "release_year": 2026,
           "runtime_min": 125,
-          "score": 0.75,
+          "score": 0.92,
           "signals": {
-            "available_weight": 0.6,
+            "available_weight": 1.1,
             "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
               "runtime": {
                 "kind": "miss",
                 "matched": false,
@@ -14968,25 +14375,27 @@
                 "weight": 0.45
               },
               "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
               }
             },
             "director_candidate_normalized": [
               "thang vu"
             ],
             "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
+            "director_overlap": true,
+            "director_source_normalized": [
+              "thang vu"
+            ],
+            "director_status": "match",
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.45,
+            "matched_weight": 0.95,
             "original_title_exact": false,
-            "popularity": 1.0663,
+            "popularity": 1.4021,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -14998,32 +14407,31 @@
             "title_conflict": false,
             "title_exact": true,
             "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
             "year_near": false,
-            "year_status": "unavailable"
+            "year_status": "match"
           },
           "title": "Madame in Saigon",
           "tmdb_id": 1694531,
           "warnings": [
-            "year_evidence_absent",
-            "runtime_mismatch",
-            "weak_title_only_match",
-            "director_unavailable"
+            "runtime_mismatch"
           ]
         }
       ],
-      "directors_normalized": [],
-      "directors_raw": null,
+      "directors_normalized": [
+        "thang vu"
+      ],
+      "directors_raw": "THANG VU",
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:amc:84581",
+      "film_id": "tmdb:1694531",
       "first_observed_at": null,
-      "identity_type": "source",
+      "identity_type": "tmdb",
       "last_observed_at": null,
-      "match_confidence": 0.75,
-      "match_method": "fallback",
-      "match_status": "review_required",
+      "match_confidence": 0.92,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
       "normalized_title": "Madame in Saigon",
       "presentation_labels": [],
       "provenance": {
@@ -15031,8 +14439,13 @@
       },
       "runtime_min": 105,
       "signals": {
-        "available_weight": 0.6,
+        "available_weight": 1.1,
         "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
           "runtime": {
             "kind": "miss",
             "matched": false,
@@ -15044,25 +14457,27 @@
             "weight": 0.45
           },
           "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
           }
         },
         "director_candidate_normalized": [
           "thang vu"
         ],
         "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
+        "director_overlap": true,
+        "director_source_normalized": [
+          "thang vu"
+        ],
+        "director_status": "match",
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.45,
+        "matched_weight": 0.95,
         "original_title_exact": false,
-        "popularity": 1.0663,
+        "popularity": 1.4021,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
@@ -15074,10 +14489,10 @@
         "title_conflict": false,
         "title_exact": true,
         "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
         "year_near": false,
-        "year_status": "unavailable"
+        "year_status": "match"
       },
       "source_identities": [
         {
@@ -15087,7 +14502,7 @@
           "source_title": "Madame in Saigon"
         }
       ],
-      "tmdb_id": null,
+      "tmdb_id": 1694531,
       "tmdb_original_title": "Mesdames Thanh Sắc",
       "tmdb_overview_excerpt": "Mesdames Thanh Sắc follows the intertwined lives of the captivating beauty Cầm Thanh (Thanh Hằng) and Madame Sắc (Hồng Ánh), the wealthy owner of the prestigious Kim Đô nightclub, renowned for her fortune and vast colle…",
       "tmdb_poster_path": "/qWmkDROhQ3NIRl3bwfuozlalV5P.jpg",
@@ -15096,12 +14511,9 @@
       "tmdb_title": "Madame in Saigon",
       "top_candidate_margin": null,
       "warnings": [
-        "year_evidence_absent",
-        "runtime_mismatch",
-        "weak_title_only_match",
-        "director_unavailable"
+        "runtime_mismatch"
       ],
-      "year_hint": null,
+      "year_hint": 2026,
       "year_interpretation": {
         "anniversary_year_derived": false,
         "anniversary_years": null,
@@ -15111,22 +14523,22 @@
           "normalized_source_fallback"
         ],
         "base_title": "Madame in Saigon",
-        "canonical_year_candidate": null,
+        "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
         "event_year": null,
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
+        "product_year": 2026,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
+        "scoring_year": 2026,
+        "search_year": 2026,
         "title_years": [],
         "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -15502,69 +14914,6 @@
           "normalized_source_fallback"
         ],
         "base_title": "Sara Bareilles: Good Grief",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": 2026,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_year": 2026,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "non_film",
-      "entity_kind": "mystery_screening",
-      "film_id": "source:amc:84688",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "none",
-      "match_status": "non_film",
-      "normalized_title": "AMC Scream Unseen: August 24",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "amc|id|84688"
-      },
-      "runtime_min": 101,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "amc-scream-unseen-august-24",
-          "source": "amc",
-          "source_film_id": "84688",
-          "source_title": "AMC Scream Unseen: August 24"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [
-        "mystery_or_unannounced",
-        "program_entity_not_tmdb_movie"
-      ],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "AMC Scream Unseen: August 24",
         "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
@@ -17769,67 +17118,6 @@
           "normalized_source_fallback"
         ],
         "base_title": "Last Year At Marienbad",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:28971",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "manual",
-      "match_status": "confirmed_manual",
-      "normalized_title": "Limelight",
-      "presentation_labels": [],
-      "provenance": {
-        "decision_id": "admin_dc2fa2eb-6d01-4422-872f-b0d22787bcdd",
-        "source_identity_key": "beacon|id|limelight"
-      },
-      "runtime_min": null,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "limelight",
-          "source": "beacon",
-          "source_film_id": "limelight",
-          "source_title": "LIMELIGHT"
-        }
-      ],
-      "tmdb_id": 28971,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": null,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Limelight",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -23511,191 +22799,6 @@
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
-          "director": "Douglas Tirola",
-          "original_title": null,
-          "overview_excerpt": "An enlightening, complex look at one of the greatest figures in 20th century classical music whose passion and creativity guided him well beyond the concert hall.",
-          "popularity": 0.3452,
-          "poster_path": "/sgCNmqNPcm1RCgR1u9kxyJWjE51.jpg",
-          "release_year": 2021,
-          "runtime_min": 100,
-          "score": 1.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "douglas tirola"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 0.3452,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Bernstein's Wall",
-          "tmdb_id": 822252,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:822252",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "Bernstein's Wall",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "siff|id|cinema/in-theaters/bernsteins-wall"
-      },
-      "runtime_min": 100,
-      "signals": {
-        "available_weight": 0.6,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "douglas tirola"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.6,
-        "original_title_exact": false,
-        "popularity": 0.3452,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "title_conflict": false,
-        "title_exact": true,
-        "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "bernstein-s-wall",
-          "source": "siff",
-          "source_film_id": "cinema/in-theaters/bernsteins-wall",
-          "source_title": "Bernstein's Wall"
-        }
-      ],
-      "tmdb_id": 822252,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "An enlightening, complex look at one of the greatest figures in 20th century classical music whose passion and creativity guided him well beyond the concert hall.",
-      "tmdb_poster_path": "/sgCNmqNPcm1RCgR1u9kxyJWjE51.jpg",
-      "tmdb_release_year": 2021,
-      "tmdb_runtime_min": 100,
-      "tmdb_title": "Bernstein's Wall",
-      "top_candidate_margin": null,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Bernstein's Wall",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
           "director": "Jane Schoenbrun",
           "original_title": null,
           "overview_excerpt": "After years of slapdash sequels and waning fandom, the Camp Miasma slasher franchise is handed over to an enthusiastic young director for resurrection. But when she visits the original's star, a now-reclusive actress sh…",
@@ -24961,6 +24064,6 @@
       }
     }
   ],
-  "generated_at": "2026-08-25T07:33:53+00:00",
+  "generated_at": "2026-08-26T07:35:33+00:00",
   "schema_version": "1.0.0"
 }
