@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-25T23:36:57-07:00",
+  "generated_at": "2026-08-27T10:13:07-07:00",
   "status": "success",
   "window": {
-    "start_date": "2026-08-25",
-    "end_date": "2026-09-08"
+    "start_date": "2026-08-27",
+    "end_date": "2026-09-10"
   },
   "sources": {
     "amc": {
       "status": "success",
-      "showtime_count": 3828,
-      "film_count": 74,
+      "showtime_count": 3371,
+      "film_count": 78,
       "theater_count": 7,
-      "last_successful_run": "2026-08-26",
+      "last_successful_run": "2026-08-27",
       "warnings": [
         "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
       ],
@@ -20,20 +20,18 @@
     },
     "siff": {
       "status": "success",
-      "showtime_count": 91,
+      "showtime_count": 80,
       "film_count": 8,
       "theater_count": 3,
-      "last_successful_run": "2026-08-26",
+      "last_successful_run": "2026-08-27",
       "warnings": [
         "SIFF parent/series page with no direct showtimes: programs-and-events/celluloid-screenings",
-        "SIFF parent/series page with no direct showtimes: programs-and-events/cold-war-summer",
         "SIFF parent/series page with no direct showtimes: programs-and-events/community-screenings",
-        "SIFF parent/series page with no direct showtimes: programs-and-events/education/siff-filmmaking-camps",
         "SIFF parent/series page with no direct showtimes: programs-and-events/siff-book-club",
         "SIFF parent/series page with no direct showtimes: programs-and-events/siff-movie-club",
         "SIFF parent/series page with no direct showtimes: programs-and-events/stage-to-screen",
-        "SIFF parent/series page with no direct showtimes: programs-and-events/stage-to-screen/nt-live-les-liaisons-dangereuses",
-        "SIFF parent/series page with no direct showtimes: programs-and-events/stage-to-screen/nt-live-the-misanthrope"
+        "SIFF parent/series page with no direct showtimes: programs-and-events/stage-to-screen/nt-live-the-misanthrope",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/the-open-road"
       ],
       "errors": []
     },
@@ -42,32 +40,32 @@
       "showtime_count": 31,
       "film_count": 18,
       "theater_count": 1,
-      "last_successful_run": "2026-08-26",
+      "last_successful_run": "2026-08-27",
       "warnings": [],
       "errors": []
     },
     "nwff": {
       "status": "success",
-      "showtime_count": 24,
+      "showtime_count": 23,
       "film_count": 10,
       "theater_count": 1,
-      "last_successful_run": "2026-08-26",
+      "last_successful_run": "2026-08-27",
       "warnings": [],
       "errors": []
     },
     "central_cinema": {
       "status": "success",
-      "showtime_count": 42,
-      "film_count": 13,
+      "showtime_count": 37,
+      "film_count": 10,
       "theater_count": 1,
-      "last_successful_run": "2026-08-26",
+      "last_successful_run": "2026-08-27",
       "warnings": [],
       "errors": []
     }
   },
   "totals": {
-    "showtime_count": 4016,
-    "film_count": 120,
+    "showtime_count": 3542,
+    "film_count": 121,
     "theater_count": 13
   },
   "messages": [],
@@ -80,15 +78,15 @@
     "outcome": "promoted",
     "artifacts_written_this_run": true,
     "artifacts_retained_from_prior": false,
-    "reported_at": "2026-08-25T23:38:22-07:00",
-    "last_successful_build_at": "2026-08-25T23:37:03-07:00",
+    "reported_at": "2026-08-27T10:14:39-07:00",
+    "last_successful_build_at": "2026-08-27T10:13:19-07:00",
     "message": "AMC source catalog: promoted",
     "warnings": [],
     "errors": [],
     "refresh": {
-      "active_ids": 74,
-      "selected": 74,
-      "success": 74,
+      "active_ids": 78,
+      "selected": 78,
+      "success": 78,
       "failed": 0,
       "invalid": 0
     },
@@ -99,8 +97,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-08-25T23:37:03-07:00",
-        "record_count": 169,
+        "generated_at": "2026-08-27T10:13:19-07:00",
+        "record_count": 180,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -112,8 +110,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-08-25T23:37:03-07:00",
-        "record_count": 151,
+        "generated_at": "2026-08-27T10:13:19-07:00",
+        "record_count": 160,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -121,42 +119,42 @@
       }
     },
     "products_summary": {
-      "total": 169,
-      "active": 74,
-      "inactive": 95,
-      "with_release_id": 164,
+      "total": 180,
+      "active": 78,
+      "inactive": 102,
+      "with_release_id": 175,
       "without_release_id": 5,
       "refresh_pending": 0,
-      "refresh_success": 169,
+      "refresh_success": 180,
       "refresh_stale": 0,
       "refresh_failed": 0,
       "refresh_invalid": 0,
       "refresh_status_missing": 0,
       "stored_stats": {
-        "products": 169,
-        "active_products": 74,
-        "inactive_products": 95,
-        "with_release_id": 164,
+        "products": 180,
+        "active_products": 78,
+        "inactive_products": 102,
+        "with_release_id": 175,
         "without_release_id": 5,
         "refresh_pending": 0,
-        "refresh_success": 169,
+        "refresh_success": 180,
         "refresh_stale": 0,
         "refresh_failed": 0,
         "refresh_invalid": 0,
-        "special_presentations": 82
+        "special_presentations": 86
       }
     },
     "releases_summary": {
-      "total": 151,
-      "singleton_groups": 144,
-      "multi_product_groups": 7,
-      "membership_references": 164,
+      "total": 160,
+      "singleton_groups": 152,
+      "multi_product_groups": 8,
+      "membership_references": 175,
       "unresolved_member_references": 0,
       "stored_stats": {
-        "release_observations": 151,
-        "singleton_groups": 144,
-        "multi_product_groups": 7,
-        "largest_group": 7
+        "release_observations": 160,
+        "singleton_groups": 152,
+        "multi_product_groups": 8,
+        "largest_group": 8
       }
     }
   }
