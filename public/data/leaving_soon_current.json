@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-27T10:13:14-07:00",
+  "generated_at": "2026-08-28T11:00:06-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-08-27",
-    "end_date": "2026-09-10"
+    "start_date": "2026-08-28",
+    "end_date": "2026-09-11"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 78,
-    "flagged_film_count": 37
+    "candidate_film_count": 69,
+    "flagged_film_count": 22
   },
   "items": [
     {
@@ -116,34 +116,6 @@
       "runtime_min": 118
     },
     {
-      "film_key": "american-martyr-the-stanley-rother-story",
-      "film_title": "American Martyr: The Stanley Rother Story",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-27",
-      "max_show_date": "2026-08-27",
-      "total_visible_showtimes": 2,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-08-27"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785193616/amc-cdn/content/general/imzngetpr7wuv7dijerj.jpg",
-      "runtime_min": 123
-    },
-    {
       "film_key": "amok-time-star-trek-iii-the-search-for-spock-60th-anniversary-event",
       "film_title": "Amok Time + Star Trek III: The Search for Spock 60th Anniversary Event",
       "risk_level": "high",
@@ -170,30 +142,6 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787396766/amc-cdn/production/2/movies/84700/84715/Poster/424012R1.jpg",
       "runtime_min": 155
-    },
-    {
-      "film_key": "brink-of-war",
-      "film_title": "The Brink of War",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-27",
-      "max_show_date": "2026-08-27",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        }
-      ],
-      "show_dates": [
-        "2026-08-27"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782227202/amc-cdn/content/general/zn4eudfqj0q6nsok30yy.jpg",
-      "runtime_min": 117
     },
     {
       "film_key": "changeling-star-trek-the-motion-picture-director-s-edition-60th-anniversary-event",
@@ -224,43 +172,23 @@
       "runtime_min": 187
     },
     {
-      "film_key": "fix",
-      "film_title": "The Fix",
+      "film_key": "ghost-2-big-to-rig",
+      "film_title": "GHOST: 2 Big To Rig",
       "risk_level": "high",
       "reason": "Only one visible AMC play date remains in the current schedule.",
       "visible_show_date_count": 1,
-      "min_show_date": "2026-09-10",
-      "max_show_date": "2026-09-10",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-09-10"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785198491/amc-cdn/content/general/ueq7f4f680zv46lqbjt0.jpg",
-      "runtime_min": 142
-    },
-    {
-      "film_key": "harry-potter-and-the-chamber-of-secrets",
-      "film_title": "Harry Potter And The Chamber of Secrets",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-27",
-      "max_show_date": "2026-08-27",
-      "total_visible_showtimes": 2,
-      "total_visible_theaters": 2,
+      "min_show_date": "2026-08-29",
+      "max_show_date": "2026-08-29",
+      "total_visible_showtimes": 3,
+      "total_visible_theaters": 3,
       "theaters": [
         {
           "theater_id": "amc-alderwood-mall-16",
           "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
         },
         {
           "theater_id": "amc-southcenter-16",
@@ -268,12 +196,12 @@
         }
       ],
       "show_dates": [
-        "2026-08-27"
+        "2026-08-29"
       ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784816472/amc-cdn/content/general/fx6nsf2q6hfcgptp5upx.jpg",
-      "runtime_min": 161
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784257262/amc-cdn/content/general/purucje0kzty6d8ykik4.jpg",
+      "runtime_min": 115
     },
     {
       "film_key": "harry-potter-and-the-goblet-of-fire",
@@ -480,34 +408,6 @@
       "runtime_min": 157
     },
     {
-      "film_key": "hot-spot",
-      "film_title": "Hot Spot",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-27",
-      "max_show_date": "2026-08-27",
-      "total_visible_showtimes": 2,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-08-27"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785952878/amc-cdn/content/general/m2lazuxu2yrvisea98vb.jpg",
-      "runtime_min": 101
-    },
-    {
       "film_key": "hunger-games-2026",
       "film_title": "The Hunger Games (2026)",
       "risk_level": "high",
@@ -688,30 +588,6 @@
       "runtime_min": 167
     },
     {
-      "film_key": "if-i-tell-you",
-      "film_title": "If I Tell You",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-27",
-      "max_show_date": "2026-08-27",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        }
-      ],
-      "show_dates": [
-        "2026-08-27"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785275839/amc-cdn/content/general/ottqqwsnzm2vvosynve0.jpg",
-      "runtime_min": 98
-    },
-    {
       "film_key": "katy-perry-the-lifetimes-tour-live-from-paris",
       "film_title": "Katy Perry: The Lifetimes Tour - Live From Paris",
       "risk_level": "high",
@@ -738,30 +614,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1784902483/amc-cdn/content/general/sglh9rbex3xzxi2h8ulx.jpg",
       "runtime_min": 132
-    },
-    {
-      "film_key": "la-la-land-10th-anniversary",
-      "film_title": "La La Land 10th Anniversary",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-27",
-      "max_show_date": "2026-08-27",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-08-27"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784308144/amc-cdn/content/general/ywxaniu3jnbddperhfo3.jpg",
-      "runtime_min": 128
     },
     {
       "film_key": "mst3k-the-rifftrax-experiments-sting-of-death",
@@ -800,66 +652,6 @@
       "runtime_min": 100
     },
     {
-      "film_key": "never-stop-chasing",
-      "film_title": "Never Stop Chasing",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-27",
-      "max_show_date": "2026-08-27",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        }
-      ],
-      "show_dates": [
-        "2026-08-27"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784733149/amc-cdn/content/general/vxynjsa5ldoki6znjdx0.jpg",
-      "runtime_min": 102
-    },
-    {
-      "film_key": "oasis-don-t-look-back-in-anger",
-      "film_title": "Oasis: Don't Look Back in Anger",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-09-10",
-      "max_show_date": "2026-09-10",
-      "total_visible_showtimes": 14,
-      "total_visible_theaters": 4,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-09-10"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1787767494/amc-cdn/content/general/dutue0nrtvnpnotyi5a1.jpg",
-      "runtime_min": 124
-    },
-    {
       "film_key": "oasis-don-t-look-back-in-anger-imax-early-access",
       "film_title": "Oasis: Don’t Look Back In Anger IMAX Early Access",
       "risk_level": "high",
@@ -892,126 +684,6 @@
       "runtime_min": 124
     },
     {
-      "film_key": "passion-of-the-christ-2026-event-2026",
-      "film_title": "The Passion of the Christ (2026 Event)",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-09-10",
-      "max_show_date": "2026-09-10",
-      "total_visible_showtimes": 4,
-      "total_visible_theaters": 4,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-09-10"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784571005/amc-cdn/production/2/movies/84000/84018/Poster/420798R1.jpg",
-      "runtime_min": 127
-    },
-    {
-      "film_key": "practical-magic-2",
-      "film_title": "Practical Magic 2",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-09-10",
-      "max_show_date": "2026-09-10",
-      "total_visible_showtimes": 30,
-      "total_visible_theaters": 7,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-factoria-8",
-          "theater_name": "AMC Factoria 8"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-oak-tree-6",
-          "theater_name": "AMC Oak Tree 6"
-        },
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-09-10"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1786649654/amc-cdn/content/general/laezebc5z03dlud5ksa9.jpg",
-      "runtime_min": 130
-    },
-    {
-      "film_key": "runner",
-      "film_title": "Runner",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-09-10",
-      "max_show_date": "2026-09-10",
-      "total_visible_showtimes": 14,
-      "total_visible_theaters": 4,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-09-10"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1787606522/amc-cdn/content/general/pc3c23kwefbqqkjmfosf.jpg",
-      "runtime_min": 97
-    },
-    {
       "film_key": "sara-bareilles-good-grief",
       "film_title": "Sara Bareilles: Good Grief",
       "risk_level": "high",
@@ -1042,106 +714,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787066541/amc-cdn/content/general/wlh7ckoiygrw0rlyatnp.jpg",
       "runtime_min": 91
-    },
-    {
-      "film_key": "six-the-musical-live",
-      "film_title": "Six: The Musical Live!",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-27",
-      "max_show_date": "2026-08-27",
-      "total_visible_showtimes": 2,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-08-27"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1778777127/amc-cdn/content/general/s23kiljjsg2fj0kcjsnh.png",
-      "runtime_min": 95
-    },
-    {
-      "film_key": "toy-story-5",
-      "film_title": "Toy Story 5",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-27",
-      "max_show_date": "2026-08-27",
-      "total_visible_showtimes": 4,
-      "total_visible_theaters": 3,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-08-27"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1771533104/amc-cdn/content/general/lgrsoo2k0ancoqjbtgeu.jpg",
-      "runtime_min": 102
-    },
-    {
-      "film_key": "uprising",
-      "film_title": "The Uprising",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-09-10",
-      "max_show_date": "2026-09-10",
-      "total_visible_showtimes": 18,
-      "total_visible_theaters": 5,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-09-10"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784142559/amc-cdn/content/general/g46girtcut37vv0pz7qn.jpg",
-      "runtime_min": 128
     },
     {
       "film_key": "uprising-early-access-live-q-a-with-paul-greengrass-and-andrew-garfield",
@@ -1190,30 +762,6 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787233866/amc-cdn/content/general/pp3ap2kbmzvggkouchzf.jpg",
       "runtime_min": 166
-    },
-    {
-      "film_key": "your-name-10th-anniversary",
-      "film_title": "Your Name. 10th Anniversary",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-27",
-      "max_show_date": "2026-08-27",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-08-27"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785409657/amc-cdn/production/2/movies/83900/83876/Poster/421442R1.jpg",
-      "runtime_min": 107
     }
   ]
 }
