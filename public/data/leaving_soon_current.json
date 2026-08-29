@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-28T11:00:06-07:00",
+  "generated_at": "2026-08-29T05:05:44-07:00",
   "source": "amc",
   "window": {
-    "start_date": "2026-08-28",
-    "end_date": "2026-09-11"
+    "start_date": "2026-08-29",
+    "end_date": "2026-09-12"
   },
   "method": {
     "name": "visible_dates_le_1",
@@ -15,8 +15,8 @@
     "evaluation_note": "Historical held-out backtest only (PR D); not a guarantee of leaving soon. PR D target and this rule are likely tautological (end-of-visible-schedule); do not use for product decisions until weekly-extension labels (PR C2) pass review."
   },
   "stats": {
-    "candidate_film_count": 69,
-    "flagged_film_count": 22
+    "candidate_film_count": 68,
+    "flagged_film_count": 21
   },
   "items": [
     {
@@ -288,34 +288,6 @@
       "runtime_min": 138
     },
     {
-      "film_key": "harry-potter-and-the-prisoner-of-azkaban-hpd26",
-      "film_title": "Harry Potter And The Prisoner Of Azkaban (HPD26)",
-      "risk_level": "high",
-      "reason": "Only one visible AMC play date remains in the current schedule.",
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-08-28",
-      "max_show_date": "2026-08-28",
-      "total_visible_showtimes": 2,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-08-28"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784816493/amc-cdn/content/general/v4z3ote8uyxunqeibxkx.jpg",
-      "runtime_min": 141
-    },
-    {
       "film_key": "harry-potter-deathly-hallows-part-1-hpd26",
       "film_title": "Harry Potter & Deathly Hallows: Part 1 (HPD26)",
       "risk_level": "high",
@@ -351,7 +323,7 @@
       "visible_show_date_count": 1,
       "min_show_date": "2026-09-02",
       "max_show_date": "2026-09-02",
-      "total_visible_showtimes": 2,
+      "total_visible_showtimes": 3,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -691,7 +663,7 @@
       "visible_show_date_count": 1,
       "min_show_date": "2026-09-02",
       "max_show_date": "2026-09-02",
-      "total_visible_showtimes": 4,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 3,
       "theaters": [
         {
