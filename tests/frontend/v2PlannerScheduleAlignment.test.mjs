@@ -1,5 +1,5 @@
 /**
- * Planner / My Schedule product-alignment cleanup tests.
+ * Planner / legacy My Schedule retirement tests.
  */
 
 import test from 'node:test';
@@ -16,12 +16,13 @@ import {
 } from '../../v2/navigation/navState.js';
 import { PRIMARY_DESTINATIONS } from '../../v2/destinations.js';
 import {
-  MY_SCHEDULE_WEEK_QUERY,
-} from '../../v2/fixtures/myScheduleWeekMockupFixture.js';
-import { MY_SCHEDULE_MONTH_QUERY } from '../../v2/fixtures/myScheduleMonthMockupFixture.js';
+  getScheduleSettings,
+  updateScheduleSettings,
+} from '../../v2/stores/scheduleSettingsStore.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const APP_SRC = readFileSync(join(ROOT, 'v2/V2App.jsx'), 'utf8');
+const NAV_SRC = readFileSync(join(ROOT, 'v2/navigation/navState.js'), 'utf8');
 const PLANNER_SRC = readFileSync(join(ROOT, 'v2/planner/PlannerDestination.jsx'), 'utf8');
 const DETAILS_SRC = readFileSync(
   join(ROOT, 'v2/planner/BuildPlanPlanDetailsSurface.jsx'),
@@ -29,8 +30,7 @@ const DETAILS_SRC = readFileSync(
 );
 const RESULTS_SRC = readFileSync(
   join(ROOT, 'v2/planner/BuildPlanResultsSurface.jsx'),
-  'utf8',
-);
+  'utf8');
 const ACCEPT_SRC = readFileSync(
   join(ROOT, 'v2/planner/acceptPlanFromResults.js'),
   'utf8',
@@ -78,7 +78,29 @@ test('primary navigation has Planner and no My Schedule destination', () => {
   assert.equal(labels.includes('My Schedule'), false);
 });
 
-test('Planner landing does not expose My Schedule week navigation', () => {
+test('legacy My Schedule surfaces are not imported by V2App', () => {
+  assert.doesNotMatch(APP_SRC, /MyScheduleWeekSurface/);
+  assert.doesNotMatch(APP_SRC, /MyScheduleMonthSurface/);
+  assert.doesNotMatch(APP_SRC, /AboutMyScheduleSurface/);
+  assert.doesNotMatch(APP_SRC, /ScheduleSettingsSurface/);
+  assert.doesNotMatch(APP_SRC, /isMyScheduleWeekQueryOpen/);
+  assert.doesNotMatch(APP_SRC, /isMyScheduleMonthQueryOpen/);
+  assert.doesNotMatch(APP_SRC, /isAboutMyScheduleQueryOpen/);
+  assert.doesNotMatch(APP_SRC, /isScheduleSettingsQueryOpen/);
+});
+
+test('legacy nav helpers removed from navState', () => {
+  assert.doesNotMatch(NAV_SRC, /openMyScheduleWeek/);
+  assert.doesNotMatch(NAV_SRC, /openMyScheduleMonth/);
+  assert.doesNotMatch(NAV_SRC, /openAboutMySchedule/);
+  assert.doesNotMatch(NAV_SRC, /openScheduleSettings/);
+  assert.doesNotMatch(NAV_SRC, /my-schedule-week/);
+  assert.doesNotMatch(NAV_SRC, /my-schedule-month/);
+  assert.doesNotMatch(NAV_SRC, /about-my-schedule/);
+  assert.doesNotMatch(NAV_SRC, /schedule-settings/);
+});
+
+test('Planner landing remains Planner-native', () => {
   assert.equal(PLANNER_SRC.includes('onOpenMyScheduleWeek'), false);
   assert.doesNotMatch(PLANNER_SRC, /openMyScheduleWeek/);
   assert.match(PLANNER_SRC, /timelineExpanded/);
@@ -91,18 +113,11 @@ test('Build a Plan surfaces use Planner acceptance terminology', () => {
   assert.doesNotMatch(RESULTS_SRC, /Add to My Schedule/);
   assert.match(DETAILS_SRC, /View in Planner/);
   assert.doesNotMatch(DETAILS_SRC, /View in My Schedule/);
-  assert.match(DETAILS_SRC, /Add to Planner/);
-  assert.doesNotMatch(DETAILS_SRC, /Add to My Schedule/);
 });
 
-test('Plan Details routes to Planner primary destination, not My Schedule week', () => {
+test('Plan Details routes to Planner primary destination', () => {
   assert.match(APP_SRC, /onViewInPlanner/);
   assert.match(APP_SRC, /selectPrimaryDestination\(current, 'planner'\)/);
-  assert.doesNotMatch(APP_SRC, /onViewInSchedule/);
-});
-
-test('DestinationPlaceholder does not wire stale My Schedule week callback', () => {
-  assert.equal(DEST_PLACEHOLDER_SRC.includes('onOpenMyScheduleWeek'), false);
 });
 
 test('accepting a live plan persists screenings visible in Planner Upcoming', () => {
@@ -126,6 +141,13 @@ test('accepting a live plan persists screenings visible in Planner Upcoming', ()
   assert.equal(getAcceptedPlans(storage).length, 1);
 });
 
+test('schedule settings store remains functional', () => {
+  const storage = memoryStorage();
+  assert.equal(getScheduleSettings(storage).timeFormatId, '12h');
+  updateScheduleSettings(storage, { timeFormatId: '24h' });
+  assert.equal(getScheduleSettings(storage).timeFormatId, '24h');
+});
+
 test('View in Planner selects planner tab and clears deep surface', () => {
   let state = createInitialNavState();
   state = selectPrimaryDestination(state, 'planner');
@@ -133,9 +155,8 @@ test('View in Planner selects planner tab and clears deep surface', () => {
   assert.equal(state.surface, null);
 });
 
-test('legacy My Schedule dev query params remain defined', () => {
-  assert.equal(MY_SCHEDULE_WEEK_QUERY, 'myScheduleWeek');
-  assert.equal(MY_SCHEDULE_MONTH_QUERY, 'myScheduleMonth');
-  assert.match(APP_SRC, /isMyScheduleWeekQueryOpen/);
-  assert.match(APP_SRC, /isMyScheduleMonthQueryOpen/);
+test('canonical v2 app source has no My Schedule branding', () => {
+  assert.doesNotMatch(APP_SRC, /Add to My Schedule/);
+  assert.doesNotMatch(APP_SRC, /View in My Schedule/);
+  assert.doesNotMatch(DEST_PLACEHOLDER_SRC, /My Schedule/);
 });

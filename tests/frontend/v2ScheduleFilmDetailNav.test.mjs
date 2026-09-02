@@ -1,5 +1,5 @@
 /**
- * My Schedule / Plan Details → Film Detail navigation wiring.
+ * Accepted plans / Plan Details → Film Detail navigation wiring.
  */
 
 import assert from 'node:assert/strict';
@@ -11,7 +11,7 @@ import test from 'node:test';
 import { resolveFilmDetailNavParams } from '../../v2/identity/filmIdentity.js';
 import { acceptedPlanToPlanDetailsPlan } from '../../v2/planner/acceptedPlanToPlanDetails.js';
 import { derivePlanDetailsViewModel } from '../../v2/planner/derivePlanDetailsViewModel.js';
-import { composeMyScheduleWeekFromAcceptedPlans } from '../../v2/planner/composeMyScheduleWeekFromAcceptedPlans.js';
+import { composePlannerLandingFromAcceptedPlans, listUpcomingPlannerScreenings } from '../../v2/planner/composePlannerLandingPresentation.js';
 import {
   ACCEPTED_PLANS_STORAGE_KEY,
   acceptPlan,
@@ -21,21 +21,17 @@ import {
   createInitialNavState,
   openBuildPlanPlanDetails,
   openFilmDetail,
-  openMyScheduleWeek,
   navigateBack,
+  selectPrimaryDestination,
 } from '../../v2/navigation/navState.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const WEEK_SRC = readFileSync(
-  join(ROOT, 'v2/planner/MyScheduleWeekSurface.jsx'),
+const PLANNER_SRC = readFileSync(
+  join(ROOT, 'v2/planner/PlannerDestination.jsx'),
   'utf8',
 );
 const DETAILS_SRC = readFileSync(
   join(ROOT, 'v2/planner/BuildPlanPlanDetailsSurface.jsx'),
-  'utf8',
-);
-const MODIFY_SRC = readFileSync(
-  join(ROOT, 'v2/planner/ScheduleModifyPlanSheet.jsx'),
   'utf8',
 );
 const APP_SRC = readFileSync(join(ROOT, 'v2/V2App.jsx'), 'utf8');
@@ -186,83 +182,60 @@ test('acceptedPlanToPlanDetailsPlan preserves identity and recomputes breaks', (
   assert.equal(detailFilm.filmId, 'tmdb:414906');
 });
 
-test('My Schedule week events retain navigation identity after accept', () => {
+test('Planner Upcoming screenings retain navigation identity after accept', () => {
   const storage = memoryStorage();
   acceptPlan(storage, {
     performances: [livePerformance()],
     date: '2026-08-10',
     provenance: 'live',
   });
-  const week = composeMyScheduleWeekFromAcceptedPlans({
+  const landing = composePlannerLandingFromAcceptedPlans({
     storage,
-    now: () => new Date('2026-08-10T12:00:00-07:00'),
+    now: new Date('2026-08-10T12:00:00-07:00'),
   });
-  const event = week.week.days
-    .flatMap((d) => d.planGroups)
-    .flatMap((g) => g.items)
-    .find((i) => i.type === 'film');
-  assert.ok(event);
-  assert.equal(event.filmKey, 'batman-2022');
-  assert.equal(event.filmId, 'tmdb:414906');
-  assert.equal(event.opportunityKey, 'opp-1');
-  assert.equal(event.ticketUrl, 'https://example.com/tickets');
+  const screening = landing.upcoming.dateGroups[0].items[0];
+  assert.equal(screening.kind, 'screening');
+  assert.equal(screening.title, 'The Batman');
 
-  const params = resolveFilmDetailNavParams(event, makeHomeData());
+  const detailed = listUpcomingPlannerScreenings({
+    storage,
+    now: new Date('2026-08-10T12:00:00-07:00'),
+  })[0];
+  assert.equal(detailed.filmKey, 'batman-2022');
+  assert.equal(detailed.filmId, 'tmdb:414906');
+  assert.equal(detailed.ticketUrl, 'https://example.com/tickets');
+  assert.equal(getAcceptedPlans(storage)[0].performances[0].opportunityKey, 'opp-1');
+
+  const params = resolveFilmDetailNavParams(
+    getAcceptedPlans(storage)[0].performances[0],
+    makeHomeData(),
+  );
   assert.equal(params.filmKey, 'batman-2022');
-
-  assert.equal(week.nextUp.filmKey, 'batman-2022');
-  assert.equal(week.nextUp.ticketUrl, 'https://example.com/tickets');
 });
 
-test('View Plan Details from schedule returns to My Schedule, not invented Results', () => {
-  let nav = openMyScheduleWeek(createInitialNavState(), {
-    originPrimary: 'planner',
-  });
-  const adapted = acceptedPlanToPlanDetailsPlan({
-    planId: 'plan-1',
-    label: 'Day',
-    date: '2026-08-10',
-    performances: [
-      {
-        performanceKey: 'p1',
-        filmId: 'tmdb:414906',
-        filmKey: 'batman-2022',
-        title: 'The Batman',
-        theaterId: 't1',
-        theaterName: 'SIFF',
-        localDate: '2026-08-10',
-        localTime: '19:00',
-        startsAt: '2026-08-11T02:00:00.000Z',
-        expectedEndsAt: '2026-08-11T05:11:00.000Z',
-        runtimeMin: 176,
-        format: 'Standard',
-        opportunityKey: 'opp-1',
-        ticketUrl: null,
-        posterUrl: null,
-        source: 'siiff',
-        sourceShowtimeId: 's1',
-        addressLabel: null,
-      },
-    ],
-  });
+test('View Plan Details from results returns to results on back', () => {
+  let nav = createInitialNavState();
   nav = openBuildPlanPlanDetails(nav, {
-    plan: adapted,
+    plan: { id: 'plan-1', items: [] },
     originPrimary: 'planner',
     returnSurface: {
-      type: 'my-schedule-week',
+      type: 'build-plan-results',
       originPrimary: 'planner',
       returnSurface: null,
     },
   });
   assert.equal(nav.surface.type, 'build-plan-plan-details');
-  assert.equal(nav.surface.returnSurface.type, 'my-schedule-week');
+  assert.equal(nav.surface.returnSurface.type, 'build-plan-results');
   nav = navigateBack(nav);
-  assert.equal(nav.surface.type, 'my-schedule-week');
+  assert.equal(nav.surface.type, 'build-plan-results');
 });
 
-test('Film Detail from schedule preserves returnSurface; never film-filter', () => {
-  let nav = openMyScheduleWeek(createInitialNavState(), {
+test('Film Detail from Plan Details preserves returnSurface', () => {
+  let nav = createInitialNavState();
+  nav = openBuildPlanPlanDetails(nav, {
+    plan: { id: 'plan-1', items: [] },
     originPrimary: 'planner',
+    returnSurface: null,
   });
   nav = openFilmDetail(nav, {
     filmKey: 'batman-2022',
@@ -272,34 +245,33 @@ test('Film Detail from schedule preserves returnSurface; never film-filter', () 
   });
   assert.equal(nav.surface.type, 'film-detail');
   assert.equal(nav.surface.filmKey, 'batman-2022');
-  assert.equal(nav.surface.opportunityKey, 'opp-1');
-  assert.equal(nav.surface.returnSurface.type, 'my-schedule-week');
+  assert.equal(nav.surface.returnSurface.type, 'build-plan-plan-details');
   assert.equal(NAV_SRC.includes('film-filter'), false);
-  assert.equal(WEEK_SRC.includes('film-filter'), false);
+  assert.equal(PLANNER_SRC.includes('film-filter'), false);
   assert.equal(DETAILS_SRC.includes('film-filter'), false);
 });
 
-test('wiring: schedule and plan details open Film Detail; tickets stay separate', () => {
-  assert.match(WEEK_SRC, /onOpenFilmDetail/);
-  assert.match(WEEK_SRC, /Open Film Detail for/);
-  assert.match(WEEK_SRC, /resolveFilmDetailNavParams/);
-  assert.match(WEEK_SRC, /acceptedPlanToPlanDetailsPlan/);
-  assert.match(WEEK_SRC, /handleTickets/);
-  assert.match(WEEK_SRC, /v2-msw-event-film/);
-  assert.equal(WEEK_SRC.includes('handleEventSelect'), false);
-
+test('wiring: Planner and Plan Details open Film Detail', () => {
+  assert.match(PLANNER_SRC, /onOpenFilmDetail/);
+  assert.match(PLANNER_SRC, /openScreening/);
   assert.match(DETAILS_SRC, /onOpenFilmDetail/);
   assert.match(DETAILS_SRC, /v2-bpd-film-open/);
-  assert.match(DETAILS_SRC, /Open Film Detail for/);
-
-  assert.match(MODIFY_SRC, /View plan details/);
-  assert.match(MODIFY_SRC, /onOpenFilmDetail/);
-  assert.match(MODIFY_SRC, /onViewPlanDetails/);
-
-  assert.match(APP_SRC, /onOpenPlanDetails/);
-  assert.match(APP_SRC, /my-schedule-week/);
   assert.match(APP_SRC, /BuildPlanPlanDetailsSurface/);
-  assert.match(APP_SRC, /onOpenFilmDetail=\{\(params\) =>/);
+  assert.match(APP_SRC, /onViewInPlanner/);
+  assert.match(APP_SRC, /selectPrimaryDestination\(current, 'planner'\)/);
+  assert.doesNotMatch(APP_SRC, /MyScheduleWeekSurface/);
+});
+
+test('View in Planner clears deep surface', () => {
+  let nav = createInitialNavState();
+  nav = openBuildPlanPlanDetails(nav, {
+    planId: 'accepted:demo',
+    originPrimary: 'planner',
+    returnSurface: null,
+  });
+  nav = selectPrimaryDestination(nav, 'planner');
+  assert.equal(nav.primaryDestinationId, 'planner');
+  assert.equal(nav.surface, null);
 });
 
 test('hydration preserves filmKey for navigation without rewriting storage', () => {
@@ -347,7 +319,6 @@ test('hydration preserves filmKey for navigation without rewriting storage', () 
   assert.equal(plans[0].performances[0].filmKey, 'legacy-key');
   const params = resolveFilmDetailNavParams(plans[0].performances[0]);
   assert.equal(params.filmKey, 'legacy-key');
-  // No rewrite on read
   assert.match(
     storage.getItem(ACCEPTED_PLANS_STORAGE_KEY),
     /"filmId":null/,
