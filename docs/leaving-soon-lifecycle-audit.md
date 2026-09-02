@@ -19,7 +19,7 @@ python scripts/audit_amc_run_lifecycles.py
 
 Generated datasets are gitignored under `audit-output/amc-run-lifecycle/`. Library: `reel_seattle/analysis/amc_run_lifecycle.py`. Observation contract: `schema/analysis/amc_run_lifecycle_observations/v1.0.0.json`.
 
-Related: [leaving-soon-model-design.md](./leaving-soon-model-design.md) (older Wednesday-extension target — superseded as the **label**), [amc-source-catalog.md](./amc-source-catalog.md), [data-foundation-roadmap.md](./data-foundation-roadmap.md). The unmerged ingestion change lives on `feature/amc-all-announced-showtimes` and is **not** in this worktree.
+Related: [leaving-soon-survival-model-v1.md](./leaving-soon-survival-model-v1.md) (v1 remaining-days backtest; no UI), [leaving-soon-model-design.md](./leaving-soon-model-design.md) (older Wednesday-extension target — superseded as the **label**), [amc-source-catalog.md](./amc-source-catalog.md), [data-foundation-roadmap.md](./data-foundation-roadmap.md). The unmerged ingestion change lives on `feature/amc-all-announced-showtimes` and is **not** in this worktree.
 
 ---
 
@@ -387,6 +387,6 @@ Do **not** model “Wednesday extension failure” as the target. After `feature
 
 Remaining-days is a proper time-to-event label: right-censored at `as_of`, left-truncation flagged, 14-day horizon isolated as a feature quality flag.
 
-**Next step (separate task):** fit a survival / TTE model (e.g. Cox, Aalen, or a censored regression on `remaining_days`) on the filtered observation table. Use 14-day run segmentation. Keep specials as a stratum or separate model — their length distribution is not the first-run distribution. Do not ship UI. Do not treat announced horizon as the outcome.
+**Follow-up (done on `feature/leaving-soon-survival-model-v1`):** a discrete-time remaining-days model was trained and backtested. See [leaving-soon-survival-model-v1.md](./leaving-soon-survival-model-v1.md). Recommendation there is `promising_continue` — not UI, not a production Leaving Soon replacement.
 
-Smallest data upgrade that would materially help: merge/land all-announced showtimes so **future** daily logs stop truncating horizon features, then extend this audit as those logs accumulate.
+Smallest data upgrade that would materially help: merge/land all-announced showtimes so **future** daily logs stop truncating horizon features, then re-run the survival experiment as those logs accumulate.

@@ -4,7 +4,7 @@
 **Date:** 2026-06-30  
 **Audience:** Maintainers evaluating whether to ship an AMC “Leaving Soon” signal
 
-**Target update (2026-09-02):** The modeling goal is now **remaining theatrical lifetime** (calendar days until the final Seattle-area AMC showtime of the current source-native run), not Wednesday booking-extension failure. See [leaving-soon-lifecycle-audit.md](./leaving-soon-lifecycle-audit.md). Wednesday cadence remains a feature/process analysis. This document still describes the earlier weekly-label work; do not treat §1’s extension-failure question as the current label.
+**Target update (2026-09-02):** The modeling goal is now **remaining theatrical lifetime** (calendar days until the final Seattle-area AMC showtime of the current source-native run), not Wednesday booking-extension failure. See [leaving-soon-lifecycle-audit.md](./leaving-soon-lifecycle-audit.md) and the v1 backtest [leaving-soon-survival-model-v1.md](./leaving-soon-survival-model-v1.md). Wednesday cadence remains a feature/process analysis. This document still describes the earlier weekly-label work; do not treat §1’s extension-failure question as the current label.
 
 ---
 
