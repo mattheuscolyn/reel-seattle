@@ -144,6 +144,37 @@ export function IconSpark(props) {
   );
 }
 
+/** Four-point sparkle used on Planner “Build a Plan”. */
+export function IconSparkle(props) {
+  return (
+    <svg {...base} width={16} height={16} viewBox="0 0 24 24" {...props}>
+      <path
+        d="M12 2.5 13.6 10.4 21.5 12 13.6 13.6 12 21.5 10.4 13.6 2.5 12 10.4 10.4Z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
+  );
+}
+
+/** Overlap + warning mark for Needs Attention conflict cards. */
+export function IconConflict(props) {
+  return (
+    <svg {...base} width={22} height={22} viewBox="0 0 24 24" {...props}>
+      <circle cx="9" cy="10.5" r="5" />
+      <circle cx="15" cy="10.5" r="5" />
+      <path
+        d="M12 14.6 9.8 19.2h4.4Z"
+        fill="currentColor"
+        stroke="currentColor"
+        strokeLinejoin="round"
+      />
+      <path d="M12 16.2v1.35" stroke="#0a0d14" strokeWidth={1.7} />
+      <circle cx="12" cy="18.55" r="0.55" fill="#0a0d14" stroke="none" />
+    </svg>
+  );
+}
+
 export function IconCollection(props) {
   return (
     <svg {...base} width={18} height={18} {...props}>

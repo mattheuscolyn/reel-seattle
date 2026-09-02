@@ -15,8 +15,12 @@ const require = createRequire(import.meta.url);
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'tmp-v2-qc');
 const BASE = process.env.V2_BASE_URL || 'http://127.0.0.1:5175/';
-const CANONICAL = join(ROOT, 'Canonical Mockup Images', 'Planner Landing Page.png');
-const WIDTH = 393;
+const CANONICAL = join(
+  ROOT,
+  'Canonical Mockup Images',
+  'Planner Main Page Upcoming.png',
+);
+const WIDTH = 470;
 
 mkdirSync(OUT, { recursive: true });
 
@@ -140,7 +144,7 @@ try {
   await page.waitForSelector('[data-planner-source="planner-landing-mockup"]', {
     timeout: 15_000,
   });
-  await page.waitForSelector('[data-planner-section="draft"]');
+  await page.waitForSelector('[data-planner-section="upcoming"]');
   await waitReady(page);
   await navAudit(page, 'mockup-viewport');
   await captureViewport(page, 'planner-audit-03-mockup-viewport.png');
@@ -155,11 +159,39 @@ try {
   const leftForBuild = (await page.locator('.v2-planner').count()) === 0;
   await page.locator('.v2-nav-button', { hasText: 'Planner' }).click();
   await page.waitForSelector('[data-planner-source="planner-landing-mockup"]');
-  await page.getByRole('button', { name: /My Schedule/i }).first().click();
+  await page.getByRole('button', { name: /View full timeline/i }).first().click();
   await page.waitForTimeout(400);
-  const leftForSchedule = (await page.locator('.v2-planner').count()) === 0;
+  const leftForTimeline = (await page.locator('.v2-planner').count()) === 0;
+
+  await page.goto(`${BASE}?plannerMockup=1`, { waitUntil: 'networkidle' });
+  await page.locator('.v2-nav-button', { hasText: 'Planner' }).click();
+  await page.waitForSelector('[data-planner-source="planner-landing-mockup"]');
+  await page.getByRole('button', { name: /Review options/i }).first().click();
+  await page.waitForSelector('[data-planner-conflict-review="open"]', {
+    timeout: 10_000,
+  });
+  await captureViewport(page, 'planner-audit-08-conflict-review-viewport.png');
+  const conflictReviewOpen =
+    (await page.locator('[data-planner-conflict-review="open"]').count()) > 0;
+
+  await page.goto(`${BASE}?plannerMockup=1`, { waitUntil: 'networkidle' });
+  await page.locator('.v2-nav-button', { hasText: 'Planner' }).click();
+  await page.waitForSelector('[data-planner-source="planner-landing-mockup"]');
+  await page.getByRole('tab', { name: /Saved films/i }).click();
+  await page.waitForSelector('[data-planner-saved-source="planner-saved-films-mockup"]');
+  await captureViewport(page, 'planner-audit-09-saved-films-viewport.png');
+  await page.getByRole('button', { name: /Choose showtime/i }).first().click();
+  await page.waitForSelector('[data-saved-film-choose-sheet="open"]');
+  await captureViewport(page, 'planner-audit-10-choose-showtime-viewport.png');
+  await page.getByRole('button', { name: /Cancel/i }).click();
+  await page.locator('.v2-psf-more').first().click();
+  await page.waitForSelector('.v2-psf-row-menu');
+  await captureViewport(page, 'planner-audit-11-saved-films-menu-viewport.png');
+  const savedFilmsMockup =
+    (await page.locator('[data-planner-saved-source="planner-saved-films-mockup"]').count()) > 0;
+
   console.log(
-    JSON.stringify({ leftForBuild, leftForSchedule }, null, 2),
+    JSON.stringify({ leftForBuild, leftForTimeline, conflictReviewOpen, savedFilmsMockup }, null, 2),
   );
 
   // Comparisons
@@ -248,6 +280,8 @@ try {
       'and zero .v2-shell padding-bottom so nav document-flow does not leave a blank gap.',
       'Viewport captures keep real sticky/fixed chrome.',
       'Mockup mode: ?plannerMockup=1',
+      'Conflict review: Review options from Needs Attention',
+      'Saved Films: tab, choose showtime sheet, three-dot menu',
       'Production uses accepted-plans source (honest empty when none).',
       '',
     ].join('\n'),

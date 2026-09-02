@@ -151,23 +151,12 @@ test('Week view toggle exposes selected Week state', () => {
   assert.match(SURFACE_SRC, /aria-label=\{presentation\.settingsLabel\}/);
 });
 
-test('Planner landing opens My Schedule Week surface', () => {
-  assert.match(PLANNER_SRC, /onOpenMyScheduleWeek/);
-  assert.match(PLANNER_SRC, /entry\.id === 'my-schedule'/);
+test('Planner View full timeline stays on Planner landing', () => {
+  assert.doesNotMatch(PLANNER_SRC, /onOpenMyScheduleWeek/);
+  assert.match(PLANNER_SRC, /View full timeline|openTimeline|viewTimelineLabel/);
+  assert.match(PLANNER_SRC, /timelineExpanded/);
   assert.match(NAV_SRC, /openMyScheduleWeek/);
   assert.match(APP_SRC, /myScheduleWeek/);
-  let nav = createInitialNavState();
-  nav = selectPrimaryDestination(nav, 'planner');
-  nav = openMyScheduleWeek(nav, { originPrimary: 'planner' });
-  assert.equal(nav.surface?.type, 'my-schedule-week');
-  assert.equal(nav.primaryDestinationId, 'planner');
-  assert.equal(
-    resolveActivePrimaryId({
-      primaryDestinationId: nav.primaryDestinationId,
-      surface: nav.surface,
-    }),
-    'planner',
-  );
 });
 
 test('Week navigation uses deterministic fixture weeks', () => {

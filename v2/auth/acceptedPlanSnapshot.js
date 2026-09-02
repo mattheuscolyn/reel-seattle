@@ -2,8 +2,9 @@
  * Durable accepted-plan snapshot normalize / merge
  * (T-ACCOUNT-CLOUD-SYNC-SCHEDULE-01).
  *
- * Cloud plan_id = local AcceptedPlanItem.planId (deterministic content id).
- * Snapshots must render My Schedule without HomeData.
+ * Cloud plan_id = local AcceptedPlanItem.planId.
+ * New plans derive a deterministic id from date + performance keys at accept time;
+ * subsequent performance edits preserve the stored planId.
  */
 
 import {
@@ -66,6 +67,16 @@ export function localPlanToRecord(plan, mutatedAt) {
   const updated_at =
     asIso(mutatedAt) ?? asIso(plan.acceptedAt) ?? new Date().toISOString();
 
+  const snapshotPerfs = built.plan.performances.map((perf) => {
+    const prior = (plan.performances ?? []).find(
+      (p) => p.performanceKey === perf.performanceKey,
+    );
+    if (prior?.ticketsPurchased === true) {
+      return { ...perf, ticketsPurchased: true };
+    }
+    return perf;
+  });
+
   /** @type {Record<string, unknown>} */
   const snapshot = {
     schema_version: ACCEPTED_PLAN_SNAPSHOT_SCHEMA_VERSION,
@@ -75,7 +86,7 @@ export function localPlanToRecord(plan, mutatedAt) {
     date: built.plan.date,
     timezone: built.plan.timezone || ACCEPTED_PLANS_TIMEZONE,
     provenance: 'live',
-    performances: built.plan.performances,
+    performances: snapshotPerfs,
     settingsSnapshot: plan.settingsSnapshot ?? null,
   };
 
@@ -144,10 +155,70 @@ export function recordToLocalPlan(record) {
   });
   if (!built.ok || !built.plan) return null;
 
+  const snapPerfs = Array.isArray(snap.performances) ? snap.performances : [];
+  const performances = built.plan.performances.map((perf) => {
+    const raw = snapPerfs.find(
+      (row) =>
+        row &&
+        typeof row === 'object' &&
+        /** @type {{ performanceKey?: string }} */ (row).performanceKey ===
+          perf.performanceKey,
+    );
+    if (
+      raw &&
+      /** @type {{ ticketsPurchased?: boolean }} */ (raw).ticketsPurchased === true
+    ) {
+      return { ...perf, ticketsPurchased: true };
+    }
+    return perf;
+  });
+
   return {
     ...built.plan,
     planId: record.plan_id,
     acceptedAt: record.accepted_at,
+    performances,
+  };
+}
+
+/**
+ * Union per-performance ticketsPurchased across snapshots (true wins).
+ * Prevents a newer cloud snapshot without the field from clearing local true.
+ *
+ * @param {Record<string, unknown>} newerSnap
+ * @param {Record<string, unknown> | null | undefined} olderSnap
+ */
+function unionTicketsPurchasedSnapshots(newerSnap, olderSnap) {
+  if (!newerSnap || typeof newerSnap !== 'object') return newerSnap;
+  const newerPerfs = Array.isArray(newerSnap.performances)
+    ? newerSnap.performances
+    : [];
+  const olderPerfs =
+    olderSnap && Array.isArray(olderSnap.performances) ? olderSnap.performances : [];
+  if (!newerPerfs.length || !olderPerfs.length) return newerSnap;
+  return {
+    ...newerSnap,
+    performances: newerPerfs.map((perf) => {
+      if (!perf || typeof perf !== 'object') return perf;
+      const key = /** @type {{ performanceKey?: string }} */ (perf).performanceKey;
+      const older = olderPerfs.find(
+        (row) =>
+          row &&
+          typeof row === 'object' &&
+          /** @type {{ performanceKey?: string }} */ (row).performanceKey === key,
+      );
+      const newerPurchased =
+        /** @type {{ ticketsPurchased?: boolean }} */ (perf).ticketsPurchased ===
+        true;
+      const olderPurchased =
+        older &&
+        /** @type {{ ticketsPurchased?: boolean }} */ (older).ticketsPurchased ===
+          true;
+      if (newerPurchased || olderPurchased) {
+        return { ...perf, ticketsPurchased: true };
+      }
+      return perf;
+    }),
   };
 }
 
@@ -161,12 +232,16 @@ function mergeActivePlans(a, b) {
   const older = a.updated_at >= b.updated_at ? b : a;
   const earliestAccepted =
     a.accepted_at <= b.accepted_at ? a.accepted_at : b.accepted_at;
+  const mergedSnapshot = unionTicketsPurchasedSnapshots(
+    /** @type {Record<string, unknown>} */ (newer.plan_snapshot ?? {}),
+    older.plan_snapshot,
+  );
   return {
     ...newer,
     is_active: true,
     accepted_at: earliestAccepted,
     updated_at: newer.updated_at,
-    plan_snapshot: newer.plan_snapshot ?? older.plan_snapshot,
+    plan_snapshot: mergedSnapshot,
   };
 }
 
@@ -245,6 +320,18 @@ export function mergeAcceptedPlanCollections(locals, clouds, options) {
 }
 
 /**
+ * @param {AcceptedPlanRecord | null | undefined} record
+ */
+function planSnapshotSignature(record) {
+  if (!record?.plan_snapshot) return '';
+  try {
+    return JSON.stringify(record.plan_snapshot);
+  } catch {
+    return '';
+  }
+}
+
+/**
  * @param {Map<string, AcceptedPlanRecord>} prevActive
  * @param {Map<string, AcceptedPlanRecord>} nextActive
  * @param {string} mutatedAt
@@ -257,8 +344,14 @@ export function diffLocalAcceptedPlanMaps(prevActive, nextActive, mutatedAt) {
 
   for (const [id, next] of nextActive) {
     const prev = prevActive.get(id);
-    if (!prev || prev.updated_at !== next.updated_at) {
-      changes.push({ ...next, is_active: true });
+    const snapshotChanged =
+      !prev || planSnapshotSignature(prev) !== planSnapshotSignature(next);
+    if (!prev || prev.updated_at !== next.updated_at || snapshotChanged) {
+      changes.push({
+        ...next,
+        is_active: true,
+        updated_at: snapshotChanged ? at : next.updated_at,
+      });
     }
   }
 

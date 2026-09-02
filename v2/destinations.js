@@ -28,7 +28,7 @@ export const PRIMARY_DESTINATIONS = Object.freeze([
     label: 'Planner',
     title: 'Planner',
     description:
-      'Stage 1 Planner landing — fixture-backed visual replica of the canonical Planner Landing mockup. Build a Plan config is Stage 1 local-state; Results / Schedule / persistence deferred.',
+      'Planner landing — Upcoming / Saved films shell aligned to Planner Main Page Upcoming mockup. Build a Plan, conflicts, and accepted-plan screenings.',
   }),
   Object.freeze({
     id: 'profile',

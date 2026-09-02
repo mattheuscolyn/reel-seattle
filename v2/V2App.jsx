@@ -1934,8 +1934,9 @@ export default function V2App() {
         onExploreRestoreConsumed={() => setExploreRestorePending(null)}
         plannerSeed={nav.plannerSeed}
         onOpenBuildPlan={handleOpenBuildPlan}
-        onOpenMyScheduleWeek={() => handleOpenMyScheduleWeek()}
-        onOpenSavedPlan={handleOpenSavedPlan}
+        onAcceptedPlansChange={() =>
+          setAcceptedPlansRevision((value) => value + 1)
+        }
         acceptedPlansRevision={acceptedPlansRevision}
         onProfileStubAction={(_actionId, label) => {
           setProfileStubStatus(

@@ -149,11 +149,18 @@ test('Planner landing upcoming list reads saved plans and excludes past plans', 
   const now = new Date('2026-08-08T18:00:00-07:00');
   const landing = composePlannerLandingFromAcceptedPlans({ storage, now });
   assert.equal(landing.summary.upcomingCount, 1);
-  assert.equal(landing.upcoming.plans.length, 1);
-  assert.equal(landing.upcoming.plans[0].planId.startsWith('accepted:2026-08-20:'), true);
+  assert.equal(landing.summary.screeningCount, 2);
+  assert.equal(landing.upcoming.dateGroups.length, 1);
+  assert.equal(landing.upcoming.dateGroups[0].items.length, 2);
+  assert.equal(
+    landing.upcoming.dateGroups[0].items[0].planId.startsWith(
+      'accepted:2026-08-20:',
+    ),
+    true,
+  );
   assert.equal(landing.past.plans.length, 1);
   assert.equal(landing.past.sectionTitle, 'Past Plans');
-  assert.ok(!landing.upcoming.plans[0].title.includes('Results'));
+  assert.ok(!landing.upcoming.dateGroups[0].items[0].title.includes('Results'));
 });
 
 test('openBuildPlanPlanDetails supports planId and returns to Planner by default', () => {
@@ -305,14 +312,15 @@ test('existing acceptedPlans localStorage payload is preserved (no wipe)', () =>
   assert.ok(isSavedPlanDetailsPlan(acceptedPlanToPlanDetailsPlan(plans[0])));
 });
 
-test('Planner destination opens saved plans rather than My Schedule', () => {
+test('Planner destination opens screening sheet from Upcoming rows', () => {
   const src = readFileSync(
     join(ROOT, 'v2/planner/PlannerDestination.jsx'),
     'utf8',
   );
-  assert.match(src, /onOpenSavedPlan/);
-  assert.match(src, /data-planner-section="pastPlans"/);
-  assert.match(src, /openSavedPlan/);
+  assert.match(src, /PlannedScreeningSheet/);
+  assert.match(src, /openScreening/);
+  assert.match(src, /v2-planner-screening-row/);
+  assert.doesNotMatch(src, /onOpenSavedPlan/);
   assert.doesNotMatch(
     src,
     /upcoming\.plans\.map\([\s\S]*onClick=\{openSchedule\}/,
