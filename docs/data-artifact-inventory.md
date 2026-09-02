@@ -104,6 +104,11 @@ Contracts and writers described in [amc-source-catalog.md](./amc-source-catalog.
 | `scripts/audit_amc_run_lifecycles.py` | Lifecycle audit CLI | Manual / local · writes gitignored `audit-output/amc-run-lifecycle/` |
 | `schema/analysis/amc_run_lifecycle_observations/v1.0.0.json` | Observation-row contract | Authored · analysis-only · not public |
 | `docs/leaving-soon-lifecycle-audit.md` | Remaining-days TTE data foundation | Authored research · not a production contract |
+| `reel_seattle/analysis/leaving_soon_survival.py` | Discrete-time remaining-run survival model | Read-only analysis · no UI · no production artifacts |
+| `scripts/train_leaving_soon_survival.py` | Train + backtest CLI | Manual / local · writes gitignored `audit-output/leaving-soon-survival-v1/` |
+| `scripts/evaluate_leaving_soon_survival.py` | Evaluate from an existing observation CSV | Manual / local · same gitignored output dir |
+| `docs/leaving-soon-survival-model-v1.md` | v1 remaining-days backtest + ship gate | Authored research · not a production contract |
+| `audit-output/leaving-soon-survival-v1/` | Model metrics, splits, sample predictions | Gitignored · regenerable |
 
 Do not ship to Pages or the public SPA. Do not treat as authored canonical film data. Local Developer Data Cockpit may read these files through an explicit allowlist (P-21A); they are never copied into `public/` or `dist/`.
 
