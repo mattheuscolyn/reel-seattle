@@ -9,6 +9,10 @@
 import { getAcceptedPlans } from '../stores/acceptedPlansStore.js';
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 import { partitionAcceptedPlans } from './planLifecycle.js';
+import {
+  findConflictClusters,
+  formatConflictBody,
+} from './plannerScreeningOverlap.js';
 
 /**
  * @param {string} localTime HH:MM or display
@@ -132,53 +136,6 @@ function toScreening(plan, perf, timeFormatId) {
   };
 }
 
-/**
- * @param {{ startMs: number | null, endMs: number | null }} a
- * @param {{ startMs: number | null, endMs: number | null }} b
- */
-function overlaps(a, b) {
-  if (a.startMs == null || a.endMs == null || b.startMs == null || b.endMs == null) {
-    return false;
-  }
-  return a.startMs < b.endMs && b.startMs < a.endMs;
-}
-
-/**
- * Greedy pairwise conflicts among screenings (sorted by start).
- * @param {ReturnType<typeof toScreening>[]} screenings
- */
-function findConflictPairs(screenings) {
-  const sorted = [...screenings].sort((a, b) => {
-    const as = a.startMs ?? 0;
-    const bs = b.startMs ?? 0;
-    if (as !== bs) return as - bs;
-    return String(a.id).localeCompare(String(b.id));
-  });
-  /** @type {{ id: string, left: object, right: object }[]} */
-  const pairs = [];
-  const used = new Set();
-  for (let i = 0; i < sorted.length; i += 1) {
-    const left = sorted[i];
-    if (used.has(left.id)) continue;
-    for (let j = i + 1; j < sorted.length; j += 1) {
-      const right = sorted[j];
-      if (used.has(right.id)) continue;
-      if (right.startMs != null && left.endMs != null && right.startMs >= left.endMs) {
-        break;
-      }
-      if (!overlaps(left, right)) continue;
-      pairs.push({
-        id: `conflict-${left.id}__${right.id}`,
-        left,
-        right,
-      });
-      used.add(left.id);
-      used.add(right.id);
-      break;
-    }
-  }
-  return { pairs, used };
-}
 
 /**
  * @param {ReturnType<typeof toScreening>} screening
@@ -201,12 +158,51 @@ function publicScreening(screening) {
 }
 
 /**
+ * Flatten upcoming accepted-plan screenings for conflict resolution.
  * @param {{
  *   storage?: Storage | null,
  *   now?: Date,
  *   timeFormatId?: string,
  * }} [options]
  */
+export function listUpcomingPlannerScreenings(options = {}) {
+  const storage =
+    options.storage ??
+    (typeof localStorage !== 'undefined' ? localStorage : null);
+  const now = options.now ?? new Date();
+  const timeFormatId =
+    typeof options.timeFormatId === 'string' && options.timeFormatId
+      ? options.timeFormatId
+      : '12h';
+  const { upcoming: upcomingPlans } = partitionAcceptedPlans(
+    getAcceptedPlans(storage),
+    now,
+  );
+  /** @type {ReturnType<typeof toScreening>[]} */
+  const screenings = [];
+  for (const plan of upcomingPlans) {
+    const perfs = Array.isArray(plan.performances) ? plan.performances : [];
+    for (const perf of perfs) {
+      const row = toScreening(plan, perf, timeFormatId);
+      screenings.push({
+        ...row,
+        filmKey: perf.filmKey ?? null,
+        filmId: perf.filmId ?? null,
+        theaterId: perf.theaterId,
+        localDate: perf.localDate,
+        localTime: perf.localTime,
+        source: perf.source ?? null,
+        sourceShowtimeId: perf.sourceShowtimeId ?? null,
+        ticketUrl: perf.ticketUrl ?? null,
+        expectedEndsAt: perf.expectedEndsAt ?? null,
+        runtimeMin: perf.runtimeMin,
+        format: perf.format ?? null,
+      });
+    }
+  }
+  return screenings;
+}
+
 export function composePlannerLandingFromAcceptedPlans(options = {}) {
   const storage =
     options.storage ??
@@ -222,20 +218,13 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
     now,
   );
 
-  const screenings = [];
-  for (const plan of upcomingPlans) {
-    const perfs = Array.isArray(plan.performances) ? plan.performances : [];
-    for (const perf of perfs) {
-      screenings.push(toScreening(plan, perf, timeFormatId));
+  const screenings = listUpcomingPlannerScreenings({ storage, now, timeFormatId });
+  const clusters = findConflictClusters(screenings);
+  const used = new Set();
+  for (const cluster of clusters) {
+    for (const member of cluster.members) {
+      used.add(member.id);
     }
-  }
-
-  const { pairs, used } = findConflictPairs(screenings);
-  const conflictByDate = new Map();
-  for (const pair of pairs) {
-    const dateKey = pair.left.dateKey || pair.right.dateKey || 'unknown';
-    if (!conflictByDate.has(dateKey)) conflictByDate.set(dateKey, []);
-    conflictByDate.get(dateKey).push(pair);
   }
 
   const todayIso = now.toLocaleDateString('en-CA', {
@@ -249,14 +238,17 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
     return itemsByDate.get(dateKey);
   };
 
-  for (const pair of pairs) {
-    const dateKey = pair.left.dateKey || pair.right.dateKey || 'unknown';
+  for (const cluster of clusters) {
+    const dateKey = cluster.dateKey || 'unknown';
+    const members = cluster.members.map(publicScreening);
     ensureDate(dateKey).push({
       kind: 'conflict-group',
-      id: pair.id,
+      id: cluster.id,
+      conflictId: cluster.id,
       bannerLabel: 'CONFLICT • You can’t see both',
-      left: publicScreening(pair.left),
-      right: publicScreening(pair.right),
+      members,
+      left: members[0] ?? null,
+      right: members[1] ?? members[0] ?? null,
     });
   }
 
@@ -296,20 +288,23 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
     items: itemsByDate.get(dateKey) ?? [],
   }));
 
-  const needsAttentionItems = pairs.map((pair) => {
-    const dateKey = pair.left.dateKey || pair.right.dateKey || '';
+  const needsAttentionItems = clusters.map((cluster) => {
+    const dateKey = cluster.dateKey || '';
     const dayName = weekdayLong(dateKey);
+    const members = cluster.members;
     return {
-      id: `attention-${pair.id}`,
+      id: `attention-${cluster.id}`,
+      conflictId: cluster.id,
       kind: 'conflict',
       headline: `${dayName} has a conflict`,
-      body: `${pair.left.title} and ${pair.right.title} overlap.`,
+      body: formatConflictBody(members),
       ctaLabel: 'Review options',
       weekdayLabel: dayName,
       dateKey,
-      posterUrls: [pair.left.posterUrl, pair.right.posterUrl].filter(Boolean),
-      screeningIds: [pair.left.id, pair.right.id],
-      planIds: [pair.left.planId, pair.right.planId],
+      posterUrls: members.map((m) => m.posterUrl).filter(Boolean).slice(0, 3),
+      screeningIds: members.map((m) => m.id),
+      planIds: members.map((m) => m.planId),
+      performanceKeys: members.map((m) => m.performanceKey).filter(Boolean),
     };
   });
 
@@ -358,7 +353,7 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
     summary: {
       upcomingCount: upcomingPlans.length,
       screeningCount: screenings.length,
-      conflictCount: pairs.length,
+      conflictCount: clusters.length,
       draftCount: 0,
     },
   };

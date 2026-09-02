@@ -162,8 +162,20 @@ try {
   await page.getByRole('button', { name: /View full timeline/i }).first().click();
   await page.waitForTimeout(400);
   const leftForTimeline = (await page.locator('.v2-planner').count()) === 0;
+
+  await page.goto(`${BASE}?plannerMockup=1`, { waitUntil: 'networkidle' });
+  await page.locator('.v2-nav-button', { hasText: 'Planner' }).click();
+  await page.waitForSelector('[data-planner-source="planner-landing-mockup"]');
+  await page.getByRole('button', { name: /Review options/i }).first().click();
+  await page.waitForSelector('[data-planner-conflict-review="open"]', {
+    timeout: 10_000,
+  });
+  await captureViewport(page, 'planner-audit-08-conflict-review-viewport.png');
+  const conflictReviewOpen =
+    (await page.locator('[data-planner-conflict-review="open"]').count()) > 0;
+
   console.log(
-    JSON.stringify({ leftForBuild, leftForTimeline }, null, 2),
+    JSON.stringify({ leftForBuild, leftForTimeline, conflictReviewOpen }, null, 2),
   );
 
   // Comparisons
@@ -252,6 +264,7 @@ try {
       'and zero .v2-shell padding-bottom so nav document-flow does not leave a blank gap.',
       'Viewport captures keep real sticky/fixed chrome.',
       'Mockup mode: ?plannerMockup=1',
+      'Conflict review: Review options from Needs Attention',
       'Production uses accepted-plans source (honest empty when none).',
       '',
     ].join('\n'),

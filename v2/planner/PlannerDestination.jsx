@@ -19,6 +19,7 @@ import {
 } from '../fixtures/plannerLandingMockupFixture.js';
 import { composePlannerLandingFromAcceptedPlans } from './composePlannerLandingPresentation.js';
 import PlannedScreeningSheet from './PlannedScreeningSheet.jsx';
+import PlannerConflictReviewSurface from './PlannerConflictReviewSurface.jsx';
 import {
   getScheduleSettings,
   subscribeScheduleSettings,
@@ -191,6 +192,34 @@ function ConflictSide({ screening, onOpen }) {
  * }} props
  */
 function ConflictGroupCard({ group, onOpen }) {
+  const members =
+    Array.isArray(group.members) && group.members.length > 0
+      ? group.members
+      : [group.left, group.right].filter(Boolean);
+
+  if (members.length > 2) {
+    return (
+      <div className="v2-planner-conflict-group" data-conflict-id={group.id}>
+        <p className="v2-planner-conflict-banner">
+          <span aria-hidden="true">✧</span> {group.bannerLabel}
+        </p>
+        <div className="v2-planner-conflict-multi">
+          {members.map((screening, index) => (
+            <div key={screening.id} className="v2-planner-conflict-multi-item">
+              {index > 0 ? (
+                <div className="v2-planner-conflict-or" aria-hidden="true">
+                  <span className="v2-planner-conflict-or-line" />
+                  <span className="v2-planner-conflict-or-badge">OR</span>
+                </div>
+              ) : null}
+              <ConflictSide screening={screening} onOpen={onOpen} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="v2-planner-conflict-group" data-conflict-id={group.id}>
       <p className="v2-planner-conflict-banner">
@@ -254,6 +283,7 @@ export default function PlannerDestination({
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
   const [selectedScreening, setSelectedScreening] = useState(null);
+  const [activeConflictId, setActiveConflictId] = useState(null);
 
   const announceStub = (actionId, label) => {
     const message = `${label} isn’t available yet.`;
@@ -298,11 +328,61 @@ export default function PlannerDestination({
   };
 
   const openReviewOptions = (item) => {
-    announceStub(
-      item?.id || 'review-options',
-      item?.ctaLabel || 'Review options',
-    );
+    const conflictId =
+      typeof item?.conflictId === 'string' && item.conflictId.trim()
+        ? item.conflictId.trim()
+        : typeof item?.id === 'string'
+          ? item.id.replace(/^attention-/, '')
+          : '';
+    if (!conflictId) {
+      announceStub(item?.id || 'review-options', item?.ctaLabel || 'Review options');
+      return;
+    }
+    setSelectedScreening(null);
+    setActiveConflictId(conflictId);
   };
+
+  const closeConflictReview = () => {
+    setActiveConflictId(null);
+  };
+
+  if (activeConflictId) {
+    return (
+      <section
+        className="v2-planner v2-planner-conflict-review-host"
+        aria-labelledby="v2-planner-title"
+        data-planner-source={presentation.source}
+        data-planner-view="conflict-review"
+      >
+        <PlannerConflictReviewSurface
+          conflictId={activeConflictId}
+          onBack={closeConflictReview}
+          onConflictResolved={onAcceptedPlansChange}
+          onAcceptedPlansChange={onAcceptedPlansChange}
+          homeData={homeData}
+          enrichmentIndex={enrichmentIndex}
+        />
+        <PlannedScreeningSheet
+          selection={selectedScreening}
+          open={Boolean(selectedScreening)}
+          onClose={closeScreening}
+          homeData={homeData}
+          enrichmentIndex={enrichmentIndex}
+          onOpenFilmDetail={onOpenFilmDetail}
+          onPlansChanged={onAcceptedPlansChange}
+          onStubAction={announceStub}
+        />
+        <p
+          id={stubStatusId}
+          className="v2-visually-hidden"
+          role="status"
+          aria-live="polite"
+        >
+          {stubMessage ?? ''}
+        </p>
+      </section>
+    );
+  }
 
   const showNeedsAttention =
     activeTab === 'upcoming' &&

@@ -101,6 +101,7 @@ export const PLANNER_LANDING_MOCKUP_FIXTURE = Object.freeze({
     items: Object.freeze([
       Object.freeze({
         id: 'attention-conflict-2025-05-29',
+        conflictId: 'conflict-mock-bottoms__mock-mysterious-skin',
         kind: 'conflict',
         headline: 'Thursday has a conflict',
         body: 'Bottoms and Mysterious Skin overlap.',
@@ -148,7 +149,8 @@ export const PLANNER_LANDING_MOCKUP_FIXTURE = Object.freeze({
         items: Object.freeze([
           Object.freeze({
             kind: 'conflict-group',
-            id: 'conflict-2025-05-29',
+            id: 'conflict-mock-bottoms__mock-mysterious-skin',
+            conflictId: 'conflict-mock-bottoms__mock-mysterious-skin',
             bannerLabel: 'CONFLICT • You can’t see both',
             left: screening({
               id: 'mock-bottoms',

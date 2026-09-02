@@ -956,6 +956,136 @@ export function removePerformanceFromAcceptedPlan(
 }
 
 /**
+ * Replace one performance on an accepted plan with a different exact showtime.
+ * Preserves planId and sibling performances; resets ticketsPurchased.
+ *
+ * @param {Storage | null | undefined} storage
+ * @param {string} planId
+ * @param {string} performanceKey
+ * @param {unknown} newShowtimeInput
+ */
+export function replaceAcceptedPlanPerformance(
+  storage,
+  planId,
+  performanceKey,
+  newShowtimeInput,
+) {
+  const id = asOptionalString(planId);
+  const perfKey = asOptionalString(performanceKey);
+  if (!id || !perfKey) {
+    return {
+      ok: false,
+      store: readAcceptedPlansStore(storage).store,
+      error: 'invalid_args',
+      changed: false,
+      plan: null,
+      previousPerformanceKey: null,
+      newPerformanceKey: null,
+    };
+  }
+
+  const built = normalizeAcceptedPerformance(newShowtimeInput);
+  if (!built.ok) {
+    return {
+      ok: false,
+      store: readAcceptedPlansStore(storage).store,
+      error: built.error?.code ?? 'invalid_performance',
+      changed: false,
+      plan: null,
+      previousPerformanceKey: perfKey,
+      newPerformanceKey: null,
+    };
+  }
+
+  const read = readAcceptedPlansStore(storage);
+  if (read.status === 'unsupported_version') {
+    return {
+      ok: false,
+      store: read.store,
+      error: read.error ?? 'unsupported_version',
+      changed: false,
+      plan: null,
+      previousPerformanceKey: perfKey,
+      newPerformanceKey: null,
+    };
+  }
+
+  const index = read.store.items.findIndex((p) => p.planId === id);
+  if (index < 0) {
+    return {
+      ok: false,
+      store: read.store,
+      error: 'plan_not_found',
+      changed: false,
+      plan: null,
+      previousPerformanceKey: perfKey,
+      newPerformanceKey: null,
+    };
+  }
+
+  const plan = read.store.items[index];
+  const perfIndex = plan.performances.findIndex(
+    (p) => p.performanceKey === perfKey,
+  );
+  if (perfIndex < 0) {
+    return {
+      ok: false,
+      store: read.store,
+      error: 'performance_not_found',
+      changed: false,
+      plan: null,
+      previousPerformanceKey: perfKey,
+      newPerformanceKey: null,
+    };
+  }
+
+  const replacement = { ...built.performance };
+  delete replacement.ticketsPurchased;
+
+  const duplicate = plan.performances.some(
+    (p, i) =>
+      i !== perfIndex && p.performanceKey === replacement.performanceKey,
+  );
+  if (duplicate) {
+    return {
+      ok: false,
+      store: read.store,
+      error: 'duplicate_performance',
+      changed: false,
+      plan: null,
+      previousPerformanceKey: perfKey,
+      newPerformanceKey: replacement.performanceKey,
+    };
+  }
+
+  const nextPerfs = plan.performances.map((p, i) =>
+    i === perfIndex ? replacement : p,
+  );
+  const nextPerformances = [...nextPerfs].sort((a, b) => {
+    if (a.startsAt !== b.startsAt) return a.startsAt < b.startsAt ? -1 : 1;
+    return a.performanceKey < b.performanceKey ? -1 : 1;
+  });
+
+  const nextPlan = {
+    ...plan,
+    performances: nextPerformances,
+  };
+
+  const nextItems = [...read.store.items];
+  nextItems[index] = nextPlan;
+  const written = writeAcceptedPlansStore(storage, {
+    version: ACCEPTED_PLANS_VERSION,
+    items: nextItems,
+  });
+  return {
+    ...written,
+    plan: written.ok ? nextPlan : null,
+    previousPerformanceKey: perfKey,
+    newPerformanceKey: replacement.performanceKey,
+  };
+}
+
+/**
  * @param {Storage | null | undefined} storage
  * @param {string} planId
  * @param {string} performanceKey
