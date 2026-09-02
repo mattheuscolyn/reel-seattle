@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -19,6 +20,9 @@ SHOWTIMES_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "showtimes_current" / "v1.0.0.json"
 PIPELINE_REPORT_SCHEMA_PATH = SCHEMA_DIR / "pipeline_report" / "v1.0.0.json"
 NEWLY_ADDED_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "newly_added_current" / "v1.0.0.json"
 LEAVING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "leaving_soon_current" / "v1.0.0.json"
+OPENING_THIS_WEEK_CURRENT_SCHEMA_PATH = (
+    SCHEMA_DIR / "opening_this_week_current" / "v1.0.0.json"
+)
 
 _VALIDATOR_CACHE: dict[Path, Draft202012Validator] = {}
 
@@ -139,6 +143,39 @@ def validate_leaving_soon_current(
 ) -> None:
     """Validate a leaving_soon_current artifact."""
     validate_against_schema(artifact, schema_path, label="leaving_soon_current")
+
+
+def validate_opening_this_week_current(
+    artifact: dict[str, Any],
+    *,
+    schema_path: Path = OPENING_THIS_WEEK_CURRENT_SCHEMA_PATH,
+) -> None:
+    """Validate an opening_this_week_current artifact."""
+    validate_against_schema(artifact, schema_path, label="opening_this_week_current")
+    week = artifact.get("week") or {}
+    start = week.get("start_date")
+    end = week.get("end_date")
+    if not isinstance(start, str) or not isinstance(end, str):
+        return
+    try:
+        start_date = date.fromisoformat(start)
+        end_date = date.fromisoformat(end)
+    except ValueError as exc:
+        raise ValueError(
+            f"opening_this_week_current: invalid week dates ({start!r}, {end!r})"
+        ) from exc
+    if end_date < start_date:
+        raise ValueError(
+            "opening_this_week_current: week.end_date must be >= week.start_date"
+        )
+    if start_date.weekday() != 0:
+        raise ValueError(
+            "opening_this_week_current: week.start_date must be a Monday"
+        )
+    if (end_date - start_date).days != 6:
+        raise ValueError(
+            "opening_this_week_current: week must be an inclusive Monday–Sunday span"
+        )
 
 
 def validate_theaters_registry_file(

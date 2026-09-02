@@ -23,6 +23,7 @@ from reel_seattle.validate import (  # noqa: E402
     SchemaValidationError,
     validate_leaving_soon_current,
     validate_newly_added_current,
+    validate_opening_this_week_current,
     validate_pipeline_report,
     validate_showtimes_current,
     validate_theaters_registry,
@@ -33,6 +34,7 @@ REQUIRED_ARTIFACTS: tuple[str, ...] = (
     "public/data/pipeline_report.json",
     "public/data/newly_added_current.json",
     "public/data/leaving_soon_current.json",
+    "public/data/opening_this_week_current.json",
     "public/data/theaters.json",
     "public/data/film_enrichment_current.json",
 )
@@ -50,6 +52,7 @@ VALIDATORS: dict[str, Callable[[dict[str, Any]], None]] = {
     "public/data/pipeline_report.json": validate_pipeline_report,
     "public/data/newly_added_current.json": validate_newly_added_current,
     "public/data/leaving_soon_current.json": validate_leaving_soon_current,
+    "public/data/opening_this_week_current.json": validate_opening_this_week_current,
     "public/data/theaters.json": validate_theaters_registry,
     "public/data/film_enrichment_current.json": validate_film_enrichment_document,
 }
