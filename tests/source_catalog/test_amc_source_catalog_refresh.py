@@ -69,6 +69,20 @@ def test_discover_from_scrape_log():
     assert by_id["83988"].observed_title.startswith("The Odyssey")
 
 
+def test_discover_far_future_only_product_from_scrape_log():
+    discovery = discover_active_products(
+        str(FIXTURES / "discovery_far_future_scrape_log.json")
+    )
+    assert discovery.source_kind == "scrape-log"
+    assert discovery.active_ids == ["99001"]
+    assert discovery.products[0].observed_title == "Anniversary Screening"
+
+
+def test_showtimes_current_discovery_does_not_include_far_future_only_id():
+    discovery = discover_active_products(str(FIXTURES / "discovery_showtimes.json"))
+    assert "99001" not in discovery.active_ids
+
+
 def test_discover_from_showtimes_fallback_ignores_non_amc_and_blanks():
     discovery = discover_active_products(str(FIXTURES / "discovery_showtimes.json"))
     assert discovery.source_kind == "showtimes-current"

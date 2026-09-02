@@ -408,6 +408,34 @@ def test_missing_active_product_becomes_inactive_once():
     assert third["products"][0]["lifecycle"]["inactive_since"] == inactive_since
 
 
+def test_far_future_only_product_stays_active_when_in_scrape_discovery():
+    first, _ = update_amc_source_catalog(
+        existing_products=None,
+        observations=[_obs("99001", title="Anniversary Screening", metadata=_meta())],
+        active_ids=["99001"],
+        generated_at=GENERATED_AT,
+        as_of=AS_OF,
+    )
+    assert first["products"][0]["lifecycle"]["inactive_since"] is None
+    second, _ = update_amc_source_catalog(
+        existing_products=first,
+        observations=[
+            _obs(
+                "99001",
+                title="Anniversary Screening",
+                observed_at="2026-07-16T00:00:00-07:00",
+                status="skipped",
+                attempted_at=None,
+                metadata=None,
+            )
+        ],
+        active_ids=["99001"],
+        generated_at="2026-07-16T12:00:00-07:00",
+    )
+    assert second["products"][0]["lifecycle"]["inactive_since"] is None
+    assert second["stats"]["active_products"] == 1
+
+
 def test_reappearing_product_becomes_active():
     first, _ = update_amc_source_catalog(
         existing_products=None,

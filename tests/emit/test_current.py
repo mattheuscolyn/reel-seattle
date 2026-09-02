@@ -94,6 +94,7 @@ def test_past_rows_excluded(artifact):
 
 
 def test_rows_beyond_window_excluded(artifact):
+    """Public emit stays on the 14-day viewing horizon even if history has farther rows."""
     assert all(row["film_title"] != "Too Far" for row in artifact["showtimes"])
 
 

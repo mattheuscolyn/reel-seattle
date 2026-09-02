@@ -53,7 +53,7 @@ Coordinates existing refresh + merge + validate + atomic promotion.
 
 Default policy: **`all-active`**.
 
-Discovery: `--discovery-source auto` prefers **today’s Pacific-date** `data/daily_logs/YYYY-MM-DD_amc.json` when present, else existing auto fallback.
+Discovery: `--discovery-source auto` prefers **today’s Pacific-date** `data/daily_logs/YYYY-MM-DD_amc.json` when present, else existing auto fallback. The scrape log is the full announced-future AMC snapshot ([amc-all-announced-showtimes.md](./amc-all-announced-showtimes.md)); do not discover daily active IDs from the 14-day public artifact.
 
 Exit contract:
 
