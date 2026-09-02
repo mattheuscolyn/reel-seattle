@@ -269,3 +269,6 @@ export function addSavedFilmShowtimeToPlanner(
     planId: written.plan?.planId ?? null,
   };
 }
+
+/** Neutral alias for any single-showtime → Planner accept path. */
+export const addShowtimeToPlanner = addSavedFilmShowtimeToPlanner;

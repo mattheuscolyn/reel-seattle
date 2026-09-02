@@ -5433,6 +5433,209 @@ a.v2-st-time:hover {
   font-size: 0.76rem;
 }
 
+/* Shared bottom-sheet chrome (Planner sheets, showtime actions) */
+.v2-ss-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.v2-ss-sheet {
+  width: min(100%, var(--v2-max));
+  margin: 0;
+  padding: 0.35rem var(--v2-gutter) calc(1rem + env(safe-area-inset-bottom, 0px));
+  border-radius: 0.85rem 0.85rem 0 0;
+  background: var(--v2-bg-elevated);
+  border: 1px solid var(--v2-border-strong);
+  border-bottom: 0;
+}
+
+.v2-ss-handle {
+  width: 2.5rem;
+  height: 0.22rem;
+  margin: 0.35rem auto 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.v2-ss-close {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0.35rem;
+  border: 0;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: var(--v2-muted);
+  cursor: pointer;
+}
+
+.v2-ss-close:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+/* Showtime action sheet */
+.v2-stas-sheet {
+  max-height: min(88dvh, 28rem);
+}
+
+.v2-stas-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 0.15rem;
+}
+
+.v2-stas-summary {
+  display: grid;
+  grid-template-columns: 3.75rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0 0.15rem 0.85rem;
+}
+
+.v2-stas-poster {
+  width: 3.75rem;
+  height: 5.6rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.v2-stas-poster-fallback {
+  display: block;
+  background: linear-gradient(145deg, #1a2430, #3a4a5a);
+}
+
+.v2-stas-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.v2-stas-meta {
+  margin: 0.25rem 0 0;
+  color: var(--v2-muted);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.v2-stas-format {
+  display: inline-flex;
+  margin-top: 0.35rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.v2-stas-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0 0.15rem;
+}
+
+.v2-stas-primary {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  width: 100%;
+  min-height: 2.55rem;
+  margin: 0;
+  padding: 0.65rem 0.85rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 100%);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.v2-stas-primary:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.v2-stas-primary-chevron {
+  transform: rotate(-90deg);
+}
+
+.v2-stas-in-planner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 2.55rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--v2-planner-lilac);
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.v2-stas-secondary {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  min-height: 2.35rem;
+  margin: 0;
+  padding: 0.55rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--v2-border);
+  background: var(--v2-bg-raised);
+  color: inherit;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.v2-stas-secondary:focus-visible,
+.v2-stas-primary:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-stas-cancel {
+  appearance: none;
+  width: 100%;
+  margin: 0.55rem 0 0;
+  padding: 0.55rem;
+  border: 0;
+  background: transparent;
+  color: var(--v2-muted);
+  font: inherit;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+
+.v2-stas-status {
+  margin: 0;
+  min-height: 1rem;
+  padding-top: 0.35rem;
+  color: var(--v2-muted);
+  font-size: 0.76rem;
+}
+
 /* Saved film choose showtime sheet */
 .v2-sfcs-sheet {
   max-height: 88vh;
@@ -13171,10 +13374,19 @@ a.v2-st-time:hover {
   text-decoration: none;
 }
 
+button.v2-stb-time {
+  appearance: none;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+button.v2-stb-time:hover,
 a.v2-stb-time:hover {
   border-color: var(--v2-accent-border, #7c3aed);
 }
 
+button.v2-stb-time:focus-visible,
 a.v2-stb-time:focus-visible {
   outline: 2px solid var(--v2-focus);
   outline-offset: 2px;
