@@ -3776,69 +3776,6 @@
     },
     {
       "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [
-        "aaron schoenke"
-      ],
-      "directors_raw": "AARON SCHOENKE",
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:843352",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "manual",
-      "match_status": "confirmed_manual",
-      "normalized_title": "Legend of the White Dragon",
-      "presentation_labels": [],
-      "provenance": {
-        "decision_id": "admin_1856dccd-a942-4d85-a95b-c114adecfb77",
-        "source_identity_key": "amc|id|83347"
-      },
-      "runtime_min": 97,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "legend-of-the-white-dragon",
-          "source": "amc",
-          "source_film_id": "83347",
-          "source_title": "Legend of the White Dragon"
-        }
-      ],
-      "tmdb_id": 843352,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Legend of the White Dragon",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": 2026,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_year": 2026,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
       "candidates": [
         {
           "director": "Macon Blair",
@@ -4673,6 +4610,68 @@
           "normalized_source_fallback"
         ],
         "base_title": "The Magic Faraway Tree",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [
+        "gang zhang"
+      ],
+      "directors_raw": "GANG ZHANG",
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:83488",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Tom and Jerry: The Forbidden Compass",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|83488"
+      },
+      "runtime_min": 90,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "tom-and-jerry-the-forbidden-compass",
+          "source": "amc",
+          "source_film_id": "83488",
+          "source_title": "Tom and Jerry: The Forbidden Compass"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Tom and Jerry: The Forbidden Compass",
         "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
@@ -10624,6 +10623,203 @@
       }
     },
     {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
+          "director": "Gurmmeet Singh",
+          "original_title": "मिर्ज़ापुर - द मूवी",
+          "overview_excerpt": "The battle for Mirzapur's throne escalates as old enemies resurface and new threats emerge. Blood debts must be paid while power-hungry contenders fight to control the city's violent underworld.",
+          "popularity": 2.5657,
+          "poster_path": "/jAt8u6MMIMnExmG6bN02EQyB0KR.jpg",
+          "release_year": 2026,
+          "runtime_min": 197,
+          "score": 0.5909,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "gurmmeet singh"
+            ],
+            "director_conflict": false,
+            "director_overlap": true,
+            "director_source_normalized": [
+              "gurmmeet singh"
+            ],
+            "director_status": "match",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.65,
+            "original_title_exact": false,
+            "popularity": 2.5657,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 2,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "Mirzapur: The Movie",
+          "tmdb_id": 1378537,
+          "warnings": [
+            "title_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [
+        "gurmmeet singh"
+      ],
+      "directors_raw": "GURMMEET SINGH",
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:84313",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.5909,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Mirzapur",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84313"
+      },
+      "runtime_min": 195,
+      "signals": {
+        "available_weight": 1.1,
+        "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "gurmmeet singh"
+        ],
+        "director_conflict": false,
+        "director_overlap": true,
+        "director_source_normalized": [
+          "gurmmeet singh"
+        ],
+        "director_status": "match",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.65,
+        "original_title_exact": false,
+        "popularity": 2.5657,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 2,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": true,
+        "title_exact": false,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
+        "year_near": false,
+        "year_status": "match"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "mirzapur",
+          "source": "amc",
+          "source_film_id": "84313",
+          "source_title": "Mirzapur"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": "मिर्ज़ापुर - द मूवी",
+      "tmdb_overview_excerpt": "The battle for Mirzapur's throne escalates as old enemies resurface and new threats emerge. Blood debts must be paid while power-hungry contenders fight to control the city's violent underworld.",
+      "tmdb_poster_path": "/jAt8u6MMIMnExmG6bN02EQyB0KR.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 197,
+      "tmdb_title": "Mirzapur: The Movie",
+      "top_candidate_margin": null,
+      "warnings": [
+        "title_conflict"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Mirzapur",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
@@ -12035,79 +12231,6 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "tmdb:12444",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "manual",
-      "match_status": "confirmed_manual",
-      "normalized_title": "Harry Potter & Deathly Hallows: Part 1",
-      "presentation_labels": [
-        "hpd26"
-      ],
-      "provenance": {
-        "decision_id": "admin_a5dd8702-afb6-4ce7-a390-8ab92614bb64",
-        "source_identity_key": "amc|id|84542"
-      },
-      "runtime_min": 146,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "harry-potter-deathly-hallows-part-1-hpd26",
-          "source": "amc",
-          "source_film_id": "84542",
-          "source_title": "Harry Potter & Deathly Hallows: Part 1 (HPD26)"
-        }
-      ],
-      "tmdb_id": 12444,
-      "top_candidate_margin": null,
-      "warnings": [
-        "event_year_not_canonical"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "format_or_accessibility_paren"
-        ],
-        "base_title": "Harry Potter & Deathly Hallows: Part 1",
-        "canonical_year_candidate": null,
-        "event_labels": [
-          "HPD26"
-        ],
-        "event_phrase": null,
-        "event_year": 2026,
-        "event_year_not_canonical": true,
-        "format_tags": [],
-        "presentation_labels": [
-          "hpd26"
-        ],
-        "product_year": 2026,
-        "program_series": null,
-        "removed_phrases": [
-          "(HPD26)"
-        ],
-        "scoring_year": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [
-          "event_year_not_canonical"
-        ],
-        "year_confidence": "none",
-        "year_evidence": "uncertain_rerelease_restoration"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
       "film_id": "tmdb:12445",
       "first_observed_at": null,
       "identity_type": "tmdb",
@@ -12172,6 +12295,199 @@
         ],
         "year_confidence": "none",
         "year_evidence": "uncertain_rerelease_restoration"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Tina Gharavi",
+          "original_title": null,
+          "overview_excerpt": "In 1910 London, independent-minded Katharine Hilbery defies her family's expectations of marriage to pursue a career in astronomy. But when her father pressures her into an unwanted engagement, her resolve is tested. Th…",
+          "popularity": 2.5799,
+          "poster_path": "/6psNzdIymhnN8KQggL4tiZRNIXg.jpg",
+          "release_year": 2026,
+          "runtime_min": 95,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "tina gharavi"
+            ],
+            "director_conflict": false,
+            "director_overlap": true,
+            "director_source_normalized": [
+              "tina gharavi"
+            ],
+            "director_status": "match",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 1.1,
+            "original_title_exact": false,
+            "popularity": 2.5799,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "Virginia Woolf's Night & Day",
+          "tmdb_id": 1291375,
+          "warnings": []
+        }
+      ],
+      "directors_normalized": [
+        "tina gharavi"
+      ],
+      "directors_raw": "TINA GHARAVI",
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:1291375",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Virginia Woolf's Night & Day",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84544"
+      },
+      "runtime_min": 95,
+      "signals": {
+        "available_weight": 1.1,
+        "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "tina gharavi"
+        ],
+        "director_conflict": false,
+        "director_overlap": true,
+        "director_source_normalized": [
+          "tina gharavi"
+        ],
+        "director_status": "match",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 1.1,
+        "original_title_exact": false,
+        "popularity": 2.5799,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
+        "year_near": false,
+        "year_status": "match"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "virginia-woolf-s-night-day",
+          "source": "amc",
+          "source_film_id": "84544",
+          "source_title": "Virginia Woolf's Night & Day"
+        }
+      ],
+      "tmdb_id": 1291375,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "In 1910 London, independent-minded Katharine Hilbery defies her family's expectations of marriage to pursue a career in astronomy. But when her father pressures her into an unwanted engagement, her resolve is tested. Th…",
+      "tmdb_poster_path": "/6psNzdIymhnN8KQggL4tiZRNIXg.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 95,
+      "tmdb_title": "Virginia Woolf's Night & Day",
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Virginia Woolf's Night & Day",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -13685,6 +14001,69 @@
       "candidates": [],
       "directors_normalized": [],
       "directors_raw": null,
+      "eligibility": "non_film",
+      "entity_kind": "mystery_screening",
+      "film_id": "source:amc:84804",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "none",
+      "match_status": "non_film",
+      "normalized_title": "AMC Screen Unseen: September 13",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84804"
+      },
+      "runtime_min": 85,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "amc-screen-unseen-september-13",
+          "source": "amc",
+          "source_film_id": "84804",
+          "source_title": "AMC Screen Unseen: September 13"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "mystery_or_unannounced",
+        "program_entity_not_tmdb_movie"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "AMC Screen Unseen: September 13",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
       "film_id": "tmdb:977942",
@@ -13749,6 +14128,971 @@
         ],
         "year_confidence": "none",
         "year_evidence": "uncertain_rerelease_restoration"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Padraic McKinley",
+          "original_title": null,
+          "overview_excerpt": "When Samuel is torn from his daughter and sent to a brutal prison, Warden Clancy offers him a high-stakes proposition: smuggle gold out of a remote mine with a dangerous crew of prisoners and he’ll win his freedom.",
+          "popularity": 9.3069,
+          "poster_path": "/8i5iZV50CoEtmDCFM7RSxCkpE8h.jpg",
+          "release_year": 2026,
+          "runtime_min": 115,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "padraic mckinley"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 9.3069,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 3,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Weight",
+          "tmdb_id": 1433583,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "무게",
+          "overview_excerpt": "Jung is a mortician at the morgue, who has to rely heavily on medicine for his severe tuberculosis and arthritis. Despite his illness, cleaning and dressing the dead is a noble and even beautiful work. His life over the…",
+          "popularity": 1.6507,
+          "poster_path": "/v4ggusCEZ7EF9HZdhfTy0je1ulF.jpg",
+          "release_year": 2013,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.6507,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Weight",
+          "tmdb_id": 133476,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Garrett Detrixhe",
+          "original_title": null,
+          "overview_excerpt": "Emma attempts to hide the details of a painful past when it comes to light that her boyfriend misremembers how they first met. When the truth is revealed, the two must figure out how to move forward.",
+          "popularity": 1.3456,
+          "poster_path": "/nVloalVJwusHV77HeVYOYKNOF8x.jpg",
+          "release_year": 2017,
+          "runtime_min": 11,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "garrett detrixhe"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.3456,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 101,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Weight",
+          "tmdb_id": 505413,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A college student waits at a bus stop, anxious for a night out. When a young woman breaks up with her boyfriend in front of him, the two wait together.",
+          "popularity": 1.6701,
+          "poster_path": "/2IVg2MwFd9DgoF0QIuMb2vm4uvQ.jpg",
+          "release_year": 2022,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.6701,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Weight",
+          "tmdb_id": 972219,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "In the throes of a deep depressive episode, a woman develops her own gravitational force field.",
+          "popularity": 0.6691,
+          "poster_path": null,
+          "release_year": null,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.6691,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Weight",
+          "tmdb_id": 992383,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Mia wakes up chained in a remote cabin, only to witness her captor, David, burying a body outside. Knowing she’ll be next, she breaks free and flees through treacherous cliffs and waterfalls while David, haunted by remo…",
+          "popularity": 1.1968,
+          "poster_path": null,
+          "release_year": null,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.1968,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Weight",
+          "tmdb_id": 1381201,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Kathryn Bigelow",
+          "original_title": null,
+          "overview_excerpt": "A newspaper photographer researches an 1873 double homicide and finds her own life paralleling that of a witness who survived the tragic ordeal.",
+          "popularity": 2.286,
+          "poster_path": "/zkFW3Vgz6rAds4cvHBke8fryeZ4.jpg",
+          "release_year": 2001,
+          "runtime_min": 113,
+          "score": 0.25,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "kathryn bigelow"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.15,
+            "original_title_exact": false,
+            "popularity": 2.286,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Weight of Water",
+          "tmdb_id": 13526,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Tom Gormican",
+          "original_title": null,
+          "overview_excerpt": "Creatively unfulfilled and facing financial ruin, Nick Cage must accept a $1 million offer to attend the birthday of a dangerous superfan. Things take a wildly unexpected turn when Cage is recruited by a CIA operative a…",
+          "popularity": 7.8866,
+          "poster_path": "/aqhLeieyTpTUKPOfZ3jzo2La0Mq.jpg",
+          "release_year": 2022,
+          "runtime_min": 107,
+          "score": 0.1946,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 5,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.1167,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "tom gormican"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.1167,
+            "original_title_exact": false,
+            "popularity": 7.8866,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 5,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Unbearable Weight of Massive Talent",
+          "tmdb_id": 648579,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:1433583",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "The Weight",
+      "presentation_labels": [
+        "early access"
+      ],
+      "provenance": {
+        "source_identity_key": "amc|id|84856"
+      },
+      "runtime_min": 112,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "padraic mckinley"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": true,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 9.3069,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 3,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "weight-early-access",
+          "source": "amc",
+          "source_film_id": "84856",
+          "source_title": "The Weight Early Access"
+        }
+      ],
+      "tmdb_id": 1433583,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "When Samuel is torn from his daughter and sent to a brutal prison, Warden Clancy offers him a high-stakes proposition: smuggle gold out of a remote mine with a dangerous crew of prisoners and he’ll win his freedom.",
+      "tmdb_poster_path": "/8i5iZV50CoEtmDCFM7RSxCkpE8h.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 115,
+      "tmdb_title": "The Weight",
+      "top_candidate_margin": 0.25,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "event_suffix"
+        ],
+        "base_title": "The Weight",
+        "canonical_year_candidate": null,
+        "event_labels": [
+          "Early Access"
+        ],
+        "event_phrase": "Early Access",
+        "event_year": 2026,
+        "event_year_not_canonical": true,
+        "format_tags": [],
+        "presentation_labels": [
+          "early access"
+        ],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [
+          "Early Access"
+        ],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
+        "year_confidence": "none",
+        "year_evidence": "uncertain_rerelease_restoration"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
+          "director": "Nishanth Doti",
+          "original_title": "సహ",
+          "overview_excerpt": "Sanju's journey from childhood to adulthood takes an emotional turn when he meets a young woman named Sahaa, whose presence awakens nostalgic memories from his past.",
+          "popularity": 1.3103,
+          "poster_path": "/tNnSKWkROW39oxju5nxJF27prMF.jpg",
+          "release_year": 2026,
+          "runtime_min": 165,
+          "score": 0.4546,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "nishanth doti"
+            ],
+            "director_conflict": false,
+            "director_overlap": true,
+            "director_source_normalized": [
+              "nishanth doti"
+            ],
+            "director_status": "match",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.5,
+            "original_title_exact": false,
+            "popularity": 1.3103,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 25,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "Sahaa - Life of Sanju",
+          "tmdb_id": 1516092,
+          "warnings": [
+            "title_conflict",
+            "runtime_conflict"
+          ]
+        },
+        {
+          "director": "Ankit Sakhiya",
+          "original_title": "લાલો : કૃષ્ણ સદા સહાયતે",
+          "overview_excerpt": "A rickshaw driver trapped in a farmhouse confronts his past demons while experiencing visions of Lord Krishna, who guides him through a transformative journey of self-discovery and healing.",
+          "popularity": 1.5063,
+          "poster_path": "/4bFY9bvsjPeB6jNIpZFZgwy78uF.jpg",
+          "release_year": 2025,
+          "runtime_min": 135,
+          "score": 0.2573,
+          "signals": {
+            "available_weight": 0.92,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "delta_minutes": 5,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.1167,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "near",
+                "matched": true,
+                "weight": 0.12
+              }
+            },
+            "director_candidate_normalized": [
+              "ankit sakhiya"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "nishanth doti"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.2367,
+            "original_title_exact": false,
+            "popularity": 1.5063,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 5,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": false,
+            "year_near": true,
+            "year_status": "near"
+          },
+          "title": "Laalo: Krishna Sada Sahaayate",
+          "tmdb_id": 1567645,
+          "warnings": [
+            "title_conflict",
+            "year_proximity",
+            "runtime_soft_penalty",
+            "director_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [
+        "nishanth doti"
+      ],
+      "directors_raw": "NISHANTH DOTI",
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:84863",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.4546,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Sahaa",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84863"
+      },
+      "runtime_min": 140,
+      "signals": {
+        "available_weight": 1.1,
+        "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
+          "runtime": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "nishanth doti"
+        ],
+        "director_conflict": false,
+        "director_overlap": true,
+        "director_source_normalized": [
+          "nishanth doti"
+        ],
+        "director_status": "match",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.5,
+        "original_title_exact": false,
+        "popularity": 1.3103,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": true,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 25,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "conflict",
+        "title_conflict": true,
+        "title_exact": false,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
+        "year_near": false,
+        "year_status": "match"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "sahaa",
+          "source": "amc",
+          "source_film_id": "84863",
+          "source_title": "Sahaa"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": 0.1973,
+      "warnings": [
+        "title_conflict",
+        "runtime_conflict"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Sahaa",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "non_film",
+      "entity_kind": "mystery_screening",
+      "film_id": "source:amc:84874",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "none",
+      "match_status": "non_film",
+      "normalized_title": "AMC Screen Unseen: September 14",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84874"
+      },
+      "runtime_min": 112,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "amc-screen-unseen-september-14",
+          "source": "amc",
+          "source_film_id": "84874",
+          "source_title": "AMC Screen Unseen: September 14"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "mystery_or_unannounced",
+        "program_entity_not_tmdb_movie"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "AMC Screen Unseen: September 14",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
       }
     },
     {
@@ -15504,67 +16848,6 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "tmdb:4024",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "manual",
-      "match_status": "confirmed_manual",
-      "normalized_title": "Last Year At Marienbad",
-      "presentation_labels": [],
-      "provenance": {
-        "decision_id": "admin_412e7184-2978-418e-adfc-454b7dce6f34",
-        "source_identity_key": "beacon|id|last-year-at-marienbad"
-      },
-      "runtime_min": null,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "last-year-at-marienbad",
-          "source": "beacon",
-          "source_film_id": "last-year-at-marienbad",
-          "source_title": "LAST YEAR AT MARIENBAD"
-        }
-      ],
-      "tmdb_id": 4024,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": null,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Last Year At Marienbad",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
       "film_id": "tmdb:1396",
       "first_observed_at": null,
       "identity_type": "tmdb",
@@ -16930,6 +18213,636 @@
     },
     {
       "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Spike Jonze",
+          "original_title": null,
+          "overview_excerpt": "Charlie Kaufman is a confused L.A. screenwriter overwhelmed by feelings of inadequacy, sexual frustration, self-loathing, and by the screenwriting ambitions of his freeloading twin brother Donald. While struggling to ad…",
+          "popularity": 9.4251,
+          "poster_path": "/ffEmHQAiD0m5dEQ6rlsuA9vlllW.jpg",
+          "release_year": 2002,
+          "runtime_min": 115,
+          "score": 1.0,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "spike jonze"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 9.4251,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Adaptation.",
+          "tmdb_id": 2757,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Адаптация",
+          "overview_excerpt": "Where does the dividing line lie between insanity and supersensitive mentality? How should we treat people who act in a different way then we do? A young and gifted shrink sets up a group, using up-to-date and unknown m…",
+          "popularity": 0.8885,
+          "poster_path": "/4x3fpXIxhAz08v02CGIrqqPqX3c.jpg",
+          "release_year": 1981,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.8885,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Adaptation",
+          "tmdb_id": 266277,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Mane Baghdasaryan",
+          "original_title": null,
+          "overview_excerpt": "This experimental film portrays real life on screen, and shows different groups of people living in Yerevan today... The director’s impression of the city is the film’s focal point, every moment adapted to a different m…",
+          "popularity": 1.9113,
+          "poster_path": "/e7oZnFWf1jehxIjhzIVQNPy26Zo.jpg",
+          "release_year": 2017,
+          "runtime_min": 21,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "mane baghdasaryan"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.9113,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 94,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Adaptation",
+          "tmdb_id": 695022,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Josh Kline",
+          "original_title": null,
+          "overview_excerpt": "The setting for Josh Kline’s Adaptation is the contaminated canyons of a flooded New York City in the near future—here rendered with resolutely analog special effects, including matte shots and scale models. Amid the ru…",
+          "popularity": 0.4484,
+          "poster_path": "/rkk1jgoB9AmKpTcUHKlKZstzIma.jpg",
+          "release_year": 2022,
+          "runtime_min": 11,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "josh kline"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.4484,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 104,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Adaptation",
+          "tmdb_id": 1023806,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Victor Burgin",
+          "original_title": null,
+          "overview_excerpt": null,
+          "popularity": 0.4107,
+          "poster_path": null,
+          "release_year": 2023,
+          "runtime_min": 0,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "victor burgin"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.4107,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 115,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Adaptation",
+          "tmdb_id": 1231157,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Adaptacja",
+          "overview_excerpt": "When Marcin dies in an accident, his family mourns. However, instead of seeking reconciliation, the relatives of the deceased furiously scratch fresh wounds. The atmosphere in the house thickens with each word spoken be…",
+          "popularity": 1.0192,
+          "poster_path": null,
+          "release_year": 2016,
+          "runtime_min": null,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.0192,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Adaptation",
+          "tmdb_id": 1351785,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Aslak Paltto",
+          "original_title": "Vuogáiduvvan",
+          "overview_excerpt": "Vuogáiduvvan follows a Sámi reindeer herder in the far north of Sápmi, facing the rapidly changing climate and the disappearance of conditions that have sustained reindeer herding for generations. The film shows what ha…",
+          "popularity": 2.2001,
+          "poster_path": "/njpAmzQZh8RURqwsTQmTR5Y1pe7.jpg",
+          "release_year": 2026,
+          "runtime_min": 5,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "aslak paltto"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 2.2001,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 110,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Adaptation",
+          "tmdb_id": 1717077,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A shimmering vision of refracted light and pure prismatic colour.",
+          "popularity": 3.6485,
+          "poster_path": null,
+          "release_year": 2016,
+          "runtime_min": null,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 3.6485,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Dark Adaptation",
+          "tmdb_id": 412135,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:2757",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Adaptation.",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "central_cinema|id|adaptation"
+      },
+      "runtime_min": 115,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "spike jonze"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 9.4251,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "adaptation",
+          "source": "central_cinema",
+          "source_film_id": "adaptation",
+          "source_title": "Adaptation."
+        }
+      ],
+      "tmdb_id": 2757,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "Charlie Kaufman is a confused L.A. screenwriter overwhelmed by feelings of inadequacy, sexual frustration, self-loathing, and by the screenwriting ambitions of his freeloading twin brother Donald. While struggling to ad…",
+      "tmdb_poster_path": "/ffEmHQAiD0m5dEQ6rlsuA9vlllW.jpg",
+      "tmdb_release_year": 2002,
+      "tmdb_runtime_min": 115,
+      "tmdb_title": "Adaptation.",
+      "top_candidate_margin": 0.25,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Adaptation.",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
       "candidates": [],
       "directors_normalized": [],
       "directors_raw": null,
@@ -18109,258 +20022,6 @@
     },
     {
       "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "Don Bluth",
-          "original_title": null,
-          "overview_excerpt": "A widowed field mouse must move her family -- including an ailing son -- to escape a farmer's plow. Aided by a crow and a pack of superintelligent, escaped lab rats, the brave mother struggles to transplant her home to …",
-          "popularity": 5.8071,
-          "poster_path": "/prNrnOKlkV9wl5Sl3zwHu1f3t2z.jpg",
-          "release_year": 1982,
-          "runtime_min": 83,
-          "score": 1.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "don bluth"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 5.8071,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "title_conflict": false,
-            "title_exact": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "The Secret of NIMH",
-          "tmdb_id": 11704,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Dick Sebast",
-          "original_title": null,
-          "overview_excerpt": "The rats and mice, made intellectually superior in the original Secret of N.I.M.H., return to Thorn Valley to groom their destined leader - young Timmy Brisby.",
-          "popularity": 3.1307,
-          "poster_path": "/m8CLj0g6hB2849rCLoWrkUkJpvK.jpg",
-          "release_year": 1999,
-          "runtime_min": 66,
-          "score": 0.0,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "miss",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "dick sebast"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 3.1307,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 17,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "miss",
-            "title_conflict": true,
-            "title_exact": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "The Secret of NIMH 2: Timmy to the Rescue",
-          "tmdb_id": 20756,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_mismatch",
-            "director_unavailable"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:11704",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "The Secret of NIMH",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "central_cinema|id|the-secret-of-nimh"
-      },
-      "runtime_min": 83,
-      "signals": {
-        "available_weight": 0.6,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "don bluth"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.6,
-        "original_title_exact": false,
-        "popularity": 5.8071,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "title_conflict": false,
-        "title_exact": true,
-        "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "secret-of-nimh",
-          "source": "central_cinema",
-          "source_film_id": "the-secret-of-nimh",
-          "source_title": "The Secret of NIMH"
-        }
-      ],
-      "tmdb_id": 11704,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "A widowed field mouse must move her family -- including an ailing son -- to escape a farmer's plow. Aided by a crow and a pack of superintelligent, escaped lab rats, the brave mother struggles to transplant her home to …",
-      "tmdb_poster_path": "/prNrnOKlkV9wl5Sl3zwHu1f3t2z.jpg",
-      "tmdb_release_year": 1982,
-      "tmdb_runtime_min": 83,
-      "tmdb_title": "The Secret of NIMH",
-      "top_candidate_margin": 1.0,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "The Secret of NIMH",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing"
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
       "candidates": [],
       "directors_normalized": [],
       "directors_raw": null,
@@ -18816,7 +20477,7 @@
       "provenance": {
         "source_identity_key": "nwff|id|once-upon-time-seattle"
       },
-      "runtime_min": 85,
+      "runtime_min": 101,
       "signals": null,
       "source_identities": [
         {
@@ -22487,6 +24148,66 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
+      "film_id": "source:siff:programs-and-events/nouvelles-femmes/breathless",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Nouvelles Femmes: Breathless",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "siff|id|programs-and-events/nouvelles-femmes/breathless"
+      },
+      "runtime_min": 90,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "nouvelles-femmes-breathless",
+          "source": "siff",
+          "source_film_id": "programs-and-events/nouvelles-femmes/breathless",
+          "source_title": "Nouvelles Femmes: Breathless"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Nouvelles Femmes: Breathless",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
       "film_id": "source:siff:programs-and-events/siff-movie-club/serial-mom",
       "first_observed_at": null,
       "identity_type": "source",
@@ -22541,6 +24262,6 @@
       }
     }
   ],
-  "generated_at": "2026-09-01T12:10:19+00:00",
+  "generated_at": "2026-09-02T11:47:54+00:00",
   "schema_version": "1.0.0"
 }
