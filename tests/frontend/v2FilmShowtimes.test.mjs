@@ -287,7 +287,9 @@ test('designed surface replaces scaffold / deferred copy', () => {
   assert.ok(SURFACE.includes('v2-st-theater-card'));
   assert.ok(SURFACE.includes('v2-st-best-option'));
   assert.ok(SURFACE.includes('Add to calendar'));
-  assert.ok(SURFACE.includes('externalTicketLinkProps'));
+  assert.ok(SURFACE.includes('ShowtimeActionSheet'));
+  assert.ok(SURFACE.includes('resolveHomeOpportunity'));
+  assert.equal(SURFACE.includes('externalTicketLinkProps'), false);
   assert.ok(SURFACE.includes('Theater'));
   assert.ok(SURFACE.includes('Format'));
   assert.ok(SURFACE.includes('Sort'));

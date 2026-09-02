@@ -1170,6 +1170,9 @@ export default function V2App() {
             returnSurface: nav.surface,
           })
         }
+        onAcceptedPlansChange={() =>
+          setAcceptedPlansRevision((value) => value + 1)
+        }
       />
     );
   } else if (isShowtimesBrowse) {

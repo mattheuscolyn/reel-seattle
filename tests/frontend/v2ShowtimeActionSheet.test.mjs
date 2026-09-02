@@ -22,6 +22,7 @@ import {
   createDefaultShowtimesBrowseUi,
   filterBrowseOpportunities,
 } from '../../v2/showtimes/showtimesBrowseModel.js';
+import { composeFilmShowtimesPresentation } from '../../v2/showtimes/composeFilmShowtimesPresentation.js';
 import {
   resolveBrowseShowtimeOpportunity,
   resolveShowtimeActionSheetState,
@@ -37,6 +38,10 @@ import { normalizeExternalTicketUrl } from '../../v2/ticket/externalTicketUrl.js
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const BROWSE_SRC = readFileSync(
   join(ROOT, 'v2/surfaces/ShowtimesBrowseSurface.jsx'),
+  'utf8',
+);
+const FILM_ST_SRC = readFileSync(
+  join(ROOT, 'v2/surfaces/ShowtimesSurface.jsx'),
   'utf8',
 );
 const SHEET_SRC = readFileSync(
@@ -465,4 +470,131 @@ test('listUpcomingPlannerScreenings includes browse-added performance key', () =
     now: NOW,
   });
   assert.ok(screenings.some((s) => s.performanceKey === added.performanceKey));
+});
+
+test('per-film Showtimes pills open shared ShowtimeActionSheet', () => {
+  assert.match(FILM_ST_SRC, /ShowtimeActionSheet/);
+  assert.match(FILM_ST_SRC, /openShowtimeActions/);
+  assert.match(FILM_ST_SRC, /resolveHomeOpportunity/);
+  assert.doesNotMatch(FILM_ST_SRC, /externalTicketLinkProps/);
+  assert.match(APP_SRC, /isShowtimes[\s\S]*onAcceptedPlansChange/);
+});
+
+test('per-film ticketed and ticketless showtimes resolve through shared sheet state', () => {
+  const homeData = sampleHome();
+  const view = composeFilmShowtimesPresentation(homeData, 'alpha', {
+    now: NOW,
+    selectedDate: '2026-08-01',
+  });
+  const ticketed = view.theaterGroups
+    .flatMap((g) => g.times)
+    .find((t) => t.opportunityKey === 'today-ticketed');
+  const plain = composeFilmShowtimesPresentation(homeData, 'beta', {
+    now: NOW,
+    selectedDate: '2026-08-01',
+  })
+    .theaterGroups.flatMap((g) => g.times)
+    .find((t) => t.opportunityKey === 'today-plain');
+
+  assert.ok(ticketed?.ticketUrl);
+  assert.equal(plain?.ticketUrl, null);
+
+  const ticketedOpp = resolveHomeOpportunity(homeData, ticketed.opportunityKey);
+  const plainOpp = resolveHomeOpportunity(homeData, plain.opportunityKey);
+  const ticketedState = resolveShowtimeActionSheetState({
+    storage: memoryStorage(),
+    opportunity: ticketedOpp,
+    filmKey: 'alpha',
+    homeData,
+    row: ticketed,
+  });
+  const plainState = resolveShowtimeActionSheetState({
+    storage: memoryStorage(),
+    opportunity: plainOpp,
+    filmKey: 'beta',
+    homeData,
+    row: plain,
+  });
+  assert.equal(ticketedState.ok, true);
+  assert.ok(ticketedState.ticketUrl);
+  assert.equal(plainState.ok, true);
+  assert.equal(plainState.ticketUrl, null);
+});
+
+test('per-film Add to Planner uses shared path and becomes In Planner', () => {
+  const storage = memoryStorage();
+  const homeData = sampleHome();
+  const view = composeFilmShowtimesPresentation(homeData, 'alpha', {
+    now: NOW,
+    selectedDate: '2026-08-01',
+  });
+  const time = view.theaterGroups
+    .flatMap((g) => g.times)
+    .find((t) => t.opportunityKey === 'today-ticketed');
+  const opp = resolveHomeOpportunity(homeData, time.opportunityKey);
+  const added = addShowtimeToPlanner(storage, opp, 'alpha', {
+    homeData,
+    now: () => NOW,
+  });
+  assert.equal(added.status, 'added');
+  const state = resolveShowtimeActionSheetState({
+    storage,
+    opportunity: opp,
+    filmKey: 'alpha',
+    homeData,
+    row: time,
+  });
+  assert.equal(state.inPlanner, true);
+  const duplicate = addShowtimeToPlanner(storage, opp, 'alpha', {
+    homeData,
+    now: () => NOW,
+  });
+  assert.equal(duplicate.status, 'already_planned');
+});
+
+test('per-film sheet open preserves filter/date state in surface code', () => {
+  assert.match(FILM_ST_SRC, /setActionSheet/);
+  assert.match(FILM_ST_SRC, /selectedDate/);
+  assert.match(FILM_ST_SRC, /formatKeys/);
+  assert.match(FILM_ST_SRC, /theaterScope/);
+  assert.doesNotMatch(FILM_ST_SRC, /setSelectedDate\(null\)[\s\S]*openShowtimeActions/);
+  assert.match(FILM_ST_SRC, /setSelectedKey\(time\.opportunityKey\)/);
+});
+
+test('per-film calendar bar remains and sheet calendar uses shared exporter', () => {
+  assert.match(FILM_ST_SRC, /v2-st-calendar-bar/);
+  assert.match(FILM_ST_SRC, /exportOpportunityToCalendar/);
+  assert.match(FILM_ST_SRC, /handleExport/);
+  assert.match(SHEET_SRC, /exportOpportunityToCalendar/);
+});
+
+test('removing Planner screening restores Add for per-film opportunity', () => {
+  const storage = memoryStorage();
+  const homeData = sampleHome();
+  const opp = resolveHomeOpportunity(homeData, 'today-plain');
+  const added = addShowtimeToPlanner(storage, opp, 'beta', {
+    homeData,
+    now: () => NOW,
+  });
+  removePerformanceFromAcceptedPlan(storage, added.planId, added.performanceKey);
+  const state = resolveShowtimeActionSheetState({
+    storage,
+    opportunity: opp,
+    filmKey: 'beta',
+    homeData,
+  });
+  assert.equal(state.inPlanner, false);
+});
+
+test('Browse and per-film both use the same ShowtimeActionSheet module', () => {
+  assert.match(BROWSE_SRC, /from '\.\.\/showtimes\/ShowtimeActionSheet\.jsx'/);
+  assert.match(FILM_ST_SRC, /from '\.\.\/showtimes\/ShowtimeActionSheet\.jsx'/);
+  assert.equal(
+    (BROWSE_SRC.match(/ShowtimeActionSheet/g) || []).length > 0,
+    true,
+  );
+  assert.equal(
+    (FILM_ST_SRC.match(/ShowtimeActionSheet/g) || []).length > 0,
+    true,
+  );
 });

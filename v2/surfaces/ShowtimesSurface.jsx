@@ -6,12 +6,9 @@ import {
 import { resolveFilm } from '../filmDetail/filmDetailModel.js';
 import { IconChevron } from '../icons.jsx';
 import { TheaterVenueImage } from '../theaters/TheaterVenueImage.jsx';
-import {
-  EXTERNAL_TICKET_LINK_RELS,
-  EXTERNAL_TICKET_LINK_TARGET,
-  externalTicketLinkProps,
-} from '../ticket/externalTicketUrl.js';
 import { composeFilmShowtimesPresentation } from '../showtimes/composeFilmShowtimesPresentation.js';
+import ShowtimeActionSheet from '../showtimes/ShowtimeActionSheet.jsx';
+import { resolveHomeOpportunity } from '../showtimes/resolveHomeOpportunity.js';
 import {
   getScheduleSettings,
   subscribeScheduleSettings,
@@ -37,6 +34,7 @@ export default function ShowtimesSurface({
   theaterId = null,
   opportunityKey = null,
   onOpenTheaterDetail,
+  onAcceptedPlansChange = null,
 }) {
   const titleId = useId();
   const datesId = useId();
@@ -52,6 +50,7 @@ export default function ShowtimesSurface({
   const [theaterScope, setTheaterScope] = useState(theaterId);
   const [selectedKey, setSelectedKey] = useState(opportunityKey);
   const [calendarStatus, setCalendarStatus] = useState(null);
+  const [actionSheet, setActionSheet] = useState(null);
   const [settingsTick, setSettingsTick] = useState(0);
   useEffect(
     () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
@@ -145,6 +144,30 @@ export default function ShowtimesSurface({
     setSortId('time');
     setTheaterScope(null);
   };
+
+  const openShowtimeActions = (group, time) => {
+    const opportunity = resolveHomeOpportunity(homeData, time.opportunityKey);
+    if (!opportunity) return;
+    setSelectedKey(time.opportunityKey);
+    setCalendarStatus(null);
+    setActionSheet({
+      filmKey,
+      opportunity,
+      row: {
+        opportunityKey: time.opportunityKey,
+        filmKey,
+        filmTitle: presentation.title,
+        localDate: presentation.selectedDate,
+        localTime: time.localTime,
+        timeDisplay: time.timeDisplay,
+        theaterName: group.theaterName,
+        formatLabels: time.formatLabel ? [time.formatLabel] : [],
+        ticketUrl: time.ticketUrl,
+      },
+    });
+  };
+
+  const closeShowtimeActions = () => setActionSheet(null);
 
   return (
     <section className="v2-st" aria-labelledby={titleId}>
@@ -427,7 +450,6 @@ export default function ShowtimesSurface({
 
               <ul className="v2-st-times" role="list">
                 {group.times.map((time) => {
-                  const ticket = externalTicketLinkProps(time.ticketUrl);
                   const className = [
                     'v2-st-time',
                     time.isSelected ? 'is-selected' : '',
@@ -437,34 +459,18 @@ export default function ShowtimesSurface({
                   const label = time.detailLabel
                     ? `${time.timeDisplay} · ${time.detailLabel}`
                     : time.timeDisplay;
-                  const selectTime = () => {
-                    setSelectedKey(time.opportunityKey);
-                    setCalendarStatus(null);
-                  };
+                  const ariaLabel = `${label} at ${group.theaterName} for ${presentation.title}`;
                   return (
                     <li key={time.opportunityKey}>
-                      {ticket ? (
-                        <a
-                          className={className}
-                          href={ticket.href}
-                          target={EXTERNAL_TICKET_LINK_TARGET}
-                          rel={EXTERNAL_TICKET_LINK_RELS}
-                          aria-label={`${label} — opens ticket site in a new tab`}
-                          onClick={selectTime}
-                        >
-                          <span className="v2-st-time-label">{label}</span>
-                        </a>
-                      ) : (
-                        <button
-                          type="button"
-                          className={className}
-                          aria-pressed={time.isSelected}
-                          aria-label={label}
-                          onClick={selectTime}
-                        >
-                          <span className="v2-st-time-label">{label}</span>
-                        </button>
-                      )}
+                      <button
+                        type="button"
+                        className={className}
+                        aria-pressed={time.isSelected}
+                        aria-label={`${ariaLabel} — show actions`}
+                        onClick={() => openShowtimeActions(group, time)}
+                      >
+                        <span className="v2-st-time-label">{label}</span>
+                      </button>
                     </li>
                   );
                 })}
@@ -503,6 +509,17 @@ export default function ShowtimesSurface({
           {calendarStatus}
         </p>
       ) : null}
+
+      <ShowtimeActionSheet
+        open={Boolean(actionSheet)}
+        onClose={closeShowtimeActions}
+        opportunity={actionSheet?.opportunity ?? null}
+        filmKey={actionSheet?.filmKey ?? null}
+        row={actionSheet?.row ?? null}
+        homeData={homeData}
+        enrichmentIndex={enrichmentIndex}
+        onPlansChanged={onAcceptedPlansChange}
+      />
     </section>
   );
 }
