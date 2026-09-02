@@ -5,6 +5,28 @@
  */
 
 import { useEffect, useId, useState } from 'react';
+import {
+  IconCalendar,
+  IconChevron,
+  IconChevronLeft,
+  IconInfo,
+  IconLightbulb,
+  IconTrash,
+} from '../icons.jsx';
+import { isPlannerMockupMode } from '../fixtures/plannerLandingMockupFixture.js';
+import {
+  alternateToAcceptedPerformanceInput,
+  isPlannerConflictResolved,
+  resolvePlannerConflictReviewPresentation,
+} from './resolvePlannerConflictReviewPresentation.js';
+import {
+  removePerformanceFromAcceptedPlan,
+  replaceAcceptedPlanPerformance,
+} from '../stores/acceptedPlansStore.js';
+import {
+  getScheduleSettings,
+  subscribeScheduleSettings,
+} from '../stores/scheduleSettingsStore.js';
 
 function getBrowserStorage() {
   try {

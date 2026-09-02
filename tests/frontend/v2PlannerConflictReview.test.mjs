@@ -534,3 +534,33 @@ test('alternateToAcceptedPerformanceInput maps replacement fields', () => {
   assert.equal(input.sourceShowtimeId, 'st-alt');
   assert.equal(input.posterUrl, 'https://example.com/p.jpg');
 });
+
+test('PlannerConflictReviewSurface imports and renders without unresolved identifiers', async () => {
+  const { createServer } = await import('vite');
+  const React = (await import('react')).default;
+  const { renderToString } = await import('react-dom/server');
+  const configFile = join(ROOT, 'vite.v2.config.js');
+  const server = await createServer({ configFile, logLevel: 'error' });
+  try {
+    const mod = await server.ssrLoadModule(
+      '/planner/PlannerConflictReviewSurface.jsx',
+    );
+    assert.equal(typeof mod.default, 'function');
+    const html = renderToString(
+      React.createElement(mod.default, {
+        conflictId: PLANNER_CONFLICT_REVIEW_MOCKUP_ID,
+        onBack: () => {},
+      }),
+    );
+    assert.match(html, /These showtimes overlap/);
+    assert.match(html, /Bottoms/);
+    assert.match(html, /Mysterious Skin/);
+    assert.match(html, /No other showtimes currently scheduled/);
+    assert.match(html, /Other ways to see it/);
+    assert.match(html, /Best path/);
+    assert.match(html, /Keep Bottoms on Thursday/);
+    assert.match(html, /data-planner-conflict-review="open"/);
+  } finally {
+    await server.close();
+  }
+});

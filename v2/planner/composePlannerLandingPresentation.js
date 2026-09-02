@@ -329,7 +329,7 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
         dateGroups.length === 0 ? 'No upcoming screenings yet' : null,
       emptyBody:
         dateGroups.length === 0
-          ? 'Accepted plans will appear here. Build a Plan to get started.'
+          ? 'Your upcoming screenings will appear here. Build a Plan to get started.'
           : null,
       dateGroups,
     },
