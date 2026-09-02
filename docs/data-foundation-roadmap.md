@@ -2,7 +2,7 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-09-02 (AMC remaining-run survival model v1 backtest)  
+**Last updated:** 2026-09-02 (Leaving Soon foundation: all-announced AMC collection + lifecycle audit + survival v1)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”

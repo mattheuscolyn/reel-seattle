@@ -23,7 +23,7 @@ python scripts/evaluate_leaving_soon_survival.py --observations-csv audit-output
 
 Library: `reel_seattle/analysis/leaving_soon_survival.py`. Generated outputs are gitignored under `audit-output/leaving-soon-survival-v1/`. Observation contract: `schema/analysis/amc_run_lifecycle_observations/v1.0.0.json`.
 
-Related: [leaving-soon-lifecycle-audit.md](./leaving-soon-lifecycle-audit.md) (authoritative data contract), [leaving-soon-model-design.md](./leaving-soon-model-design.md) (older Wednesday-extension **label**, superseded), [amc-source-catalog.md](./amc-source-catalog.md). The unmerged ingestion change lives on `feature/amc-all-announced-showtimes` and is **not** in this worktree.
+Related: [leaving-soon-lifecycle-audit.md](./leaving-soon-lifecycle-audit.md) (authoritative data contract), [amc-all-announced-showtimes.md](./amc-all-announced-showtimes.md) (current AMC collection vs historical 14-day PIT), [leaving-soon-model-design.md](./leaving-soon-model-design.md) (older Wednesday-extension **label**, superseded), [amc-source-catalog.md](./amc-source-catalog.md).
 
 ---
 
@@ -432,7 +432,7 @@ Test split:
 
 Horizon features are informative as a **truncation-aware booking-depth** signal. They are not a trustworthy remaining-life proxy while the source is capped.
 
-`feature/amc-all-announced-showtimes` should improve **future** log quality once landed. This experiment does not depend on that branch and does not mix its code.
+**Current collection** now uses the undated all-announced AMC endpoint ([amc-all-announced-showtimes.md](./amc-all-announced-showtimes.md)). This v1 backtest was fit on **historical** PIT logs that were still mostly 14-day-capped. Do not reclassify those observations as all-announced. Future training rows start only at the first successful post-integration daily log with `collection_mode=all_announced_future`.
 
 ### Other limits
 
@@ -482,11 +482,11 @@ Not `ready_for_prospective_shadow_test`. Not production UI. Not a replacement fo
 
 ## 19. Exact next step
 
-1. Keep accumulating **source-native daily JSON logs** (need a longer panel, including a non-summer stretch).
-2. Land `feature/amc-all-announced-showtimes` in production scraping so **future** horizon/footprint features stop hitting the 14-day ceiling. Re-measure after those logs exist; do not retrofit this backtest with that branch’s code.
+1. Keep accumulating **source-native daily JSON logs** after the all-announced production cutover (need a longer panel, including a non-summer stretch).
+2. Do **not** retrofit this v1 backtest by pretending historical 14-day-capped PIT rows had full announced depth. Train future models on post-boundary logs.
 3. Re-run this experiment (`scripts/train_leaving_soon_survival.py`) with the same filter/split discipline. Require the 7-day ≥90% validation threshold to **hold on a later test window**, and report first-run and rerelease separately.
 4. Only then consider a **prospective shadow** that scores live snapshots and waits for actual AMC run ends — still no UI.
-5. Do not merge this into `main` as a product feature. Do not touch Planner.
+5. Do not ship Leaving Soon UI or replace production Leaving Soon artifacts. Do not touch Planner.
 
 ---
 

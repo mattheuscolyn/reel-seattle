@@ -75,6 +75,9 @@ amc_logger.py / run_daily_scraping.py
 | `schema/showtime/v1.0.0.json` | Target normalized showtime shape |
 | `schema/showtimes_current/v1.0.0.json` | Frontend artifact contract |
 | `docs/frontend-smoke-check.md` | QA; no Leaving Soon yet |
+| `docs/amc-all-announced-showtimes.md` | Current AMC collection (all announced future); public 14-day emit |
+| `docs/leaving-soon-lifecycle-audit.md` | Remaining-days TTE data foundation |
+| `docs/leaving-soon-survival-model-v1.md` | v1 remaining-days backtest; `promising_continue`; no UI |
 | `docs/unified-planner-design.md` | Planner uses `showtimes_current.json`; orthogonal to Leaving Soon |
 
 ### Critical pipeline behavior: AMC restate

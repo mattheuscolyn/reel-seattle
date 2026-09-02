@@ -1,8 +1,8 @@
 # AMC theatrical-run lifecycle audit
 
-**Status:** Research complete (no model trained, no Leaving Soon UI)  
+**Status:** Research complete (audit on `main`; v1 model is analysis-only; no Leaving Soon UI)  
 **Date:** 2026-09-02  
-**Branch:** `feature/leaving-soon-lifecycle-audit`  
+**Branch:** landed via `integration/leaving-soon-foundation` (from `feature/leaving-soon-lifecycle-audit`)  
 **Audience:** Maintainers preparing a remaining-days / time-to-event model
 
 This document is the data foundation for estimating:
@@ -19,7 +19,7 @@ python scripts/audit_amc_run_lifecycles.py
 
 Generated datasets are gitignored under `audit-output/amc-run-lifecycle/`. Library: `reel_seattle/analysis/amc_run_lifecycle.py`. Observation contract: `schema/analysis/amc_run_lifecycle_observations/v1.0.0.json`.
 
-Related: [leaving-soon-survival-model-v1.md](./leaving-soon-survival-model-v1.md) (v1 remaining-days backtest; no UI), [leaving-soon-model-design.md](./leaving-soon-model-design.md) (older Wednesday-extension target — superseded as the **label**), [amc-source-catalog.md](./amc-source-catalog.md), [data-foundation-roadmap.md](./data-foundation-roadmap.md). The unmerged ingestion change lives on `feature/amc-all-announced-showtimes` and is **not** in this worktree.
+Related: [leaving-soon-survival-model-v1.md](./leaving-soon-survival-model-v1.md) (v1 remaining-days backtest; no UI), [amc-all-announced-showtimes.md](./amc-all-announced-showtimes.md) (current AMC collection), [leaving-soon-model-design.md](./leaving-soon-model-design.md) (older Wednesday-extension target — superseded as the **label**), [amc-source-catalog.md](./amc-source-catalog.md), [data-foundation-roadmap.md](./data-foundation-roadmap.md).
 
 ---
 
@@ -362,7 +362,7 @@ This is **feature / process** analysis, not the label.
 
 **Interpretation:** under a sliding 14-day dated scan, farthest announced date often walks forward **every day** as the fetch window moves. That is not the same as AMC’s Wednesday booking drop. Early-morning scrapes also sit **before** Wednesday afternoon updates, so a true Wednesday extend may first appear Thursday — except the ceiling effect lands on other weekdays first.
 
-Do **not** model “Wednesday extension failure” as the target. After `feature/amc-all-announced-showtimes` is in production logs, re-measure which weekday the **true** farthest date jumps.
+Do **not** model “Wednesday extension failure” as the target. After all-announced production logs accumulate, re-measure which weekday the **true** farthest date jumps. Historical PIT JSON in this audit was still collected under the old 14-day dated scan.
 
 ---
 
@@ -370,7 +370,7 @@ Do **not** model “Wednesday extension failure” as the target. After `feature
 
 1. **65-day PIT JSON window** is short relative to long first-runs; many films are left-truncated or right-censored.
 2. **14-day historical fetch** caps horizon features; 140 rows already see past 14 days, but most do not.
-3. **All-announced branch is not merged**; this audit does not depend on that code.
+3. **All-announced collection is now the production path**, but this audit’s historical PIT window was still 14-day-capped. Do not reclassify those logs as all-announced. See [amc-all-announced-showtimes.md](./amc-all-announced-showtimes.md) for the observation-date boundary.
 4. **Title-fallback × history** creates fake multi-year “returns” (`David`, `The Lego Movie`, `How to Train Your Dragon`).
 5. **Early JSON without movie ID** duplicates products as `title:…` then numeric IDs.
 6. **Catalog run type is not historical-as-of T.**
@@ -389,4 +389,4 @@ Remaining-days is a proper time-to-event label: right-censored at `as_of`, left-
 
 **Follow-up (done on `feature/leaving-soon-survival-model-v1`):** a discrete-time remaining-days model was trained and backtested. See [leaving-soon-survival-model-v1.md](./leaving-soon-survival-model-v1.md). Recommendation there is `promising_continue` — not UI, not a production Leaving Soon replacement.
 
-Smallest data upgrade that would materially help: merge/land all-announced showtimes so **future** daily logs stop truncating horizon features, then re-run the survival experiment as those logs accumulate.
+Smallest data upgrade that would materially help: let **future** all-announced daily logs accumulate (including a non-summer stretch), then re-run the survival experiment. Do not treat pre-boundary PIT logs as full announced-booking depth.

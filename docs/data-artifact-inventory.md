@@ -99,6 +99,7 @@ Contracts and writers described in [amc-source-catalog.md](./amc-source-catalog.
 | `reel_seattle/analysis/amc_catalog_cadence_audit.py` | Refresh-cadence / inactive-growth evaluation (P-21C) | Read-only analysis · no API · no production mutation |
 | `scripts/audit_amc_catalog_cadence.py` | Cadence evaluation CLI | Manual / local · `--from-git` or `--snapshots-dir` · writes `audit-output/` |
 | `docs/amc-catalog-cadence-evaluation.md` | P-21C findings + classifications | Authored research · not a production contract |
+| `docs/amc-all-announced-showtimes.md` | Current AMC collection: all announced future showtimes | Authored · production collection contract · public UI still 14-day |
 | `audit-output/amc-catalog-cadence-evaluation/` | Machine JSON/MD audit output | Gitignored · regenerable |
 | `reel_seattle/analysis/amc_run_lifecycle.py` | AMC run identity, gap analysis, remaining-days labels | Read-only analysis · no model · no UI |
 | `scripts/audit_amc_run_lifecycles.py` | Lifecycle audit CLI | Manual / local · writes gitignored `audit-output/amc-run-lifecycle/` |
@@ -209,7 +210,7 @@ data/daily_logs/YYYY-MM-DD_nwff.json
 data/daily_logs/YYYY-MM-DD_central_cinema.json
 ```
 
-AMC logs use schema `1.0.0` with optional expanded fields under `record.attributes` (P-18A; see [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md)).
+AMC logs use schema `1.0.0` with optional expanded fields under `record.attributes` (P-18A; see [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md)). Production AMC collection is the undated all-announced theater endpoint — not a 14-day date scan. Public `showtimes_current.json` remains a 14-day viewing window. See [amc-all-announced-showtimes.md](./amc-all-announced-showtimes.md). Historical logs before the first successful `collection_mode=all_announced_future` snapshot remain 14-day-capped.
 
 **Also updated each daily run:**
 

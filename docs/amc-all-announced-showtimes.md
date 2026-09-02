@@ -87,6 +87,19 @@ The only remaining cap is `MAX_SHOWTIME_PAGES_PER_THEATER = 200` (20,000 showtim
 
 `FetchContext.window_end` is `9999-12-31` for the shared adapter contract and is **not** used to truncate AMC records.
 
+## Observation-date boundary (model training)
+
+Two different clocks:
+
+| Boundary | Meaning |
+|----------|---------|
+| **Code deployment** | The commit on `main` that first contains this adapter (`collection_mode=all_announced_future` in production `amc_logger.py` / `run_daily_scraping.py`) |
+| **First all-announced snapshot** | The first **successful** `data/daily_logs/YYYY-MM-DD_amc.json` whose `stats.collection_mode` is `all_announced_future` and `stats.restate_safe` is true |
+
+Do **not** mark historical PIT logs (through the 2026-09-02 dated-scan era) as all-announced retroactively. Lifecycle-audit and survival-model v1 tables were built from that 14-day-capped history.
+
+Until the first successful post-merge scrape exists, treat the code as deployed and the observation series as still waiting for its first all-announced point-in-time.
+
 ## Leaving Soon / capacity modeling later
 
 Far-future advance bookings in daily snapshots let a later model distinguish:
