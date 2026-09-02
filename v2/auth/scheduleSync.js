@@ -213,25 +213,25 @@ export function subscribeScheduleSync(listener) {
 export function getScheduleSyncLabel(s = snapshot) {
   switch (s.uiStatus) {
     case 'signed_out':
-      return 'My Schedule is stored on this device';
+      return 'Planner is stored on this device';
     case 'prompt':
-      return 'My Schedule is stored on this device';
+      return 'Planner is stored on this device';
     case 'attaching':
       return 'Combining schedules…';
     case 'syncing':
-      return 'Syncing My Schedule…';
+      return 'Syncing Planner…';
     case 'pending_local':
-      return 'Saving My Schedule to your account…';
+      return 'Saving Planner to your account…';
     case 'offline_pending':
       return 'Saved on this device — will sync when online';
     case 'retry_scheduled':
       return 'Saved on this device — retrying sync';
     case 'synced':
-      return 'My Schedule is synced';
+      return 'Planner is synced';
     case 'degraded':
       return 'Saved on this device — cloud sync needs attention';
     default:
-      return 'My Schedule is stored on this device';
+      return 'Planner is stored on this device';
   }
 }
 

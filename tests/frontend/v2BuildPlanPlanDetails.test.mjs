@@ -161,7 +161,7 @@ test('share and schedule controls are real buttons', () => {
 });
 
 test('duplicate prevention guards schedule acceptance', () => {
-  assert.match(SURFACE_SRC, /Already in My Schedule/);
+  assert.match(SURFACE_SRC, /Already in Planner/);
   assert.equal(SURFACE_SRC.includes('Plan already saved'), false);
 });
 

@@ -338,7 +338,7 @@ export function buildAcceptedPlanItem(input) {
       ok: false,
       error: {
         code: 'fixture_plan',
-        message: 'Fixture itineraries cannot be saved to My Schedule.',
+        message: 'Fixture itineraries cannot be saved to Planner.',
       },
     };
   }

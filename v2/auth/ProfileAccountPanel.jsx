@@ -154,12 +154,12 @@ export default function ProfileAccountPanel({ onAuthAction }) {
       {auth.status === 'signed_out' ? (
         <div className="v2-profile-account-body">
           <p className="v2-profile-account-note">
-            Sign in to enable optional backup of film activity and My Schedule
+            Sign in to enable optional backup of film activity and Planner
             across browsers. Signing in alone does not move your data.
           </p>
           <p className="v2-profile-account-note">
             Reel Seattle still works fully without an account. Local Saved,
-            Seen, Not Interested, and My Schedule stay on this device.
+            Seen, Not Interested, and Planner stay on this device.
           </p>
           <button
             type="button"
@@ -337,7 +337,7 @@ export default function ProfileAccountPanel({ onAuthAction }) {
                   planner drafts or calendar settings.
                 </p>
                 <p className="v2-profile-account-note">
-                  Combine this device’s My Schedule with your Reel Seattle
+                  Combine this device’s Planner with your Reel Seattle
                   account and keep it synced across devices.
                 </p>
                 <button

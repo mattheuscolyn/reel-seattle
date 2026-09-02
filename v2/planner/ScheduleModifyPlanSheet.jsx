@@ -107,7 +107,7 @@ export default function ScheduleModifyPlanSheet({
         <div className="v2-ss-body">
           <p className="v2-msw-modify-support">
             Editing showtimes isn’t available yet. You can open a film, view
-            plan details, or remove this plan from My Schedule.
+            plan details, or remove this plan from Planner.
           </p>
           <ul className="v2-msw-modify-list">
             {films.map((perf) => {
@@ -158,7 +158,7 @@ export default function ScheduleModifyPlanSheet({
             className="v2-msw-modify-remove"
             onClick={() => onRemove?.(plan.planId)}
           >
-            Remove from My Schedule
+            Remove from Planner
           </button>
           <button
             type="button"

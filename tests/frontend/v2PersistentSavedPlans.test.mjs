@@ -15,7 +15,7 @@ import {
   createInitialNavState,
   navigateBack,
   openBuildPlanPlanDetails,
-  openMyScheduleWeek,
+  selectPrimaryDestination,
 } from '../../v2/navigation/navState.js';
 import {
   formatLongPlanDateLabel,
@@ -234,23 +234,18 @@ test('upcoming/past classification uses plan end time', () => {
   assert.equal(parts.upcoming.length, 0);
 });
 
-test('View in My Schedule opens week with focusDate for the saved plan', () => {
+test('View in Planner selects planner primary destination', () => {
   let state = createInitialNavState();
-  state = openMyScheduleWeek(state, {
+  state = openBuildPlanPlanDetails(state, {
     originPrimary: 'planner',
-    focusDate: '2026-08-10',
-    focusPlanId: 'accepted:2026-08-10:demo',
-    returnSurface: {
-      type: 'build-plan-plan-details',
-      originPrimary: 'planner',
-      planId: 'accepted:2026-08-10:demo',
-      plan: null,
-      returnSurface: null,
-    },
+    planId: 'accepted:2026-08-10:demo',
+    plan: null,
+    returnSurface: null,
   });
-  assert.equal(state.surface.type, 'my-schedule-week');
-  assert.equal(state.surface.focusDate, '2026-08-10');
-  assert.equal(state.surface.focusPlanId, 'accepted:2026-08-10:demo');
+  assert.equal(state.surface.type, 'build-plan-plan-details');
+  state = selectPrimaryDestination(state, 'planner');
+  assert.equal(state.primaryDestinationId, 'planner');
+  assert.equal(state.surface, null);
 });
 
 test('removing a saved plan is explicit and clears associated schedule entries', () => {

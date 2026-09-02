@@ -358,7 +358,7 @@ test('attach empty local + empty cloud marks schedule attached', async () => {
   assert.equal(result.ok, true);
   assert.equal(isBrowserScheduleAttachedToUser(storage, 'user-a'), true);
   assert.equal(getScheduleSyncSnapshot().uiStatus, 'synced');
-  assert.match(getScheduleSyncLabel(), /My Schedule is synced/i);
+  assert.match(getScheduleSyncLabel(), /Planner is synced/i);
 });
 
 test('attach local plans + empty cloud uploads', async () => {
@@ -588,7 +588,7 @@ test('UI labels never claim drafts or calendar sync', () => {
     userId: 'u',
     localHasPlans: true,
   });
-  assert.match(label, /My Schedule is synced/);
+  assert.match(label, /Planner is synced/);
   assert.equal(/draft|calendar/i.test(label), false);
 });
 

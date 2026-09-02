@@ -561,7 +561,7 @@ export default function MyScheduleWeekSurface({
     const result = removeAcceptedPlan(resolvedStorage, planId);
     setModifyPlan(null);
     if (result.ok && result.changed) {
-      setStatusMessage('Plan removed from My Schedule.');
+      setStatusMessage('Plan removed from Planner.');
       onAcceptedPlanChange?.();
     } else {
       setStatusMessage('Couldn’t remove that plan.');

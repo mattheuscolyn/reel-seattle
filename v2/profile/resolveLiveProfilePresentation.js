@@ -88,7 +88,7 @@ export function resolveLiveProfilePresentation(options = {}) {
         email: null,
         secondaryLabel: 'Sign in to sync your Reel Seattle activity',
         supportingCopy:
-          'Saved films, Seen, Not Interested, and My Schedule stay on this device until you enable sync.',
+          'Saved films, Seen, Not Interested, and Planner stay on this device until you enable sync.',
         editLabel: null,
         showEdit: false,
       },

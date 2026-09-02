@@ -75,7 +75,7 @@ function selectedFilmsForCalendarExport(plan) {
  *     filmKey: string,
  *     opportunityKey?: string | null,
  *   }) => void,
- *   onViewInSchedule?: (payload: {
+ *   onViewInPlanner?: (payload: {
  *     planId: string | null,
  *     focusDate: string | null,
  *   }) => void,
@@ -90,7 +90,7 @@ export default function BuildPlanPlanDetailsSurface({
   onShareReady = null,
   onAcceptedPlanChange = null,
   onOpenFilmDetail = null,
-  onViewInSchedule = null,
+  onViewInPlanner = null,
   homeData = null,
   storage = null,
   dateLabel = null,
@@ -157,7 +157,7 @@ export default function BuildPlanPlanDetailsSurface({
   const handleAddToSchedule = useCallback(() => {
     if (actionBusyRef.current || savedMode) return;
     if (scheduled) {
-      setStatusMessage('Already in My Schedule.');
+      setStatusMessage('Already in Planner.');
       return;
     }
     actionBusyRef.current = true;
@@ -187,13 +187,13 @@ export default function BuildPlanPlanDetailsSurface({
     onAcceptedPlanChange,
   ]);
 
-  const handleViewInSchedule = useCallback(() => {
-    if (typeof onViewInSchedule !== 'function') return;
-    onViewInSchedule({
+  const handleViewInPlanner = useCallback(() => {
+    if (typeof onViewInPlanner !== 'function') return;
+    onViewInPlanner({
       planId: plan?.planId ?? plan?.id ?? null,
       focusDate: plan?.date ?? null,
     });
-  }, [onViewInSchedule, plan]);
+  }, [onViewInPlanner, plan]);
 
   const handleRemovePlan = useCallback(() => {
     if (actionBusyRef.current || !savedMode) return;
@@ -203,7 +203,7 @@ export default function BuildPlanPlanDetailsSurface({
     const result = removeAcceptedPlan(resolvedStorage, planId);
     if (result.ok && result.changed) {
       setStatusMessage(
-        'Plan removed. Its screenings were also removed from My Schedule.',
+        'Plan removed. Its screenings were also removed from Planner.',
       );
       onAcceptedPlanChange?.();
       onBack();
@@ -402,13 +402,13 @@ export default function BuildPlanPlanDetailsSurface({
         <div className="v2-bpd-actions">
           {savedMode ? (
             <>
-              {typeof onViewInSchedule === 'function' ? (
+              {typeof onViewInPlanner === 'function' ? (
                 <button
                   type="button"
                   className="v2-bpd-secondary"
-                  onClick={handleViewInSchedule}
+                  onClick={handleViewInPlanner}
                 >
-                  View in My Schedule
+                  View in Planner
                 </button>
               ) : null}
               <div className="v2-bpd-overflow">
@@ -439,7 +439,7 @@ export default function BuildPlanPlanDetailsSurface({
                       <div className="v2-bpd-overflow-confirm">
                         <p>
                           Remove this plan? Its screenings will also be removed
-                          from My Schedule.
+                          from Planner.
                         </p>
                         <button
                           type="button"
@@ -467,13 +467,13 @@ export default function BuildPlanPlanDetailsSurface({
               className={`v2-bpd-schedule${scheduled ? ' is-added' : ''}`}
               aria-pressed={scheduled}
               aria-label={
-                scheduled ? 'Added to My Schedule' : 'Add to My Schedule'
+                scheduled ? 'Added to Planner' : 'Add to Planner'
               }
               onClick={handleAddToSchedule}
             >
               <IconCalendar width={16} height={16} aria-hidden="true" />
               <span>
-                {scheduled ? 'Added to My Schedule' : 'Add to My Schedule'}
+                {scheduled ? 'Added to Planner' : 'Add to Planner'}
               </span>
             </button>
           )}

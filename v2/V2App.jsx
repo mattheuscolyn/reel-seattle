@@ -949,7 +949,7 @@ export default function V2App() {
 
   const handleOpenScheduleSearch = useCallback(() => {
     setProfileStubStatus(
-      'Search Results prefilter from My Schedule is deferred in Stage 1.',
+      'Search Results prefilter from Planner is deferred in Stage 1.',
     );
     window.setTimeout(() => setProfileStubStatus(null), 2500);
   }, []);
@@ -1724,19 +1724,10 @@ export default function V2App() {
             originPrimary: 'planner',
           })
         }
-        onViewInSchedule={({ planId, focusDate }) =>
-          handleOpenMyScheduleWeek({
-            focusDate,
-            focusPlanId: planId,
-            returnSurface: {
-              type: 'build-plan-plan-details',
-              originPrimary: 'planner',
-              returnSurface: null,
-              plan: detailsPlan,
-              planId: planId ?? detailsPlanId,
-            },
-          })
-        }
+        onViewInPlanner={() => {
+          setNav((current) => selectPrimaryDestination(current, 'planner'));
+          window.scrollTo(0, 0);
+        }}
         onAcceptedPlanChange={() =>
           setAcceptedPlansRevision((value) => value + 1)
         }
