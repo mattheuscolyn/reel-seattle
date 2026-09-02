@@ -634,6 +634,21 @@ def main():
         f"  {leaving_soon_artifact['stats']['flagged_film_count']} high-confidence risk signals"
     )
 
+    print("Emitting opening_this_week_current.json...")
+    from reel_seattle.emit.opening_this_week import write_opening_this_week_current
+
+    opening_artifact = write_opening_this_week_current(
+        history_rows=history_data,
+        current_artifact=current_artifact,
+        reference_date=reference_date,
+    )
+    print(
+        f"  {opening_artifact['stats']['entry_count']} openings / "
+        f"{opening_artifact['stats']['low_confidence_count']} low-confidence "
+        f"(week {opening_artifact['week']['start_date']}.."
+        f"{opening_artifact['week']['end_date']})"
+    )
+
     print(f"Daily processing complete. Processed {len(history_data)} total showtimes, {len(new_movies)} newly announced movies")
 
 if __name__ == "__main__":

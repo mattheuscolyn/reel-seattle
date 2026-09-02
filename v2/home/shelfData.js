@@ -3,7 +3,16 @@
  * Uses real HomeData only — no fictional film fixtures.
  */
 
+import {
+  joinOpeningEntryOpportunities,
+} from '../adapters/buildOpeningThisWeek.js';
 import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
+import { buildOpeningDateCopy, pacificTodayIso } from '../opening/openingDateCopy.js';
+import { resolveOpeningEntryPresentation } from '../opening/resolveOpeningEntryPresentation.js';
+import {
+  HOME_OPENING_SHELF_MAX_CARDS,
+  rankOpeningShelfEntries,
+} from './openingShelfRanking.js';
 import {
   formatLocalDateLabel,
   formatUserFacingFormatLabel,
@@ -45,11 +54,7 @@ export function findNextOpportunityForFilm(homeData, filmKey) {
 }
 
 /**
- * Opening This Week Home shelf — development / provisional state.
- *
- * There is no approved opening-this-week classification artifact.
- * We surface real newly_added films with an explicit provisional flag —
- * never as production Opening This Week truth, and never as fictional titles.
+ * Opening This Week Home shelf — verified artifact membership.
  *
  * @param {object | null} homeData
  * @param {object | null} [enrichmentIndex]
@@ -66,70 +71,115 @@ export function buildOpeningThisWeekShelf(homeData, enrichmentIndex = null) {
     };
   }
 
-  const newlyAdded = Array.isArray(homeData.newlyAdded) ? homeData.newlyAdded : [];
-  if (newlyAdded.length === 0) {
+  const opening = homeData.openingThisWeek;
+  if (!opening || opening.status === 'unavailable' || opening.status === 'invalid') {
     return {
       status: 'unavailable',
-      reason: 'No recently added films to show right now.',
-      emptyTitle: 'Nothing to show yet',
-      emptyBody:
-        'Recently added films will appear here when available. A verified opening-week list is not ready yet.',
+      reason: 'Opening This Week isn’t available right now.',
+      emptyTitle: 'Opening This Week isn’t available right now.',
+      emptyBody: 'Check back later for films opening in Seattle this week.',
       semantics: 'opening-this-week-unavailable',
       films: [],
     };
   }
 
-  const filmsByKey = new Map(
-    (Array.isArray(homeData.films) ? homeData.films : []).map((f) => [f.filmKey, f]),
-  );
-
-  const films = newlyAdded.slice(0, 8).map((entry) => {
-    const film = filmsByKey.get(entry.filmKey);
-    const next = findNextOpportunityForFilm(homeData, entry.filmKey);
-    const enriched = resolveEnrichedFilmPresentation({
-      sourceFilm: {
-        filmId: film?.filmId ?? null,
-        title: film?.title ?? entry.title ?? null,
-        posterUrl: film?.posterUrl ?? entry.posterUrl ?? null,
-        runtimeMin: film?.runtimeMin ?? null,
-      },
-      enrichmentIndex,
-      context: 'opening',
-    });
-    const runtimeLabel = formatRuntimeLabel(enriched.runtimeMin);
-    const dateLabel =
-      formatLocalDateLabel(entry.firstObservedAt) ??
-      formatLocalDateLabel(entry.lastSeenDate);
-    // Prefer runtime (mockup-aligned) when known; otherwise an honest date cue.
-    const metaLabel = runtimeLabel ?? dateLabel ?? 'Recently added';
-    const genrePrimary = enriched.genreLine
-      ? String(enriched.genreLine).split(',')[0].trim()
-      : null;
+  const entries = Array.isArray(opening.entries) ? opening.entries : [];
+  if (opening.status === 'empty' || entries.length === 0) {
     return {
-      id: entry.filmKey,
-      filmKey: entry.filmKey,
-      filmId: enriched.filmId,
-      title: enriched.displayTitle ?? 'Untitled',
+      status: 'unavailable',
+      reason: 'Nothing opening in Seattle this week.',
+      emptyTitle: 'Nothing opening this week',
+      emptyBody: 'No films are opening in Seattle theaters this week.',
+      semantics: 'opening-this-week-empty',
+      films: [],
+    };
+  }
+
+  const timezone = opening.timezone ?? homeData.timezone ?? 'America/Los_Angeles';
+  const todayIso = pacificTodayIso(timezone);
+  const currentYear = Number(todayIso.slice(0, 4));
+  const films = Array.isArray(homeData.films) ? homeData.films : [];
+  const opportunities = Array.isArray(homeData.opportunities)
+    ? homeData.opportunities
+    : [];
+
+  const enrichedEntries = entries.map((entry) => {
+    const resolved = resolveOpeningEntryPresentation(entry, {
+      homeData,
+      enrichmentIndex,
+      timezone,
+      todayIso,
+      currentYear,
+    });
+    return {
+      ...entry,
+      categoryId: resolved.categoryId,
+      categoryLabel: resolved.categoryLabel,
+      categoryBadge: resolved.categoryBadge,
+      sectionLabel: resolved.sectionLabel,
+      homeFilm: resolved.homeFilm,
+      enriched: resolved.enriched,
+    };
+  });
+
+  const ranked = rankOpeningShelfEntries(enrichedEntries, {
+    maxCards: HOME_OPENING_SHELF_MAX_CARDS,
+  });
+
+  const shelfFilms = ranked.map((entry) => {
+    const homeFilm = entry.homeFilm;
+    const filmOpportunities = joinOpeningEntryOpportunities(
+      entry,
+      opportunities,
+      films,
+    );
+    const nextOpportunity = filmOpportunities[0] ?? null;
+    const hasUpcomingShowtimes = (entry.visibleShowtimeCount ?? 0) > 0;
+    const { dateLabel } = buildOpeningDateCopy({
+      openingDate: entry.openingDate,
+      engagementDays: entry.engagementDays,
+      categoryId: entry.categoryId,
+      timezone,
+      todayIso,
+      hasUpcomingShowtimes,
+      compact: true,
+    });
+
+    const genrePrimary = entry.enriched.genreLine
+      ? String(entry.enriched.genreLine).split(',')[0].trim()
+      : null;
+
+    return {
+      id: homeFilm?.filmKey ?? entry.filmKey,
+      filmKey: homeFilm?.filmKey ?? entry.filmKey,
+      filmId: entry.enriched.filmId,
+      title: entry.enriched.displayTitle ?? entry.title,
+      badge: entry.categoryBadge,
       genre: genrePrimary,
-      metaLabel,
-      posterUrl: enriched.posterUrl,
-      runtimeMin: enriched.runtimeMin ?? null,
-      theaterCount: film?.theaterCount ?? 0,
-      showtimeCount: film?.showtimeCount ?? 0,
-      nextOpportunityKey: next?.opportunityKey ?? null,
-      surfaceReason: 'newly_added',
-      surfaceReasonLabel: 'Newly added',
-      source: 'newly-added-provisional',
-      hasEnrichment: enriched.hasEnrichment,
+      metaLabel: dateLabel,
+      posterUrl: entry.enriched.posterUrl,
+      runtimeMin: entry.enriched.runtimeMin ?? null,
+      theaterCount:
+        homeFilm?.theaterCount ?? entry.theaterCountOnOpeningDate ?? 0,
+      showtimeCount:
+        homeFilm?.showtimeCount ?? entry.visibleShowtimeCount ?? 0,
+      visibleShowtimeCount: entry.visibleShowtimeCount ?? 0,
+      openingDate: entry.openingDate,
+      categoryId: entry.categoryId,
+      nextOpportunityKey: nextOpportunity?.opportunityKey ?? null,
+      surfaceReason: 'opening-this-week',
+      surfaceReasonLabel: entry.categoryBadge,
+      source: 'opening-this-week-verified',
+      hasEnrichment: entry.enriched.hasEnrichment,
+      hasUpcomingShowtimes,
     };
   });
 
   return {
-    status: 'provisional',
-    reason:
-      'Showing recently added films — not a verified opening-week list.',
-    semantics: 'newly-added-provisional',
-    films,
+    status: 'ready',
+    reason: null,
+    semantics: 'opening-this-week-verified',
+    films: shelfFilms,
   };
 }
 

@@ -21,6 +21,11 @@ from reel_seattle.emit.newly_added import (
     filter_recent_announcements,
     write_newly_added_current,
 )
+from reel_seattle.emit.opening_this_week import (
+    OPENING_THIS_WEEK_SCHEMA_VERSION,
+    build_opening_this_week_current,
+    write_opening_this_week_current,
+)
 
 __all__ = [
     "CURRENT_SCHEMA_VERSION",
@@ -29,13 +34,16 @@ __all__ = [
     "LEAVING_SOON_SCHEMA_VERSION",
     "NEWLY_ADDED_DAYS_BACK",
     "NEWLY_ADDED_SCHEMA_VERSION",
+    "OPENING_THIS_WEEK_SCHEMA_VERSION",
     "WINDOW_DAYS",
     "build_leaving_soon_current",
     "build_newly_added_current",
+    "build_opening_this_week_current",
     "build_showtimes_current",
     "filter_recent_announcements",
     "make_showtime_id",
     "write_leaving_soon_current",
     "write_newly_added_current",
+    "write_opening_this_week_current",
     "write_showtimes_current",
 ]

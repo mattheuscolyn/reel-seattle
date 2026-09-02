@@ -304,6 +304,29 @@ test('Home uses canonical title when theater source title has screening qualifie
         lastSeenDate: '2026-08-10',
       },
     ],
+    openingThisWeek: {
+      status: 'available',
+      timezone: 'America/Los_Angeles',
+      entries: [
+        {
+          filmKey: 'canonical-film-title',
+          parentFilmKey: 'canonical-film-title',
+          showtimeFilmKey: 'canonical-film-title',
+          filmId: 'tmdb:424242',
+          title: 'Canonical Film Title: Special Presentation',
+          openingDate: '2026-08-10',
+          openingType: 'theatrical',
+          categoryId: 'new',
+          categoryLabel: 'New',
+          categoryBadge: 'New',
+          theaterCountOnOpeningDate: 1,
+          theatersOnOpeningDate: ['amc-test'],
+          visibleShowtimeCount: 1,
+          engagementDays: 1,
+          confidence: 'high',
+        },
+      ],
+    },
   };
 
   const homeCtx = enrichHomeFilm(sourceFilm, index, 'home', home);

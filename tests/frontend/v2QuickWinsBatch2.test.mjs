@@ -198,10 +198,9 @@ test('Opening sort options reorder fixture films deterministically', () => {
   assert.deepEqual(
     sortOpeningFilms(films, 'title-az').map((f) => f.title),
     [
-      'Blue Hour',
-      'Quiet City',
-      'Saltwater Road',
-      'The Last Rehearsal',
+      'AMC Screen Unseen: May 23',
+      'Harry Potter And The Half Blood Prince',
+      'The Cabinet of Dr. Caligari',
       'The Long Horizon',
     ],
   );
@@ -215,7 +214,7 @@ test('Opening sort options reorder fixture films deterministically', () => {
   );
   assert.equal(
     sortOpeningFilms(films, 'opening-date')[0].openingDate,
-    '2025-05-23',
+    '2025-05-21',
   );
   assert.match(OPENING_SRC, /OPENING_SORT_OPTIONS/);
   assert.match(OPENING_SRC, /sortOpeningFilms/);
@@ -224,12 +223,12 @@ test('Opening sort options reorder fixture films deterministically', () => {
 test('Opening filters combine theater/format/date and support empty state', () => {
   const films = getOpeningThisWeekMockupPresentation().films;
   const filtered = filterOpeningFilms(films, {
-    theaterId: 'siff-cinema-downtown',
-    formatLabel: 'DCP',
-    openingDate: '2025-05-23',
+    theaterId: 'the-beacon-cinema',
+    formatLabel: '35MM',
+    openingDate: '2025-05-24',
   });
   assert.equal(filtered.length, 1);
-  assert.equal(filtered[0].title, 'Quiet City');
+  assert.equal(filtered[0].title, 'The Cabinet of Dr. Caligari');
   assert.equal(
     filterOpeningFilms(films, {
       theaterId: 'paramount-theatre',

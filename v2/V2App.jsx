@@ -1255,6 +1255,18 @@ export default function V2App() {
             returnSurface: nav.surface,
           })
         }
+        onOpenShowtimes={({ filmKey, theaterId, opportunityKey }) =>
+          handleOpenShowtimes({
+            filmKey,
+            theaterId: theaterId ?? null,
+            opportunityKey: opportunityKey ?? null,
+          })
+        }
+        onOpenShowtimesBrowse={() =>
+          handleOpenShowtimesBrowse({
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+          })
+        }
         onStubAction={(_actionId, label) => {
           setProfileStubStatus(
             `${label} isn’t available in this Stage 1 Opening shell yet.`,

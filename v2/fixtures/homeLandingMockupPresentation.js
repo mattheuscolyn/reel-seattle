@@ -161,59 +161,63 @@ export const HOME_MOCKUP_TOP_OPPORTUNITIES = Object.freeze([
 export const HOME_MOCKUP_OPENING_SHELF = Object.freeze({
   status: 'ready',
   reason: null,
-  semantics: 'home-mockup-opening',
+  semantics: 'opening-this-week-verified',
   films: Object.freeze([
     Object.freeze({
       id: 'fixture-open-1',
       filmKey: 'fixture-open-1',
       title: 'Quiet City',
+      badge: 'New',
       genre: 'Drama',
-      metaLabel: '1h 42m',
+      metaLabel: 'Opens Fri',
       posterUrl: PLACEHOLDER_POSTERS.quietCity,
       runtimeMin: 102,
       nextOpportunityKey: 'fixture-opp-open-1',
-      surfaceReason: 'opening',
-      surfaceReasonLabel: null,
-      source: 'design-fixture',
+      surfaceReason: 'opening-this-week',
+      surfaceReasonLabel: 'New',
+      source: 'opening-this-week-verified',
     }),
     Object.freeze({
       id: 'fixture-open-2',
       filmKey: 'fixture-open-2',
       title: 'Blue Hour',
+      badge: 'New',
       genre: 'Drama',
-      metaLabel: '2h 05m',
+      metaLabel: 'Opens Sat',
       posterUrl: PLACEHOLDER_POSTERS.blueHour,
       runtimeMin: 125,
       nextOpportunityKey: 'fixture-opp-open-2',
-      surfaceReason: 'best_current',
-      surfaceReasonLabel: 'Best current opportunity',
-      source: 'design-fixture',
+      surfaceReason: 'opening-this-week',
+      surfaceReasonLabel: 'New',
+      source: 'opening-this-week-verified',
     }),
     Object.freeze({
       id: 'fixture-open-3',
       filmKey: 'fixture-open-3',
       title: 'The Last Rehearsal',
+      badge: 'Special Event',
       genre: 'Comedy',
-      metaLabel: '1h 37m',
+      metaLabel: 'One night · Sat',
       posterUrl: PLACEHOLDER_POSTERS.lastRehearsal,
       runtimeMin: 97,
       nextOpportunityKey: 'fixture-opp-open-3',
-      surfaceReason: 'opening',
-      surfaceReasonLabel: null,
-      source: 'design-fixture',
+      surfaceReason: 'opening-this-week',
+      surfaceReasonLabel: 'Special Event',
+      source: 'opening-this-week-verified',
     }),
     Object.freeze({
       id: 'fixture-open-4',
       filmKey: 'fixture-open-4',
       title: 'Saltwater Road',
+      badge: 'Revival',
       genre: 'Drama',
-      metaLabel: '2h 47m',
+      metaLabel: 'Opened Wed',
       posterUrl: PLACEHOLDER_POSTERS.saltwaterRoad,
       runtimeMin: 167,
       nextOpportunityKey: 'fixture-opp-open-4',
-      surfaceReason: 'opening',
-      surfaceReasonLabel: null,
-      source: 'design-fixture',
+      surfaceReason: 'opening-this-week',
+      surfaceReasonLabel: 'Revival',
+      source: 'opening-this-week-verified',
     }),
   ]),
 });
@@ -378,6 +382,37 @@ export function getHomeMockupHomeData() {
       posterUrl: film.posterUrl,
       firstObservedAt: '2026-05-16',
     })),
+    openingThisWeek: {
+      status: 'available',
+      timezone: 'America/Los_Angeles',
+      entries: opening.map((film, index) => ({
+        filmKey: film.filmKey,
+        parentFilmKey: film.filmKey,
+        showtimeFilmKey: film.filmKey,
+        filmId: null,
+        title: film.title,
+        openingDate: `2026-05-${16 + index}`,
+        openingType:
+          film.badge === 'Revival'
+            ? 'repertory'
+            : film.badge === 'Special Event'
+              ? 'event'
+              : 'theatrical',
+        categoryId:
+          film.badge === 'Revival'
+            ? 'revival'
+            : film.badge === 'Special Event'
+              ? 'event'
+              : 'new',
+        categoryLabel: film.badge,
+        categoryBadge: film.badge,
+        theaterCountOnOpeningDate: 1,
+        theatersOnOpeningDate: ['siff-cinema-downtown'],
+        visibleShowtimeCount: 2,
+        engagementDays: film.badge === 'Special Event' ? 1 : 2,
+        confidence: 'high',
+      })),
+    },
     opportunityCandidates: [],
   };
 }
@@ -400,7 +435,7 @@ export function getHomeMockupBlueHourDetail() {
     opportunityKey: 'fixture-opp-open-2',
     showingLine: 'SIFF Cinema Uptown · Fri 5/18 · 7:30pm',
     ticketUrl: null,
-    surfaceReasonLabel: 'Best current opportunity',
+    surfaceReasonLabel: 'New',
     alsoPlayingLabel: null,
     hasEnrichment: false,
   };

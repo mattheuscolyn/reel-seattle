@@ -44,6 +44,12 @@ const NEWLY = JSON.parse(
     'utf8',
   ),
 );
+const OPENING_THIS_WEEK = JSON.parse(
+  readFileSync(
+    join(ROOT, 'tests/fixtures/frontend/v2_opening_this_week_mini.json'),
+    'utf8',
+  ),
+);
 
 test('enrichment index loads v1 artifact by film_id', () => {
   const frozen = structuredClone(EXAMPLE);
@@ -165,6 +171,7 @@ test('Home shelf and quick detail activate enrichment fields', () => {
     showtimesCurrent: SHOWTIMES,
     theatersRegistry: THEATERS,
     newlyAdded: NEWLY,
+    openingThisWeek: OPENING_THIS_WEEK,
     pipelineReport: null,
   });
   // Attach enrichment for sinners via filmId already in fixture.
@@ -213,6 +220,7 @@ test('Search prefers canonical title and activates enrichment by filmId', () => 
     showtimesCurrent: SHOWTIMES,
     theatersRegistry: THEATERS,
     newlyAdded: NEWLY,
+    openingThisWeek: OPENING_THIS_WEEK,
     pipelineReport: null,
   });
   const enrichmentDoc = {
@@ -277,6 +285,7 @@ test('Search does not join enrichment by title alone', () => {
     showtimesCurrent: SHOWTIMES,
     theatersRegistry: THEATERS,
     newlyAdded: NEWLY,
+    openingThisWeek: OPENING_THIS_WEEK,
     pipelineReport: null,
   });
   const index = buildEnrichmentIndex(EXAMPLE); // only Yesterday / tmdb:15080
