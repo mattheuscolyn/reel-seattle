@@ -2,7 +2,7 @@
  * Opening This Week fixtures — mixed categories for visual QC and tests.
  *
  * Uses the same presentation fields as the live artifact-backed surface.
- * Home shelf continues to use buildOpeningThisWeekShelf (provisional newly-added path).
+ * Home shelf uses buildOpeningThisWeekShelf (verified opening-this-week path).
  */
 
 import { PLACEHOLDER_POSTERS } from './placeholderMedia.js';

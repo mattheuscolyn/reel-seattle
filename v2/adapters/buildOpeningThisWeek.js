@@ -70,8 +70,16 @@ export function assertOpeningThisWeekShape(payload) {
  *   title?: string | null,
  *   showtimeFilmKey?: string | null,
  *   engagementDays?: number | null,
+ *   openingDate?: string | null,
+ *   visibleShowtimeCount?: number | null,
  * }} entry
- * @param {{ releaseYear?: number | null, currentYear?: number }} [context]
+ * @param {{
+ *   releaseYear?: number | null,
+ *   currentYear?: number,
+ *   openingDate?: string | null,
+ *   visibleShowtimeCount?: number | null,
+ *   todayIso?: string | null,
+ * }} [context]
  * @returns {{ id: OpeningCategoryId, label: string, badge: string, sectionLabel: string }}
  */
 export function openingCategoryForEntry(entry, context = {}) {
@@ -79,6 +87,12 @@ export function openingCategoryForEntry(entry, context = {}) {
   const title = asTrimmedString(entry?.title) ?? '';
   const showtimeFilmKey = asTrimmedString(entry?.showtimeFilmKey) ?? '';
   const engagementDays = asPositiveInt(entry?.engagementDays);
+  const openingDate =
+    asTrimmedString(entry?.openingDate) ?? asTrimmedString(context.openingDate);
+  const visibleShowtimeCount =
+    asPositiveInt(entry?.visibleShowtimeCount) ??
+    asPositiveInt(context.visibleShowtimeCount);
+  const todayIso = asTrimmedString(context.todayIso);
 
   if (type === 'repertory') {
     return {
@@ -143,6 +157,22 @@ export function openingCategoryForEntry(entry, context = {}) {
     typeof releaseYear === 'number' &&
     releaseYear < currentYear - 3 &&
     engagementDays === 1
+  ) {
+    return {
+      id: 'revival',
+      label: 'Revival',
+      badge: 'Revival',
+      sectionLabel: 'Revivals',
+    };
+  }
+
+  if (
+    type === 'limited' &&
+    engagementDays === 1 &&
+    visibleShowtimeCount === 0 &&
+    openingDate &&
+    todayIso &&
+    openingDate < todayIso
   ) {
     return {
       id: 'revival',
@@ -257,13 +287,6 @@ function normalizeEntry(raw) {
         .filter(Boolean)
     : [];
 
-  const category = openingCategoryForEntry({
-    openingType: raw.opening_type,
-    title,
-    showtimeFilmKey,
-    engagementDays: raw.engagement_days,
-  });
-
   return {
     filmKey: parentFilmKey ?? showtimeFilmKey,
     parentFilmKey,
@@ -272,10 +295,6 @@ function normalizeEntry(raw) {
     title,
     openingDate,
     openingType: asTrimmedString(raw.opening_type) ?? 'unknown',
-    categoryId: category.id,
-    categoryLabel: category.label,
-    categoryBadge: category.badge,
-    sectionLabel: category.sectionLabel,
     theaterCountOnOpeningDate:
       asPositiveInt(raw.theater_count_on_opening_date) ?? theatersOnOpeningDate.length,
     theatersOnOpeningDate,
@@ -384,10 +403,9 @@ export function buildOpeningThisWeek(artifact, options = {}) {
 }
 
 /**
- * Re-apply category labels when enrichment release year is known (limited refinement).
- *
+ * @deprecated Use resolveOpeningEntryPresentation() for final product categories.
  * @param {object} entry
- * @param {{ releaseYear?: number | null, currentYear?: number }} context
+ * @param {{ releaseYear?: number | null, currentYear?: number, todayIso?: string | null }} context
  */
 export function refineOpeningCategory(entry, context = {}) {
   const category = openingCategoryForEntry(entry, context);

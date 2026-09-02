@@ -150,9 +150,9 @@ test('Home See all opens Opening with Home origin and Back restores', () => {
   assert.equal(nav.primaryDestinationId, 'home');
 });
 
-test('Home shelf still uses provisional opening helper', () => {
+test('Home shelf still uses verified opening helper', () => {
   assert.match(HOME_SRC, /buildOpeningThisWeekShelf/);
-  assert.equal(FIXTURE_SRC.includes('newly_added'), false);
+  assert.equal(FIXTURE_SRC.includes('newly-added-provisional'), false);
   assert.equal(FIXTURE_SRC.includes('public/data'), false);
 });
 

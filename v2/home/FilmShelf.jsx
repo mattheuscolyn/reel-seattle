@@ -40,6 +40,7 @@ function getBrowserStorage() {
  *   onMoreDetails: (payload: { filmKey: string, opportunityKey: string | null }) => void,
  *   detailOverride?: object | null,
  *   hideStatusNotes?: boolean,
+ *   maxVisible?: number,
  * }} props
  */
 export default function FilmShelf({
@@ -54,12 +55,14 @@ export default function FilmShelf({
   onMoreDetails,
   detailOverride = null,
   hideStatusNotes = false,
+  maxVisible = 4,
 }) {
   const headingId = `${id}-heading`;
   const panelId = useId();
   const panelRef = useRef(null);
   const [actionRevision, setActionRevision] = useState(0);
   const films = Array.isArray(shelf?.films) ? shelf.films : [];
+  const visibleFilms = films.slice(0, Math.max(1, maxVisible));
   useEffect(() => {
     return subscribeFilmStoreMutations(() => {
       setActionRevision((value) => value + 1);
@@ -139,10 +142,17 @@ export default function FilmShelf({
         </div>
       ) : null}
 
-      {films.length > 0 ? (
+      {visibleFilms.length > 0 ? (
         <>
-          <div className="v2-shelf-row" role="list">
-            {films.slice(0, 4).map((film) => {
+          <div
+            className={
+              maxVisible > 4
+                ? 'v2-shelf-row v2-shelf-row-wide'
+                : 'v2-shelf-row'
+            }
+            role="list"
+          >
+            {visibleFilms.map((film) => {
               const isExpanded = film.filmKey === expandedFilmKey;
               return (
                 <div key={film.filmKey} className="v2-shelf-item" role="listitem">
@@ -164,11 +174,10 @@ export default function FilmShelf({
               <div
                 className="v2-shelf-expansion-caret"
                 style={{
-                  left: `calc(${(films
-                    .slice(0, 4)
+                  left: `calc(${(visibleFilms
                     .findIndex((f) => f.filmKey === expandedFilmKey) +
                     0.5) *
-                    25}% )`,
+                    (100 / visibleFilms.length)}% )`,
                 }}
                 aria-hidden="true"
               />

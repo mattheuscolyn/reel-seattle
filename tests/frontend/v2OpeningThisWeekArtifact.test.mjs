@@ -10,6 +10,7 @@ import {
   openingCategoryForEntry,
   refineOpeningCategory,
 } from '../../v2/adapters/buildOpeningThisWeek.js';
+import { buildOpeningThisWeekShelf } from '../../v2/home/shelfData.js';
 import { ALLOWED_V2_DATA_ROUTES } from '../../v2/data/allowedDataRoutes.js';
 import { loadHomeData } from '../../v2/data/loadHomeData.js';
 import {
@@ -123,6 +124,29 @@ test('limited Harry Potter maps to revival via release year', () => {
     { releaseYear: 2009, currentYear: 2026 },
   );
   assert.equal(category.categoryId, 'revival');
+});
+
+test('limited ended single-day Harry Potter maps to revival without enrichment', () => {
+  const home = buildHomeData(baseHomeInput());
+  const shelf = buildOpeningThisWeekShelf(home, null);
+  const presentation = buildLiveOpeningThisWeekPresentation(home, null);
+  const hpEntry = home.openingThisWeek.entries.find(
+    (entry) => entry.showtimeFilmKey === 'harry-potter-and-the-half-blood-prince',
+  );
+  assert.equal(hpEntry.openingType, 'limited');
+  assert.equal(hpEntry.engagementDays, 1);
+  assert.equal(hpEntry.visibleShowtimeCount, 0);
+  const shelfCard = shelf.films.find(
+    (film) => film.filmKey === 'harry-potter-and-the-half-blood-prince',
+  );
+  const dedicatedCard = presentation.films.find(
+    (film) => film.filmKey === 'harry-potter-and-the-half-blood-prince',
+  );
+  if (shelfCard) {
+    assert.equal(shelfCard.badge, 'Revival');
+    assert.equal(shelfCard.categoryId, dedicatedCard.categoryId);
+  }
+  assert.equal(dedicatedCard.badge, 'Revival');
 });
 
 test('limited Hunger Games 2026 maps to new', () => {

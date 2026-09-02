@@ -13,6 +13,7 @@ import {
   openFilmDetail,
   selectPrimaryDestination,
 } from '../../v2/navigation/navState.js';
+import { pacificTodayIso } from '../../v2/opening/openingDateCopy.js';
 import {
   buildInlineQuickDetail,
   buildLeavingSoonShelf,
@@ -25,6 +26,12 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 function minimalHomeData(overrides = {}) {
+  const today = pacificTodayIso();
+  const future = new Date(`${today}T12:00:00`);
+  future.setDate(future.getDate() + 1);
+  const openingDate = future.toLocaleDateString('en-CA', {
+    timeZone: 'America/Los_Angeles',
+  });
   return {
     generatedAt: '2026-07-20T12:00:00Z',
     leavingSoonExcluded: true,
@@ -84,6 +91,29 @@ function minimalHomeData(overrides = {}) {
         hasActiveShowtimes: true,
       },
     ],
+    openingThisWeek: {
+      status: 'available',
+      timezone: 'America/Los_Angeles',
+      entries: [
+        {
+          filmKey: 'film-a',
+          parentFilmKey: 'film-a',
+          showtimeFilmKey: 'film-a',
+          filmId: null,
+          title: 'Alpha',
+          openingDate,
+          openingType: 'theatrical',
+          categoryId: 'new',
+          categoryLabel: 'New',
+          categoryBadge: 'New',
+          theaterCountOnOpeningDate: 2,
+          theatersOnOpeningDate: ['t1'],
+          visibleShowtimeCount: 3,
+          engagementDays: 3,
+          confidence: 'high',
+        },
+      ],
+    },
     opportunityCandidates: [
       {
         opportunityKey: 'opp-a',
@@ -136,12 +166,13 @@ test('carousel boundaries disable rather than wrap', () => {
   assert.equal(clampSelectionIndex(-1, 3), 0);
 });
 
-test('Opening This Week provisional shelf uses newly added real films', () => {
+test('Opening This Week Home shelf uses verified opening artifact', () => {
   const shelf = buildOpeningThisWeekShelf(minimalHomeData());
-  assert.equal(shelf.status, 'provisional');
+  assert.equal(shelf.status, 'ready');
   assert.equal(shelf.films.length, 1);
   assert.equal(shelf.films[0].filmKey, 'film-a');
-  assert.equal(shelf.films[0].source, 'newly-added-provisional');
+  assert.equal(shelf.films[0].source, 'opening-this-week-verified');
+  assert.equal(shelf.films[0].badge, 'New');
   assert.equal(shelf.films[0].title.includes('Long Horizon'), false);
 });
 
@@ -156,14 +187,11 @@ test('Leaving Soon shelf stays gated unavailable without fictional films', () =>
   assert.equal(shelf.reason.toLowerCase().includes('consumed by v2'), false);
 });
 
-test('Opening This Week provisional copy stays user-facing and honest', () => {
+test('Opening This Week Home shelf uses opening date copy', () => {
   const shelf = buildOpeningThisWeekShelf(minimalHomeData());
-  assert.equal(shelf.status, 'provisional');
-  assert.match(shelf.reason, /recently added/i);
-  assert.match(shelf.reason, /not a verified opening-week list/i);
-  assert.equal(shelf.reason.toLowerCase().includes('classification'), false);
-  assert.equal(shelf.reason.toLowerCase().includes('theatrical openings'), false);
-  assert.ok(shelf.films[0].metaLabel);
+  assert.equal(shelf.status, 'ready');
+  assert.equal(shelf.reason, null);
+  assert.match(shelf.films[0].metaLabel, /Opens/);
   assert.equal(shelf.films[0].title.includes('Blue Hour'), false);
 });
 
@@ -219,7 +247,7 @@ test('inline quick detail omits missing synopsis rating year genre without enric
   assert.ok(detail.showingLine);
   assert.equal(detail.opportunityKey, 'opp-a');
   assert.match(detail.alsoPlayingLabel, /2 theaters/);
-  assert.equal(detail.surfaceReasonLabel, 'Newly added');
+  assert.equal(detail.surfaceReasonLabel, 'New');
 });
 
 test('inline quick detail shows only one opportunity line', () => {

@@ -14,6 +14,19 @@ export function pacificTodayIso(timezone = 'America/Los_Angeles') {
 }
 
 /**
+ * @param {string | null | undefined} isoDate
+ * @returns {string | null}
+ */
+function formatCompactWeekday(isoDate) {
+  if (typeof isoDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) {
+    return null;
+  }
+  const [year, month, day] = isoDate.split('-').map(Number);
+  const date = new Date(year, month - 1, day);
+  return date.toLocaleDateString('en-US', { weekday: 'short' });
+}
+
+/**
  * @param {{
  *   openingDate: string,
  *   engagementDays?: number | null,
@@ -21,6 +34,7 @@ export function pacificTodayIso(timezone = 'America/Los_Angeles') {
  *   timezone?: string | null,
  *   todayIso?: string | null,
  *   hasUpcomingShowtimes?: boolean,
+ *   compact?: boolean,
  * }} args
  * @returns {{ dateLabel: string, availabilityLabel: string | null }}
  */
@@ -31,25 +45,32 @@ export function buildOpeningDateCopy({
   timezone = 'America/Los_Angeles',
   todayIso = null,
   hasUpcomingShowtimes = true,
+  compact = false,
 }) {
   const today = todayIso ?? pacificTodayIso(timezone);
   const shortDate = formatLocalDateLabel(openingDate);
+  const compactDay = formatCompactWeekday(openingDate);
 
   let dateLabel;
   if (openingDate === today) {
     dateLabel = 'Opens today';
   } else if (openingDate > today) {
-    dateLabel = shortDate ? `Opens ${shortDate}` : 'Opens this week';
+    if (compact && compactDay) {
+      dateLabel = `Opens ${compactDay}`;
+    } else {
+      dateLabel = shortDate ? `Opens ${shortDate}` : 'Opens this week';
+    }
+  } else if (compact && compactDay) {
+    dateLabel = `Opened ${compactDay}`;
   } else {
     dateLabel = shortDate ? `Opened ${shortDate}` : 'Opened earlier this week';
   }
 
-  if (
-    categoryId === 'event' &&
-    engagementDays === 1 &&
-    shortDate
-  ) {
-    dateLabel = `One night · ${shortDate}`;
+  if (categoryId === 'event' && engagementDays === 1) {
+    const eventDay = compact ? compactDay : shortDate;
+    if (eventDay) {
+      dateLabel = `One night · ${eventDay}`;
+    }
   }
 
   const availabilityLabel = hasUpcomingShowtimes

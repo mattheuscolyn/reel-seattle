@@ -31,6 +31,9 @@ export default function FilmShelfCard({
         ) : (
           <div className="v2-shelf-poster-fallback" aria-hidden="true" />
         )}
+        {film.badge ? (
+          <span className="v2-shelf-badge">{film.badge}</span>
+        ) : null}
       </div>
       <span className="v2-shelf-title">{film.title}</span>
       {secondary ? <span className="v2-shelf-genre">{secondary}</span> : null}

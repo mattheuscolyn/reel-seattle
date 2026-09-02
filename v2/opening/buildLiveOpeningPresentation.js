@@ -5,13 +5,11 @@
 import {
   OPENING_CATEGORY_SECTIONS,
   joinOpeningEntryOpportunities,
-  joinOpeningEntryToHomeFilm,
-  refineOpeningCategory,
 } from '../adapters/buildOpeningThisWeek.js';
-import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
 import { formatRuntimeLabel } from '../home/shelfData.js';
 import { formatUserFacingFormatLabel } from '../topOpportunities/topOpportunityFormat.js';
 import { buildOpeningDateCopy, pacificTodayIso } from './openingDateCopy.js';
+import { resolveOpeningEntryPresentation } from './resolveOpeningEntryPresentation.js';
 
 export const OPENING_CATEGORY_CHIPS = Object.freeze([
   Object.freeze({ id: 'all', label: 'All' }),
@@ -78,7 +76,15 @@ export function buildLiveOpeningThisWeekPresentation(
   const theatersById = homeData?.theatersById ?? {};
 
   const presentationFilms = opening.entries.map((entry) => {
-    const homeFilm = joinOpeningEntryToHomeFilm(entry, films);
+    const resolved = resolveOpeningEntryPresentation(entry, {
+      homeData,
+      enrichmentIndex,
+      timezone,
+      todayIso,
+      currentYear,
+    });
+    const homeFilm = resolved.homeFilm;
+    const enriched = resolved.enriched;
     const filmOpportunities = joinOpeningEntryOpportunities(
       entry,
       opportunities,
@@ -86,27 +92,11 @@ export function buildLiveOpeningThisWeekPresentation(
     );
     const nextOpportunity = filmOpportunities[0] ?? null;
 
-    const enriched = resolveEnrichedFilmPresentation({
-      sourceFilm: {
-        filmId: homeFilm?.filmId ?? entry.filmId ?? null,
-        title: homeFilm?.title ?? entry.title ?? null,
-        posterUrl: homeFilm?.posterUrl ?? null,
-        runtimeMin: homeFilm?.runtimeMin ?? null,
-      },
-      enrichmentIndex,
-      context: 'opening',
-    });
-
-    const refined = refineOpeningCategory(entry, {
-      releaseYear: enriched.canonicalYear,
-      currentYear,
-    });
-
     const hasUpcomingShowtimes = (entry.visibleShowtimeCount ?? 0) > 0;
     const { dateLabel, availabilityLabel } = buildOpeningDateCopy({
       openingDate: entry.openingDate,
       engagementDays: entry.engagementDays,
-      categoryId: refined.categoryId,
+      categoryId: resolved.categoryId,
       timezone,
       todayIso,
       hasUpcomingShowtimes,
@@ -140,9 +130,9 @@ export function buildLiveOpeningThisWeekPresentation(
       filmKey: homeFilm?.filmKey ?? entry.filmKey,
       filmId: enriched.filmId,
       title: enriched.displayTitle ?? entry.title,
-      badge: refined.categoryBadge,
-      categoryId: refined.categoryId,
-      sectionLabel: refined.sectionLabel,
+      badge: resolved.categoryBadge,
+      categoryId: resolved.categoryId,
+      sectionLabel: resolved.sectionLabel,
       metaLine: metaParts.length > 0 ? metaParts.join(' · ') : null,
       synopsis: enriched.synopsisPreview,
       posterUrl: enriched.posterUrl,

@@ -654,6 +654,29 @@ button {
   gap: 0.48rem;
 }
 
+.v2-shelf-row-wide {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.v2-shelf-badge {
+  position: absolute;
+  top: 0.35rem;
+  left: 0.35rem;
+  z-index: 1;
+  padding: 0.12rem 0.38rem;
+  border-radius: 999px;
+  background: rgba(8, 10, 14, 0.78);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  max-width: calc(100% - 0.7rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .v2-shelf-card {
   min-width: 0;
   width: 100%;
@@ -1108,6 +1131,7 @@ button {
 }
 
 .v2-shelf-poster {
+  position: relative;
   aspect-ratio: 2 / 3;
   border-radius: var(--v2-radius-poster);
   overflow: hidden;
