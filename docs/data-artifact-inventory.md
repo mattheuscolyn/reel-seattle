@@ -100,6 +100,10 @@ Contracts and writers described in [amc-source-catalog.md](./amc-source-catalog.
 | `scripts/audit_amc_catalog_cadence.py` | Cadence evaluation CLI | Manual / local · `--from-git` or `--snapshots-dir` · writes `audit-output/` |
 | `docs/amc-catalog-cadence-evaluation.md` | P-21C findings + classifications | Authored research · not a production contract |
 | `audit-output/amc-catalog-cadence-evaluation/` | Machine JSON/MD audit output | Gitignored · regenerable |
+| `reel_seattle/analysis/amc_run_lifecycle.py` | AMC run identity, gap analysis, remaining-days labels | Read-only analysis · no model · no UI |
+| `scripts/audit_amc_run_lifecycles.py` | Lifecycle audit CLI | Manual / local · writes gitignored `audit-output/amc-run-lifecycle/` |
+| `schema/analysis/amc_run_lifecycle_observations/v1.0.0.json` | Observation-row contract | Authored · analysis-only · not public |
+| `docs/leaving-soon-lifecycle-audit.md` | Remaining-days TTE data foundation | Authored research · not a production contract |
 
 Do not ship to Pages or the public SPA. Do not treat as authored canonical film data. Local Developer Data Cockpit may read these files through an explicit allowlist (P-21A); they are never copied into `public/` or `dist/`.
 
