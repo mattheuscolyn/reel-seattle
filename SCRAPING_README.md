@@ -11,20 +11,20 @@ This system automatically scrapes showtimes from indie theaters and AMC theaters
 - `reel_seattle/adapters/nwff.py` - Northwest Film Forum production adapter (Option C logs)
 - `reel_seattle/adapters/central_cinema.py` - Central Cinema production adapter (Option C logs; scheduled)
 - `amc_logger.py` - Thin CLI wrapper that writes `public/showtimes.csv` via the AMC adapter
-- `reel_seattle/adapters/amc.py` - AMC API source adapter (fetch, allowlist, legacy CSV conversion)
+- `reel_seattle/adapters/amc.py` - AMC API source adapter (all currently announced future showtimes, allowlist, legacy CSV conversion). Collection horizon is not the public 14-day viewing window; see [docs/amc-all-announced-showtimes.md](docs/amc-all-announced-showtimes.md).
 - `daily_processor.py` - Processes and consolidates daily data
 - `run_daily_scraping.py` - Master script that runs everything
 
 ### Data Files (created automatically)
 - `public/showtimes.csv` - Latest AMC showtimes
 - `public/indieshowtimes.csv` - Latest indie theater showtimes (legacy processor input fallback)
-- `data/daily_logs/YYYY-MM-DD_amc.json` - Normalized raw AMC adapter scrape log (processor JSON-first input; P-18A expands optional `record.attributes` fields — see [docs/amc-showtimes-raw-capture.md](docs/amc-showtimes-raw-capture.md))
+- `data/daily_logs/YYYY-MM-DD_amc.json` - Normalized raw AMC adapter scrape log (processor JSON-first input; preserves all announced future AMC showtimes; P-18A expands optional `record.attributes` fields — see [docs/amc-showtimes-raw-capture.md](docs/amc-showtimes-raw-capture.md) and [docs/amc-all-announced-showtimes.md](docs/amc-all-announced-showtimes.md))
 - `data/daily_logs/YYYY-MM-DD_siff.json` - Normalized raw SIFF adapter scrape log
 - `data/daily_logs/YYYY-MM-DD_beacon.json` - Normalized raw Beacon adapter scrape log
 - `data/daily_logs/YYYY-MM-DD_nwff.json` - Option C NWFF scrape log (contract + mapping + `records[]`)
 - `data/daily_logs/YYYY-MM-DD_central_cinema.json` - Option C Central Cinema scrape log (contract + mapping + `records[]`)
 - `data/history/showtimes_history.csv` - **Canonical** historical showtime data (not shipped to GitHub Pages); includes nullable `source_showtime_id`
-- `public/data/showtimes_current.json` - Lean normalized showtimes for today through today + 14 days (emitted by `daily_processor.py`; loaded by the React app)
+- `public/data/showtimes_current.json` - Lean normalized showtimes for today through today + 14 days (emitted by `daily_processor.py`; loaded by the React app). This is the **public viewing horizon**. AMC collection/history may contain farther-future rows that this file intentionally omits.
 - `public/data/pipeline_report.json` - Daily pipeline observability report with per-source freshness (emitted by `daily_processor.py`)
 - `public/data/movies_announcements.csv` - Track when movies were first announced
 - `public/data/newly_announced.csv` - Movies announced in last 7 days
@@ -293,7 +293,7 @@ Each migration updates canonical history only.
 
 Pipeline diagnostics derive warnings such as “SIFF scrape partial…” / “Beacon scrape structurally empty…” from log stats. Published `sources.*.status` / `last_successful_run` still reflect the current public artifact (stale retained rows can remain visible); incomplete scrapes do not rewrite history `last_updated`, so they do not advance that freshness signal via restatement.
 
-**AMC restate safety guard:** If `public/showtimes.csv` has zero today-and-future rows but history still has AMC forward rows, the processor **skips** AMC restate and preserves existing forward AMC history (logs an `ERROR:` message). This prevents a failed or stale scrape from wiping irreplaceable forward-window data.
+**AMC restate safety guard:** JSON daily logs carry `stats.restate_safe`. A partial or failed announced-future fetch (`restate_safe=false`, theater/API errors) **skips** AMC restate even if some showtimes were parsed. CSV fallback (and a successful fetch with zero incoming future rows while history still has future AMC rows) keeps the older empty-incoming guard. See [docs/amc-all-announced-showtimes.md](docs/amc-all-announced-showtimes.md).
 
 ### movies_announcements.csv
 ```csv

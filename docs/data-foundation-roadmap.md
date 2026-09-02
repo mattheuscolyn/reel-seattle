@@ -55,6 +55,7 @@ Public UI must not change merely because new source fields are captured. v2 desi
 | Daily catalog workflow wiring (P-14D) | `Complete` | Non-blocking late stage; `all-active`; atomic promotion; same generated-data commit |
 | AMC Showtimes field audit (P-15A) | `Complete` | [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) — log capture gap + fixture taxonomy |
 | AMC Showtimes raw-capture expansion (P-18A) | `Complete` | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) — expand daily-log attributes |
+| AMC all announced future showtimes | `Complete` | [amc-all-announced-showtimes.md](./amc-all-announced-showtimes.md) — undated theater collection; public 14-day emit unchanged |
 | AMC expanded-log field/taxonomy audit (P-18B) | `Research in progress` | Provisional only — 1 expanded date (`2026-07-17`); need 3–5 |
 | SIFF/Beacon ingestion audit (P-16A) | `Complete` | [independent-theater-ingestion-audit.md](./independent-theater-ingestion-audit.md) |
 | Indie restatement completeness guard (P-16B) | `Complete` | Partial/structural-empty scrapes cannot wipe future rows |

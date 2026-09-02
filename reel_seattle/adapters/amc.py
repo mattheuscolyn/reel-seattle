@@ -7,7 +7,8 @@ import json
 import math
 import os
 import time
-from datetime import date, datetime, timedelta
+from dataclasses import dataclass
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any, Callable, Mapping
 
@@ -31,7 +32,14 @@ from reel_seattle.amc_allowlist import (
 
 AMC_BASE_URL = "https://api.amctheatres.com/v2"
 DEFAULT_CSV_PATH = Path("public/showtimes.csv")
-DAYS_AHEAD = 14
+# FetchContext requires window_end; AMC collection ignores it as a product horizon
+# and fetches all currently announced future showtimes per theater.
+UNBOUND_FETCH_WINDOW_END = date(9999, 12, 31)
+COLLECTION_MODE_ALL_ANNOUNCED_FUTURE = "all_announced_future"
+SHOWTIME_PAGE_SIZE = 100
+MAX_SHOWTIME_PAGES_PER_THEATER = 200
+REQUEST_TIMEOUT_SECONDS = 30.0
+MAX_HTTP_RETRIES = 2
 SEATTLE_LAT, SEATTLE_LON = 47.6062, -122.3321
 # Puget Sound metro radius. Retains all enabled registry theaters (<=16 mi) plus the
 # intentionally disabled Kitsap/Lakewood matches (<=32 mi), while excluding out-of-region
@@ -211,7 +219,7 @@ def build_default_fetch_context(
     return FetchContext(
         run_date=run,
         window_start=run,
-        window_end=run + timedelta(days=DAYS_AHEAD),
+        window_end=UNBOUND_FETCH_WINDOW_END,
         theaters_registry=load_theater_registry(registry_path),
         session=session,
     )
@@ -225,45 +233,190 @@ def _session_for_context(context: FetchContext) -> requests.Session:
     return session
 
 
-def get_all_theaters(session: requests.Session) -> list[dict[str, Any]]:
-    """Fetch all AMC theaters using paginated API calls."""
-    theaters: list[dict[str, Any]] = []
-    url = f"{AMC_BASE_URL}/theatres?page-number=1&page-size=100"
+@dataclass(frozen=True)
+class TheaterShowtimesResult:
+    """Result of one theater's announced-future showtimes collection."""
+
+    showtimes: tuple[dict[str, Any], ...]
+    request_count: int
+    page_count: int
+    error: str | None = None
+
+
+def _next_collection_href(payload: Mapping[str, Any]) -> str | None:
+    links = payload.get("_links")
+    if not isinstance(links, Mapping):
+        return None
+    next_link = links.get("next")
+    if isinstance(next_link, Mapping):
+        href = next_link.get("href")
+        return str(href) if href else None
+    if isinstance(next_link, str) and next_link.strip():
+        return next_link.strip()
+    return None
+
+
+def _embedded_showtimes(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
+    embedded = payload.get("_embedded")
+    if not isinstance(embedded, Mapping):
+        return []
+    showtimes = embedded.get("showtimes")
+    if not isinstance(showtimes, list):
+        return []
+    return [item for item in showtimes if isinstance(item, dict)]
+
+
+def _get_json(
+    session: requests.Session,
+    url: str,
+    *,
+    timeout_seconds: float = REQUEST_TIMEOUT_SECONDS,
+    max_retries: int = MAX_HTTP_RETRIES,
+) -> tuple[int | None, dict[str, Any] | None, str | None]:
+    """GET JSON with limited retries. Never includes request headers in errors."""
+    last_error: str | None = None
+    attempts = max(1, max_retries + 1)
+    for attempt in range(attempts):
+        try:
+            response = session.get(url, timeout=timeout_seconds)
+        except requests.Timeout:
+            last_error = "request timeout"
+            if attempt + 1 < attempts:
+                time.sleep(min(2.0, 0.5 * (attempt + 1)))
+                continue
+            return None, None, last_error
+        except requests.RequestException:
+            last_error = "request failed"
+            if attempt + 1 < attempts:
+                time.sleep(min(2.0, 0.5 * (attempt + 1)))
+                continue
+            return None, None, last_error
+
+        status = int(response.status_code)
+        if status in {429, 500, 502, 503, 504} and attempt + 1 < attempts:
+            time.sleep(min(2.0, 0.5 * (attempt + 1)))
+            continue
+        if status != 200:
+            return status, None, f"HTTP {status}"
+        try:
+            payload = response.json()
+        except ValueError:
+            return status, None, "invalid JSON"
+        if not isinstance(payload, dict):
+            return status, None, "response JSON was not an object"
+        return status, payload, None
+    return None, None, last_error or "request failed"
+
+
+def paginate_showtimes_collection(
+    session: requests.Session,
+    initial_url: str,
+    *,
+    max_pages: int = MAX_SHOWTIME_PAGES_PER_THEATER,
+) -> TheaterShowtimesResult:
+    """Follow HAL ``_links.next`` for a showtimes collection.
+
+    ``max_pages`` is a runaway-loop guard, not a product date horizon.
+    """
+    collected: list[dict[str, Any]] = []
+    url: str | None = initial_url
+    request_count = 0
+    page_count = 0
+    expected_count: int | None = None
+
     while url:
-        response = session.get(url)
-        if response.status_code != 200:
-            break
-        data = response.json()
-        theaters.extend(data["_embedded"].get("theatres", []))
-        url = data["_links"].get("next", {}).get("href")
+        if page_count >= max_pages:
+            return TheaterShowtimesResult(
+                showtimes=(),
+                request_count=request_count,
+                page_count=page_count,
+                error=(
+                    f"pagination exceeded {max_pages} pages "
+                    "(runaway-loop guard; not a date horizon)"
+                ),
+            )
+        _status, payload, error = _get_json(session, url)
+        request_count += 1
+        if error or payload is None:
+            return TheaterShowtimesResult(
+                showtimes=(),
+                request_count=request_count,
+                page_count=page_count,
+                error=error or "empty showtimes response",
+            )
+        page_count += 1
+        if expected_count is None and isinstance(payload.get("count"), int):
+            expected_count = int(payload["count"])
+        collected.extend(_embedded_showtimes(payload))
+        url = _next_collection_href(payload)
+
+    if expected_count is not None and len(collected) < expected_count:
+        return TheaterShowtimesResult(
+            showtimes=(),
+            request_count=request_count,
+            page_count=page_count,
+            error=f"pagination incomplete: got {len(collected)} of {expected_count}",
+        )
+
+    return TheaterShowtimesResult(
+        showtimes=tuple(collected),
+        request_count=request_count,
+        page_count=page_count,
+        error=None,
+    )
+
+
+def get_all_theaters(session: requests.Session) -> list[dict[str, Any]]:
+    """Fetch all AMC theaters using paginated API calls.
+
+    Returns an empty list if any page fails so callers can fail closed rather
+    than scrape a silent subset of theatres.
+    """
+    theaters: list[dict[str, Any]] = []
+    url: str | None = f"{AMC_BASE_URL}/theatres?page-number=1&page-size=100"
+    while url:
+        _status, data, error = _get_json(session, url)
+        if error or data is None:
+            return []
+        embedded = data.get("_embedded") if isinstance(data.get("_embedded"), Mapping) else {}
+        if isinstance(embedded, Mapping):
+            theaters.extend(
+                item for item in embedded.get("theatres", []) if isinstance(item, dict)
+            )
+        url = _next_collection_href(data)
     return theaters
 
 
+def get_theater_future_showtimes(
+    session: requests.Session,
+    theater_id: str,
+) -> TheaterShowtimesResult:
+    """Fetch all currently announced future showtimes for one theater.
+
+    Uses documented ``GET /v2/theatres/{id}/showtimes`` (no date path). AMC
+    describes this as returning all future showtimes for the theatre.
+    """
+    initial_url = (
+        f"{AMC_BASE_URL}/theatres/{theater_id}/showtimes"
+        f"?page-number=1&page-size={SHOWTIME_PAGE_SIZE}"
+    )
+    return paginate_showtimes_collection(session, initial_url)
+
+
 def get_showtimes(session: requests.Session, theater_id: str, show_date: date) -> list[dict[str, Any]]:
-    """Fetch all showtimes for a given theater and date."""
+    """Fetch showtimes for a theater on one date (dated endpoint).
+
+    Production collection uses :func:`get_theater_future_showtimes` instead.
+    """
     formatted_date = show_date.strftime("%m-%d-%y").lstrip("0").replace("-0", "-")
-    base_url = f"{AMC_BASE_URL}/theatres/{theater_id}/showtimes/{formatted_date}"
-
-    initial_response = session.get(base_url)
-    if initial_response.status_code != 200:
+    initial_url = (
+        f"{AMC_BASE_URL}/theatres/{theater_id}/showtimes/{formatted_date}"
+        f"?page-number=1&page-size={SHOWTIME_PAGE_SIZE}"
+    )
+    result = paginate_showtimes_collection(session, initial_url)
+    if result.error:
         return []
-
-    data = initial_response.json()
-    page_size = data.get("pageSize", 10)
-    total_count = data.get("count", 0)
-    total_pages = (total_count + page_size - 1) // page_size
-
-    all_showtimes: list[dict[str, Any]] = []
-    for page_number in range(1, total_pages + 1):
-        paged_url = f"{base_url}?pageNumber={page_number}&pageSize={page_size}"
-        response = session.get(paged_url)
-        if response.status_code != 200:
-            continue
-        page_data = response.json()
-        showtimes = page_data.get("_embedded", {}).get("showtimes", [])
-        all_showtimes.extend(showtimes)
-
-    return all_showtimes
+    return list(result.showtimes)
 
 
 def filter_nearby_amc_theaters(
@@ -285,17 +438,40 @@ def filter_nearby_amc_theaters(
     return nearby
 
 
+def _coerce_theater_showtimes_result(
+    raw: TheaterShowtimesResult | list[dict[str, Any]],
+) -> TheaterShowtimesResult:
+    if isinstance(raw, TheaterShowtimesResult):
+        return raw
+    return TheaterShowtimesResult(
+        showtimes=tuple(raw),
+        request_count=1,
+        page_count=1,
+        error=None,
+    )
+
+
+def _show_date_from_raw(raw: RawShowtime) -> date | None:
+    return parse_row_date(raw.date_raw)
+
+
 def fetch_amc_showtimes(
     context: FetchContext,
     *,
     sleep_seconds: float = 1.0,
     get_all_theaters_fn: Callable[[requests.Session], list[dict[str, Any]]] | None = None,
-    get_showtimes_fn: Callable[[requests.Session, str, date], list[dict[str, Any]]] | None = None,
+    get_theater_showtimes_fn: (
+        Callable[[requests.Session, str], TheaterShowtimesResult | list[dict[str, Any]]] | None
+    ) = None,
 ) -> FetchResult:
-    """Fetch AMC showtimes for enabled registry theaters over the context window."""
+    """Fetch all currently announced future AMC showtimes for enabled theaters.
+
+    Does not use ``FetchContext.window_end`` as a product horizon. Public UI
+    horizon is enforced later by ``reel_seattle.emit.current.WINDOW_DAYS``.
+    """
     session = _session_for_context(context)
     all_theaters_fn = get_all_theaters_fn or get_all_theaters
-    showtimes_fn = get_showtimes_fn or get_showtimes
+    showtimes_fn = get_theater_showtimes_fn or get_theater_future_showtimes
 
     all_theaters = all_theaters_fn(session)
     nearby_theaters = filter_nearby_amc_theaters(all_theaters)
@@ -307,18 +483,31 @@ def fetch_amc_showtimes(
     records: list[RawShowtime] = []
     warnings: list[str] = []
     errors: list[str] = []
+    theaters_succeeded = 0
+    theaters_failed = 0
+    showtime_request_count = 0
+    showtime_page_count = 0
+    theater_items = list(allowed_theaters.items())
 
-    day = context.window_start
-    days_scraped = 0
-    while day <= context.window_end:
-        days_scraped += 1
-        for theater_id, theater_name in allowed_theaters.items():
-            showtimes = showtimes_fn(session, theater_id, day)
-            for showtime in showtimes:
+    if not all_theaters:
+        errors.append("AMC theatres list was empty")
+
+    for index, (theater_id, theater_name) in enumerate(theater_items):
+        fetched = _coerce_theater_showtimes_result(showtimes_fn(session, theater_id))
+        showtime_request_count += fetched.request_count
+        showtime_page_count += fetched.page_count
+        if fetched.error:
+            theaters_failed += 1
+            errors.append(f"AMC theater {theater_id} ({theater_name}): {fetched.error}")
+        else:
+            theaters_succeeded += 1
+            for showtime in fetched.showtimes:
                 records.append(api_showtime_to_raw(showtime, theater_name))
-        if sleep_seconds:
+        if sleep_seconds and index + 1 < len(theater_items):
             time.sleep(sleep_seconds)
-        day += timedelta(days=1)
+
+    show_dates = [parsed for parsed in (_show_date_from_raw(raw) for raw in records) if parsed]
+    restate_safe = not errors and theaters_failed == 0 and bool(theater_items)
 
     stats: dict[str, object] = {
         "allowlist_included": allowlist_stats.included,
@@ -326,9 +515,17 @@ def fetch_amc_showtimes(
         "allowlist_unknown": allowlist_stats.unknown,
         "allowlist_disabled_theaters": allowlist_stats.disabled_theaters,
         "allowlist_unknown_theaters": allowlist_stats.unknown_theaters,
-        "days_scraped": days_scraped,
+        "collection_mode": COLLECTION_MODE_ALL_ANNOUNCED_FUTURE,
         "theaters_scraped": len(allowed_theaters),
+        "theaters_succeeded": theaters_succeeded,
+        "theaters_failed": theaters_failed,
+        "showtime_request_count": showtime_request_count,
+        "showtime_page_count": showtime_page_count,
         "records_fetched": len(records),
+        "earliest_show_date": min(show_dates).isoformat() if show_dates else None,
+        "farthest_show_date": max(show_dates).isoformat() if show_dates else None,
+        "restate_safe": restate_safe,
+        "stale_retention_recommended": not restate_safe,
     }
 
     return FetchResult(

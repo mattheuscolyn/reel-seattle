@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://reelseattle.com/schema/showtimes_current/v1.0.0.json",
   "title": "Reel Seattle Current Showtimes",
-  "description": "Lean client artifact covering today through today + 14 days. Emitted by daily_processor.py after history is updated.",
+  "description": "Lean client artifact covering today through today + 14 days (public viewing horizon). Emitted by daily_processor.py after history is updated. AMC collection/history may retain farther-future announced showtimes that this artifact intentionally omits.",
   "type": "object",
   "required": [
     "schema_version",

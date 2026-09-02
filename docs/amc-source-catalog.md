@@ -208,8 +208,8 @@ CLI: `scripts/refresh_amc_source_catalog.py`
 
 | Input | Behavior |
 |-------|----------|
-| Path to `*_amc.json` scrape log | Preferred: `attributes.movie_id` + representative `title_raw` |
-| Path to `showtimes_current.json` | Fallback: AMC `source_film_id` only |
+| Path to `*_amc.json` scrape log | Preferred: `attributes.movie_id` + representative `title_raw`. Production daily discovery uses this so far-future-only products stay active. |
+| Path to `showtimes_current.json` | Fallback only: AMC `source_film_id` from the **14-day public artifact**. Cannot see products whose only announced showtimes are beyond that viewing window. |
 | `auto` | Newest `data/daily_logs/*_amc.json`, else `public/data/showtimes_current.json` |
 | `scrape-log` / `showtimes-current` | Explicit named sources under the repo root |
 

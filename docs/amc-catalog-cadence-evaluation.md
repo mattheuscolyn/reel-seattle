@@ -118,7 +118,7 @@ Same-day reruns often show **0** meaningful changes after refreshing all actives
 | Removals | 0 |
 | Growth shape | Step-ups on discovery days (0→7→11); stable within same-day reruns |
 
-Projection: with only ~2 days of inactivity onset, **do not** treat a monthly rate as established. Qualitatively, inactive share will rise as titles leave the 14-day showtime window while products are retained forever — that is intentional durable history, not duplication.
+Projection: with only ~2 days of inactivity onset, **do not** treat a monthly rate as established. Qualitatively, inactive share will rise as titles leave the **currently announced** AMC showtime snapshot (daily scrape log) while products are retained forever — that is intentional durable history, not duplication. Inactivity must not be inferred from the 14-day public viewing window; see [amc-all-announced-showtimes.md](./amc-all-announced-showtimes.md).
 
 **Classification: Healthy durable accumulation.** Prefer monitoring thresholds over retention/deletion design.
 

@@ -39,21 +39,21 @@ The signal is **not** “no showtimes exist right now.” A film can have showti
 
 ```text
 amc_logger.py / run_daily_scraping.py
-  → reel_seattle/adapters/amc.py (AMC API v2 fetch, 14-day window)
+  → reel_seattle/adapters/amc.py (all currently announced future AMC showtimes)
   → data/daily_logs/YYYY-MM-DD_amc.json (normalized RawShowtime snapshot)
   → public/showtimes.csv (legacy AMC CSV, past + current/future)
   → daily_processor.py (merge into history, emit JSON)
   → data/history/showtimes_history.csv (canonical history)
-  → public/data/showtimes_current.json (frontend, 14-day window)
+  → public/data/showtimes_current.json (frontend, 14-day viewing window)
 ```
 
 | Stage | Location | Role |
 |-------|----------|------|
-| AMC fetch | `reel_seattle/adapters/amc.py` | Paginated `GET /v2/theatres/{id}/showtimes/{date}` for each enabled theater, 14 days |
-| Raw snapshot | `data/daily_logs/YYYY-MM-DD_amc.json` | Per-scrape normalized records + `generated_at` |
+| AMC fetch | `reel_seattle/adapters/amc.py` | Paginated `GET /v2/theatres/{id}/showtimes` (no date) per enabled theater — all currently announced future showtimes. See [amc-all-announced-showtimes.md](./amc-all-announced-showtimes.md). |
+| Raw snapshot | `data/daily_logs/YYYY-MM-DD_amc.json` | Per-scrape normalized records + `generated_at`; **not** truncated to 14 days |
 | Legacy CSV | `public/showtimes.csv` | AMC-only; past rows retained, future restated |
-| Canonical history | `data/history/showtimes_history.csv` | All sources; **not** shipped to browser |
-| Frontend artifact | `public/data/showtimes_current.json` | Built by `reel_seattle/emit/current.py` |
+| Canonical history | `data/history/showtimes_history.csv` | All sources; **not** shipped to browser; may include far-future AMC rows |
+| Frontend artifact | `public/data/showtimes_current.json` | Built by `reel_seattle/emit/current.py`; public viewing horizon remains 14 days |
 | Freshness | `public/data/pipeline_report.json` | Per-source status for Showtimes UI |
 
 ### Canonical vs forward-looking sources
