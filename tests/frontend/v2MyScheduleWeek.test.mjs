@@ -153,7 +153,7 @@ test('Week view toggle exposes selected Week state', () => {
 
 test('Planner landing opens My Schedule Week surface', () => {
   assert.match(PLANNER_SRC, /onOpenMyScheduleWeek/);
-  assert.match(PLANNER_SRC, /entry\.id === 'my-schedule'/);
+  assert.match(PLANNER_SRC, /View full timeline|openTimeline|viewTimelineLabel/);
   assert.match(NAV_SRC, /openMyScheduleWeek/);
   assert.match(APP_SRC, /myScheduleWeek/);
   let nav = createInitialNavState();

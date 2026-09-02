@@ -1935,7 +1935,9 @@ export default function V2App() {
         plannerSeed={nav.plannerSeed}
         onOpenBuildPlan={handleOpenBuildPlan}
         onOpenMyScheduleWeek={() => handleOpenMyScheduleWeek()}
-        onOpenSavedPlan={handleOpenSavedPlan}
+        onAcceptedPlansChange={() =>
+          setAcceptedPlansRevision((value) => value + 1)
+        }
         acceptedPlansRevision={acceptedPlansRevision}
         onProfileStubAction={(_actionId, label) => {
           setProfileStubStatus(

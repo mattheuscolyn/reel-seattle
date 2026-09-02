@@ -29,6 +29,7 @@ import {
   SAVED_FILMS_STORAGE_KEY,
   getSavedFilms,
 } from '../../v2/stores/savedFilmsStore.js';
+import { acceptResultsPlan } from '../../v2/planner/acceptPlanFromResults.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const PLANNER_SRC = readFileSync(
@@ -58,28 +59,49 @@ function memoryStorage(seed = {}) {
   };
 }
 
-test('Planner Landing fixture matches canonical mockup sections', () => {
+function liveFilm(overrides = {}) {
+  return {
+    type: 'film',
+    localDate: '2026-08-20',
+    date: '2026-08-20',
+    localTime: '19:00',
+    time: '19:00',
+    title: 'The Conversation',
+    filmKey: 'src:siff:conversation',
+    filmId: 'tmdb:101',
+    source: 'siff',
+    sourceShowtimeId: 'st-conv',
+    theaterId: 'siff-uptown',
+    theaterName: 'SIFF Uptown',
+    runtimeMin: 113,
+    runtime: 113,
+    format: '35mm',
+    posterUrl: 'https://example.com/conversation.jpg',
+    ...overrides,
+  };
+}
+
+test('Planner Landing fixture matches Upcoming mockup sections', () => {
   const p = getPlannerLandingMockupPresentation();
   assert.equal(p.source, 'planner-landing-mockup');
   assert.equal(p, PLANNER_LANDING_MOCKUP_FIXTURE);
   assert.equal(p.pageTitle, 'Planner');
-  assert.match(p.pageTagline, /See what/);
-  assert.equal(p.summary.upcomingCount, 5);
-  assert.equal(p.summary.draftCount, 1);
-  assert.equal(p.summary.nextPlanValue, 'Tonight');
-  assert.equal(p.upcoming.plans.length, 3);
-  assert.equal(p.upcoming.plans[0].title, 'The Long Horizon');
-  assert.equal(p.upcoming.plans[2].badges[0].label, '2-film plan');
-  assert.equal(p.entries[0].title, 'My Schedule');
-  assert.equal(p.entries[1].title, 'Build a Plan');
-  assert.equal(p.draft.visible, true);
-  assert.equal(p.draft.title, 'Saturday movie day');
+  assert.match(p.pageTagline, /Plan your moviegoing/);
+  assert.equal(p.needsAttention.count, 1);
+  assert.equal(p.needsAttention.items[0].headline, 'Thursday has a conflict');
+  assert.equal(p.upcoming.dateGroups.length, 3);
+  assert.equal(p.upcoming.dateGroups[0].items[0].title, 'The Conversation');
+  assert.equal(p.upcoming.dateGroups[1].items[0].kind, 'conflict-group');
+  assert.equal(p.upcoming.dateGroups[1].items[0].left.title, 'Bottoms');
+  assert.equal(p.upcoming.dateGroups[2].items[0].formatLabel, '4K Restoration');
+  assert.equal(p.tabs[0].label, 'Upcoming');
+  assert.equal(p.tabs[1].label, 'Saved films');
+  assert.equal(p.savedFilms.implemented, false);
   assert.deepEqual([...PLANNER_LANDING_SECTION_ORDER], [
     'header',
-    'summary',
-    'entryCards',
-    'upcomingPlans',
-    'draft',
+    'tabs',
+    'needsAttention',
+    'upcoming',
   ]);
   assert.equal(PLANNER_MOCKUP_QUERY, 'plannerMockup');
   assert.equal(typeof isPlannerMockupMode, 'function');
@@ -97,47 +119,110 @@ test('production Planner compose stays honest without fixture films', () => {
   const storage = memoryStorage();
   const p = composePlannerLandingFromAcceptedPlans({ storage });
   assert.equal(p.source, 'accepted-plans');
-  assert.equal(p.upcoming.plans.length, 0);
-  assert.equal(p.draft.visible, false);
+  assert.equal(p.upcoming.dateGroups.length, 0);
+  assert.equal(p.needsAttention.count, 0);
   assert.equal(p.summary.upcomingCount, 0);
-  assert.equal(p.summary.draftCount, 0);
-  assert.match(p.upcoming.emptyTitle, /No upcoming plans/i);
+  assert.equal(p.summary.screeningCount, 0);
+  assert.match(p.upcoming.emptyTitle, /No upcoming screenings/i);
   assert.equal(p.pageTitle, 'Planner');
+  assert.match(p.pageTagline, /Plan your moviegoing/);
   assert.equal(COMPOSE_SRC.includes('Long Horizon'), false);
-  assert.equal(COMPOSE_SRC.includes('Blue Hour'), false);
+  assert.equal(COMPOSE_SRC.includes('Bottoms'), false);
+  assert.equal(COMPOSE_SRC.includes('The Conversation'), false);
+});
+
+test('production compose flattens screenings and detects overlaps', () => {
+  const storage = memoryStorage();
+  acceptResultsPlan(
+    {
+      id: 'live-a',
+      provenance: 'live',
+      source: 'live',
+      date: '2026-08-20',
+      items: [
+        liveFilm({
+          title: 'Bottoms',
+          filmKey: 'src:nwff:bottoms',
+          filmId: 'tmdb:201',
+          source: 'nwff',
+          sourceShowtimeId: 'st-b',
+          theaterId: 'nwff',
+          theaterName: 'NWFF',
+          localTime: '19:00',
+          time: '19:00',
+          format: null,
+        }),
+      ],
+    },
+    [],
+    { storage, provenance: 'live' },
+  );
+  acceptResultsPlan(
+    {
+      id: 'live-b',
+      provenance: 'live',
+      source: 'live',
+      date: '2026-08-20',
+      items: [
+        liveFilm({
+          title: 'Mysterious Skin',
+          filmKey: 'src:beacon:mysterious',
+          filmId: 'tmdb:202',
+          source: 'beacon',
+          sourceShowtimeId: 'st-m',
+          theaterId: 'beacon',
+          theaterName: 'The Beacon',
+          localTime: '19:30',
+          time: '19:30',
+          runtimeMin: 99,
+          runtime: 99,
+          format: null,
+        }),
+      ],
+    },
+    [],
+    { storage, provenance: 'live' },
+  );
+  const now = new Date('2026-08-08T18:00:00-07:00');
+  const p = composePlannerLandingFromAcceptedPlans({ storage, now });
+  assert.equal(p.summary.screeningCount, 2);
+  assert.equal(p.needsAttention.count, 1);
+  assert.match(p.needsAttention.items[0].body, /Bottoms and Mysterious Skin/);
+  assert.equal(p.upcoming.dateGroups.length, 1);
+  assert.equal(p.upcoming.dateGroups[0].items[0].kind, 'conflict-group');
 });
 
 test('Planner destination replaces placeholder shell', () => {
   assert.match(PLACEHOLDER_SRC, /PlannerDestination/);
   assert.match(PLANNER_SRC, /data-planner-source/);
   assert.match(PLANNER_SRC, /data-planner-section="header"/);
-  assert.match(PLANNER_SRC, /data-planner-section="summary"/);
-  assert.match(PLANNER_SRC, /data-planner-section="upcomingPlans"/);
-  assert.match(PLANNER_SRC, /data-planner-section="entryCards"/);
-  assert.match(PLANNER_SRC, /data-planner-section="draft"/);
+  assert.match(PLANNER_SRC, /data-planner-section="tabs"/);
+  assert.match(PLANNER_SRC, /data-planner-section="needsAttention"/);
+  assert.match(PLANNER_SRC, /data-planner-section="upcoming"/);
   assert.equal(PLANNER_SRC.includes('recentActivity'), false);
   assert.equal(PLANNER_SRC.includes('v2 shell · placeholder'), false);
   assert.match(PLANNER_SRC, /isPlannerMockupMode/);
 });
 
 test('Planner landing keeps interactive controls as buttons', () => {
-  assert.match(PLANNER_SRC, /v2-planner-plan-row/);
-  assert.match(PLANNER_SRC, /v2-planner-entry-card/);
-  assert.match(PLANNER_SRC, /v2-planner-draft-card/);
+  assert.match(PLANNER_SRC, /v2-planner-build-btn/);
+  assert.match(PLANNER_SRC, /v2-planner-screening-row/);
+  assert.match(PLANNER_SRC, /v2-planner-attention-cta/);
+  assert.match(PLANNER_SRC, /v2-planner-timeline-link/);
   assert.match(PLANNER_SRC, /type="button"/);
   assert.match(PLANNER_SRC, /aria-labelledby="v2-planner-title"/);
   assert.match(PLANNER_SRC, /onOpenMyScheduleWeek/);
   assert.match(PLANNER_SRC, /onOpenBuildPlan/);
+  assert.match(PLANNER_SRC, /role="tablist"/);
 });
 
-test('Planner landing CSS covers summary entries plans and draft', () => {
+test('Planner landing CSS covers tabs attention upcoming conflict', () => {
   assert.match(CSS, /\.v2-planner\b/);
-  assert.match(CSS, /\.v2-planner-summary\b/);
-  assert.match(CSS, /\.v2-planner-plan-row\b/);
-  assert.match(CSS, /\.v2-planner-entry-card\b/);
-  assert.match(CSS, /\.v2-planner-draft-card\b/);
-  assert.match(CSS, /\.v2-planner-entry-purple\b/);
-  assert.match(CSS, /\.v2-planner-entry-teal\b/);
+  assert.match(CSS, /\.v2-planner-tabs\b/);
+  assert.match(CSS, /\.v2-planner-attention-card\b/);
+  assert.match(CSS, /\.v2-planner-screening-row\b/);
+  assert.match(CSS, /\.v2-planner-conflict-group\b/);
+  assert.match(CSS, /\.v2-planner-build-btn\b/);
   assert.match(CSS, /--v2-nav-clearance/);
   assert.match(
     CSS,

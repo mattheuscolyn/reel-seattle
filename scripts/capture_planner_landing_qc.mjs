@@ -15,8 +15,12 @@ const require = createRequire(import.meta.url);
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, 'tmp-v2-qc');
 const BASE = process.env.V2_BASE_URL || 'http://127.0.0.1:5175/';
-const CANONICAL = join(ROOT, 'Canonical Mockup Images', 'Planner Landing Page.png');
-const WIDTH = 393;
+const CANONICAL = join(
+  ROOT,
+  'Canonical Mockup Images',
+  'Planner Main Page Upcoming.png',
+);
+const WIDTH = 470;
 
 mkdirSync(OUT, { recursive: true });
 
@@ -140,7 +144,7 @@ try {
   await page.waitForSelector('[data-planner-source="planner-landing-mockup"]', {
     timeout: 15_000,
   });
-  await page.waitForSelector('[data-planner-section="draft"]');
+  await page.waitForSelector('[data-planner-section="upcoming"]');
   await waitReady(page);
   await navAudit(page, 'mockup-viewport');
   await captureViewport(page, 'planner-audit-03-mockup-viewport.png');
@@ -155,11 +159,11 @@ try {
   const leftForBuild = (await page.locator('.v2-planner').count()) === 0;
   await page.locator('.v2-nav-button', { hasText: 'Planner' }).click();
   await page.waitForSelector('[data-planner-source="planner-landing-mockup"]');
-  await page.getByRole('button', { name: /My Schedule/i }).first().click();
+  await page.getByRole('button', { name: /View full timeline/i }).first().click();
   await page.waitForTimeout(400);
-  const leftForSchedule = (await page.locator('.v2-planner').count()) === 0;
+  const leftForTimeline = (await page.locator('.v2-planner').count()) === 0;
   console.log(
-    JSON.stringify({ leftForBuild, leftForSchedule }, null, 2),
+    JSON.stringify({ leftForBuild, leftForTimeline }, null, 2),
   );
 
   // Comparisons

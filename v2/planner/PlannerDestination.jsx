@@ -1,23 +1,24 @@
 /**
- * Planner Landing — shared presentation for live accepted plans and mockup QC.
+ * Planner Landing — Upcoming / Saved films shell.
  *
- * Visual QC: `?plannerMockup=1` uses Canonical Planner Landing fixture.
- * Upcoming / Past plan cards open persistent Plan Details (not My Schedule).
+ * Visual QC: `?plannerMockup=1` uses Canonical Planner Main Page Upcoming fixture.
+ * Live mode composes accepted-plan screenings + overlap conflicts.
  */
 
 import { useEffect, useId, useState } from 'react';
 import {
+  IconBookmark,
   IconCalendar,
   IconChevron,
-  IconClapper,
-  IconClock,
-  IconEdit,
+  IconConflict,
+  IconSparkle,
 } from '../icons.jsx';
 import {
   getPlannerLandingMockupPresentation,
   isPlannerMockupMode,
 } from '../fixtures/plannerLandingMockupFixture.js';
 import { composePlannerLandingFromAcceptedPlans } from './composePlannerLandingPresentation.js';
+import PlannedScreeningSheet from './PlannedScreeningSheet.jsx';
 import {
   getScheduleSettings,
   subscribeScheduleSettings,
@@ -32,59 +33,178 @@ function getBrowserStorage() {
 }
 
 /**
+ * @param {{ url?: string | null, title?: string, className?: string }} props
+ */
+function PosterThumb({ url, title = '', className = 'v2-planner-poster' }) {
+  if (url) {
+    return <img className={className} src={url} alt="" />;
+  }
+  return (
+    <span
+      className={`${className} v2-planner-poster-fallback`}
+      aria-hidden="true"
+      data-title={title}
+    />
+  );
+}
+
+function screeningSelectionFromRow(screening) {
+  return {
+    planId: screening.planId,
+    performanceKey:
+      screening.performanceKey ?? screening.id?.split('::')[1] ?? null,
+  };
+}
+
+/**
  * @param {{
- *   plan: {
+ *   screening: {
  *     id: string,
+ *     planId: string,
  *     title: string,
+ *     timeLabel?: string | null,
  *     venueLabel?: string | null,
- *     whenLabel?: string | null,
- *     imageUrl?: string | null,
- *     badges?: { id: string, label: string, tone: string }[],
+ *     formatLabel?: string | null,
+ *     posterUrl?: string | null,
+ *     addedLabel?: string | null,
+ *     inPlanner?: boolean,
  *   },
- *   onOpen: (planId: string) => void,
+ *   onOpen: (screening: { planId: string, performanceKey?: string | null }) => void,
  * }} props
  */
-function PlanRowButton({ plan, onOpen }) {
+function ScreeningRow({ screening, onOpen }) {
+  const timeVenue = [screening.timeLabel, screening.venueLabel]
+    .filter(Boolean)
+    .join('  •  ');
+
   return (
     <button
       type="button"
-      className="v2-planner-plan-row"
-      data-plan-id={plan.id}
-      onClick={() => onOpen(plan.id)}
+      className="v2-planner-screening-row"
+      data-screening-id={screening.id}
+      data-plan-id={screening.planId}
+      data-performance-key={screening.performanceKey ?? undefined}
+      onClick={() => onOpen(screeningSelectionFromRow(screening))}
     >
-      {plan.imageUrl ? (
-        <img className="v2-planner-plan-thumb" src={plan.imageUrl} alt="" />
-      ) : (
-        <span
-          className="v2-planner-plan-thumb v2-planner-plan-thumb-fallback"
-          aria-hidden="true"
-        />
-      )}
-      <span className="v2-planner-plan-copy">
-        <span className="v2-planner-plan-title">{plan.title}</span>
-        {plan.venueLabel ? (
-          <span className="v2-planner-plan-venue">{plan.venueLabel}</span>
+      <PosterThumb
+        url={screening.posterUrl}
+        title={screening.title}
+        className="v2-planner-poster v2-planner-poster-row"
+      />
+      <span className="v2-planner-screening-copy">
+        <span className="v2-planner-screening-title">{screening.title}</span>
+        {timeVenue ? (
+          <span className="v2-planner-screening-meta">{timeVenue}</span>
         ) : null}
-        {plan.whenLabel ? (
-          <span className="v2-planner-plan-when">{plan.whenLabel}</span>
+        {screening.formatLabel ? (
+          <span className="v2-planner-format-pill">{screening.formatLabel}</span>
         ) : null}
-        {plan.badges?.length ? (
-          <span className="v2-planner-plan-badges">
-            {plan.badges.map((badge) => (
-              <span
-                key={badge.id}
-                className={`v2-planner-plan-badge v2-planner-plan-badge-${badge.tone}`}
-              >
-                {badge.label}
-              </span>
-            ))}
+        <span className="v2-planner-screening-status">
+          {screening.inPlanner !== false ? (
+            <span className="v2-planner-status-chip">
+              <IconBookmark
+                width={12}
+                height={12}
+                className="v2-planner-status-bookmark"
+                aria-hidden="true"
+              />
+              In Planner
+            </span>
+          ) : null}
+          {screening.addedLabel ? (
+            <span className="v2-planner-status-chip">
+              <IconCalendar width={12} height={12} aria-hidden="true" />
+              {screening.addedLabel}
+            </span>
+          ) : null}
+        </span>
+      </span>
+      <span className="v2-planner-screening-chevron" aria-hidden="true">
+        <IconChevron width={14} height={14} />
+      </span>
+    </button>
+  );
+}
+
+/**
+ * @param {{
+ *   screening: object,
+ *   onOpen: (screening: { planId: string, performanceKey?: string | null }) => void,
+ * }} props
+ */
+function ConflictSide({ screening, onOpen }) {
+  return (
+    <button
+      type="button"
+      className="v2-planner-conflict-side"
+      data-screening-id={screening.id}
+      data-plan-id={screening.planId}
+      data-performance-key={screening.performanceKey ?? undefined}
+      onClick={() => onOpen(screeningSelectionFromRow(screening))}
+    >
+      <PosterThumb
+        url={screening.posterUrl}
+        title={screening.title}
+        className="v2-planner-poster v2-planner-poster-conflict"
+      />
+      <span className="v2-planner-conflict-side-title">{screening.title}</span>
+      {screening.timeLabel ? (
+        <span className="v2-planner-conflict-side-time">{screening.timeLabel}</span>
+      ) : null}
+      {screening.venueLabel ? (
+        <span className="v2-planner-conflict-side-venue">
+          {screening.venueLabel}
+        </span>
+      ) : null}
+      <span className="v2-planner-conflict-side-status">
+        {screening.addedLabel ? (
+          <span className="v2-planner-status-chip">
+            <IconCalendar width={11} height={11} aria-hidden="true" />
+            {screening.addedLabel}
+          </span>
+        ) : null}
+        {screening.inPlanner !== false ? (
+          <span className="v2-planner-status-chip">
+            <IconBookmark
+              width={11}
+              height={11}
+              className="v2-planner-status-bookmark"
+              aria-hidden="true"
+            />
+            In Planner
           </span>
         ) : null}
       </span>
-      <span className="v2-planner-plan-chevron" aria-hidden="true">
-        <IconChevron />
-      </span>
     </button>
+  );
+}
+
+/**
+ * @param {{
+ *   group: {
+ *     id: string,
+ *     bannerLabel: string,
+ *     left: object,
+ *     right: object,
+ *   },
+ *   onOpen: (screening: { planId: string, performanceKey?: string | null }) => void,
+ * }} props
+ */
+function ConflictGroupCard({ group, onOpen }) {
+  return (
+    <div className="v2-planner-conflict-group" data-conflict-id={group.id}>
+      <p className="v2-planner-conflict-banner">
+        <span aria-hidden="true">✧</span> {group.bannerLabel}
+      </p>
+      <div className="v2-planner-conflict-split">
+        <ConflictSide screening={group.left} onOpen={onOpen} />
+        <div className="v2-planner-conflict-or" aria-hidden="true">
+          <span className="v2-planner-conflict-or-line" />
+          <span className="v2-planner-conflict-or-badge">OR</span>
+        </div>
+        <ConflictSide screening={group.right} onOpen={onOpen} />
+      </div>
+    </div>
   );
 }
 
@@ -93,7 +213,13 @@ function PlanRowButton({ plan, onOpen }) {
  *   onStubAction?: (actionId: string, label: string) => void,
  *   onOpenBuildPlan?: () => void,
  *   onOpenMyScheduleWeek?: () => void,
- *   onOpenSavedPlan?: (planId: string) => void,
+ *   onOpenFilmDetail?: (payload: {
+ *     filmKey: string,
+ *     opportunityKey?: string | null,
+ *   }) => void,
+ *   onAcceptedPlansChange?: () => void,
+ *   homeData?: object | null,
+ *   enrichmentIndex?: object | null,
  *   acceptedPlansRevision?: number,
  *   plannerSeed?: { filmKey?: string, opportunityKey?: string | null, mode?: string } | null,
  *   seedFilmTitle?: string | null,
@@ -103,7 +229,10 @@ export default function PlannerDestination({
   onStubAction,
   onOpenBuildPlan,
   onOpenMyScheduleWeek,
-  onOpenSavedPlan,
+  onOpenFilmDetail,
+  onAcceptedPlansChange,
+  homeData = null,
+  enrichmentIndex = null,
   acceptedPlansRevision = 0,
   plannerSeed = null,
   seedFilmTitle = null,
@@ -111,7 +240,7 @@ export default function PlannerDestination({
   const mockupMode = isPlannerMockupMode();
   const storage = getBrowserStorage();
   const [settingsTick, setSettingsTick] = useState(0);
-  const [pastExpanded, setPastExpanded] = useState(false);
+  const [activeTab, setActiveTab] = useState('upcoming');
   useEffect(
     () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
     [],
@@ -124,6 +253,7 @@ export default function PlannerDestination({
     : composePlannerLandingFromAcceptedPlans({ storage, timeFormatId });
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
+  const [selectedScreening, setSelectedScreening] = useState(null);
 
   const announceStub = (actionId, label) => {
     const message = `${label} isn’t available yet.`;
@@ -134,47 +264,73 @@ export default function PlannerDestination({
   const {
     pageTitle,
     pageTagline,
-    summary,
+    tabs,
+    needsAttention,
     upcoming,
-    past,
-    entries,
-    draft,
+    savedFilms,
   } = presentation;
-
-  const openSchedule = () => {
-    if (onOpenMyScheduleWeek) onOpenMyScheduleWeek();
-    else announceStub('my-schedule', 'My Schedule');
-  };
 
   const openBuild = () => {
     if (onOpenBuildPlan) onOpenBuildPlan();
     else announceStub('build-a-plan', 'Build a Plan');
   };
 
-  const openSavedPlan = (planId) => {
-    if (onOpenSavedPlan) onOpenSavedPlan(planId);
-    else announceStub('saved-plan', 'Plan Details');
+  const openTimeline = () => {
+    if (onOpenMyScheduleWeek) onOpenMyScheduleWeek();
+    else announceStub('view-full-timeline', 'View full timeline');
   };
 
-  const pastPlans = Array.isArray(past?.plans) ? past.plans : [];
-  const pastPreviewCount =
-    typeof past?.previewCount === 'number' ? past.previewCount : 3;
-  const visiblePastPlans =
-    pastExpanded || !past?.viewAllLabel
-      ? pastPlans
-      : pastPlans.slice(0, pastPreviewCount);
+  const openScreening = (target) => {
+    const planId = typeof target?.planId === 'string' ? target.planId.trim() : '';
+    const performanceKey =
+      typeof target?.performanceKey === 'string'
+        ? target.performanceKey.trim()
+        : '';
+    if (!planId || !performanceKey) {
+      announceStub('screening-detail', 'Screening details');
+      return;
+    }
+    setSelectedScreening({ planId, performanceKey });
+  };
+
+  const closeScreening = () => {
+    setSelectedScreening(null);
+  };
+
+  const openReviewOptions = (item) => {
+    announceStub(
+      item?.id || 'review-options',
+      item?.ctaLabel || 'Review options',
+    );
+  };
+
+  const showNeedsAttention =
+    activeTab === 'upcoming' &&
+    Array.isArray(needsAttention?.items) &&
+    needsAttention.items.length > 0;
 
   return (
     <section
       className="v2-planner"
       aria-labelledby="v2-planner-title"
       data-planner-source={presentation.source}
+      data-planner-tab={activeTab}
     >
       <header className="v2-planner-page-header" data-planner-section="header">
-        <h1 id="v2-planner-title" className="v2-planner-title">
-          {pageTitle}
-        </h1>
-        <p className="v2-planner-tagline">{pageTagline}</p>
+        <div className="v2-planner-header-text">
+          <h1 id="v2-planner-title" className="v2-planner-title">
+            {pageTitle}
+          </h1>
+          <p className="v2-planner-tagline">{pageTagline}</p>
+        </div>
+        <button
+          type="button"
+          className="v2-planner-build-btn"
+          onClick={openBuild}
+        >
+          <IconSparkle width={14} height={14} aria-hidden="true" />
+          <span>Build a Plan</span>
+        </button>
       </header>
 
       {plannerSeed ? (
@@ -197,176 +353,199 @@ export default function PlannerDestination({
         </div>
       ) : null}
 
-      <section
-        className="v2-planner-summary"
-        data-planner-section="summary"
-        aria-label="Planner summary"
+      <div
+        className="v2-planner-tabs"
+        role="tablist"
+        aria-label="Planner views"
+        data-planner-section="tabs"
       >
-        <div className="v2-planner-summary-col">
-          <span className="v2-planner-summary-icon v2-planner-summary-icon-purple" aria-hidden="true">
-            <IconCalendar width={16} height={16} />
-          </span>
-          <p className="v2-planner-summary-value v2-planner-summary-value-purple">
-            {summary.upcomingCount}
-          </p>
-          <p className="v2-planner-summary-label">Upcoming plans</p>
-        </div>
-        <div className="v2-planner-summary-divider" aria-hidden="true" />
-        <div className="v2-planner-summary-col">
-          <span className="v2-planner-summary-icon v2-planner-summary-icon-teal" aria-hidden="true">
-            <IconEdit width={16} height={16} />
-          </span>
-          <p className="v2-planner-summary-value v2-planner-summary-value-teal">
-            {summary.draftCount}
-          </p>
-          <p className="v2-planner-summary-label">Draft in progress</p>
-        </div>
-        <div className="v2-planner-summary-divider" aria-hidden="true" />
-        <div className="v2-planner-summary-col">
-          <span className="v2-planner-summary-icon v2-planner-summary-icon-purple" aria-hidden="true">
-            <IconClock width={16} height={16} />
-          </span>
-          <p className="v2-planner-summary-value v2-planner-summary-value-purple">
-            {summary.nextPlanValue}
-          </p>
-          <p className="v2-planner-summary-label">{summary.nextPlanLabel}</p>
-        </div>
-      </section>
-
-      <section
-        className="v2-planner-entries"
-        data-planner-section="entryCards"
-        aria-label="Planner destinations"
-      >
-        {entries.map((entry) => (
-          <button
-            key={entry.id}
-            type="button"
-            className={`v2-planner-entry-card v2-planner-entry-${entry.accent}`}
-            onClick={() => {
-              if (entry.id === 'build-a-plan') {
-                openBuild();
-                return;
+        {(tabs ?? []).map((tab) => {
+          const selected = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              id={`v2-planner-tab-${tab.id}`}
+              aria-selected={selected}
+              aria-controls={
+                tab.id === 'upcoming'
+                  ? 'v2-planner-upcoming-panel'
+                  : 'v2-planner-saved-panel'
               }
-              if (entry.id === 'my-schedule') {
-                openSchedule();
-                return;
+              tabIndex={selected ? 0 : -1}
+              className={
+                selected
+                  ? 'v2-planner-tab v2-planner-tab-active'
+                  : 'v2-planner-tab'
               }
-              announceStub(entry.id, entry.title);
-            }}
-          >
-            <span
-              className={`v2-planner-entry-icon v2-planner-entry-icon-${entry.icon}`}
-              aria-hidden="true"
+              onClick={() => setActiveTab(tab.id)}
             >
-              {entry.icon === 'build' ? (
-                <IconClapper width={28} height={28} />
-              ) : (
-                <IconCalendar width={28} height={28} />
-              )}
-            </span>
-            <span className="v2-planner-entry-copy">
-              <span className="v2-planner-entry-title">{entry.title}</span>
-              <span className="v2-planner-entry-desc">{entry.description}</span>
-            </span>
-            <span className="v2-planner-entry-chevron" aria-hidden="true">
-              <IconChevron />
-            </span>
-          </button>
-        ))}
-      </section>
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
 
-      <section
-        className="v2-planner-section"
-        data-planner-section="upcomingPlans"
-        aria-labelledby="v2-planner-upcoming-h"
-      >
-        <div className="v2-planner-section-row">
-          <h2 id="v2-planner-upcoming-h" className="v2-planner-section-label">
-            {upcoming.sectionTitle}
-          </h2>
-          <button
-            type="button"
-            className="v2-planner-link"
-            onClick={openSchedule}
+      {activeTab === 'upcoming' ? (
+        <div
+          id="v2-planner-upcoming-panel"
+          role="tabpanel"
+          aria-labelledby="v2-planner-tab-upcoming"
+        >
+          {showNeedsAttention ? (
+            <section
+              className="v2-planner-attention"
+              data-planner-section="needsAttention"
+              aria-labelledby="v2-planner-attention-h"
+            >
+              <div className="v2-planner-attention-heading">
+                <h2
+                  id="v2-planner-attention-h"
+                  className="v2-planner-eyebrow"
+                >
+                  {needsAttention.sectionTitle}
+                </h2>
+                <span className="v2-planner-count-pill">
+                  {needsAttention.count}
+                </span>
+              </div>
+              <ul className="v2-planner-attention-list">
+                {needsAttention.items.map((item) => (
+                  <li key={item.id}>
+                    <div className="v2-planner-attention-card">
+                      <span
+                        className="v2-planner-attention-icon"
+                        aria-hidden="true"
+                      >
+                        <IconConflict width={20} height={20} />
+                      </span>
+                      <div className="v2-planner-attention-copy">
+                        <p className="v2-planner-attention-headline">
+                          {item.headline}
+                        </p>
+                        <p className="v2-planner-attention-body">{item.body}</p>
+                        <button
+                          type="button"
+                          className="v2-planner-attention-cta"
+                          onClick={() => openReviewOptions(item)}
+                        >
+                          {item.ctaLabel} →
+                        </button>
+                      </div>
+                      {item.posterUrls?.length ? (
+                        <div
+                          className="v2-planner-attention-posters"
+                          aria-hidden="true"
+                        >
+                          {item.posterUrls.slice(0, 2).map((url, index) => (
+                            <PosterThumb
+                              key={`${item.id}-poster-${index}`}
+                              url={url}
+                              className="v2-planner-poster v2-planner-poster-attention"
+                            />
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          <section
+            className="v2-planner-upcoming"
+            data-planner-section="upcoming"
+            aria-labelledby="v2-planner-upcoming-h"
           >
-            {upcoming.viewAllLabel}
-          </button>
-        </div>
+            <h2 id="v2-planner-upcoming-h" className="v2-planner-eyebrow">
+              {upcoming.sectionTitle}
+            </h2>
 
-        {upcoming.plans.length === 0 ? (
+            {upcoming.dateGroups?.length ? (
+              <div className="v2-planner-upcoming-panel">
+                {upcoming.dateGroups.map((group) => (
+                  <div
+                    key={group.id}
+                    className="v2-planner-date-group"
+                    data-date-key={group.dateKey}
+                  >
+                    <h3 className="v2-planner-date-label">{group.label}</h3>
+                    <div className="v2-planner-date-items">
+                      {group.items.map((item) =>
+                        item.kind === 'conflict-group' ? (
+                          <ConflictGroupCard
+                            key={item.id}
+                            group={item}
+                            onOpen={openScreening}
+                          />
+                        ) : (
+                          <ScreeningRow
+                            key={item.id}
+                            screening={item}
+                            onOpen={openScreening}
+                          />
+                        ),
+                      )}
+                    </div>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="v2-planner-timeline-link"
+                  onClick={openTimeline}
+                >
+                  <span>{upcoming.viewTimelineLabel}</span>
+                  <IconChevron
+                    width={14}
+                    height={14}
+                    className="v2-planner-timeline-chevron"
+                    aria-hidden="true"
+                  />
+                </button>
+              </div>
+            ) : (
+              <div className="v2-planner-empty" role="status">
+                <p className="v2-planner-empty-title">
+                  {upcoming.emptyTitle || 'No upcoming screenings yet'}
+                </p>
+                {upcoming.emptyBody ? (
+                  <p className="v2-planner-empty-body">{upcoming.emptyBody}</p>
+                ) : null}
+              </div>
+            )}
+          </section>
+        </div>
+      ) : (
+        <div
+          id="v2-planner-saved-panel"
+          role="tabpanel"
+          aria-labelledby="v2-planner-tab-saved-films"
+          data-planner-section="savedFilms"
+          className="v2-planner-saved-stub"
+        >
           <div className="v2-planner-empty" role="status">
             <p className="v2-planner-empty-title">
-              {upcoming.emptyTitle || 'No upcoming plans yet'}
+              {savedFilms?.emptyTitle || 'Saved films'}
             </p>
-            {upcoming.emptyBody ? (
-              <p className="v2-planner-empty-body">{upcoming.emptyBody}</p>
+            {savedFilms?.emptyBody ? (
+              <p className="v2-planner-empty-body">{savedFilms.emptyBody}</p>
             ) : null}
           </div>
-        ) : (
-          <ul className="v2-planner-plans">
-            {upcoming.plans.map((plan) => (
-              <li key={plan.id}>
-                <PlanRowButton plan={plan} onOpen={openSavedPlan} />
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+        </div>
+      )}
 
-      {!mockupMode && pastPlans.length > 0 ? (
-        <section
-          className="v2-planner-section"
-          data-planner-section="pastPlans"
-          aria-labelledby="v2-planner-past-h"
-        >
-          <div className="v2-planner-section-row">
-            <h2 id="v2-planner-past-h" className="v2-planner-section-label">
-              {past?.sectionTitle || 'Past Plans'}
-            </h2>
-            {past?.viewAllLabel && pastPlans.length > pastPreviewCount ? (
-              <button
-                type="button"
-                className="v2-planner-link"
-                onClick={() => setPastExpanded((value) => !value)}
-              >
-                {pastExpanded ? 'Show less' : past.viewAllLabel}
-              </button>
-            ) : null}
-          </div>
-          <ul className="v2-planner-plans">
-            {visiblePastPlans.map((plan) => (
-              <li key={plan.id}>
-                <PlanRowButton plan={plan} onOpen={openSavedPlan} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {draft?.visible ? (
-        <section data-planner-section="draft" aria-label="Continue draft">
-          <button
-            type="button"
-            className="v2-planner-draft-card"
-            onClick={openBuild}
-          >
-            <span className="v2-planner-draft-icon" aria-hidden="true">
-              <IconEdit width={22} height={22} />
-            </span>
-            <span className="v2-planner-draft-copy">
-              <span className="v2-planner-draft-eyebrow">{draft.eyebrow}</span>
-              <span className="v2-planner-draft-title">{draft.title}</span>
-              {draft.metaLabel ? (
-                <span className="v2-planner-draft-meta">{draft.metaLabel}</span>
-              ) : null}
-            </span>
-            <span className="v2-planner-draft-chevron" aria-hidden="true">
-              <IconChevron />
-            </span>
-          </button>
-        </section>
-      ) : null}
+      <PlannedScreeningSheet
+        selection={selectedScreening}
+        open={Boolean(selectedScreening)}
+        onClose={closeScreening}
+        homeData={homeData}
+        enrichmentIndex={enrichmentIndex}
+        onOpenFilmDetail={onOpenFilmDetail}
+        onPlansChanged={onAcceptedPlansChange}
+        onStubAction={announceStub}
+      />
 
       <p
         id={stubStatusId}

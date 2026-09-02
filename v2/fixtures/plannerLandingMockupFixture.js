@@ -1,7 +1,7 @@
 /**
  * Planner Landing MOCKUP FIXTURE — visual QC / `?plannerMockup=1`.
  *
- * Content matches Canonical Mockup Images/Planner Landing Page.png.
+ * Content matches Canonical Mockup Images/Planner Main Page Upcoming.png.
  * Not production plans. Does not import or write planner stores.
  */
 
@@ -23,28 +23,58 @@ export function isPlannerMockupMode() {
   }
 }
 
-function thumbSvg(title, from, to) {
+/**
+ * Poster-like SVG thumbnails for mockup QC (no network / no store writes).
+ * @param {string} title
+ * @param {string} from
+ * @param {string} to
+ * @param {string} [accent]
+ */
+function posterSvg(title, from, to, accent = '#f5f5f7') {
   const safe = String(title).replace(/[<>&']/g, '');
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="120" viewBox="0 0 200 120">
+  const lines = safe.split('\n');
+  const textNodes = lines
+    .map(
+      (line, i) =>
+        `<text x="12" y="${148 - (lines.length - 1 - i) * 18}" fill="${accent}" font-family="Georgia, serif" font-size="15">${line}</text>`,
+    )
+    .join('');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="180" viewBox="0 0 120 180">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${from}"/>
       <stop offset="100%" stop-color="${to}"/>
     </linearGradient>
   </defs>
-  <rect width="200" height="120" rx="10" fill="url(#g)"/>
-  <text x="14" y="100" fill="#f5f5f7" font-family="Georgia, serif" font-size="16">${safe}</text>
+  <rect width="120" height="180" rx="8" fill="url(#g)"/>
+  ${textNodes}
 </svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 
 export const PLANNER_LANDING_SECTION_ORDER = Object.freeze([
   'header',
-  'summary',
-  'entryCards',
-  'upcomingPlans',
-  'draft',
+  'tabs',
+  'needsAttention',
+  'upcoming',
 ]);
+
+const POSTER_CONVERSATION = posterSvg('The\nConversation', '#1a2430', '#4a5a3a');
+const POSTER_BOTTOMS = posterSvg('Bottoms', '#2a1840', '#8b3a6a', '#f8e8ff');
+const POSTER_MYSTERIOUS = posterSvg('Mysterious\nSkin', '#142848', '#3a6a9a');
+const POSTER_PARIS = posterSvg('Paris,\nTexas', '#3a2818', '#8a6a3a');
+
+/**
+ * @param {object} partial
+ */
+function screening(partial) {
+  return Object.freeze({
+    kind: 'screening',
+    inPlanner: true,
+    formatLabel: null,
+    ...partial,
+  });
+}
 
 /**
  * @returns {Readonly<object>}
@@ -59,72 +89,117 @@ export function getPlannerLandingMockupPresentation() {
 export const PLANNER_LANDING_MOCKUP_FIXTURE = Object.freeze({
   source: 'planner-landing-mockup',
   pageTitle: 'Planner',
-  pageTagline: 'See what’s ahead or plan your next movie day.',
-  summary: Object.freeze({
-    upcomingCount: 5,
-    draftCount: 1,
-    nextPlanValue: 'Tonight',
-    nextPlanLabel: 'Next plan 7:00 PM',
-  }),
-  entries: Object.freeze([
-    Object.freeze({
-      id: 'my-schedule',
-      title: 'My Schedule',
-      description: 'See your week, month, and all scheduled movie plans.',
-      accent: 'purple',
-      icon: 'schedule',
-    }),
-    Object.freeze({
-      id: 'build-a-plan',
-      title: 'Build a Plan',
-      description: 'Choose films, tune preferences, and generate great itineraries.',
-      accent: 'teal',
-      icon: 'build',
-    }),
+  pageTagline:
+    'Plan your moviegoing. We’ll help you make the most of your options.',
+  tabs: Object.freeze([
+    Object.freeze({ id: 'upcoming', label: 'Upcoming' }),
+    Object.freeze({ id: 'saved-films', label: 'Saved films' }),
   ]),
+  needsAttention: Object.freeze({
+    sectionTitle: 'NEEDS ATTENTION',
+    count: 1,
+    items: Object.freeze([
+      Object.freeze({
+        id: 'attention-conflict-2025-05-29',
+        kind: 'conflict',
+        headline: 'Thursday has a conflict',
+        body: 'Bottoms and Mysterious Skin overlap.',
+        ctaLabel: 'Review options',
+        weekdayLabel: 'Thursday',
+        dateKey: '2025-05-29',
+        posterUrls: Object.freeze([POSTER_BOTTOMS, POSTER_MYSTERIOUS]),
+        screeningIds: Object.freeze([
+          'mock-bottoms',
+          'mock-mysterious-skin',
+        ]),
+        planIds: Object.freeze(['mock-plan-bottoms', 'mock-plan-mysterious']),
+      }),
+    ]),
+  }),
   upcoming: Object.freeze({
-    sectionTitle: 'Upcoming Plans',
-    viewAllLabel: 'View all',
+    sectionTitle: 'UPCOMING',
+    viewTimelineLabel: 'View full timeline',
     emptyTitle: null,
     emptyBody: null,
-    plans: Object.freeze([
+    dateGroups: Object.freeze([
       Object.freeze({
-        id: 'plan-long-horizon',
-        title: 'The Long Horizon',
-        venueLabel: 'SIFF Downtown',
-        whenLabel: 'Sat May 17 · 7:00 PM',
-        imageUrl: thumbSvg('Horizon', '#2a3348', '#6b4a3a'),
-        badges: Object.freeze([
-          Object.freeze({ id: 'single', label: 'Single film', tone: 'purple' }),
+        id: 'day-2025-05-26',
+        dateKey: '2025-05-26',
+        label: 'TODAY • MON, MAY 26',
+        items: Object.freeze([
+          screening({
+            id: 'mock-conversation',
+            planId: 'mock-plan-conversation',
+            performanceKey: 'mock-perf-conversation',
+            title: 'The Conversation',
+            timeLabel: '7:00 PM',
+            venueLabel: 'SIFF Uptown',
+            formatLabel: '35mm',
+            posterUrl: POSTER_CONVERSATION,
+            addedLabel: 'Added May 20',
+            startsAt: '2025-05-26T19:00:00-07:00',
+          }),
         ]),
       }),
       Object.freeze({
-        id: 'plan-after-storm',
-        title: 'After the Storm',
-        venueLabel: 'AMC Pacific Place',
-        whenLabel: 'Fri May 23 · 6:30 PM',
-        imageUrl: thumbSvg('Storm', '#1a2438', '#3a4a6a'),
-        badges: Object.freeze([
-          Object.freeze({ id: 'single', label: 'Single film', tone: 'purple' }),
+        id: 'day-2025-05-29',
+        dateKey: '2025-05-29',
+        label: 'THU, MAY 29',
+        items: Object.freeze([
+          Object.freeze({
+            kind: 'conflict-group',
+            id: 'conflict-2025-05-29',
+            bannerLabel: 'CONFLICT • You can’t see both',
+            left: screening({
+              id: 'mock-bottoms',
+              planId: 'mock-plan-bottoms',
+              performanceKey: 'mock-perf-bottoms',
+              title: 'Bottoms',
+              timeLabel: '7:00 PM',
+              venueLabel: 'NWFF',
+              posterUrl: POSTER_BOTTOMS,
+              addedLabel: 'Added May 20',
+              startsAt: '2025-05-29T19:00:00-07:00',
+            }),
+            right: screening({
+              id: 'mock-mysterious-skin',
+              planId: 'mock-plan-mysterious',
+              performanceKey: 'mock-perf-mysterious',
+              title: 'Mysterious Skin',
+              timeLabel: '7:30 PM',
+              venueLabel: 'The Beacon',
+              posterUrl: POSTER_MYSTERIOUS,
+              addedLabel: 'Added May 20',
+              startsAt: '2025-05-29T19:30:00-07:00',
+            }),
+          }),
         ]),
       }),
       Object.freeze({
-        id: 'plan-blue-hour',
-        title: 'Blue Hour + Saltwater Road',
-        venueLabel: 'SIFF Uptown',
-        whenLabel: 'Sun May 25 · 5:15 PM',
-        imageUrl: thumbSvg('Blue Hour', '#14243a', '#3d6ea5'),
-        badges: Object.freeze([
-          Object.freeze({ id: 'multi', label: '2-film plan', tone: 'teal' }),
-          Object.freeze({ id: 'break', label: '45 min break', tone: 'muted' }),
+        id: 'day-2025-05-31',
+        dateKey: '2025-05-31',
+        label: 'SAT, MAY 31',
+        items: Object.freeze([
+          screening({
+            id: 'mock-paris-texas',
+            planId: 'mock-plan-paris',
+            performanceKey: 'mock-perf-paris',
+            title: 'Paris, Texas',
+            timeLabel: '4:00 PM',
+            venueLabel: 'SIFF Downtown',
+            formatLabel: '4K Restoration',
+            posterUrl: POSTER_PARIS,
+            addedLabel: 'Added May 18',
+            startsAt: '2025-05-31T16:00:00-07:00',
+          }),
         ]),
       }),
     ]),
   }),
-  draft: Object.freeze({
-    visible: true,
-    eyebrow: 'Continue your draft',
-    title: 'Saturday movie day',
-    metaLabel: '2 films · Last edited May 13',
+  savedFilms: Object.freeze({
+    implemented: false,
+    emptyTitle: 'Saved films',
+    emptyBody:
+      'Saved films with showtimes will appear here. Switch back to Upcoming for your planned screenings.',
   }),
 });
