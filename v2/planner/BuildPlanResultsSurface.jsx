@@ -720,7 +720,7 @@ export default function BuildPlanResultsSurface({
 
   const handleAddToSchedule = (plan) => {
     if (savedPlanIds.includes(plan.id)) {
-      setStatusMessage('Already in My Schedule.');
+      setStatusMessage('Already in Planner.');
       return;
     }
     const result = acceptResultsPlan(plan, ui.selectedFilmIds, {
@@ -909,9 +909,9 @@ export default function BuildPlanResultsSurface({
               filmButtonRefs={filmButtonRefs}
               breakButtonRefs={breakButtonRefs}
               viewPlanLabel={presentation.viewPlanLabel}
-              savePlanLabel={presentation.savePlanLabel ?? 'Add to My Schedule'}
+              savePlanLabel={presentation.savePlanLabel ?? 'Add to Planner'}
               savedPlanLabel={
-                presentation.savedPlanLabel ?? 'Added to My Schedule'
+                presentation.savedPlanLabel ?? 'Added to Planner'
               }
               onOpenTime={(film) => {
                 triggerRef.current = film.id;

@@ -24,7 +24,6 @@ import ProfileDestination from './profile/ProfileDestination.jsx';
  *   onOpenAdminTmdbReview?: () => void,
  *   onPlannerStubAction?: (actionId: string, label: string) => void,
  *   onOpenBuildPlan?: () => void,
- *   onOpenMyScheduleWeek?: () => void,
  *   onAcceptedPlansChange?: () => void,
  *   acceptedPlansRevision?: number,
  * }} props
@@ -48,7 +47,6 @@ export default function DestinationPlaceholder({
   onOpenAdminTmdbReview,
   onPlannerStubAction,
   onOpenBuildPlan,
-  onOpenMyScheduleWeek,
   onAcceptedPlansChange,
   acceptedPlansRevision = 0,
 }) {

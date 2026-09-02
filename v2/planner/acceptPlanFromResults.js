@@ -87,7 +87,7 @@ export function acceptResultsPlan(plan, selectedFilmIds, options = {}) {
       ok: false,
       error: 'fixture_plan',
       message:
-        'Add to My Schedule needs a real itinerary. Fixture results can’t be saved.',
+        'Add to Planner needs a real itinerary. Fixture results can’t be saved.',
       store: null,
       plan: null,
       changed: false,
@@ -166,8 +166,8 @@ export function acceptResultsPlan(plan, selectedFilmIds, options = {}) {
     ok: true,
     error: null,
     message: written.changed
-      ? 'Added to My Schedule.'
-      : 'Already in My Schedule.',
+      ? 'Added to Planner.'
+      : 'Already in Planner.',
     store: written.store,
     plan: written.plan,
     changed: Boolean(written.changed),

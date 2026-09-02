@@ -55,8 +55,8 @@ test('fixture presentation exposes canonical chrome labels', () => {
   assert.equal(p.pageTitle, 'Your Movie Day Results');
   assert.match(p.summaryLine, /Sat, Jul 19/);
   assert.equal(p.viewPlanLabel, 'View plan details');
-  assert.equal(p.savePlanLabel, 'Add to My Schedule');
-  assert.equal(p.savedPlanLabel, 'Added to My Schedule');
+  assert.equal(p.savePlanLabel, 'Add to Planner');
+  assert.equal(p.savedPlanLabel, 'Added to Planner');
   assert.equal(resolveBuildPlanResultsPresentation(), p);
 });
 
@@ -128,7 +128,7 @@ test('interaction query constant exists', () => {
 });
 
 test('save and view plan details are wired', () => {
-  assert.match(SURFACE_SRC, /Add to My Schedule|savePlanLabel/);
+  assert.match(SURFACE_SRC, /Add to Planner|savePlanLabel/);
   assert.match(SURFACE_SRC, /onViewPlanDetails|View plan details/);
   assert.match(APP_SRC, /openBuildPlanPlanDetails|BuildPlanPlanDetailsSurface/);
   assert.match(NAV_SRC, /openBuildPlanPlanDetails/);

@@ -31,14 +31,6 @@ const BPR_SURFACE = readFileSync(
   join(ROOT, 'v2/planner/BuildPlanResultsSurface.jsx'),
   'utf8',
 );
-const ABOUT_FIXTURE = readFileSync(
-  join(ROOT, 'v2/fixtures/aboutMyScheduleMockupFixture.js'),
-  'utf8',
-);
-const SETTINGS_FIXTURE = readFileSync(
-  join(ROOT, 'v2/fixtures/scheduleSettingsMockupFixture.js'),
-  'utf8',
-);
 const CAL_SRC = readFileSync(join(ROOT, 'src/utils/calendarExport.js'), 'utf8');
 const ADAPTER_SRC = readFileSync(
   join(ROOT, 'v2/calendar/exportFromOpportunity.js'),
@@ -76,19 +68,6 @@ test('T-CAL-02 keeps calendar export off Film Detail; Showtimes + Results retain
   assert.equal(ADAPTER_SRC.includes('oauth'), false);
   assert.equal(ADAPTER_SRC.includes('googleapis'), false);
   assert.equal(/localStorage/.test(ADAPTER_SRC), false);
-});
-
-test('D09 About / Settings copy no longer claims ongoing sync', () => {
-  assert.match(ABOUT_FIXTURE, /one-time \.ics file/);
-  assert.match(ABOUT_FIXTURE, /does not sync or update events/);
-  assert.equal(ABOUT_FIXTURE.includes('creates and updates events for you'), false);
-  assert.equal(
-    ABOUT_FIXTURE.includes("External edits won't sync back"),
-    false,
-  );
-  assert.match(SETTINGS_FIXTURE, /one-time \.ics/);
-  assert.match(SETTINGS_FIXTURE, /Ongoing sync isn’t available/);
-  assert.match(SETTINGS_FIXTURE, /Sync with calendar/);
 });
 
 test('addressLabel and addressLine1 pass through to LOCATION', () => {

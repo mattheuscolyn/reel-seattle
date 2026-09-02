@@ -89,13 +89,6 @@ import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
  */
 
 /**
- * @typedef {object} AboutMyScheduleSurface
- * @property {'about-my-schedule'} type
- * @property {string} originPrimary
- * @property {object | null} [returnSurface]
- */
-
-/**
  * @typedef {object} BuildPlanSurface
  * @property {'build-plan'} type
  * @property {string} originPrimary
@@ -120,29 +113,6 @@ import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
  */
 
 /**
- * @typedef {object} MyScheduleWeekSurface
- * @property {'my-schedule-week'} type
- * @property {string} originPrimary
- * @property {object | null} [returnSurface]
- * @property {string | null} [focusDate]
- * @property {string | null} [focusPlanId]
- */
-
-/**
- * @typedef {object} MyScheduleMonthSurface
- * @property {'my-schedule-month'} type
- * @property {string} originPrimary
- * @property {object | null} [returnSurface]
- */
-
-/**
- * @typedef {object} ScheduleSettingsSurface
- * @property {'schedule-settings'} type
- * @property {string} originPrimary
- * @property {object | null} [returnSurface]
- */
-
-/**
  * @typedef {object} TheaterDetailSurface
  * @property {'theater-detail'} type
  * @property {string} theaterId
@@ -160,7 +130,7 @@ import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
 /**
  * @returns {{
  *   primaryDestinationId: string,
- *   surface: null | FilmDetailSurface | CollectionSurface | OpportunityDetailSurface | ShowtimesSurface | AboutMyScheduleSurface | BuildPlanSurface | BuildPlanResultsSurface | BuildPlanPlanDetailsSurface | MyScheduleWeekSurface | MyScheduleMonthSurface | ScheduleSettingsSurface | TheaterDetailSurface,
+ *   surface: null | FilmDetailSurface | CollectionSurface | OpportunityDetailSurface | ShowtimesSurface | BuildPlanSurface | BuildPlanResultsSurface | BuildPlanPlanDetailsSurface | TheaterDetailSurface,
  *   plannerSeed: PlannerSeed | null,
  * }}
  */
@@ -376,30 +346,6 @@ export function updateSearchUi(state, searchUi) {
 }
 
 /**
- * Stage 1 About My Schedule deep surface.
- * Settings entry is deferred; open via query seam or future Settings row.
- * @param {object} state
- * @param {{
- *   originPrimary?: string,
- *   returnSurface?: object | null,
- * }} [params]
- */
-export function openAboutMySchedule(state, params = {}) {
-  const originPrimary = resolveDestinationId(
-    params.originPrimary ?? state.primaryDestinationId ?? 'planner',
-  );
-  return {
-    ...state,
-    primaryDestinationId: originPrimary,
-    surface: {
-      type: 'about-my-schedule',
-      originPrimary,
-      returnSurface: params.returnSurface ?? null,
-    },
-  };
-}
-
-/**
  * Stage 1 Build a Plan configuration deep surface.
  * Results generation remains deferred.
  * @param {object} state
@@ -499,10 +445,7 @@ export function openBuildPlanPlanDetails(state, params = {}) {
           activePlanId:
             params.plan?.id ?? planId ?? state.surface.activePlanId ?? null,
         }
-      : state.surface?.type === 'my-schedule-week' ||
-          state.surface?.type === 'my-schedule-month'
-        ? state.surface
-        : null;
+      : null;
   return {
     ...state,
     primaryDestinationId: originPrimary,
@@ -628,98 +571,6 @@ export function openBuildPlanTheaterManage(state, params = {}) {
     primaryDestinationId: originPrimary,
     surface: {
       type: 'build-plan-theater-manage',
-      originPrimary,
-      returnSurface,
-    },
-  };
-}
-
-/**
- * Stage 1 My Schedule Week deep surface (fixture timeline).
- * Month view, settings sheet, persistence, and calendar sync deferred.
- * @param {object} state
- * @param {{
- *   originPrimary?: string,
- *   returnSurface?: object | null,
- * }} [params]
- */
-export function openMyScheduleWeek(state, params = {}) {
-  const originPrimary = resolveDestinationId(
-    params.originPrimary ?? state.primaryDestinationId ?? 'planner',
-  );
-  const focusDate =
-    typeof params.focusDate === 'string' && params.focusDate.trim()
-      ? params.focusDate.trim()
-      : null;
-  const focusPlanId =
-    typeof params.focusPlanId === 'string' && params.focusPlanId.trim()
-      ? params.focusPlanId.trim()
-      : null;
-  return {
-    ...state,
-    primaryDestinationId: originPrimary,
-    surface: {
-      type: 'my-schedule-week',
-      originPrimary,
-      returnSurface: params.returnSurface ?? null,
-      focusDate,
-      focusPlanId,
-    },
-  };
-}
-
-/**
- * Stage 1 My Schedule Month deep surface (fixture heatmap).
- * Month view calculations, navigation, persistence, and calendar sync deferred.
- * @param {object} state
- * @param {{
- *   originPrimary?: string,
- *   returnSurface?: object | null,
- * }} [params]
- */
-export function openMyScheduleMonth(state, params = {}) {
-  const originPrimary = resolveDestinationId(
-    params.originPrimary ?? state.primaryDestinationId ?? 'planner',
-  );
-  return {
-    ...state,
-    primaryDestinationId: originPrimary,
-    surface: {
-      type: 'my-schedule-month',
-      originPrimary,
-      returnSurface: params.returnSurface ?? null,
-    },
-  };
-}
-
-/**
- * Stage 1 Schedule Settings sheet over My Schedule.
- * Persistence, calendar sync, and production preferences deferred.
- * @param {object} state
- * @param {{
- *   originPrimary?: string,
- *   returnSurface?: object | null,
- * }} [params]
- */
-export function openScheduleSettings(state, params = {}) {
-  const originPrimary = resolveDestinationId(
-    params.originPrimary ?? state.primaryDestinationId ?? 'planner',
-  );
-  const returnSurface =
-    params.returnSurface ??
-    (state.surface?.type === 'my-schedule-week' ||
-    state.surface?.type === 'my-schedule-month'
-      ? state.surface
-      : {
-          type: 'my-schedule-week',
-          originPrimary,
-          returnSurface: null,
-        });
-  return {
-    ...state,
-    primaryDestinationId: originPrimary,
-    surface: {
-      type: 'schedule-settings',
       originPrimary,
       returnSurface,
     },
@@ -896,16 +747,12 @@ export function navigateBack(state) {
     state.surface.type === 'opportunity-detail' ||
     state.surface.type === 'showtimes' ||
     state.surface.type === 'showtimes-browse' ||
-    state.surface.type === 'about-my-schedule' ||
     state.surface.type === 'build-plan' ||
     state.surface.type === 'build-plan-results' ||
     state.surface.type === 'build-plan-plan-details' ||
     state.surface.type === 'build-plan-film-manage' ||
     state.surface.type === 'build-plan-showtime-manage' ||
     state.surface.type === 'build-plan-theater-manage' ||
-    state.surface.type === 'my-schedule-week' ||
-    state.surface.type === 'my-schedule-month' ||
-    state.surface.type === 'schedule-settings' ||
     state.surface.type === 'theater-detail' ||
     state.surface.type === 'format-detail' ||
     state.surface.type === 'experience-detail' ||
@@ -938,15 +785,11 @@ export function navigateBack(state) {
       primaryDestinationId: resolveDestinationId(state.surface.originPrimary),
       surface: state.surface.returnSurface ?? null,
       plannerSeed:
-        state.surface.type === 'about-my-schedule' ||
         state.surface.type === 'build-plan' ||
         state.surface.type === 'build-plan-results' ||
         state.surface.type === 'build-plan-plan-details' ||
         state.surface.type === 'build-plan-film-manage' ||
-        state.surface.type === 'build-plan-showtime-manage' ||
-        state.surface.type === 'my-schedule-week' ||
-        state.surface.type === 'my-schedule-month' ||
-        state.surface.type === 'schedule-settings'
+        state.surface.type === 'build-plan-showtime-manage'
           ? state.plannerSeed
           : null,
     };

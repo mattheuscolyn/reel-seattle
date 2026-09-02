@@ -19,8 +19,7 @@ import {
   removeAcceptedPlan,
 } from '../../v2/stores/acceptedPlansStore.js';
 import { acceptResultsPlan } from '../../v2/planner/acceptPlanFromResults.js';
-import { composeMyScheduleWeekFromAcceptedPlans } from '../../v2/planner/composeMyScheduleWeekFromAcceptedPlans.js';
-import { resolveMyScheduleWeekPagePresentation } from '../../v2/fixtures/resolveMyScheduleWeekPresentation.js';
+import { composePlannerLandingFromAcceptedPlans } from '../../v2/planner/composePlannerLandingPresentation.js';
 import { exportPlanToCalendar } from '../../v2/calendar/exportFromOpportunity.js';
 import { buildPlanCalendarDownload } from '../../src/utils/calendarExport.js';
 
@@ -33,8 +32,8 @@ const RESULTS_SRC = readFileSync(
   join(ROOT, 'v2/planner/BuildPlanResultsSurface.jsx'),
   'utf8',
 );
-const WEEK_SRC = readFileSync(
-  join(ROOT, 'v2/planner/MyScheduleWeekSurface.jsx'),
+const PLANNER_SRC = readFileSync(
+  join(ROOT, 'v2/planner/PlannerDestination.jsx'),
   'utf8',
 );
 
@@ -213,33 +212,19 @@ test('Results acceptance rejects fixture plans; accepts live rows', () => {
   assert.equal(getAcceptedPlans(storage).length, 1);
 });
 
-test('My Schedule live week renders accepted grouped plan', () => {
+test('accepted grouped plan appears in Planner Upcoming', () => {
   const storage = memoryStorage();
   acceptPlan(storage, {
     performances: [LIVE_PERF_A, LIVE_PERF_B],
     provenance: 'live',
   });
-  const week = composeMyScheduleWeekFromAcceptedPlans({
+  const landing = composePlannerLandingFromAcceptedPlans({
     storage,
-    now: () => new Date('2026-07-28T18:00:00.000Z'),
-    weekOffset: 0,
+    now: new Date('2026-08-01T18:00:00.000Z'),
   });
-  // Aug 1 2026 is a Saturday — find week containing it
-  const page = resolveMyScheduleWeekPagePresentation({
-    forceMockup: false,
-    storage,
-    now: () => new Date('2026-08-01T18:00:00.000Z'),
-  });
-  assert.equal(page.mode, 'accepted-plans');
-  assert.equal(page.source, 'accepted-plans');
-  const day = page.week.days.find((d) => d.id === '2026-08-01');
-  assert.ok(day);
-  assert.equal(day.empty, false);
-  assert.equal(day.planGroups.length, 1);
-  assert.equal(day.planGroups[0].kind, 'multi');
-  assert.ok(day.planGroups[0].items.some((i) => i.type === 'break'));
-  assert.ok(day.planGroups[0].items.some((i) => i.title === 'Sinners'));
-  assert.equal(week.source, 'accepted-plans');
+  assert.equal(landing.upcoming.dateGroups.length, 1);
+  assert.equal(landing.upcoming.dateGroups[0].items.length, 2);
+  assert.equal(landing.upcoming.dateGroups[0].items[0].kind, 'screening');
 });
 
 test('accepted plan maps to calendar films; fixture Results still fail closed in UI', () => {
@@ -268,8 +253,8 @@ test('accepted plan maps to calendar films; fixture Results still fail closed in
 
   assert.match(RESULTS_SRC, /acceptResultsPlan/);
   assert.match(RESULTS_SRC, /handleAddToSchedule/);
-  assert.match(WEEK_SRC, /acceptedPlansRevision/);
-  assert.match(WEEK_SRC, /resolveMyScheduleWeekPagePresentation/);
+  assert.match(PLANNER_SRC, /acceptedPlansRevision/);
+  assert.match(PLANNER_SRC, /composePlannerLandingFromAcceptedPlans/);
   assert.equal(STORE_SRC.includes('googleapis'), false);
   assert.equal(/accounts?\.google/i.test(STORE_SRC), false);
 });

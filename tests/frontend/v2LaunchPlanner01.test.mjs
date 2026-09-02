@@ -472,7 +472,7 @@ test('UI honesty — disconnected launch controls are hidden', () => {
   assert.equal(MANAGE_SRC.includes("isn’t available yet"), false);
   assert.equal(DETAILS_SRC.includes('handleSave'), false);
   assert.equal(DETAILS_SRC.includes('v2-bpd-save'), false);
-  assert.match(DETAILS_SRC, /Add to My Schedule/);
+  assert.match(DETAILS_SRC, /Add to Planner/);
   assert.match(MAPPER_SRC, /minGapMin/);
   assert.match(MAPPER_SRC, /normalizeBreakGapRange/);
 });

@@ -181,32 +181,3 @@ export function syncSavedPlanIdQuery(planId) {
 export function listAcceptedPlansPartitioned(storage, now = new Date()) {
   return partitionAcceptedPlans(getAcceptedPlans(storage), now);
 }
-
-/**
- * Week offset (Mon-start Pacific weeks) so My Schedule can focus a plan date.
- * @param {string | null | undefined} focusDate YYYY-MM-DD
- * @param {Date} [now]
- * @returns {number}
- */
-export function weekOffsetForFocusDate(focusDate, now = new Date()) {
-  if (!focusDate || typeof focusDate !== 'string') return 0;
-  const today = now.toLocaleDateString('en-CA', {
-    timeZone: 'America/Los_Angeles',
-  });
-  const parseUtcNoon = (iso) => {
-    const [y, m, d] = iso.split('-').map(Number);
-    if (!y || !m || !d) return null;
-    return Date.UTC(y, m - 1, d, 12);
-  };
-  const focusMs = parseUtcNoon(focusDate);
-  const todayMs = parseUtcNoon(today);
-  if (focusMs == null || todayMs == null) return 0;
-  const day = (ms) => {
-    // Monday=0 … Sunday=6 in UTC noon calendar math for ISO dates.
-    const wd = new Date(ms).getUTCDay();
-    return wd === 0 ? 6 : wd - 1;
-  };
-  const focusMonday = focusMs - day(focusMs) * 86400000;
-  const todayMonday = todayMs - day(todayMs) * 86400000;
-  return Math.round((focusMonday - todayMonday) / (7 * 86400000));
-}

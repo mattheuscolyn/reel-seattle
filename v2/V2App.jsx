@@ -36,7 +36,6 @@ import { COLLECTION_IDS } from './explore/exploreIds.js';
 import {
   createInitialNavState,
   navigateBack,
-  openAboutMySchedule,
   openBuildPlan,
   openBuildPlanResults,
   openBuildPlanFilmManage,
@@ -45,9 +44,6 @@ import {
   openBuildPlanPlanDetails,
   openCollection,
   openFilmDetail,
-  openMyScheduleWeek,
-  openMyScheduleMonth,
-  openScheduleSettings,
   openTheaterDetail,
   openOpportunityDetail,
   openShowtimes,
@@ -62,7 +58,6 @@ import {
   updateSearchUi,
   updateShowtimesBrowseUi,
 } from './navigation/navState.js';
-import AboutMyScheduleSurface from './surfaces/AboutMyScheduleSurface.jsx';
 import CollectionSurface from './surfaces/CollectionSurface.jsx';
 import PersonalFilmCollectionSurface from './collections/PersonalFilmCollectionSurface.jsx';
 import { isPersonalCollectionId } from './collections/personalCollectionModel.js';
@@ -78,9 +73,6 @@ import BuildPlanFilmManageSurface from './planner/BuildPlanFilmManageSurface.jsx
 import BuildPlanShowtimeManageSurface from './planner/BuildPlanShowtimeManageSurface.jsx';
 import BuildPlanTheaterManageSurface from './planner/BuildPlanTheaterManageSurface.jsx';
 import BuildPlanPlanDetailsSurface from './planner/BuildPlanPlanDetailsSurface.jsx';
-import MyScheduleWeekSurface from './planner/MyScheduleWeekSurface.jsx';
-import MyScheduleMonthSurface from './planner/MyScheduleMonthSurface.jsx';
-import ScheduleSettingsSurface from './planner/ScheduleSettingsSurface.jsx';
 import TheatersSurface from './theaters/TheatersSurface.jsx';
 import TheaterDetailSurface from './theaters/TheaterDetailSurface.jsx';
 import FormatsExperiencesSurface from './formatsExperiences/FormatsExperiencesSurface.jsx';
@@ -91,7 +83,7 @@ import FormatRecommendationSurface from './formatsExperiences/FormatRecommendati
 import TmdbMatchReviewSurface from './admin/tmdbReview/TmdbMatchReviewSurface.jsx';
 import { createDefaultShowtimesBrowseUi } from './showtimes/showtimesBrowseModel.js';
 import { resolveFilmDetailBackLabel } from './filmDetail/filmDetailModel.js';
-import { isAboutMyScheduleQueryOpen } from './fixtures/aboutMyScheduleMockupFixture.js';
+import { isPlanDetailsMockupMode } from './fixtures/buildPlanPlanDetailsMockupFixture.js';
 import {
   createBuildPlanFormState,
   isBuildPlanMockupMode,
@@ -105,13 +97,7 @@ import {
   ensureBuildPlanFormSession,
 } from './planner/buildPlanFormSession.js';
 import { isPlanResultsMockupMode } from './planner/resolveBuildPlanResultsPresentation.js';
-import {
-  getBuildPlanPlanDetailsMockupPlan,
-  isPlanDetailsMockupMode,
-} from './fixtures/buildPlanPlanDetailsMockupFixture.js';
-import { isMyScheduleWeekQueryOpen } from './fixtures/myScheduleWeekMockupFixture.js';
-import { isMyScheduleMonthQueryOpen } from './fixtures/myScheduleMonthMockupFixture.js';
-import { isScheduleSettingsQueryOpen } from './fixtures/scheduleSettingsMockupFixture.js';
+import { getBuildPlanPlanDetailsMockupPlan } from './fixtures/buildPlanPlanDetailsMockupFixture.js';
 import { isTheaterDetailQueryOpen } from './fixtures/theaterDetailMockupFixture.js';
 import { isFilmDetailMockupFixtureMode, getFilmDetailMockupPresentation } from './fixtures/filmDetailMockupFixture.js';
 import { isFilmDetailVisualFixtureMode } from './fixtures/filmDetailVisualFixtures.js';
@@ -227,7 +213,6 @@ export default function V2App() {
   const [fixtureNotInterested, setFixtureNotInterested] = useState(false);
   const [notInterestedError, setNotInterestedError] = useState(null);
   const [acceptedPlansRevision, setAcceptedPlansRevision] = useState(0);
-  const [scheduleSettingsRevision, setScheduleSettingsRevision] = useState(0);
   const [resultsShareHandler, setResultsShareHandler] = useState(null);
   const [planDetailsShareHandler, setPlanDetailsShareHandler] = useState(null);
   const [sharedHomeData, setSharedHomeData] = useState({
@@ -349,16 +334,6 @@ export default function V2App() {
     };
   }, []);
 
-  // Stage 1 seam: Settings sheet deferred — open About via ?aboutSchedule=1
-  useEffect(() => {
-    if (!isAboutMyScheduleQueryOpen()) return;
-    setNav((current) => {
-      if (current.surface?.type === 'about-my-schedule') return current;
-      return openAboutMySchedule(current, { originPrimary: 'planner' });
-    });
-    window.scrollTo(0, 0);
-  }, []);
-
   useEffect(() => {
     const manageMode = getBuildPlanFilmManageMockupMode();
     if (manageMode) {
@@ -425,15 +400,6 @@ export default function V2App() {
   }, []);
 
   useEffect(() => {
-    if (!isMyScheduleWeekQueryOpen()) return;
-    setNav((current) => {
-      if (current.surface?.type === 'my-schedule-week') return current;
-      return openMyScheduleWeek(current, { originPrimary: 'planner' });
-    });
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
     const planId = readSavedPlanIdQuery();
     if (!planId) return;
     setNav((current) => {
@@ -471,24 +437,6 @@ export default function V2App() {
     if (planId) syncSavedPlanIdQuery(planId);
     else if (readSavedPlanIdQuery()) syncSavedPlanIdQuery(null);
   }, [nav.surface]);
-
-  useEffect(() => {
-    if (!isMyScheduleMonthQueryOpen()) return;
-    setNav((current) => {
-      if (current.surface?.type === 'my-schedule-month') return current;
-      return openMyScheduleMonth(current, { originPrimary: 'planner' });
-    });
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    if (!isScheduleSettingsQueryOpen()) return;
-    setNav((current) => {
-      if (current.surface?.type === 'schedule-settings') return current;
-      return openScheduleSettings(current, { originPrimary: 'planner' });
-    });
-    window.scrollTo(0, 0);
-  }, []);
 
   useEffect(() => {
     if (!isTheaterDetailQueryOpen()) return;
@@ -590,8 +538,6 @@ export default function V2App() {
           (current.surface?.type === 'collection' ||
           current.surface?.type === 'theater-detail' ||
           current.surface?.type === 'showtimes-browse' ||
-          current.surface?.type === 'my-schedule-week' ||
-          current.surface?.type === 'my-schedule-month' ||
           current.surface?.type === 'build-plan-plan-details'
             ? current.surface
             : null),
@@ -860,9 +806,6 @@ export default function V2App() {
         'returnSurface',
       );
       const fromResults = current.surface?.type === 'build-plan-results';
-      const fromSchedule =
-        current.surface?.type === 'my-schedule-week' ||
-        current.surface?.type === 'my-schedule-month';
       const returnSurface = hasExplicitReturn
         ? origin.returnSurface ?? null
         : fromResults
@@ -877,9 +820,7 @@ export default function V2App() {
                     : 0,
               activePlanId: plan?.id ?? plan?.planId ?? null,
             }
-          : fromSchedule
-            ? current.surface
-            : null;
+          : null;
       const planId =
         typeof origin.planId === 'string'
           ? origin.planId
@@ -923,68 +864,6 @@ export default function V2App() {
     [enrichmentState.index, sharedHomeData.homeData, handleOpenBuildPlanPlanDetails],
   );
 
-  const handleOpenMyScheduleWeek = useCallback((options = {}) => {
-    setNav((current) =>
-      openMyScheduleWeek(current, {
-        originPrimary: 'planner',
-        focusDate: options.focusDate ?? null,
-        focusPlanId: options.focusPlanId ?? null,
-        returnSurface: Object.prototype.hasOwnProperty.call(
-          options,
-          'returnSurface',
-        )
-          ? options.returnSurface ?? null
-          : null,
-      }),
-    );
-    window.scrollTo(0, 0);
-  }, []);
-
-  const handleOpenMyScheduleMonth = useCallback(() => {
-    setNav((current) =>
-      openMyScheduleMonth(current, { originPrimary: 'planner' }),
-    );
-    window.scrollTo(0, 0);
-  }, []);
-
-  const handleOpenScheduleSearch = useCallback(() => {
-    setProfileStubStatus(
-      'Search Results prefilter from My Schedule is deferred in Stage 1.',
-    );
-    window.setTimeout(() => setProfileStubStatus(null), 2500);
-  }, []);
-
-  const handleOpenScheduleSettings = useCallback(() => {
-    setNav((current) =>
-      openScheduleSettings(current, {
-        originPrimary: 'planner',
-        returnSurface:
-          current.surface?.type === 'my-schedule-week' ||
-          current.surface?.type === 'my-schedule-month'
-            ? current.surface
-            : {
-                type: 'my-schedule-week',
-                originPrimary: 'planner',
-                returnSurface: null,
-              },
-      }),
-    );
-    window.scrollTo(0, 0);
-  }, []);
-
-  const handleOpenAboutFromSettings = useCallback(() => {
-    setNav((current) =>
-      openAboutMySchedule(current, {
-        originPrimary: 'planner',
-        returnSurface:
-          current.surface?.type === 'schedule-settings'
-            ? current.surface
-            : null,
-      }),
-    );
-    window.scrollTo(0, 0);
-  }, []);
-
   if (!isAllowedV2Hostname(hostname)) {
     return (
       <main className="v2-blocked">
@@ -1021,7 +900,6 @@ export default function V2App() {
   const isOpportunityDetail = nav.surface?.type === 'opportunity-detail';
   const isShowtimes = nav.surface?.type === 'showtimes';
   const isShowtimesBrowse = nav.surface?.type === 'showtimes-browse';
-  const isAboutMySchedule = nav.surface?.type === 'about-my-schedule';
   const isBuildPlan = nav.surface?.type === 'build-plan';
   const isBuildPlanResults = nav.surface?.type === 'build-plan-results';
   const isBuildPlanPlanDetails =
@@ -1038,15 +916,6 @@ export default function V2App() {
     isBuildPlanShowtimeManage ||
     isBuildPlanResults ||
     isBuildPlanPlanDetails;
-  const isMyScheduleWeek = nav.surface?.type === 'my-schedule-week';
-  const isMyScheduleMonth = nav.surface?.type === 'my-schedule-month';
-  const isScheduleSettings = nav.surface?.type === 'schedule-settings';
-  const scheduleUnderSurface = isScheduleSettings
-    ? nav.surface.returnSurface
-    : null;
-  const isScheduleUnderWeek = scheduleUnderSurface?.type === 'my-schedule-week';
-  const isScheduleUnderMonth =
-    scheduleUnderSurface?.type === 'my-schedule-month';
 
   // Film Detail keeps Explore active in bottom nav (approved chrome).
   const activePrimaryId = isFilmDetail
@@ -1617,18 +1486,6 @@ export default function V2App() {
         }
       />
     );
-  } else if (isAboutMySchedule) {
-    mainContent = (
-      <AboutMyScheduleSurface
-        onBack={handleBack}
-        onStubAction={(_actionId, label) => {
-          setProfileStubStatus(
-            `${label} isn’t available in this Stage 1 About shell yet.`,
-          );
-          window.setTimeout(() => setProfileStubStatus(null), 2500);
-        }}
-      />
-    );
   } else if (isBuildPlan) {
     mainContent = (
       <BuildPlanSurface
@@ -1724,189 +1581,14 @@ export default function V2App() {
             originPrimary: 'planner',
           })
         }
-        onViewInSchedule={({ planId, focusDate }) =>
-          handleOpenMyScheduleWeek({
-            focusDate,
-            focusPlanId: planId,
-            returnSurface: {
-              type: 'build-plan-plan-details',
-              originPrimary: 'planner',
-              returnSurface: null,
-              plan: detailsPlan,
-              planId: planId ?? detailsPlanId,
-            },
-          })
-        }
+        onViewInPlanner={() => {
+          setNav((current) => selectPrimaryDestination(current, 'planner'));
+          window.scrollTo(0, 0);
+        }}
         onAcceptedPlanChange={() =>
           setAcceptedPlansRevision((value) => value + 1)
         }
       />
-    );
-  } else if (isMyScheduleWeek || isScheduleUnderWeek) {
-    mainContent = (
-      <div
-        className={isScheduleSettings ? 'v2-schedule-with-sheet' : undefined}
-      >
-        <div inert={isScheduleSettings || undefined}>
-          <MyScheduleWeekSurface
-            homeData={sharedHomeData.homeData}
-            enrichmentIndex={enrichmentState.index}
-            acceptedPlansRevision={acceptedPlansRevision}
-            scheduleSettingsRevision={scheduleSettingsRevision}
-            focusDate={nav.surface?.focusDate ?? null}
-            focusPlanId={nav.surface?.focusPlanId ?? null}
-            onAcceptedPlanChange={() =>
-              setAcceptedPlansRevision((value) => value + 1)
-            }
-            onOpenSearch={handleOpenScheduleSearch}
-            onOpenSettings={handleOpenScheduleSettings}
-            onOpenMonth={handleOpenMyScheduleMonth}
-            onOpenFilmDetail={(params) =>
-              handleOpenFilmDetail({
-                ...params,
-                originPrimary: 'planner',
-              })
-            }
-            onOpenPlanDetails={(plan) =>
-              handleOpenBuildPlanPlanDetails(plan, {
-                returnSurface: {
-                  type: 'my-schedule-week',
-                  originPrimary: 'planner',
-                  returnSurface: null,
-                  focusDate: nav.surface?.focusDate ?? null,
-                  focusPlanId: nav.surface?.focusPlanId ?? null,
-                },
-              })
-            }
-            onStubAction={(_actionId, label) => {
-              setProfileStubStatus(
-                `${label} isn’t available in this Schedule shell yet.`,
-              );
-              window.setTimeout(() => setProfileStubStatus(null), 2500);
-            }}
-          />
-        </div>
-        {isScheduleSettings ? (
-          <ScheduleSettingsSurface
-            onClose={handleBack}
-            onOpenAbout={handleOpenAboutFromSettings}
-            onSettingsChange={() =>
-              setScheduleSettingsRevision((value) => value + 1)
-            }
-            onAcceptedPlanChange={() =>
-              setAcceptedPlansRevision((value) => value + 1)
-            }
-            onStubAction={(_actionId, label) => {
-              setProfileStubStatus(
-                `${label} isn’t available in this Schedule Settings shell yet.`,
-              );
-              window.setTimeout(() => setProfileStubStatus(null), 2500);
-            }}
-          />
-        ) : null}
-      </div>
-    );
-  } else if (isMyScheduleMonth || isScheduleUnderMonth) {
-    mainContent = (
-      <div
-        className={isScheduleSettings ? 'v2-schedule-with-sheet' : undefined}
-      >
-        <div inert={isScheduleSettings || undefined}>
-          <MyScheduleMonthSurface
-            homeData={sharedHomeData.homeData}
-            enrichmentIndex={enrichmentState.index}
-            acceptedPlansRevision={acceptedPlansRevision}
-            scheduleSettingsRevision={scheduleSettingsRevision}
-            onOpenWeek={handleOpenMyScheduleWeek}
-            onOpenSearch={handleOpenScheduleSearch}
-            onOpenSettings={handleOpenScheduleSettings}
-            onOpenFilmDetail={(params) =>
-              handleOpenFilmDetail({
-                ...params,
-                originPrimary: 'planner',
-              })
-            }
-            onStubAction={(_actionId, label) => {
-              setProfileStubStatus(
-                `${label} isn’t available in this Schedule shell yet.`,
-              );
-              window.setTimeout(() => setProfileStubStatus(null), 2500);
-            }}
-          />
-        </div>
-        {isScheduleSettings ? (
-          <ScheduleSettingsSurface
-            onClose={handleBack}
-            onOpenAbout={handleOpenAboutFromSettings}
-            onSettingsChange={() =>
-              setScheduleSettingsRevision((value) => value + 1)
-            }
-            onAcceptedPlanChange={() =>
-              setAcceptedPlansRevision((value) => value + 1)
-            }
-            onStubAction={(_actionId, label) => {
-              setProfileStubStatus(
-                `${label} isn’t available in this Schedule Settings shell yet.`,
-              );
-              window.setTimeout(() => setProfileStubStatus(null), 2500);
-            }}
-          />
-        ) : null}
-      </div>
-    );
-  } else if (isScheduleSettings) {
-    mainContent = (
-      <div className="v2-schedule-with-sheet">
-        <div inert>
-          <MyScheduleWeekSurface
-            homeData={sharedHomeData.homeData}
-            enrichmentIndex={enrichmentState.index}
-            acceptedPlansRevision={acceptedPlansRevision}
-            scheduleSettingsRevision={scheduleSettingsRevision}
-            focusDate={nav.surface?.focusDate ?? null}
-            focusPlanId={nav.surface?.focusPlanId ?? null}
-            onAcceptedPlanChange={() =>
-              setAcceptedPlansRevision((value) => value + 1)
-            }
-            onOpenSearch={handleOpenScheduleSearch}
-            onOpenSettings={handleOpenScheduleSettings}
-            onOpenMonth={handleOpenMyScheduleMonth}
-            onOpenFilmDetail={(params) =>
-              handleOpenFilmDetail({
-                ...params,
-                originPrimary: 'planner',
-              })
-            }
-            onOpenPlanDetails={(plan) =>
-              handleOpenBuildPlanPlanDetails(plan, {
-                returnSurface: {
-                  type: 'my-schedule-week',
-                  originPrimary: 'planner',
-                  returnSurface: null,
-                  focusDate: nav.surface?.focusDate ?? null,
-                  focusPlanId: nav.surface?.focusPlanId ?? null,
-                },
-              })
-            }
-          />
-        </div>
-        <ScheduleSettingsSurface
-          onClose={handleBack}
-          onOpenAbout={handleOpenAboutFromSettings}
-          onSettingsChange={() =>
-            setScheduleSettingsRevision((value) => value + 1)
-          }
-          onAcceptedPlanChange={() =>
-            setAcceptedPlansRevision((value) => value + 1)
-          }
-          onStubAction={(_actionId, label) => {
-            setProfileStubStatus(
-              `${label} isn’t available in this Schedule Settings shell yet.`,
-            );
-            window.setTimeout(() => setProfileStubStatus(null), 2500);
-          }}
-        />
-      </div>
     );
   } else if (isAdminTmdbReview) {
     mainContent = (
@@ -2112,10 +1794,7 @@ export default function V2App() {
                 : isBuildPlanPlanDetails
                   ? nav.surface?.returnSurface?.type === 'build-plan-results'
                     ? 'results'
-                    : nav.surface?.returnSurface?.type === 'my-schedule-week' ||
-                        nav.surface?.returnSurface?.type === 'my-schedule-month'
-                      ? 'schedule'
-                      : 'Planner'
+                    : 'Planner'
                   : isBuildPlanChrome
                     ? 'Planner'
                     : null

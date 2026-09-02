@@ -136,10 +136,10 @@ export const BUILD_PLAN_RESULTS_MOCKUP_FIXTURE = Object.freeze({
   loadMoreLabel: 'Load more plans',
   shareLabel: 'Share',
   viewPlanLabel: 'View plan details',
-  savePlanLabel: 'Add to My Schedule',
-  savedPlanLabel: 'Added to My Schedule',
+  savePlanLabel: 'Add to Planner',
+  savedPlanLabel: 'Added to Planner',
   moreActionsLabel: 'More actions',
-  addToScheduleLabel: 'Add to My Schedule',
+  addToScheduleLabel: 'Add to Planner',
   filmSheet: Object.freeze({
     sectionTitle: 'Adjust film in plans',
     cancelLabel: 'Cancel',
