@@ -179,7 +179,7 @@ def test_resolve_amc_scrape_rows_prefers_json(tmp_path):
         FetchResult(records=[record]),
     )
 
-    rows, label, kind = resolve_amc_scrape_rows(
+    rows, label, kind, stats = resolve_amc_scrape_rows(
         REFERENCE_TODAY,
         tmp_path / "missing.csv",
         logs_dir=logs_dir,
@@ -187,12 +187,13 @@ def test_resolve_amc_scrape_rows_prefers_json(tmp_path):
     assert kind == "json"
     assert label.endswith("_amc.json")
     assert rows[0]["Film"] == "JSON AMC Film"
+    assert isinstance(stats, dict)
 
 
 def test_resolve_amc_scrape_rows_falls_back_to_csv(tmp_path):
     csv_path = tmp_path / "amc.csv"
     shutil.copy2(FIXTURES_DIR / "amc_scrape.csv", csv_path)
-    rows, label, kind = resolve_amc_scrape_rows(
+    rows, label, kind, stats = resolve_amc_scrape_rows(
         REFERENCE_TODAY,
         csv_path,
         logs_dir=tmp_path / "missing_logs",
@@ -200,6 +201,7 @@ def test_resolve_amc_scrape_rows_falls_back_to_csv(tmp_path):
     assert kind == "csv"
     assert str(csv_path) in label
     assert rows
+    assert stats is None
 
 
 def test_resolve_indie_source_scrape_rows_prefers_json(tmp_path):

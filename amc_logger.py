@@ -23,7 +23,7 @@ def main() -> None:
     print("Loading past AMC showtimes...")
     past_rows = load_past_legacy_rows(CSV_FILENAME, before_date=TODAY)
 
-    print("Scraping current and future AMC showtimes (full restate)...")
+    print("Scraping all currently announced future AMC showtimes (full restate)...")
     context = build_default_fetch_context(run_date=TODAY)
     result = fetch_amc_showtimes(context)
     print(allowlist_message(result.stats))

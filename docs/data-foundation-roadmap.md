@@ -2,14 +2,14 @@
 
 **Status:** Living backlog  
 **Track:** Data Foundation (+ related Film Identity / Developer Tooling)  
-**Last updated:** 2026-07-28 (T-ENR-01A TMDB enrichment audit/contract; T-FILMID-01E matcher calibration)  
+**Last updated:** 2026-09-02 (Leaving Soon foundation: all-announced AMC collection + lifecycle audit + survival v1)  
 **Audience:** Product owner, ChatGPT (architect), Cursor (implementation)
 
 This is the durable backlog for data-foundation and developer-tooling work. Use it to answer “what is complete?”, “what is next?”, and “what is intentionally deferred?”
 
 Do **not** turn this into a ticket system. Keep statuses updated after meaningful tasks. Link out to detailed design docs instead of duplicating them.
 
-**Related:** [development-operating-model.md](./development-operating-model.md) · [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [product-roadmap.md](./product-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [amc-source-catalog.md](./amc-source-catalog.md) · [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) · **[v2 Stage 2 data & backend needs audit](./v2/v2-data-and-backend-needs-audit.md)** · **[v2 Stage 3 product decisions (approved)](./v2/v2-stage-3-product-decisions.md)** · **[v2 Stage 3 front–back integration roadmap](./v2/v2-front-back-integration-roadmap.md)** (fixture→real sequencing; not DF Ready ticket list)
+**Related:** [development-operating-model.md](./development-operating-model.md) · [data-foundation-roadmap.md](./data-foundation-roadmap.md) · [product-roadmap.md](./product-roadmap.md) · [film-identity-normalization.md](./film-identity-normalization.md) · [amc-source-catalog.md](./amc-source-catalog.md) · [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) · [leaving-soon-lifecycle-audit.md](./leaving-soon-lifecycle-audit.md) · [leaving-soon-survival-model-v1.md](./leaving-soon-survival-model-v1.md) · **[v2 Stage 2 data & backend needs audit](./v2/v2-data-and-backend-needs-audit.md)** · **[v2 Stage 3 product decisions (approved)](./v2/v2-stage-3-product-decisions.md)** · **[v2 Stage 3 front–back integration roadmap](./v2/v2-front-back-integration-roadmap.md)** (fixture→real sequencing; not DF Ready ticket list)
 
 ---
 
@@ -55,6 +55,7 @@ Public UI must not change merely because new source fields are captured. v2 desi
 | Daily catalog workflow wiring (P-14D) | `Complete` | Non-blocking late stage; `all-active`; atomic promotion; same generated-data commit |
 | AMC Showtimes field audit (P-15A) | `Complete` | [amc-showtimes-field-audit.md](./amc-showtimes-field-audit.md) — log capture gap + fixture taxonomy |
 | AMC Showtimes raw-capture expansion (P-18A) | `Complete` | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) — expand daily-log attributes |
+| AMC all announced future showtimes | `Complete` | [amc-all-announced-showtimes.md](./amc-all-announced-showtimes.md) — undated theater collection; public 14-day emit unchanged |
 | AMC expanded-log field/taxonomy audit (P-18B) | `Research in progress` | Provisional only — 1 expanded date (`2026-07-17`); need 3–5 |
 | SIFF/Beacon ingestion audit (P-16A) | `Complete` | [independent-theater-ingestion-audit.md](./independent-theater-ingestion-audit.md) |
 | Indie restatement completeness guard (P-16B) | `Complete` | Partial/structural-empty scrapes cannot wipe future rows |
@@ -101,6 +102,8 @@ Public UI must not change merely because new source fields are captured. v2 desi
 | — | Observe catalog runtime + failure rates | `Observation` | P-14D / P-21C | Passive — **3** catalog calendar dates so far; re-audit only at ≥14 dates or threshold trip |
 | — | Expand AMC scrape-log capture for attributes/languages/identity fallbacks | `Complete` (P-18A) | P-15A | [amc-showtimes-raw-capture.md](./amc-showtimes-raw-capture.md) |
 | P-18B | Rerun AMC field/taxonomy audit on expanded production logs | `Research in progress` | P-18A | **Blocked** — only 1 distinct expanded date (`2026-07-17`) |
+| — | AMC theatrical-run lifecycle audit (remaining-days TTE foundation) | `Complete` | PIT JSON + history | [leaving-soon-lifecycle-audit.md](./leaving-soon-lifecycle-audit.md) — no model, no UI |
+| — | AMC remaining-run survival model v1 (offline backtest) | `Complete` (research) | lifecycle audit | [leaving-soon-survival-model-v1.md](./leaving-soon-survival-model-v1.md) — no UI, no production artifacts |
 | — | Accumulate ≥3 distinct expanded AMC calendar dates | `Research needed` | P-18B | Passive wait gate — not an implementation task |
 | — | Define versioned `presentation_attributes[]` contract | `Deferred` | P-18B evidence | Blocked on multi-day observations |
 | — | **No Ready Cursor implementation task** | `Blocked by product-owner decision` | — | After P-21C: only passive gates + PO-directed choices remain |

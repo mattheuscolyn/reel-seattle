@@ -10,10 +10,13 @@ import pytest
 from daily_processor import (
     HISTORY_FIELDNAMES,
     count_future_amc_history_rows,
+    is_amc_restate_allowed,
     normalize_history_row,
     process_amc_csv_data,
     save_csv,
 )
+from reel_seattle.adapters.base import FetchResult, RawShowtime
+from reel_seattle.adapters.scrape_log import daily_log_path, write_scrape_daily_log
 from reel_seattle.history_keys import load_theater_index
 
 @pytest.fixture
@@ -171,3 +174,110 @@ def test_zero_future_in_history_and_scrape_is_noop(tmp_path, today, past_date, t
 
     assert len(history) == 1
     assert history[0]["Film"] == "Past Film"
+
+
+def _raw(
+    show_date,
+    film: str,
+    *,
+    movie_id: str = "movie-1",
+    time: str = "7:00PM",
+) -> RawShowtime:
+    return RawShowtime(
+        theater_name_raw="AMC Pacific Place 11",
+        date_raw=_fmt(show_date),
+        time_raw=time,
+        title_raw=film,
+        runtime_raw="120",
+        attributes={"movie_id": movie_id},
+    )
+
+
+def test_json_log_far_future_showtime_is_restated_into_history(
+    tmp_path, today, past_date, theater_index
+):
+    far_date = today + timedelta(days=40)
+    history = [
+        _amc_row(past_date, "Past Film"),
+        _amc_row(today + timedelta(days=3), "Old Near Future"),
+    ]
+    logs_dir = tmp_path / "daily_logs"
+    logs_dir.mkdir()
+    write_scrape_daily_log(
+        daily_log_path("2026-06-26", "amc", logs_dir=logs_dir),
+        "amc",
+        FetchResult(
+            records=[_raw(far_date, "Far Future Event", movie_id="99001")],
+            stats={"restate_safe": True, "theaters_failed": 0, "error_count": 0},
+        ),
+    )
+
+    process_amc_csv_data(
+        str(tmp_path / "unused.csv"),
+        history,
+        [],
+        "2026-06-26",
+        theater_index,
+        logs_dir=logs_dir,
+    )
+
+    films = [row["Film"] for row in history]
+    assert "Past Film" in films
+    assert "Old Near Future" not in films
+    assert "Far Future Event" in films
+    assert count_future_amc_history_rows(history, today) == 1
+
+
+def test_partial_json_fetch_does_not_erase_existing_future(
+    tmp_path, today, future_date, past_date, capsys, theater_index
+):
+    history = [
+        _amc_row(past_date, "Past Film"),
+        _amc_row(future_date, "Keep Me"),
+    ]
+    history_before = copy.deepcopy(history)
+    logs_dir = tmp_path / "daily_logs"
+    logs_dir.mkdir()
+    write_scrape_daily_log(
+        daily_log_path("2026-06-26", "amc", logs_dir=logs_dir),
+        "amc",
+        FetchResult(
+            records=[_raw(future_date, "Partial New")],
+            stats={"restate_safe": False, "theaters_failed": 1, "error_count": 1},
+            errors=["AMC theater 602 (AMC Oak Tree 6): HTTP 500"],
+        ),
+    )
+
+    process_amc_csv_data(
+        str(tmp_path / "unused.csv"),
+        history,
+        [],
+        "2026-06-26",
+        theater_index,
+        logs_dir=logs_dir,
+    )
+
+    assert history == history_before
+    captured = capsys.readouterr().out
+    assert "ERROR: AMC restate skipped" in captured
+    assert "restate_safe=false" in captured
+
+
+def test_is_amc_restate_allowed_distinguishes_valid_empty_from_errors():
+    allowed, reason = is_amc_restate_allowed(
+        input_kind="json",
+        stats={"restate_safe": True, "error_count": 0, "theaters_failed": 0},
+        existing_future=5,
+        incoming_future=0,
+    )
+    assert allowed is False
+    assert "0 future rows" in (reason or "")
+
+    blocked, err_reason = is_amc_restate_allowed(
+        input_kind="json",
+        stats={"restate_safe": False, "error_count": 1, "theaters_failed": 1},
+        existing_future=5,
+        incoming_future=12,
+    )
+    assert blocked is False
+    assert "restate_safe=false" in (err_reason or "")

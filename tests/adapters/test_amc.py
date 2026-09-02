@@ -10,6 +10,8 @@ import pytest
 
 from reel_seattle.adapters.amc import (
     AMC_CSV_FIELDNAMES,
+    COLLECTION_MODE_ALL_ANNOUNCED_FUTURE,
+    UNBOUND_FETCH_WINDOW_END,
     AmcAdapter,
     api_showtime_to_raw,
     build_default_fetch_context,
@@ -181,7 +183,7 @@ def test_fetch_uses_injected_api_functions_without_network(registry):
             _api_theater(api_id="701", long_name="AMC River Park Square 20"),
         ]
 
-    def fake_showtimes(_session, theater_id, _show_date):
+    def fake_showtimes(_session, theater_id):
         if theater_id != "601":
             return []
         return [json.loads((FIXTURES_DIR / "amc_api_showtime.json").read_text(encoding="utf-8"))]
@@ -197,7 +199,7 @@ def test_fetch_uses_injected_api_functions_without_network(registry):
         context,
         sleep_seconds=0,
         get_all_theaters_fn=fake_all_theaters,
-        get_showtimes_fn=fake_showtimes,
+        get_theater_showtimes_fn=fake_showtimes,
     )
 
     assert len(result.records) == 1
@@ -205,6 +207,8 @@ def test_fetch_uses_injected_api_functions_without_network(registry):
     assert result.stats["allowlist_included"] == 1
     assert result.stats["allowlist_disabled"] == 1
     assert result.stats["allowlist_unknown"] == 1
+    assert result.stats["collection_mode"] == COLLECTION_MODE_ALL_ANNOUNCED_FUTURE
+    assert result.stats["restate_safe"] is True
     assert result.stats["allowlist_disabled_theaters"] == [
         {"name": "AMC Kitsap 8", "id": "700", "registry_id": "amc-kitsap-8"}
     ]
@@ -235,11 +239,12 @@ def test_write_legacy_csv_round_trip(tmp_path, api_showtime):
     assert future_only == []
 
 
-def test_build_default_fetch_context_uses_registry(registry, tmp_path, monkeypatch):
+def test_build_default_fetch_context_uses_registry(registry, tmp_path):
     registry_path = tmp_path / "theaters.json"
     registry_path.write_text(json.dumps(registry), encoding="utf-8")
     context = build_default_fetch_context(registry_path=registry_path, run_date=date(2026, 6, 26))
-    assert context.window_end == date(2026, 7, 10)
+    assert context.window_start == date(2026, 6, 26)
+    assert context.window_end == UNBOUND_FETCH_WINDOW_END
     assert context.theaters_registry["theaters"][0]["name"] == "AMC Pacific Place 11"
 
 

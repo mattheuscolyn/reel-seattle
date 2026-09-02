@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/analysis/amc_run_lifecycle_observations/v1.0.0.json",
+  "title": "AMC run-lifecycle observation row",
+  "description": "One modeling row per observation date × AMC run/product. Labels may use future occurred showtimes; feature fields must not. Generated analysis artifact — not public.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "observation_date",
+    "product_id",
+    "run_id",
+    "run_sequence",
+    "title",
+    "run_type",
+    "identity_kind",
+    "identity_confidence",
+    "theater_count",
+    "showtime_count",
+    "announced_horizon_days",
+    "event_observed",
+    "right_censored",
+    "left_truncated",
+    "observation_quality"
+  ],
+  "properties": {
+    "observation_at": { "type": ["string", "null"] },
+    "observation_date": { "type": "string", "format": "date" },
+    "source_film_id": { "type": "string" },
+    "source_release_id": { "type": "string" },
+    "product_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "run_sequence": { "type": "integer", "minimum": 1 },
+    "title": { "type": "string" },
+    "run_type": { "type": "string" },
+    "catalog_run_type": { "type": "string" },
+    "identity_kind": {
+      "type": "string",
+      "enum": ["source_film_id", "title_fallback"]
+    },
+    "identity_confidence": {
+      "type": "string",
+      "enum": ["high", "low"]
+    },
+    "theater_count": { "type": "integer", "minimum": 0 },
+    "showtime_count": { "type": "integer", "minimum": 0 },
+    "days_with_announced_showtimes": { "type": "integer", "minimum": 0 },
+    "earliest_announced_show_date": { "type": "string", "format": "date" },
+    "farthest_announced_show_date": { "type": "string", "format": "date" },
+    "announced_horizon_days": { "type": "integer", "minimum": 0 },
+    "showtimes_per_active_day": { "type": "number" },
+    "weekend_showtime_count": { "type": "integer", "minimum": 0 },
+    "prime_time_showtime_count": { "type": "integer", "minimum": 0 },
+    "premium_format_count": { "type": "integer", "minimum": 0 },
+    "premium_format_share": { "type": "number" },
+    "theater_ids": { "type": "string" },
+    "prior_theater_count": { "type": ["integer", "null"] },
+    "delta_theater_count": { "type": ["integer", "null"] },
+    "prior_showtime_count": { "type": ["integer", "null"] },
+    "delta_showtime_count": { "type": ["integer", "null"] },
+    "lost_theater_since_prior": { "type": "boolean" },
+    "lost_weekend_coverage": { "type": "boolean" },
+    "lost_prime_time_coverage": { "type": "boolean" },
+    "farthest_show_date_delta": { "type": ["integer", "null"] },
+    "days_since_run_start": { "type": "integer" },
+    "observations_since_run_start": { "type": "integer", "minimum": 1 },
+    "first_seen_at": { "type": ["string", "null"] },
+    "remaining_days": {
+      "type": ["integer", "null"],
+      "description": "Null when right-censored. Same-day final show is 0. Label only."
+    },
+    "event_observed": { "type": "boolean" },
+    "right_censored": { "type": "boolean" },
+    "left_truncated": { "type": "boolean" },
+    "run_end_date": { "type": ["string", "null"], "format": "date" },
+    "run_start_date": { "type": "string", "format": "date" },
+    "true_run_length_days": { "type": ["integer", "null"] },
+    "outcome_quality": { "type": "string" },
+    "observation_quality": {
+      "type": "string",
+      "enum": [
+        "high_confidence_pit",
+        "usable_14day_truncated",
+        "usable_14day_truncated_title_identity",
+        "reconstructed_partial",
+        "unsuitable_tte"
+      ]
+    },
+    "historical_horizon_truncated": { "type": "boolean" },
+    "announced_beyond_legacy_horizon": { "type": "boolean" },
+    "identity_fallback": { "type": "boolean" },
+    "catalog_not_historical": { "type": "boolean" }
+  }
+}

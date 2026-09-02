@@ -46,6 +46,8 @@ from reel_seattle.film_identity.public_emit import (
 from reel_seattle.validate import validate_showtimes_current, validate_theaters_registry
 
 CURRENT_SCHEMA_VERSION = "1.0.0"
+# Public/client viewing horizon only. AMC ingestion retains all announced future
+# showtimes in daily logs and history; this window is applied at emit time.
 WINDOW_DAYS = 14
 DEFAULT_REGISTRY_PATH = Path("data/theaters.json")
 DEFAULT_OUTPUT_PATH = Path("public/data/showtimes_current.json")

@@ -196,19 +196,57 @@ def resolve_amc_scrape_rows(
     csv_path: str | Path,
     *,
     logs_dir: Path | str = DEFAULT_DAILY_LOGS_DIR,
-) -> tuple[list[dict], str, str]:
-    """Return AMC scrape rows, input label, and input kind (``json`` or ``csv``)."""
+) -> tuple[list[dict], str, str, dict | None]:
+    """Return AMC scrape rows, input label, input kind, and scrape stats.
+
+    Stats are present for JSON daily logs. CSV fallback returns ``None`` stats
+    so restatement uses the legacy empty-incoming guard only.
+    """
     json_path = daily_log_path(run_date_iso, "amc", logs_dir=logs_dir)
     if json_path.exists():
         result = load_scrape_daily_log(json_path)
         _log_scrape_json_messages(result, source="amc")
         rows = raw_showtimes_to_legacy_rows("amc", result.records)
-        return rows, str(json_path), "json"
+        stats = dict(result.stats) if isinstance(result.stats, dict) else {}
+        if result.errors:
+            stats.setdefault("error_count", len(result.errors))
+        return rows, str(json_path), "json", stats
 
     csv_file = str(csv_path)
     if not Path(csv_file).exists():
-        return [], csv_file, "csv"
-    return read_csv(csv_file), csv_file, "csv"
+        return [], csv_file, "csv", None
+    return read_csv(csv_file), csv_file, "csv", None
+
+
+def is_amc_restate_allowed(
+    *,
+    input_kind: str,
+    stats: dict | None,
+    existing_future: int,
+    incoming_future: int,
+) -> tuple[bool, str | None]:
+    """Decide whether AMC history today+future rows may be replaced."""
+    if input_kind == "json" and stats is not None:
+        if stats.get("restate_safe") is False:
+            return False, (
+                "scrape marked restate_safe=false "
+                "(partial or failed announced-future fetch). "
+                "Existing future AMC history preserved."
+            )
+        error_count = int(stats.get("error_count") or 0)
+        theaters_failed = int(stats.get("theaters_failed") or 0)
+        if error_count > 0 or theaters_failed > 0:
+            return False, (
+                f"scrape reported errors (error_count={error_count}, "
+                f"theaters_failed={theaters_failed}). "
+                "Existing future AMC history preserved."
+            )
+    if existing_future > 0 and incoming_future == 0:
+        return False, (
+            f"incoming AMC scrape has 0 future rows, but history has "
+            f"{existing_future} AMC future rows. Existing future AMC history preserved."
+        )
+    return True, None
 
 
 def resolve_indie_source_scrape_rows(
@@ -391,7 +429,7 @@ def process_amc_csv_data(
     """
     today_date = today_date or datetime.now().date()
     run_date_iso = run_date_iso or today
-    current_data, input_label, input_kind = resolve_amc_scrape_rows(
+    current_data, input_label, input_kind, scrape_stats = resolve_amc_scrape_rows(
         run_date_iso,
         csv_file,
         logs_dir=logs_dir,
@@ -407,12 +445,14 @@ def process_amc_csv_data(
     incoming_future_count = count_future_scrape_rows(current_data, today_date)
     existing_future_amc = count_future_amc_history_rows(history_data, today_date)
 
-    if existing_future_amc > 0 and incoming_future_count == 0:
-        print(
-            "ERROR: AMC restate skipped — incoming AMC scrape has 0 future rows, "
-            f"but history has {existing_future_amc} AMC future rows. "
-            "Existing future AMC history preserved."
-        )
+    allowed, skip_reason = is_amc_restate_allowed(
+        input_kind=input_kind,
+        stats=scrape_stats,
+        existing_future=existing_future_amc,
+        incoming_future=incoming_future_count,
+    )
+    if not allowed:
+        print(f"ERROR: AMC restate skipped — {skip_reason}")
         return
 
     before_count = len(history_data)

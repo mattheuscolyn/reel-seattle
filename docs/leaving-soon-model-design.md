@@ -4,6 +4,8 @@
 **Date:** 2026-06-30  
 **Audience:** Maintainers evaluating whether to ship an AMC “Leaving Soon” signal
 
+**Target update (2026-09-02):** The modeling goal is now **remaining theatrical lifetime** (calendar days until the final Seattle-area AMC showtime of the current source-native run), not Wednesday booking-extension failure. See [leaving-soon-lifecycle-audit.md](./leaving-soon-lifecycle-audit.md) and the v1 backtest [leaving-soon-survival-model-v1.md](./leaving-soon-survival-model-v1.md). Wednesday cadence remains a feature/process analysis. This document still describes the earlier weekly-label work; do not treat §1’s extension-failure question as the current label.
+
 ---
 
 ## 1. Product definition
@@ -39,21 +41,21 @@ The signal is **not** “no showtimes exist right now.” A film can have showti
 
 ```text
 amc_logger.py / run_daily_scraping.py
-  → reel_seattle/adapters/amc.py (AMC API v2 fetch, 14-day window)
+  → reel_seattle/adapters/amc.py (all currently announced future AMC showtimes)
   → data/daily_logs/YYYY-MM-DD_amc.json (normalized RawShowtime snapshot)
   → public/showtimes.csv (legacy AMC CSV, past + current/future)
   → daily_processor.py (merge into history, emit JSON)
   → data/history/showtimes_history.csv (canonical history)
-  → public/data/showtimes_current.json (frontend, 14-day window)
+  → public/data/showtimes_current.json (frontend, 14-day viewing window)
 ```
 
 | Stage | Location | Role |
 |-------|----------|------|
-| AMC fetch | `reel_seattle/adapters/amc.py` | Paginated `GET /v2/theatres/{id}/showtimes/{date}` for each enabled theater, 14 days |
-| Raw snapshot | `data/daily_logs/YYYY-MM-DD_amc.json` | Per-scrape normalized records + `generated_at` |
+| AMC fetch | `reel_seattle/adapters/amc.py` | Paginated `GET /v2/theatres/{id}/showtimes` (no date) per enabled theater — all currently announced future showtimes. See [amc-all-announced-showtimes.md](./amc-all-announced-showtimes.md). |
+| Raw snapshot | `data/daily_logs/YYYY-MM-DD_amc.json` | Per-scrape normalized records + `generated_at`; **not** truncated to 14 days |
 | Legacy CSV | `public/showtimes.csv` | AMC-only; past rows retained, future restated |
-| Canonical history | `data/history/showtimes_history.csv` | All sources; **not** shipped to browser |
-| Frontend artifact | `public/data/showtimes_current.json` | Built by `reel_seattle/emit/current.py` |
+| Canonical history | `data/history/showtimes_history.csv` | All sources; **not** shipped to browser; may include far-future AMC rows |
+| Frontend artifact | `public/data/showtimes_current.json` | Built by `reel_seattle/emit/current.py`; public viewing horizon remains 14 days |
 | Freshness | `public/data/pipeline_report.json` | Per-source status for Showtimes UI |
 
 ### Canonical vs forward-looking sources
@@ -73,6 +75,9 @@ amc_logger.py / run_daily_scraping.py
 | `schema/showtime/v1.0.0.json` | Target normalized showtime shape |
 | `schema/showtimes_current/v1.0.0.json` | Frontend artifact contract |
 | `docs/frontend-smoke-check.md` | QA; no Leaving Soon yet |
+| `docs/amc-all-announced-showtimes.md` | Current AMC collection (all announced future); public 14-day emit |
+| `docs/leaving-soon-lifecycle-audit.md` | Remaining-days TTE data foundation |
+| `docs/leaving-soon-survival-model-v1.md` | v1 remaining-days backtest; `promising_continue`; no UI |
 | `docs/unified-planner-design.md` | Planner uses `showtimes_current.json`; orthogonal to Leaving Soon |
 
 ### Critical pipeline behavior: AMC restate
