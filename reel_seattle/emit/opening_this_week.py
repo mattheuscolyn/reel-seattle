@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -42,14 +43,16 @@ from reel_seattle.normalize import (
 from reel_seattle.source_identity import source_film_id_from_history_row
 from reel_seattle.validate import validate_opening_this_week_current
 
-OPENING_THIS_WEEK_SCHEMA_VERSION = "1.0.0"
+OPENING_THIS_WEEK_SCHEMA_VERSION = "1.1.0"
 METHOD_NAME = "citywide_earliest_scheduled_date"
-METHOD_VERSION = "1.0.0"
+METHOD_VERSION = "1.1.0"
 METHOD_DESCRIPTION = (
     "Citywide opening_date is the earliest non-canceled scheduled Date across "
     "enabled Seattle theaters after collapsing variants to parent film identity. "
     "A film is a member when week_start <= opening_date <= week_end (Pacific "
-    "Monday–Sunday). Current showtimes join visibility metadata only."
+    "Monday–Sunday). Current showtimes join visibility metadata only. "
+    "opening_type is soft QA classification (theatrical/repertory/event/limited) "
+    "and does not affect membership."
 )
 
 BOOTSTRAP_DAYS = 14
@@ -63,9 +66,17 @@ CONFIDENCE_HIGH = "high"
 CONFIDENCE_LOW = "low"
 
 OPENING_TYPE_THEATRICAL = "theatrical"
+OPENING_TYPE_REPERTORY = "repertory"
 OPENING_TYPE_LIMITED = "limited"
 OPENING_TYPE_EVENT = "event"
 OPENING_TYPE_UNKNOWN = "unknown"
+
+_REPERTORY_LEAN_SOURCES = frozenset({"beacon", "nwff", "central_cinema"})
+_EVENT_TITLE_HINT = re.compile(
+    r"(?:\+|presents:|q\s*&\s*a|early access|live from|tour\b|screen unseen|"
+    r"scream unseen|mystery|double feature)",
+    re.IGNORECASE,
+)
 
 
 def pacific_today(now: datetime | None = None) -> date:
@@ -101,16 +112,39 @@ def classify_opening_type(
     title: str,
     *,
     distinct_scheduled_dates: int,
+    sources: Sequence[str] | None = None,
+    titles: Sequence[str] | None = None,
 ) -> str:
-    """Soft QA classification; does not affect membership."""
-    flags = classify_special_screening_flags(title)
-    if (
-        EVENT_TITLE_PATTERNS.search(title)
-        or flags.get("fan_event_like")
-        or flags.get("live_or_concert_like")
-        or flags.get("special_event_like")
-    ):
-        return OPENING_TYPE_EVENT
+    """Soft QA classification; does not affect membership.
+
+    V1.1 adds ``repertory`` for multi-day indie/anniversary engagements so UI
+    can segment without changing opening-date membership.
+    """
+    title_set = [title, *(titles or [])]
+    source_set = {str(s).strip() for s in (sources or []) if str(s).strip()}
+
+    for candidate in title_set:
+        flags = classify_special_screening_flags(candidate)
+        if (
+            EVENT_TITLE_PATTERNS.search(candidate)
+            or _EVENT_TITLE_HINT.search(candidate)
+            or flags.get("fan_event_like")
+            or flags.get("live_or_concert_like")
+            or flags.get("special_event_like")
+            or flags.get("opening_night_like")
+        ):
+            return OPENING_TYPE_EVENT
+
+    anniversary = any(
+        classify_special_screening_flags(candidate).get("anniversary_like")
+        for candidate in title_set
+    )
+    repertory_lean = bool(source_set & _REPERTORY_LEAN_SOURCES) and "amc" not in source_set
+
+    if anniversary and distinct_scheduled_dates >= 1:
+        return OPENING_TYPE_REPERTORY
+    if distinct_scheduled_dates >= 2 and repertory_lean:
+        return OPENING_TYPE_REPERTORY
     if distinct_scheduled_dates == 1:
         return OPENING_TYPE_LIMITED
     if distinct_scheduled_dates > 1:
@@ -200,10 +234,12 @@ class _FilmAgg:
     film_title: str
     showtime_film_keys: set[str] = field(default_factory=set)
     film_ids: set[str] = field(default_factory=set)
+    titles: set[str] = field(default_factory=set)
     dates_by_theater: dict[str, set[date]] = field(default_factory=dict)
     all_dates: set[date] = field(default_factory=set)
     theater_ids: set[str] = field(default_factory=set)
     sources: set[str] = field(default_factory=set)
+    screening_count: int = 0
 
     def add_observation(
         self,
@@ -212,12 +248,17 @@ class _FilmAgg:
         theater_id: str,
         showtime_film_key_value: str,
         film_title: str,
+        variant_title: str | None = None,
         film_id: str | None,
         source: str,
     ) -> None:
         self.showtime_film_keys.add(showtime_film_key_value)
         self.all_dates.add(show_date)
         self.theater_ids.add(theater_id)
+        self.screening_count += 1
+        for candidate in (film_title, variant_title):
+            if candidate:
+                self.titles.add(candidate)
         if source:
             self.sources.add(source)
         self.dates_by_theater.setdefault(theater_id, set()).add(show_date)
@@ -378,6 +419,7 @@ def _entry_from_agg(
             ),
         }
 
+    engagement_days = len(agg.all_dates)
     return {
         "showtime_film_key": film_key,
         "parent_film_key": agg.parent_film_key,
@@ -387,17 +429,22 @@ def _entry_from_agg(
         "theaters_on_opening_date": theaters,
         "theater_count_on_opening_date": len(theaters),
         "visible_showtime_count": visible,
+        "engagement_days": engagement_days,
+        "historical_screening_count": agg.screening_count,
         "opening_type": classify_opening_type(
             agg.film_title,
-            distinct_scheduled_dates=len(agg.all_dates),
+            distinct_scheduled_dates=engagement_days,
+            sources=sorted(agg.sources),
+            titles=sorted(agg.titles),
         ),
         "confidence": confidence,
         "evidence": {
             "identity_method": identity_method,
             "variant_showtime_film_keys": sorted(agg.showtime_film_keys),
-            "distinct_scheduled_dates": len(agg.all_dates),
+            "distinct_scheduled_dates": engagement_days,
             "bootstrap_theater_ids": bootstrap_theater_ids,
             "mature_theater_ids": mature_theater_ids,
+            "sources": sorted(agg.sources),
         },
         "override": override_payload,
     }
@@ -512,6 +559,7 @@ def build_opening_this_week_current(
             theater_id=theater_id,
             showtime_film_key_value=film_key,
             film_title=display,
+            variant_title=title,
             film_id=film_id,
             source=source,
         )
@@ -632,6 +680,8 @@ def build_opening_this_week_current(
                     visible_counts.get(film_key, 0),
                     visible_counts.get(parent_key, 0),
                 ),
+                "engagement_days": 0,
+                "historical_screening_count": 0,
                 "opening_type": OPENING_TYPE_UNKNOWN,
                 "confidence": CONFIDENCE_HIGH,
                 "evidence": {
@@ -646,6 +696,7 @@ def build_opening_this_week_current(
                     "distinct_scheduled_dates": 0,
                     "bootstrap_theater_ids": [],
                     "mature_theater_ids": [],
+                    "sources": [],
                 },
                 "override": {
                     "id": override.id,
@@ -663,6 +714,11 @@ def build_opening_this_week_current(
     low_confidence.sort(key=_sort_key)
 
     opening_dates = [date.fromisoformat(item["opening_date"]) for item in entries]
+    type_counts: dict[str, int] = {}
+    for item in entries:
+        otype = str(item.get("opening_type") or "unknown")
+        type_counts[otype] = type_counts.get(otype, 0) + 1
+
     return {
         "schema_version": OPENING_THIS_WEEK_SCHEMA_VERSION,
         "generated_at": generated_at.isoformat(timespec="seconds"),
@@ -686,6 +742,7 @@ def build_opening_this_week_current(
             "latest_opening_date": (
                 format_date_iso(max(opening_dates)) if opening_dates else None
             ),
+            "opening_type_counts": type_counts,
         },
         "entries": entries,
         "low_confidence_candidates": low_confidence,

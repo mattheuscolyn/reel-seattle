@@ -441,6 +441,31 @@ def test_classify_opening_type_event_patterns():
     assert classify_opening_type("Met Opera: Carmen", distinct_scheduled_dates=2) == "event"
     assert classify_opening_type("Ordinary Film", distinct_scheduled_dates=1) == "limited"
     assert classify_opening_type("Ordinary Film", distinct_scheduled_dates=5) == "theatrical"
+    assert (
+        classify_opening_type(
+            "Memento",
+            distinct_scheduled_dates=5,
+            sources=["central_cinema"],
+        )
+        == "repertory"
+    )
+    assert (
+        classify_opening_type(
+            "The Marching Band",
+            distinct_scheduled_dates=7,
+            sources=["siff"],
+        )
+        == "theatrical"
+    )
+    assert (
+        classify_opening_type(
+            "Cars",
+            distinct_scheduled_dates=7,
+            sources=["amc"],
+            titles=["Cars 20th Anniversary"],
+        )
+        == "repertory"
+    )
 
 
 def test_load_opening_overrides_empty(tmp_path):

@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.0.0",
-  "generated_at": "2026-09-02T12:39:08-07:00",
+  "schema_version": "1.1.0",
+  "generated_at": "2026-09-02T13:02:27-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-08-31",
@@ -8,15 +8,21 @@
   },
   "method": {
     "name": "citywide_earliest_scheduled_date",
-    "version": "1.0.0",
-    "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only."
+    "version": "1.1.0",
+    "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
     "entry_count": 45,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-08-31",
-    "latest_opening_date": "2026-09-06"
+    "latest_opening_date": "2026-09-06",
+    "opening_type_counts": {
+      "event": 8,
+      "limited": 13,
+      "repertory": 10,
+      "theatrical": 14
+    }
   },
   "entries": [
     {
@@ -36,6 +42,8 @@
       ],
       "theater_count_on_opening_date": 7,
       "visible_showtime_count": 0,
+      "engagement_days": 1,
+      "historical_screening_count": 8,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
@@ -53,6 +61,9 @@
           "amc-pacific-place-11",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -69,6 +80,8 @@
       ],
       "theater_count_on_opening_date": 2,
       "visible_showtime_count": 0,
+      "engagement_days": 1,
+      "historical_screening_count": 2,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -81,6 +94,9 @@
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -97,6 +113,8 @@
       ],
       "theater_count_on_opening_date": 2,
       "visible_showtime_count": 0,
+      "engagement_days": 1,
+      "historical_screening_count": 2,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -109,6 +127,9 @@
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -124,7 +145,9 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 4,
-      "opening_type": "theatrical",
+      "engagement_days": 3,
+      "historical_screening_count": 3,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -135,6 +158,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "the-beacon"
+        ],
+        "sources": [
+          "beacon"
         ]
       },
       "override": null
@@ -150,6 +176,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -161,6 +189,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "central-cinema"
+        ],
+        "sources": [
+          "central_cinema"
         ]
       },
       "override": null
@@ -179,6 +210,8 @@
       ],
       "theater_count_on_opening_date": 4,
       "visible_showtime_count": 146,
+      "engagement_days": 8,
+      "historical_screening_count": 73,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -194,6 +227,9 @@
           "amc-pacific-place-11",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -210,6 +246,8 @@
       ],
       "theater_count_on_opening_date": 2,
       "visible_showtime_count": 6,
+      "engagement_days": 1,
+      "historical_screening_count": 3,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -222,6 +260,9 @@
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -238,7 +279,9 @@
       ],
       "theater_count_on_opening_date": 2,
       "visible_showtime_count": 2,
-      "opening_type": "limited",
+      "engagement_days": 1,
+      "historical_screening_count": 2,
+      "opening_type": "event",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -250,6 +293,9 @@
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -267,6 +313,8 @@
       ],
       "theater_count_on_opening_date": 3,
       "visible_showtime_count": 10,
+      "engagement_days": 1,
+      "historical_screening_count": 5,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -280,6 +328,9 @@
           "amc-alderwood-mall-16",
           "amc-pacific-place-11",
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -295,7 +346,9 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 2,
-      "opening_type": "limited",
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "event",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -306,6 +359,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "northwest-film-forum"
+        ],
+        "sources": [
+          "nwff"
         ]
       },
       "override": null
@@ -321,7 +377,9 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 4,
-      "opening_type": "theatrical",
+      "engagement_days": 2,
+      "historical_screening_count": 2,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -332,6 +390,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "the-beacon"
+        ],
+        "sources": [
+          "beacon"
         ]
       },
       "override": null
@@ -351,6 +412,8 @@
       ],
       "theater_count_on_opening_date": 5,
       "visible_showtime_count": 274,
+      "engagement_days": 8,
+      "historical_screening_count": 137,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -366,6 +429,9 @@
           "amc-pacific-place-11",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -387,6 +453,8 @@
       ],
       "theater_count_on_opening_date": 7,
       "visible_showtime_count": 448,
+      "engagement_days": 8,
+      "historical_screening_count": 224,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -404,6 +472,9 @@
           "amc-pacific-place-11",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -422,7 +493,9 @@
       ],
       "theater_count_on_opening_date": 4,
       "visible_showtime_count": 66,
-      "opening_type": "theatrical",
+      "engagement_days": 7,
+      "historical_screening_count": 66,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -436,6 +509,9 @@
           "amc-kent-station-14",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -452,6 +528,8 @@
       ],
       "theater_count_on_opening_date": 2,
       "visible_showtime_count": 34,
+      "engagement_days": 7,
+      "historical_screening_count": 17,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -464,6 +542,9 @@
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-pacific-place-11"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -479,6 +560,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 54,
+      "engagement_days": 7,
+      "historical_screening_count": 27,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -490,6 +573,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-pacific-place-11"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -509,6 +595,8 @@
       ],
       "theater_count_on_opening_date": 5,
       "visible_showtime_count": 318,
+      "engagement_days": 8,
+      "historical_screening_count": 159,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -524,6 +612,9 @@
           "amc-pacific-place-11",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -539,7 +630,9 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 4,
-      "opening_type": "theatrical",
+      "engagement_days": 2,
+      "historical_screening_count": 2,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "showtime_film_key",
@@ -550,6 +643,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "northwest-film-forum"
+        ],
+        "sources": [
+          "nwff"
         ]
       },
       "override": null
@@ -568,6 +664,8 @@
       ],
       "theater_count_on_opening_date": 4,
       "visible_showtime_count": 4,
+      "engagement_days": 1,
+      "historical_screening_count": 4,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -582,6 +680,9 @@
           "amc-kent-station-14",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -597,6 +698,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 14,
+      "engagement_days": 7,
+      "historical_screening_count": 7,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -608,6 +711,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -625,6 +731,8 @@
       ],
       "theater_count_on_opening_date": 3,
       "visible_showtime_count": 80,
+      "engagement_days": 7,
+      "historical_screening_count": 40,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -638,6 +746,9 @@
           "amc-alderwood-mall-16",
           "amc-kent-station-14",
           "amc-pacific-place-11"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -659,7 +770,9 @@
       ],
       "theater_count_on_opening_date": 7,
       "visible_showtime_count": 7,
-      "opening_type": "limited",
+      "engagement_days": 1,
+      "historical_screening_count": 7,
+      "opening_type": "event",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -676,6 +789,9 @@
           "amc-pacific-place-11",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -691,6 +807,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 14,
+      "engagement_days": 7,
+      "historical_screening_count": 7,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -702,6 +820,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -717,6 +838,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -728,6 +851,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "northwest-film-forum"
+        ],
+        "sources": [
+          "nwff"
         ]
       },
       "override": null
@@ -743,6 +869,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 16,
+      "engagement_days": 7,
+      "historical_screening_count": 8,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -754,6 +882,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -769,7 +900,9 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 18,
-      "opening_type": "theatrical",
+      "engagement_days": 6,
+      "historical_screening_count": 9,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -780,6 +913,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "central-cinema"
+        ],
+        "sources": [
+          "central_cinema"
         ]
       },
       "override": null
@@ -795,7 +931,9 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 10,
-      "opening_type": "theatrical",
+      "engagement_days": 3,
+      "historical_screening_count": 5,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -806,6 +944,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "northwest-film-forum"
+        ],
+        "sources": [
+          "nwff"
         ]
       },
       "override": null
@@ -822,6 +963,8 @@
       ],
       "theater_count_on_opening_date": 2,
       "visible_showtime_count": 50,
+      "engagement_days": 6,
+      "historical_screening_count": 25,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -834,6 +977,9 @@
         "mature_theater_ids": [
           "amc-pacific-place-11",
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -849,7 +995,9 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 10,
-      "opening_type": "theatrical",
+      "engagement_days": 5,
+      "historical_screening_count": 5,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -860,6 +1008,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "central-cinema"
+        ],
+        "sources": [
+          "central_cinema"
         ]
       },
       "override": null
@@ -875,6 +1026,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 12,
+      "engagement_days": 6,
+      "historical_screening_count": 6,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -886,6 +1039,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -901,6 +1057,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 12,
+      "engagement_days": 6,
+      "historical_screening_count": 6,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -912,6 +1070,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -927,6 +1088,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 4,
+      "engagement_days": 1,
+      "historical_screening_count": 2,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -938,6 +1101,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "the-beacon"
+        ],
+        "sources": [
+          "beacon"
         ]
       },
       "override": null
@@ -954,7 +1120,9 @@
       ],
       "theater_count_on_opening_date": 2,
       "visible_showtime_count": 2,
-      "opening_type": "limited",
+      "engagement_days": 1,
+      "historical_screening_count": 2,
+      "opening_type": "event",
       "confidence": "high",
       "evidence": {
         "identity_method": "parent_film_key",
@@ -966,6 +1134,9 @@
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -984,6 +1155,8 @@
       ],
       "theater_count_on_opening_date": 4,
       "visible_showtime_count": 4,
+      "engagement_days": 1,
+      "historical_screening_count": 4,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -998,6 +1171,9 @@
           "amc-kent-station-14",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -1013,6 +1189,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 26,
+      "engagement_days": 7,
+      "historical_screening_count": 13,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -1024,6 +1202,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
         ]
       },
       "override": null
@@ -1039,7 +1220,9 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 2,
-      "opening_type": "limited",
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "event",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -1050,6 +1233,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "the-beacon"
+        ],
+        "sources": [
+          "beacon"
         ]
       },
       "override": null
@@ -1065,6 +1251,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -1076,6 +1264,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "the-beacon"
+        ],
+        "sources": [
+          "beacon"
         ]
       },
       "override": null
@@ -1091,7 +1282,9 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 8,
-      "opening_type": "theatrical",
+      "engagement_days": 4,
+      "historical_screening_count": 4,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -1102,6 +1295,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "the-beacon"
+        ],
+        "sources": [
+          "beacon"
         ]
       },
       "override": null
@@ -1118,7 +1314,9 @@
       ],
       "theater_count_on_opening_date": 2,
       "visible_showtime_count": 4,
-      "opening_type": "theatrical",
+      "engagement_days": 2,
+      "historical_screening_count": 4,
+      "opening_type": "event",
       "confidence": "high",
       "evidence": {
         "identity_method": "parent_film_key",
@@ -1130,6 +1328,9 @@
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -1148,6 +1349,8 @@
       ],
       "theater_count_on_opening_date": 4,
       "visible_showtime_count": 4,
+      "engagement_days": 1,
+      "historical_screening_count": 4,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -1162,6 +1365,9 @@
           "amc-kent-station-14",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -1178,7 +1384,9 @@
       ],
       "theater_count_on_opening_date": 2,
       "visible_showtime_count": 2,
-      "opening_type": "limited",
+      "engagement_days": 1,
+      "historical_screening_count": 2,
+      "opening_type": "event",
       "confidence": "high",
       "evidence": {
         "identity_method": "parent_film_key",
@@ -1190,6 +1398,9 @@
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -1205,6 +1416,8 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -1216,6 +1429,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "the-beacon"
+        ],
+        "sources": [
+          "beacon"
         ]
       },
       "override": null
@@ -1231,7 +1447,9 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 4,
-      "opening_type": "theatrical",
+      "engagement_days": 2,
+      "historical_screening_count": 2,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -1242,6 +1460,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "the-beacon"
+        ],
+        "sources": [
+          "beacon"
         ]
       },
       "override": null
@@ -1260,6 +1481,8 @@
       ],
       "theater_count_on_opening_date": 4,
       "visible_showtime_count": 4,
+      "engagement_days": 1,
+      "historical_screening_count": 4,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -1274,6 +1497,9 @@
           "amc-kent-station-14",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -1290,7 +1516,9 @@
       ],
       "theater_count_on_opening_date": 2,
       "visible_showtime_count": 4,
-      "opening_type": "theatrical",
+      "engagement_days": 2,
+      "historical_screening_count": 4,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
@@ -1302,6 +1530,9 @@
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null

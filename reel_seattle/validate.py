@@ -21,7 +21,7 @@ PIPELINE_REPORT_SCHEMA_PATH = SCHEMA_DIR / "pipeline_report" / "v1.0.0.json"
 NEWLY_ADDED_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "newly_added_current" / "v1.0.0.json"
 LEAVING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "leaving_soon_current" / "v1.0.0.json"
 OPENING_THIS_WEEK_CURRENT_SCHEMA_PATH = (
-    SCHEMA_DIR / "opening_this_week_current" / "v1.0.0.json"
+    SCHEMA_DIR / "opening_this_week_current" / "v1.1.0.json"
 )
 
 _VALIDATOR_CACHE: dict[Path, Draft202012Validator] = {}
