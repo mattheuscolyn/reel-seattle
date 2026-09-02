@@ -96,7 +96,7 @@ test('Planner Landing fixture matches Upcoming mockup sections', () => {
   assert.equal(p.upcoming.dateGroups[2].items[0].formatLabel, '4K Restoration');
   assert.equal(p.tabs[0].label, 'Upcoming');
   assert.equal(p.tabs[1].label, 'Saved films');
-  assert.equal(p.savedFilms.implemented, false);
+  assert.equal(p.savedFilms.implemented, true);
   assert.deepEqual([...PLANNER_LANDING_SECTION_ORDER], [
     'header',
     'tabs',

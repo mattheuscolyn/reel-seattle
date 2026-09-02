@@ -334,10 +334,10 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
       dateGroups,
     },
     savedFilms: {
-      implemented: false,
+      implemented: true,
       emptyTitle: 'Saved films',
       emptyBody:
-        'Saved films with showtimes will appear here. Switch back to Upcoming for your planned screenings.',
+        'Save films from Explore or Film Detail, then choose a showtime here.',
     },
     // Retained for callers that still inspect plan-level upcoming/past counts.
     past: {

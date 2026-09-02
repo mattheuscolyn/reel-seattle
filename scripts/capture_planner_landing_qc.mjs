@@ -174,8 +174,24 @@ try {
   const conflictReviewOpen =
     (await page.locator('[data-planner-conflict-review="open"]').count()) > 0;
 
+  await page.goto(`${BASE}?plannerMockup=1`, { waitUntil: 'networkidle' });
+  await page.locator('.v2-nav-button', { hasText: 'Planner' }).click();
+  await page.waitForSelector('[data-planner-source="planner-landing-mockup"]');
+  await page.getByRole('tab', { name: /Saved films/i }).click();
+  await page.waitForSelector('[data-planner-saved-source="planner-saved-films-mockup"]');
+  await captureViewport(page, 'planner-audit-09-saved-films-viewport.png');
+  await page.getByRole('button', { name: /Choose showtime/i }).first().click();
+  await page.waitForSelector('[data-saved-film-choose-sheet="open"]');
+  await captureViewport(page, 'planner-audit-10-choose-showtime-viewport.png');
+  await page.getByRole('button', { name: /Cancel/i }).click();
+  await page.locator('.v2-psf-more').first().click();
+  await page.waitForSelector('.v2-psf-row-menu');
+  await captureViewport(page, 'planner-audit-11-saved-films-menu-viewport.png');
+  const savedFilmsMockup =
+    (await page.locator('[data-planner-saved-source="planner-saved-films-mockup"]').count()) > 0;
+
   console.log(
-    JSON.stringify({ leftForBuild, leftForTimeline, conflictReviewOpen }, null, 2),
+    JSON.stringify({ leftForBuild, leftForTimeline, conflictReviewOpen, savedFilmsMockup }, null, 2),
   );
 
   // Comparisons
@@ -265,6 +281,7 @@ try {
       'Viewport captures keep real sticky/fixed chrome.',
       'Mockup mode: ?plannerMockup=1',
       'Conflict review: Review options from Needs Attention',
+      'Saved Films: tab, choose showtime sheet, three-dot menu',
       'Production uses accepted-plans source (honest empty when none).',
       '',
     ].join('\n'),

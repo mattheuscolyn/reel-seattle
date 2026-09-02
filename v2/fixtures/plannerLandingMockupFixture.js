@@ -199,9 +199,9 @@ export const PLANNER_LANDING_MOCKUP_FIXTURE = Object.freeze({
     ]),
   }),
   savedFilms: Object.freeze({
-    implemented: false,
+    implemented: true,
     emptyTitle: 'Saved films',
     emptyBody:
-      'Saved films with showtimes will appear here. Switch back to Upcoming for your planned screenings.',
+      'Save films from Explore or Film Detail, then choose a showtime here.',
   }),
 });

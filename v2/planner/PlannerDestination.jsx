@@ -20,6 +20,7 @@ import {
 import { composePlannerLandingFromAcceptedPlans } from './composePlannerLandingPresentation.js';
 import PlannedScreeningSheet from './PlannedScreeningSheet.jsx';
 import PlannerConflictReviewSurface from './PlannerConflictReviewSurface.jsx';
+import PlannerSavedFilmsPanel from './PlannerSavedFilmsPanel.jsx';
 import {
   getScheduleSettings,
   subscribeScheduleSettings,
@@ -602,17 +603,14 @@ export default function PlannerDestination({
           id="v2-planner-saved-panel"
           role="tabpanel"
           aria-labelledby="v2-planner-tab-saved-films"
-          data-planner-section="savedFilms"
-          className="v2-planner-saved-stub"
         >
-          <div className="v2-planner-empty" role="status">
-            <p className="v2-planner-empty-title">
-              {savedFilms?.emptyTitle || 'Saved films'}
-            </p>
-            {savedFilms?.emptyBody ? (
-              <p className="v2-planner-empty-body">{savedFilms.emptyBody}</p>
-            ) : null}
-          </div>
+          <PlannerSavedFilmsPanel
+            homeData={homeData}
+            enrichmentIndex={enrichmentIndex}
+            acceptedPlansRevision={acceptedPlansRevision}
+            onOpenFilmDetail={onOpenFilmDetail}
+            onAcceptedPlansChange={onAcceptedPlansChange}
+          />
         </div>
       )}
 
