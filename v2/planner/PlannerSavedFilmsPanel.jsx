@@ -178,7 +178,7 @@ export default function PlannerSavedFilmsPanel({
   };
 
   const isFilteredEmpty =
-    presentation.totalSavedCount > 0 && presentation.count === 0;
+    presentation.queueCount > 0 && presentation.count === 0;
 
   return (
     <div
@@ -199,7 +199,7 @@ export default function PlannerSavedFilmsPanel({
         ) : null}
       </header>
 
-      {presentation.totalSavedCount > 0 ? (
+      {presentation.queueCount > 0 ? (
         <div className="v2-psf-controls">
           <div className="v2-psf-control-wrap">
             <button
@@ -294,22 +294,37 @@ export default function PlannerSavedFilmsPanel({
                 className="v2-psf-card"
                 data-film-key={row.filmKey}
               >
-                <button
-                  type="button"
-                  className="v2-psf-more"
-                  aria-label={`More options for ${row.title}`}
-                  aria-expanded={menuFilmKey === row.filmKey}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSortOpen(false);
-                    setFilterOpen(false);
-                    setMenuFilmKey((current) =>
-                      current === row.filmKey ? null : row.filmKey,
-                    );
-                  }}
-                >
-                  <IconMore width={18} height={18} />
-                </button>
+                <div className="v2-psf-card-top">
+                  <PosterThumb url={row.posterUrl} title={row.title} />
+                  <div className="v2-psf-card-copy">
+                    <div className="v2-psf-title-row">
+                      <h3 className="v2-psf-title">{row.title}</h3>
+                      {row.urgencyBadge ? (
+                        <span className="v2-psf-urgency">{row.urgencyBadge}</span>
+                      ) : null}
+                    </div>
+                    <p className="v2-psf-availability">{row.showtimeSummary}</p>
+                    {row.nextShowtimeLine ? (
+                      <p className="v2-psf-next">{row.nextShowtimeLine}</p>
+                    ) : null}
+                  </div>
+                  <button
+                    type="button"
+                    className="v2-psf-more"
+                    aria-label={`More options for ${row.title}`}
+                    aria-expanded={menuFilmKey === row.filmKey}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSortOpen(false);
+                      setFilterOpen(false);
+                      setMenuFilmKey((current) =>
+                        current === row.filmKey ? null : row.filmKey,
+                      );
+                    }}
+                  >
+                    <IconMore width={18} height={18} />
+                  </button>
+                </div>
 
                 {menuFilmKey === row.filmKey ? (
                   <div className="v2-psf-row-menu" role="menu">
@@ -335,44 +350,23 @@ export default function PlannerSavedFilmsPanel({
                   </div>
                 ) : null}
 
-                <div className="v2-psf-card-main">
-                  <PosterThumb url={row.posterUrl} title={row.title} />
-                  <div className="v2-psf-card-copy">
-                    <div className="v2-psf-title-row">
-                      <h3 className="v2-psf-title">{row.title}</h3>
-                      {row.urgencyBadge ? (
-                        <span className="v2-psf-urgency">{row.urgencyBadge}</span>
-                      ) : null}
-                    </div>
-                    <p className="v2-psf-availability">{row.showtimeSummary}</p>
-                    {row.nextShowtimeLine ? (
-                      <p className="v2-psf-next">{row.nextShowtimeLine}</p>
-                    ) : null}
-                  </div>
-                  <div className="v2-psf-card-actions">
-                    {row.chooseShowtimeEnabled ? (
-                      <button
-                        type="button"
-                        className="v2-psf-choose-btn"
-                        onClick={() => openChooseShowtime(row)}
-                      >
-                        Choose showtime
-                        <IconChevron
-                          width={14}
-                          height={14}
-                          className="v2-psf-choose-chevron"
-                          aria-hidden="true"
-                        />
-                      </button>
-                    ) : (
-                      <span className="v2-psf-choose-disabled">
-                        No showtimes
-                      </span>
-                    )}
-                    {row.savedLabel ? (
-                      <span className="v2-psf-saved-date">{row.savedLabel}</span>
-                    ) : null}
-                  </div>
+                <div className="v2-psf-card-footer">
+                  <button
+                    type="button"
+                    className="v2-psf-choose-btn"
+                    onClick={() => openChooseShowtime(row)}
+                  >
+                    Choose showtime
+                    <IconChevron
+                      width={14}
+                      height={14}
+                      className="v2-psf-choose-chevron"
+                      aria-hidden="true"
+                    />
+                  </button>
+                  {row.savedLabel ? (
+                    <span className="v2-psf-saved-date">{row.savedLabel}</span>
+                  ) : null}
                 </div>
               </article>
             </li>
@@ -403,7 +397,10 @@ export default function PlannerSavedFilmsPanel({
         enrichmentIndex={enrichmentIndex}
         onOpenFilmDetail={onOpenFilmDetail}
         onPlansChanged={onAcceptedPlansChange}
-        onAdded={(msg) => setStatusMessage(msg)}
+        onAdded={(msg) => {
+          setStatusMessage(msg);
+          closeChooseShowtime();
+        }}
       />
 
       <p className="v2-psf-status" role="status" aria-live="polite">

@@ -13,6 +13,22 @@ import {
 } from '../planner/plannerSavedFilmsConfig.js';
 import { PLANNER_SAVED_URGENCY } from '../planner/plannerSavedFilmsUrgency.js';
 
+export const PLANNER_SAVED_MOCKUP_SCHEDULED_FILM_KEY = 'mock:heat';
+export const PLANNER_SAVED_MOCKUP_NO_SHOWTIMES_FILM_KEY = 'mock:no-showtimes';
+
+/**
+ * @param {object[]} rows
+ * @param {{ scheduledFilmKeys?: string[] }} [options]
+ */
+export function filterMockupSavedFilmsQueueRows(rows, options = {}) {
+  const scheduled = new Set(options.scheduledFilmKeys ?? []);
+  return rows.filter((row) => {
+    if (row.showtimeCount <= 0) return false;
+    if (scheduled.has(row.filmKey)) return false;
+    return true;
+  });
+}
+
 function posterSvg(title, from, to) {
   const safe = String(title).replace(/[<>&']/g, '');
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="180" viewBox="0 0 120 180"><rect width="120" height="180" rx="8" fill="url(#g)"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${from}"/><stop offset="100%" stop-color="${to}"/></linearGradient></defs><text x="12" y="148" fill="#f5f5f7" font-family="Georgia, serif" font-size="14">${safe}</text></svg>`;
@@ -219,6 +235,29 @@ const MOCK_ROWS = Object.freeze([
     nextOpportunityKey: 'mock-opp-perfect-1',
     origin: 'catalog',
   }),
+  Object.freeze({
+    id: 'saved:mock-no-showtimes',
+    filmKey: PLANNER_SAVED_MOCKUP_NO_SHOWTIMES_FILM_KEY,
+    filmId: 'tmdb:no-showtimes',
+    title: 'Archived Title',
+    sortTitle: 'archived title',
+    posterUrl: POSTER_PERFECT,
+    urgencyId: PLANNER_SAVED_URGENCY.none,
+    urgencyBadge: null,
+    urgencyRank: 50,
+    showtimeCount: 0,
+    showtimeSummary: 'No showtimes currently scheduled',
+    nextShowtimeLine: null,
+    nextSortable: null,
+    savedAt: '2025-05-01T12:00:00.000Z',
+    savedLabel: 'Saved May 1',
+    hasShowtimes: false,
+    chooseShowtimeEnabled: false,
+    sheetShowtimes: Object.freeze([]),
+    moreShowtimeCount: 0,
+    nextOpportunityKey: null,
+    origin: 'catalog',
+  }),
 ]);
 
 /**
@@ -234,10 +273,10 @@ export function getPlannerSavedFilmsMockupPresentation(options = {}) {
       ? options.filterId
       : 'all';
 
-  let rows = [...MOCK_ROWS];
-  if (filterId === 'has_showtimes') {
-    rows = rows.filter((r) => r.hasShowtimes);
-  } else if (filterId === 'leaving_soon') {
+  let rows = filterMockupSavedFilmsQueueRows([...MOCK_ROWS], {
+    scheduledFilmKeys: options.scheduledFilmKeys ?? [],
+  });
+  if (filterId === 'leaving_soon') {
     rows = rows.filter(
       (r) =>
         r.urgencyId === PLANNER_SAVED_URGENCY.lastChance ||
@@ -249,24 +288,49 @@ export function getPlannerSavedFilmsMockupPresentation(options = {}) {
     rows.sort((a, b) => a.sortTitle.localeCompare(b.sortTitle));
   } else if (sortId === 'recent') {
     rows.sort((a, b) => (a.savedAt < b.savedAt ? 1 : -1));
+  } else {
+    rows.sort((a, b) => {
+      if (a.urgencyRank !== b.urgencyRank) return a.urgencyRank - b.urgencyRank;
+      const aStart = a.nextSortable ?? 'z';
+      const bStart = b.nextSortable ?? 'z';
+      if (aStart !== bStart) return aStart < bStart ? -1 : 1;
+      return a.sortTitle.localeCompare(b.sortTitle);
+    });
   }
+
+  const totalSavedLibraryCount = MOCK_ROWS.length;
 
   return Object.freeze({
     source: 'planner-saved-films-mockup',
     sectionTitle: 'Saved films to plan',
     intro:
-      'You’ve saved these films and there are showtimes available. Choose a showtime to add to your Planner.',
+      rows.length > 0
+        ? 'These saved films have showtimes available and still need a screening added to Planner.'
+        : null,
     count: rows.length,
-    totalSavedCount: MOCK_ROWS.length,
+    queueCount: filterMockupSavedFilmsQueueRows([...MOCK_ROWS], {
+      scheduledFilmKeys: options.scheduledFilmKeys ?? [],
+    }).length,
+    totalSavedLibraryCount,
     sortId,
     sortOptions: PLANNER_SAVED_SORT_OPTIONS,
     filterId,
     filterOptions: PLANNER_SAVED_FILTER_OPTIONS,
     rows: Object.freeze(rows),
-    emptyTitle: 'No saved films yet',
-    emptyBody: 'Save films you want to keep track of, then choose a showtime here.',
+    emptyTitle:
+      totalSavedLibraryCount > 0
+        ? "You're all caught up"
+        : 'No saved films yet',
+    emptyBody:
+      totalSavedLibraryCount > 0
+        ? 'None of your saved films with available showtimes still need to be added to Planner.'
+        : 'Save films from Explore or Film Detail to plan showtimes here.',
     filteredEmptyTitle: 'No films match this filter',
     filteredEmptyBody: 'Try another filter or save more films with showtimes.',
+    isCaughtUp:
+      filterMockupSavedFilmsQueueRows([...MOCK_ROWS], {
+        scheduledFilmKeys: options.scheduledFilmKeys ?? [],
+      }).length === 0 && totalSavedLibraryCount > 0,
   });
 }
 

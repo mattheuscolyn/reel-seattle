@@ -18,6 +18,7 @@ import {
   isPlannerMockupMode,
 } from '../fixtures/plannerLandingMockupFixture.js';
 import { composePlannerLandingFromAcceptedPlans } from './composePlannerLandingPresentation.js';
+import { PLANNER_UPCOMING_COMPACT_DATE_GROUP_LIMIT } from './plannerLandingConfig.js';
 import PlannedScreeningSheet from './PlannedScreeningSheet.jsx';
 import PlannerConflictReviewSurface from './PlannerConflictReviewSurface.jsx';
 import PlannerSavedFilmsPanel from './PlannerSavedFilmsPanel.jsx';
@@ -242,7 +243,6 @@ function ConflictGroupCard({ group, onOpen }) {
  * @param {{
  *   onStubAction?: (actionId: string, label: string) => void,
  *   onOpenBuildPlan?: () => void,
- *   onOpenMyScheduleWeek?: () => void,
  *   onOpenFilmDetail?: (payload: {
  *     filmKey: string,
  *     opportunityKey?: string | null,
@@ -258,7 +258,6 @@ function ConflictGroupCard({ group, onOpen }) {
 export default function PlannerDestination({
   onStubAction,
   onOpenBuildPlan,
-  onOpenMyScheduleWeek,
   onOpenFilmDetail,
   onAcceptedPlansChange,
   homeData = null,
@@ -271,6 +270,7 @@ export default function PlannerDestination({
   const storage = getBrowserStorage();
   const [settingsTick, setSettingsTick] = useState(0);
   const [activeTab, setActiveTab] = useState('upcoming');
+  const [timelineExpanded, setTimelineExpanded] = useState(false);
   useEffect(
     () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
     [],
@@ -307,9 +307,22 @@ export default function PlannerDestination({
   };
 
   const openTimeline = () => {
-    if (onOpenMyScheduleWeek) onOpenMyScheduleWeek();
-    else announceStub('view-full-timeline', 'View full timeline');
+    setTimelineExpanded(true);
   };
+
+  const collapseTimeline = () => {
+    setTimelineExpanded(false);
+  };
+
+  const compactDateGroupLimit =
+    upcoming.compactDateGroupLimit ?? PLANNER_UPCOMING_COMPACT_DATE_GROUP_LIMIT;
+  const totalDateGroupCount =
+    upcoming.totalDateGroupCount ?? upcoming.dateGroups?.length ?? 0;
+  const visibleDateGroups =
+    timelineExpanded || totalDateGroupCount <= compactDateGroupLimit
+      ? upcoming.dateGroups ?? []
+      : (upcoming.dateGroups ?? []).slice(0, compactDateGroupLimit);
+  const canExpandTimeline = totalDateGroupCount > compactDateGroupLimit;
 
   const openScreening = (target) => {
     const planId = typeof target?.planId === 'string' ? target.planId.trim() : '';
@@ -396,6 +409,7 @@ export default function PlannerDestination({
       aria-labelledby="v2-planner-title"
       data-planner-source={presentation.source}
       data-planner-tab={activeTab}
+      data-planner-timeline-expanded={timelineExpanded ? 'true' : 'false'}
     >
       <header className="v2-planner-page-header" data-planner-section="header">
         <div className="v2-planner-header-text">
@@ -546,7 +560,7 @@ export default function PlannerDestination({
 
             {upcoming.dateGroups?.length ? (
               <div className="v2-planner-upcoming-panel">
-                {upcoming.dateGroups.map((group) => (
+                {visibleDateGroups.map((group) => (
                   <div
                     key={group.id}
                     className="v2-planner-date-group"
@@ -572,19 +586,37 @@ export default function PlannerDestination({
                     </div>
                   </div>
                 ))}
-                <button
-                  type="button"
-                  className="v2-planner-timeline-link"
-                  onClick={openTimeline}
-                >
-                  <span>{upcoming.viewTimelineLabel}</span>
-                  <IconChevron
-                    width={14}
-                    height={14}
-                    className="v2-planner-timeline-chevron"
-                    aria-hidden="true"
-                  />
-                </button>
+                {canExpandTimeline ? (
+                  timelineExpanded ? (
+                    <button
+                      type="button"
+                      className="v2-planner-timeline-link"
+                      onClick={collapseTimeline}
+                    >
+                      <span>{upcoming.showLessTimelineLabel ?? 'Show less'}</span>
+                      <IconChevron
+                        width={14}
+                        height={14}
+                        className="v2-planner-timeline-chevron v2-planner-timeline-chevron-up"
+                        aria-hidden="true"
+                      />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="v2-planner-timeline-link"
+                      onClick={openTimeline}
+                    >
+                      <span>{upcoming.viewTimelineLabel}</span>
+                      <IconChevron
+                        width={14}
+                        height={14}
+                        className="v2-planner-timeline-chevron"
+                        aria-hidden="true"
+                      />
+                    </button>
+                  )
+                ) : null}
               </div>
             ) : (
               <div className="v2-planner-empty" role="status">

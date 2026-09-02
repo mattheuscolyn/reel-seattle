@@ -13,21 +13,26 @@ import {
   buildPerformanceKeyForOpportunity,
   findPlannedPerformanceByKey,
   listPlannedPerformanceKeys,
-  listPlannedPerformancesForFilmKey,
 } from '../../v2/planner/addSavedFilmShowtimeToPlanner.js';
+import { savedFilmRefHasFuturePlannedScreening } from '../../v2/planner/plannerSavedFilmsQueue.js';
 import {
   deriveSavedFilmUrgency,
   formatSavedFilmShowtimeSummary,
   PLANNER_SAVED_URGENCY,
 } from '../../v2/planner/plannerSavedFilmsUrgency.js';
-import { getPlannerSavedFilmsMockupPresentation } from '../../v2/fixtures/plannerSavedFilmsMockupFixture.js';
+import { PLANNER_SAVED_FILTER_OPTIONS } from '../../v2/planner/plannerSavedFilmsConfig.js';
+import {
+  getPlannerSavedFilmsMockupPresentation,
+  PLANNER_SAVED_MOCKUP_NO_SHOWTIMES_FILM_KEY,
+  PLANNER_SAVED_MOCKUP_SCHEDULED_FILM_KEY,
+} from '../../v2/fixtures/plannerSavedFilmsMockupFixture.js';
 import { composePlannerLandingFromAcceptedPlans } from '../../v2/planner/composePlannerLandingPresentation.js';
 import {
   getSavedFilms,
   saveFilm,
   unsaveFilm,
 } from '../../v2/stores/savedFilmsStore.js';
-import { getAcceptedPlans } from '../../v2/stores/acceptedPlansStore.js';
+import { getAcceptedPlans, removePerformanceFromAcceptedPlan } from '../../v2/stores/acceptedPlansStore.js';
 import { PLANNER_CONFLICT_REVIEW_MOCKUP_ID } from '../../v2/fixtures/plannerConflictReviewMockupFixture.js';
 import { resolvePlannerConflictReviewPresentation } from '../../v2/planner/resolvePlannerConflictReviewPresentation.js';
 
@@ -182,7 +187,7 @@ test('rows derive showtime availability from HomeData', () => {
   assert.match(p.rows[0].showtimeSummary, /showtimes/);
 });
 
-test('no-showtimes saved film still appears', () => {
+test('no-showtimes saved film is hidden from queue', () => {
   const storage = memoryStorage();
   saveFilm(
     storage,
@@ -194,10 +199,10 @@ test('no-showtimes saved film still appears', () => {
     homeData: sampleHome(),
     now: NOW,
   });
-  assert.equal(p.count, 1);
-  assert.equal(p.rows[0].hasShowtimes, false);
-  assert.equal(p.rows[0].chooseShowtimeEnabled, false);
-  assert.match(p.rows[0].showtimeSummary, /No showtimes currently scheduled/);
+  assert.equal(p.count, 0);
+  assert.equal(p.queueCount, 0);
+  assert.equal(p.totalSavedLibraryCount, 1);
+  assert.equal(p.isCaughtUp, true);
 });
 
 test('urgency derives last chance and leaving soon from showtime counts', () => {
@@ -245,14 +250,91 @@ test('title sort is alphabetical', () => {
   assert.equal(sorted[0].id, 'b');
 });
 
-test('filters work for has showtimes and leaving soon', () => {
+test('filters work for leaving soon', () => {
   const rows = [
-    { showtimeCount: 0, urgencyId: PLANNER_SAVED_URGENCY.none },
     { showtimeCount: 1, urgencyId: PLANNER_SAVED_URGENCY.lastChance },
     { showtimeCount: 3, urgencyId: PLANNER_SAVED_URGENCY.none },
   ];
-  assert.equal(filterPlannerSavedFilmRows(rows, 'has_showtimes').length, 2);
   assert.equal(filterPlannerSavedFilmRows(rows, 'leaving_soon').length, 1);
+});
+
+test('Has showtimes filter no longer exists', () => {
+  assert.equal(
+    PLANNER_SAVED_FILTER_OPTIONS.some((o) => o.id === 'has_showtimes'),
+    false,
+  );
+});
+
+test('saved film with future planned screening is hidden from queue', () => {
+  const storage = memoryStorage();
+  seedSaved(storage, [
+    { filmKey: 'heat', title: 'Heat', filmId: 'tmdb:949' },
+    { filmKey: 'rare-film', title: 'Rare Film' },
+  ]);
+  const homeData = sampleHome();
+  const opp = homeData.opportunities.find((o) => o.opportunityKey === 'opp-heat-1');
+  addSavedFilmShowtimeToPlanner(storage, opp, 'heat', { homeData, now: () => NOW });
+  const p = composePlannerSavedFilmsPresentation({
+    storage,
+    homeData,
+    now: NOW,
+  });
+  assert.equal(p.count, 1);
+  assert.equal(p.rows[0].filmKey, 'rare-film');
+  assert.equal(getSavedFilms(storage).length, 2);
+});
+
+test('scheduled-film detection uses film identity not title', () => {
+  const storage = memoryStorage();
+  seedSaved(storage, [{ filmKey: 'heat', title: 'Heat', filmId: 'tmdb:949' }]);
+  const homeData = sampleHome();
+  const opp = homeData.opportunities.find((o) => o.opportunityKey === 'opp-heat-1');
+  addSavedFilmShowtimeToPlanner(storage, opp, 'heat', { homeData, now: () => NOW });
+  const savedRef = getSavedFilms(storage).find((s) => s.filmRef.showtimeFilmKey === 'heat')?.filmRef;
+  assert.equal(savedFilmRefHasFuturePlannedScreening(savedRef, storage, NOW), true);
+  assert.equal(
+    savedFilmRefHasFuturePlannedScreening(
+      { filmId: 'tmdb:949', showtimeFilmKey: 'different-key' },
+      storage,
+      NOW,
+    ),
+    true,
+  );
+});
+
+test('add to planner removes film from queue but keeps saved state', () => {
+  const storage = memoryStorage();
+  seedSaved(storage, [{ filmKey: 'rare-film', title: 'Rare Film' }]);
+  const homeData = sampleHome();
+  const opp = homeData.opportunities.find((o) => o.opportunityKey === 'opp-rare-1');
+  addSavedFilmShowtimeToPlanner(storage, opp, 'rare-film', { homeData, now: () => NOW });
+  const after = composePlannerSavedFilmsPresentation({
+    storage,
+    homeData,
+    now: NOW,
+  });
+  assert.equal(after.count, 0);
+  assert.equal(getSavedFilms(storage).length, 1);
+});
+
+test('removing planned screening returns film to queue when showtimes remain', () => {
+  const storage = memoryStorage();
+  seedSaved(storage, [{ filmKey: 'heat', title: 'Heat', filmId: 'tmdb:949' }]);
+  const homeData = sampleHome();
+  const opp = homeData.opportunities.find((o) => o.opportunityKey === 'opp-heat-1');
+  const added = addSavedFilmShowtimeToPlanner(storage, opp, 'heat', { homeData, now: () => NOW });
+  assert.equal(
+    composePlannerSavedFilmsPresentation({ storage, homeData, now: NOW }).count,
+    0,
+  );
+  removePerformanceFromAcceptedPlan(storage, added.planId, added.performanceKey);
+  const restored = composePlannerSavedFilmsPresentation({
+    storage,
+    homeData,
+    now: NOW,
+  });
+  assert.equal(restored.count, 1);
+  assert.equal(restored.rows[0].filmKey, 'heat');
 });
 
 test('choose showtime sheet component is wired', () => {
@@ -296,7 +378,7 @@ test('duplicate exact showtime cannot be added twice', () => {
   assert.equal(getAcceptedPlans(storage).length, 1);
 });
 
-test('different showtime for same film is not a duplicate', () => {
+test('different showtime for same film still adds second performance at store level', () => {
   const storage = memoryStorage();
   seedSaved(storage, [{ filmKey: 'heat', title: 'Heat' }]);
   const homeData = sampleHome();
@@ -309,7 +391,7 @@ test('different showtime for same film is not a duplicate', () => {
   const second = addSavedFilmShowtimeToPlanner(storage, opp2, 'heat', { homeData });
   assert.equal(second.ok, true);
   assert.equal(second.changed, true);
-  assert.equal(listPlannedPerformancesForFilmKey(storage, 'heat').length, 2);
+  assert.equal(getAcceptedPlans(storage).length, 2);
 });
 
 test('added performance appears in Planner Upcoming compose', () => {
@@ -344,15 +426,33 @@ test('three-dot menu actions are present in panel source', () => {
   assert.match(panelSrc, /Remove from Saved/);
   assert.match(panelSrc, /unsaveFilm/);
   assert.match(panelSrc, /Choose showtime/);
-  assert.equal(panelSrc.includes('Choose showtime'), true);
+  assert.match(panelSrc, /v2-psf-card-footer/);
+  assert.match(panelSrc, /v2-psf-more/);
+  assert.match(panelSrc, /closeChooseShowtime/);
 });
 
-test('mockup mode renders saved films canonical rows', () => {
+test('mockup mode renders actionable saved films queue rows', () => {
   const mock = getPlannerSavedFilmsMockupPresentation();
   assert.equal(mock.source, 'planner-saved-films-mockup');
   assert.equal(mock.count, 6);
   assert.equal(mock.rows[0].title, 'Bottoms');
   assert.equal(mock.rows[0].urgencyBadge, 'Last chance');
+});
+
+test('mockup queue hides scheduled and no-showtimes films', () => {
+  const defaultQueue = getPlannerSavedFilmsMockupPresentation();
+  assert.equal(
+    defaultQueue.rows.some((r) => r.filmKey === PLANNER_SAVED_MOCKUP_NO_SHOWTIMES_FILM_KEY),
+    false,
+  );
+  const scheduled = getPlannerSavedFilmsMockupPresentation({
+    scheduledFilmKeys: [PLANNER_SAVED_MOCKUP_SCHEDULED_FILM_KEY],
+  });
+  assert.equal(scheduled.count, 5);
+  assert.equal(
+    scheduled.rows.some((r) => r.filmKey === PLANNER_SAVED_MOCKUP_SCHEDULED_FILM_KEY),
+    false,
+  );
 });
 
 test('regression: conflict review mockup still resolves', () => {

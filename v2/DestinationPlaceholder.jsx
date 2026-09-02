@@ -97,7 +97,6 @@ export default function DestinationPlaceholder({
         seedFilmTitle={filmTitle}
         onStubAction={onPlannerStubAction}
         onOpenBuildPlan={onOpenBuildPlan}
-        onOpenMyScheduleWeek={onOpenMyScheduleWeek}
         onOpenFilmDetail={onOpenFilmDetail}
         onAcceptedPlansChange={onAcceptedPlansChange}
         homeData={homeData}

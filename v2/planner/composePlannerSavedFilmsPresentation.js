@@ -30,6 +30,7 @@ import {
   PLANNER_SAVED_SHEET_VISIBLE,
   PLANNER_SAVED_SORT_OPTIONS,
 } from './plannerSavedFilmsConfig.js';
+import { savedFilmRefHasFuturePlannedScreening } from './plannerSavedFilmsQueue.js';
 
 /**
  * @param {object} row
@@ -70,12 +71,9 @@ export function sortPlannerSavedFilmRows(rows, sortId) {
 
 /**
  * @param {object[]} rows
- * @param {'all' | 'has_showtimes' | 'leaving_soon'} filterId
+ * @param {'all' | 'leaving_soon'} filterId
  */
 export function filterPlannerSavedFilmRows(rows, filterId) {
-  if (filterId === 'has_showtimes') {
-    return rows.filter((row) => row.showtimeCount > 0);
-  }
   if (filterId === 'leaving_soon') {
     return rows.filter(
       (row) =>
@@ -157,6 +155,11 @@ export function composePlannerSavedFilmsPresentation(options = {}) {
       ? listQualifyingFutureOpportunitiesForFilm(homeData, filmKey, now)
       : [];
     const showtimeCount = opportunities.length;
+    if (showtimeCount <= 0) continue;
+    if (savedFilmRefHasFuturePlannedScreening(item.filmRef, storage, now)) {
+      continue;
+    }
+
     const urgency = deriveSavedFilmUrgency(showtimeCount);
     const next = opportunities[0] ?? null;
     const title =
@@ -214,8 +217,8 @@ export function composePlannerSavedFilmsPresentation(options = {}) {
       nextSortable: next ? opportunitySortableKey(next) : null,
       savedAt: item.savedAt ?? null,
       savedLabel: formatPlannerSavedDateLabel(item.savedAt),
-      hasShowtimes: showtimeCount > 0,
-      chooseShowtimeEnabled: showtimeCount > 0,
+      hasShowtimes: true,
+      chooseShowtimeEnabled: true,
       sheetShowtimes,
       moreShowtimeCount: Math.max(
         0,
@@ -228,24 +231,33 @@ export function composePlannerSavedFilmsPresentation(options = {}) {
 
   const filtered = filterPlannerSavedFilmRows(rows, filterId);
   const sorted = sortPlannerSavedFilmRows(filtered, sortId);
+  const totalSavedLibraryCount = savedItems.length;
 
   return {
     source: 'saved-films',
     sectionTitle: 'Saved films to plan',
     intro:
       sorted.length > 0
-        ? 'You’ve saved these films and there are showtimes available. Choose a showtime to add to your Planner.'
-        : 'Save films from Explore or Film Detail to plan showtimes here.',
+        ? 'These saved films have showtimes available and still need a screening added to Planner.'
+        : null,
     count: sorted.length,
-    totalSavedCount: rows.length,
+    queueCount: rows.length,
+    totalSavedLibraryCount,
     sortId,
     sortOptions: PLANNER_SAVED_SORT_OPTIONS,
     filterId,
     filterOptions: PLANNER_SAVED_FILTER_OPTIONS,
     rows: sorted,
-    emptyTitle: 'No saved films yet',
-    emptyBody: 'Save films you want to keep track of, then choose a showtime here.',
+    emptyTitle:
+      totalSavedLibraryCount > 0
+        ? "You're all caught up"
+        : 'No saved films yet',
+    emptyBody:
+      totalSavedLibraryCount > 0
+        ? 'None of your saved films with available showtimes still need to be added to Planner.'
+        : 'Save films from Explore or Film Detail to plan showtimes here.',
     filteredEmptyTitle: 'No films match this filter',
     filteredEmptyBody: 'Try another filter or save more films with showtimes.',
+    isCaughtUp: totalSavedLibraryCount > 0 && rows.length === 0,
   };
 }

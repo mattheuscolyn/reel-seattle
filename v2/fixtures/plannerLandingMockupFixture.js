@@ -120,6 +120,9 @@ export const PLANNER_LANDING_MOCKUP_FIXTURE = Object.freeze({
   upcoming: Object.freeze({
     sectionTitle: 'UPCOMING',
     viewTimelineLabel: 'View full timeline',
+    showLessTimelineLabel: 'Show less',
+    compactDateGroupLimit: 3,
+    totalDateGroupCount: 5,
     emptyTitle: null,
     emptyBody: null,
     dateGroups: Object.freeze([
@@ -193,6 +196,42 @@ export const PLANNER_LANDING_MOCKUP_FIXTURE = Object.freeze({
             posterUrl: POSTER_PARIS,
             addedLabel: 'Added May 18',
             startsAt: '2025-05-31T16:00:00-07:00',
+          }),
+        ]),
+      }),
+      Object.freeze({
+        id: 'day-2025-06-01',
+        dateKey: '2025-06-01',
+        label: 'SUN, JUN 1',
+        items: Object.freeze([
+          screening({
+            id: 'mock-yi-yi',
+            planId: 'mock-plan-yi-yi',
+            performanceKey: 'mock-perf-yi-yi',
+            title: 'Yi Yi',
+            timeLabel: '6:45 PM',
+            venueLabel: 'SIFF Downtown',
+            posterUrl: posterSvg('Yi Yi', '#182830', '#3a5a6a'),
+            addedLabel: 'Added May 16',
+            startsAt: '2025-06-01T18:45:00-07:00',
+          }),
+        ]),
+      }),
+      Object.freeze({
+        id: 'day-2025-06-03',
+        dateKey: '2025-06-03',
+        label: 'TUE, JUN 3',
+        items: Object.freeze([
+          screening({
+            id: 'mock-perfect-blue',
+            planId: 'mock-plan-perfect-blue',
+            performanceKey: 'mock-perf-perfect-blue',
+            title: 'Perfect Blue',
+            timeLabel: '7:00 PM',
+            venueLabel: 'Grand Illusion',
+            posterUrl: posterSvg('Perfect Blue', '#181828', '#4a3a7a'),
+            addedLabel: 'Added May 15',
+            startsAt: '2025-06-03T19:00:00-07:00',
           }),
         ]),
       }),

@@ -9,6 +9,7 @@
 import { getAcceptedPlans } from '../stores/acceptedPlansStore.js';
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 import { partitionAcceptedPlans } from './planLifecycle.js';
+import { PLANNER_UPCOMING_COMPACT_DATE_GROUP_LIMIT } from './plannerLandingConfig.js';
 import {
   findConflictClusters,
   formatConflictBody,
@@ -325,6 +326,9 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
     upcoming: {
       sectionTitle: 'UPCOMING',
       viewTimelineLabel: 'View full timeline',
+      showLessTimelineLabel: 'Show less',
+      compactDateGroupLimit: PLANNER_UPCOMING_COMPACT_DATE_GROUP_LIMIT,
+      totalDateGroupCount: dateGroups.length,
       emptyTitle:
         dateGroups.length === 0 ? 'No upcoming screenings yet' : null,
       emptyBody:

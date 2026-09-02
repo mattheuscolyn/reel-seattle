@@ -1934,7 +1934,6 @@ export default function V2App() {
         onExploreRestoreConsumed={() => setExploreRestorePending(null)}
         plannerSeed={nav.plannerSeed}
         onOpenBuildPlan={handleOpenBuildPlan}
-        onOpenMyScheduleWeek={() => handleOpenMyScheduleWeek()}
         onAcceptedPlansChange={() =>
           setAcceptedPlansRevision((value) => value + 1)
         }

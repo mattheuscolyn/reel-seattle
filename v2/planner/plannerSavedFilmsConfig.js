@@ -5,8 +5,7 @@ export const PLANNER_SAVED_SORT_OPTIONS = Object.freeze([
 ]);
 
 export const PLANNER_SAVED_FILTER_OPTIONS = Object.freeze([
-  { id: 'all', label: 'All saved' },
-  { id: 'has_showtimes', label: 'Has showtimes' },
+  { id: 'all', label: 'All' },
   { id: 'leaving_soon', label: 'Leaving soon' },
 ]);
 

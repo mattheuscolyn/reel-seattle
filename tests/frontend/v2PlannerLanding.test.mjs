@@ -89,7 +89,9 @@ test('Planner Landing fixture matches Upcoming mockup sections', () => {
   assert.match(p.pageTagline, /Plan your moviegoing/);
   assert.equal(p.needsAttention.count, 1);
   assert.equal(p.needsAttention.items[0].headline, 'Thursday has a conflict');
-  assert.equal(p.upcoming.dateGroups.length, 3);
+  assert.equal(p.upcoming.dateGroups.length, 5);
+  assert.equal(p.upcoming.totalDateGroupCount, 5);
+  assert.equal(p.upcoming.compactDateGroupLimit, 3);
   assert.equal(p.upcoming.dateGroups[0].items[0].title, 'The Conversation');
   assert.equal(p.upcoming.dateGroups[1].items[0].kind, 'conflict-group');
   assert.equal(p.upcoming.dateGroups[1].items[0].left.title, 'Bottoms');
@@ -211,7 +213,8 @@ test('Planner landing keeps interactive controls as buttons', () => {
   assert.match(PLANNER_SRC, /v2-planner-timeline-link/);
   assert.match(PLANNER_SRC, /type="button"/);
   assert.match(PLANNER_SRC, /aria-labelledby="v2-planner-title"/);
-  assert.match(PLANNER_SRC, /onOpenMyScheduleWeek/);
+  assert.match(PLANNER_SRC, /timelineExpanded/);
+  assert.match(PLANNER_SRC, /setTimelineExpanded\(true\)/);
   assert.match(PLANNER_SRC, /onOpenBuildPlan/);
   assert.match(PLANNER_SRC, /role="tablist"/);
 });
