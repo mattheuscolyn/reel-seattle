@@ -50,6 +50,11 @@ export const V2_DATA_ARTIFACTS = Object.freeze([
     required: false,
   }),
   Object.freeze({
+    route: '/data/opening_this_week_current.json',
+    sourceRelative: 'public/data/opening_this_week_current.json',
+    required: false,
+  }),
+  Object.freeze({
     route: '/data/pipeline_report.json',
     sourceRelative: 'public/data/pipeline_report.json',
     required: false,

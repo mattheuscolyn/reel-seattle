@@ -57,19 +57,21 @@ test('Opening This Week fixture matches canonical mockup regions', () => {
   assert.equal(p.pageTitle, 'Opening This Week');
   assert.equal(
     p.countLabel,
-    '18 films opening in theaters across Seattle.',
+    'Films opening in Seattle this week · 4',
   );
   assert.equal(p.sortValue, 'Opening date');
   assert.equal(p.filtersLabel, 'Filters');
-  assert.equal(p.films.length, 5);
+  assert.equal(p.films.length, 4);
   assert.equal(p.films[0].title, 'The Long Horizon');
+  assert.equal(p.films[0].badge, 'New');
   assert.equal(p.films[0].initiallyExpanded, false);
   assert.equal(p.films[0].formatLabel, '70MM');
   assert.match(p.films[0].whySeeIt, /70mm/);
-  assert.equal(p.films[1].title, 'Quiet City');
-  assert.equal(p.films[4].title, 'Saltwater Road');
+  assert.equal(p.films[1].badge, 'Revival');
+  assert.equal(p.films[2].badge, 'Special Event');
   assert.deepEqual([...OPENING_THIS_WEEK_SECTION_ORDER], [
     'header',
+    'categories',
     'controls',
     'filmList',
   ]);
@@ -80,6 +82,7 @@ test('Opening designed page replaces CollectionSurface scaffold', () => {
   assert.match(APP_SRC, /isOpeningThisWeek/);
   assert.match(OPENING_SRC, /data-opening-source/);
   assert.match(OPENING_SRC, /data-opening-section="header"/);
+  assert.match(OPENING_SRC, /data-opening-section="categories"/);
   assert.match(OPENING_SRC, /data-opening-section="controls"/);
   assert.match(OPENING_SRC, /data-opening-section="filmList"/);
   assert.equal(OPENING_SRC.includes('Explore · scaffold'), false);
@@ -103,11 +106,13 @@ test('Opening page starts with all cards collapsed', () => {
 test('Opening page renders filters and expand affordances', () => {
   assert.match(OPENING_SRC, /v2-opening-page-sort/);
   assert.match(OPENING_SRC, /v2-opening-page-filters/);
+  assert.match(OPENING_SRC, /v2-opening-chip-row/);
   assert.match(OPENING_SRC, /aria-expanded/);
   assert.match(OPENING_SRC, /toggleExpand/);
   assert.match(OPENING_SRC, /Why see it/);
   assert.match(OPENING_SRC, /Also playing at/);
   assert.match(OPENING_SRC, /More details/);
+  assert.match(OPENING_SRC, /Showtimes/);
 });
 
 test('More details wires to Film Detail; Save/NI use shared film stores', () => {

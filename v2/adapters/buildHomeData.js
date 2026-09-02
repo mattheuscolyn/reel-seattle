@@ -8,6 +8,7 @@
  * Does not invent ranking, cultural scores, synopsis, or landscape art.
  */
 
+import { buildOpeningThisWeek } from './buildOpeningThisWeek.js';
 import { createHomeWarning } from './homeWarnings.js';
 import {
   buildOpportunityKey,
@@ -210,6 +211,7 @@ function mergeTheaterRecord(registryTheater, embeddedTheater) {
  *   showtimesCurrent: unknown,
  *   theatersRegistry?: unknown | null,
  *   newlyAdded?: unknown | null,
+ *   openingThisWeek?: unknown | null,
  *   pipelineReport?: unknown | null,
  * }} input
  */
@@ -611,6 +613,10 @@ export function buildHomeData(input) {
     warnings,
   });
 
+  const openingThisWeek = buildOpeningThisWeek(input.openingThisWeek, {
+    warnings,
+  });
+
   const newlyAddedFilmKeys = new Set(newlyAdded.map((item) => item.filmKey));
 
   const opportunityCandidates = opportunities.map((opportunity) => {
@@ -668,6 +674,7 @@ export function buildHomeData(input) {
     films,
     opportunities,
     newlyAdded,
+    openingThisWeek,
     opportunityCandidates,
     warnings,
     sourceHealth,
@@ -676,6 +683,7 @@ export function buildHomeData(input) {
       films: films.length,
       opportunities: opportunities.length,
       newlyAdded: newlyAdded.length,
+      openingThisWeek: openingThisWeek.entries.length,
       theaters: Object.keys(theatersById).length,
       warnings: warnings.length,
     },

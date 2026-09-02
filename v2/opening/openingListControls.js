@@ -31,9 +31,15 @@ export function sortOpeningFilms(films, sortId) {
       sensitivity: 'base',
     });
   const cmpDate = (a, b) => {
-    const aDate = String(a.openingDate ?? a.dateLabel ?? '');
-    const bDate = String(b.openingDate ?? b.dateLabel ?? '');
+    const aDate = String(a.openingDate ?? '');
+    const bDate = String(b.openingDate ?? '');
     if (aDate !== bDate) return aDate.localeCompare(bDate);
+    const theaterDiff = (b.theaterCount ?? 0) - (a.theaterCount ?? 0);
+    if (theaterDiff !== 0) return theaterDiff;
+    const showtimeDiff =
+      (b.visibleShowtimeCount ?? b.showtimeCount ?? 0) -
+      (a.visibleShowtimeCount ?? a.showtimeCount ?? 0);
+    if (showtimeDiff !== 0) return showtimeDiff;
     return cmpTitle(a, b);
   };
 

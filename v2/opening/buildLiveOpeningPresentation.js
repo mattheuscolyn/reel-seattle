@@ -1,120 +1,244 @@
 /**
- * Live Opening This Week page presentation from HomeData + enrichment (T-ENR-10).
- * Opening membership stays provisional newly-added — never TMDB release_date.
+ * Opening This Week presentation model — artifact-backed cards, sections, and chips.
  */
 
+import {
+  OPENING_CATEGORY_SECTIONS,
+  joinOpeningEntryOpportunities,
+  joinOpeningEntryToHomeFilm,
+  refineOpeningCategory,
+} from '../adapters/buildOpeningThisWeek.js';
 import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
-import {
-  buildOpeningThisWeekShelf,
-  findNextOpportunityForFilm,
-  formatRuntimeLabel,
-} from '../home/shelfData.js';
-import {
-  formatLocalDateLabel,
-  formatUserFacingFormatLabel,
-} from '../topOpportunities/topOpportunityFormat.js';
+import { formatRuntimeLabel } from '../home/shelfData.js';
+import { formatUserFacingFormatLabel } from '../topOpportunities/topOpportunityFormat.js';
+import { buildOpeningDateCopy, pacificTodayIso } from './openingDateCopy.js';
+
+export const OPENING_CATEGORY_CHIPS = Object.freeze([
+  Object.freeze({ id: 'all', label: 'All' }),
+  ...OPENING_CATEGORY_SECTIONS,
+]);
 
 /**
- * @param {object} homeData
+ * @param {object | null | undefined} homeData
  * @param {object | null} [enrichmentIndex]
  */
 export function buildLiveOpeningThisWeekPresentation(
   homeData,
   enrichmentIndex = null,
 ) {
-  const shelf = buildOpeningThisWeekShelf(homeData, enrichmentIndex);
-  if (shelf.status === 'unavailable') {
+  const opening = homeData?.openingThisWeek;
+  const timezone = opening?.timezone ?? homeData?.timezone ?? 'America/Los_Angeles';
+  const todayIso = pacificTodayIso(timezone);
+  const currentYear = Number(todayIso.slice(0, 4));
+
+  if (!opening || opening.status === 'unavailable' || opening.status === 'invalid') {
     return {
       source: 'live-unavailable',
       pageTitle: 'Opening This Week',
-      countLabel: 'Opening This Week is unavailable right now.',
+      pageSubtitle: 'Films opening in Seattle this week',
+      countLabel: null,
+      unavailableTitle: 'Opening This Week isn’t available right now.',
+      unavailableBody: 'Check back later or browse current showtimes.',
       sortLabel: 'Sort',
-      sortValue: 'Opening date',
       filtersLabel: 'Filters',
       films: [],
-      shelfStatus: shelf.status,
-      shelfReason: shelf.reason,
+      sections: [],
+      categoryChips: [],
+      showCategoryChips: false,
+      activeCategoryId: 'all',
+      totalCount: 0,
+      week: null,
     };
   }
 
-  const filmsByKey = new Map(
-    (Array.isArray(homeData.films) ? homeData.films : []).map((f) => [f.filmKey, f]),
-  );
+  if (opening.status === 'empty' || opening.entries.length === 0) {
+    return {
+      source: 'live-empty',
+      pageTitle: 'Opening This Week',
+      pageSubtitle: 'Films opening in Seattle this week',
+      countLabel: null,
+      emptyTitle: 'Nothing opening in Seattle this week.',
+      emptyBody: 'Browse current showtimes to see what’s playing.',
+      sortLabel: 'Sort',
+      filtersLabel: 'Filters',
+      films: [],
+      sections: [],
+      categoryChips: [],
+      showCategoryChips: false,
+      activeCategoryId: 'all',
+      totalCount: 0,
+      week: opening.week ?? null,
+    };
+  }
 
-  const films = shelf.films.map((shelfFilm, index) => {
-    const film = filmsByKey.get(shelfFilm.filmKey);
-    const opportunity =
-      (shelfFilm.nextOpportunityKey &&
-        (Array.isArray(homeData.opportunities) ? homeData.opportunities : []).find(
-          (opp) => opp.opportunityKey === shelfFilm.nextOpportunityKey,
-        )) ||
-      findNextOpportunityForFilm(homeData, shelfFilm.filmKey);
+  const films = Array.isArray(homeData?.films) ? homeData.films : [];
+  const opportunities = Array.isArray(homeData?.opportunities)
+    ? homeData.opportunities
+    : [];
+  const theatersById = homeData?.theatersById ?? {};
+
+  const presentationFilms = opening.entries.map((entry) => {
+    const homeFilm = joinOpeningEntryToHomeFilm(entry, films);
+    const filmOpportunities = joinOpeningEntryOpportunities(
+      entry,
+      opportunities,
+      films,
+    );
+    const nextOpportunity = filmOpportunities[0] ?? null;
 
     const enriched = resolveEnrichedFilmPresentation({
       sourceFilm: {
-        filmId: film?.filmId ?? shelfFilm.filmId ?? null,
-        title: film?.title ?? shelfFilm.title ?? null,
-        posterUrl: film?.posterUrl ?? shelfFilm.posterUrl ?? null,
-        runtimeMin: film?.runtimeMin ?? shelfFilm.runtimeMin ?? null,
+        filmId: homeFilm?.filmId ?? entry.filmId ?? null,
+        title: homeFilm?.title ?? entry.title ?? null,
+        posterUrl: homeFilm?.posterUrl ?? null,
+        runtimeMin: homeFilm?.runtimeMin ?? null,
       },
       enrichmentIndex,
       context: 'opening',
     });
 
+    const refined = refineOpeningCategory(entry, {
+      releaseYear: enriched.canonicalYear,
+      currentYear,
+    });
+
+    const hasUpcomingShowtimes = (entry.visibleShowtimeCount ?? 0) > 0;
+    const { dateLabel, availabilityLabel } = buildOpeningDateCopy({
+      openingDate: entry.openingDate,
+      engagementDays: entry.engagementDays,
+      categoryId: refined.categoryId,
+      timezone,
+      todayIso,
+      hasUpcomingShowtimes,
+    });
+
+    const openingTheaterId = entry.theatersOnOpeningDate?.[0] ?? null;
+    const openingTheaterName =
+      (openingTheaterId && theatersById[openingTheaterId]?.name) ||
+      (entry.theaterCountOnOpeningDate > 1
+        ? `${entry.theaterCountOnOpeningDate} theaters`
+        : openingTheaterId) ||
+      null;
+
+    const formatLabels = Array.isArray(nextOpportunity?.formatLabels)
+      ? nextOpportunity.formatLabels
+          .map(formatUserFacingFormatLabel)
+          .filter(Boolean)
+      : [];
+
     const metaParts = [
       enriched.canonicalYear != null ? String(enriched.canonicalYear) : null,
-      formatRuntimeLabel(film?.runtimeMin ?? shelfFilm.runtimeMin),
+      formatRuntimeLabel(homeFilm?.runtimeMin ?? enriched.runtimeMin),
       enriched.genreLine,
     ].filter(Boolean);
 
-    const formatLabels = Array.isArray(opportunity?.formatLabels)
-      ? opportunity.formatLabels.map(formatUserFacingFormatLabel).filter(Boolean)
-      : [];
+    const theaterCount =
+      homeFilm?.theaterCount ??
+      (hasUpcomingShowtimes ? new Set(filmOpportunities.map((o) => o.theaterId)).size : 0);
 
     return {
-      filmKey: shelfFilm.filmKey,
+      filmKey: homeFilm?.filmKey ?? entry.filmKey,
       filmId: enriched.filmId,
-      title: enriched.displayTitle ?? shelfFilm.title,
-      badge: shelfFilm.surfaceReasonLabel === 'Newly added' ? 'NEW' : null,
+      title: enriched.displayTitle ?? entry.title,
+      badge: refined.categoryBadge,
+      categoryId: refined.categoryId,
+      sectionLabel: refined.sectionLabel,
       metaLine: metaParts.length > 0 ? metaParts.join(' · ') : null,
       synopsis: enriched.synopsisPreview,
       posterUrl: enriched.posterUrl,
-      openingDate: opportunity?.localDate ?? null,
-      dateLabel: formatLocalDateLabel(opportunity?.localDate) ?? shelfFilm.metaLabel,
-      theaterId: opportunity?.theaterId ?? null,
-      theaterName: opportunity?.theaterName ?? null,
-      timeLabel: opportunity?.timeDisplay ?? null,
+      openingDate: entry.openingDate,
+      dateLabel,
+      availabilityLabel,
+      theaterId: nextOpportunity?.theaterId ?? openingTheaterId,
+      theaterName: nextOpportunity?.theaterName ?? openingTheaterName,
+      timeLabel: nextOpportunity?.timeDisplay ?? null,
       formatLabel: formatLabels[0] ?? null,
       formatLabels,
-      showtimeCount: film?.showtimeCount ?? shelfFilm.showtimeCount ?? 0,
-      theaterCount: film?.theaterCount ?? shelfFilm.theaterCount ?? 0,
+      showtimeCount:
+        homeFilm?.showtimeCount ??
+        (hasUpcomingShowtimes ? filmOpportunities.length : 0),
+      theaterCount,
+      visibleShowtimeCount: entry.visibleShowtimeCount ?? 0,
+      hasUpcomingShowtimes,
       whySeeIt: null,
       alsoPlaying:
-        (film?.theaterCount ?? 0) >= 2
+        theaterCount >= 2
           ? {
-              theaterName: `Also playing at ${film.theaterCount} theaters`,
+              theaterName: `Also playing at ${theaterCount} theaters`,
               detailLabel: 'See showtimes',
             }
           : null,
       initiallyExpanded: false,
       hasEnrichment: enriched.hasEnrichment,
-      opportunityKey: opportunity?.opportunityKey ?? null,
+      opportunityKey: nextOpportunity?.opportunityKey ?? null,
+      engagementDays: entry.engagementDays,
+      openingType: entry.openingType,
+      noCurrentShowtimes: !hasUpcomingShowtimes,
     };
   });
 
-  const count = films.length;
+  const categoryIdsPresent = new Set(
+    presentationFilms.map((film) => film.categoryId).filter(Boolean),
+  );
+  const showCategoryChips = categoryIdsPresent.size > 1;
+  const categoryChips = showCategoryChips ? [...OPENING_CATEGORY_CHIPS] : [];
+
+  const totalCount = presentationFilms.length;
+  const countLabel = `Films opening in Seattle this week · ${totalCount}`;
+
   return {
-    source: 'live-home-data',
+    source: 'live-opening-artifact',
     pageTitle: 'Opening This Week',
-    countLabel:
-      count === 1
-        ? '1 film recently added across Seattle.'
-        : `${count} films recently added across Seattle.`,
+    pageSubtitle: 'Films opening in Seattle this week',
+    countLabel,
     sortLabel: 'Sort',
-    sortValue: 'Opening date',
     filtersLabel: 'Filters',
-    films,
-    shelfStatus: shelf.status,
-    shelfReason: shelf.reason,
+    films: presentationFilms,
+    sections: buildOpeningSections(presentationFilms),
+    categoryChips,
+    showCategoryChips,
+    activeCategoryId: 'all',
+    totalCount,
+    week: opening.week ?? null,
   };
+}
+
+/**
+ * @param {object[]} films
+ * @param {string} [activeCategoryId]
+ */
+export function buildOpeningSections(films, activeCategoryId = 'all') {
+  const list = Array.isArray(films) ? films : [];
+  const sectionOrder = OPENING_CATEGORY_SECTIONS;
+
+  if (activeCategoryId !== 'all') {
+    const section = sectionOrder.find((item) => item.id === activeCategoryId);
+    const sectionFilms = list.filter((film) => film.categoryId === activeCategoryId);
+    if (!section || sectionFilms.length === 0) return [];
+    return [
+      {
+        id: section.id,
+        label: section.label,
+        films: sectionFilms,
+      },
+    ];
+  }
+
+  return sectionOrder
+    .map((section) => ({
+      id: section.id,
+      label: section.label,
+      films: list.filter((film) => film.categoryId === section.id),
+    }))
+    .filter((section) => section.films.length > 0);
+}
+
+/**
+ * @param {object[]} films
+ * @param {string} categoryId
+ */
+export function filterOpeningFilmsByCategory(films, categoryId) {
+  const list = Array.isArray(films) ? films : [];
+  if (!categoryId || categoryId === 'all') return list;
+  return list.filter((film) => film.categoryId === categoryId);
 }

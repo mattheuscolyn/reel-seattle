@@ -12,6 +12,7 @@ test('v2 data allowlist includes Home artifacts and excludes Leaving Soon', () =
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/showtimes_current.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/theaters.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/newly_added_current.json']);
+  assert.ok(ALLOWED_V2_DATA_ROUTES['/data/opening_this_week_current.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/pipeline_report.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/film_enrichment_current.json']);
   assert.equal(
