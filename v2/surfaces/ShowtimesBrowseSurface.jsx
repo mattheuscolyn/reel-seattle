@@ -1,10 +1,7 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 import { IconChevron } from '../icons.jsx';
-import {
-  EXTERNAL_TICKET_LINK_RELS,
-  EXTERNAL_TICKET_LINK_TARGET,
-  externalTicketLinkProps,
-} from '../ticket/externalTicketUrl.js';
+import ShowtimeActionSheet from '../showtimes/ShowtimeActionSheet.jsx';
+import { resolveBrowseShowtimeOpportunity } from '../showtimes/showtimeActionSheetModel.js';
 import {
   SHOWTIMES_BROWSE_DATE_MODES,
   buildShowtimesBrowsePresentation,
@@ -38,6 +35,7 @@ export default function ShowtimesBrowseSurface({
   onBrowseUiChange,
   onOpenFilmDetail,
   onOpenTheaterDetail,
+  onAcceptedPlansChange = null,
 }) {
   const dateToolbarId = useId();
   const filtersTitleId = useId();
@@ -52,6 +50,7 @@ export default function ShowtimesBrowseSurface({
   );
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [settingsTick, setSettingsTick] = useState(0);
+  const [actionSheet, setActionSheet] = useState(null);
   useEffect(
     () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
     [],
@@ -159,6 +158,21 @@ export default function ShowtimesBrowseSurface({
     originPrimary,
     browseUi: emitUi({}),
   });
+
+  const openShowtimeActions = (film, row) => {
+    const opportunity = resolveBrowseShowtimeOpportunity({
+      row,
+      homeData,
+    });
+    if (!opportunity) return;
+    setActionSheet({
+      filmKey: film.filmKey,
+      row,
+      opportunity,
+    });
+  };
+
+  const closeShowtimeActions = () => setActionSheet(null);
 
   if (loadStatus === 'loading') {
     return (
@@ -475,40 +489,25 @@ export default function ShowtimesBrowseSurface({
                             )}
                             <ul className="v2-stb-times" role="list">
                               {theater.showtimes.map((st) => {
-                                const ticket = externalTicketLinkProps(
-                                  st.ticketUrl,
-                                );
+                                const formatSuffix = st.formatLabels[0]
+                                  ? ` ${st.formatLabels[0]}`
+                                  : '';
+                                const ariaLabel = `${st.timeDisplay}${formatSuffix} at ${theater.theaterName} for ${film.title}`;
                                 return (
                                   <li key={st.opportunityKey}>
-                                    {ticket ? (
-                                      <a
-                                        className="v2-stb-time"
-                                        href={ticket.href}
-                                        target={EXTERNAL_TICKET_LINK_TARGET}
-                                        rel={EXTERNAL_TICKET_LINK_RELS}
-                                        aria-label={`${st.timeDisplay}${
-                                          st.formatLabels[0]
-                                            ? ` ${st.formatLabels[0]}`
-                                            : ''
-                                        } — opens ticket site in a new tab`}
-                                      >
-                                        <span>{st.timeDisplay}</span>
-                                        {st.formatLabels[0] ? (
-                                          <span className="v2-stb-format">
-                                            {st.formatLabels[0]}
-                                          </span>
-                                        ) : null}
-                                      </a>
-                                    ) : (
-                                      <span className="v2-stb-time v2-stb-time-plain">
-                                        <span>{st.timeDisplay}</span>
-                                        {st.formatLabels[0] ? (
-                                          <span className="v2-stb-format">
-                                            {st.formatLabels[0]}
-                                          </span>
-                                        ) : null}
-                                      </span>
-                                    )}
+                                    <button
+                                      type="button"
+                                      className="v2-stb-time"
+                                      onClick={() => openShowtimeActions(film, st)}
+                                      aria-label={`${ariaLabel} — show actions`}
+                                    >
+                                      <span>{st.timeDisplay}</span>
+                                      {st.formatLabels[0] ? (
+                                        <span className="v2-stb-format">
+                                          {st.formatLabels[0]}
+                                        </span>
+                                      ) : null}
+                                    </button>
                                   </li>
                                 );
                               })}
@@ -524,6 +523,17 @@ export default function ShowtimesBrowseSurface({
           })}
         </ul>
       )}
+
+      <ShowtimeActionSheet
+        open={Boolean(actionSheet)}
+        onClose={closeShowtimeActions}
+        opportunity={actionSheet?.opportunity ?? null}
+        filmKey={actionSheet?.filmKey ?? null}
+        row={actionSheet?.row ?? null}
+        homeData={homeData}
+        enrichmentIndex={enrichmentIndex}
+        onPlansChanged={onAcceptedPlansChange}
+      />
     </section>
   );
 }
