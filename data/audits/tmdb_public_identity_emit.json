@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.6949152542372882,
-  "generated_at": "2026-09-02T10:21:20+00:00",
-  "index_size": 91,
+  "coverage_rate": 0.6324786324786325,
+  "generated_at": "2026-09-03T10:30:42+00:00",
+  "index_size": 90,
   "invalid_identities": 0,
-  "mapping_misses": 36,
-  "non_null_film_id": 82,
+  "mapping_misses": 43,
+  "non_null_film_id": 74,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,12 +14,12 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 36,
+  "null_film_id": 43,
   "per_source": {
     "amc": {
-      "films": 75,
-      "null_film_id": 18,
-      "with_film_id": 57
+      "films": 71,
+      "null_film_id": 21,
+      "with_film_id": 50
     },
     "beacon": {
       "films": 16,
@@ -28,26 +28,26 @@
     },
     "central_cinema": {
       "films": 11,
-      "null_film_id": 4,
-      "with_film_id": 7
-    },
-    "nwff": {
-      "films": 9,
-      "null_film_id": 3,
+      "null_film_id": 5,
       "with_film_id": 6
     },
+    "nwff": {
+      "films": 10,
+      "null_film_id": 5,
+      "with_film_id": 5
+    },
     "siff": {
-      "films": 13,
-      "null_film_id": 4,
+      "films": 14,
+      "null_film_id": 5,
       "with_film_id": 9
     }
   },
-  "repeated_canonical_across_films": 4,
+  "repeated_canonical_across_films": 3,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
-  "total_public_films": 118,
-  "unique_tmdb_ids": 78,
+  "total_public_films": 117,
+  "unique_tmdb_ids": 71,
   "warning_count": 0,
   "warnings": []
 }
