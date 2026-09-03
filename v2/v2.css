@@ -13499,6 +13499,344 @@ a.v2-stb-time:focus-visible {
   font-size: 0.72rem;
 }
 
+/* Browse Filters bottom sheet */
+.v2-bfs-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 46;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.v2-bfs-sheet {
+  width: min(100%, var(--v2-max));
+  height: min(74dvh, 40rem);
+  max-height: min(74dvh, 40rem);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border-radius: 1rem 1rem 0 0;
+  background: #151822;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 0;
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.v2-bfs-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.15rem var(--v2-gutter) 0.65rem;
+}
+
+.v2-bfs-header-copy {
+  min-width: 0;
+}
+
+.v2-bfs-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.v2-bfs-subtitle {
+  margin: 0.2rem 0 0;
+  color: var(--v2-muted);
+  font-size: 0.8rem;
+}
+
+.v2-bfs-close {
+  flex-shrink: 0;
+}
+
+.v2-bfs-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.15rem var(--v2-gutter) 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.v2-bfs-section + .v2-bfs-section {
+  margin-top: 1.35rem;
+}
+
+.v2-bfs-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.55rem;
+}
+
+.v2-bfs-section-title {
+  margin: 0 0 0.55rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.v2-bfs-section-head .v2-bfs-section-title {
+  margin-bottom: 0;
+}
+
+.v2-bfs-chip-row,
+.v2-bfs-chip-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.v2-bfs-chip {
+  appearance: none;
+  margin: 0;
+  padding: 0.42rem 0.72rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  font-weight: 550;
+  cursor: pointer;
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.v2-bfs-chip.is-selected {
+  background: var(--v2-accent-soft);
+  color: #ddd6fe;
+}
+
+.v2-bfs-chip:focus-visible,
+.v2-bfs-fav-toggle:focus-visible,
+.v2-bfs-theater-row:focus-visible,
+.v2-bfs-segment:focus-visible,
+.v2-bfs-custom-toggle:focus-visible,
+.v2-bfs-show-all:focus-visible,
+.v2-bfs-reset:focus-visible,
+.v2-bfs-apply:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-bfs-custom-toggle {
+  appearance: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0.7rem 0 0;
+  padding: 0.65rem 0;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: transparent;
+  color: var(--v2-fg);
+  cursor: pointer;
+  text-align: left;
+}
+
+.v2-bfs-custom-label {
+  font-size: 0.84rem;
+  font-weight: 550;
+}
+
+.v2-bfs-custom-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--v2-muted);
+  font-size: 0.78rem;
+}
+
+.v2-bfs-custom-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  margin-top: 0.35rem;
+}
+
+.v2-bfs-time-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  color: var(--v2-muted);
+}
+
+.v2-bfs-time-field input[type='time'] {
+  appearance: none;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0.45rem 0.55rem;
+  border: 0;
+  border-radius: 0.55rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--v2-fg);
+  font-size: 0.9rem;
+}
+
+.v2-bfs-fav-toggle {
+  appearance: none;
+  margin: 0;
+  padding: 0.28rem 0.6rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.72rem;
+  font-weight: 550;
+  cursor: pointer;
+}
+
+.v2-bfs-fav-toggle.is-selected {
+  background: var(--v2-accent-soft);
+  color: #ddd6fe;
+}
+
+.v2-bfs-theater-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.v2-bfs-theater-row {
+  appearance: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0.72rem 0.1rem;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: transparent;
+  color: var(--v2-fg);
+  text-align: left;
+  cursor: pointer;
+}
+
+.v2-bfs-theater-row.is-selected {
+  color: #ede9fe;
+}
+
+.v2-bfs-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 0.3rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: transparent;
+  flex-shrink: 0;
+}
+
+.v2-bfs-check.is-checked {
+  background: var(--v2-accent-soft);
+  color: #ddd6fe;
+}
+
+.v2-bfs-theater-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.v2-bfs-show-all {
+  appearance: none;
+  margin: 0.55rem 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--v2-accent);
+  font-size: 0.82rem;
+  font-weight: 550;
+  cursor: pointer;
+}
+
+.v2-bfs-segment-block + .v2-bfs-segment-block {
+  margin-top: 0.85rem;
+}
+
+.v2-bfs-segment-label {
+  margin: 0 0 0.35rem;
+  color: var(--v2-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.v2-bfs-segments {
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.2rem;
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.v2-bfs-segment {
+  appearance: none;
+  flex: 1;
+  margin: 0;
+  padding: 0.42rem 0.35rem;
+  border: 0;
+  border-radius: 0.55rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.72rem;
+  font-weight: 550;
+  cursor: pointer;
+}
+
+.v2-bfs-segment.is-selected {
+  background: rgba(139, 92, 246, 0.22);
+  color: #ede9fe;
+}
+
+.v2-bfs-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem var(--v2-gutter) calc(0.85rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: #12151e;
+}
+
+.v2-bfs-reset {
+  appearance: none;
+  margin: 0;
+  padding: 0.55rem 0.35rem;
+  border: 0;
+  background: transparent;
+  color: var(--v2-muted);
+  font-size: 0.9rem;
+  font-weight: 550;
+  cursor: pointer;
+}
+
+.v2-bfs-apply {
+  appearance: none;
+  margin: 0;
+  padding: 0.7rem 1.15rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--v2-accent);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
 /* Theater Picker (Custom Selection) */
 .v2-theater-select {
   position: fixed;

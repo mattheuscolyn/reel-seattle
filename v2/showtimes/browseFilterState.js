@@ -274,3 +274,122 @@ export function browseFiltersToLegacyUi(filters) {
     scrollY: filters.scrollY,
   };
 }
+
+/**
+ * Persistable Browse UI: legacy fields + canonical sheet fields.
+ * @param {BrowseFilters} filters
+ */
+export function browseFiltersToNavUi(filters) {
+  return {
+    ...browseFiltersToLegacyUi(filters),
+    dateSelection: {
+      mode: filters.dateSelection.mode,
+      startDate: filters.dateSelection.startDate,
+      endDate: filters.dateSelection.endDate,
+    },
+    time: {
+      preset: filters.time.preset,
+      customStartMin: filters.time.customStartMin,
+      customEndMin: filters.time.customEndMin,
+    },
+    favoritesOnly: filters.favoritesOnly === true,
+    savedMode: filters.savedMode,
+    seenMode: filters.seenMode,
+    notInterestedMode: filters.notInterestedMode,
+    sortMode: filters.sortMode,
+  };
+}
+
+/**
+ * Sheet-editable fields only (date + sort stay on the main page).
+ * @param {BrowseFilters} filters
+ */
+export function cloneBrowseSheetDraft(filters) {
+  const normalized = normalizeBrowseFilters(filters);
+  return {
+    time: {
+      preset: normalized.time.preset,
+      customStartMin: normalized.time.customStartMin,
+      customEndMin: normalized.time.customEndMin,
+    },
+    theaterIds: [...normalized.theaterIds],
+    favoritesOnly: normalized.favoritesOnly === true,
+    formatKeys: [...normalized.formatKeys],
+    savedMode: normalized.savedMode,
+    seenMode: normalized.seenMode,
+    notInterestedMode: normalized.notInterestedMode,
+  };
+}
+
+/**
+ * Reset sheet draft fields to defaults while preserving applied date/sort.
+ * @param {BrowseFilters} applied
+ */
+export function resetBrowseSheetDraft(applied) {
+  const base = normalizeBrowseFilters(applied);
+  return {
+    time: { preset: 'any', customStartMin: null, customEndMin: null },
+    theaterIds: [],
+    favoritesOnly: false,
+    formatKeys: [],
+    savedMode: 'any',
+    seenMode: 'any',
+    notInterestedMode: 'any',
+    // Carry date/sort only for preview merge convenience when callers need them.
+    dateSelection: { ...base.dateSelection },
+    sortMode: base.sortMode,
+  };
+}
+
+/**
+ * Merge applied filters with an in-sheet draft (Apply / preview).
+ * @param {BrowseFilters} applied
+ * @param {ReturnType<typeof cloneBrowseSheetDraft>} draft
+ */
+export function mergeBrowseSheetDraft(applied, draft) {
+  const base = normalizeBrowseFilters(applied);
+  const sheet = draft && typeof draft === 'object' ? draft : {};
+  return normalizeBrowseFilters({
+    ...base,
+    time: sheet.time ?? base.time,
+    theaterIds: Array.isArray(sheet.theaterIds)
+      ? sheet.theaterIds
+      : base.theaterIds,
+    favoritesOnly: sheet.favoritesOnly === true,
+    formatKeys: Array.isArray(sheet.formatKeys)
+      ? sheet.formatKeys
+      : base.formatKeys,
+    savedMode: sheet.savedMode ?? base.savedMode,
+    seenMode: sheet.seenMode ?? base.seenMode,
+    notInterestedMode: sheet.notInterestedMode ?? base.notInterestedMode,
+  });
+}
+
+/**
+ * @param {string | null | undefined} emptyReason
+ * @param {'today' | 'tomorrow' | 'week' | 'range' | string} [dateMode]
+ * @returns {string | null}
+ */
+export function browseEmptyMessageForReason(emptyReason, dateMode = 'today') {
+  if (!emptyReason || emptyReason === 'unavailable') return null;
+  if (emptyReason === 'no_date_results') {
+    if (dateMode === 'tomorrow') return 'No showtimes tomorrow.';
+    if (dateMode === 'week' || dateMode === 'range') {
+      return 'No showtimes found in the next 7 days.';
+    }
+    return 'No more showtimes today.';
+  }
+  if (emptyReason === 'saved_zero') {
+    return 'No saved films have showtimes in this period.';
+  }
+  if (emptyReason === 'favorites_empty') {
+    return 'Add favorite theaters to use this filter.';
+  }
+  if (
+    emptyReason === 'filtered_zero' ||
+    emptyReason === 'format_zero'
+  ) {
+    return 'No showtimes match these filters.';
+  }
+  return 'No showtimes match these filters.';
+}

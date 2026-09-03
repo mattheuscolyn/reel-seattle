@@ -1,16 +1,27 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 import { IconChevron } from '../icons.jsx';
+import { subscribeFilmStoreMutations } from '../auth/filmStoreMutationBridge.js';
+import BrowseFiltersSheet from '../showtimes/BrowseFiltersSheet.jsx';
 import ShowtimeActionSheet from '../showtimes/ShowtimeActionSheet.jsx';
 import { resolveBrowseShowtimeOpportunity } from '../showtimes/showtimeActionSheetModel.js';
 import {
+  countActiveBrowseFilterDimensions,
+} from '../showtimes/browseFilterEngine.js';
+import {
+  browseEmptyMessageForReason,
+  browseFiltersToNavUi,
+  createDefaultBrowseFilters,
+  normalizeBrowseFilters,
+} from '../showtimes/browseFilterState.js';
+import {
   SHOWTIMES_BROWSE_DATE_MODES,
   buildShowtimesBrowsePresentation,
-  createDefaultShowtimesBrowseUi,
 } from '../showtimes/showtimesBrowseModel.js';
 import {
   getScheduleSettings,
   subscribeScheduleSettings,
 } from '../stores/scheduleSettingsStore.js';
+import { subscribeFavoriteTheaters } from '../stores/favoriteTheatersStore.js';
 
 function getBrowserStorage() {
   try {
@@ -21,7 +32,7 @@ function getBrowserStorage() {
 }
 
 /**
- * City-wide Showtimes browser — film-grouped, date modes + filters.
+ * City-wide Showtimes browser — film-grouped, date modes + filter sheet.
  */
 export default function ShowtimesBrowseSurface({
   homeData,
@@ -38,25 +49,34 @@ export default function ShowtimesBrowseSurface({
   onAcceptedPlansChange = null,
 }) {
   const dateToolbarId = useId();
-  const filtersTitleId = useId();
-  const initial = browseUi ?? createDefaultShowtimesBrowseUi();
-
-  const [dateMode, setDateMode] = useState(initial.dateMode ?? 'today');
-  const [theaterIds, setTheaterIds] = useState(initial.theaterIds ?? []);
-  const [formatKeys, setFormatKeys] = useState(initial.formatKeys ?? []);
-  const [timeRangeId, setTimeRangeId] = useState(initial.timeRangeId ?? 'any');
-  const [expandedFilmKey, setExpandedFilmKey] = useState(
-    initial.expandedFilmKey ?? null,
+  const initial = normalizeBrowseFilters(
+    browseUi ?? createDefaultBrowseFilters(),
   );
+
+  const [appliedFilters, setAppliedFilters] = useState(initial);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [settingsTick, setSettingsTick] = useState(0);
+  const [storeTick, setStoreTick] = useState(0);
   const [actionSheet, setActionSheet] = useState(null);
+
   useEffect(
     () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
     [],
   );
+  useEffect(
+    () =>
+      subscribeFilmStoreMutations(() => setStoreTick((n) => n + 1)),
+    [],
+  );
+  useEffect(
+    () => subscribeFavoriteTheaters(() => setStoreTick((n) => n + 1)),
+    [],
+  );
   void settingsTick;
-  const timeFormatId = getScheduleSettings(getBrowserStorage()).timeFormatId;
+  void storeTick;
+
+  const storage = getBrowserStorage();
+  const timeFormatId = getScheduleSettings(storage).timeFormatId;
 
   useEffect(() => {
     const y = browseUi?.scrollY;
@@ -65,90 +85,74 @@ export default function ShowtimesBrowseSurface({
     }
   }, []); // restore once on mount
 
-  const emitUi = (patch) => {
-    const next = {
-      dateMode,
-      theaterIds,
-      formatKeys,
-      timeRangeId,
-      expandedFilmKey,
+  const emitUi = (nextFilters, patch = {}) => {
+    const merged = normalizeBrowseFilters({
+      ...nextFilters,
+      ...patch,
       scrollY:
         typeof window !== 'undefined' && Number.isFinite(window.scrollY)
           ? window.scrollY
-          : 0,
-      ...patch,
-    };
-    onBrowseUiChange?.(next);
-    return next;
+          : nextFilters.scrollY ?? 0,
+    });
+    const navUi = browseFiltersToNavUi(merged);
+    onBrowseUiChange?.(navUi);
+    return merged;
   };
 
   const presentation = useMemo(
     () =>
-      buildShowtimesBrowsePresentation(
-        homeData,
-        {
-          dateMode,
-          theaterIds,
-          formatKeys,
-          timeRangeId,
-          expandedFilmKey,
-        },
-        { enrichmentIndex, timeFormatId },
-      ),
+      buildShowtimesBrowsePresentation(homeData, appliedFilters, {
+        enrichmentIndex,
+        timeFormatId,
+        storage,
+      }),
     [
       homeData,
       enrichmentIndex,
-      dateMode,
-      theaterIds,
-      formatKeys,
-      timeRangeId,
-      expandedFilmKey,
+      appliedFilters,
       timeFormatId,
+      storage,
+      storeTick,
     ],
   );
 
+  const activeFilterCount = countActiveBrowseFilterDimensions(appliedFilters);
+  const dateMode = appliedFilters.dateSelection.mode;
+
   const setDate = (nextMode) => {
-    setDateMode(nextMode);
-    setExpandedFilmKey(null);
-    emitUi({ dateMode: nextMode, expandedFilmKey: null });
-  };
-
-  const resetFilters = () => {
-    setTheaterIds([]);
-    setFormatKeys([]);
-    setTimeRangeId('any');
-    emitUi({ theaterIds: [], formatKeys: [], timeRangeId: 'any' });
-  };
-
-  const toggleTheater = (id) => {
-    setTheaterIds((prev) => {
-      const next = prev.includes(id)
-        ? prev.filter((x) => x !== id)
-        : [...prev, id];
-      emitUi({ theaterIds: next });
+    setAppliedFilters((prev) => {
+      const next = normalizeBrowseFilters({
+        ...prev,
+        dateMode: nextMode,
+        expandedFilmKey: null,
+      });
+      emitUi(next);
       return next;
     });
   };
 
-  const toggleFormat = (key) => {
-    setFormatKeys((prev) => {
-      const next = prev.includes(key)
-        ? prev.filter((x) => x !== key)
-        : [...prev, key];
-      emitUi({ formatKeys: next });
+  const resetAppliedSheetFilters = () => {
+    setAppliedFilters((prev) => {
+      const next = normalizeBrowseFilters({
+        ...prev,
+        time: { preset: 'any', customStartMin: null, customEndMin: null },
+        theaterIds: [],
+        favoritesOnly: false,
+        formatKeys: [],
+        savedMode: 'any',
+        seenMode: 'any',
+        notInterestedMode: 'any',
+      });
+      emitUi(next);
       return next;
     });
-  };
-
-  const setTime = (id) => {
-    setTimeRangeId(id);
-    emitUi({ timeRangeId: id });
   };
 
   const toggleExpand = (filmKey) => {
-    setExpandedFilmKey((prev) => {
-      const next = prev === filmKey ? null : filmKey;
-      emitUi({ expandedFilmKey: next });
+    setAppliedFilters((prev) => {
+      const nextKey = prev.expandedFilmKey === filmKey ? null : filmKey;
+      const next = { ...prev, expandedFilmKey: nextKey };
+      emitUi(next);
       return next;
     });
   };
@@ -156,7 +160,9 @@ export default function ShowtimesBrowseSurface({
   const captureReturnSurface = () => ({
     type: 'showtimes-browse',
     originPrimary,
-    browseUi: emitUi({}),
+    browseUi: browseFiltersToNavUi(
+      emitUi(appliedFilters, {}),
+    ),
   });
 
   const openShowtimeActions = (film, row) => {
@@ -173,6 +179,13 @@ export default function ShowtimesBrowseSurface({
   };
 
   const closeShowtimeActions = () => setActionSheet(null);
+
+  const emptyMessage =
+    presentation.emptyMessage ??
+    browseEmptyMessageForReason(
+      presentation.emptyReason,
+      appliedFilters.dateSelection.mode,
+    );
 
   if (loadStatus === 'loading') {
     return (
@@ -245,135 +258,38 @@ export default function ShowtimesBrowseSurface({
         <button
           type="button"
           className={
-            presentation.hasActiveFilters
+            activeFilterCount > 0
               ? 'v2-stb-filter-btn is-active'
               : 'v2-stb-filter-btn'
           }
           aria-expanded={filtersOpen}
-          aria-controls={filtersOpen ? filtersTitleId : undefined}
-          onClick={() => setFiltersOpen((v) => !v)}
+          aria-haspopup="dialog"
+          onClick={() => setFiltersOpen(true)}
         >
-          Filters
-          {presentation.hasActiveFilters ? ' · On' : ''}
+          {activeFilterCount > 0
+            ? `Filters · ${activeFilterCount}`
+            : 'Filters'}
         </button>
-        {presentation.hasActiveFilters ? (
-          <button
-            type="button"
-            className="v2-stb-reset"
-            onClick={resetFilters}
-          >
-            Reset filters
-          </button>
-        ) : null}
       </div>
 
-      {filtersOpen ? (
-        <div
-          className="v2-stb-filters"
-          id={filtersTitleId}
-          role="region"
-          aria-label="Showtimes filters"
-        >
-          <fieldset className="v2-stb-fieldset">
-            <legend>Theater</legend>
-            <div className="v2-stb-chip-row" role="group" aria-label="Theaters">
-              <button
-                type="button"
-                className={
-                  theaterIds.length === 0
-                    ? 'v2-search-chip v2-search-chip-active'
-                    : 'v2-search-chip'
-                }
-                aria-pressed={theaterIds.length === 0}
-                onClick={() => {
-                  setTheaterIds([]);
-                  emitUi({ theaterIds: [] });
-                }}
-              >
-                All theaters
-              </button>
-              {presentation.theaterOptions.map((t) => (
-                <button
-                  key={t.id}
-                  type="button"
-                  className={
-                    theaterIds.includes(t.id)
-                      ? 'v2-search-chip v2-search-chip-active'
-                      : 'v2-search-chip'
-                  }
-                  aria-pressed={theaterIds.includes(t.id)}
-                  onClick={() => toggleTheater(t.id)}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-
-          <fieldset className="v2-stb-fieldset">
-            <legend>Format</legend>
-            <div className="v2-stb-chip-row" role="group" aria-label="Formats">
-              <button
-                type="button"
-                className={
-                  formatKeys.length === 0
-                    ? 'v2-search-chip v2-search-chip-active'
-                    : 'v2-search-chip'
-                }
-                aria-pressed={formatKeys.length === 0}
-                onClick={() => {
-                  setFormatKeys([]);
-                  emitUi({ formatKeys: [] });
-                }}
-              >
-                All formats
-              </button>
-              {presentation.formatOptions.map((f) => (
-                <button
-                  key={f.key}
-                  type="button"
-                  className={
-                    formatKeys.includes(f.key)
-                      ? 'v2-search-chip v2-search-chip-active'
-                      : 'v2-search-chip'
-                  }
-                  aria-pressed={formatKeys.includes(f.key)}
-                  onClick={() => toggleFormat(f.key)}
-                >
-                  {f.label}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-
-          <fieldset className="v2-stb-fieldset">
-            <legend>Time</legend>
-            <div className="v2-stb-chip-row" role="group" aria-label="Time of day">
-              {presentation.timeRangeOptions.map((range) => (
-                <button
-                  key={range.id}
-                  type="button"
-                  className={
-                    timeRangeId === range.id
-                      ? 'v2-search-chip v2-search-chip-active'
-                      : 'v2-search-chip'
-                  }
-                  aria-pressed={timeRangeId === range.id}
-                  onClick={() => setTime(range.id)}
-                >
-                  {range.label}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-        </div>
-      ) : null}
-
-      {presentation.emptyMessage ? (
+      {emptyMessage ? (
         <div className="v2-stb-empty" role="status">
-          <p>{presentation.emptyMessage}</p>
+          <p>{emptyMessage}</p>
           {presentation.showResetFilters ? (
-            <button type="button" className="v2-stb-reset" onClick={resetFilters}>
+            <button
+              type="button"
+              className="v2-stb-reset"
+              onClick={() => setFiltersOpen(true)}
+            >
+              Edit filters
+            </button>
+          ) : null}
+          {presentation.showResetFilters ? (
+            <button
+              type="button"
+              className="v2-stb-reset"
+              onClick={resetAppliedSheetFilters}
+            >
               Reset filters
             </button>
           ) : null}
@@ -381,7 +297,7 @@ export default function ShowtimesBrowseSurface({
       ) : (
         <ul className="v2-stb-films" role="list">
           {presentation.films.map((film) => {
-            const expanded = expandedFilmKey === film.filmKey;
+            const expanded = appliedFilters.expandedFilmKey === film.filmKey;
             return (
               <li key={film.filmKey} className="v2-stb-film">
                 <div className="v2-stb-film-head">
@@ -395,7 +311,11 @@ export default function ShowtimesBrowseSurface({
                           film.showtimes[0]?.opportunityKey ?? null,
                         returnSurface: {
                           ...captureReturnSurface(),
-                          browseUi: emitUi({ expandedFilmKey: film.filmKey }),
+                          browseUi: browseFiltersToNavUi(
+                            emitUi(appliedFilters, {
+                              expandedFilmKey: film.filmKey,
+                            }),
+                          ),
                         },
                       })
                     }
@@ -523,6 +443,24 @@ export default function ShowtimesBrowseSurface({
           })}
         </ul>
       )}
+
+      <BrowseFiltersSheet
+        open={filtersOpen}
+        appliedFilters={appliedFilters}
+        homeData={homeData}
+        enrichmentIndex={enrichmentIndex}
+        storage={storage}
+        onClose={() => setFiltersOpen(false)}
+        onApply={(nextFilters) => {
+          const next = normalizeBrowseFilters({
+            ...nextFilters,
+            expandedFilmKey: null,
+          });
+          setAppliedFilters(next);
+          emitUi(next);
+          setFiltersOpen(false);
+        }}
+      />
 
       <ShowtimeActionSheet
         open={Boolean(actionSheet)}
