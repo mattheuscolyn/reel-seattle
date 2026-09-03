@@ -130,18 +130,106 @@ export function resolveShowtimesBrowseDateWindow(dateMode, now = new Date()) {
 }
 
 /**
- * Whether an opportunity is eligible for the browse surface under a date mode.
- * Excludes past Pacific dates, already-passed Today times, unparseable times,
- * and opportunities without a resolvable filmKey in filmsByKey.
+ * @typedef {{ minDate: string | null, maxDate: string | null }} BrowseDateHorizon
+ * @typedef {{ startDate: string, endDate: string, today: string }} BrowseDateBounds
+ */
+
+/**
+ * @param {object | null | undefined} homeData
+ * @returns {BrowseDateHorizon}
+ */
+export function getBrowseOpportunityDateHorizon(homeData) {
+  const opportunities = Array.isArray(homeData?.opportunities)
+    ? homeData.opportunities
+    : [];
+  /** @type {string | null} */
+  let minDate = null;
+  /** @type {string | null} */
+  let maxDate = null;
+  for (const opp of opportunities) {
+    const localDate = opp?.localDate;
+    if (typeof localDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(localDate)) {
+      continue;
+    }
+    if (!minDate || localDate < minDate) minDate = localDate;
+    if (!maxDate || localDate > maxDate) maxDate = localDate;
+  }
+  return { minDate, maxDate };
+}
+
+/**
+ * @param {{ mode?: string, startDate?: string, endDate?: string }} dateSelection
+ * @param {Date | (() => Date)} [now]
+ * @returns {BrowseDateBounds}
+ */
+export function resolveBrowseDateBounds(dateSelection, now = new Date()) {
+  const today = pacificDateString(resolveNow(now));
+  const mode =
+    typeof dateSelection?.mode === 'string' ? dateSelection.mode : 'today';
+  if (mode === 'tomorrow') {
+    return resolveShowtimesBrowseDateWindow('tomorrow', now);
+  }
+  if (mode === 'week') {
+    return resolveShowtimesBrowseDateWindow('week', now);
+  }
+  if (mode === 'range') {
+    let startDate =
+      typeof dateSelection.startDate === 'string' &&
+      /^\d{4}-\d{2}-\d{2}$/.test(dateSelection.startDate)
+        ? dateSelection.startDate
+        : today;
+    let endDate =
+      typeof dateSelection.endDate === 'string' &&
+      /^\d{4}-\d{2}-\d{2}$/.test(dateSelection.endDate)
+        ? dateSelection.endDate
+        : startDate;
+    if (endDate < startDate) {
+      const swap = startDate;
+      startDate = endDate;
+      endDate = swap;
+    }
+    return { startDate, endDate, today };
+  }
+  return resolveShowtimesBrowseDateWindow('today', now);
+}
+
+/**
+ * Clamp requested bounds to available opportunity dates.
+ * @param {BrowseDateBounds} bounds
+ * @param {BrowseDateHorizon} horizon
+ * @returns {BrowseDateBounds & { hasIntersection: boolean }}
+ */
+export function clampBrowseDateBounds(bounds, horizon) {
+  if (!horizon.minDate || !horizon.maxDate) {
+    return { ...bounds, hasIntersection: true };
+  }
+  const startDate =
+    bounds.startDate < horizon.minDate ? horizon.minDate : bounds.startDate;
+  const endDate =
+    bounds.endDate > horizon.maxDate ? horizon.maxDate : bounds.endDate;
+  return {
+    startDate,
+    endDate,
+    today: bounds.today,
+    hasIntersection: startDate <= endDate,
+  };
+}
+
+/**
+ * Whether an opportunity is eligible under inclusive date bounds.
+ * Excludes past Pacific dates, already-passed times on Pacific today only,
+ * unparseable times, and opportunities without a resolvable filmKey.
  *
  * @param {object} opportunity
  * @param {{
- *   dateMode: ShowtimesBrowseDateMode,
+ *   startDate: string,
+ *   endDate: string,
+ *   today: string,
  *   filmsByKey: Map<string, object> | Record<string, object>,
  *   now?: Date | (() => Date),
  * }} options
  */
-export function isEligibleBrowseOpportunity(opportunity, options) {
+export function isEligibleBrowseOpportunityForDateBounds(opportunity, options) {
   if (!opportunity || typeof opportunity !== 'object') return false;
   const filmKey =
     typeof opportunity.filmKey === 'string' ? opportunity.filmKey.trim() : '';
@@ -162,19 +250,91 @@ export function isEligibleBrowseOpportunity(opportunity, options) {
   const sortable = opportunitySortableKey(opportunity);
   if (!sortable) return false;
 
-  const { startDate, endDate, today } = resolveShowtimesBrowseDateWindow(
-    options.dateMode,
-    options.now,
-  );
+  const { startDate, endDate, today } = options;
   if (localDate < startDate || localDate > endDate) return false;
 
   const nowKey = pacificSortableDateTime(options.now);
-  // Drop anything already started (Today and the "today" portion of This week).
   if (localDate === today && sortable < nowKey) return false;
-  // Never include past calendar days.
   if (localDate < today) return false;
 
   return true;
+}
+
+/**
+ * Whether an opportunity is eligible for the browse surface under a date mode.
+ * Excludes past Pacific dates, already-passed Today times, unparseable times,
+ * and opportunities without a resolvable filmKey in filmsByKey.
+ *
+ * @param {object} opportunity
+ * @param {{
+ *   dateMode: ShowtimesBrowseDateMode,
+ *   filmsByKey: Map<string, object> | Record<string, object>,
+ *   now?: Date | (() => Date),
+ * }} options
+ */
+export function isEligibleBrowseOpportunity(opportunity, options) {
+  const bounds = resolveShowtimesBrowseDateWindow(options.dateMode, options.now);
+  return isEligibleBrowseOpportunityForDateBounds(opportunity, {
+    ...bounds,
+    filmsByKey: options.filmsByKey,
+    now: options.now,
+  });
+}
+
+/**
+ * Filter + dedupe eligible opportunities for a canonical date selection.
+ * @param {object | null | undefined} homeData
+ * @param {{ mode?: string, startDate?: string, endDate?: string }} dateSelection
+ * @param {Date | (() => Date)} [now]
+ * @returns {object[]}
+ */
+export function listEligibleBrowseOpportunitiesForDateSelection(
+  homeData,
+  dateSelection,
+  now = new Date(),
+) {
+  const horizon = getBrowseOpportunityDateHorizon(homeData);
+  const bounds = resolveBrowseDateBounds(dateSelection, now);
+  const clamped = clampBrowseDateBounds(bounds, horizon);
+  if (!clamped.hasIntersection) return [];
+
+  const opportunities = Array.isArray(homeData?.opportunities)
+    ? homeData.opportunities
+    : [];
+  const filmsByKey = new Map(
+    (Array.isArray(homeData?.films) ? homeData.films : []).map((f) => [
+      f.filmKey,
+      f,
+    ]),
+  );
+
+  /** @type {Map<string, object>} */
+  const seen = new Map();
+  for (const opp of opportunities) {
+    if (
+      !isEligibleBrowseOpportunityForDateBounds(opp, {
+        startDate: clamped.startDate,
+        endDate: clamped.endDate,
+        today: clamped.today,
+        filmsByKey,
+        now,
+      })
+    ) {
+      continue;
+    }
+    const dedupe = opportunityDedupeKey(opp);
+    if (seen.has(dedupe)) continue;
+    seen.set(dedupe, opp);
+  }
+
+  return [...seen.values()].sort((a, b) => {
+    const ka = opportunitySortableKey(a) ?? '';
+    const kb = opportunitySortableKey(b) ?? '';
+    if (ka !== kb) return ka < kb ? -1 : 1;
+    return String(a.opportunityKey ?? '').localeCompare(
+      String(b.opportunityKey ?? ''),
+    );
+  });
 }
 
 /**
