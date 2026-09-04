@@ -374,7 +374,8 @@ export function browseEmptyMessageForReason(emptyReason, dateMode = 'today') {
   if (!emptyReason || emptyReason === 'unavailable') return null;
   if (emptyReason === 'no_date_results') {
     if (dateMode === 'tomorrow') return 'No showtimes tomorrow.';
-    if (dateMode === 'week' || dateMode === 'range') {
+    if (dateMode === 'range') return 'No showtimes on these dates.';
+    if (dateMode === 'week') {
       return 'No showtimes found in the next 7 days.';
     }
     return 'No more showtimes today.';

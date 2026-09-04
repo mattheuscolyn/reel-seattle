@@ -2,7 +2,6 @@
  * Browse All Showtimes filter evaluation engine — single path for page, sheet preview, counts.
  */
 
-import { formatCompactDateLabel } from '../explore/exploreCatalog.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 import { getFavoriteTheaters } from '../stores/favoriteTheatersStore.js';
 import { isFilmNotInterested } from '../stores/notInterestedFilmsStore.js';
@@ -11,6 +10,7 @@ import { isFilmSeen } from '../stores/seenFilmsStore.js';
 import {
   normalizeBrowseFilters,
 } from './browseFilterState.js';
+import { formatBrowseDateSummaryPhrase } from './browseDateSortUtils.js';
 import {
   clampBrowseDateBounds,
   getBrowseOpportunityDateHorizon,
@@ -282,19 +282,7 @@ export function buildBrowseFilterSummaryPhrases(filters, options = {}) {
   const phrases = [];
 
   const { dateSelection, time } = filters;
-  if (dateSelection.mode === 'today') {
-    phrases.push('Today');
-  } else if (dateSelection.mode === 'tomorrow') {
-    phrases.push('Tomorrow');
-  } else if (dateSelection.mode === 'week') {
-    phrases.push('This week');
-  } else if (dateSelection.startDate === dateSelection.endDate) {
-    phrases.push(formatCompactDateLabel(dateSelection.startDate));
-  } else {
-    phrases.push(
-      `${formatCompactDateLabel(dateSelection.startDate)}–${formatCompactDateLabel(dateSelection.endDate)}`,
-    );
-  }
+  phrases.push(formatBrowseDateSummaryPhrase(dateSelection));
 
   if (time.preset !== 'any') {
     if (time.preset === 'custom') {
@@ -319,16 +307,6 @@ export function buildBrowseFilterSummaryPhrases(filters, options = {}) {
     phrases.push('Favorites');
   }
 
-  if (filters.formatKeys.length === 1) {
-    const key = filters.formatKeys[0];
-    phrases.push(
-      normalizeBrowseFormat(key)?.label ??
-        key.charAt(0).toUpperCase() + key.slice(1),
-    );
-  } else if (filters.formatKeys.length > 1) {
-    phrases.push(`${filters.formatKeys.length} formats`);
-  }
-
   if (filters.savedMode !== 'any') {
     phrases.push(SAVED_MODE_LABELS[filters.savedMode] ?? filters.savedMode);
   }
@@ -340,6 +318,16 @@ export function buildBrowseFilterSummaryPhrases(filters, options = {}) {
       NOT_INTERESTED_MODE_LABELS[filters.notInterestedMode] ??
         filters.notInterestedMode,
     );
+  }
+
+  if (filters.formatKeys.length === 1) {
+    const key = filters.formatKeys[0];
+    phrases.push(
+      normalizeBrowseFormat(key)?.label ??
+        key.charAt(0).toUpperCase() + key.slice(1),
+    );
+  } else if (filters.formatKeys.length > 1) {
+    phrases.push(`${filters.formatKeys.length} formats`);
   }
 
   if (phrases.length <= maxPhrases) {

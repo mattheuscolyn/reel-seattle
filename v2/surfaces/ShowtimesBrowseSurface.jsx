@@ -1,16 +1,20 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 import { IconChevron } from '../icons.jsx';
 import { subscribeFilmStoreMutations } from '../auth/filmStoreMutationBridge.js';
+import BrowseDatePickerSheet from '../showtimes/BrowseDatePickerSheet.jsx';
 import BrowseFiltersSheet from '../showtimes/BrowseFiltersSheet.jsx';
+import BrowseSortSheet from '../showtimes/BrowseSortSheet.jsx';
 import ShowtimeActionSheet from '../showtimes/ShowtimeActionSheet.jsx';
 import { resolveBrowseShowtimeOpportunity } from '../showtimes/showtimeActionSheetModel.js';
 import {
+  buildBrowseFilterSummaryPhrases,
   countActiveBrowseFilterDimensions,
 } from '../showtimes/browseFilterEngine.js';
 import {
   browseEmptyMessageForReason,
   browseFiltersToNavUi,
   createDefaultBrowseFilters,
+  dateModeToDateSelection,
   normalizeBrowseFilters,
 } from '../showtimes/browseFilterState.js';
 import {
@@ -32,7 +36,7 @@ function getBrowserStorage() {
 }
 
 /**
- * City-wide Showtimes browser — film-grouped, date modes + filter sheet.
+ * City-wide Showtimes browser — film-grouped, Dates + Filters + Sort.
  */
 export default function ShowtimesBrowseSurface({
   homeData,
@@ -55,6 +59,8 @@ export default function ShowtimesBrowseSurface({
 
   const [appliedFilters, setAppliedFilters] = useState(initial);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [datesOpen, setDatesOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
   const [settingsTick, setSettingsTick] = useState(0);
   const [storeTick, setStoreTick] = useState(0);
   const [actionSheet, setActionSheet] = useState(null);
@@ -64,8 +70,7 @@ export default function ShowtimesBrowseSurface({
     [],
   );
   useEffect(
-    () =>
-      subscribeFilmStoreMutations(() => setStoreTick((n) => n + 1)),
+    () => subscribeFilmStoreMutations(() => setStoreTick((n) => n + 1)),
     [],
   );
   useEffect(
@@ -94,8 +99,7 @@ export default function ShowtimesBrowseSurface({
           ? window.scrollY
           : nextFilters.scrollY ?? 0,
     });
-    const navUi = browseFiltersToNavUi(merged);
-    onBrowseUiChange?.(navUi);
+    onBrowseUiChange?.(browseFiltersToNavUi(merged));
     return merged;
   };
 
@@ -118,17 +122,61 @@ export default function ShowtimesBrowseSurface({
 
   const activeFilterCount = countActiveBrowseFilterDimensions(appliedFilters);
   const dateMode = appliedFilters.dateSelection.mode;
+  const datesSelected = dateMode === 'range';
 
-  const setDate = (nextMode) => {
+  const theaterNameById = useMemo(() => {
+    /** @type {Record<string, string>} */
+    const map = {};
+    for (const option of presentation.theaterOptions ?? []) {
+      map[option.id] = option.label;
+    }
+    return map;
+  }, [presentation.theaterOptions]);
+
+  const summary = useMemo(
+    () =>
+      buildBrowseFilterSummaryPhrases(appliedFilters, {
+        theaterNameById,
+        maxPhrases: 4,
+      }),
+    [appliedFilters, theaterNameById],
+  );
+
+  const setQuickDate = (nextMode) => {
     setAppliedFilters((prev) => {
       const next = normalizeBrowseFilters({
         ...prev,
-        dateMode: nextMode,
+        dateSelection: dateModeToDateSelection(nextMode),
         expandedFilmKey: null,
       });
       emitUi(next);
       return next;
     });
+  };
+
+  const applyDateSelection = (dateSelection) => {
+    setAppliedFilters((prev) => {
+      const next = normalizeBrowseFilters({
+        ...prev,
+        dateSelection,
+        expandedFilmKey: null,
+      });
+      emitUi(next);
+      return next;
+    });
+    setDatesOpen(false);
+  };
+
+  const applySortMode = (sortMode) => {
+    setAppliedFilters((prev) => {
+      const next = normalizeBrowseFilters({
+        ...prev,
+        sortMode,
+      });
+      emitUi(next);
+      return next;
+    });
+    setSortOpen(false);
   };
 
   const resetAppliedSheetFilters = () => {
@@ -160,9 +208,7 @@ export default function ShowtimesBrowseSurface({
   const captureReturnSurface = () => ({
     type: 'showtimes-browse',
     originPrimary,
-    browseUi: browseFiltersToNavUi(
-      emitUi(appliedFilters, {}),
-    ),
+    browseUi: browseFiltersToNavUi(emitUi(appliedFilters, {})),
   });
 
   const openShowtimeActions = (film, row) => {
@@ -186,6 +232,8 @@ export default function ShowtimesBrowseSurface({
       presentation.emptyReason,
       appliedFilters.dateSelection.mode,
     );
+
+  const showDateLabels = dateMode === 'week' || dateMode === 'range';
 
   if (loadStatus === 'loading') {
     return (
@@ -247,11 +295,25 @@ export default function ShowtimesBrowseSurface({
                 : 'v2-search-chip'
             }
             aria-pressed={dateMode === mode.id}
-            onClick={() => setDate(mode.id)}
+            onClick={() => setQuickDate(mode.id)}
           >
             {mode.label}
           </button>
         ))}
+        <button
+          type="button"
+          className={
+            datesSelected
+              ? 'v2-search-chip v2-search-chip-active'
+              : 'v2-search-chip'
+          }
+          aria-pressed={datesSelected}
+          aria-haspopup="dialog"
+          aria-expanded={datesOpen}
+          onClick={() => setDatesOpen(true)}
+        >
+          Dates
+        </button>
       </div>
 
       <div className="v2-stb-filter-bar">
@@ -270,7 +332,23 @@ export default function ShowtimesBrowseSurface({
             ? `Filters · ${activeFilterCount}`
             : 'Filters'}
         </button>
+        <button
+          type="button"
+          className="v2-stb-sort-btn"
+          aria-haspopup="dialog"
+          aria-expanded={sortOpen}
+          aria-label={`Sort showtimes, currently ${appliedFilters.sortMode}`}
+          onClick={() => setSortOpen(true)}
+        >
+          Sort
+        </button>
       </div>
+
+      {summary.summary ? (
+        <p className="v2-stb-summary" aria-live="polite">
+          {summary.summary}
+        </p>
+      ) : null}
 
       {emptyMessage ? (
         <div className="v2-stb-empty" role="status">
@@ -381,7 +459,7 @@ export default function ShowtimesBrowseSurface({
                   >
                     {film.dateGroups.map((group) => (
                       <div key={group.localDate} className="v2-stb-date-group">
-                        {dateMode === 'week' ? (
+                        {showDateLabels ? (
                           <h3 className="v2-stb-date-label">{group.dateLabel}</h3>
                         ) : null}
                         {group.theaters.map((theater) => (
@@ -418,7 +496,9 @@ export default function ShowtimesBrowseSurface({
                                     <button
                                       type="button"
                                       className="v2-stb-time"
-                                      onClick={() => openShowtimeActions(film, st)}
+                                      onClick={() =>
+                                        openShowtimeActions(film, st)
+                                      }
                                       aria-label={`${ariaLabel} — show actions`}
                                     >
                                       <span>{st.timeDisplay}</span>
@@ -460,6 +540,21 @@ export default function ShowtimesBrowseSurface({
           emitUi(next);
           setFiltersOpen(false);
         }}
+      />
+
+      <BrowseDatePickerSheet
+        open={datesOpen}
+        appliedFilters={appliedFilters}
+        homeData={homeData}
+        onClose={() => setDatesOpen(false)}
+        onApply={applyDateSelection}
+      />
+
+      <BrowseSortSheet
+        open={sortOpen}
+        sortMode={appliedFilters.sortMode}
+        onClose={() => setSortOpen(false)}
+        onSelect={applySortMode}
       />
 
       <ShowtimeActionSheet

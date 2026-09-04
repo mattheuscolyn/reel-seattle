@@ -26,6 +26,7 @@ import {
   browseEmptyMessageForReason,
   normalizeBrowseFilters,
 } from './browseFilterState.js';
+import { formatBrowseDateSummaryPhrase } from './browseDateSortUtils.js';
 
 export const SHOWTIMES_BROWSE_DATE_MODES = Object.freeze([
   Object.freeze({ id: 'today', label: 'Today' }),
@@ -382,10 +383,7 @@ export function buildShowtimesBrowsePresentation(
   const storage = options.storage ?? null;
 
   const filters = normalizeBrowseFilters(ui, now);
-  const dateMode =
-    filters.dateSelection.mode === 'range'
-      ? 'week'
-      : filters.dateSelection.mode;
+  const dateMode = filters.dateSelection.mode;
   const window = resolveBrowseDateBounds(filters.dateSelection, now);
   const evaluation = evaluateBrowseFilters(homeData, filters, {
     now,
@@ -422,6 +420,8 @@ export function buildShowtimesBrowsePresentation(
     windowLabel = `${formatCompactDateRange(window.startDate, window.endDate)}`;
   } else if (dateMode === 'today' || dateMode === 'tomorrow') {
     windowLabel = formatCompactDateLabel(window.startDate);
+  } else if (dateMode === 'range') {
+    windowLabel = formatBrowseDateSummaryPhrase(filters.dateSelection);
   }
 
   return {
