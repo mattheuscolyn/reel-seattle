@@ -94,12 +94,11 @@ test('time format preference persists across rehydration', () => {
   assert.equal(getScheduleSettings(storage).timeFormatId, '12h');
 });
 
-test('Profile exposes a live Time format control wired to schedule settings', () => {
-  assert.match(PROFILE_SRC, /data-profile-setting="time-format"/);
-  assert.match(PROFILE_SRC, /Time format/);
-  assert.match(PROFILE_SRC, /updateScheduleSettings/);
-  assert.match(PROFILE_SRC, /SCHEDULE_SETTINGS_TIME_FORMATS/);
-  assert.match(PROFILE_SRC, /12-hour with AM\/PM/);
+test('Profile no longer exposes Time format on the Profile root', () => {
+  assert.equal(PROFILE_SRC.includes('data-profile-setting="time-format"'), false);
+  assert.equal(PROFILE_SRC.includes('Time format'), false);
+  assert.equal(PROFILE_SRC.includes('updateScheduleSettings'), false);
+  assert.equal(PROFILE_SRC.includes('SCHEDULE_SETTINGS_TIME_FORMATS'), false);
 });
 
 test('Build a Plan JSX order is When → Where → What → Fine tuning', () => {

@@ -35,7 +35,7 @@ export const PRIMARY_DESTINATIONS = Object.freeze([
     label: 'Profile',
     title: 'Profile',
     description:
-      'Stage 1 Profile hub — fixture-backed visual replica of the canonical Profile mockup. Local-store production wiring deferred.',
+      'Personal hub — identity, Your Films, favorite theaters, and settings.',
   }),
 ]);
 
@@ -114,7 +114,24 @@ export function resolveActivePrimaryId(nav) {
     if (nav.surface.collectionId === 'opening-this-week') {
       return resolveDestinationId(nav.surface.originPrimary ?? primary);
     }
+    const origin = resolveDestinationId(nav.surface.originPrimary ?? primary);
+    if (origin === 'profile') return 'profile';
     return 'explore';
   }
   return primary;
+}
+
+/**
+ * Chrome back label for a nested surface's origin primary.
+ * Home/Explore/Planner/Profile only — never invent a fifth destination.
+ *
+ * @param {string | null | undefined} originPrimary
+ * @param {string} [fallback]
+ */
+export function originBackLabel(originPrimary, fallback = 'Explore') {
+  const origin = resolveDestinationId(originPrimary);
+  if (origin === 'home') return 'Home';
+  if (origin === 'profile') return 'Profile';
+  if (origin === 'planner') return 'Planner';
+  return fallback;
 }

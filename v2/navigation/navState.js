@@ -319,14 +319,18 @@ export function openCollection(state, params) {
   if (!EXPLORE_SURFACE_IDS.has(collectionId)) {
     return state;
   }
+  const originPrimary = resolveDestinationId(params.originPrimary ?? 'explore');
   return {
     ...state,
-    primaryDestinationId: 'explore',
+    // Profile-origin collections keep Profile as the primary destination.
+    // Home/Explore origins still land on Explore (Opening This Week tab
+    // highlight is handled separately in resolveActivePrimaryId).
+    primaryDestinationId: originPrimary === 'profile' ? 'profile' : 'explore',
     plannerSeed: null,
     surface: {
       type: 'collection',
       collectionId,
-      originPrimary: resolveDestinationId(params.originPrimary ?? 'explore'),
+      originPrimary,
       query: params.query ?? null,
       exploreRestore: params.exploreRestore ?? null,
       searchUi: params.searchUi ?? null,

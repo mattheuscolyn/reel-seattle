@@ -1,5 +1,5 @@
 /**
- * Profile settings row stubs (labels only — destinations not implemented yet).
+ * Profile settings row stubs (labels only — nested destinations in Slice 2).
  */
 
 export const PROFILE_SETTINGS_SECTION_TITLE = 'Settings';
@@ -11,18 +11,13 @@ export const PROFILE_SETTINGS_ROWS = Object.freeze([
     icon: 'bell',
   }),
   Object.freeze({
-    id: 'accessibility',
-    label: 'Accessibility',
-    icon: 'accessibility',
-  }),
-  Object.freeze({
-    id: 'appearance',
-    label: 'Appearance',
-    icon: 'sun',
+    id: 'preferences',
+    label: 'Preferences',
+    icon: 'clock',
   }),
   Object.freeze({
     id: 'privacy',
-    label: 'Privacy & Data',
+    label: 'Privacy & Sharing',
     icon: 'lock',
   }),
   Object.freeze({
@@ -31,9 +26,9 @@ export const PROFILE_SETTINGS_ROWS = Object.freeze([
     icon: 'shield',
   }),
   Object.freeze({
-    id: 'connected',
-    label: 'Connected Services',
-    icon: 'link',
+    id: 'calendar',
+    label: 'Calendar',
+    icon: 'calendar',
   }),
   Object.freeze({
     id: 'about',

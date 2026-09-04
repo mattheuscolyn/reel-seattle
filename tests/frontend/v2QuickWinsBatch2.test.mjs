@@ -308,14 +308,14 @@ test('Theater list Favorite toggles and persists via favoriteTheatersStore', () 
   assert.equal(isTheaterFavorite(storage, ref), false);
 });
 
-test('TMDB attribution stays on the shared component for Opening and Profile', () => {
+test('TMDB attribution stays on the shared Opening component', () => {
   assert.match(TMDB_SRC, /v2-tmdb-attribution/);
   assert.match(OPENING_SRC, /<TmdbAttribution compact \/>/);
   const profile = readFileSync(
     join(ROOT, 'v2/profile/ProfileDestination.jsx'),
     'utf8',
   );
-  assert.match(profile, /<TmdbAttribution/);
+  assert.equal(profile.includes('<TmdbAttribution'), false);
   assert.match(
     readFileSync(join(ROOT, 'v2/v2.css'), 'utf8'),
     /\.v2-tmdb-attribution\s*\{/,

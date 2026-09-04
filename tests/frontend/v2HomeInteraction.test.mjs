@@ -208,8 +208,9 @@ test('Home production UI omits developer diagnostics and Home TMDB block', () =>
     join(root, 'v2/profile/ProfileDestination.jsx'),
     'utf8',
   );
-  assert.match(profileSrc, /TmdbAttribution/);
-  assert.match(profileSrc, /About &amp; data sources|About & data sources/);
+  assert.equal(profileSrc.includes('TmdbAttribution'), false);
+  assert.equal(profileSrc.includes('About &amp; data sources'), false);
+  assert.equal(profileSrc.includes('About & data sources'), false);
 });
 
 test('mockup mode stays isolated behind homeMockup query', () => {

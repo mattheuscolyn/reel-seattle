@@ -6200,7 +6200,7 @@ a.v2-st-time:hover {
   padding: var(--v2-space-4) var(--v2-gutter) var(--v2-space-6);
   display: flex;
   flex-direction: column;
-  gap: 1.35rem;
+  gap: 1.6rem;
 }
 
 .v2-profile-page-header {
@@ -6275,6 +6275,11 @@ a.v2-st-time:hover {
   line-height: 1.35;
   color: var(--v2-muted);
   max-width: 22rem;
+}
+
+.v2-profile-identity-signin {
+  margin-top: 0.55rem;
+  width: fit-content;
 }
 
 .v2-profile-identity-skeleton {
@@ -6466,6 +6471,59 @@ a.v2-st-time:hover {
   color: #4ade80;
 }
 
+.v2-profile-films {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.v2-profile-films-card {
+  appearance: none;
+  width: 100%;
+  border: 1px solid var(--v2-border);
+  border-radius: 0.75rem;
+  background: var(--v2-bg-raised);
+  padding: 0.65rem 0.3rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.28rem;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  min-height: 5.1rem;
+}
+
+.v2-profile-films-card:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-profile-films-icon {
+  display: grid;
+  place-items: center;
+  color: var(--v2-accent);
+}
+
+.v2-profile-films-label {
+  font-size: 0.62rem;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--v2-muted);
+  max-width: 100%;
+  padding: 0 0.1rem;
+}
+
+.v2-profile-films-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--v2-fg);
+}
+
 .v2-profile-plan-card {
   appearance: none;
   width: 100%;
@@ -6576,6 +6634,54 @@ a.v2-st-time:hover {
   margin: 0;
   font-size: 0.72rem;
   color: var(--v2-muted);
+}
+
+.v2-profile-theaters-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--v2-border);
+  border-radius: 0.85rem;
+  background: var(--v2-bg-raised);
+}
+
+.v2-profile-theaters-empty-copy {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--v2-muted);
+}
+
+.v2-profile-sync-attention {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.v2-profile-sync-banner {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--v2-accent-border);
+  border-radius: 0.85rem;
+  background: var(--v2-accent-soft);
+}
+
+.v2-profile-sync-banner-title {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: var(--v2-fg);
+}
+
+.v2-profile-account-security {
+  margin-top: 0.15rem;
+}
+
+.v2-profile-admin {
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--v2-border);
 }
 
 .v2-profile-theaters {
@@ -6710,7 +6816,8 @@ a.v2-st-time:hover {
   border: 0;
   border-bottom: 1px solid var(--v2-border);
   background: transparent;
-  padding: 0.85rem 0.85rem;
+  min-height: 2.85rem;
+  padding: 0.9rem 0.85rem;
   display: grid;
   grid-template-columns: 1.4rem minmax(0, 1fr) auto;
   gap: 0.75rem;
