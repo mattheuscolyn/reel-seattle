@@ -35,7 +35,7 @@ export const PRIMARY_DESTINATIONS = Object.freeze([
     label: 'Profile',
     title: 'Profile',
     description:
-      'Personal hub — identity, Your Films, favorite theaters, and settings.',
+      'Personal hub — identity, Your Films, Friends, favorite theaters, and settings.',
   }),
 ]);
 
@@ -107,7 +107,9 @@ export function resolveActivePrimaryId(nav) {
     nav.surface?.type === 'build-plan-plan-details' ||
     nav.surface?.type === 'theater-detail' ||
     nav.surface?.type === 'admin-tmdb-review' ||
-    nav.surface?.type === 'profile-settings'
+    nav.surface?.type === 'profile-settings' ||
+    nav.surface?.type === 'profile-friends' ||
+    nav.surface?.type === 'friend-invite-landing'
   ) {
     return resolveDestinationId(nav.surface.originPrimary ?? primary);
   }

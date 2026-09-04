@@ -27,10 +27,10 @@ export const PROFILE_SETTINGS_COPY = Object.freeze({
   }),
   privacy: Object.freeze({
     title: 'Privacy & Sharing',
-    subtitle: 'How social features will work when they arrive.',
+    subtitle: 'How social connections work on Reel Seattle.',
     inviteOnlyTitle: 'Invite-only connections',
     inviteOnlyBody:
-      'Future Friends will use direct invites. Reel Seattle does not offer public profile search or discoverability.',
+      'Friends on Reel Seattle connect through private invites. Reel Seattle does not offer public profile search or discoverability.',
     localDataTitle: 'Data on this device',
     localDataBody:
       'Saved, Seen, Not Interested, favorite theaters, and plans stay on this browser until you enable sync from Profile.',

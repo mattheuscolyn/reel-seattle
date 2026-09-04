@@ -11,6 +11,7 @@ import {
 } from './supabaseClient.js';
 import {
   cleanAuthCallbackUrl,
+  markAuthReturnToInvite,
   markAuthReturnToProfile,
   resolveOAuthRedirectTo,
   sanitizeExplicitOAuthRedirectTo,
@@ -432,6 +433,7 @@ export function isAuthControllerStarted() {
  *   getClient?: typeof getSupabaseClient,
  *   redirectTo?: string,
  *   storage?: Storage | null,
+ *   returnToInviteToken?: string | null,
  * }} [options]
  */
 export async function signInWithGoogle(options = {}) {
@@ -465,7 +467,15 @@ export async function signInWithGoogle(options = {}) {
 
   oauthInFlight = true;
   setState({ authActionBusy: true, errorMessage: null });
-  markAuthReturnToProfile(options.storage ?? undefined);
+  const inviteToken =
+    typeof options.returnToInviteToken === 'string'
+      ? options.returnToInviteToken.trim()
+      : '';
+  if (inviteToken) {
+    markAuthReturnToInvite(inviteToken, options.storage ?? undefined);
+  } else {
+    markAuthReturnToProfile(options.storage ?? undefined);
+  }
 
   try {
     const { error } = await client.auth.signInWithOAuth({

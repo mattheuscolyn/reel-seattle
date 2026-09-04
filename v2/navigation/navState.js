@@ -6,6 +6,10 @@
 import { resolveDestinationId } from '../destinations.js';
 import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
 import {
+  FRIEND_INVITE_LANDING_SURFACE_TYPE,
+  PROFILE_FRIENDS_SURFACE_TYPE,
+} from '../friends/friendsIds.js';
+import {
   PROFILE_SETTINGS_SURFACE_TYPE,
   resolveProfileSettingsSectionId,
 } from '../profile/settings/profileSettingsIds.js';
@@ -142,6 +146,20 @@ import {
  * @typedef {object} ProfileSettingsSurface
  * @property {'profile-settings'} type
  * @property {string} sectionId
+ * @property {string} originPrimary
+ */
+
+/**
+ * @typedef {object} ProfileFriendsSurface
+ * @property {'profile-friends'} type
+ * @property {string} originPrimary
+ * @property {string | null} [focusUserId]
+ */
+
+/**
+ * @typedef {object} FriendInviteLandingSurface
+ * @property {'friend-invite-landing'} type
+ * @property {string} token
  * @property {string} originPrimary
  */
 
@@ -783,6 +801,59 @@ export function openProfileSettings(state, params = {}) {
 }
 
 /**
+ * Nested Profile Friends list.
+ * @param {object} state
+ * @param {{
+ *   originPrimary?: string,
+ *   focusUserId?: string | null,
+ * }} [params]
+ */
+export function openProfileFriends(state, params = {}) {
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'profile',
+  );
+  return {
+    ...state,
+    primaryDestinationId: 'profile',
+    plannerSeed: null,
+    surface: {
+      type: PROFILE_FRIENDS_SURFACE_TYPE,
+      originPrimary,
+      focusUserId:
+        typeof params.focusUserId === 'string' && params.focusUserId
+          ? params.focusUserId
+          : null,
+    },
+  };
+}
+
+/**
+ * Inbound `/invite/<token>` landing. Origin is typically Home.
+ * @param {object} state
+ * @param {{
+ *   token: string,
+ *   originPrimary?: string,
+ * }} params
+ */
+export function openFriendInviteLanding(state, params) {
+  const token = typeof params?.token === 'string' ? params.token.trim() : '';
+  if (!token) return state;
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? 'home',
+  );
+  return {
+    ...state,
+    primaryDestinationId: originPrimary,
+    plannerSeed: null,
+    surface: {
+      type: FRIEND_INVITE_LANDING_SURFACE_TYPE,
+      token,
+      originPrimary,
+    },
+  };
+}
+
+/**
  * Back from a deep surface.
  * @param {object} state
  */
@@ -805,7 +876,9 @@ export function navigateBack(state) {
     state.surface.type === 'compare-formats' ||
     state.surface.type === 'format-recommendation' ||
     state.surface.type === 'admin-tmdb-review' ||
-    state.surface.type === PROFILE_SETTINGS_SURFACE_TYPE
+    state.surface.type === PROFILE_SETTINGS_SURFACE_TYPE ||
+    state.surface.type === PROFILE_FRIENDS_SURFACE_TYPE ||
+    state.surface.type === FRIEND_INVITE_LANDING_SURFACE_TYPE
   ) {
     if (state.surface.type === 'showtimes-browse') {
       if (state.surface.returnSurface) {

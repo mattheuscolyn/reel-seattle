@@ -23,9 +23,15 @@ export {
   FRIEND_RPC,
   buildFriendInviteUrl,
   compareFriendSummaries,
+  friendGivenName,
+  isLikelyFriendInviteToken,
   normalizeFriendInvite,
+  normalizeFriendInviteCode,
   normalizeFriendSummary,
   parseInviteTokenFromPath,
+  previewSlotCount,
+  restoreInvitePath,
+  splitFriendsForPreview,
 } from './friendsModel.js';
 
 /**

@@ -366,14 +366,12 @@ test('no plan IDs on friendships and no friend IDs in plan snapshots', () => {
   );
 });
 
-test('Slice 1 adds no Friends UI and is unused by Home/Browse/Planner/Profile', () => {
+test('Slice 1 friends API stays unused by Home/Explore/Planner', () => {
   const uiFiles = [
-    'v2/V2App.jsx',
-    'v2/profile/ProfileDestination.jsx',
-    'v2/profile/profileSettingsRows.js',
     'v2/HomeDestination.jsx',
     'v2/explore/ExploreDestination.jsx',
     'v2/planner/PlannerDestination.jsx',
+    'v2/profile/profileSettingsRows.js',
   ];
   for (const rel of uiFiles) {
     const src = readFileSync(join(ROOT, rel), 'utf8');

@@ -28,6 +28,7 @@ export const FRIEND_ERROR_REASONS = Object.freeze([
   'invite_not_pending',
   'invite_create_failed',
   'cannot_friend_self',
+  'rate_limited',
   'rpc_failed',
 ]);
 
@@ -86,6 +87,99 @@ export function parseInviteTokenFromPath(pathname) {
   } catch {
     return match[1];
   }
+}
+
+/**
+ * Put `/invite/<token>` back in the address bar after OAuth returns to `/`.
+ * @param {string} token
+ * @param {{
+ *   replaceState?: (data: unknown, unused: string, url: string) => void,
+ *   pathname?: string,
+ *   state?: unknown,
+ * }} [location]
+ * @returns {string | null}
+ */
+export function restoreInvitePath(token, location = {}) {
+  if (!isLikelyFriendInviteToken(token)) return null;
+  const path = `${FRIEND_INVITE_PATH_PREFIX}${encodeURIComponent(token.trim())}`;
+  const currentPath =
+    typeof location.pathname === 'string'
+      ? location.pathname
+      : typeof window !== 'undefined'
+        ? window.location.pathname
+        : '';
+  if (parseInviteTokenFromPath(currentPath) === token.trim()) return path;
+  const replace =
+    location.replaceState ??
+    (typeof window !== 'undefined'
+      ? window.history.replaceState.bind(window.history)
+      : null);
+  try {
+    replace?.(location.state ?? null, '', path);
+  } catch {
+    // History may be unavailable in tests.
+  }
+  return path;
+}
+
+/**
+ * Strong invite URL tokens are 64 hex chars (32 bytes). Require ≥32 hex so
+ * short codes and junk paths never hit lookup as tokens.
+ * @param {string | null | undefined} token
+ * @returns {boolean}
+ */
+export function isLikelyFriendInviteToken(token) {
+  return typeof token === 'string' && /^[0-9a-f]{32,}$/i.test(token.trim());
+}
+
+/**
+ * @param {string | null | undefined} raw
+ * @returns {string}
+ */
+export function normalizeFriendInviteCode(raw) {
+  return String(raw || '')
+    .trim()
+    .toUpperCase()
+    .replace(/\s+/g, '')
+    .slice(0, 8);
+}
+
+/**
+ * Compact Profile preview label: first token of display name.
+ * @param {string | null | undefined} displayName
+ * @returns {string}
+ */
+export function friendGivenName(displayName) {
+  const trimmed = String(displayName || '').trim();
+  if (!trimmed) return 'Friend';
+  return trimmed.split(/\s+/)[0];
+}
+
+/**
+ * @param {number} widthPx
+ * @returns {number}
+ */
+export function previewSlotCount(widthPx) {
+  const width = Number(widthPx);
+  if (!Number.isFinite(width) || width < 1) return 4;
+  const slot = 88;
+  return Math.max(3, Math.min(6, Math.floor(width / slot)));
+}
+
+/**
+ * @param {FriendSummary[]} friends
+ * @param {number} slotCount
+ * @returns {{ visible: FriendSummary[], overflow: number }}
+ */
+export function splitFriendsForPreview(friends, slotCount) {
+  const list = Array.isArray(friends) ? friends : [];
+  const slots = Math.max(1, Number(slotCount) || 1);
+  if (list.length <= slots) return { visible: list, overflow: 0 };
+  const visibleCount = Math.max(1, slots - 1);
+  return {
+    visible: list.slice(0, visibleCount),
+    overflow: list.length - visibleCount,
+  };
 }
 
 /**

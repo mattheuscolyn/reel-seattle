@@ -440,14 +440,13 @@ test('Account & Security is a nested Settings destination, not an inline Profile
   assert.equal(PROFILE_SRC.includes('Sign out'), false);
 });
 
-test('Friends section is omitted until Phase B', () => {
+test('Friends section sits between Your Films and Favorite Theaters', () => {
+  const films = PROFILE_SRC.indexOf('data-profile-section="yourFilms"');
+  const friends = PROFILE_SRC.indexOf('<ProfileFriendsPreview');
+  const theaters = PROFILE_SRC.indexOf('data-profile-section="favoriteTheaters"');
+  assert.ok(films > 0 && friends > films && theaters > friends);
+  assert.match(PROFILE_SRC, /ProfileFriendsPreview/);
   assert.equal(PROFILE_SRC.includes('Invite friends coming soon'), false);
-  assert.equal(PROFILE_SRC.includes('data-profile-section="friends"'), false);
-  const live = resolveLiveProfilePresentation({
-    auth: { status: 'signed_in', signedIn: true, user: { id: 'u', email: 'a@b.c' } },
-    storage: memoryStorage(),
-  });
-  assert.equal('friends' in live, false);
 });
 
 test('admin TMDB row remains is_admin gated, after Settings', () => {
