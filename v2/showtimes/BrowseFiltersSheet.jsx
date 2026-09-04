@@ -143,6 +143,7 @@ export default function BrowseFiltersSheet({
     theaterOptions.length - THEATER_PREVIEW_COUNT,
   );
   const resultCount = preview.resultCount;
+  const invalidCustomTime = Boolean(preview.invalidCustomTimeRange);
 
   const setTimePreset = (presetId) => {
     setDraft((current) => ({
@@ -307,6 +308,11 @@ export default function BrowseFiltersSheet({
                   />
                 </label>
               </div>
+            ) : null}
+            {invalidCustomTime ? (
+              <p className="v2-bfs-error" role="alert">
+                End time must be after start time.
+              </p>
             ) : null}
           </section>
 
@@ -528,6 +534,7 @@ export default function BrowseFiltersSheet({
           <button
             type="button"
             className="v2-bfs-apply"
+            disabled={invalidCustomTime}
             onClick={handleApply}
             aria-label={`Show ${resultCount} result${resultCount === 1 ? '' : 's'}`}
           >

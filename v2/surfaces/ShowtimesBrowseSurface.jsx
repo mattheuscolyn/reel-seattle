@@ -354,22 +354,22 @@ export default function ShowtimesBrowseSurface({
         <div className="v2-stb-empty" role="status">
           <p>{emptyMessage}</p>
           {presentation.showResetFilters ? (
-            <button
-              type="button"
-              className="v2-stb-reset"
-              onClick={() => setFiltersOpen(true)}
-            >
-              Edit filters
-            </button>
-          ) : null}
-          {presentation.showResetFilters ? (
-            <button
-              type="button"
-              className="v2-stb-reset"
-              onClick={resetAppliedSheetFilters}
-            >
-              Reset filters
-            </button>
+            <div className="v2-stb-empty-actions">
+              <button
+                type="button"
+                className="v2-stb-reset"
+                onClick={() => setFiltersOpen(true)}
+              >
+                Edit filters
+              </button>
+              <button
+                type="button"
+                className="v2-stb-reset"
+                onClick={resetAppliedSheetFilters}
+              >
+                Reset filters
+              </button>
+            </div>
           ) : null}
         </div>
       ) : (
