@@ -5,8 +5,10 @@
 -- email / username search, no follower graph. Plan sharing is a later phase and
 -- must not live on these rows.
 --
--- Token generation uses pgcrypto (enabled in 20260729000000_profiles_foundation).
--- Tokens are the authorization secret. Short codes are convenience lookup only.
+-- Token generation uses pgcrypto. On Supabase, the extension lives in
+-- `extensions`, not `public`, so generators must schema-qualify
+-- gen_random_bytes. Tokens are the authorization secret. Short codes are
+-- convenience lookup only.
 
 create extension if not exists "pgcrypto";
 
@@ -142,7 +144,7 @@ language sql
 volatile
 set search_path = public, pg_temp
 as $$
-  select encode(gen_random_bytes(32), 'hex');
+  select encode(extensions.gen_random_bytes(32), 'hex');
 $$;
 
 comment on function public.friend_invite_generate_token() is
@@ -161,7 +163,7 @@ declare
   out text := '';
 begin
   -- 32-char alphabet; 8 bytes; get_byte % 32 is unbiased (256 % 32 = 0).
-  bytes := gen_random_bytes(8);
+  bytes := extensions.gen_random_bytes(8);
   for i in 0..7 loop
     out := out || substr(alphabet, (get_byte(bytes, i) % 32) + 1, 1);
   end loop;

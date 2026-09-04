@@ -121,7 +121,7 @@ test('7-12. create_friend_invite auth, inviter, expiry, token, multiples', () =>
   assert.equal(/p_inviter|inviter_id\s+uuid/.test(body), false);
   assert.match(body, /now\(\) \+ interval '14 days'/);
   assert.match(body, /friend_invite_generate_token/);
-  assert.match(MIGRATION, /encode\(gen_random_bytes\(32\), 'hex'\)/);
+  assert.match(MIGRATION, /encode\((?:extensions\.)?gen_random_bytes\(32\), 'hex'\)/);
   assert.match(body, /status,\s+expires_at/);
   assert.match(MIGRATION, /Multiple pending invites per inviter are allowed/);
   assert.equal(/revoke other pending|delete from public\.friend_invites/.test(body), false);
