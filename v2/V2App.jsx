@@ -53,6 +53,7 @@ import {
   openCompareFormats,
   openFormatRecommendation,
   openAdminTmdbReview,
+  openProfileSettings,
   selectPrimaryDestination,
   startPlannerFromFilm,
   updateSearchUi,
@@ -81,6 +82,7 @@ import ExperienceDetailSurface from './formatsExperiences/ExperienceDetailSurfac
 import CompareFormatsSurface from './formatsExperiences/CompareFormatsSurface.jsx';
 import FormatRecommendationSurface from './formatsExperiences/FormatRecommendationSurface.jsx';
 import TmdbMatchReviewSurface from './admin/tmdbReview/TmdbMatchReviewSurface.jsx';
+import ProfileSettingsSurface from './profile/settings/ProfileSettingsSurface.jsx';
 import { createDefaultShowtimesBrowseUi } from './showtimes/showtimesBrowseModel.js';
 import { resolveFilmDetailBackLabel } from './filmDetail/filmDetailModel.js';
 import { isPlanDetailsMockupMode } from './fixtures/buildPlanPlanDetailsMockupFixture.js';
@@ -510,6 +512,16 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleOpenProfileSettings = useCallback((params = {}) => {
+    setNav((current) =>
+      openProfileSettings(current, {
+        sectionId: params.sectionId,
+        originPrimary: params.originPrimary ?? 'profile',
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
@@ -896,6 +908,7 @@ export default function V2App() {
   const isCompareFormats = nav.surface?.type === 'compare-formats';
   const isFormatRecommendation = nav.surface?.type === 'format-recommendation';
   const isAdminTmdbReview = nav.surface?.type === 'admin-tmdb-review';
+  const isProfileSettings = nav.surface?.type === 'profile-settings';
   const isPersonalCollection =
     nav.surface?.type === 'collection' &&
     isPersonalCollectionId(nav.surface.collectionId);
@@ -1618,6 +1631,16 @@ export default function V2App() {
         onBack={handleBack}
       />
     );
+  } else if (isProfileSettings) {
+    mainContent = (
+      <ProfileSettingsSurface
+        sectionId={nav.surface.sectionId}
+        onAuthAction={(actionId) => {
+          setProfileStubStatus(actionId);
+          window.setTimeout(() => setProfileStubStatus(null), 2500);
+        }}
+      />
+    );
   } else {
     mainContent = (
       <DestinationPlaceholder
@@ -1648,6 +1671,7 @@ export default function V2App() {
         }}
         onOpenAdminTmdbReview={handleOpenAdminTmdbReview}
         onOpenTheaterDetail={handleOpenTheaterDetail}
+        onOpenProfileSettings={handleOpenProfileSettings}
         onPlannerStubAction={(_actionId, label) => {
           setProfileStubStatus(
             `${label} isn’t available in this Stage 1 Planner shell yet.`,
@@ -1810,6 +1834,8 @@ export default function V2App() {
                 ? 'Explore'
                 : isPersonalCollection
                   ? originBackLabel(nav.surface.originPrimary)
+                : isProfileSettings
+                  ? originBackLabel(nav.surface.originPrimary)
                 : isBuildPlanPlanDetails
                   ? nav.surface?.returnSurface?.type === 'build-plan-results'
                     ? 'results'
@@ -1827,7 +1853,8 @@ export default function V2App() {
           isSearchResults ||
           isPersonalCollection ||
           isBuildPlanChrome ||
-          isShowtimesBrowse
+          isShowtimesBrowse ||
+          isProfileSettings
             ? handleBack
             : null
         }

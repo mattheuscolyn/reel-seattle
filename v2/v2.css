@@ -6684,6 +6684,187 @@ a.v2-st-time:hover {
   border-top: 1px solid var(--v2-border);
 }
 
+.v2-settings {
+  padding: 0.15rem 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.v2-settings-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.v2-settings-title {
+  margin: 0;
+  font-family: var(--v2-font-display);
+  font-size: clamp(1.7rem, 5.6vw, 2.05rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  color: var(--v2-fg);
+}
+
+.v2-settings-subtitle {
+  margin: 0;
+  max-width: 22rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--v2-muted);
+}
+
+.v2-settings-card {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.9rem 0 1rem;
+  border-bottom: 1px solid var(--v2-border);
+}
+
+.v2-settings-card:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.v2-settings-card-title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: var(--v2-fg);
+}
+
+.v2-settings-card-body {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--v2-muted);
+}
+
+.v2-settings-group {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.v2-settings-group-label {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--v2-muted);
+}
+
+.v2-settings-segments {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem;
+  padding: 0.22rem;
+  border: 1px solid var(--v2-border);
+  border-radius: 0.85rem;
+  background: var(--v2-bg-raised);
+}
+
+.v2-settings-segment {
+  appearance: none;
+  border: 0;
+  border-radius: 0.65rem;
+  background: transparent;
+  color: var(--v2-muted);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  min-height: 2.75rem;
+  cursor: pointer;
+}
+
+.v2-settings-segment-active {
+  background: var(--v2-accent-soft);
+  color: var(--v2-fg);
+}
+
+.v2-settings-segment:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-settings-switch-row {
+  appearance: none;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--v2-border);
+  background: transparent;
+  padding: 0.85rem 0;
+  min-height: 3.1rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.85rem;
+  align-items: center;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.v2-settings-switch-row:last-of-type {
+  border-bottom: 0;
+}
+
+.v2-settings-switch-row:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-settings-switch-label {
+  font-size: 0.92rem;
+  line-height: 1.35;
+  color: var(--v2-fg);
+}
+
+.v2-settings-switch-track {
+  width: 2.55rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: #3a3d4a;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.v2-settings-switch-thumb {
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.16s ease;
+}
+
+.v2-settings-switch-row[aria-checked='true'] .v2-settings-switch-track {
+  background: var(--v2-accent);
+}
+
+.v2-settings-switch-row[aria-checked='true'] .v2-settings-switch-thumb {
+  transform: translateX(1.05rem);
+}
+
+.v2-settings-note {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--v2-muted);
+}
+
+.v2-settings [data-settings-panel='notifications'] .v2-profile-account-btn,
+.v2-settings [data-settings-panel='account-security'] .v2-profile-account-btn {
+  width: fit-content;
+}
+
+.v2-settings [data-settings-panel='about'] .v2-tmdb-attribution {
+  margin-top: 0.35rem;
+}
+
 .v2-profile-theaters {
   list-style: none;
   margin: 0;

@@ -5,6 +5,10 @@
 
 import { resolveDestinationId } from '../destinations.js';
 import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
+import {
+  PROFILE_SETTINGS_SURFACE_TYPE,
+  resolveProfileSettingsSectionId,
+} from '../profile/settings/profileSettingsIds.js';
 
 /**
  * @typedef {object} HomeRestoreState
@@ -132,6 +136,13 @@ import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
  * @property {'admin-tmdb-review'} type
  * @property {string} originPrimary
  * @property {object | null} [returnSurface]
+ */
+
+/**
+ * @typedef {object} ProfileSettingsSurface
+ * @property {'profile-settings'} type
+ * @property {string} sectionId
+ * @property {string} originPrimary
  */
 
 /**
@@ -748,6 +759,30 @@ export function openAdminTmdbReview(state, params = {}) {
 }
 
 /**
+ * Nested Profile Settings section.
+ * @param {object} state
+ * @param {{
+ *   sectionId?: string,
+ *   originPrimary?: string,
+ * }} [params]
+ */
+export function openProfileSettings(state, params = {}) {
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'profile',
+  );
+  return {
+    ...state,
+    primaryDestinationId: 'profile',
+    plannerSeed: null,
+    surface: {
+      type: PROFILE_SETTINGS_SURFACE_TYPE,
+      sectionId: resolveProfileSettingsSectionId(params.sectionId),
+      originPrimary,
+    },
+  };
+}
+
+/**
  * Back from a deep surface.
  * @param {object} state
  */
@@ -769,7 +804,8 @@ export function navigateBack(state) {
     state.surface.type === 'experience-detail' ||
     state.surface.type === 'compare-formats' ||
     state.surface.type === 'format-recommendation' ||
-    state.surface.type === 'admin-tmdb-review'
+    state.surface.type === 'admin-tmdb-review' ||
+    state.surface.type === PROFILE_SETTINGS_SURFACE_TYPE
   ) {
     if (state.surface.type === 'showtimes-browse') {
       if (state.surface.returnSurface) {

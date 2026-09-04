@@ -2,7 +2,7 @@
  * Profile hub — identity, Your Films, favorites, settings (Slice 1).
  */
 
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   IconBell,
   IconBookmark,
@@ -64,6 +64,7 @@ const SETTINGS_ICONS = {
  *   onOpenAdminTmdbReview?: () => void,
  *   onOpenCollection?: (payload: object) => void,
  *   onOpenTheaterDetail?: (payload: object) => void,
+ *   onOpenProfileSettings?: (payload: object) => void,
  * }} [props]
  */
 export default function ProfileDestination({
@@ -71,18 +72,16 @@ export default function ProfileDestination({
   onOpenAdminTmdbReview,
   onOpenCollection,
   onOpenTheaterDetail,
+  onOpenProfileSettings,
 }) {
   const auth = useAuth();
-  const stubStatusId = useId();
   const storage = getBrowserStorage();
   const [activityTick, setActivityTick] = useState(0);
-  const [stubMessage, setStubMessage] = useState(null);
   const [editing, setEditing] = useState(false);
   const [editValue, setEditValue] = useState('');
   const [editBusy, setEditBusy] = useState(false);
   const [editError, setEditError] = useState(null);
   const [profileRetryMessage, setProfileRetryMessage] = useState(null);
-  const [accountOpen, setAccountOpen] = useState(false);
   const [signInBusy, setSignInBusy] = useState(false);
 
   useEffect(() => {
@@ -126,17 +125,6 @@ export default function ProfileDestination({
       collectionId,
       originPrimary: 'profile',
     });
-  };
-
-  const announceStub = (actionId, label) => {
-    if (actionId === 'settings-account') {
-      setAccountOpen((open) => !open);
-      setStubMessage(null);
-      return;
-    }
-    const message = `${label} isn’t available yet.`;
-    setStubMessage(message);
-    onStubAction?.(actionId, label);
   };
 
   const openEdit = () => {
@@ -460,7 +448,12 @@ export default function ProfileDestination({
                 <button
                   type="button"
                   className="v2-profile-settings-row"
-                  onClick={() => announceStub(`settings-${row.id}`, row.label)}
+                  onClick={() =>
+                    onOpenProfileSettings?.({
+                      sectionId: row.sectionId,
+                      originPrimary: 'profile',
+                    })
+                  }
                 >
                   <span className="v2-profile-settings-icon" aria-hidden="true">
                     <Icon />
@@ -474,14 +467,6 @@ export default function ProfileDestination({
             );
           })}
         </ul>
-        {accountOpen ? (
-          <div data-profile-section="account">
-            <ProfileAccountPanel
-              variant="account-security"
-              onAuthAction={(actionId) => onStubAction?.(actionId, actionId)}
-            />
-          </div>
-        ) : null}
       </section>
 
       {auth.signedIn && profileIsAdmin(auth.profile) ? (
@@ -502,15 +487,6 @@ export default function ProfileDestination({
           </button>
         </section>
       ) : null}
-
-      <p
-        id={stubStatusId}
-        className="v2-visually-hidden"
-        role="status"
-        aria-live="polite"
-      >
-        {stubMessage ?? ''}
-      </p>
     </section>
   );
 }

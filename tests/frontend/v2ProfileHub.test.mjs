@@ -163,7 +163,7 @@ test('duplicate Account identity and permanent sync card are absent', () => {
   assert.equal(PANEL_SRC.includes('v2-profile-account-identity'), false);
   assert.match(PANEL_SRC, /variant === 'sync-attention'|variant = 'sync-attention'/);
   assert.match(PROFILE_SRC, /variant="sync-attention"/);
-  assert.match(PROFILE_SRC, /variant="account-security"/);
+  assert.equal(PROFILE_SRC.includes('variant="account-security"'), false);
 });
 
 test('healthy attached sync is not exceptional; unattached and degraded are', () => {
@@ -431,9 +431,10 @@ test('Settings root uses the final six labels; obsolete rows are gone', () => {
   assert.equal(PROFILE_SRC.includes('showDataSources'), false);
 });
 
-test('Account & Security expand is the Slice 1 sign-out path', () => {
-  assert.match(PROFILE_SRC, /settings-account/);
-  assert.match(PROFILE_SRC, /accountOpen/);
+test('Account & Security is a nested Settings destination, not an inline Profile expand', () => {
+  assert.match(PROFILE_SRC, /onOpenProfileSettings/);
+  assert.equal(PROFILE_SRC.includes('accountOpen'), false);
+  assert.equal(PROFILE_SRC.includes('variant="account-security"'), false);
   assert.match(PANEL_SRC, /Sign out/);
   assert.match(PANEL_SRC, /Signed in with Google/);
   assert.equal(PROFILE_SRC.includes('Sign out'), false);
@@ -551,5 +552,5 @@ test('Profile account panel still owns Google auth copy without store sync claim
   assert.match(PANEL_SRC, /not configured in this build/);
   assert.equal(PANEL_SRC.includes('supabase.from('), false);
   assert.match(PROFILE_SRC, /ProfileAccountPanel/);
-  assert.match(PROFILE_SRC, /data-profile-section="account"/);
+  assert.match(PANEL_SRC, /data-profile-section="account"/);
 });

@@ -23,6 +23,7 @@ import ProfileDestination from './profile/ProfileDestination.jsx';
  *   onProfileStubAction?: (actionId: string, label: string) => void,
  *   onOpenAdminTmdbReview?: () => void,
  *   onOpenTheaterDetail?: (payload: object) => void,
+ *   onOpenProfileSettings?: (payload: object) => void,
  *   onPlannerStubAction?: (actionId: string, label: string) => void,
  *   onOpenBuildPlan?: () => void,
  *   onAcceptedPlansChange?: () => void,
@@ -47,6 +48,7 @@ export default function DestinationPlaceholder({
   onProfileStubAction,
   onOpenAdminTmdbReview,
   onOpenTheaterDetail,
+  onOpenProfileSettings,
   onPlannerStubAction,
   onOpenBuildPlan,
   onAcceptedPlansChange,
@@ -113,6 +115,7 @@ export default function DestinationPlaceholder({
         onOpenAdminTmdbReview={onOpenAdminTmdbReview}
         onOpenCollection={onOpenCollection}
         onOpenTheaterDetail={onOpenTheaterDetail}
+        onOpenProfileSettings={onOpenProfileSettings}
       />
     );
   }

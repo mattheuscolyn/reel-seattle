@@ -106,7 +106,8 @@ export function resolveActivePrimaryId(nav) {
     nav.surface?.type === 'build-plan-showtime-manage' ||
     nav.surface?.type === 'build-plan-plan-details' ||
     nav.surface?.type === 'theater-detail' ||
-    nav.surface?.type === 'admin-tmdb-review'
+    nav.surface?.type === 'admin-tmdb-review' ||
+    nav.surface?.type === 'profile-settings'
   ) {
     return resolveDestinationId(nav.surface.originPrimary ?? primary);
   }

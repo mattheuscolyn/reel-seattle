@@ -42,11 +42,13 @@ const ATTACHED_SYNC_NOW_STATUSES = new Set([
  * @param {{
  *   onAuthAction?: (actionId: string) => void,
  *   variant?: 'sync-attention' | 'account-security',
+ *   showHeading?: boolean,
  * }} [props]
  */
 export default function ProfileAccountPanel({
   onAuthAction,
   variant = 'sync-attention',
+  showHeading = true,
 }) {
   const auth = useAuth();
   const [filmSync, setFilmSync] = useState(() =>
@@ -98,11 +100,14 @@ export default function ProfileAccountPanel({
         className="v2-profile-account v2-profile-account-security"
         data-profile-section="account"
         data-auth-status={auth.status}
-        aria-labelledby="v2-profile-account-h"
+        aria-labelledby={showHeading ? 'v2-profile-account-h' : undefined}
+        aria-label={showHeading ? undefined : 'Account & Security'}
       >
-        <h2 id="v2-profile-account-h" className="v2-profile-section-label">
-          Account &amp; Security
-        </h2>
+        {showHeading ? (
+          <h2 id="v2-profile-account-h" className="v2-profile-section-label">
+            Account &amp; Security
+          </h2>
+        ) : null}
 
         {auth.status === 'unconfigured' ? (
           <div className="v2-profile-account-body">

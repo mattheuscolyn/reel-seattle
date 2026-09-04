@@ -103,4 +103,15 @@ test('collection surfaces highlight Explore except Home-owned Opening and Profil
     }),
     'profile',
   );
+  assert.equal(
+    resolveActivePrimaryId({
+      primaryDestinationId: 'profile',
+      surface: {
+        type: 'profile-settings',
+        sectionId: 'preferences',
+        originPrimary: 'profile',
+      },
+    }),
+    'profile',
+  );
 });
