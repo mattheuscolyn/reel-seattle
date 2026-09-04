@@ -1,29 +1,22 @@
 /**
- * Profile hub — live identity + activity (T-ACCOUNT-PROFILE-DATA-01).
- *
- * Identity from auth / public.profiles. Activity counts from local stores.
- * Membership fixture removed until a real source exists.
+ * Profile hub — identity, Your Films, favorites, settings (Slice 1).
  */
 
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   IconBell,
   IconBookmark,
   IconCalendar,
+  IconCheckCircle,
   IconChevron,
   IconClock,
-  IconEye,
-  IconHeart,
+  IconCloseCircle,
   IconInfo,
-  IconLink,
   IconLock,
   IconPerson,
   IconShield,
-  IconStar,
   IconStarFill,
-  IconSun,
 } from '../icons.jsx';
-import TmdbAttribution from '../enrichment/TmdbAttribution.jsx';
 import ProfileAccountPanel from '../auth/ProfileAccountPanel.jsx';
 import { useAuth } from '../auth/useAuth.js';
 import {
@@ -31,17 +24,16 @@ import {
   updateOwnDisplayName,
 } from '../auth/profileData.js';
 import {
+  signInWithGoogle,
+} from '../auth/authSessionStore.js';
+import {
   PROFILE_DISPLAY_NAME_MAX_LENGTH,
 } from '../auth/profileIdentity.js';
 import { subscribeProfileActivity } from './profileActivity.js';
 import { resolveLiveProfilePresentation } from './resolveLiveProfilePresentation.js';
 import { profileIsAdmin } from '../admin/tmdbReview/sourceIdentity.js';
-import { SCHEDULE_SETTINGS_TIME_FORMATS } from '../fixtures/scheduleSettingsMockupFixture.js';
-import {
-  getScheduleSettings,
-  subscribeScheduleSettings,
-  updateScheduleSettings,
-} from '../stores/scheduleSettingsStore.js';
+import { COLLECTION_IDS } from '../explore/exploreIds.js';
+import { subscribeFavoriteTheaters } from '../stores/favoriteTheatersStore.js';
 
 function getBrowserStorage() {
   try {
@@ -51,20 +43,18 @@ function getBrowserStorage() {
   }
 }
 
-const ACTIVITY_ICONS = {
-  eye: IconEye,
-  heart: IconHeart,
+const FILM_ICONS = {
   bookmark: IconBookmark,
-  calendar: IconCalendar,
+  eye: IconCheckCircle,
+  close: IconCloseCircle,
 };
 
 const SETTINGS_ICONS = {
   bell: IconBell,
-  accessibility: IconPerson,
-  sun: IconSun,
+  clock: IconClock,
   lock: IconLock,
   shield: IconShield,
-  link: IconLink,
+  calendar: IconCalendar,
   info: IconInfo,
 };
 
@@ -72,45 +62,40 @@ const SETTINGS_ICONS = {
  * @param {{
  *   onStubAction?: (actionId: string, label: string) => void,
  *   onOpenAdminTmdbReview?: () => void,
+ *   onOpenCollection?: (payload: object) => void,
+ *   onOpenTheaterDetail?: (payload: object) => void,
+ *   onOpenProfileSettings?: (payload: object) => void,
  * }} [props]
  */
 export default function ProfileDestination({
   onStubAction,
   onOpenAdminTmdbReview,
+  onOpenCollection,
+  onOpenTheaterDetail,
+  onOpenProfileSettings,
 }) {
   const auth = useAuth();
-  const stubStatusId = useId();
   const storage = getBrowserStorage();
   const [activityTick, setActivityTick] = useState(0);
-  const [stubMessage, setStubMessage] = useState(null);
-  const [showDataSources, setShowDataSources] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editValue, setEditValue] = useState('');
   const [editBusy, setEditBusy] = useState(false);
   const [editError, setEditError] = useState(null);
   const [profileRetryMessage, setProfileRetryMessage] = useState(null);
-  const [timeFormatId, setTimeFormatId] = useState(
-    () => getScheduleSettings(storage).timeFormatId,
-  );
+  const [signInBusy, setSignInBusy] = useState(false);
 
   useEffect(() => {
-    return subscribeProfileActivity(() => {
+    const unsubActivity = subscribeProfileActivity(() => {
       setActivityTick((n) => n + 1);
     });
-  }, []);
-
-  useEffect(() => {
-    return subscribeScheduleSettings(() => {
-      setTimeFormatId(getScheduleSettings(storage).timeFormatId);
+    const unsubFavorites = subscribeFavoriteTheaters(() => {
+      setActivityTick((n) => n + 1);
     });
-  }, [storage]);
-
-  const setTimeFormat = (nextId) => {
-    const result = updateScheduleSettings(storage, { timeFormatId: nextId });
-    if (result.ok) {
-      setTimeFormatId(result.settings.timeFormatId);
-    }
-  };
+    return () => {
+      unsubActivity();
+      unsubFavorites();
+    };
+  }, []);
 
   useEffect(() => {
     if (auth.status !== 'signed_in') {
@@ -120,15 +105,13 @@ export default function ProfileDestination({
     }
   }, [auth.status, auth.user?.id]);
 
-  // activityTick forces re-read of local stores after mutations
   void activityTick;
 
-  const presentation = resolveLiveProfilePresentation({ auth });
+  const presentation = resolveLiveProfilePresentation({ auth, storage });
   const {
     identity,
-    activity,
-    nextPlan,
-    membership,
+    yourFilms,
+    yourFilmsSection,
     favoriteTheaters,
     favoriteTheatersSection,
     settingsRows,
@@ -137,21 +120,11 @@ export default function ProfileDestination({
     pageTagline,
   } = presentation;
 
-  const announceStub = (actionId, label) => {
-    if (actionId === 'settings-about' || actionId === 'settings-privacy') {
-      setShowDataSources(true);
-      setStubMessage(null);
-      return;
-    }
-    if (actionId === 'settings-account') {
-      const el = document.querySelector('[data-profile-section="account"]');
-      el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      setStubMessage(null);
-      return;
-    }
-    const message = `${label} isn’t available yet.`;
-    setStubMessage(message);
-    onStubAction?.(actionId, label);
+  const openProfileCollection = (collectionId) => {
+    onOpenCollection?.({
+      collectionId,
+      originPrimary: 'profile',
+    });
   };
 
   const openEdit = () => {
@@ -193,9 +166,12 @@ export default function ProfileDestination({
     }
   };
 
-  const showFavorites = favoriteTheaters.length > 0;
-  const showUpNext = Boolean(nextPlan?.available);
-  const showMembership = Boolean(membership?.available);
+  const handleIdentitySignIn = async () => {
+    if (signInBusy) return;
+    setSignInBusy(true);
+    await signInWithGoogle();
+    setSignInBusy(false);
+  };
 
   return (
     <section
@@ -262,6 +238,17 @@ export default function ProfileDestination({
                   onClick={openEdit}
                 >
                   {identity.editLabel} <span aria-hidden="true">›</span>
+                </button>
+              ) : null}
+              {identity.showSignIn ? (
+                <button
+                  type="button"
+                  className="v2-profile-account-btn v2-profile-identity-signin"
+                  disabled={signInBusy}
+                  aria-busy={signInBusy ? 'true' : undefined}
+                  onClick={() => void handleIdentitySignIn()}
+                >
+                  {signInBusy ? 'Signing in…' : identity.signInLabel}
                 </button>
               ) : null}
             </div>
@@ -331,53 +318,42 @@ export default function ProfileDestination({
       ) : null}
 
       <ProfileAccountPanel
+        variant="sync-attention"
         onAuthAction={(actionId) => onStubAction?.(actionId, actionId)}
       />
 
-      {auth.signedIn && profileIsAdmin(auth.profile) ? (
-        <section
-          className="v2-profile-section"
-          data-profile-section="admin"
-          aria-labelledby="v2-profile-admin-h"
-        >
-          <h2 id="v2-profile-admin-h" className="v2-profile-section-label">
-            Admin
+      <section
+        className="v2-profile-section"
+        data-profile-section="yourFilms"
+        aria-labelledby="v2-profile-films-h"
+      >
+        <div className="v2-profile-section-row">
+          <h2 id="v2-profile-films-h" className="v2-profile-section-label">
+            {yourFilmsSection.title}
           </h2>
           <button
             type="button"
             className="v2-profile-link"
-            onClick={() => onOpenAdminTmdbReview?.()}
+            onClick={() => openProfileCollection(COLLECTION_IDS.saved)}
           >
-            TMDB Match Review
+            {yourFilmsSection.viewAllLabel} <span aria-hidden="true">›</span>
           </button>
-        </section>
-      ) : null}
-
-      <section
-        className="v2-profile-section"
-        data-profile-section="activity"
-        aria-labelledby="v2-profile-activity-h"
-      >
-        <h2 id="v2-profile-activity-h" className="v2-profile-section-label">
-          Activity snapshot
-        </h2>
-        <ul className="v2-profile-activity">
-          {activity.map((item) => {
-            const Icon = ACTIVITY_ICONS[item.icon] ?? IconEye;
+        </div>
+        <ul className="v2-profile-films">
+          {yourFilms.map((item) => {
+            const Icon = FILM_ICONS[item.icon] ?? IconBookmark;
             return (
               <li key={item.key}>
                 <button
                   type="button"
-                  className={`v2-profile-activity-card v2-profile-activity-${item.tone}`}
-                  onClick={() =>
-                    announceStub(`activity-${item.key}`, item.label)
-                  }
+                  className="v2-profile-films-card"
+                  onClick={() => openProfileCollection(item.collectionId)}
                 >
-                  <span className="v2-profile-activity-icon" aria-hidden="true">
+                  <span className="v2-profile-films-icon" aria-hidden="true">
                     <Icon width={16} height={16} />
                   </span>
-                  <span className="v2-profile-activity-label">{item.label}</span>
-                  <span className="v2-profile-activity-value">{item.value}</span>
+                  <span className="v2-profile-films-label">{item.label}</span>
+                  <span className="v2-profile-films-value">{item.value}</span>
                 </button>
               </li>
             );
@@ -385,123 +361,25 @@ export default function ProfileDestination({
         </ul>
       </section>
 
-      {showUpNext ? (
-        <section
-          className="v2-profile-section"
-          data-profile-section="upNext"
-          aria-labelledby="v2-profile-upnext-h"
-        >
-          <div className="v2-profile-section-row">
-            <h2 id="v2-profile-upnext-h" className="v2-profile-section-label">
-              {nextPlan.sectionTitle}
-            </h2>
-            <button
-              type="button"
-              className="v2-profile-link"
-              onClick={() =>
-                announceStub('view-all-plans', nextPlan.viewAllLabel)
-              }
-            >
-              {nextPlan.viewAllLabel} <span aria-hidden="true">›</span>
-            </button>
-          </div>
+      <section
+        className="v2-profile-section"
+        data-profile-section="favoriteTheaters"
+        aria-labelledby="v2-profile-fav-h"
+      >
+        <div className="v2-profile-section-row">
+          <h2 id="v2-profile-fav-h" className="v2-profile-section-label">
+            {favoriteTheatersSection.title}
+          </h2>
           <button
             type="button"
-            className="v2-profile-plan-card"
-            onClick={() => announceStub('next-plan', nextPlan.title)}
+            className="v2-profile-link"
+            onClick={() => openProfileCollection(COLLECTION_IDS.theaters)}
           >
-            {nextPlan.posterUrl ? (
-              <img
-                className="v2-profile-plan-poster"
-                src={nextPlan.posterUrl}
-                alt=""
-              />
-            ) : (
-              <div
-                className="v2-profile-plan-poster v2-profile-plan-poster-empty"
-                aria-hidden="true"
-              />
-            )}
-            <div className="v2-profile-plan-copy">
-              <p className="v2-profile-plan-title">{nextPlan.title}</p>
-              <p className="v2-profile-plan-when">{nextPlan.whenLabel}</p>
-              <p className="v2-profile-plan-theater">{nextPlan.theaterName}</p>
-              {nextPlan.moreFilmsLabel ? (
-                <p className="v2-profile-plan-more">{nextPlan.moreFilmsLabel}</p>
-              ) : null}
-            </div>
-            <div className="v2-profile-plan-date" aria-hidden="true">
-              <span>{nextPlan.dateStack.weekday}</span>
-              <span>{nextPlan.dateStack.monthDay}</span>
-            </div>
-            <span className="v2-profile-plan-chevron" aria-hidden="true">
-              <IconChevron />
-            </span>
+            {favoriteTheatersSection.viewAllLabel}{' '}
+            <span aria-hidden="true">›</span>
           </button>
-        </section>
-      ) : null}
-
-      {showMembership ? (
-        <section
-          className="v2-profile-section"
-          data-profile-section="membership"
-          aria-labelledby="v2-profile-membership-h"
-        >
-          <h2 id="v2-profile-membership-h" className="v2-profile-section-label">
-            {membership.sectionTitle}
-          </h2>
-          <div className="v2-profile-membership-card">
-            <img
-              className="v2-profile-membership-logo"
-              src={membership.logoUrl}
-              alt=""
-            />
-            <div className="v2-profile-membership-copy">
-              <p className="v2-profile-membership-name">{membership.name}</p>
-              <p className="v2-profile-membership-renew">
-                {membership.renewLabel}
-              </p>
-              <p className="v2-profile-membership-usage">
-                {membership.usageLabel}
-              </p>
-            </div>
-            <button
-              type="button"
-              className="v2-profile-link"
-              onClick={() =>
-                announceStub('manage-membership', membership.manageLabel)
-              }
-            >
-              {membership.manageLabel} <span aria-hidden="true">›</span>
-            </button>
-          </div>
-        </section>
-      ) : null}
-
-      {showFavorites ? (
-        <section
-          className="v2-profile-section"
-          data-profile-section="favoriteTheaters"
-          aria-labelledby="v2-profile-fav-h"
-        >
-          <div className="v2-profile-section-row">
-            <h2 id="v2-profile-fav-h" className="v2-profile-section-label">
-              {favoriteTheatersSection.title}
-            </h2>
-            <button
-              type="button"
-              className="v2-profile-link"
-              onClick={() =>
-                announceStub(
-                  'view-all-theaters',
-                  favoriteTheatersSection.viewAllLabel,
-                )
-              }
-            >
-              {favoriteTheatersSection.viewAllLabel}{' '}
-              <span aria-hidden="true">›</span>
-            </button>
-          </div>
+        </div>
+        {favoriteTheaters.length > 0 ? (
           <ul className="v2-profile-theaters">
             {favoriteTheaters.map((theater) => (
               <li key={theater.id}>
@@ -509,7 +387,10 @@ export default function ProfileDestination({
                   type="button"
                   className="v2-profile-theater-card"
                   onClick={() =>
-                    announceStub(`theater-${theater.id}`, theater.name)
+                    onOpenTheaterDetail?.({
+                      theaterId: theater.id,
+                      originPrimary: 'profile',
+                    })
                   }
                 >
                   <span className="v2-profile-theater-media">
@@ -519,14 +400,10 @@ export default function ProfileDestination({
                       <span className="v2-profile-theater-fallback" aria-hidden="true" />
                     )}
                     <span
-                      className={
-                        theater.favorited
-                          ? 'v2-profile-theater-star v2-profile-theater-star-on'
-                          : 'v2-profile-theater-star'
-                      }
+                      className="v2-profile-theater-star v2-profile-theater-star-on"
                       aria-hidden="true"
                     >
-                      {theater.favorited ? <IconStarFill /> : <IconStar />}
+                      <IconStarFill />
                     </span>
                   </span>
                   <span className="v2-profile-theater-name">{theater.name}</span>
@@ -539,8 +416,21 @@ export default function ProfileDestination({
               </li>
             ))}
           </ul>
-        </section>
-      ) : null}
+        ) : (
+          <div className="v2-profile-theaters-empty">
+            <p className="v2-profile-theaters-empty-copy">
+              {favoriteTheatersSection.emptyTitle}
+            </p>
+            <button
+              type="button"
+              className="v2-profile-account-btn"
+              onClick={() => openProfileCollection(COLLECTION_IDS.theaters)}
+            >
+              {favoriteTheatersSection.emptyActionLabel}
+            </button>
+          </div>
+        )}
+      </section>
 
       <section
         className="v2-profile-section"
@@ -550,46 +440,6 @@ export default function ProfileDestination({
         <h2 id="v2-profile-settings-h" className="v2-profile-section-label">
           {settingsSectionTitle}
         </h2>
-        <div
-          className="v2-profile-time-format"
-          data-profile-setting="time-format"
-        >
-          <div className="v2-profile-time-format-head">
-            <span className="v2-profile-settings-icon" aria-hidden="true">
-              <IconClock />
-            </span>
-            <span className="v2-profile-time-format-copy">
-              <span className="v2-profile-settings-label">Time format</span>
-              <span className="v2-profile-time-format-support">
-                12-hour with AM/PM, or 24-hour (e.g. 1:30 PM vs 13:30).
-              </span>
-            </span>
-          </div>
-          <div
-            className="v2-ss-segment v2-profile-time-format-segment"
-            role="group"
-            aria-label="Time format"
-          >
-            {SCHEDULE_SETTINGS_TIME_FORMATS.map((opt) => {
-              const selected = opt.id === timeFormatId;
-              return (
-                <button
-                  key={opt.id}
-                  type="button"
-                  className={
-                    selected
-                      ? 'v2-ss-segment-btn v2-ss-segment-btn-active'
-                      : 'v2-ss-segment-btn'
-                  }
-                  aria-pressed={selected}
-                  onClick={() => setTimeFormat(opt.id)}
-                >
-                  {opt.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
         <ul className="v2-profile-settings">
           {settingsRows.map((row) => {
             const Icon = SETTINGS_ICONS[row.icon] ?? IconInfo;
@@ -598,7 +448,12 @@ export default function ProfileDestination({
                 <button
                   type="button"
                   className="v2-profile-settings-row"
-                  onClick={() => announceStub(`settings-${row.id}`, row.label)}
+                  onClick={() =>
+                    onOpenProfileSettings?.({
+                      sectionId: row.sectionId,
+                      originPrimary: 'profile',
+                    })
+                  }
                 >
                   <span className="v2-profile-settings-icon" aria-hidden="true">
                     <Icon />
@@ -614,39 +469,24 @@ export default function ProfileDestination({
         </ul>
       </section>
 
-      {showDataSources ? (
+      {auth.signedIn && profileIsAdmin(auth.profile) ? (
         <section
-          className="v2-profile-section v2-profile-data-sources"
-          data-profile-section="dataSources"
-          aria-labelledby="v2-profile-data-sources-h"
+          className="v2-profile-section v2-profile-admin"
+          data-profile-section="admin"
+          aria-labelledby="v2-profile-admin-h"
         >
-          <div className="v2-profile-section-row">
-            <h2
-              id="v2-profile-data-sources-h"
-              className="v2-profile-section-label"
-            >
-              About &amp; data sources
-            </h2>
-            <button
-              type="button"
-              className="v2-profile-link"
-              onClick={() => setShowDataSources(false)}
-            >
-              Close <span aria-hidden="true">›</span>
-            </button>
-          </div>
-          <TmdbAttribution />
+          <h2 id="v2-profile-admin-h" className="v2-profile-section-label">
+            Admin
+          </h2>
+          <button
+            type="button"
+            className="v2-profile-link"
+            onClick={() => onOpenAdminTmdbReview?.()}
+          >
+            TMDB Match Review
+          </button>
         </section>
       ) : null}
-
-      <p
-        id={stubStatusId}
-        className="v2-visually-hidden"
-        role="status"
-        aria-live="polite"
-      >
-        {stubMessage ?? ''}
-      </p>
     </section>
   );
 }

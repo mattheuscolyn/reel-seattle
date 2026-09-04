@@ -21,6 +21,10 @@ const PROFILE_SRC = readFileSync(
   join(ROOT, 'v2/profile/ProfileDestination.jsx'),
   'utf8',
 );
+const SETTINGS_SRC = readFileSync(
+  join(ROOT, 'v2/profile/settings/ProfileSettingsSurface.jsx'),
+  'utf8',
+);
 const BUILD_PLAN_SRC = readFileSync(
   join(ROOT, 'v2/planner/BuildPlanSurface.jsx'),
   'utf8',
@@ -94,12 +98,17 @@ test('time format preference persists across rehydration', () => {
   assert.equal(getScheduleSettings(storage).timeFormatId, '12h');
 });
 
-test('Profile exposes a live Time format control wired to schedule settings', () => {
-  assert.match(PROFILE_SRC, /data-profile-setting="time-format"/);
-  assert.match(PROFILE_SRC, /Time format/);
-  assert.match(PROFILE_SRC, /updateScheduleSettings/);
-  assert.match(PROFILE_SRC, /SCHEDULE_SETTINGS_TIME_FORMATS/);
-  assert.match(PROFILE_SRC, /12-hour with AM\/PM/);
+test('Profile no longer exposes Time format on the Profile root', () => {
+  assert.equal(PROFILE_SRC.includes('data-profile-setting="time-format"'), false);
+  assert.equal(PROFILE_SRC.includes('Time format'), false);
+  assert.equal(PROFILE_SRC.includes('updateScheduleSettings'), false);
+  assert.equal(PROFILE_SRC.includes('SCHEDULE_SETTINGS_TIME_FORMATS'), false);
+});
+
+test('Preferences Settings destination owns the working time-format control', () => {
+  assert.match(SETTINGS_SRC, /data-settings-control="time-format"/);
+  assert.match(SETTINGS_SRC, /updateScheduleSettings/);
+  assert.match(SETTINGS_SRC, /SCHEDULE_SETTINGS_TIME_FORMATS/);
 });
 
 test('Build a Plan JSX order is When → Where → What → Fine tuning', () => {

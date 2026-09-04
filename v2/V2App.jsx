@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import DestinationPlaceholder from './DestinationPlaceholder.jsx';
 import AppHeader from './home/AppHeader.jsx';
 import PrimaryNav from './PrimaryNav.jsx';
-import { resolveActivePrimaryId } from './destinations.js';
+import { originBackLabel, resolveActivePrimaryId } from './destinations.js';
 import { loadHomeData } from './data/loadHomeData.js';
 import { loadFilmEnrichment } from './enrichment/loadFilmEnrichment.js';
 import { reconcileUserFilmStores } from './stores/reconcileUserFilmStores.js';
@@ -53,6 +53,7 @@ import {
   openCompareFormats,
   openFormatRecommendation,
   openAdminTmdbReview,
+  openProfileSettings,
   selectPrimaryDestination,
   startPlannerFromFilm,
   updateSearchUi,
@@ -81,6 +82,7 @@ import ExperienceDetailSurface from './formatsExperiences/ExperienceDetailSurfac
 import CompareFormatsSurface from './formatsExperiences/CompareFormatsSurface.jsx';
 import FormatRecommendationSurface from './formatsExperiences/FormatRecommendationSurface.jsx';
 import TmdbMatchReviewSurface from './admin/tmdbReview/TmdbMatchReviewSurface.jsx';
+import ProfileSettingsSurface from './profile/settings/ProfileSettingsSurface.jsx';
 import { createDefaultShowtimesBrowseUi } from './showtimes/showtimesBrowseModel.js';
 import { resolveFilmDetailBackLabel } from './filmDetail/filmDetailModel.js';
 import { isPlanDetailsMockupMode } from './fixtures/buildPlanPlanDetailsMockupFixture.js';
@@ -510,6 +512,16 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleOpenProfileSettings = useCallback((params = {}) => {
+    setNav((current) =>
+      openProfileSettings(current, {
+        sectionId: params.sectionId,
+        originPrimary: params.originPrimary ?? 'profile',
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
@@ -569,7 +581,11 @@ export default function V2App() {
   const handleOpenTheaterDetail = useCallback((params) => {
     setNav((current) =>
       openTheaterDetail(current, {
-        originPrimary: params.originPrimary ?? 'explore',
+        originPrimary:
+          params.originPrimary ??
+          current.surface?.originPrimary ??
+          current.primaryDestinationId ??
+          'explore',
         theaterId: params.theaterId,
         returnSurface: params.returnSurface ?? current.surface,
       }),
@@ -892,6 +908,7 @@ export default function V2App() {
   const isCompareFormats = nav.surface?.type === 'compare-formats';
   const isFormatRecommendation = nav.surface?.type === 'format-recommendation';
   const isAdminTmdbReview = nav.surface?.type === 'admin-tmdb-review';
+  const isProfileSettings = nav.surface?.type === 'profile-settings';
   const isPersonalCollection =
     nav.surface?.type === 'collection' &&
     isPersonalCollectionId(nav.surface.collectionId);
@@ -1284,7 +1301,7 @@ export default function V2App() {
         backLabel={
           nav.surface.returnSurface?.type === 'collection'
             ? 'Theaters'
-            : 'Explore'
+            : originBackLabel(nav.surface.originPrimary)
         }
         onBack={handleBack}
         onOpenFilmDetail={({ filmKey, opportunityKey }) =>
@@ -1316,9 +1333,7 @@ export default function V2App() {
       <TheatersSurface
         homeData={sharedHomeData.homeData}
         onBack={handleBack}
-        backLabel={
-          nav.surface.originPrimary === 'home' ? 'Home' : 'Explore'
-        }
+        backLabel={originBackLabel(nav.surface.originPrimary)}
         onOpenTheaterDetail={({ theaterId }) =>
           handleOpenTheaterDetail({
             theaterId,
@@ -1616,6 +1631,16 @@ export default function V2App() {
         onBack={handleBack}
       />
     );
+  } else if (isProfileSettings) {
+    mainContent = (
+      <ProfileSettingsSurface
+        sectionId={nav.surface.sectionId}
+        onAuthAction={(actionId) => {
+          setProfileStubStatus(actionId);
+          window.setTimeout(() => setProfileStubStatus(null), 2500);
+        }}
+      />
+    );
   } else {
     mainContent = (
       <DestinationPlaceholder
@@ -1645,6 +1670,8 @@ export default function V2App() {
           window.setTimeout(() => setProfileStubStatus(null), 2500);
         }}
         onOpenAdminTmdbReview={handleOpenAdminTmdbReview}
+        onOpenTheaterDetail={handleOpenTheaterDetail}
+        onOpenProfileSettings={handleOpenProfileSettings}
         onPlannerStubAction={(_actionId, label) => {
           setProfileStubStatus(
             `${label} isn’t available in this Stage 1 Planner shell yet.`,
@@ -1806,9 +1833,9 @@ export default function V2App() {
               : isSearchResults
                 ? 'Explore'
                 : isPersonalCollection
-                  ? nav.surface.originPrimary === 'home'
-                    ? 'Home'
-                    : 'Explore'
+                  ? originBackLabel(nav.surface.originPrimary)
+                : isProfileSettings
+                  ? originBackLabel(nav.surface.originPrimary)
                 : isBuildPlanPlanDetails
                   ? nav.surface?.returnSurface?.type === 'build-plan-results'
                     ? 'results'
@@ -1826,7 +1853,8 @@ export default function V2App() {
           isSearchResults ||
           isPersonalCollection ||
           isBuildPlanChrome ||
-          isShowtimesBrowse
+          isShowtimesBrowse ||
+          isProfileSettings
             ? handleBack
             : null
         }

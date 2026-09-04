@@ -23,15 +23,10 @@ import {
   stopAuthController,
 } from '../../v2/auth/authSessionStore.js';
 import {
-  buildProfileActivityItems,
   getProfileActivityCounts,
-  getProfileNextPlan,
+  buildYourFilmsItems,
 } from '../../v2/profile/profileActivity.js';
 import { resolveLiveProfilePresentation } from '../../v2/profile/resolveLiveProfilePresentation.js';
-import {
-  acceptPlan,
-  ACCEPTED_PLANS_STORAGE_KEY,
-} from '../../v2/stores/acceptedPlansStore.js';
 import {
   saveFilm,
   SAVED_FILMS_STORAGE_KEY,
@@ -170,11 +165,14 @@ test('signed-out live presentation has no Mattheus / mock email', () => {
   assert.equal(p.identity.email, null);
   assert.equal(p.identity.avatarUrl, null);
   assert.match(p.identity.secondaryLabel ?? '', /Sign in to sync/i);
-  assert.equal(p.membership.available, false);
+  assert.equal(p.yourFilms.length, 3);
   assert.deepEqual(
-    p.activity.map((a) => a.value),
-    [0, 0, 0, 0],
+    p.yourFilms.map((a) => a.value),
+    [0, 0, 0],
   );
+  assert.equal('membership' in p, false);
+  assert.equal('activity' in p, false);
+  assert.equal('nextPlan' in p, false);
   assert.equal(PROFILE_SRC.includes('Mattheus'), false);
 });
 
@@ -210,7 +208,7 @@ test('auth loading presentation does not flash prior identity', () => {
   assert.equal(p.identity.email, null);
 });
 
-test('activity counts come from stores, not fixtures', () => {
+test('Your Films counts come from stores, not fixtures', () => {
   const storage = memoryStorage();
   const now = () => new Date('2026-08-04T18:00:00.000Z');
   saveFilm(storage, 'alpha', { title: 'Alpha', now });
@@ -225,52 +223,23 @@ test('activity counts come from stores, not fixtures', () => {
     seen: 1,
     notInterested: 3,
     saved: 2,
-    plans: 0,
     favoriteTheaters: 0,
   });
   assert.deepEqual(
-    buildProfileActivityItems(storage).map((a) => a.value),
-    [1, 3, 2, 0],
+    buildYourFilmsItems(storage).map((a) => a.value),
+    [2, 1, 3],
+  );
+  assert.deepEqual(
+    buildYourFilmsItems(storage).map((a) => a.label),
+    ['Saved', 'Seen', 'Not Interested'],
   );
   assert.notDeepEqual(
-    buildProfileActivityItems(storage).map((a) => a.value),
+    buildYourFilmsItems(storage).map((a) => a.value),
     [83, 27, 46, 3],
   );
   assert.ok(storage.getItem(SAVED_FILMS_STORAGE_KEY));
   assert.ok(storage.getItem(SEEN_FILMS_STORAGE_KEY));
   assert.ok(storage.getItem(NOT_INTERESTED_FILMS_STORAGE_KEY));
-});
-
-test('next plan uses accepted plans store when present', () => {
-  const storage = memoryStorage();
-  const result = acceptPlan(storage, {
-    provenance: 'live',
-    date: '2026-08-10',
-    performances: [
-      {
-        title: 'Live Plan Film',
-        theaterId: 'the-beacon',
-        theaterName: 'The Beacon',
-        filmKey: 'film-a',
-        filmId: 'tmdb:1',
-        localDate: '2026-08-10',
-        localTime: '19:00',
-        runtimeMin: 120,
-        sourceShowtimeId: 'show-1',
-        ticketUrl: 'https://example.test/tix',
-        posterUrl: 'https://example.test/p.jpg',
-      },
-    ],
-    now: () => new Date('2026-08-01T18:00:00.000Z'),
-  });
-  assert.equal(result.ok, true, result.error ? String(result.error) : '');
-  const next = getProfileNextPlan(storage, {
-    now: new Date('2026-08-04T12:00:00'),
-  });
-  assert.ok(next);
-  assert.equal(next.title, 'Live Plan Film');
-  assert.equal(next.theaterName, 'The Beacon');
-  assert.ok(storage.getItem(ACCEPTED_PLANS_STORAGE_KEY));
 });
 
 test('updateOwnDisplayName requires session and rejects other-user ids', async () => {

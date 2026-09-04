@@ -540,6 +540,7 @@ test('local stores preserved across sign-in and sign-out (no sync)', async () =>
     'v2/stores/favoriteTheatersStore.js',
     'v2/stores/acceptedPlansStore.js',
     'v2/stores/scheduleSettingsStore.js',
+    'v2/stores/experiencePreferencesStore.js',
   ];
   for (const rel of storeFiles) {
     const src = readFileSync(join(ROOT, rel), 'utf8');
@@ -577,7 +578,7 @@ test('Profile account UI + auth modules avoid service-role secrets', () => {
   assert.equal(panel.toLowerCase().includes('already synced'), false);
   assert.equal(panel.toLowerCase().includes('backed up'), false);
   assert.match(profile, /ProfileAccountPanel/);
-  assert.match(profile, /data-profile-section="account"/);
+  assert.match(panel, /data-profile-section="account"/);
   assert.match(appSrc, /startAuthController/);
   assert.match(appSrc, /consumeAuthReturnToProfile/);
 
