@@ -12,13 +12,21 @@ import {
 } from '../topOpportunities/topOpportunityFormat.js';
 import { normalizeExternalTicketUrl } from '../ticket/externalTicketUrl.js';
 import {
-  listEligibleBrowseOpportunities,
   opportunitySortableKey,
   parseLocalTimeMinutes,
-  resolveShowtimesBrowseDateWindow,
+  resolveBrowseDateBounds,
 } from './showtimeEligibility.js';
 import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
+import {
+  countActiveBrowseFilterDimensions,
+  evaluateBrowseFilters,
+} from './browseFilterEngine.js';
+import {
+  browseEmptyMessageForReason,
+  normalizeBrowseFilters,
+} from './browseFilterState.js';
+import { formatBrowseDateSummaryPhrase } from './browseDateSortUtils.js';
 
 export const SHOWTIMES_BROWSE_DATE_MODES = Object.freeze([
   Object.freeze({ id: 'today', label: 'Today' }),
@@ -351,12 +359,14 @@ export function groupBrowseOpportunitiesByFilm(
 
 /**
  * Full browse page presentation.
+ * Filtered opportunity set comes from evaluateBrowseFilters (single engine path).
  * @param {object | null | undefined} homeData
- * @param {ReturnType<typeof createDefaultShowtimesBrowseUi>} [ui]
+ * @param {ReturnType<typeof createDefaultShowtimesBrowseUi> | object} [ui]
  * @param {{
  *   now?: Date | (() => Date),
  *   enrichmentIndex?: object | null,
  *   timeFormatId?: string,
+ *   storage?: Storage | null,
  * }} [options]
  */
 export function buildShowtimesBrowsePresentation(
@@ -364,50 +374,45 @@ export function buildShowtimesBrowsePresentation(
   ui = createDefaultShowtimesBrowseUi(),
   options = {},
 ) {
-  const dateMode = ui?.dateMode ?? 'today';
   const now = options.now ?? new Date();
   const enrichmentIndex = options.enrichmentIndex ?? null;
   const timeFormatId =
     typeof options.timeFormatId === 'string' && options.timeFormatId
       ? options.timeFormatId
       : '12h';
-  const window = resolveShowtimesBrowseDateWindow(dateMode, now);
-  const eligible = listEligibleBrowseOpportunities(homeData, dateMode, now);
-  const theaterOptions = listBrowseTheaterFilterOptions(eligible);
-  const formatOptions = ensureSelectedBrowseFormatOptions(
-    listBrowseFormatFilterOptions(eligible),
-    ui?.formatKeys ?? [],
-  );
+  const storage = options.storage ?? null;
 
-  const filters = {
-    theaterIds: ui?.theaterIds ?? [],
-    formatKeys: ui?.formatKeys ?? [],
-    timeRangeId: ui?.timeRangeId ?? 'any',
-  };
-  const filtered = filterBrowseOpportunities(eligible, filters);
-  const films = groupBrowseOpportunitiesByFilm(
-    filtered,
-    homeData,
-    dateMode,
+  const filters = normalizeBrowseFilters(ui, now);
+  const dateMode = filters.dateSelection.mode;
+  const window = resolveBrowseDateBounds(filters.dateSelection, now);
+  const evaluation = evaluateBrowseFilters(homeData, filters, {
+    now,
     enrichmentIndex,
     timeFormatId,
+    storage,
+  });
+
+  const theaterOptions = listBrowseTheaterFilterOptions(
+    evaluation.eligibleOpportunities,
+  );
+  const formatOptions = ensureSelectedBrowseFormatOptions(
+    listBrowseFormatFilterOptions(evaluation.eligibleOpportunities),
+    filters.formatKeys,
   );
 
-  const hasActiveFilters =
-    (filters.theaterIds?.length ?? 0) > 0 ||
-    (filters.formatKeys?.length ?? 0) > 0 ||
-    (filters.timeRangeId && filters.timeRangeId !== 'any');
+  const legacyFilters = {
+    theaterIds: filters.theaterIds,
+    formatKeys: filters.formatKeys,
+    timeRangeId:
+      filters.time.preset === 'custom' ? 'any' : filters.time.preset,
+  };
 
-  let emptyMessage = null;
-  if (!homeData) {
-    emptyMessage = null; // surface uses loadStatus
-  } else if (eligible.length === 0) {
-    if (dateMode === 'today') emptyMessage = 'No more showtimes today.';
-    else if (dateMode === 'tomorrow') emptyMessage = 'No showtimes tomorrow.';
-    else emptyMessage = 'No showtimes found in the next 7 days.';
-  } else if (filtered.length === 0) {
-    emptyMessage = 'No showtimes match these filters.';
-  }
+  const activeFilterCount = countActiveBrowseFilterDimensions(filters);
+  const hasActiveFilters = activeFilterCount > 0;
+  const emptyMessage = browseEmptyMessageForReason(
+    evaluation.emptyReason,
+    filters.dateSelection.mode,
+  );
 
   const dateModeMeta = SHOWTIMES_BROWSE_DATE_MODES.find((m) => m.id === dateMode);
   let windowLabel = dateModeMeta?.label ?? 'Showtimes';
@@ -415,22 +420,30 @@ export function buildShowtimesBrowsePresentation(
     windowLabel = `${formatCompactDateRange(window.startDate, window.endDate)}`;
   } else if (dateMode === 'today' || dateMode === 'tomorrow') {
     windowLabel = formatCompactDateLabel(window.startDate);
+  } else if (dateMode === 'range') {
+    windowLabel = formatBrowseDateSummaryPhrase(filters.dateSelection);
   }
 
   return {
     dateMode,
     window,
     windowLabel,
-    eligibleCount: eligible.length,
-    filteredCount: filtered.length,
-    filmCount: films.length,
-    films,
+    eligibleCount: evaluation.eligibleOpportunities.length,
+    filteredCount: evaluation.resultCount,
+    filmCount: evaluation.filmCount,
+    films: evaluation.filmGroups,
     theaterOptions,
     formatOptions,
     timeRangeOptions: SHOWTIMES_BROWSE_TIME_RANGES,
-    filters,
+    filters: legacyFilters,
+    appliedFilters: filters,
+    evaluation,
+    emptyReason: evaluation.emptyReason,
+    activeFilterCount,
     hasActiveFilters,
     emptyMessage,
-    showResetFilters: Boolean(emptyMessage && hasActiveFilters && eligible.length > 0),
+    showResetFilters: Boolean(
+      emptyMessage && hasActiveFilters && evaluation.eligibleOpportunities.length > 0,
+    ),
   };
 }

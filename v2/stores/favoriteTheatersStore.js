@@ -362,6 +362,32 @@ export function isTheaterFavorite(storage, theaterRef) {
   );
 }
 
+/** @type {Set<() => void>} */
+const favoriteTheatersListeners = new Set();
+
+/**
+ * Subscribe to local favorite-theater mutations (same-tab).
+ * @param {() => void} listener
+ * @returns {() => void}
+ */
+export function subscribeFavoriteTheaters(listener) {
+  if (typeof listener !== 'function') return () => {};
+  favoriteTheatersListeners.add(listener);
+  return () => {
+    favoriteTheatersListeners.delete(listener);
+  };
+}
+
+function emitFavoriteTheatersChange() {
+  for (const listener of favoriteTheatersListeners) {
+    try {
+      listener();
+    } catch {
+      // ignore subscriber errors
+    }
+  }
+}
+
 /**
  * @param {Storage | null | undefined} storage
  * @param {FavoriteTheatersStorePayload} store
@@ -385,7 +411,14 @@ function writeFavoriteTheatersStore(storage, store) {
       FAVORITE_THEATERS_STORAGE_KEY,
       JSON.stringify(normalized),
     );
-    return { ok: true, store: normalized, error: null, changed: true };
+    const result = {
+      ok: true,
+      store: normalized,
+      error: null,
+      changed: true,
+    };
+    emitFavoriteTheatersChange();
+    return result;
   } catch (error) {
     const name = error && typeof error === 'object' ? error.name : '';
     const message =
@@ -588,12 +621,14 @@ export function clearFavoriteTheaters(storage) {
       };
     }
     storage.removeItem(FAVORITE_THEATERS_STORAGE_KEY);
-    return {
+    const result = {
       ok: true,
       store: emptyFavoriteTheatersStore(),
       error: null,
       changed: true,
     };
+    emitFavoriteTheatersChange();
+    return result;
   } catch {
     return {
       ok: false,
