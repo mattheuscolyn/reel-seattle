@@ -1,13 +1,13 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-04T23:01:03-07:00",
+  "generated_at": "2026-09-05T02:47:11-07:00",
   "source": "amc",
   "model_version": "amc_remaining_run_survival_v1",
   "published": true,
   "skipped_reason": null,
   "window": {
-    "start_date": "2026-09-04",
-    "end_date": "2026-09-18"
+    "start_date": "2026-09-05",
+    "end_date": "2026-09-19"
   },
   "method": {
     "name": "amc_remaining_run_survival_v1",
@@ -23,25 +23,25 @@
   "stats": {
     "candidate_film_count": 34,
     "flagged_film_count": 22,
-    "last_chance_count": 3,
-    "leaving_soon_count": 19
+    "last_chance_count": 7,
+    "leaving_soon_count": 15
   },
   "items": [
     {
-      "film_key": "changeling-star-trek-the-motion-picture-director-s-edition-60th-anniversary-event",
-      "film_title": "The Changeling + Star Trek: The Motion Picture - Director's Edition - 60th Anniversary Event",
+      "film_key": "space-seed-star-trek-ii-the-wrath-of-khan-director-s-cut-60th-anniversary-event",
+      "film_title": "Space Seed + Star Trek II: The Wrath of Khan - Director's Cut 60th Anniversary Event",
       "risk_level": "high",
       "reason": "This theatrical run looks likely to end this week.",
       "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84713",
-      "run_id": "84713#01",
+      "source_film_id": "84714",
+      "run_id": "84714#01",
       "run_type": "rerelease_anniversary",
       "sort_rank": 1,
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-09-04",
-      "max_show_date": "2026-09-04",
-      "total_visible_showtimes": 2,
+      "visible_show_date_count": 2,
+      "min_show_date": "2026-09-05",
+      "max_show_date": "2026-09-08",
+      "total_visible_showtimes": 4,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -54,42 +54,13 @@
         }
       ],
       "show_dates": [
-        "2026-09-04"
+        "2026-09-05",
+        "2026-09-08"
       ],
       "has_primetime": false,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1787332495/amc-cdn/content/general/pugx74y5oeuejl2axcpx.jpg",
-      "runtime_min": 187
-    },
-    {
-      "film_key": "i-want-your-sex",
-      "film_title": "I Want Your Sex",
-      "risk_level": "high",
-      "reason": "This theatrical run looks likely to end this week.",
-      "leaving_soon_bucket": "last_chance",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "83178",
-      "run_id": "83178#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 2,
-      "visible_show_date_count": 1,
-      "min_show_date": "2026-09-07",
-      "max_show_date": "2026-09-07",
-      "total_visible_showtimes": 1,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-09-07"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818215/amc-cdn/production/2/movies/83200/83178/Poster/364876R1.jpg",
-      "runtime_min": 90
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1787396992/amc-cdn/production/2/movies/84700/84714/Poster/424011R1.jpg",
+      "runtime_min": 163
     },
     {
       "film_key": "cars-20th-anniversary",
@@ -101,11 +72,11 @@
       "source_film_id": "84149",
       "run_id": "84149#01",
       "run_type": "rerelease_anniversary",
-      "sort_rank": 3,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "sort_rank": 2,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 56,
+      "total_visible_showtimes": 47,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -126,7 +97,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -139,20 +109,50 @@
       "runtime_min": 116
     },
     {
+      "film_key": "i-want-your-sex",
+      "film_title": "I Want Your Sex",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "83178",
+      "run_id": "83178#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 3,
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-09-07",
+      "max_show_date": "2026-09-07",
+      "total_visible_showtimes": 1,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-09-07"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818215/amc-cdn/production/2/movies/83200/83178/Poster/364876R1.jpg",
+      "runtime_min": 90
+    },
+    {
       "film_key": "magic-faraway-tree",
       "film_title": "The Magic Faraway Tree",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "83464",
       "run_id": "83464#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 4,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -161,7 +161,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -176,18 +175,18 @@
     {
       "film_key": "colony",
       "film_title": "Colony",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "83566",
       "run_id": "83566#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 5,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -196,7 +195,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -211,18 +209,18 @@
     {
       "film_key": "spa-weekend",
       "film_title": "Spa Weekend",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "82597",
       "run_id": "82597#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 6,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-08",
-      "total_visible_showtimes": 5,
+      "total_visible_showtimes": 4,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -231,7 +229,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -245,18 +242,18 @@
     {
       "film_key": "sahaa",
       "film_title": "Sahaa",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "84863",
       "run_id": "84863#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 7,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -265,7 +262,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -288,10 +284,10 @@
       "run_id": "83488#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 8,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -300,7 +296,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -323,10 +318,10 @@
       "run_id": "84200#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 9,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 24,
+      "total_visible_showtimes": 21,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -335,7 +330,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -358,10 +352,10 @@
       "run_id": "84544#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 10,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 7,
+      "total_visible_showtimes": 6,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -370,7 +364,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -383,6 +376,40 @@
       "runtime_min": 95
     },
     {
+      "film_key": "salt-path",
+      "film_title": "The Salt Path",
+      "risk_level": "elevated",
+      "reason": "This theatrical run may be winding down soon.",
+      "leaving_soon_bucket": "leaving_soon",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84006",
+      "run_id": "84006#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 11,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
+      "max_show_date": "2026-09-09",
+      "total_visible_showtimes": 5,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-05",
+        "2026-09-06",
+        "2026-09-07",
+        "2026-09-08",
+        "2026-09-09"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1786550182/amc-cdn/content/general/mc03hkyqahv9qtsg7mf2.jpg",
+      "runtime_min": 115
+    },
+    {
       "film_key": "mutiny",
       "film_title": "Mutiny",
       "risk_level": "elevated",
@@ -392,11 +419,11 @@
       "source_film_id": "79550",
       "run_id": "79550#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 11,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-09-04",
+      "sort_rank": 12,
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-08",
-      "total_visible_showtimes": 20,
+      "total_visible_showtimes": 16,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -413,7 +440,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -425,76 +451,6 @@
       "runtime_min": 95
     },
     {
-      "film_key": "salt-path",
-      "film_title": "The Salt Path",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84006",
-      "run_id": "84006#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 12,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
-      "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 6,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        }
-      ],
-      "show_dates": [
-        "2026-09-04",
-        "2026-09-05",
-        "2026-09-06",
-        "2026-09-07",
-        "2026-09-08",
-        "2026-09-09"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1786550182/amc-cdn/content/general/mc03hkyqahv9qtsg7mf2.jpg",
-      "runtime_min": 115
-    },
-    {
-      "film_key": "teenage-sex-and-death-at-camp-miasma",
-      "film_title": "Teenage Sex and Death at Camp Miasma",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "82941",
-      "run_id": "82941#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 13,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
-      "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 11,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-09-04",
-        "2026-09-05",
-        "2026-09-06",
-        "2026-09-07",
-        "2026-09-08",
-        "2026-09-09"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783006356/amc-cdn/content/general/ad8bgnhvw2jwfwdk4tlb.jpg",
-      "runtime_min": 112
-    },
-    {
       "film_key": "mirzapur",
       "film_title": "Mirzapur",
       "risk_level": "elevated",
@@ -504,11 +460,11 @@
       "source_film_id": "84313",
       "run_id": "84313#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 14,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "sort_rank": 13,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -517,7 +473,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -530,6 +485,40 @@
       "runtime_min": 195
     },
     {
+      "film_key": "teenage-sex-and-death-at-camp-miasma",
+      "film_title": "Teenage Sex and Death at Camp Miasma",
+      "risk_level": "elevated",
+      "reason": "This theatrical run may be winding down soon.",
+      "leaving_soon_bucket": "leaving_soon",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "82941",
+      "run_id": "82941#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 14,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
+      "max_show_date": "2026-09-09",
+      "total_visible_showtimes": 9,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-09-05",
+        "2026-09-06",
+        "2026-09-07",
+        "2026-09-08",
+        "2026-09-09"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783006356/amc-cdn/content/general/ad8bgnhvw2jwfwdk4tlb.jpg",
+      "runtime_min": 112
+    },
+    {
       "film_key": "cocoon-one-summer-of-girlhood",
       "film_title": "cocoon - One Summer of Girlhood",
       "risk_level": "elevated",
@@ -540,10 +529,10 @@
       "run_id": "83878#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 15,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 15,
+      "total_visible_showtimes": 12,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -556,7 +545,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -579,10 +567,10 @@
       "run_id": "84335#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 16,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 25,
+      "total_visible_showtimes": 20,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -595,7 +583,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -618,10 +605,10 @@
       "run_id": "84528#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 17,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -630,7 +617,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -653,10 +639,10 @@
       "run_id": "72482#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 18,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 17,
+      "total_visible_showtimes": 15,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -669,7 +655,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -692,10 +677,10 @@
       "run_id": "83859#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 19,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 29,
+      "total_visible_showtimes": 24,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -716,7 +701,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -739,10 +723,10 @@
       "run_id": "84482#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 20,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 37,
+      "total_visible_showtimes": 31,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -759,7 +743,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -782,10 +765,10 @@
       "run_id": "82868#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 21,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 31,
+      "total_visible_showtimes": 25,
       "total_visible_theaters": 5,
       "theaters": [
         {
@@ -810,7 +793,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
@@ -833,10 +815,10 @@
       "run_id": "76344#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 22,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-04",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-05",
       "max_show_date": "2026-09-09",
-      "total_visible_showtimes": 73,
+      "total_visible_showtimes": 59,
       "total_visible_theaters": 5,
       "theaters": [
         {
@@ -861,7 +843,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-04",
         "2026-09-05",
         "2026-09-06",
         "2026-09-07",
