@@ -26,6 +26,8 @@ Current migrations:
 7. `20260814110000_service_role_showtime_notification_grants.sql` — minimum `service_role` table grants for the detector (SELECT prefs; SELECT/INSERT/UPDATE watches; INSERT notifications)
 8. `20260818000000_admin_film_identity_reviews.sql` — `profiles.is_admin` (client-immutable) + `film_identity_reviews` (admin-only RLS). See [docs/v2/tmdb-match-review-admin.md](../docs/v2/tmdb-match-review-admin.md).
 9. `20260821000000_film_identity_review_events.sql` — append-only `film_identity_review_events` audit trail (trigger on review upsert).
+10. `20260904000000_friendships_and_invites.sql` — invite-only `friendships` + `friend_invites`, RLS, and RPCs (`create_friend_invite`, `lookup_friend_invite`, `accept_friend_invite`, `revoke_friend_invite`, `list_friends`, `remove_friend`). No public profile search. `share_interaction_count` is read-only until Phase C.
+11. `20260904140000_friend_invite_short_code_rate_limit.sql` — failed authenticated 8-character invite lookups/accepts are capped at 10 per 10 minutes per `auth.uid()`. Long-token lookup stays anonymous and unthrottled. Attempt ledger `friend_invite_code_attempts` is not client readable or writable.
 
 After applying migration 8, mark the authorized account in the SQL editor (postgres / service role only — there is no self-serve admin UI):
 

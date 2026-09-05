@@ -204,6 +204,13 @@ function serveAllowedV2PublicData() {
         writeFileSync(cnameDest, 'www.reelseattle.com\n', 'utf8')
       }
       console.log(`[v2-data] wrote dist-v2/CNAME (${readFileSync(cnameDest, 'utf8').trim()})`)
+
+      const spaFallbackSrc = join(repoRoot, 'public', '404.html')
+      const spaFallbackDest = join(v2OutDir, '404.html')
+      if (existsSync(spaFallbackSrc)) {
+        cpSync(spaFallbackSrc, spaFallbackDest)
+        console.log('[v2-data] wrote dist-v2/404.html (SPA invite path fallback)')
+      }
     },
   }
 }

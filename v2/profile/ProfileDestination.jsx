@@ -34,6 +34,7 @@ import { resolveLiveProfilePresentation } from './resolveLiveProfilePresentation
 import { profileIsAdmin } from '../admin/tmdbReview/sourceIdentity.js';
 import { COLLECTION_IDS } from '../explore/exploreIds.js';
 import { subscribeFavoriteTheaters } from '../stores/favoriteTheatersStore.js';
+import ProfileFriendsPreview from '../friends/ProfileFriendsPreview.jsx';
 
 function getBrowserStorage() {
   try {
@@ -65,6 +66,7 @@ const SETTINGS_ICONS = {
  *   onOpenCollection?: (payload: object) => void,
  *   onOpenTheaterDetail?: (payload: object) => void,
  *   onOpenProfileSettings?: (payload: object) => void,
+ *   onOpenProfileFriends?: (payload?: { focusUserId?: string | null }) => void,
  * }} [props]
  */
 export default function ProfileDestination({
@@ -73,6 +75,7 @@ export default function ProfileDestination({
   onOpenCollection,
   onOpenTheaterDetail,
   onOpenProfileSettings,
+  onOpenProfileFriends,
 }) {
   const auth = useAuth();
   const storage = getBrowserStorage();
@@ -360,6 +363,15 @@ export default function ProfileDestination({
           })}
         </ul>
       </section>
+
+      <ProfileFriendsPreview
+        onOpenFriends={(payload) =>
+          onOpenProfileFriends?.({
+            originPrimary: 'profile',
+            focusUserId: payload?.focusUserId ?? null,
+          })
+        }
+      />
 
       <section
         className="v2-profile-section"

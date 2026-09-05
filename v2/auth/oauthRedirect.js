@@ -18,6 +18,10 @@ export const DEFAULT_PRODUCTION_OAUTH_ORIGIN = 'https://www.reelseattle.com';
 export const AUTH_RETURN_PROFILE_STORAGE_KEY =
   'reel-seattle.v2.authReturnProfile';
 
+/** sessionStorage token so OAuth return can reopen `/invite/<token>`. */
+export const AUTH_RETURN_INVITE_TOKEN_KEY =
+  'reel-seattle.v2.authReturnInviteToken';
+
 /**
  * @param {string} origin
  * @returns {boolean}
@@ -172,5 +176,44 @@ export function consumeAuthReturnToProfile(storage) {
     return value === '1';
   } catch {
     return false;
+  }
+}
+
+/**
+ * Mark that the next successful auth return should reopen an invite landing.
+ * Invite continuation wins over Profile return.
+ * @param {string} token
+ * @param {{ setItem?: Function, removeItem?: Function } | Storage | null} [storage]
+ */
+export function markAuthReturnToInvite(token, storage) {
+  const store =
+    storage ??
+    (typeof sessionStorage !== 'undefined' ? sessionStorage : null);
+  const value = typeof token === 'string' ? token.trim() : '';
+  if (!store || !value) return;
+  try {
+    store.setItem(AUTH_RETURN_INVITE_TOKEN_KEY, value);
+    store.removeItem(AUTH_RETURN_PROFILE_STORAGE_KEY);
+  } catch {
+    // ignore quota / private mode
+  }
+}
+
+/**
+ * Consume the invite-return token (one-shot).
+ * @param {{ getItem?: Function, removeItem?: Function } | Storage | null} [storage]
+ * @returns {string | null}
+ */
+export function consumeAuthReturnToInvite(storage) {
+  const store =
+    storage ??
+    (typeof sessionStorage !== 'undefined' ? sessionStorage : null);
+  if (!store) return null;
+  try {
+    const value = store.getItem(AUTH_RETURN_INVITE_TOKEN_KEY);
+    store.removeItem(AUTH_RETURN_INVITE_TOKEN_KEY);
+    return typeof value === 'string' && value.trim() ? value.trim() : null;
+  } catch {
+    return null;
   }
 }

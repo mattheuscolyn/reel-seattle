@@ -10,7 +10,7 @@ import { subscribeFilmStoreMutations } from './auth/filmStoreMutationBridge.js';
 import { isAllowedV2Hostname } from './isAllowedV2Hostname.js';
 import { startAuthController } from './auth/authSessionStore.js';
 import { useAuth } from './auth/useAuth.js';
-import { consumeAuthReturnToProfile } from './auth/oauthRedirect.js';
+import { consumeAuthReturnToInvite, consumeAuthReturnToProfile } from './auth/oauthRedirect.js';
 import {
   readQcHeaderNotificationsModeFromLocation,
   resolveNotificationBellPresentation,
@@ -54,6 +54,8 @@ import {
   openFormatRecommendation,
   openAdminTmdbReview,
   openProfileSettings,
+  openProfileFriends,
+  openFriendInviteLanding,
   selectPrimaryDestination,
   startPlannerFromFilm,
   updateSearchUi,
@@ -83,6 +85,14 @@ import CompareFormatsSurface from './formatsExperiences/CompareFormatsSurface.js
 import FormatRecommendationSurface from './formatsExperiences/FormatRecommendationSurface.jsx';
 import TmdbMatchReviewSurface from './admin/tmdbReview/TmdbMatchReviewSurface.jsx';
 import ProfileSettingsSurface from './profile/settings/ProfileSettingsSurface.jsx';
+import FriendsSurface from './friends/FriendsSurface.jsx';
+import FriendInviteLandingSurface from './friends/FriendInviteLandingSurface.jsx';
+import {
+  isLikelyFriendInviteToken,
+  parseInviteTokenFromPath,
+  restoreInvitePath,
+} from './friends/friendsModel.js';
+import { FRIEND_INVITE_LANDING_SURFACE_TYPE, PROFILE_FRIENDS_SURFACE_TYPE } from './friends/friendsIds.js';
 import { createDefaultShowtimesBrowseUi } from './showtimes/showtimesBrowseModel.js';
 import { resolveFilmDetailBackLabel } from './filmDetail/filmDetailModel.js';
 import { isPlanDetailsMockupMode } from './fixtures/buildPlanPlanDetailsMockupFixture.js';
@@ -242,9 +252,43 @@ export default function V2App() {
 
   useEffect(() => {
     // Auth is non-blocking — Home/Explore/Planner stay usable while this runs.
+    const pathToken = parseInviteTokenFromPath(
+      typeof window !== 'undefined' ? window.location.pathname : '',
+    );
+    if (pathToken) {
+      setNav((current) =>
+        openFriendInviteLanding(current, {
+          token: pathToken,
+          originPrimary: 'home',
+        }),
+      );
+    }
+
     void startAuthController().then(() => {
+      const storedToken = consumeAuthReturnToInvite();
+      if (storedToken && isLikelyFriendInviteToken(storedToken)) {
+        consumeAuthReturnToProfile();
+        restoreInvitePath(storedToken);
+        setNav((current) =>
+          openFriendInviteLanding(current, {
+            token: storedToken,
+            originPrimary: 'home',
+          }),
+        );
+        window.scrollTo(0, 0);
+        return;
+      }
+      if (pathToken) {
+        consumeAuthReturnToProfile();
+        return;
+      }
       if (!consumeAuthReturnToProfile()) return;
-      setNav((current) => selectPrimaryDestination(current, 'profile'));
+      setNav((current) => {
+        if (current.surface?.type === FRIEND_INVITE_LANDING_SURFACE_TYPE) {
+          return current;
+        }
+        return selectPrimaryDestination(current, 'profile');
+      });
       window.scrollTo(0, 0);
     });
   }, []);
@@ -517,6 +561,16 @@ export default function V2App() {
       openProfileSettings(current, {
         sectionId: params.sectionId,
         originPrimary: params.originPrimary ?? 'profile',
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenProfileFriends = useCallback((params = {}) => {
+    setNav((current) =>
+      openProfileFriends(current, {
+        originPrimary: params.originPrimary ?? 'profile',
+        focusUserId: params.focusUserId ?? null,
       }),
     );
     window.scrollTo(0, 0);
@@ -909,6 +963,9 @@ export default function V2App() {
   const isFormatRecommendation = nav.surface?.type === 'format-recommendation';
   const isAdminTmdbReview = nav.surface?.type === 'admin-tmdb-review';
   const isProfileSettings = nav.surface?.type === 'profile-settings';
+  const isProfileFriends = nav.surface?.type === PROFILE_FRIENDS_SURFACE_TYPE;
+  const isFriendInviteLanding =
+    nav.surface?.type === FRIEND_INVITE_LANDING_SURFACE_TYPE;
   const isPersonalCollection =
     nav.surface?.type === 'collection' &&
     isPersonalCollectionId(nav.surface.collectionId);
@@ -1641,6 +1698,18 @@ export default function V2App() {
         }}
       />
     );
+  } else if (isProfileFriends) {
+    mainContent = (
+      <FriendsSurface focusUserId={nav.surface.focusUserId} />
+    );
+  } else if (isFriendInviteLanding) {
+    mainContent = (
+      <FriendInviteLandingSurface
+        token={nav.surface.token}
+        onViewFriends={() => handleOpenProfileFriends()}
+        onNotNow={handleBack}
+      />
+    );
   } else {
     mainContent = (
       <DestinationPlaceholder
@@ -1672,6 +1741,7 @@ export default function V2App() {
         onOpenAdminTmdbReview={handleOpenAdminTmdbReview}
         onOpenTheaterDetail={handleOpenTheaterDetail}
         onOpenProfileSettings={handleOpenProfileSettings}
+        onOpenProfileFriends={handleOpenProfileFriends}
         onPlannerStubAction={(_actionId, label) => {
           setProfileStubStatus(
             `${label} isn’t available in this Stage 1 Planner shell yet.`,
@@ -1836,6 +1906,10 @@ export default function V2App() {
                   ? originBackLabel(nav.surface.originPrimary)
                 : isProfileSettings
                   ? originBackLabel(nav.surface.originPrimary)
+                : isProfileFriends
+                  ? originBackLabel(nav.surface.originPrimary)
+                : isFriendInviteLanding
+                  ? originBackLabel(nav.surface.originPrimary, 'Home')
                 : isBuildPlanPlanDetails
                   ? nav.surface?.returnSurface?.type === 'build-plan-results'
                     ? 'results'
@@ -1854,7 +1928,9 @@ export default function V2App() {
           isPersonalCollection ||
           isBuildPlanChrome ||
           isShowtimesBrowse ||
-          isProfileSettings
+          isProfileSettings ||
+          isProfileFriends ||
+          isFriendInviteLanding
             ? handleBack
             : null
         }

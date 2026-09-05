@@ -114,4 +114,25 @@ test('collection surfaces highlight Explore except Home-owned Opening and Profil
     }),
     'profile',
   );
+  assert.equal(
+    resolveActivePrimaryId({
+      primaryDestinationId: 'profile',
+      surface: {
+        type: 'profile-friends',
+        originPrimary: 'profile',
+      },
+    }),
+    'profile',
+  );
+  assert.equal(
+    resolveActivePrimaryId({
+      primaryDestinationId: 'home',
+      surface: {
+        type: 'friend-invite-landing',
+        originPrimary: 'home',
+        token: 'abc',
+      },
+    }),
+    'home',
+  );
 });

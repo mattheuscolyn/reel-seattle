@@ -17,6 +17,7 @@ const DIST = join(ROOT, 'dist-v2');
 const REQUIRED_FILES = [
   'index.html',
   'CNAME',
+  '404.html',
   ...listV2DataArtifacts()
     .filter((a) => a.required)
     .map((a) => a.route.replace(/^\//, '')),

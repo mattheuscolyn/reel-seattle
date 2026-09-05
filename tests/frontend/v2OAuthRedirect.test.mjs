@@ -2,10 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   APPROVED_OAUTH_ORIGINS,
+  AUTH_RETURN_INVITE_TOKEN_KEY,
   AUTH_RETURN_PROFILE_STORAGE_KEY,
   cleanAuthCallbackUrl,
+  consumeAuthReturnToInvite,
   consumeAuthReturnToProfile,
   isApprovedOAuthOrigin,
+  markAuthReturnToInvite,
   markAuthReturnToProfile,
   resolveOAuthRedirectTo,
   sanitizeExplicitOAuthRedirectTo,
@@ -81,4 +84,25 @@ test('auth return-to-profile flag is one-shot', () => {
   assert.equal(storage.getItem(AUTH_RETURN_PROFILE_STORAGE_KEY), '1');
   assert.equal(consumeAuthReturnToProfile(storage), true);
   assert.equal(consumeAuthReturnToProfile(storage), false);
+});
+
+test('invite OAuth return token is one-shot and wins over Profile', () => {
+  const storage = {
+    map: new Map(),
+    getItem(k) {
+      return this.map.has(k) ? this.map.get(k) : null;
+    },
+    setItem(k, v) {
+      this.map.set(k, String(v));
+    },
+    removeItem(k) {
+      this.map.delete(k);
+    },
+  };
+  markAuthReturnToProfile(storage);
+  markAuthReturnToInvite('abc123token', storage);
+  assert.equal(storage.getItem(AUTH_RETURN_PROFILE_STORAGE_KEY), null);
+  assert.equal(storage.getItem(AUTH_RETURN_INVITE_TOKEN_KEY), 'abc123token');
+  assert.equal(consumeAuthReturnToInvite(storage), 'abc123token');
+  assert.equal(consumeAuthReturnToInvite(storage), null);
 });
