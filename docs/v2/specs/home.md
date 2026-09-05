@@ -291,7 +291,7 @@ Content should **degrade gracefully** when some metadata is unavailable.
 * absence of a leaving-soon signal must **not** imply indefinite availability
 * the section may **collapse** when no defensible items exist
 
-**Data note:** A `leaving_soon_current` artifact exists as review-only pipeline output and is **not shipped** to the public site today ([Data artifact inventory](../../data-artifact-inventory.md)). Treat Leaving Soon presentation as **partial / gated** until product and data gates allow shipping.
+**Data note:** Leaving Soon is produced by frozen model `amc_remaining_run_survival_v1` into `leaving_soon_current.json` ([leaving-soon-production-v1.md](../../leaving-soon-production-v1.md)). v2 Home consumes bucketed copy only. Public Pages `dist/` still skips the file. Production use does not mean the model is final.
 
 ### Build a Movie Day
 

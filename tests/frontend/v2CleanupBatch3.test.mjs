@@ -141,8 +141,8 @@ test('Leaving Soon collection removes scaffold eyebrow and uses honest copy', ()
     /isLeavingSoon \? null : \(\s*<p className="v2-destination-eyebrow">Explore · scaffold<\/p>/,
   );
   const shelf = buildLeavingSoonShelf(null);
-  assert.match(shelf.emptyTitle, /Leaving Soon isn’t available yet/i);
-  assert.match(shelf.emptyBody, /theatrical run/i);
+  assert.match(shelf.emptyTitle, /Leaving Soon isn’t ready/i);
+  assert.match(shelf.emptyBody, /showtimes finish loading/i);
   assert.equal(shelf.emptyBody.includes('scaffold'), false);
 });
 

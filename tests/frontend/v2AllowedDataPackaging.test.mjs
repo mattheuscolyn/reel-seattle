@@ -30,11 +30,11 @@ test('v2 data allowlist integrity: routes, sources, no duplicates, no escape', (
     assert.equal(ALLOWED_V2_DATA_ROUTES[artifact.route], abs);
   }
 
-  assert.ok(EXCLUDED_V2_DATA_PATHS.includes('/data/leaving_soon_current.json'));
   assert.equal(
-    ALLOWED_V2_DATA_ROUTES['/data/leaving_soon_current.json'],
-    undefined,
+    EXCLUDED_V2_DATA_PATHS.includes('/data/leaving_soon_current.json'),
+    false,
   );
+  assert.ok(ALLOWED_V2_DATA_ROUTES['/data/leaving_soon_current.json']);
 });
 
 test('v2 data allowlist marks showtimes required and enrichment optional', () => {
@@ -80,11 +80,6 @@ test('copyAllowedV2DataArtifacts writes allowlisted JSON only into outDir/data',
       assert.ok(parsed !== null);
     }
 
-    // Must not invent excluded / unrelated artifacts.
-    assert.equal(
-      existsSync(join(outDir, 'data', 'leaving_soon_current.json')),
-      false,
-    );
     assert.equal(existsSync(join(outDir, 'showtimes_history.csv')), false);
     assert.equal(existsSync(join(outDir, '.env')), false);
   } finally {

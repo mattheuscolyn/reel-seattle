@@ -32,9 +32,9 @@ Practical sequence based on current repo state (Phase 1 complete; Identity-D shi
 | **3** | Planner interactive refinement | **Design-first next** — Planner-R1 before engine/UI |
 | **4** | Data expansion | AMC API audit, language/caption metadata, external metadata |
 | **5** | Theater expansion + scraping audit | New sources and reliability |
-| **6** | Leaving Soon re-evaluation | **Gated** on live `source_film_id` / `movieId` history + monthly stability |
+| **6** | Leaving Soon production v1 | Frozen remaining-run model; bucketed v2 shelf; prospective eval. Not a final model. |
 
-Phase 1 and 2 can overlap lightly (e.g. time picker while designing Identity-D), but **do not ship Leaving Soon UI (PR F)** or **replace PR E artifact (PR E2)** until Phase 6 passes the model-quality gate.
+Phase 1 and 2 can overlap lightly (e.g. time picker while designing Identity-D). Leaving Soon v1 production is bucketed v2-only; public Pages `dist/` still skips the artifact. Planner is unchanged.
 
 ---
 
@@ -101,7 +101,7 @@ Recorded decisions — do not re-litigate without new data.
 2. **Planner-R1** — docs-only design pass; can run in parallel with E2.
 3. **Planner-R2+** — near-miss engine and result-card actions **after** R1 approved.
 
-**Do not include in next PRs:** Leaving Soon UI (PR F), PR E2 artifact replacement, near-miss engine without R1 design, rewriting `showtime_film_key`.
+**Do not include in next PRs:** near-miss engine without R1 design, rewriting `showtime_film_key`. Leaving Soon v1 production is a dedicated path; do not redesign Planner.
 
 **Validation gates**
 
@@ -302,20 +302,20 @@ Recorded decisions — do not re-litigate without new data.
 
 ---
 
-## Theme: Leaving Soon (deferred product)
+## Theme: Leaving Soon (v1 production, not final)
 
-### P-12 — Leaving Soon re-evaluation
+### P-12 — Remaining-run model production path
 
 | Field | Value |
 |-------|--------|
-| **Status** | **Deferred** — do not ship UI |
-| **Gate** | Monthly precision stability ≥ ~75%; meaningful lift; product accepts low recall. |
-| **Current model** | Best weekly rule ~97.5% test precision but **47.6%** monthly min; parent mode did not help (Identity-C). |
-| **PR state** | PR E artifact **review-only**, excluded from Pages. **PR E2** and **PR F/UI blocked.** |
-| **Next action** | Wait **4–8 weeks** of forward `source_film_id` / `movieId`; re-run `build_weekly_leaving_soon_labels.py --identity-mode parent` + `evaluate_weekly_leaving_soon_baselines.py --identity-mode compare`. |
-| **Links** | [leaving-soon-model-design.md](./leaving-soon-model-design.md) §12–13, [film-identity-normalization.md](./film-identity-normalization.md) |
+| **Status** | **In progress on `feature/leaving-soon-production-v1`** — frozen `amc_remaining_run_survival_v1` feeds v2 Home; public Pages `dist/` still skips the file |
+| **Gate** | Ship-gate remains `promising_continue`. Production use does **not** mean the model is final. |
+| **Current model** | Daily discrete-time logistic remaining-run survival v1. Conservative bucketed UI (`last_chance` / `leaving_soon`). |
+| **PR state** | Heuristic PR E remains for comparison. Survival backtest is documented. Production inference + v2 shelf are specified in [leaving-soon-production-v1.md](./leaving-soon-production-v1.md). |
+| **Next action** | Prospective evaluation on date-stamped snapshots; explicit v2 retrain later. Do **not** silently refit daily. |
+| **Links** | [leaving-soon-production-v1.md](./leaving-soon-production-v1.md), [leaving-soon-survival-model-v1.md](./leaving-soon-survival-model-v1.md) |
 
-⚠️ **Do not ship** Leaving Soon badges, `/leaving-soon` page, or Pages dist inclusion until this item moves past **Deferred**.
+Planner saved-film “leaving soon” urgency is a **separate local heuristic** and must not be changed as part of this production path.
 
 ---
 

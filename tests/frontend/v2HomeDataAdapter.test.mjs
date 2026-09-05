@@ -29,8 +29,9 @@ test('valid showtimes transform into films and opportunities', () => {
   const home = buildHomeData(baseInput());
   assert.equal(home.films.length, 2);
   assert.ok(home.opportunities.length >= 3);
-  assert.equal(home.leavingSoonExcluded, true);
-  assert.equal(LEAVING_SOON_EXCLUDED, true);
+  assert.equal(home.leavingSoonExcluded, false);
+  assert.equal(LEAVING_SOON_EXCLUDED, false);
+  assert.equal(home.leavingSoon.status, 'unavailable');
 
   const sinners = home.films.find((film) => film.filmKey === 'sinners');
   assert.ok(sinners);
@@ -198,10 +199,11 @@ test('midnight-adjacent times preserve local date semantics', () => {
   assert.equal(midnight.timeDisplay, '12:15 AM');
 });
 
-test('Home data contract excludes Leaving Soon and fabricated fields', () => {
+test('Home data contract includes Leaving Soon without fabricated fields', () => {
   const home = buildHomeData(baseInput());
-  assert.equal(home.leavingSoonExcluded, true);
-  assert.equal('leavingSoon' in home, false);
+  assert.equal(home.leavingSoonExcluded, false);
+  assert.ok('leavingSoon' in home);
+  assert.equal(home.leavingSoon.status, 'unavailable');
   assert.equal('leaving_soon' in home, false);
 
   for (const film of home.films) {

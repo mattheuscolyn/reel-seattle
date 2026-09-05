@@ -26,7 +26,6 @@ const REQUIRED_FILES = [
 const FORBIDDEN_PATHS = [
   'data/showtimes_history.csv',
   'data/daily_logs',
-  'data/leaving_soon_current.json',
   'cockpit',
   'cockpit.html',
 ];

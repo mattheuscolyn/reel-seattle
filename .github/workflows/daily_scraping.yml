@@ -6,8 +6,10 @@ name: Daily Showtime Scraping
 #   3. resolve film identity from durable catalog + reviewed decisions
 #      (attach_public_film_ids inside write_showtimes_current — not a live TMDB match)
 #   4. emit showtimes_current.json with nullable film_id
-#   5. validate public artifacts (includes film_id attach regression gate)
-#   6. commit/publish showtimes (+ related public data)
+#   5. frozen Leaving Soon inference against the new AMC all-announced log
+#      (inside daily_processor; skipped if restate_safe=false / stale / incomplete)
+#   6. validate public artifacts (includes film_id attach regression gate)
+#   7. commit/publish showtimes (+ Leaving Soon snapshot / public artifact when published)
 #
 # Downstream automated workflows (intentionally separate so failures never block showtimes):
 #   - 07:00 UTC: Film identity matching (film_identity_match.yml) - matches new films
@@ -96,6 +98,9 @@ jobs:
           git add public/data/newly_announced.csv
           git add public/data/newly_added_current.json
           git add public/data/leaving_soon_current.json
+          if [ -d data/model_predictions/leaving_soon ]; then
+            git add data/model_predictions/leaving_soon/
+          fi
           if [ -f data/audits/tmdb_public_identity_emit.json ]; then
             git add data/audits/tmdb_public_identity_emit.json
           fi

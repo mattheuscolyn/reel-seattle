@@ -54,17 +54,18 @@ export default function CollectionSurface({
   const title = COLLECTION_TITLES[collectionId] ?? 'Explore';
 
   const content = useMemo(() => {
-    // Opening This Week is a designed Stage 1 surface (OpeningThisWeekSurface).
-    // Leaving Soon stays gated with honest unavailable copy (LEAVE-01).
+    // Leaving Soon uses the same film-row collection pattern as other Home shelves.
     if (collectionId === COLLECTION_IDS.leavingSoon) {
-      const shelf = buildLeavingSoonShelf(homeData);
+      const shelf = buildLeavingSoonShelf(homeData, enrichmentIndex, {
+        maxCards: Number.POSITIVE_INFINITY,
+      });
       return {
-        status: 'unavailable',
-        kind: 'leaving-soon',
-        reason: shelf.reason,
+        status: shelf.status,
+        kind: 'films',
+        reason: shelf.status === 'ready' ? null : shelf.reason,
         emptyTitle: shelf.emptyTitle,
         emptyBody: shelf.emptyBody,
-        films: [],
+        films: shelf.films,
         theaters: [],
         formats: [],
       };
@@ -105,7 +106,7 @@ export default function CollectionSurface({
         </p>
       ) : null}
 
-      {isLeavingSoon ? (
+      {isLeavingSoon && (!content.films || content.films.length === 0) ? (
         <div className="v2-collection-leaving-soon" role="status">
           <p className="v2-collection-leaving-soon-title">
             {content.emptyTitle ?? content.reason}
@@ -231,9 +232,9 @@ export default function CollectionSurface({
                   </span>
                   <span className="v2-collection-row-copy">
                     <span className="v2-collection-row-title">{film.title}</span>
-                    {film.metaLabel ? (
+                    {(isLeavingSoon ? film.badge || film.metaLabel : film.metaLabel) ? (
                       <span className="v2-collection-row-meta">
-                        {film.metaLabel}
+                        {isLeavingSoon ? film.badge || film.metaLabel : film.metaLabel}
                       </span>
                     ) : null}
                   </span>

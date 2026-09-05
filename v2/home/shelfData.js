@@ -6,6 +6,9 @@
 import {
   joinOpeningEntryOpportunities,
 } from '../adapters/buildOpeningThisWeek.js';
+import {
+  joinLeavingSoonEntryToHomeFilm,
+} from '../adapters/buildLeavingSoon.js';
 import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
 import { buildOpeningDateCopy, pacificTodayIso } from '../opening/openingDateCopy.js';
 import { resolveOpeningEntryPresentation } from '../opening/resolveOpeningEntryPresentation.js';
@@ -183,22 +186,101 @@ export function buildOpeningThisWeekShelf(homeData, enrichmentIndex = null) {
   };
 }
 
+export const HOME_LEAVING_SOON_MAX_CARDS = 6;
+
 /**
- * Leaving Soon Home shelf — gated artifact; honest unavailable empty state.
+ * Leaving Soon Home shelf — frozen-model public artifact, bucketed copy only.
  * @param {object | null} homeData
+ * @param {object | null} [enrichmentIndex]
+ * @param {{ maxCards?: number }} [options]
  */
-export function buildLeavingSoonShelf(homeData) {
-  const excluded = homeData?.leavingSoonExcluded !== false;
+export function buildLeavingSoonShelf(homeData, enrichmentIndex = null, options = {}) {
+  const maxCards = options.maxCards ?? HOME_LEAVING_SOON_MAX_CARDS;
+  if (!homeData) {
+    return {
+      status: 'unavailable',
+      reason: 'Home data not loaded.',
+      emptyTitle: 'Leaving Soon isn’t ready',
+      emptyBody: 'Check back once showtimes finish loading.',
+      semantics: 'leaving-soon-unavailable',
+      films: [],
+    };
+  }
+
+  const leaving = homeData.leavingSoon;
+  if (!leaving || leaving.status === 'unavailable' || leaving.status === 'invalid') {
+    return {
+      status: 'unavailable',
+      reason: 'Leaving Soon data is unavailable.',
+      emptyTitle: 'Leaving Soon isn’t available right now',
+      emptyBody:
+        'We’ll highlight films nearing the end of their theatrical run when that data is ready.',
+      semantics: 'leaving-soon-unavailable',
+      films: [],
+    };
+  }
+
+  const entries = Array.isArray(leaving.entries) ? leaving.entries : [];
+  if (leaving.status === 'empty' || entries.length === 0) {
+    return {
+      status: 'unavailable',
+      reason: 'Nothing looks like it is leaving soon right now.',
+      emptyTitle: 'Nothing leaving soon right now',
+      emptyBody:
+        'No theatrical runs currently look like they are winding down. Absence of a badge is not a guarantee a film will stay.',
+      semantics: 'leaving-soon-empty',
+      films: [],
+    };
+  }
+
+  const films = Array.isArray(homeData.films) ? homeData.films : [];
+  const selected =
+    Number.isFinite(maxCards) && maxCards >= 0
+      ? entries.slice(0, maxCards)
+      : entries;
+  const shelfFilms = selected.map((entry) => {
+    const homeFilm = joinLeavingSoonEntryToHomeFilm(entry, films);
+    const filmKey = homeFilm?.filmKey ?? entry.filmKey;
+    const nextOpportunity = findNextOpportunityForFilm(homeData, filmKey);
+    const enriched = resolveEnrichedFilmPresentation({
+      sourceFilm: {
+        filmId: homeFilm?.filmId ?? null,
+        title: homeFilm?.title ?? entry.title,
+        posterUrl: homeFilm?.posterUrl ?? entry.posterUrl ?? null,
+        runtimeMin: homeFilm?.runtimeMin ?? entry.runtimeMin ?? null,
+      },
+      enrichmentIndex,
+      context: 'home',
+    });
+    const runtimeLabel = formatRuntimeLabel(
+      enriched.runtimeMin ?? homeFilm?.runtimeMin ?? entry.runtimeMin,
+    );
+    return {
+      id: filmKey,
+      filmKey,
+      filmId: enriched.filmId ?? homeFilm?.filmId ?? null,
+      title: enriched.displayTitle ?? homeFilm?.title ?? entry.title,
+      badge: entry.bucketLabel,
+      genre: null,
+      metaLabel: runtimeLabel,
+      posterUrl: enriched.posterUrl ?? homeFilm?.posterUrl ?? entry.posterUrl ?? null,
+      runtimeMin: enriched.runtimeMin ?? homeFilm?.runtimeMin ?? entry.runtimeMin ?? null,
+      theaterCount: homeFilm?.theaterCount ?? 0,
+      showtimeCount: homeFilm?.showtimeCount ?? entry.totalVisibleShowtimes ?? 0,
+      nextOpportunityKey: nextOpportunity?.opportunityKey ?? null,
+      surfaceReason: 'leaving-soon',
+      surfaceReasonLabel: entry.bucketLabel,
+      source: 'leaving-soon-model',
+      leavingSoonBucket: entry.bucket,
+      hasEnrichment: enriched.hasEnrichment,
+    };
+  });
+
   return {
-    status: 'unavailable',
-    reason: excluded
-      ? 'Leaving Soon isn’t available yet.'
-      : 'Leaving Soon data is unavailable.',
-    emptyTitle: 'Leaving Soon isn’t available yet',
-    emptyBody:
-      'We’ll highlight films nearing the end of their theatrical run when that data is ready.',
-    semantics: 'leaving-soon-gated',
-    films: [],
+    status: 'ready',
+    reason: null,
+    semantics: 'leaving-soon-model',
+    films: shelfFilms,
   };
 }
 

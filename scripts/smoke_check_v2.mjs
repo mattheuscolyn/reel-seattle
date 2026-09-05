@@ -117,8 +117,8 @@ try {
   }
 
   const leavingSoon = await fetch(new URL('/data/leaving_soon_current.json', V2_URL));
-  if (leavingSoon.status !== 404) {
-    fail(`leaving_soon_current.json should be 404, got ${leavingSoon.status}`);
+  if (!leavingSoon.ok) {
+    fail(`leaving_soon_current.json should be served to v2, got ${leavingSoon.status}`);
   }
 
   const showtimes = await fetch(new URL('/data/showtimes_current.json', V2_URL));

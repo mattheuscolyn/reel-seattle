@@ -3,7 +3,7 @@
  * - Vite dev/preview middleware serving
  * - Production `dist-v2` data copy during `npm run build:v2`
  *
- * Never a wildcard filesystem map. Leaving Soon and source catalogs stay out.
+ * Never a wildcard filesystem map. Source catalogs stay out.
  */
 
 import { existsSync } from 'node:fs';
@@ -52,6 +52,11 @@ export const V2_DATA_ARTIFACTS = Object.freeze([
   Object.freeze({
     route: '/data/opening_this_week_current.json',
     sourceRelative: 'public/data/opening_this_week_current.json',
+    required: false,
+  }),
+  Object.freeze({
+    route: '/data/leaving_soon_current.json',
+    sourceRelative: 'public/data/leaving_soon_current.json',
     required: false,
   }),
   Object.freeze({
@@ -151,7 +156,7 @@ export const ALLOWED_V2_DATA_ROUTES = Object.freeze(
 
 /** Paths that must never be served to the v2 Home baseline. */
 export const EXCLUDED_V2_DATA_PATHS = Object.freeze([
-  '/data/leaving_soon_current.json',
+  '/data/showtimes_history.csv',
 ]);
 
 /**

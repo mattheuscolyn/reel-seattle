@@ -71,7 +71,10 @@ export default function HomeDestination({
       );
   const leavingShelf = mockup
     ? mockup.leavingShelf
-    : buildLeavingSoonShelf(loadStatus === 'ready' ? homeData : null);
+    : buildLeavingSoonShelf(
+        loadStatus === 'ready' ? homeData : null,
+        enrichmentIndex,
+      );
 
   const openDetailFromHome = ({
     filmKey,
