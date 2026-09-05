@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-04T11:49:33+00:00",
+  "generated_at": "2026-09-05T10:59:06+00:00",
   "items": [
     {
       "auto_confirm_blocked_reason": "hard_conflict",
@@ -585,6 +585,182 @@
       "auto_confirm_blocked_reason": "hard_conflict",
       "candidates": [
         {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": null,
+          "popularity": 0.4166,
+          "poster_path": "/dm7qMSsA7XJc2eB55Zsg8YvsTby.jpg",
+          "release_year": 2026,
+          "runtime_min": 0,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "event director"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.4166,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 150,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Twenty Years of the Met in Cinemas: An Anniversary Celebration",
+          "tmdb_id": 1703617,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match"
+          ]
+        }
+      ],
+      "directors_normalized": [
+        "event director"
+      ],
+      "directors_raw": "Event Director",
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:amc:84280",
+      "match_confidence": 0.75,
+      "match_status": "review_required",
+      "normalized_title": "Twenty Years of the Met in Cinemas: An Anniversary Celebration",
+      "presentation_labels": [
+        "anniversary"
+      ],
+      "proposed_tmdb_id": 1703617,
+      "queue_id": "amc:84280",
+      "runtime_min": 150,
+      "showtime_film_key": "twenty-years-of-the-met-in-cinemas-an-anniversary-celebration",
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [
+          "event director"
+        ],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": true,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 0.4166,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": true,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 150,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "conflict",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "amc",
+      "source_film_id": "84280",
+      "source_title": "Twenty Years of the Met in Cinemas: An Anniversary Celebration",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_conflict",
+        "weak_title_only_match"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Twenty Years of the Met in Cinemas: An Anniversary Celebration",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": 2026,
+        "event_year_not_canonical": true,
+        "format_tags": [],
+        "presentation_labels": [
+          "anniversary"
+        ],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
+        "year_confidence": "none",
+        "year_evidence": "uncertain_rerelease_restoration"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
           "director": "Gurmmeet Singh",
           "original_title": "मिर्ज़ापुर - द मूवी",
           "overview_excerpt": "The battle for Mirzapur's throne escalates as old enemies resurface and new threats emerge. Blood debts must be paid while power-hungry contenders fight to control the city's violent underworld.",
@@ -926,6 +1102,170 @@
           "normalized_source_fallback"
         ],
         "base_title": "Daniel and the Fiery Furnace",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
+          "director": "Chris McKay",
+          "original_title": null,
+          "overview_excerpt": "A cooler-than-ever Bruce Wayne must deal with the usual suspects as they plan to rule Gotham City, while discovering that he has accidentally adopted a teenage orphan who wishes to become his sidekick.",
+          "popularity": 14.8391,
+          "poster_path": "/e1TliRWOdXQ73pRunbpFiGst6Kd.jpg",
+          "release_year": 2017,
+          "runtime_min": 104,
+          "score": 0.6668,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "chris mckay"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 14.8391,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": true,
+            "year_evidence": "conflict",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "conflict"
+          },
+          "title": "The Lego Batman Movie",
+          "tmdb_id": 324849,
+          "warnings": [
+            "year_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:amc:84558",
+      "match_confidence": 0.6668,
+      "match_status": "review_required",
+      "normalized_title": "The Lego Batman Movie",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 324849,
+      "queue_id": "amc:84558",
+      "runtime_min": 105,
+      "showtime_film_key": "lego-batman-movie",
+      "signals": {
+        "available_weight": 0.9,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "chris mckay"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 14.8391,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 1,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": true,
+        "year_evidence": "conflict",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "conflict"
+      },
+      "source": "amc",
+      "source_film_id": "84558",
+      "source_title": "The Lego Batman Movie",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_conflict"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "The Lego Batman Movie",
         "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
