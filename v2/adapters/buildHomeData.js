@@ -2,13 +2,13 @@
  * Pure v2 Home data adapter (I-02).
  *
  * Converts showtimes_current + theaters registry + newly_added_current
- * (+ optional pipeline_report) into Home view models.
+ * (+ optional pipeline_report and leaving_soon_current) into Home view models.
  *
- * Does not consume leaving_soon_current.
  * Does not invent ranking, cultural scores, synopsis, or landscape art.
  */
 
 import { buildOpeningThisWeek } from './buildOpeningThisWeek.js';
+import { buildLeavingSoon } from './buildLeavingSoon.js';
 import { createHomeWarning } from './homeWarnings.js';
 import {
   buildOpportunityKey,
@@ -17,7 +17,7 @@ import {
   isLocalTime,
 } from './opportunityIdentity.js';
 
-export const LEAVING_SOON_EXCLUDED = true;
+export const LEAVING_SOON_EXCLUDED = false;
 
 /**
  * @param {unknown} payload
@@ -212,6 +212,7 @@ function mergeTheaterRecord(registryTheater, embeddedTheater) {
  *   theatersRegistry?: unknown | null,
  *   newlyAdded?: unknown | null,
  *   openingThisWeek?: unknown | null,
+ *   leavingSoon?: unknown | null,
  *   pipelineReport?: unknown | null,
  * }} input
  */
@@ -617,6 +618,10 @@ export function buildHomeData(input) {
     warnings,
   });
 
+  const leavingSoon = buildLeavingSoon(input.leavingSoon, {
+    warnings,
+  });
+
   const newlyAddedFilmKeys = new Set(newlyAdded.map((item) => item.filmKey));
 
   const opportunityCandidates = opportunities.map((opportunity) => {
@@ -675,6 +680,7 @@ export function buildHomeData(input) {
     opportunities,
     newlyAdded,
     openingThisWeek,
+    leavingSoon,
     opportunityCandidates,
     warnings,
     sourceHealth,
@@ -684,6 +690,7 @@ export function buildHomeData(input) {
       opportunities: opportunities.length,
       newlyAdded: newlyAdded.length,
       openingThisWeek: openingThisWeek.entries.length,
+      leavingSoon: leavingSoon.entries.length,
       theaters: Object.keys(theatersById).length,
       warnings: warnings.length,
     },

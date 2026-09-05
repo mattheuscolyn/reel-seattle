@@ -11,7 +11,9 @@ from reel_seattle.emit.current import (
 )
 from reel_seattle.emit.leaving_soon import (
     LEAVING_SOON_SCHEMA_VERSION,
+    MODEL_PUBLIC_SCHEMA_VERSION,
     build_leaving_soon_current,
+    publish_leaving_soon_current,
     write_leaving_soon_current,
 )
 from reel_seattle.emit.newly_added import (
@@ -32,11 +34,13 @@ __all__ = [
     "DEFAULT_OUTPUT_PATH",
     "DEFAULT_REGISTRY_PATH",
     "LEAVING_SOON_SCHEMA_VERSION",
+    "MODEL_PUBLIC_SCHEMA_VERSION",
     "NEWLY_ADDED_DAYS_BACK",
     "NEWLY_ADDED_SCHEMA_VERSION",
     "OPENING_THIS_WEEK_SCHEMA_VERSION",
     "WINDOW_DAYS",
     "build_leaving_soon_current",
+    "publish_leaving_soon_current",
     "build_newly_added_current",
     "build_opening_this_week_current",
     "build_showtimes_current",

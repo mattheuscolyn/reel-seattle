@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Build ``public/data/leaving_soon_current.json`` for product review (PR E)."""
+"""Build heuristic ``leaving_soon_current.json`` (visible_dates_le_1).
+
+Production publishes the frozen survival model via
+``scripts/predict_leaving_soon.py`` / ``daily_processor.py``. This CLI is kept
+for comparison and regression tests.
+"""
 
 from __future__ import annotations
 

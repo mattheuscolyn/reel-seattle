@@ -176,11 +176,11 @@ test('Opening This Week Home shelf uses verified opening artifact', () => {
   assert.equal(shelf.films[0].title.includes('Long Horizon'), false);
 });
 
-test('Leaving Soon shelf stays gated unavailable without fictional films', () => {
+test('Leaving Soon shelf is unavailable without a published artifact', () => {
   const shelf = buildLeavingSoonShelf(minimalHomeData());
   assert.equal(shelf.status, 'unavailable');
   assert.equal(shelf.films.length, 0);
-  assert.equal(shelf.semantics, 'leaving-soon-gated');
+  assert.equal(shelf.semantics, 'leaving-soon-unavailable');
   assert.match(shelf.emptyTitle, /Leaving Soon/i);
   assert.match(shelf.emptyBody, /theatrical run/i);
   assert.equal(shelf.reason.toLowerCase().includes('gated'), false);

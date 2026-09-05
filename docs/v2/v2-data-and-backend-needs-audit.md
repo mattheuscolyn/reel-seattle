@@ -153,7 +153,7 @@ All images under `Canonical Mockup Images/` were listed and inspected at Stage 2
 | `theaters.json` | `schema/theaters/v1.1.0.json` | Deployed registry copy | Yes |
 | `newly_added_current.json` | `schema/newly_added_current/v1.0.0.json` | Recently announced filmÃ—theater | Yes |
 | `pipeline_report.json` | `schema/pipeline_report/v1.0.0.json` | Source health | Yes |
-| `leaving_soon_current.json` | `schema/leaving_soon_current/v1.0.0.json` | AMC leaving-soon heuristic | **No** (review-only; v2 must 404) |
+| `leaving_soon_current.json` | `schema/leaving_soon_current/v1.1.0.json` | Frozen remaining-run model v1 (v2 Home) | Public Pages no |
 | `movies_announcements.csv` / `newly_announced.csv` | — | Pipeline tracking | No |
 
 **`showtimes_current` key fields**

@@ -13,6 +13,9 @@ export const V2_NEWLY_ADDED_URL = resolveV2DataUrl(
 export const V2_OPENING_THIS_WEEK_URL = resolveV2DataUrl(
   '/data/opening_this_week_current.json',
 );
+export const V2_LEAVING_SOON_URL = resolveV2DataUrl(
+  '/data/leaving_soon_current.json',
+);
 export const V2_PIPELINE_REPORT_URL = resolveV2DataUrl(
   '/data/pipeline_report.json',
 );
@@ -91,6 +94,10 @@ export async function loadHomeData(options = {}) {
     V2_OPENING_THIS_WEEK_URL,
     fetchImpl,
   );
+  const leavingSoonResult = await fetchOptionalJson(
+    V2_LEAVING_SOON_URL,
+    fetchImpl,
+  );
 
   let pipelineReport = null;
   if (includePipelineReport) {
@@ -111,6 +118,9 @@ export async function loadHomeData(options = {}) {
   if (!openingThisWeekResult.ok) {
     loadErrors.push(openingThisWeekResult.error);
   }
+  if (!leavingSoonResult.ok) {
+    loadErrors.push(leavingSoonResult.error);
+  }
 
   try {
     const homeData = buildHomeData({
@@ -118,6 +128,7 @@ export async function loadHomeData(options = {}) {
       theatersRegistry: theatersResult.ok ? theatersResult.data : null,
       newlyAdded: newlyAddedResult.ok ? newlyAddedResult.data : null,
       openingThisWeek: openingThisWeekResult.ok ? openingThisWeekResult.data : null,
+      leavingSoon: leavingSoonResult.ok ? leavingSoonResult.data : null,
       pipelineReport,
     });
     return { ok: true, homeData, loadErrors };

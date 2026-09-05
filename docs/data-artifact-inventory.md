@@ -23,7 +23,8 @@ These files define truth in the repo. Edit intentionally; validate before commit
 - `schema/showtimes_current/v1.0.0.json`
 - `schema/pipeline_report/v1.0.0.json`
 - `schema/newly_added_current/v1.0.0.json`
-- `schema/leaving_soon_current/v1.0.0.json`
+- `schema/leaving_soon_current/v1.0.0.json` (heuristic comparison)
+- `schema/leaving_soon_current/v1.1.0.json` (production public artifact)
 - `schema/theaters/v1.0.0.json`
 - `schema/showtime/v1.0.0.json` — stub-level reference schema
 - `schema/source_catalog/amc_movie_products/v1.0.0.json` — durable internal AMC product catalog
@@ -42,7 +43,10 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 | `public/data/showtimes_current.json` | `reel_seattle/emit/current.py` | Yes — daily |
 | `public/data/pipeline_report.json` | `reel_seattle/pipeline_report.py` (+ catalog health patch from `reel_seattle/pipeline_report_catalog.py` after AMC catalog stage) | Yes — daily |
 | `public/data/newly_added_current.json` | `reel_seattle/emit/newly_added.py` | Yes — daily |
-| `public/data/leaving_soon_current.json` | `reel_seattle/emit/leaving_soon.py` | Yes — daily (review-only; not shipped to Pages) |
+| `public/data/leaving_soon_current.json` | `reel_seattle/emit/leaving_soon.py` | Yes — daily (v2 Home; not shipped to public Pages `dist/`) |
+| `data/models/leaving_soon/amc_remaining_run_survival_v1.json` | `scripts/export_leaving_soon_model_v1.py` | Yes — frozen coefficients; not refit daily |
+| `data/models/leaving_soon/active.json` | export / explicit promotion | Yes — active model pointer |
+| `data/model_predictions/leaving_soon/YYYY-MM-DD.json` | `reel_seattle/analysis/leaving_soon_inference.py` | Yes — daily append-only snapshots |
 | `public/data/theaters.json` | `reel_seattle/registry_sync.py` | Yes — copy of canonical registry |
 | `public/data/movies_announcements.csv` | `daily_processor.py` | Yes — daily |
 | `public/data/newly_announced.csv` | `daily_processor.py` | Yes — daily |
@@ -105,7 +109,10 @@ Contracts and writers described in [amc-source-catalog.md](./amc-source-catalog.
 | `scripts/audit_amc_run_lifecycles.py` | Lifecycle audit CLI | Manual / local · writes gitignored `audit-output/amc-run-lifecycle/` |
 | `schema/analysis/amc_run_lifecycle_observations/v1.0.0.json` | Observation-row contract | Authored · analysis-only · not public |
 | `docs/leaving-soon-lifecycle-audit.md` | Remaining-days TTE data foundation | Authored research · not a production contract |
-| `reel_seattle/analysis/leaving_soon_survival.py` | Discrete-time remaining-run survival model | Read-only analysis · no UI · no production artifacts |
+| `reel_seattle/analysis/leaving_soon_survival.py` | Discrete-time remaining-run survival model | Shared feature builder + freeze export |
+| `reel_seattle/analysis/leaving_soon_frozen.py` | Sklearn-free frozen v1 evaluator | Daily inference runtime |
+| `reel_seattle/analysis/leaving_soon_inference.py` | Current-run scoring + snapshots | Daily after scrape |
+| `docs/leaving-soon-production-v1.md` | Production contract | Authoritative for v1 ship |
 | `scripts/train_leaving_soon_survival.py` | Train + backtest CLI | Manual / local · writes gitignored `audit-output/leaving-soon-survival-v1/` |
 | `scripts/evaluate_leaving_soon_survival.py` | Evaluate from an existing observation CSV | Manual / local · same gitignored output dir |
 | `docs/leaving-soon-survival-model-v1.md` | v1 remaining-days backtest + ship gate | Authored research · not a production contract |
@@ -153,7 +160,7 @@ All files under `public/data/` are pipeline outputs or registry copies consumed 
 | `pipeline_report.json` | Showtimes data-status panel; additive `amc_source_catalog` operational health (P-21B; Cockpit Pipeline Health) | **Shipped** |
 | `newly_added_current.json` | Recently Added section | **Shipped** |
 | `theaters.json` | Theater metadata (via showtimes artifact) | **Shipped** |
-| `leaving_soon_current.json` | Review-only model output | **Not shipped** |
+| `leaving_soon_current.json` | v2 Leaving Soon shelf (bucketed model output) | **Not shipped** to public Pages; **allowlisted** in v2 |
 | `movies_announcements.csv` | Pipeline input/output tracking | **Not shipped** |
 | `newly_announced.csv` | Pipeline intermediate | **Not shipped** |
 

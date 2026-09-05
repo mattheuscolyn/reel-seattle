@@ -8,18 +8,18 @@ import {
 } from '../../v2/data/allowedDataRoutes.js';
 import { loadHomeData } from '../../v2/data/loadHomeData.js';
 
-test('v2 data allowlist includes Home artifacts and excludes Leaving Soon', () => {
+test('v2 data allowlist includes Home artifacts including Leaving Soon', () => {
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/showtimes_current.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/theaters.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/newly_added_current.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/opening_this_week_current.json']);
+  assert.ok(ALLOWED_V2_DATA_ROUTES['/data/leaving_soon_current.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/pipeline_report.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/film_enrichment_current.json']);
   assert.equal(
-    ALLOWED_V2_DATA_ROUTES['/data/leaving_soon_current.json'],
-    undefined,
+    EXCLUDED_V2_DATA_PATHS.includes('/data/leaving_soon_current.json'),
+    false,
   );
-  assert.ok(EXCLUDED_V2_DATA_PATHS.includes('/data/leaving_soon_current.json'));
   assert.equal(validateV2DataAllowlist().ok, true);
   assert.ok(listV2DataArtifacts().some((a) => a.required));
 });
@@ -60,7 +60,8 @@ test('loadHomeData builds HomeData through injectable fetch', async () => {
   const result = await loadHomeData({ fetchImpl });
   assert.equal(result.ok, true);
   assert.equal(result.homeData.counts.films, 0);
-  assert.equal(result.homeData.leavingSoonExcluded, true);
+  assert.equal(result.homeData.leavingSoonExcluded, false);
+  assert.equal(result.homeData.leavingSoon.status, 'unavailable');
   assert.equal(result.homeData.sourceHealth.status, 'success');
 });
 

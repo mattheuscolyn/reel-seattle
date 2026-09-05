@@ -110,7 +110,6 @@ function assertDistDataArtifacts() {
   if (!existsSync(dataDir)) fail('dist-v2/data/ missing after build');
 
   const forbidden = [
-    'leaving_soon_current.json',
     'showtimes_history.csv',
     '.env',
     'credentials.json',
@@ -183,9 +182,9 @@ async function verifyHttpDataRoutes() {
     }
   }
 
-  const blocked = await fetch(`${BASE}/data/leaving_soon_current.json`);
+  const blocked = await fetch(`${BASE}/data/showtimes_history.csv`);
   if (blocked.status !== 404) {
-    fail(`leaving_soon_current.json should be 404 from static dist, got ${blocked.status}`);
+    fail(`showtimes_history.csv should be 404 from static dist, got ${blocked.status}`);
   }
 }
 

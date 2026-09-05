@@ -1,9 +1,7 @@
 # AMC remaining-run survival model v1
 
-**Status:** Offline backtest complete — **not** production, **not** UI, **not** a Leaving Soon artifact replacement  
-**Date:** 2026-09-02  
-**Branch:** `feature/leaving-soon-survival-model-v1`  
-**Base:** `53ee67647de21f8e54d4ee2e11998cfd6fb7873e` (`feature/leaving-soon-lifecycle-audit`)  
+**Status:** Offline backtest complete; **first production path** is documented in [leaving-soon-production-v1.md](./leaving-soon-production-v1.md). This file remains the v1 **backtest** record. Production use does **not** mean the model is final.  
+**Date:** 2026-09-02 (backtest); production freeze 2026-09  
 **Ship-gate recommendation:** `promising_continue`
 
 This document reports the first serious remaining-run time-to-event model for enabled Seattle-area AMC theaters.
@@ -12,7 +10,7 @@ Product question:
 
 > For each currently active AMC theatrical run in the enabled Seattle-area AMC network, estimate how many calendar days remain until that run's final AMC show date anywhere in the network.
 
-It does **not** change Planner, does **not** replace `leaving_soon_current.json`, and does **not** add frontend badges.
+It does **not** change Planner. Production inference and the public Leaving Soon artifact are specified in [leaving-soon-production-v1.md](./leaving-soon-production-v1.md); this document is the offline backtest record.
 
 Reproduce:
 

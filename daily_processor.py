@@ -622,17 +622,26 @@ def main():
     print(f"  {len(newly_added_artifact['entries'])} entries in current window")
 
     print("Emitting leaving_soon_current.json...")
-    from reel_seattle.emit.leaving_soon import write_leaving_soon_current
+    from reel_seattle.emit.leaving_soon import publish_leaving_soon_current
     from reel_seattle.validate import validate_theaters_registry_file
 
     registry = validate_theaters_registry_file()
-    leaving_soon_artifact = write_leaving_soon_current(
+    leaving_soon_result = publish_leaving_soon_current(
         current_artifact,
         registry=registry,
     )
-    print(
-        f"  {leaving_soon_artifact['stats']['flagged_film_count']} high-confidence risk signals"
-    )
+    if leaving_soon_result.get("published"):
+        artifact = leaving_soon_result["artifact"]
+        print(
+            f"  {artifact['stats']['flagged_film_count']} model badges "
+            f"({artifact['stats'].get('last_chance_count', 0)} last chance / "
+            f"{artifact['stats'].get('leaving_soon_count', 0)} leaving soon)"
+        )
+    else:
+        print(
+            "  skipped publishing new Leaving Soon predictions "
+            f"({leaving_soon_result.get('skipped_reason')})"
+        )
 
     print("Emitting opening_this_week_current.json...")
     from reel_seattle.emit.opening_this_week import write_opening_this_week_current

@@ -1,7 +1,7 @@
-"""Discrete-time remaining-run survival model (offline experiment).
+"""Discrete-time remaining-run survival model.
 
-Predicts remaining calendar days until a Seattle-area AMC network run ends.
-Does not emit production Leaving Soon artifacts, UI, or Planner changes.
+Training/backtest live here. Production inference loads the frozen JSON
+artifact via ``leaving_soon_frozen`` and must not refit on new outcomes.
 """
 
 from __future__ import annotations
@@ -790,6 +790,31 @@ class DiscreteHazardModel:
             horizon_days=self.horizon_days,
         )
 
+    def linear_export(self) -> dict[str, Any]:
+        """Export scaler + logistic weights for sklearn-free production inference."""
+        if self.model_kind != "logistic" or self._model is None or self._scaler is None:
+            raise RuntimeError("linear export requires a fitted logistic hazard model")
+        coef = getattr(self._model, "coef_", None)
+        intercept = getattr(self._model, "intercept_", None)
+        if coef is None or intercept is None:
+            raise RuntimeError("fitted logistic model is missing coefficients")
+        mean = getattr(self._scaler, "mean_", None)
+        scale = getattr(self._scaler, "scale_", None)
+        if mean is None or scale is None:
+            raise RuntimeError("fitted scaler is missing mean_/scale_")
+        return {
+            "columns": list(self.columns),
+            "continuous_idx": list(self._continuous_idx),
+            "scaler_mean": [float(v) for v in mean],
+            "scaler_scale": [float(v) if float(v) else 1.0 for v in scale],
+            "coefficients": [float(v) for v in coef[0]],
+            "intercept": float(intercept[0]),
+            "horizon_days": int(self.horizon_days),
+            "bin_size": int(self.bin_size),
+            "C": float(self.C),
+            "seed": int(self.seed),
+        }
+
     def standardized_coefficients(self) -> list[dict[str, Any]]:
         if self.model_kind != "logistic" or self._model is None:
             return []
@@ -1147,6 +1172,20 @@ def platt_calibrator(scores: Sequence[float], y_true: Sequence[int]):
     y = np.asarray(y_true, dtype=int)
     model.fit(x, y)
     return model
+
+
+def platt_linear_export(model) -> dict[str, float] | None:
+    """Export 1-D Platt logistic parameters. ``None`` if calibrator was skipped."""
+    if model is None:
+        return None
+    coef = getattr(model, "coef_", None)
+    intercept = getattr(model, "intercept_", None)
+    if coef is None or intercept is None:
+        return None
+    return {
+        "coefficient": float(coef[0][0]),
+        "intercept": float(intercept[0]),
+    }
 
 
 def apply_platt(model, scores: Sequence[float]) -> list[float]:
