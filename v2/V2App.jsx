@@ -2,7 +2,17 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import DestinationPlaceholder from './DestinationPlaceholder.jsx';
 import AppHeader from './home/AppHeader.jsx';
 import PrimaryNav from './PrimaryNav.jsx';
-import { originBackLabel, resolveActivePrimaryId } from './destinations.js';
+import {
+  originBackLabel,
+  resolveActivePrimaryId,
+  resolveDestinationId,
+} from './destinations.js';
+import {
+  clearAuthSensitiveTabState,
+  createEmptyTabSessions,
+  openPrimaryTabRoot,
+  switchPrimaryTab,
+} from './navigation/primaryTabSessions.js';
 import { loadHomeData } from './data/loadHomeData.js';
 import { loadFilmEnrichment } from './enrichment/loadFilmEnrichment.js';
 import { reconcileUserFilmStores } from './stores/reconcileUserFilmStores.js';
@@ -56,7 +66,6 @@ import {
   openProfileSettings,
   openProfileFriends,
   openFriendInviteLanding,
-  selectPrimaryDestination,
   startPlannerFromFilm,
   updateSearchUi,
   updateShowtimesBrowseUi,
@@ -201,6 +210,9 @@ export default function V2App() {
   const hostname = resolveHostname();
   const auth = useAuth();
   const [nav, setNav] = useState(createInitialNavState);
+  const navRef = useRef(nav);
+  const tabSessionsRef = useRef(createEmptyTabSessions());
+  navRef.current = nav;
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [cloudNotifications, setCloudNotifications] = useState(
     /** @type {import('./notifications/notificationModel.js').NotificationItem[]} */ ([]),
@@ -280,15 +292,43 @@ export default function V2App() {
         return;
       }
       if (!consumeAuthReturnToProfile()) return;
-      setNav((current) => {
-        if (current.surface?.type === FRIEND_INVITE_LANDING_SURFACE_TYPE) {
-          return current;
-        }
-        return selectPrimaryDestination(current, 'profile');
-      });
+      const current = navRef.current;
+      if (current.surface?.type === FRIEND_INVITE_LANDING_SURFACE_TYPE) {
+        return;
+      }
+      const { nav: nextNav, sessions } = openPrimaryTabRoot(
+        current,
+        tabSessionsRef.current,
+        'profile',
+      );
+      tabSessionsRef.current = sessions;
+      setNav(nextNav);
       window.scrollTo(0, 0);
     });
   }, []);
+
+  const prevAuthUserIdRef = useRef(
+    /** @type {string | null | undefined} */ (undefined),
+  );
+  useEffect(() => {
+    const userId =
+      auth.status === 'signed_in' && auth.user?.id ? auth.user.id : null;
+    const prev = prevAuthUserIdRef.current;
+    if (prev === undefined) {
+      prevAuthUserIdRef.current = userId;
+      return;
+    }
+    if (prev === userId) return;
+    prevAuthUserIdRef.current = userId;
+    if (prev == null) return;
+    const { nav: nextNav, sessions, changed } = clearAuthSensitiveTabState(
+      navRef.current,
+      tabSessionsRef.current,
+    );
+    if (!changed) return;
+    tabSessionsRef.current = sessions;
+    setNav(nextNav);
+  }, [auth.status, auth.user?.id]);
 
   const qcHeaderNotifications = readQcHeaderNotificationsModeFromLocation();
   const qcNotifications = readQcNotificationsModeFromLocation();
@@ -538,11 +578,44 @@ export default function V2App() {
   }, [nav.surface]);
 
   const handleSelectDestination = useCallback((destinationId) => {
+    const current = navRef.current;
+    const targetId = resolveDestinationId(destinationId);
+    const chromeActive =
+      current.surface?.type === 'film-detail'
+        ? 'explore'
+        : resolveActivePrimaryId(current);
+    if (targetId === chromeActive) {
+      return;
+    }
+
     setHomeRestorePending(null);
     setExploreRestorePending(null);
     setShareStatus(null);
     setProfileStubStatus(null);
-    setNav((current) => selectPrimaryDestination(current, destinationId));
+
+    const { nav: nextNav, sessions } = switchPrimaryTab(
+      current,
+      tabSessionsRef.current,
+      targetId,
+    );
+    tabSessionsRef.current = sessions;
+    setNav(nextNav);
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenPrimaryRoot = useCallback((destinationId) => {
+    setHomeRestorePending(null);
+    setExploreRestorePending(null);
+    setShareStatus(null);
+    setProfileStubStatus(null);
+
+    const { nav: nextNav, sessions } = openPrimaryTabRoot(
+      navRef.current,
+      tabSessionsRef.current,
+      destinationId,
+    );
+    tabSessionsRef.current = sessions;
+    setNav(nextNav);
     window.scrollTo(0, 0);
   }, []);
 
@@ -758,7 +831,13 @@ export default function V2App() {
   }, []);
 
   const handleStartPlanner = useCallback((seed) => {
-    setNav((current) => startPlannerFromFilm(current, seed));
+    const { nav: rootNav, sessions } = openPrimaryTabRoot(
+      navRef.current,
+      tabSessionsRef.current,
+      'planner',
+    );
+    tabSessionsRef.current = sessions;
+    setNav(startPlannerFromFilm(rootNav, seed));
     window.scrollTo(0, 0);
   }, []);
 
@@ -1654,8 +1733,7 @@ export default function V2App() {
           })
         }
         onViewInPlanner={() => {
-          setNav((current) => selectPrimaryDestination(current, 'planner'));
-          window.scrollTo(0, 0);
+          handleOpenPrimaryRoot('planner');
         }}
         onAcceptedPlanChange={() =>
           setAcceptedPlansRevision((value) => value + 1)
@@ -1700,7 +1778,7 @@ export default function V2App() {
         homeData={sharedHomeData.homeData}
         enrichmentIndex={enrichmentState.index}
         errorMessage={sharedHomeData.errorMessage}
-        onSelectDestination={handleSelectDestination}
+        onSelectDestination={handleOpenPrimaryRoot}
         onOpenFilmDetail={handleOpenFilmDetail}
         onOpenCollection={handleOpenCollection}
         onOpenShowtimesBrowse={handleOpenShowtimesBrowse}
