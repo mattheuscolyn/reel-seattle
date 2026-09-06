@@ -156,8 +156,10 @@ describe('Home browse + shelves redesign', () => {
     assert.match(STRIP_SRC, /id: 'all'/);
     assert.match(STRIP_SRC, /id: 'today'/);
     assert.match(STRIP_SRC, /id: 'weekend'/);
-    assert.match(STRIP_SRC, /label: 'This weekend'/);
+    assert.match(STRIP_SRC, /label: 'This weekend'|This weekend/);
     assert.match(STRIP_SRC, /id: 'theaters'/);
+    assert.match(STRIP_SRC, /v2-home-browse-icon/);
+    assert.match(STRIP_SRC, /IconBrowseGrid|IconCalendar|IconHome/);
     assert.equal(STRIP_SRC.includes("id: 'nearby'"), false);
     assert.equal(STRIP_SRC.includes('Nearby'), false);
     assert.equal(STRIP_SRC.includes('Favorite'), false);
@@ -172,6 +174,7 @@ describe('Home browse + shelves redesign', () => {
     assert.match(STRIP_SRC, /mode: 'range'/);
     assert.match(STRIP_SRC, /COLLECTION_IDS\.theaters/);
     assert.match(CSS, /\.v2-home-browse-chip\b/);
+    assert.match(CSS, /grid-template-columns:\s*repeat\(4/);
     assert.equal(CSS.includes('.v2-home-browse-chip-active'), false);
   });
 
