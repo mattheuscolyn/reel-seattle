@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { IconChevron } from '../icons.jsx';
 import { subscribeFilmStoreMutations } from '../auth/filmStoreMutationBridge.js';
 import BrowseDatePickerSheet from '../showtimes/BrowseDatePickerSheet.jsx';
@@ -26,6 +26,11 @@ import {
   subscribeScheduleSettings,
 } from '../stores/scheduleSettingsStore.js';
 import { subscribeFavoriteTheaters } from '../stores/favoriteTheatersStore.js';
+import {
+  captureListPosition,
+  hasListRestore,
+  restoreListPosition,
+} from '../navigation/listPositionRestore.js';
 
 function getBrowserStorage() {
   try {
@@ -64,6 +69,7 @@ export default function ShowtimesBrowseSurface({
   const [settingsTick, setSettingsTick] = useState(0);
   const [storeTick, setStoreTick] = useState(0);
   const [actionSheet, setActionSheet] = useState(null);
+  const restoreAttemptedRef = useRef(false);
 
   useEffect(
     () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
@@ -82,13 +88,6 @@ export default function ShowtimesBrowseSurface({
 
   const storage = getBrowserStorage();
   const timeFormatId = getScheduleSettings(storage).timeFormatId;
-
-  useEffect(() => {
-    const y = browseUi?.scrollY;
-    if (typeof y === 'number' && Number.isFinite(y) && y > 0) {
-      requestAnimationFrame(() => window.scrollTo(0, y));
-    }
-  }, []); // restore once on mount
 
   const emitUi = (nextFilters, patch = {}) => {
     const merged = normalizeBrowseFilters({
@@ -119,6 +118,37 @@ export default function ShowtimesBrowseSurface({
       storeTick,
     ],
   );
+
+  useEffect(() => {
+    if (restoreAttemptedRef.current) return;
+    if (loadStatus === 'loading') return;
+    const position = {
+      itemKey: browseUi?.restoreItemKey ?? null,
+      scrollY: browseUi?.scrollY ?? 0,
+    };
+    if (!hasListRestore(position)) {
+      restoreAttemptedRef.current = true;
+      return;
+    }
+    let cancelled = false;
+    const run = () => {
+      if (cancelled || restoreAttemptedRef.current) return;
+      restoreListPosition(position);
+      restoreAttemptedRef.current = true;
+    };
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(run);
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+    };
+  }, [
+    loadStatus,
+    presentation.films?.length,
+    browseUi?.restoreItemKey,
+    browseUi?.scrollY,
+  ]);
 
   const activeFilterCount = countActiveBrowseFilterDimensions(appliedFilters);
   const dateMode = appliedFilters.dateSelection.mode;
@@ -205,11 +235,18 @@ export default function ShowtimesBrowseSurface({
     });
   };
 
-  const captureReturnSurface = () => ({
-    type: 'showtimes-browse',
-    originPrimary,
-    browseUi: browseFiltersToNavUi(emitUi(appliedFilters, {})),
-  });
+  const captureReturnSurface = (originFilmKey = null) => {
+    const position = captureListPosition({ itemKey: originFilmKey });
+    return {
+      type: 'showtimes-browse',
+      originPrimary,
+      browseUi: {
+        ...browseFiltersToNavUi(emitUi(appliedFilters, {})),
+        restoreItemKey: position.itemKey,
+        scrollY: position.scrollY,
+      },
+    };
+  };
 
   const openShowtimeActions = (film, row) => {
     const opportunity = resolveBrowseShowtimeOpportunity({
@@ -377,26 +414,38 @@ export default function ShowtimesBrowseSurface({
           {presentation.films.map((film) => {
             const expanded = appliedFilters.expandedFilmKey === film.filmKey;
             return (
-              <li key={film.filmKey} className="v2-stb-film">
+              <li
+                key={film.filmKey}
+                className="v2-stb-film"
+                data-list-restore-key={film.filmKey}
+              >
                 <div className="v2-stb-film-head">
                   <button
                     type="button"
                     className="v2-stb-film-open"
-                    onClick={() =>
+                    onClick={() => {
+                      const position = captureListPosition({
+                        itemKey: film.filmKey,
+                      });
                       onOpenFilmDetail?.({
                         filmKey: film.filmKey,
                         opportunityKey:
                           film.showtimes[0]?.opportunityKey ?? null,
                         returnSurface: {
-                          ...captureReturnSurface(),
-                          browseUi: browseFiltersToNavUi(
-                            emitUi(appliedFilters, {
-                              expandedFilmKey: film.filmKey,
-                            }),
-                          ),
+                          type: 'showtimes-browse',
+                          originPrimary,
+                          browseUi: {
+                            ...browseFiltersToNavUi(
+                              emitUi(appliedFilters, {
+                                expandedFilmKey: film.filmKey,
+                              }),
+                            ),
+                            restoreItemKey: position.itemKey,
+                            scrollY: position.scrollY,
+                          },
                         },
-                      })
-                    }
+                      });
+                    }}
                   >
                     {film.posterUrl ? (
                       <img
@@ -474,7 +523,9 @@ export default function ShowtimesBrowseSurface({
                                 onClick={() =>
                                   onOpenTheaterDetail?.({
                                     theaterId: theater.theaterId,
-                                    returnSurface: captureReturnSurface(),
+                                    returnSurface: captureReturnSurface(
+                                      film.filmKey,
+                                    ),
                                   })
                                 }
                               >

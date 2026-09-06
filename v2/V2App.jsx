@@ -104,10 +104,7 @@ import {
   createBuildPlanFilmManageMockupForm,
   getBuildPlanFilmManageMockupMode,
 } from './fixtures/buildPlanFilmManageMockupFixture.js';
-import {
-  clearBuildPlanFormSession,
-  ensureBuildPlanFormSession,
-} from './planner/buildPlanFormSession.js';
+import { ensureBuildPlanFormSession } from './planner/buildPlanFormSession.js';
 import { isPlanResultsMockupMode } from './planner/resolveBuildPlanResultsPresentation.js';
 import { getBuildPlanPlanDetailsMockupPlan } from './fixtures/buildPlanPlanDetailsMockupFixture.js';
 import { isTheaterDetailQueryOpen } from './fixtures/theaterDetailMockupFixture.js';
@@ -383,8 +380,9 @@ export default function V2App() {
   useEffect(() => {
     const manageMode = getBuildPlanFilmManageMockupMode();
     if (manageMode) {
-      ensureBuildPlanFormSession(() =>
-        createBuildPlanFilmManageMockupForm(manageMode),
+      ensureBuildPlanFormSession(
+        () => createBuildPlanFilmManageMockupForm(manageMode),
+        { persist: false },
       );
       setNav((current) => {
         if (current.surface?.type === 'build-plan-film-manage') return current;
@@ -406,8 +404,9 @@ export default function V2App() {
             type: 'build-plan-results',
             originPrimary: 'planner',
             returnSurface: null,
-            formConfig: ensureBuildPlanFormSession(() =>
-              createBuildPlanFormState(),
+            formConfig: ensureBuildPlanFormSession(
+              () => createBuildPlanFormState(),
+              { persist: false },
             ),
           },
         });
@@ -416,7 +415,9 @@ export default function V2App() {
       return;
     }
     if (isPlanResultsMockupMode()) {
-      const form = ensureBuildPlanFormSession(() => createBuildPlanFormState());
+      const form = ensureBuildPlanFormSession(() => createBuildPlanFormState(), {
+        persist: false,
+      });
       setNav((current) => {
         if (
           current.surface?.type === 'build-plan-results' ||
@@ -541,7 +542,6 @@ export default function V2App() {
     setExploreRestorePending(null);
     setShareStatus(null);
     setProfileStubStatus(null);
-    clearBuildPlanFormSession();
     setNav((current) => selectPrimaryDestination(current, destinationId));
     window.scrollTo(0, 0);
   }, []);
@@ -739,25 +739,7 @@ export default function V2App() {
     setSeenError(null);
     setNotInterestedError(null);
     setNav((current) => {
-      const prevType = current.surface?.type;
       const next = navigateBack(current);
-      const nextType = next.surface?.type;
-      const stillInBuildPlanTree =
-        nextType === 'build-plan' ||
-        nextType === 'build-plan-film-manage' ||
-        nextType === 'build-plan-showtime-manage' ||
-        nextType === 'build-plan-theater-manage' ||
-        nextType === 'build-plan-results';
-      if (
-        (prevType === 'build-plan' ||
-          prevType === 'build-plan-film-manage' ||
-          prevType === 'build-plan-showtime-manage' ||
-          prevType === 'build-plan-theater-manage' ||
-          prevType === 'build-plan-results') &&
-        !stillInBuildPlanTree
-      ) {
-        clearBuildPlanFormSession();
-      }
       if (next._restoredHome) setHomeRestorePending(next._restoredHome);
       if (next._restoredExplore) setExploreRestorePending(next._restoredExplore);
       const { _restoredHome, _restoredExplore, ...clean } = next;

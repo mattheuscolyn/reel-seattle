@@ -504,8 +504,10 @@ export default function BuildPlanSurface({
   const mockupMode = isBuildPlanMockupMode();
   const statusId = useId();
   const [form, setFormLocal] = useState(() =>
-    ensureBuildPlanFormSession(() =>
-      mockupMode ? createBuildPlanFormState() : createLiveBuildPlanFormState(),
+    ensureBuildPlanFormSession(
+      () =>
+        mockupMode ? createBuildPlanFormState() : createLiveBuildPlanFormState(),
+      { persist: !mockupMode },
     ),
   );
   const [openSection, setOpenSection] = useState(() => {
