@@ -8,6 +8,7 @@ import {
   buildSupportingFactsLabel,
   canGoNext,
   canGoPrevious,
+  wrapSelectionIndex,
 } from '../../v2/topOpportunities/topOpportunityFormat.js';
 import {
   SELECTION_REASON_LABELS,
@@ -109,11 +110,14 @@ test('runtime omitted when unavailable; genre never inferred', () => {
   assert.equal(noRuntime, null);
 });
 
-test('position and bounded navigation helpers remain correct', () => {
+test('position and circular navigation helpers remain correct', () => {
   assert.equal(buildPositionLabel(0, 3), '1 of 3');
-  assert.equal(canGoPrevious(0, 3), false);
+  assert.equal(buildPositionLabel(2, 3), '3 of 3');
+  assert.equal(canGoPrevious(0, 3), true);
   assert.equal(canGoNext(0, 3), true);
-  assert.equal(canGoNext(2, 3), false);
+  assert.equal(canGoNext(2, 3), true);
+  assert.equal(wrapSelectionIndex(3, 3), 0);
+  assert.equal(wrapSelectionIndex(-1, 3), 2);
   assert.equal(canGoPrevious(0, 1), false);
   assert.equal(canGoNext(0, 1), false);
 });

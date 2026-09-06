@@ -584,5 +584,17 @@ test('theater alone does not alter category on either surface', () => {
 test('HomeDestination still wires See all to Opening collection', () => {
   const homeSrc = readFileSync(join(ROOT, 'v2/HomeDestination.jsx'), 'utf8');
   assert.match(homeSrc, /COLLECTION_IDS\.openingThisWeek/);
-  assert.match(homeSrc, /maxVisible=\{6\}/);
+  assert.equal(homeSrc.includes('maxVisible={6}'), false);
+});
+
+test('Home film shelves render all cards in a shared horizontal strip', () => {
+  const shelfSrc = readFileSync(join(ROOT, 'v2/home/FilmShelf.jsx'), 'utf8');
+  const css = readFileSync(join(ROOT, 'v2/v2.css'), 'utf8');
+  assert.match(shelfSrc, /className="v2-shelf-row"/);
+  assert.match(shelfSrc, /data-shelf-visible-slots="4"/);
+  assert.equal(shelfSrc.includes('maxVisible'), false);
+  assert.equal(shelfSrc.includes('films.slice'), false);
+  assert.match(css, /\.v2-shelf-row\s*\{[^}]*overflow-x:\s*auto/s);
+  assert.match(css, /\.v2-shelf-item\s*\{[^}]*flex:\s*0 0 calc\(\(100% - 1\.44rem\) \/ 4\)/s);
+  assert.equal(css.includes('v2-shelf-row-wide'), false);
 });

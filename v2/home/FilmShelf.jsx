@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import FilmShelfCard from './FilmShelfCard.jsx';
 import InlineQuickDetail from './InlineQuickDetail.jsx';
 import { buildInlineQuickDetail } from './shelfData.js';
@@ -26,7 +26,9 @@ function getBrowserStorage() {
 }
 
 /**
- * Horizontal film shelf with optional inline quick-detail expansion.
+ * Horizontal film shelf with native swipe scrolling and optional inline
+ * quick-detail expansion. On narrow Home layouts, CSS sizes cards so four
+ * fit the viewport; remaining cards stay reachable via overflow-x scroll.
  *
  * @param {{
  *   id: string,
@@ -40,7 +42,6 @@ function getBrowserStorage() {
  *   onMoreDetails: (payload: { filmKey: string, opportunityKey: string | null }) => void,
  *   detailOverride?: object | null,
  *   hideStatusNotes?: boolean,
- *   maxVisible?: number,
  * }} props
  */
 export default function FilmShelf({
@@ -55,14 +56,15 @@ export default function FilmShelf({
   onMoreDetails,
   detailOverride = null,
   hideStatusNotes = false,
-  maxVisible = 4,
 }) {
   const headingId = `${id}-heading`;
   const panelId = useId();
   const panelRef = useRef(null);
+  const rowRef = useRef(null);
+  const itemRefs = useRef(/** @type {Record<string, HTMLElement | null>} */ ({}));
   const [actionRevision, setActionRevision] = useState(0);
+  const [caretLeftPx, setCaretLeftPx] = useState(null);
   const films = Array.isArray(shelf?.films) ? shelf.films : [];
-  const visibleFilms = films.slice(0, Math.max(1, maxVisible));
   useEffect(() => {
     return subscribeFilmStoreMutations(() => {
       setActionRevision((value) => value + 1);
@@ -89,6 +91,24 @@ export default function FilmShelf({
   const notInterested = filmRef
     ? isFilmNotInterested(storage, filmRef)
     : false;
+
+  useLayoutEffect(() => {
+    if (!expandedFilmKey || !rowRef.current) {
+      setCaretLeftPx(null);
+      return;
+    }
+    const item = itemRefs.current[expandedFilmKey];
+    if (!item) {
+      setCaretLeftPx(null);
+      return;
+    }
+    item.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+    const shelfNode = rowRef.current.closest('.v2-shelf');
+    if (!shelfNode) return;
+    const shelfRect = shelfNode.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    setCaretLeftPx(itemRect.left + itemRect.width / 2 - shelfRect.left);
+  }, [expandedFilmKey, films.length]);
 
   useEffect(() => {
     if (!expandedFilm || !panelRef.current) return;
@@ -142,20 +162,26 @@ export default function FilmShelf({
         </div>
       ) : null}
 
-      {visibleFilms.length > 0 ? (
+      {films.length > 0 ? (
         <>
           <div
-            className={
-              maxVisible > 4
-                ? 'v2-shelf-row v2-shelf-row-wide'
-                : 'v2-shelf-row'
-            }
+            ref={rowRef}
+            className="v2-shelf-row"
             role="list"
+            data-shelf-visible-slots="4"
           >
-            {visibleFilms.map((film) => {
+            {films.map((film) => {
               const isExpanded = film.filmKey === expandedFilmKey;
               return (
-                <div key={film.filmKey} className="v2-shelf-item" role="listitem">
+                <div
+                  key={film.filmKey}
+                  className="v2-shelf-item"
+                  role="listitem"
+                  data-film-key={film.filmKey}
+                  ref={(node) => {
+                    itemRefs.current[film.filmKey] = node;
+                  }}
+                >
                   <FilmShelfCard
                     film={film}
                     expanded={isExpanded}
@@ -173,12 +199,11 @@ export default function FilmShelf({
             <div ref={panelRef} className="v2-shelf-expansion">
               <div
                 className="v2-shelf-expansion-caret"
-                style={{
-                  left: `calc(${(visibleFilms
-                    .findIndex((f) => f.filmKey === expandedFilmKey) +
-                    0.5) *
-                    (100 / visibleFilms.length)}% )`,
-                }}
+                style={
+                  caretLeftPx == null
+                    ? undefined
+                    : { left: `${caretLeftPx}px` }
+                }
                 aria-hidden="true"
               />
               <InlineQuickDetail
