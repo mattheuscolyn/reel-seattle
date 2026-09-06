@@ -20,6 +20,12 @@ import {
   formatLocalDateLabel,
   formatUserFacingFormatLabel,
 } from '../topOpportunities/topOpportunityFormat.js';
+import {
+  CANONICAL_BROWSE_LABEL,
+  EXPERIENCE_CANONICAL_IDS,
+  FORMAT_CANONICAL_IDS,
+  opportunityMatchesCanonical,
+} from '../formatsExperiences/formatNormalize.js';
 
 /**
  * Format runtime minutes as "2h 14m" when possible.
@@ -280,6 +286,329 @@ export function buildLeavingSoonShelf(homeData, enrichmentIndex = null, options 
     status: 'ready',
     reason: null,
     semantics: 'leaving-soon-model',
+    films: shelfFilms,
+  };
+}
+
+export const HOME_SPECIAL_PRESENTATIONS_MAX_CARDS = 6;
+export const HOME_JUST_ANNOUNCED_MAX_CARDS = 6;
+export const JUST_ANNOUNCED_WINDOW_DAYS = 7;
+
+/** Prefer rarer / more premium specials when a film has multiple. */
+export const SPECIAL_PRESENTATION_PRIORITY = Object.freeze([
+  'imax-70mm',
+  '70mm',
+  '35mm',
+  'imax',
+  'dolby-cinema',
+  'xl-amc',
+  'reald-3d',
+  'live-score',
+  'open-caption',
+  'audio-description',
+]);
+
+export const SPECIAL_PRESENTATION_CANONICAL_IDS = Object.freeze([
+  ...FORMAT_CANONICAL_IDS,
+  ...EXPERIENCE_CANONICAL_IDS,
+]);
+
+/**
+ * @param {object} opportunity
+ * @returns {string | null}
+ */
+export function resolveBestSpecialCanonicalId(opportunity) {
+  const matches = SPECIAL_PRESENTATION_CANONICAL_IDS.filter((id) =>
+    opportunityMatchesCanonical(opportunity, id),
+  );
+  if (matches.length === 0) return null;
+  matches.sort((a, b) => {
+    const ai = SPECIAL_PRESENTATION_PRIORITY.indexOf(a);
+    const bi = SPECIAL_PRESENTATION_PRIORITY.indexOf(b);
+    const ap = ai === -1 ? 99 : ai;
+    const bp = bi === -1 ? 99 : bi;
+    return ap - bp;
+  });
+  return matches[0];
+}
+
+/**
+ * Films with notable format/experience showtimes (IMAX, 70mm, OC, etc.).
+ * Dedupes by film; prefers soonest qualifying showtime among ties on priority.
+ *
+ * @param {object | null} homeData
+ * @param {object | null} [enrichmentIndex]
+ * @param {{ maxCards?: number }} [options]
+ */
+export function buildSpecialPresentationsShelf(
+  homeData,
+  enrichmentIndex = null,
+  options = {},
+) {
+  const maxCards = options.maxCards ?? HOME_SPECIAL_PRESENTATIONS_MAX_CARDS;
+  if (!homeData) {
+    return {
+      status: 'unavailable',
+      reason: 'Home data not loaded.',
+      emptyTitle: 'Special Presentations isn’t ready',
+      emptyBody: 'Check back once showtimes finish loading.',
+      semantics: 'special-presentations-unavailable',
+      films: [],
+    };
+  }
+
+  const opportunities = Array.isArray(homeData.opportunities)
+    ? homeData.opportunities
+    : [];
+  const films = Array.isArray(homeData.films) ? homeData.films : [];
+  /** @type {Map<string, { opportunity: object, canonicalId: string }>} */
+  const bestByFilm = new Map();
+
+  for (const opportunity of opportunities) {
+    const filmKey =
+      typeof opportunity?.filmKey === 'string' ? opportunity.filmKey.trim() : '';
+    if (!filmKey) continue;
+    const canonicalId = resolveBestSpecialCanonicalId(opportunity);
+    if (!canonicalId) continue;
+
+    const existing = bestByFilm.get(filmKey);
+    if (!existing) {
+      bestByFilm.set(filmKey, { opportunity, canonicalId });
+      continue;
+    }
+    const existingPri = SPECIAL_PRESENTATION_PRIORITY.indexOf(
+      existing.canonicalId,
+    );
+    const nextPri = SPECIAL_PRESENTATION_PRIORITY.indexOf(canonicalId);
+    const existingRank = existingPri === -1 ? 99 : existingPri;
+    const nextRank = nextPri === -1 ? 99 : nextPri;
+    if (nextRank < existingRank) {
+      bestByFilm.set(filmKey, { opportunity, canonicalId });
+      continue;
+    }
+    if (nextRank === existingRank) {
+      const a = existing.opportunity.sortableLocalDateTime ?? '';
+      const b = opportunity.sortableLocalDateTime ?? '';
+      if (b && (!a || b < a)) {
+        bestByFilm.set(filmKey, { opportunity, canonicalId });
+      }
+    }
+  }
+
+  if (bestByFilm.size === 0) {
+    return {
+      status: 'unavailable',
+      reason: 'No special presentations right now.',
+      emptyTitle: 'No special presentations right now',
+      emptyBody:
+        'When IMAX, film, Dolby, captions, or other special screenings are playing, they’ll show up here.',
+      semantics: 'special-presentations-empty',
+      films: [],
+    };
+  }
+
+  const ranked = [...bestByFilm.entries()]
+    .map(([filmKey, value]) => ({ filmKey, ...value }))
+    .sort((a, b) => {
+      const ap = SPECIAL_PRESENTATION_PRIORITY.indexOf(a.canonicalId);
+      const bp = SPECIAL_PRESENTATION_PRIORITY.indexOf(b.canonicalId);
+      const aRank = ap === -1 ? 99 : ap;
+      const bRank = bp === -1 ? 99 : bp;
+      if (aRank !== bRank) return aRank - bRank;
+      const at = a.opportunity.sortableLocalDateTime ?? '';
+      const bt = b.opportunity.sortableLocalDateTime ?? '';
+      if (at !== bt) return at < bt ? -1 : 1;
+      return a.filmKey < b.filmKey ? -1 : 1;
+    })
+    .slice(0, Math.max(0, maxCards));
+
+  const shelfFilms = ranked.map(({ filmKey, opportunity, canonicalId }) => {
+    const homeFilm = films.find((film) => film.filmKey === filmKey) ?? null;
+    const enriched = resolveEnrichedFilmPresentation({
+      sourceFilm: {
+        filmId: homeFilm?.filmId ?? null,
+        title: homeFilm?.title ?? opportunity.filmTitle ?? filmKey,
+        posterUrl: homeFilm?.posterUrl ?? null,
+        runtimeMin: homeFilm?.runtimeMin ?? null,
+      },
+      enrichmentIndex,
+      context: 'home',
+    });
+    const badge =
+      CANONICAL_BROWSE_LABEL[canonicalId] ??
+      formatUserFacingFormatLabel(canonicalId) ??
+      canonicalId;
+    const runtimeLabel = formatRuntimeLabel(
+      enriched.runtimeMin ?? homeFilm?.runtimeMin,
+    );
+    const genrePrimary = enriched.genreLine
+      ? String(enriched.genreLine).split(',')[0].trim()
+      : null;
+
+    return {
+      id: filmKey,
+      filmKey,
+      filmId: enriched.filmId ?? homeFilm?.filmId ?? null,
+      title: enriched.displayTitle ?? homeFilm?.title ?? filmKey,
+      badge,
+      genre: genrePrimary,
+      metaLabel: runtimeLabel,
+      posterUrl: enriched.posterUrl ?? homeFilm?.posterUrl ?? null,
+      runtimeMin: enriched.runtimeMin ?? homeFilm?.runtimeMin ?? null,
+      theaterCount: homeFilm?.theaterCount ?? 0,
+      showtimeCount: homeFilm?.showtimeCount ?? 0,
+      nextOpportunityKey: opportunity.opportunityKey ?? null,
+      surfaceReason: 'special-presentations',
+      surfaceReasonLabel: badge,
+      specialCanonicalId: canonicalId,
+      source: 'special-presentations',
+      hasEnrichment: enriched.hasEnrichment,
+    };
+  });
+
+  return {
+    status: 'ready',
+    reason: null,
+    semantics: 'special-presentations',
+    films: shelfFilms,
+  };
+}
+
+/**
+ * Films whose earliest newly-added observation falls within the last N days
+ * and that still have at least one valid future showtime.
+ *
+ * Uses `homeData.newlyAdded` (pipeline `newly_added_current`, default 7-day window).
+ *
+ * @param {object | null} homeData
+ * @param {object | null} [enrichmentIndex]
+ * @param {{ maxCards?: number, windowDays?: number, now?: Date }} [options]
+ */
+export function buildJustAnnouncedShelf(
+  homeData,
+  enrichmentIndex = null,
+  options = {},
+) {
+  const maxCards = options.maxCards ?? HOME_JUST_ANNOUNCED_MAX_CARDS;
+  const windowDays = options.windowDays ?? JUST_ANNOUNCED_WINDOW_DAYS;
+  if (!homeData) {
+    return {
+      status: 'unavailable',
+      reason: 'Home data not loaded.',
+      emptyTitle: 'Just Announced isn’t ready',
+      emptyBody: 'Check back once showtimes finish loading.',
+      semantics: 'just-announced-unavailable',
+      films: [],
+    };
+  }
+
+  const newlyAdded = Array.isArray(homeData.newlyAdded)
+    ? homeData.newlyAdded
+    : [];
+  if (newlyAdded.length === 0) {
+    return {
+      status: 'unavailable',
+      reason: 'No newly announced films right now.',
+      emptyTitle: 'Nothing just announced',
+      emptyBody:
+        'When new showtimes are first observed in the last week, they’ll appear here.',
+      semantics: 'just-announced-empty',
+      films: [],
+    };
+  }
+
+  const timezone = homeData.timezone ?? 'America/Los_Angeles';
+  const todayIso = pacificTodayIso(timezone);
+  const now = options.now instanceof Date ? options.now : new Date();
+  const cutoffMs = now.getTime() - windowDays * 24 * 60 * 60 * 1000;
+
+  const films = Array.isArray(homeData.films) ? homeData.films : [];
+  const eligible = newlyAdded
+    .filter((entry) => entry?.hasActiveShowtimes === true)
+    .filter((entry) => {
+      const first =
+        typeof entry.firstObservedAt === 'string'
+          ? entry.firstObservedAt.trim()
+          : '';
+      if (!first) return false;
+      // first_announced_date is typically an ISO date (YYYY-MM-DD).
+      const parsed = Date.parse(
+        first.length <= 10 ? `${first}T12:00:00` : first,
+      );
+      if (!Number.isFinite(parsed)) return false;
+      return parsed >= cutoffMs;
+    })
+    .sort((a, b) => {
+      if (a.firstObservedAt !== b.firstObservedAt) {
+        return a.firstObservedAt < b.firstObservedAt ? 1 : -1;
+      }
+      const at = a.nextShowtimeAt ?? '';
+      const bt = b.nextShowtimeAt ?? '';
+      if (at !== bt) return at < bt ? -1 : 1;
+      return String(a.title ?? '') < String(b.title ?? '') ? -1 : 1;
+    })
+    .slice(0, Math.max(0, maxCards));
+
+  if (eligible.length === 0) {
+    return {
+      status: 'unavailable',
+      reason: 'No newly announced films right now.',
+      emptyTitle: 'Nothing just announced',
+      emptyBody:
+        'When new showtimes are first observed in the last week, they’ll appear here.',
+      semantics: 'just-announced-empty',
+      films: [],
+    };
+  }
+
+  const shelfFilms = eligible.map((entry) => {
+    const filmKey = entry.filmKey;
+    const homeFilm = films.find((film) => film.filmKey === filmKey) ?? null;
+    const nextOpportunity = findNextOpportunityForFilm(homeData, filmKey);
+    const enriched = resolveEnrichedFilmPresentation({
+      sourceFilm: {
+        filmId: homeFilm?.filmId ?? null,
+        title: homeFilm?.title ?? entry.title ?? filmKey,
+        posterUrl: homeFilm?.posterUrl ?? entry.posterUrl ?? null,
+        runtimeMin: homeFilm?.runtimeMin ?? null,
+      },
+      enrichmentIndex,
+      context: 'home',
+    });
+    const runtimeLabel = formatRuntimeLabel(
+      enriched.runtimeMin ?? homeFilm?.runtimeMin,
+    );
+    const genrePrimary = enriched.genreLine
+      ? String(enriched.genreLine).split(',')[0].trim()
+      : null;
+    const dateLabel = formatLocalDateLabel(entry.firstObservedAt) ?? todayIso;
+
+    return {
+      id: filmKey,
+      filmKey,
+      filmId: enriched.filmId ?? homeFilm?.filmId ?? null,
+      title: enriched.displayTitle ?? homeFilm?.title ?? entry.title ?? filmKey,
+      badge: 'Just announced',
+      genre: genrePrimary,
+      metaLabel: runtimeLabel ?? dateLabel,
+      posterUrl:
+        enriched.posterUrl ?? homeFilm?.posterUrl ?? entry.posterUrl ?? null,
+      runtimeMin: enriched.runtimeMin ?? homeFilm?.runtimeMin ?? null,
+      theaterCount: entry.theaterCount ?? homeFilm?.theaterCount ?? 0,
+      showtimeCount: entry.opportunityCount ?? homeFilm?.showtimeCount ?? 0,
+      nextOpportunityKey: nextOpportunity?.opportunityKey ?? null,
+      firstObservedAt: entry.firstObservedAt,
+      surfaceReason: 'just-announced',
+      surfaceReasonLabel: 'Just announced',
+      source: 'newly-added',
+      hasEnrichment: enriched.hasEnrichment,
+    };
+  });
+
+  return {
+    status: 'ready',
+    reason: null,
+    semantics: 'just-announced',
     films: shelfFilms,
   };
 }

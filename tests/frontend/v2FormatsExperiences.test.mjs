@@ -145,9 +145,10 @@ function sampleHome() {
   };
 }
 
-test('Home quick path still opens Formats & Experiences collection', () => {
-  assert.match(HOME_SRC, /rowId === 'formats'/);
+test('Home Special Presentations See all opens Formats & Experiences collection', () => {
+  assert.equal(HOME_SRC.includes("rowId === 'formats'"), false);
   assert.match(HOME_SRC, /COLLECTION_IDS\.formats/);
+  assert.match(HOME_SRC, /id="v2-special"/);
   let nav = createInitialNavState();
   nav = openCollection(nav, {
     collectionId: COLLECTION_IDS.formats,

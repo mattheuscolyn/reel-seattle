@@ -13473,7 +13473,61 @@ a.v2-st-time:hover {
   }
 }
 
-/* ?? Showtimes browse (T-V2-LAUNCH-SHOWTIMES-01) ?? */
+/* ?? Home Browse Showtimes launcher strip ?? */
+.v2-home-browse {
+  padding: 0.35rem 1rem 0.85rem;
+}
+
+.v2-home-browse-heading {
+  margin: 0 0 0.45rem;
+  font-family: var(--v2-font-display, Georgia, serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--v2-fg);
+}
+
+.v2-home-browse-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.4rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 0.1rem;
+}
+
+.v2-home-browse-row::-webkit-scrollbar {
+  display: none;
+}
+
+.v2-home-browse-chip {
+  flex: 0 0 auto;
+  margin: 0;
+  min-height: 2.35rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--v2-border);
+  border-radius: var(--v2-radius-sm, 10px);
+  background: var(--v2-bg-raised);
+  color: var(--v2-fg);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.v2-home-browse-chip:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-home-browse-chip:active {
+  border-color: var(--v2-accent-border, var(--v2-border));
+}
+
+/* Legacy single CTA kept inert for older fixtures; Home no longer renders it. */
 .v2-home-showtimes-entry {
   padding: 0.25rem 1rem 0.75rem;
 }

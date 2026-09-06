@@ -408,7 +408,8 @@ test('Quick Start includes All showtimes; no fifth primary tab', () => {
   assert.ok(!PRIMARY_DESTINATIONS.some((d) => d.label === 'Showtimes'));
 
   const homeSrc = readFileSync(join(ROOT, 'v2/HomeDestination.jsx'), 'utf8');
-  assert.match(homeSrc, /Browse all showtimes/);
+  assert.match(homeSrc, /BrowseShowtimesStrip|Browse Showtimes/);
+  assert.equal(homeSrc.includes('Browse all showtimes'), false);
   const appSrc = readFileSync(join(ROOT, 'v2/V2App.jsx'), 'utf8');
   assert.match(appSrc, /ShowtimesBrowseSurface/);
   assert.match(appSrc, /openShowtimesBrowse/);

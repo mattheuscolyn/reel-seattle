@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { COLLECTION_IDS } from './destinations.js';
 import EditorialIntro from './home/EditorialIntro.jsx';
-import ExploreMore from './home/ExploreMore.jsx';
+import BrowseShowtimesStrip from './home/BrowseShowtimesStrip.jsx';
 import FilmShelf from './home/FilmShelf.jsx';
-import PlannerCta from './home/PlannerCta.jsx';
 import TopOpportunityFeature from './home/TopOpportunityFeature.jsx';
 import {
+  buildJustAnnouncedShelf,
   buildLeavingSoonShelf,
   buildOpeningThisWeekShelf,
+  buildSpecialPresentationsShelf,
 } from './home/shelfData.js';
 import {
   getHomeLandingMockupPresentation,
@@ -16,7 +17,7 @@ import {
 import { captureHomeRestore } from './navigation/navState.js';
 
 /**
- * Home destination — shared canonical presentation for live data and mockup QC.
+ * Home destination — curated moviegoing dashboard.
  * Visual QC: `?homeMockup=1` swaps data only (fixture films / expanded state).
  * TMDB attribution lives under Profile → About & data sources (not on Home).
  */
@@ -25,10 +26,8 @@ export default function HomeDestination({
   homeData = null,
   enrichmentIndex = null,
   errorMessage = null,
-  onSelectDestination,
   onOpenFilmDetail,
   onOpenCollection,
-  onOpenBuildPlan,
   onOpenShowtimesBrowse,
   restoreState = null,
   onRestoreConsumed,
@@ -63,18 +62,26 @@ export default function HomeDestination({
   }, [restoreState, onRestoreConsumed]);
 
   const effectiveHomeData = mockup ? mockup.homeData : homeData;
-  const openingShelf = mockup
-    ? mockup.openingShelf
-    : buildOpeningThisWeekShelf(
-        loadStatus === 'ready' ? homeData : null,
-        enrichmentIndex,
-      );
+  const dataForShelves = mockup
+    ? mockup.homeData
+    : loadStatus === 'ready'
+      ? homeData
+      : null;
+
   const leavingShelf = mockup
     ? mockup.leavingShelf
-    : buildLeavingSoonShelf(
-        loadStatus === 'ready' ? homeData : null,
-        enrichmentIndex,
-      );
+    : buildLeavingSoonShelf(dataForShelves, enrichmentIndex);
+  const specialShelf = buildSpecialPresentationsShelf(
+    dataForShelves,
+    mockup ? null : enrichmentIndex,
+  );
+  const openingShelf = mockup
+    ? mockup.openingShelf
+    : buildOpeningThisWeekShelf(dataForShelves, enrichmentIndex);
+  const announcedShelf = buildJustAnnouncedShelf(
+    dataForShelves,
+    mockup ? null : enrichmentIndex,
+  );
 
   const openDetailFromHome = ({
     filmKey,
@@ -103,39 +110,6 @@ export default function HomeDestination({
     setExpanded({ shelfId, filmKey });
   };
 
-  const handleQuickPath = (rowId) => {
-    if (rowId === 'theaters') {
-      onOpenCollection?.({
-        collectionId: COLLECTION_IDS.theaters,
-        originPrimary: 'home',
-      });
-      return;
-    }
-    if (rowId === 'formats') {
-      onOpenCollection?.({
-        collectionId: COLLECTION_IDS.formats,
-        originPrimary: 'home',
-      });
-      return;
-    }
-    if (rowId === 'saved') {
-      onOpenCollection?.({
-        collectionId: COLLECTION_IDS.saved,
-        originPrimary: 'home',
-      });
-      return;
-    }
-    if (rowId === 'seen') {
-      onOpenCollection?.({
-        collectionId: COLLECTION_IDS.seen,
-        originPrimary: 'home',
-      });
-      return;
-    }
-    // Search → Explore landing until dedicated Search surface ships.
-    onSelectDestination?.('explore');
-  };
-
   return (
     <div
       className="v2-home"
@@ -162,24 +136,67 @@ export default function HomeDestination({
         }}
       />
 
-      <div className="v2-home-showtimes-entry">
-        <button
-          type="button"
-          className="v2-home-showtimes-cta"
-          onClick={() =>
-            onOpenShowtimesBrowse?.({
-              originPrimary: 'home',
-              homeRestore: captureHomeRestore({
-                expandedShelfId: expanded.shelfId,
-                expandedFilmKey: expanded.filmKey,
-                topOppIndex,
-              }),
-            })
-          }
-        >
-          Browse all showtimes
-        </button>
-      </div>
+      <BrowseShowtimesStrip
+        expandedShelfId={expanded.shelfId}
+        expandedFilmKey={expanded.filmKey}
+        topOppIndex={topOppIndex}
+        onOpenShowtimesBrowse={onOpenShowtimesBrowse}
+        onOpenCollection={onOpenCollection}
+      />
+
+      <FilmShelf
+        id="v2-leaving"
+        title="Leaving Soon"
+        shelf={leavingShelf}
+        homeData={effectiveHomeData}
+        enrichmentIndex={mockup ? null : enrichmentIndex}
+        hideStatusNotes={Boolean(mockup)}
+        expandedFilmKey={
+          expanded.shelfId === 'v2-leaving' ? expanded.filmKey : null
+        }
+        onExpandFilm={(filmKey) => setShelfExpansion('v2-leaving', filmKey)}
+        onSeeAll={() =>
+          onOpenCollection({
+            collectionId: COLLECTION_IDS.leavingSoon,
+            originPrimary: 'home',
+          })
+        }
+        onMoreDetails={({ filmKey, opportunityKey }) =>
+          openDetailFromHome({
+            filmKey,
+            opportunityKey,
+            shelfId: 'v2-leaving',
+            filmKeyExpanded: filmKey,
+          })
+        }
+      />
+
+      <FilmShelf
+        id="v2-special"
+        title="Special Presentations"
+        shelf={specialShelf}
+        homeData={effectiveHomeData}
+        enrichmentIndex={mockup ? null : enrichmentIndex}
+        hideStatusNotes={Boolean(mockup)}
+        expandedFilmKey={
+          expanded.shelfId === 'v2-special' ? expanded.filmKey : null
+        }
+        onExpandFilm={(filmKey) => setShelfExpansion('v2-special', filmKey)}
+        onSeeAll={() =>
+          onOpenCollection({
+            collectionId: COLLECTION_IDS.formats,
+            originPrimary: 'home',
+          })
+        }
+        onMoreDetails={({ filmKey, opportunityKey }) =>
+          openDetailFromHome({
+            filmKey,
+            opportunityKey,
+            shelfId: 'v2-special',
+            filmKeyExpanded: filmKey,
+          })
+        }
+      />
 
       <FilmShelf
         id="v2-opening"
@@ -214,40 +231,26 @@ export default function HomeDestination({
       />
 
       <FilmShelf
-        id="v2-leaving"
-        title="Leaving Soon"
-        shelf={leavingShelf}
+        id="v2-announced"
+        title="Just Announced"
+        shelf={announcedShelf}
         homeData={effectiveHomeData}
         enrichmentIndex={mockup ? null : enrichmentIndex}
         hideStatusNotes={Boolean(mockup)}
+        hideSeeAll
         expandedFilmKey={
-          expanded.shelfId === 'v2-leaving' ? expanded.filmKey : null
+          expanded.shelfId === 'v2-announced' ? expanded.filmKey : null
         }
-        onExpandFilm={(filmKey) => setShelfExpansion('v2-leaving', filmKey)}
-        onSeeAll={() =>
-          onOpenCollection({
-            collectionId: COLLECTION_IDS.leavingSoon,
-            originPrimary: 'explore',
-          })
-        }
+        onExpandFilm={(filmKey) => setShelfExpansion('v2-announced', filmKey)}
         onMoreDetails={({ filmKey, opportunityKey }) =>
           openDetailFromHome({
             filmKey,
             opportunityKey,
-            shelfId: 'v2-leaving',
+            shelfId: 'v2-announced',
             filmKeyExpanded: filmKey,
           })
         }
       />
-
-      <PlannerCta
-        onActivate={() => {
-          if (onOpenBuildPlan) onOpenBuildPlan();
-          else onSelectDestination?.('planner');
-        }}
-      />
-
-      <ExploreMore onSelectRow={handleQuickPath} />
     </div>
   );
 }
