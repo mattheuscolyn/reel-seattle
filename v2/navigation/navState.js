@@ -53,15 +53,16 @@ import {
  * @property {string[]} [theaterIds]
  * @property {string[]} [formatKeys]
  * @property {string} [timeRangeId]
- * @property {string | null} [expandedFilmKey]
- * @property {number} [scrollY]
- * @property {{ mode?: string, startDate?: string, endDate?: string }} [dateSelection]
- * @property {{ preset?: string, customStartMin?: number | null, customEndMin?: number | null }} [time]
  * @property {boolean} [favoritesOnly]
  * @property {'any' | 'saved' | 'not_saved'} [savedMode]
  * @property {'any' | 'not_seen' | 'seen'} [seenMode]
  * @property {'any' | 'hide' | 'only'} [notInterestedMode]
  * @property {'earliest' | 'title_az' | 'shortest' | 'longest'} [sortMode]
+ * @property {string | null} [expandedFilmKey]
+ * @property {string | null} [restoreItemKey]
+ * @property {number} [scrollY]
+ * @property {{ mode?: string, startDate?: string, endDate?: string }} [dateSelection]
+ * @property {{ preset?: string, customStartMin?: number | null, customEndMin?: number | null }} [time]
  */
 
 /**
