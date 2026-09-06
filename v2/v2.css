@@ -13473,48 +13473,47 @@ a.v2-st-time:hover {
   }
 }
 
-/* ?? Home Browse Showtimes launcher strip ?? */
+/* ?? Home Browse Showtimes launcher strip (mockup Option 2) ?? */
 .v2-home-browse {
-  padding: 0.35rem 1rem 0.85rem;
+  padding: 0.1rem 0 0.15rem;
 }
 
 .v2-home-browse-heading {
-  margin: 0 0 0.45rem;
-  font-family: var(--v2-font-display, Georgia, serif);
-  font-size: 1.05rem;
+  margin: 0 0 0.55rem;
+  font-size: 0.64rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--v2-fg);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 247, 0.82);
 }
 
 .v2-home-browse-row {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0.4rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding-bottom: 0.1rem;
-}
-
-.v2-home-browse-row::-webkit-scrollbar {
-  display: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  overflow: visible;
 }
 
 .v2-home-browse-chip {
-  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.48rem;
+  width: 100%;
+  min-width: 0;
+  min-height: 5.1rem;
   margin: 0;
-  min-height: 2.35rem;
-  padding: 0.55rem 0.9rem;
+  padding: 0.78rem 0.28rem 0.55rem;
   border: 1px solid var(--v2-border);
-  border-radius: var(--v2-radius-sm, 10px);
+  border-radius: 0.45rem;
   background: var(--v2-bg-raised);
   color: var(--v2-fg);
   font: inherit;
-  font-size: 0.82rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  line-height: 1.2;
-  white-space: nowrap;
+  line-height: 1.18;
+  text-align: center;
   cursor: pointer;
 }
 
@@ -13524,7 +13523,24 @@ a.v2-st-time:hover {
 }
 
 .v2-home-browse-chip:active {
-  border-color: var(--v2-accent-border, var(--v2-border));
+  border-color: var(--v2-border);
+  background: var(--v2-bg-raised);
+}
+
+.v2-home-browse-icon {
+  display: grid;
+  place-content: center;
+  flex: 0 0 auto;
+  color: rgba(245, 245, 247, 0.94);
+  line-height: 0;
+}
+
+.v2-home-browse-label {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  white-space: pre-line;
+  text-wrap: balance;
 }
 
 /* Legacy single CTA kept inert for older fixtures; Home no longer renders it. */
