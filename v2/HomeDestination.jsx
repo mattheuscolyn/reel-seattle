@@ -188,7 +188,6 @@ export default function HomeDestination({
         homeData={effectiveHomeData}
         enrichmentIndex={mockup ? null : enrichmentIndex}
         hideStatusNotes={Boolean(mockup)}
-        maxVisible={6}
         detailOverride={
           mockup && expanded.filmKey === 'fixture-open-2'
             ? mockup.blueHourDetail

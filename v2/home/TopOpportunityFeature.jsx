@@ -4,6 +4,7 @@ import {
   canGoPrevious,
   clampSelectionIndex,
   selectTopOpportunities,
+  wrapSelectionIndex,
 } from '../adapters/selectTopOpportunities.js';
 import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 import { IconInfo, IconTicket } from '../icons.jsx';
@@ -89,10 +90,12 @@ export default function TopOpportunityFeature({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialIndex]);
 
-  const setSafeIndex = (next) => {
-    const clamped = clampSelectionIndex(next, length);
-    setIndex(clamped);
-    onIndexChange?.(clamped);
+  const setSafeIndex = (next, { wrap = false } = {}) => {
+    const resolved = wrap
+      ? wrapSelectionIndex(next, length)
+      : clampSelectionIndex(next, length);
+    setIndex(resolved);
+    onIndexChange?.(resolved);
   };
 
   const prevEnabled = canGoPrevious(safeIndex, length);
@@ -221,7 +224,7 @@ export default function TopOpportunityFeature({
                   className="v2-feature-arrow v2-feature-arrow-prev"
                   onClick={(event) => {
                     event.stopPropagation();
-                    setSafeIndex(safeIndex - 1);
+                    setSafeIndex(safeIndex - 1, { wrap: true });
                   }}
                   disabled={!prevEnabled}
                   aria-label="Previous featured opportunity"
@@ -233,7 +236,7 @@ export default function TopOpportunityFeature({
                   className="v2-feature-arrow v2-feature-arrow-next"
                   onClick={(event) => {
                     event.stopPropagation();
-                    setSafeIndex(safeIndex + 1);
+                    setSafeIndex(safeIndex + 1, { wrap: true });
                   }}
                   disabled={!nextEnabled}
                   aria-label="Next featured opportunity"

@@ -2,6 +2,7 @@ import {
   canGoNext,
   canGoPrevious,
   clampSelectionIndex,
+  wrapSelectionIndex,
 } from '../adapters/selectTopOpportunities.js';
 
 /**
@@ -170,4 +171,4 @@ export function buildPositionLabel(index, length) {
   return `${safe + 1} of ${length}`;
 }
 
-export { canGoNext, canGoPrevious, clampSelectionIndex };
+export { canGoNext, canGoPrevious, clampSelectionIndex, wrapSelectionIndex };

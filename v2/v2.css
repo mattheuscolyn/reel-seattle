@@ -649,13 +649,37 @@ button {
 }
 
 .v2-shelf-row {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
   gap: 0.48rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  padding-bottom: 0.1rem;
 }
 
-.v2-shelf-row-wide {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+.v2-shelf-row::-webkit-scrollbar {
+  display: none;
+}
+
+.v2-shelf-item {
+  flex: 0 0 calc((100% - 1.44rem) / 4);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+@media (min-width: 720px) {
+  .v2-shelf-item {
+    flex-basis: calc((100% - 1.92rem) / 5);
+  }
+}
+
+@media (min-width: 960px) {
+  .v2-shelf-item {
+    flex-basis: calc((100% - 2.4rem) / 6);
+  }
 }
 
 .v2-shelf-badge {

@@ -5,6 +5,7 @@ import {
   canGoPrevious,
   clampSelectionIndex,
   selectTopOpportunities,
+  wrapSelectionIndex,
 } from '../../v2/adapters/selectTopOpportunities.js';
 import {
   createInitialNavState,
@@ -157,13 +158,18 @@ test('Top Opportunity selector returns real film keys not fixture titles', () =>
   assert.ok(selections.every((item) => item.representativeOpportunity?.opportunityKey));
 });
 
-test('carousel boundaries disable rather than wrap', () => {
-  assert.equal(canGoPrevious(0, 3), false);
+test('carousel wraps circularly with previous/next', () => {
+  assert.equal(canGoPrevious(0, 3), true);
   assert.equal(canGoNext(0, 3), true);
   assert.equal(canGoPrevious(2, 3), true);
-  assert.equal(canGoNext(2, 3), false);
+  assert.equal(canGoNext(2, 3), true);
+  assert.equal(wrapSelectionIndex(3, 3), 0);
+  assert.equal(wrapSelectionIndex(-1, 3), 2);
+  assert.equal(wrapSelectionIndex(5, 3), 2);
   assert.equal(clampSelectionIndex(5, 3), 2);
   assert.equal(clampSelectionIndex(-1, 3), 0);
+  assert.equal(canGoPrevious(0, 1), false);
+  assert.equal(canGoNext(0, 1), false);
 });
 
 test('Opening This Week Home shelf uses verified opening artifact', () => {
@@ -357,5 +363,18 @@ test('TopOpportunityFeature uses selector not fixture array', () => {
   assert.equal(source.includes('TOP_OPPORTUNITY_FIXTURES'), false);
   assert.match(source, /canGoPrevious/);
   assert.match(source, /canGoNext/);
+  assert.match(source, /wrapSelectionIndex/);
+  assert.match(source, /wrap:\s*true/);
   assert.match(source, /onOpenFilmDetail/);
+});
+
+test('Home FilmShelf uses shared four-slot horizontal scroll contract', () => {
+  const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+  const shelfSrc = readFileSync(join(root, 'v2/home/FilmShelf.jsx'), 'utf8');
+  const homeSrc = readFileSync(join(root, 'v2/HomeDestination.jsx'), 'utf8');
+  const css = readFileSync(join(root, 'v2/v2.css'), 'utf8');
+  assert.equal(homeSrc.includes('maxVisible'), false);
+  assert.match(shelfSrc, /data-shelf-visible-slots="4"/);
+  assert.match(css, /overflow-x:\s*auto/);
+  assert.match(css, /scroll-snap-type:\s*x proximity/);
 });

@@ -333,7 +333,8 @@ export function selectTopOpportunities(homeData, options = {}) {
 }
 
 /**
- * Pure navigation helpers for bounded Previous/Next controls.
+ * Pure navigation helpers for Previous/Next controls.
+ * Invalid indices clamp into range; circular next/prev wrap with modular math.
  * @param {number} index
  * @param {number} length
  */
@@ -344,20 +345,35 @@ export function clampSelectionIndex(index, length) {
 }
 
 /**
+ * Wrap an index into `[0, length)`.
+ * @param {number} index
+ * @param {number} length
+ */
+export function wrapSelectionIndex(index, length) {
+  if (!Number.isFinite(length) || length <= 0) return 0;
+  if (!Number.isFinite(index)) return 0;
+  const i = Math.floor(index);
+  return ((i % length) + length) % length;
+}
+
+/**
+ * Circular carousel: Previous is available whenever there is more than one item.
  * @param {number} index
  * @param {number} length
  */
 export function canGoPrevious(index, length) {
-  return length > 1 && clampSelectionIndex(index, length) > 0;
+  void index;
+  return length > 1;
 }
 
 /**
+ * Circular carousel: Next is available whenever there is more than one item.
  * @param {number} index
  * @param {number} length
  */
 export function canGoNext(index, length) {
-  const i = clampSelectionIndex(index, length);
-  return length > 1 && i < length - 1;
+  void index;
+  return length > 1;
 }
 
 export { FORBIDDEN_REASON_LABELS };

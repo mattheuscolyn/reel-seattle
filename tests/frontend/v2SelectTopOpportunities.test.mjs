@@ -11,6 +11,7 @@ import {
   canGoNext,
   canGoPrevious,
   clampSelectionIndex,
+  wrapSelectionIndex,
   isSelectableCandidate,
   selectTopOpportunities,
 } from '../../v2/adapters/selectTopOpportunities.js';
@@ -381,14 +382,19 @@ test('theater diversity preferred on chronological ties when filling', () => {
   assert.equal(selected[1].film.filmKey, 'b');
 });
 
-test('navigation helpers clamp and bound previous/next', () => {
+test('navigation helpers clamp invalid indexes and wrap circular prev/next', () => {
   assert.equal(clampSelectionIndex(-1, 3), 0);
   assert.equal(clampSelectionIndex(9, 3), 2);
-  assert.equal(canGoPrevious(0, 3), false);
+  assert.equal(wrapSelectionIndex(-1, 3), 2);
+  assert.equal(wrapSelectionIndex(3, 3), 0);
+  assert.equal(canGoPrevious(0, 3), true);
   assert.equal(canGoPrevious(1, 3), true);
-  assert.equal(canGoNext(2, 3), false);
+  assert.equal(canGoNext(2, 3), true);
   assert.equal(canGoNext(1, 3), true);
+  assert.equal(canGoPrevious(0, 1), false);
+  assert.equal(canGoNext(0, 1), false);
   assert.equal(buildPositionLabel(0, 3), '1 of 3');
+  assert.equal(buildPositionLabel(2, 3), '3 of 3');
   assert.equal(buildPositionLabel(0, 0), 'No featured opportunities');
 });
 
