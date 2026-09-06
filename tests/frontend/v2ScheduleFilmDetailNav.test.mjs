@@ -258,7 +258,7 @@ test('wiring: Planner and Plan Details open Film Detail', () => {
   assert.match(DETAILS_SRC, /v2-bpd-film-open/);
   assert.match(APP_SRC, /BuildPlanPlanDetailsSurface/);
   assert.match(APP_SRC, /onViewInPlanner/);
-  assert.match(APP_SRC, /selectPrimaryDestination\(current, 'planner'\)/);
+  assert.match(APP_SRC, /handleOpenPrimaryRoot\('planner'\)/);
   assert.doesNotMatch(APP_SRC, /MyScheduleWeekSurface/);
 });
 

@@ -117,7 +117,7 @@ test('Build a Plan surfaces use Planner acceptance terminology', () => {
 
 test('Plan Details routes to Planner primary destination', () => {
   assert.match(APP_SRC, /onViewInPlanner/);
-  assert.match(APP_SRC, /selectPrimaryDestination\(current, 'planner'\)/);
+  assert.match(APP_SRC, /handleOpenPrimaryRoot\('planner'\)/);
 });
 
 test('accepting a live plan persists screenings visible in Planner Upcoming', () => {
