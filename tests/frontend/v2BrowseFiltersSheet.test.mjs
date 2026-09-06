@@ -572,7 +572,8 @@ test('ShowtimesBrowseSurface uses Filters · N and no inline filter panel', asyn
   assert.doesNotMatch(surfaceSrc, /All formats/);
 
   const homeSrc = readFileSync(join(ROOT, 'v2/HomeDestination.jsx'), 'utf8');
-  assert.match(homeSrc, /Browse all showtimes/);
+  assert.match(homeSrc, /BrowseShowtimesStrip|Browse Showtimes/);
+  assert.equal(homeSrc.includes('Browse all showtimes'), false);
 
   const showtimesSrc = readFileSync(
     join(ROOT, 'v2/surfaces/ShowtimesSurface.jsx'),

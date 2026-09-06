@@ -232,15 +232,26 @@ test('mockup mode stays isolated behind homeMockup query', () => {
   assert.equal(homeSrc.includes('fixture-open-2') || homeSrc.includes('Blue Hour'), true);
 });
 
-test('shared Home shelves and Quick Paths structure used for live and mockup', () => {
+test('shared Home shelves and Browse Showtimes structure used for live and mockup', () => {
   const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
   const homeSrc = readFileSync(join(root, 'v2/HomeDestination.jsx'), 'utf8');
   assert.match(homeSrc, /TopOpportunityFeature/);
+  assert.match(homeSrc, /BrowseShowtimesStrip/);
   assert.match(homeSrc, /FilmShelf/);
-  assert.match(homeSrc, /PlannerCta/);
-  assert.match(homeSrc, /ExploreMore/);
   assert.match(homeSrc, /EditorialIntro/);
+  assert.equal(homeSrc.includes('PlannerCta'), false);
+  assert.equal(homeSrc.includes('ExploreMore'), false);
   assert.equal(homeSrc.includes('TOP_OPPORTUNITY_FIXTURES'), false);
+  assert.match(homeSrc, /id="v2-leaving"/);
+  assert.match(homeSrc, /id="v2-special"/);
+  assert.match(homeSrc, /id="v2-opening"/);
+  assert.match(homeSrc, /id="v2-announced"/);
+  const leavingAt = homeSrc.indexOf('id="v2-leaving"');
+  const specialAt = homeSrc.indexOf('id="v2-special"');
+  const openingAt = homeSrc.indexOf('id="v2-opening"');
+  const announcedAt = homeSrc.indexOf('id="v2-announced"');
+  assert.ok(leavingAt > 0 && specialAt > leavingAt);
+  assert.ok(openingAt > specialAt && announcedAt > openingAt);
 });
 
 test('inline quick detail omits missing synopsis rating year genre without enrichment', () => {
@@ -332,14 +343,14 @@ test('HomeDestination does not import fictional Top Opportunity fixtures as defa
   assert.match(source, /homeLandingMockupPresentation/);
 });
 
-test('Explore More routing target is Explore landing', () => {
+test('Explore landing remains a primary destination root', () => {
   let nav = createInitialNavState();
   nav = selectPrimaryDestination(nav, 'explore');
   assert.equal(nav.primaryDestinationId, 'explore');
   assert.equal(nav.surface, null);
 });
 
-test('Home Quick Paths uses canonical mockup labels', () => {
+test('Home Quick Paths fixture labels remain available for Explore/mockup reuse', () => {
   const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
   const exploreSrc = readFileSync(join(root, 'v2/home/ExploreMore.jsx'), 'utf8');
   assert.match(exploreSrc, /Quick Paths/);
@@ -351,6 +362,8 @@ test('Home Quick Paths uses canonical mockup labels', () => {
   assert.match(mockSrc, /Your saved films and upcoming picks/);
   assert.match(mockSrc, /Blue Hour/);
   assert.match(mockSrc, /The Long Horizon/);
+  const homeSrc = readFileSync(join(root, 'v2/HomeDestination.jsx'), 'utf8');
+  assert.equal(homeSrc.includes('ExploreMore'), false);
 });
 
 test('TopOpportunityFeature uses selector not fixture array', () => {

@@ -14,7 +14,7 @@ export const PRIMARY_DESTINATIONS = Object.freeze([
     label: 'Home',
     title: 'Home',
     description:
-      'Editorial Home — Top Opportunity, supporting shelves, Planner entry, and Explore More.',
+      'Curated Home — Top Opportunities, Browse Showtimes, and film shelves (Leaving Soon, Special Presentations, Opening This Week, Just Announced).',
   }),
   Object.freeze({
     id: 'explore',

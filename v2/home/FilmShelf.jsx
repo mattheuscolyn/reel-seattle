@@ -38,10 +38,11 @@ function getBrowserStorage() {
  *   enrichmentIndex?: object | null,
  *   expandedFilmKey: string | null,
  *   onExpandFilm: (filmKey: string | null) => void,
- *   onSeeAll: () => void,
+ *   onSeeAll?: (() => void) | null,
  *   onMoreDetails: (payload: { filmKey: string, opportunityKey: string | null }) => void,
  *   detailOverride?: object | null,
  *   hideStatusNotes?: boolean,
+ *   hideSeeAll?: boolean,
  * }} props
  */
 export default function FilmShelf({
@@ -52,10 +53,11 @@ export default function FilmShelf({
   enrichmentIndex = null,
   expandedFilmKey,
   onExpandFilm,
-  onSeeAll,
+  onSeeAll = null,
   onMoreDetails,
   detailOverride = null,
   hideStatusNotes = false,
+  hideSeeAll = false,
 }) {
   const headingId = `${id}-heading`;
   const panelId = useId();
@@ -135,9 +137,11 @@ export default function FilmShelf({
         <h2 id={headingId} className="v2-shelf-heading">
           {title}
         </h2>
-        <button type="button" className="v2-shelf-see-all" onClick={onSeeAll}>
-          See all
-        </button>
+        {!hideSeeAll && typeof onSeeAll === 'function' ? (
+          <button type="button" className="v2-shelf-see-all" onClick={onSeeAll}>
+            See all
+          </button>
+        ) : null}
       </div>
 
       {!hideStatusNotes &&
