@@ -1536,3 +1536,81 @@ test('special engagement overlap leaves rare-format novelty intact', () => {
   );
 });
 
+test('non_film_event is ineligible with an explicit exclusion reason', () => {
+  const classified = evaluateOpportunityEligibility(
+    vectorFor(
+      baseOpp({
+        opportunityKey: 'rental',
+        filmKey: 'venue-placeholder',
+        title: 'Venue Placeholder',
+        screeningVariantType: 'special_event',
+        contentClassification: 'non_film_event',
+        localDate: '2026-09-08',
+        sortableLocalDateTime: '2026-09-08T19:00',
+      }),
+    ),
+  );
+  assert.equal(classified.eligible, false);
+  assert.equal(classified.exclusionReason, 'non_film_event');
+});
+
+test('public special events remain eligible without non_film_event classification', () => {
+  const early = scoreOpportunityFeatureVector(
+    vectorFor(
+      baseOpp({
+        opportunityKey: 'early',
+        filmKey: 'early-film',
+        title: 'Early Access Title',
+        screeningVariantType: 'early_access',
+        isSpecialScreening: true,
+        localDate: '2026-09-08',
+        sortableLocalDateTime: '2026-09-08T19:00',
+      }),
+    ),
+  );
+  const anniversary = scoreOpportunityFeatureVector(
+    vectorFor(
+      baseOpp({
+        opportunityKey: 'ann',
+        filmKey: 'ann-film',
+        title: 'Anniversary Title',
+        screeningVariantType: 'anniversary',
+        isSpecialScreening: true,
+        localDate: '2026-09-08',
+        sortableLocalDateTime: '2026-09-08T19:00',
+      }),
+    ),
+  );
+  assert.equal(early.eligible, true);
+  assert.equal(anniversary.eligible, true);
+});
+
+test('missing content classification keeps ordinary screenings eligible', () => {
+  const ordinary = evaluateOpportunityEligibility(
+    vectorFor(
+      baseOpp({
+        opportunityKey: 'plain',
+        localDate: '2026-09-08',
+        sortableLocalDateTime: '2026-09-08T19:00',
+      }),
+    ),
+  );
+  assert.equal(ordinary.eligible, true);
+  assert.equal(ordinary.exclusionReason, null);
+});
+
+test('shorts_program is not treated as non_film_event exclusion', () => {
+  const shorts = evaluateOpportunityEligibility(
+    vectorFor(
+      baseOpp({
+        opportunityKey: 'shorts',
+        filmKey: 'shorts-key',
+        contentClassification: 'shorts_program',
+        localDate: '2026-09-08',
+        sortableLocalDateTime: '2026-09-08T19:00',
+      }),
+    ),
+  );
+  assert.equal(shorts.eligible, true);
+});
+

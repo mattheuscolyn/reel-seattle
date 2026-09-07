@@ -252,3 +252,38 @@ test('buildOpportunityKey prefers source performance id', () => {
     'src:amc:perf-9',
   );
 });
+
+test('emitted non_film_event classification reaches Home films and opportunities', () => {
+  const showtimes = loadFixture('v2_showtimes_home_mini.json');
+  showtimes.films = showtimes.films.map((film) =>
+    film.showtime_film_key === 'indie-film'
+      ? { ...film, content_classification: 'non_film_event' }
+      : film,
+  );
+  const home = buildHomeData(baseInput({ showtimesCurrent: showtimes }));
+  const indie = home.films.find((film) => film.filmKey === 'indie-film');
+  const sinners = home.films.find((film) => film.filmKey === 'sinners');
+  assert.equal(indie.contentClassification, 'non_film_event');
+  assert.equal(sinners.contentClassification, null);
+  const indieOpp = home.opportunities.find((item) => item.filmKey === 'indie-film');
+  assert.equal(indieOpp.contentClassification, 'non_film_event');
+});
+
+test('eventClassifications overlay joins by showtime_film_key when emit field is absent', () => {
+  const home = buildHomeData(
+    baseInput({
+      eventClassifications: {
+        classifications: [
+          {
+            classification: 'non_film_event',
+            showtime_film_key: 'indie-film',
+          },
+        ],
+      },
+    }),
+  );
+  const indie = home.films.find((film) => film.filmKey === 'indie-film');
+  assert.equal(indie.contentClassification, 'non_film_event');
+  const sinners = home.films.find((film) => film.filmKey === 'sinners');
+  assert.equal(sinners.contentClassification, null);
+});

@@ -21,6 +21,10 @@ import {
 } from '../formatsExperiences/formatNormalize.js';
 import { isIsoDate, isLocalTime } from '../adapters/opportunityIdentity.js';
 import {
+  isNonFilmEventClassification,
+  normalizeContentClassification,
+} from '../adapters/contentClassification.js';
+import {
   opportunitySortableKey,
   pacificSortableDateTime,
   parseLocalTimeMinutes,
@@ -691,6 +695,13 @@ export function buildOpportunityFeatureVector(screening, context) {
   const isSpecialScreening =
     screening?.isSpecialScreening === true ||
     film?.isSpecialScreening === true;
+  const contentClassification = normalizeContentClassification(
+    screening?.contentClassification ??
+      screening?.content_classification ??
+      film?.contentClassification ??
+      film?.content_classification,
+  );
+  const isNonFilmEvent = isNonFilmEventClassification(contentClassification);
 
   const filmStats = filmKey ? context.filmAgg.get(filmKey) : null;
   const filmWindowShowtimeCount = filmStats?.count ?? 0;
@@ -874,6 +885,8 @@ export function buildOpportunityFeatureVector(screening, context) {
     isPast: temporal.isPast,
     isSoldOut: status != null && status.toLowerCase() === 'sold_out',
     hasCurrentOpportunity: Boolean(opportunityKey && sortable && !isCanceled),
+    contentClassification,
+    isNonFilmEvent,
   };
 
   return {

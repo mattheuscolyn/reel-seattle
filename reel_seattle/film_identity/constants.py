@@ -100,5 +100,8 @@ CACHE_DIR_REL = "data/cache/tmdb"
 DECISIONS_REL = "data/film_identity/tmdb_match_decisions.json"
 ADMIN_OVERRIDES_REL = "data/film_identity/admin_match_overrides.json"
 CATALOG_REL = "data/film_identity/film_identity_catalog.json"
+UNRESOLVED_EVENT_CLASSIFICATIONS_REL = (
+    "data/film_identity/unresolved_event_classifications.json"
+)
 REVIEW_QUEUE_REL = "data/film_identity/tmdb_match_review_queue.json"
 COVERAGE_REL = "data/audits/tmdb_film_identity_coverage.json"

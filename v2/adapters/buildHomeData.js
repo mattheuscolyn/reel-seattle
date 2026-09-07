@@ -16,6 +16,10 @@ import {
   isIsoDate,
   isLocalTime,
 } from './opportunityIdentity.js';
+import {
+  indexEventClassifications,
+  resolveContentClassification,
+} from './contentClassification.js';
 
 export const LEAVING_SOON_EXCLUDED = false;
 
@@ -214,6 +218,7 @@ function mergeTheaterRecord(registryTheater, embeddedTheater) {
  *   openingThisWeek?: unknown | null,
  *   leavingSoon?: unknown | null,
  *   pipelineReport?: unknown | null,
+ *   eventClassifications?: unknown | null,
  * }} input
  */
 export function buildHomeData(input) {
@@ -221,6 +226,9 @@ export function buildHomeData(input) {
 
   assertShowtimesCurrentShape(input.showtimesCurrent);
   const showtimesArtifact = input.showtimesCurrent;
+  const classificationIndex = indexEventClassifications(
+    input.eventClassifications,
+  );
 
   let registryTheaters = [];
   if (input.theatersRegistry != null) {
@@ -414,6 +422,13 @@ export function buildHomeData(input) {
         ? raw.attributes
         : {};
 
+    const contentClassification = resolveContentClassification({
+      filmKey,
+      filmRecord: filmRefsByKey.get(filmKey),
+      showtimeRecord: raw,
+      classificationIndex,
+    });
+
     const opportunity = {
       opportunityKey,
       filmKey,
@@ -436,6 +451,7 @@ export function buildHomeData(input) {
       parentDisplayTitle: asTrimmedString(raw.parent_display_title),
       screeningVariantType: asTrimmedString(raw.screening_variant_type),
       isSpecialScreening: raw.is_special_screening === true,
+      contentClassification,
       // Screening observation dates for opportunity-level novelty (feature vectors).
       firstSeenAt: asTrimmedString(raw.first_seen_at),
       lastSeenAt: asTrimmedString(raw.last_seen_at),
@@ -469,6 +485,7 @@ export function buildHomeData(input) {
         isSpecialScreening:
           raw.is_special_screening === true ||
           filmRef?.is_special_screening === true,
+        contentClassification,
         showtimeCount: 0,
         theaterIds: new Set(),
         firstShowtimeAt: null,
@@ -483,6 +500,9 @@ export function buildHomeData(input) {
       if (film.runtimeMin == null) {
         film.runtimeMin =
           asPositiveNumber(raw.runtime_min) ?? asPositiveNumber(filmRef?.runtime_min);
+      }
+      if (!film.contentClassification && contentClassification) {
+        film.contentClassification = contentClassification;
       }
     }
     film.showtimeCount += 1;
@@ -550,6 +570,7 @@ export function buildHomeData(input) {
       sourceTitle: film.sourceTitle,
       screeningVariantType: film.screeningVariantType ?? null,
       isSpecialScreening: film.isSpecialScreening === true,
+      contentClassification: film.contentClassification ?? null,
       showtimeCount: film.showtimeCount,
       theaterCount: film.theaterIds.size,
       firstShowtimeAt: film.firstShowtimeAt,

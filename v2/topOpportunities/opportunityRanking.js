@@ -542,6 +542,9 @@ export function evaluateOpportunityEligibility(vector) {
   if (elig.isPast || vector?.temporal?.isPast) {
     return { eligible: false, exclusionReason: 'past' };
   }
+  if (elig.isNonFilmEvent) {
+    return { eligible: false, exclusionReason: 'non_film_event' };
+  }
   if (!elig.hasCurrentOpportunity) {
     return { eligible: false, exclusionReason: 'not_current_opportunity' };
   }

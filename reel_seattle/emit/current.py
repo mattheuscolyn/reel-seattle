@@ -39,6 +39,9 @@ from reel_seattle.analysis.film_identity import (
     build_film_key_identity_map,
     derive_parent_identity,
 )
+from reel_seattle.film_identity.content_classification import (
+    attach_content_classifications,
+)
 from reel_seattle.film_identity.public_emit import (
     attach_public_film_ids,
     write_identity_emit_report,
@@ -333,6 +336,7 @@ def build_showtimes_current(
     films = [films_by_key[key] for key in sorted(films_by_key)]
     # T-FILMID-02: nullable canonical film_id from durable identity catalog.
     identity_emit_report = attach_public_film_ids(films, showtimes)
+    attach_content_classifications(films, showtimes)
     if emit_report_out is not None:
         emit_report_out.clear()
         emit_report_out.update(identity_emit_report)

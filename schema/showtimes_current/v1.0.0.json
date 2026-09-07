@@ -192,6 +192,10 @@
           "type": ["string", "null"],
           "description": "Nullable canonical namespaced film identity from the durable identity catalog (T-FILMID-02). Confirmed TMDB matches emit tmdb:<id>; unmatched/program/source fallbacks emit null. Parallel to showtime_film_key — does not replace schedule joins.",
           "pattern": "^tmdb:[1-9][0-9]*$"
+        },
+        "content_classification": {
+          "type": ["string", "null"],
+          "description": "Reviewed unresolved-event classification from film identity (e.g. non_film_event, shorts_program). Null/omitted means unclassified — not a positive film assertion and not a public/private ticketability flag."
         }
       }
     },

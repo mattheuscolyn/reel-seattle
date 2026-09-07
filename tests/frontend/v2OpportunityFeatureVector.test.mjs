@@ -716,3 +716,29 @@ test('malformed novelty timestamps do not mark screening as recent', () => {
   const json = JSON.stringify(vector);
   assert.equal(json.includes('NaN'), false);
 });
+
+test('non_film_event classification becomes isNonFilmEvent eligibility evidence', () => {
+  const classified = baseOpp({ contentClassification: 'non_film_event' });
+  const ordinary = baseOpp({
+    opportunityKey: 'opp-ordinary',
+    filmKey: 'film-b',
+    title: 'Film B',
+  });
+  const shorts = baseOpp({
+    opportunityKey: 'opp-shorts',
+    filmKey: 'film-shorts',
+    title: 'Shorts',
+    contentClassification: 'shorts_program',
+  });
+  const home = homeFromOpps([classified, ordinary, shorts]);
+  const ctx = buildOpportunityFeatureContext(home, { now: FIXED_NOW });
+  const classifiedVector = buildOpportunityFeatureVector(classified, ctx);
+  const ordinaryVector = buildOpportunityFeatureVector(ordinary, ctx);
+  const shortsVector = buildOpportunityFeatureVector(shorts, ctx);
+  assert.equal(classifiedVector.eligibilityInputs.contentClassification, 'non_film_event');
+  assert.equal(classifiedVector.eligibilityInputs.isNonFilmEvent, true);
+  assert.equal(ordinaryVector.eligibilityInputs.contentClassification, null);
+  assert.equal(ordinaryVector.eligibilityInputs.isNonFilmEvent, false);
+  assert.equal(shortsVector.eligibilityInputs.contentClassification, 'shorts_program');
+  assert.equal(shortsVector.eligibilityInputs.isNonFilmEvent, false);
+});
