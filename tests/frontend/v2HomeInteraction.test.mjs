@@ -4,9 +4,9 @@ import {
   canGoNext,
   canGoPrevious,
   clampSelectionIndex,
-  selectTopOpportunities,
   wrapSelectionIndex,
-} from '../../v2/adapters/selectTopOpportunities.js';
+} from '../../v2/topOpportunities/topOpportunityFormat.js';
+import { buildRankedTopOpportunitySelections } from '../../v2/topOpportunities/buildRankedTopOpportunitySelections.js';
 import {
   createInitialNavState,
   navigateBack,
@@ -148,7 +148,14 @@ function minimalHomeData(overrides = {}) {
 }
 
 test('Top Opportunity selector returns real film keys not fixture titles', () => {
-  const selections = selectTopOpportunities(minimalHomeData());
+  const home = minimalHomeData();
+  home.theatersById = {
+    t1: { id: 't1', name: 'SIFF Uptown', type: 'rep', enabled: true },
+    t2: { id: 't2', name: 'Beacon', type: 'rep', enabled: true },
+  };
+  const { selections } = buildRankedTopOpportunitySelections(home, {
+    now: new Date('2026-07-20T19:00:00.000Z'),
+  });
   assert.ok(selections.length >= 1);
   const titles = selections.map((item) => item.film.title);
   for (const fixture of TOP_OPPORTUNITY_FIXTURES) {
@@ -337,7 +344,7 @@ test('HomeDestination does not import fictional Top Opportunity fixtures as defa
   assert.equal(source.includes('TOP_OPPORTUNITY_FIXTURES'), false);
   assert.equal(source.includes('OPENING_THIS_WEEK_FIXTURES'), false);
   assert.equal(source.includes('LEAVING_SOON_FIXTURES'), false);
-  assert.match(source, /selectTopOpportunities|TopOpportunityFeature/);
+  assert.match(source, /TopOpportunityFeature/);
   assert.match(source, /buildOpeningThisWeekShelf/);
   assert.match(source, /isHomeMockupMode/);
   assert.match(source, /homeLandingMockupPresentation/);
@@ -366,19 +373,21 @@ test('Home Quick Paths fixture labels remain available for Explore/mockup reuse'
   assert.equal(homeSrc.includes('ExploreMore'), false);
 });
 
-test('TopOpportunityFeature uses selector not fixture array', () => {
+test('TopOpportunityFeature uses ranked selector not fixture array', () => {
   const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
   const source = readFileSync(
     join(root, 'v2/home/TopOpportunityFeature.jsx'),
     'utf8',
   );
-  assert.match(source, /selectTopOpportunities/);
+  assert.match(source, /buildRankedTopOpportunitySelections/);
+  assert.equal(source.includes('selectTopOpportunities('), false);
   assert.equal(source.includes('TOP_OPPORTUNITY_FIXTURES'), false);
   assert.match(source, /canGoPrevious/);
   assert.match(source, /canGoNext/);
   assert.match(source, /wrapSelectionIndex/);
   assert.match(source, /wrap:\s*true/);
   assert.match(source, /onOpenFilmDetail/);
+  assert.match(source, /representativeOpportunity\?\.opportunityKey/);
 });
 
 test('Home FilmShelf uses shared four-slot horizontal scroll contract', () => {

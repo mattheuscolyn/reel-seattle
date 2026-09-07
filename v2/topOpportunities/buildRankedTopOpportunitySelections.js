@@ -1,11 +1,11 @@
 /**
- * Shadow adapter: ranked Top Opportunity candidates → Home UI selection shape.
+ * Ranked Top Opportunity candidates → Home UI selection shape.
  *
- * Not imported by TopOpportunityFeature or selectTopOpportunities.
- * Ranking stays in opportunityRanking.js; this layer only presents.
+ * Used by TopOpportunityFeature. Ranking stays in opportunityRanking.js;
+ * this layer only presents. Live Home does not import selectTopOpportunities.
  *
  * Pipeline:
- *   feature extraction → ranking → selection → presentation adaptation → (future) UI
+ *   feature extraction → ranking → selection → presentation adaptation → UI
  */
 
 import { buildRankedTopOpportunityCandidates } from './opportunityRanking.js';
@@ -170,7 +170,8 @@ export function adaptRankedOpportunityForHome(scored, homeData, meta = {}) {
 }
 
 /**
- * End-to-end shadow selections (unwired).
+ * End-to-end ranked selections for live Home.
+ * Production omits `now` so ranking uses current Pacific time.
  *
  * @param {object | null | undefined} homeData
  * @param {{
