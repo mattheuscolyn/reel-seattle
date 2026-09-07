@@ -73,6 +73,8 @@ function normalizeItem(raw) {
       typeof raw.total_visible_showtimes === 'number'
         ? Math.max(0, Math.trunc(raw.total_visible_showtimes))
         : 0,
+    // Window/model max date — feature vectors may use as urgency proxy (not certainty).
+    maxShowDate: asTrimmedString(raw.max_show_date),
   };
 }
 
