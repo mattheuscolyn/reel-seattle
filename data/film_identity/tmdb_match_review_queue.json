@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-06T11:24:28+00:00",
+  "generated_at": "2026-09-07T13:05:31+00:00",
   "items": [
     {
       "auto_confirm_blocked_reason": "hard_conflict",
@@ -3124,6 +3124,240 @@
           "normalized_source_fallback"
         ],
         "base_title": "The Face Of Another",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing"
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Claude-Jean Bonnardot",
+          "original_title": "L'Invention de Morel",
+          "overview_excerpt": "Escaped from jail, Luis finds refuge on a remote island where, it is said, several people have died long ago of a mysterious illness. He discovers a large abandoned villa. One day, a group of people from another time, c…",
+          "popularity": 1.0924,
+          "poster_path": "/uWl1XC53olDpXh0CaJahONEUiBm.jpg",
+          "release_year": 1967,
+          "runtime_min": 95,
+          "score": 0.75,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "claude-jean bonnardot"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.0924,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": false,
+            "title_exact": true,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Invention of Morel",
+          "tmdb_id": 222505,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "David Lamelas",
+          "original_title": null,
+          "overview_excerpt": "About Dr. Morel who invents a machine to duplicate the woman he loved, Faustina, in virtual reality. A tale dealing with the impossibility of ever knowing for certain which parts of ourselves and our relationship with o…",
+          "popularity": 1.2017,
+          "poster_path": "/nJOdCzSlVXIrhWz3byRMtIzDnro.jpg",
+          "release_year": 2000,
+          "runtime_min": 23,
+          "score": 0.0,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "david lamelas"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.2017,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "title_conflict": true,
+            "title_exact": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Invention of Dr. Morel",
+          "tmdb_id": 545649,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:beacon:the-invention-of-morel",
+      "match_confidence": 0.75,
+      "match_status": "review_required",
+      "normalized_title": "The Invention Of Morel",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 222505,
+      "queue_id": "beacon:the-invention-of-morel",
+      "runtime_min": null,
+      "showtime_film_key": "invention-of-morel",
+      "signals": {
+        "available_weight": 0.45,
+        "contributions": {
+          "runtime": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "claude-jean bonnardot"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 1.0924,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": null,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "unavailable",
+        "title_conflict": false,
+        "title_exact": true,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "beacon",
+      "source_film_id": "the-invention-of-morel",
+      "source_title": "THE INVENTION OF MOREL",
+      "top_candidate_margin": 0.75,
+      "warnings": [
+        "year_evidence_absent",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "The Invention Of Morel",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
