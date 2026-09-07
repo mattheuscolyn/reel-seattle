@@ -1672,8 +1672,8 @@ button {
   margin: 0.7rem 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0.3rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
 }
 
 .v2-quick-button {
@@ -1696,8 +1696,8 @@ button {
 }
 
 .v2-quick-icon {
-  width: 2.55rem;
-  height: 2.55rem;
+  width: 2.85rem;
+  height: 2.85rem;
   display: grid;
   place-content: center;
   border-radius: 0.6rem;
@@ -1706,17 +1706,11 @@ button {
   color: var(--v2-fg);
 }
 
-.v2-quick-imax {
-  font-size: 0.5rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-
 .v2-quick-label {
-  font-size: 0.56rem;
+  font-size: 0.68rem;
   font-weight: 600;
   text-align: center;
-  line-height: 1.15;
+  line-height: 1.2;
   color: var(--v2-fg);
 }
 
@@ -1896,102 +1890,6 @@ button {
   color: rgba(255, 255, 255, 0.72);
   font-size: 0.54rem;
   line-height: 1.2;
-}
-
-.v2-activity-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-}
-
-.v2-activity-card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.2rem;
-  margin: 0;
-  padding: 0.7rem 0.65rem 0.6rem;
-  border: 1px solid var(--v2-border);
-  border-radius: 0.6rem;
-  text-align: left;
-  cursor: pointer;
-  color: inherit;
-  min-height: 7.2rem;
-}
-
-.v2-activity-card:focus-visible {
-  outline: 2px solid var(--v2-focus);
-  outline-offset: 2px;
-}
-
-.v2-activity-card-seen {
-  background: var(--v2-bg-raised);
-  border-color: rgba(90, 160, 140, 0.42);
-}
-
-.v2-activity-card-hidden {
-  background: var(--v2-bg-raised);
-  border-color: rgba(180, 100, 110, 0.4);
-}
-
-.v2-activity-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 0.4rem;
-}
-
-.v2-activity-icon {
-  display: grid;
-  place-content: center;
-  opacity: 0.9;
-}
-
-.v2-activity-card-seen .v2-activity-icon {
-  color: #7dce9a;
-}
-
-.v2-activity-card-hidden .v2-activity-icon {
-  color: #e39ab8;
-}
-
-.v2-activity-count {
-  font-size: 1.55rem;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-
-.v2-activity-label {
-  margin-top: 0.2rem;
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.v2-activity-desc {
-  color: var(--v2-muted);
-  font-size: 0.64rem;
-  line-height: 1.3;
-}
-
-.v2-activity-foot {
-  margin-top: auto;
-  padding-top: 0.45rem;
-  color: var(--v2-muted-soft);
-  font-size: 0.58rem;
-  line-height: 1.3;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.v2-activity-note {
-  margin: 0.55rem 0 0;
-  color: var(--v2-muted-soft);
-  font-size: 0.64rem;
-  line-height: 1.35;
 }
 
 .v2-recent-empty,

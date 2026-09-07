@@ -37,15 +37,26 @@ import {
   searchExplore,
 } from '../../v2/explore/exploreCatalog.js';
 import { COLLECTION_IDS } from '../../v2/explore/exploreIds.js';
-import { QUICK_START } from '../../v2/explore/exploreQuickStart.js';
-import { SHOWTIMES_BROWSE_QUICK_START_ID } from '../../v2/showtimes/showtimesBrowseModel.js';
+import {
+  browseUiForQuickStart,
+  QUICK_START,
+  QUICK_START_ALL_SHOWTIMES_ID,
+  QUICK_START_TODAY_ID,
+  QUICK_START_WEEKEND_ID,
+} from '../../v2/explore/exploreQuickStart.js';
 import { BROWSE_ROWS } from '../../v2/explore/exploreBrowseBy.js';
+import { normalizeBrowseFilters } from '../../v2/showtimes/browseFilterState.js';
+import {
+  createDefaultShowtimesBrowseUi,
+  SHOWTIMES_BROWSE_QUICK_START_ID,
+} from '../../v2/showtimes/showtimesBrowseModel.js';
 import { buildSuggestedStarts } from '../../v2/explore/exploreSuggestedStarts.js';
 import {
   createInitialNavState,
   navigateBack,
   openCollection,
   openFilmDetail,
+  openShowtimesBrowse,
   selectPrimaryDestination,
 } from '../../v2/navigation/navState.js';
 import {
@@ -147,40 +158,40 @@ test('Explore landing source section order and Hidden preview absence', () => {
   );
   const quick = source.indexOf('<ExploreQuickStart');
   const browse = source.indexOf('<ExploreBrowseBy');
-  const activity = source.indexOf('<ExploreFilmActivity');
   const recent = source.indexOf('<ExploreRecentSearches');
   assert.ok(quick > 0 && browse > quick);
-  assert.ok(activity > browse);
-  assert.ok(recent > activity);
+  assert.ok(recent > browse);
+  assert.equal(source.includes('ExploreFilmActivity'), false);
+  assert.equal(source.includes('Your Film Activity'), false);
   assert.equal(source.includes('ExploreSuggestedStarts'), false);
   assert.equal(source.includes('ExploreHiddenPreview'), false);
   assert.equal(source.includes('Everything Everywhere All at Once'), false);
   assert.equal(source.includes('Young Washington'), false);
   assert.equal(source.includes('The Odyssey'), false);
+  assert.match(source, /browseUiForQuickStart/);
+  assert.match(source, /captureExploreRestore/);
+  assert.match(source, /onOpenShowtimesBrowse/);
 });
 
-test('Film Activity copy and cards avoid device-only / gradient treatments', () => {
+test('Explore landing no longer renders Your Film Activity', () => {
   const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
-  const activitySrc = readFileSync(
-    join(root, 'v2/explore/ExploreFilmActivity.jsx'),
+  const source = readFileSync(
+    join(root, 'v2/explore/ExploreDestination.jsx'),
     'utf8',
   );
   const css = readFileSync(join(root, 'v2/v2.css'), 'utf8');
-  assert.match(
-    activitySrc,
-    /Seen films can still appear for special opportunities\. With an account,\s*activity can sync across devices\./,
+  const quickSrc = readFileSync(
+    join(root, 'v2/explore/ExploreQuickStart.jsx'),
+    'utf8',
   );
-  assert.equal(activitySrc.includes('Activity stays on this device'), false);
-  assert.match(css, /\.v2-activity-card-seen\s*\{[^}]*background:\s*var\(--v2-bg-raised\)/s);
-  assert.match(css, /\.v2-activity-card-hidden\s*\{[^}]*background:\s*var\(--v2-bg-raised\)/s);
-  assert.equal(
-    /\.v2-activity-card-seen\s*\{[^}]*linear-gradient/s.test(css),
-    false,
-  );
-  assert.equal(
-    /\.v2-activity-card-hidden\s*\{[^}]*linear-gradient/s.test(css),
-    false,
-  );
+  assert.equal(source.includes('ExploreFilmActivity'), false);
+  assert.equal(source.includes('onOpenSeen'), false);
+  assert.equal(source.includes('COLLECTION_IDS.seen'), false);
+  assert.equal(source.includes('COLLECTION_IDS.hidden'), false);
+  assert.equal(source.includes('COLLECTION_IDS.filmActivity'), false);
+  assert.equal(quickSrc.includes('Your Film Activity'), false);
+  assert.equal(css.includes('.v2-activity-card'), false);
+  assert.equal(css.includes('.v2-activity-grid'), false);
 });
 
 test('Suggested Starts helper still builds date scopes for catalog/deep links', () => {
@@ -321,17 +332,124 @@ test('All Movies / IMAX / 35mm honesty unchanged', () => {
   assert.equal(filmsWithFormatTags(sampleHome(), ['35mm']).length, 0);
 });
 
-test('Quick Start and Browse By ids remain Explore surfaces', () => {
-  for (const item of QUICK_START) {
-    if (item.id === SHOWTIMES_BROWSE_QUICK_START_ID) continue;
-    assert.ok(Object.values(COLLECTION_IDS).includes(item.id));
-  }
+test('Quick Start is exactly All showtimes, Today, and This weekend', () => {
+  assert.deepEqual(
+    QUICK_START.map((item) => item.label),
+    ['All showtimes', 'Today', 'This weekend'],
+  );
+  assert.deepEqual(
+    QUICK_START.map((item) => item.id),
+    [
+      QUICK_START_ALL_SHOWTIMES_ID,
+      QUICK_START_TODAY_ID,
+      QUICK_START_WEEKEND_ID,
+    ],
+  );
+  assert.equal(QUICK_START_ALL_SHOWTIMES_ID, SHOWTIMES_BROWSE_QUICK_START_ID);
+  const labels = QUICK_START.map((item) => item.label);
+  assert.equal(labels.includes('All Movies'), false);
+  assert.equal(labels.includes('This Week'), false);
+  assert.equal(labels.includes('Theaters'), false);
+  assert.equal(labels.includes('IMAX'), false);
+  assert.equal(labels.includes('35mm'), false);
+});
+
+test('Browse By keeps the six categorical destinations', () => {
+  assert.deepEqual(
+    BROWSE_ROWS.map((row) => row.label),
+    [
+      'Movies',
+      'Theaters',
+      'Formats & Experiences',
+      'Collections',
+      'Coming Soon',
+      'Special Events',
+    ],
+  );
   for (const row of BROWSE_ROWS) {
     assert.ok(Object.values(COLLECTION_IDS).includes(row.id));
   }
-  assert.ok(
-    QUICK_START.some((item) => item.id === SHOWTIMES_BROWSE_QUICK_START_ID),
+});
+
+test('Quick Start All showtimes opens Showtimes week mode, not default today', () => {
+  const browseUi = browseUiForQuickStart(QUICK_START_ALL_SHOWTIMES_ID);
+  assert.equal(browseUi.dateMode, 'week');
+  assert.notEqual(browseUi.dateMode, createDefaultShowtimesBrowseUi().dateMode);
+  let nav = selectPrimaryDestination(createInitialNavState(), 'explore');
+  nav = openShowtimesBrowse(nav, {
+    originPrimary: 'explore',
+    exploreRestore: { scrollY: 120 },
+    browseUi,
+  });
+  assert.equal(nav.surface?.type, 'showtimes-browse');
+  assert.equal(nav.surface?.originPrimary, 'explore');
+  assert.equal(nav.surface?.browseUi?.dateMode, 'week');
+  assert.equal(nav.surface?.exploreRestore?.scrollY, 120);
+  const normalized = normalizeBrowseFilters(nav.surface.browseUi);
+  assert.equal(normalized.dateSelection.mode, 'week');
+});
+
+test('Quick Start Today opens Showtimes today mode, not the film-list collection', () => {
+  const browseUi = browseUiForQuickStart(QUICK_START_TODAY_ID);
+  assert.equal(browseUi.dateMode, 'today');
+  let nav = selectPrimaryDestination(createInitialNavState(), 'explore');
+  nav = openShowtimesBrowse(nav, {
+    originPrimary: 'explore',
+    exploreRestore: { scrollY: 0 },
+    browseUi,
+  });
+  assert.equal(nav.surface?.type, 'showtimes-browse');
+  assert.equal(nav.surface?.collectionId, undefined);
+  assert.equal(nav.surface?.browseUi?.dateMode, 'today');
+  const normalized = normalizeBrowseFilters(nav.surface.browseUi);
+  assert.equal(normalized.dateSelection.mode, 'today');
+});
+
+test('Quick Start This weekend opens Showtimes Fri–Sun range', () => {
+  const wed = browseUiForQuickStart(QUICK_START_WEEKEND_ID, '2026-09-02');
+  assert.deepEqual(wed.dateSelection, {
+    mode: 'range',
+    startDate: '2026-09-04',
+    endDate: '2026-09-06',
+  });
+  const fri = browseUiForQuickStart(QUICK_START_WEEKEND_ID, '2026-09-04');
+  assert.deepEqual(fri.dateSelection, {
+    mode: 'range',
+    startDate: '2026-09-04',
+    endDate: '2026-09-06',
+  });
+  const sun = browseUiForQuickStart(QUICK_START_WEEKEND_ID, '2026-09-06');
+  assert.deepEqual(sun.dateSelection, {
+    mode: 'range',
+    startDate: '2026-09-04',
+    endDate: '2026-09-06',
+  });
+  const expected = resolveWeekendRange('2026-09-02');
+  assert.deepEqual(wed.dateSelection, {
+    mode: 'range',
+    startDate: expected.start,
+    endDate: expected.end,
+  });
+
+  let nav = openShowtimesBrowse(
+    selectPrimaryDestination(createInitialNavState(), 'explore'),
+    {
+      originPrimary: 'explore',
+      exploreRestore: { scrollY: 8 },
+      browseUi: wed,
+    },
   );
+  const normalized = normalizeBrowseFilters(nav.surface.browseUi);
+  assert.equal(normalized.dateSelection.mode, 'range');
+  assert.equal(normalized.dateSelection.startDate, '2026-09-04');
+  assert.equal(normalized.dateSelection.endDate, '2026-09-06');
+});
+
+test('Explore Quick Start uses a three-column row contract', () => {
+  const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
+  const css = readFileSync(join(root, 'v2/v2.css'), 'utf8');
+  assert.match(css, /\.v2-quick-row\s*\{[^}]*grid-template-columns:\s*repeat\(3/s);
+  assert.equal(/\.v2-quick-row\s*\{[^}]*repeat\(6/s.test(css), false);
 });
 
 test('Film Detail from Explore collection keeps Explore active', () => {
