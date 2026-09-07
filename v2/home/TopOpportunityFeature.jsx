@@ -1,24 +1,23 @@
 import { useEffect, useId, useMemo, useState } from 'react';
-import {
-  canGoNext,
-  canGoPrevious,
-  clampSelectionIndex,
-  selectTopOpportunities,
-  wrapSelectionIndex,
-} from '../adapters/selectTopOpportunities.js';
 import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 import { IconInfo, IconTicket } from '../icons.jsx';
 import OpportunityImageStage from '../topOpportunities/OpportunityImageStage.jsx';
+import { buildRankedTopOpportunitySelections } from '../topOpportunities/buildRankedTopOpportunitySelections.js';
 import {
   buildPositionLabel,
   buildShowingContextLabel,
+  canGoNext,
+  canGoPrevious,
+  clampSelectionIndex,
   formatUserFacingFormatLabel,
+  wrapSelectionIndex,
 } from '../topOpportunities/topOpportunityFormat.js';
 import { formatRuntimeLabel } from './shelfData.js';
 
 /**
- * Top Opportunity — real HomeData via selectTopOpportunities.
+ * Top Opportunity — real HomeData via ranked Top Opportunity selections.
  * Optional `mockSelections` is for `?homeMockup=1` visual QC only.
+ * Optional `now` is test-only Pacific-time injection; production omits it.
  *
  * @param {{
  *   status: 'loading' | 'ready' | 'error',
@@ -28,6 +27,7 @@ import { formatRuntimeLabel } from './shelfData.js';
  *   initialIndex?: number,
  *   onIndexChange?: (index: number) => void,
  *   mockSelections?: object[] | null,
+ *   now?: Date | string | (() => Date) | null,
  *   onOpenFilmDetail: (payload: {
  *     filmKey: string,
  *     opportunityKey: string | null,
@@ -43,16 +43,20 @@ export default function TopOpportunityFeature({
   initialIndex = 0,
   onIndexChange,
   mockSelections = null,
+  now = null,
   onOpenFilmDetail,
 }) {
   const headingId = useId();
   const [index, setIndex] = useState(initialIndex);
 
-  const selections = Array.isArray(mockSelections)
-    ? mockSelections
-    : status === 'ready' && homeData
-      ? selectTopOpportunities(homeData)
-      : [];
+  const selections = useMemo(() => {
+    if (Array.isArray(mockSelections)) return mockSelections;
+    if (status !== 'ready' || !homeData) return [];
+    const options = { enrichmentIndex };
+    if (now != null) options.now = now;
+    const ranked = buildRankedTopOpportunitySelections(homeData, options);
+    return Array.isArray(ranked?.selections) ? ranked.selections : [];
+  }, [mockSelections, status, homeData, enrichmentIndex, now]);
   const length = selections.length;
   const safeIndex = clampSelectionIndex(index, length);
   const rawActive = selections[safeIndex] ?? null;
@@ -127,7 +131,7 @@ export default function TopOpportunityFeature({
       className="v2-top-opp"
       aria-labelledby={headingId}
       data-source={
-        Array.isArray(mockSelections) ? 'home-landing-mockup' : 'selectTopOpportunities'
+        Array.isArray(mockSelections) ? 'home-landing-mockup' : 'rankedTopOpportunities'
       }
     >
       <div className="v2-top-opp-bar">
@@ -137,11 +141,11 @@ export default function TopOpportunityFeature({
           </h2>
           <span
             className="v2-top-opp-info"
-            title="Mechanical selection from current showtimes — not a recommendation engine"
+            title="Deterministic selection from current showtimes — not a recommendation engine"
           >
             <IconInfo />
             <span className="v2-visually-hidden">
-              Mechanical selection from current showtimes, not a recommendation
+              Deterministic selection from current showtimes, not a recommendation
               engine.
             </span>
           </span>

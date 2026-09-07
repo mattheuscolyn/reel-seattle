@@ -16,6 +16,10 @@ import {
   isIsoDate,
   isLocalTime,
 } from './opportunityIdentity.js';
+import {
+  indexEventClassifications,
+  resolveContentClassification,
+} from './contentClassification.js';
 
 export const LEAVING_SOON_EXCLUDED = false;
 
@@ -214,6 +218,7 @@ function mergeTheaterRecord(registryTheater, embeddedTheater) {
  *   openingThisWeek?: unknown | null,
  *   leavingSoon?: unknown | null,
  *   pipelineReport?: unknown | null,
+ *   eventClassifications?: unknown | null,
  * }} input
  */
 export function buildHomeData(input) {
@@ -221,6 +226,9 @@ export function buildHomeData(input) {
 
   assertShowtimesCurrentShape(input.showtimesCurrent);
   const showtimesArtifact = input.showtimesCurrent;
+  const classificationIndex = indexEventClassifications(
+    input.eventClassifications,
+  );
 
   let registryTheaters = [];
   if (input.theatersRegistry != null) {
@@ -414,6 +422,13 @@ export function buildHomeData(input) {
         ? raw.attributes
         : {};
 
+    const contentClassification = resolveContentClassification({
+      filmKey,
+      filmRecord: filmRefsByKey.get(filmKey),
+      showtimeRecord: raw,
+      classificationIndex,
+    });
+
     const opportunity = {
       opportunityKey,
       filmKey,
@@ -436,6 +451,10 @@ export function buildHomeData(input) {
       parentDisplayTitle: asTrimmedString(raw.parent_display_title),
       screeningVariantType: asTrimmedString(raw.screening_variant_type),
       isSpecialScreening: raw.is_special_screening === true,
+      contentClassification,
+      // Screening observation dates for opportunity-level novelty (feature vectors).
+      firstSeenAt: asTrimmedString(raw.first_seen_at),
+      lastSeenAt: asTrimmedString(raw.last_seen_at),
     };
     opportunityByKey.set(opportunityKey, opportunity);
 
@@ -466,6 +485,7 @@ export function buildHomeData(input) {
         isSpecialScreening:
           raw.is_special_screening === true ||
           filmRef?.is_special_screening === true,
+        contentClassification,
         showtimeCount: 0,
         theaterIds: new Set(),
         firstShowtimeAt: null,
@@ -480,6 +500,9 @@ export function buildHomeData(input) {
       if (film.runtimeMin == null) {
         film.runtimeMin =
           asPositiveNumber(raw.runtime_min) ?? asPositiveNumber(filmRef?.runtime_min);
+      }
+      if (!film.contentClassification && contentClassification) {
+        film.contentClassification = contentClassification;
       }
     }
     film.showtimeCount += 1;
@@ -547,6 +570,7 @@ export function buildHomeData(input) {
       sourceTitle: film.sourceTitle,
       screeningVariantType: film.screeningVariantType ?? null,
       isSpecialScreening: film.isSpecialScreening === true,
+      contentClassification: film.contentClassification ?? null,
       showtimeCount: film.showtimeCount,
       theaterCount: film.theaterIds.size,
       firstShowtimeAt: film.firstShowtimeAt,
@@ -607,12 +631,14 @@ export function buildHomeData(input) {
     };
   }
 
-  const newlyAdded = buildNewlyAddedSummaries({
+  const newlyAddedBuilt = buildNewlyAddedSummaries({
     newlyAddedArtifact: input.newlyAdded,
     filmsByKey: new Map(films.map((film) => [film.filmKey, film])),
     opportunities,
     warnings,
   });
+  const newlyAdded = newlyAddedBuilt.summaries;
+  const newlyAddedPairs = newlyAddedBuilt.pairs;
 
   const openingThisWeek = buildOpeningThisWeek(input.openingThisWeek, {
     warnings,
@@ -679,6 +705,7 @@ export function buildHomeData(input) {
     films,
     opportunities,
     newlyAdded,
+    newlyAddedPairs,
     openingThisWeek,
     leavingSoon,
     opportunityCandidates,
@@ -719,7 +746,7 @@ function buildNewlyAddedSummaries({
         'newly_added_current unavailable; newlyAdded list is empty.',
       ),
     );
-    return [];
+    return { summaries: [], pairs: [] };
   }
 
   try {
@@ -732,11 +759,15 @@ function buildNewlyAddedSummaries({
         error instanceof Error ? error.message : String(error),
       ),
     );
-    return [];
+    return { summaries: [], pairs: [] };
   }
 
   /** @type {Map<string, object>} */
   const byFilmKey = new Map();
+  /** @type {object[]} */
+  const pairs = [];
+  /** @type {Set<string>} */
+  const pairKeys = new Set();
 
   for (let index = 0; index < newlyAddedArtifact.entries.length; index += 1) {
     const entry = newlyAddedArtifact.entries[index];
@@ -770,25 +801,38 @@ function buildNewlyAddedSummaries({
     }
 
     const theaterId = asTrimmedString(entry.theater_id);
+    const firstAnnouncedDate = asTrimmedString(entry.first_announced_date);
+    const lastSeenDate = asTrimmedString(entry.last_seen_date);
+    if (theaterId) {
+      const pairKey = `${filmKey}|${theaterId}`;
+      if (!pairKeys.has(pairKey)) {
+        pairKeys.add(pairKey);
+        pairs.push({
+          filmKey,
+          theaterId,
+          firstAnnouncedDate,
+          lastSeenDate,
+        });
+      }
+    }
+
     let group = byFilmKey.get(filmKey);
     if (!group) {
       group = {
         filmKey,
         title,
-        firstObservedAt: asTrimmedString(entry.first_announced_date),
-        lastSeenDate: asTrimmedString(entry.last_seen_date),
+        firstObservedAt: firstAnnouncedDate,
+        lastSeenDate,
         theaterIds: new Set(),
       };
       byFilmKey.set(filmKey, group);
     }
     if (theaterId) group.theaterIds.add(theaterId);
-    const first = asTrimmedString(entry.first_announced_date);
-    if (first && (!group.firstObservedAt || first < group.firstObservedAt)) {
-      group.firstObservedAt = first;
+    if (firstAnnouncedDate && (!group.firstObservedAt || firstAnnouncedDate < group.firstObservedAt)) {
+      group.firstObservedAt = firstAnnouncedDate;
     }
-    const last = asTrimmedString(entry.last_seen_date);
-    if (last && (!group.lastSeenDate || last > group.lastSeenDate)) {
-      group.lastSeenDate = last;
+    if (lastSeenDate && (!group.lastSeenDate || lastSeenDate > group.lastSeenDate)) {
+      group.lastSeenDate = lastSeenDate;
     }
   }
 
@@ -802,7 +846,7 @@ function buildNewlyAddedSummaries({
     list.push(opportunity);
   }
 
-  return [...byFilmKey.values()]
+  const summaries = [...byFilmKey.values()]
     .map((group) => {
       const film = filmsByKey.get(group.filmKey);
       const filmOpps = oppsByFilm.get(group.filmKey) ?? [];
@@ -832,4 +876,6 @@ function buildNewlyAddedSummaries({
       }
       return a.title < b.title ? -1 : 1;
     });
+
+  return { summaries, pairs };
 }

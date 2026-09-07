@@ -45,6 +45,7 @@ export const SELECTION_REASON_LABELS = Object.freeze({
   showing_soon: 'Showing soon',
 });
 
+/** Forbidden only for the legacy mechanical selector — not ranked labels. */
 const FORBIDDEN_REASON_LABELS = Object.freeze([
   'Essential',
   'Critics’ pick',

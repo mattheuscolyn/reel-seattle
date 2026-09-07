@@ -109,8 +109,11 @@ try {
   const topSource = await (
     await fetch(new URL('/home/TopOpportunityFeature.jsx', V2_URL))
   ).text();
-  if (!topSource.includes('selectTopOpportunities')) {
-    fail('Top Opportunity missing real selector wiring');
+  if (!topSource.includes('buildRankedTopOpportunitySelections')) {
+    fail('Top Opportunity missing ranked selector wiring');
+  }
+  if (topSource.includes('selectTopOpportunities(')) {
+    fail('Top Opportunity still calls the legacy mechanical selector');
   }
   if (!topSource.includes('onOpenFilmDetail')) {
     fail('Top Opportunity missing Film Detail open handler');
