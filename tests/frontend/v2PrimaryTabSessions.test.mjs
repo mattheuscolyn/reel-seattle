@@ -171,6 +171,30 @@ describe('primary tab sessions', () => {
     void sessions;
   });
 
+  test('Explore Quick Start showtimes browse resumes after leaving the tab', () => {
+    let nav = openShowtimesBrowse(
+      selectPrimaryDestination(createInitialNavState(), 'explore'),
+      {
+        originPrimary: 'explore',
+        exploreRestore: { scrollY: 88 },
+        browseUi: {
+          dateMode: 'week',
+          scrollY: 240,
+        },
+      },
+    );
+    let sessions = createEmptyTabSessions();
+    ({ nav, sessions } = switchPrimaryTab(nav, sessions, 'home'));
+    assert.equal(sessions.explore?.surface?.type, 'showtimes-browse');
+    assert.equal(sessions.explore?.surface?.browseUi?.dateMode, 'week');
+    assert.equal(sessions.explore?.surface?.exploreRestore?.scrollY, 88);
+
+    ({ nav } = switchPrimaryTab(nav, sessions, 'explore'));
+    assert.equal(nav.surface?.type, 'showtimes-browse');
+    assert.equal(nav.surface?.browseUi?.dateMode, 'week');
+    assert.equal(nav.surface?.exploreRestore?.scrollY, 88);
+  });
+
   test('Showtimes browse → film detail → back still restores list context', () => {
     let nav = openShowtimesBrowse(
       selectPrimaryDestination(createInitialNavState(), 'explore'),

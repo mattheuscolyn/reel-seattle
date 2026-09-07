@@ -151,7 +151,7 @@ test('Explore landing no longer renders Suggested Starts', () => {
   assert.equal(EXPLORE_SRC.includes('<ExploreSuggestedStarts'), false);
   assert.match(EXPLORE_SRC, /ExploreQuickStart/);
   assert.match(EXPLORE_SRC, /ExploreBrowseBy/);
-  assert.match(EXPLORE_SRC, /ExploreFilmActivity/);
+  assert.equal(EXPLORE_SRC.includes('ExploreFilmActivity'), false);
   // Helper retained for collection/deep-link catalog; landing section removed.
   const items = buildSuggestedStarts();
   assert.equal(items.length, 4);

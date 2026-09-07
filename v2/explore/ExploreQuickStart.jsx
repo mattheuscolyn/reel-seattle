@@ -14,13 +14,6 @@ function QuickIcon({ name }) {
     focusable: false,
   };
   switch (name) {
-    case 'ticket':
-      return (
-        <svg {...common}>
-          <path d="M4 9V6.5A1.5 1.5 0 0 1 5.5 5h13A1.5 1.5 0 0 1 20 6.5V9a1.5 1.5 0 0 0 0 3v2.5A1.5 1.5 0 0 1 18.5 16h-13A1.5 1.5 0 0 1 4 14.5V12a1.5 1.5 0 0 0 0-3Z" />
-          <path d="M9 8v8" />
-        </svg>
-      );
     case 'showtimes':
       return (
         <svg {...common}>
@@ -37,32 +30,12 @@ function QuickIcon({ name }) {
           <path d="m11 14 1.2 1.2L15.5 12" />
         </svg>
       );
-    case 'week':
+    case 'weekend':
       return (
         <svg {...common}>
           <rect x="3.5" y="5" width="17" height="15" rx="2" />
           <path d="M8 3.5v3M16 3.5v3M3.5 10h17" />
-        </svg>
-      );
-    case 'pin':
-      return (
-        <svg {...common}>
-          <path d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z" />
-          <circle cx="12" cy="11" r="2.2" />
-        </svg>
-      );
-    case 'imax':
-      return (
-        <span className="v2-quick-imax" aria-hidden="true">
-          IMAX
-        </span>
-      );
-    case 'reel':
-      return (
-        <svg {...common}>
-          <circle cx="12" cy="12" r="8" />
-          <circle cx="12" cy="12" r="2.5" />
-          <path d="M12 4v2.5M12 17.5V20M4 12h2.5M17.5 12H20" />
+          <path d="M8 13.5h3.2M13.2 13.5H16M8 16.5h3.2M13.2 16.5H16" />
         </svg>
       );
     default:
@@ -71,7 +44,7 @@ function QuickIcon({ name }) {
 }
 
 /**
- * Compact Quick Start shortcut row.
+ * Compact Quick Start shortcut row — temporal Showtimes launches only.
  */
 export default function ExploreQuickStart({ onSelect }) {
   return (
@@ -85,6 +58,7 @@ export default function ExploreQuickStart({ onSelect }) {
             <button
               type="button"
               className="v2-quick-button"
+              data-quick-start={item.id}
               onClick={() => onSelect?.(item.id)}
             >
               <span className="v2-quick-icon">
