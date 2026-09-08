@@ -5,10 +5,14 @@
 
 import { pacificDateString } from '../explore/exploreCatalog.js';
 import { formatRuntimeLabel } from '../home/shelfData.js';
+import { formatLocalDateLabel } from '../topOpportunities/topOpportunityFormat.js';
 import {
-  formatLocalDateLabel,
-  formatUserFacingFormatLabel,
-} from '../topOpportunities/topOpportunityFormat.js';
+  compareScreeningsByStart,
+  formatPresentationLabel,
+  isActionableScreening,
+  resolveClock,
+  scheduleScreeningState,
+} from '../showtimes/canonicalScreening.js';
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 import { unresolvedProgramLabel } from './unresolvedProgramLabels.js';
 
@@ -118,12 +122,8 @@ export function listFilmOpportunities(homeData, filmKey) {
   const family = resolveFilmFamilyKeys(homeData, filmKey);
   return (Array.isArray(homeData?.opportunities) ? homeData.opportunities : [])
     .filter((opp) => family.has(opp.filmKey))
-    .sort((a, b) => {
-      if (a.sortableLocalDateTime !== b.sortableLocalDateTime) {
-        return a.sortableLocalDateTime < b.sortableLocalDateTime ? -1 : 1;
-      }
-      return a.opportunityKey < b.opportunityKey ? -1 : 1;
-    });
+    .slice()
+    .sort(compareScreeningsByStart);
 }
 
 /**
@@ -133,33 +133,29 @@ export function listFilmOpportunities(homeData, filmKey) {
  * @param {object | null} homeData
  * @param {string} filmKey
  * @param {string | null} [emphasizedOpportunityKey]
+ * @param {{ now?: Date | (() => Date) }} [options]
  */
 export function selectBestOpportunity(
   homeData,
   filmKey,
   emphasizedOpportunityKey = null,
+  options = {},
 ) {
+  const now = options.now ?? new Date();
   const opps = listFilmOpportunities(homeData, filmKey);
   if (opps.length === 0) return null;
-  const today = pacificDateString();
+  const actionable = opps.filter((row) => isActionableScreening(row, now));
   if (emphasizedOpportunityKey) {
-    const hit = opps.find((o) => o.opportunityKey === emphasizedOpportunityKey);
-    if (hit && typeof hit.localDate === 'string' && hit.localDate >= today) {
-      return hit;
-    }
+    const hit = actionable.find(
+      (o) => o.opportunityKey === emphasizedOpportunityKey,
+    );
+    if (hit) return hit;
   }
-  const upcoming = opps.filter(
-    (o) => typeof o.localDate === 'string' && o.localDate >= today,
-  );
-  const pool = upcoming.length > 0 ? upcoming : opps;
-  const scored = [...pool].sort((a, b) => {
+  const scored = [...actionable].sort((a, b) => {
     const pa = premiumScore(a);
     const pb = premiumScore(b);
     if (pa !== pb) return pb - pa;
-    if (a.sortableLocalDateTime !== b.sortableLocalDateTime) {
-      return a.sortableLocalDateTime < b.sortableLocalDateTime ? -1 : 1;
-    }
-    return a.opportunityKey < b.opportunityKey ? -1 : 1;
+    return compareScreeningsByStart(a, b);
   });
   return scored[0] ?? null;
 }
@@ -177,18 +173,8 @@ function premiumScore(opp) {
  * @param {object} opportunity
  */
 export function opportunityFormatLabel(opportunity) {
-  const theaterName = String(opportunity?.theaterName ?? '').toLowerCase();
-  const isAMC = theaterName.includes('amc');
-  
   const labels = (opportunity?.formatLabels ?? [])
-    .filter((raw) => {
-      // AMC offers closed captions via device for all showings, not a special screening format
-      if (isAMC && String(raw).toLowerCase().includes('closed')) {
-        return false;
-      }
-      return true;
-    })
-    .map(formatUserFacingFormatLabel)
+    .map(formatPresentationLabel)
     .filter(Boolean);
   return labels[0] ?? null;
 }
@@ -200,21 +186,14 @@ export function opportunityFormatLabel(opportunity) {
  * @returns {string | null}
  */
 export function screeningVariantLabel(variantType, opportunity = null) {
+  void opportunity;
   if (typeof variantType !== 'string' || !variantType.trim()) return null;
   const key = variantType.trim().toLowerCase();
-  
-  // AMC offers closed captions via device for all showings, not a special screening format
-  if (key === 'closed_caption' && opportunity) {
-    const theaterName = String(opportunity.theaterName ?? '').toLowerCase();
-    if (theaterName.includes('amc')) {
-      return null;
-    }
-  }
-  
+
   const labels = {
     sensory_friendly: 'Sensory Friendly',
-    open_caption: 'Open Caption',
-    closed_caption: 'Closed Caption',
+    open_caption: 'Open Captions',
+    closed_caption: 'Closed Captions',
     audio_description: 'Audio Description',
     fan_event: 'Fan Event',
     early_access: 'Early Access',
@@ -248,7 +227,7 @@ export function buildWhySeeItSignals(homeData, film) {
   const formatVenueMap = new Map();
   for (const opp of opps) {
     for (const raw of opp.formatLabels ?? []) {
-      const label = formatUserFacingFormatLabel(raw);
+      const label = formatPresentationLabel(raw);
       if (!label) continue;
       if (!formatVenueMap.has(label)) formatVenueMap.set(label, new Set());
       if (opp.theaterId) formatVenueMap.get(label).add(opp.theaterId);
@@ -490,14 +469,15 @@ export function buildTodaysShowtimes(
   emphasizedOpportunityKey = null,
   options = {},
 ) {
-  const today = pacificDateString();
+  const today = pacificDateString(resolveClock(options.now));
   const timeFormatId =
     typeof options.timeFormatId === 'string' && options.timeFormatId
       ? options.timeFormatId
       : '12h';
-  const opps = listFilmOpportunities(homeData, filmKey).filter(
-    (o) => o.localDate === today,
-  );
+  const opps = listFilmOpportunities(homeData, filmKey)
+    .filter((o) => o.localDate === today)
+    .slice()
+    .sort(compareScreeningsByStart);
   const byTheater = new Map();
   for (const opp of opps) {
     const id = opp.theaterId ?? opp.theaterName ?? opp.opportunityKey;
@@ -511,19 +491,25 @@ export function buildTodaysShowtimes(
     const row = byTheater.get(id);
     const label = opportunityFormatLabel(opp);
     const variant = screeningVariantLabel(opp.screeningVariantType, opp);
+    const state = scheduleScreeningState(opp, options.now);
     row.times.push({
       opportunityKey: opp.opportunityKey,
+      screeningId: opp.screeningId ?? opp.opportunityKey,
       timeDisplay: formatDisplayClock(
         opp.timeDisplay ?? opp.localTime,
         timeFormatId,
       ),
       localTime: opp.localTime ?? null,
-      emphasized: opp.opportunityKey === emphasizedOpportunityKey,
-      ticketUrl: opp.ticketUrl ?? null,
+      emphasized:
+        state.actionable && opp.opportunityKey === emphasizedOpportunityKey,
+      ticketUrl: state.actionable ? opp.ticketUrl ?? null : null,
       screeningVariantType: opp.screeningVariantType ?? null,
       screeningVariantLabel: variant,
       formatLabel: label,
       isSpecialScreening: opp.isSpecialScreening === true,
+      past: state.past,
+      actionable: state.actionable,
+      stateLabel: state.stateLabel,
     });
   }
 
@@ -531,9 +517,7 @@ export function buildTodaysShowtimes(
     .map((row) => {
       const mark = buildVenueMark(row.theaterName, row.theaterId);
       const sortedTimes = row.times.sort((a, b) =>
-        String(a.localTime ?? a.timeDisplay).localeCompare(
-          String(b.localTime ?? b.timeDisplay),
-        ),
+        String(a.localTime ?? '').localeCompare(String(b.localTime ?? '')),
       );
       const sharedChips = computeSharedShowtimeChips(sortedTimes);
       const sharedSet = new Set(sharedChips);

@@ -43,9 +43,14 @@ const FORMAT_DISPLAY = Object.freeze({
   'open-captions': 'Open Captions',
   'closed-caption': 'Closed Captions',
   'audio-description': 'Audio Description',
+  'audio description': 'Audio Description',
   'live-score': 'Live Score',
+  standard: 'Standard',
   oc: 'OC',
   cc: 'CC',
+  'closed caption': 'Closed Captions',
+  closed_caption: 'Closed Captions',
+  'open caption': 'Open Captions',
 });
 
 /**

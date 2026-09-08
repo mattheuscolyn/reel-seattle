@@ -186,7 +186,7 @@ function buildAvailableMeta(homeData, homeFilm, enrichmentIndex, now = new Date(
   const next = pickEarliestQualifyingOpportunity(homeData, homeFilm.filmKey, now);
   const formatRaw = Array.isArray(next?.formatLabels) ? next.formatLabels[0] : null;
   const formatLabel = formatRaw
-    ? formatUserFacingFormatLabel(formatRaw) || formatRaw
+    ? formatUserFacingFormatLabel(formatRaw)
     : null;
   const showtimeLine = next
     ? [next.theaterName, next.timeDisplay].filter(Boolean).join(' · ')

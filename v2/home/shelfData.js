@@ -16,6 +16,7 @@ import {
   HOME_OPENING_SHELF_MAX_CARDS,
   rankOpeningShelfEntries,
 } from './openingShelfRanking.js';
+import { selectNextScreeningForFilm } from '../showtimes/screeningSelectors.js';
 import {
   formatLocalDateLabel,
   formatUserFacingFormatLabel,
@@ -47,19 +48,8 @@ export function formatRuntimeLabel(runtimeMin) {
  * @param {object} homeData
  * @param {string} filmKey
  */
-export function findNextOpportunityForFilm(homeData, filmKey) {
-  const opportunities = Array.isArray(homeData?.opportunities)
-    ? homeData.opportunities
-    : [];
-  const matches = opportunities
-    .filter((opp) => opp.filmKey === filmKey)
-    .sort((a, b) => {
-      if (a.sortableLocalDateTime !== b.sortableLocalDateTime) {
-        return a.sortableLocalDateTime < b.sortableLocalDateTime ? -1 : 1;
-      }
-      return a.opportunityKey < b.opportunityKey ? -1 : 1;
-    });
-  return matches[0] ?? null;
+export function findNextOpportunityForFilm(homeData, filmKey, now = new Date()) {
+  return selectNextScreeningForFilm(homeData, filmKey, now);
 }
 
 /**

@@ -12,6 +12,7 @@ import {
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 import { normalizeExternalTicketUrl } from '../ticket/externalTicketUrl.js';
 import { resolveHomeOpportunity } from './resolveHomeOpportunity.js';
+import { primaryPresentationLabel } from './canonicalScreening.js';
 
 /**
  * @param {{
@@ -101,9 +102,8 @@ export function resolveShowtimeActionSheetState({
       : null);
   const localTime = opportunity.localTime ?? opportunity.time ?? null;
   const formatLabel =
-    (Array.isArray(opportunity.formatLabels) && opportunity.formatLabels[0]) ||
-    (Array.isArray(row?.formatLabels) && row.formatLabels[0]) ||
-    null;
+    primaryPresentationLabel(opportunity.formatLabels) ||
+    primaryPresentationLabel(row?.formatLabels);
   const ticketUrl = normalizeExternalTicketUrl(
     opportunity.ticketUrl ?? row?.ticketUrl ?? null,
   );

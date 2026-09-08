@@ -94,16 +94,20 @@ export function opportunitySortableKey(opportunity) {
  * @param {object} opportunity
  */
 export function opportunityDedupeKey(opportunity) {
-  const key = opportunity?.opportunityKey;
-  if (typeof key === 'string' && key.trim()) return `id:${key.trim()}`;
   const formats = Array.isArray(opportunity?.formatLabels)
-    ? opportunity.formatLabels.map((t) => String(t).toLowerCase()).sort().join(',')
+    ? opportunity.formatLabels
+        .map((t) => String(t).toLowerCase().replace(/_/g, '-'))
+        .map((t) => (t === 'imax-at-amc' ? 'imax' : t))
+        .sort()
+        .join(',')
     : '';
   return [
     opportunity?.filmKey ?? '',
     opportunity?.theaterId ?? '',
     opportunity?.localDate ?? '',
-    opportunity?.localTime ?? '',
+    typeof opportunity?.localTime === 'string'
+      ? opportunity.localTime.slice(0, 5)
+      : '',
     formats,
   ].join('|');
 }

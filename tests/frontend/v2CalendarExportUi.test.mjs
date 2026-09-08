@@ -136,7 +136,9 @@ test('best opportunity export helper fails closed without browser document', () 
   const data = homeData();
   const film = data.films.find((f) => f.runtimeMin != null) ?? data.films[0];
   assert.ok(film);
-  const opp = selectBestOpportunity(data, film.filmKey, null);
+  const opp = selectBestOpportunity(data, film.filmKey, null, {
+    now: new Date('2026-06-26T12:00:00-07:00'),
+  });
   assert.ok(opp);
   const result = exportOpportunityToCalendar({
     opportunity: opp,

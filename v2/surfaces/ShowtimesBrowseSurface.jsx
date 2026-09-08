@@ -307,6 +307,11 @@ export default function ShowtimesBrowseSurface({
               }`
             : null}
         </p>
+        {presentation.freshness?.line ? (
+          <p className="v2-stb-freshness" role="status">
+            {presentation.freshness.line}
+          </p>
+        ) : null}
       </header>
 
       <div

@@ -131,7 +131,11 @@ export async function loadHomeData(options = {}) {
       leavingSoon: leavingSoonResult.ok ? leavingSoonResult.data : null,
       pipelineReport,
     });
-    return { ok: true, homeData, loadErrors };
+    return {
+      ok: true,
+      homeData: { ...homeData, loadErrors },
+      loadErrors,
+    };
   } catch (error) {
     return {
       ok: false,

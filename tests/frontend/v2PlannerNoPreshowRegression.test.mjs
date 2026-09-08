@@ -160,6 +160,7 @@ test('Generate Results accepts the same Miasma → Oak Street sequence', () => {
     homeData: homeData(),
     form,
     sortId: 'best-match',
+    now: new Date('2026-08-22T12:00:00-07:00'),
   });
   assert.equal(result.ok, true, result.message);
   assert.ok(result.plans.length >= 1, 'expected at least one plan');

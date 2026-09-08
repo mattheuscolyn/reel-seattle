@@ -9,20 +9,11 @@
  * No browse date-window cap (any future date present in the artifact counts).
  */
 
-import { pacificDateString } from '../explore/exploreCatalog.js';
 import {
   opportunityDedupeKey,
   opportunitySortableKey,
-  pacificSortableDateTime,
 } from './showtimeEligibility.js';
-
-/**
- * @param {Date | (() => Date)} [now]
- * @returns {Date}
- */
-function resolveNow(now = new Date()) {
-  return typeof now === 'function' ? now() : now;
-}
+import { isActionableScreening } from './canonicalScreening.js';
 
 /**
  * @param {object | null | undefined} homeData
@@ -58,21 +49,8 @@ export function isQualifyingFutureOpportunity(opportunity, options) {
       : filmsByKey?.[filmKey];
   if (!film) return false;
 
-  const sortable = opportunitySortableKey(opportunity);
-  if (!sortable) return false;
-
-  let localDate = opportunity.localDate;
-  if (typeof localDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(localDate)) {
-    localDate = sortable.slice(0, 10);
-  }
-
-  const today = pacificDateString(resolveNow(options.now));
-  if (localDate < today) return false;
-
-  const nowKey = pacificSortableDateTime(options.now);
-  if (localDate === today && sortable < nowKey) return false;
-
-  return true;
+  if (!opportunitySortableKey(opportunity)) return false;
+  return isActionableScreening(opportunity, options.now);
 }
 
 /**

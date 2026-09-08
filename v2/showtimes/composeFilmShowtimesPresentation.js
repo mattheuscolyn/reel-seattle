@@ -20,9 +20,9 @@ import { normalizeExternalTicketUrl } from '../ticket/externalTicketUrl.js';
 import { resolveTheaterPresentation } from '../theaters/resolveTheaterPresentation.js';
 import {
   opportunitySortableKey,
-  pacificSortableDateTime,
   parseLocalTimeMinutes,
 } from './showtimeEligibility.js';
+import { isActionableScreening } from './canonicalScreening.js';
 import {
   SHOWTIMES_BROWSE_TIME_RANGES,
   normalizeBrowseFormat,
@@ -59,7 +59,6 @@ export function composeFilmShowtimesPresentation(
       ? options.now
       : () => options.now ?? new Date();
   const today = pacificDateString(nowFn());
-  const nowKey = pacificSortableDateTime(nowFn());
   const enrichmentIndex = options.enrichmentIndex ?? null;
   const timeFormatId =
     typeof options.timeFormatId === 'string' && options.timeFormatId
@@ -104,10 +103,7 @@ export function composeFilmShowtimesPresentation(
     if (typeof localDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(localDate)) {
       continue;
     }
-    if (localDate < today) continue;
-    const sortable = opportunitySortableKey(opp);
-    if (!sortable) continue;
-    if (localDate === today && sortable < nowKey) continue;
+    if (!isActionableScreening(opp, options.now)) continue;
     // Content identity (not opportunityKey) so parent/variant duplicates collapse.
     const dedupe = filmShowtimesDedupeKey(opp);
     if (deduped.has(dedupe)) continue;

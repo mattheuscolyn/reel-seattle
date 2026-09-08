@@ -58,6 +58,60 @@ function getBrowserStorage() {
   }
 }
 
+function firstActionableTimeId(presentation) {
+  const groups = presentation?.todaysShowtimes?.filmGroups ?? [];
+  for (const group of groups) {
+    const hit = (group.times ?? []).find((time) => time.actionable !== false);
+    if (hit) return hit.id;
+  }
+  const screens = presentation?.todaysShowtimes?.screens ?? [];
+  for (const screen of screens) {
+    const hit = (screen.times ?? []).find((time) => time.actionable !== false);
+    if (hit) return hit.id;
+  }
+  return null;
+}
+
+function TheaterTimeButton({
+  time,
+  selectedTimeId,
+  onSelect,
+  showFormat = false,
+}) {
+  const started = time.actionable === false;
+  const baseLabel = time.formatLabel
+    ? `${time.label}, ${time.formatLabel}`
+    : time.label;
+  return (
+    <button
+      type="button"
+      className={
+        started
+          ? 'v2-td-time-btn v2-td-time-btn-started'
+          : selectedTimeId === time.id
+            ? 'v2-td-time-btn v2-td-time-btn-active'
+            : 'v2-td-time-btn'
+      }
+      disabled={started}
+      aria-disabled={started}
+      aria-pressed={started ? undefined : selectedTimeId === time.id}
+      aria-label={
+        started ? `${baseLabel}, ${time.stateLabel ?? 'Started'}` : baseLabel
+      }
+      onClick={
+        started
+          ? undefined
+          : () => onSelect(time)
+      }
+    >
+      {time.label}
+      {showFormat && time.formatLabel ? (
+        <span className="v2-td-time-format">{time.formatLabel}</span>
+      ) : null}
+    </button>
+  );
+}
+
 /**
  * @param {{
  *   theaterId?: string,
@@ -94,8 +148,8 @@ export default function TheaterDetailSurface({
   const [stubMessage, setStubMessage] = useState(null);
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const [screenTabId, setScreenTabId] = useState('all');
-  const [selectedTimeId, setSelectedTimeId] = useState(
-    presentation.todaysShowtimes?.screens?.[0]?.times?.[0]?.id ?? null,
+  const [selectedTimeId, setSelectedTimeId] = useState(() =>
+    firstActionableTimeId(presentation),
   );
   const [favoriteRevision, setFavoriteRevision] = useState(0);
 
@@ -597,36 +651,20 @@ export default function TheaterDetailSurface({
                       group.times.map((row) => row.formatLabel).filter(Boolean),
                     ).size > 1;
                   return group.times.map((time) => (
-                    <button
+                    <TheaterTimeButton
                       key={time.id}
-                      type="button"
-                      className={
-                        selectedTimeId === time.id
-                          ? 'v2-td-time-btn v2-td-time-btn-active'
-                          : 'v2-td-time-btn'
-                      }
-                      aria-pressed={selectedTimeId === time.id}
-                      aria-label={
-                        time.formatLabel
-                          ? `${time.label}, ${time.formatLabel}`
-                          : time.label
-                      }
-                      onClick={() => {
-                        setSelectedTimeId(time.id);
+                      time={time}
+                      selectedTimeId={selectedTimeId}
+                      showFormat={showTimeFormats}
+                      onSelect={(row) => {
+                        setSelectedTimeId(row.id);
                         announce(
                           'showtime',
-                          time.label,
+                          row.label,
                           presentation.deferredMessages?.showtime,
                         );
                       }}
-                    >
-                      {time.label}
-                      {showTimeFormats && time.formatLabel ? (
-                        <span className="v2-td-time-format">
-                          {time.formatLabel}
-                        </span>
-                      ) : null}
-                    </button>
+                    />
                   ));
                 })()}
               </div>
@@ -683,26 +721,19 @@ export default function TheaterDetailSurface({
                 aria-label={`${screen.label} showtimes`}
               >
                 {screen.times.map((time) => (
-                  <button
+                  <TheaterTimeButton
                     key={time.id}
-                    type="button"
-                    className={
-                      selectedTimeId === time.id
-                        ? 'v2-td-time-btn v2-td-time-btn-active'
-                        : 'v2-td-time-btn'
-                    }
-                    aria-pressed={selectedTimeId === time.id}
-                    onClick={() => {
-                      setSelectedTimeId(time.id);
+                    time={time}
+                    selectedTimeId={selectedTimeId}
+                    onSelect={(row) => {
+                      setSelectedTimeId(row.id);
                       announce(
                         'showtime',
-                        time.label,
+                        row.label,
                         presentation.deferredMessages?.showtime,
                       );
                     }}
-                  >
-                    {time.label}
-                  </button>
+                  />
                 ))}
               </div>
             </div>
@@ -718,26 +749,19 @@ export default function TheaterDetailSurface({
                 aria-label={`${screen.label} showtimes`}
               >
                 {screen.times.map((time) => (
-                  <button
+                  <TheaterTimeButton
                     key={time.id}
-                    type="button"
-                    className={
-                      selectedTimeId === time.id
-                        ? 'v2-td-time-btn v2-td-time-btn-active'
-                        : 'v2-td-time-btn'
-                    }
-                    aria-pressed={selectedTimeId === time.id}
-                    onClick={() => {
-                      setSelectedTimeId(time.id);
+                    time={time}
+                    selectedTimeId={selectedTimeId}
+                    onSelect={(row) => {
+                      setSelectedTimeId(row.id);
                       announce(
                         'showtime',
-                        time.label,
+                        row.label,
                         presentation.deferredMessages?.showtime,
                       );
                     }}
-                  >
-                    {time.label}
-                  </button>
+                  />
                 ))}
               </div>
             </div>

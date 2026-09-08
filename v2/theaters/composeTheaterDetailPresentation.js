@@ -21,6 +21,7 @@ import {
 import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 import { pacificDateString } from '../explore/exploreCatalog.js';
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
+import { scheduleScreeningState } from '../showtimes/canonicalScreening.js';
 
 /**
  * @param {unknown} raw
@@ -342,12 +343,18 @@ function buildTodaysShowtimes(
       formatShowtimeVariantLabel(opp.screeningVariantType) ??
       formatShowtimeVariantLabel(film?.screeningVariantType) ??
       null;
+    const state = scheduleScreeningState(opp, options.now);
     const timeRow = {
       id: opp.opportunityKey ?? `${showtimeKey}-${timeLabel}`,
       label: timeLabel,
       formatLabel: formatLabel ?? variantLabel,
       opportunityKey: opp.opportunityKey ?? null,
+      screeningId: opp.screeningId ?? opp.opportunityKey ?? null,
       localDate: today,
+      localTime: opp.localTime ?? null,
+      past: state.past,
+      actionable: state.actionable,
+      stateLabel: state.stateLabel,
     };
 
     let bucket = byGroup.get(groupKey);
@@ -424,6 +431,10 @@ function buildTodaysShowtimes(
   const filmGroups = [...byGroup.values()].sort((a, b) =>
     a.sortKey < b.sortKey ? -1 : a.sortKey > b.sortKey ? 1 : 0,
   );
+  for (const group of filmGroups) {
+    const next = group.times.find((time) => time.actionable);
+    if (next?.opportunityKey) group.opportunityKey = next.opportunityKey;
+  }
 
   // Compatibility: keep `screens` as per-group time blocks (no nested featured card).
   const screens = filmGroups.map((group) => ({

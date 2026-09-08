@@ -59,6 +59,7 @@ export function composeFilmDetailPresentation(
     opportunityKey,
     options.enrichmentIndex ?? null,
     options.timeFormatId,
+    options.now,
   );
 }
 
@@ -124,6 +125,7 @@ function composeRealPresentation(
   opportunityKey,
   enrichmentIndex = null,
   timeFormatId = '12h',
+  now = new Date(),
 ) {
   const film = resolveFilm(homeData, filmKey);
   if (!film) {
@@ -150,7 +152,9 @@ function composeRealPresentation(
     };
   }
 
-  const bestOpp = selectBestOpportunity(homeData, filmKey, opportunityKey);
+  const bestOpp = selectBestOpportunity(homeData, filmKey, opportunityKey, {
+    now,
+  });
   const enriched = resolveEnrichedFilmPresentation({
     sourceFilm: {
       filmId: film.filmId ?? null,
@@ -201,7 +205,7 @@ function composeRealPresentation(
     homeData,
     filmKey,
     opportunityKey ?? bestOpp?.opportunityKey,
-    { timeFormatId },
+    { timeFormatId, now },
   );
 
   // Prefer TMDB overview; allow source synopsis only as a non-provider fallback.

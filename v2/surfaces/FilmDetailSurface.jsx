@@ -674,6 +674,8 @@ export default function FilmDetailSurface({
                       theaterId: row.theaterId,
                       opportunityKey:
                         row.times.find((t) => t.emphasized)?.opportunityKey ??
+                        row.times.find((t) => t.actionable !== false)
+                          ?.opportunityKey ??
                         row.times[0]?.opportunityKey ??
                         null,
                     })
@@ -703,15 +705,29 @@ export default function FilmDetailSurface({
                       <span
                         key={`${time.opportunityKey ?? ''}:${time.timeDisplay}`}
                         className={
-                          time.emphasized
-                            ? 'v2-fd-today-time v2-fd-today-time-on'
-                            : 'v2-fd-today-time'
+                          time.actionable === false
+                            ? 'v2-fd-today-time v2-fd-today-time-started'
+                            : time.emphasized
+                              ? 'v2-fd-today-time v2-fd-today-time-on'
+                              : 'v2-fd-today-time'
                         }
-                        data-ticket-url={time.ticketUrl ? '1' : '0'}
+                        data-ticket-url={
+                          time.actionable !== false && time.ticketUrl ? '1' : '0'
+                        }
+                        aria-label={
+                          time.actionable === false
+                            ? `${time.timeDisplay}, ${time.stateLabel ?? 'Started'}`
+                            : time.timeDisplay
+                        }
                       >
                         <span className="v2-fd-today-time-clock">
                           {time.timeDisplay}
                         </span>
+                        {time.actionable === false ? (
+                          <span className="v2-visually-hidden">
+                            {time.stateLabel ?? 'Started'}
+                          </span>
+                        ) : null}
                         {time.detailLabel ? (
                           <span className="v2-fd-today-time-detail">
                             {time.detailLabel}

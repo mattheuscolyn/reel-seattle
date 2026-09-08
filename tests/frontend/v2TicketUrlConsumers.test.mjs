@@ -226,16 +226,17 @@ test('Film Detail bestWay and today times keep per-performance ticketUrl', () =>
 
   // Force "today" by rewriting localDate on sinners opps.
   const todayHome = structuredClone(home);
+  const now = new Date('2026-06-28T00:00:00-07:00');
   const today = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'America/Los_Angeles',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-  }).format(new Date());
+  }).format(now);
   for (const opp of todayHome.opportunities) {
     if (opp.filmKey === 'sinners') opp.localDate = today;
   }
-  const todayRows = buildTodaysShowtimes(todayHome, 'sinners');
+  const todayRows = buildTodaysShowtimes(todayHome, 'sinners', null, { now });
   const times = todayRows.rows.flatMap((row) => row.times);
   assert.ok(times.length >= 2);
   const urls = times.map((t) => t.ticketUrl);
