@@ -35,6 +35,7 @@ def test_workflow_yaml_manual_defaults_and_secrets_env_only():
     assert "--refresh-cache" in text
     assert "python scripts/validate_film_identity.py --require-generated" in text
     assert "python scripts/guard_film_identity_diff.py" in text
+    assert "python scripts/attach_public_film_ids.py --write" in text
     assert "python scripts/inventory_film_identities.py" in text
     assert "python -m pytest tests/film_identity -q" in text
     assert "TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}" in text
@@ -68,11 +69,15 @@ def test_diff_guard_allows_only_generated_paths():
         [
             "data/film_identity/film_identity_catalog.json",
             "data/audits/tmdb_film_identity_coverage.json",
+            "public/data/showtimes_current.json",
+            "data/audits/tmdb_public_identity_emit.json",
         ]
     )
     assert "data/film_identity/film_identity_catalog.json" in allowed
+    assert "public/data/showtimes_current.json" in allowed
+    assert "data/audits/tmdb_public_identity_emit.json" in allowed
     with pytest.raises(ValueError, match="unexpected"):
-        assert_allowed_changed_paths(["public/data/showtimes_current.json"])
+        assert_allowed_changed_paths(["public/data/film_enrichment_current.json"])
     with pytest.raises(ValueError, match="unexpected"):
         assert_allowed_changed_paths(["data/film_identity/tmdb_match_decisions.json"])
     with pytest.raises(ValueError, match="unexpected"):

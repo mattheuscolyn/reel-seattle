@@ -24,6 +24,8 @@ ALLOWED_GENERATED_RELS = (
     REVIEW_QUEUE_REL,
     COVERAGE_REL,
     "data/audits/tmdb_film_identity_match_summary.md",
+    "data/audits/tmdb_public_identity_emit.json",
+    "public/data/showtimes_current.json",
 )
 
 PROTECTED_RELS = (

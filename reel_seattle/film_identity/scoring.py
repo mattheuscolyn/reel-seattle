@@ -34,11 +34,29 @@ from reel_seattle.film_identity.normalize_text import (
 __all__ = [
     "ScoredCandidate",
     "classify_match_bucket",
+    "normalize_runtime_minutes",
     "normalize_title_key",
     "rank_candidates",
     "score_candidate",
     "top_candidate_margin",
 ]
+
+
+def normalize_runtime_minutes(value: Any) -> int | None:
+    """Treat missing or non-positive runtimes as unavailable evidence.
+
+    TMDB often returns ``0`` for unreleased/incomplete titles. That is not a
+    zero-minute movie and must not create a runtime conflict.
+    """
+    if value in (None, ""):
+        return None
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        return None
+    if parsed <= 0:
+        return None
+    return parsed
 
 
 @dataclass(frozen=True)
@@ -76,7 +94,11 @@ def score_candidate(
     title = _as_str(candidate.get("title"))
     original = _as_str(candidate.get("original_title"))
     release_year = _year_from_candidate(candidate)
-    runtime = _as_int(candidate.get("runtime"))
+    raw_runtime = candidate.get("runtime")
+    if raw_runtime in (None, ""):
+        raw_runtime = candidate.get("runtime_min")
+    runtime = normalize_runtime_minutes(raw_runtime)
+    source_runtime = normalize_runtime_minutes(source_runtime)
     popularity = _as_float(candidate.get("popularity"))
     poster = _as_str(candidate.get("poster_path"))
     overview = _excerpt(_as_str(candidate.get("overview")))

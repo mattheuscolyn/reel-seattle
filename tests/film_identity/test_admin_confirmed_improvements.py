@@ -84,9 +84,10 @@ def test_event_year_paren_stripped_without_destroying_title():
     assert extracted.base_title == "Texas Chainsaw Day"
 
 
-def test_release_year_paren_preserved_for_real_titles():
+def test_release_year_paren_stripped_from_search_title():
     extracted = extract_match_title("Blade Runner (1982)", source="amc")
-    assert extracted.base_title == "Blade Runner (1982)"
+    assert extracted.base_title == "Blade Runner"
+    assert "film_year_paren" in extracted.applied_rules
 
 
 def test_legitimate_title_with_restoration_word_not_overstripped():

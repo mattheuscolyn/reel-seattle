@@ -51,7 +51,7 @@ def test_only_yesterday_year_and_score_without_hard_conflict():
             "adult": False,
             "media_type": "movie",
         },
-        event_year_relaxed=years.event_year_not_canonical,
+        event_year_relaxed=years.year_mismatch_relaxed(),
     )
     assert scored.signals["year_conflict"] is False
     assert scored.signals["year_exact"] is True
@@ -224,7 +224,7 @@ def test_reviewed_fixture_corpus():
                 source_directors=case.get("directors_raw"),
                 source_external_ids=None,
                 candidate=row,
-                event_year_relaxed=years.event_year_not_canonical,
+                event_year_relaxed=years.year_mismatch_relaxed(),
             )
             for row in offline
         ]

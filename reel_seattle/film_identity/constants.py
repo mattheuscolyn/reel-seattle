@@ -35,6 +35,7 @@ ENTITY_FEATURE_FILM = "feature_film"
 ENTITY_SHORT_FILM = "short_film"
 ENTITY_SHORTS_PROGRAM = "shorts_program"
 ENTITY_DOUBLE_FEATURE = "double_feature"
+ENTITY_COMPOSITE_EVENT = "composite_event"
 ENTITY_FESTIVAL_PROGRAM = "festival_program"
 ENTITY_MYSTERY_SCREENING = "mystery_screening"
 ENTITY_LIVE_EVENT = "live_event"
@@ -47,6 +48,7 @@ ENTITY_KINDS = frozenset(
         ENTITY_SHORT_FILM,
         ENTITY_SHORTS_PROGRAM,
         ENTITY_DOUBLE_FEATURE,
+        ENTITY_COMPOSITE_EVENT,
         ENTITY_FESTIVAL_PROGRAM,
         ENTITY_MYSTERY_SCREENING,
         ENTITY_LIVE_EVENT,

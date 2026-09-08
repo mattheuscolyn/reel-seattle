@@ -21,7 +21,7 @@ from reel_seattle.film_identity.constants import (
 from reel_seattle.film_identity.decisions import source_identity_key
 from reel_seattle.film_identity.ids import parse_film_id
 from reel_seattle.film_identity.io_util import atomic_write_json
-from reel_seattle.validate import PROJECT_ROOT
+from reel_seattle.validate import PROJECT_ROOT, validate_showtimes_current
 
 CONFIRMED_STATUSES = frozenset({STATUS_CONFIRMED_AUTOMATIC, STATUS_CONFIRMED_MANUAL})
 PUBLIC_IDENTITY_EMIT_REPORT_REL = "data/audits/tmdb_public_identity_emit.json"
@@ -249,6 +249,51 @@ def attach_public_film_ids(
         ],
     }
     return report
+
+
+def reattach_public_film_ids_current(
+    *,
+    showtimes_path: Path | None = None,
+    catalog_path: Path | None = None,
+    report_path: Path | None = None,
+    root: Path | None = None,
+    write: bool = True,
+) -> dict[str, Any]:
+    """Re-bind ``films[].film_id`` on an existing ``showtimes_current`` artifact.
+
+    Does not rebuild showtimes from history, scrape, or change observation
+    identities. Only rematerializes confirmed catalog ``tmdb:<id>`` values.
+    """
+    base = root or PROJECT_ROOT
+    current_path = showtimes_path or (base / "public" / "data" / "showtimes_current.json")
+    with current_path.open(encoding="utf-8") as handle:
+        doc = json.load(handle)
+    if not isinstance(doc, dict) or not isinstance(doc.get("films"), list):
+        raise ValueError(f"invalid showtimes_current artifact: {current_path}")
+
+    films = [film for film in doc.get("films") or [] if isinstance(film, dict)]
+    showtimes = [row for row in doc.get("showtimes") or [] if isinstance(row, Mapping)]
+    catalog = load_identity_catalog(catalog_path)
+    report = attach_public_film_ids(
+        films,
+        showtimes,
+        catalog=catalog,
+        catalog_path=catalog_path,
+    )
+    doc["films"] = films
+    validate_showtimes_current(doc)
+
+    if write:
+        atomic_write_json(current_path, doc)
+        write_identity_emit_report(report, path=report_path)
+    return {
+        "showtimes_path": str(current_path),
+        "wrote": write,
+        "total_public_films": report.get("total_public_films"),
+        "non_null_film_id": report.get("non_null_film_id"),
+        "null_film_id": report.get("null_film_id"),
+        "report": report,
+    }
 
 
 def write_identity_emit_report(

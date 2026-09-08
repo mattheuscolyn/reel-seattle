@@ -198,7 +198,7 @@ def test_genuine_subtitles_and_meaningful_parens_remain():
         normalize_match_title("Mission: Impossible - Dead Reckoning")
         == "Mission: Impossible - Dead Reckoning"
     )
-    assert normalize_match_title("Hercules (1997)") == "Hercules (1997)"
+    assert normalize_match_title("Hercules (1997)") == "Hercules"
     sensory = extract_match_title(
         "Spider-Man: Brand New Day: Sensory Friendly Screening"
     )

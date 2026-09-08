@@ -98,6 +98,23 @@ _EVENT_DAY_YEAR_PAREN_RE = re.compile(
     r"^(?P<head>.+\bDay)\s*\(\s*(?P<year>(?:19|20)\d{2})\s*\)\s*$",
     re.IGNORECASE,
 )
+# Trailing film-year decoration for SEARCH title only. Year is kept as evidence.
+_BARE_FILM_YEAR_PAREN_RE = re.compile(
+    r"\s*\(\s*((?:19|20)\d{2})\s*\)\s*$"
+)
+# AMC product/rerelease codes such as (2026BD). Not a film subtitle.
+_AMC_PRODUCT_CODE_PAREN_RE = re.compile(
+    r"\s*\(\s*((?:19|20)\d{2}[A-Z]{2,4})\s*\)\s*$",
+    re.IGNORECASE,
+)
+# Rules that clean search titles without implying event/presentation year semantics.
+YEAR_DECORATION_RULES = frozenset(
+    {
+        "film_year_paren",
+        "amc_product_code_paren",
+        "normalized_source_fallback",
+    }
+)
 _PRESENTATION_TOKEN_RE = re.compile(
     r"\b("
     r"anniversary|restoration|restored|remastered|re-?release|rerelease|"
@@ -177,6 +194,7 @@ class YearInterpretation:
     base_title: str | None = None
     event_year_not_canonical: bool = False
     anniversary_year_derived: bool = False
+    product_year_weak: bool = False
     warnings: tuple[str, ...] = ()
     removed_phrases: tuple[str, ...] = ()
     format_tags: tuple[str, ...] = ()
@@ -188,16 +206,35 @@ class YearInterpretation:
     applied_rules: tuple[str, ...] = ()
 
     def scoring_year(self) -> int | None:
-        """Year used for TMDB year comparison (never raw event year alone)."""
+        """Year used for TMDB year comparison (never raw event year alone).
+
+        Precedence:
+        1. explicit canonical/original year
+        2. anniversary-derived original year
+        3. title-embedded year
+        4. product/rerelease year only as weak evidence (mismatch is relaxed)
+        """
         if self.canonical_year_candidate is not None:
             return self.canonical_year_candidate
+        if self.product_year_weak:
+            return self.product_year
         if self.event_year_not_canonical:
             return None
         return self.product_year or (self.title_years[0] if self.title_years else None)
 
     def search_year(self) -> int | None:
-        """Optional year hint for TMDB search; omit when evidence is absent/uncertain."""
+        """Optional year hint for TMDB search; omit when evidence is absent/uncertain.
+
+        Product/rerelease years are weak: keep them for relaxed scoring, but do not
+        send them as a TMDB ``year`` filter (that hides the original film).
+        """
+        if self.product_year_weak:
+            return None
         return self.scoring_year()
+
+    def year_mismatch_relaxed(self) -> bool:
+        """True when a year mismatch must not become a hard conflict."""
+        return bool(self.event_year_not_canonical or self.product_year_weak)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -211,6 +248,8 @@ class YearInterpretation:
             "base_title": self.base_title,
             "event_year_not_canonical": self.event_year_not_canonical,
             "anniversary_year_derived": self.anniversary_year_derived,
+            "product_year_weak": self.product_year_weak,
+            "year_mismatch_relaxed": self.year_mismatch_relaxed(),
             "warnings": list(self.warnings),
             "scoring_year": self.scoring_year(),
             "search_year": self.search_year(),
@@ -241,7 +280,15 @@ def interpret_source_years(
     explicit_canonical_year: int | None = None,
     source: str | None = None,
 ) -> YearInterpretation:
-    """Separate event/presentation years from a canonical film year candidate."""
+    """Separate event/presentation years from a canonical film year candidate.
+
+    Scoring-year precedence:
+    1. explicit canonical/original year
+    2. anniversary-derived original year
+    3. title-embedded year (beats AMC product/rerelease year)
+    4. product year only when no stronger original-film evidence exists
+       (weak evidence; mismatches are relaxed, not hard conflicts)
+    """
     title = (source_title or "").strip()
     warnings: list[str] = []
     extracted = extract_match_title(title, source=source)
@@ -257,19 +304,24 @@ def interpret_source_years(
             warnings.append("implausible_anniversary_number")
             anniversary = None
 
+    meaningful_rules = [
+        rule
+        for rule in extracted.applied_rules
+        if rule not in YEAR_DECORATION_RULES
+    ]
     has_presentation = (
         bool(labels)
         or anniversary is not None
-        or bool(extracted.removed_phrases)
         or bool(extracted.program_series)
         or bool(extracted.applied_alias_id)
+        or bool(meaningful_rules)
     )
     event_year = None
-    if has_presentation and title_years:
-        # Prefer trailing / fest-associated year as event year.
-        event_year = title_years[-1]
-    elif has_presentation and product_year is not None:
+    if has_presentation and product_year is not None:
+        # Rerelease / fest / product year is event evidence on presentations.
         event_year = product_year
+    elif has_presentation and title_years:
+        event_year = title_years[-1]
 
     derived = None
     anniversary_derived = False
@@ -288,24 +340,44 @@ def interpret_source_years(
 
     canonical = explicit_canonical_year
     confidence = "none"
+    product_year_weak = False
     if canonical is not None:
         confidence = "explicit"
     elif derived is not None:
         canonical = derived
         confidence = "derived"
-    elif not has_presentation:
-        if product_year is not None:
-            canonical = product_year
-            confidence = "product"
-        elif title_years:
-            canonical = title_years[0]
+    elif title_years and not has_presentation:
+        # Title-embedded year beats AMC product/rerelease year.
+        canonical = title_years[0]
+        confidence = "title"
+    elif title_years and has_presentation:
+        original_from_title = [
+            year
+            for year in title_years
+            if year != event_year and year != product_year
+        ]
+        if original_from_title:
+            canonical = original_from_title[0]
             confidence = "title"
+    elif product_year is not None and not has_presentation:
+        # Product year only: keep as weak search/score hint; mismatches relax.
+        product_year_weak = True
+        confidence = "product"
+        warnings.append("product_year_weak_evidence")
 
     event_not_canonical = bool(
         has_presentation
         and event_year is not None
         and (canonical is None or event_year != canonical)
     )
+    if (
+        not has_presentation
+        and product_year is not None
+        and canonical is not None
+        and product_year != canonical
+    ):
+        event_year = event_year or product_year
+        event_not_canonical = True
     if event_not_canonical:
         warnings.append("event_year_not_canonical")
     if anniversary_derived:
@@ -329,6 +401,7 @@ def interpret_source_years(
         base_title=base,
         event_year_not_canonical=event_not_canonical,
         anniversary_year_derived=anniversary_derived,
+        product_year_weak=product_year_weak,
         warnings=tuple(dict.fromkeys(warnings)),
         removed_phrases=extracted.removed_phrases,
         format_tags=extracted.format_tags,
@@ -511,6 +584,21 @@ def extract_match_title(
             working = _cleanup_title_fragment(working[: trailing_year.start()])
             applied_rules.append("trailing_event_year")
             changed = True
+
+    # Search-title only: trailing film year and AMC product codes.
+    # Year evidence is retained separately in interpret_source_years.
+    product_code = _AMC_PRODUCT_CODE_PAREN_RE.search(working)
+    if product_code:
+        phrase = product_code.group(0).strip()
+        removed.append(phrase)
+        working = _cleanup_title_fragment(working[: product_code.start()])
+        applied_rules.append("amc_product_code_paren")
+    film_year_paren = _BARE_FILM_YEAR_PAREN_RE.search(working)
+    if film_year_paren:
+        phrase = film_year_paren.group(0).strip()
+        removed.append(phrase)
+        working = _cleanup_title_fragment(working[: film_year_paren.start()])
+        applied_rules.append("film_year_paren")
 
     labels = _presentation_labels(original)
     for item in event_labels + format_tags:
