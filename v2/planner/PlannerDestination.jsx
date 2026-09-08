@@ -13,6 +13,7 @@ import {
   IconConflict,
   IconSparkle,
 } from '../icons.jsx';
+import PageHeader from '../shell/PageHeader.jsx';
 import {
   getPlannerLandingMockupPresentation,
   isPlannerMockupMode,
@@ -411,22 +412,25 @@ export default function PlannerDestination({
       data-planner-tab={activeTab}
       data-planner-timeline-expanded={timelineExpanded ? 'true' : 'false'}
     >
-      <header className="v2-planner-page-header" data-planner-section="header">
-        <div className="v2-planner-header-text">
-          <h1 id="v2-planner-title" className="v2-planner-title">
-            {pageTitle}
-          </h1>
-          <p className="v2-planner-tagline">{pageTagline}</p>
-        </div>
-        <button
-          type="button"
-          className="v2-planner-build-btn"
-          onClick={openBuild}
-        >
-          <IconSparkle width={14} height={14} aria-hidden="true" />
-          <span>Build a Plan</span>
-        </button>
-      </header>
+      <PageHeader
+        className="v2-planner-page-header"
+        data-planner-section="header"
+        title={pageTitle}
+        subtitle={pageTagline}
+        titleId="v2-planner-title"
+        titleClassName="v2-planner-title"
+        subtitleClassName="v2-planner-tagline"
+        action={
+          <button
+            type="button"
+            className="v2-planner-build-btn"
+            onClick={openBuild}
+          >
+            <IconSparkle width={14} height={14} aria-hidden="true" />
+            <span>Build a Plan</span>
+          </button>
+        }
+      />
 
       {plannerSeed ? (
         <div className="v2-planner-seed-note" role="status">

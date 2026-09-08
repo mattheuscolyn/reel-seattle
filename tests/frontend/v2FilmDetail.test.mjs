@@ -234,9 +234,11 @@ test('v1 remains unaffected by Film Detail fixtures', () => {
   assert.equal(V1_APP.includes('v2-fd-mockup'), false);
 });
 
-test('Film Detail keeps Explore-active chrome', () => {
-  assert.ok(APP.includes("? 'explore'"));
-  assert.ok(APP.includes('v2-shell-fd'));
+test('Film Detail chrome keeps the originating primary tab', () => {
+  const shell = readFileSync(join(ROOT, 'v2/shell/AppShell.jsx'), 'utf8');
+  assert.ok(APP.includes('resolveActivePrimaryId'));
+  assert.ok(APP.includes('filmDetail={isFilmDetail}'));
+  assert.ok(shell.includes('v2-shell-fd'));
 });
 
 test('Back from Film Detail restores prior surface in nav state', () => {

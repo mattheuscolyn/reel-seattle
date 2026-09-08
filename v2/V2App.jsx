@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import DestinationPlaceholder from './DestinationPlaceholder.jsx';
 import AppHeader from './home/AppHeader.jsx';
+import AppShell from './shell/AppShell.jsx';
 import PrimaryNav from './PrimaryNav.jsx';
 import {
   originBackLabel,
   resolveActivePrimaryId,
   resolveDestinationId,
+  resolveHeaderBackLabel,
 } from './destinations.js';
 import {
   clearAuthSensitiveTabState,
   createEmptyTabSessions,
   openPrimaryTabRoot,
+  resolvePrimaryTabGesture,
   switchPrimaryTab,
 } from './navigation/primaryTabSessions.js';
 import { loadHomeData } from './data/loadHomeData.js';
@@ -580,11 +583,8 @@ export default function V2App() {
   const handleSelectDestination = useCallback((destinationId) => {
     const current = navRef.current;
     const targetId = resolveDestinationId(destinationId);
-    const chromeActive =
-      current.surface?.type === 'film-detail'
-        ? 'explore'
-        : resolveActivePrimaryId(current);
-    if (targetId === chromeActive) {
+    const gesture = resolvePrimaryTabGesture(current, targetId);
+    if (gesture === 'noop') {
       return;
     }
 
@@ -593,11 +593,10 @@ export default function V2App() {
     setShareStatus(null);
     setProfileStubStatus(null);
 
-    const { nav: nextNav, sessions } = switchPrimaryTab(
-      current,
-      tabSessionsRef.current,
-      targetId,
-    );
+    const { nav: nextNav, sessions } =
+      gesture === 'open-root'
+        ? openPrimaryTabRoot(current, tabSessionsRef.current, targetId)
+        : switchPrimaryTab(current, tabSessionsRef.current, targetId);
     tabSessionsRef.current = sessions;
     setNav(nextNav);
     window.scrollTo(0, 0);
@@ -1027,9 +1026,6 @@ export default function V2App() {
   const isProfileFriends = nav.surface?.type === PROFILE_FRIENDS_SURFACE_TYPE;
   const isFriendInviteLanding =
     nav.surface?.type === FRIEND_INVITE_LANDING_SURFACE_TYPE;
-  const isPersonalCollection =
-    nav.surface?.type === 'collection' &&
-    isPersonalCollectionId(nav.surface.collectionId);
   const isTheaterDetail = nav.surface?.type === 'theater-detail';
   const isFilmDetail = nav.surface?.type === 'film-detail';
   const isOpportunityDetail = nav.surface?.type === 'opportunity-detail';
@@ -1052,10 +1048,7 @@ export default function V2App() {
     isBuildPlanResults ||
     isBuildPlanPlanDetails;
 
-  // Film Detail keeps Explore active in bottom nav (approved chrome).
-  const activePrimaryId = isFilmDetail
-    ? 'explore'
-    : resolveActivePrimaryId(nav);
+  const activePrimaryId = resolveActivePrimaryId(nav);
 
   const filmKey = isFilmDetail ? nav.surface.filmKey : null;
   const filmOpportunityKey = isFilmDetail
@@ -1096,6 +1089,9 @@ export default function V2App() {
           nav.surface.returnSurface ?? null,
         )
     : null;
+  const headerBackLabel = resolveHeaderBackLabel(nav, {
+    filmBackLabel,
+  });
 
   const filmDetailMode = isFilmDetail
     ? isFilmDetailMockupFixtureMode()
@@ -1922,122 +1918,71 @@ export default function V2App() {
   );
 
   return (
-    <div
-      className={
-        [
-          isFilmDetail ? 'v2-shell v2-shell-fd' : 'v2-shell',
-          notificationsOpen ? 'v2-shell-with-notifications' : '',
-        ]
-          .filter(Boolean)
-          .join(' ')
+    <AppShell
+      filmDetail={isFilmDetail}
+      notificationsOpen={notificationsOpen}
+      header={
+        <AppHeader
+          onProfileClick={() => handleSelectDestination('profile')}
+          showNotificationsBell={notificationBell.visible}
+          hasUnreadNotifications={notificationBell.hasUnread}
+          onNotificationsOpen={handleOpenNotifications}
+          headerMode={
+            isBuildPlanPlanDetails
+              ? 'plan-details'
+              : isBuildPlanChrome
+                ? 'build-plan'
+                : isProfilePrimary
+                  ? 'profile'
+                  : 'default'
+          }
+          centerTitle={isBuildPlanPlanDetails ? 'Plan Details' : null}
+          variant={isFilmDetail ? 'film-detail' : 'default'}
+          backLabel={headerBackLabel}
+          onBack={headerBackLabel ? handleBack : null}
+          shareTitle={isFilmDetail ? null : filmTitle}
+          shareStatus={isFilmDetail ? null : shareStatus}
+          savePressed={false}
+          saveAvailable={false}
+          saveLabel="Save"
+          onSave={null}
+          onShare={
+            isFilmDetail
+              ? null
+              : isBuildPlanPlanDetails && planDetailsShareHandler
+                ? () => planDetailsShareHandler()
+              : isBuildPlanResults && resultsShareHandler
+                ? () => resultsShareHandler()
+                : null
+          }
+        />
+      }
+      nav={
+        isAdminTmdbReview ? null : (
+          <PrimaryNav
+            activeDestinationId={activePrimaryId}
+            onSelectDestination={handleSelectDestination}
+          />
+        )
+      }
+      overlay={
+        notificationsOpen && notificationBell.visible ? (
+          <NotificationsSheet
+            items={notificationItems}
+            source={notificationsData.source}
+            onClose={handleCloseNotifications}
+            onMarkAllRead={handleMarkAllNotificationsRead}
+            onOpenNotification={handleOpenNotification}
+          />
+        ) : null
       }
     >
-      <span className="v2-visually-hidden">Local only</span>
-
-      <div inert={notificationsOpen || undefined}>
-      <AppHeader
-        onProfileClick={() => handleSelectDestination('profile')}
-        showNotificationsBell={notificationBell.visible}
-        hasUnreadNotifications={notificationBell.hasUnread}
-        onNotificationsOpen={handleOpenNotifications}
-        headerMode={
-          isBuildPlanPlanDetails
-            ? 'plan-details'
-            : isBuildPlanChrome
-              ? 'build-plan'
-              : isProfilePrimary
-                ? 'profile'
-                : 'default'
-        }
-        centerTitle={isBuildPlanPlanDetails ? 'Plan Details' : null}
-        variant={isFilmDetail ? 'film-detail' : 'default'}
-        backLabel={
-          isFilmDetail
-            ? filmBackLabel
-            : isShowtimes
-              ? 'Film'
-              : isShowtimesBrowse
-              ? nav.surface.originPrimary === 'home'
-                ? 'Home'
-                : 'Explore'
-              : isSearchResults
-                ? 'Explore'
-                : isPersonalCollection
-                  ? originBackLabel(nav.surface.originPrimary)
-                : isProfileSettings
-                  ? originBackLabel(nav.surface.originPrimary)
-                : isProfileFriends
-                  ? originBackLabel(nav.surface.originPrimary)
-                : isFriendInviteLanding
-                  ? originBackLabel(nav.surface.originPrimary, 'Home')
-                : isBuildPlanPlanDetails
-                  ? nav.surface?.returnSurface?.type === 'build-plan-results'
-                    ? 'results'
-                    : 'Planner'
-                  : isBuildPlanChrome
-                    ? 'Planner'
-                    : null
-        }
-        backStyle={
-          isPersonalCollection || isBuildPlanChrome ? 'chevron' : 'label'
-        }
-        onBack={
-          isFilmDetail ||
-          isShowtimes ||
-          isSearchResults ||
-          isPersonalCollection ||
-          isBuildPlanChrome ||
-          isShowtimesBrowse ||
-          isProfileSettings ||
-          isProfileFriends ||
-          isFriendInviteLanding
-            ? handleBack
-            : null
-        }
-        shareTitle={isFilmDetail ? null : filmTitle}
-        shareStatus={isFilmDetail ? null : shareStatus}
-        savePressed={false}
-        saveAvailable={false}
-        saveLabel="Save"
-        onSave={null}
-        onShare={
-          isFilmDetail
-            ? null
-            : isBuildPlanPlanDetails && planDetailsShareHandler
-              ? () => planDetailsShareHandler()
-            : isBuildPlanResults && resultsShareHandler
-              ? () => resultsShareHandler()
-              : null
-        }
-      />
-
-      <main className="v2-main" id="v2-main">
-        {mainContent}
-      </main>
-
+      {mainContent}
       {profileStubStatus ? (
         <p className="v2-visually-hidden" role="status" aria-live="polite">
           {profileStubStatus}
         </p>
       ) : null}
-
-      {isAdminTmdbReview ? null : (
-        <PrimaryNav
-          activeDestinationId={activePrimaryId}
-          onSelectDestination={handleSelectDestination}
-        />
-      )}
-      </div>
-
-      {notificationsOpen && notificationBell.visible ? (
-        <NotificationsSheet
-          items={notificationItems}
-          source={notificationsData.source}
-          onClose={handleCloseNotifications}
-          onMarkAllRead={handleMarkAllNotificationsRead}
-          onOpenNotification={handleOpenNotification}
-        />
-      ) : null}
-    </div>
+    </AppShell>
   );
 }

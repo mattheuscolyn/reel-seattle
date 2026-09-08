@@ -10,7 +10,6 @@ export default function OpportunityDetailSurface({
   homeData,
   filmKey,
   opportunityKey,
-  onBack,
 }) {
   const film = resolveFilm(homeData, filmKey);
   const opportunity =
@@ -24,9 +23,6 @@ export default function OpportunityDetailSurface({
 
   return (
     <section className="v2-opp" aria-labelledby="v2-opp-title">
-      <button type="button" className="v2-film-detail-back" onClick={onBack}>
-        ← Back
-      </button>
       <p className="v2-destination-eyebrow">Opportunity · scaffold</p>
       <h1 id="v2-opp-title">{film?.title ?? 'Opportunity'}</h1>
 

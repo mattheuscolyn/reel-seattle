@@ -51,6 +51,22 @@ export function resolveOwningPrimaryTab(nav) {
 }
 
 /**
+ * How a bottom-nav tap should be handled.
+ * Nested surfaces that keep their origin selected must still reveal that
+ * destination's root when the matching tab is tapped.
+ *
+ * @returns {'noop' | 'open-root' | 'switch'}
+ */
+export function resolvePrimaryTabGesture(nav, destinationId) {
+  const targetId = resolveDestinationId(destinationId);
+  const owningId = resolveOwningPrimaryTab(nav);
+  if (targetId === owningId) {
+    return nav?.surface ? 'open-root' : 'noop';
+  }
+  return 'switch';
+}
+
+/**
  * @param {object} value
  * @returns {object}
  */
@@ -105,7 +121,8 @@ export function navFromTabSession(session, fallbackPrimaryId) {
 
 /**
  * Suspend the current owning tab and resume the target tab's last session.
- * Caller should no-op before calling when the chrome-active tab is re-tapped.
+ * Re-tapping the owning tab while a nested surface is open should use
+ * openPrimaryTabRoot instead so the destination root becomes visible.
  *
  * @param {object} nav
  * @param {Record<string, PrimaryTabSession | null>} sessions

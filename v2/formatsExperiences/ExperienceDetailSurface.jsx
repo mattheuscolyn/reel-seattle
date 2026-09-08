@@ -10,7 +10,6 @@ import {
   IconLink,
   IconMusic,
 } from '../icons.jsx';
-import BackButton from './BackButton.jsx';
 import {
   AvailabilitySummary,
   DetailInfoCard,
@@ -37,7 +36,6 @@ const HERO_ICONS = {
 export default function ExperienceDetailSurface({
   experienceId,
   homeData = null,
-  onBack,
   onBrowseShowtimes,
   onFeedback,
 }) {
@@ -50,7 +48,6 @@ export default function ExperienceDetailSurface({
   if (!detail) {
     return (
       <div className="v2-fe-page">
-        <BackButton onClick={onBack} />
         <p role="status">Experience not found.</p>
       </div>
     );
@@ -64,8 +61,6 @@ export default function ExperienceDetailSurface({
       data-fe-source="experience-detail"
       data-fe-experience-id={detail.id}
     >
-      <BackButton onClick={onBack} />
-
       <header className="v2-fe-exp-hero">
         <span className="v2-fe-exp-hero-icon" aria-hidden="true">
           <HeroIcon width={44} height={44} />

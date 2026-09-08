@@ -145,7 +145,7 @@ test('V2App opens sheet from bell and marks read before Film Detail', () => {
   assert.match(APP, /handleOpenNotification/);
   assert.match(APP, /markNotificationReadInOverrides/);
   assert.match(APP, /handleOpenFilmDetail/);
-  assert.match(APP, /inert=\{notificationsOpen/);
+  assert.match(APP, /notificationsOpen=\{notificationsOpen\}/);
   assert.match(APP, /onNotificationsOpen=\{handleOpenNotifications\}/);
 });
 

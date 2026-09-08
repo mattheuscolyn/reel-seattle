@@ -35,6 +35,7 @@ import { profileIsAdmin } from '../admin/tmdbReview/sourceIdentity.js';
 import { COLLECTION_IDS } from '../explore/exploreIds.js';
 import { subscribeFavoriteTheaters } from '../stores/favoriteTheatersStore.js';
 import ProfileFriendsPreview from '../friends/ProfileFriendsPreview.jsx';
+import PageHeader from '../shell/PageHeader.jsx';
 
 function getBrowserStorage() {
   try {
@@ -183,12 +184,14 @@ export default function ProfileDestination({
       data-profile-source={presentation.source}
       data-profile-identity={identity.mode}
     >
-      <header className="v2-profile-page-header">
-        <h1 id="v2-profile-title" className="v2-profile-title">
-          {pageTitle}
-        </h1>
-        <p className="v2-profile-tagline">{pageTagline}</p>
-      </header>
+      <PageHeader
+        className="v2-profile-page-header"
+        title={pageTitle}
+        subtitle={pageTagline}
+        titleId="v2-profile-title"
+        titleClassName="v2-profile-title"
+        subtitleClassName="v2-profile-tagline"
+      />
 
       <div className="v2-profile-identity" data-profile-section="identity">
         {identity.mode === 'loading' ? (
@@ -199,7 +202,7 @@ export default function ProfileDestination({
           >
             <div className="v2-profile-avatar v2-profile-avatar-skeleton" />
             <div className="v2-profile-identity-copy">
-              <p className="v2-profile-name">Profile</p>
+              <p className="v2-profile-name">Guest</p>
               <p className="v2-profile-location">Checking account…</p>
             </div>
           </div>
@@ -224,7 +227,7 @@ export default function ProfileDestination({
             </div>
             <div className="v2-profile-identity-copy">
               <p className="v2-profile-name">
-                {identity.displayName ?? 'Profile'}
+                {identity.displayName ?? 'Guest'}
               </p>
               {identity.secondaryLabel ? (
                 <p className="v2-profile-location">{identity.secondaryLabel}</p>

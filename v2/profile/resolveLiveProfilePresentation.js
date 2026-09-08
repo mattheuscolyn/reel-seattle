@@ -82,7 +82,7 @@ export function resolveLiveProfilePresentation(options = {}) {
       pageTagline: 'Your moviegoing, your way.',
       identity: {
         ...emptyIdentity(status === 'loading' ? 'loading' : 'unconfigured'),
-        displayName: status === 'unconfigured' ? 'Profile' : null,
+        displayName: status === 'unconfigured' ? 'Guest' : null,
         secondaryLabel:
           status === 'unconfigured'
             ? 'Account sign-in is not configured in this build.'
@@ -106,7 +106,7 @@ export function resolveLiveProfilePresentation(options = {}) {
       pageTagline: 'Your moviegoing, your way.',
       identity: {
         mode: reconnect ? 'error' : 'signed_out',
-        displayName: 'Profile',
+        displayName: 'Guest',
         initials: null,
         avatarUrl: null,
         email: null,

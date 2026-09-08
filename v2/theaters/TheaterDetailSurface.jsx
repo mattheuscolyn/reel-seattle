@@ -72,10 +72,8 @@ function getBrowserStorage() {
  */
 export default function TheaterDetailSurface({
   theaterId,
-  backLabel,
   homeData = null,
   enrichmentIndex = null,
-  onBack,
   onOpenFilmDetail,
   onOpenShowtimesBrowse,
   onStubAction,
@@ -146,7 +144,6 @@ export default function TheaterDetailSurface({
     (group) => screenTabId === 'all' || group.id === screenTabId,
   );
 
-  const resolvedBackLabel = backLabel ?? presentation.backLabel;
   const sections = presentation.sectionsVisible ?? {
     address: Boolean(presentation.addressLabel),
     website: Boolean(presentation.websiteUrl),
@@ -173,14 +170,6 @@ export default function TheaterDetailSurface({
         data-theater-detail-source={presentation.source}
         data-theater-detail-state="not-found"
       >
-        <button
-          type="button"
-          className="v2-td-back"
-          aria-label={`Back to ${resolvedBackLabel}`}
-          onClick={onBack}
-        >
-          ← {resolvedBackLabel}
-        </button>
         <header className="v2-td-header">
           <h1 id="v2-td-title" className="v2-td-title">
             {presentation.notFoundTitle}
@@ -197,15 +186,6 @@ export default function TheaterDetailSurface({
       aria-labelledby="v2-td-title"
       data-theater-detail-source={presentation.source}
     >
-      <button
-        type="button"
-        className="v2-td-back"
-        aria-label={`Back to ${resolvedBackLabel}`}
-        onClick={onBack}
-      >
-        ← {resolvedBackLabel}
-      </button>
-
       <div className="v2-td-hero" data-td-section="hero">
         <TheaterVenueImage
           src={presentation.heroImageUrl}

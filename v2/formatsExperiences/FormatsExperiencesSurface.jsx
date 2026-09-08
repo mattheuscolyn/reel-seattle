@@ -10,7 +10,6 @@ import {
   IconMusic,
   IconSliders,
 } from '../icons.jsx';
-import BackButton from './BackButton.jsx';
 import { useInitialHeadingFocus } from './DetailParts.jsx';
 import { FormatTile } from './FormatTile.jsx';
 import { composeFormatsExperiencesLanding } from './composeFormatsExperiencesPresentation.js';
@@ -31,7 +30,6 @@ const EXPERIENCE_ICONS = {
  */
 export default function FormatsExperiencesSurface({
   homeData = null,
-  onBack,
   onOpenFormatDetail,
   onOpenExperienceDetail,
 }) {
@@ -99,8 +97,6 @@ export default function FormatsExperiencesSurface({
       data-fe-source="formats-experiences"
       data-fe-section-root="landing"
     >
-      <BackButton onClick={onBack} />
-
       <header className="v2-fe-page-header" data-fe-section="header">
         <h1
           ref={headingRef}

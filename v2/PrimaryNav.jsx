@@ -5,7 +5,7 @@ import {
 import { NavDestinationIcon } from './icons.jsx';
 
 /**
- * Five-destination bottom navigation (Home mockup direction).
+ * Four-destination bottom navigation: Home · Explore · Planner · Profile.
  *
  * @param {{
  *   activeDestinationId: string,
