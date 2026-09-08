@@ -204,6 +204,9 @@ jobs:
             --from-dir film-identity-match-package
           python scripts/validate_film_identity.py --require-generated
 
+      - name: Re-attach public film_ids on existing current artifact
+        run: python scripts/attach_public_film_ids.py --write
+
       - name: Commit and push catalog updates
         run: |
           set -euo pipefail
@@ -213,7 +216,9 @@ jobs:
             data/film_identity/film_identity_catalog.json \
             data/film_identity/tmdb_match_review_queue.json \
             data/audits/tmdb_film_identity_coverage.json \
-            data/audits/tmdb_film_identity_match_summary.md
+            data/audits/tmdb_film_identity_match_summary.md \
+            data/audits/tmdb_public_identity_emit.json \
+            public/data/showtimes_current.json
           if git diff --cached --quiet; then
             echo "No catalog changes to commit."
             exit 0
@@ -259,6 +264,9 @@ jobs:
             --from-dir film-identity-match-package
           python scripts/validate_film_identity.py --require-generated
 
+      - name: Re-attach public film_ids on existing current artifact
+        run: python scripts/attach_public_film_ids.py --write
+
       - name: Create pull request
         env:
           GH_TOKEN: ${{ github.token }}
@@ -276,7 +284,9 @@ jobs:
             data/film_identity/film_identity_catalog.json \
             data/film_identity/tmdb_match_review_queue.json \
             data/audits/tmdb_film_identity_coverage.json \
-            data/audits/tmdb_film_identity_match_summary.md
+            data/audits/tmdb_film_identity_match_summary.md \
+            data/audits/tmdb_public_identity_emit.json \
+            public/data/showtimes_current.json
           if git diff --cached --quiet; then
             echo "No generated identity changes to persist."
             exit 0
@@ -301,7 +311,8 @@ jobs:
             echo
             echo "Live TMDB film-identity match artifacts from workflow run \`${GITHUB_RUN_ID}\`."
             echo
-            echo "- No public identity emission"
+            echo "- Public \`showtimes_current.json\` film_id values re-attached from the new catalog"
+            echo "- No scrape or showtime-identity rewrite"
             echo "- No UI activation"
             echo "- No enrichment activation"
             echo "- No store migration"

@@ -105,13 +105,23 @@ Named constants in `reel_seattle/film_identity/constants.py`:
 
 Missing year + multiple same-title TMDB hits → review (ambiguity). Missing year + exact title + compatible runtime with no competing remake → may auto-confirm.
 
+**Scoring-year precedence (do not collapse these fields early):**
+
+1. Explicit canonical/original year
+2. Anniversary-derived original year
+3. Title-embedded year (beats AMC product/rerelease year)
+4. Product year only when no stronger original-film evidence exists (weak; mismatch is relaxed)
+
+TMDB `runtime == 0` is missing evidence, not a zero-minute film.
+
 **Search-title preparation precedence:**
 
 1. Exact reviewed aliases — `data/film_identity/title_search_aliases.json`
 2. Registered program-series prefixes — `data/film_identity/program_series_prefixes.json` (prefer source-scoped)
 3. Recognized complete event suffixes (Fan Event / Early Access / bonus performance phrases)
 4. Format / accessibility / anniversary presentation stripping
-5. Normalized source-title fallback
+5. Trailing film-year decoration `(1989)` and narrow AMC product codes `(2026BD)` — year evidence is retained separately
+6. Normalized source-title fallback
 
 Original source titles remain for display, tickets, and cockpit diagnostics.
 
@@ -128,6 +138,7 @@ Eligible for TMDB movie search when the title/context does **not** indicate:
 - mystery / unannounced screenings (e.g. Screen Unseen)  
 - shorts blocks / festivals as programs  
 - double features (as a unit)  
+- obvious multi-title `A + B` composite programs (not every title containing `+`)  
 - live events / NT Live / concerts / sports  
 - clearly non-film programs  
 

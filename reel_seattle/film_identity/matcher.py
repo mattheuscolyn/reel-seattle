@@ -85,13 +85,19 @@ def match_source_identity(
     else:
         year_info = interpret_source_years(
             source_title=identity.get("source_title"),
-            explicit_canonical_year=identity.get("release_year") or identity.get("year_hint"),
+            product_year=identity.get("release_year") or identity.get("year_hint"),
             source=identity.get("source"),
         ).to_dict()
     scoring_year = year_info.get("scoring_year")
-    if scoring_year is None:
+    if scoring_year is None and not (
+        year_info.get("event_year_not_canonical") or year_info.get("product_year_weak")
+    ):
         scoring_year = identity.get("release_year") or identity.get("year_hint")
-    event_relaxed = bool(year_info.get("event_year_not_canonical"))
+    event_relaxed = bool(
+        year_info.get("year_mismatch_relaxed")
+        or year_info.get("event_year_not_canonical")
+        or year_info.get("product_year_weak")
+    )
     directors_normalized = identity.get("directors_normalized") or parse_person_names(
         identity.get("directors_raw")
     )
@@ -268,8 +274,14 @@ def match_source_identity(
         }
 
     try:
-        # Prefer canonical/scoring year for search; never send raw event year alone.
-        year = scoring_year if isinstance(scoring_year, int) else None
+        # Prefer search_year (canonical/title/derived). Omit weak product years.
+        search_year = year_info.get("search_year")
+        if isinstance(search_year, int):
+            year = search_year
+        elif event_relaxed:
+            year = None
+        else:
+            year = scoring_year if isinstance(scoring_year, int) else None
         search = client.search_movie(str(search_title), year=year)
         results = [
             candidate_from_search_result(row)

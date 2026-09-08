@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 from pathlib import Path
 
@@ -13,7 +12,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from reel_seattle.film_identity.public_emit import (  # noqa: E402
-    attach_public_film_ids,
+    reattach_public_film_ids_current,
     write_identity_emit_report,
 )
 from reel_seattle.validate import PROJECT_ROOT as ROOT  # noqa: E402
@@ -27,30 +26,41 @@ def main() -> int:
         default=ROOT / "public" / "data" / "showtimes_current.json",
     )
     parser.add_argument(
+        "--catalog",
+        type=Path,
+        default=None,
+        help="Optional identity catalog path (defaults to the generated catalog).",
+    )
+    parser.add_argument(
+        "--report",
+        type=Path,
+        default=None,
+        help="Optional emit-report path.",
+    )
+    parser.add_argument(
         "--write",
         action="store_true",
         help="Write film_id onto the showtimes artifact (default: report only).",
     )
     args = parser.parse_args()
 
-    with args.showtimes.open(encoding="utf-8") as handle:
-        doc = json.load(handle)
-    films = list(doc.get("films") or [])
-    showtimes = list(doc.get("showtimes") or [])
-    report = attach_public_film_ids(films, showtimes)
-    report_path = write_identity_emit_report(report)
+    result = reattach_public_film_ids_current(
+        showtimes_path=args.showtimes,
+        catalog_path=args.catalog,
+        report_path=args.report,
+        write=args.write,
+    )
+    report = result["report"]
+    report_path = args.report
+    if not args.write:
+        report_path = write_identity_emit_report(report, path=args.report)
     print(
         f"films={report['total_public_films']} "
         f"with_film_id={report['non_null_film_id']} "
         f"coverage={report['coverage_rate']:.3f} "
-        f"report={report_path}"
+        f"report={report_path or 'written-with-showtimes'}"
     )
     if args.write:
-        doc["films"] = films
-        args.showtimes.write_text(
-            json.dumps(doc, indent=2, ensure_ascii=False) + "\n",
-            encoding="utf-8",
-        )
         print(f"wrote {args.showtimes}")
     return 0
 

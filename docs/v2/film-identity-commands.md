@@ -109,7 +109,8 @@ The cockpit does **not** read GitHub Actions artifacts automatically.
 | Mode | Behavior |
 |------|----------|
 | `artifact-only` (default) | Match + validate + upload review package; no branch/PR |
-| `create-pr` | After a successful match job, open a PR with generated identity artifacts only |
+| `create-pr` | After a successful match job, open a PR with generated identity artifacts plus same-day `showtimes_current.json` film_id re-attach |
+| `commit-main` | Scheduled persist: catalog/review artifacts plus same-day public film_id re-attach from the existing current artifact (no rescrape) |
 
 ### Cache
 
