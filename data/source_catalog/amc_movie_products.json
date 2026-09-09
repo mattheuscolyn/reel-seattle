@@ -1,19 +1,19 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-08T03:24:12-07:00",
+  "generated_at": "2026-09-09T03:34:04-07:00",
   "source": "amc",
   "stats": {
-    "products": 246,
-    "active_products": 99,
-    "inactive_products": 147,
-    "with_release_id": 238,
+    "products": 256,
+    "active_products": 105,
+    "inactive_products": 151,
+    "with_release_id": 248,
     "without_release_id": 8,
     "refresh_pending": 0,
-    "refresh_success": 246,
+    "refresh_success": 256,
     "refresh_stale": 0,
     "refresh_failed": 0,
     "refresh_invalid": 0,
-    "special_presentations": 124
+    "special_presentations": 126
   },
   "products": [
     {
@@ -66,9 +66,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-13T00:17:45-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -140,9 +140,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -208,9 +208,79 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-07-30T01:12:21-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "71470",
+      "source_release_id": "390767",
+      "source_title": "Forgotten Island",
+      "sortable_title": "Forgotten Island",
+      "runtime_min": 109,
+      "release_date_utc": "2026-09-25T05:00:00Z",
+      "earliest_showing_utc": "2026-09-24T13:15:00Z",
+      "online_ticket_availability_date_utc": "2026-09-25T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "ANIMATION",
+      "mpaa_rating": "PG",
+      "starring_actors_raw": "H.E.R., LIZA SOBERANO",
+      "directors_raw": "JANUEL MERCADO, JOEL CRAWFORD",
+      "synopsis": "AMC has been advised that this film contains sequences with flashing lights that may affect photosensitive viewers.\nYour best friendship is worth fighting for.",
+      "distributor_id": "2284",
+      "distributor_code": "UI",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "forgotten-island-71470",
+      "website_url": "https://www.amctheatres.com/movies/forgotten-island-71470",
+      "showtimes_url": "https://www.amctheatres.com/movies/forgotten-island-71470/showtimes",
+      "attribute_codes": [
+        "4DX",
+        "AMCPRIME",
+        "BIGD",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBY3D",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
+        "OPENCAPTION",
+        "PRIME3D",
+        "PRIVATE",
+        "REALD3D",
+        "SCREENX",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1782224198/amc-cdn/content/general/yogoy3nb7hwcrzsjzapd.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1782818298/amc-cdn/production/2/movies/71500/71470/MovieStills/390767R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1782818298/amc-cdn/production/2/movies/71500/71470/MovieStills/390767R9.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6391662164112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6391662164112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -277,9 +347,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-13T00:17:45-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -425,9 +495,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-07-15T00:55:22-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -495,9 +565,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-07-15T00:55:22-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -555,9 +625,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-07-30T01:12:21-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -695,9 +765,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -762,9 +832,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-06T01:21:59-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -894,9 +964,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-27T10:12:44-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -1098,9 +1168,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-07-16T01:01:02-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -1228,7 +1298,7 @@
         "last_seen_at": "2026-09-08T03:23:12-07:00",
         "last_refreshed_at": "2026-09-08T03:24:12-07:00",
         "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-09-09T03:34:04-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -1294,9 +1364,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -1347,7 +1417,7 @@
         "XL"
       ],
       "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1787671058/amc-cdn/content/general/mcnyjtaodsfmbpxdtfu6.jpg",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788888013/amc-cdn/content/general/jfgvxretdi3pgqmcbsdj.jpg",
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1782818253/amc-cdn/production/2/movies/79900/79853/MovieStills/380866R4.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1782818253/amc-cdn/production/2/movies/79900/79853/MovieStills/380866R4.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6403214191112.mp4",
@@ -1360,9 +1430,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-05T02:46:04-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -1925,9 +1995,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2169,7 +2239,7 @@
         "last_seen_at": "2026-09-08T03:23:12-07:00",
         "last_refreshed_at": "2026-09-08T03:24:12-07:00",
         "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-09-09T03:34:04-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -2232,9 +2302,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2297,9 +2367,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-19T23:34:39-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2489,9 +2559,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2553,9 +2623,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2617,9 +2687,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2681,9 +2751,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2723,6 +2793,7 @@
       "attribute_codes": [
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
+        "MOMMYME",
         "OPENCAPTION",
         "PRIVATE",
         "XL"
@@ -2741,9 +2812,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-13T00:17:45-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2863,9 +2934,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-17T23:31:09-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2923,9 +2994,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-27T10:12:44-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -3046,9 +3117,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -3112,9 +3183,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -3647,9 +3718,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-06T01:21:59-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -3764,9 +3835,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-02T03:20:52-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -3882,9 +3953,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -4001,9 +4072,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-13T00:17:45-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -4249,9 +4320,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -4374,9 +4445,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -4490,9 +4561,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -4514,7 +4585,7 @@
       "sortable_title": "Runner",
       "runtime_min": 97,
       "release_date_utc": "2026-09-11T05:00:00Z",
-      "earliest_showing_utc": "2026-09-10T11:00:00Z",
+      "earliest_showing_utc": "2026-09-10T10:10:00Z",
       "online_ticket_availability_date_utc": "2026-09-11T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ACTION",
@@ -4549,9 +4620,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-27T10:12:44-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -4611,9 +4682,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-27T10:12:44-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -4755,7 +4826,7 @@
       "sortable_title": "Mighty Mary",
       "runtime_min": 99,
       "release_date_utc": "2026-09-11T05:00:00Z",
-      "earliest_showing_utc": "2026-09-11T18:00:00Z",
+      "earliest_showing_utc": "2026-09-11T10:30:00Z",
       "online_ticket_availability_date_utc": "2026-09-11T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DOCUMENTARY",
@@ -4785,9 +4856,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-01T03:55:21-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -4848,9 +4919,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-24T23:34:49-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -5699,9 +5770,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-06T01:21:59-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -5928,9 +5999,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-01T03:55:21-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -5989,9 +6060,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-27T10:12:44-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -6354,9 +6425,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -6720,9 +6791,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-01T03:55:21-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -6856,7 +6927,7 @@
       "sortable_title": "Passion of the Christ, The (2026 Event)",
       "runtime_min": 127,
       "release_date_utc": "2026-09-10T05:00:00Z",
-      "earliest_showing_utc": "2026-09-10T15:15:00Z",
+      "earliest_showing_utc": "2026-09-10T12:30:00Z",
       "online_ticket_availability_date_utc": "2026-09-10T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -6896,9 +6967,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-27T10:12:44-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -7077,9 +7148,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-27T10:12:44-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -7219,7 +7290,7 @@
       "sortable_title": "Hope",
       "runtime_min": 157,
       "release_date_utc": "2026-09-09T05:00:00Z",
-      "earliest_showing_utc": "2026-09-09T10:15:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-09-09T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "SUSPENSE",
@@ -7258,9 +7329,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-27T10:12:44-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -7624,9 +7695,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-20T23:35:10-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -7927,9 +7998,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-24T23:34:49-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -8217,9 +8288,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-19T23:34:39-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -8459,9 +8530,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-31T05:21:01-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -8579,9 +8650,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -8644,9 +8715,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -8709,9 +8780,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -8775,9 +8846,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -8841,9 +8912,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -8897,9 +8968,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -8963,9 +9034,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -9029,9 +9100,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -9092,9 +9163,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -9281,9 +9352,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -9344,9 +9415,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -9583,9 +9654,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-02T03:20:52-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -9643,9 +9714,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-20T23:35:10-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -10135,7 +10206,7 @@
       "sortable_title": "Heaven in Stone and Glass",
       "runtime_min": 98,
       "release_date_utc": "2026-09-20T05:00:00Z",
-      "earliest_showing_utc": "2026-09-20T19:00:00Z",
+      "earliest_showing_utc": "2026-09-20T18:45:00Z",
       "online_ticket_availability_date_utc": "2026-09-20T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DOCUMENTARY",
@@ -10176,9 +10247,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -10200,7 +10271,7 @@
       "sortable_title": "MST3K: The RiffTrax Experiments - Sting of Death",
       "runtime_min": 100,
       "release_date_utc": "2026-09-09T05:00:00Z",
-      "earliest_showing_utc": "2026-09-09T17:45:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-09-09T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "COMEDY",
@@ -10241,9 +10312,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-27T10:12:44-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -10795,9 +10866,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -10854,9 +10925,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -11100,9 +11171,65 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-22T23:29:24-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "84453",
+      "source_release_id": "407978",
+      "source_title": "If I Go Will They Miss Me",
+      "sortable_title": "If I Go Will They Miss Me",
+      "runtime_min": 95,
+      "release_date_utc": "2026-09-11T05:00:00Z",
+      "earliest_showing_utc": "2026-09-10T22:15:00Z",
+      "online_ticket_availability_date_utc": "2026-09-11T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "Drama",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "J. ALPHONSE NICHOLSON",
+      "directors_raw": "WALTER THOMPSON-HERNANDEZ",
+      "synopsis": "In the Watts neighborhood of Los Angeles, twelve-year-old Lil Ant sees the world and his father the way all children should — full of myth, wonder, and unwavering belief. If I Go Will They Miss Me is a breathtaking father-son story about imagination, family, and the grace we extend to the people we love.",
+      "distributor_id": "3419",
+      "distributor_code": "RSC",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "if-i-go-will-they-miss-me-84453",
+      "website_url": "https://www.amctheatres.com/movies/if-i-go-will-they-miss-me-84453",
+      "showtimes_url": "https://www.amctheatres.com/movies/if-i-go-will-they-miss-me-84453/showtimes",
+      "attribute_codes": [
+        "PRIVATE"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1787239761/amc-cdn/content/general/lrirv9tmda9sjehc673m.png",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1787773434/amc-cdn/content/general/vhocz3v7hu25uv0uxirm.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1787773434/amc-cdn/content/general/vhocz3v7hu25uv0uxirm.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404080779112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404080779112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -11273,9 +11400,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -11332,9 +11459,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-01T03:55:21-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -11448,9 +11575,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-20T23:35:10-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -11570,9 +11697,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -11682,9 +11809,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -12267,9 +12394,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-02T03:20:52-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -12458,7 +12585,7 @@
       "sortable_title": "Juan Gabriel: Mi Primer Bellas Artes",
       "runtime_min": 115,
       "release_date_utc": "2026-09-15T05:00:00Z",
-      "earliest_showing_utc": "2026-09-15T16:00:00Z",
+      "earliest_showing_utc": "2026-09-15T10:00:00Z",
       "online_ticket_availability_date_utc": "2026-09-15T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -12497,9 +12624,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-01T03:55:21-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -12558,9 +12685,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -12615,9 +12742,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -12672,9 +12799,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -12732,6 +12859,62 @@
         "last_refreshed_at": "2026-08-17T23:31:36-07:00",
         "last_successful_refresh_at": "2026-08-17T23:31:36-07:00",
         "inactive_since": "2026-08-18T23:33:03-07:00",
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "84569",
+      "source_release_id": "389674",
+      "source_title": "Sardar 2",
+      "sortable_title": "Sardar 2",
+      "runtime_min": 180,
+      "release_date_utc": "2026-09-10T05:00:00Z",
+      "earliest_showing_utc": "2026-09-09T18:00:00Z",
+      "online_ticket_availability_date_utc": "2026-09-10T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "ACTION",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "MALAVIKA MOHANAN, S.J. SURYAH",
+      "directors_raw": "P.S. MITHRAN",
+      "synopsis": "Two timelines. One legacy. When the mysterious Black Dagger threatens national security, Inspector Vijay embarks on his most dangerous mission yet. As the battle unfolds, the extraordinary origin of legendary spy Sardar is finally revealed, uncovering the sacrifices that forged a legend and the secrets that could shape the future. SARDAR 2 is an action-espionage thriller that serves as both a prequel and sequel to Sardar.",
+      "distributor_id": "3358",
+      "distributor_code": "VCL",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "sardar-2-84569",
+      "website_url": "https://www.amctheatres.com/movies/sardar-2-84569",
+      "showtimes_url": "https://www.amctheatres.com/movies/sardar-2-84569/showtimes",
+      "attribute_codes": [
+        "INTFILMS"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1786978930/amc-cdn/production/2/movies/84600/84569/Poster/389674R1.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
+        "inactive_since": null,
         "refresh_status": "success"
       },
       "provenance": {
@@ -13016,9 +13199,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -13080,9 +13263,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -13144,9 +13327,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -13256,9 +13439,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-04T03:18:07-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -13436,9 +13619,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -13610,9 +13793,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -13634,7 +13817,7 @@
       "sortable_title": "Oasis: Don't Look Back in Anger Fan Event",
       "runtime_min": 124,
       "release_date_utc": "2026-09-09T05:00:00Z",
-      "earliest_showing_utc": "2026-09-09T19:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-09-09T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -13669,9 +13852,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-08-27T10:12:44-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -13784,7 +13967,7 @@
         "last_seen_at": "2026-09-08T03:23:12-07:00",
         "last_refreshed_at": "2026-09-08T03:24:12-07:00",
         "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-09-09T03:34:04-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -13896,7 +14079,7 @@
         "last_seen_at": "2026-09-08T03:23:12-07:00",
         "last_refreshed_at": "2026-09-08T03:24:12-07:00",
         "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-09-09T03:34:04-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -13953,9 +14136,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14011,9 +14194,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14075,9 +14258,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14128,7 +14311,7 @@
         "XL"
       ],
       "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1786997038/amc-cdn/content/general/wbzemjyxdhmiyydswc9k.png",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788872835/amc-cdn/content/general/jtpeehpwl27swllnux94.jpg",
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1786997017/amc-cdn/content/general/riag8vtvyomgbwjynw6y.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1786997017/amc-cdn/content/general/riag8vtvyomgbwjynw6y.jpg",
         "trailer_hd_url": null,
@@ -14141,9 +14324,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14265,9 +14448,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14321,9 +14504,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14493,9 +14676,66 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-02T03:20:52-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "84807",
+      "source_release_id": "332434",
+      "source_title": "Haiwaan",
+      "sortable_title": "Haiwaan",
+      "runtime_min": 162,
+      "release_date_utc": "2026-09-11T05:00:00Z",
+      "earliest_showing_utc": "2026-09-11T10:00:00Z",
+      "online_ticket_availability_date_utc": "2026-09-11T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "SUSPENSE",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "AKSHAY KUMAR, Boman Irani, SAIF ALI KHAN",
+      "directors_raw": "PRIYADARSHAN",
+      "synopsis": "It is an official Hindi adaptation of Priyadarshan's 2016 Malayalam thriller Oppam, and marks the major on-screen reunion of Akshay Kumar and Saif Ali Khan after 18 years",
+      "distributor_id": "2988",
+      "distributor_code": "PCL",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "haiwaan-84807",
+      "website_url": "https://www.amctheatres.com/movies/haiwaan-84807",
+      "showtimes_url": "https://www.amctheatres.com/movies/haiwaan-84807/showtimes",
+      "attribute_codes": [
+        "INTFILMS",
+        "XL"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14603,7 +14843,7 @@
         "EVENT"
       ],
       "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788291840/amc-cdn/content/general/jjjqobqhfzyobdow52qc.jpg",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788872893/amc-cdn/content/general/soojvbwmzmggmhfjd8lx.jpg",
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788291890/amc-cdn/content/general/o5zmnacdkyoduc6etmh5.tiff",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788291890/amc-cdn/content/general/o5zmnacdkyoduc6etmh5.tiff",
         "trailer_hd_url": null,
@@ -14616,9 +14856,68 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-02T03:20:52-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "84857",
+      "source_release_id": "390767",
+      "source_title": "Forgotten Island - Friendship Opening Night Event",
+      "sortable_title": "Forgotten Island - Friendship Opening Night Event",
+      "runtime_min": 109,
+      "release_date_utc": "2026-09-24T05:00:00Z",
+      "earliest_showing_utc": "2026-09-24T19:00:00Z",
+      "online_ticket_availability_date_utc": "2026-09-24T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": null,
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "AMC has been advised that this film contains sequences with flashing lights that may affect photosensitive viewers.\n\nYour best friendship is worth fighting for.\n \nDreamWorks Animation, the studio that brought you unforgettable bonds between a boy and a dragon in How to Train Your Dragon, an ogre and a donkey in Shrek, and a robot and a gosling in The Wild Robot, now welcomes a dazzling and emotional story about two lifelong best friends who must come together before they drift apart in FORGOTTEN ISLAND.\n \nThe new original film is written and directed by Academy Award? nominee Joel Crawford and Januel Mercado and is produced by Academy Award? nominee Mark Swift, the filmmaking team behind Puss in Boots: The Last Wish.\n \nGrammy and Academy Award winning supernova H.E.R. and Liza Soberano (Lisa Frankenstein, Alone/Together) star as high school graduates Jo and Raissa, who have been best friends since grade school but are now about to embark on separate life paths.\n \nWhile celebrating their last night together, Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali, packed with magical and mythological creatures they grew up hearing stories about from their Filipino families. \n \nSome of these figures will become friends, some foes. Joined by well-meaning-but- hapless weredog Raww (Dave Franco) and a small-but-mighty pack of pals, Jo and Raissa must face The Dreaded Manananggal (Tony winning icon Lea Salonga), the most feared creature on the island. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa will race to find a way to leave the island before they forget each other forever.\n \nThe film's all-star voice cast also includes Emmy nominee Jenny Slate (Marcel the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA nominee Dolly de Leon (Triangle of Sadness, Ghostlight), global comedy superstar Jo Koy (Haunted Mansion, Jo Koy: Live from Brooklyn) and Emmy winner Ronny Chieng (The Daily Show, M3GAN).",
+      "distributor_id": "2284",
+      "distributor_code": "UI",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "forgotten-island-friendship-opening-night-event-84857",
+      "website_url": "https://www.amctheatres.com/movies/forgotten-island-friendship-opening-night-event-84857",
+      "showtimes_url": "https://www.amctheatres.com/movies/forgotten-island-friendship-opening-night-event-84857/showtimes",
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "EVENT"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788260727/amc-cdn/production/2/movies/84900/84857/Poster/390767R1.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788879145/amc-cdn/content/general/uqy7xg2ckhx5wdsogmbc.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788879145/amc-cdn/content/general/uqy7xg2ckhx5wdsogmbc.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404416511112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404416511112.mp4"
+      },
+      "presentation": {
+        "category": "concert_or_event",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14673,9 +14972,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-02T03:20:52-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14730,9 +15029,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-02T03:20:52-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14782,10 +15081,10 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1788260855/amc-cdn/production/2/movies/84900/84875/Poster/423982R1.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788878860/amc-cdn/content/general/oq0jdxrfqsaarix5lxjw.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788878860/amc-cdn/content/general/oq0jdxrfqsaarix5lxjw.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404766199112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404766199112.mp4"
       },
       "presentation": {
         "category": "concert_or_event",
@@ -14794,9 +15093,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-05T02:46:04-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14928,11 +15227,298 @@
     },
     {
       "source": "amc",
+      "source_film_id": "84900",
+      "source_release_id": "267458",
+      "source_title": "Dora and the Lost City of Gold",
+      "sortable_title": "Dora and the Lost City of Gold (HHM26)",
+      "runtime_min": 100,
+      "release_date_utc": "2026-09-18T05:00:00Z",
+      "earliest_showing_utc": "2026-09-18T14:15:00Z",
+      "online_ticket_availability_date_utc": "2026-09-18T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "PG",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Having spent most of her life exploring the jungle with her parents, nothing could prepare Dora (Isabela Moner) for her most dangerous adventure ever -- High School. Always the explorer, Dora quickly finds herself leading Boots (her best friend, a monkey), Diego (Jeffrey Wahlberg), a mysterious jungle inhabitant (Eugenio Derbez), and a rag tag group of teens on a live-action adventure to save her parents (Eva Longoria, Michael Pena) and solve the impossible mystery behind a lost city of gold.",
+      "distributor_id": "2337",
+      "distributor_code": "PAR",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "dora-and-the-lost-city-of-gold-84900",
+      "website_url": "https://www.amctheatres.com/movies/dora-and-the-lost-city-of-gold-84900",
+      "showtimes_url": "https://www.amctheatres.com/movies/dora-and-the-lost-city-of-gold-84900/showtimes",
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "EXCLDISMAT",
+        "FANFAVES"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1787841766/amc-cdn/content/general/x8ztwprf9ftzvu1l91tg.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404640795112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404640795112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "84904",
+      "source_release_id": "17092",
+      "source_title": "Stand and Deliver",
+      "sortable_title": "Stand and Deliver (HHM26)",
+      "runtime_min": 102,
+      "release_date_utc": "2026-10-02T05:00:00Z",
+      "earliest_showing_utc": "2026-10-02T16:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-02T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "PG",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "The true story of Jaime Escalante, the East Los Angeles mathematics teacher who challenges the system and the stereotypes to raise the standard of life for his inner-city students.",
+      "distributor_id": "2429",
+      "distributor_code": "WB",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "stand-and-deliver-84904",
+      "website_url": "https://www.amctheatres.com/movies/stand-and-deliver-84904",
+      "showtimes_url": "https://www.amctheatres.com/movies/stand-and-deliver-84904/showtimes",
+      "attribute_codes": [
+        "EXCLDISMAT",
+        "FANFAVES"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1787841880/amc-cdn/content/general/lzkctc14g51crb0bu2lw.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "84905",
+      "source_release_id": "161766",
+      "source_title": "Instructions Not Included",
+      "sortable_title": "Instructions Not Included (HHM26)",
+      "runtime_min": null,
+      "release_date_utc": "2026-10-09T05:00:00Z",
+      "earliest_showing_utc": "2026-10-09T16:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "PG13",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "From Lionsgate and Pantelion Films.  Valentin (Eugenio Derbez) is Acapulco's resident playboy--until a former fling leaves a baby on his doorstep and takes off without a trace. Valentin leaves Mexico for Los Angeles to find the baby's mother, but only ends up finding a new home for himself and his newfound child, Maggie (Loreto Peralta). An unlikely father figure, Valentin raises Maggie for six years, while also establishing himself as one of Hollywood's top stuntmen to pay the bills, with Maggie acting as his on-set coach. As Valentin raises Maggie, she forces him to grow up too. But their unique and offbeat family is threatened when Maggie's birth mom shows up out of the blue, and Valentin realizes he's in danger of losing his daughter- and his best friend.",
+      "distributor_id": "2189",
+      "distributor_code": "LGF",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "instructions-not-included-84905",
+      "website_url": "https://www.amctheatres.com/movies/instructions-not-included-84905",
+      "showtimes_url": "https://www.amctheatres.com/movies/instructions-not-included-84905/showtimes",
+      "attribute_codes": [
+        "EXCLDISMAT",
+        "FANFAVES"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1787841913/amc-cdn/content/general/t682v4jtaetuckbzg9ey.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "84931",
+      "source_release_id": "353146",
+      "source_title": "AMC Screen Unseen: September 21",
+      "sortable_title": "AMC Screen Unseen: September 21",
+      "runtime_min": 108,
+      "release_date_utc": "2026-09-21T05:00:00Z",
+      "earliest_showing_utc": "2026-09-21T19:00:00Z",
+      "online_ticket_availability_date_utc": "2026-09-21T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "PG13",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "AMC Screen Unseen, where guests can watch a never-before-seen film. We will share the movie’s MPA rating ahead of time, but the feature presentation will remain a mystery until showtime. Share your reaction after the movie with #AMCScreenUnseen on Instagram, Facebook, TikTok, Threads and X.",
+      "distributor_id": "2717",
+      "distributor_code": "DIS",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "amc-screen-unseen-september-21-84931",
+      "website_url": "https://www.amctheatres.com/movies/amc-screen-unseen-september-21-84931",
+      "showtimes_url": "https://www.amctheatres.com/movies/amc-screen-unseen-september-21-84931/showtimes",
+      "attribute_codes": [
+        "EVENT",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788881011/amc-cdn/content/general/mpdoddoa1addd1rzku9s.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788881037/amc-cdn/content/general/grlztkb9vynepxghtrsc.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788881037/amc-cdn/content/general/grlztkb9vynepxghtrsc.jpg",
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "mystery_screening",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "84956",
+      "source_release_id": "422068",
+      "source_title": "Hanuman Ansh",
+      "sortable_title": "Hanuman Ansh",
+      "runtime_min": 150,
+      "release_date_utc": "2026-09-11T05:00:00Z",
+      "earliest_showing_utc": "2026-09-11T11:30:00Z",
+      "online_ticket_availability_date_utc": "2026-09-11T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "DRAMA",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "CHANDAN ANAND, SHOBHINAW SATYAA, VIHAAN SHEDGE",
+      "directors_raw": "VISHAL CHATURVEDI",
+      "synopsis": "A grieving boy seeks God to meet his departed mother, and through encountering the divine, learns to serve humanity with love, food, and silent blessings becoming Hanuman Ansh, Neem Karoli Baba.",
+      "distributor_id": "2988",
+      "distributor_code": "PCL",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "hanuman-ansh-84956",
+      "website_url": "https://www.amctheatres.com/movies/hanuman-ansh-84956",
+      "showtimes_url": "https://www.amctheatres.com/movies/hanuman-ansh-84956/showtimes",
+      "attribute_codes": [
+        "INTFILMS",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788606481/amc-cdn/production/2/movies/85000/84956/Poster/422068R1.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
       "source_film_id": "84987",
       "source_release_id": null,
       "source_title": "2026 Rocket League World Championship",
       "sortable_title": "2026 Rocket League World Championship",
-      "runtime_min": 600,
+      "runtime_min": 540,
       "release_date_utc": "2026-09-20T05:00:00Z",
       "earliest_showing_utc": "2026-09-20T09:00:00Z",
       "online_ticket_availability_date_utc": "2026-09-20T05:00:00Z",
@@ -14970,9 +15556,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_seen_at": "2026-09-08T03:23:12-07:00",
-        "last_refreshed_at": "2026-09-08T03:24:12-07:00",
-        "last_successful_refresh_at": "2026-09-08T03:24:12-07:00",
+        "last_seen_at": "2026-09-09T03:32:45-07:00",
+        "last_refreshed_at": "2026-09-09T03:34:04-07:00",
+        "last_successful_refresh_at": "2026-09-09T03:34:04-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
