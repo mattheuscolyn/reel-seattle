@@ -13,7 +13,7 @@ import {
   buildOpeningThisWeekShelf,
 } from '../../v2/home/shelfData.js';
 import { buildLiveOpeningThisWeekPresentation } from '../../v2/opening/buildLiveOpeningPresentation.js';
-import { buildOpeningDateCopy, pacificTodayIso } from '../../v2/opening/openingDateCopy.js';
+import { buildOpeningDateCopy, formatShortOpeningDate, pacificTodayIso } from '../../v2/opening/openingDateCopy.js';
 import { resolveOpeningEntryPresentation } from '../../v2/opening/resolveOpeningEntryPresentation.js';
 
 const FIXTURES_DIR = join(dirname(fileURLToPath(import.meta.url)), '../fixtures/frontend');
@@ -256,13 +256,34 @@ test('no-New week still renders Events and Revivals', () => {
   );
   assert.equal(shelf.status, 'ready');
   assert.equal(shelf.films.length, 2);
-  assert.equal(shelf.films[0].badge, 'Special Event');
+  assert.equal(shelf.films[0].surfaceReasonLabel, 'Special Event');
+  assert.equal(shelf.films[0].badge, formatShortOpeningDate(shelf.films[0].openingDate));
 });
 
-test('Home badges use normalized category labels', () => {
+test('Home badges use M/D opening dates instead of category labels', () => {
   const shelf = buildOpeningThisWeekShelf(baseHome());
-  assert.equal(shelf.films[0].badge, 'New');
-  assert.equal(shelf.films[0].badge, shelf.films[0].surfaceReasonLabel);
+  assert.equal(shelf.films[0].badge, formatShortOpeningDate(shelf.films[0].openingDate));
+  assert.equal(shelf.films[0].badge, '7/21');
+  assert.equal(shelf.films[0].surfaceReasonLabel, 'New');
+  assert.notEqual(shelf.films[0].badge, 'New');
+});
+
+test('Home opening badge is hidden when openingDate is missing', () => {
+  const shelf = buildOpeningThisWeekShelf(
+    baseHome({
+      openingThisWeek: {
+        status: 'available',
+        timezone: 'America/Los_Angeles',
+        entries: [makeOpeningEntry({ openingDate: null })],
+      },
+    }),
+  );
+  // Invalid/missing openingDate entries are filtered by ranking/adapter paths;
+  // if a card still reaches the shelf without a date, badge stays null.
+  if (shelf.films.length > 0) {
+    assert.equal(shelf.films[0].badge, null);
+    assert.notEqual(shelf.films[0].badge, 'New');
+  }
 });
 
 test('Home date copy uses artifact openingDate in compact mode', () => {
@@ -383,8 +404,10 @@ test('Home and dedicated surface resolve the same final category', () => {
   });
   const shelf = buildOpeningThisWeekShelf(home);
   const dedicated = buildLiveOpeningThisWeekPresentation(home, null);
-  assert.equal(shelf.films[0].badge, dedicated.films[0].badge);
   assert.equal(shelf.films[0].categoryId, dedicated.films[0].categoryId);
+  assert.equal(shelf.films[0].surfaceReasonLabel, dedicated.films[0].badge);
+  assert.equal(shelf.films[0].badge, formatShortOpeningDate(shelf.films[0].openingDate));
+  assert.notEqual(shelf.films[0].badge, dedicated.films[0].badge);
 });
 
 test('limited classic with enrichment releaseYear is Revival on both surfaces', () => {
@@ -431,8 +454,10 @@ test('limited classic with enrichment releaseYear is Revival on both surfaces', 
   };
   const shelf = buildOpeningThisWeekShelf(home, enrichmentIndex);
   const dedicated = buildLiveOpeningThisWeekPresentation(home, enrichmentIndex);
-  assert.equal(shelf.films[0].badge, 'Revival');
+  assert.equal(shelf.films[0].surfaceReasonLabel, 'Revival');
+  assert.equal(shelf.films[0].badge, '7/21');
   assert.equal(dedicated.films[0].badge, 'Revival');
+  assert.equal(shelf.films[0].categoryId, dedicated.films[0].categoryId);
 });
 
 test('ended single-day limited without enrichment resolves to Revival on both surfaces', () => {
@@ -462,7 +487,8 @@ test('ended single-day limited without enrichment resolves to Revival on both su
   const hpDedicated = dedicated.films.find((film) =>
     film.title.includes('Half Blood Prince'),
   );
-  assert.equal(hpShelf?.badge, 'Revival');
+  assert.equal(hpShelf?.surfaceReasonLabel, 'Revival');
+  assert.equal(hpShelf?.badge, '8/31');
   assert.equal(hpDedicated?.badge, 'Revival');
   assert.equal(hpShelf?.categoryId, hpDedicated?.categoryId);
 });
@@ -527,8 +553,13 @@ test('contemporary limited release is New on both surfaces', () => {
   });
   const shelf = buildOpeningThisWeekShelf(home);
   const dedicated = buildLiveOpeningThisWeekPresentation(home, null);
-  assert.equal(shelf.films[0].badge, 'New');
+  assert.equal(shelf.films[0].surfaceReasonLabel, 'New');
+  assert.equal(
+    shelf.films[0].badge,
+    formatShortOpeningDate(shelf.films[0].openingDate),
+  );
   assert.equal(dedicated.films[0].badge, 'New');
+  assert.equal(shelf.films[0].categoryId, dedicated.films[0].categoryId);
 });
 
 test('event-pattern limited engagement is Special Event on both surfaces', () => {
@@ -551,8 +582,13 @@ test('event-pattern limited engagement is Special Event on both surfaces', () =>
   });
   const shelf = buildOpeningThisWeekShelf(home);
   const dedicated = buildLiveOpeningThisWeekPresentation(home, null);
-  assert.equal(shelf.films[0].badge, 'Special Event');
+  assert.equal(shelf.films[0].surfaceReasonLabel, 'Special Event');
+  assert.equal(
+    shelf.films[0].badge,
+    formatShortOpeningDate(shelf.films[0].openingDate),
+  );
   assert.equal(dedicated.films[0].badge, 'Special Event');
+  assert.equal(shelf.films[0].categoryId, dedicated.films[0].categoryId);
 });
 
 test('theater alone does not alter category on either surface', () => {
@@ -577,8 +613,13 @@ test('theater alone does not alter category on either surface', () => {
   });
   const shelf = buildOpeningThisWeekShelf(home);
   const dedicated = buildLiveOpeningThisWeekPresentation(home, null);
-  assert.equal(shelf.films[0].badge, 'New');
+  assert.equal(shelf.films[0].surfaceReasonLabel, 'New');
+  assert.equal(
+    shelf.films[0].badge,
+    formatShortOpeningDate(shelf.films[0].openingDate),
+  );
   assert.equal(dedicated.films[0].badge, 'New');
+  assert.equal(shelf.films[0].categoryId, dedicated.films[0].categoryId);
 });
 
 test('HomeDestination still wires See all to Opening collection', () => {

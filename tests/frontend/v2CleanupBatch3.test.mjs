@@ -88,7 +88,11 @@ test('Opening Save / Not Interested use shared stores (not stubs)', () => {
   assert.match(OPENING_SRC, /toggleFilmNotInterested/);
   assert.match(OPENING_SRC, /isFilmSaved/);
   assert.match(OPENING_SRC, /isFilmNotInterested/);
-  assert.match(OPENING_SRC, /aria-pressed/);
+  const cardSrc = readFileSync(
+    join(ROOT, 'v2/homeShelfDetail/HomeShelfDetailFilmCard.jsx'),
+    'utf8',
+  );
+  assert.match(cardSrc, /aria-pressed/);
   assert.equal(OPENING_SRC.includes('`save-${film.filmKey}`'), false);
   assert.equal(OPENING_SRC.includes('`ni-${film.filmKey}`'), false);
 

@@ -14,9 +14,12 @@ import { buildOpeningThisWeekShelf } from '../../v2/home/shelfData.js';
 import { ALLOWED_V2_DATA_ROUTES } from '../../v2/data/allowedDataRoutes.js';
 import { loadHomeData } from '../../v2/data/loadHomeData.js';
 import {
+  aggregateOpeningTheaters,
   buildLiveOpeningThisWeekPresentation,
   buildOpeningSections,
   filterOpeningFilmsByCategory,
+  formatCompactTheaterLine,
+  isOpeningScreeningLevelFormatLabel,
 } from '../../v2/opening/buildLiveOpeningPresentation.js';
 import { buildOpeningDateCopy } from '../../v2/opening/openingDateCopy.js';
 import {
@@ -143,7 +146,8 @@ test('limited ended single-day Harry Potter maps to revival without enrichment',
     (film) => film.filmKey === 'harry-potter-and-the-half-blood-prince',
   );
   if (shelfCard) {
-    assert.equal(shelfCard.badge, 'Revival');
+    assert.equal(shelfCard.surfaceReasonLabel, 'Revival');
+    assert.equal(shelfCard.badge, '8/31');
     assert.equal(shelfCard.categoryId, dedicatedCard.categoryId);
   }
   assert.equal(dedicatedCard.badge, 'Revival');
@@ -308,4 +312,158 @@ test('invalid artifact does not break buildHomeData', () => {
   const home = buildHomeData(baseHomeInput({ openingThisWeek: { bad: true } }));
   assert.equal(home.openingThisWeek.status, 'invalid');
   assert.equal(home.films.length > 0, true);
+});
+
+test('Opening This Week presentation omits redundant intro copy', () => {
+  const home = buildHomeData(baseHomeInput());
+  const presentation = buildLiveOpeningThisWeekPresentation(home, null);
+  assert.equal(presentation.pageTitle, 'Opening This Week');
+  assert.equal(presentation.pageSubtitle, null);
+  assert.equal(presentation.countLabel, null);
+  assert.equal(
+    JSON.stringify(presentation).includes('Films opening in Seattle this week'),
+    false,
+  );
+});
+
+test('compact theater line joins names and truncates with +N more', () => {
+  assert.equal(isOpeningScreeningLevelFormatLabel('Closed Captions'), true);
+  assert.equal(isOpeningScreeningLevelFormatLabel('Open Captions'), true);
+  assert.equal(isOpeningScreeningLevelFormatLabel('Audio Description'), true);
+  assert.equal(isOpeningScreeningLevelFormatLabel('IMAX'), false);
+
+  const theaters = aggregateOpeningTheaters(
+    [
+      {
+        theaterId: 'amc-pacific-place-11',
+        theaterName: 'AMC Pacific Place 11',
+      },
+      {
+        theaterId: 'amc-pacific-place-11',
+        theaterName: 'AMC Pacific Place 11',
+      },
+      {
+        theaterId: 'siff-cinema-uptown',
+        theaterName: 'SIFF Cinema Uptown',
+      },
+      {
+        theaterId: 'the-beacon-cinema',
+        theaterName: 'The Beacon Cinema',
+      },
+      {
+        theaterId: 'amc-oak-tree-6',
+        theaterName: 'AMC Oak Tree 6',
+      },
+      {
+        theaterId: 'northwest-film-forum',
+        theaterName: 'Northwest Film Forum',
+      },
+    ],
+    [],
+    {},
+  );
+  assert.equal(theaters.length, 5);
+  assert.deepEqual(
+    theaters.map((theater) => theater.name),
+    [
+      'AMC Pacific Place 11',
+      'SIFF Cinema Uptown',
+      'The Beacon Cinema',
+      'AMC Oak Tree 6',
+      'Northwest Film Forum',
+    ],
+  );
+  assert.equal(
+    formatCompactTheaterLine(theaters.map((theater) => theater.name)),
+    'AMC Pacific Place 11 · SIFF Cinema Uptown · +3 more',
+  );
+  assert.equal(
+    formatCompactTheaterLine(['AMC Pacific Place 11', 'SIFF Cinema Uptown']),
+    'AMC Pacific Place 11 · SIFF Cinema Uptown',
+  );
+});
+
+test('Opening cards aggregate unique theaters and omit screening-level badges', () => {
+  const home = buildHomeData(baseHomeInput());
+  const baseOpps = home.opportunities.filter((opp) => opp.filmKey !== 'sinners');
+  const sinnersOpps = [
+    {
+      opportunityKey: 'opp-sinners-amc-1',
+      filmKey: 'sinners',
+      theaterId: 'amc-pacific-place-11',
+      theaterName: 'AMC Pacific Place 11',
+      localDate: '2026-09-04',
+      localTime: '12:15',
+      timeDisplay: '12:15pm',
+      sortableLocalDateTime: '2026-09-04T12:15',
+      formatLabels: ['closed-caption', 'IMAX'],
+      ticketUrl: null,
+    },
+    {
+      opportunityKey: 'opp-sinners-amc-2',
+      filmKey: 'sinners',
+      theaterId: 'amc-pacific-place-11',
+      theaterName: 'AMC Pacific Place 11',
+      localDate: '2026-09-04',
+      localTime: '19:30',
+      timeDisplay: '7:30pm',
+      sortableLocalDateTime: '2026-09-04T19:30',
+      formatLabels: ['closed-caption'],
+      ticketUrl: null,
+    },
+    {
+      opportunityKey: 'opp-sinners-siff',
+      filmKey: 'sinners',
+      theaterId: 'siff-cinema-uptown',
+      theaterName: 'SIFF Cinema Uptown',
+      localDate: '2026-09-05',
+      localTime: '19:00',
+      timeDisplay: '7:00pm',
+      sortableLocalDateTime: '2026-09-05T19:00',
+      formatLabels: ['audio-description'],
+      ticketUrl: null,
+    },
+  ];
+  home.opportunities = [...sinnersOpps, ...baseOpps];
+
+  const presentation = buildLiveOpeningThisWeekPresentation(home, null);
+  assert.equal(presentation.pageSubtitle, null);
+  assert.equal(presentation.countLabel, null);
+
+  const sinners = presentation.films.find((film) => film.filmKey === 'sinners');
+  assert.ok(sinners);
+  assert.equal(sinners.theaters.length, 2);
+  assert.equal(
+    sinners.theaterName,
+    'AMC Pacific Place 11 · SIFF Cinema Uptown',
+  );
+  assert.equal(
+    sinners.theaters.filter((theater) => theater.id === 'amc-pacific-place-11')
+      .length,
+    1,
+  );
+  assert.equal(sinners.formatLabel, 'IMAX');
+  assert.equal(sinners.formatLabels.includes('Closed Captions'), false);
+  assert.equal(sinners.formatLabels.includes('Audio Description'), false);
+  assert.equal(sinners.alsoPlaying, null);
+  assert.ok(sinners.opportunityKey);
+
+  // Accessibility-only formats leave the film-level format chip empty.
+  home.opportunities = [
+    ...sinnersOpps.map((opp) => ({
+      ...opp,
+      formatLabels: ['closed-caption', 'audio-description'],
+    })),
+    ...baseOpps,
+  ];
+  const a11yPresentation = buildLiveOpeningThisWeekPresentation(home, null);
+  const a11yCard = a11yPresentation.films.find((film) => film.filmKey === 'sinners');
+  assert.equal(a11yCard.formatLabel, null);
+  assert.deepEqual(a11yCard.formatLabels, []);
+
+  // Theater filter matches any venue on the film, not only the primary.
+  const bySiff = filterOpeningFilms(presentation.films, {
+    theaterId: 'siff-cinema-uptown',
+  });
+  assert.ok(bySiff.some((film) => film.filmKey === 'sinners'));
 });

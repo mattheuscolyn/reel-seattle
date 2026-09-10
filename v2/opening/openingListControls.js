@@ -72,7 +72,14 @@ export function buildOpeningFilterOptions(films) {
   const dates = new Map();
 
   for (const film of list) {
-    if (film.theaterId && film.theaterName) {
+    const filmTheaters = Array.isArray(film.theaters) ? film.theaters : null;
+    if (filmTheaters && filmTheaters.length > 0) {
+      for (const theater of filmTheaters) {
+        const id = theater?.id || theater?.name;
+        const name = theater?.name;
+        if (id && name) theaters.set(id, name);
+      }
+    } else if (film.theaterId && film.theaterName) {
       theaters.set(film.theaterId, film.theaterName);
     } else if (film.theaterName) {
       theaters.set(film.theaterName, film.theaterName);
@@ -120,8 +127,15 @@ export function filterOpeningFilms(films, filters = {}) {
 
   return list.filter((film) => {
     if (theaterId) {
-      const filmTheaterId = film.theaterId || film.theaterName;
-      if (filmTheaterId !== theaterId) return false;
+      const filmTheaters = Array.isArray(film.theaters) ? film.theaters : [];
+      const matchesTheater =
+        filmTheaters.length > 0
+          ? filmTheaters.some(
+              (theater) =>
+                theater?.id === theaterId || theater?.name === theaterId,
+            )
+          : (film.theaterId || film.theaterName) === theaterId;
+      if (!matchesTheater) return false;
     }
     if (formatLabel) {
       const labels = Array.isArray(film.formatLabels)

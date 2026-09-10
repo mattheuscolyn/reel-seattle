@@ -167,11 +167,12 @@ export const HOME_MOCKUP_OPENING_SHELF = Object.freeze({
       id: 'fixture-open-1',
       filmKey: 'fixture-open-1',
       title: 'Quiet City',
-      badge: 'New',
+      badge: '5/16',
       genre: 'Drama',
       metaLabel: 'Opens Fri',
       posterUrl: PLACEHOLDER_POSTERS.quietCity,
       runtimeMin: 102,
+      openingDate: '2026-05-16',
       nextOpportunityKey: 'fixture-opp-open-1',
       surfaceReason: 'opening-this-week',
       surfaceReasonLabel: 'New',
@@ -181,11 +182,12 @@ export const HOME_MOCKUP_OPENING_SHELF = Object.freeze({
       id: 'fixture-open-2',
       filmKey: 'fixture-open-2',
       title: 'Blue Hour',
-      badge: 'New',
+      badge: '5/17',
       genre: 'Drama',
       metaLabel: 'Opens Sat',
       posterUrl: PLACEHOLDER_POSTERS.blueHour,
       runtimeMin: 125,
+      openingDate: '2026-05-17',
       nextOpportunityKey: 'fixture-opp-open-2',
       surfaceReason: 'opening-this-week',
       surfaceReasonLabel: 'New',
@@ -195,11 +197,12 @@ export const HOME_MOCKUP_OPENING_SHELF = Object.freeze({
       id: 'fixture-open-3',
       filmKey: 'fixture-open-3',
       title: 'The Last Rehearsal',
-      badge: 'Special Event',
+      badge: '5/18',
       genre: 'Comedy',
       metaLabel: 'One night · Sat',
       posterUrl: PLACEHOLDER_POSTERS.lastRehearsal,
       runtimeMin: 97,
+      openingDate: '2026-05-18',
       nextOpportunityKey: 'fixture-opp-open-3',
       surfaceReason: 'opening-this-week',
       surfaceReasonLabel: 'Special Event',
@@ -209,11 +212,12 @@ export const HOME_MOCKUP_OPENING_SHELF = Object.freeze({
       id: 'fixture-open-4',
       filmKey: 'fixture-open-4',
       title: 'Saltwater Road',
-      badge: 'Revival',
+      badge: '5/19',
       genre: 'Drama',
       metaLabel: 'Opened Wed',
       posterUrl: PLACEHOLDER_POSTERS.saltwaterRoad,
       runtimeMin: 167,
+      openingDate: '2026-05-19',
       nextOpportunityKey: 'fixture-opp-open-4',
       surfaceReason: 'opening-this-week',
       surfaceReasonLabel: 'Revival',
@@ -393,23 +397,23 @@ export function getHomeMockupHomeData() {
         title: film.title,
         openingDate: `2026-05-${16 + index}`,
         openingType:
-          film.badge === 'Revival'
+          film.surfaceReasonLabel === 'Revival'
             ? 'repertory'
-            : film.badge === 'Special Event'
+            : film.surfaceReasonLabel === 'Special Event'
               ? 'event'
               : 'theatrical',
         categoryId:
-          film.badge === 'Revival'
+          film.surfaceReasonLabel === 'Revival'
             ? 'revival'
-            : film.badge === 'Special Event'
+            : film.surfaceReasonLabel === 'Special Event'
               ? 'event'
               : 'new',
-        categoryLabel: film.badge,
-        categoryBadge: film.badge,
+        categoryLabel: film.surfaceReasonLabel,
+        categoryBadge: film.surfaceReasonLabel,
         theaterCountOnOpeningDate: 1,
         theatersOnOpeningDate: ['siff-cinema-downtown'],
         visibleShowtimeCount: 2,
-        engagementDays: film.badge === 'Special Event' ? 1 : 2,
+        engagementDays: film.surfaceReasonLabel === 'Special Event' ? 1 : 2,
         confidence: 'high',
       })),
     },

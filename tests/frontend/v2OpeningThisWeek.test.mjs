@@ -22,10 +22,26 @@ import {
   SAVED_FILMS_STORAGE_KEY,
   getSavedFilms,
 } from '../../v2/stores/savedFilmsStore.js';
+import {
+  aggregateOpeningTheaters,
+  formatCompactTheaterLine,
+} from '../../v2/opening/buildLiveOpeningPresentation.js';
+import {
+  filterOpeningFilms,
+  sortOpeningFilms,
+} from '../../v2/opening/openingListControls.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const OPENING_SRC = readFileSync(
   join(ROOT, 'v2/opening/OpeningThisWeekSurface.jsx'),
+  'utf8',
+);
+const SHELL_SRC = readFileSync(
+  join(ROOT, 'v2/homeShelfDetail/HomeShelfDetailSurface.jsx'),
+  'utf8',
+);
+const CARD_SRC = readFileSync(
+  join(ROOT, 'v2/homeShelfDetail/HomeShelfDetailFilmCard.jsx'),
   'utf8',
 );
 const FIXTURE_SRC = readFileSync(
@@ -55,10 +71,8 @@ test('Opening This Week fixture matches canonical mockup regions', () => {
   assert.equal(p, OPENING_THIS_WEEK_MOCKUP_FIXTURE);
   assert.equal(resolveOpeningThisWeekPresentation(), p);
   assert.equal(p.pageTitle, 'Opening This Week');
-  assert.equal(
-    p.countLabel,
-    'Films opening in Seattle this week · 4',
-  );
+  assert.equal(p.pageSubtitle, null);
+  assert.equal(p.countLabel, null);
   assert.equal(p.sortValue, 'Opening date');
   assert.equal(p.filtersLabel, 'Filters');
   assert.equal(p.films.length, 4);
@@ -67,6 +81,11 @@ test('Opening This Week fixture matches canonical mockup regions', () => {
   assert.equal(p.films[0].initiallyExpanded, false);
   assert.equal(p.films[0].formatLabel, '70MM');
   assert.match(p.films[0].whySeeIt, /70mm/);
+  assert.equal(
+    p.films[0].theaterName,
+    'Paramount Theatre · SIFF Cinema Uptown',
+  );
+  assert.equal(p.films[0].theaters.length, 2);
   assert.equal(p.films[1].badge, 'Revival');
   assert.equal(p.films[2].badge, 'Special Event');
   assert.deepEqual([...OPENING_THIS_WEEK_SECTION_ORDER], [
@@ -77,22 +96,42 @@ test('Opening This Week fixture matches canonical mockup regions', () => {
   ]);
 });
 
+test('Opening This Week omits redundant Seattle intro copy', () => {
+  assert.equal(FIXTURE_SRC.includes('Films opening in Seattle this week'), false);
+  assert.equal(OPENING_SRC.includes('Films opening in Seattle this week'), false);
+  assert.equal(OPENING_SRC.includes('pageSubtitle'), false);
+  assert.equal(SHELL_SRC.includes('Films opening in Seattle this week'), false);
+});
+
+test('Opening This Week renders through shared Home shelf-detail surface', () => {
+  assert.match(OPENING_SRC, /HomeShelfDetailSurface/);
+  assert.match(OPENING_SRC, /HomeShelfDetailFilmCard/);
+  assert.match(OPENING_SRC, /from '\.\.\/homeShelfDetail\/HomeShelfDetailSurface\.jsx'/);
+  assert.match(SHELL_SRC, /data-shelf-detail-surface/);
+  assert.match(SHELL_SRC, /data-shelf-detail-section="header"/);
+  assert.match(SHELL_SRC, /data-shelf-detail-section="categories"/);
+  assert.match(SHELL_SRC, /data-shelf-detail-section="controls"/);
+  assert.match(SHELL_SRC, /data-shelf-detail-section="filmList"/);
+  // No duplicated legacy page shell left in the OTW wrapper.
+  assert.equal(OPENING_SRC.includes('className="v2-opening-page"'), false);
+  assert.equal(OPENING_SRC.includes('className="v2-shelf-detail-page"'), false);
+  assert.equal(OPENING_SRC.includes('function OpeningFilmCard'), false);
+});
+
 test('Opening designed page replaces CollectionSurface scaffold', () => {
   assert.match(APP_SRC, /OpeningThisWeekSurface/);
   assert.match(APP_SRC, /isOpeningThisWeek/);
   assert.match(OPENING_SRC, /data-opening-source/);
-  assert.match(OPENING_SRC, /data-opening-section="header"/);
-  assert.match(OPENING_SRC, /data-opening-section="categories"/);
-  assert.match(OPENING_SRC, /data-opening-section="controls"/);
-  assert.match(OPENING_SRC, /data-opening-section="filmList"/);
   assert.equal(OPENING_SRC.includes('Explore · scaffold'), false);
   assert.equal(
     COLLECTION_SRC.includes('opening-this-week') &&
       COLLECTION_SRC.includes('buildOpeningThisWeekShelf'),
     false,
   );
-  assert.match(CSS, /\.v2-opening-page\b/);
-  assert.match(CSS, /\.v2-opening-card\b/);
+  assert.match(CSS, /\.v2-shelf-detail-page\b/);
+  assert.match(CSS, /\.v2-shelf-detail-card\b/);
+  assert.equal(CSS.includes('.v2-opening-card {'), false);
+  assert.equal(CSS.includes('.v2-opening-page {'), false);
 });
 
 test('Opening page starts with all cards collapsed', () => {
@@ -103,23 +142,67 @@ test('Opening page starts with all cards collapsed', () => {
   assert.ok(p.films.every((film) => film.initiallyExpanded === false));
 });
 
-test('Opening page renders filters and expand affordances', () => {
-  assert.match(OPENING_SRC, /v2-opening-page-sort/);
-  assert.match(OPENING_SRC, /v2-opening-page-filters/);
-  assert.match(OPENING_SRC, /v2-opening-chip-row/);
-  assert.match(OPENING_SRC, /aria-expanded/);
+test('Opening page keeps title, pills, sort, filters, and film cards', () => {
+  assert.match(OPENING_SRC, /pageTitle/);
+  assert.match(OPENING_SRC, /showCategoryChips|categoryChips/);
+  assert.match(OPENING_SRC, /v2-shelf-detail-page-sort/);
+  assert.match(OPENING_SRC, /v2-shelf-detail-page-filters/);
+  assert.match(OPENING_SRC, /OPENING_SORT_OPTIONS/);
+  assert.match(SHELL_SRC, /v2-shelf-detail-chip-row/);
+  assert.match(CARD_SRC, /aria-expanded/);
+  assert.match(CARD_SRC, /Why see it/);
+  assert.match(CARD_SRC, /Also playing at/);
+  assert.match(CARD_SRC, /More details/);
+  assert.match(CARD_SRC, /Showtimes/);
   assert.match(OPENING_SRC, /toggleExpand/);
-  assert.match(OPENING_SRC, /Why see it/);
-  assert.match(OPENING_SRC, /Also playing at/);
-  assert.match(OPENING_SRC, /More details/);
-  assert.match(OPENING_SRC, /Showtimes/);
+});
+
+test('shared shelf-detail surface omits optional controls without broken markers', () => {
+  assert.match(SHELL_SRC, /showCategories/);
+  assert.match(SHELL_SRC, /controls \?/);
+  assert.match(SHELL_SRC, /categoryChips/);
+  // Optional rows are gated; no forced empty chip/control chrome.
+  assert.match(SHELL_SRC, /chips\.length > 0/);
+  assert.equal(SHELL_SRC.includes('must render categories'), false);
+});
+
+test('theater aggregation and sort/filter behavior remain OTW-owned', () => {
+  const theaters = aggregateOpeningTheaters(
+    [
+      { theaterId: 'a', theaterName: 'AMC Pacific Place 11' },
+      { theaterId: 'a', theaterName: 'AMC Pacific Place 11' },
+      { theaterId: 'b', theaterName: 'SIFF Cinema Uptown' },
+      { theaterId: 'c', theaterName: 'The Beacon Cinema' },
+    ],
+    [],
+    {},
+  );
+  assert.equal(theaters.length, 3);
+  assert.equal(
+    formatCompactTheaterLine(theaters.map((t) => t.name)),
+    'AMC Pacific Place 11 · SIFF Cinema Uptown · +1 more',
+  );
+
+  const films = getOpeningThisWeekMockupPresentation().films;
+  assert.equal(sortOpeningFilms(films, 'most-showtimes')[0].title, 'The Long Horizon');
+  const filtered = filterOpeningFilms(films, {
+    theaterId: 'the-beacon-cinema',
+    formatLabel: '35MM',
+    openingDate: '2025-05-24',
+  });
+  assert.equal(filtered.length, 1);
+  assert.equal(filtered[0].title, 'The Cabinet of Dr. Caligari');
+  assert.match(OPENING_SRC, /filterOpeningFilms/);
+  assert.match(OPENING_SRC, /sortOpeningFilms/);
 });
 
 test('More details wires to Film Detail; Save/NI use shared film stores', () => {
   assert.match(OPENING_SRC, /onOpenFilmDetail/);
+  assert.match(CARD_SRC, /onOpenFilmDetail/);
   assert.match(OPENING_SRC, /savedFilmsStore/);
   assert.match(OPENING_SRC, /notInterestedFilmsStore/);
   assert.match(OPENING_SRC, /toggleSavedFilm/);
+  assert.match(CARD_SRC, /Showtimes/);
   assert.equal(OPENING_SRC.includes('applySaveToggle'), false);
   assert.equal(FIXTURE_SRC.includes('stores/'), false);
   const storage = memoryStorage();
@@ -154,6 +237,13 @@ test('Home shelf still uses verified opening helper', () => {
   assert.match(HOME_SRC, /buildOpeningThisWeekShelf/);
   assert.equal(FIXTURE_SRC.includes('newly-added-provisional'), false);
   assert.equal(FIXTURE_SRC.includes('public/data'), false);
+});
+
+test('no new shelf-detail routes were added for unimplemented Home shelves', () => {
+  assert.match(APP_SRC, /OpeningThisWeekSurface/);
+  assert.match(APP_SRC, /LeavingSoonSurface/);
+  assert.match(APP_SRC, /JustAnnouncedSurface/);
+  assert.match(APP_SRC, /SpecialPresentationsSurface/);
 });
 
 test('Opening does not change Search Results Film Detail path', () => {

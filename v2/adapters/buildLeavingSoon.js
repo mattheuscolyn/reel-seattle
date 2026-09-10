@@ -73,9 +73,36 @@ function normalizeItem(raw) {
       typeof raw.total_visible_showtimes === 'number'
         ? Math.max(0, Math.trunc(raw.total_visible_showtimes))
         : 0,
-    // Window/model max date — feature vectors may use as urgency proxy (not certainty).
+    // Window/model max date — last known visible screening in the model window.
     maxShowDate: asTrimmedString(raw.max_show_date),
+    totalVisibleTheaters:
+      typeof raw.total_visible_theaters === 'number'
+        ? Math.max(0, Math.trunc(raw.total_visible_theaters))
+        : 0,
+    theaters: normalizeTheaters(raw.theaters),
   };
+}
+
+/**
+ * @param {unknown} rawTheaters
+ * @returns {{ id: string, name: string }[]}
+ */
+function normalizeTheaters(rawTheaters) {
+  if (!Array.isArray(rawTheaters)) return [];
+  /** @type {{ id: string, name: string }[]} */
+  const theaters = [];
+  /** @type {Set<string>} */
+  const seen = new Set();
+  for (const row of rawTheaters) {
+    if (row == null || typeof row !== 'object') continue;
+    const id = asTrimmedString(row.theater_id);
+    const name = asTrimmedString(row.theater_name);
+    if (!id || !name) continue;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    theaters.push({ id, name });
+  }
+  return theaters;
 }
 
 /**

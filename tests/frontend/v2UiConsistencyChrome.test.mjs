@@ -56,6 +56,7 @@ test('page header tokens match the consistency targets', () => {
 test('nested list surfaces no longer render a second in-page back control', () => {
   assert.equal(THEATERS.includes('v2-theaters-page-back'), false);
   assert.equal(OPENING.includes('v2-opening-page-back'), false);
+  assert.equal(OPENING.includes('v2-shelf-detail-page-back'), false);
   assert.equal(THEATERS.includes('← '), false);
   assert.equal(OPENING.includes('← '), false);
 });

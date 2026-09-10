@@ -11,10 +11,91 @@ import { formatUserFacingFormatLabel } from '../topOpportunities/topOpportunityF
 import { buildOpeningDateCopy, pacificTodayIso } from './openingDateCopy.js';
 import { resolveOpeningEntryPresentation } from './resolveOpeningEntryPresentation.js';
 
+import {
+  formatCompactTheaterLine,
+  aggregateTheatersFromRows,
+  SHELF_DETAIL_THEATER_LIST_MAX_VISIBLE,
+} from '../homeShelfDetail/compactTheaterLine.js';
+
 export const OPENING_CATEGORY_CHIPS = Object.freeze([
   Object.freeze({ id: 'all', label: 'All' }),
   ...OPENING_CATEGORY_SECTIONS,
 ]);
+
+/** @deprecated Prefer SHELF_DETAIL_THEATER_LIST_MAX_VISIBLE */
+export const OPENING_THEATER_LIST_MAX_VISIBLE =
+  SHELF_DETAIL_THEATER_LIST_MAX_VISIBLE;
+
+export { formatCompactTheaterLine };
+
+/**
+ * Screening-level accessibility / experience labels that do not belong on
+ * film-level Opening This Week cards (they belong on individual showtimes).
+ */
+const SCREENING_LEVEL_FORMAT_LABELS = new Set([
+  'closed captions',
+  'open captions',
+  'audio description',
+  'oc',
+  'cc',
+]);
+
+/**
+ * @param {string | null | undefined} label
+ * @returns {boolean}
+ */
+export function isOpeningScreeningLevelFormatLabel(label) {
+  if (typeof label !== 'string' || !label.trim()) return false;
+  return SCREENING_LEVEL_FORMAT_LABELS.has(label.trim().toLowerCase());
+}
+
+/**
+ * Unique theaters for an Opening film, preserving opportunity order.
+ *
+ * @param {object[]} filmOpportunities
+ * @param {string[] | null | undefined} theatersOnOpeningDate
+ * @param {Record<string, { name?: string }>} theatersById
+ * @returns {{ id: string | null, name: string }[]}
+ */
+export function aggregateOpeningTheaters(
+  filmOpportunities,
+  theatersOnOpeningDate,
+  theatersById = {},
+) {
+  const fromOpps = aggregateTheatersFromRows(
+    (Array.isArray(filmOpportunities) ? filmOpportunities : []).map((opp) => ({
+      theaterId: opp?.theaterId,
+      theaterName: opp?.theaterName,
+    })),
+  );
+  if (fromOpps.length > 0) return fromOpps;
+
+  /** @type {{ id: string | null, name: string }[]} */
+  const theaters = [];
+  /** @type {Set<string>} */
+  const seen = new Set();
+  for (const theaterId of Array.isArray(theatersOnOpeningDate)
+    ? theatersOnOpeningDate
+    : []) {
+    const id = typeof theaterId === 'string' ? theaterId.trim() : '';
+    if (!id || seen.has(`id:${id}`)) continue;
+    seen.add(`id:${id}`);
+    theaters.push({ id, name: theatersById[id]?.name ?? id });
+  }
+  return theaters;
+}
+
+/**
+ * @param {unknown[]} rawLabels
+ * @returns {string[]}
+ */
+function filmLevelFormatLabels(rawLabels) {
+  if (!Array.isArray(rawLabels)) return [];
+  return rawLabels
+    .map(formatUserFacingFormatLabel)
+    .filter(Boolean)
+    .filter((label) => !isOpeningScreeningLevelFormatLabel(label));
+}
 
 /**
  * @param {object | null | undefined} homeData
@@ -33,7 +114,7 @@ export function buildLiveOpeningThisWeekPresentation(
     return {
       source: 'live-unavailable',
       pageTitle: 'Opening This Week',
-      pageSubtitle: 'Films opening in Seattle this week',
+      pageSubtitle: null,
       countLabel: null,
       unavailableTitle: 'Opening This Week isn’t available right now.',
       unavailableBody: 'Check back later or browse current showtimes.',
@@ -53,7 +134,7 @@ export function buildLiveOpeningThisWeekPresentation(
     return {
       source: 'live-empty',
       pageTitle: 'Opening This Week',
-      pageSubtitle: 'Films opening in Seattle this week',
+      pageSubtitle: null,
       countLabel: null,
       emptyTitle: 'Nothing opening in Seattle this week.',
       emptyBody: 'Browse current showtimes to see what’s playing.',
@@ -102,19 +183,16 @@ export function buildLiveOpeningThisWeekPresentation(
       hasUpcomingShowtimes,
     });
 
-    const openingTheaterId = entry.theatersOnOpeningDate?.[0] ?? null;
-    const openingTheaterName =
-      (openingTheaterId && theatersById[openingTheaterId]?.name) ||
-      (entry.theaterCountOnOpeningDate > 1
-        ? `${entry.theaterCountOnOpeningDate} theaters`
-        : openingTheaterId) ||
-      null;
+    const theaters = aggregateOpeningTheaters(
+      filmOpportunities,
+      entry.theatersOnOpeningDate,
+      theatersById,
+    );
+    const theaterNames = theaters.map((theater) => theater.name);
+    const theaterLine = formatCompactTheaterLine(theaterNames);
+    const primaryTheater = theaters[0] ?? null;
 
-    const formatLabels = Array.isArray(nextOpportunity?.formatLabels)
-      ? nextOpportunity.formatLabels
-          .map(formatUserFacingFormatLabel)
-          .filter(Boolean)
-      : [];
+    const formatLabels = filmLevelFormatLabels(nextOpportunity?.formatLabels);
 
     const metaParts = [
       enriched.canonicalYear != null ? String(enriched.canonicalYear) : null,
@@ -123,8 +201,12 @@ export function buildLiveOpeningThisWeekPresentation(
     ].filter(Boolean);
 
     const theaterCount =
-      homeFilm?.theaterCount ??
-      (hasUpcomingShowtimes ? new Set(filmOpportunities.map((o) => o.theaterId)).size : 0);
+      theaters.length > 0
+        ? theaters.length
+        : (homeFilm?.theaterCount ??
+          (hasUpcomingShowtimes
+            ? new Set(filmOpportunities.map((o) => o.theaterId)).size
+            : 0));
 
     return {
       filmKey: homeFilm?.filmKey ?? entry.filmKey,
@@ -139,8 +221,9 @@ export function buildLiveOpeningThisWeekPresentation(
       openingDate: entry.openingDate,
       dateLabel,
       availabilityLabel,
-      theaterId: nextOpportunity?.theaterId ?? openingTheaterId,
-      theaterName: nextOpportunity?.theaterName ?? openingTheaterName,
+      theaterId: primaryTheater?.id ?? nextOpportunity?.theaterId ?? null,
+      theaterName: theaterLine,
+      theaters,
       timeLabel: nextOpportunity?.timeDisplay ?? null,
       formatLabel: formatLabels[0] ?? null,
       formatLabels,
@@ -151,13 +234,7 @@ export function buildLiveOpeningThisWeekPresentation(
       visibleShowtimeCount: entry.visibleShowtimeCount ?? 0,
       hasUpcomingShowtimes,
       whySeeIt: null,
-      alsoPlaying:
-        theaterCount >= 2
-          ? {
-              theaterName: `Also playing at ${theaterCount} theaters`,
-              detailLabel: 'See showtimes',
-            }
-          : null,
+      alsoPlaying: null,
       initiallyExpanded: false,
       hasEnrichment: enriched.hasEnrichment,
       opportunityKey: nextOpportunity?.opportunityKey ?? null,
@@ -174,13 +251,12 @@ export function buildLiveOpeningThisWeekPresentation(
   const categoryChips = showCategoryChips ? [...OPENING_CATEGORY_CHIPS] : [];
 
   const totalCount = presentationFilms.length;
-  const countLabel = `Films opening in Seattle this week · ${totalCount}`;
 
   return {
     source: 'live-opening-artifact',
     pageTitle: 'Opening This Week',
-    pageSubtitle: 'Films opening in Seattle this week',
-    countLabel,
+    pageSubtitle: null,
+    countLabel: null,
     sortLabel: 'Sort',
     filtersLabel: 'Filters',
     films: presentationFilms,
