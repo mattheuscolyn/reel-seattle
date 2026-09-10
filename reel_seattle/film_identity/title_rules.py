@@ -15,6 +15,17 @@ PREFIXES_REL = "data/film_identity/program_series_prefixes.json"
 ALIASES_REL = "data/film_identity/title_search_aliases.json"
 
 _SEP = r"\s*[:–—-]\s*"
+# Presenter prefixes often omit the colon: "Secs Fest Presents The Raspberry Reich".
+_PRESENTS_SEP = rf"(?:{_SEP}|\s+)"
+
+# Search/match only — never rewrite display titles.
+_SEARCH_ABBREVIATIONS: tuple[tuple[re.Pattern[str], str, str], ...] = (
+    (
+        re.compile(r"^MST3K\b", re.IGNORECASE),
+        "Mystery Science Theater 3000",
+        "mst3k",
+    ),
+)
 
 
 @dataclass(frozen=True)
@@ -100,6 +111,28 @@ def lookup_exact_alias(
     return None
 
 
+def expand_known_search_abbreviations(
+    title: str | None,
+) -> tuple[str, str | None]:
+    """Expand known leading abbreviations for search/match only.
+
+    Returns ``(expanded_or_original, abbreviation_id_or_none)``.
+    """
+    text = (title or "").strip()
+    if not text:
+        return "", None
+    for pattern, expansion, abbrev_id in _SEARCH_ABBREVIATIONS:
+        if pattern.search(text):
+            return pattern.sub(expansion, text, count=1), abbrev_id
+    return text, None
+
+
+def _prefix_separator(prefix: str) -> str:
+    if prefix.casefold().rstrip().endswith("presents"):
+        return _PRESENTS_SEP
+    return _SEP
+
+
 def apply_program_series_prefix(
     title: str | None,
     *,
@@ -119,7 +152,7 @@ def apply_program_series_prefix(
         if not _source_allowed(row.get("sources"), source):
             continue
         pattern = re.compile(
-            rf"^{re.escape(prefix)}{_SEP}(?P<body>.+)$",
+            rf"^{re.escape(prefix)}{_prefix_separator(prefix)}(?P<body>.+)$",
             re.IGNORECASE,
         )
         match = pattern.match(text)
@@ -157,7 +190,7 @@ def preview_prefix_impacts(
             continue
         affected: list[dict[str, str]] = []
         pattern = re.compile(
-            rf"^{re.escape(prefix)}{_SEP}(?P<body>.+)$",
+            rf"^{re.escape(prefix)}{_prefix_separator(prefix)}(?P<body>.+)$",
             re.IGNORECASE,
         )
         for title in titles:
@@ -189,18 +222,22 @@ _EVENT_SUFFIX_RES: tuple[re.Pattern[str], ...] = (
         r"^(?P<head>.+?)(?P<sep>\s*[:–—-]\s+)(?P<event>Special\s+.+\s+Fan Event)\s*$",
         re.IGNORECASE,
     ),
-    # "…: Fan Event" / "… Fan Event"
+    # "…: Fan Event" / "… Fan Event" / optional presentation "Premium" atom
     re.compile(
-        r"^(?P<head>.+?)(?P<sep>\s*[:–—-]\s+|\s+)(?P<event>Fan Event)\s*$",
+        r"^(?P<head>.+?)(?P<sep>\s*[:–—-]\s+|\s+)"
+        r"(?P<event>(?:Premium\s+)?Fan Event)\s*$",
         re.IGNORECASE,
     ),
     # "… Early Access – Green Day Intro + Bonus Performance"
+    # Optional adjacent "Premium" is presentation noise, not part of the film.
     re.compile(
-        r"^(?P<head>.+?)(?P<sep>\s+)(?P<event>Early Access(?:\s*[–—:-]\s*.+)?)\s*$",
+        r"^(?P<head>.+?)(?P<sep>\s+)"
+        r"(?P<event>(?:Premium\s+)?Early Access(?:\s*[–—:-]\s*.+)?)\s*$",
         re.IGNORECASE,
     ),
     re.compile(
-        r"^(?P<head>.+?)(?P<sep>\s*[:–—-]\s+)(?P<event>Early Access(?:\s*[–—:-]\s*.+)?)\s*$",
+        r"^(?P<head>.+?)(?P<sep>\s*[:–—-]\s+)"
+        r"(?P<event>(?:Premium\s+)?Early Access(?:\s*[–—:-]\s*.+)?)\s*$",
         re.IGNORECASE,
     ),
     # Trailing bonus / intro performance clauses after a separator.

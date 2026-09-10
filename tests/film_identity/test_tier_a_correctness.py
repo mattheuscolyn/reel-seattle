@@ -236,12 +236,13 @@ def test_search_title_strips_bare_year_and_amc_product_code():
     assert "amc_product_code_paren" in phantasm.applied_rules
 
     meaningful = extract_match_title(
-        "Hundreds Of Beavers (Unite Here Fundraiser)",
-        source="amc",
+        "Serial Mom (A John Waters Film)",
+        source="siff",
     )
-    assert meaningful.base_title == "Hundreds Of Beavers (Unite Here Fundraiser)"
+    assert meaningful.base_title == "Serial Mom (A John Waters Film)"
     assert "amc_product_code_paren" not in meaningful.applied_rules
     assert "film_year_paren" not in meaningful.applied_rules
+    assert "event_parenthetical" not in meaningful.applied_rules
 
 
 def test_composite_plus_programs_excluded_single_titles_remain():
