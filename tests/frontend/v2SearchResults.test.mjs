@@ -184,12 +184,35 @@ test('Today and This week use Pacific date semantics', () => {
 });
 
 test('film ordering is deterministic: exact/prefix before contains', () => {
-  const ranked = rankSearchFilms(
-    sampleHome().films.filter((f) => /alpha/i.test(f.title)),
-    'Alpha',
-    sampleHome(),
+  // Character-prefix (`startsWith`) treats "Alphabet City" as a prefix of
+  // "Alpha", same tier as "Alpha Night". Availability tie-breaks then make
+  // that fixture clock-dependent. Use titles with distinct match tiers and
+  // equal availability so ranking is driven only by title match quality.
+  const home = {
+    films: [
+      {
+        filmKey: 'contains',
+        title: 'Night of Alpha',
+        sourceTitle: 'Night of Alpha',
+      },
+      {
+        filmKey: 'prefix',
+        title: 'Alpha Night',
+        sourceTitle: 'Alpha Night',
+      },
+      {
+        filmKey: 'exact',
+        title: 'Alpha',
+        sourceTitle: 'Alpha',
+      },
+    ],
+    opportunities: [],
+  };
+  const ranked = rankSearchFilms(home.films, 'Alpha', home);
+  assert.deepEqual(
+    ranked.map((film) => film.filmKey),
+    ['exact', 'prefix', 'contains'],
   );
-  assert.equal(ranked[0].filmKey, 'alpha');
 });
 
 test('unsupported person search produces no fictional person results', () => {
