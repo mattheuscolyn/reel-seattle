@@ -118,12 +118,19 @@ TMDB `runtime == 0` is missing evidence, not a zero-minute film.
 
 1. Exact reviewed aliases — `data/film_identity/title_search_aliases.json`
 2. Registered program-series prefixes — `data/film_identity/program_series_prefixes.json` (prefer source-scoped)
-3. Recognized complete event suffixes (Fan Event / Early Access / bonus performance phrases)
-4. Format / accessibility / anniversary presentation stripping
-5. Trailing film-year decoration `(1989)` and narrow AMC product codes `(2026BD)` — year evidence is retained separately
-6. Normalized source-title fallback
+3. Known search-only abbreviation expansion (currently leading `MST3K` → `Mystery Science Theater 3000`)
+4. Recognized complete event suffixes (Fan Event / Early Access / bonus performance phrases)
+5. Format / accessibility / anniversary presentation stripping
+6. Narrow event-decoration parentheticals (`Fundraiser`, `Advance Screening`, `Benefit`, `Member Screening`)
+7. Contextual trailing `Premium` only when adjacent to a known presentation/event phrase
+8. Trailing film-year decoration `(1989)` and narrow AMC product codes `(2026BD)` — year evidence is retained separately
+9. Normalized source-title fallback
+
+TMDB search retries, in order, at most three deterministic queries: normalized title + trusted year, the same title without year, then an alternate cleaned/expanded title if a deterministic transform produced one. Yearless follow-up may also merge when the first search used a year but product/rerelease ambiguity remains. Candidate IDs are deduplicated. Original dirty titles are not re-queried after a successful cleanup.
 
 Original source titles remain for display, tickets, and cockpit diagnostics.
+
+Prefix-title equivalence (source tokens as an exact prefix of a subtitle-like candidate title) may count as title-compatible only with year, director, or strong runtime corroboration. It never auto-confirms on title shape alone.
 
 **Auto-confirm rationale:** False merges are worse than temporary source fallbacks. Require strong title corroboration plus year, compatible runtime (when year absent), **or** exact external ID; popularity may break ties only and never override title/year/runtime conflicts or remake ambiguity.
 

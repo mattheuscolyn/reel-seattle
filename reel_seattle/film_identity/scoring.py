@@ -38,8 +38,43 @@ __all__ = [
     "normalize_title_key",
     "rank_candidates",
     "score_candidate",
+    "subtitle_like_prefix_title",
     "top_candidate_margin",
 ]
+
+_SUBTITLE_LIKE_EXTRAS = frozenset(
+    {
+        ("movie",),
+        ("film",),
+        ("the", "movie"),
+        ("the", "film"),
+    }
+)
+
+
+def subtitle_like_prefix_title(
+    source_tokens: Sequence[str],
+    candidate_tokens: Sequence[str],
+) -> bool:
+    """True when candidate tokens are source tokens plus a short subtitle-like tail.
+
+    ``Mirzapur`` / ``Mirzapur The Movie`` qualifies. ``Invasion`` /
+    ``Invasion of the Body Snatchers`` does not.
+    """
+    source = tuple(source_tokens)
+    candidate = tuple(candidate_tokens)
+    if not source or not candidate or len(candidate) <= len(source):
+        return False
+    if candidate[: len(source)] != source:
+        return False
+    extra = candidate[len(source) :]
+    if extra in _SUBTITLE_LIKE_EXTRAS:
+        return True
+    if extra and extra[0] == "life" and len(extra) >= 3 and extra[1] == "of":
+        return 3 <= len(extra) <= 5
+    if extra and extra[0] in {"part", "vol", "volume"} and 2 <= len(extra) <= 3:
+        return True
+    return False
 
 
 def normalize_runtime_minutes(value: Any) -> int | None:
@@ -189,10 +224,21 @@ def score_candidate(
         else "conflict"
     )
 
+    prefix_shape = subtitle_like_prefix_title(search_tokens, title_toks)
+    strong_prefix_corroboration = bool(
+        year_exact or year_near or director_overlap or runtime_near
+    )
+    title_prefix_equivalence = bool(prefix_shape and strong_prefix_corroboration)
+    if title_prefix_equivalence:
+        title_exact = True
+        title_conflict = False
+
     adult = bool(candidate.get("adult"))
     media_type = _as_str(candidate.get("media_type")) or "movie"
 
     warnings: list[str] = []
+    if title_prefix_equivalence:
+        warnings.append("title_prefix_equivalence")
     matched = 0.0
     available = 0.0
     contributions: dict[str, dict[str, float | str | bool]] = {}
@@ -339,6 +385,10 @@ def score_candidate(
         "title_exact": title_exact or token_equal,
         "original_title_exact": original_exact,
         "title_conflict": title_conflict,
+        "title_prefix_equivalence": title_prefix_equivalence,
+        "search_query": candidate.get("search_query"),
+        "search_query_reason": candidate.get("search_query_reason"),
+        "search_year_used": candidate.get("search_year_used"),
         "year_exact": year_exact,
         "year_near": year_near,
         "year_conflict": year_conflict,
@@ -496,6 +546,15 @@ def _auto_confirm_allowed(candidate: ScoredCandidate) -> bool:
     if candidate.signals.get("year_conflict") or candidate.signals.get("runtime_conflict"):
         return False
     if candidate.signals.get("title_conflict"):
+        return False
+    # Prefix-title credit never auto-confirms without a strong corroborator.
+    if candidate.signals.get("title_prefix_equivalence") and not (
+        candidate.signals.get("year_exact")
+        or candidate.signals.get("year_near")
+        or candidate.signals.get("runtime_near")
+        or candidate.signals.get("director_overlap")
+        or candidate.signals.get("external_id_exact")
+    ):
         return False
     if candidate.signals.get("external_id_exact"):
         return True

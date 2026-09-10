@@ -55,6 +55,104 @@ from reel_seattle.film_identity.tmdb_client import (
 )
 
 
+def plan_tmdb_search_queries(
+    *,
+    search_title: str,
+    alternate_title: str | None = None,
+    search_year: int | None = None,
+    rerelease_ambiguous: bool = False,
+) -> list[dict[str, Any]]:
+    """Bounded deterministic TMDB query plan. Max three queries.
+
+    Order:
+    1. normalized search title + trusted year
+    2. same title without year
+    3. alternate cleaned/expanded title without year, if one exists
+    """
+    _ = rerelease_ambiguous
+    title = (search_title or "").strip()
+    if not title:
+        return []
+    queries: list[dict[str, Any]] = []
+    if isinstance(search_year, int):
+        queries.append(
+            {
+                "title": title,
+                "year": search_year,
+                "reason": "normalized_title_year",
+            }
+        )
+    queries.append(
+        {
+            "title": title,
+            "year": None,
+            "reason": "normalized_title",
+        }
+    )
+    alt = str(alternate_title or "").strip()
+    if alt and alt.casefold() != title.casefold():
+        queries.append(
+            {
+                "title": alt,
+                "year": None,
+                "reason": "alternate_normalized_title",
+            }
+        )
+    return queries[:3]
+
+
+def collect_search_candidates(
+    client: TmdbClient,
+    queries: Sequence[Mapping[str, Any]],
+    *,
+    rerelease_ambiguous: bool = False,
+    per_query_limit: int = 10,
+    max_requests: int = 3,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Run planned queries with dedupe and conservative follow-up policy."""
+    seen_ids: set[int] = set()
+    results: list[dict[str, Any]] = []
+    executed: list[dict[str, Any]] = []
+    primary_title = str((queries[0].get("title") if queries else "") or "")
+    for query in queries:
+        if len(executed) >= max_requests:
+            break
+        title = str(query.get("title") or "").strip()
+        if not title:
+            continue
+        year = query.get("year")
+        year_int = year if isinstance(year, int) else None
+        reason = str(query.get("reason") or "")
+        is_yearless_primary = (
+            year_int is None and title.casefold() == primary_title.casefold()
+        )
+        is_alternate = reason == "alternate_normalized_title"
+        if executed:
+            if results and is_alternate:
+                continue
+            if results and is_yearless_primary:
+                first_had_year = any(isinstance(row.get("year"), int) for row in executed)
+                if not (rerelease_ambiguous and first_had_year):
+                    continue
+            elif results:
+                continue
+        search = client.search_movie(title, year=year_int)
+        executed.append({"title": title, "year": year_int, "reason": reason})
+        for row in (search.get("results") or [])[:per_query_limit]:
+            if not isinstance(row, Mapping) or row.get("id") is None:
+                continue
+            tmdb_id = int(row["id"])
+            if tmdb_id in seen_ids:
+                continue
+            seen_ids.add(tmdb_id)
+            candidate = candidate_from_search_result(row)
+            candidate["search_query"] = title
+            candidate["search_year_used"] = year_int
+            candidate["search_query_reason"] = reason
+            results.append(candidate)
+    return results, executed
+
+
 def match_source_identity(
     identity: Mapping[str, Any],
     *,
@@ -79,15 +177,11 @@ def match_source_identity(
     )
     parsed_fallback = parse_film_id(fallback)
 
-    year_info_raw = identity.get("year_interpretation")
-    if isinstance(year_info_raw, Mapping):
-        year_info = dict(year_info_raw)
-    else:
-        year_info = interpret_source_years(
-            source_title=identity.get("source_title"),
-            product_year=identity.get("release_year") or identity.get("year_hint"),
-            source=identity.get("source"),
-        ).to_dict()
+    year_info = interpret_source_years(
+        source_title=identity.get("source_title"),
+        product_year=identity.get("release_year") or identity.get("year_hint"),
+        source=identity.get("source"),
+    ).to_dict()
     scoring_year = year_info.get("scoring_year")
     if scoring_year is None and not (
         year_info.get("event_year_not_canonical") or year_info.get("product_year_weak")
@@ -119,7 +213,8 @@ def match_source_identity(
         ),
         "candidates": [],
         "signals": None,
-        "normalized_title": identity.get("normalized_title"),
+        "normalized_title": year_info.get("base_title")
+        or identity.get("normalized_title"),
         "year_hint": scoring_year,
         "runtime_min": identity.get("runtime_min"),
         "directors_raw": identity.get("directors_raw"),
@@ -249,7 +344,11 @@ def match_source_identity(
             "match_confidence": None,
         }
 
-    search_title = identity.get("normalized_title") or identity.get("source_title")
+    search_title = (
+        year_info.get("base_title")
+        or identity.get("normalized_title")
+        or identity.get("source_title")
+    )
     if not search_title:
         return {
             **base,
@@ -282,20 +381,22 @@ def match_source_identity(
             year = None
         else:
             year = scoring_year if isinstance(scoring_year, int) else None
-        search = client.search_movie(str(search_title), year=year)
-        results = [
-            candidate_from_search_result(row)
-            for row in (search.get("results") or [])[:10]
-            if isinstance(row, Mapping) and row.get("id") is not None
-        ]
-        # Also search without year if year-filtered search is empty.
-        if not results and year is not None:
-            search = client.search_movie(str(search_title), year=None)
-            results = [
-                candidate_from_search_result(row)
-                for row in (search.get("results") or [])[:10]
-                if isinstance(row, Mapping) and row.get("id") is not None
-            ]
+        queries = plan_tmdb_search_queries(
+            search_title=str(search_title),
+            alternate_title=year_info.get("alternate_search_title"),
+            search_year=year if isinstance(year, int) else None,
+            rerelease_ambiguous=event_relaxed,
+        )
+        results, executed_queries = collect_search_candidates(
+            client,
+            queries,
+            rerelease_ambiguous=event_relaxed,
+        )
+        base["provenance"] = {
+            **base["provenance"],
+            "tmdb_search_queries": executed_queries,
+        }
+        base["normalized_title"] = search_title
 
         enriched: list[dict[str, Any]] = []
         for row in results[:enrich_top_n]:
@@ -650,6 +751,9 @@ def _candidate_payload(candidate: ScoredCandidate) -> dict[str, Any]:
         "poster_path": candidate.poster_path,
         "overview_excerpt": candidate.overview_excerpt,
         "director": candidate.director,
+        "search_query": (candidate.signals or {}).get("search_query"),
+        "search_query_reason": (candidate.signals or {}).get("search_query_reason"),
+        "search_year_used": (candidate.signals or {}).get("search_year_used"),
     }
 
 

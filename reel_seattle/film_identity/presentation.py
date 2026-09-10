@@ -10,6 +10,7 @@ from typing import Any
 from reel_seattle.normalize import normalize_film_title
 from reel_seattle.film_identity.title_rules import (
     apply_program_series_prefix,
+    expand_known_search_abbreviations,
     is_event_suffix_segment,
     lookup_exact_alias,
     strip_recognized_event_suffix,
@@ -88,6 +89,25 @@ _PAREN_PRESENTATION_RE = re.compile(
     r")\s*\)\s*$",
     re.IGNORECASE,
 )
+# Narrow event-decoration parens. Do not strip arbitrary parenthetical subtitles.
+_PAREN_EVENT_DECORATION_RE = re.compile(
+    r"\s*\(\s*(?P<inner>"
+    r"(?:[^()]+\s+)?"
+    r"(?:Fundraiser|Advance\s+Screening|Benefit(?:\s+Screening)?|Member\s+Screening)"
+    r")\s*\)\s*$",
+    re.IGNORECASE,
+)
+_TRAILING_CONTEXTUAL_PREMIUM_RE = re.compile(r"\s+Premium\s*$", re.IGNORECASE)
+_CONTEXTUAL_PREMIUM_RULES = frozenset(
+    {
+        "event_suffix",
+        "event_suffix_segment",
+        "presentation_segment",
+        "presentation_trailing_atoms",
+        "format_or_accessibility_paren",
+        "event_parenthetical",
+    }
+)
 # Mid-title anniversary phrase (e.g. "Only Yesterday 35th Anniversary …").
 _INLINE_ANNIVERSARY_RE = re.compile(
     r"\s+\d+(?:st|nd|rd|th)\s+anniversary(?:\s+screening)?\b",
@@ -163,6 +183,8 @@ class MatchTitleExtraction:
     applied_alias: str | None = None
     event_phrase: str | None = None
     applied_rules: tuple[str, ...] = ()
+    search_abbreviation: str | None = None
+    alternate_search_title: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -177,6 +199,8 @@ class MatchTitleExtraction:
             "applied_alias": self.applied_alias,
             "event_phrase": self.event_phrase,
             "applied_rules": list(self.applied_rules),
+            "search_abbreviation": self.search_abbreviation,
+            "alternate_search_title": self.alternate_search_title,
         }
 
 
@@ -204,6 +228,8 @@ class YearInterpretation:
     applied_alias: str | None = None
     event_phrase: str | None = None
     applied_rules: tuple[str, ...] = ()
+    search_abbreviation: str | None = None
+    alternate_search_title: str | None = None
 
     def scoring_year(self) -> int | None:
         """Year used for TMDB year comparison (never raw event year alone).
@@ -261,6 +287,8 @@ class YearInterpretation:
             "applied_alias": self.applied_alias,
             "event_phrase": self.event_phrase,
             "applied_rules": list(self.applied_rules),
+            "search_abbreviation": self.search_abbreviation,
+            "alternate_search_title": self.alternate_search_title,
             "year_evidence": (
                 "missing"
                 if self.scoring_year() is None and not self.event_year_not_canonical
@@ -411,6 +439,8 @@ def interpret_source_years(
         applied_alias=extracted.applied_alias,
         event_phrase=extracted.event_phrase,
         applied_rules=extracted.applied_rules,
+        search_abbreviation=extracted.search_abbreviation,
+        alternate_search_title=extracted.alternate_search_title,
     )
 
 
@@ -423,9 +453,11 @@ def extract_match_title(
 
     1. Exact reviewed source-title alias
     2. Recognized series/program prefix extraction
-    3. Recognized screening/event suffix extraction
-    4. Existing format/accessibility normalization
-    5. Normalized source title fallback
+    3. Known search-only abbreviation expansion (e.g. MST3K)
+    4. Recognized screening/event suffix extraction
+    5. Existing format/accessibility / event-parenthetical normalization
+    6. Trailing film-year decoration ``(1989)`` and narrow AMC product codes
+    7. Normalized source title fallback
     """
     original = (title or "").strip()
     if not original:
@@ -441,6 +473,8 @@ def extract_match_title(
     applied_alias_id: str | None = None
     applied_alias: str | None = None
     event_phrase: str | None = None
+    search_abbreviation: str | None = None
+    alternate_search_title: str | None = None
 
     # 1) Exact reviewed alias (unsafe-to-generalize cases).
     alias = lookup_exact_alias(original, source=source)
@@ -463,7 +497,15 @@ def extract_match_title(
             applied_rules.append(f"program_series:{series.prefix_id}")
             working = series.remainder
 
-        # 3) Recognized complete event suffixes.
+        # 3) Known leading abbreviations (search/match only).
+        expanded, abbrev_id = expand_known_search_abbreviations(working)
+        if abbrev_id and expanded and expanded != working:
+            alternate_search_title = working
+            search_abbreviation = abbrev_id
+            applied_rules.append(f"search_abbreviation:{abbrev_id}")
+            working = expanded
+
+        # 4) Recognized complete event suffixes.
         head, event = strip_recognized_event_suffix(working)
         if event and head:
             removed.append(event)
@@ -471,11 +513,26 @@ def extract_match_title(
             event_phrase = event
             applied_rules.append("event_suffix")
             working = head
+            working = _strip_contextual_premium(
+                working, removed, event_labels, applied_rules
+            )
 
     # 4) Existing format / accessibility / anniversary normalization.
     changed = True
     while changed:
         changed = False
+        event_paren = _PAREN_EVENT_DECORATION_RE.search(working)
+        if event_paren:
+            phrase = event_paren.group(0).strip()
+            inner = re.sub(r"\s+", " ", event_paren.group("inner").strip())
+            removed.append(phrase)
+            event_labels.append(inner)
+            working = working[: event_paren.start()].strip()
+            working = _cleanup_title_fragment(working)
+            applied_rules.append("event_parenthetical")
+            changed = True
+            continue
+
         paren = _PAREN_PRESENTATION_RE.search(working)
         if paren:
             phrase = paren.group(0).strip()
@@ -600,6 +657,8 @@ def extract_match_title(
         working = _cleanup_title_fragment(working[: film_year_paren.start()])
         applied_rules.append("film_year_paren")
 
+    working = _strip_contextual_premium(working, removed, event_labels, applied_rules)
+
     labels = _presentation_labels(original)
     for item in event_labels + format_tags:
         folded = re.sub(r"\s+", " ", item.casefold().strip())
@@ -626,6 +685,8 @@ def extract_match_title(
         applied_alias=applied_alias,
         event_phrase=event_phrase,
         applied_rules=tuple(dict.fromkeys(applied_rules)),
+        search_abbreviation=search_abbreviation,
+        alternate_search_title=alternate_search_title,
     )
 
 
@@ -649,6 +710,27 @@ def looks_like_feature_presentation(source_title: str | None, base_title: str | 
     if re.fullmatch(r"(?i)fest(?:ival)?|programs?|shorts?", base):
         return False
     return True
+
+
+def _strip_contextual_premium(
+    working: str,
+    removed: list[str],
+    event_labels: list[str],
+    applied_rules: list[str],
+) -> str:
+    """Strip leftover trailing Premium only after known presentation cleanup."""
+    if not _TRAILING_CONTEXTUAL_PREMIUM_RE.search(working):
+        return working
+    if not _CONTEXTUAL_PREMIUM_RULES.intersection(applied_rules):
+        return working
+    cleaned = _TRAILING_CONTEXTUAL_PREMIUM_RE.sub("", working).strip()
+    cleaned = _cleanup_title_fragment(cleaned)
+    if not cleaned or len(cleaned) < 2:
+        return working
+    removed.append("Premium")
+    event_labels.append("Premium")
+    applied_rules.append("contextual_premium")
+    return cleaned
 
 
 def _is_presentation_segment(segment: str) -> bool:
