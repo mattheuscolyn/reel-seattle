@@ -145,18 +145,18 @@ function sampleHome() {
   };
 }
 
-test('Home Special Presentations See all opens Formats & Experiences collection', () => {
+test('Home Special Presentations See all opens dedicated Special Presentations collection', () => {
   assert.equal(HOME_SRC.includes("rowId === 'formats'"), false);
-  assert.match(HOME_SRC, /COLLECTION_IDS\.formats/);
+  assert.match(HOME_SRC, /COLLECTION_IDS\.specialPresentations/);
   assert.match(HOME_SRC, /id="v2-special"/);
   let nav = createInitialNavState();
   nav = openCollection(nav, {
-    collectionId: COLLECTION_IDS.formats,
+    collectionId: COLLECTION_IDS.specialPresentations,
     originPrimary: 'home',
   });
   assert.equal(nav.surface?.type, 'collection');
-  assert.equal(nav.surface?.collectionId, COLLECTION_IDS.formats);
-  assert.equal(resolveActivePrimaryId(nav), 'explore');
+  assert.equal(nav.surface?.collectionId, COLLECTION_IDS.specialPresentations);
+  assert.equal(resolveActivePrimaryId(nav), 'home');
 });
 
 test('V2App routes formats collection to designed FormatsExperiencesSurface', () => {

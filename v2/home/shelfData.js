@@ -10,8 +10,13 @@ import {
   joinLeavingSoonEntryToHomeFilm,
 } from '../adapters/buildLeavingSoon.js';
 import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
-import { buildOpeningDateCopy, pacificTodayIso } from '../opening/openingDateCopy.js';
+import {
+  buildOpeningDateCopy,
+  formatShortOpeningDate,
+  pacificTodayIso,
+} from '../opening/openingDateCopy.js';
 import { resolveOpeningEntryPresentation } from '../opening/resolveOpeningEntryPresentation.js';
+import { resolveJustAnnouncedOpeningDate } from '../justAnnounced/resolveJustAnnouncedOpeningDate.js';
 import {
   HOME_OPENING_SHELF_MAX_CARDS,
   rankOpeningShelfEntries,
@@ -22,11 +27,17 @@ import {
   formatUserFacingFormatLabel,
 } from '../topOpportunities/topOpportunityFormat.js';
 import {
-  CANONICAL_BROWSE_LABEL,
-  EXPERIENCE_CANONICAL_IDS,
-  FORMAT_CANONICAL_IDS,
-  opportunityMatchesCanonical,
-} from '../formatsExperiences/formatNormalize.js';
+  collectSpecialPresentationsByFilm,
+  specialPresentationBrowseLabel,
+} from '../specialPresentations/collectSpecialPresentations.js';
+
+export { resolveJustAnnouncedOpeningDate } from '../justAnnounced/resolveJustAnnouncedOpeningDate.js';
+export {
+  resolveBestSpecialCanonicalId,
+  SPECIAL_PRESENTATION_CANONICAL_IDS,
+  SPECIAL_PRESENTATION_PRIORITY,
+} from '../specialPresentations/collectSpecialPresentations.js';
+
 
 /**
  * Format runtime minutes as "2h 14m" when possible.
@@ -147,13 +158,14 @@ export function buildOpeningThisWeekShelf(homeData, enrichmentIndex = null) {
     const genrePrimary = entry.enriched.genreLine
       ? String(entry.enriched.genreLine).split(',')[0].trim()
       : null;
+    const openingDateBadge = formatShortOpeningDate(entry.openingDate);
 
     return {
       id: homeFilm?.filmKey ?? entry.filmKey,
       filmKey: homeFilm?.filmKey ?? entry.filmKey,
       filmId: entry.enriched.filmId,
       title: entry.enriched.displayTitle ?? entry.title,
-      badge: entry.categoryBadge,
+      badge: openingDateBadge,
       genre: genrePrimary,
       metaLabel: dateLabel,
       posterUrl: entry.enriched.posterUrl,
@@ -284,47 +296,10 @@ export const HOME_SPECIAL_PRESENTATIONS_MAX_CARDS = 6;
 export const HOME_JUST_ANNOUNCED_MAX_CARDS = 6;
 export const JUST_ANNOUNCED_WINDOW_DAYS = 7;
 
-/** Prefer rarer / more premium specials when a film has multiple. */
-export const SPECIAL_PRESENTATION_PRIORITY = Object.freeze([
-  'imax-70mm',
-  '70mm',
-  '35mm',
-  'imax',
-  'dolby-cinema',
-  'xl-amc',
-  'reald-3d',
-  'live-score',
-  'open-caption',
-  'audio-description',
-]);
-
-export const SPECIAL_PRESENTATION_CANONICAL_IDS = Object.freeze([
-  ...FORMAT_CANONICAL_IDS,
-  ...EXPERIENCE_CANONICAL_IDS,
-]);
-
-/**
- * @param {object} opportunity
- * @returns {string | null}
- */
-export function resolveBestSpecialCanonicalId(opportunity) {
-  const matches = SPECIAL_PRESENTATION_CANONICAL_IDS.filter((id) =>
-    opportunityMatchesCanonical(opportunity, id),
-  );
-  if (matches.length === 0) return null;
-  matches.sort((a, b) => {
-    const ai = SPECIAL_PRESENTATION_PRIORITY.indexOf(a);
-    const bi = SPECIAL_PRESENTATION_PRIORITY.indexOf(b);
-    const ap = ai === -1 ? 99 : ai;
-    const bp = bi === -1 ? 99 : bi;
-    return ap - bp;
-  });
-  return matches[0];
-}
-
 /**
  * Films with notable format/experience showtimes (IMAX, 70mm, OC, etc.).
  * Dedupes by film; prefers soonest qualifying showtime among ties on priority.
+ * Qualification: SPECIAL_PRESENTATION_CANONICAL_IDS via collectSpecialPresentationsByFilm.
  *
  * @param {object | null} homeData
  * @param {object | null} [enrichmentIndex]
@@ -347,45 +322,8 @@ export function buildSpecialPresentationsShelf(
     };
   }
 
-  const opportunities = Array.isArray(homeData.opportunities)
-    ? homeData.opportunities
-    : [];
-  const films = Array.isArray(homeData.films) ? homeData.films : [];
-  /** @type {Map<string, { opportunity: object, canonicalId: string }>} */
-  const bestByFilm = new Map();
-
-  for (const opportunity of opportunities) {
-    const filmKey =
-      typeof opportunity?.filmKey === 'string' ? opportunity.filmKey.trim() : '';
-    if (!filmKey) continue;
-    const canonicalId = resolveBestSpecialCanonicalId(opportunity);
-    if (!canonicalId) continue;
-
-    const existing = bestByFilm.get(filmKey);
-    if (!existing) {
-      bestByFilm.set(filmKey, { opportunity, canonicalId });
-      continue;
-    }
-    const existingPri = SPECIAL_PRESENTATION_PRIORITY.indexOf(
-      existing.canonicalId,
-    );
-    const nextPri = SPECIAL_PRESENTATION_PRIORITY.indexOf(canonicalId);
-    const existingRank = existingPri === -1 ? 99 : existingPri;
-    const nextRank = nextPri === -1 ? 99 : nextPri;
-    if (nextRank < existingRank) {
-      bestByFilm.set(filmKey, { opportunity, canonicalId });
-      continue;
-    }
-    if (nextRank === existingRank) {
-      const a = existing.opportunity.sortableLocalDateTime ?? '';
-      const b = opportunity.sortableLocalDateTime ?? '';
-      if (b && (!a || b < a)) {
-        bestByFilm.set(filmKey, { opportunity, canonicalId });
-      }
-    }
-  }
-
-  if (bestByFilm.size === 0) {
+  const rows = collectSpecialPresentationsByFilm(homeData);
+  if (rows.length === 0) {
     return {
       status: 'unavailable',
       reason: 'No special presentations right now.',
@@ -397,22 +335,12 @@ export function buildSpecialPresentationsShelf(
     };
   }
 
-  const ranked = [...bestByFilm.entries()]
-    .map(([filmKey, value]) => ({ filmKey, ...value }))
-    .sort((a, b) => {
-      const ap = SPECIAL_PRESENTATION_PRIORITY.indexOf(a.canonicalId);
-      const bp = SPECIAL_PRESENTATION_PRIORITY.indexOf(b.canonicalId);
-      const aRank = ap === -1 ? 99 : ap;
-      const bRank = bp === -1 ? 99 : bp;
-      if (aRank !== bRank) return aRank - bRank;
-      const at = a.opportunity.sortableLocalDateTime ?? '';
-      const bt = b.opportunity.sortableLocalDateTime ?? '';
-      if (at !== bt) return at < bt ? -1 : 1;
-      return a.filmKey < b.filmKey ? -1 : 1;
-    })
-    .slice(0, Math.max(0, maxCards));
+  const films = Array.isArray(homeData.films) ? homeData.films : [];
+  const ranked = rows.slice(0, Math.max(0, maxCards));
 
-  const shelfFilms = ranked.map(({ filmKey, opportunity, canonicalId }) => {
+  const shelfFilms = ranked.map((row) => {
+    const { filmKey, bestOpportunity: opportunity, bestCanonicalId: canonicalId } =
+      row;
     const homeFilm = films.find((film) => film.filmKey === filmKey) ?? null;
     const enriched = resolveEnrichedFilmPresentation({
       sourceFilm: {
@@ -424,10 +352,7 @@ export function buildSpecialPresentationsShelf(
       enrichmentIndex,
       context: 'home',
     });
-    const badge =
-      CANONICAL_BROWSE_LABEL[canonicalId] ??
-      formatUserFacingFormatLabel(canonicalId) ??
-      canonicalId;
+    const badge = specialPresentationBrowseLabel(canonicalId);
     const runtimeLabel = formatRuntimeLabel(
       enriched.runtimeMin ?? homeFilm?.runtimeMin,
     );
@@ -469,6 +394,8 @@ export function buildSpecialPresentationsShelf(
  * and that still have at least one valid future showtime.
  *
  * Uses `homeData.newlyAdded` (pipeline `newly_added_current`, default 7-day window).
+ * Opening/first-screening badge dates use shared
+ * `resolveJustAnnouncedOpeningDate` (never firstObservedAt).
  *
  * @param {object | null} homeData
  * @param {object | null} [enrichmentIndex]
@@ -572,13 +499,15 @@ export function buildJustAnnouncedShelf(
       ? String(enriched.genreLine).split(',')[0].trim()
       : null;
     const dateLabel = formatLocalDateLabel(entry.firstObservedAt) ?? todayIso;
+    const openingDate = resolveJustAnnouncedOpeningDate(entry, homeData);
+    const openingDateBadge = formatShortOpeningDate(openingDate);
 
     return {
       id: filmKey,
       filmKey,
       filmId: enriched.filmId ?? homeFilm?.filmId ?? null,
       title: enriched.displayTitle ?? homeFilm?.title ?? entry.title ?? filmKey,
-      badge: 'Just announced',
+      badge: openingDateBadge,
       genre: genrePrimary,
       metaLabel: runtimeLabel ?? dateLabel,
       posterUrl:
@@ -588,6 +517,7 @@ export function buildJustAnnouncedShelf(
       showtimeCount: entry.opportunityCount ?? homeFilm?.showtimeCount ?? 0,
       nextOpportunityKey: nextOpportunity?.opportunityKey ?? null,
       firstObservedAt: entry.firstObservedAt,
+      openingDate,
       surfaceReason: 'just-announced',
       surfaceReasonLabel: 'Just announced',
       source: 'newly-added',

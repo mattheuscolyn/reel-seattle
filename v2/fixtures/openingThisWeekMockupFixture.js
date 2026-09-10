@@ -29,7 +29,11 @@ const MIXED_FILMS = Object.freeze([
     dateLabel: 'Opens Fri, May 23',
     availabilityLabel: null,
     theaterId: 'paramount-theatre',
-    theaterName: 'Paramount Theatre',
+    theaterName: 'Paramount Theatre · SIFF Cinema Uptown',
+    theaters: Object.freeze([
+      Object.freeze({ id: 'paramount-theatre', name: 'Paramount Theatre' }),
+      Object.freeze({ id: 'siff-cinema-uptown', name: 'SIFF Cinema Uptown' }),
+    ]),
     timeLabel: 'Fri 7:00pm',
     formatLabel: '70MM',
     formatLabels: Object.freeze(['70MM']),
@@ -38,10 +42,7 @@ const MIXED_FILMS = Object.freeze([
     theaterCount: 2,
     hasUpcomingShowtimes: true,
     whySeeIt: 'Shot on 70mm across breathtaking landscapes.',
-    alsoPlaying: Object.freeze({
-      theaterName: 'SIFF Cinema Uptown',
-      detailLabel: 'May 23 • 7:15pm',
-    }),
+    alsoPlaying: null,
     initiallyExpanded: false,
   }),
   Object.freeze({
@@ -58,6 +59,9 @@ const MIXED_FILMS = Object.freeze([
     availabilityLabel: null,
     theaterId: 'the-beacon-cinema',
     theaterName: 'The Beacon Cinema',
+    theaters: Object.freeze([
+      Object.freeze({ id: 'the-beacon-cinema', name: 'The Beacon Cinema' }),
+    ]),
     timeLabel: null,
     formatLabel: '35MM',
     formatLabels: Object.freeze(['35MM']),
@@ -83,6 +87,12 @@ const MIXED_FILMS = Object.freeze([
     availabilityLabel: null,
     theaterId: 'amc-pacific-place-11',
     theaterName: 'AMC Pacific Place 11',
+    theaters: Object.freeze([
+      Object.freeze({
+        id: 'amc-pacific-place-11',
+        name: 'AMC Pacific Place 11',
+      }),
+    ]),
     timeLabel: null,
     formatLabel: 'DCP',
     formatLabels: Object.freeze(['DCP']),
@@ -109,6 +119,12 @@ const MIXED_FILMS = Object.freeze([
     availabilityLabel: 'No upcoming showtimes',
     theaterId: 'amc-southcenter-16',
     theaterName: 'AMC Southcenter 16',
+    theaters: Object.freeze([
+      Object.freeze({
+        id: 'amc-southcenter-16',
+        name: 'AMC Southcenter 16',
+      }),
+    ]),
     timeLabel: null,
     formatLabel: null,
     formatLabels: Object.freeze([]),
@@ -136,8 +152,8 @@ export function getOpeningThisWeekMockupPresentation() {
 export const OPENING_THIS_WEEK_MOCKUP_FIXTURE = Object.freeze({
   source: 'mockup-fixture',
   pageTitle: 'Opening This Week',
-  pageSubtitle: 'Films opening in Seattle this week',
-  countLabel: 'Films opening in Seattle this week · 4',
+  pageSubtitle: null,
+  countLabel: null,
   sortLabel: 'Sort',
   sortValue: 'Opening date',
   filtersLabel: 'Filters',
@@ -169,7 +185,7 @@ export const OPENING_THIS_WEEK_MOCKUP_FIXTURE = Object.freeze({
 export const OPENING_THIS_WEEK_UNAVAILABLE_FIXTURE = Object.freeze({
   source: 'live-unavailable',
   pageTitle: 'Opening This Week',
-  pageSubtitle: 'Films opening in Seattle this week',
+  pageSubtitle: null,
   countLabel: null,
   unavailableTitle: 'Opening This Week isn’t available right now.',
   unavailableBody: 'Check back later or browse current showtimes.',
@@ -187,7 +203,7 @@ export const OPENING_THIS_WEEK_UNAVAILABLE_FIXTURE = Object.freeze({
 export const OPENING_THIS_WEEK_EMPTY_FIXTURE = Object.freeze({
   source: 'live-empty',
   pageTitle: 'Opening This Week',
-  pageSubtitle: 'Films opening in Seattle this week',
+  pageSubtitle: null,
   countLabel: null,
   emptyTitle: 'Nothing opening in Seattle this week.',
   emptyBody: 'Browse current showtimes to see what’s playing.',
@@ -208,7 +224,7 @@ export const OPENING_THIS_WEEK_EMPTY_FIXTURE = Object.freeze({
 export const OPENING_THIS_WEEK_SPARSE_FIXTURE = Object.freeze({
   ...OPENING_THIS_WEEK_MOCKUP_FIXTURE,
   source: 'mockup-fixture-sparse',
-  countLabel: 'Films opening in Seattle this week · 1',
+  countLabel: null,
   films: Object.freeze([MIXED_FILMS[2]]),
   sections: Object.freeze([
     Object.freeze({ id: 'event', label: 'Special Events', films: [MIXED_FILMS[2]] }),

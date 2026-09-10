@@ -14,6 +14,22 @@ export function pacificTodayIso(timezone = 'America/Los_Angeles') {
 }
 
 /**
+ * Compact opening-date badge: M/D with no leading zeros (e.g. "9/12").
+ * @param {string | null | undefined} isoDate YYYY-MM-DD
+ * @returns {string | null}
+ */
+export function formatShortOpeningDate(isoDate) {
+  if (typeof isoDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) {
+    return null;
+  }
+  const [, month, day] = isoDate.split('-').map(Number);
+  if (!Number.isFinite(month) || !Number.isFinite(day) || month < 1 || day < 1) {
+    return null;
+  }
+  return `${month}/${day}`;
+}
+
+/**
  * @param {string | null | undefined} isoDate
  * @returns {string | null}
  */

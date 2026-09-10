@@ -19,13 +19,10 @@ import { COLLECTION_IDS } from '../../v2/destinations.js';
 import { resolveWeekendRange } from '../../v2/explore/exploreCatalog.js';
 import { normalizeBrowseFilters } from '../../v2/showtimes/browseFilterState.js';
 import { createDefaultShowtimesBrowseUi } from '../../v2/showtimes/showtimesBrowseModel.js';
+import { formatShortOpeningDate } from '../../v2/opening/openingDateCopy.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const HOME_SRC = readFileSync(join(ROOT, 'v2/HomeDestination.jsx'), 'utf8');
-const STRIP_SRC = readFileSync(
-  join(ROOT, 'v2/home/BrowseShowtimesStrip.jsx'),
-  'utf8',
-);
 const SHELF_SRC = readFileSync(join(ROOT, 'v2/home/FilmShelf.jsx'), 'utf8');
 const CSS = readFileSync(join(ROOT, 'v2/v2.css'), 'utf8');
 
@@ -66,6 +63,7 @@ function homeWithSpecials() {
         opportunityKey: 'opp-imax',
         filmKey: 'dune',
         theaterName: 'AMC',
+        localDate: '2026-09-07',
         formatLabels: ['IMAX at AMC'],
         sortableLocalDateTime: '2026-09-07T19:00:00',
       },
@@ -73,6 +71,7 @@ function homeWithSpecials() {
         opportunityKey: 'opp-oc',
         filmKey: 'dune',
         theaterName: 'SIFF',
+        localDate: '2026-09-06',
         formatLabels: ['Open Caption'],
         sortableLocalDateTime: '2026-09-06T14:00:00',
       },
@@ -80,6 +79,7 @@ function homeWithSpecials() {
         opportunityKey: 'opp-70',
         filmKey: 'sinners',
         theaterName: 'Cinerama',
+        localDate: '2026-09-08',
         formatLabels: ['70mm'],
         sortableLocalDateTime: '2026-09-08T20:00:00',
       },
@@ -87,6 +87,7 @@ function homeWithSpecials() {
         opportunityKey: 'opp-plain',
         filmKey: 'plain',
         theaterName: 'SIFF',
+        localDate: '2026-09-06',
         formatLabels: ['Digital'],
         sortableLocalDateTime: '2026-09-06T18:00:00',
       },
@@ -127,15 +128,17 @@ function homeWithSpecials() {
 }
 
 describe('Home browse + shelves redesign', () => {
-  test('Home section order and removed quick-links', () => {
-    assert.match(HOME_SRC, /BrowseShowtimesStrip/);
+  test('Home section order without intro or Browse Showtimes', () => {
+    assert.equal(HOME_SRC.includes('BrowseShowtimesStrip'), false);
+    assert.equal(HOME_SRC.includes('EditorialIntro'), false);
     assert.equal(HOME_SRC.includes('PlannerCta'), false);
     assert.equal(HOME_SRC.includes('ExploreMore'), false);
     assert.equal(HOME_SRC.includes('Browse all showtimes'), false);
+    assert.equal(HOME_SRC.includes('What deserves your attention'), false);
+    assert.equal(HOME_SRC.includes('Curated opportunities'), false);
 
     const markers = [
       'TopOpportunityFeature',
-      'BrowseShowtimesStrip',
       'id="v2-leaving"',
       'id="v2-special"',
       'id="v2-opening"',
@@ -149,36 +152,14 @@ describe('Home browse + shelves redesign', () => {
     }
   });
 
-  test('Browse Showtimes strip is a neutral launcher without See all or active chip', () => {
-    assert.match(STRIP_SRC, /Browse Showtimes/);
-    assert.match(STRIP_SRC, /data-home-browse-strip/);
-    assert.match(STRIP_SRC, /data-browse-entry=\{entry\.id\}/);
-    assert.match(STRIP_SRC, /id: 'all'/);
-    assert.match(STRIP_SRC, /id: 'today'/);
-    assert.match(STRIP_SRC, /id: 'weekend'/);
-    assert.match(STRIP_SRC, /label: 'This weekend'|This weekend/);
-    assert.match(STRIP_SRC, /id: 'theaters'/);
-    assert.match(STRIP_SRC, /v2-home-browse-icon/);
-    assert.match(STRIP_SRC, /IconBrowseGrid|IconCalendar|IconHome/);
-    assert.equal(STRIP_SRC.includes("id: 'nearby'"), false);
-    assert.equal(STRIP_SRC.includes('Nearby'), false);
-    assert.equal(STRIP_SRC.includes('Favorite'), false);
-    assert.equal(STRIP_SRC.includes('favoritesOnly'), false);
-    assert.equal(STRIP_SRC.includes('getFavoriteTheaters'), false);
-    assert.equal(STRIP_SRC.includes('See all'), false);
-    assert.equal(STRIP_SRC.includes('v2-search-chip-active'), false);
-    assert.equal(STRIP_SRC.includes('aria-pressed'), false);
-    assert.match(STRIP_SRC, /dateMode: 'week'/);
-    assert.match(STRIP_SRC, /dateMode: 'today'/);
-    assert.match(STRIP_SRC, /resolveWeekendRange/);
-    assert.match(STRIP_SRC, /mode: 'range'/);
-    assert.match(STRIP_SRC, /COLLECTION_IDS\.theaters/);
-    assert.match(CSS, /\.v2-home-browse-chip\b/);
-    assert.match(CSS, /grid-template-columns:\s*repeat\(4/);
-    assert.equal(CSS.includes('.v2-home-browse-chip-active'), false);
+  test('obsolete Home Browse Showtimes code is removed', () => {
+    assert.equal(CSS.includes('.v2-home-browse-chip'), false);
+    assert.equal(CSS.includes('.v2-home-browse'), false);
+    assert.equal(CSS.includes('.v2-home-intro'), false);
+    assert.equal(CSS.includes('.v2-home-question'), false);
   });
 
-  test('Browse entry actions open intended nav surfaces', () => {
+  test('Browse Showtimes destinations remain reachable outside Home', () => {
     let nav = openShowtimesBrowse(createInitialNavState(), {
       originPrimary: 'home',
       browseUi: {
@@ -295,7 +276,7 @@ describe('Home browse + shelves redesign', () => {
     );
   });
 
-  test('Just Announced uses newlyAdded firstObserved window with active showtimes', () => {
+  test('Just Announced uses opening-date badge from screening date, not generic copy', () => {
     const home = homeWithSpecials();
     const shelf = buildJustAnnouncedShelf(home, null, {
       now: new Date('2026-09-05T20:00:00-07:00'),
@@ -304,7 +285,10 @@ describe('Home browse + shelves redesign', () => {
     assert.equal(shelf.status, 'ready');
     assert.equal(shelf.films.length, 1);
     assert.equal(shelf.films[0].filmKey, 'dune');
-    assert.equal(shelf.films[0].badge, 'Just announced');
+    assert.equal(shelf.films[0].badge, '9/6');
+    assert.equal(shelf.films[0].badge, formatShortOpeningDate('2026-09-06'));
+    assert.notEqual(shelf.films[0].badge, 'Just announced');
+    assert.equal(shelf.films[0].surfaceReasonLabel, 'Just announced');
     assert.equal(
       shelf.films.some((film) => film.filmKey === 'old'),
       false,
@@ -315,12 +299,73 @@ describe('Home browse + shelves redesign', () => {
     );
   });
 
-  test('Just Announced hides See all; other shelves keep See all wiring', () => {
+  test('Just Announced hides badge when opening/screening date is unknown', () => {
+    const home = {
+      timezone: 'America/Los_Angeles',
+      films: [
+        {
+          filmKey: 'no-date',
+          title: 'Mystery',
+          theaterCount: 1,
+          showtimeCount: 1,
+          runtimeMin: 90,
+          posterUrl: null,
+          filmId: null,
+        },
+      ],
+      opportunities: [],
+      newlyAdded: [
+        {
+          filmKey: 'no-date',
+          title: 'Mystery',
+          firstObservedAt: '2026-09-04',
+          hasActiveShowtimes: true,
+          opportunityCount: 1,
+          theaterCount: 1,
+          nextShowtimeAt: null,
+          posterUrl: null,
+        },
+      ],
+    };
+    const shelf = buildJustAnnouncedShelf(home, null, {
+      now: new Date('2026-09-05T20:00:00-07:00'),
+      windowDays: 7,
+    });
+    assert.equal(shelf.status, 'ready');
+    assert.equal(shelf.films.length, 1);
+    assert.equal(shelf.films[0].badge, null);
+    assert.notEqual(shelf.films[0].badge, 'Just announced');
+  });
+
+  test('Just Announced prefers Opening This Week openingDate when available', () => {
+    const home = homeWithSpecials();
+    home.openingThisWeek = {
+      status: 'available',
+      timezone: 'America/Los_Angeles',
+      entries: [
+        {
+          filmKey: 'dune',
+          showtimeFilmKey: 'dune',
+          openingDate: '2026-09-12',
+        },
+      ],
+    };
+    const shelf = buildJustAnnouncedShelf(home, null, {
+      now: new Date('2026-09-05T20:00:00-07:00'),
+      windowDays: 7,
+    });
+    assert.equal(shelf.films[0].badge, '9/12');
+    assert.equal(shelf.films[0].openingDate, '2026-09-12');
+  });
+
+  test('Just Announced renders See all; other shelves keep See all wiring', () => {
     assert.match(SHELF_SRC, /hideSeeAll/);
-    assert.match(HOME_SRC, /id="v2-announced"[\s\S]*hideSeeAll/s);
+    assert.match(HOME_SRC, /id="v2-announced"[\s\S]*onSeeAll/s);
+    assert.equal(/id="v2-announced"[\s\S]*hideSeeAll/s.test(HOME_SRC), false);
     assert.match(HOME_SRC, /COLLECTION_IDS\.leavingSoon/);
-    assert.match(HOME_SRC, /COLLECTION_IDS\.formats/);
+    assert.match(HOME_SRC, /COLLECTION_IDS\.specialPresentations/);
     assert.match(HOME_SRC, /COLLECTION_IDS\.openingThisWeek/);
+    assert.match(HOME_SRC, /COLLECTION_IDS\.justAnnounced/);
   });
 
   test('shelf horizontal strip contract remains', () => {

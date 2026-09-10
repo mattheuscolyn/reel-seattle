@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { COLLECTION_IDS } from './destinations.js';
-import EditorialIntro from './home/EditorialIntro.jsx';
-import BrowseShowtimesStrip from './home/BrowseShowtimesStrip.jsx';
 import FilmShelf from './home/FilmShelf.jsx';
 import TopOpportunityFeature from './home/TopOpportunityFeature.jsx';
 import {
@@ -32,6 +30,7 @@ export default function HomeDestination({
   restoreState = null,
   onRestoreConsumed,
 }) {
+  void onOpenShowtimesBrowse;
   const mockupMode = isHomeMockupMode();
   const mockup = mockupMode ? getHomeLandingMockupPresentation() : null;
 
@@ -115,8 +114,6 @@ export default function HomeDestination({
       className="v2-home"
       data-home-source={mockup ? 'home-landing-mockup' : 'home-data'}
     >
-      <EditorialIntro />
-
       <TopOpportunityFeature
         status={mockup ? 'ready' : loadStatus}
         homeData={effectiveHomeData}
@@ -134,14 +131,6 @@ export default function HomeDestination({
             filmKeyExpanded: expanded.filmKey,
           });
         }}
-      />
-
-      <BrowseShowtimesStrip
-        expandedShelfId={expanded.shelfId}
-        expandedFilmKey={expanded.filmKey}
-        topOppIndex={topOppIndex}
-        onOpenShowtimesBrowse={onOpenShowtimesBrowse}
-        onOpenCollection={onOpenCollection}
       />
 
       <FilmShelf
@@ -184,7 +173,7 @@ export default function HomeDestination({
         onExpandFilm={(filmKey) => setShelfExpansion('v2-special', filmKey)}
         onSeeAll={() =>
           onOpenCollection({
-            collectionId: COLLECTION_IDS.formats,
+            collectionId: COLLECTION_IDS.specialPresentations,
             originPrimary: 'home',
           })
         }
@@ -237,11 +226,16 @@ export default function HomeDestination({
         homeData={effectiveHomeData}
         enrichmentIndex={mockup ? null : enrichmentIndex}
         hideStatusNotes={Boolean(mockup)}
-        hideSeeAll
         expandedFilmKey={
           expanded.shelfId === 'v2-announced' ? expanded.filmKey : null
         }
         onExpandFilm={(filmKey) => setShelfExpansion('v2-announced', filmKey)}
+        onSeeAll={() =>
+          onOpenCollection({
+            collectionId: COLLECTION_IDS.justAnnounced,
+            originPrimary: 'home',
+          })
+        }
         onMoreDetails={({ filmKey, opportunityKey }) =>
           openDetailFromHome({
             filmKey,

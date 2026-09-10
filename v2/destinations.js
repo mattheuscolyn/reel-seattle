@@ -14,7 +14,7 @@ export const PRIMARY_DESTINATIONS = Object.freeze([
     label: 'Home',
     title: 'Home',
     description:
-      'Curated Home — Top Opportunities, Browse Showtimes, and film shelves (Leaving Soon, Special Presentations, Opening This Week, Just Announced).',
+      'Curated Home — Top Opportunity and film shelves (Leaving Soon, Special Presentations, Opening This Week, Just Announced).',
   }),
   Object.freeze({
     id: 'explore',
@@ -114,7 +114,12 @@ export function resolveActivePrimaryId(nav) {
     return resolveDestinationId(nav.surface.originPrimary ?? primary);
   }
   if (nav.surface?.type === 'collection') {
-    if (nav.surface.collectionId === 'opening-this-week') {
+    if (
+      nav.surface.collectionId === 'opening-this-week' ||
+      nav.surface.collectionId === 'leaving-soon' ||
+      nav.surface.collectionId === 'just-announced' ||
+      nav.surface.collectionId === 'special-presentations'
+    ) {
       return resolveDestinationId(nav.surface.originPrimary ?? primary);
     }
     const origin = resolveDestinationId(nav.surface.originPrimary ?? primary);

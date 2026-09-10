@@ -14,7 +14,7 @@ import {
   openFilmDetail,
   selectPrimaryDestination,
 } from '../../v2/navigation/navState.js';
-import { pacificTodayIso } from '../../v2/opening/openingDateCopy.js';
+import { formatShortOpeningDate, pacificTodayIso } from '../../v2/opening/openingDateCopy.js';
 import {
   buildInlineQuickDetail,
   buildLeavingSoonShelf,
@@ -180,12 +180,18 @@ test('carousel wraps circularly with previous/next', () => {
 });
 
 test('Opening This Week Home shelf uses verified opening artifact', () => {
-  const shelf = buildOpeningThisWeekShelf(minimalHomeData());
+  const home = minimalHomeData();
+  const shelf = buildOpeningThisWeekShelf(home);
   assert.equal(shelf.status, 'ready');
   assert.equal(shelf.films.length, 1);
   assert.equal(shelf.films[0].filmKey, 'film-a');
   assert.equal(shelf.films[0].source, 'opening-this-week-verified');
-  assert.equal(shelf.films[0].badge, 'New');
+  assert.equal(
+    shelf.films[0].badge,
+    formatShortOpeningDate(home.openingThisWeek.entries[0].openingDate),
+  );
+  assert.notEqual(shelf.films[0].badge, 'New');
+  assert.equal(shelf.films[0].surfaceReasonLabel, 'New');
   assert.equal(shelf.films[0].title.includes('Long Horizon'), false);
 });
 
@@ -239,13 +245,14 @@ test('mockup mode stays isolated behind homeMockup query', () => {
   assert.equal(homeSrc.includes('fixture-open-2') || homeSrc.includes('Blue Hour'), true);
 });
 
-test('shared Home shelves and Browse Showtimes structure used for live and mockup', () => {
+test('shared Home shelves structure used for live and mockup', () => {
   const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
   const homeSrc = readFileSync(join(root, 'v2/HomeDestination.jsx'), 'utf8');
   assert.match(homeSrc, /TopOpportunityFeature/);
-  assert.match(homeSrc, /BrowseShowtimesStrip/);
+  assert.equal(homeSrc.includes('BrowseShowtimesStrip'), false);
+  assert.equal(homeSrc.includes('EditorialIntro'), false);
+  assert.equal(homeSrc.includes('What deserves your attention'), false);
   assert.match(homeSrc, /FilmShelf/);
-  assert.match(homeSrc, /EditorialIntro/);
   assert.equal(homeSrc.includes('PlannerCta'), false);
   assert.equal(homeSrc.includes('ExploreMore'), false);
   assert.equal(homeSrc.includes('TOP_OPPORTUNITY_FIXTURES'), false);

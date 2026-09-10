@@ -239,6 +239,7 @@ test('Opening filters combine theater/format/date and support empty state', () =
   assert.equal(countActiveOpeningFilters({ theaterId: 'x' }), 1);
   assert.match(OPENING_SRC, /filterOpeningFilms/);
   assert.match(OPENING_SRC, /No Opening This Week films match these filters/);
+  assert.match(OPENING_SRC, /HomeShelfDetailSurface/);
 });
 
 test('Opening This Week opened from Home highlights Home in bottom nav', () => {
@@ -308,9 +309,15 @@ test('Theater list Favorite toggles and persists via favoriteTheatersStore', () 
   assert.equal(isTheaterFavorite(storage, ref), false);
 });
 
-test('TMDB attribution stays on the shared Opening component', () => {
+test('TMDB attribution stays on the shared Opening shelf-detail shell', () => {
   assert.match(TMDB_SRC, /v2-tmdb-attribution/);
-  assert.match(OPENING_SRC, /<TmdbAttribution compact \/>/);
+  assert.match(OPENING_SRC, /HomeShelfDetailSurface/);
+  const shellSrc = readFileSync(
+    join(ROOT, 'v2/homeShelfDetail/HomeShelfDetailSurface.jsx'),
+    'utf8',
+  );
+  assert.match(shellSrc, /<TmdbAttribution compact \/>/);
+  assert.equal(OPENING_SRC.includes('<TmdbAttribution compact />'), false);
   const profile = readFileSync(
     join(ROOT, 'v2/profile/ProfileDestination.jsx'),
     'utf8',

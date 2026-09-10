@@ -82,6 +82,9 @@ import SearchResultsSurface from './surfaces/SearchResultsSurface.jsx';
 import ShowtimesSurface from './surfaces/ShowtimesSurface.jsx';
 import ShowtimesBrowseSurface from './surfaces/ShowtimesBrowseSurface.jsx';
 import OpeningThisWeekSurface from './opening/OpeningThisWeekSurface.jsx';
+import LeavingSoonSurface from './leaving/LeavingSoonSurface.jsx';
+import JustAnnouncedSurface from './justAnnounced/JustAnnouncedSurface.jsx';
+import SpecialPresentationsSurface from './specialPresentations/SpecialPresentationsSurface.jsx';
 import BuildPlanSurface from './planner/BuildPlanSurface.jsx';
 import BuildPlanResultsSurface from './planner/BuildPlanResultsSurface.jsx';
 import BuildPlanFilmManageSurface from './planner/BuildPlanFilmManageSurface.jsx';
@@ -1011,6 +1014,15 @@ export default function V2App() {
   const isOpeningThisWeek =
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.openingThisWeek;
+  const isLeavingSoon =
+    nav.surface?.type === 'collection' &&
+    nav.surface.collectionId === COLLECTION_IDS.leavingSoon;
+  const isJustAnnounced =
+    nav.surface?.type === 'collection' &&
+    nav.surface.collectionId === COLLECTION_IDS.justAnnounced;
+  const isSpecialPresentations =
+    nav.surface?.type === 'collection' &&
+    nav.surface.collectionId === COLLECTION_IDS.specialPresentations;
   const isTheatersList =
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.theaters;
@@ -1368,14 +1380,10 @@ export default function V2App() {
       />
     );
   } else if (isOpeningThisWeek) {
-    const openingBackLabel =
-      nav.surface.originPrimary === 'home' ? 'Home' : 'Explore';
     mainContent = (
       <OpeningThisWeekSurface
         homeData={sharedHomeData.homeData}
         enrichmentIndex={enrichmentState.index}
-        onBack={handleBack}
-        backLabel={openingBackLabel}
         onOpenFilmDetail={({ filmKey, opportunityKey }) =>
           handleOpenFilmDetail({
             filmKey,
@@ -1404,6 +1412,93 @@ export default function V2App() {
           );
           window.setTimeout(() => setProfileStubStatus(null), 2500);
         }}
+      />
+    );
+  } else if (isLeavingSoon) {
+    mainContent = (
+      <LeavingSoonSurface
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
+        onOpenFilmDetail={({ filmKey, opportunityKey }) =>
+          handleOpenFilmDetail({
+            filmKey,
+            opportunityKey,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            exploreRestore: nav.surface.exploreRestore ?? null,
+            homeRestore: null,
+            returnSurface: nav.surface,
+          })
+        }
+        onOpenShowtimes={({ filmKey, theaterId, opportunityKey }) =>
+          handleOpenShowtimes({
+            filmKey,
+            theaterId: theaterId ?? null,
+            opportunityKey: opportunityKey ?? null,
+          })
+        }
+        onOpenShowtimesBrowse={() =>
+          handleOpenShowtimesBrowse({
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+          })
+        }
+      />
+    );
+  } else if (isJustAnnounced) {
+    mainContent = (
+      <JustAnnouncedSurface
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
+        onOpenFilmDetail={({ filmKey, opportunityKey }) =>
+          handleOpenFilmDetail({
+            filmKey,
+            opportunityKey,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            exploreRestore: nav.surface.exploreRestore ?? null,
+            homeRestore: null,
+            returnSurface: nav.surface,
+          })
+        }
+        onOpenShowtimes={({ filmKey, theaterId, opportunityKey }) =>
+          handleOpenShowtimes({
+            filmKey,
+            theaterId: theaterId ?? null,
+            opportunityKey: opportunityKey ?? null,
+          })
+        }
+        onOpenShowtimesBrowse={() =>
+          handleOpenShowtimesBrowse({
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+          })
+        }
+      />
+    );
+  } else if (isSpecialPresentations) {
+    mainContent = (
+      <SpecialPresentationsSurface
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
+        onOpenFilmDetail={({ filmKey, opportunityKey }) =>
+          handleOpenFilmDetail({
+            filmKey,
+            opportunityKey,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            exploreRestore: nav.surface.exploreRestore ?? null,
+            homeRestore: null,
+            returnSurface: nav.surface,
+          })
+        }
+        onOpenShowtimes={({ filmKey, theaterId, opportunityKey }) =>
+          handleOpenShowtimes({
+            filmKey,
+            theaterId: theaterId ?? null,
+            opportunityKey: opportunityKey ?? null,
+          })
+        }
+        onOpenShowtimesBrowse={() =>
+          handleOpenShowtimesBrowse({
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+          })
+        }
       />
     );
   } else if (isTheaterDetail) {
