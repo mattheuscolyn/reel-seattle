@@ -9,7 +9,6 @@ import {
   IconPin,
   IconTicket,
 } from '../icons.jsx';
-import BackButton from './BackButton.jsx';
 import { FormatTile } from './FormatTile.jsx';
 import {
   AtAGlanceGrid,
@@ -30,7 +29,6 @@ import { composeFormatDetail } from './composeFormatsExperiencesPresentation.js'
 export default function FormatDetailSurface({
   formatId,
   homeData = null,
-  onBack,
   onCompareFormats,
   onBrowseShowtimes,
 }) {
@@ -43,7 +41,6 @@ export default function FormatDetailSurface({
   if (!detail) {
     return (
       <div className="v2-fe-page">
-        <BackButton onClick={onBack} />
         <p role="status">Format not found.</p>
       </div>
     );
@@ -55,8 +52,6 @@ export default function FormatDetailSurface({
       data-fe-source="format-detail"
       data-fe-format-id={detail.id}
     >
-      <BackButton onClick={onBack} />
-
       <header className="v2-fe-detail-hero">
         <FormatTile
           tone={detail.tileTone}

@@ -8,10 +8,8 @@ import {
 } from '../explore/exploreCatalog.js';
 import { formatRuntimeLabel } from '../home/shelfData.js';
 import { formatUserFacingFormatLabel } from '../topOpportunities/topOpportunityFormat.js';
-import {
-  opportunitySortableKey,
-  pacificSortableDateTime,
-} from '../showtimes/showtimeEligibility.js';
+import { opportunitySortableKey } from '../showtimes/showtimeEligibility.js';
+import { isActionableScreening } from '../showtimes/canonicalScreening.js';
 import { isFilmSaved } from '../stores/savedFilmsStore.js';
 import { isFilmNotInterested } from '../stores/notInterestedFilmsStore.js';
 import { isFilmSeen } from '../stores/seenFilmsStore.js';
@@ -46,17 +44,8 @@ export function isEligiblePlannerCatalogOpportunity(opportunity, options) {
     return false;
   }
 
-  const sortable = opportunitySortableKey(opportunity);
-  if (!sortable) return false;
-
-  const now = options.now ?? new Date();
-  const nowFn = typeof now === 'function' ? now : () => now;
-  const today = pacificDateString(nowFn());
-  if (localDate < today) return false;
-  if (localDate === today && sortable < pacificSortableDateTime(nowFn)) {
-    return false;
-  }
-  return true;
+  if (!opportunitySortableKey(opportunity)) return false;
+  return isActionableScreening(opportunity, options.now);
 }
 
 /**

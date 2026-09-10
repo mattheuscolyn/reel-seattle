@@ -138,3 +138,81 @@ export function originBackLabel(originPrimary, fallback = 'Explore') {
   if (origin === 'planner') return 'Planner';
   return fallback;
 }
+
+const HEADER_BACK_EXCLUDED = new Set([
+  'admin-tmdb-review',
+  'build-plan-theater-manage',
+]);
+
+/**
+ * Destination label for the shared header back control.
+ * Returns null when the header should not show Back.
+ *
+ * @param {{
+ *   primaryDestinationId?: string,
+ *   surface?: {
+ *     type?: string,
+ *     originPrimary?: string,
+ *     collectionId?: string,
+ *     returnSurface?: { type?: string } | null,
+ *   } | null,
+ * }} nav
+ * @param {{ filmBackLabel?: string | null }} [options]
+ * @returns {string | null}
+ */
+export function resolveHeaderBackLabel(nav, options = {}) {
+  const surface = nav?.surface;
+  if (!surface?.type || HEADER_BACK_EXCLUDED.has(surface.type)) {
+    return null;
+  }
+
+  if (surface.type === 'film-detail') {
+    return options.filmBackLabel || originBackLabel(surface.originPrimary);
+  }
+  if (surface.type === 'showtimes') return 'Film';
+  if (surface.type === 'showtimes-browse') {
+    return originBackLabel(surface.originPrimary);
+  }
+  if (surface.type === 'opportunity-detail') {
+    return originBackLabel(surface.originPrimary);
+  }
+  if (surface.type === 'theater-detail') {
+    if (surface.returnSurface?.type === 'collection') return 'Theaters';
+    return originBackLabel(surface.originPrimary);
+  }
+  if (surface.type === 'build-plan-plan-details') {
+    return surface.returnSurface?.type === 'build-plan-results'
+      ? 'Results'
+      : 'Planner';
+  }
+  if (
+    surface.type === 'build-plan' ||
+    surface.type === 'build-plan-results' ||
+    surface.type === 'build-plan-film-manage' ||
+    surface.type === 'build-plan-showtime-manage'
+  ) {
+    return 'Planner';
+  }
+  if (
+    surface.type === 'profile-settings' ||
+    surface.type === 'profile-friends'
+  ) {
+    return originBackLabel(surface.originPrimary);
+  }
+  if (surface.type === 'friend-invite-landing') {
+    return originBackLabel(surface.originPrimary, 'Home');
+  }
+  if (
+    surface.type === 'format-detail' ||
+    surface.type === 'experience-detail' ||
+    surface.type === 'compare-formats' ||
+    surface.type === 'format-recommendation'
+  ) {
+    return 'Explore';
+  }
+  if (surface.type === 'collection') {
+    if (surface.collectionId === 'search-results') return 'Explore';
+    return originBackLabel(surface.originPrimary);
+  }
+  return originBackLabel(surface.originPrimary);
+}

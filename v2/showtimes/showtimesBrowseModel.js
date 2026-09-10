@@ -7,9 +7,7 @@ import {
   formatCompactDateLabel,
   formatCompactDateRange,
 } from '../explore/exploreCatalog.js';
-import {
-  formatUserFacingFormatLabel,
-} from '../topOpportunities/topOpportunityFormat.js';
+import { formatPresentationLabel } from './canonicalScreening.js';
 import { normalizeExternalTicketUrl } from '../ticket/externalTicketUrl.js';
 import {
   opportunitySortableKey,
@@ -22,6 +20,7 @@ import {
   countActiveBrowseFilterDimensions,
   evaluateBrowseFilters,
 } from './browseFilterEngine.js';
+import { composeShowtimesFreshness } from './showtimesFreshness.js';
 import {
   browseEmptyMessageForReason,
   normalizeBrowseFilters,
@@ -88,12 +87,9 @@ export function normalizeBrowseFormat(raw) {
   if (typeof raw !== 'string') return null;
   const trimmed = raw.trim();
   if (!trimmed) return null;
-  const facing = formatUserFacingFormatLabel(trimmed);
-  if (facing) {
-    return { key: facing.toLowerCase(), label: facing };
-  }
-  const key = trimmed.toLowerCase().replace(/\s+/g, '-');
-  return { key, label: trimmed };
+  const facing = formatPresentationLabel(trimmed);
+  if (!facing) return null;
+  return { key: facing.toLowerCase(), label: facing };
 }
 
 /**
@@ -445,5 +441,6 @@ export function buildShowtimesBrowsePresentation(
     showResetFilters: Boolean(
       emptyMessage && hasActiveFilters && evaluation.eligibleOpportunities.length > 0,
     ),
+    freshness: composeShowtimesFreshness(homeData, { now }),
   };
 }

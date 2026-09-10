@@ -8,6 +8,7 @@ import {
   getDestinationById,
   resolveActivePrimaryId,
   resolveDestinationId,
+  resolveHeaderBackLabel,
 } from '../../v2/destinations.js';
 
 test('PRIMARY_DESTINATIONS is Home Explore Planner Profile', () => {
@@ -39,6 +40,37 @@ test('resolveDestinationId falls back to Home', () => {
   assert.equal(resolveDestinationId('explore'), 'explore');
   assert.equal(resolveDestinationId('movies'), 'home');
   assert.equal(resolveDestinationId('me'), 'home');
+});
+
+test('header back labels use one destination name per nested surface', () => {
+  assert.equal(
+    resolveHeaderBackLabel({
+      primaryDestinationId: 'home',
+      surface: { type: 'film-detail', originPrimary: 'home' },
+    }),
+    'Home',
+  );
+  assert.equal(
+    resolveHeaderBackLabel({
+      primaryDestinationId: 'explore',
+      surface: { type: 'collection', collectionId: 'theaters', originPrimary: 'explore' },
+    }),
+    'Explore',
+  );
+  assert.equal(
+    resolveHeaderBackLabel({
+      primaryDestinationId: 'planner',
+      surface: { type: 'build-plan', originPrimary: 'planner' },
+    }),
+    'Planner',
+  );
+  assert.equal(
+    resolveHeaderBackLabel({
+      primaryDestinationId: 'home',
+      surface: null,
+    }),
+    null,
+  );
 });
 
 test('Film Detail keeps originating primary active', () => {

@@ -265,7 +265,7 @@ test('CTA accessible; Finish before present; Clear all / Reset not in expanded c
   assert.match(FIXTURE_SRC, /Finish before/);
   assert.match(APP_SRC, /headerMode=\{/);
   assert.match(APP_SRC, /build-plan/);
-  assert.match(APP_SRC, /backStyle/);
+  assert.match(APP_SRC, /resolveHeaderBackLabel/);
 });
 
 test('Navigation: Planner → Build a Plan → Back restores Planner', () => {

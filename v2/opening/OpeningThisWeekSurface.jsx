@@ -266,8 +266,6 @@ function OpeningFilmCard({
  * }} props
  */
 export default function OpeningThisWeekSurface({
-  onBack,
-  backLabel = 'Home',
   homeData = null,
   enrichmentIndex = null,
   onOpenFilmDetail,
@@ -371,15 +369,6 @@ export default function OpeningThisWeekSurface({
       aria-labelledby="v2-opening-page-title"
       data-opening-source={basePresentation.source}
     >
-      <button
-        type="button"
-        className="v2-opening-page-back"
-        aria-label={`Back to ${backLabel}`}
-        onClick={onBack}
-      >
-        ← {backLabel}
-      </button>
-
       <header className="v2-opening-page-header" data-opening-section="header">
         <h1 id="v2-opening-page-title" className="v2-opening-page-title">
           {basePresentation.pageTitle}

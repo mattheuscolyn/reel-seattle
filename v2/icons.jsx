@@ -751,5 +751,5 @@ const NAV_ICONS = {
 
 export function NavDestinationIcon({ id }) {
   const Cmp = NAV_ICONS[id] ?? IconHome;
-  return <Cmp />;
+  return <Cmp width={22} height={22} />;
 }

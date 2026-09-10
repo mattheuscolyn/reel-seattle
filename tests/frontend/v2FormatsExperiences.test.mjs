@@ -196,13 +196,12 @@ test('Landing content includes seven formats and three experiences', () => {
   assert.match(LANDING_SRC, /Filters/);
 });
 
-test('Icon-only BackButton replaces purple text back links', () => {
-  assert.match(BACK_SRC, /aria-label=\{label\}/);
-  assert.match(BACK_SRC, /v2-fe-back/);
-  assert.match(BACK_SRC, /IconChevronLeft/);
+test('Formats landing uses header back, not an in-page back control', () => {
+  assert.match(BACK_SRC, /shell\/BackButton/);
+  assert.equal(LANDING_SRC.includes('<BackButton'), false);
   assert.equal(LANDING_SRC.includes('← Explore'), false);
   assert.equal(LANDING_SRC.includes('← Formats'), false);
-  assert.match(CSS, /\.v2-fe-back\b/);
+  assert.match(APP_SRC, /resolveHeaderBackLabel/);
 });
 
 test('Format and experience detail composers use Markdown content', () => {

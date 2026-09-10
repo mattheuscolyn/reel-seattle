@@ -247,8 +247,6 @@ function TheaterListItem({
  * }} props
  */
 export default function TheatersSurface({
-  onBack,
-  backLabel = 'Explore',
   homeData = null,
   onOpenFilmDetail,
   onStubAction,
@@ -324,15 +322,6 @@ export default function TheatersSurface({
       aria-labelledby="v2-theaters-page-title"
       data-theaters-source={presentation.source}
     >
-      <button
-        type="button"
-        className="v2-theaters-page-back"
-        aria-label={`Back to ${backLabel}`}
-        onClick={onBack}
-      >
-        ← {backLabel}
-      </button>
-
       <header className="v2-theaters-page-header" data-theaters-section="header">
         <h1 id="v2-theaters-page-title" className="v2-theaters-page-title">
           {presentation.pageTitle}

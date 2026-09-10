@@ -13,7 +13,6 @@ import {
   IconTicket,
   IconLightbulb,
 } from '../icons.jsx';
-import BackButton from './BackButton.jsx';
 import { useInitialHeadingFocus } from './DetailParts.jsx';
 import { FormatTile } from './FormatTile.jsx';
 import { composeFormatRecommendation } from './composeFormatsExperiencesPresentation.js';
@@ -37,7 +36,6 @@ const PRIORITY_ICONS = {
  */
 export default function FormatRecommendationSurface({
   homeData = null,
-  onBack,
   onCompareFormats,
   onBrowseShowtimes,
   onOpenFormatDetail,
@@ -57,8 +55,6 @@ export default function FormatRecommendationSurface({
       data-fe-source="format-recommendation"
       data-fe-priority={priorityId}
     >
-      <BackButton onClick={onBack} />
-
       <header className="v2-fe-page-header">
         <h1
           ref={headingRef}

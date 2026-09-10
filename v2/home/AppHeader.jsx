@@ -4,16 +4,15 @@ import {
   IconShare,
 } from '../icons.jsx';
 import { notificationBellAriaLabel } from '../notifications/notificationBellPresentation.js';
+import BackButton from '../shell/BackButton.jsx';
 
 /**
  * Top application header.
  * Modes:
  * - default: wordmark + profile (notifications bell in left slot when signed in)
  * - profile destination: wordmark + trailing spacer (settings live on the page)
- * - search back: ← Explore
- * - film detail: ← Origin · wordmark (Save/Share live in the surface, not the header)
- * - build-plan: chevron back · wordmark · empty trailing spacer / Share
- * - plan-details: chevron back · centered Plan Details · Share icon
+ * - nested: shared BackButton + destination label · wordmark
+ * - plan-details: shared BackButton · centered Plan Details · Share icon
  *
  * Notifications never replace Back on detail/sub-pages.
  */
@@ -22,7 +21,7 @@ export default function AppHeader({
   headerMode = 'default',
   backLabel = null,
   onBack = null,
-  backStyle = 'label',
+  backStyle: _backStyle = 'label',
   variant = 'default',
   shareTitle = null,
   onShare = null,
@@ -36,27 +35,30 @@ export default function AppHeader({
   hasUnreadNotifications = false,
   onNotificationsOpen = null,
 }) {
+  void shareTitle;
+  void onSave;
+  void savePressed;
+  void saveAvailable;
+  void saveLabel;
+  void _backStyle;
+
   const isFilmDetail = variant === 'film-detail';
   const isProfile = headerMode === 'profile';
   const showPlanDetailsChrome = headerMode === 'plan-details';
   const showBuildPlanChrome =
     headerMode === 'build-plan' || showPlanDetailsChrome;
-  const showBack = typeof onBack === 'function' && (backLabel || showBuildPlanChrome);
-  const chevronOnly = backStyle === 'chevron' || showBuildPlanChrome;
+  const showBack = typeof onBack === 'function' && Boolean(backLabel);
   const showBell = Boolean(showNotificationsBell) && !showBack;
   const unread = Boolean(hasUnreadNotifications);
 
   if (showPlanDetailsChrome) {
     return (
       <header className="v2-header v2-header-pd">
-        <button
-          type="button"
-          className="v2-header-back v2-header-back-chevron"
-          aria-label={backLabel ? `Back to ${backLabel}` : 'Back'}
-          onClick={onBack}
-        >
-          <span aria-hidden="true">‹</span>
-        </button>
+        {showBack ? (
+          <BackButton label={backLabel} onClick={onBack} />
+        ) : (
+          <div className="v2-header-spacer" aria-hidden="true" />
+        )}
         <h1 className="v2-header-pd-title">{centerTitle || 'Plan Details'}</h1>
         {typeof onShare === 'function' ? (
           <button
@@ -90,21 +92,7 @@ export default function AppHeader({
       }
     >
       {showBack ? (
-        <button
-          type="button"
-          className={
-            chevronOnly
-              ? 'v2-header-back v2-header-back-chevron'
-              : 'v2-header-back'
-          }
-          aria-label={
-            backLabel ? `Back to ${backLabel}` : 'Back'
-          }
-          onClick={onBack}
-        >
-          <span aria-hidden="true">‹</span>
-          {chevronOnly ? null : ` ${backLabel}`}
-        </button>
+        <BackButton label={backLabel} onClick={onBack} />
       ) : showBell ? (
         <button
           type="button"

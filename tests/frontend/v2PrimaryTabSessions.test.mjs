@@ -21,6 +21,7 @@ import {
   navFromTabSession,
   openPrimaryTabRoot,
   resolveOwningPrimaryTab,
+  resolvePrimaryTabGesture,
   switchPrimaryTab,
 } from '../../v2/navigation/primaryTabSessions.js';
 import {
@@ -155,20 +156,39 @@ describe('primary tab sessions', () => {
     assert.equal(sessions.planner, null);
   });
 
-  test('re-selecting the owning tab is a no-op at the helper boundary', () => {
+  test('re-selecting the owning tab opens the destination root when nested', () => {
     let nav = openBuildPlan(
       selectPrimaryDestination(createInitialNavState(), 'planner'),
       { originPrimary: 'planner' },
     );
     const sessions = createEmptyTabSessions();
     assert.equal(resolveOwningPrimaryTab(nav), 'planner');
-    // Active-tab no-op is enforced in V2App before switchPrimaryTab.
-    assert.match(APP_SRC, /targetId === chromeActive/);
+    assert.match(APP_SRC, /resolvePrimaryTabGesture/);
     assert.match(APP_SRC, /handleSelectDestination/);
     assert.match(APP_SRC, /switchPrimaryTab/);
     assert.match(APP_SRC, /handleOpenPrimaryRoot/);
     assert.match(APP_SRC, /openPrimaryTabRoot/);
     void sessions;
+  });
+
+  test('primary tab gesture reveals Home from a Home-origin nested surface', () => {
+    let nav = openShowtimesBrowse(createInitialNavState(), {
+      originPrimary: 'home',
+    });
+    assert.equal(resolvePrimaryTabGesture(nav, 'home'), 'open-root');
+    assert.equal(resolvePrimaryTabGesture(nav, 'explore'), 'switch');
+
+    nav = openFilmDetail(createInitialNavState(), {
+      filmKey: 'sinners',
+      originPrimary: 'home',
+    });
+    assert.equal(resolveOwningPrimaryTab(nav), 'home');
+    assert.equal(resolvePrimaryTabGesture(nav, 'home'), 'open-root');
+    assert.equal(resolvePrimaryTabGesture(nav, 'explore'), 'switch');
+    assert.equal(
+      resolvePrimaryTabGesture(createInitialNavState(), 'home'),
+      'noop',
+    );
   });
 
   test('Explore Quick Start showtimes browse resumes after leaving the tab', () => {

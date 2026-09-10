@@ -1,5 +1,6 @@
 import { useId, useState } from 'react';
 import { IconSearch } from '../icons.jsx';
+import PageHeader from '../shell/PageHeader.jsx';
 import { SEARCH_PLACEHOLDER } from './searchCopy.js';
 
 /**
@@ -19,12 +20,14 @@ export default function ExploreSearch({
   };
 
   return (
-    <header className="v2-explore-intro">
-      <h1 className="v2-explore-title">Explore</h1>
-      <p className="v2-explore-lede">
-        Find the movies, theaters, and experiences you’re looking for.
-      </p>
-
+    <PageHeader
+      className="v2-explore-intro"
+      title="Explore"
+      subtitle="Find the movies, theaters, and experiences you’re looking for."
+      titleId="v2-explore-title"
+      titleClassName="v2-explore-title"
+      subtitleClassName="v2-explore-lede"
+    >
       <div className="v2-explore-search">
         <label className="v2-visually-hidden" htmlFor={inputId}>
           {SEARCH_PLACEHOLDER}
@@ -54,6 +57,6 @@ export default function ExploreSearch({
           <IconSearch />
         </button>
       </div>
-    </header>
+    </PageHeader>
   );
 }

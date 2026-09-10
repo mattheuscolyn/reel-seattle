@@ -10,7 +10,6 @@ import {
   IconQuestion,
   IconScales,
 } from '../icons.jsx';
-import BackButton from './BackButton.jsx';
 import { useInitialHeadingFocus } from './DetailParts.jsx';
 import { FormatTile } from './FormatTile.jsx';
 import { composeCompareFormats } from './composeFormatsExperiencesPresentation.js';
@@ -25,7 +24,6 @@ import { composeCompareFormats } from './composeFormatsExperiencesPresentation.j
  */
 export default function CompareFormatsSurface({
   homeData = null,
-  onBack,
   onHelpMeChoose,
   onOpenFormatDetail,
 }) {
@@ -41,8 +39,6 @@ export default function CompareFormatsSurface({
       className="v2-fe-page"
       data-fe-source="compare-formats"
     >
-      <BackButton onClick={onBack} />
-
       <header className="v2-fe-page-header">
         <h1
           ref={headingRef}

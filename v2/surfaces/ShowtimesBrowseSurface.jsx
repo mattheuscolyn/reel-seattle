@@ -49,9 +49,7 @@ export default function ShowtimesBrowseSurface({
   loadStatus = 'ready',
   errorMessage = null,
   browseUi = null,
-  backLabel = 'Explore',
   originPrimary = 'explore',
-  onBack,
   onBrowseUiChange,
   onOpenFilmDetail,
   onOpenTheaterDetail,
@@ -291,11 +289,6 @@ export default function ShowtimesBrowseSurface({
         <p className="v2-data-status" role="status">
           {errorMessage || 'Showtimes aren’t loaded yet.'}
         </p>
-        {typeof onBack === 'function' ? (
-          <button type="button" className="v2-film-detail-back" onClick={onBack}>
-            ← {backLabel}
-          </button>
-        ) : null}
       </section>
     );
   }
@@ -314,6 +307,11 @@ export default function ShowtimesBrowseSurface({
               }`
             : null}
         </p>
+        {presentation.freshness?.line ? (
+          <p className="v2-stb-freshness" role="status">
+            {presentation.freshness.line}
+          </p>
+        ) : null}
       </header>
 
       <div

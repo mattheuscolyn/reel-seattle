@@ -36,7 +36,6 @@ export default function CollectionSurface({
   query = null,
   homeData,
   enrichmentIndex = null,
-  onBack,
   onOpenFilmDetail,
   onOpenCollection,
 }) {
@@ -93,9 +92,6 @@ export default function CollectionSurface({
 
   return (
     <section className="v2-collection" aria-labelledby="v2-collection-title">
-      <button type="button" className="v2-film-detail-back" onClick={onBack}>
-        ← Back
-      </button>
       {isLeavingSoon ? null : (
         <p className="v2-destination-eyebrow">Explore · scaffold</p>
       )}

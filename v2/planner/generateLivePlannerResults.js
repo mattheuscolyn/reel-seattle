@@ -24,6 +24,10 @@ import { getNotInterestedFilms } from '../stores/notInterestedFilmsStore.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 import { formatScheduleClock } from '../stores/scheduleSettingsStore.js';
 import { buildPerformanceKeyFromPlannerRow } from '../identity/performanceIdentity.js';
+import {
+  isActionableScreening,
+  primaryPresentationLabel,
+} from '../showtimes/canonicalScreening.js';
 
 /**
  * @param {unknown} value
@@ -120,9 +124,13 @@ function movieToLiveResultsFilm(
   }
 
   const format =
-    asTrimmed(movie.premiumFormat)?.split(',')[0]?.trim() ||
-    (Array.isArray(row?.formatLabels) ? row.formatLabels[0] : null) ||
-    null;
+    primaryPresentationLabel(row?.formatLabels) ||
+    primaryPresentationLabel(
+      asTrimmed(movie.premiumFormat)
+        ?.split(',')
+        .map((part) => part.trim())
+        .filter(Boolean),
+    );
 
   const performanceKey =
     asTrimmed(movie.performanceKey) ??
@@ -136,7 +144,7 @@ function movieToLiveResultsFilm(
     endTime: formatClockLabel(movie.endMin, timeFormatId),
     theater: movie.theater,
     runtimeLabel: formatRuntimeLabel(movie.runtime),
-    formatBadge: format ? String(format).toUpperCase() : null,
+    formatBadge: format,
     imageUrl: movie.poster ?? row?.posterDynamic ?? null,
     preference: 'neutral',
     date: localDate,
@@ -164,6 +172,10 @@ function movieToLiveResultsFilm(
       asTrimmed(movie.source_showtime_id),
     opportunityKey:
       asTrimmed(row?.opportunityKey) ?? asTrimmed(movie.opportunityKey),
+    screeningId:
+      asTrimmed(row?.screeningId) ??
+      asTrimmed(row?.opportunityKey) ??
+      asTrimmed(movie.opportunityKey),
     performanceKey,
     locked: Boolean(movie.locked),
     ticketUrl: row?.ticket_url ?? null,
@@ -179,13 +191,33 @@ function movieToLiveResultsFilm(
  * @param {object} movie
  */
 function findRowForMovie(rows, movie) {
+  const opportunityKey = asTrimmed(movie.opportunityKey);
+  if (opportunityKey) {
+    const byKey = rows.find((r) => r.opportunityKey === opportunityKey);
+    if (byKey) return byKey;
+  }
+  let localTime = asTrimmed(movie.localTime) ?? asTrimmed(movie.time);
+  if (!localTime && typeof movie.startMin === 'number') {
+    const within = ((movie.startMin % 1440) + 1440) % 1440;
+    localTime = `${String(Math.floor(within / 60)).padStart(2, '0')}:${String(
+      within % 60,
+    ).padStart(2, '0')}`;
+  }
   return (
     rows.find(
       (r) =>
         r.showtime_film_key === movie.showtime_film_key &&
         r.Date === movie.date &&
+        (r.theater_id === movie.theater_id || r.Theater === movie.theater) &&
+        (!localTime || r.localTime === localTime),
+    ) ??
+    rows.find(
+      (r) =>
+        r.showtime_film_key === movie.showtime_film_key &&
+        r.Date === movie.date &&
         (r.theater_id === movie.theater_id || r.Theater === movie.theater),
-    ) ?? null
+    ) ??
+    null
   );
 }
 
@@ -489,7 +521,22 @@ export function generateLivePlannerResults({
     };
   }
 
-  const rows = homeDataToPlannerRows(homeData, { enrichmentIndex });
+  const rows = homeDataToPlannerRows(homeData, { enrichmentIndex }).filter(
+    (row) =>
+      isActionableScreening(
+        {
+          localDate: row.localDate ?? row.Date,
+          localTime: row.localTime,
+          sortableLocalDateTime:
+            row.localDate && row.localTime
+              ? `${row.localDate}T${String(row.localTime).slice(0, 5)}`
+              : null,
+          status: row.status,
+          opportunityKey: row.opportunityKey,
+        },
+        now,
+      ),
+  );
   const mapped = mapBuildFormToPlannerFilters(form, homeData, { now });
   const globalExclude = globalNotInterestedTokens(storage, homeData);
   if (globalExclude.length) {

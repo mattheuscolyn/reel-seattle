@@ -43,6 +43,7 @@ function memoryStorage(seed = {}) {
 }
 
 const DATE = '2026-07-28';
+const PLAN_NOW = new Date('2026-07-28T12:00:00-07:00');
 
 function makeHomeData() {
   return {
@@ -228,6 +229,7 @@ test('mapBuildFormToPlannerFilters suppresses walk/budget/multi', () => {
 test('one-film itinerary generation', () => {
   const result = generateLivePlannerResults({
     homeData: makeHomeData(),
+    now: PLAN_NOW,
     form: liveForm({ planSize: '1 movie' }),
     sortId: 'best-match',
   });
@@ -246,6 +248,7 @@ test('one-film itinerary generation', () => {
 test('double feature same-theater only', () => {
   const result = generateLivePlannerResults({
     homeData: makeHomeData(),
+    now: PLAN_NOW,
     form: liveForm({ planSize: '2 movies' }),
     sortId: 'best-match',
   });
@@ -260,6 +263,7 @@ test('double feature same-theater only', () => {
 test('cross-theater chains are not produced (T-PENG-01 same-theater)', () => {
   const result = generateLivePlannerResults({
     homeData: makeHomeData(),
+    now: PLAN_NOW,
     form: liveForm({ planSize: '2 movies' }),
   });
   for (const plan of result.plans) {
@@ -272,6 +276,7 @@ test('cross-theater chains are not produced (T-PENG-01 same-theater)', () => {
 test('finish-before and gap validation exclude invalid chains', () => {
   const tight = generateLivePlannerResults({
     homeData: makeHomeData(),
+    now: PLAN_NOW,
     form: liveForm({
       planSize: '2 movies',
       startAfter: '2:00 PM',
@@ -282,6 +287,7 @@ test('finish-before and gap validation exclude invalid chains', () => {
 
   const open = generateLivePlannerResults({
     homeData: makeHomeData(),
+    now: PLAN_NOW,
     form: liveForm({ planSize: '2 movies', maxGap: '30 min' }),
   });
   // Alpha ends ~15:45; Beta 16:30 → gap 45 > 30 → empty
@@ -298,11 +304,13 @@ test('finish-before and gap validation exclude invalid chains', () => {
 test('no overlap and deterministic ordering', () => {
   const a = generateLivePlannerResults({
     homeData: makeHomeData(),
+    now: PLAN_NOW,
     form: liveForm({ planSize: '2 movies' }),
     sortId: 'leaves-soonest',
   });
   const b = generateLivePlannerResults({
     homeData: makeHomeData(),
+    now: PLAN_NOW,
     form: liveForm({ planSize: '2 movies' }),
     sortId: 'leaves-soonest',
   });
@@ -322,6 +330,7 @@ test('no overlap and deterministic ordering', () => {
 test('empty results when must-include cannot fit', () => {
   const result = generateLivePlannerResults({
     homeData: makeHomeData(),
+    now: PLAN_NOW,
     form: liveForm({
       planSize: '2 movies',
       mustInclude: [{ id: 'x', title: 'Not A Real Film' }],
@@ -343,6 +352,7 @@ test('live plan accept + calendar ICS contract', () => {
   const storage = memoryStorage();
   const result = generateLivePlannerResults({
     homeData: makeHomeData(),
+    now: PLAN_NOW,
     form: liveForm({ planSize: '2 movies' }),
   });
   const plan = result.plans[0];
@@ -393,6 +403,7 @@ test('mockup mode is explicit; live default uses engine', () => {
   assert.equal(isPlanResultsMockupMode(), false);
   const live = resolveBuildPlanResultsPagePresentation({
     homeData: makeHomeData(),
+    now: PLAN_NOW,
     form: liveForm({ planSize: '1 movie' }),
     forceMockup: false,
   });

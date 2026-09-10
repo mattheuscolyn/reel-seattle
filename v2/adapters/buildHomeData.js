@@ -20,6 +20,7 @@ import {
   indexEventClassifications,
   resolveContentClassification,
 } from './contentClassification.js';
+import { attachCanonicalScreeningFields } from '../showtimes/canonicalScreening.js';
 
 export const LEAVING_SOON_EXCLUDED = false;
 
@@ -456,7 +457,10 @@ export function buildHomeData(input) {
       firstSeenAt: asTrimmedString(raw.first_seen_at),
       lastSeenAt: asTrimmedString(raw.last_seen_at),
     };
-    opportunityByKey.set(opportunityKey, opportunity);
+    opportunityByKey.set(
+      opportunityKey,
+      attachCanonicalScreeningFields(opportunity),
+    );
 
     const filmRef = filmRefsByKey.get(filmKey);
     let film = filmAgg.get(filmKey);

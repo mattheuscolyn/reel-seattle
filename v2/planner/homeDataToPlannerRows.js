@@ -109,6 +109,8 @@ export function homeDataToPlannerRows(homeData, options = {}) {
       source: asTrimmed(opp.source),
       source_showtime_id: asTrimmed(opp.sourceShowtimeId),
       opportunityKey: asTrimmed(opp.opportunityKey),
+      screeningId: asTrimmed(opp.screeningId) ?? asTrimmed(opp.opportunityKey),
+      startsAt: asTrimmed(opp.startsAt),
       ticket_url: opp.ticketUrl ?? null,
       formatLabels,
     });

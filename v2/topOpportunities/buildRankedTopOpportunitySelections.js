@@ -48,8 +48,11 @@ export function adaptRankedOpportunityForHome(scored, homeData, meta = {}) {
     null;
   const homeOpportunity =
     (opportunityKey &&
-      opportunities.find((o) => o.opportunityKey === opportunityKey)) ||
+      opportunities.find(
+        (o) => o.opportunityKey === opportunityKey || o.screeningId === opportunityKey,
+      )) ||
     null;
+  if (!homeOpportunity) return null;
 
   const formatLabels = Array.isArray(homeOpportunity?.formatLabels)
     ? [...homeOpportunity.formatLabels]
@@ -84,7 +87,8 @@ export function adaptRankedOpportunityForHome(scored, homeData, meta = {}) {
   };
 
   const representativeOpportunity = {
-    opportunityKey,
+    screeningId: homeOpportunity.screeningId ?? homeOpportunity.opportunityKey,
+    opportunityKey: homeOpportunity.opportunityKey ?? opportunityKey,
     filmKey: film.filmKey,
     theaterId,
     theaterName,
@@ -195,13 +199,15 @@ export function buildRankedTopOpportunitySelections(homeData, options = {}) {
   const selected = Array.isArray(rankingResult.selected)
     ? rankingResult.selected
     : [];
-  const selections = selected.map((item, index) =>
-    adaptRankedOpportunityForHome(item, homeData, {
-      rawRank:
-        rawRankByKey.get(item.vector?.identifiers?.opportunityKey) ?? null,
-      selectedRank: item.selectionRank ?? index + 1,
-    }),
-  );
+  const selections = selected
+    .map((item, index) =>
+      adaptRankedOpportunityForHome(item, homeData, {
+        rawRank:
+          rawRankByKey.get(item.vector?.identifiers?.opportunityKey) ?? null,
+        selectedRank: item.selectionRank ?? index + 1,
+      }),
+    )
+    .filter(Boolean);
 
   return {
     nowSortable: rankingResult.nowSortable,

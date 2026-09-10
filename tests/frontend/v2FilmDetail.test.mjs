@@ -234,9 +234,11 @@ test('v1 remains unaffected by Film Detail fixtures', () => {
   assert.equal(V1_APP.includes('v2-fd-mockup'), false);
 });
 
-test('Film Detail keeps Explore-active chrome', () => {
-  assert.ok(APP.includes("? 'explore'"));
-  assert.ok(APP.includes('v2-shell-fd'));
+test('Film Detail chrome keeps the originating primary tab', () => {
+  const shell = readFileSync(join(ROOT, 'v2/shell/AppShell.jsx'), 'utf8');
+  assert.ok(APP.includes('resolveActivePrimaryId'));
+  assert.ok(APP.includes('filmDetail={isFilmDetail}'));
+  assert.ok(shell.includes('v2-shell-fd'));
 });
 
 test('Back from Film Detail restores prior surface in nav state', () => {
@@ -354,7 +356,9 @@ test('production suppresses enrichment fields without index and fixture-only evi
 
 test('production activates supported schedule fields', () => {
   const home = homeData();
-  const presentation = composeFilmDetailPresentation(home, 'sinners');
+  const presentation = composeFilmDetailPresentation(home, 'sinners', null, {
+    now: new Date('2026-06-26T12:00:00-07:00'),
+  });
   assert.equal(presentation.displayTitle, 'Sinners');
   assert.ok(presentation.hero.runtimeLabel);
   assert.ok(presentation.hero.posterUrl);
@@ -365,16 +369,19 @@ test('production activates supported schedule fields', () => {
 
 test('mixed ticket URLs stay distinct on today rows when dates match today', () => {
   const home = structuredClone(homeData());
+  const now = new Date('2026-06-28T00:00:00-07:00');
   const today = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'America/Los_Angeles',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-  }).format(new Date());
+  }).format(now);
   for (const opp of home.opportunities) {
     if (opp.filmKey === 'sinners') opp.localDate = today;
   }
-  const presentation = composeFilmDetailPresentation(home, 'sinners');
+  const presentation = composeFilmDetailPresentation(home, 'sinners', null, {
+    now,
+  });
   const urls = presentation.today.rows.flatMap((row) =>
     row.times.map((t) => t.ticketUrl),
   );
