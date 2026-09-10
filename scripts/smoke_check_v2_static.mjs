@@ -25,8 +25,10 @@ import {
   EXCLUDED_V2_DATA_PATHS,
 } from '../v2/data/allowedDataRoutes.js';
 import { buildHomeData } from '../v2/adapters/buildHomeData.js';
-import { generateLivePlannerResults } from '../v2/planner/generateLivePlannerResults.js';
-import { createLiveBuildPlanFormState } from '../v2/planner/createLiveBuildPlanFormState.js';
+import {
+  plansAreSameTheater,
+  selectFeasibleSmokePlannerRequest,
+} from '../v2/planner/selectFeasibleSmokePlannerRequest.js';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const DIST = join(ROOT, 'dist-v2');
@@ -203,18 +205,26 @@ async function verifyAppAndPlanner(loaded) {
   }
   console.log(`  HomeData opportunities: ${homeData.opportunities.length}`);
 
-  const form = createLiveBuildPlanFormState();
-  const generated = generateLivePlannerResults({
-    homeData,
-    form,
-    sortId: 'best-match',
-  });
-  if (!generated.ok) {
-    fail(`planner generation failed: ${generated.message ?? generated.error}`);
+  const selected = selectFeasibleSmokePlannerRequest(homeData);
+  if (!selected.ok || !selected.generated?.ok) {
+    fail(
+      `planner generation failed: ${
+        selected.message ??
+        selected.generated?.message ??
+        selected.error ??
+        'no feasible same-theater plan'
+      } (tried dates: ${selected.attemptedDates.join(', ') || 'none'})`,
+    );
+  }
+  const generated = selected.generated;
+  if (!plansAreSameTheater(generated.plans)) {
+    fail('planner smoke expected same-theater plans only');
   }
   // Non-zero opportunities is required; plans may be zero on sparse days —
   // only require plans when the engine has enough same-theater candidates.
-  console.log(`  planner plans: ${generated.plans.length}`);
+  console.log(
+    `  planner plans: ${generated.plans.length} (date ${selected.dateIso})`,
+  );
   if (homeData.opportunities.length > 50 && generated.plans.length === 0) {
     fail('expected at least one planner result given dense showtimes window');
   }
