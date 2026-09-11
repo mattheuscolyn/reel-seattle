@@ -31,7 +31,12 @@ export function normalizeTmdbImagePath(path) {
 export function resolveTmdbImageUrl(image, imageConfig, kind = 'poster') {
   if (!image || typeof image !== 'object') return null;
   const path = normalizeTmdbImagePath(image.path);
-  if (!path) return null;
+  if (!path) {
+    const existing = typeof image.url === 'string' ? image.url.trim() : '';
+    return existing.startsWith('http://') || existing.startsWith('https://')
+      ? existing
+      : null;
+  }
 
   if (!imageConfig?.secureBaseUrl) {
     const existing = typeof image.url === 'string' ? image.url.trim() : '';

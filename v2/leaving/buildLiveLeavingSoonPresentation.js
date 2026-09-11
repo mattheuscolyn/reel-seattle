@@ -5,7 +5,7 @@
 
 import { joinLeavingSoonEntryToHomeFilm } from '../adapters/buildLeavingSoon.js';
 import { formatRuntimeLabel } from '../home/shelfData.js';
-import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
+import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
 import {
   aggregateTheatersFromRows,
   formatCompactTheaterLine,
@@ -97,24 +97,29 @@ export function buildLiveLeavingSoonPresentation(
   const films = Array.isArray(homeData?.films) ? homeData.films : [];
 
   const presentationFilms = entries.map((entry) => {
-    const homeFilm = joinLeavingSoonEntryToHomeFilm(entry, films);
+    const joined = joinLeavingSoonEntryToHomeFilm(entry, films);
+    const resolved = resolveCanonicalFilmPresentation({
+      filmKey: entry.filmKey ?? joined?.filmKey ?? null,
+      filmId: entry.filmId ?? joined?.filmId ?? null,
+      homeData,
+      enrichmentIndex,
+      fallbackRecord: {
+        ...(entry && typeof entry === 'object' ? entry : {}),
+        title: joined?.title ?? entry.title,
+        posterUrl: joined?.posterUrl ?? entry.posterUrl ?? null,
+        runtimeMin: joined?.runtimeMin ?? entry.runtimeMin ?? null,
+        filmId: entry.filmId ?? joined?.filmId ?? null,
+      },
+      context: 'home',
+    });
+    const homeFilm = resolved.homeFilm ?? joined;
+    const enriched = resolved.enriched;
     const filmKey = homeFilm?.filmKey ?? entry.filmKey;
     const filmOpportunities = opportunitiesForFilm(homeData, filmKey);
     const nextOpportunity =
       filmOpportunities[0] ??
       selectNextScreeningForFilm(homeData, filmKey) ??
       null;
-
-    const enriched = resolveEnrichedFilmPresentation({
-      sourceFilm: {
-        filmId: homeFilm?.filmId ?? null,
-        title: homeFilm?.title ?? entry.title,
-        posterUrl: homeFilm?.posterUrl ?? entry.posterUrl ?? null,
-        runtimeMin: homeFilm?.runtimeMin ?? entry.runtimeMin ?? null,
-      },
-      enrichmentIndex,
-      context: 'home',
-    });
 
     const artifactTheaters = Array.isArray(entry.theaters)
       ? entry.theaters.map((theater) => ({

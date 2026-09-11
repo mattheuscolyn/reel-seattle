@@ -4,6 +4,7 @@
  */
 
 import { createHomeWarning } from './homeWarnings.js';
+import { asCanonicalFilmId } from '../enrichment/enrichmentIndex.js';
 
 export const LEAVING_SOON_BUCKETS = Object.freeze({
   lastChance: 'last_chance',
@@ -188,10 +189,18 @@ export function buildLeavingSoon(artifact, options = {}) {
 export function joinLeavingSoonEntryToHomeFilm(entry, films) {
   const list = Array.isArray(films) ? films : [];
   const key = asTrimmedString(entry?.filmKey);
-  if (!key) return null;
+  if (key) {
+    const byKey =
+      list.find((film) => film.filmKey === key) ??
+      list.find((film) => film.parentFilmKey === key) ??
+      null;
+    if (byKey) return byKey;
+  }
+  const filmId = asCanonicalFilmId(entry?.filmId ?? entry?.film_id);
+  if (!filmId) return null;
   return (
-    list.find((film) => film.filmKey === key) ??
-    list.find((film) => film.parentFilmKey === key) ??
+    list.find((film) => film.filmId === filmId && !film.parentFilmKey) ??
+    list.find((film) => film.filmId === filmId) ??
     null
   );
 }

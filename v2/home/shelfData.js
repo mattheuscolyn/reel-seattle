@@ -6,10 +6,7 @@
 import {
   joinOpeningEntryOpportunities,
 } from '../adapters/buildOpeningThisWeek.js';
-import {
-  joinLeavingSoonEntryToHomeFilm,
-} from '../adapters/buildLeavingSoon.js';
-import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
+import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
 import {
   buildOpeningDateCopy,
   formatShortOpeningDate,
@@ -241,25 +238,23 @@ export function buildLeavingSoonShelf(homeData, enrichmentIndex = null, options 
     };
   }
 
-  const films = Array.isArray(homeData.films) ? homeData.films : [];
   const selected =
     Number.isFinite(maxCards) && maxCards >= 0
       ? entries.slice(0, maxCards)
       : entries;
   const shelfFilms = selected.map((entry) => {
-    const homeFilm = joinLeavingSoonEntryToHomeFilm(entry, films);
-    const filmKey = homeFilm?.filmKey ?? entry.filmKey;
-    const nextOpportunity = findNextOpportunityForFilm(homeData, filmKey);
-    const enriched = resolveEnrichedFilmPresentation({
-      sourceFilm: {
-        filmId: homeFilm?.filmId ?? null,
-        title: homeFilm?.title ?? entry.title,
-        posterUrl: homeFilm?.posterUrl ?? entry.posterUrl ?? null,
-        runtimeMin: homeFilm?.runtimeMin ?? entry.runtimeMin ?? null,
-      },
+    const resolved = resolveCanonicalFilmPresentation({
+      filmKey: entry.filmKey,
+      filmId: entry.filmId ?? entry.film_id ?? null,
+      homeData,
       enrichmentIndex,
+      fallbackRecord: entry,
       context: 'home',
     });
+    const homeFilm = resolved.homeFilm;
+    const enriched = resolved.enriched;
+    const filmKey = homeFilm?.filmKey ?? entry.filmKey;
+    const nextOpportunity = findNextOpportunityForFilm(homeData, filmKey);
     const runtimeLabel = formatRuntimeLabel(
       enriched.runtimeMin ?? homeFilm?.runtimeMin ?? entry.runtimeMin,
     );
@@ -335,23 +330,25 @@ export function buildSpecialPresentationsShelf(
     };
   }
 
-  const films = Array.isArray(homeData.films) ? homeData.films : [];
   const ranked = rows.slice(0, Math.max(0, maxCards));
 
   const shelfFilms = ranked.map((row) => {
     const { filmKey, bestOpportunity: opportunity, bestCanonicalId: canonicalId } =
       row;
-    const homeFilm = films.find((film) => film.filmKey === filmKey) ?? null;
-    const enriched = resolveEnrichedFilmPresentation({
-      sourceFilm: {
-        filmId: homeFilm?.filmId ?? null,
-        title: homeFilm?.title ?? opportunity.filmTitle ?? filmKey,
-        posterUrl: homeFilm?.posterUrl ?? null,
-        runtimeMin: homeFilm?.runtimeMin ?? null,
-      },
+    const resolved = resolveCanonicalFilmPresentation({
+      filmKey,
+      filmId: opportunity?.filmId ?? null,
+      homeData,
       enrichmentIndex,
+      fallbackRecord: {
+        filmKey,
+        filmId: opportunity?.filmId ?? null,
+        title: opportunity?.filmTitle ?? filmKey,
+      },
       context: 'home',
     });
+    const homeFilm = resolved.homeFilm;
+    const enriched = resolved.enriched;
     const badge = specialPresentationBrowseLabel(canonicalId);
     const runtimeLabel = formatRuntimeLabel(
       enriched.runtimeMin ?? homeFilm?.runtimeMin,
@@ -480,18 +477,17 @@ export function buildJustAnnouncedShelf(
 
   const shelfFilms = eligible.map((entry) => {
     const filmKey = entry.filmKey;
-    const homeFilm = films.find((film) => film.filmKey === filmKey) ?? null;
-    const nextOpportunity = findNextOpportunityForFilm(homeData, filmKey);
-    const enriched = resolveEnrichedFilmPresentation({
-      sourceFilm: {
-        filmId: homeFilm?.filmId ?? null,
-        title: homeFilm?.title ?? entry.title ?? filmKey,
-        posterUrl: homeFilm?.posterUrl ?? entry.posterUrl ?? null,
-        runtimeMin: homeFilm?.runtimeMin ?? null,
-      },
+    const resolved = resolveCanonicalFilmPresentation({
+      filmKey,
+      filmId: entry.filmId ?? null,
+      homeData,
       enrichmentIndex,
+      fallbackRecord: entry,
       context: 'home',
     });
+    const homeFilm = resolved.homeFilm;
+    const enriched = resolved.enriched;
+    const nextOpportunity = findNextOpportunityForFilm(homeData, filmKey);
     const runtimeLabel = formatRuntimeLabel(
       enriched.runtimeMin ?? homeFilm?.runtimeMin,
     );
@@ -543,10 +539,6 @@ export function buildJustAnnouncedShelf(
  */
 export function buildInlineQuickDetail(homeData, shelfFilm, enrichmentIndex = null) {
   if (!shelfFilm?.filmKey) return null;
-  const film =
-    (Array.isArray(homeData?.films) ? homeData.films : []).find(
-      (item) => item.filmKey === shelfFilm.filmKey,
-    ) ?? null;
   const opportunity =
     (shelfFilm.nextOpportunityKey &&
       (Array.isArray(homeData?.opportunities) ? homeData.opportunities : []).find(
@@ -566,16 +558,16 @@ export function buildInlineQuickDetail(homeData, shelfFilm, enrichmentIndex = nu
     formatLabels[0] ?? null,
   ].filter(Boolean);
 
-  const enriched = resolveEnrichedFilmPresentation({
-    sourceFilm: {
-      filmId: film?.filmId ?? shelfFilm.filmId ?? null,
-      title: film?.title ?? shelfFilm.title ?? null,
-      posterUrl: film?.posterUrl ?? shelfFilm.posterUrl ?? null,
-      runtimeMin: film?.runtimeMin ?? shelfFilm.runtimeMin ?? null,
-    },
+  const resolved = resolveCanonicalFilmPresentation({
+    filmKey: shelfFilm.filmKey,
+    filmId: shelfFilm.filmId ?? null,
+    homeData,
     enrichmentIndex,
+    fallbackRecord: shelfFilm,
     context: 'home',
   });
+  const film = resolved.homeFilm;
+  const enriched = resolved.enriched;
 
   const metaParts = [
     formatRuntimeLabel(enriched.runtimeMin),

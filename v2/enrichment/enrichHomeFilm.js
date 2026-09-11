@@ -1,10 +1,11 @@
 /**
  * Thin HomeData → shared enrichment presentation adapter.
- * All film-level UI surfaces should use this (or resolveEnrichedFilmPresentation
- * directly) instead of reading source poster/title/runtime independently.
+ * All film-level UI surfaces should use this (or resolveCanonicalFilmPresentation)
+ * instead of reading source poster/title/runtime independently.
  */
 
 import { asCanonicalFilmId } from './enrichmentIndex.js';
+import { resolveCanonicalFilmPresentation } from './resolveCanonicalFilmPresentation.js';
 import { resolveEnrichedFilmPresentation } from './resolveEnrichedFilmPresentation.js';
 import { normalizeShowtimeFilmKey } from '../stores/savedFilmsStore.js';
 
@@ -112,9 +113,20 @@ export function enrichHomeFilm(
   context = 'search',
   homeData = null,
 ) {
-  return resolveEnrichedFilmPresentation({
-    sourceFilm: resolvePresentationSourceFilm(film, homeData),
+  if (!film || typeof film !== 'object') {
+    return resolveEnrichedFilmPresentation({
+      sourceFilm: null,
+      enrichmentIndex,
+      context,
+    });
+  }
+
+  return resolveCanonicalFilmPresentation({
+    filmKey: film.filmKey ?? film.showtimeFilmKey ?? null,
+    filmId: film.filmId ?? film.film_id ?? null,
+    homeData,
     enrichmentIndex,
+    fallbackRecord: resolvePresentationSourceFilm(film, homeData),
     context,
-  });
+  }).enriched;
 }
