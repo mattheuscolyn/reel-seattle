@@ -83,6 +83,10 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add data/history/showtimes_history.csv
+          git add data/history/screening_observations.jsonl.gz
+          git add data/history/screening_lifecycle.jsonl.gz
+          git add data/history/screening_snapshot_status.jsonl
+          git add data/history/screening_observation_metrics.json
           git add data/daily_logs/
           git add data/theaters.json
           if [ -f data/source_catalog/amc_movie_products.json ]; then

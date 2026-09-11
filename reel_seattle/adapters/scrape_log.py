@@ -1,4 +1,10 @@
-"""Normalized raw JSON daily scrape logs for source adapters."""
+"""Normalized raw JSON daily scrape logs for source adapters.
+
+IMPORTANT (P0C): Files under ``data/daily_logs/`` remain authoritative raw
+provenance for screening observations. The derived screening observation
+ledger must not be treated as permission to delete or compact these logs
+until the ledger has been validated in production.
+"""
 
 from __future__ import annotations
 

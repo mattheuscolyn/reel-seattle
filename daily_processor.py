@@ -658,6 +658,21 @@ def main():
         f"{opening_artifact['week']['end_date']})"
     )
 
+    # Rebuild durable screening observation ledger from daily logs.
+    # Daily logs remain authoritative raw provenance; this ledger is derived.
+    print("Rebuilding screening observation lifecycle ledger...")
+    from reel_seattle.history.screening_observation_ledger import (
+        rebuild_screening_observation_ledger,
+    )
+
+    ledger_result = rebuild_screening_observation_ledger(DEFAULT_DAILY_LOGS_DIR)
+    metrics = ledger_result["metrics"]
+    print(
+        f"  {metrics.get('observation_count', 0)} observations / "
+        f"{metrics.get('unique_screening_count', 0)} screenings "
+        f"(no_longer_observed={metrics.get('lifecycle_status_counts', {}).get('no_longer_observed', 0)})"
+    )
+
     print(f"Daily processing complete. Processed {len(history_data)} total showtimes, {len(new_movies)} newly announced movies")
 
 if __name__ == "__main__":

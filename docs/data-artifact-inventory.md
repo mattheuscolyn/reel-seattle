@@ -16,6 +16,10 @@ These files define truth in the repo. Edit intentionally; validate before commit
 |------|------|-------|
 | `data/theaters.json` | Theater registry | Authored canonical copy; synced byte-for-byte to `public/data/theaters.json` by `daily_processor.py` / `reel_seattle/registry_sync.py` |
 | `data/history/showtimes_history.csv` | Showtime archive | Append-only history; restated today+future per source on each daily run; never delete past rows |
+| `data/history/screening_observations.jsonl.gz` | Screening observation ledger | Idempotent rebuild from `data/daily_logs/`; gzipped JSONL (one present-in-feed observation per screening×snapshot) |
+| `data/history/screening_lifecycle.jsonl.gz` | Screening lifecycle summary | Gzipped JSONL header + one lifecycle row per screening; not yet consumed by product UI |
+| `data/history/screening_snapshot_status.jsonl` | Snapshot completeness | Per-source daily completeness (`complete` / `partial` / `failed` / `unknown`) |
+| `data/history/screening_observation_metrics.json` | Ledger metrics | Deterministic counts from the latest rebuild |
 | `schema/*/v1.0.0.json` | JSON Schema contracts | Define public JSON artifact shapes; change only with intentional contract updates |
 
 **Schema files (v1.0.0):**
