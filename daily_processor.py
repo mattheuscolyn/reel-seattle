@@ -585,6 +585,19 @@ def main():
 
     current_artifact = write_showtimes_current(history_rows=history_data)
 
+    print("Discovering indie theater collections...")
+    try:
+        from reel_seattle.collections.pipeline import run_collections_pipeline
+
+        collections_artifact = run_collections_pipeline(sleep_seconds=0.25, stamp_showtimes=True)
+        print(
+            "  collections_current.json: "
+            f"{collections_artifact.get('stats', {}).get('collection_count', 0)} collections / "
+            f"{collections_artifact.get('stats', {}).get('membership_count', 0)} memberships"
+        )
+    except Exception as exc:  # noqa: BLE001 — collection failure must not block daily emit
+        print(f"  Collection ingestion failed (showtimes preserved): {exc}")
+
     print("Emitting pipeline_report.json...")
     write_pipeline_report(current_artifact, run_date=today)
 

@@ -21,6 +21,7 @@ from reel_seattle.film_identity.public_emit import (  # noqa: E402
 )
 from reel_seattle.validate import (  # noqa: E402
     SchemaValidationError,
+    validate_collections_current,
     validate_leaving_soon_current,
     validate_newly_added_current,
     validate_opening_this_week_current,
@@ -55,6 +56,7 @@ VALIDATORS: dict[str, Callable[[dict[str, Any]], None]] = {
     "public/data/opening_this_week_current.json": validate_opening_this_week_current,
     "public/data/theaters.json": validate_theaters_registry,
     "public/data/film_enrichment_current.json": validate_film_enrichment_document,
+    "public/data/collections_current.json": validate_collections_current,
 }
 
 
@@ -85,6 +87,19 @@ def validate_public_data_artifacts(root: Path | None = None) -> list[str]:
             errors.append(str(exc))
         except Exception as exc:  # pragma: no cover - defensive guard for unexpected failures
             errors.append(f"validation failed for {rel}: {exc}")
+
+    optional_collections = "public/data/collections_current.json"
+    collections_path = project_root / optional_collections
+    if collections_path.is_file():
+        try:
+            document = json.loads(collections_path.read_text(encoding="utf-8"))
+            validate_collections_current(document)
+        except json.JSONDecodeError as exc:
+            errors.append(f"invalid JSON in {optional_collections}: {exc.msg}")
+        except SchemaValidationError as exc:
+            errors.append(str(exc))
+        except Exception as exc:  # pragma: no cover
+            errors.append(f"validation failed for {optional_collections}: {exc}")
 
     canonical_path = project_root / CANONICAL_THEATERS
     public_path = project_root / PUBLIC_THEATERS

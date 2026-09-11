@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/collections_current/v1.0.0.json",
+  "title": "Reel Seattle Current Collections",
+  "description": "Provider-independent indie programming collections discovered from explicit source collection pages. Film membership is source-evidence based, not title-prefix inference.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "timezone",
+    "collections",
+    "memberships",
+    "stats",
+    "warnings",
+    "omitted"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timezone": {
+      "type": "string",
+      "const": "America/Los_Angeles"
+    },
+    "collections": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/collection" }
+    },
+    "memberships": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/membership" }
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "collection_count",
+        "membership_count",
+        "canonical_film_count",
+        "unresolved_membership_count",
+        "sources"
+      ],
+      "properties": {
+        "collection_count": { "type": "integer", "minimum": 0 },
+        "membership_count": { "type": "integer", "minimum": 0 },
+        "canonical_film_count": { "type": "integer", "minimum": 0 },
+        "unresolved_membership_count": { "type": "integer", "minimum": 0 },
+        "sources": { "type": "object" }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "omitted": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["url", "reason"],
+        "properties": {
+          "url": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "collection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "collectionId",
+        "productType",
+        "source",
+        "sourceCollectionType",
+        "sourceCollectionId",
+        "title",
+        "sourceUrl"
+      ],
+      "properties": {
+        "collectionId": { "type": "string", "minLength": 1 },
+        "productType": { "type": "string", "const": "collection" },
+        "source": { "type": "string", "enum": ["siff", "beacon", "nwff"] },
+        "sourceCollectionType": { "type": "string", "minLength": 1 },
+        "sourceCollectionId": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": ["string", "null"] },
+        "sourceUrl": { "type": "string", "minLength": 1 },
+        "imageUrl": { "type": ["string", "null"] },
+        "startDate": { "type": ["string", "null"] },
+        "endDate": { "type": ["string", "null"] },
+        "titlePrefixAliases": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "firstObservedAt": { "type": ["string", "null"] },
+        "lastObservedAt": { "type": ["string", "null"] },
+        "lastSuccessfulScrapeAt": { "type": ["string", "null"] },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "memberCount": { "type": "integer", "minimum": 0 },
+        "resolvedCanonicalCount": { "type": "integer", "minimum": 0 },
+        "currentShowtimeCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "membership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "collectionId",
+        "source",
+        "sourceFilmUrl",
+        "rawTitle"
+      ],
+      "properties": {
+        "collectionId": { "type": "string", "minLength": 1 },
+        "source": { "type": "string", "enum": ["siff", "beacon", "nwff"] },
+        "sourceFilmUrl": { "type": "string", "minLength": 1 },
+        "sourceFilmId": { "type": ["string", "null"] },
+        "sourceListingKey": { "type": ["string", "null"] },
+        "canonicalFilmId": { "type": ["string", "null"] },
+        "rawTitle": { "type": "string" },
+        "identityTitleCandidate": { "type": ["string", "null"] },
+        "membershipEvidence": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "firstObservedAt": { "type": ["string", "null"] },
+        "lastObservedAt": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
