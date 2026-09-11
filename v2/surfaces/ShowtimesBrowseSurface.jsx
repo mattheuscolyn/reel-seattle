@@ -427,6 +427,7 @@ export default function ShowtimesBrowseSurface({
                       });
                       onOpenFilmDetail?.({
                         filmKey: film.filmKey,
+                        filmId: film.filmId ?? null,
                         opportunityKey:
                           film.showtimes[0]?.opportunityKey ?? null,
                         returnSurface: {

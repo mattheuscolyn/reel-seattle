@@ -39,7 +39,11 @@ function getBrowserStorage() {
  *   expandedFilmKey: string | null,
  *   onExpandFilm: (filmKey: string | null) => void,
  *   onSeeAll?: (() => void) | null,
- *   onMoreDetails: (payload: { filmKey: string, opportunityKey: string | null }) => void,
+ *   onMoreDetails: (payload: {
+ *     filmKey: string,
+ *     filmId?: string | null,
+ *     opportunityKey: string | null,
+ *   }) => void,
  *   detailOverride?: object | null,
  *   hideStatusNotes?: boolean,
  *   hideSeeAll?: boolean,
@@ -217,6 +221,7 @@ export default function FilmShelf({
                 onMoreDetails={() =>
                   onMoreDetails({
                     filmKey: detail.filmKey,
+                    filmId: detail.filmId ?? null,
                     opportunityKey: detail.opportunityKey,
                   })
                 }

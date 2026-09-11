@@ -22,6 +22,10 @@ export default function PersonalCollectionFilmRow({
     if (!key) return;
     onOpenFilm?.({
       filmKey: key,
+      filmId:
+        typeof row.filmId === 'string' && row.filmId.trim()
+          ? row.filmId.trim()
+          : null,
       opportunityKey: row.nextOpportunityKey ?? null,
     });
   };

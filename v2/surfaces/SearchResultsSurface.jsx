@@ -231,6 +231,7 @@ export default function SearchResultsSurface({
     }
     onOpenFilmDetail?.({
       filmKey: film.filmKey,
+      filmId: film.filmId ?? film.tmdbId ?? null,
       opportunityKey: film.opportunityKey ?? null,
     });
   }

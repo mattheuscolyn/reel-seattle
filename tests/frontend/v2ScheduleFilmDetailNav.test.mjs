@@ -112,6 +112,7 @@ test('resolveFilmDetailNavParams prefers parent for variants and separates remak
   );
   assert.deepEqual(variant, {
     filmKey: 'batman-2022',
+    filmId: 'tmdb:414906',
     opportunityKey: 'opp-sensory',
   });
 
@@ -120,12 +121,14 @@ test('resolveFilmDetailNavParams prefers parent for variants and separates remak
     home,
   );
   assert.equal(remake.filmKey, 'batman-1989');
+  assert.equal(remake.filmId, 'tmdb:268');
 
   const source = resolveFilmDetailNavParams(
     { filmKey: 'shorts-night', filmId: null, title: 'Local Shorts Night' },
     home,
   );
   assert.equal(source.filmKey, 'shorts-night');
+  assert.equal(source.filmId, null);
 
   assert.equal(
     resolveFilmDetailNavParams({ title: 'The Batman' }, home),
@@ -138,7 +141,11 @@ test('legacy accepted plan without filmId remains navigable via filmKey', () => 
     { filmKey: 'legacy-key', filmId: null, title: 'Legacy' },
     null,
   );
-  assert.deepEqual(params, { filmKey: 'legacy-key', opportunityKey: null });
+  assert.deepEqual(params, {
+    filmKey: 'legacy-key',
+    filmId: null,
+    opportunityKey: null,
+  });
 });
 
 test('acceptedPlanToPlanDetailsPlan preserves identity and recomputes breaks', () => {

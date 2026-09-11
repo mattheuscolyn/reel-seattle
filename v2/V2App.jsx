@@ -553,12 +553,14 @@ export default function V2App() {
     setNav((current) => {
       if (
         current.surface?.type === 'film-detail' &&
-        current.surface.filmKey === filmId
+        (current.surface.filmKey === filmId ||
+          current.surface.filmId === filmId)
       ) {
         return current;
       }
       return openFilmDetail(current, {
         filmKey: filmId,
+        filmId: asTmdbFilmId(filmId) ?? null,
         originPrimary: current.primaryDestinationId || 'explore',
       });
     });
@@ -569,11 +571,14 @@ export default function V2App() {
   useEffect(() => {
     const isFilmDetailSurface = nav.surface?.type === 'film-detail';
     if (isFilmDetailSurface) {
+      const durable = asTmdbFilmId(nav.surface.filmId);
       const key =
         typeof nav.surface.filmKey === 'string'
           ? nav.surface.filmKey.trim()
           : '';
-      if (key) syncFilmIdQuery(key);
+      // Prefer durable id in the URL so refresh keeps TMDB rescue available.
+      const syncTarget = durable || key;
+      if (syncTarget) syncFilmIdQuery(syncTarget);
       prevFilmDetailRef.current = true;
       return;
     }
@@ -1063,6 +1068,8 @@ export default function V2App() {
   const activePrimaryId = resolveActivePrimaryId(nav);
 
   const filmKey = isFilmDetail ? nav.surface.filmKey : null;
+  const filmId = isFilmDetail ? nav.surface.filmId ?? null : null;
+  const durableFilmId = asTmdbFilmId(filmId) || asTmdbFilmId(filmKey);
   const filmOpportunityKey = isFilmDetail
     ? nav.surface.opportunityKey ?? null
     : null;
@@ -1071,16 +1078,21 @@ export default function V2App() {
       ? sharedHomeData.homeData.films.find(
           (f) =>
             f.filmKey === filmKey ||
-            (asTmdbFilmId(f.filmId) && asTmdbFilmId(f.filmId) === asTmdbFilmId(filmKey)),
+            (durableFilmId &&
+              asTmdbFilmId(f.filmId) === durableFilmId),
         )
-      : null;
+      : durableFilmId && Array.isArray(sharedHomeData.homeData?.films)
+        ? sharedHomeData.homeData.films.find(
+            (f) => asTmdbFilmId(f.filmId) === durableFilmId,
+          )
+        : null;
   const tmdbOnlyFilm =
-    !filmFromHome && asTmdbFilmId(filmKey)
+    !filmFromHome && durableFilmId
       ? (() => {
-          const snapshot = getCachedTmdbOnlyFilm(filmKey);
+          const snapshot = getCachedTmdbOnlyFilm(durableFilmId);
           return {
-            filmKey,
-            filmId: asTmdbFilmId(filmKey),
+            filmKey: filmKey || durableFilmId,
+            filmId: durableFilmId,
             title: snapshot?.title ?? null,
             posterUrl: snapshot?.posterUrl ?? null,
             parentFilmKey: null,
@@ -1246,6 +1258,7 @@ export default function V2App() {
         homeData={sharedHomeData.homeData}
         enrichmentIndex={enrichmentState.index}
         filmKey={filmKey}
+        filmId={durableFilmId}
         opportunityKey={filmOpportunityKey}
         saveAvailable={saveAction.available}
         isSaved={saveAction.isSaved}

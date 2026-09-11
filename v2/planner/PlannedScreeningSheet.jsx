@@ -221,6 +221,7 @@ export default function PlannedScreeningSheet({
     }
     onOpenFilmDetail({
       filmKey,
+      filmId: screening.filmId ?? null,
       opportunityKey: screening.opportunityKey ?? null,
     });
     onClose();
@@ -233,6 +234,7 @@ export default function PlannedScreeningSheet({
     }
     onOpenFilmDetail({
       filmKey: row.filmKey,
+      filmId: row.filmId ?? screening.filmId ?? null,
       opportunityKey: row.opportunityKey ?? null,
     });
     onClose();

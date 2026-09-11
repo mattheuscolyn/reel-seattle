@@ -161,6 +161,7 @@ export default function FilmDetailSurface({
   homeData = null,
   enrichmentIndex = null,
   filmKey = null,
+  filmId = null,
   opportunityKey = null,
   saveAvailable = false,
   isSaved = false,
@@ -192,7 +193,7 @@ export default function FilmDetailSurface({
   void settingsTick;
   const timeFormatId = getScheduleSettings(getBrowserStorage()).timeFormatId;
 
-  const tmdbFilmId = asTmdbFilmId(filmKey);
+  const tmdbFilmId = asTmdbFilmId(filmId) || asTmdbFilmId(filmKey);
 
   useEffect(() => {
     if (!tmdbFilmId) {
@@ -234,13 +235,14 @@ export default function FilmDetailSurface({
     })();
 
     return () => controller.abort();
-  }, [tmdbFilmId, filmKey, homeData]);
+  }, [tmdbFilmId, filmKey, filmId, homeData]);
 
   const resolved = useMemo(
     () =>
       resolveFilmDetailPresentation({
         homeData,
         filmKey,
+        filmId: tmdbFilmId,
         opportunityKey,
         enrichmentIndex,
         timeFormatId,
@@ -249,6 +251,7 @@ export default function FilmDetailSurface({
       homeData,
       enrichmentIndex,
       filmKey,
+      tmdbFilmId,
       opportunityKey,
       timeFormatId,
       tmdbRevision,

@@ -84,6 +84,7 @@ export default function HomeDestination({
 
   const openDetailFromHome = ({
     filmKey,
+    filmId,
     opportunityKey,
     shelfId,
     filmKeyExpanded,
@@ -95,6 +96,7 @@ export default function HomeDestination({
     });
     onOpenFilmDetail({
       filmKey,
+      filmId: filmId ?? null,
       opportunityKey,
       originPrimary: 'home',
       homeRestore,
@@ -122,10 +124,11 @@ export default function HomeDestination({
         initialIndex={topOppIndex}
         onIndexChange={setTopOppIndex}
         mockSelections={mockup ? mockup.topOpportunities : null}
-        onOpenFilmDetail={({ filmKey, opportunityKey, topOppIndex: idx }) => {
+        onOpenFilmDetail={({ filmKey, filmId, opportunityKey, topOppIndex: idx }) => {
           setTopOppIndex(idx);
           openDetailFromHome({
             filmKey,
+            filmId,
             opportunityKey,
             shelfId: expanded.shelfId,
             filmKeyExpanded: expanded.filmKey,
@@ -150,9 +153,10 @@ export default function HomeDestination({
             originPrimary: 'home',
           })
         }
-        onMoreDetails={({ filmKey, opportunityKey }) =>
+        onMoreDetails={({ filmKey, filmId, opportunityKey }) =>
           openDetailFromHome({
             filmKey,
+            filmId,
             opportunityKey,
             shelfId: 'v2-leaving',
             filmKeyExpanded: filmKey,
@@ -177,9 +181,10 @@ export default function HomeDestination({
             originPrimary: 'home',
           })
         }
-        onMoreDetails={({ filmKey, opportunityKey }) =>
+        onMoreDetails={({ filmKey, filmId, opportunityKey }) =>
           openDetailFromHome({
             filmKey,
+            filmId,
             opportunityKey,
             shelfId: 'v2-special',
             filmKeyExpanded: filmKey,
@@ -209,9 +214,10 @@ export default function HomeDestination({
             originPrimary: 'home',
           })
         }
-        onMoreDetails={({ filmKey, opportunityKey }) =>
+        onMoreDetails={({ filmKey, filmId, opportunityKey }) =>
           openDetailFromHome({
             filmKey,
+            filmId,
             opportunityKey,
             shelfId: 'v2-opening',
             filmKeyExpanded: filmKey,
@@ -236,9 +242,10 @@ export default function HomeDestination({
             originPrimary: 'home',
           })
         }
-        onMoreDetails={({ filmKey, opportunityKey }) =>
+        onMoreDetails={({ filmKey, filmId, opportunityKey }) =>
           openDetailFromHome({
             filmKey,
+            filmId,
             opportunityKey,
             shelfId: 'v2-announced',
             filmKeyExpanded: filmKey,

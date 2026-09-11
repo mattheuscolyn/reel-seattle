@@ -209,6 +209,7 @@ export default function SavedFilmChooseShowtimeSheet({
     if (typeof onOpenFilmDetail !== 'function') return;
     onOpenFilmDetail({
       filmKey,
+      filmId: row?.filmId ?? null,
       opportunityKey: row?.nextOpportunityKey ?? showtimes[0]?.opportunityKey ?? null,
     });
     onClose();

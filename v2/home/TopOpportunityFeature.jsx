@@ -30,6 +30,7 @@ import { formatRuntimeLabel } from './shelfData.js';
  *   now?: Date | string | (() => Date) | null,
  *   onOpenFilmDetail: (payload: {
  *     filmKey: string,
+ *     filmId?: string | null,
  *     opportunityKey: string | null,
  *     topOppIndex: number,
  *   }) => void,
@@ -189,6 +190,7 @@ export default function TopOpportunityFeature({
               onClick={() =>
                 onOpenFilmDetail({
                   filmKey: active.film.filmKey,
+                  filmId: active.film.filmId ?? null,
                   opportunityKey:
                     active.representativeOpportunity?.opportunityKey ?? null,
                   topOppIndex: safeIndex,

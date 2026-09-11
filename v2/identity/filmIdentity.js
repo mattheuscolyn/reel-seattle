@@ -307,9 +307,12 @@ export function logFilmIdentityDiagnostics(film, context = {}) {
  * 3. showtimeFilmKey / filmKey
  * 4. HomeData lookup by canonical filmId
  *
+ * When a durable `filmId` is known it is always returned alongside `filmKey`
+ * so Film Detail can preserve it if the slug is outside the current window.
+ *
  * @param {object | null | undefined} record
  * @param {object | null | undefined} [homeData]
- * @returns {{ filmKey: string, opportunityKey: string | null } | null}
+ * @returns {{ filmKey: string, filmId: string | null, opportunityKey: string | null } | null}
  */
 export function resolveFilmDetailNavParams(record, homeData = null) {
   if (!record || typeof record !== 'object') return null;
@@ -344,7 +347,12 @@ export function resolveFilmDetailNavParams(record, homeData = null) {
     if (resolvedParent) filmKey = resolvedParent;
   }
 
+  // Durable id alone is enough to open Detail (TMDB rescue); prefer a slug when
+  // available for presentation / schedule join.
+  if (!filmKey && filmId) {
+    return { filmKey: filmId, filmId, opportunityKey };
+  }
   if (!filmKey) return null;
-  return { filmKey, opportunityKey };
+  return { filmKey, filmId, opportunityKey };
 }
 

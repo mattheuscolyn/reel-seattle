@@ -212,6 +212,7 @@ export default function CollectionSurface({
                   onClick={() =>
                     onOpenFilmDetail({
                       filmKey: film.filmKey,
+                      filmId: film.filmId ?? null,
                       opportunityKey: film.nextOpportunityKey,
                     })
                   }
