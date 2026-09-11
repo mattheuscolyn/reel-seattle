@@ -31,6 +31,7 @@ import {
  * @typedef {object} FilmDetailSurface
  * @property {'film-detail'} type
  * @property {string} filmKey
+ * @property {string | null} [filmId] Durable canonical id (e.g. tmdb:N) when known.
  * @property {string | null} opportunityKey
  * @property {string} originPrimary
  * @property {HomeRestoreState | null} homeRestore
@@ -195,6 +196,7 @@ export function selectPrimaryDestination(state, destinationId) {
  * @param {object} state
  * @param {{
  *   filmKey: string,
+ *   filmId?: string | null,
  *   opportunityKey?: string | null,
  *   originPrimary?: string,
  *   homeRestore?: HomeRestoreState | null,
@@ -206,6 +208,10 @@ export function openFilmDetail(state, params) {
   const originPrimary = resolveDestinationId(
     params.originPrimary ?? state.primaryDestinationId,
   );
+  const filmId =
+    typeof params.filmId === 'string' && params.filmId.trim()
+      ? params.filmId.trim()
+      : null;
   return {
     ...state,
     primaryDestinationId: originPrimary,
@@ -213,6 +219,7 @@ export function openFilmDetail(state, params) {
     surface: {
       type: 'film-detail',
       filmKey: params.filmKey,
+      filmId,
       opportunityKey: params.opportunityKey ?? null,
       originPrimary,
       homeRestore: params.homeRestore ?? null,

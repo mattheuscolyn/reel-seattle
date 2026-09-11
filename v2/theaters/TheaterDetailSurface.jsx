@@ -498,6 +498,7 @@ export default function TheaterDetailSurface({
                 onClick={() =>
                   onOpenFilmDetail?.({
                     filmKey: film.filmKey,
+                    filmId: film.filmId ?? null,
                     opportunityKey: film.opportunityKey ?? null,
                   })
                 }
@@ -610,6 +611,7 @@ export default function TheaterDetailSurface({
                 onClick={() =>
                   onOpenFilmDetail?.({
                     filmKey: group.filmKey,
+                    filmId: group.filmId ?? null,
                     opportunityKey: group.opportunityKey ?? null,
                   })
                 }
@@ -678,6 +680,7 @@ export default function TheaterDetailSurface({
             onClick={() =>
               onOpenFilmDetail?.({
                 filmKey: presentation.todaysShowtimes.featuredFilm.filmKey,
+                filmId: presentation.todaysShowtimes.featuredFilm.filmId ?? null,
                 opportunityKey: null,
               })
             }

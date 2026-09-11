@@ -159,6 +159,7 @@ export default function PlannerSavedFilmsPanel({
     if (typeof onOpenFilmDetail !== 'function' || !row.filmKey) return;
     onOpenFilmDetail({
       filmKey: row.filmKey,
+      filmId: row.filmId ?? null,
       opportunityKey: row.nextOpportunityKey ?? null,
     });
   };

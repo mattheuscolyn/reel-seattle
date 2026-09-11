@@ -234,6 +234,7 @@ export default function HomeShelfDetailFilmCard({
               onClick={() =>
                 onOpenFilmDetail?.({
                   filmKey: film.filmKey,
+                  filmId: film.filmId ?? null,
                   opportunityKey: film.opportunityKey ?? null,
                 })
               }

@@ -59,6 +59,7 @@ function TheaterNowShowing({
                 onClick={() =>
                   onOpenFilm?.({
                     filmKey: film.filmKey,
+                    filmId: film.filmId ?? null,
                     opportunityKey: null,
                   })
                 }
