@@ -59,6 +59,17 @@ test('header back labels use one destination name per nested surface', () => {
   );
   assert.equal(
     resolveHeaderBackLabel({
+      primaryDestinationId: 'explore',
+      surface: {
+        type: 'collection-detail',
+        collectionId: 'siff:nouvelles-femmes',
+        originPrimary: 'explore',
+      },
+    }),
+    'Collections',
+  );
+  assert.equal(
+    resolveHeaderBackLabel({
       primaryDestinationId: 'planner',
       surface: { type: 'build-plan', originPrimary: 'planner' },
     }),

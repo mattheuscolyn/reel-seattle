@@ -57,6 +57,7 @@ import {
   openBuildPlanTheaterManage,
   openBuildPlanPlanDetails,
   openCollection,
+  openCollectionDetail,
   openFilmDetail,
   openTheaterDetail,
   openOpportunityDetail,
@@ -94,6 +95,9 @@ import BuildPlanTheaterManageSurface from './planner/BuildPlanTheaterManageSurfa
 import BuildPlanPlanDetailsSurface from './planner/BuildPlanPlanDetailsSurface.jsx';
 import TheatersSurface from './theaters/TheatersSurface.jsx';
 import TheaterDetailSurface from './theaters/TheaterDetailSurface.jsx';
+import CollectionsSurface from './exploreCollections/CollectionsSurface.jsx';
+import CollectionDetailSurface from './exploreCollections/CollectionDetailSurface.jsx';
+import { loadCollectionsCurrent } from './exploreCollections/loadCollectionsCurrent.js';
 import FormatsExperiencesSurface from './formatsExperiences/FormatsExperiencesSurface.jsx';
 import FormatDetailSurface from './formatsExperiences/FormatDetailSurface.jsx';
 import ExperienceDetailSurface from './formatsExperiences/ExperienceDetailSurface.jsx';
@@ -243,6 +247,11 @@ export default function V2App() {
   const [acceptedPlansRevision, setAcceptedPlansRevision] = useState(0);
   const [resultsShareHandler, setResultsShareHandler] = useState(null);
   const [planDetailsShareHandler, setPlanDetailsShareHandler] = useState(null);
+  const [collectionsState, setCollectionsState] = useState({
+    status: 'loading',
+    artifact: null,
+    warning: null,
+  });
   const [sharedHomeData, setSharedHomeData] = useState({
     status: 'loading',
     homeData: null,
@@ -446,6 +455,30 @@ export default function V2App() {
     return () => {
       cancelled = true;
       hydrateAbort.abort();
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    loadCollectionsCurrent()
+      .then((result) => {
+        if (cancelled) return;
+        setCollectionsState({
+          status: result.status,
+          artifact: result.artifact,
+          warning: result.warning,
+        });
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        setCollectionsState({
+          status: 'unavailable',
+          artifact: null,
+          warning: error instanceof Error ? error.message : String(error),
+        });
+      });
+    return () => {
+      cancelled = true;
     };
   }, []);
 
@@ -709,6 +742,7 @@ export default function V2App() {
           params.returnSurface ??
           (current.surface?.type === 'collection' ||
           current.surface?.type === 'theater-detail' ||
+          current.surface?.type === 'collection-detail' ||
           current.surface?.type === 'showtimes-browse' ||
           current.surface?.type === 'build-plan-plan-details'
             ? current.surface
@@ -736,6 +770,21 @@ export default function V2App() {
 
   const handleSearchStateChange = useCallback((searchUi) => {
     setNav((current) => updateSearchUi(current, searchUi));
+  }, []);
+
+  const handleOpenCollectionDetail = useCallback((params) => {
+    setNav((current) =>
+      openCollectionDetail(current, {
+        collectionId: params.collectionId,
+        originPrimary:
+          params.originPrimary ??
+          current.surface?.originPrimary ??
+          current.primaryDestinationId ??
+          'explore',
+        returnSurface: params.returnSurface ?? current.surface,
+      }),
+    );
+    window.scrollTo(0, 0);
   }, []);
 
   const handleOpenTheaterDetail = useCallback((params) => {
@@ -1057,6 +1106,10 @@ export default function V2App() {
   const isTheatersList =
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.theaters;
+  const isCollectionsList =
+    nav.surface?.type === 'collection' &&
+    nav.surface.collectionId === COLLECTION_IDS.collections;
+  const isCollectionDetail = nav.surface?.type === 'collection-detail';
   const isFormatsExperiences =
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.formats;
@@ -1574,6 +1627,41 @@ export default function V2App() {
           );
           window.setTimeout(() => setProfileStubStatus(null), 2500);
         }}
+      />
+    );
+  } else if (isCollectionsList) {
+    mainContent = (
+      <CollectionsSurface
+        artifact={collectionsState.artifact}
+        homeData={sharedHomeData.homeData}
+        loadStatus={collectionsState.status}
+        onOpenCollectionDetail={({ collectionId }) =>
+          handleOpenCollectionDetail({
+            collectionId,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
+      />
+    );
+  } else if (isCollectionDetail) {
+    mainContent = (
+      <CollectionDetailSurface
+        artifact={collectionsState.artifact}
+        collectionId={nav.surface.collectionId}
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
+        onOpenFilmDetail={({ filmKey, filmId, opportunityKey }) =>
+          handleOpenFilmDetail({
+            filmKey,
+            filmId,
+            opportunityKey,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            exploreRestore: nav.surface.returnSurface?.exploreRestore ?? null,
+            homeRestore: null,
+            returnSurface: nav.surface,
+          })
+        }
       />
     );
   } else if (isTheatersList) {

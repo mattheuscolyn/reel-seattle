@@ -269,6 +269,10 @@ test('origin-aware Back labels', () => {
     'Search',
   );
   assert.equal(resolveFilmDetailBackLabel('explore', null), 'Explore');
+  assert.equal(
+    resolveFilmDetailBackLabel('explore', { type: 'collection-detail' }),
+    'Collection',
+  );
 });
 
 test('production mode resolves real film titles and never the mockup title by default', () => {

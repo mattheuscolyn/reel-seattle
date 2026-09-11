@@ -138,6 +138,14 @@ import {
  */
 
 /**
+ * @typedef {object} CollectionDetailSurface
+ * @property {'collection-detail'} type
+ * @property {string} collectionId
+ * @property {string} originPrimary
+ * @property {object | null} [returnSurface]
+ */
+
+/**
  * @typedef {object} AdminTmdbReviewSurface
  * @property {'admin-tmdb-review'} type
  * @property {string} originPrimary
@@ -659,6 +667,41 @@ export function openTheaterDetail(state, params = {}) {
 }
 
 /**
+ * Indie collection detail within Explore → Collections.
+ * @param {object} state
+ * @param {{
+ *   collectionId: string,
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openCollectionDetail(state, params) {
+  const collectionId =
+    typeof params?.collectionId === 'string' ? params.collectionId.trim() : '';
+  if (!collectionId) return state;
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'explore',
+  );
+  const returnSurface =
+    params.returnSurface ??
+    (state.surface?.type === 'collection' &&
+    state.surface.collectionId === 'collections'
+      ? state.surface
+      : null);
+  return {
+    ...state,
+    primaryDestinationId: originPrimary === 'profile' ? 'profile' : 'explore',
+    plannerSeed: null,
+    surface: {
+      type: 'collection-detail',
+      collectionId,
+      originPrimary,
+      returnSurface,
+    },
+  };
+}
+
+/**
  * Format detail within Formats & Experiences.
  * @param {object} state
  * @param {{
@@ -879,6 +922,7 @@ export function navigateBack(state) {
     state.surface.type === 'build-plan-showtime-manage' ||
     state.surface.type === 'build-plan-theater-manage' ||
     state.surface.type === 'theater-detail' ||
+    state.surface.type === 'collection-detail' ||
     state.surface.type === 'format-detail' ||
     state.surface.type === 'experience-detail' ||
     state.surface.type === 'compare-formats' ||

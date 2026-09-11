@@ -680,6 +680,7 @@ export function resolveFilmDetailBackLabel(originPrimary, returnSurface) {
     return 'Explore';
   }
   if (returnSurface?.type === 'theater-detail') return 'Theater';
+  if (returnSurface?.type === 'collection-detail') return 'Collection';
   if (originPrimary === 'home') return 'Home';
   if (originPrimary === 'planner') return 'Planner';
   if (originPrimary === 'explore') return 'Explore';
