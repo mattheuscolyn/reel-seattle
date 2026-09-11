@@ -41,6 +41,7 @@ class SourceIdentityRecord:
     year_interpretation: dict | None = None
     presentation_labels: list[str] = field(default_factory=list)
     directors_normalized: list[str] = field(default_factory=list)
+    identity_title_candidate: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -79,6 +80,8 @@ def inventory_source_identities(
             sid = product.get("source_film_id")
             if sid not in (None, ""):
                 products_by_id[str(sid)] = product
+
+    collection_titles = _collection_identity_titles(base)
 
     grouped: dict[str, SourceIdentityRecord] = {}
     for row in showtimes_doc.get("showtimes") or []:
@@ -159,6 +162,7 @@ def inventory_source_identities(
                 year_interpretation=year_info.to_dict(),
                 presentation_labels=list(year_info.presentation_labels),
                 directors_normalized=parse_person_names(directors),
+                identity_title_candidate=collection_titles.get(group_key),
             )
 
         record = grouped[group_key]
@@ -224,6 +228,31 @@ def _opt_int(value: Any) -> int | None:
         return int(value)
     except (TypeError, ValueError):
         return None
+
+
+def _collection_identity_titles(root: Path) -> dict[str, str]:
+    """Map listing keys to evidence-based identity title candidates."""
+    from reel_seattle.collections.artifact import load_artifact
+    from reel_seattle.collections.join import listing_key
+
+    doc = load_artifact(root / "public/data/collections_current.json")
+    if not doc:
+        return {}
+    out: dict[str, str] = {}
+    for row in doc.get("memberships") or []:
+        if not isinstance(row, Mapping):
+            continue
+        candidate = str(row.get("identityTitleCandidate") or "").strip()
+        if not candidate:
+            continue
+        key = listing_key(
+            str(row.get("source") or ""),
+            str(row.get("sourceFilmId") or "").strip() or None,
+            None,
+        )
+        if key:
+            out[key] = candidate
+    return out
 
 
 def _year_from_date(value: Any) -> int | None:

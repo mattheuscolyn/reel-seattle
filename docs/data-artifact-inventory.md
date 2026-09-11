@@ -24,6 +24,7 @@ These files define truth in the repo. Edit intentionally; validate before commit
 
 **Schema files (v1.0.0):**
 
+- `schema/collections_current/v1.0.0.json`
 - `schema/showtimes_current/v1.0.0.json`
 - `schema/pipeline_report/v1.0.0.json`
 - `schema/newly_added_current/v1.0.0.json`
@@ -44,6 +45,7 @@ Produced by the pipeline or analysis scripts. Do not hand-edit except emergency 
 
 | Path | Producer | Committed? |
 |------|----------|------------|
+| `public/data/collections_current.json` | `reel_seattle/collections/pipeline.py` / `scripts/build_collections_current.py` | Yes — daily (optional public validate; not required for scrape commit yet) |
 | `public/data/showtimes_current.json` | `reel_seattle/emit/current.py` | Yes — daily |
 | `public/data/pipeline_report.json` | `reel_seattle/pipeline_report.py` (+ catalog health patch from `reel_seattle/pipeline_report_catalog.py` after AMC catalog stage) | Yes — daily |
 | `public/data/newly_added_current.json` | `reel_seattle/emit/newly_added.py` | Yes — daily |

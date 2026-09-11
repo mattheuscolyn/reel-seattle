@@ -47,6 +47,12 @@ from reel_seattle.film_identity.scoring import (
 )
 from reel_seattle.film_identity.presentation import interpret_source_years
 from reel_seattle.film_identity.normalize_text import parse_person_names
+from reel_seattle.collections.matcher_hook import (
+    BLOCKED_CONFLICT,
+    WARNING_CONFLICT,
+    preferred_search_title,
+    titles_conflict,
+)
 from reel_seattle.film_identity.tmdb_client import (
     TmdbAuthError,
     TmdbClient,
@@ -99,6 +105,24 @@ def plan_tmdb_search_queries(
             }
         )
     return queries[:3]
+
+
+def _top_search_tmdb_id(client: TmdbClient, title: str, year: int | None) -> int | None:
+    """Cheap raw-title probe used only to detect collection-candidate conflicts."""
+    text = (title or "").strip()
+    if not text:
+        return None
+    try:
+        search = client.search_movie(text, year=year)
+    except Exception:  # noqa: BLE001
+        return None
+    rows = search.get("results") or []
+    if not rows or not isinstance(rows[0], Mapping) or rows[0].get("id") is None:
+        return None
+    try:
+        return int(rows[0]["id"])
+    except (TypeError, ValueError):
+        return None
 
 
 def collect_search_candidates(
@@ -344,11 +368,21 @@ def match_source_identity(
             "match_confidence": None,
         }
 
-    search_title = (
+    raw_search = (
         year_info.get("base_title")
         or identity.get("normalized_title")
         or identity.get("source_title")
     )
+    search_title, title_warnings = preferred_search_title(
+        identity, fallback=str(raw_search) if raw_search else None
+    )
+    if title_warnings:
+        base["warnings"] = list(dict.fromkeys(list(base["warnings"]) + title_warnings))
+        base["provenance"] = {
+            **base["provenance"],
+            "identity_title_candidate": identity.get("identity_title_candidate"),
+            "raw_search_title": raw_search,
+        }
     if not search_title:
         return {
             **base,
@@ -440,6 +474,27 @@ def match_source_identity(
         base["auto_confirm_blocked_reason"] = blocked
 
         if bucket == "auto" and proposed is not None:
+            merged_warnings = list(
+                dict.fromkeys(list(base["warnings"]) + list(proposed.warnings))
+            )
+            if titles_conflict(str(search_title), str(raw_search or "")):
+                raw_tmdb_id = _top_search_tmdb_id(
+                    client, str(raw_search), year if isinstance(year, int) else None
+                )
+                if raw_tmdb_id is not None and raw_tmdb_id != proposed.tmdb_id:
+                    return {
+                        **base,
+                        "film_id": fallback,
+                        "identity_type": parsed_fallback.identity_type,
+                        "tmdb_id": None,
+                        "match_status": STATUS_REVIEW_REQUIRED,
+                        "match_method": METHOD_FALLBACK,
+                        "match_confidence": proposed.score,
+                        "signals": proposed.signals,
+                        "warnings": merged_warnings + [WARNING_CONFLICT],
+                        "candidates": candidate_payloads,
+                        "auto_confirm_blocked_reason": BLOCKED_CONFLICT,
+                    }
             return {
                 **base,
                 "film_id": film_id_from_tmdb(proposed.tmdb_id),
@@ -449,7 +504,7 @@ def match_source_identity(
                 "match_method": METHOD_AUTOMATIC,
                 "match_confidence": proposed.score,
                 "signals": proposed.signals,
-                "warnings": list(proposed.warnings),
+                "warnings": merged_warnings,
                 "candidates": candidate_payloads,
                 "tmdb_title": proposed.title,
                 "tmdb_original_title": proposed.original_title,

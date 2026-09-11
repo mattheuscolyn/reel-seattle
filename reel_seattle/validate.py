@@ -23,6 +23,7 @@ LEAVING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "leaving_soon_current" / "v1.1.0
 OPENING_THIS_WEEK_CURRENT_SCHEMA_PATH = (
     SCHEMA_DIR / "opening_this_week_current" / "v1.1.0.json"
 )
+COLLECTIONS_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "collections_current" / "v1.0.0.json"
 
 _VALIDATOR_CACHE: dict[Path, Draft202012Validator] = {}
 
@@ -143,6 +144,15 @@ def validate_leaving_soon_current(
 ) -> None:
     """Validate a leaving_soon_current artifact."""
     validate_against_schema(artifact, schema_path, label="leaving_soon_current")
+
+
+def validate_collections_current(
+    artifact: dict[str, Any],
+    *,
+    schema_path: Path = COLLECTIONS_CURRENT_SCHEMA_PATH,
+) -> None:
+    """Validate a collections_current artifact."""
+    validate_against_schema(artifact, schema_path, label="collections_current")
 
 
 def validate_opening_this_week_current(
