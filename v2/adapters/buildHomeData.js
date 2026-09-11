@@ -21,6 +21,8 @@ import {
   resolveContentClassification,
 } from './contentClassification.js';
 import { attachCanonicalScreeningFields } from '../showtimes/canonicalScreening.js';
+import { filmsByKeyFromHomeData } from '../showtimes/qualifyingShowtimes.js';
+import { resolveCanonicalFilmKey } from './resolveCanonicalFilmKey.js';
 
 export const LEAVING_SOON_EXCLUDED = false;
 
@@ -131,6 +133,27 @@ function asCanonicalFilmId(value) {
   const trimmed = value.trim();
   if (!/^tmdb:[1-9][0-9]*$/.test(trimmed)) return null;
   return trimmed;
+}
+
+/**
+ * @param {string | null | undefined} variantType
+ * @returns {boolean}
+ */
+function isMeaningfulScreeningVariant(variantType) {
+  if (typeof variantType !== 'string') return false;
+  const key = variantType.trim().toLowerCase();
+  return Boolean(key) && key !== 'none' && key !== 'normal_first_run';
+}
+
+/**
+ * Film cards do not carry screening qualifiers once collapsed onto a parent.
+ * @param {boolean} merged
+ * @param {string | null | undefined} variantType
+ * @returns {string | null}
+ */
+function filmLevelScreeningVariantType(merged, variantType) {
+  if (merged) return null;
+  return isMeaningfulScreeningVariant(variantType) ? variantType.trim().toLowerCase() : null;
 }
 
 /**
@@ -309,13 +332,13 @@ export function buildHomeData(input) {
       continue;
     }
 
-    const filmKey = asTrimmedString(raw.showtime_film_key);
+    const showtimeFilmKey = asTrimmedString(raw.showtime_film_key);
     const title = asTrimmedString(raw.film_title);
     const theaterId = asTrimmedString(raw.theater_id);
     const localDate = asTrimmedString(raw.date);
     const localTime = asTrimmedString(raw.time);
 
-    if (!filmKey) {
+    if (!showtimeFilmKey) {
       warnings.push(
         createHomeWarning('record_skipped', 'missing_film_key', 'Showtime missing showtime_film_key.', {
           index,
@@ -328,7 +351,7 @@ export function buildHomeData(input) {
       warnings.push(
         createHomeWarning('record_skipped', 'missing_title', 'Showtime missing film_title.', {
           index,
-          filmKey,
+          filmKey: showtimeFilmKey,
           id: raw.id ?? null,
         }),
       );
@@ -338,7 +361,7 @@ export function buildHomeData(input) {
       warnings.push(
         createHomeWarning('record_skipped', 'missing_theater_id', 'Showtime missing theater_id.', {
           index,
-          filmKey,
+          filmKey: showtimeFilmKey,
           id: raw.id ?? null,
         }),
       );
@@ -348,7 +371,7 @@ export function buildHomeData(input) {
       warnings.push(
         createHomeWarning('record_skipped', 'invalid_local_date', 'Showtime missing or invalid local date.', {
           index,
-          filmKey,
+          filmKey: showtimeFilmKey,
           theaterId,
           date: raw.date ?? null,
         }),
@@ -359,7 +382,7 @@ export function buildHomeData(input) {
       warnings.push(
         createHomeWarning('record_skipped', 'invalid_local_time', 'Showtime missing or invalid local time.', {
           index,
-          filmKey,
+          filmKey: showtimeFilmKey,
           theaterId,
           time: raw.time ?? null,
         }),
@@ -367,7 +390,78 @@ export function buildHomeData(input) {
       continue;
     }
 
+    const listingFilmRef = filmRefsByKey.get(showtimeFilmKey);
+    const parentFilmKeyHint =
+      asTrimmedString(raw.parent_film_key) ??
+      asTrimmedString(listingFilmRef?.parent_film_key);
+    const parentDisplayTitleHint =
+      asTrimmedString(raw.parent_display_title) ??
+      asTrimmedString(listingFilmRef?.parent_display_title);
+    const screeningVariantType =
+      asTrimmedString(raw.screening_variant_type) ??
+      asTrimmedString(listingFilmRef?.screening_variant_type);
+    const isSpecialScreening =
+      raw.is_special_screening === true ||
+      listingFilmRef?.is_special_screening === true;
+    const listingFilmId = asCanonicalFilmId(listingFilmRef?.film_id);
+    const parentListingFilmId = asCanonicalFilmId(
+      parentFilmKeyHint ? filmRefsByKey.get(parentFilmKeyHint)?.film_id : null,
+    );
+
+    let canonical = resolveCanonicalFilmKey({
+      showtimeFilmKey,
+      parentFilmKey: parentFilmKeyHint,
+      screeningVariantType,
+      listingFilmId,
+      parentListingFilmId,
+    });
+
+    // Runtime TMDB conflict against an already-aggregated parent card.
+    if (canonical.merged) {
+      const existingParent = filmAgg.get(canonical.filmKey);
+      if (
+        existingParent?.filmId &&
+        listingFilmId &&
+        existingParent.filmId !== listingFilmId
+      ) {
+        warnings.push(
+          createHomeWarning(
+            'informational',
+            'screening_qualifier_tmdb_conflict',
+            'Variant listing not merged: confirmed film_id conflicts with parent.',
+            {
+              showtimeFilmKey,
+              parentFilmKey: canonical.filmKey,
+              listingFilmId,
+              parentFilmId: existingParent.filmId,
+            },
+          ),
+        );
+        canonical = {
+          filmKey: showtimeFilmKey,
+          merged: false,
+          blockedReason: 'tmdb_conflict',
+        };
+      }
+    } else if (canonical.blockedReason === 'tmdb_conflict') {
+      warnings.push(
+        createHomeWarning(
+          'informational',
+          'screening_qualifier_tmdb_conflict',
+          'Variant listing not merged: confirmed film_id conflicts with parent.',
+          {
+            showtimeFilmKey,
+            parentFilmKey: parentFilmKeyHint,
+            listingFilmId,
+            parentFilmId: parentListingFilmId,
+          },
+        ),
+      );
+    }
+
+    const filmKey = canonical.filmKey;
     const formatLabels = asStringArray(raw.format_tags);
+    // Opportunity identity stays keyed by the source listing key for provenance.
     const opportunityKey = buildOpportunityKey({
       id: asTrimmedString(raw.id),
       source: asTrimmedString(raw.source),
@@ -375,7 +469,7 @@ export function buildHomeData(input) {
       theaterId,
       localDate,
       localTime: localTime.slice(0, 5),
-      filmKey,
+      filmKey: showtimeFilmKey,
       formatLabels,
     });
 
@@ -424,15 +518,21 @@ export function buildHomeData(input) {
         : {};
 
     const contentClassification = resolveContentClassification({
-      filmKey,
-      filmRecord: filmRefsByKey.get(filmKey),
+      filmKey: showtimeFilmKey,
+      filmRecord: listingFilmRef,
       showtimeRecord: raw,
       classificationIndex,
     });
 
+    const sourceTitle =
+      asTrimmedString(raw.source_title) ??
+      asTrimmedString(listingFilmRef?.source_title) ??
+      title;
+
     const opportunity = {
       opportunityKey,
       filmKey,
+      showtimeFilmKey,
       theaterId,
       theaterName,
       localDate,
@@ -448,10 +548,11 @@ export function buildHomeData(input) {
       source: asTrimmedString(raw.source) ?? 'unknown',
       sourceShowtimeId: asTrimmedString(raw.source_showtime_id),
       sourceFilmId: asTrimmedString(raw.source_film_id),
-      parentFilmKey: asTrimmedString(raw.parent_film_key),
-      parentDisplayTitle: asTrimmedString(raw.parent_display_title),
-      screeningVariantType: asTrimmedString(raw.screening_variant_type),
-      isSpecialScreening: raw.is_special_screening === true,
+      parentFilmKey: parentFilmKeyHint,
+      parentDisplayTitle: parentDisplayTitleHint,
+      screeningVariantType,
+      isSpecialScreening,
+      sourceTitle,
       contentClassification,
       // Screening observation dates for opportunity-level novelty (feature vectors).
       firstSeenAt: asTrimmedString(raw.first_seen_at),
@@ -462,18 +563,19 @@ export function buildHomeData(input) {
       attachCanonicalScreeningFields(opportunity),
     );
 
-    const filmRef = filmRefsByKey.get(filmKey);
+    // Prefer parent film catalog row when collapsing a qualifier variant.
+    const filmRef = filmRefsByKey.get(filmKey) ?? listingFilmRef;
+    const displayTitle = canonical.merged
+      ? parentDisplayTitleHint || asTrimmedString(filmRef?.title) || title
+      : title;
+
     let film = filmAgg.get(filmKey);
     if (!film) {
       film = {
         filmKey,
-        parentFilmKey:
-          asTrimmedString(raw.parent_film_key) ??
-          asTrimmedString(filmRef?.parent_film_key),
-        title,
-        parentDisplayTitle:
-          asTrimmedString(raw.parent_display_title) ??
-          asTrimmedString(filmRef?.parent_display_title),
+        parentFilmKey: canonical.merged ? null : parentFilmKeyHint,
+        title: displayTitle,
+        parentDisplayTitle: parentDisplayTitleHint,
         posterUrl:
           asTrimmedString(raw.poster_url) ?? asTrimmedString(filmRef?.poster_url),
         runtimeMin:
@@ -481,15 +583,21 @@ export function buildHomeData(input) {
         sourceFilmId:
           asTrimmedString(raw.source_film_id) ?? asTrimmedString(filmRef?.source_film_id),
         // Canonical identity from public film_id only (T-FILMID-02). Never invent from title/source id.
-        filmId: asCanonicalFilmId(filmRef?.film_id),
-        sourceTitle: asTrimmedString(raw.source_title),
-        screeningVariantType:
-          asTrimmedString(raw.screening_variant_type) ??
-          asTrimmedString(filmRef?.screening_variant_type),
-        isSpecialScreening:
-          raw.is_special_screening === true ||
-          filmRef?.is_special_screening === true,
+        filmId:
+          asCanonicalFilmId(filmRef?.film_id) ??
+          listingFilmId ??
+          null,
+        sourceTitle: canonical.merged ? null : sourceTitle,
+        // Film-level variant metadata stays null when qualifiers live on screenings.
+        screeningVariantType: filmLevelScreeningVariantType(
+          canonical.merged,
+          screeningVariantType,
+        ),
+        isSpecialScreening: canonical.merged
+          ? false
+          : isSpecialScreening && isMeaningfulScreeningVariant(screeningVariantType),
         contentClassification,
+        aliasKeys: new Set(),
         showtimeCount: 0,
         theaterIds: new Set(),
         firstShowtimeAt: null,
@@ -497,6 +605,20 @@ export function buildHomeData(input) {
       };
       filmAgg.set(filmKey, film);
     } else {
+      // Prefer the base listing title when the canonical (non-qualifier) row arrives.
+      const isBaseListing =
+        showtimeFilmKey === film.filmKey &&
+        !isMeaningfulScreeningVariant(screeningVariantType);
+      if (isBaseListing && title) {
+        film.title = title;
+        film.sourceTitle = sourceTitle;
+        film.screeningVariantType = null;
+        film.isSpecialScreening = false;
+      }
+      if (canonical.merged) {
+        film.screeningVariantType = null;
+        film.isSpecialScreening = false;
+      }
       if (!film.posterUrl) {
         film.posterUrl =
           asTrimmedString(raw.poster_url) ?? asTrimmedString(filmRef?.poster_url);
@@ -505,9 +627,15 @@ export function buildHomeData(input) {
         film.runtimeMin =
           asPositiveNumber(raw.runtime_min) ?? asPositiveNumber(filmRef?.runtime_min);
       }
+      if (!film.filmId && listingFilmId) {
+        film.filmId = listingFilmId;
+      }
       if (!film.contentClassification && contentClassification) {
         film.contentClassification = contentClassification;
       }
+    }
+    if (showtimeFilmKey !== filmKey) {
+      film.aliasKeys.add(showtimeFilmKey);
     }
     film.showtimeCount += 1;
     film.theaterIds.add(theaterId);
@@ -575,6 +703,7 @@ export function buildHomeData(input) {
       screeningVariantType: film.screeningVariantType ?? null,
       isSpecialScreening: film.isSpecialScreening === true,
       contentClassification: film.contentClassification ?? null,
+      aliasKeys: [...(film.aliasKeys ?? [])].sort((a, b) => (a < b ? -1 : 1)),
       showtimeCount: film.showtimeCount,
       theaterCount: film.theaterIds.size,
       firstShowtimeAt: film.firstShowtimeAt,
@@ -635,9 +764,11 @@ export function buildHomeData(input) {
     };
   }
 
+  const filmsByKey = filmsByKeyFromHomeData({ films });
+
   const newlyAddedBuilt = buildNewlyAddedSummaries({
     newlyAddedArtifact: input.newlyAdded,
-    filmsByKey: new Map(films.map((film) => [film.filmKey, film])),
+    filmsByKey,
     opportunities,
     warnings,
   });

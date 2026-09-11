@@ -56,7 +56,16 @@ function computeSharedShowtimeChips(times) {
  */
 export function resolveFilm(homeData, filmKey) {
   const films = Array.isArray(homeData?.films) ? homeData.films : [];
-  const direct = films.find((f) => f.filmKey === filmKey) ?? null;
+  const key = typeof filmKey === 'string' ? filmKey.trim() : '';
+  if (!key) return null;
+  const direct =
+    films.find((f) => f.filmKey === key) ??
+    films.find(
+      (f) =>
+        Array.isArray(f.aliasKeys) &&
+        f.aliasKeys.some((alias) => alias === key),
+    ) ??
+    null;
   if (!direct) return null;
   // Prefer the parent/standard film row for special-screening keys so Film Detail
   // uses the canonical title while still retaining the entry filmKey.
@@ -78,7 +87,7 @@ export function resolveFilm(homeData, filmKey) {
   }
   return {
     ...direct,
-    entryFilmKey: direct.filmKey,
+    entryFilmKey: key !== direct.filmKey ? key : direct.filmKey,
   };
 }
 
@@ -90,9 +99,17 @@ export function resolveFilm(homeData, filmKey) {
  */
 export function resolveFilmFamilyKeys(homeData, filmKey) {
   const films = Array.isArray(homeData?.films) ? homeData.films : [];
-  const seed = films.find((f) => f.filmKey === filmKey);
+  const key = typeof filmKey === 'string' ? filmKey.trim() : '';
+  const seed =
+    films.find((f) => f.filmKey === key) ??
+    films.find(
+      (f) =>
+        Array.isArray(f.aliasKeys) &&
+        f.aliasKeys.some((alias) => alias === key),
+    ) ??
+    null;
   /** @type {Set<string>} */
-  const keys = new Set([filmKey]);
+  const keys = new Set(key ? [key] : []);
   if (!seed) return keys;
 
   const parentKey =
@@ -103,12 +120,29 @@ export function resolveFilmFamilyKeys(homeData, filmKey) {
       ? seed.filmId
       : null;
 
+  keys.add(seed.filmKey);
+  if (Array.isArray(seed.aliasKeys)) {
+    for (const alias of seed.aliasKeys) {
+      if (typeof alias === 'string' && alias.trim()) keys.add(alias.trim());
+    }
+  }
+
   for (const film of films) {
     if (film.filmKey === parentKey || film.parentFilmKey === parentKey) {
       keys.add(film.filmKey);
+      if (Array.isArray(film.aliasKeys)) {
+        for (const alias of film.aliasKeys) {
+          if (typeof alias === 'string' && alias.trim()) keys.add(alias.trim());
+        }
+      }
     }
     if (filmId && film.filmId === filmId) {
       keys.add(film.filmKey);
+      if (Array.isArray(film.aliasKeys)) {
+        for (const alias of film.aliasKeys) {
+          if (typeof alias === 'string' && alias.trim()) keys.add(alias.trim());
+        }
+      }
     }
   }
   return keys;

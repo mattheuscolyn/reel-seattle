@@ -20,11 +20,20 @@ import { isActionableScreening } from './canonicalScreening.js';
  * @returns {Map<string, object>}
  */
 export function filmsByKeyFromHomeData(homeData) {
-  return new Map(
-    (Array.isArray(homeData?.films) ? homeData.films : [])
-      .filter((f) => f && typeof f.filmKey === 'string' && f.filmKey.trim())
-      .map((f) => [f.filmKey.trim(), f]),
-  );
+  /** @type {Map<string, object>} */
+  const map = new Map();
+  for (const film of Array.isArray(homeData?.films) ? homeData.films : []) {
+    if (!film || typeof film.filmKey !== 'string' || !film.filmKey.trim()) continue;
+    const primary = film.filmKey.trim();
+    map.set(primary, film);
+    const aliases = Array.isArray(film.aliasKeys) ? film.aliasKeys : [];
+    for (const raw of aliases) {
+      if (typeof raw !== 'string' || !raw.trim()) continue;
+      const alias = raw.trim();
+      if (!map.has(alias)) map.set(alias, film);
+    }
+  }
+  return map;
 }
 
 /**
