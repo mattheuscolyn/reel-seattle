@@ -28,6 +28,12 @@ import { buildLiveJustAnnouncedPresentation } from '../../v2/justAnnounced/build
 import { buildLiveLeavingSoonPresentation } from '../../v2/leaving/buildLiveLeavingSoonPresentation.js';
 import { buildLiveSpecialPresentationsPresentation } from '../../v2/specialPresentations/buildLiveSpecialPresentationsPresentation.js';
 import { setCachedTmdbOnlyFilm } from '../../v2/filmDetail/tmdbOnlyFilmCache.js';
+import { createInitialNavState, openFilmDetail } from '../../v2/navigation/navState.js';
+import { resolveFilmDetailPresentation } from '../../v2/fixtures/resolveFilmDetailPresentation.js';
+import { toFilmDetailView } from '../../v2/filmDetail/toFilmDetailView.js';
+import { buildSearchFilmResult } from '../../v2/explore/searchResultsModel.js';
+import { groupBrowseOpportunitiesByFilm } from '../../v2/showtimes/showtimesBrowseModel.js';
+import { buildTheaterNowShowing } from '../../v2/theaters/resolveTheaterPresentation.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -545,4 +551,136 @@ test('Opening entry presentation exposes enriched year for category when slug co
   assert.equal(resolved.releaseYear, 2026);
   assert.equal(resolved.enriched.displayTitle, 'Sara Bareilles: Good Grief');
 });
+
+test('10. Film Detail P0A durable filmId navigation remains green', () => {
+  setCachedTmdbOnlyFilm('tmdb:1675218', {
+    filmId: 'tmdb:1675218',
+    title: 'Sara Bareilles: Good Grief',
+    overview: 'A concert film.',
+    runtimeMin: 95,
+    year: 2026,
+    posterUrl: 'https://example.com/bareilles.jpg',
+    backdropUrl: null,
+    genres: ['Music'],
+    directors: ['Someone'],
+    fetchedAt: new Date().toISOString(),
+  });
+
+  let nav = createInitialNavState();
+  nav = openFilmDetail(nav, {
+    filmKey: 'sara-bareilles-good-grief',
+    filmId: 'tmdb:1675218',
+    originPrimary: 'home',
+  });
+  assert.equal(nav.surface?.type, 'film-detail');
+  assert.equal(nav.surface.filmKey, 'sara-bareilles-good-grief');
+  assert.equal(nav.surface.filmId, 'tmdb:1675218');
+
+  const homeData = {
+    films: [
+      {
+        filmKey: 'other-film',
+        filmId: 'tmdb:1',
+        title: 'Other Film',
+        runtimeMin: 100,
+        showtimeCount: 1,
+        theaterCount: 1,
+      },
+    ],
+    opportunities: [],
+  };
+
+  const missingSlugOnly = resolveFilmDetailPresentation({
+    homeData,
+    filmKey: 'sara-bareilles-good-grief',
+    forceMode: 'production',
+  });
+  assert.equal(missingSlugOnly.resolved, false);
+
+  const withDurableId = resolveFilmDetailPresentation({
+    homeData,
+    filmKey: 'sara-bareilles-good-grief',
+    filmId: 'tmdb:1675218',
+    forceMode: 'production',
+  });
+  assert.equal(withDurableId.resolved, true);
+  assert.equal(withDurableId.source, 'tmdb-live');
+  assert.equal(
+    withDurableId.presentation.displayTitle,
+    'Sara Bareilles: Good Grief',
+  );
+  const view = toFilmDetailView(withDurableId);
+  assert.equal(view.resolved, true);
+  assert.notEqual(view.displayTitle, null);
+});
+
+test('11. search, showtimes, and theater consume the shared canonical join', () => {
+  const index = emptyEnrichmentIndex([bareillesEnrichmentRow()]);
+  const homeData = {
+    timezone: 'America/Los_Angeles',
+    films: [
+      {
+        filmKey: 'sara-bareilles-good-grief',
+        filmId: 'tmdb:1675218',
+        title: 'Sara Bareilles Good Grief (source)',
+        posterUrl: null,
+        runtimeMin: 90,
+        theaterCount: 1,
+        showtimeCount: 1,
+      },
+    ],
+    opportunities: [
+      {
+        opportunityKey: 'o1',
+        filmKey: 'sara-bareilles-good-grief',
+        filmId: 'tmdb:1675218',
+        filmTitle: 'Sara Bareilles Good Grief (source)',
+        title: 'Sara Bareilles Good Grief (source)',
+        theaterId: 't1',
+        theaterName: 'SIFF Cinema Uptown',
+        localDate: '2026-09-12',
+        localTime: '19:00',
+        timeDisplay: '7:00 PM',
+        sortableLocalDateTime: '2026-09-12T19:00',
+        formatLabels: [],
+      },
+    ],
+    theatersById: {
+      t1: { id: 't1', name: 'SIFF Cinema Uptown', enabled: true },
+    },
+    theaters: [{ id: 't1', name: 'SIFF Cinema Uptown', enabled: true }],
+  };
+
+  const search = buildSearchFilmResult(
+    homeData,
+    homeData.films[0],
+    {},
+    index,
+  );
+  assert.equal(search.title, 'Sara Bareilles: Good Grief');
+  assert.equal(search.filmId, 'tmdb:1675218');
+  assert.equal(search.hasEnrichment, true);
+  assert.equal(search.year, 2026);
+
+  const browseFilms = groupBrowseOpportunitiesByFilm(
+    homeData.opportunities,
+    homeData,
+    'week',
+    index,
+  );
+  assert.equal(browseFilms.length, 1);
+  assert.equal(browseFilms[0].title, 'Sara Bareilles: Good Grief');
+  assert.equal(browseFilms[0].filmId, 'tmdb:1675218');
+  assert.equal(browseFilms[0].year, 2026);
+  assert.equal(browseFilms[0].showtimes.length, 1);
+
+  const nowShowing = buildTheaterNowShowing(homeData, 't1', {
+    enrichmentIndex: index,
+    now: new Date('2026-09-12T10:00:00-07:00'),
+  });
+  assert.equal(nowShowing.length, 1);
+  assert.equal(nowShowing[0].title, 'Sara Bareilles: Good Grief');
+  assert.equal(nowShowing[0].filmId, 'tmdb:1675218');
+});
+
 
