@@ -18,7 +18,7 @@ import {
   formatLocalDateLabel,
   formatUserFacingFormatLabel,
 } from '../topOpportunities/topOpportunityFormat.js';
-import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
+import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 import { resolveTheaterPresentation } from '../theaters/resolveTheaterPresentation.js';
 import {
   SEARCH_CAPABILITY_NOTE,
@@ -213,16 +213,7 @@ export function buildSearchFilmResult(
 ) {
   const opportunity = findFilteredNextOpportunity(homeData, film.filmKey, filters);
   const chip = buildShowtimeChip(opportunity);
-  const enriched = resolveEnrichedFilmPresentation({
-    sourceFilm: {
-      filmId: film.filmId ?? null,
-      title: film.title ?? null,
-      posterUrl: film.posterUrl ?? null,
-      runtimeMin: film.runtimeMin ?? null,
-    },
-    enrichmentIndex,
-    context: 'search',
-  });
+  const enriched = enrichHomeFilm(film, enrichmentIndex, 'search', homeData);
   const runtime = formatRuntimeLabel(enriched.runtimeMin);
   const metaParts = [
     enriched.canonicalYear != null ? String(enriched.canonicalYear) : null,

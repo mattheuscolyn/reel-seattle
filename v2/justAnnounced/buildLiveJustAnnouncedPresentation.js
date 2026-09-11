@@ -10,7 +10,7 @@ import {
   formatRuntimeLabel,
   JUST_ANNOUNCED_WINDOW_DAYS,
 } from '../home/shelfData.js';
-import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
+import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
 import {
   aggregateTheatersFromRows,
   formatCompactTheaterLine,
@@ -157,27 +157,23 @@ export function buildLiveJustAnnouncedPresentation(
       : options.now instanceof Date
         ? options.now.toLocaleDateString('en-CA', { timeZone: timezone })
         : pacificTodayIso(timezone);
-  const films = Array.isArray(homeData.films) ? homeData.films : [];
-
   const presentationFilms = entries.map((entry) => {
     const filmKey = entry.filmKey;
-    const homeFilm = films.find((film) => film.filmKey === filmKey) ?? null;
+    const resolved = resolveCanonicalFilmPresentation({
+      filmKey,
+      filmId: entry.filmId ?? null,
+      homeData,
+      enrichmentIndex,
+      fallbackRecord: entry,
+      context: 'home',
+    });
+    const homeFilm = resolved.homeFilm;
+    const enriched = resolved.enriched;
     const filmOpportunities = opportunitiesForFilm(homeData, filmKey);
     const nextOpportunity =
       filmOpportunities[0] ??
       selectNextScreeningForFilm(homeData, filmKey) ??
       null;
-
-    const enriched = resolveEnrichedFilmPresentation({
-      sourceFilm: {
-        filmId: homeFilm?.filmId ?? null,
-        title: homeFilm?.title ?? entry.title ?? filmKey,
-        posterUrl: homeFilm?.posterUrl ?? entry.posterUrl ?? null,
-        runtimeMin: homeFilm?.runtimeMin ?? null,
-      },
-      enrichmentIndex,
-      context: 'home',
-    });
 
     const openingDate = resolveJustAnnouncedOpeningDate(entry, homeData);
     const dateLabel = buildJustAnnouncedOpeningDateLabel(openingDate, todayIso);

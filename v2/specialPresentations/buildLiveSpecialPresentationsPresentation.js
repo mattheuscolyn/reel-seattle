@@ -4,7 +4,7 @@
  */
 
 import { formatRuntimeLabel } from '../home/shelfData.js';
-import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
+import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
 import {
   aggregateTheatersFromRows,
   formatCompactTheaterLine,
@@ -76,23 +76,22 @@ export function buildLiveSpecialPresentationsPresentation(
     };
   }
 
-  const films = Array.isArray(homeData.films) ? homeData.films : [];
-
   const presentationFilms = rows.map((row) => {
     const { filmKey, bestOpportunity, bestCanonicalId } = row;
-    const homeFilm = films.find((film) => film.filmKey === filmKey) ?? null;
-
-    const enriched = resolveEnrichedFilmPresentation({
-      sourceFilm: {
-        filmId: homeFilm?.filmId ?? null,
-        title:
-          homeFilm?.title ?? bestOpportunity?.filmTitle ?? filmKey,
-        posterUrl: homeFilm?.posterUrl ?? null,
-        runtimeMin: homeFilm?.runtimeMin ?? null,
-      },
+    const resolved = resolveCanonicalFilmPresentation({
+      filmKey,
+      filmId: bestOpportunity?.filmId ?? null,
+      homeData,
       enrichmentIndex,
+      fallbackRecord: {
+        filmKey,
+        filmId: bestOpportunity?.filmId ?? null,
+        title: bestOpportunity?.filmTitle ?? filmKey,
+      },
       context: 'home',
     });
+    const homeFilm = resolved.homeFilm;
+    const enriched = resolved.enriched;
 
     const presentationLabels = row.presentationCanonicalIds.map((id) =>
       specialPresentationBrowseLabel(id),

@@ -4,10 +4,10 @@
  */
 
 import {
-  joinOpeningEntryToHomeFilm,
+  joinOpeningEntryOpportunities,
   openingCategoryForEntry,
 } from '../adapters/buildOpeningThisWeek.js';
-import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
+import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
 import { pacificTodayIso } from './openingDateCopy.js';
 
 /**
@@ -37,18 +37,16 @@ export function resolveOpeningEntryPresentation(entry, options = {}) {
       ? options.currentYear
       : Number(todayIso.slice(0, 4));
 
-  const films = Array.isArray(homeData?.films) ? homeData.films : [];
-  const homeFilm = joinOpeningEntryToHomeFilm(entry, films);
-  const enriched = resolveEnrichedFilmPresentation({
-    sourceFilm: {
-      filmId: homeFilm?.filmId ?? entry?.filmId ?? null,
-      title: homeFilm?.title ?? entry?.title ?? null,
-      posterUrl: homeFilm?.posterUrl ?? null,
-      runtimeMin: homeFilm?.runtimeMin ?? null,
-    },
+  const resolved = resolveCanonicalFilmPresentation({
+    filmKey: entry?.filmKey ?? entry?.showtimeFilmKey ?? entry?.parentFilmKey,
+    filmId: entry?.filmId ?? entry?.film_id ?? null,
+    homeData,
     enrichmentIndex,
+    fallbackRecord: entry,
     context: 'opening',
   });
+  const homeFilm = resolved.homeFilm;
+  const enriched = resolved.enriched;
 
   const category = openingCategoryForEntry(entry, {
     releaseYear: enriched.canonicalYear,
@@ -72,3 +70,6 @@ export function resolveOpeningEntryPresentation(entry, options = {}) {
     currentYear,
   };
 }
+
+// Re-export for callers that previously imported join helpers via this module path.
+export { joinOpeningEntryOpportunities };

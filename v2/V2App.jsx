@@ -18,6 +18,7 @@ import {
 } from './navigation/primaryTabSessions.js';
 import { loadHomeData } from './data/loadHomeData.js';
 import { loadFilmEnrichment } from './enrichment/loadFilmEnrichment.js';
+import { hydrateShelfFilmEnrichment } from './enrichment/hydrateShelfFilmEnrichment.js';
 import { reconcileUserFilmStores } from './stores/reconcileUserFilmStores.js';
 import { subscribeFilmStoreMutations } from './auth/filmStoreMutationBridge.js';
 import { isAllowedV2Hostname } from './isAllowedV2Hostname.js';
@@ -375,8 +376,9 @@ export default function V2App() {
 
   useEffect(() => {
     let cancelled = false;
+    const hydrateAbort = new AbortController();
     Promise.all([loadHomeData(), loadFilmEnrichment()])
-      .then(([homeResult, enrichmentResult]) => {
+      .then(async ([homeResult, enrichmentResult]) => {
         if (cancelled) return;
         if (!homeResult.ok) {
           setSharedHomeData({
@@ -404,6 +406,29 @@ export default function V2App() {
           index: enrichmentResult.index,
           warning: enrichmentResult.warning,
         });
+
+        // Central shelf hydrate: durable filmIds on shelves without static
+        // enrichment rows (e.g. Bareilles opening cold film) join via one
+        // shared TMDB fetch path — never per React card.
+        if (homeResult.ok && homeResult.homeData) {
+          try {
+            const hydrated = await hydrateShelfFilmEnrichment(
+              homeResult.homeData,
+              enrichmentResult.index,
+              { signal: hydrateAbort.signal },
+            );
+            if (cancelled) return;
+            if (hydrated.hydratedIds.length > 0 && hydrated.index) {
+              setEnrichmentState((prev) => ({
+                ...prev,
+                status: hydrated.index.status ?? prev.status,
+                index: hydrated.index,
+              }));
+            }
+          } catch {
+            // Hydration is best-effort; shelves keep source fallbacks.
+          }
+        }
       })
       .catch((error) => {
         if (cancelled) return;
@@ -420,6 +445,7 @@ export default function V2App() {
       });
     return () => {
       cancelled = true;
+      hydrateAbort.abort();
     };
   }, []);
 
