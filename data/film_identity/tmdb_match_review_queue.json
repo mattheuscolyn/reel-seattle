@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-10T11:54:53+00:00",
+  "generated_at": "2026-09-11T11:54:05+00:00",
   "items": [
     {
       "auto_confirm_blocked_reason": null,
@@ -6760,6 +6760,189 @@
         "removed_phrases": [
           "Secs Fest Presents"
         ],
+        "scoring_year": null,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Charlie Kaufman",
+          "original_title": null,
+          "overview_excerpt": "A theater director struggles with his work, and the women in his life, as he attempts to create a life-size replica of New York inside a warehouse as part of his new play.",
+          "popularity": 4.8927,
+          "poster_path": "/5UwdhrjXhUgsiDhe1dpS9z4yj7q.jpg",
+          "release_year": 2008,
+          "runtime_min": 124,
+          "score": 0.75,
+          "search_query": "Synecdoche, New York",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "charlie kaufman"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 4.8927,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Synecdoche, New York",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Synecdoche, New York",
+          "tmdb_id": 4960,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:beacon:synecdoche-new-york",
+      "match_confidence": 0.75,
+      "match_status": "review_required",
+      "normalized_title": "Synecdoche, New York",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 4960,
+      "queue_id": "beacon:synecdoche-new-york",
+      "runtime_min": null,
+      "showtime_film_key": "synecdoche-new-york",
+      "signals": {
+        "available_weight": 0.45,
+        "contributions": {
+          "runtime": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "charlie kaufman"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 4.8927,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": null,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "unavailable",
+        "search_query": "Synecdoche, New York",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "beacon",
+      "source_film_id": "synecdoche-new-york",
+      "source_title": "SYNECDOCHE, NEW YORK",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Synecdoche, New York",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
         "scoring_year": null,
         "search_abbreviation": null,
         "search_year": null,
