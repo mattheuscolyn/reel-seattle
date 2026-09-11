@@ -24,6 +24,14 @@ const NAV = readFileSync(join(ROOT, 'v2/PrimaryNav.jsx'), 'utf8');
 const ICONS = readFileSync(join(ROOT, 'v2/icons.jsx'), 'utf8');
 const CSS = readFileSync(join(ROOT, 'v2/v2.css'), 'utf8');
 const THEATERS = readFileSync(join(ROOT, 'v2/theaters/TheatersSurface.jsx'), 'utf8');
+const COLLECTIONS = readFileSync(
+  join(ROOT, 'v2/exploreCollections/CollectionsSurface.jsx'),
+  'utf8',
+);
+const COLLECTION_DETAIL = readFileSync(
+  join(ROOT, 'v2/exploreCollections/CollectionDetailSurface.jsx'),
+  'utf8',
+);
 const OPENING = readFileSync(join(ROOT, 'v2/opening/OpeningThisWeekSurface.jsx'), 'utf8');
 const EXPLORE = readFileSync(join(ROOT, 'v2/explore/ExploreSearch.jsx'), 'utf8');
 const PLANNER = readFileSync(join(ROOT, 'v2/planner/PlannerDestination.jsx'), 'utf8');
@@ -59,6 +67,9 @@ test('nested list surfaces no longer render a second in-page back control', () =
   assert.equal(OPENING.includes('v2-shelf-detail-page-back'), false);
   assert.equal(THEATERS.includes('← '), false);
   assert.equal(OPENING.includes('← '), false);
+  assert.equal(COLLECTIONS.includes('v2-theaters-page-back'), false);
+  assert.equal(COLLECTIONS.includes('← '), false);
+  assert.equal(COLLECTION_DETAIL.includes('← '), false);
 });
 
 test('primary nav icons are 22px and selected state is not color-only', () => {

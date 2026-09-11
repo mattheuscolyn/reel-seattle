@@ -106,6 +106,7 @@ export function resolveActivePrimaryId(nav) {
     nav.surface?.type === 'build-plan-showtime-manage' ||
     nav.surface?.type === 'build-plan-plan-details' ||
     nav.surface?.type === 'theater-detail' ||
+    nav.surface?.type === 'collection-detail' ||
     nav.surface?.type === 'admin-tmdb-review' ||
     nav.surface?.type === 'profile-settings' ||
     nav.surface?.type === 'profile-friends' ||
@@ -184,6 +185,9 @@ export function resolveHeaderBackLabel(nav, options = {}) {
   if (surface.type === 'theater-detail') {
     if (surface.returnSurface?.type === 'collection') return 'Theaters';
     return originBackLabel(surface.originPrimary);
+  }
+  if (surface.type === 'collection-detail') {
+    return 'Collections';
   }
   if (surface.type === 'build-plan-plan-details') {
     return surface.returnSurface?.type === 'build-plan-results'

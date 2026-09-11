@@ -29,7 +29,7 @@ export const V2_PUBLIC_DATA_ROOT = resolve(V2_DATA_REPO_ROOT, 'public/data');
  *
  * `required` mirrors runtime loaders:
  * - showtimes → hard-required by `loadHomeData`
- * - theaters / newly_added / pipeline_report / enrichment → optional (honest degrade)
+ * - theaters / newly_added / pipeline_report / enrichment / collections → optional (honest degrade)
  *
  * @type {readonly V2DataArtifactDef[]}
  */
@@ -67,6 +67,11 @@ export const V2_DATA_ARTIFACTS = Object.freeze([
   Object.freeze({
     route: '/data/film_enrichment_current.json',
     sourceRelative: 'public/data/film_enrichment_current.json',
+    required: false,
+  }),
+  Object.freeze({
+    route: '/data/collections_current.json',
+    sourceRelative: 'public/data/collections_current.json',
     required: false,
   }),
 ]);
