@@ -15,13 +15,14 @@ from reel_seattle.collections.ids import collection_id
 from reel_seattle.collections.join import attach_collection_ids_to_showtimes, enrich_memberships
 from reel_seattle.collections.model import (
     EVIDENCE_COLLECTION_PAGE_LINK,
+    EVIDENCE_FESTIVAL_CATALOGUE_PAGE_LINK,
     EVIDENCE_FILM_PAGE_SERIES_LINK,
     CollectionRecord,
     MembershipRecord,
 )
 from reel_seattle.collections.pipeline import build_collections_current
 from reel_seattle.film_identity.presentation import extract_match_title
-from tests.fixtures.collections.html import fixture_fetch
+from tests.fixtures.collections.html import fixture_fetch, fixture_fetch_resolved
 
 OBSERVED = "2026-09-11T11:00:00-07:00"
 
@@ -37,6 +38,7 @@ def _beacon() -> object:
 def _nwff() -> object:
     return discover_nwff_collections(
         fetch_text=fixture_fetch,
+        fetch_resolved=fixture_fetch_resolved,
         observed_at=OBSERVED,
         film_page_urls=["https://nwfilmforum.org/films/sfcs-10-mariners/"],
     )
@@ -107,6 +109,42 @@ def test_nwff_series_page_and_film_page_corroboration():
     first_cow = next(m for m in enriched if m.source_film_id == "sfcs-10-first-cow")
     assert first_cow.identity_title_candidate == "First Cow"
     assert "Disabled List" not in {c.title for c in result.collections}
+
+
+def test_nwff_festival_page_links_local_sightings_to_program_listings():
+    result = _nwff()
+    festival = next(
+        c
+        for c in result.collections
+        if c.collection_id == "nwff:local-sightings-film-festival-pacific-nw"
+    )
+    assert festival.source_collection_type == "festival"
+    assert festival.title == "Local Sightings Film Festival 2026"
+    assert "nwff:local-sightings-film-festival-2025" not in {
+        c.collection_id for c in result.collections
+    }
+    assert "nwff:bydesign-festival-2023-hybrid" not in {
+        c.collection_id for c in result.collections
+    }
+    member_ids = {
+        m.source_film_id
+        for m in result.memberships
+        if m.collection_id == festival.collection_id
+    }
+    assert "local-sightings-2026-like-a-local" in member_ids
+    assert "local-sightings-2026-ways-of-seeing" in member_ids
+    assert "local-sightings-2026-sugarfly" in member_ids
+    like_a_local = next(
+        m
+        for m in result.memberships
+        if m.source_film_id == "local-sightings-2026-like-a-local"
+    )
+    assert EVIDENCE_FESTIVAL_CATALOGUE_PAGE_LINK in like_a_local.membership_evidence
+    # No title-prefix inference: membership comes from catalogue /films/ links.
+    assert like_a_local.source_film_url.endswith("/local-sightings-2026-like-a-local/")
+    # Empty festival landing pages are omitted.
+    assert "nwff:free-forum-2026" not in {c.collection_id for c in result.collections}
+
 
 
 def test_canonical_film_can_belong_to_multiple_collections():

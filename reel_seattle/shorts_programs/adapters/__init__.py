@@ -1,0 +1,1 @@
+"""NWFF shorts-program adapters."""

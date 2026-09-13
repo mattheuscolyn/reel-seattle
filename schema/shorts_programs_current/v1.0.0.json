@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/shorts_programs_current/v1.0.0.json",
+  "title": "Reel Seattle Current Shorts Programs",
+  "description": "Provider-independent shorts programs discovered from explicit source program pages. Child Short membership is structural source evidence, not title heuristics. Shorts never own program showtimes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "timezone",
+    "shortsPrograms",
+    "shorts",
+    "memberships",
+    "stats",
+    "warnings",
+    "omitted"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timezone": {
+      "type": "string",
+      "const": "America/Los_Angeles"
+    },
+    "shortsPrograms": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/shortsProgram" }
+    },
+    "shorts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/short" }
+    },
+    "memberships": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/membership" }
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "shorts_program_count",
+        "short_count",
+        "membership_count",
+        "canonical_short_count",
+        "sources"
+      ],
+      "properties": {
+        "shorts_program_count": { "type": "integer", "minimum": 0 },
+        "short_count": { "type": "integer", "minimum": 0 },
+        "membership_count": { "type": "integer", "minimum": 0 },
+        "canonical_short_count": { "type": "integer", "minimum": 0 },
+        "sources": { "type": "object" }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "omitted": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["url", "reason"],
+        "properties": {
+          "url": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "shortsProgram": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shortsProgramId",
+        "productType",
+        "source",
+        "sourceFilmId",
+        "sourceUrl",
+        "sourceListingKey",
+        "title"
+      ],
+      "properties": {
+        "shortsProgramId": { "type": "string", "minLength": 1 },
+        "productType": { "type": "string", "const": "shorts_program" },
+        "source": { "type": "string", "enum": ["nwff"] },
+        "sourceFilmId": { "type": "string", "minLength": 1 },
+        "sourceUrl": { "type": "string", "minLength": 1 },
+        "sourceListingKey": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": ["string", "null"] },
+        "imageUrl": { "type": ["string", "null"] },
+        "runtimeMin": { "type": ["integer", "null"], "minimum": 1 },
+        "showtimeFilmKey": { "type": ["string", "null"] },
+        "collectionIds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "memberCount": { "type": "integer", "minimum": 0 },
+        "firstObservedAt": { "type": ["string", "null"] },
+        "lastObservedAt": { "type": ["string", "null"] },
+        "lastSuccessfulScrapeAt": { "type": ["string", "null"] },
+        "status": { "type": "string", "enum": ["active", "inactive"] }
+      }
+    },
+    "short": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["shortId", "productType", "source", "title"],
+      "properties": {
+        "shortId": { "type": "string", "minLength": 1 },
+        "productType": { "type": "string", "const": "short" },
+        "source": { "type": "string", "enum": ["nwff"] },
+        "title": { "type": "string", "minLength": 1 },
+        "directors": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "year": { "type": ["integer", "null"], "minimum": 1888 },
+        "runtimeMin": { "type": ["integer", "null"], "minimum": 1 },
+        "locationText": { "type": ["string", "null"] },
+        "language": { "type": ["string", "null"] },
+        "description": { "type": ["string", "null"] },
+        "imageUrl": { "type": ["string", "null"] },
+        "canonicalFilmId": {
+          "type": ["string", "null"],
+          "description": "Optional TMDB enrichment only. Never required identity.",
+          "pattern": "^tmdb:[1-9][0-9]*$"
+        },
+        "firstObservedAt": { "type": ["string", "null"] },
+        "lastObservedAt": { "type": ["string", "null"] }
+      }
+    },
+    "membership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "membershipId",
+        "shortsProgramId",
+        "shortId",
+        "source",
+        "position",
+        "rawTitle",
+        "rawMetadataBlock",
+        "rawDescription"
+      ],
+      "properties": {
+        "membershipId": { "type": "string", "minLength": 1 },
+        "shortsProgramId": { "type": "string", "minLength": 1 },
+        "shortId": { "type": "string", "minLength": 1 },
+        "source": { "type": "string", "enum": ["nwff"] },
+        "position": { "type": "integer", "minimum": 1 },
+        "rawTitle": { "type": "string" },
+        "rawMetadataBlock": { "type": "string" },
+        "rawDescription": { "type": "string" },
+        "parsedTitle": { "type": ["string", "null"] },
+        "parsedDirectors": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "parsedYear": { "type": ["integer", "null"], "minimum": 1888 },
+        "parsedRuntimeMin": { "type": ["integer", "null"], "minimum": 1 },
+        "parsedLocationText": { "type": ["string", "null"] },
+        "parsedLanguage": { "type": ["string", "null"] },
+        "parsedDescription": { "type": ["string", "null"] },
+        "membershipEvidence": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "firstObservedAt": { "type": ["string", "null"] },
+        "lastObservedAt": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

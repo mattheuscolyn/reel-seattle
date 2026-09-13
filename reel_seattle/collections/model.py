@@ -13,6 +13,8 @@ EVIDENCE_COLLECTION_PAGE_LINK = "collection_page_link"
 EVIDENCE_FILM_PAGE_SERIES_LINK = "film_page_series_link"
 EVIDENCE_NESTED_URL_CORROBORATION = "nested_url_corroboration"
 EVIDENCE_COLLECTION_PAGE_TITLE_AND_SOURCE_URL = "collection_page_title+source_url"
+EVIDENCE_FESTIVAL_PAGE_LINK = "festival_page_link"
+EVIDENCE_FESTIVAL_CATALOGUE_PAGE_LINK = "festival_catalogue_page_link"
 
 
 @dataclass(frozen=True, slots=True)

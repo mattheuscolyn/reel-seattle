@@ -238,6 +238,82 @@ export function openFilmDetail(state, params) {
 }
 
 /**
+ * Short Detail — member work; never owns program showtimes.
+ * @param {object} state
+ * @param {{
+ *   shortId: string,
+ *   shortsProgramId?: string | null,
+ *   originPrimary?: string,
+ *   homeRestore?: HomeRestoreState | null,
+ *   exploreRestore?: ExploreRestoreState | null,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openShortDetail(state, params) {
+  const shortId =
+    typeof params?.shortId === 'string' ? params.shortId.trim() : '';
+  if (!shortId) return state;
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId,
+  );
+  const shortsProgramId =
+    typeof params?.shortsProgramId === 'string' && params.shortsProgramId.trim()
+      ? params.shortsProgramId.trim()
+      : null;
+  return {
+    ...state,
+    primaryDestinationId: originPrimary,
+    plannerSeed: null,
+    surface: {
+      type: 'short-detail',
+      shortId,
+      shortsProgramId,
+      originPrimary,
+      homeRestore: params.homeRestore ?? null,
+      exploreRestore: params.exploreRestore ?? null,
+      returnSurface: params.returnSurface ?? null,
+    },
+  };
+}
+
+/**
+ * Shorts Program Detail — schedule-backed ticketed container.
+ * @param {object} state
+ * @param {{
+ *   shortsProgramId: string,
+ *   opportunityKey?: string | null,
+ *   originPrimary?: string,
+ *   homeRestore?: HomeRestoreState | null,
+ *   exploreRestore?: ExploreRestoreState | null,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openShortsProgramDetail(state, params) {
+  const shortsProgramId =
+    typeof params?.shortsProgramId === 'string'
+      ? params.shortsProgramId.trim()
+      : '';
+  if (!shortsProgramId) return state;
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId,
+  );
+  return {
+    ...state,
+    primaryDestinationId: originPrimary,
+    plannerSeed: null,
+    surface: {
+      type: 'shorts-program-detail',
+      shortsProgramId,
+      opportunityKey: params.opportunityKey ?? null,
+      originPrimary,
+      homeRestore: params.homeRestore ?? null,
+      exploreRestore: params.exploreRestore ?? null,
+      returnSurface: params.returnSurface ?? null,
+    },
+  };
+}
+
+/**
  * @param {object} state
  * @param {{
  *   filmKey: string,
@@ -248,6 +324,7 @@ export function openOpportunityDetail(state, params) {
   const originSurface = state.surface;
   if (
     originSurface?.type !== 'film-detail' &&
+    originSurface?.type !== 'shorts-program-detail' &&
     originSurface?.type !== 'showtimes'
   ) {
     return state;
@@ -273,7 +350,12 @@ export function openOpportunityDetail(state, params) {
  * }} params
  */
 export function openShowtimes(state, params) {
-  if (state.surface?.type !== 'film-detail') return state;
+  if (
+    state.surface?.type !== 'film-detail' &&
+    state.surface?.type !== 'shorts-program-detail'
+  ) {
+    return state;
+  }
   return {
     ...state,
     surface: {
@@ -967,7 +1049,11 @@ export function navigateBack(state) {
     };
   }
 
-  if (state.surface.type === 'film-detail') {
+  if (
+    state.surface.type === 'film-detail' ||
+    state.surface.type === 'short-detail' ||
+    state.surface.type === 'shorts-program-detail'
+  ) {
     const origin = resolveDestinationId(state.surface.originPrimary);
     if (state.surface.returnSurface) {
       return {

@@ -97,6 +97,8 @@ export function resolveActivePrimaryId(nav) {
   }
   if (
     nav.surface?.type === 'film-detail' ||
+    nav.surface?.type === 'short-detail' ||
+    nav.surface?.type === 'shorts-program-detail' ||
     nav.surface?.type === 'opportunity-detail' ||
     nav.surface?.type === 'showtimes' ||
     nav.surface?.type === 'showtimes-browse' ||
@@ -175,7 +177,20 @@ export function resolveHeaderBackLabel(nav, options = {}) {
   if (surface.type === 'film-detail') {
     return options.filmBackLabel || originBackLabel(surface.originPrimary);
   }
-  if (surface.type === 'showtimes') return 'Film';
+  if (surface.type === 'short-detail') {
+    if (surface.returnSurface?.type === 'shorts-program-detail') return 'Program';
+    if (surface.returnSurface?.type === 'collection-detail') return 'Collection';
+    return options.filmBackLabel || originBackLabel(surface.originPrimary);
+  }
+  if (surface.type === 'shorts-program-detail') {
+    if (surface.returnSurface?.type === 'short-detail') return 'Short';
+    if (surface.returnSurface?.type === 'collection-detail') return 'Collection';
+    return options.filmBackLabel || originBackLabel(surface.originPrimary);
+  }
+  if (surface.type === 'showtimes') {
+    if (surface.returnSurface?.type === 'shorts-program-detail') return 'Program';
+    return 'Film';
+  }
   if (surface.type === 'showtimes-browse') {
     return originBackLabel(surface.originPrimary);
   }

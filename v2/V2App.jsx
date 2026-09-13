@@ -59,6 +59,8 @@ import {
   openCollection,
   openCollectionDetail,
   openFilmDetail,
+  openShortDetail,
+  openShortsProgramDetail,
   openTheaterDetail,
   openOpportunityDetail,
   openShowtimes,
@@ -79,6 +81,8 @@ import CollectionSurface from './surfaces/CollectionSurface.jsx';
 import PersonalFilmCollectionSurface from './collections/PersonalFilmCollectionSurface.jsx';
 import { isPersonalCollectionId } from './collections/personalCollectionModel.js';
 import FilmDetailSurface from './surfaces/FilmDetailSurface.jsx';
+import ShortDetailSurface from './surfaces/ShortDetailSurface.jsx';
+import ShortsProgramDetailSurface from './surfaces/ShortsProgramDetailSurface.jsx';
 import OpportunityDetailSurface from './surfaces/OpportunityDetailSurface.jsx';
 import SearchResultsSurface from './surfaces/SearchResultsSurface.jsx';
 import ShowtimesSurface from './surfaces/ShowtimesSurface.jsx';
@@ -98,6 +102,12 @@ import TheaterDetailSurface from './theaters/TheaterDetailSurface.jsx';
 import CollectionsSurface from './exploreCollections/CollectionsSurface.jsx';
 import CollectionDetailSurface from './exploreCollections/CollectionDetailSurface.jsx';
 import { loadCollectionsCurrent } from './exploreCollections/loadCollectionsCurrent.js';
+import { loadShortsProgramsCurrent } from './shortsPrograms/loadShortsProgramsCurrent.js';
+import {
+  indexShortsProgramsArtifact,
+  resolveShortsProgramIdForListing,
+} from './shortsPrograms/shortsProgramsModel.js';
+import { getScheduleSettings } from './stores/scheduleSettingsStore.js';
 import FormatsExperiencesSurface from './formatsExperiences/FormatsExperiencesSurface.jsx';
 import FormatDetailSurface from './formatsExperiences/FormatDetailSurface.jsx';
 import ExperienceDetailSurface from './formatsExperiences/ExperienceDetailSurface.jsx';
@@ -201,6 +211,28 @@ function readFilmIdQuery() {
   }
 }
 
+function readShortsProgramIdQuery() {
+  if (typeof window === 'undefined') return null;
+  try {
+    const value = new URLSearchParams(window.location.search).get(
+      'shortsProgramId',
+    );
+    return typeof value === 'string' && value.trim() ? value.trim() : null;
+  } catch {
+    return null;
+  }
+}
+
+function readShortIdQuery() {
+  if (typeof window === 'undefined') return null;
+  try {
+    const value = new URLSearchParams(window.location.search).get('shortId');
+    return typeof value === 'string' && value.trim() ? value.trim() : null;
+  } catch {
+    return null;
+  }
+}
+
 function syncFilmIdQuery(filmId) {
   if (typeof window === 'undefined' || !window.history?.replaceState) return;
   try {
@@ -252,6 +284,18 @@ export default function V2App() {
     artifact: null,
     warning: null,
   });
+  const [shortsProgramsState, setShortsProgramsState] = useState({
+    status: 'loading',
+    artifact: null,
+    warning: null,
+  });
+  const shortsProgramsIndex = useMemo(
+    () =>
+      shortsProgramsState.artifact
+        ? indexShortsProgramsArtifact(shortsProgramsState.artifact)
+        : null,
+    [shortsProgramsState.artifact],
+  );
   const [sharedHomeData, setSharedHomeData] = useState({
     status: 'loading',
     homeData: null,
@@ -483,6 +527,30 @@ export default function V2App() {
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
+    loadShortsProgramsCurrent()
+      .then((result) => {
+        if (cancelled) return;
+        setShortsProgramsState({
+          status: result.status,
+          artifact: result.artifact,
+          warning: result.warning,
+        });
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        setShortsProgramsState({
+          status: 'unavailable',
+          artifact: null,
+          warning: error instanceof Error ? error.message : String(error),
+        });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
     const manageMode = getBuildPlanFilmManageMockupMode();
     if (manageMode) {
       ensureBuildPlanFormSession(
@@ -626,6 +694,38 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    const shortId = readShortIdQuery();
+    const shortsProgramId = readShortsProgramIdQuery();
+    if (!shortId && !shortsProgramId) return;
+    setNav((current) => {
+      if (shortId) {
+        if (
+          current.surface?.type === 'short-detail' &&
+          current.surface.shortId === shortId
+        ) {
+          return current;
+        }
+        return openShortDetail(current, {
+          shortId,
+          shortsProgramId,
+          originPrimary: current.primaryDestinationId || 'home',
+        });
+      }
+      if (
+        current.surface?.type === 'shorts-program-detail' &&
+        current.surface.shortsProgramId === shortsProgramId
+      ) {
+        return current;
+      }
+      return openShortsProgramDetail(current, {
+        shortsProgramId,
+        originPrimary: current.primaryDestinationId || 'home',
+      });
+    });
+    window.scrollTo(0, 0);
+  }, []);
+
   const prevFilmDetailRef = useRef(false);
   useEffect(() => {
     const isFilmDetailSurface = nav.surface?.type === 'film-detail';
@@ -735,16 +835,93 @@ export default function V2App() {
     setNotInterestedError(null);
     // Mockup fixture ships with Not interested selected; visual QC starts off.
     setFixtureNotInterested(isFilmDetailMockupFixtureMode());
-    setNav((current) =>
-      openFilmDetail(current, {
+    setNav((current) => {
+      const returnSurface =
+        params.returnSurface ??
+        (current.surface?.type === 'collection' ||
+        current.surface?.type === 'theater-detail' ||
+        current.surface?.type === 'collection-detail' ||
+        current.surface?.type === 'showtimes-browse' ||
+        current.surface?.type === 'build-plan-plan-details' ||
+        current.surface?.type === 'short-detail' ||
+        current.surface?.type === 'shorts-program-detail'
+          ? current.surface
+          : null);
+      const filmKey =
+        typeof params.filmKey === 'string' ? params.filmKey.trim() : '';
+      const film =
+        filmKey && Array.isArray(sharedHomeData.homeData?.films)
+          ? sharedHomeData.homeData.films.find((row) => row?.filmKey === filmKey)
+          : null;
+      const shortsProgramId = resolveShortsProgramIdForListing({
+        film,
+        filmKey,
+        sourceFilmId: film?.sourceFilmId ?? null,
+        contentClassification: film?.contentClassification ?? null,
+        index: shortsProgramsIndex,
+      });
+      if (shortsProgramId) {
+        return openShortsProgramDetail(current, {
+          shortsProgramId,
+          opportunityKey: params.opportunityKey ?? null,
+          originPrimary: params.originPrimary,
+          homeRestore: params.homeRestore ?? null,
+          exploreRestore: params.exploreRestore ?? null,
+          returnSurface,
+        });
+      }
+      return openFilmDetail(current, {
         ...params,
+        returnSurface,
+      });
+    });
+    window.scrollTo(0, 0);
+  }, [sharedHomeData.homeData, shortsProgramsIndex]);
+
+  const handleOpenShortDetail = useCallback((params) => {
+    setShareStatus(null);
+    setNav((current) =>
+      openShortDetail(current, {
+        shortId: params.shortId,
+        shortsProgramId: params.shortsProgramId ?? null,
+        originPrimary:
+          params.originPrimary ??
+          current.surface?.originPrimary ??
+          current.primaryDestinationId,
+        homeRestore: params.homeRestore ?? null,
+        exploreRestore: params.exploreRestore ?? null,
         returnSurface:
           params.returnSurface ??
-          (current.surface?.type === 'collection' ||
-          current.surface?.type === 'theater-detail' ||
+          (current.surface?.type === 'shorts-program-detail' ||
           current.surface?.type === 'collection-detail' ||
-          current.surface?.type === 'showtimes-browse' ||
-          current.surface?.type === 'build-plan-plan-details'
+          current.surface?.type === 'short-detail'
+            ? current.surface
+            : null),
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenShortsProgramDetail = useCallback((params) => {
+    setShareStatus(null);
+    setSaveError(null);
+    setSeenError(null);
+    setNotInterestedError(null);
+    setNav((current) =>
+      openShortsProgramDetail(current, {
+        shortsProgramId: params.shortsProgramId,
+        opportunityKey: params.opportunityKey ?? null,
+        originPrimary:
+          params.originPrimary ??
+          current.surface?.originPrimary ??
+          current.primaryDestinationId,
+        homeRestore: params.homeRestore ?? null,
+        exploreRestore: params.exploreRestore ?? null,
+        returnSurface:
+          params.returnSurface ??
+          (current.surface?.type === 'short-detail' ||
+          current.surface?.type === 'collection-detail' ||
+          current.surface?.type === 'showtimes-browse'
             ? current.surface
             : null),
       }),
@@ -1124,6 +1301,9 @@ export default function V2App() {
     nav.surface?.type === FRIEND_INVITE_LANDING_SURFACE_TYPE;
   const isTheaterDetail = nav.surface?.type === 'theater-detail';
   const isFilmDetail = nav.surface?.type === 'film-detail';
+  const isShortDetail = nav.surface?.type === 'short-detail';
+  const isShortsProgramDetail = nav.surface?.type === 'shorts-program-detail';
+  const isDetailChrome = isFilmDetail || isShortDetail || isShortsProgramDetail;
   const isOpportunityDetail = nav.surface?.type === 'opportunity-detail';
   const isShowtimes = nav.surface?.type === 'showtimes';
   const isShowtimesBrowse = nav.surface?.type === 'showtimes-browse';
@@ -1146,12 +1326,22 @@ export default function V2App() {
 
   const activePrimaryId = resolveActivePrimaryId(nav);
 
-  const filmKey = isFilmDetail ? nav.surface.filmKey : null;
+  const programShowtimeFilmKey = isShortsProgramDetail
+    ? shortsProgramsIndex?.programById.get(nav.surface.shortsProgramId)
+        ?.showtimeFilmKey ?? null
+    : null;
+  const filmKey = isFilmDetail
+    ? nav.surface.filmKey
+    : isShortsProgramDetail
+      ? programShowtimeFilmKey
+      : null;
   const filmId = isFilmDetail ? nav.surface.filmId ?? null : null;
   const durableFilmId = asTmdbFilmId(filmId) || asTmdbFilmId(filmKey);
   const filmOpportunityKey = isFilmDetail
     ? nav.surface.opportunityKey ?? null
-    : null;
+    : isShortsProgramDetail
+      ? nav.surface.opportunityKey ?? null
+      : null;
   const filmFromHome =
     filmKey && Array.isArray(sharedHomeData.homeData?.films)
       ? sharedHomeData.homeData.films.find(
@@ -1183,7 +1373,12 @@ export default function V2App() {
     ? isFilmDetailMockupFixtureMode()
       ? getFilmDetailMockupPresentation().film.title
       : filmForActions?.title ?? null
-    : null;
+    : isShortsProgramDetail
+      ? shortsProgramsIndex?.programById.get(nav.surface.shortsProgramId)?.title ??
+        null
+      : isShortDetail
+        ? shortsProgramsIndex?.shortById.get(nav.surface.shortId)?.title ?? null
+        : null;
   const filmBackLabel = isFilmDetail
     ? isFilmDetailMockupFixtureMode()
       ? getFilmDetailMockupPresentation().originLabel
@@ -1191,7 +1386,12 @@ export default function V2App() {
           nav.surface.originPrimary,
           nav.surface.returnSurface ?? null,
         )
-    : null;
+    : isShortDetail || isShortsProgramDetail
+      ? resolveFilmDetailBackLabel(
+          nav.surface.originPrimary,
+          nav.surface.returnSurface ?? null,
+        )
+      : null;
   const headerBackLabel = resolveHeaderBackLabel(nav, {
     filmBackLabel,
   });
@@ -1202,11 +1402,13 @@ export default function V2App() {
       : isFilmDetailVisualFixtureMode()
         ? 'visual-fixture'
         : 'production'
-    : null;
+    : isShortsProgramDetail
+      ? 'production'
+      : null;
 
   const saveAction = useMemo(() => {
     void saveRevision;
-    if (!isFilmDetail) {
+    if (!isFilmDetail && !isShortsProgramDetail) {
       return buildSaveActionState({ mode: 'production', film: null });
     }
     return buildSaveActionState({
@@ -1218,6 +1420,7 @@ export default function V2App() {
     });
   }, [
     isFilmDetail,
+    isShortsProgramDetail,
     filmDetailMode,
     filmForActions,
     fixtureSaved,
@@ -1226,7 +1429,7 @@ export default function V2App() {
   ]);
 
   const handleToggleSave = useCallback(() => {
-    if (!isFilmDetail || !saveAction.available) return;
+    if ((!isFilmDetail && !isShortsProgramDetail) || !saveAction.available) return;
     const result = applySaveToggle({
       storage: getBrowserStorage(),
       filmRef: saveAction.filmRef,
@@ -1244,11 +1447,11 @@ export default function V2App() {
     }
     setSaveError(null);
     setSaveRevision((value) => value + 1);
-  }, [isFilmDetail, saveAction]);
+  }, [isFilmDetail, isShortsProgramDetail, saveAction]);
 
   const seenAction = useMemo(() => {
     void seenRevision;
-    if (!isFilmDetail) {
+    if (!isFilmDetail && !isShortsProgramDetail) {
       return buildSeenActionState({ mode: 'production', film: null });
     }
     return buildSeenActionState({
@@ -1260,6 +1463,7 @@ export default function V2App() {
     });
   }, [
     isFilmDetail,
+    isShortsProgramDetail,
     filmDetailMode,
     filmForActions,
     fixtureSeen,
@@ -1268,7 +1472,7 @@ export default function V2App() {
   ]);
 
   const handleToggleSeen = useCallback(() => {
-    if (!isFilmDetail || !seenAction.available) return;
+    if ((!isFilmDetail && !isShortsProgramDetail) || !seenAction.available) return;
     const result = applySeenToggle({
       storage: getBrowserStorage(),
       filmRef: seenAction.filmRef,
@@ -1286,11 +1490,11 @@ export default function V2App() {
     }
     setSeenError(null);
     setSeenRevision((value) => value + 1);
-  }, [isFilmDetail, seenAction]);
+  }, [isFilmDetail, isShortsProgramDetail, seenAction]);
 
   const notInterestedAction = useMemo(() => {
     void notInterestedRevision;
-    if (!isFilmDetail) {
+    if (!isFilmDetail && !isShortsProgramDetail) {
       return buildNotInterestedActionState({ mode: 'production', film: null });
     }
     return buildNotInterestedActionState({
@@ -1302,6 +1506,7 @@ export default function V2App() {
     });
   }, [
     isFilmDetail,
+    isShortsProgramDetail,
     filmDetailMode,
     filmForActions,
     fixtureNotInterested,
@@ -1310,7 +1515,12 @@ export default function V2App() {
   ]);
 
   const handleToggleNotInterested = useCallback(() => {
-    if (!isFilmDetail || !notInterestedAction.available) return;
+    if (
+      (!isFilmDetail && !isShortsProgramDetail) ||
+      !notInterestedAction.available
+    ) {
+      return;
+    }
     const result = applyNotInterestedToggle({
       storage: getBrowserStorage(),
       filmRef: notInterestedAction.filmRef,
@@ -1328,7 +1538,7 @@ export default function V2App() {
     }
     setNotInterestedError(null);
     setNotInterestedRevision((value) => value + 1);
-  }, [isFilmDetail, notInterestedAction]);
+  }, [isFilmDetail, isShortsProgramDetail, notInterestedAction]);
 
   let mainContent;
   if (isFilmDetail) {
@@ -1379,6 +1589,118 @@ export default function V2App() {
           })
         }
         onStartPlanner={handleStartPlanner}
+      />
+    );
+  } else if (isShortDetail) {
+    mainContent = (
+      <ShortDetailSurface
+        shortsIndex={shortsProgramsIndex}
+        shortId={nav.surface.shortId}
+        shortsProgramId={nav.surface.shortsProgramId}
+        homeData={sharedHomeData.homeData}
+        collectionsArtifact={collectionsState.artifact}
+        shareTitle={filmTitle}
+        shareStatus={shareStatus}
+        onShare={
+          filmTitle
+            ? async () => {
+                const status = await shareFilmDetail(filmTitle);
+                if (status) {
+                  setShareStatus(status);
+                  window.setTimeout(() => setShareStatus(null), 2500);
+                }
+              }
+            : null
+        }
+        onOpenShortsProgram={({ shortsProgramId }) =>
+          handleOpenShortsProgramDetail({
+            shortsProgramId,
+            originPrimary: nav.surface.originPrimary,
+            returnSurface: nav.surface,
+          })
+        }
+        onOpenShort={({ shortId, shortsProgramId }) =>
+          handleOpenShortDetail({
+            shortId,
+            shortsProgramId,
+            originPrimary: nav.surface.originPrimary,
+            returnSurface: nav.surface,
+          })
+        }
+        onOpenCollection={({ collectionId }) =>
+          handleOpenCollectionDetail({
+            collectionId,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
+      />
+    );
+  } else if (isShortsProgramDetail) {
+    mainContent = (
+      <ShortsProgramDetailSurface
+        shortsIndex={shortsProgramsIndex}
+        shortsProgramId={nav.surface.shortsProgramId}
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
+        collectionsArtifact={collectionsState.artifact}
+        opportunityKey={nav.surface.opportunityKey}
+        timeFormatId={getScheduleSettings(getBrowserStorage()).timeFormatId}
+        saveAvailable={saveAction.available}
+        isSaved={saveAction.isSaved}
+        saveLabel={saveAction.label}
+        saveError={saveAction.error}
+        onToggleSave={handleToggleSave}
+        seenAvailable={seenAction.available}
+        isSeen={seenAction.isSeen}
+        seenError={seenAction.error}
+        onToggleSeen={handleToggleSeen}
+        notInterestedAvailable={notInterestedAction.available}
+        isNotInterested={notInterestedAction.isNotInterested}
+        notInterestedError={notInterestedAction.error}
+        onToggleNotInterested={handleToggleNotInterested}
+        shareTitle={filmTitle}
+        shareStatus={shareStatus}
+        onShare={
+          filmTitle
+            ? async () => {
+                const status = await shareFilmDetail(filmTitle);
+                if (status) {
+                  setShareStatus(status);
+                  window.setTimeout(() => setShareStatus(null), 2500);
+                }
+              }
+            : null
+        }
+        onOpenOpportunity={({ filmKey: fk, opportunityKey: ok }) =>
+          handleOpenOpportunity({
+            filmKey: fk ?? filmKey,
+            opportunityKey: ok ?? null,
+          })
+        }
+        onOpenShowtimes={({ filmKey: fk, theaterId, opportunityKey: ok }) =>
+          handleOpenShowtimes({
+            filmKey: fk ?? filmKey,
+            theaterId: theaterId ?? null,
+            opportunityKey: ok ?? null,
+          })
+        }
+        onStartPlanner={handleStartPlanner}
+        onOpenShort={({ shortId, shortsProgramId }) =>
+          handleOpenShortDetail({
+            shortId,
+            shortsProgramId,
+            originPrimary: nav.surface.originPrimary,
+            returnSurface: nav.surface,
+          })
+        }
+        onOpenCollection={({ collectionId }) =>
+          handleOpenCollectionDetail({
+            collectionId,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            returnSurface: nav.surface,
+          })
+        }
       />
     );
   } else if (isOpportunityDetail) {
@@ -2141,7 +2463,7 @@ export default function V2App() {
 
   return (
     <AppShell
-      filmDetail={isFilmDetail}
+      filmDetail={isDetailChrome}
       notificationsOpen={notificationsOpen}
       header={
         <AppHeader
@@ -2159,11 +2481,11 @@ export default function V2App() {
                   : 'default'
           }
           centerTitle={isBuildPlanPlanDetails ? 'Plan Details' : null}
-          variant={isFilmDetail ? 'film-detail' : 'default'}
+          variant={isDetailChrome ? 'film-detail' : 'default'}
           backLabel={headerBackLabel}
           onBack={headerBackLabel ? handleBack : null}
-          shareTitle={isFilmDetail ? null : filmTitle}
-          shareStatus={isFilmDetail ? null : shareStatus}
+          shareTitle={isDetailChrome ? null : filmTitle}
+          shareStatus={isDetailChrome ? null : shareStatus}
           savePressed={false}
           saveAvailable={false}
           saveLabel="Save"

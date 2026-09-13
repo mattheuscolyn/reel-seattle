@@ -74,6 +74,11 @@ export const V2_DATA_ARTIFACTS = Object.freeze([
     sourceRelative: 'public/data/collections_current.json',
     required: false,
   }),
+  Object.freeze({
+    route: '/data/shorts_programs_current.json',
+    sourceRelative: 'public/data/shorts_programs_current.json',
+    required: false,
+  }),
 ]);
 
 /**

@@ -90,6 +90,60 @@ NWFF_FILM_PAGE = """
 </body></html>
 """
 
+NWFF_FESTIVALS_INDEX = """
+<html><body>
+  <h1>Festivals</h1>
+  <h2>Current</h2>
+  <a href="/festivals/local-sightings-film-festival-pacific-nw/">Local Sightings Film Festival</a>
+  <a href="/festivals/free-forum-2026/">Free Forum 2026</a>
+  <h2>Past</h2>
+  <a href="/festivals/local-sightings-film-festival-2025/">Local Sightings Film Festival 2025</a>
+  <a href="/festivals/bydesign-festival-2023-hybrid/">ByDesign 2023</a>
+</body></html>
+"""
+
+NWFF_LOCAL_SIGHTINGS_FESTIVAL = """
+<html><head>
+  <meta name="description" content="29th Annual Local Sightings Film Festival.">
+  <meta property="og:image" content="https://nwfilmforum.org/images/lsff.jpg">
+</head><body>
+  <h1>Local Sightings Film Festival</h1>
+  <h2>29th Annual Local Sightings Film Festival</h2>
+  <h2>September 18-27, 2026</h2>
+  <p>Passes on sale for 2025 alumni and 2026 attendees.</p>
+  <h2>Full Festival Catalogue</h2>
+  <a href="http://bit.ly/locosight2026shorts">Short Film Programs</a>
+  <a href="http://bit.ly/locosight2026features">Feature Films</a>
+  <a href="https://www.instagram.com/zackconk/">Instagram noise</a>
+  <a href="http://bit.ly/lsff2026pass">Get Festival Pass</a>
+  <h2>Past Festivals</h2>
+  <a href="/festivals/local-sightings-film-festival-2025/">Local Sightings Film Festival 2025</a>
+</body></html>
+"""
+
+NWFF_LOCAL_SIGHTINGS_SHORT_PROGRAMS = """
+<html><body>
+  <h1>Local Sightings Film Festival 2026: Short Film Programs</h1>
+  <h2>Short Film Programs</h2>
+  <a href="/films/local-sightings-2026-like-a-local/">Sat Sep 19 7.30pm Local Sightings 2026 – Like a Local (Shorts) film</a>
+  <a href="/films/local-sightings-2026-ways-of-seeing/">Sun Sep 20 7.30pm Local Sightings 2026 – Ways of Seeing (Shorts) film</a>
+</body></html>
+"""
+
+NWFF_LOCAL_SIGHTINGS_FEATURES = """
+<html><body>
+  <h1>Local Sightings Film Festival 2026: Feature Films</h1>
+  <a href="/films/local-sightings-2026-sugarfly/">Sat Sep 19 4.00pm Local Sightings 2026 – Sugarfly film</a>
+</body></html>
+"""
+
+NWFF_FREE_FORUM = """
+<html><body>
+  <h1>Free Forum 2026</h1>
+  <p>A festival landing page with no member film links.</p>
+</body></html>
+"""
+
 
 def fixture_pages() -> dict[str, str]:
     return {
@@ -104,8 +158,51 @@ def fixture_pages() -> dict[str, str]:
         "https://nwfilmforum.org/series/sfcs-at-10/": NWFF_SERIES_PAGE,
         "https://nwfilmforum.org/series/disabled-list/": NWFF_EMPTY_SERIES,
         "https://nwfilmforum.org/films/sfcs-10-mariners/": NWFF_FILM_PAGE,
+        "https://nwfilmforum.org/festivals/": NWFF_FESTIVALS_INDEX,
+        "https://nwfilmforum.org/festivals/local-sightings-film-festival-pacific-nw/": NWFF_LOCAL_SIGHTINGS_FESTIVAL,
+        "https://nwfilmforum.org/festivals/local-sightings-film-festival-2026-short-film-programs/": NWFF_LOCAL_SIGHTINGS_SHORT_PROGRAMS,
+        "https://nwfilmforum.org/festivals/local-sightings-film-festival-2026-feature-films/": NWFF_LOCAL_SIGHTINGS_FEATURES,
+        "https://nwfilmforum.org/festivals/free-forum-2026/": NWFF_FREE_FORUM,
     }
 
 
 def fixture_fetch(url: str) -> str | None:
-    return fixture_pages().get(url)
+    pages = fixture_pages()
+    if url in pages:
+        return pages[url]
+    # Resolve Local Sightings shortlink catalogues used by the festival page.
+    if url in {
+        "http://bit.ly/locosight2026shorts",
+        "https://bit.ly/locosight2026shorts",
+    }:
+        return pages[
+            "https://nwfilmforum.org/festivals/local-sightings-film-festival-2026-short-film-programs/"
+        ]
+    if url in {
+        "http://bit.ly/locosight2026features",
+        "https://bit.ly/locosight2026features",
+    }:
+        return pages[
+            "https://nwfilmforum.org/festivals/local-sightings-film-festival-2026-feature-films/"
+        ]
+    return None
+
+
+def fixture_fetch_resolved(url: str) -> tuple[str, str] | None:
+    if url in {
+        "http://bit.ly/locosight2026shorts",
+        "https://bit.ly/locosight2026shorts",
+    }:
+        final = "https://nwfilmforum.org/festivals/local-sightings-film-festival-2026-short-film-programs/"
+        return final, fixture_pages()[final]
+    if url in {
+        "http://bit.ly/locosight2026features",
+        "https://bit.ly/locosight2026features",
+    }:
+        final = "https://nwfilmforum.org/festivals/local-sightings-film-festival-2026-feature-films/"
+        return final, fixture_pages()[final]
+    html = fixture_fetch(url)
+    if html is None:
+        return None
+    return url, html
+
