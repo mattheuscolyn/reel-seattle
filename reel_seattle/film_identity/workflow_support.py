@@ -25,7 +25,9 @@ ALLOWED_GENERATED_RELS = (
     COVERAGE_REL,
     "data/audits/tmdb_film_identity_match_summary.md",
     "data/audits/tmdb_public_identity_emit.json",
+    "data/audits/shorts_tmdb_identity_coverage.json",
     "public/data/showtimes_current.json",
+    "public/data/shorts_programs_current.json",
 )
 
 PROTECTED_RELS = (
@@ -220,6 +222,9 @@ def import_generated_artifacts(
         "tmdb_film_identity_coverage.json": base / COVERAGE_REL,
         "tmdb_film_identity_match_summary.md": base
         / "data/audits/tmdb_film_identity_match_summary.md",
+        "shorts_programs_current.json": base / "public/data/shorts_programs_current.json",
+        "shorts_tmdb_identity_coverage.json": base
+        / "data/audits/shorts_tmdb_identity_coverage.json",
     }
     found: dict[str, Path] = {}
     for name, dest in mapping.items():
@@ -259,6 +264,20 @@ def import_generated_artifacts(
     assert_no_tmdb_secret_leakage(review)
     assert_no_tmdb_secret_leakage(coverage)
 
+    shorts_doc = None
+    shorts_audit = None
+    if "shorts_programs_current.json" in found:
+        shorts_doc = _load_json(found["shorts_programs_current.json"])
+        validate_against_schema(
+            shorts_doc,
+            base / "schema/shorts_programs_current/v1.0.0.json",
+            label="shorts_programs_current",
+        )
+        assert_no_tmdb_secret_leakage(shorts_doc)
+    if "shorts_tmdb_identity_coverage.json" in found:
+        shorts_audit = _load_json(found["shorts_tmdb_identity_coverage.json"])
+        assert_no_tmdb_secret_leakage(shorts_audit)
+
     planned = [mapping[name].as_posix() for name in found]
     summary = {
         "dry_run": dry_run,
@@ -274,6 +293,7 @@ def import_generated_artifacts(
             "non_film": coverage.get("non_film"),
             "errors": coverage.get("errors"),
         },
+        "shorts_stats": (shorts_audit or {}).get("stats") if shorts_audit else None,
     }
     if dry_run:
         return summary
@@ -290,6 +310,10 @@ def import_generated_artifacts(
         tmp = dest.with_suffix(dest.suffix + ".tmp")
         tmp.write_text(text if text.endswith("\n") else text + "\n", encoding="utf-8")
         tmp.replace(dest)
+    if shorts_doc is not None:
+        atomic_write_json(mapping["shorts_programs_current.json"], shorts_doc)
+    if shorts_audit is not None:
+        atomic_write_json(mapping["shorts_tmdb_identity_coverage.json"], shorts_audit)
     return summary
 
 

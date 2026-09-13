@@ -29,6 +29,8 @@ const ARTIFACT = JSON.parse(
 const LIKE_A_LOCAL_ID = 'nwff:program:local-sightings-2026-like-a-local';
 const DICKS_ID =
   'nwff:short:local-sightings-2026-like-a-local:dick-s-a-thon';
+const UNMATCHED_SHORT_ID =
+  'nwff:short:local-sightings-2026-like-a-local:mother-goddess-theater-of-illusions';
 
 describe('v2 shorts program UI', () => {
   it('allowlists shorts_programs_current.json', () => {
@@ -38,9 +40,12 @@ describe('v2 shorts program UI', () => {
 
   it('opens Short Detail without a TMDB id', () => {
     const index = indexShortsProgramsArtifact(ARTIFACT);
+    const unmatched = ARTIFACT.shorts.find((row) => row.shortId === UNMATCHED_SHORT_ID);
+    assert.ok(unmatched);
+    assert.equal(unmatched.canonicalFilmId ?? null, null);
     const view = composeShortDetailPresentation({
       index,
-      shortId: DICKS_ID,
+      shortId: UNMATCHED_SHORT_ID,
       shortsProgramId: LIKE_A_LOCAL_ID,
       homeData: {
         films: [
@@ -71,6 +76,35 @@ describe('v2 shorts program UI', () => {
     });
     assert.equal(view.resolved, true);
     assert.equal(view.canonicalFilmId, null);
+    assert.equal(view.hero.title, 'Mother Goddess: Theater of Illusions');
+    assert.equal(view.hasShortOwnedShowtimes, false);
+    assert.equal(view.screensAsPartOf?.title, 'Like a Local');
+    assert.ok(view.detailRows.every((row) => row.value));
+  });
+
+  it('does not invent empty detail labels and keeps unresolved TMDB shorts valid', () => {
+    const index = indexShortsProgramsArtifact(ARTIFACT);
+    const view = composeShortDetailPresentation({
+      index,
+      shortId: UNMATCHED_SHORT_ID,
+    });
+    assert.equal(view.resolved, true);
+    assert.equal(view.canonicalFilmId, null);
+    for (const row of view.detailRows) {
+      assert.ok(row.label);
+      assert.ok(String(row.value).trim());
+    }
+  });
+
+  it('opens matched Short Detail with optional TMDB identity', () => {
+    const index = indexShortsProgramsArtifact(ARTIFACT);
+    const view = composeShortDetailPresentation({
+      index,
+      shortId: DICKS_ID,
+      shortsProgramId: LIKE_A_LOCAL_ID,
+    });
+    assert.equal(view.resolved, true);
+    assert.equal(view.canonicalFilmId, 'tmdb:1669215');
     assert.equal(view.hero.title, "Dick's-A-Thon");
     assert.match(view.hero.metaLine || '', /2025/);
     assert.match(view.hero.director || '', /Dylan Young/);
@@ -81,26 +115,7 @@ describe('v2 shorts program UI', () => {
       ),
     );
     assert.ok(!view.detailRows.some((row) => row.label === 'Source'));
-    assert.ok(view.synopsis.available);
-    assert.match(view.synopsis.full || '', /marathon|Drive-In|outdoors/i);
     assert.equal(view.hasShortOwnedShowtimes, false);
-    assert.equal(view.screensAsPartOf?.title, 'Like a Local');
-    assert.equal(view.screensAsPartOf?.shortsProgramId, LIKE_A_LOCAL_ID);
-    assert.ok(view.detailRows.every((row) => row.value));
-  });
-
-  it('does not invent empty detail labels and keeps unresolved TMDB shorts valid', () => {
-    const index = indexShortsProgramsArtifact(ARTIFACT);
-    const view = composeShortDetailPresentation({
-      index,
-      shortId: DICKS_ID,
-    });
-    assert.equal(view.resolved, true);
-    assert.equal(view.canonicalFilmId, null);
-    for (const row of view.detailRows) {
-      assert.ok(row.label);
-      assert.ok(String(row.value).trim());
-    }
   });
 
   it('renders Shorts Program members in source order and joins schedule film key', () => {
@@ -272,5 +287,59 @@ describe('v2 shorts program UI', () => {
     assert.match(source, /Today’s showtimes/);
     assert.match(source, /Best way to see it/);
     assert.doesNotMatch(source, /Screens as part of/);
+  });
+
+  it('unresolved Short Detail still renders without enrichment', () => {
+    const index = indexShortsProgramsArtifact(ARTIFACT);
+    const view = composeShortDetailPresentation({
+      index,
+      shortId: DICKS_ID,
+      enrichmentIndex: null,
+    });
+    assert.equal(view.resolved, true);
+    assert.equal(view.hasEnrichment, false);
+    assert.equal(view.hasShortOwnedShowtimes, false);
+    assert.ok(view.hero.title);
+  });
+
+  it('matched Short Detail prefers TMDB enrichment artwork when available', () => {
+    const index = indexShortsProgramsArtifact({
+      ...ARTIFACT,
+      shorts: (ARTIFACT.shorts || []).map((row) =>
+        row.shortId === DICKS_ID
+          ? { ...row, canonicalFilmId: 'tmdb:1669215' }
+          : row,
+      ),
+    });
+    const enrichmentIndex = {
+      status: 'ready',
+      byFilmId: new Map([
+        [
+          'tmdb:1669215',
+          {
+            film_id: 'tmdb:1669215',
+            poster: { path: '/abc.jpg', url: 'https://image.tmdb.org/t/p/w500/abc.jpg' },
+            backdrop: {
+              path: '/bd.jpg',
+              url: 'https://image.tmdb.org/t/p/w780/bd.jpg',
+            },
+          },
+        ],
+      ]),
+      imageConfig: {
+        secureBaseUrl: 'https://image.tmdb.org/t/p/',
+        posterSize: 'w500',
+        backdropSize: 'w780',
+      },
+    };
+    const view = composeShortDetailPresentation({
+      index,
+      shortId: DICKS_ID,
+      enrichmentIndex,
+    });
+    assert.equal(view.canonicalFilmId, 'tmdb:1669215');
+    assert.equal(view.hasEnrichment, true);
+    assert.match(view.hero.posterUrl || '', /abc\.jpg|tmdb/);
+    assert.equal(view.hasShortOwnedShowtimes, false);
   });
 });

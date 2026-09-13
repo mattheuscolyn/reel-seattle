@@ -128,6 +128,25 @@ jobs:
           fi
           python scripts/match_tmdb_films.py "${ARGS[@]}"
 
+      - name: Live Shorts TMDB match
+        env:
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: |
+          set -euo pipefail
+          ARGS=()
+          if [ "${{ inputs.refresh_cache }}" = "true" ]; then
+            ARGS+=(--refresh-cache)
+          fi
+          LIMIT_RAW='${{ inputs.limit }}'
+          if [ -n "$LIMIT_RAW" ]; then
+            ARGS+=(--limit "$LIMIT_RAW")
+          fi
+          # Failures must not block film identity packaging; report and continue.
+          if ! python scripts/match_shorts_tmdb.py "${ARGS[@]}"; then
+            echo "::warning::Shorts TMDB match failed; shorts_programs_current left unresolved where needed."
+          fi
+
       - name: Post-match validation
         run: python scripts/validate_film_identity.py --require-generated
 
@@ -157,6 +176,12 @@ jobs:
           cp data/film_identity/tmdb_match_review_queue.json film-identity-match-package/
           cp data/audits/tmdb_film_identity_coverage.json film-identity-match-package/
           cp data/audits/tmdb_film_identity_match_summary.md film-identity-match-package/
+          if [ -f public/data/shorts_programs_current.json ]; then
+            cp public/data/shorts_programs_current.json film-identity-match-package/
+          fi
+          if [ -f data/audits/shorts_tmdb_identity_coverage.json ]; then
+            cp data/audits/shorts_tmdb_identity_coverage.json film-identity-match-package/
+          fi
           test ! -e film-identity-match-package/tmdb_match_decisions.json
 
       - name: Upload review package artifact
@@ -218,7 +243,9 @@ jobs:
             data/audits/tmdb_film_identity_coverage.json \
             data/audits/tmdb_film_identity_match_summary.md \
             data/audits/tmdb_public_identity_emit.json \
-            public/data/showtimes_current.json
+            data/audits/shorts_tmdb_identity_coverage.json \
+            public/data/showtimes_current.json \
+            public/data/shorts_programs_current.json
           if git diff --cached --quiet; then
             echo "No catalog changes to commit."
             exit 0
@@ -286,7 +313,9 @@ jobs:
             data/audits/tmdb_film_identity_coverage.json \
             data/audits/tmdb_film_identity_match_summary.md \
             data/audits/tmdb_public_identity_emit.json \
-            public/data/showtimes_current.json
+            data/audits/shorts_tmdb_identity_coverage.json \
+            public/data/showtimes_current.json \
+            public/data/shorts_programs_current.json
           if git diff --cached --quiet; then
             echo "No generated identity changes to persist."
             exit 0

@@ -70,11 +70,15 @@ def test_diff_guard_allows_only_generated_paths():
             "data/film_identity/film_identity_catalog.json",
             "data/audits/tmdb_film_identity_coverage.json",
             "public/data/showtimes_current.json",
+            "public/data/shorts_programs_current.json",
+            "data/audits/shorts_tmdb_identity_coverage.json",
             "data/audits/tmdb_public_identity_emit.json",
         ]
     )
     assert "data/film_identity/film_identity_catalog.json" in allowed
     assert "public/data/showtimes_current.json" in allowed
+    assert "public/data/shorts_programs_current.json" in allowed
+    assert "data/audits/shorts_tmdb_identity_coverage.json" in allowed
     assert "data/audits/tmdb_public_identity_emit.json" in allowed
     with pytest.raises(ValueError, match="unexpected"):
         assert_allowed_changed_paths(["public/data/film_enrichment_current.json"])

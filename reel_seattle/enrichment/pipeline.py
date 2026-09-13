@@ -111,10 +111,11 @@ def build_enrichment_artifact(
     only_tmdb_id: int | None = None,
     include_top_cast: bool = True,
     now: datetime | None = None,
+    shorts_artifact: Mapping[str, Any] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Return (artifact, report). Never raises for per-film TMDB failures."""
     current = now or datetime.now(timezone.utc)
-    eligible = confirmed_tmdb_films(catalog)
+    eligible = confirmed_tmdb_films(catalog, shorts_artifact=shorts_artifact)
     if only_tmdb_id is not None:
         eligible = [row for row in eligible if row["tmdb_id"] == only_tmdb_id]
     if limit is not None:

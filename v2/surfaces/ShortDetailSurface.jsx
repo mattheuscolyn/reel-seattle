@@ -28,6 +28,7 @@ export default function ShortDetailSurface({
   shortsProgramId = null,
   homeData = null,
   collectionsArtifact = null,
+  enrichmentIndex = null,
   onShare = null,
   shareTitle = null,
   shareStatus = null,
@@ -43,8 +44,16 @@ export default function ShortDetailSurface({
         shortsProgramId,
         homeData,
         collectionsArtifact,
+        enrichmentIndex,
       }),
-    [shortsIndex, shortId, shortsProgramId, homeData, collectionsArtifact],
+    [
+      shortsIndex,
+      shortId,
+      shortsProgramId,
+      homeData,
+      collectionsArtifact,
+      enrichmentIndex,
+    ],
   );
 
   const [synopsisExpanded, setSynopsisExpanded] = useState(false);
