@@ -36,6 +36,7 @@ from reel_seattle.film_identity.tmdb_client import (  # noqa: E402
     TmdbClient,
     resolve_tmdb_auth,
 )
+from reel_seattle.shorts_programs.artifact import DEFAULT_ARTIFACT_REL  # noqa: E402
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -43,6 +44,17 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         description="Build public/data/film_enrichment_current.json from confirmed TMDB identities."
     )
     parser.add_argument("--catalog-path", type=Path, default=None)
+    parser.add_argument(
+        "--shorts-path",
+        type=Path,
+        default=PROJECT_ROOT / DEFAULT_ARTIFACT_REL,
+        help="Optional shorts_programs_current.json; matched Short TMDB IDs join enrichment.",
+    )
+    parser.add_argument(
+        "--no-shorts",
+        action="store_true",
+        help="Ignore shorts artifact when collecting enrichment eligibility.",
+    )
     parser.add_argument(
         "--artifact-path",
         type=Path,
@@ -84,6 +96,16 @@ def main(argv: list[str] | None = None) -> int:
     catalog = load_catalog(args.catalog_path)
     prior = load_prior_artifact(args.artifact_path)
 
+    shorts_artifact = None
+    if not args.no_shorts and args.shorts_path and args.shorts_path.is_file():
+        try:
+            with args.shorts_path.open(encoding="utf-8") as handle:
+                doc = json.load(handle)
+            if isinstance(doc, dict):
+                shorts_artifact = doc
+        except (OSError, json.JSONDecodeError):
+            shorts_artifact = None
+
     client: TmdbClient | None = None
     if not args.offline:
         try:
@@ -111,6 +133,7 @@ def main(argv: list[str] | None = None) -> int:
         limit=args.limit,
         only_tmdb_id=args.tmdb_id,
         include_top_cast=not args.no_top_cast,
+        shorts_artifact=shorts_artifact,
     )
 
     if args.dry_run:

@@ -1599,6 +1599,7 @@ export default function V2App() {
         shortsProgramId={nav.surface.shortsProgramId}
         homeData={sharedHomeData.homeData}
         collectionsArtifact={collectionsState.artifact}
+        enrichmentIndex={enrichmentState.index}
         shareTitle={filmTitle}
         shareStatus={shareStatus}
         onShare={

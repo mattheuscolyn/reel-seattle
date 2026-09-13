@@ -4,6 +4,7 @@
  */
 
 import { truncateSynopsis } from '../filmDetail/filmDetailModel.js';
+import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
 import {
   asText,
   buildShortDetailRows,
@@ -20,13 +21,12 @@ import {
 
 /**
  * @param {{
- *   index: import('./shortsProgramsModel.js').indexShortsProgramsArtifact extends Function
- *     ? ReturnType<import('./shortsProgramsModel.js').indexShortsProgramsArtifact>
- *     : any,
+ *   index: any,
  *   shortId: string | null | undefined,
  *   shortsProgramId?: string | null,
  *   collectionsArtifact?: object | null,
  *   homeData?: object | null,
+ *   enrichmentIndex?: object | null,
  * }} input
  */
 export function composeShortDetailPresentation(input) {
@@ -64,14 +64,28 @@ export function composeShortDetailPresentation(input) {
     asText(membership?.rawDescription);
   const synopsis = truncateSynopsis(description, 160);
 
-  const imageUrl = asText(short.imageUrl) || asText(program?.imageUrl);
+  const sourceImageUrl = asText(short.imageUrl) || asText(program?.imageUrl);
+  const canonicalFilmId = asText(short.canonicalFilmId);
+  const enriched = resolveEnrichedFilmPresentation({
+    sourceFilm: {
+      filmId: canonicalFilmId,
+      title,
+      posterUrl: sourceImageUrl,
+      backdropUrl: sourceImageUrl,
+      runtimeMin: short.runtimeMin ?? null,
+      synopsis: description,
+    },
+    enrichmentIndex: input?.enrichmentIndex ?? null,
+    context: 'film-detail',
+  });
+
   const hero = {
     title,
     metaLine,
     genres: null,
     director: directorLine,
-    posterUrl: imageUrl,
-    backdropUrl: imageUrl,
+    posterUrl: enriched.posterUrl || sourceImageUrl,
+    backdropUrl: enriched.backdropUrl || enriched.posterUrl || sourceImageUrl,
     badges: [],
   };
 
@@ -138,6 +152,7 @@ export function composeShortDetailPresentation(input) {
     shortId,
     shortsProgramId: program?.shortsProgramId ?? null,
     canonicalFilmId: asText(short.canonicalFilmId),
+    hasEnrichment: Boolean(enriched?.hasEnrichment),
     hero,
     synopsis: {
       available: Boolean(synopsis.full),

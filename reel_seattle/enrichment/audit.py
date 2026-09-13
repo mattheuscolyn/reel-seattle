@@ -52,8 +52,12 @@ def load_catalog(path: Path | None = None) -> dict[str, Any]:
     return doc
 
 
-def confirmed_tmdb_films(catalog: Mapping[str, Any]) -> list[dict[str, Any]]:
-    """Deduped confirmed TMDB identities (manual + automatic)."""
+def confirmed_tmdb_films(
+    catalog: Mapping[str, Any],
+    *,
+    shorts_artifact: Mapping[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    """Deduped confirmed TMDB identities (manual + automatic + Shorts stamps)."""
     by_id: dict[int, dict[str, Any]] = {}
     for film in catalog.get("films") or []:
         if not isinstance(film, Mapping):
@@ -81,6 +85,28 @@ def confirmed_tmdb_films(catalog: Mapping[str, Any]) -> list[dict[str, Any]]:
             existing["sources"] = sorted(set(existing["sources"]) | sources)
             if status == STATUS_CONFIRMED_MANUAL:
                 existing["match_status"] = status
+
+    # Shorts that already carry canonicalFilmId join the same enrichment universe.
+    if shorts_artifact is not None:
+        from reel_seattle.shorts_programs.tmdb_match import confirmed_tmdb_ids_from_shorts
+
+        for row in confirmed_tmdb_ids_from_shorts(shorts_artifact):
+            tmdb_id = row.get("tmdb_id")
+            if not isinstance(tmdb_id, int) or tmdb_id < 1:
+                continue
+            existing = by_id.get(tmdb_id)
+            sources = set(row.get("sources") or [])
+            if existing is None:
+                by_id[tmdb_id] = {
+                    "film_id": row.get("film_id") or f"tmdb:{tmdb_id}",
+                    "tmdb_id": tmdb_id,
+                    "match_status": row.get("match_status") or STATUS_CONFIRMED_AUTOMATIC,
+                    "sources": sorted(sources),
+                    "normalized_title": row.get("normalized_title"),
+                }
+            else:
+                existing["sources"] = sorted(set(existing["sources"]) | sources)
+
     return sorted(by_id.values(), key=lambda row: row["tmdb_id"])
 
 
