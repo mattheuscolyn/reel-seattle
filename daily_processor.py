@@ -598,6 +598,20 @@ def main():
     except Exception as exc:  # noqa: BLE001 — collection failure must not block daily emit
         print(f"  Collection ingestion failed (showtimes preserved): {exc}")
 
+    print("Discovering NWFF shorts programs...")
+    try:
+        from reel_seattle.shorts_programs.pipeline import run_shorts_programs_pipeline
+
+        shorts_artifact = run_shorts_programs_pipeline(sleep_seconds=0.25, stamp_showtimes=True)
+        print(
+            "  shorts_programs_current.json: "
+            f"{shorts_artifact.get('stats', {}).get('shorts_program_count', 0)} programs / "
+            f"{shorts_artifact.get('stats', {}).get('short_count', 0)} shorts / "
+            f"{shorts_artifact.get('stats', {}).get('membership_count', 0)} memberships"
+        )
+    except Exception as exc:  # noqa: BLE001 — shorts failure must not block daily emit
+        print(f"  Shorts program ingestion failed (showtimes preserved): {exc}")
+
     print("Emitting pipeline_report.json...")
     write_pipeline_report(current_artifact, run_date=today)
 

@@ -17,6 +17,14 @@ USER_AGENT = (
 
 
 def default_fetch_text(url: str, *, timeout: float = 30.0) -> str | None:
+    result = default_fetch_resolved(url, timeout=timeout)
+    return result[1] if result else None
+
+
+def default_fetch_resolved(
+    url: str, *, timeout: float = 30.0
+) -> tuple[str, str] | None:
+    """Fetch URL following redirects. Returns (final_url, html)."""
     import urllib.error
     import urllib.request
 
@@ -24,7 +32,9 @@ def default_fetch_text(url: str, *, timeout: float = 30.0) -> str | None:
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             charset = response.headers.get_content_charset() or "utf-8"
-            return response.read().decode(charset, errors="replace")
+            final_url = str(response.geturl() or url)
+            body = response.read().decode(charset, errors="replace")
+            return final_url, body
     except (urllib.error.URLError, TimeoutError, OSError):
         return None
 
