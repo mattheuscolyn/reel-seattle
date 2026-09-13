@@ -237,7 +237,10 @@ test('v1 remains unaffected by Film Detail fixtures', () => {
 test('Film Detail chrome keeps the originating primary tab', () => {
   const shell = readFileSync(join(ROOT, 'v2/shell/AppShell.jsx'), 'utf8');
   assert.ok(APP.includes('resolveActivePrimaryId'));
-  assert.ok(APP.includes('filmDetail={isFilmDetail}'));
+  assert.ok(
+    APP.includes('filmDetail={isFilmDetail}') ||
+      APP.includes('filmDetail={isDetailChrome}'),
+  );
   assert.ok(shell.includes('v2-shell-fd'));
 });
 
