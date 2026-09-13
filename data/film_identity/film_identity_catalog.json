@@ -257,6 +257,7 @@
       "tmdb_title": "The End of Oak Street",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -1015,6 +1016,7 @@
       "tmdb_title": "Forgotten Island",
       "top_candidate_margin": 0.4375,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -1238,6 +1240,7 @@
       "tmdb_title": "The Dog Stars",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -1986,6 +1989,7 @@
       "tmdb_title": "The Odyssey",
       "top_candidate_margin": 0.25,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -2209,6 +2213,7 @@
       "tmdb_title": "PAW Patrol: The Dino Movie",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -2432,6 +2437,7 @@
       "tmdb_title": "Insidious: Out of the Further",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -2726,6 +2732,7 @@
       "tmdb_title": "Spider-Man: Brand New Day",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -3476,6 +3483,7 @@
       "tmdb_title": "Resident Evil",
       "top_candidate_margin": 0.2915,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -4253,6 +4261,7 @@
       "tmdb_title": "Heart of the Beast",
       "top_candidate_margin": 0.4375,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -4997,6 +5006,7 @@
       "tmdb_title": "By Any Means",
       "top_candidate_margin": 0.25,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -5220,6 +5230,7 @@
       "tmdb_title": "Teenage Sex and Death at Camp Miasma",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -5518,6 +5529,7 @@
       "tmdb_title": "Shaun the Sheep: The Beast of Mossy Bottom",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -6253,6 +6265,7 @@
       "tmdb_title": "The Weight",
       "top_candidate_margin": 0.25,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -6287,6 +6300,642 @@
         ],
         "year_confidence": "product",
         "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": true
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Hayao Miyazaki",
+          "original_title": "もののけ姫",
+          "overview_excerpt": "Ashitaka, a prince of the disappearing Emishi people, is cursed by a demonized boar god and must journey to the west to find a cure. Along the way, he encounters San, a young human woman fighting to protect the forest, …",
+          "popularity": 23.0915,
+          "poster_path": "/cMYCDADoLKLbB83g4WnJegaZimC.jpg",
+          "release_year": 1997,
+          "runtime_min": 134,
+          "score": 0.9794,
+          "search_query": "Princess Mononoke",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
+              "runtime": {
+                "delta_minutes": 4,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.1333,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "hayao miyazaki"
+            ],
+            "director_conflict": false,
+            "director_overlap": true,
+            "director_source_normalized": [
+              "hayao miyazaki"
+            ],
+            "director_status": "match",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.7833,
+            "original_title_exact": false,
+            "popularity": 23.0915,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 4,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "search_query": "Princess Mononoke",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Princess Mononoke",
+          "tmdb_id": 128,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "missing_year_supported_by_other_evidence"
+          ]
+        },
+        {
+          "director": "Toshiro Uratani",
+          "original_title": "「もののけ姫」はこうして生まれた 第3章 記録を超えた日",
+          "overview_excerpt": "Part 3 of Mononoke Hime wa koushite umareta, also known as The Making of \"Princess Mononoke\", an exhaustive three-part making of documentary of Hayao Miyazaki's Princess Mononoke",
+          "popularity": 2.2431,
+          "poster_path": "/zr5cj1saPT6x4J5bkHHFqk0h7Ey.jpg",
+          "release_year": 2001,
+          "runtime_min": 134,
+          "score": 0.1666,
+          "search_query": "Princess Mononoke",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "delta_minutes": 4,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.1333,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "toshiro uratani"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "hayao miyazaki"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.1333,
+            "original_title_exact": false,
+            "popularity": 2.2431,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 4,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "search_query": "Princess Mononoke",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Birth of \"Princess Mononoke\" Part 3: The Day The Record Was Broken",
+          "tmdb_id": 535088,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "director_conflict"
+          ]
+        },
+        {
+          "director": "Toshiro Uratani",
+          "original_title": "「もののけ姫」はこうして生まれた 第1章",
+          "overview_excerpt": "Part 1 of Mononoke Hime wa koushite umareta, also known as The Making of \"Princess Mononoke\", an exhaustive three-part making of documentary of Hayao Miyazaki's Princess Mononoke",
+          "popularity": 2.0867,
+          "poster_path": "/4wVK1ldzkVOR9yLJFJNH1Ru9au5.jpg",
+          "release_year": 2001,
+          "runtime_min": 132,
+          "score": 0.125,
+          "search_query": "Princess Mononoke",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "delta_minutes": 6,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.1,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "toshiro uratani"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "hayao miyazaki"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.1,
+            "original_title_exact": false,
+            "popularity": 2.0867,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 6,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "search_query": "Princess Mononoke",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Birth of \"Princess Mononoke\" Part 1: A Drama on Paper",
+          "tmdb_id": 1012823,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "director_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "「もののけ姫」はこうして生まれた  第2章 生命が吹きこまれた",
+          "overview_excerpt": "Part 2 of Mononoke Hime wa koushite umareta, also known as The Making of \"Princess Mononoke\", an exhaustive three-part making of documentary of Hayao Miyazaki's Princess Mononoke",
+          "popularity": 2.1308,
+          "poster_path": "/bLw2iDtU3T73l77BWIJgg34oNQi.jpg",
+          "release_year": 2001,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Princess Mononoke",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "hayao miyazaki"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 2.1308,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Princess Mononoke",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Birth of \"Princess Mononoke\" Part 2: Life Has Been Breathed Into It!",
+          "tmdb_id": 535086,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent"
+          ]
+        },
+        {
+          "director": "Toshikazu Satou",
+          "original_title": "もののけ姫 in U.S.A.",
+          "overview_excerpt": "This short documentary follows director Hayao Miyazaki and producer Toshio Suzuki as they attend two film festivals showing the film Princess Mononoke and answer questions. Miyazaki discusses his experience in LA before…",
+          "popularity": 1.4097,
+          "poster_path": "/s5KCFgPW13loHnzOTCh7GrLI5Zu.jpg",
+          "release_year": 2001,
+          "runtime_min": 20,
+          "score": 0.0,
+          "search_query": "Princess Mononoke",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "toshikazu satou"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "hayao miyazaki"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.4097,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 118,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Princess Mononoke",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Princess Mononoke in the U.S.A.",
+          "tmdb_id": 605863,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_conflict"
+          ]
+        },
+        {
+          "director": "Toshiro Uratani",
+          "original_title": null,
+          "overview_excerpt": "Making of princess mononoke",
+          "popularity": 0.5816,
+          "poster_path": "/d4NaGE6rXBlQG6aT9Z7XqSTBBVh.jpg",
+          "release_year": 2004,
+          "runtime_min": 58,
+          "score": 0.0,
+          "search_query": "Princess Mononoke",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "toshiro uratani"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "hayao miyazaki"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.5816,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 80,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Princess Mononoke",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Princess Mononoke: Making of a Masterpiece",
+          "tmdb_id": 1302690,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [
+        "hayao miyazaki"
+      ],
+      "directors_raw": "Hayao Miyazaki",
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:83593",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.9794,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Princess Mononoke",
+      "presentation_labels": [
+        "studio ghibli fest",
+        "studio ghibli fest 2026"
+      ],
+      "provenance": {
+        "source_identity_key": "amc|id|83593",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title",
+            "title": "Princess Mononoke",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": 138,
+      "signals": {
+        "available_weight": 0.8,
+        "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
+          "runtime": {
+            "delta_minutes": 4,
+            "kind": "soft",
+            "matched": true,
+            "soft_weight": 0.1333,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "hayao miyazaki"
+        ],
+        "director_conflict": false,
+        "director_overlap": true,
+        "director_source_normalized": [
+          "hayao miyazaki"
+        ],
+        "director_status": "match",
+        "director_weak_overlap": false,
+        "event_year_relaxed": true,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.7833,
+        "original_title_exact": false,
+        "popularity": 23.0915,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 4,
+        "runtime_near": false,
+        "runtime_soft": true,
+        "runtime_soft_max": 12,
+        "runtime_status": "soft",
+        "search_query": "Princess Mononoke",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "princess-mononoke-studio-ghibli-fest-2026",
+          "source": "amc",
+          "source_film_id": "83593",
+          "source_title": "Princess Mononoke - Studio Ghibli Fest 2026"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": "もののけ姫",
+      "tmdb_overview_excerpt": "Ashitaka, a prince of the disappearing Emishi people, is cursed by a demonized boar god and must journey to the west to find a cure. Along the way, he encounters San, a young human woman fighting to protect the forest, …",
+      "tmdb_poster_path": "/cMYCDADoLKLbB83g4WnJegaZimC.jpg",
+      "tmdb_release_year": 1997,
+      "tmdb_runtime_min": 134,
+      "tmdb_title": "Princess Mononoke",
+      "top_candidate_margin": 0.8128,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_soft_penalty",
+        "missing_year_supported_by_other_evidence"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "presentation_segment"
+        ],
+        "base_title": "Princess Mononoke",
+        "canonical_year_candidate": null,
+        "event_labels": [
+          "Studio Ghibli Fest 2026"
+        ],
+        "event_phrase": null,
+        "event_year": 2026,
+        "event_year_not_canonical": true,
+        "format_tags": [],
+        "presentation_labels": [
+          "studio ghibli fest",
+          "studio ghibli fest 2026"
+        ],
+        "product_year": 2026,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [
+          "Studio Ghibli Fest 2026"
+        ],
+        "scoring_year": null,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [
+          2026
+        ],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
+        "year_confidence": "none",
+        "year_evidence": "uncertain_rerelease_restoration",
         "year_mismatch_relaxed": true
       }
     },
@@ -9033,6 +9682,7 @@
       "tmdb_title": "Onslaught",
       "top_candidate_margin": 0.4375,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -9750,6 +10400,8 @@
       "tmdb_title": "Cars",
       "top_candidate_margin": 0.25,
       "warnings": [
+        "event_year_not_canonical",
+        "anniversary_year_derived",
         "missing_year_supported_by_other_evidence"
       ],
       "year_hint": 1986,
@@ -11681,6 +12333,7 @@
       "tmdb_title": "Mirzapur: The Movie",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "title_prefix_equivalence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
@@ -13679,6 +14332,7 @@
       "tmdb_title": "The Lego Batman Movie",
       "top_candidate_margin": 1.0,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence",
         "director_unavailable"
@@ -14303,6 +14957,7 @@
       "tmdb_title": "Batman: Mask of the Phantasm",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence",
         "director_unavailable"
@@ -15346,6 +16001,7 @@
       "tmdb_title": "Primetime",
       "top_candidate_margin": 0.4375,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -15646,6 +16302,7 @@
       "tmdb_title": "Sunny Dancer",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -16398,6 +17055,7 @@
       "tmdb_title": "The Musical",
       "top_candidate_margin": 0.8958,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -16702,6 +17360,7 @@
       "tmdb_title": "NCT 127 5TH TOUR ‘NEO CITY  SEOUL - THE REDLINE’ in CINEMAS",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -17406,6 +18065,8 @@
       "tmdb_title": "Ghost in the Shell",
       "top_candidate_margin": 0.2916,
       "warnings": [
+        "event_year_not_canonical",
+        "anniversary_year_derived",
         "missing_year_supported_by_other_evidence"
       ],
       "year_hint": 1966,
@@ -17781,6 +18442,7 @@
       "tmdb_title": "Haiwaan",
       "top_candidate_margin": 0.3077,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -18836,6 +19498,7 @@
       "tmdb_title": "Dora and the Lost City of Gold",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence",
         "director_unavailable"
@@ -18851,6 +19514,356 @@
           "normalized_source_fallback"
         ],
         "base_title": "Dora and the Lost City of Gold",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": true,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [
+          "product_year_weak_evidence"
+        ],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": true
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "James L. Brooks",
+          "original_title": null,
+          "overview_excerpt": "Mexican immigrant and single mother Flor Moreno finds housekeeping work with Deborah and John Clasky, a well-off couple with two children of their own. When Flor admits she can't handle the schedule because of her daugh…",
+          "popularity": 3.5873,
+          "poster_path": "/x3OTaBvjqzhRL53Q39fOoIYqxyO.jpg",
+          "release_year": 2004,
+          "runtime_min": 130,
+          "score": 1.0,
+          "search_query": "Spanglish",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "james l brooks"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 3.5873,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 2,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "Spanglish",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Spanglish",
+          "tmdb_id": 2539,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Rob Santana",
+          "original_title": null,
+          "overview_excerpt": "She threw out her husband for cheating, then later discovered she's pregnant with his child. But instead of telling him, she permits her old girlfriend, a closet lesbian, to move in with her. It's when he finds out that…",
+          "popularity": 0.4993,
+          "poster_path": "/2yYgsHWDQ0aE2dUq3VQBLBYh6mr.jpg",
+          "release_year": 2012,
+          "runtime_min": 89,
+          "score": 0.0,
+          "search_query": "Spanglish",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "rob santana"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.4993,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 39,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Spanglish",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Spanglish Girls",
+          "tmdb_id": 288206,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "It's been said Bill was born to Puerto Rican immigrants, which is technically untrue, as Puerto Ricans are US citizens, although he's got an uncle who was once deported to the Bronx. As a seasoned stand-up Comedian and …",
+          "popularity": 0.5155,
+          "poster_path": "/6pTE4Tl8GnXTvLKs3cnKzde7tHV.jpg",
+          "release_year": 2011,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Spanglish",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.5155,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Spanglish",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Bill Santiago: Pardon My Spanglish",
+          "tmdb_id": 299997,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:2539",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Spanglish",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|84901",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title",
+            "title": "Spanglish",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": 128,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "james l brooks"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": true,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 3.5873,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 2,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "Spanglish",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "spanglish",
+          "source": "amc",
+          "source_film_id": "84901",
+          "source_title": "Spanglish"
+        }
+      ],
+      "tmdb_id": 2539,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "Mexican immigrant and single mother Flor Moreno finds housekeeping work with Deborah and John Clasky, a well-off couple with two children of their own. When Flor admits she can't handle the schedule because of her daugh…",
+      "tmdb_poster_path": "/x3OTaBvjqzhRL53Q39fOoIYqxyO.jpg",
+      "tmdb_release_year": 2004,
+      "tmdb_runtime_min": 130,
+      "tmdb_title": "Spanglish",
+      "top_candidate_margin": 1.0,
+      "warnings": [
+        "product_year_weak_evidence",
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Spanglish",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -19130,6 +20143,7 @@
       "tmdb_title": "Hanuman Ansh",
       "top_candidate_margin": null,
       "warnings": [
+        "product_year_weak_evidence",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence"
       ],
@@ -19731,6 +20745,286 @@
       }
     },
     {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Mariano Llinás",
+          "original_title": "Historias extraordinarias",
+          "overview_excerpt": "X arrives in a small town and witnesses a violent act; Z takes the job of a dead manager and discovers that he had a notebook written in code and a map; H is hired to go down a river and investigate a series of mysterio…",
+          "popularity": 1.8487,
+          "poster_path": "/mj0hS9Ekg09FsM4N5SeDSOc18sJ.jpg",
+          "release_year": 2008,
+          "runtime_min": 242,
+          "score": 0.75,
+          "search_query": "Extraordinary Stories",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "mariano llinas"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.8487,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Extraordinary Stories",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Extraordinary Stories",
+          "tmdb_id": 111188,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Mikhail Moroz",
+          "original_title": "Камчатка: Необыкновенные истории на краю земли",
+          "overview_excerpt": "A story about the pioneers of Kamchatka snowboarding, about the first wakeboarder who conquered the coastal waters of the Kuril Islands, and about the founder of the first Russian surfing school. These people accepted t…",
+          "popularity": 0.4458,
+          "poster_path": "/4j1z1O1ffhLz2LiaN4lWby8CPwX.jpg",
+          "release_year": 2022,
+          "runtime_min": 165,
+          "score": 0.0,
+          "search_query": "Extraordinary Stories",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "mikhail moroz"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.4458,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Extraordinary Stories",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Kamchatka: Extraordinary Stories at the Edge of the Earth",
+          "tmdb_id": 1056006,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:beacon:extraordinary-stories",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.75,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Extraordinary Stories",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "beacon|id|extraordinary-stories",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title",
+            "title": "Extraordinary Stories",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": null,
+      "signals": {
+        "available_weight": 0.45,
+        "contributions": {
+          "runtime": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "mariano llinas"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 1.8487,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": null,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "unavailable",
+        "search_query": "Extraordinary Stories",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "extraordinary-stories",
+          "source": "beacon",
+          "source_film_id": "extraordinary-stories",
+          "source_title": "EXTRAORDINARY STORIES"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": "Historias extraordinarias",
+      "tmdb_overview_excerpt": "X arrives in a small town and witnesses a violent act; Z takes the job of a dead manager and discovers that he had a notebook written in code and a map; H is hired to go down a river and investigate a series of mysterio…",
+      "tmdb_poster_path": "/mj0hS9Ekg09FsM4N5SeDSOc18sJ.jpg",
+      "tmdb_release_year": 2008,
+      "tmdb_runtime_min": 242,
+      "tmdb_title": "Extraordinary Stories",
+      "top_candidate_margin": 0.75,
+      "warnings": [
+        "year_evidence_absent",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Extraordinary Stories",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
       "auto_confirm_blocked_reason": null,
       "candidates": [],
       "directors_normalized": [],
@@ -19780,718 +21074,6 @@
           "normalized_source_fallback"
         ],
         "base_title": "Fantomas: The Super Krime Kut",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": "weak_title_only_match",
-      "candidates": [
-        {
-          "director": "Oliver Hirschbiegel",
-          "original_title": null,
-          "overview_excerpt": "Washington, D.C. psychologist Carol Bennell and her colleague Dr. Ben Driscoll are the only two people on Earth who are aware of an epidemic running rampant through the city. They discover an alien virus aboard a crashe…",
-          "popularity": 8.2162,
-          "poster_path": "/oS5rMuJXwNZZPx0ojhvjgduglD2.jpg",
-          "release_year": 2007,
-          "runtime_min": 99,
-          "score": 0.75,
-          "search_query": "Invasion",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "runtime": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "oliver hirschbiegel"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 8.2162,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Invasion",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "The Invasion",
-          "tmdb_id": 4858,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": "Invasión",
-          "overview_excerpt": "INVASION is a documentary about the collective memory of a country. The invasion of Panama by the U.S in 1989 serves as an excuse to explore how a people remember, transform, and often forget their past in order to re-d…",
-          "popularity": 0.7071,
-          "poster_path": "/wtz4HMUrvl787a6QBkD9owcDFf7.jpg",
-          "release_year": 2014,
-          "runtime_min": null,
-          "score": 0.75,
-          "search_query": "Invasion",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "runtime": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.7071,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Invasion",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Invasion",
-          "tmdb_id": 294644,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Fyodor Bondarchuk",
-          "original_title": "Вторжение",
-          "overview_excerpt": "Two years after the fall of the alien ship, the life of a young woman from Moscow has been changed forever. Her growing powers are now at the focus of both human and celestial investigation: an alien force takes an inte…",
-          "popularity": 5.5121,
-          "poster_path": "/eNkewJGOW44OznlnfXA8ewWPPmI.jpg",
-          "release_year": 2020,
-          "runtime_min": 129,
-          "score": 0.75,
-          "search_query": "Invasion",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "runtime": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "fyodor bondarchuk"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 5.5121,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Invasion",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Invasion",
-          "tmdb_id": 514207,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Bobby Boermans",
-          "original_title": "Invasie",
-          "overview_excerpt": "When neighboring country Veragua suddenly attacks Curaçao and Aruba, the Dutch government is taken completely by surprise. The conflict escalates rapidly. Three young Navy recruits must figure out what is the right thin…",
-          "popularity": 2.4349,
-          "poster_path": "/wgg7V0xYmkKZjLQtYkToz4jDg1F.jpg",
-          "release_year": 2024,
-          "runtime_min": 91,
-          "score": 0.75,
-          "search_query": "Invasion",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "runtime": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "bobby boermans"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 2.4349,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Invasion",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Invasion",
-          "tmdb_id": 991610,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "The troopers of two starships have joined forces to terminate a massive bug attack at a Federation outpost. Before the mission can be completed and the survivors evacuated, one ship abruptly departs and goes inexplicabl…",
-          "popularity": 5.5677,
-          "poster_path": "/xJJY16XSazUgDvbWEXQ1ulLiz8q.jpg",
-          "release_year": 2012,
-          "runtime_min": null,
-          "score": 0.0001,
-          "search_query": "Invasion",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "runtime": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 5.5677,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Invasion",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Starship Troopers: Invasion",
-          "tmdb_id": 114478,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Jason Biggs",
-          "original_title": null,
-          "overview_excerpt": "As a last-ditch attempt to save his failing marriage, an actor stages a home invasion during a romantic getaway weekend.",
-          "popularity": 6.2906,
-          "poster_path": "/aBMnVU5yrsP5XMBZhG8aT2w6m9u.jpg",
-          "release_year": 2026,
-          "runtime_min": 85,
-          "score": 0.0001,
-          "search_query": "Invasion",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "runtime": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "jason biggs"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 6.2906,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Invasion",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Untitled Home Invasion Romance",
-          "tmdb_id": 1340076,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": "怪獣大戦争",
-          "overview_excerpt": "Astronauts Glenn and Fuji investigate Planet X and encounter mysterious aliens known as the Xiliens, who ask Earth's people to help save their world from \"Monster Zero\".  In exchange for borrowing Godzilla and Rodan, th…",
-          "popularity": 3.8287,
-          "poster_path": "/70gwaushxXcpGRvadHtLD0YLHC1.jpg",
-          "release_year": 1965,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Invasion",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "runtime": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 3.8287,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Invasion",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Invasion of Astro-Monster",
-          "tmdb_id": 19545,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Marco Spagnoli",
-          "original_title": null,
-          "overview_excerpt": "Italy, Europe and America during the 'Dolce Vita' years narrated with unseen and rare footage from NBC Archives in New York.",
-          "popularity": 2.6383,
-          "poster_path": "/AaMnO1BvUAk8Az1YQKu3sNd7cFu.jpg",
-          "release_year": 2011,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Invasion",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "runtime": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "marco spagnoli"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 2.6383,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Invasion",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Hollywood Invasion",
-          "tmdb_id": 652041,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "source:beacon:invasion",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": 0.75,
-      "match_method": "fallback",
-      "match_status": "review_required",
-      "normalized_title": "Invasion",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "beacon|id|invasion",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title",
-            "title": "Invasion",
-            "year": null
-          }
-        ]
-      },
-      "runtime_min": null,
-      "signals": {
-        "available_weight": 0.45,
-        "contributions": {
-          "runtime": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "oliver hirschbiegel"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.45,
-        "original_title_exact": false,
-        "popularity": 8.2162,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": null,
-        "runtime_near": false,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "unavailable",
-        "search_query": "Invasion",
-        "search_query_reason": "normalized_title",
-        "search_year_used": null,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "invasion",
-          "source": "beacon",
-          "source_film_id": "invasion",
-          "source_title": "INVASION"
-        }
-      ],
-      "tmdb_id": null,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "Washington, D.C. psychologist Carol Bennell and her colleague Dr. Ben Driscoll are the only two people on Earth who are aware of an epidemic running rampant through the city. They discover an alien virus aboard a crashe…",
-      "tmdb_poster_path": "/oS5rMuJXwNZZPx0ojhvjgduglD2.jpg",
-      "tmdb_release_year": 2007,
-      "tmdb_runtime_min": 99,
-      "tmdb_title": "The Invasion",
-      "top_candidate_margin": 0.0,
-      "warnings": [
-        "year_evidence_absent",
-        "weak_title_only_match",
-        "director_unavailable"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Invasion",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -21288,6 +21870,213 @@
         "removed_phrases": [
           "(Unite Here Fundraiser)"
         ],
+        "scoring_year": null,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Tsai Ming-liang",
+          "original_title": "青少年哪吒",
+          "overview_excerpt": "In Taipei, four youths face alienation, loneliness, and moments of existential crisis amidst a series of minor crimes.",
+          "popularity": 1.8005,
+          "poster_path": "/eVNOoFSpRnaCNSJwerAD0KkeibD.jpg",
+          "release_year": 1994,
+          "runtime_min": 106,
+          "score": 0.75,
+          "search_query": "Rebels Of The Neon God",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "tsai ming-liang"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.8005,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Rebels Of The Neon God",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Rebels of the Neon God",
+          "tmdb_id": 57564,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:beacon:rebels-of-the-neon-god",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.75,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Rebels Of The Neon God",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "beacon|id|rebels-of-the-neon-god",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title",
+            "title": "Rebels Of The Neon God",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": null,
+      "signals": {
+        "available_weight": 0.45,
+        "contributions": {
+          "runtime": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "tsai ming-liang"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 1.8005,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": null,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "unavailable",
+        "search_query": "Rebels Of The Neon God",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "rebels-of-the-neon-god",
+          "source": "beacon",
+          "source_film_id": "rebels-of-the-neon-god",
+          "source_title": "REBELS OF THE NEON GOD"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": "青少年哪吒",
+      "tmdb_overview_excerpt": "In Taipei, four youths face alienation, loneliness, and moments of existential crisis amidst a series of minor crimes.",
+      "tmdb_poster_path": "/eVNOoFSpRnaCNSJwerAD0KkeibD.jpg",
+      "tmdb_release_year": 1994,
+      "tmdb_runtime_min": 106,
+      "tmdb_title": "Rebels of the Neon God",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Rebels Of The Neon God",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
         "scoring_year": null,
         "search_abbreviation": null,
         "search_year": null,
@@ -22219,15 +23008,15 @@
       "auto_confirm_blocked_reason": "weak_title_only_match",
       "candidates": [
         {
-          "director": "Hiroshi Teshigahara",
-          "original_title": "他人の顔",
-          "overview_excerpt": "A businessman with a disfigured face obtains a lifelike mask from his new doctor, but the mask starts altering his personality and causing him to question his identity.",
-          "popularity": 2.9321,
-          "poster_path": "/eUnFdf1Mf1b8AD3ChMPOCUfTBDQ.jpg",
-          "release_year": 1966,
-          "runtime_min": 122,
+          "director": "William Wyler",
+          "original_title": null,
+          "overview_excerpt": "In 1840s New York, the uneventful and boring days of the daughter of a wealthy doctor come to an end when she meets a dashing poorer man — who may or may not be after her inheritance.",
+          "popularity": 2.4857,
+          "poster_path": "/1oN0zsjw3iS1HaOLoZbmptzrD1W.jpg",
+          "release_year": 1949,
+          "runtime_min": 115,
           "score": 0.75,
-          "search_query": "The Face Of Another",
+          "search_query": "The Heiress",
           "search_query_reason": "normalized_title",
           "search_year_used": null,
           "signals": {
@@ -22250,7 +23039,7 @@
               }
             },
             "director_candidate_normalized": [
-              "hiroshi teshigahara"
+              "william wyler"
             ],
             "director_conflict": false,
             "director_overlap": false,
@@ -22262,7 +23051,7 @@
             "hard_conflict": false,
             "matched_weight": 0.45,
             "original_title_exact": false,
-            "popularity": 2.9321,
+            "popularity": 2.4857,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -22271,7 +23060,7 @@
             "runtime_soft": false,
             "runtime_soft_max": 12,
             "runtime_status": "unavailable",
-            "search_query": "The Face Of Another",
+            "search_query": "The Heiress",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
             "title_conflict": false,
@@ -22283,8 +23072,8 @@
             "year_near": false,
             "year_status": "unavailable"
           },
-          "title": "The Face of Another",
-          "tmdb_id": 29452,
+          "title": "The Heiress",
+          "tmdb_id": 28571,
           "warnings": [
             "year_evidence_absent",
             "weak_title_only_match",
@@ -22292,15 +23081,15 @@
           ]
         },
         {
-          "director": "Pappi Corsicato",
-          "original_title": "Il Volto Di Un Altra",
-          "overview_excerpt": "Bella is the host of a popular television program about plastic surgery. Her husband René is a surgeon who performs operations on guests during the same show. Then Bella is fired, due to a drop in the ratings. She storm…",
-          "popularity": 0.902,
-          "poster_path": "/u4RpZ7CD0CgP34yOot3KJRVVebz.jpg",
-          "release_year": 2013,
-          "runtime_min": 84,
+          "director": "Panagiotis Fafoutis",
+          "original_title": "Η Κληρονόμος",
+          "overview_excerpt": "Vera is a beautiful former flight attendant and wife of Stelios, a president of the small-medium football team of the Big Division, \"Black Panthers\". She lives a quiet life, raising her two children. Everything goes smo…",
+          "popularity": 0.5427,
+          "poster_path": "/pALWWSpFCVeStIowL8kxTTcbS4B.jpg",
+          "release_year": 2009,
+          "runtime_min": 94,
           "score": 0.75,
-          "search_query": "The Face Of Another",
+          "search_query": "The Heiress",
           "search_query_reason": "normalized_title",
           "search_year_used": null,
           "signals": {
@@ -22323,7 +23112,7 @@
               }
             },
             "director_candidate_normalized": [
-              "pappi corsicato"
+              "panagiotis fafoutis"
             ],
             "director_conflict": false,
             "director_overlap": false,
@@ -22335,7 +23124,7 @@
             "hard_conflict": false,
             "matched_weight": 0.45,
             "original_title_exact": false,
-            "popularity": 0.902,
+            "popularity": 0.5427,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -22344,7 +23133,7 @@
             "runtime_soft": false,
             "runtime_soft_max": 12,
             "runtime_status": "unavailable",
-            "search_query": "The Face Of Another",
+            "search_query": "The Heiress",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
             "title_conflict": false,
@@ -22356,8 +23145,8 @@
             "year_near": false,
             "year_status": "unavailable"
           },
-          "title": "The Face of Another",
-          "tmdb_id": 180861,
+          "title": "The Heiress",
+          "tmdb_id": 36192,
           "warnings": [
             "year_evidence_absent",
             "weak_title_only_match",
@@ -22365,15 +23154,234 @@
           ]
         },
         {
-          "director": "Park YunBong",
-          "original_title": "他人の顔",
-          "overview_excerpt": "Experimental short by Park YunBong.",
-          "popularity": 0.453,
-          "poster_path": "/tFwQCxx0Pd5iMHds5MDzTMmmrfT.jpg",
-          "release_year": 2011,
+          "director": "Trần Nguyễn Hoàng Duy",
+          "original_title": "Quý Cô Thừa Kế",
+          "overview_excerpt": "A wealthy heiress learns humility and love during mandatory rural work, transforming her life with an unexpected connection to an orphan.",
+          "popularity": 1.1744,
+          "poster_path": "/m3GfE8CcEg4uEFbwGf71JCuuQPy.jpg",
+          "release_year": 2018,
+          "runtime_min": 111,
+          "score": 0.75,
+          "search_query": "The Heiress",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "tran nguyen hoang duy"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.1744,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "The Heiress",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Heiress",
+          "tmdb_id": 563934,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Frasco Mortiz",
+          "original_title": null,
+          "overview_excerpt": "The Heiress centers on the story of Luna, a mambabarang or a powerful demon sorceress, who will stop at nothing to keep to herself her young niece, Guia.",
+          "popularity": 1.6545,
+          "poster_path": "/1DHxbGSkVpXUlUBqnFZJ1TqOK1v.jpg",
+          "release_year": 2019,
+          "runtime_min": 106,
+          "score": 0.75,
+          "search_query": "The Heiress",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "frasco mortiz"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.6545,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "The Heiress",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Heiress",
+          "tmdb_id": 641838,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Chris Bell",
+          "original_title": null,
+          "overview_excerpt": "Claire and Anna are cousins who share a mysterious connection to a dark family secret. Following the death of Clare’s grandmother, ancient spirits are unleashed and the women must do battle with ‘Lilith’, a malevolent f…",
+          "popularity": 0.6549,
+          "poster_path": "/ssAFPlqms8ofF2ExnWH1qF4pVXb.jpg",
+          "release_year": 2021,
+          "runtime_min": 83,
+          "score": 0.75,
+          "search_query": "The Heiress",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "chris bell"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.6549,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "The Heiress",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Heiress",
+          "tmdb_id": 794783,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "嬌娃",
+          "overview_excerpt": "Hong Kong movie",
+          "popularity": 0.6195,
+          "poster_path": null,
+          "release_year": 1959,
           "runtime_min": null,
           "score": 0.75,
-          "search_query": "The Face Of Another",
+          "search_query": "The Heiress",
           "search_query_reason": "normalized_title",
           "search_year_used": null,
           "signals": {
@@ -22395,9 +23403,7 @@
                 "weight": 0.0
               }
             },
-            "director_candidate_normalized": [
-              "park yunbong"
-            ],
+            "director_candidate_normalized": [],
             "director_conflict": false,
             "director_overlap": false,
             "director_source_normalized": [],
@@ -22408,7 +23414,7 @@
             "hard_conflict": false,
             "matched_weight": 0.45,
             "original_title_exact": false,
-            "popularity": 0.453,
+            "popularity": 0.6195,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -22417,7 +23423,7 @@
             "runtime_soft": false,
             "runtime_soft_max": 12,
             "runtime_status": "unavailable",
-            "search_query": "The Face Of Another",
+            "search_query": "The Heiress",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
             "title_conflict": false,
@@ -22429,8 +23435,8 @@
             "year_near": false,
             "year_status": "unavailable"
           },
-          "title": "The Face Of Another",
-          "tmdb_id": 1110470,
+          "title": "The Heiress",
+          "tmdb_id": 1175396,
           "warnings": [
             "year_evidence_absent",
             "weak_title_only_match",
@@ -22438,15 +23444,86 @@
           ]
         },
         {
-          "director": "Graham Chase",
+          "director": null,
           "original_title": null,
-          "overview_excerpt": "The western part of Samoa has been independent of New Zealand since 1962, but a strong chain of emigration to New Zealand continues to tie the two countries together. This film follows a young Samoan family over a perio…",
-          "popularity": 0.4913,
-          "poster_path": null,
-          "release_year": 1983,
-          "runtime_min": 28,
+          "overview_excerpt": "The Heiress collects legends, myths, and monsters that haunt the world - La Llorona, the Moth Man, the Jersey Devil, to name a few - proving they do exist.",
+          "popularity": 0.5251,
+          "poster_path": "/3kmA9yg7stNPz9eZXhegR6Y6gvh.jpg",
+          "release_year": 2023,
+          "runtime_min": null,
+          "score": 0.75,
+          "search_query": "The Heiress",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "runtime": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.5251,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "The Heiress",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Heiress",
+          "tmdb_id": 1233210,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A rich businessman brings home a homeless man who promises to tame his willful 18-year-old daughter.",
+          "popularity": 0.8902,
+          "poster_path": "/n5IzuaNhWrlTeCvkJAhZtm9H5kL.jpg",
+          "release_year": 1937,
+          "runtime_min": null,
           "score": 0.0,
-          "search_query": "The Face Of Another",
+          "search_query": "The Heiress",
           "search_query_reason": "normalized_title",
           "search_year_used": null,
           "signals": {
@@ -22468,9 +23545,7 @@
                 "weight": 0.0
               }
             },
-            "director_candidate_normalized": [
-              "graham chase"
-            ],
+            "director_candidate_normalized": [],
             "director_conflict": false,
             "director_overlap": false,
             "director_source_normalized": [],
@@ -22481,7 +23556,7 @@
             "hard_conflict": true,
             "matched_weight": 0.0,
             "original_title_exact": false,
-            "popularity": 0.4913,
+            "popularity": 0.8902,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
@@ -22490,7 +23565,7 @@
             "runtime_soft": false,
             "runtime_soft_max": 12,
             "runtime_status": "unavailable",
-            "search_query": "The Face Of Another",
+            "search_query": "The Heiress",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
             "title_conflict": true,
@@ -22502,8 +23577,8 @@
             "year_near": false,
             "year_status": "unavailable"
           },
-          "title": "The Human Face of the Pacific: Samoa. I Can Get Another Wife But I Can't Get Any Parents",
-          "tmdb_id": 970629,
+          "title": "The Footloose Heiress",
+          "tmdb_id": 160463,
           "warnings": [
             "title_conflict",
             "year_evidence_absent",
@@ -22515,21 +23590,21 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:beacon:the-face-of-another",
+      "film_id": "source:beacon:the-heiress",
       "first_observed_at": null,
       "identity_type": "source",
       "last_observed_at": null,
       "match_confidence": 0.75,
       "match_method": "fallback",
       "match_status": "review_required",
-      "normalized_title": "The Face Of Another",
+      "normalized_title": "The Heiress",
       "presentation_labels": [],
       "provenance": {
-        "source_identity_key": "beacon|id|the-face-of-another",
+        "source_identity_key": "beacon|id|the-heiress",
         "tmdb_search_queries": [
           {
             "reason": "normalized_title",
-            "title": "The Face Of Another",
+            "title": "The Heiress",
             "year": null
           }
         ]
@@ -22555,7 +23630,7 @@
           }
         },
         "director_candidate_normalized": [
-          "hiroshi teshigahara"
+          "william wyler"
         ],
         "director_conflict": false,
         "director_overlap": false,
@@ -22567,7 +23642,7 @@
         "hard_conflict": false,
         "matched_weight": 0.45,
         "original_title_exact": false,
-        "popularity": 2.9321,
+        "popularity": 2.4857,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
@@ -22576,7 +23651,7 @@
         "runtime_soft": false,
         "runtime_soft_max": 12,
         "runtime_status": "unavailable",
-        "search_query": "The Face Of Another",
+        "search_query": "The Heiress",
         "search_query_reason": "normalized_title",
         "search_year_used": null,
         "title_conflict": false,
@@ -22590,19 +23665,19 @@
       },
       "source_identities": [
         {
-          "showtime_film_key": "face-of-another",
+          "showtime_film_key": "heiress",
           "source": "beacon",
-          "source_film_id": "the-face-of-another",
-          "source_title": "THE FACE OF ANOTHER"
+          "source_film_id": "the-heiress",
+          "source_title": "THE HEIRESS"
         }
       ],
       "tmdb_id": null,
-      "tmdb_original_title": "他人の顔",
-      "tmdb_overview_excerpt": "A businessman with a disfigured face obtains a lifelike mask from his new doctor, but the mask starts altering his personality and causing him to question his identity.",
-      "tmdb_poster_path": "/eUnFdf1Mf1b8AD3ChMPOCUfTBDQ.jpg",
-      "tmdb_release_year": 1966,
-      "tmdb_runtime_min": 122,
-      "tmdb_title": "The Face of Another",
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "In 1840s New York, the uneventful and boring days of the daughter of a wealthy doctor come to an end when she meets a dashing poorer man — who may or may not be after her inheritance.",
+      "tmdb_poster_path": "/1oN0zsjw3iS1HaOLoZbmptzrD1W.jpg",
+      "tmdb_release_year": 1949,
+      "tmdb_runtime_min": 115,
+      "tmdb_title": "The Heiress",
       "top_candidate_margin": 0.0,
       "warnings": [
         "year_evidence_absent",
@@ -22619,7 +23694,7 @@
         "applied_rules": [
           "normalized_source_fallback"
         ],
-        "base_title": "The Face Of Another",
+        "base_title": "The Heiress",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -23458,6 +24533,213 @@
           "normalized_source_fallback"
         ],
         "base_title": "Vhs ÃBer Alles Presents",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Charles Crichton",
+          "original_title": null,
+          "overview_excerpt": "While a diamond advocate attempts to steal a collection of diamonds, troubles arise when he realises he’s not the only one after the collection.",
+          "popularity": 7.3869,
+          "poster_path": "/hkSGFNVfEEUXFCxRZDITFHVhUlu.jpg",
+          "release_year": 1988,
+          "runtime_min": 109,
+          "score": 1.0,
+          "search_query": "A Fish Called Wanda",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "charles crichton"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 7.3869,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "A Fish Called Wanda",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "A Fish Called Wanda",
+          "tmdb_id": 623,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:623",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "A Fish Called Wanda",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "central_cinema|id|a-fish-called-wanda",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title",
+            "title": "A Fish Called Wanda",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": 109,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "charles crichton"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 7.3869,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "A Fish Called Wanda",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "fish-called-wanda",
+          "source": "central_cinema",
+          "source_film_id": "a-fish-called-wanda",
+          "source_title": "A Fish Called Wanda"
+        }
+      ],
+      "tmdb_id": 623,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "While a diamond advocate attempts to steal a collection of diamonds, troubles arise when he realises he’s not the only one after the collection.",
+      "tmdb_poster_path": "/hkSGFNVfEEUXFCxRZDITFHVhUlu.jpg",
+      "tmdb_release_year": 1988,
+      "tmdb_runtime_min": 109,
+      "tmdb_title": "A Fish Called Wanda",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "A Fish Called Wanda",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -24389,6 +25671,708 @@
     },
     {
       "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Tim Burton",
+          "original_title": null,
+          "overview_excerpt": "Throughout his life Edward Bloom has always been a man of big appetites, enormous passions and tall tales. In his later years, he remains a huge mystery to his son, William. Now, to get to know the real man, Will begins…",
+          "popularity": 10.5411,
+          "poster_path": "/tjK063yCgaBAluVU72rZ6PKPH2l.jpg",
+          "release_year": 2003,
+          "runtime_min": 125,
+          "score": 1.0,
+          "search_query": "Big Fish",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "tim burton"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 10.5411,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "Big Fish",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Big Fish",
+          "tmdb_id": 587,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Alexander Babaev",
+          "original_title": null,
+          "overview_excerpt": "A horror short about a woman being protected by a witch.",
+          "popularity": 1.5215,
+          "poster_path": null,
+          "release_year": null,
+          "runtime_min": 5,
+          "score": 0.75,
+          "search_query": "Big Fish",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "alexander babaev"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.5215,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 120,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Big Fish",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Big Fish",
+          "tmdb_id": 581879,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Wieloryb",
+          "overview_excerpt": "A sperm whale is lying by the Vistula River in Warsaw. This absurd situation stirs and mobilizes the local community and tourists who gather by the riverbank. On one hand, the whale is a metaphor for the disruption of t…",
+          "popularity": 0.5983,
+          "poster_path": null,
+          "release_year": 2018,
+          "runtime_min": null,
+          "score": 0.75,
+          "search_query": "Big Fish",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.5983,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Big Fish",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Big Fish",
+          "tmdb_id": 660200,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A musical exploration into the simple joys of fishing.",
+          "popularity": 0.5282,
+          "poster_path": null,
+          "release_year": 2020,
+          "runtime_min": null,
+          "score": 0.75,
+          "search_query": "Big Fish",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.5282,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Big Fish",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Big Fish",
+          "tmdb_id": 768266,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "BIG FISH is an impressionistic portrait of fisherman, artist and performer - José Nava. The film chronicles his life from the barrios of Acapulco to ‘this cold land’ - where he feels like ‘a fish in the wrong pond!’- an…",
+          "popularity": 0.5708,
+          "poster_path": null,
+          "release_year": null,
+          "runtime_min": null,
+          "score": 0.75,
+          "search_query": "Big Fish",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.5708,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Big Fish",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Big Fish",
+          "tmdb_id": 774708,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Milo Martin",
+          "original_title": null,
+          "overview_excerpt": "A girl is followed home after her night out.",
+          "popularity": 1.346,
+          "poster_path": "/kOn0A24iVcsJYECPKne72gUkgZQ.jpg",
+          "release_year": 2026,
+          "runtime_min": 9,
+          "score": 0.75,
+          "search_query": "Big Fish",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "milo martin"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.346,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 116,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Big Fish",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Big Fish",
+          "tmdb_id": 1631521,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Batbold Banzragch",
+          "original_title": "Big Fish - Цэвэрлэгээ",
+          "overview_excerpt": "The film follows Senior Police Lieutenant Soyombo as he investigates a drug-related murder case, and tells the story of the adventures and love that occur in the life of a police officer.",
+          "popularity": 1.7955,
+          "poster_path": "/1qdvaRxl7rgiGtdHwIvfKu1LJ5K.jpg",
+          "release_year": 2012,
+          "runtime_min": 100,
+          "score": 0.717,
+          "search_query": "Big Fish",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.53,
+            "contributions": {
+              "original_title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.38
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "batbold banzragch"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.38,
+            "original_title_exact": true,
+            "popularity": 1.7955,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 25,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Big Fish",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Big Fish - Cleaning",
+          "tmdb_id": 1448352,
+          "warnings": [
+            "matched_original_title",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Liang Xuan",
+          "original_title": "大鱼海棠",
+          "overview_excerpt": "Beyond the human realm, there is a magical race of beings who control the tides and the changing of the seasons. One of these beings, a young girl named Chun, seeks something more—she wants to experience the human world…",
+          "popularity": 3.1627,
+          "poster_path": "/fRCdXh9MZutj1JJPZlUXMex6AuB.jpg",
+          "release_year": 2016,
+          "runtime_min": 101,
+          "score": 0.0,
+          "search_query": "Big Fish",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "liang xuan"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 3.1627,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 24,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "search_query": "Big Fish",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Big Fish & Begonia",
+          "tmdb_id": 271706,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:587",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Big Fish",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "central_cinema|id|big-fish",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title",
+            "title": "Big Fish",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": 125,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "tim burton"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 10.5411,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "Big Fish",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "big-fish",
+          "source": "central_cinema",
+          "source_film_id": "big-fish",
+          "source_title": "Big Fish"
+        }
+      ],
+      "tmdb_id": 587,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "Throughout his life Edward Bloom has always been a man of big appetites, enormous passions and tall tales. In his later years, he remains a huge mystery to his son, William. Now, to get to know the real man, Will begins…",
+      "tmdb_poster_path": "/tjK063yCgaBAluVU72rZ6PKPH2l.jpg",
+      "tmdb_release_year": 2003,
+      "tmdb_runtime_min": 125,
+      "tmdb_title": "Big Fish",
+      "top_candidate_margin": 0.25,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Big Fish",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
       "candidates": [],
       "directors_normalized": [],
       "directors_raw": null,
@@ -24854,70 +26838,6 @@
           "normalized_source_fallback"
         ],
         "base_title": "Moviecat Trivia",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "source:central_cinema:private-rental-event",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "manual",
-      "match_status": "non_film",
-      "normalized_title": "Private Rental Event",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "central_cinema|id|private-rental-event"
-      },
-      "runtime_min": 150,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "private-rental-event",
-          "source": "central_cinema",
-          "source_film_id": "private-rental-event",
-          "source_title": "Private Rental Event"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": null,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Private Rental Event",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -26745,6 +28665,162 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
+      "film_id": "source:nwff:local-sightings-2026-assets-liabilities",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Local Sightings 2026 – Assets & Liabilities",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|local-sightings-2026-assets-liabilities",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "Local Sightings 2026 – Assets & Liabilities",
+            "year": 2026
+          },
+          {
+            "reason": "normalized_title",
+            "title": "Local Sightings 2026 – Assets & Liabilities",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": 71,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "local-sightings-2026-assets-liabilities-2026",
+          "source": "nwff",
+          "source_film_id": "local-sightings-2026-assets-liabilities",
+          "source_title": "Local Sightings 2026 – Assets & Liabilities"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Local Sightings 2026 – Assets & Liabilities",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": 2026,
+        "title_years": [
+          2026
+        ],
+        "warnings": [],
+        "year_confidence": "title",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:nwff:local-sightings-2026-beau-ideal",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Local Sightings 2026 – Beau Ideal",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|local-sightings-2026-beau-ideal",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "Local Sightings 2026 – Beau Ideal",
+            "year": 2026
+          },
+          {
+            "reason": "normalized_title",
+            "title": "Local Sightings 2026 – Beau Ideal",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": 109,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "local-sightings-2026-beau-ideal-2026",
+          "source": "nwff",
+          "source_film_id": "local-sightings-2026-beau-ideal",
+          "source_title": "Local Sightings 2026 – Beau Ideal"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Local Sightings 2026 – Beau Ideal",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": 2026,
+        "title_years": [
+          2026
+        ],
+        "warnings": [],
+        "year_confidence": "title",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
       "film_id": "source:nwff:local-sightings-2026-board",
       "first_observed_at": null,
       "identity_type": "source",
@@ -26769,7 +28845,7 @@
           }
         ]
       },
-      "runtime_min": 90,
+      "runtime_min": 65,
       "signals": null,
       "source_identities": [
         {
@@ -26892,6 +28968,84 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
+      "film_id": "source:nwff:local-sightings-2026-dad-genes",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Local Sightings 2026 – Dad Genes",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|local-sightings-2026-dad-genes",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "Local Sightings 2026 – Dad Genes",
+            "year": 2026
+          },
+          {
+            "reason": "normalized_title",
+            "title": "Local Sightings 2026 – Dad Genes",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": null,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "local-sightings-2026-dad-genes-2026",
+          "source": "nwff",
+          "source_film_id": "local-sightings-2026-dad-genes",
+          "source_title": "Local Sightings 2026 – Dad Genes"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Local Sightings 2026 – Dad Genes",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": 2026,
+        "title_years": [
+          2026
+        ],
+        "warnings": [],
+        "year_confidence": "title",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
       "film_id": "source:nwff:local-sightings-2026-feature-lifeweleave",
       "first_observed_at": null,
       "identity_type": "source",
@@ -26940,6 +29094,75 @@
           "normalized_source_fallback"
         ],
         "base_title": "Local Sightings 2026 – The Life We Leave",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": 2026,
+        "title_years": [
+          2026
+        ],
+        "warnings": [],
+        "year_confidence": "title",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "non_film",
+      "entity_kind": "shorts_program",
+      "film_id": "source:nwff:local-sightings-2026-female-gaze",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "none",
+      "match_status": "non_film",
+      "normalized_title": "Local Sightings 2026 – The Female Gaze (Shorts)",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|local-sightings-2026-female-gaze"
+      },
+      "runtime_min": 60,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "local-sightings-2026-the-female-gaze-shorts-2026",
+          "source": "nwff",
+          "source_film_id": "local-sightings-2026-female-gaze",
+          "source_title": "Local Sightings 2026 – The Female Gaze (Shorts)"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "program_entity_not_tmdb_movie",
+        "shorts_or_festival_program"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Local Sightings 2026 – The Female Gaze (Shorts)",
         "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
@@ -27117,6 +29340,75 @@
       "directors_raw": null,
       "eligibility": "non_film",
       "entity_kind": "shorts_program",
+      "film_id": "source:nwff:local-sightings-2026-life-lines-shorts",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "none",
+      "match_status": "non_film",
+      "normalized_title": "Local Sightings 2026 – Life Lines (Shorts)",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|local-sightings-2026-life-lines-shorts"
+      },
+      "runtime_min": 55,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "local-sightings-2026-life-lines-shorts-2026",
+          "source": "nwff",
+          "source_film_id": "local-sightings-2026-life-lines-shorts",
+          "source_title": "Local Sightings 2026 – Life Lines (Shorts)"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "program_entity_not_tmdb_movie",
+        "shorts_or_festival_program"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Local Sightings 2026 – Life Lines (Shorts)",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": 2026,
+        "title_years": [
+          2026
+        ],
+        "warnings": [],
+        "year_confidence": "title",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "non_film",
+      "entity_kind": "shorts_program",
       "film_id": "source:nwff:local-sightings-2026-like-a-local",
       "first_observed_at": null,
       "identity_type": "source",
@@ -27253,6 +29545,144 @@
       "candidates": [],
       "directors_normalized": [],
       "directors_raw": null,
+      "eligibility": "non_film",
+      "entity_kind": "shorts_program",
+      "film_id": "source:nwff:local-sightings-2026-our-land-shorts",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "none",
+      "match_status": "non_film",
+      "normalized_title": "Local Sightings 2026 – Our Land (Shorts)",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|local-sightings-2026-our-land-shorts"
+      },
+      "runtime_min": 62,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "local-sightings-2026-our-land-shorts-2026",
+          "source": "nwff",
+          "source_film_id": "local-sightings-2026-our-land-shorts",
+          "source_title": "Local Sightings 2026 – Our Land (Shorts)"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "program_entity_not_tmdb_movie",
+        "shorts_or_festival_program"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Local Sightings 2026 – Our Land (Shorts)",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": 2026,
+        "title_years": [
+          2026
+        ],
+        "warnings": [],
+        "year_confidence": "title",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "non_film",
+      "entity_kind": "shorts_program",
+      "film_id": "source:nwff:local-sightings-2026-queer-as-in",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "none",
+      "match_status": "non_film",
+      "normalized_title": "Local Sightings 2026 – Queer As In (Shorts)",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|local-sightings-2026-queer-as-in"
+      },
+      "runtime_min": 76,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "local-sightings-2026-queer-as-in-shorts-2026",
+          "source": "nwff",
+          "source_film_id": "local-sightings-2026-queer-as-in",
+          "source_title": "Local Sightings 2026 – Queer As In (Shorts)"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "program_entity_not_tmdb_movie",
+        "shorts_or_festival_program"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Local Sightings 2026 – Queer As In (Shorts)",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": 2026,
+        "title_years": [
+          2026
+        ],
+        "warnings": [],
+        "year_confidence": "title",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
       "film_id": "source:nwff:local-sightings-2026-sugarfly",
@@ -27303,6 +29733,75 @@
           "normalized_source_fallback"
         ],
         "base_title": "Local Sightings 2026 – Sugarfly",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": 2026,
+        "title_years": [
+          2026
+        ],
+        "warnings": [],
+        "year_confidence": "title",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "non_film",
+      "entity_kind": "shorts_program",
+      "film_id": "source:nwff:local-sightings-2026-the-great-outdoors",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "none",
+      "match_status": "non_film",
+      "normalized_title": "Local Sightings 2026 – The Great Outdoors (Shorts)",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|local-sightings-2026-the-great-outdoors"
+      },
+      "runtime_min": 57,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "local-sightings-2026-the-great-outdoors-shorts-2026",
+          "source": "nwff",
+          "source_film_id": "local-sightings-2026-the-great-outdoors",
+          "source_title": "Local Sightings 2026 – The Great Outdoors (Shorts)"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "program_entity_not_tmdb_movie",
+        "shorts_or_festival_program"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Local Sightings 2026 – The Great Outdoors (Shorts)",
         "canonical_year_candidate": 2026,
         "event_labels": [],
         "event_phrase": null,
@@ -27480,77 +29979,6 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:nwff:once-upon-time-seattle",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "fallback",
-      "match_status": "unmatched",
-      "normalized_title": "Once Upon a Time In Seattle",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "nwff|id|once-upon-time-seattle",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title",
-            "title": "Once Upon a Time In Seattle",
-            "year": null
-          }
-        ]
-      },
-      "runtime_min": 101,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "once-upon-a-time-in-seattle",
-          "source": "nwff",
-          "source_film_id": "once-upon-time-seattle",
-          "source_title": "Once Upon a Time In Seattle"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": null,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Once Upon a Time In Seattle",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
       "film_id": "source:nwff:sfcs-10-mariners",
       "first_observed_at": null,
       "identity_type": "source",
@@ -27563,6 +29991,8 @@
         "sfcs at 10"
       ],
       "provenance": {
+        "identity_title_candidate": "The History of The Seattle Mariners",
+        "raw_search_title": "The History of The Seattle Mariners",
         "source_identity_key": "nwff|id|sfcs-10-mariners",
         "tmdb_search_queries": [
           {
@@ -27584,7 +30014,9 @@
       ],
       "tmdb_id": null,
       "top_candidate_margin": null,
-      "warnings": [],
+      "warnings": [
+        "used_collection_identity_title_candidate"
+      ],
       "year_hint": null,
       "year_interpretation": {
         "alternate_search_title": null,
@@ -35492,6 +37924,8 @@
         "nouvelles femmes"
       ],
       "provenance": {
+        "identity_title_candidate": "Breathless",
+        "raw_search_title": "Breathless",
         "source_identity_key": "siff|id|programs-and-events/nouvelles-femmes/breathless",
         "tmdb_search_queries": [
           {
@@ -35849,6 +38283,8 @@
         "nouvelles femmes"
       ],
       "provenance": {
+        "identity_title_candidate": "Jules and Jim",
+        "raw_search_title": "Jules and Jim",
         "source_identity_key": "siff|id|programs-and-events/nouvelles-femmes/jules-and-jim",
         "tmdb_search_queries": [
           {
@@ -35929,6 +38365,7 @@
       "tmdb_title": "Jules and Jim",
       "top_candidate_margin": 1.0,
       "warnings": [
+        "used_collection_identity_title_candidate",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence",
         "director_unavailable"
@@ -36067,6 +38504,8 @@
         "siff movie club"
       ],
       "provenance": {
+        "identity_title_candidate": "Serial Mom",
+        "raw_search_title": "Serial Mom",
         "source_identity_key": "siff|id|programs-and-events/siff-movie-club/serial-mom",
         "tmdb_search_queries": [
           {
@@ -36147,6 +38586,7 @@
       "tmdb_title": "Serial Mom",
       "top_candidate_margin": null,
       "warnings": [
+        "used_collection_identity_title_candidate",
         "year_evidence_absent",
         "missing_year_supported_by_other_evidence",
         "director_unavailable"
@@ -36189,34 +38629,656 @@
     },
     {
       "auto_confirm_blocked_reason": null,
-      "candidates": [],
+      "candidates": [
+        {
+          "director": "Joseph H. Lewis",
+          "original_title": null,
+          "overview_excerpt": "Bart Tare is an ex-Army man who has a lifelong fixation with guns, he meets a kindred spirit in sharpshooter Annie Starr and goes to work at a carnival. After upsetting the carnival owner who lusts after Starr, they bot…",
+          "popularity": 1.9075,
+          "poster_path": "/kC1IIitCJTZLwZyuQnKw4zaOaXc.jpg",
+          "release_year": 1950,
+          "runtime_min": 87,
+          "score": 1.0,
+          "search_query": "Gun Crazy",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "joseph h lewis"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 1.9075,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "Gun Crazy",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Gun Crazy",
+          "tmdb_id": 18671,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "California teen Anita Minteer struggles in the face of an absentee mother, her mom's abusive boyfriend, Rooney, and a lack of respect from her classmates. This all changes when a pen-pal school project connects her with…",
+          "popularity": 3.2509,
+          "poster_path": "/tYY4Dfg3bJlu5woIz2i7LNMD1bX.jpg",
+          "release_year": 1992,
+          "runtime_min": null,
+          "score": 0.75,
+          "search_query": "Gun Crazy",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 3.2509,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Gun Crazy",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Guncrazy",
+          "tmdb_id": 24065,
+          "warnings": [
+            "year_evidence_absent",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "十三癲和尚",
+          "overview_excerpt": "Set during the Sung Dynasty, patriotic monks of the Shaolin Temple fight against foreign invasion.",
+          "popularity": 0.7596,
+          "poster_path": "/49vY777cx4OStr6H3GKSPYjEUvr.jpg",
+          "release_year": 1980,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Gun Crazy",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.7596,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Gun Crazy",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "War of the Shaolin Temple",
+          "tmdb_id": 64272,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Atsushi Muroga",
+          "original_title": "GUN CRAZY Episode1：復讐の荒野",
+          "overview_excerpt": "A mysterious stranger comes into a lawless town run by a kingpin and starts shooting up the place.",
+          "popularity": 1.6826,
+          "poster_path": "/yAFvQAnYETJpGpR7HTwJQtU28Ii.jpg",
+          "release_year": 2002,
+          "runtime_min": 70,
+          "score": 0.0,
+          "search_query": "Gun Crazy",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "atsushi muroga"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.6826,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 16,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "search_query": "Gun Crazy",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Gun Crazy: Episode 1 — A Woman from Nowhere",
+          "tmdb_id": 73843,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Atsushi Muroga",
+          "original_title": "GUN CRAZY Episode 2：裏切りの挽歌",
+          "overview_excerpt": "An idealistic young lawyer whose faith in the law is rocked when she is unable to prevent a rapist from walking free. Her disillusionment of the judicial system is complete when her next case goes disastrously wrong, he…",
+          "popularity": 1.3448,
+          "poster_path": "/rcbyXMw0YRH9T95LyNFOVHQKhxo.jpg",
+          "release_year": 2002,
+          "runtime_min": 70,
+          "score": 0.0,
+          "search_query": "Gun Crazy",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "atsushi muroga"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.3448,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 16,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "search_query": "Gun Crazy",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Gun Crazy: Episode 2 — Beyond the Law",
+          "tmdb_id": 73844,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Dio, sei proprio un padreterno!",
+          "overview_excerpt": "There's trouble in Frankie Diomede's criminal empire in Genoa. A French gangster has moved into his territory, so he flies home to take care of business. He promptly has himself arrested so that he'll have the perfect a…",
+          "popularity": 1.3428,
+          "poster_path": "/n78cJ9WAFEQCcUYLAwLjKqO0xJN.jpg",
+          "release_year": 1973,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Gun Crazy",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.3428,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Gun Crazy",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Mean Frank and Crazy Tony",
+          "tmdb_id": 90094,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Atsushi Muroga",
+          "original_title": "GUN CRAZY Episode3：叛逆者の狂詩曲＜ラプソディー＞",
+          "overview_excerpt": "Aki Fukase is a rookie detective looking to make a name for herself in the field of law enforcement. Unfortunately, her inexperience contributes to the death of her partner when a trap is set by Galhowk, an internationa…",
+          "popularity": 1.2014,
+          "poster_path": "/hrtzip6UgAMNv0tzWxT4Xq5Q15F.jpg",
+          "release_year": 2003,
+          "runtime_min": 70,
+          "score": 0.0,
+          "search_query": "Gun Crazy",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "atsushi muroga"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.2014,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 16,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "search_query": "Gun Crazy",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Gun Crazy: Episode 3 — Traitor's Rhapsody",
+          "tmdb_id": 135865,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        },
+        {
+          "director": "Atsushi Muroga",
+          "original_title": "GUN CRAZY Episode4：用心棒の鎮魂歌〈レクイエム〉",
+          "overview_excerpt": "In Southeast Asia, armed guerillas storm a party being hosted by a major Japanese trading company. They kidnap Eri Enomoto (Rika Uesugi), the director's daughter, and demand a huge ransom. But company infighting stalls …",
+          "popularity": 1.1191,
+          "poster_path": "/cEMwxeioTb0GDllcSAkQyKfYvoo.jpg",
+          "release_year": 2003,
+          "runtime_min": 66,
+          "score": 0.0,
+          "search_query": "Gun Crazy",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "atsushi muroga"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.1191,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 20,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "search_query": "Gun Crazy",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Gun Crazy 4: Requiem for a Bodyguard",
+          "tmdb_id": 135872,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_unavailable"
+          ]
+        }
+      ],
       "directors_normalized": [],
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:siff:programs-and-events/the-open-road/gun-crazy",
+      "film_id": "tmdb:18671",
       "first_observed_at": null,
-      "identity_type": "source",
+      "identity_type": "tmdb",
       "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "fallback",
-      "match_status": "unmatched",
-      "normalized_title": "The Open Road: Gun Crazy",
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Gun Crazy",
       "presentation_labels": [
         "35mm"
       ],
       "provenance": {
+        "identity_title_candidate": "Gun Crazy",
+        "raw_search_title": "The Open Road: Gun Crazy",
         "source_identity_key": "siff|id|programs-and-events/the-open-road/gun-crazy",
         "tmdb_search_queries": [
           {
             "reason": "normalized_title",
-            "title": "The Open Road: Gun Crazy",
+            "title": "Gun Crazy",
             "year": null
           }
         ]
       },
       "runtime_min": 86,
-      "signals": null,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "joseph h lewis"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 1.9075,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 1,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "Gun Crazy",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
       "source_identities": [
         {
           "showtime_film_key": "open-road-gun-crazy-35mm",
@@ -36225,9 +39287,20 @@
           "source_title": "The Open Road: Gun Crazy (35mm)"
         }
       ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [],
+      "tmdb_id": 18671,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "Bart Tare is an ex-Army man who has a lifelong fixation with guns, he meets a kindred spirit in sharpshooter Annie Starr and goes to work at a carnival. After upsetting the carnival owner who lusts after Starr, they bot…",
+      "tmdb_poster_path": "/kC1IIitCJTZLwZyuQnKw4zaOaXc.jpg",
+      "tmdb_release_year": 1950,
+      "tmdb_runtime_min": 87,
+      "tmdb_title": "Gun Crazy",
+      "top_candidate_margin": 0.25,
+      "warnings": [
+        "used_collection_identity_title_candidate",
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
       "year_hint": null,
       "year_interpretation": {
         "alternate_search_title": null,
@@ -36267,6 +39340,6 @@
       }
     }
   ],
-  "generated_at": "2026-09-11T11:54:05+00:00",
+  "generated_at": "2026-09-13T12:23:16+00:00",
   "schema_version": "1.0.0"
 }

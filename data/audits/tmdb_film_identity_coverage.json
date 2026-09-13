@@ -1,108 +1,109 @@
 {
   "by_source": {
     "amc": {
-      "confirmed_automatic": 29,
+      "confirmed_automatic": 30,
       "confirmed_manual": 9,
       "non_film": 3,
-      "review_required": 12,
-      "total": 58,
+      "review_required": 13,
+      "total": 60,
       "unmatched": 5
     },
     "beacon": {
-      "review_required": 12,
-      "total": 16,
+      "review_required": 13,
+      "total": 17,
       "unmatched": 4
     },
     "central_cinema": {
-      "confirmed_automatic": 6,
+      "confirmed_automatic": 8,
       "confirmed_manual": 1,
-      "non_film": 3,
-      "total": 10
+      "non_film": 2,
+      "total": 11
     },
     "nwff": {
       "confirmed_automatic": 2,
-      "non_film": 5,
+      "non_film": 10,
       "review_required": 1,
-      "total": 15,
-      "unmatched": 7
+      "total": 22,
+      "unmatched": 9
     },
     "siff": {
-      "confirmed_automatic": 15,
+      "confirmed_automatic": 16,
       "review_required": 3,
-      "total": 19,
-      "unmatched": 1
+      "total": 19
     }
   },
   "by_status": {
-    "confirmed_automatic": 52,
+    "confirmed_automatic": 56,
     "confirmed_manual": 10,
-    "non_film": 11,
-    "review_required": 28,
-    "unmatched": 17
+    "non_film": 15,
+    "review_required": 30,
+    "unmatched": 18
   },
   "calibration": {
     "anniversary_derived_years": 3,
     "auto_confirm_blocked_by_ambiguity": 5,
     "auto_confirm_blocked_by_hard_conflict": 1,
-    "director_comparisons": 35,
-    "director_unavailable": 46,
-    "event_year_titles": 4,
-    "normalized_title_exact_matches": 79,
-    "review_required_sparse_evidence": 16,
+    "director_comparisons": 36,
+    "director_unavailable": 51,
+    "event_year_titles": 5,
+    "normalized_title_exact_matches": 85,
+    "review_required_sparse_evidence": 17,
     "top_candidate_margin_buckets": {
-      "0.00-0.07": 5,
+      "0.00-0.07": 4,
       "0.08-0.19": 4,
-      "0.20+": 35,
-      "none": 74
+      "0.20+": 40,
+      "none": 81
     }
   },
   "common_warning_categories": {
+    "anniversary_year_derived": 2,
     "director_conflict": 2,
-    "director_unavailable": 43,
-    "event_year_not_canonical": 1,
+    "director_unavailable": 48,
+    "event_year_not_canonical": 3,
     "matched_original_title": 1,
-    "missing_year_supported_by_other_evidence": 63,
+    "missing_year_supported_by_other_evidence": 68,
     "mystery_or_unannounced": 3,
-    "product_year_weak_evidence": 14,
-    "program_entity_not_tmdb_movie": 8,
+    "product_year_weak_evidence": 39,
+    "program_entity_not_tmdb_movie": 13,
     "runtime_conflict": 1,
     "runtime_mismatch": 3,
-    "runtime_soft_penalty": 4,
+    "runtime_soft_penalty": 5,
     "same_title_remake_ambiguity": 5,
-    "shorts_or_festival_program": 5,
+    "shorts_or_festival_program": 10,
     "title_conflict": 1,
     "title_prefix_equivalence": 1,
-    "weak_title_only_match": 16,
-    "year_evidence_absent": 77
+    "used_collection_identity_title_candidate": 4,
+    "weak_title_only_match": 17,
+    "year_evidence_absent": 83
   },
   "confidence_distribution": {
     "0.00-0.54": 1,
-    "0.55-0.79": 16,
+    "0.55-0.79": 17,
     "0.80-0.91": 4,
-    "0.92-1.00": 70
+    "0.92-1.00": 75
   },
-  "confirmed_automatic": 52,
+  "confirmed_automatic": 56,
   "confirmed_manual": 10,
   "deferred": 0,
   "duplicate_merge_counts": {
-    "distinct_tmdb_ids": 56,
+    "distinct_tmdb_ids": 60,
     "note": "Cross-source merges only via shared confirmed tmdb_id; not auto-merged in T-FILMID-01"
   },
-  "eligible_movie_like": 110,
+  "eligible_movie_like": 116,
   "entity_kind_counts": {
-    "feature_film": 110,
+    "feature_film": 116,
     "mystery_screening": 3,
-    "shorts_program": 5
+    "shorts_program": 10
   },
   "errors": 0,
-  "fallback_usage": 56,
-  "generated_at": "2026-09-11T11:54:05+00:00",
+  "fallback_usage": 63,
+  "generated_at": "2026-09-13T12:23:16+00:00",
   "multiple_shorts": 0,
-  "non_film": 11,
+  "non_film": 15,
   "rejected": 0,
-  "review_queue_size": 28,
-  "review_required": 28,
+  "review_queue_size": 30,
+  "review_required": 30,
   "schema_version": "1.0.0",
-  "total_unique_source_identities": 118,
-  "unmatched": 17
+  "total_unique_source_identities": 129,
+  "unmatched": 18
 }
