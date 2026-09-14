@@ -121,7 +121,8 @@ export function resolveActivePrimaryId(nav) {
       nav.surface.collectionId === 'opening-this-week' ||
       nav.surface.collectionId === 'leaving-soon' ||
       nav.surface.collectionId === 'just-announced' ||
-      nav.surface.collectionId === 'special-presentations'
+      nav.surface.collectionId === 'special-presentations' ||
+      nav.surface.collectionId === 'short-films'
     ) {
       return resolveDestinationId(nav.surface.originPrimary ?? primary);
     }

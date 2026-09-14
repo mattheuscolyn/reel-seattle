@@ -22,6 +22,7 @@ export default function InlineQuickDetail({
   onToggleSave,
   onToggleSeen,
   onToggleNotInterested,
+  hideFilmActions = false,
 }) {
   if (!detail) return null;
 
@@ -99,6 +100,7 @@ export default function InlineQuickDetail({
         </div>
       </div>
 
+      {!hideFilmActions ? (
       <div className="v2-inline-detail-actions" role="group" aria-label="Film actions">
         <button
           type="button"
@@ -147,6 +149,7 @@ export default function InlineQuickDetail({
           <span>Not interested</span>
         </button>
       </div>
+      ) : null}
     </div>
   );
 }

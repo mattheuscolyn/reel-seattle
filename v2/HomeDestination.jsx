@@ -8,6 +8,7 @@ import {
   buildOpeningThisWeekShelf,
   buildSpecialPresentationsShelf,
 } from './home/shelfData.js';
+import { buildShortFilmsShelf } from './shortsPrograms/composeHomeShortFilms.js';
 import {
   getHomeLandingMockupPresentation,
   isHomeMockupMode,
@@ -23,8 +24,10 @@ export default function HomeDestination({
   loadStatus = 'loading',
   homeData = null,
   enrichmentIndex = null,
+  shortsIndex = null,
   errorMessage = null,
   onOpenFilmDetail,
+  onOpenShortDetail,
   onOpenCollection,
   onOpenShowtimesBrowse,
   restoreState = null,
@@ -77,6 +80,13 @@ export default function HomeDestination({
   const openingShelf = mockup
     ? mockup.openingShelf
     : buildOpeningThisWeekShelf(dataForShelves, enrichmentIndex);
+  const shortFilmsShelf = mockup
+    ? { status: 'unavailable', films: [] }
+    : buildShortFilmsShelf(
+        dataForShelves,
+        shortsIndex,
+        enrichmentIndex,
+      );
   const announcedShelf = buildJustAnnouncedShelf(
     dataForShelves,
     mockup ? null : enrichmentIndex,
@@ -103,6 +113,25 @@ export default function HomeDestination({
     });
   };
 
+  const openShortFromHome = ({
+    shortId,
+    shortsProgramId,
+    shelfId,
+    filmKeyExpanded,
+  }) => {
+    const homeRestore = captureHomeRestore({
+      expandedShelfId: shelfId ?? expanded.shelfId,
+      expandedFilmKey: filmKeyExpanded ?? expanded.filmKey,
+      topOppIndex,
+    });
+    onOpenShortDetail?.({
+      shortId,
+      shortsProgramId: shortsProgramId ?? null,
+      originPrimary: 'home',
+      homeRestore,
+    });
+  };
+
   const setShelfExpansion = (shelfId, filmKey) => {
     if (!filmKey) {
       setExpanded({ shelfId: null, filmKey: null });
@@ -110,6 +139,11 @@ export default function HomeDestination({
     }
     setExpanded({ shelfId, filmKey });
   };
+
+  const showShortFilmsShelf =
+    !mockup &&
+    Array.isArray(shortFilmsShelf.films) &&
+    shortFilmsShelf.films.length > 0;
 
   return (
     <div
@@ -224,6 +258,40 @@ export default function HomeDestination({
           })
         }
       />
+
+      {showShortFilmsShelf ? (
+        <FilmShelf
+          id="v2-short-films"
+          title="Short Films"
+          shelf={shortFilmsShelf}
+          homeData={effectiveHomeData}
+          enrichmentIndex={enrichmentIndex}
+          expandedFilmKey={
+            expanded.shelfId === 'v2-short-films' ? expanded.filmKey : null
+          }
+          onExpandFilm={(filmKey) =>
+            setShelfExpansion('v2-short-films', filmKey)
+          }
+          onSeeAll={() =>
+            onOpenCollection({
+              collectionId: COLLECTION_IDS.shortFilms,
+              originPrimary: 'home',
+            })
+          }
+          onMoreDetails={({
+            shortId,
+            primaryShortsProgramId,
+            filmKey,
+          }) =>
+            openShortFromHome({
+              shortId: shortId || filmKey,
+              shortsProgramId: primaryShortsProgramId ?? null,
+              shelfId: 'v2-short-films',
+              filmKeyExpanded: filmKey,
+            })
+          }
+        />
+      ) : null}
 
       <FilmShelf
         id="v2-announced"
