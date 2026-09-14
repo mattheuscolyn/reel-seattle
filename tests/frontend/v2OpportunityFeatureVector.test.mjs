@@ -741,4 +741,7 @@ test('non_film_event classification becomes isNonFilmEvent eligibility evidence'
   assert.equal(ordinaryVector.eligibilityInputs.isNonFilmEvent, false);
   assert.equal(shortsVector.eligibilityInputs.contentClassification, 'shorts_program');
   assert.equal(shortsVector.eligibilityInputs.isNonFilmEvent, false);
+  assert.equal(shortsVector.eligibilityInputs.isShortsProgram, true);
+  assert.equal(ordinaryVector.eligibilityInputs.isShortsProgram, false);
+  assert.equal(classifiedVector.eligibilityInputs.isShortsProgram, false);
 });

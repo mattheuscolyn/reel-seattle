@@ -7,6 +7,7 @@ import {
   joinOpeningEntryOpportunities,
 } from '../adapters/buildOpeningThisWeek.js';
 import { formatRuntimeLabel } from '../home/shelfData.js';
+import { homeFilmKeyIsShortsProgram } from '../home/excludeShortsProgramsFromStandardHome.js';
 import { formatUserFacingFormatLabel } from '../topOpportunities/topOpportunityFormat.js';
 import { buildOpeningDateCopy, pacificTodayIso } from './openingDateCopy.js';
 import { resolveOpeningEntryPresentation } from './resolveOpeningEntryPresentation.js';
@@ -156,7 +157,9 @@ export function buildLiveOpeningThisWeekPresentation(
     : [];
   const theatersById = homeData?.theatersById ?? {};
 
-  const presentationFilms = opening.entries.map((entry) => {
+  const presentationFilms = opening.entries
+    .filter((entry) => !homeFilmKeyIsShortsProgram(homeData, entry?.filmKey))
+    .map((entry) => {
     const resolved = resolveOpeningEntryPresentation(entry, {
       homeData,
       enrichmentIndex,

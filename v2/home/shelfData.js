@@ -27,6 +27,7 @@ import {
   collectSpecialPresentationsByFilm,
   specialPresentationBrowseLabel,
 } from '../specialPresentations/collectSpecialPresentations.js';
+import { homeFilmKeyIsShortsProgram } from './excludeShortsProgramsFromStandardHome.js';
 
 export { resolveJustAnnouncedOpeningDate } from '../justAnnounced/resolveJustAnnouncedOpeningDate.js';
 export {
@@ -110,7 +111,11 @@ export function buildOpeningThisWeekShelf(homeData, enrichmentIndex = null) {
     ? homeData.opportunities
     : [];
 
-  const enrichedEntries = entries.map((entry) => {
+  const enrichedEntries = entries
+    .filter(
+      (entry) => !homeFilmKeyIsShortsProgram(homeData, entry?.filmKey),
+    )
+    .map((entry) => {
     const resolved = resolveOpeningEntryPresentation(entry, {
       homeData,
       enrichmentIndex,
@@ -128,6 +133,17 @@ export function buildOpeningThisWeekShelf(homeData, enrichmentIndex = null) {
       enriched: resolved.enriched,
     };
   });
+
+  if (enrichedEntries.length === 0) {
+    return {
+      status: 'unavailable',
+      reason: 'Nothing opening in Seattle this week.',
+      emptyTitle: 'Nothing opening this week',
+      emptyBody: 'No films are opening in Seattle theaters this week.',
+      semantics: 'opening-this-week-empty',
+      films: [],
+    };
+  }
 
   const ranked = rankOpeningShelfEntries(enrichedEntries, {
     maxCards: HOME_OPENING_SHELF_MAX_CARDS,
@@ -238,10 +254,25 @@ export function buildLeavingSoonShelf(homeData, enrichmentIndex = null, options 
     };
   }
 
+  const eligibleEntries = entries.filter(
+    (entry) => !homeFilmKeyIsShortsProgram(homeData, entry?.filmKey),
+  );
+  if (eligibleEntries.length === 0) {
+    return {
+      status: 'unavailable',
+      reason: 'Nothing looks like it is leaving soon right now.',
+      emptyTitle: 'Nothing leaving soon right now',
+      emptyBody:
+        'No theatrical runs currently look like they are winding down. Absence of a badge is not a guarantee a film will stay.',
+      semantics: 'leaving-soon-empty',
+      films: [],
+    };
+  }
+
   const selected =
     Number.isFinite(maxCards) && maxCards >= 0
-      ? entries.slice(0, maxCards)
-      : entries;
+      ? eligibleEntries.slice(0, maxCards)
+      : eligibleEntries;
   const shelfFilms = selected.map((entry) => {
     const resolved = resolveCanonicalFilmPresentation({
       filmKey: entry.filmKey,
@@ -439,6 +470,7 @@ export function buildJustAnnouncedShelf(
   const films = Array.isArray(homeData.films) ? homeData.films : [];
   const eligible = newlyAdded
     .filter((entry) => entry?.hasActiveShowtimes === true)
+    .filter((entry) => !homeFilmKeyIsShortsProgram(homeData, entry?.filmKey))
     .filter((entry) => {
       const first =
         typeof entry.firstObservedAt === 'string'
