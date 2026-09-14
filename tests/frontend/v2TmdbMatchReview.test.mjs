@@ -11,8 +11,17 @@ import {
   createInitialNavState,
   navigateBack,
   openAdminTmdbReview,
+  openCollection,
+  openProfileSettings,
   selectPrimaryDestination,
 } from '../../v2/navigation/navState.js';
+import {
+  clearAuthSensitiveTabState,
+  createEmptyTabSessions,
+  isAuthSensitiveSurfaceType,
+  shouldClearAuthSensitiveNav,
+} from '../../v2/navigation/primaryTabSessions.js';
+import { COLLECTION_IDS } from '../../v2/explore/exploreIds.js';
 import {
   REVIEW_DECISIONS,
   REVIEW_TABS,
@@ -245,6 +254,55 @@ test('admin route is gated out of primary nav and opens from Profile', () => {
   assert.match(PROFILE_SRC, /profileIsAdmin\(auth\.profile\)/);
   assert.match(PROFILE_SRC, /TMDB Match Review/);
   assert.match(PLACEHOLDER_SRC, /onOpenAdminTmdbReview/);
+});
+
+test('Profile TMDB Admin action opens the existing admin surface and back returns to Profile', () => {
+  assert.match(PROFILE_SRC, /data-profile-section="admin"/);
+  assert.match(PROFILE_SRC, /TMDB Match Review/);
+  assert.match(PROFILE_SRC, /onClick=\{\(\) => onOpenAdminTmdbReview\?\.\(\)\}/);
+  assert.match(PLACEHOLDER_SRC, /onOpenAdminTmdbReview=\{onOpenAdminTmdbReview\}/);
+  assert.match(APP_SRC, /onOpenAdminTmdbReview=\{handleOpenAdminTmdbReview\}/);
+  assert.match(APP_SRC, /shouldClearAuthSensitiveNav/);
+  assert.equal(isAuthSensitiveSurfaceType('admin-tmdb-review'), true);
+
+  let nav = selectPrimaryDestination(createInitialNavState(), 'profile');
+  nav = openProfileSettings(nav, {
+    sectionId: 'about',
+    originPrimary: 'profile',
+  });
+  assert.equal(nav.surface.type, 'profile-settings');
+  assert.equal(nav.surface.sectionId, 'about');
+  nav = navigateBack(nav);
+  assert.equal(nav.surface, null);
+  assert.equal(nav.primaryDestinationId, 'profile');
+
+  nav = openCollection(nav, {
+    collectionId: COLLECTION_IDS.saved,
+    originPrimary: 'profile',
+  });
+  assert.equal(nav.surface.type, 'collection');
+  assert.equal(nav.surface.collectionId, COLLECTION_IDS.saved);
+  nav = navigateBack(nav);
+  assert.equal(nav.surface, null);
+  assert.equal(nav.primaryDestinationId, 'profile');
+
+  nav = openAdminTmdbReview(nav, { originPrimary: 'profile' });
+  assert.equal(nav.surface.type, 'admin-tmdb-review');
+  assert.equal(nav.primaryDestinationId, 'profile');
+  assert.equal(resolveActivePrimaryId(nav), 'profile');
+
+  assert.equal(
+    shouldClearAuthSensitiveNav('admin-user', null, 'loading'),
+    false,
+  );
+  const live = clearAuthSensitiveTabState(nav, createEmptyTabSessions());
+  assert.equal(live.changed, true);
+  assert.equal(live.nav.surface, null);
+  assert.equal(live.nav.primaryDestinationId, 'profile');
+
+  nav = navigateBack(nav);
+  assert.equal(nav.surface, null);
+  assert.equal(nav.primaryDestinationId, 'profile');
 });
 
 test('non-admin and unsigned-in surfaces fail closed without loading reviews', () => {

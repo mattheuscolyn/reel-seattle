@@ -14,6 +14,7 @@ import {
   createEmptyTabSessions,
   openPrimaryTabRoot,
   resolvePrimaryTabGesture,
+  shouldClearAuthSensitiveNav,
   switchPrimaryTab,
 } from './navigation/primaryTabSessions.js';
 import { loadHomeData } from './data/loadHomeData.js';
@@ -375,13 +376,13 @@ export default function V2App() {
     const userId =
       auth.status === 'signed_in' && auth.user?.id ? auth.user.id : null;
     const prev = prevAuthUserIdRef.current;
-    if (prev === undefined) {
-      prevAuthUserIdRef.current = userId;
+    if (!shouldClearAuthSensitiveNav(prev, userId, auth.status)) {
+      if (prev === undefined || auth.status !== 'loading') {
+        prevAuthUserIdRef.current = userId;
+      }
       return;
     }
-    if (prev === userId) return;
     prevAuthUserIdRef.current = userId;
-    if (prev == null) return;
     const { nav: nextNav, sessions, changed } = clearAuthSensitiveTabState(
       navRef.current,
       tabSessionsRef.current,

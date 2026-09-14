@@ -214,6 +214,25 @@ test('initial session restoration signed out', async () => {
   assert.equal(getAuthState().session, null);
 });
 
+test('startAuthController is a no-op when already started', async () => {
+  const client = createMockClient({ session: null });
+  const env = {
+    VITE_SUPABASE_URL: 'https://example.supabase.co',
+    VITE_SUPABASE_PUBLISHABLE_KEY: 'pk',
+  };
+  await startAuthController({ env, getClient: () => client });
+  assert.equal(getAuthState().status, 'signed_out');
+  assert.equal(client.auth.__listenerCount(), 1);
+
+  const seen = [];
+  const unsub = subscribeAuth((s) => seen.push(s.status));
+  const again = await startAuthController({ env, getClient: () => client });
+  unsub();
+  assert.equal(again.status, 'signed_out');
+  assert.equal(seen.includes('loading'), false);
+  assert.equal(client.auth.__listenerCount(), 1);
+});
+
 test('initial session restoration signed in + profile fetch', async () => {
   const user = mockUser();
   const session = { user, access_token: 't' };

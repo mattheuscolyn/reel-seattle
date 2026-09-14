@@ -183,6 +183,22 @@ export function isAuthSensitiveSurfaceType(surfaceType) {
 }
 
 /**
+ * Whether an auth identity transition should drop private surfaces.
+ * Session restore (`loading`) is not a sign-out or account switch.
+ *
+ * @param {string | null | undefined} prevUserId
+ * @param {string | null} nextUserId
+ * @param {string | null | undefined} authStatus
+ */
+export function shouldClearAuthSensitiveNav(prevUserId, nextUserId, authStatus) {
+  if (prevUserId === undefined) return false;
+  if (authStatus === 'loading') return false;
+  if (prevUserId === nextUserId) return false;
+  if (prevUserId == null) return false;
+  return true;
+}
+
+/**
  * @param {PrimaryTabSession | null} session
  * @returns {PrimaryTabSession | null}
  */

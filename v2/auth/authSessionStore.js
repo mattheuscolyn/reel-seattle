@@ -278,6 +278,7 @@ async function applySession(session, client) {
  * }} [options]
  */
 export async function startAuthController(options = {}) {
+  if (started) return getAuthState();
   const generation = ++startGeneration;
   const getClient = options.getClient ?? getSupabaseClient;
   const env = options.env;

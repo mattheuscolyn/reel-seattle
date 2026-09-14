@@ -19,6 +19,7 @@ import {
   createEmptyTabSessions,
   isAuthSensitiveSurfaceType,
   navFromTabSession,
+  shouldClearAuthSensitiveNav,
   openPrimaryTabRoot,
   resolveOwningPrimaryTab,
   resolvePrimaryTabGesture,
@@ -262,6 +263,13 @@ describe('primary tab sessions', () => {
 
   test('auth reset clears private profile resume state', () => {
     assert.equal(isAuthSensitiveSurfaceType('profile-friends'), true);
+    assert.equal(isAuthSensitiveSurfaceType('admin-tmdb-review'), true);
+    assert.equal(shouldClearAuthSensitiveNav(undefined, 'user-1', 'signed_in'), false);
+    assert.equal(shouldClearAuthSensitiveNav('user-1', 'user-1', 'signed_in'), false);
+    assert.equal(shouldClearAuthSensitiveNav('user-1', null, 'loading'), false);
+    assert.equal(shouldClearAuthSensitiveNav(null, 'user-1', 'signed_in'), false);
+    assert.equal(shouldClearAuthSensitiveNav('user-1', null, 'signed_out'), true);
+    assert.equal(shouldClearAuthSensitiveNav('user-1', 'user-2', 'signed_in'), true);
     let nav = openProfileFriends(
       selectPrimaryDestination(createInitialNavState(), 'profile'),
       { originPrimary: 'profile', focusUserId: 'user-1' },
