@@ -46,6 +46,11 @@ def _film_html(
     title: str = "FIXTURE BEACON FILM",
     showtimes: list[tuple[str, str]] | None = None,
     title_tag: str | None = None,
+    runtime: str | None = "102 minutes",
+    release_year: int | str | None = 1985,
+    description: str | None = None,
+    include_meta: bool = True,
+    legacy_runtime: bool = False,
 ) -> str:
     if showtimes is None:
         showtimes = [
@@ -66,12 +71,52 @@ def _film_html(
             """
         )
     head_title = title_tag if title_tag is not None else f"{title} — The Beacon"
+    year_html = (
+        f'<p class="movie-year">{release_year}</p>'
+        if release_year not in (None, "")
+        else ""
+    )
+    if legacy_runtime and runtime:
+        runtime_html = f'<div class="w-8"><h4>Runtime</h4><p>{runtime}</p></div>'
+    elif include_meta and runtime:
+        runtime_html = f"""
+        <div class="movie-meta">
+          <div class="meta-grid">
+            <div class="meta-field">
+              <p class="meta-label">Director</p>
+              <p class="meta-value">Fixture Director</p>
+            </div>
+            <div class="meta-field">
+              <p class="meta-label">Runtime</p>
+              <p class="meta-value">{runtime}</p>
+            </div>
+          </div>
+        </div>
+        """
+    elif include_meta:
+        runtime_html = """
+        <div class="movie-meta">
+          <div class="meta-grid">
+            <div class="meta-field">
+              <p class="meta-label">Director</p>
+              <p class="meta-value">Fixture Director</p>
+            </div>
+          </div>
+        </div>
+        """
+    else:
+        runtime_html = ""
+    description_html = ""
+    if description is not None:
+        description_html = f'<div class="movie-description prose">{description}</div>'
     return f"""<!DOCTYPE html>
 <html>
 <head><title>{head_title}</title></head>
 <body>
-  <h1>{title}</h1>
-  <div class="w-8"><h4>Runtime</h4><p>102 minutes</p></div>
+  <h1 class="movie-title">{title}</h1>
+  {year_html}
+  {runtime_html}
+  {description_html}
   <div class="movie-showtimes">{''.join(rows)}</div>
 </body>
 </html>
@@ -81,6 +126,11 @@ def _film_html(
 @pytest.fixture
 def beacon_film_html() -> str:
     return (FIXTURES_DIR / "beacon_film.html").read_text(encoding="utf-8")
+
+
+@pytest.fixture
+def beacon_film_legacy_html() -> str:
+    return (FIXTURES_DIR / "beacon_film_legacy.html").read_text(encoding="utf-8")
 
 
 @pytest.fixture
@@ -119,6 +169,176 @@ def test_beacon_runtime_extracted_when_present(beacon_film_html):
         scrape_date=date(2026, 6, 26),
     )
     assert records[0].runtime_raw == "102"
+
+
+def test_beacon_current_markup_runtime_extraction():
+    html = _film_html(runtime="130 minutes", release_year=1985)
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url="https://thebeacon.film/calendar/movie/capone-cries-a-lot",
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    assert records[0].runtime_raw == "130"
+
+
+def test_beacon_current_markup_release_year_extraction():
+    html = _film_html(runtime="86 minutes", release_year=1992)
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url="https://thebeacon.film/calendar/movie/death-and-the-compass",
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    assert records[0].attributes is not None
+    assert records[0].attributes.get("release_year") == 1992
+
+
+def test_beacon_legacy_runtime_markup_still_works(beacon_film_legacy_html):
+    records = BeaconAdapter.parse_film_page(
+        beacon_film_legacy_html,
+        film_url=FILM_URL,
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    assert records[0].runtime_raw == "102"
+    assert records[0].attributes is not None
+    assert "release_year" not in records[0].attributes
+
+
+def test_beacon_missing_runtime_remains_unknown():
+    html = _film_html(runtime=None, release_year=1981)
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url=FILM_URL,
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    assert records[0].runtime_raw == "Unknown"
+
+
+def test_beacon_missing_year_remains_absent():
+    html = _film_html(runtime="141 minutes", release_year=None)
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url=FILM_URL,
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    assert records[0].attributes is not None
+    assert "release_year" not in records[0].attributes
+
+
+def test_beacon_description_years_do_not_override_metadata_year():
+    html = _film_html(
+        runtime="130 minutes",
+        release_year=1985,
+        description=(
+            "Shot after 1941 and restored in 2020. Festival notes from 2019 remain "
+            "unrelated. Screenings continue through 2026."
+        ),
+    )
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url=FILM_URL,
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    assert records[0].attributes is not None
+    assert records[0].attributes.get("release_year") == 1985
+
+
+def test_beacon_screening_date_year_is_not_release_year():
+    html = _film_html(
+        runtime="106 minutes",
+        release_year=1992,
+        showtimes=[("Tue, Sep 15 at 4:30 PM", "INV-SCREEN-2026")],
+    )
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url=FILM_URL,
+        window_start=date(2026, 9, 1),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 9, 13),
+    )
+    assert len(records) == 1
+    assert records[0].date_raw.endswith("/2026")
+    assert records[0].attributes is not None
+    assert records[0].attributes.get("release_year") == 1992
+    assert records[0].attributes.get("year_inferred") is True
+
+
+def test_beacon_multiple_current_live_like_films():
+    cases = [
+        ("CAPONE CRIES A LOT", "capone-cries-a-lot", "130 minutes", 1985),
+        ("DEATH AND THE COMPASS", "death-and-the-compass", "86 minutes", 1992),
+        ("EXCALIBUR", "excalibur", "141 minutes", 1981),
+        ("REBELS OF THE NEON GOD", "rebels-of-the-neon-god", "106 minutes", 1992),
+    ]
+    for title, slug, runtime, year in cases:
+        html = _film_html(
+            title=title,
+            runtime=runtime,
+            release_year=year,
+            showtimes=[("Fri, Sep 18 at 7:00 PM", f"INV-{slug}")],
+        )
+        records = BeaconAdapter.parse_film_page(
+            html,
+            film_url=f"https://thebeacon.film/calendar/movie/{slug}",
+            window_start=date(2026, 9, 1),
+            window_end=date(2026, 12, 31),
+            scrape_date=date(2026, 9, 13),
+        )
+        assert records[0].title_raw == title
+        assert records[0].runtime_raw == runtime.split()[0]
+        assert records[0].attributes is not None
+        assert records[0].attributes.get("release_year") == year
+
+
+def test_beacon_scrape_log_preserves_release_year_and_runtime():
+    from reel_seattle.adapters.base import FetchResult
+    from reel_seattle.adapters.scrape_log import (
+        build_scrape_log_artifact,
+        record_dict_to_raw_showtime,
+    )
+
+    html = _film_html(runtime="130 minutes", release_year=1985)
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url="https://thebeacon.film/calendar/movie/capone-cries-a-lot",
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    artifact = build_scrape_log_artifact(
+        "beacon",
+        FetchResult(records=records, warnings=[], errors=[], stats={}),
+    )
+    payload = artifact["records"][0]
+    assert payload["runtime_raw"] == "130"
+    assert payload["attributes"]["release_year"] == 1985
+    restored = record_dict_to_raw_showtime(payload)
+    assert restored.runtime_raw == "130"
+    assert restored.attributes is not None
+    assert restored.attributes.get("release_year") == 1985
+
+
+def test_beacon_legacy_csv_receives_normalized_runtime(beacon_film_html):
+    records = BeaconAdapter.parse_film_page(
+        beacon_film_html,
+        film_url=FILM_URL,
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    row = raw_showtime_to_legacy_row(records[0])
+    assert row["Runtime"] == "102"
 
 
 def test_beacon_missing_poster_remains_empty(beacon_film_html):

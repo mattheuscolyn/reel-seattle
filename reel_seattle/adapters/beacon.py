@@ -171,7 +171,52 @@ def _extract_beacon_title(soup: BeautifulSoup) -> str:
     return "Unknown Movie"
 
 
+_RUNTIME_MINUTES_RE = re.compile(
+    r"(?P<minutes>\d+)\s*(?:minutes?|mins?|min\.?)?",
+    re.IGNORECASE,
+)
+_RELEASE_YEAR_RE = re.compile(r"^(?P<year>(?:18|19|20)\d{2})$")
+
+
+def _normalize_runtime_raw(value: str | None) -> str | None:
+    """Normalize a Runtime label value to digits-only minutes, or None."""
+    text = (value or "").strip()
+    if not text or text.casefold() in {"unknown", "n/a", "na", "—", "-"}:
+        return None
+    match = _RUNTIME_MINUTES_RE.search(text)
+    if not match:
+        return None
+    minutes = int(match.group("minutes"))
+    if minutes <= 0 or minutes > 24 * 60:
+        return None
+    return str(minutes)
+
+
+def _meta_field_value(soup: BeautifulSoup, label: str) -> str | None:
+    """Read ``meta-value`` paired with a ``meta-label`` inside ``meta-field``."""
+    wanted = label.casefold()
+    for field in soup.select("div.meta-field"):
+        label_el = field.select_one(".meta-label")
+        if label_el is None:
+            continue
+        if label_el.get_text(" ", strip=True).casefold() != wanted:
+            continue
+        value_el = field.select_one(".meta-value")
+        if value_el is None:
+            continue
+        text = value_el.get_text(" ", strip=True)
+        if text:
+            return text
+    return None
+
+
 def _extract_runtime(soup: BeautifulSoup) -> str:
+    """Extract runtime minutes from current or legacy Beacon film markup."""
+    current = _normalize_runtime_raw(_meta_field_value(soup, "Runtime"))
+    if current:
+        return current
+
+    # Legacy markup: div.w-8 > h4 Runtime > p
     for div in soup.find_all("div", class_="w-8"):
         heading = div.find("h4")
         if heading is None or "Runtime" not in heading.get_text():
@@ -179,8 +224,29 @@ def _extract_runtime(soup: BeautifulSoup) -> str:
         paragraph = div.find("p")
         if paragraph is None:
             continue
-        return paragraph.get_text(strip=True).replace(" minutes", "")
+        legacy = _normalize_runtime_raw(paragraph.get_text(" ", strip=True))
+        if legacy:
+            return legacy
     return "Unknown"
+
+
+def _extract_release_year(soup: BeautifulSoup) -> int | None:
+    """Extract original release year from the film-page ``movie-year`` element.
+
+    Only the dedicated year node is accepted — never arbitrary page years from
+    descriptions or screening dates.
+    """
+    year_el = soup.select_one("p.movie-year, .movie-year")
+    if year_el is None:
+        return None
+    text = year_el.get_text(" ", strip=True)
+    match = _RELEASE_YEAR_RE.fullmatch(text)
+    if not match:
+        return None
+    year = int(match.group("year"))
+    if year < 1888 or year > 2100:
+        return None
+    return year
 
 
 def _format_beacon_time(raw_time: str) -> str | None:
@@ -320,6 +386,7 @@ def parse_beacon_film_page(
     soup = BeautifulSoup(html, "html.parser")
     movie_title = _extract_beacon_title(soup)
     runtime = _extract_runtime(soup)
+    release_year = _extract_release_year(soup)
     canonical_url = canonicalize_beacon_movie_url(film_url) if film_url else None
     slug = beacon_slug_from_url(canonical_url) if canonical_url else None
 
@@ -372,6 +439,9 @@ def parse_beacon_film_page(
             "raw_date_text": raw_date_text,
             "year_inferred": year_inferred,
         }
+        if release_year is not None:
+            # Source-neutral key shared with NWFF / Central Cinema mapping.
+            attributes["release_year"] = release_year
         if slug:
             attributes["source_film_id"] = slug
             attributes["source_program_id"] = slug
