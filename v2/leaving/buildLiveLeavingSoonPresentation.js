@@ -5,6 +5,7 @@
 
 import { joinLeavingSoonEntryToHomeFilm } from '../adapters/buildLeavingSoon.js';
 import { formatRuntimeLabel } from '../home/shelfData.js';
+import { homeFilmKeyIsShortsProgram } from '../home/excludeShortsProgramsFromStandardHome.js';
 import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
 import {
   aggregateTheatersFromRows,
@@ -96,7 +97,29 @@ export function buildLiveLeavingSoonPresentation(
 
   const films = Array.isArray(homeData?.films) ? homeData.films : [];
 
-  const presentationFilms = entries.map((entry) => {
+  const eligibleEntries = entries.filter(
+    (entry) => !homeFilmKeyIsShortsProgram(homeData, entry?.filmKey),
+  );
+  if (eligibleEntries.length === 0) {
+    return {
+      source: 'live-empty',
+      pageTitle: 'Leaving Soon',
+      pageSubtitle: null,
+      countLabel: null,
+      emptyTitle: 'Nothing leaving soon right now.',
+      emptyBody:
+        'No theatrical runs currently look like they are winding down. Absence of a badge is not a guarantee a film will stay.',
+      sortLabel: 'Sort',
+      filtersLabel: 'Filters',
+      films: [],
+      sections: [],
+      categoryChips: [],
+      showCategoryChips: false,
+      totalCount: 0,
+    };
+  }
+
+  const presentationFilms = eligibleEntries.map((entry) => {
     const joined = joinLeavingSoonEntryToHomeFilm(entry, films);
     const resolved = resolveCanonicalFilmPresentation({
       filmKey: entry.filmKey ?? joined?.filmKey ?? null,

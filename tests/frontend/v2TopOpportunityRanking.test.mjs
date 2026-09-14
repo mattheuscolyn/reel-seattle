@@ -1599,7 +1599,7 @@ test('missing content classification keeps ordinary screenings eligible', () => 
   assert.equal(ordinary.exclusionReason, null);
 });
 
-test('shorts_program is not treated as non_film_event exclusion', () => {
+test('shorts_program is excluded from Top Opportunities eligibility', () => {
   const shorts = evaluateOpportunityEligibility(
     vectorFor(
       baseOpp({
@@ -1611,6 +1611,7 @@ test('shorts_program is not treated as non_film_event exclusion', () => {
       }),
     ),
   );
-  assert.equal(shorts.eligible, true);
+  assert.equal(shorts.eligible, false);
+  assert.equal(shorts.exclusionReason, 'shorts_program');
 });
 

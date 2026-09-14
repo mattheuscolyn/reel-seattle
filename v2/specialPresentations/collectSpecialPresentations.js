@@ -14,6 +14,7 @@ import {
   FORMAT_CANONICAL_IDS,
   opportunityMatchesCanonical,
 } from '../formatsExperiences/formatNormalize.js';
+import { isShortsProgramListing } from '../home/excludeShortsProgramsFromStandardHome.js';
 import { formatUserFacingFormatLabel } from '../topOpportunities/topOpportunityFormat.js';
 
 /** Prefer rarer / more premium specials when a film has multiple. */
@@ -116,6 +117,15 @@ export function collectSpecialPresentationsByFilm(homeData) {
     const filmKey =
       typeof opportunity?.filmKey === 'string' ? opportunity.filmKey.trim() : '';
     if (!filmKey) continue;
+    if (
+      isShortsProgramListing({
+        opportunity,
+        filmKey,
+        homeData,
+      })
+    ) {
+      continue;
+    }
     const matched = matchingSpecialCanonicalIds(opportunity);
     if (matched.length === 0) continue;
     let list = qualifyingByFilm.get(filmKey);

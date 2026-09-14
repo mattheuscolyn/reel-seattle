@@ -41,6 +41,16 @@ export function isNonFilmEventClassification(value) {
 }
 
 /**
+ * @param {unknown} value
+ * @returns {boolean}
+ */
+export function isShortsProgramClassification(value) {
+  return (
+    normalizeContentClassification(value) === CONTENT_CLASSIFICATION_SHORTS_PROGRAM
+  );
+}
+
+/**
  * @param {unknown} doc
  * @returns {Map<string, string>}
  */

@@ -22,6 +22,7 @@ import {
 import { isIsoDate, isLocalTime } from '../adapters/opportunityIdentity.js';
 import {
   isNonFilmEventClassification,
+  isShortsProgramClassification,
   normalizeContentClassification,
 } from '../adapters/contentClassification.js';
 import {
@@ -702,6 +703,7 @@ export function buildOpportunityFeatureVector(screening, context) {
       film?.content_classification,
   );
   const isNonFilmEvent = isNonFilmEventClassification(contentClassification);
+  const isShortsProgram = isShortsProgramClassification(contentClassification);
 
   const filmStats = filmKey ? context.filmAgg.get(filmKey) : null;
   const filmWindowShowtimeCount = filmStats?.count ?? 0;
@@ -887,6 +889,7 @@ export function buildOpportunityFeatureVector(screening, context) {
     hasCurrentOpportunity: Boolean(opportunityKey && sortable && !isCanceled),
     contentClassification,
     isNonFilmEvent,
+    isShortsProgram,
   };
 
   return {

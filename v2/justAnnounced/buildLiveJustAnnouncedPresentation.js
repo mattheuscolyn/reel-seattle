@@ -10,6 +10,7 @@ import {
   formatRuntimeLabel,
   JUST_ANNOUNCED_WINDOW_DAYS,
 } from '../home/shelfData.js';
+import { homeFilmKeyIsShortsProgram } from '../home/excludeShortsProgramsFromStandardHome.js';
 import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
 import {
   aggregateTheatersFromRows,
@@ -70,6 +71,10 @@ export function selectJustAnnouncedEntries(homeData, options = {}) {
       if (!Number.isFinite(parsed)) return false;
       return parsed >= cutoffMs;
     })
+    .filter(
+      (entry) =>
+        !homeFilmKeyIsShortsProgram(homeData, entry?.filmKey, options.shortsIndex),
+    )
     .sort((a, b) => {
       const aMs = announcementSortValue(a.firstObservedAt);
       const bMs = announcementSortValue(b.firstObservedAt);

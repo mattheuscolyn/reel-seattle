@@ -545,6 +545,9 @@ export function evaluateOpportunityEligibility(vector) {
   if (elig.isNonFilmEvent) {
     return { eligible: false, exclusionReason: 'non_film_event' };
   }
+  if (elig.isShortsProgram) {
+    return { eligible: false, exclusionReason: 'shorts_program' };
+  }
   if (!elig.hasCurrentOpportunity) {
     return { eligible: false, exclusionReason: 'not_current_opportunity' };
   }

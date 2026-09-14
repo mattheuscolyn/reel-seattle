@@ -249,6 +249,7 @@ test('past and non_film_event screenings are not selected; public specials remai
   const keys = mixed.selections.map((item) => item.representativeOpportunity.opportunityKey);
   assert.equal(keys.includes('opp-past'), false);
   assert.equal(keys.includes('opp-rental'), false);
+  assert.equal(keys.includes('opp-shorts'), false);
   assert.ok(keys.includes('opp-early'));
   assert.equal(
     mixed.selections.find((item) => item.film.filmKey === 'early-public')
