@@ -4,6 +4,7 @@
  */
 
 import { addIsoDays, pacificDateString } from '../explore/exploreCatalog.js';
+import { collectionAwareDisplayTitle } from './collectionDisplayTitle.js';
 
 export const COLLECTIONS_PAGE_TITLE = 'Collections';
 export const COLLECTIONS_PAGE_TAGLINE =
@@ -124,19 +125,28 @@ export function opportunityListingKey(opportunity) {
 
 /**
  * Display title for a collection member. Presentation only — not identity matching.
+ * Prefer identityTitleCandidate, then evidence-based collection prefix peel.
+ *
  * @param {object | null | undefined} membership
+ * @param {{
+ *   collectionTitle?: string | null,
+ *   titlePrefixAliases?: Iterable<string> | null,
+ * } | null} [collectionEvidence]
  * @returns {string}
  */
-export function memberDisplayTitle(membership) {
+export function memberDisplayTitle(membership, collectionEvidence = null) {
   const identity = asText(membership?.identityTitleCandidate);
   if (identity) return identity;
 
   const raw = asText(membership?.rawTitle);
   if (raw && !/^https?:\/\//i.test(raw)) {
-    const colon = raw.indexOf(': ');
-    if (colon > 2 && colon < 48 && raw.length - colon > 2) {
-      const rest = raw.slice(colon + 2).trim();
-      if (rest) return rest;
+    if (collectionEvidence?.collectionTitle || collectionEvidence?.titlePrefixAliases) {
+      return (
+        collectionAwareDisplayTitle(raw, {
+          collectionTitle: collectionEvidence.collectionTitle,
+          titlePrefixAliases: collectionEvidence.titlePrefixAliases,
+        }) || raw
+      );
     }
     return raw;
   }

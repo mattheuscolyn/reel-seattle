@@ -23,6 +23,10 @@ import {
 import { attachCanonicalScreeningFields } from '../showtimes/canonicalScreening.js';
 import { filmsByKeyFromHomeData } from '../showtimes/qualifyingShowtimes.js';
 import { resolveCanonicalFilmKey } from './resolveCanonicalFilmKey.js';
+import {
+  displayTitleForCollectionListing,
+  indexCollectionDisplayTitleEvidence,
+} from '../exploreCollections/collectionDisplayTitle.js';
 
 export const LEAVING_SOON_EXCLUDED = false;
 
@@ -243,6 +247,7 @@ function mergeTheaterRecord(registryTheater, embeddedTheater) {
  *   leavingSoon?: unknown | null,
  *   pipelineReport?: unknown | null,
  *   eventClassifications?: unknown | null,
+ *   collectionsCurrent?: unknown | null,
  * }} input
  */
 export function buildHomeData(input) {
@@ -252,6 +257,11 @@ export function buildHomeData(input) {
   const showtimesArtifact = input.showtimesCurrent;
   const classificationIndex = indexEventClassifications(
     input.eventClassifications,
+  );
+  const collectionTitleIndex = indexCollectionDisplayTitleEvidence(
+    input.collectionsCurrent && typeof input.collectionsCurrent === 'object'
+      ? input.collectionsCurrent
+      : null,
   );
 
   let registryTheaters = [];
@@ -528,6 +538,15 @@ export function buildHomeData(input) {
       asTrimmedString(raw.source_title) ??
       asTrimmedString(listingFilmRef?.source_title) ??
       title;
+    const collectionIds = asStringArray(attributes.collection_ids);
+    const presentationTitle =
+      displayTitleForCollectionListing(sourceTitle, collectionTitleIndex, {
+        source: asTrimmedString(raw.source),
+        sourceFilmId:
+          asTrimmedString(raw.source_film_id) ??
+          asTrimmedString(listingFilmRef?.source_film_id),
+        collectionIds,
+      }) ?? title;
 
     const opportunity = {
       opportunityKey,
@@ -566,8 +585,8 @@ export function buildHomeData(input) {
     // Prefer parent film catalog row when collapsing a qualifier variant.
     const filmRef = filmRefsByKey.get(filmKey) ?? listingFilmRef;
     const displayTitle = canonical.merged
-      ? parentDisplayTitleHint || asTrimmedString(filmRef?.title) || title
-      : title;
+      ? parentDisplayTitleHint || asTrimmedString(filmRef?.title) || presentationTitle
+      : presentationTitle;
 
     let film = filmAgg.get(filmKey);
     if (!film) {
@@ -609,8 +628,8 @@ export function buildHomeData(input) {
       const isBaseListing =
         showtimeFilmKey === film.filmKey &&
         !isMeaningfulScreeningVariant(screeningVariantType);
-      if (isBaseListing && title) {
-        film.title = title;
+      if (isBaseListing && presentationTitle) {
+        film.title = presentationTitle;
         film.sourceTitle = sourceTitle;
         film.screeningVariantType = null;
         film.isSpecialScreening = false;

@@ -19,6 +19,9 @@ export const V2_LEAVING_SOON_URL = resolveV2DataUrl(
 export const V2_PIPELINE_REPORT_URL = resolveV2DataUrl(
   '/data/pipeline_report.json',
 );
+export const V2_COLLECTIONS_URL = resolveV2DataUrl(
+  '/data/collections_current.json',
+);
 
 /**
  * @param {string} url
@@ -98,6 +101,10 @@ export async function loadHomeData(options = {}) {
     V2_LEAVING_SOON_URL,
     fetchImpl,
   );
+  const collectionsResult = await fetchOptionalJson(
+    V2_COLLECTIONS_URL,
+    fetchImpl,
+  );
 
   let pipelineReport = null;
   if (includePipelineReport) {
@@ -121,6 +128,9 @@ export async function loadHomeData(options = {}) {
   if (!leavingSoonResult.ok) {
     loadErrors.push(leavingSoonResult.error);
   }
+  if (!collectionsResult.ok) {
+    loadErrors.push(collectionsResult.error);
+  }
 
   try {
     const homeData = buildHomeData({
@@ -129,6 +139,7 @@ export async function loadHomeData(options = {}) {
       newlyAdded: newlyAddedResult.ok ? newlyAddedResult.data : null,
       openingThisWeek: openingThisWeekResult.ok ? openingThisWeekResult.data : null,
       leavingSoon: leavingSoonResult.ok ? leavingSoonResult.data : null,
+      collectionsCurrent: collectionsResult.ok ? collectionsResult.data : null,
       pipelineReport,
     });
     return {

@@ -127,10 +127,16 @@ export function buildCanonicalSourceFilm({
     asText(fallback?.film_title) ??
     asText(fallback?.parentDisplayTitle) ??
     null;
+  const sourceTitle =
+    asText(homeFilm?.sourceTitle) ??
+    asText(fallback?.sourceTitle) ??
+    asText(fallback?.source_title) ??
+    title;
 
   return {
     filmId: resolvedId,
     title,
+    sourceTitle,
     posterUrl:
       asText(homeFilm?.posterUrl) ??
       asText(fallback?.posterUrl) ??

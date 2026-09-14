@@ -38,8 +38,14 @@ export function composeShortsProgramDetailPresentation(input) {
     };
   }
 
+  const collectionId = collectionIdsForProgram(program)[0] ?? null;
+  const collection = resolveCollectionCard(input?.collectionsArtifact, collectionId);
+
   const displayTitle =
-    programDisplayTitle(program.title) || asText(program.title) || 'Shorts program';
+    programDisplayTitle(program.title, {
+      collectionTitle: collection?.title,
+      titlePrefixAliases: collection?.titlePrefixAliases,
+    }) || asText(program.title) || 'Shorts program';
   const memberRows = membershipsForProgram(index, shortsProgramId).map((membership) => {
     const short = getShort(index, membership.shortId);
     return {
@@ -82,9 +88,6 @@ export function composeShortsProgramDetailPresentation(input) {
   metaParts.push(
     `${memberRows.length} short ${memberRows.length === 1 ? 'film' : 'films'}`,
   );
-
-  const collectionId = collectionIdsForProgram(program)[0] ?? null;
-  const collection = resolveCollectionCard(input?.collectionsArtifact, collectionId);
 
   const synopsisSource =
     asText(program.description) &&

@@ -90,12 +90,16 @@ export function resolveEnrichedFilmPresentation({
     enrichment ??
     (filmId ? lookupEnrichment(enrichmentIndex, filmId) : null);
 
-  const sourceTitle = asText(sourceFilm?.title);
+  // sourceTitle stays audit/raw when callers provide it separately from the
+  // presentation title (e.g. festival-prefixed NWFF listings).
+  const presentationTitle = asText(sourceFilm?.title);
+  const sourceTitle =
+    asText(sourceFilm?.sourceTitle) ?? presentationTitle;
   const canonicalTitle = asText(row?.display_title) ?? asText(row?.original_title);
   // Canonical film presentation always prefers TMDB title when joined.
   // Home/Opening no longer keep independent source-title precedence.
-  // Without filmId / enrichment, sourceTitle remains (source-based events).
-  const displayTitle = canonicalTitle ?? sourceTitle;
+  // Without filmId / enrichment, cleaned presentation title then raw source.
+  const displayTitle = canonicalTitle ?? presentationTitle ?? sourceTitle;
 
   const canonicalYear =
     typeof row?.release_year === 'number' && Number.isFinite(row.release_year)

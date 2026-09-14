@@ -14,6 +14,27 @@ _SEP = r"\s*[:–—-]\s*"
 _PRESENTS_SEP = rf"(?:{_SEP}|\s+)"
 
 
+_FILM_FESTIVAL_YEAR = re.compile(
+    r"^(?P<brand>.+?)\s+Film Festival\s+(?P<year>\d{4})$",
+    re.IGNORECASE,
+)
+
+
+def film_festival_year_alias(title: str | None) -> str | None:
+    """Derive ``Brand YYYY`` from formal ``Brand Film Festival YYYY`` titles."""
+    text = (title or "").strip()
+    if not text:
+        return None
+    match = _FILM_FESTIVAL_YEAR.match(text)
+    if not match:
+        return None
+    brand = match.group("brand").strip()
+    year = match.group("year")
+    if not brand or len(brand) < 4:
+        return None
+    return f"{brand} {year}"
+
+
 def collection_prefix_candidates(
     title: str | None,
     aliases: Sequence[str] | None = None,
@@ -21,24 +42,32 @@ def collection_prefix_candidates(
     """Conservative prefixes: collection title plus explicit aliases only."""
     out: list[str] = []
     seen: set[str] = set()
+
+    def _push(raw: str | None) -> None:
+        text = (raw or "").strip()
+        if not text:
+            return
+        folded = text.casefold()
+        if folded in seen:
+            return
+        seen.add(folded)
+        out.append(text)
+
     for raw in (title, *(aliases or ())):
         text = (raw or "").strip()
         if not text:
             continue
-        folded = text.casefold()
-        if folded in seen:
-            continue
-        seen.add(folded)
-        out.append(text)
+        _push(text)
         # If the formal title itself has a colon, the leading clause may be the
         # abbreviated series brand ("SFCS at 10: A Decade of Favorites").
         for sep in (": ", " — ", " – ", " - "):
             if sep in text:
                 head = text.split(sep, 1)[0].strip()
-                if head and len(head) >= 4 and head.casefold() not in seen:
-                    seen.add(head.casefold())
-                    out.append(head)
+                if head and len(head) >= 4:
+                    _push(head)
                 break
+    # Listings often use the shorter "Brand YYYY" form of a festival title.
+    _push(film_festival_year_alias(title))
     return tuple(out)
 
 

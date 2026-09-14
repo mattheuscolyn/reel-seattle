@@ -4,6 +4,10 @@
  */
 
 import { CONTENT_CLASSIFICATION_SHORTS_PROGRAM } from '../adapters/contentClassification.js';
+import {
+  collectionPrefixCandidates,
+  stripKnownCollectionPrefix,
+} from '../exploreCollections/collectionDisplayTitle.js';
 
 /**
  * @param {unknown} value
@@ -17,12 +21,30 @@ export function asText(value) {
 
 /**
  * Presentation title for a ShortsProgram (peel festival prefix / (Shorts) suffix).
+ *
+ * When collection evidence is provided, prefix removal uses the shared
+ * collection-aware helper. Without that context, keeps the established
+ * ShortsProgram-only Local Sightings listing peel (this helper is never used
+ * for ordinary feature films).
+ *
  * @param {string | null | undefined} title
+ * @param {{
+ *   collectionTitle?: string | null,
+ *   titlePrefixAliases?: Iterable<string> | null,
+ * }} [evidence]
  */
-export function programDisplayTitle(title) {
+export function programDisplayTitle(title, evidence = {}) {
   const raw = asText(title);
   if (!raw) return null;
-  let next = raw.replace(/^Local Sightings\s+\d{4}\s*[–—-]\s*/i, '');
+
+  const prefixes = collectionPrefixCandidates(
+    evidence?.collectionTitle,
+    evidence?.titlePrefixAliases,
+  );
+  let next =
+    prefixes.length > 0
+      ? stripKnownCollectionPrefix(raw, prefixes) ?? raw
+      : raw.replace(/^Local Sightings\s+\d{4}\s*[–—-]\s*/i, '');
   next = next.replace(/\s*\((?:Shorts|Experimental Shorts)\)\s*$/i, '');
   return asText(next) || raw;
 }

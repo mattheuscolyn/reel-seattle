@@ -64,6 +64,7 @@ export function resolvePresentationSourceFilm(film, homeData = null) {
     return {
       filmId: ownId,
       title: film.title ?? null,
+      sourceTitle: film.sourceTitle ?? film.source_title ?? film.title ?? null,
       posterUrl: film.posterUrl ?? film.poster_url ?? null,
       backdropUrl: film.backdropUrl ?? film.backdrop_url ?? null,
       runtimeMin: film.runtimeMin ?? film.runtime_min ?? null,
@@ -77,6 +78,13 @@ export function resolvePresentationSourceFilm(film, homeData = null) {
   return {
     filmId: ownId ?? asCanonicalFilmId(parent?.filmId) ?? null,
     title: parent?.title ?? film.title ?? null,
+    sourceTitle:
+      parent?.sourceTitle ??
+      film.sourceTitle ??
+      film.source_title ??
+      parent?.title ??
+      film.title ??
+      null,
     posterUrl:
       parent?.posterUrl ??
       film.posterUrl ??

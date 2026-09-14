@@ -10,7 +10,10 @@ from reel_seattle.collections.adapters.beacon import discover_beacon_collections
 from reel_seattle.collections.adapters.nwff import discover_nwff_collections
 from reel_seattle.collections.adapters.siff import discover_siff_collections
 from reel_seattle.collections.artifact import build_artifact, merge_observations
-from reel_seattle.collections.identity_title import identity_title_candidate
+from reel_seattle.collections.identity_title import (
+    collection_prefix_candidates,
+    identity_title_candidate,
+)
 from reel_seattle.collections.ids import collection_id
 from reel_seattle.collections.join import attach_collection_ids_to_showtimes, enrich_memberships
 from reel_seattle.collections.model import (
@@ -144,6 +147,35 @@ def test_nwff_festival_page_links_local_sightings_to_program_listings():
     assert like_a_local.source_film_url.endswith("/local-sightings-2026-like-a-local/")
     # Empty festival landing pages are omitted.
     assert "nwff:free-forum-2026" not in {c.collection_id for c in result.collections}
+
+
+def test_nwff_local_sightings_identity_title_peels_festival_year_form():
+    result = _nwff()
+    festival = next(
+        c
+        for c in result.collections
+        if c.collection_id == "nwff:local-sightings-film-festival-pacific-nw"
+    )
+    assert "Local Sightings 2026" in collection_prefix_candidates(festival.title)
+    sugarfly = next(
+        m for m in result.memberships if m.source_film_id == "local-sightings-2026-sugarfly"
+    )
+    enriched = enrich_memberships([sugarfly], [festival])[0]
+    assert enriched.raw_title.startswith("Local Sightings 2026")
+    assert enriched.identity_title_candidate == "Sugarfly"
+    assert identity_title_candidate(
+        "Local Sightings 2026 – Dad Genes",
+        prefixes=collection_prefix_candidates(festival.title),
+        source="nwff",
+    ) == "Dad Genes"
+    assert (
+        identity_title_candidate(
+            "2001: A Space Odyssey",
+            prefixes=collection_prefix_candidates(festival.title),
+            source="nwff",
+        )
+        is None
+    )
 
 
 

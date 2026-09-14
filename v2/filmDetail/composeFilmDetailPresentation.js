@@ -159,6 +159,7 @@ function composeRealPresentation(
     sourceFilm: {
       filmId: film.filmId ?? null,
       title: film.title ?? null,
+      sourceTitle: film.sourceTitle ?? film.title ?? null,
       posterUrl: film.posterUrl ?? null,
       runtimeMin: film.runtimeMin ?? null,
     },
