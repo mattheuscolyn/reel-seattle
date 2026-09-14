@@ -26,13 +26,21 @@ import {
  *   film: object,
  *   expanded: boolean,
  *   onToggleExpand: (filmKey: string) => void,
- *   onOpenFilmDetail?: (payload: { filmKey: string, opportunityKey?: string | null }) => void,
+ *   onOpenFilmDetail?: (payload: {
+ *     filmKey: string,
+ *     filmId?: string | null,
+ *     opportunityKey?: string | null,
+ *     shortId?: string | null,
+ *     entityKind?: string | null,
+ *     primaryShortsProgramId?: string | null,
+ *   }) => void,
  *   onOpenShowtimes?: (payload: { filmKey: string, theaterId?: string | null, opportunityKey?: string | null }) => void,
  *   filmActionState: (film: object) => { filmRef: object | null, saved: boolean, notInterested: boolean },
  *   onToggleSave: (film: object) => void,
  *   onToggleNotInterested: (film: object) => void,
  *   onStubAction?: (actionId: string, label: string) => void,
  *   expandIdPrefix?: string,
+ *   hideFilmActions?: boolean,
  * }} props
  */
 export default function HomeShelfDetailFilmCard({
@@ -46,6 +54,7 @@ export default function HomeShelfDetailFilmCard({
   onToggleNotInterested,
   onStubAction,
   expandIdPrefix = 'v2-shelf-detail-expand',
+  hideFilmActions = false,
 }) {
   const panelId = `${expandIdPrefix}-${film.filmKey}`;
   const hasShowingMeta = Boolean(
@@ -176,43 +185,45 @@ export default function HomeShelfDetailFilmCard({
           )}
 
           <div className="v2-shelf-detail-card-actions">
-            {(() => {
-              const { filmRef, saved, notInterested } = filmActionState(film);
-              const canAct = Boolean(filmRef);
-              return (
-                <>
-                  <button
-                    type="button"
-                    className={
-                      saved
-                        ? 'v2-shelf-detail-card-action is-active'
-                        : 'v2-shelf-detail-card-action'
-                    }
-                    aria-pressed={saved}
-                    disabled={!canAct}
-                    onClick={() => onToggleSave(film)}
-                  >
-                    <IconBookmark width={16} height={16} aria-hidden="true" />
-                    {saved ? 'Saved' : 'Save'}
-                  </button>
-                  <button
-                    type="button"
-                    className={
-                      notInterested
-                        ? 'v2-shelf-detail-card-action is-active'
-                        : 'v2-shelf-detail-card-action'
-                    }
-                    aria-pressed={notInterested}
-                    disabled={!canAct}
-                    onClick={() => onToggleNotInterested(film)}
-                  >
-                    <IconEyeOff width={16} height={16} aria-hidden="true" />
-                    Not interested
-                  </button>
-                </>
-              );
-            })()}
-            {film.hasUpcomingShowtimes ? (
+            {!hideFilmActions
+              ? (() => {
+                  const { filmRef, saved, notInterested } = filmActionState(film);
+                  const canAct = Boolean(filmRef);
+                  return (
+                    <>
+                      <button
+                        type="button"
+                        className={
+                          saved
+                            ? 'v2-shelf-detail-card-action is-active'
+                            : 'v2-shelf-detail-card-action'
+                        }
+                        aria-pressed={saved}
+                        disabled={!canAct}
+                        onClick={() => onToggleSave(film)}
+                      >
+                        <IconBookmark width={16} height={16} aria-hidden="true" />
+                        {saved ? 'Saved' : 'Save'}
+                      </button>
+                      <button
+                        type="button"
+                        className={
+                          notInterested
+                            ? 'v2-shelf-detail-card-action is-active'
+                            : 'v2-shelf-detail-card-action'
+                        }
+                        aria-pressed={notInterested}
+                        disabled={!canAct}
+                        onClick={() => onToggleNotInterested(film)}
+                      >
+                        <IconEyeOff width={16} height={16} aria-hidden="true" />
+                        Not interested
+                      </button>
+                    </>
+                  );
+                })()
+              : null}
+            {!hideFilmActions && film.hasUpcomingShowtimes ? (
               <button
                 type="button"
                 className="v2-shelf-detail-card-more"
@@ -236,6 +247,9 @@ export default function HomeShelfDetailFilmCard({
                   filmKey: film.filmKey,
                   filmId: film.filmId ?? null,
                   opportunityKey: film.opportunityKey ?? null,
+                  shortId: film.shortId ?? null,
+                  entityKind: film.entityKind ?? null,
+                  primaryShortsProgramId: film.primaryShortsProgramId ?? null,
                 })
               }
             >

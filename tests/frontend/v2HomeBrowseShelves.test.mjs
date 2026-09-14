@@ -142,6 +142,7 @@ describe('Home browse + shelves redesign', () => {
       'id="v2-leaving"',
       'id="v2-special"',
       'id="v2-opening"',
+      'id="v2-short-films"',
       'id="v2-announced"',
     ];
     let cursor = -1;

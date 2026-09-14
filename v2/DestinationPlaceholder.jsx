@@ -10,9 +10,11 @@ import ProfileDestination from './profile/ProfileDestination.jsx';
  *   loadStatus?: 'loading' | 'ready' | 'error',
  *   homeData?: object | null,
  *   enrichmentIndex?: object | null,
+ *   shortsIndex?: object | null,
  *   errorMessage?: string | null,
  *   onSelectDestination?: (id: string) => void,
  *   onOpenFilmDetail?: (payload: object) => void,
+ *   onOpenShortDetail?: (payload: object) => void,
  *   onOpenCollection?: (payload: object) => void,
  *   onOpenShowtimesBrowse?: (payload: object) => void,
  *   homeRestore?: object | null,
@@ -36,9 +38,11 @@ export default function DestinationPlaceholder({
   loadStatus = 'loading',
   homeData = null,
   enrichmentIndex = null,
+  shortsIndex = null,
   errorMessage = null,
   onSelectDestination,
   onOpenFilmDetail,
+  onOpenShortDetail,
   onOpenCollection,
   onOpenShowtimesBrowse,
   homeRestore = null,
@@ -64,9 +68,11 @@ export default function DestinationPlaceholder({
         loadStatus={loadStatus}
         homeData={homeData}
         enrichmentIndex={enrichmentIndex}
+        shortsIndex={shortsIndex}
         errorMessage={errorMessage}
         onSelectDestination={onSelectDestination}
         onOpenFilmDetail={onOpenFilmDetail}
+        onOpenShortDetail={onOpenShortDetail}
         onOpenCollection={onOpenCollection}
         onOpenShowtimesBrowse={onOpenShowtimesBrowse}
         onOpenBuildPlan={onOpenBuildPlan}

@@ -91,6 +91,7 @@ import OpeningThisWeekSurface from './opening/OpeningThisWeekSurface.jsx';
 import LeavingSoonSurface from './leaving/LeavingSoonSurface.jsx';
 import JustAnnouncedSurface from './justAnnounced/JustAnnouncedSurface.jsx';
 import SpecialPresentationsSurface from './specialPresentations/SpecialPresentationsSurface.jsx';
+import ShortFilmsSurface from './shortFilms/ShortFilmsSurface.jsx';
 import BuildPlanSurface from './planner/BuildPlanSurface.jsx';
 import BuildPlanResultsSurface from './planner/BuildPlanResultsSurface.jsx';
 import BuildPlanFilmManageSurface from './planner/BuildPlanFilmManageSurface.jsx';
@@ -894,6 +895,7 @@ export default function V2App() {
           params.returnSurface ??
           (current.surface?.type === 'shorts-program-detail' ||
           current.surface?.type === 'collection-detail' ||
+          current.surface?.type === 'collection' ||
           current.surface?.type === 'short-detail'
             ? current.surface
             : null),
@@ -1280,6 +1282,9 @@ export default function V2App() {
   const isSpecialPresentations =
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.specialPresentations;
+  const isShortFilms =
+    nav.surface?.type === 'collection' &&
+    nav.surface.collectionId === COLLECTION_IDS.shortFilms;
   const isTheatersList =
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.theaters;
@@ -1916,6 +1921,24 @@ export default function V2App() {
         }
       />
     );
+  } else if (isShortFilms) {
+    mainContent = (
+      <ShortFilmsSurface
+        homeData={sharedHomeData.homeData}
+        shortsIndex={shortsProgramsIndex}
+        enrichmentIndex={enrichmentState.index}
+        onOpenShortDetail={({ shortId, shortsProgramId }) =>
+          handleOpenShortDetail({
+            shortId,
+            shortsProgramId: shortsProgramId ?? null,
+            originPrimary: nav.surface.originPrimary ?? 'home',
+            exploreRestore: nav.surface.exploreRestore ?? null,
+            homeRestore: null,
+            returnSurface: nav.surface,
+          })
+        }
+      />
+    );
   } else if (isTheaterDetail) {
     mainContent = (
       <TheaterDetailSurface
@@ -2318,9 +2341,11 @@ export default function V2App() {
         loadStatus={sharedHomeData.status}
         homeData={sharedHomeData.homeData}
         enrichmentIndex={enrichmentState.index}
+        shortsIndex={shortsProgramsIndex}
         errorMessage={sharedHomeData.errorMessage}
         onSelectDestination={handleOpenPrimaryRoot}
         onOpenFilmDetail={handleOpenFilmDetail}
+        onOpenShortDetail={handleOpenShortDetail}
         onOpenCollection={handleOpenCollection}
         onOpenShowtimesBrowse={handleOpenShowtimesBrowse}
         homeRestore={homeRestorePending}

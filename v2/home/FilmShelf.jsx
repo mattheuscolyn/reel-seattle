@@ -3,6 +3,10 @@ import FilmShelfCard from './FilmShelfCard.jsx';
 import InlineQuickDetail from './InlineQuickDetail.jsx';
 import { buildInlineQuickDetail } from './shelfData.js';
 import {
+  buildShortInlineQuickDetail,
+  isShortShelfFilm,
+} from '../shortsPrograms/composeHomeShortFilms.js';
+import {
   isFilmSaved,
   toggleSavedFilm,
 } from '../stores/savedFilmsStore.js';
@@ -43,6 +47,9 @@ function getBrowserStorage() {
  *     filmKey: string,
  *     filmId?: string | null,
  *     opportunityKey: string | null,
+ *     shortId?: string | null,
+ *     entityKind?: string | null,
+ *     primaryShortsProgramId?: string | null,
  *   }) => void,
  *   detailOverride?: object | null,
  *   hideStatusNotes?: boolean,
@@ -79,19 +86,30 @@ export default function FilmShelf({
 
   const expandedFilm =
     films.find((film) => film.filmKey === expandedFilmKey) ?? null;
+  const shortExpanded = isShortShelfFilm(expandedFilm);
   const detail =
     detailOverride &&
     expandedFilm &&
     detailOverride.filmKey === expandedFilm.filmKey
       ? detailOverride
       : expandedFilm && homeData
-        ? buildInlineQuickDetail(homeData, expandedFilm, enrichmentIndex)
+        ? shortExpanded
+          ? buildShortInlineQuickDetail(
+              homeData,
+              expandedFilm,
+              enrichmentIndex,
+            )
+          : buildInlineQuickDetail(homeData, expandedFilm, enrichmentIndex)
         : null;
 
   const storage = getBrowserStorage();
   void actionRevision;
+  const hideFilmActions = Boolean(
+    shortExpanded || detail?.hideFilmActions || detail?.entityKind === 'short',
+  );
   // Prefer shared parent-aware filmRef so variants share Saved/Seen/NI state.
-  const filmRef = detail ? filmRefFromHomeFilm(detail) : null;
+  const filmRef =
+    !hideFilmActions && detail ? filmRefFromHomeFilm(detail) : null;
   const saved = filmRef ? isFilmSaved(storage, filmRef) : false;
   const seen = filmRef ? isFilmSeen(storage, filmRef) : false;
   const notInterested = filmRef
@@ -217,12 +235,20 @@ export default function FilmShelf({
               <InlineQuickDetail
                 detail={detail}
                 panelId={panelId}
+                hideFilmActions={hideFilmActions}
                 onClose={() => onExpandFilm(null)}
                 onMoreDetails={() =>
                   onMoreDetails({
                     filmKey: detail.filmKey,
                     filmId: detail.filmId ?? null,
                     opportunityKey: detail.opportunityKey,
+                    shortId: detail.shortId ?? expandedFilm?.shortId ?? null,
+                    entityKind:
+                      detail.entityKind ?? expandedFilm?.entityKind ?? null,
+                    primaryShortsProgramId:
+                      detail.primaryShortsProgramId ??
+                      expandedFilm?.primaryShortsProgramId ??
+                      null,
                   })
                 }
                 saved={saved}
