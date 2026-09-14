@@ -139,7 +139,10 @@ export function composeCollectionDetail(artifact, collectionId, options = {}) {
       membership.source,
       membership.sourceFilmId,
     );
-    const sourceTitle = memberDisplayTitle(membership);
+    const sourceTitle = memberDisplayTitle(membership, {
+      collectionTitle: collection.title,
+      titlePrefixAliases: collection.titlePrefixAliases,
+    });
     const filmId = asText(membership.canonicalFilmId);
     const presentation = resolveEnrichedFilmPresentation({
       sourceFilm: {
