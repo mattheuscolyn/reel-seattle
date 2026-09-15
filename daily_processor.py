@@ -676,7 +676,6 @@ def main():
     opening_artifact = write_opening_this_week_current(
         history_rows=history_data,
         current_artifact=current_artifact,
-        reference_date=reference_date,
     )
     print(
         f"  {opening_artifact['stats']['entry_count']} openings / "

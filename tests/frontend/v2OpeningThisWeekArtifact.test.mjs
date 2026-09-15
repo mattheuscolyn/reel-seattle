@@ -11,6 +11,7 @@ import {
   refineOpeningCategory,
 } from '../../v2/adapters/buildOpeningThisWeek.js';
 import { buildOpeningThisWeekShelf } from '../../v2/home/shelfData.js';
+import { homeFilmKeyIsShortsProgram } from '../../v2/home/excludeShortsProgramsFromStandardHome.js';
 import { ALLOWED_V2_DATA_ROUTES } from '../../v2/data/allowedDataRoutes.js';
 import { loadHomeData } from '../../v2/data/loadHomeData.js';
 import {
@@ -312,6 +313,23 @@ test('invalid artifact does not break buildHomeData', () => {
   const home = buildHomeData(baseHomeInput({ openingThisWeek: { bad: true } }));
   assert.equal(home.openingThisWeek.status, 'invalid');
   assert.equal(home.films.length > 0, true);
+});
+
+test('Home shelf and See All share the same eligible Opening This Week film set', () => {
+  const home = buildHomeData(baseHomeInput());
+  const shelf = buildOpeningThisWeekShelf(home);
+  const seeAll = buildLiveOpeningThisWeekPresentation(home, null);
+  const eligibleKeys = home.openingThisWeek.entries
+    .filter((entry) => !homeFilmKeyIsShortsProgram(home, entry?.filmKey))
+    .map((entry) => entry.filmKey)
+    .sort();
+  const seeAllKeys = seeAll.films.map((film) => film.filmKey).sort();
+  assert.deepEqual(seeAllKeys, eligibleKeys);
+  assert.equal(shelf.status, 'ready');
+  const seeAllSet = new Set(seeAllKeys);
+  for (const film of shelf.films) {
+    assert.ok(seeAllSet.has(film.filmKey), film.filmKey);
+  }
 });
 
 test('Opening This Week presentation omits redundant intro copy', () => {

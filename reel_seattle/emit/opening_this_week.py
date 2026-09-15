@@ -789,14 +789,9 @@ def write_opening_this_week_current(
         if showtimes_current_path.is_file():
             current_artifact = load_showtimes_current(showtimes_current_path)
 
-    if reference_date is None and current_artifact is not None:
-        window = current_artifact.get("window", {})
-        if isinstance(window, dict) and window.get("start_date"):
-            try:
-                reference_date = date.fromisoformat(str(window["start_date"]))
-            except ValueError:
-                reference_date = None
-
+    # Week membership is Pacific today (Monday–Sunday), not the showtimes
+    # viewing window. showtimes_current.window.start_date can be yesterday or
+    # a Sunday, which would pin Opening This Week to the prior calendar week.
     artifact = build_opening_this_week_current(
         history_rows,
         registry=registry,
