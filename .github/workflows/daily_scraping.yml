@@ -8,12 +8,18 @@ name: Daily Showtime Scraping
 #   4. emit showtimes_current.json with nullable film_id
 #   5. frozen Leaving Soon inference against the new AMC all-announced log
 #      (inside daily_processor; skipped if restate_safe=false / stale / incomplete)
-#   6. validate public artifacts (includes film_id attach regression gate)
-#   7. commit/publish showtimes (+ Leaving Soon snapshot / public artifact when published)
+#   6. emit opening_this_week_current.json (Pacific Monday–Sunday week)
+#   7. validate public artifacts (includes film_id attach regression gate)
+#   8. commit/publish showtimes + derived public artifacts
 #
 # Downstream automated workflows (intentionally separate so failures never block showtimes):
 #   - 07:00 UTC: Film identity matching (film_identity_match.yml) - matches new films
 #   - 08:00 UTC: TMDB enrichment (film_enrichment.yml) - fetches metadata for matched films
+#   - 08:20 UTC Mondays: Opening This Week rebuild (opening_this_week.yml)
+#     so the Pacific calendar week rolls forward after midnight without
+#     waiting for the 06:00 UTC / 23:00 PDT scrape. Shares the
+#     public-data-main-commit concurrency group with this workflow so the
+#     two jobs cannot push at the same time.
 
 on:
   schedule:
@@ -23,6 +29,10 @@ on:
 
 permissions:
   contents: write
+
+concurrency:
+  group: public-data-main-commit
+  cancel-in-progress: false
 
 jobs:
   scrape:
@@ -101,6 +111,7 @@ jobs:
           git add public/data/movies_announcements.csv
           git add public/data/newly_announced.csv
           git add public/data/newly_added_current.json
+          git add public/data/opening_this_week_current.json
           git add public/data/leaving_soon_current.json
           if [ -d data/model_predictions/leaving_soon ]; then
             git add data/model_predictions/leaving_soon/

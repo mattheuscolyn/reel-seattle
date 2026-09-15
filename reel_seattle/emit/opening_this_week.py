@@ -763,6 +763,25 @@ def _load_history_rows(history_path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def opening_membership_payload(artifact: Mapping[str, Any]) -> dict[str, Any]:
+    """Return artifact fields that define week membership, ignoring generated_at."""
+    return {key: value for key, value in artifact.items() if key != "generated_at"}
+
+
+def existing_opening_artifact_matches(path: Path, artifact: Mapping[str, Any]) -> bool:
+    """True when *path* already has the same membership payload as *artifact*."""
+    if not path.is_file():
+        return False
+    try:
+        with path.open(encoding="utf-8") as handle:
+            existing = json.load(handle)
+    except (OSError, json.JSONDecodeError):
+        return False
+    if not isinstance(existing, dict):
+        return False
+    return opening_membership_payload(existing) == opening_membership_payload(artifact)
+
+
 def write_opening_this_week_current(
     history_rows: Sequence[Mapping[str, Any]] | None = None,
     *,
@@ -789,14 +808,9 @@ def write_opening_this_week_current(
         if showtimes_current_path.is_file():
             current_artifact = load_showtimes_current(showtimes_current_path)
 
-    if reference_date is None and current_artifact is not None:
-        window = current_artifact.get("window", {})
-        if isinstance(window, dict) and window.get("start_date"):
-            try:
-                reference_date = date.fromisoformat(str(window["start_date"]))
-            except ValueError:
-                reference_date = None
-
+    # Week membership is Pacific today (Monday–Sunday), not the showtimes
+    # viewing window. showtimes_current.window.start_date can be yesterday or
+    # a Sunday, which would pin Opening This Week to the prior calendar week.
     artifact = build_opening_this_week_current(
         history_rows,
         registry=registry,
@@ -806,6 +820,10 @@ def write_opening_this_week_current(
         generated_at=generated_at,
     )
     validate_opening_this_week_current(artifact)
+
+    if existing_opening_artifact_matches(output_path, artifact):
+        with output_path.open(encoding="utf-8") as handle:
+            return json.load(handle)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8") as handle:

@@ -121,6 +121,16 @@ def test_week_bounds_monday_sunday():
     assert end.weekday() == 6
 
 
+def test_week_rollover_sunday_to_monday_is_deterministic():
+    """Sep 13 2026 (Sunday) is the prior week; Sep 14 (Monday) starts the next."""
+    assert week_bounds(date(2026, 9, 13)) == (date(2026, 9, 7), date(2026, 9, 13))
+    assert week_bounds(date(2026, 9, 14)) == (date(2026, 9, 14), date(2026, 9, 20))
+    sunday_start, _ = week_bounds(date(2026, 9, 13))
+    monday_start, monday_end = week_bounds(date(2026, 9, 14))
+    assert monday_start == sunday_start + timedelta(days=7)
+    assert monday_end == date(2026, 9, 13) + timedelta(days=7)
+
+
 def test_01_brand_new_film_earliest_in_week_included(registry):
     history = [
         _mature_filler(),
@@ -290,6 +300,43 @@ def test_13_monday_sunday_boundaries_inclusive(registry):
     artifact = _build(history, registry=registry)
     assert "monday-bound" in _keys(artifact)
     assert "sunday-bound" in _keys(artifact)
+
+
+def test_monday_through_sunday_each_included(registry):
+    history = [_mature_filler()]
+    expected = []
+    for offset in range(7):
+        title = f"Day {offset} Opener"
+        history.append(_row(WEEK_START + timedelta(days=offset), film=title))
+        expected.append(showtime_film_key(title))
+    artifact = _build(history, registry=registry)
+    keys = _keys(artifact)
+    for film_key in expected:
+        assert film_key in keys
+
+
+def test_september_2026_week_rollover_membership(registry):
+    """On Monday Sep 14 2026, only Sep 14–20 openings are members."""
+    monday = date(2026, 9, 14)
+    history = [
+        _mature_filler(),
+        _row(date(2026, 9, 7), film="Prior Monday Open"),
+        _row(date(2026, 9, 13), film="Prior Sunday Open"),
+        _row(date(2026, 9, 14), film="Current Monday Open"),
+        _row(date(2026, 9, 17), film="Current Thursday Open"),
+        _row(date(2026, 9, 20), film="Current Sunday Open"),
+        _row(date(2026, 9, 21), film="Next Monday Open"),
+    ]
+    artifact = _build(history, registry=registry, reference=monday)
+    assert artifact["week"]["start_date"] == "2026-09-14"
+    assert artifact["week"]["end_date"] == "2026-09-20"
+    keys = _keys(artifact)
+    assert "prior-monday-open" not in keys
+    assert "prior-sunday-open" not in keys
+    assert "current-monday-open" in keys
+    assert "current-thursday-open" in keys
+    assert "current-sunday-open" in keys
+    assert "next-monday-open" not in keys
 
 
 def test_14_pacific_date_boundary_uses_local_calendar_date(registry):
@@ -497,6 +544,123 @@ def test_load_opening_overrides_rejects_bad_action(tmp_path):
     )
     with pytest.raises(ValueError, match="include|exclude"):
         load_opening_overrides(path)
+
+
+def test_write_uses_pacific_today_not_showtimes_window(tmp_path, registry, monkeypatch):
+    """showtimes_current.window.start_date must not become the week anchor."""
+    from reel_seattle.emit import opening_this_week as opening_mod
+
+    monkeypatch.setattr(opening_mod, "pacific_today", lambda now=None: date(2026, 9, 14))
+
+    history = [
+        _mature_filler(),
+        _row(date(2026, 9, 13), film="Sunday Window Film"),
+        _row(date(2026, 9, 14), film="Monday Pacific Film"),
+    ]
+    overrides_path = tmp_path / "overrides.json"
+    overrides_path.write_text(
+        json.dumps({"schema_version": "1.0.0", "overrides": []}),
+        encoding="utf-8",
+    )
+    registry_path = tmp_path / "theaters.json"
+    registry_path.write_text(json.dumps(registry), encoding="utf-8")
+    output_path = tmp_path / "opening_this_week_current.json"
+
+    artifact = write_opening_this_week_current(
+        history_rows=history,
+        output_path=output_path,
+        registry_path=registry_path,
+        overrides_path=overrides_path,
+        showtimes_current_path=None,
+        current_artifact={
+            "window": {"start_date": "2026-09-13", "end_date": "2026-09-26"},
+            "showtimes": [],
+        },
+        reference_date=None,
+        generated_at=datetime(2026, 9, 14, 9, 0, tzinfo=PACIFIC),
+    )
+    assert artifact["week"]["start_date"] == "2026-09-14"
+    assert artifact["week"]["end_date"] == "2026-09-20"
+    keys = _keys(artifact)
+    assert "sunday-window-film" not in keys
+    assert "monday-pacific-film" in keys
+
+
+def test_write_skips_rewrite_when_membership_unchanged(tmp_path, registry):
+    history = [
+        _mature_filler(),
+        _row(date(2026, 9, 14), film="Monday Pacific Film"),
+    ]
+    overrides_path = tmp_path / "overrides.json"
+    overrides_path.write_text(
+        json.dumps({"schema_version": "1.0.0", "overrides": []}),
+        encoding="utf-8",
+    )
+    registry_path = tmp_path / "theaters.json"
+    registry_path.write_text(json.dumps(registry), encoding="utf-8")
+    output_path = tmp_path / "opening_this_week_current.json"
+
+    first = write_opening_this_week_current(
+        history_rows=history,
+        output_path=output_path,
+        registry_path=registry_path,
+        overrides_path=overrides_path,
+        showtimes_current_path=None,
+        reference_date=date(2026, 9, 14),
+        generated_at=datetime(2026, 9, 14, 9, 0, tzinfo=PACIFIC),
+    )
+    first_text = output_path.read_text(encoding="utf-8")
+    second = write_opening_this_week_current(
+        history_rows=history,
+        output_path=output_path,
+        registry_path=registry_path,
+        overrides_path=overrides_path,
+        showtimes_current_path=None,
+        reference_date=date(2026, 9, 14),
+        generated_at=datetime(2026, 9, 14, 18, 0, tzinfo=PACIFIC),
+    )
+    assert output_path.read_text(encoding="utf-8") == first_text
+    assert second["generated_at"] == first["generated_at"]
+
+    rolled = write_opening_this_week_current(
+        history_rows=history,
+        output_path=output_path,
+        registry_path=registry_path,
+        overrides_path=overrides_path,
+        showtimes_current_path=None,
+        reference_date=date(2026, 9, 21),
+        generated_at=datetime(2026, 9, 21, 9, 0, tzinfo=PACIFIC),
+    )
+    assert rolled["week"]["start_date"] == "2026-09-21"
+    assert rolled["generated_at"] != first["generated_at"]
+    assert "monday-pacific-film" not in _keys(rolled)
+
+
+def test_daily_workflows_commit_opening_this_week_artifact(project_root):
+    scraping = (project_root / ".github" / "workflows" / "daily_scraping.yml").read_text(
+        encoding="utf-8"
+    )
+    rebuild = (project_root / ".github" / "workflows" / "opening_this_week.yml").read_text(
+        encoding="utf-8"
+    )
+    assert "git add public/data/opening_this_week_current.json" in scraping
+    assert "git add public/data/opening_this_week_current.json" in rebuild
+    assert "scripts/build_opening_this_week_current.py" in rebuild
+    assert "--reference-date" not in rebuild
+    assert 'cron: "20 8 * * 1"' in rebuild
+    assert "contents: write" in rebuild.split("jobs:", 1)[0]
+    assert "public-data-main-commit" in scraping
+    assert "public-data-main-commit" in rebuild
+    assert "cancel-in-progress: false" in rebuild
+    assert "git diff --cached --quiet" in rebuild
+    assert rebuild.count("git add ") == 1
+    assert "git add public/data/showtimes_current.json" not in rebuild
+    assert "git pull --rebase origin main" in rebuild
+    assert "reference_date=reference_date" not in (
+        (project_root / "daily_processor.py").read_text(encoding="utf-8").split(
+            "Emitting opening_this_week_current.json"
+        )[1]
+    )
 
 
 def test_write_opening_this_week_current(tmp_path, registry, project_root):

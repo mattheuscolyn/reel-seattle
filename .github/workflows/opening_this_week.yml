@@ -1,0 +1,63 @@
+name: Opening This Week rebuild
+
+# Lightweight Monday refresh of opening_this_week_current.json using Pacific today.
+# Daily scraping also emits this artifact (06:00 UTC / 23:00 PDT previous day).
+# This job runs after Pacific midnight on Monday so Monday–Sunday membership
+# rolls forward instead of waiting until that night's scrape.
+#
+# 08:20 UTC is 01:20 PDT and 00:20 PST — after midnight America/Los_Angeles
+# in both offsets. GitHub runners are UTC; the emitter uses ZoneInfo
+# America/Los_Angeles (pacific_today), not the runner's UTC date.
+
+on:
+  schedule:
+    - cron: "20 8 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: public-data-main-commit
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Rebuild opening_this_week_current.json
+        run: python scripts/build_opening_this_week_current.py
+
+      - name: Validate public data artifacts
+        run: python scripts/validate_public_data_artifacts.py
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add public/data/opening_this_week_current.json
+          if git diff --cached --quiet; then
+            echo "No Opening This Week changes to commit."
+            exit 0
+          fi
+          git commit -m "Opening This Week data update $(date +%Y-%m-%d)"
+          git pull --rebase origin main
+          git push
