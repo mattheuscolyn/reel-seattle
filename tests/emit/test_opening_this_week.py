@@ -586,6 +586,56 @@ def test_write_uses_pacific_today_not_showtimes_window(tmp_path, registry, monke
     assert "monday-pacific-film" in keys
 
 
+def test_write_skips_rewrite_when_membership_unchanged(tmp_path, registry):
+    history = [
+        _mature_filler(),
+        _row(date(2026, 9, 14), film="Monday Pacific Film"),
+    ]
+    overrides_path = tmp_path / "overrides.json"
+    overrides_path.write_text(
+        json.dumps({"schema_version": "1.0.0", "overrides": []}),
+        encoding="utf-8",
+    )
+    registry_path = tmp_path / "theaters.json"
+    registry_path.write_text(json.dumps(registry), encoding="utf-8")
+    output_path = tmp_path / "opening_this_week_current.json"
+
+    first = write_opening_this_week_current(
+        history_rows=history,
+        output_path=output_path,
+        registry_path=registry_path,
+        overrides_path=overrides_path,
+        showtimes_current_path=None,
+        reference_date=date(2026, 9, 14),
+        generated_at=datetime(2026, 9, 14, 9, 0, tzinfo=PACIFIC),
+    )
+    first_text = output_path.read_text(encoding="utf-8")
+    second = write_opening_this_week_current(
+        history_rows=history,
+        output_path=output_path,
+        registry_path=registry_path,
+        overrides_path=overrides_path,
+        showtimes_current_path=None,
+        reference_date=date(2026, 9, 14),
+        generated_at=datetime(2026, 9, 14, 18, 0, tzinfo=PACIFIC),
+    )
+    assert output_path.read_text(encoding="utf-8") == first_text
+    assert second["generated_at"] == first["generated_at"]
+
+    rolled = write_opening_this_week_current(
+        history_rows=history,
+        output_path=output_path,
+        registry_path=registry_path,
+        overrides_path=overrides_path,
+        showtimes_current_path=None,
+        reference_date=date(2026, 9, 21),
+        generated_at=datetime(2026, 9, 21, 9, 0, tzinfo=PACIFIC),
+    )
+    assert rolled["week"]["start_date"] == "2026-09-21"
+    assert rolled["generated_at"] != first["generated_at"]
+    assert "monday-pacific-film" not in _keys(rolled)
+
+
 def test_daily_workflows_commit_opening_this_week_artifact(project_root):
     scraping = (project_root / ".github" / "workflows" / "daily_scraping.yml").read_text(
         encoding="utf-8"
@@ -596,6 +646,16 @@ def test_daily_workflows_commit_opening_this_week_artifact(project_root):
     assert "git add public/data/opening_this_week_current.json" in scraping
     assert "git add public/data/opening_this_week_current.json" in rebuild
     assert "scripts/build_opening_this_week_current.py" in rebuild
+    assert "--reference-date" not in rebuild
+    assert 'cron: "20 8 * * 1"' in rebuild
+    assert "contents: write" in rebuild.split("jobs:", 1)[0]
+    assert "public-data-main-commit" in scraping
+    assert "public-data-main-commit" in rebuild
+    assert "cancel-in-progress: false" in rebuild
+    assert "git diff --cached --quiet" in rebuild
+    assert rebuild.count("git add ") == 1
+    assert "git add public/data/showtimes_current.json" not in rebuild
+    assert "git pull --rebase origin main" in rebuild
     assert "reference_date=reference_date" not in (
         (project_root / "daily_processor.py").read_text(encoding="utf-8").split(
             "Emitting opening_this_week_current.json"

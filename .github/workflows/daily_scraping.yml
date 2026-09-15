@@ -15,9 +15,11 @@ name: Daily Showtime Scraping
 # Downstream automated workflows (intentionally separate so failures never block showtimes):
 #   - 07:00 UTC: Film identity matching (film_identity_match.yml) - matches new films
 #   - 08:00 UTC: TMDB enrichment (film_enrichment.yml) - fetches metadata for matched films
-#   - 08:20 UTC: Opening This Week rebuild (opening_this_week.yml) so the
-#     Pacific calendar week rolls forward after midnight without waiting for
-#     the 06:00 UTC / 23:00 PDT scrape
+#   - 08:20 UTC Mondays: Opening This Week rebuild (opening_this_week.yml)
+#     so the Pacific calendar week rolls forward after midnight without
+#     waiting for the 06:00 UTC / 23:00 PDT scrape. Shares the
+#     public-data-main-commit concurrency group with this workflow so the
+#     two jobs cannot push at the same time.
 
 on:
   schedule:
@@ -27,6 +29,10 @@ on:
 
 permissions:
   contents: write
+
+concurrency:
+  group: public-data-main-commit
+  cancel-in-progress: false
 
 jobs:
   scrape:
