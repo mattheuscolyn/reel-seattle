@@ -754,6 +754,71 @@ def run_shadow_evaluation(
     }
 
 
+def compare_shadow_metrics(
+    baseline: Mapping[str, Any],
+    current: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Diff headline movie metrics (and NWFF bucket) for before/after reports."""
+    base_movie = baseline.get("movie_confirm_metrics") or baseline
+    cur_movie = current.get("movie_confirm_metrics") or current
+
+    def _delta(key: str) -> dict[str, Any]:
+        before = base_movie.get(key)
+        after = cur_movie.get(key)
+        delta = None
+        if isinstance(before, (int, float)) and isinstance(after, (int, float)):
+            delta = after - before
+        return {"before": before, "after": after, "delta": delta}
+
+    keys = [
+        "evaluated",
+        "exact_automatic_agreement",
+        "exact_automatic_agreement_pct",
+        "auto_confirmed_correct",
+        "review_required_top_correct",
+        "wrong_top_candidate",
+        "correct_candidate_not_found",
+        "unresolved_no_viable_candidate",
+        "would_auto_solve_today",
+    ]
+    headline = {key: _delta(key) for key in keys}
+    top_correct_before = int(base_movie.get("auto_confirmed_correct") or 0) + int(
+        base_movie.get("review_required_top_correct") or 0
+    )
+    top_correct_after = int(cur_movie.get("auto_confirmed_correct") or 0) + int(
+        cur_movie.get("review_required_top_correct") or 0
+    )
+    headline["correct_top_candidate"] = {
+        "before": top_correct_before,
+        "after": top_correct_after,
+        "delta": top_correct_after - top_correct_before,
+    }
+
+    base_nwff = (base_movie.get("by_source") or {}).get("nwff") or {}
+    cur_nwff = (cur_movie.get("by_source") or {}).get("nwff") or {}
+    nwff_keys = [
+        "n",
+        "exact_agreement",
+        "auto_confirmed_correct",
+        "review_required_top_correct",
+        "wrong_top_candidate",
+        "correct_candidate_not_found",
+        "unresolved_no_viable_candidate",
+    ]
+    nwff: dict[str, Any] = {}
+    for key in nwff_keys:
+        before = base_nwff.get(key, 0)
+        after = cur_nwff.get(key, 0)
+        nwff[key] = {
+            "before": before,
+            "after": after,
+            "delta": (after - before)
+            if isinstance(before, (int, float)) and isinstance(after, (int, float))
+            else None,
+        }
+    return {"headline": headline, "nwff": nwff}
+
+
 def build_shadow_summary_markdown(report: Mapping[str, Any]) -> str:
     movie = report.get("movie_confirm_metrics") or {}
     program = report.get("program_decision_metrics") or {}

@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Frozen shadow-eval headline metrics from the pre-discovery-hygiene baseline run (production_proxy_approximate, 2026-09-15).",
+  "tmdb_mode": "production_proxy_approximate",
+  "generated_at": "2026-09-15T19:22:35+00:00",
+  "movie_confirm_metrics": {
+    "population": 106,
+    "evaluated": 42,
+    "skipped_not_in_inventory": 64,
+    "exact_automatic_agreement": 16,
+    "exact_automatic_agreement_pct": 38.1,
+    "auto_confirmed_correct": 16,
+    "auto_confirmed_correct_pct": 38.1,
+    "review_required_top_correct": 15,
+    "review_required_top_correct_pct": 35.7,
+    "wrong_top_candidate": 0,
+    "wrong_top_candidate_pct": 0.0,
+    "correct_candidate_not_found": 0,
+    "correct_candidate_not_found_pct": 0.0,
+    "unresolved_no_viable_candidate": 11,
+    "unresolved_no_viable_candidate_pct": 26.2,
+    "would_auto_solve_today": 16,
+    "by_outcome": {
+      "auto_confirmed_correct": 16,
+      "correct_candidate_not_found": 0,
+      "review_required_top_correct": 15,
+      "unexpected_manual_short_circuit": 0,
+      "unresolved_no_viable_candidate": 11,
+      "wrong_top_candidate": 0
+    },
+    "by_source": {
+      "amc": {
+        "auto_confirmed_correct": 11,
+        "correct_candidate_not_found": 0,
+        "exact_agreement": 11,
+        "exact_agreement_pct": 45.8,
+        "n": 24,
+        "review_required_top_correct": 11,
+        "unresolved_no_viable_candidate": 2,
+        "wrong_top_candidate": 0
+      },
+      "beacon": {
+        "auto_confirmed_correct": 4,
+        "correct_candidate_not_found": 0,
+        "exact_agreement": 4,
+        "exact_agreement_pct": 57.1,
+        "n": 7,
+        "review_required_top_correct": 1,
+        "unresolved_no_viable_candidate": 2,
+        "wrong_top_candidate": 0
+      },
+      "central_cinema": {
+        "auto_confirmed_correct": 1,
+        "correct_candidate_not_found": 0,
+        "exact_agreement": 1,
+        "exact_agreement_pct": 100.0,
+        "n": 1,
+        "review_required_top_correct": 0,
+        "unresolved_no_viable_candidate": 0,
+        "wrong_top_candidate": 0
+      },
+      "nwff": {
+        "auto_confirmed_correct": 0,
+        "correct_candidate_not_found": 0,
+        "exact_agreement": 0,
+        "exact_agreement_pct": 0.0,
+        "n": 8,
+        "review_required_top_correct": 1,
+        "unresolved_no_viable_candidate": 7,
+        "wrong_top_candidate": 0
+      },
+      "siff": {
+        "auto_confirmed_correct": 0,
+        "correct_candidate_not_found": 0,
+        "exact_agreement": 0,
+        "exact_agreement_pct": 0.0,
+        "n": 2,
+        "review_required_top_correct": 2,
+        "unresolved_no_viable_candidate": 0,
+        "wrong_top_candidate": 0
+      }
+    },
+    "by_blocker": {
+      "auto_confirm_gate_failed": 3,
+      "below_auto_threshold": 6,
+      "same_title_remake_ambiguity": 4,
+      "weak_title_only_match": 2
+    }
+  },
+  "program_decision_metrics": {
+    "by_human_decision": {
+      "non_film": 2
+    },
+    "by_outcome": {
+      "incorrectly_enters_movie_matching_or_review": 2
+    },
+    "by_source": {
+      "central_cinema": 2
+    },
+    "classified_correctly": 0,
+    "classified_correctly_pct": 0.0,
+    "evaluated": 2,
+    "incorrectly_enters_movie_matching_or_review": 2,
+    "incorrectly_enters_movie_matching_or_review_pct": 100.0,
+    "population": 14,
+    "skipped_not_in_inventory": 12
+  }
+}

@@ -42,6 +42,7 @@ from reel_seattle.film_identity.io_util import atomic_write_json  # noqa: E402
 from reel_seattle.film_identity.security import assert_no_tmdb_secret_leakage  # noqa: E402
 from reel_seattle.film_identity.shadow_eval import (  # noqa: E402
     build_shadow_summary_markdown,
+    compare_shadow_metrics,
     run_shadow_evaluation,
 )
 from reel_seattle.film_identity.tmdb_client import (  # noqa: E402
@@ -173,6 +174,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=None,
         help="Optional cap on confirm cases for debugging.",
     )
+    parser.add_argument(
+        "--compare-baseline",
+        type=Path,
+        default=None,
+        help=(
+            "Optional baseline metrics JSON (fixture or prior audit) for "
+            "before/after headline comparison."
+        ),
+    )
     return parser.parse_args(argv)
 
 
@@ -277,6 +287,23 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(f"Wrote {args.output_json.relative_to(PROJECT_ROOT)}")
     print(f"Wrote {args.output_md.relative_to(PROJECT_ROOT)}")
+    if args.compare_baseline:
+        baseline_doc = json.loads(args.compare_baseline.read_text(encoding="utf-8"))
+        comparison = compare_shadow_metrics(baseline_doc, report)
+        report["baseline_comparison"] = comparison
+        atomic_write_json(args.output_json, report)
+        print("Baseline comparison (movie confirms):")
+        for key, row in (comparison.get("headline") or {}).items():
+            print(
+                f"  {key}: {row.get('before')} → {row.get('after')} "
+                f"(delta={row.get('delta')})"
+            )
+        print("NWFF:")
+        for key, row in (comparison.get("nwff") or {}).items():
+            print(
+                f"  {key}: {row.get('before')} → {row.get('after')} "
+                f"(delta={row.get('delta')})"
+            )
     if args.json_stdout:
         print(json.dumps(report, indent=2, sort_keys=True))
     return 0
