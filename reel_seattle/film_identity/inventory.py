@@ -11,7 +11,7 @@ from reel_seattle.film_identity.eligibility import classify_eligibility, normali
 from reel_seattle.film_identity.ids import fallback_film_id
 from reel_seattle.film_identity.normalize_text import parse_person_names
 from reel_seattle.film_identity.presentation import interpret_source_years
-from reel_seattle.normalize import extract_year_hint
+from reel_seattle.normalize import extract_year_hint, repair_utf8_mojibake
 from reel_seattle.validate import PROJECT_ROOT
 
 DEFAULT_SHOWTIMES_REL = "public/data/showtimes_current.json"
@@ -93,6 +93,8 @@ def inventory_source_identities(
         source_film_id = _opt_str(row.get("source_film_id"))
         showtime_film_key = _opt_str(row.get("showtime_film_key"))
         source_title = _opt_str(row.get("source_title")) or _opt_str(row.get("film_title"))
+        if source_title:
+            source_title = repair_utf8_mojibake(source_title)
         group_key = (
             f"{source}|id|{source_film_id}"
             if source_film_id

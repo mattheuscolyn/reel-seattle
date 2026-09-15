@@ -20,6 +20,7 @@ from reel_seattle.adapters.indie_completeness import (
 )
 from reel_seattle.adapters.indie_legacy import session_for_context
 from reel_seattle.ingestion.independent_contract import normalize_exact_source_title
+from reel_seattle.normalize.encoding import repair_utf8_mojibake
 from reel_seattle.normalize.dates import format_date_csv
 from reel_seattle.normalize.year_window import infer_year_for_month_day
 
@@ -156,6 +157,7 @@ def _extract_beacon_title(soup: BeautifulSoup) -> str:
     h1 = soup.find("h1")
     if h1 is not None:
         text = normalize_exact_source_title(html_lib.unescape(h1.get_text(" ", strip=True)))
+        text = repair_utf8_mojibake(text)
         if text:
             return text
     if soup.title and soup.title.string:
@@ -166,6 +168,7 @@ def _extract_beacon_title(soup: BeautifulSoup) -> str:
                 break
         raw = re.split(r"\s+[|\u2014\u2013\-]\s+", raw, maxsplit=1)[0]
         text = normalize_exact_source_title(raw)
+        text = repair_utf8_mojibake(text)
         if text:
             return text
     return "Unknown Movie"

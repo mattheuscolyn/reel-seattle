@@ -78,8 +78,8 @@ export default function TmdbMatchReviewSurface({
   const queueRef = useRef(null);
 
   const queue = useMemo(
-    () => buildTmdbReviewQueue(homeData, reviews, enrichmentIndex),
-    [homeData, reviews, enrichmentIndex],
+    () => buildTmdbReviewQueue(homeData, reviews, enrichmentIndex, matcherByKey),
+    [homeData, reviews, enrichmentIndex, matcherByKey],
   );
   const sources = useMemo(
     () => listReviewSources(queue.identities),

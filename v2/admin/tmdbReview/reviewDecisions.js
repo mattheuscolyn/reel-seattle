@@ -20,6 +20,20 @@ export const REVIEW_DECISION_LABELS = Object.freeze({
   needs_follow_up: 'Needs follow-up',
 });
 
+/** Pipeline entity kinds that are definitive non-movie/program identities. */
+export const DEFINITIVE_NON_MOVIE_ENTITY_KINDS = Object.freeze(
+  new Set([
+    'shorts_program',
+    'double_feature',
+    'composite_event',
+    'festival_program',
+    'mystery_screening',
+    'live_event',
+    'broadcast_event',
+    'unknown_program',
+  ]),
+);
+
 /**
  * @param {unknown} value
  * @returns {string | null}
@@ -48,12 +62,41 @@ export function hasCanonicalTmdbFilmId(value) {
 }
 
 /**
+ * True when the matcher/public pipeline already classified this identity as a
+ * definitive non-movie/program entity (no TMDB movie confirm required).
+ * @param {{
+ *   contentClassification?: string | null,
+ *   entityKind?: string | null,
+ *   matcherMatchStatus?: string | null,
+ * } | null | undefined} identity
+ */
+export function isDefinitiveNonMovieIdentity(identity) {
+  const kind = String(
+    identity?.contentClassification || identity?.entityKind || '',
+  )
+    .trim()
+    .toLowerCase();
+  if (kind && DEFINITIVE_NON_MOVIE_ENTITY_KINDS.has(kind)) {
+    return true;
+  }
+  const status = String(identity?.matcherMatchStatus || '')
+    .trim()
+    .toLowerCase();
+  return status === 'non_film' || status === 'multiple_shorts';
+}
+
+/**
  * Queue tab for a composed identity.
  * Manual review decisions win. Otherwise a live `tmdb:<id>` film_id is
  * Review Matched — including automatic pipeline matches with no admin row.
+ * Definitive pipeline non-movie/program classifications are Flagged, not
+ * actionable Unmatched (null film_id alone is not enough to require review).
  * @param {{
  *   review?: { decision?: string | null } | null,
  *   canonicalFilmId?: string | null,
+ *   contentClassification?: string | null,
+ *   entityKind?: string | null,
+ *   matcherMatchStatus?: string | null,
  * }} identity
  */
 export function tabForIdentity(identity) {
@@ -72,6 +115,9 @@ export function tabForIdentity(identity) {
     hasCanonicalTmdbFilmId(identity?.canonicalFilmId)
   ) {
     return REVIEW_TABS.reviewMatched;
+  }
+  if (isDefinitiveNonMovieIdentity(identity)) {
+    return REVIEW_TABS.flagged;
   }
   return REVIEW_TABS.unmatched;
 }

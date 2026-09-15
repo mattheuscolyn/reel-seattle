@@ -38,6 +38,10 @@ from reel_seattle.normalize.titles import (
     normalize_film_title,
     showtime_film_key,
 )
+from reel_seattle.normalize.encoding import (
+    looks_like_utf8_mojibake,
+    repair_utf8_mojibake,
+)
 from reel_seattle.normalize.values import (
     NULL_STRINGS,
     collapse_whitespace,
@@ -61,6 +65,7 @@ __all__ = [
     "format_time_24h",
     "format_time_display",
     "list_enabled_theater_ids",
+    "looks_like_utf8_mojibake",
     "normalize_bool_string",
     "normalize_film_title",
     "normalize_optional_string",
@@ -73,6 +78,7 @@ __all__ = [
     "parse_time",
     "parse_time_to_minutes",
     "parsed_time_from_minutes",
+    "repair_utf8_mojibake",
     "resolve_theater",
     "showtime_film_key",
 ]

@@ -10,6 +10,7 @@ import {
   REVIEW_DECISIONS,
   REVIEW_TABS,
   hasCanonicalTmdbFilmId,
+  isDefinitiveNonMovieIdentity,
   tabForIdentity,
 } from './reviewDecisions.js';
 import { parseSourceIdentityKey, sourceIdentityKey } from './sourceIdentity.js';
@@ -41,14 +42,54 @@ export function resolveFilmsByKeyForReviewQueue(homeData) {
 }
 
 /**
+ * @param {object | null | undefined} film
+ * @returns {string | null}
+ */
+function contentClassificationFromFilm(film) {
+  if (!film || typeof film !== 'object') return null;
+  const value =
+    film.content_classification ??
+    film.contentClassification ??
+    film.entity_kind ??
+    film.entityKind ??
+    null;
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  return trimmed || null;
+}
+
+/**
+ * @param {Map<string, object> | null | undefined} matcherByKey
+ * @param {string} key
+ * @returns {{ entityKind: string | null, matcherMatchStatus: string | null }}
+ */
+function matcherHintsForKey(matcherByKey, key) {
+  const film = matcherByKey?.get?.(key);
+  if (!film || typeof film !== 'object') {
+    return { entityKind: null, matcherMatchStatus: null };
+  }
+  const entityKind =
+    typeof film.entity_kind === 'string' && film.entity_kind.trim()
+      ? film.entity_kind.trim()
+      : null;
+  const matcherMatchStatus =
+    typeof film.match_status === 'string' && film.match_status.trim()
+      ? film.match_status.trim()
+      : null;
+  return { entityKind, matcherMatchStatus };
+}
+
+/**
  * @param {object | null | undefined} homeData
  * @param {object[]} [reviews]
  * @param {{ getFilm?: (filmId: string) => object | null } | null} [enrichmentIndex]
+ * @param {Map<string, object> | null} [matcherByKey]
  */
 export function buildTmdbReviewQueue(
   homeData,
   reviews = [],
   enrichmentIndex = null,
+  matcherByKey = null,
 ) {
   const reviewByKey = new Map();
   for (const review of reviews) {
@@ -81,6 +122,7 @@ export function buildTmdbReviewQueue(
     });
     if (!key) continue;
     const film = filmsByKey.get(opportunity.filmKey) ?? null;
+    const matcherHints = matcherHintsForKey(matcherByKey, key);
     let row = byKey.get(key);
     if (!row) {
       row = {
@@ -99,6 +141,9 @@ export function buildTmdbReviewQueue(
         canonicalFilmId: asQueueCanonicalFilmId(film?.filmId),
         posterUrl: film?.posterUrl ?? null,
         sourceUrl: opportunity.sourceUrl ?? null,
+        contentClassification: contentClassificationFromFilm(film),
+        entityKind: matcherHints.entityKind,
+        matcherMatchStatus: matcherHints.matcherMatchStatus,
         theaters: [],
         theaterIds: new Set(),
         showtimes: [],
@@ -106,6 +151,16 @@ export function buildTmdbReviewQueue(
         lastShowtimeAt: opportunity.sortableLocalDateTime ?? null,
       };
       byKey.set(key, row);
+    } else {
+      if (!row.contentClassification) {
+        row.contentClassification = contentClassificationFromFilm(film);
+      }
+      if (!row.entityKind && matcherHints.entityKind) {
+        row.entityKind = matcherHints.entityKind;
+      }
+      if (!row.matcherMatchStatus && matcherHints.matcherMatchStatus) {
+        row.matcherMatchStatus = matcherHints.matcherMatchStatus;
+      }
     }
     if (
       opportunity.theaterId &&
@@ -161,6 +216,7 @@ export function buildTmdbReviewQueue(
     const snapshotTheaters = Array.isArray(snapshot.theaters)
       ? snapshot.theaters.filter(Boolean)
       : [];
+    const matcherHints = matcherHintsForKey(matcherByKey, key);
     byKey.set(key, {
       sourceIdentityKey: key,
       source: String(review.source || parsed?.source || '').trim() || 'unknown',
@@ -179,6 +235,12 @@ export function buildTmdbReviewQueue(
           : null),
       posterUrl: null,
       sourceUrl: snapshot.source_url ?? null,
+      contentClassification:
+        typeof snapshot.content_classification === 'string'
+          ? snapshot.content_classification
+          : null,
+      entityKind: matcherHints.entityKind,
+      matcherMatchStatus: matcherHints.matcherMatchStatus,
       theaters: snapshotTheaters,
       theaterIds: new Set(),
       showtimes: [],
@@ -202,7 +264,9 @@ export function buildTmdbReviewQueue(
         ? 'manual'
         : row.canonicalFilmId
           ? 'pipeline'
-          : 'none',
+          : isDefinitiveNonMovieIdentity(row)
+            ? 'pipeline'
+            : 'none',
       enrichment: enrichment
         ? {
             title: enrichment.title ?? null,
@@ -245,6 +309,16 @@ function statusLabelFor(identity) {
   if (decision === REVIEW_DECISIONS.multipleShorts) return 'Multiple shorts';
   if (decision === REVIEW_DECISIONS.needsFollowUp) return 'Needs follow-up';
   if (hasCanonicalTmdbFilmId(identity.canonicalFilmId)) return 'Matched';
+  if (isDefinitiveNonMovieIdentity(identity)) {
+    const kind =
+      identity.contentClassification || identity.entityKind || 'program';
+    if (kind === 'shorts_program') return 'Shorts program (auto)';
+    if (kind === 'mystery_screening') return 'Mystery screening (auto)';
+    if (kind === 'live_event' || kind === 'broadcast_event') {
+      return 'Live/broadcast event (auto)';
+    }
+    return 'Program (auto)';
+  }
   return 'Unmatched';
 }
 

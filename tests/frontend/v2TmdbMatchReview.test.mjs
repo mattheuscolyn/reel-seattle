@@ -343,6 +343,41 @@ test('unmatched queue rendering uses live counts and source evidence', () => {
   assert.equal(matched[0].matchOrigin, 'pipeline');
 });
 
+test('pipeline shorts_program is flagged not unmatched', () => {
+  const home = sampleHome();
+  home.films = home.films.map((film) =>
+    film.filmKey === 'seattle-shorts'
+      ? { ...film, content_classification: 'shorts_program' }
+      : film,
+  );
+  const queue = buildTmdbReviewQueue(home);
+  assert.equal(queue.counts.unmatched, 1);
+  assert.equal(queue.counts.flagged, 1);
+  const shorts = queue.identities.find(
+    (row) => row.sourceIdentityKey === 'siff|id|shorts-love',
+  );
+  assert.ok(shorts);
+  assert.equal(shorts.tab, REVIEW_TABS.flagged);
+  assert.equal(shorts.statusLabel, 'Shorts program (auto)');
+  assert.equal(shorts.matchOrigin, 'pipeline');
+  assert.equal(
+    tabForIdentity({
+      canonicalFilmId: null,
+      contentClassification: 'mystery_screening',
+      review: null,
+    }),
+    REVIEW_TABS.flagged,
+  );
+  assert.equal(
+    tabForIdentity({
+      canonicalFilmId: null,
+      matcherMatchStatus: 'non_film',
+      review: null,
+    }),
+    REVIEW_TABS.flagged,
+  );
+});
+
 test('production films[] shape classifies pipeline matches without filmsByKey Map', () => {
   const home = sampleHome();
   assert.equal(home.filmsByKey, undefined);

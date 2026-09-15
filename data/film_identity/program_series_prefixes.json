@@ -92,6 +92,13 @@
       "sources": ["nwff"],
       "metadata_field": "program_series",
       "notes": "NWFF WTF with STUFF series branding before the feature title."
+    },
+    {
+      "id": "local-sightings-year",
+      "prefix_pattern": "Local Sightings (?:19|20)\\d{2}",
+      "sources": ["nwff"],
+      "metadata_field": "program_series",
+      "notes": "NWFF Local Sightings festival branding with a calendar year before the feature title. Year is pattern-matched (not hard-coded). Search-title only; display titles stay intact."
     }
   ]
 }

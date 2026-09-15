@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from reel_seattle.normalize import normalize_film_title
+from reel_seattle.normalize.encoding import repair_utf8_mojibake
 from reel_seattle.film_identity.title_rules import (
     apply_program_series_prefix,
     expand_known_search_abbreviations,
@@ -463,6 +464,10 @@ def extract_match_title(
     if not original:
         return MatchTitleExtraction(original_title="", base_title=None)
 
+    # Repair double-encoded UTF-8 (Beacon scrape/restatement residue) before
+    # search-title normalization. Display/source strings outside this path are
+    # unchanged unless callers also repair.
+    original = repair_utf8_mojibake(original)
     text = unicodedata.normalize("NFKC", original).strip()
     working = normalize_film_title(text) or text
     removed: list[str] = []

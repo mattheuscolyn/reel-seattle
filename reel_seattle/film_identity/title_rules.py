@@ -146,28 +146,60 @@ def apply_program_series_prefix(
     for row in doc.get("prefixes") or []:
         if not isinstance(row, Mapping):
             continue
-        prefix = str(row.get("prefix") or "").strip()
-        if not prefix:
-            continue
         if not _source_allowed(row.get("sources"), source):
             continue
-        pattern = re.compile(
-            rf"^{re.escape(prefix)}{_prefix_separator(prefix)}(?P<body>.+)$",
-            re.IGNORECASE,
-        )
+        hit = _match_program_series_row(text, row)
+        if hit is not None:
+            return hit
+    return None
+
+
+def _match_program_series_row(
+    text: str, row: Mapping[str, Any]
+) -> SeriesPrefixHit | None:
+    pattern_text = str(row.get("prefix_pattern") or "").strip()
+    prefix = str(row.get("prefix") or "").strip()
+    if pattern_text:
+        # Year-/token-aware patterns: match only the configured pattern + separator.
+        # Do not invent generic dash stripping beyond the shared separator class.
+        try:
+            pattern = re.compile(
+                rf"^(?P<prefix>{pattern_text}){_SEP}(?P<body>.+)$",
+                re.IGNORECASE,
+            )
+        except re.error:
+            return None
         match = pattern.match(text)
         if not match:
-            continue
+            return None
         body = match.group("body").strip()
-        if not body:
-            continue
+        matched_prefix = match.group("prefix").strip()
+        if not body or not matched_prefix:
+            return None
         return SeriesPrefixHit(
-            prefix_id=str(row.get("id") or prefix),
-            prefix=prefix,
+            prefix_id=str(row.get("id") or matched_prefix),
+            prefix=matched_prefix,
             remainder=body,
             metadata_field=str(row.get("metadata_field") or "program_series"),
         )
-    return None
+    if not prefix:
+        return None
+    pattern = re.compile(
+        rf"^{re.escape(prefix)}{_prefix_separator(prefix)}(?P<body>.+)$",
+        re.IGNORECASE,
+    )
+    match = pattern.match(text)
+    if not match:
+        return None
+    body = match.group("body").strip()
+    if not body:
+        return None
+    return SeriesPrefixHit(
+        prefix_id=str(row.get("id") or prefix),
+        prefix=prefix,
+        remainder=body,
+        metadata_field=str(row.get("metadata_field") or "program_series"),
+    )
 
 
 def preview_prefix_impacts(
@@ -182,31 +214,24 @@ def preview_prefix_impacts(
     for row in doc.get("prefixes") or []:
         if not isinstance(row, Mapping):
             continue
-        prefix = str(row.get("prefix") or "").strip()
-        if not prefix:
-            continue
         if not _source_allowed(row.get("sources"), source) and source is not None:
             # When previewing a specific source, skip non-matching scopes.
             continue
         affected: list[dict[str, str]] = []
-        pattern = re.compile(
-            rf"^{re.escape(prefix)}{_prefix_separator(prefix)}(?P<body>.+)$",
-            re.IGNORECASE,
-        )
         for title in titles:
-            match = pattern.match(str(title or "").strip())
-            if not match:
+            hit = _match_program_series_row(str(title or "").strip(), row)
+            if hit is None:
                 continue
             affected.append(
                 {
                     "original": str(title),
-                    "remainder": match.group("body").strip(),
+                    "remainder": hit.remainder,
                 }
             )
         out.append(
             {
                 "prefix_id": row.get("id"),
-                "prefix": prefix,
+                "prefix": row.get("prefix") or row.get("prefix_pattern"),
                 "sources": list(row.get("sources") or []),
                 "affected_count": len(affected),
                 "affected": affected,
