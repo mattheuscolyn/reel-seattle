@@ -186,6 +186,7 @@ function rowToCandidate(row) {
     theater_id: String(row.theater_id ?? '').trim(),
     date: String(row.Date ?? '').trim(),
     time: String(row.Time ?? '').trim(),
+    localTime: String(row.localTime ?? '').trim() || null,
     startMin,
     endMin: expected.endMin,
     runtime,
@@ -193,6 +194,11 @@ function rowToCandidate(row) {
     premiumFormat: String(row.premiumFormat ?? '').trim(),
     formatTags: parseFormatTags(row),
     performanceKey,
+    opportunityKey: String(row.opportunityKey ?? '').trim() || null,
+    source: String(row.source ?? '').trim() || null,
+    sourceShowtimeId:
+      String(row.source_showtime_id ?? row.sourceShowtimeId ?? '').trim() ||
+      null,
   };
 }
 
@@ -311,6 +317,7 @@ function summarizeChain(chain, filters) {
       theater_id: c.theater_id,
       date: c.date,
       time: c.time,
+      localTime: c.localTime ?? c.row?.localTime ?? null,
       startMin: c.startMin,
       endMin: c.endMin,
       runtime: c.runtime,
@@ -318,6 +325,18 @@ function summarizeChain(chain, filters) {
       premiumFormat: c.premiumFormat,
       formatTags: c.formatTags,
       performanceKey: c.performanceKey ?? null,
+      opportunityKey: c.opportunityKey ?? c.row?.opportunityKey ?? null,
+      source: c.source ?? c.row?.source ?? null,
+      sourceShowtimeId:
+        c.sourceShowtimeId ??
+        c.row?.source_showtime_id ??
+        c.row?.sourceShowtimeId ??
+        null,
+      source_showtime_id:
+        c.sourceShowtimeId ??
+        c.row?.source_showtime_id ??
+        c.row?.sourceShowtimeId ??
+        null,
       locked: Boolean(c.locked),
     })),
     totalSpanMin,

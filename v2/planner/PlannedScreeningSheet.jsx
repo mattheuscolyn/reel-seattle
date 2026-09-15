@@ -56,6 +56,7 @@ export default function PlannedScreeningSheet({
   homeData = null,
   enrichmentIndex = null,
   onOpenFilmDetail = null,
+  onOpenPlanDetails = null,
   onPlansChanged = null,
   onStubAction = null,
 }) {
@@ -227,6 +228,15 @@ export default function PlannedScreeningSheet({
     onClose();
   };
 
+  const handleOpenPlanDetails = () => {
+    if (typeof onOpenPlanDetails !== 'function') {
+      onStubAction?.('view-plan-details', 'View plan details');
+      return;
+    }
+    onOpenPlanDetails(screening.planId);
+    onClose();
+  };
+
   const handleOtherShowtime = (row) => {
     if (!row?.filmKey || typeof onOpenFilmDetail !== 'function') {
       onStubAction?.('other-showtime', 'Other showtime');
@@ -364,6 +374,23 @@ export default function PlannedScreeningSheet({
         <div className="v2-pss-divider" aria-hidden="true" />
 
         <div className="v2-pss-actions">
+          {screening.performanceCount > 1 ? (
+            <button
+              type="button"
+              className="v2-pss-action"
+              onClick={handleOpenPlanDetails}
+            >
+              <IconInfo width={16} height={16} aria-hidden="true" />
+              <span>View plan details</span>
+              <IconChevron
+                className="v2-pss-action-chevron"
+                width={14}
+                height={14}
+                aria-hidden="true"
+              />
+            </button>
+          ) : null}
+
           <button
             type="button"
             className="v2-pss-action"

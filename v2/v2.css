@@ -4912,6 +4912,7 @@ a.v2-st-time:hover {
   line-height: 1.15;
   letter-spacing: -0.015em;
   color: var(--v2-fg);
+  overflow-wrap: anywhere;
 }
 
 .v2-planner-screening-meta {
@@ -5087,6 +5088,121 @@ a.v2-st-time:hover {
 
 .v2-planner-conflict-review-host {
   padding-bottom: calc(var(--v2-nav-height) + var(--v2-nav-clearance));
+}
+
+.v2-planner-plan-group {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 0.75rem 0.7rem 0.8rem;
+  border: 1px solid var(--v2-planner-lilac-border);
+  border-radius: 0.95rem;
+  background: rgba(12, 10, 20, 0.35);
+}
+
+.v2-planner-plan-group-header {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.v2-planner-plan-banner {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--v2-planner-lilac);
+  font-size: 0.64rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.v2-planner-plan-group-title {
+  margin: 0;
+  font-family: var(--v2-font-display);
+  font-size: 1.08rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--v2-fg);
+  overflow-wrap: anywhere;
+}
+
+.v2-planner-plan-group-meta {
+  margin: 0;
+  color: var(--v2-planner-meta);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.v2-planner-plan-group-members {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.v2-planner-plan-group-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.v2-planner-plan-group-details,
+.v2-planner-plan-group-remove,
+.v2-planner-plan-group-cancel {
+  appearance: none;
+  width: 100%;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.7rem;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 550;
+  cursor: pointer;
+}
+
+.v2-planner-plan-group-details {
+  border: 1px solid var(--v2-planner-lilac-border);
+  background: rgba(214, 168, 224, 0.1);
+  color: var(--v2-fg);
+}
+
+.v2-planner-plan-group-remove {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: var(--v2-planner-meta);
+}
+
+.v2-planner-plan-group-cancel {
+  border: 0;
+  background: transparent;
+  color: var(--v2-planner-lilac);
+}
+
+.v2-planner-plan-group-details:focus-visible,
+.v2-planner-plan-group-remove:focus-visible,
+.v2-planner-plan-group-cancel:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-planner-plan-group-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.v2-planner-plan-group-confirm p {
+  margin: 0;
+  color: var(--v2-planner-meta);
+  font-size: 0.82rem;
+  line-height: 1.4;
 }
 
 /* Planner conflict review surface */

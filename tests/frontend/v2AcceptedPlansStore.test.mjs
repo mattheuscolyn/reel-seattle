@@ -223,8 +223,9 @@ test('accepted grouped plan appears in Planner Upcoming', () => {
     now: new Date('2026-08-01T18:00:00.000Z'),
   });
   assert.equal(landing.upcoming.dateGroups.length, 1);
-  assert.equal(landing.upcoming.dateGroups[0].items.length, 2);
-  assert.equal(landing.upcoming.dateGroups[0].items[0].kind, 'screening');
+  assert.equal(landing.upcoming.dateGroups[0].items.length, 1);
+  assert.equal(landing.upcoming.dateGroups[0].items[0].kind, 'plan-group');
+  assert.equal(landing.upcoming.dateGroups[0].items[0].members.length, 2);
 });
 
 test('accepted plan maps to calendar films; fixture Results still fail closed in UI', () => {
