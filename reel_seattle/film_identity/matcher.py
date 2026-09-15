@@ -561,7 +561,10 @@ def match_source_identity(
 
         scored = [
             score_candidate(
-                search_title=str(search_title),
+                # Score against the query that retrieved the candidate so
+                # empty-primary fallbacks (AN→AND, colon head, sibling title)
+                # do not false-conflict on the pre-fallback search string.
+                search_title=str(row.get("search_query") or search_title),
                 source_year=year,
                 source_runtime=identity.get("runtime_min"),
                 source_directors=identity.get("directors_raw"),

@@ -34,18 +34,30 @@ def test_colon_subtitle_head_fallback():
     assert colon_subtitle_search_fallback("No Colon Title") is None
 
 
-def test_plan_includes_empty_only_fallbacks():
-    queries = plan_tmdb_search_queries(
-        search_title="DREAD BEAT AN BLOOD",
-        search_year=1979,
-        extra_fallbacks=[
-            {"title": "DREAD BEAT AND BLOOD", "year": None, "reason": "beacon_an_to_and"}
-        ],
-    )
-    reasons = [q["reason"] for q in queries]
-    assert "normalized_title_year" in reasons
-    assert "beacon_an_to_and" in reasons
+def test_fallback_search_query_used_for_scoring_title():
+    from reel_seattle.film_identity.scoring import score_candidate
 
+    candidate = {
+        "id": 400627,
+        "title": "Dread Beat and Blood",
+        "original_title": "Dread Beat and Blood",
+        "release_date": "1979-09-01",
+        "runtime": 45,
+        "search_query": "DREAD BEAT AND BLOOD",
+        "search_query_reason": "beacon_an_to_and",
+        "director": "Franco Rosso",
+    }
+    scored = score_candidate(
+        search_title=str(candidate["search_query"]),
+        source_year=1979,
+        source_runtime=45,
+        source_directors="Franco Rosso",
+        source_external_ids=None,
+        candidate=candidate,
+    )
+    assert scored.signals.get("title_exact")
+    assert "title_conflict" not in scored.warnings
+    assert scored.score >= 0.92
 
 def test_source_evidence_index_loads_beacon_and_nwff():
     index = load_source_evidence_index(root=PROJECT_ROOT)
