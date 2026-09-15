@@ -11,6 +11,7 @@ from reel_seattle.film_identity.eligibility import classify_eligibility, normali
 from reel_seattle.film_identity.ids import fallback_film_id
 from reel_seattle.film_identity.normalize_text import parse_person_names
 from reel_seattle.film_identity.presentation import interpret_source_years
+from reel_seattle.film_identity.source_evidence import load_source_evidence_index
 from reel_seattle.normalize import extract_year_hint, repair_utf8_mojibake
 from reel_seattle.validate import PROJECT_ROOT
 
@@ -42,6 +43,13 @@ class SourceIdentityRecord:
     presentation_labels: list[str] = field(default_factory=list)
     directors_normalized: list[str] = field(default_factory=list)
     identity_title_candidate: str | None = None
+    # Provenance-tracked corroborating evidence (never guessed).
+    source_release_year: int | None = None
+    product_year: int | None = None
+    external_ids: dict[str, str] = field(default_factory=dict)
+    evidence_provenance: dict[str, str] = field(default_factory=dict)
+    parent_display_title: str | None = None
+    parent_film_key: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -82,6 +90,7 @@ def inventory_source_identities(
                 products_by_id[str(sid)] = product
 
     collection_titles = _collection_identity_titles(base)
+    evidence_index = load_source_evidence_index(root=base)
 
     grouped: dict[str, SourceIdentityRecord] = {}
     for row in showtimes_doc.get("showtimes") or []:
@@ -102,18 +111,61 @@ def inventory_source_identities(
         )
         film = films.get(showtime_film_key) or {}
         product = products_by_id.get(source_film_id or "") if source == "amc" else None
+        scrape_evidence = None
+        if source_film_id:
+            scrape_evidence = (evidence_index.get(source) or {}).get(source_film_id)
 
         if group_key not in grouped:
             runtime = _opt_int(film.get("runtime_min"))
             directors = None
             product_year = None
+            source_release_year = None
+            external_ids: dict[str, str] = {}
+            evidence_provenance: dict[str, str] = {}
+
             if product:
                 runtime = runtime or _opt_int(product.get("runtime_min"))
                 directors = _opt_str(product.get("directors_raw"))
                 product_year = _year_from_date(product.get("release_date_utc"))
+                if directors:
+                    evidence_provenance["directors_raw"] = "amc_movie_products"
+                if product_year is not None:
+                    evidence_provenance["product_year"] = "amc_movie_products.release_date_utc"
+                if runtime is not None:
+                    evidence_provenance.setdefault("runtime_min", "showtimes_film_or_amc_product")
+                imdb = _opt_str(product.get("imdb_id"))
+                if imdb:
+                    external_ids["imdb_id"] = imdb
+                    evidence_provenance["external_ids.imdb_id"] = "amc_movie_products"
+
+            if scrape_evidence is not None:
+                if scrape_evidence.release_year is not None:
+                    source_release_year = scrape_evidence.release_year
+                    evidence_provenance["source_release_year"] = scrape_evidence.provenance.get(
+                        "release_year", "daily_log"
+                    )
+                if scrape_evidence.runtime_min is not None:
+                    runtime = runtime or scrape_evidence.runtime_min
+                    evidence_provenance.setdefault(
+                        "runtime_min",
+                        scrape_evidence.provenance.get("runtime_min", "daily_log"),
+                    )
+                if scrape_evidence.directors_raw and not directors:
+                    directors = scrape_evidence.directors_raw
+                    evidence_provenance["directors_raw"] = scrape_evidence.provenance.get(
+                        "directors_raw", "daily_log"
+                    )
+                for key, value in scrape_evidence.external_ids.items():
+                    if key not in external_ids:
+                        external_ids[key] = value
+                        evidence_provenance[f"external_ids.{key}"] = scrape_evidence.provenance.get(
+                            f"external_ids.{key}", "daily_log"
+                        )
+
             year_info = interpret_source_years(
                 source_title=source_title,
                 product_year=product_year,
+                explicit_canonical_year=source_release_year,
                 source=source,
             )
             release_year = year_info.scoring_year()
@@ -138,6 +190,12 @@ def inventory_source_identities(
                 )
             except ValueError:
                 fallback = None
+            parent_display = _opt_str(film.get("parent_display_title")) or _opt_str(
+                row.get("parent_display_title")
+            )
+            parent_key = _opt_str(film.get("parent_film_key")) or _opt_str(
+                row.get("parent_film_key")
+            )
             grouped[group_key] = SourceIdentityRecord(
                 source=source,
                 source_film_id=source_film_id,
@@ -165,6 +223,12 @@ def inventory_source_identities(
                 presentation_labels=list(year_info.presentation_labels),
                 directors_normalized=parse_person_names(directors),
                 identity_title_candidate=collection_titles.get(group_key),
+                source_release_year=source_release_year,
+                product_year=product_year,
+                external_ids=external_ids,
+                evidence_provenance=evidence_provenance,
+                parent_display_title=parent_display,
+                parent_film_key=parent_key,
             )
 
         record = grouped[group_key]
@@ -180,6 +244,7 @@ def inventory_source_identities(
         grouped.values(),
         key=lambda r: (r.source, r.source_film_id or "", r.showtime_film_key or ""),
     )
+    _annotate_sibling_base_titles(identities)
     by_source: dict[str, dict[str, int]] = {}
     for record in identities:
         bucket = by_source.setdefault(
@@ -193,6 +258,8 @@ def inventory_source_identities(
                 "with_runtime": 0,
                 "with_year": 0,
                 "with_directors": 0,
+                "with_source_release_year": 0,
+                "with_external_ids": 0,
             },
         )
         bucket["total"] += 1
@@ -205,6 +272,10 @@ def inventory_source_identities(
             bucket["with_year"] += 1
         if record.directors_raw:
             bucket["with_directors"] += 1
+        if record.source_release_year is not None:
+            bucket["with_source_release_year"] += 1
+        if record.external_ids:
+            bucket["with_external_ids"] += 1
 
     return {
         "schema_version": "1.0.0",
@@ -214,6 +285,43 @@ def inventory_source_identities(
         "by_source": by_source,
         "identities": [r.to_dict() for r in identities],
     }
+
+
+def _annotate_sibling_base_titles(identities: list[SourceIdentityRecord]) -> None:
+    """When a special listing shares a strict title prefix with a base listing, record it.
+
+    Example: ``Forgotten Island - Friendship Opening Night Event`` → base
+    ``Forgotten Island`` when that exact title exists for the same source.
+    """
+    by_source_title: dict[str, set[str]] = {}
+    for record in identities:
+        title = (record.source_title or "").strip()
+        if not title:
+            continue
+        by_source_title.setdefault(record.source, set()).add(title)
+
+    for record in identities:
+        title = (record.source_title or "").strip()
+        if not title or " - " not in title:
+            continue
+        if not record.is_special_screening and (
+            record.screening_variant_type in (None, "", "none")
+        ):
+            continue
+        head = title.split(" - ", 1)[0].strip()
+        if not head or head.casefold() == title.casefold():
+            continue
+        siblings = by_source_title.get(record.source) or set()
+        if head not in siblings:
+            continue
+        if not record.identity_title_candidate:
+            record.identity_title_candidate = head
+            record.evidence_provenance["identity_title_candidate"] = (
+                "sibling_base_title_prefix"
+            )
+        if not record.parent_display_title or record.parent_display_title == title:
+            record.parent_display_title = head
+            record.evidence_provenance["parent_display_title"] = "sibling_base_title_prefix"
 
 
 def _opt_str(value: Any) -> str | None:

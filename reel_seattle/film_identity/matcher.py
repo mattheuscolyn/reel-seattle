@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 from typing import Any, Mapping, Sequence
 
@@ -67,13 +68,16 @@ def plan_tmdb_search_queries(
     alternate_title: str | None = None,
     search_year: int | None = None,
     rerelease_ambiguous: bool = False,
+    extra_fallbacks: Sequence[Mapping[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
-    """Bounded deterministic TMDB query plan. Max three queries.
+    """Bounded deterministic TMDB query plan.
 
     Order:
     1. normalized search title + trusted year
     2. same title without year
     3. alternate cleaned/expanded title without year, if one exists
+    4. optional empty-primary fallbacks (AN→AND, colon-head, sibling base title)
+       — appended but only executed when earlier queries return no candidates
     """
     _ = rerelease_ambiguous
     title = (search_title or "").strip()
@@ -104,25 +108,69 @@ def plan_tmdb_search_queries(
                 "reason": "alternate_normalized_title",
             }
         )
-    return queries[:3]
+    seen = {(q["title"].casefold(), q.get("year"), q["reason"]) for q in queries}
+    for row in extra_fallbacks or ():
+        fallback_title = str(row.get("title") or "").strip()
+        if not fallback_title:
+            continue
+        reason = str(row.get("reason") or "search_fallback")
+        year = row.get("year")
+        year_int = year if isinstance(year, int) else None
+        key = (fallback_title.casefold(), year_int, reason)
+        if key in seen:
+            continue
+        if fallback_title.casefold() == title.casefold() and year_int is None:
+            continue
+        seen.add(key)
+        queries.append(
+            {
+                "title": fallback_title,
+                "year": year_int,
+                "reason": reason,
+            }
+        )
+    return queries
 
 
-def _top_search_tmdb_id(client: TmdbClient, title: str, year: int | None) -> int | None:
-    """Cheap raw-title probe used only to detect collection-candidate conflicts."""
-    text = (title or "").strip()
-    if not text:
+_BEACON_AN_TOKEN_RE = re.compile(r"(?<![A-Za-z])an(?![A-Za-z])", re.IGNORECASE)
+
+
+def beacon_an_to_and_search_title(source_title: str | None, search_title: str | None) -> str | None:
+    """Beacon-scoped search-only AN→AND when the source title is all-caps multi-token.
+
+    Display titles are never modified. Returns None when the rule does not apply.
+    """
+    raw = (source_title or "").strip()
+    if not raw or not raw.isupper():
         return None
-    try:
-        search = client.search_movie(text, year=year)
-    except Exception:  # noqa: BLE001
+    tokens = [token for token in raw.replace(",", " ").split() if token]
+    if len(tokens) < 2 or "AN" not in tokens:
         return None
-    rows = search.get("results") or []
-    if not rows or not isinstance(rows[0], Mapping) or rows[0].get("id") is None:
+    base = (search_title or raw).strip()
+    if not base:
         return None
-    try:
-        return int(rows[0]["id"])
-    except (TypeError, ValueError):
+    replaced = _BEACON_AN_TOKEN_RE.sub("AND", base)
+    if replaced == base:
         return None
+    return replaced
+
+
+def colon_subtitle_search_fallback(search_title: str | None) -> str | None:
+    """When primary search is empty, try the head before a subtitle colon.
+
+    Reusable for titles like ``NO LIMBS, NO LIMITS: The NickV Story``.
+    """
+    text = (search_title or "").strip()
+    if not text or ":" not in text:
+        return None
+    head, tail = text.split(":", 1)
+    head = head.strip()
+    tail = tail.strip()
+    if not head or not tail:
+        return None
+    if len(head.split()) < 2:
+        return None
+    return head
 
 
 def collect_search_candidates(
@@ -138,6 +186,12 @@ def collect_search_candidates(
     results: list[dict[str, Any]] = []
     executed: list[dict[str, Any]] = []
     primary_title = str((queries[0].get("title") if queries else "") or "")
+    fallback_reasons = {
+        "beacon_an_to_and",
+        "colon_subtitle_head",
+        "sibling_base_title",
+        "identity_title_candidate",
+    }
     for query in queries:
         if len(executed) >= max_requests:
             break
@@ -151,7 +205,10 @@ def collect_search_candidates(
             year_int is None and title.casefold() == primary_title.casefold()
         )
         is_alternate = reason == "alternate_normalized_title"
+        is_empty_only_fallback = reason in fallback_reasons
         if executed:
+            if results and is_empty_only_fallback:
+                continue
             if results and is_alternate:
                 continue
             if results and is_yearless_primary:
@@ -175,6 +232,24 @@ def collect_search_candidates(
             candidate["search_query_reason"] = reason
             results.append(candidate)
     return results, executed
+
+
+def _top_search_tmdb_id(client: TmdbClient, title: str, year: int | None) -> int | None:
+    """Cheap raw-title probe used only to detect collection-candidate conflicts."""
+    text = (title or "").strip()
+    if not text:
+        return None
+    try:
+        search = client.search_movie(text, year=year)
+    except Exception:  # noqa: BLE001
+        return None
+    rows = search.get("results") or []
+    if not rows or not isinstance(rows[0], Mapping) or rows[0].get("id") is None:
+        return None
+    try:
+        return int(rows[0]["id"])
+    except (TypeError, ValueError):
+        return None
 
 
 def match_source_identity(
@@ -203,14 +278,18 @@ def match_source_identity(
 
     year_info = interpret_source_years(
         source_title=identity.get("source_title"),
-        product_year=identity.get("release_year") or identity.get("year_hint"),
+        product_year=identity.get("product_year"),
+        explicit_canonical_year=identity.get("source_release_year"),
         source=identity.get("source"),
     ).to_dict()
-    scoring_year = year_info.get("scoring_year")
+    # Prefer inventory-computed scoring year when present (already interpreted).
+    scoring_year = identity.get("release_year")
+    if scoring_year is None:
+        scoring_year = year_info.get("scoring_year")
     if scoring_year is None and not (
         year_info.get("event_year_not_canonical") or year_info.get("product_year_weak")
     ):
-        scoring_year = identity.get("release_year") or identity.get("year_hint")
+        scoring_year = identity.get("year_hint")
     event_relaxed = bool(
         year_info.get("year_mismatch_relaxed")
         or year_info.get("event_year_not_canonical")
@@ -219,6 +298,15 @@ def match_source_identity(
     directors_normalized = identity.get("directors_normalized") or parse_person_names(
         identity.get("directors_raw")
     )
+    external_ids = identity.get("external_ids")
+    if not isinstance(external_ids, Mapping):
+        external_ids = None
+    else:
+        external_ids = {
+            str(key): str(value)
+            for key, value in external_ids.items()
+            if value not in (None, "")
+        } or None
 
     base = {
         "source_identities": [
@@ -409,22 +497,51 @@ def match_source_identity(
     try:
         # Prefer search_year (canonical/title/derived). Omit weak product years.
         search_year = year_info.get("search_year")
+        if identity.get("source_release_year") is not None:
+            search_year = identity.get("source_release_year")
         if isinstance(search_year, int):
             year = search_year
         elif event_relaxed:
             year = None
         else:
             year = scoring_year if isinstance(scoring_year, int) else None
+
+        extra_fallbacks: list[dict[str, Any]] = []
+        identity_candidate = str(identity.get("identity_title_candidate") or "").strip()
+        parent_title = str(identity.get("parent_display_title") or "").strip()
+        for label, title_value, reason in (
+            (identity_candidate, identity_candidate, "identity_title_candidate"),
+            (parent_title, parent_title, "sibling_base_title"),
+        ):
+            if not title_value:
+                continue
+            extra_fallbacks.append({"title": title_value, "year": None, "reason": reason})
+        colon_head = colon_subtitle_search_fallback(str(search_title))
+        if colon_head:
+            extra_fallbacks.append(
+                {"title": colon_head, "year": None, "reason": "colon_subtitle_head"}
+            )
+        if source == "beacon":
+            an_and = beacon_an_to_and_search_title(
+                identity.get("source_title"), str(search_title)
+            )
+            if an_and:
+                extra_fallbacks.append(
+                    {"title": an_and, "year": None, "reason": "beacon_an_to_and"}
+                )
+
         queries = plan_tmdb_search_queries(
             search_title=str(search_title),
             alternate_title=year_info.get("alternate_search_title"),
             search_year=year if isinstance(year, int) else None,
             rerelease_ambiguous=event_relaxed,
+            extra_fallbacks=extra_fallbacks,
         )
         results, executed_queries = collect_search_candidates(
             client,
             queries,
             rerelease_ambiguous=event_relaxed,
+            max_requests=max(3, min(5, len(queries))),
         )
         base["provenance"] = {
             **base["provenance"],
@@ -448,7 +565,7 @@ def match_source_identity(
                 source_year=year,
                 source_runtime=identity.get("runtime_min"),
                 source_directors=identity.get("directors_raw"),
-                source_external_ids=None,
+                source_external_ids=external_ids,
                 candidate=row,
                 event_year_relaxed=event_relaxed,
             )
