@@ -252,6 +252,21 @@ def _extract_release_year(soup: BeautifulSoup) -> int | None:
     return year
 
 
+def _extract_directors_raw(soup: BeautifulSoup) -> str | None:
+    """Extract director credit from the structured Beacon ``Director`` meta-field.
+
+    Only the dedicated meta-label/value pair is accepted — never prose from the
+    synopsis or "in attendance" callouts.
+    """
+    value = _meta_field_value(soup, "Director")
+    if not value:
+        return None
+    text = value.strip()
+    if not text or text.casefold() in {"unknown", "n/a", "na", "—", "-"}:
+        return None
+    return text
+
+
 def _format_beacon_time(raw_time: str) -> str | None:
     match = re.fullmatch(r"(\d{1,2}):(\d{2})\s*([AaPp][Mm])", raw_time.strip())
     if not match:
@@ -390,6 +405,7 @@ def parse_beacon_film_page(
     movie_title = _extract_beacon_title(soup)
     runtime = _extract_runtime(soup)
     release_year = _extract_release_year(soup)
+    directors_raw = _extract_directors_raw(soup)
     canonical_url = canonicalize_beacon_movie_url(film_url) if film_url else None
     slug = beacon_slug_from_url(canonical_url) if canonical_url else None
 
@@ -445,6 +461,8 @@ def parse_beacon_film_page(
         if release_year is not None:
             # Source-neutral key shared with NWFF / Central Cinema mapping.
             attributes["release_year"] = release_year
+        if directors_raw:
+            attributes["directors_raw"] = directors_raw
         if slug:
             attributes["source_film_id"] = slug
             attributes["source_program_id"] = slug

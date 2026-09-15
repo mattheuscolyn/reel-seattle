@@ -196,6 +196,34 @@ def test_beacon_current_markup_release_year_extraction():
     assert records[0].attributes.get("release_year") == 1992
 
 
+def test_beacon_director_meta_field_extracted():
+    html = _film_html(runtime="102 minutes", release_year=1963)
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url="https://thebeacon.film/calendar/movie/l-immortelle",
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    assert records[0].attributes is not None
+    assert records[0].attributes.get("directors_raw") == "Fixture Director"
+    assert records[0].attributes.get("release_year") == 1963
+
+
+def test_beacon_missing_director_stays_absent():
+    html = _film_html(runtime="102 minutes", release_year=1985, include_meta=False)
+    # include_meta=False omits Director/Runtime meta grid entirely.
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url=FILM_URL,
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    assert records[0].attributes is not None
+    assert "directors_raw" not in records[0].attributes
+
+
 def test_beacon_legacy_runtime_markup_still_works(beacon_film_legacy_html):
     records = BeaconAdapter.parse_film_page(
         beacon_film_legacy_html,
