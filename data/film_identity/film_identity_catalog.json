@@ -6368,176 +6368,29 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "hard_conflict",
-      "candidates": [
-        {
-          "director": "Matthew Pinder",
-          "original_title": null,
-          "overview_excerpt": "The RMS Queen Mary is the last survivor of the golden age of ocean liners. She was bigger and faster than any ship ever built before. Her presence was a symbol of new hope and a better future during the Great Depression…",
-          "popularity": 0.4287,
-          "poster_path": "/n1KKU9b2AQA8MRdHS5QPmv69JR2.jpg",
-          "release_year": 2016,
-          "runtime_min": 46,
-          "score": 0.0,
-          "search_query": "Mighty Mary",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.8,
-            "contributions": {
-              "director": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.2
-              },
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "matthew pinder"
-            ],
-            "director_conflict": true,
-            "director_overlap": false,
-            "director_source_normalized": [
-              "mary mazzio"
-            ],
-            "director_status": "conflict",
-            "director_weak_overlap": false,
-            "event_year_relaxed": true,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.4287,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 53,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "search_query": "Mighty Mary",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "uncertain_rerelease_restoration",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Mighty Ship at War: Queen Mary",
-          "tmdb_id": 749597,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_conflict"
-          ]
-        }
-      ],
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
       "directors_normalized": [
         "mary mazzio"
       ],
       "directors_raw": "MARY MAZZIO",
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:amc:83748",
+      "film_id": "tmdb:1766997",
       "first_observed_at": null,
-      "identity_type": "source",
+      "identity_type": "tmdb",
       "last_observed_at": null,
-      "match_confidence": 0.0,
-      "match_method": "fallback",
-      "match_status": "unmatched",
+      "match_confidence": 1.0,
+      "match_method": "manual",
+      "match_status": "confirmed_manual",
       "normalized_title": "Mighty Mary",
       "presentation_labels": [],
       "provenance": {
-        "source_identity_key": "amc|id|83748",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title",
-            "title": "Mighty Mary",
-            "year": null
-          }
-        ]
+        "decision_id": "admin_4ecf8bb4-595c-484f-8aa1-6e0087109676",
+        "source_identity_key": "amc|id|83748"
       },
       "runtime_min": 99,
-      "signals": {
-        "available_weight": 0.8,
-        "contributions": {
-          "director": {
-            "kind": "conflict",
-            "matched": false,
-            "weight": 0.2
-          },
-          "runtime": {
-            "kind": "conflict",
-            "matched": false,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "conflict",
-            "matched": false,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "matthew pinder"
-        ],
-        "director_conflict": true,
-        "director_overlap": false,
-        "director_source_normalized": [
-          "mary mazzio"
-        ],
-        "director_status": "conflict",
-        "director_weak_overlap": false,
-        "event_year_relaxed": true,
-        "external_id_exact": false,
-        "hard_conflict": true,
-        "matched_weight": 0.0,
-        "original_title_exact": false,
-        "popularity": 0.4287,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": true,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 53,
-        "runtime_near": false,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "conflict",
-        "search_query": "Mighty Mary",
-        "search_query_reason": "normalized_title",
-        "search_year_used": null,
-        "title_conflict": true,
-        "title_exact": false,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "uncertain_rerelease_restoration",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
+      "signals": null,
       "source_identities": [
         {
           "showtime_film_key": "mighty-mary",
@@ -6546,13 +6399,10 @@
           "source_title": "Mighty Mary"
         }
       ],
-      "tmdb_id": null,
+      "tmdb_id": 1766997,
       "top_candidate_margin": null,
       "warnings": [
-        "title_conflict",
-        "year_evidence_absent",
-        "runtime_conflict",
-        "director_conflict"
+        "product_year_weak_evidence"
       ],
       "year_hint": 2026,
       "year_interpretation": {
@@ -18262,76 +18112,6 @@
     },
     {
       "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "non_film",
-      "entity_kind": "mystery_screening",
-      "film_id": "source:amc:84874",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "none",
-      "match_status": "non_film",
-      "normalized_title": "AMC Screen Unseen: September 14",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "amc|id|84874"
-      },
-      "runtime_min": 112,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "amc-screen-unseen-september-14",
-          "source": "amc",
-          "source_film_id": "84874",
-          "source_title": "AMC Screen Unseen: September 14"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [
-        "mystery_or_unannounced",
-        "product_year_weak_evidence",
-        "program_entity_not_tmdb_movie"
-      ],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "AMC Screen Unseen: September 14",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": 2026,
-        "product_year_weak": true,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [
-          "product_year_weak_evidence"
-        ],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": true
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
       "candidates": [
         {
           "director": "James Bobin",
@@ -19264,81 +19044,7 @@
     },
     {
       "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "Seijun Suzuki",
-          "original_title": "カポネ大いに泣く",
-          "overview_excerpt": "Umiemon is a naniwa-bushi singer who travels with his wife to the United States in hopes of achieving fame and fortune.",
-          "popularity": 1.4813,
-          "poster_path": "/sLeGmA0zaKRN8STvde3iS36dQI5.jpg",
-          "release_year": 1985,
-          "runtime_min": 130,
-          "score": 1.0,
-          "search_query": "Capone Cries A Lot",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "seijun suzuki"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 1.4813,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Capone Cries A Lot",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Capone Cries a Lot",
-          "tmdb_id": 298235,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        }
-      ],
+      "candidates": [],
       "directors_normalized": [],
       "directors_raw": null,
       "eligibility": "eligible",
@@ -19348,74 +19054,16 @@
       "identity_type": "tmdb",
       "last_observed_at": null,
       "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
+      "match_method": "manual",
+      "match_status": "confirmed_manual",
       "normalized_title": "Capone Cries A Lot",
       "presentation_labels": [],
       "provenance": {
-        "source_identity_key": "beacon|id|capone-cries-a-lot",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title",
-            "title": "Capone Cries A Lot",
-            "year": null
-          }
-        ]
+        "decision_id": "admin_d54f1b77-9cce-4833-93ce-6536bba44a55",
+        "source_identity_key": "beacon|id|capone-cries-a-lot"
       },
       "runtime_min": 130,
-      "signals": {
-        "available_weight": 0.6,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "seijun suzuki"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.6,
-        "original_title_exact": false,
-        "popularity": 1.4813,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "Capone Cries A Lot",
-        "search_query_reason": "normalized_title",
-        "search_year_used": null,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
+      "signals": null,
       "source_identities": [
         {
           "showtime_film_key": "capone-cries-a-lot",
@@ -19425,18 +19073,8 @@
         }
       ],
       "tmdb_id": 298235,
-      "tmdb_original_title": "カポネ大いに泣く",
-      "tmdb_overview_excerpt": "Umiemon is a naniwa-bushi singer who travels with his wife to the United States in hopes of achieving fame and fortune.",
-      "tmdb_poster_path": "/sLeGmA0zaKRN8STvde3iS36dQI5.jpg",
-      "tmdb_release_year": 1985,
-      "tmdb_runtime_min": 130,
-      "tmdb_title": "Capone Cries a Lot",
       "top_candidate_margin": null,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
+      "warnings": [],
       "year_hint": null,
       "year_interpretation": {
         "alternate_search_title": null,
@@ -21225,81 +20863,7 @@
     },
     {
       "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "Charlie Kaufman",
-          "original_title": null,
-          "overview_excerpt": "A theater director struggles with his work, and the women in his life, as he attempts to create a life-size replica of New York inside a warehouse as part of his new play.",
-          "popularity": 4.8927,
-          "poster_path": "/5UwdhrjXhUgsiDhe1dpS9z4yj7q.jpg",
-          "release_year": 2008,
-          "runtime_min": 124,
-          "score": 1.0,
-          "search_query": "Synecdoche, New York",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "charlie kaufman"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 4.8927,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Synecdoche, New York",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Synecdoche, New York",
-          "tmdb_id": 4960,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        }
-      ],
+      "candidates": [],
       "directors_normalized": [],
       "directors_raw": null,
       "eligibility": "eligible",
@@ -21309,74 +20873,16 @@
       "identity_type": "tmdb",
       "last_observed_at": null,
       "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
+      "match_method": "manual",
+      "match_status": "confirmed_manual",
       "normalized_title": "Synecdoche, New York",
       "presentation_labels": [],
       "provenance": {
-        "source_identity_key": "beacon|id|synecdoche-new-york",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title",
-            "title": "Synecdoche, New York",
-            "year": null
-          }
-        ]
+        "decision_id": "admin_338600d2-8dbf-44fc-86b8-c4bddeceb29d",
+        "source_identity_key": "beacon|id|synecdoche-new-york"
       },
       "runtime_min": 124,
-      "signals": {
-        "available_weight": 0.6,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "charlie kaufman"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.6,
-        "original_title_exact": false,
-        "popularity": 4.8927,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "Synecdoche, New York",
-        "search_query_reason": "normalized_title",
-        "search_year_used": null,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
+      "signals": null,
       "source_identities": [
         {
           "showtime_film_key": "synecdoche-new-york",
@@ -21386,18 +20892,8 @@
         }
       ],
       "tmdb_id": 4960,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "A theater director struggles with his work, and the women in his life, as he attempts to create a life-size replica of New York inside a warehouse as part of his new play.",
-      "tmdb_poster_path": "/5UwdhrjXhUgsiDhe1dpS9z4yj7q.jpg",
-      "tmdb_release_year": 2008,
-      "tmdb_runtime_min": 124,
-      "tmdb_title": "Synecdoche, New York",
       "top_candidate_margin": null,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
+      "warnings": [],
       "year_hint": null,
       "year_interpretation": {
         "alternate_search_title": null,
@@ -22176,287 +21672,6 @@
           "normalized_source_fallback"
         ],
         "base_title": "The Invention Of Morel",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "William Wyler",
-          "original_title": null,
-          "overview_excerpt": "In 1900, a clan attempts to strike a deal with a Chicago industrialist to get him to build cotton mills in their Deep South town.",
-          "popularity": 2.6906,
-          "poster_path": "/hahHchjsnx62Ry7qmv2apYmlPX8.jpg",
-          "release_year": 1941,
-          "runtime_min": 117,
-          "score": 1.0,
-          "search_query": "The Little Foxes",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "william wyler"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 2.6906,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 2,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "The Little Foxes",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "The Little Foxes",
-          "tmdb_id": 43802,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "George Schaefer",
-          "original_title": null,
-          "overview_excerpt": "A tale of greed, one-upmanship, family distrust, abuse, apathy, and lost love, set in the deep south at the turn of the twentieth century.",
-          "popularity": 0.7955,
-          "poster_path": "/xsrNHNVqaE4u7FC0bhHNXCsfPQD.jpg",
-          "release_year": 1956,
-          "runtime_min": 90,
-          "score": 0.75,
-          "search_query": "The Little Foxes",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "george schaefer"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.7955,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 25,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "search_query": "The Little Foxes",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "The Little Foxes",
-          "tmdb_id": 513378,
-          "warnings": [
-            "year_evidence_absent",
-            "runtime_conflict",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:43802",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "The Little Foxes",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "beacon|id|the-little-foxes",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title",
-            "title": "The Little Foxes",
-            "year": null
-          }
-        ]
-      },
-      "runtime_min": 115,
-      "signals": {
-        "available_weight": 0.6,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "william wyler"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.6,
-        "original_title_exact": false,
-        "popularity": 2.6906,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 2,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "The Little Foxes",
-        "search_query_reason": "normalized_title",
-        "search_year_used": null,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "little-foxes",
-          "source": "beacon",
-          "source_film_id": "the-little-foxes",
-          "source_title": "THE LITTLE FOXES"
-        }
-      ],
-      "tmdb_id": 43802,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "In 1900, a clan attempts to strike a deal with a Chicago industrialist to get him to build cotton mills in their Deep South town.",
-      "tmdb_poster_path": "/hahHchjsnx62Ry7qmv2apYmlPX8.jpg",
-      "tmdb_release_year": 1941,
-      "tmdb_runtime_min": 117,
-      "tmdb_title": "The Little Foxes",
-      "top_candidate_margin": 0.25,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "The Little Foxes",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -35337,222 +34552,6 @@
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
-          "director": "John Waters",
-          "original_title": null,
-          "overview_excerpt": "Beverly is the perfect happy homemaker, along with her doting husband and two children, but this nuclear family just might explode when her fascination with serial killers collides with her ever-so-proper code of ethics.",
-          "popularity": 5.1249,
-          "poster_path": "/3Qlycp68b6TQkC1fMMahpf04Oq8.jpg",
-          "release_year": 1994,
-          "runtime_min": 94,
-          "score": 1.0,
-          "search_query": "Serial Mom",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "john waters"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 5.1249,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 1,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Serial Mom",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Serial Mom",
-          "tmdb_id": 11592,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:11592",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "Serial Mom",
-      "presentation_labels": [
-        "siff movie club"
-      ],
-      "provenance": {
-        "identity_title_candidate": "Serial Mom",
-        "raw_search_title": "Serial Mom",
-        "source_identity_key": "siff|id|programs-and-events/siff-movie-club/serial-mom",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title",
-            "title": "Serial Mom",
-            "year": null
-          }
-        ]
-      },
-      "runtime_min": 93,
-      "signals": {
-        "available_weight": 0.6,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "john waters"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.6,
-        "original_title_exact": false,
-        "popularity": 5.1249,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 1,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "Serial Mom",
-        "search_query_reason": "normalized_title",
-        "search_year_used": null,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "siff-movie-club-serial-mom",
-          "source": "siff",
-          "source_film_id": "programs-and-events/siff-movie-club/serial-mom",
-          "source_title": "SIFF Movie Club: Serial Mom"
-        }
-      ],
-      "tmdb_id": 11592,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "Beverly is the perfect happy homemaker, along with her doting husband and two children, but this nuclear family just might explode when her fascination with serial killers collides with her ever-so-proper code of ethics.",
-      "tmdb_poster_path": "/3Qlycp68b6TQkC1fMMahpf04Oq8.jpg",
-      "tmdb_release_year": 1994,
-      "tmdb_runtime_min": 94,
-      "tmdb_title": "Serial Mom",
-      "top_candidate_margin": null,
-      "warnings": [
-        "used_collection_identity_title_candidate",
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "program_series:siff-movie-club"
-        ],
-        "base_title": "Serial Mom",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [
-          "siff movie club"
-        ],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": "SIFF Movie Club",
-        "removed_phrases": [
-          "SIFF Movie Club"
-        ],
-        "scoring_year": null,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
           "director": "Joseph H. Lewis",
           "original_title": null,
           "overview_excerpt": "Bart Tare is an ex-Army man who has a lifelong fixation with guns, he meets a kindred spirit in sharpshooter Annie Starr and goes to work at a carnival. After upsetting the carnival owner who lusts after Starr, they bot…",
@@ -36954,6 +35953,6 @@
       }
     }
   ],
-  "generated_at": "2026-09-14T13:26:07+00:00",
+  "generated_at": "2026-09-15T12:17:47+00:00",
   "schema_version": "1.0.0"
 }
