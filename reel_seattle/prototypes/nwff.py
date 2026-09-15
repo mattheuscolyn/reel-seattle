@@ -458,6 +458,130 @@ def parse_detail_schedule(html: str, *, year_hint: int | None = None) -> list[tu
     return sorted(set(slots), key=lambda item: (item[0], item[1]))
 
 
+_NWFF_CREDIT_PAREN_RE = re.compile(r"\(([^)]{8,200})\)")
+_NWFF_RUNTIME_MIN_RE = re.compile(r"^(\d+)\s*min\.?$", re.IGNORECASE)
+_NWFF_RUNTIME_HM_RE = re.compile(
+    r"^(?:(\d+)\s*h(?:ours?)?\s*)(\d+)\s*min\.?$",
+    re.IGNORECASE,
+)
+_NWFF_YEAR_RE = re.compile(r"^(18|19|20)\d{2}$")
+_NWFF_SCREENS_WITH_RE = re.compile(r"(?i)\bscreens?\s+with\b")
+
+
+def _parse_nwff_feature_credit_inner(inner: str) -> dict[str, object]:
+    """Peel NWFF feature credit ``(Directors, Location, Year, Runtime, in Language)``.
+
+    Same right-to-left peel as shorts child metadata, plus ``1h 3min`` runtimes.
+    Returns only fields that parse confidently; never guesses.
+    """
+    from reel_seattle.shorts_programs.parse_metadata import (
+        _LANGUAGE_TAIL_RE,
+        _REGION_ABBR_RE,
+    )
+
+    text = (inner or "").strip()
+    if not text:
+        return {}
+    language = None
+    language_match = _LANGUAGE_TAIL_RE.search(text)
+    if language_match:
+        language = language_match.group(1).strip()
+        if language.casefold().startswith("in "):
+            language = language[3:].strip()
+        text = text[: language_match.start()].rstrip(" ,")
+
+    parts = [part.strip() for part in text.split(",") if part.strip()]
+    if not parts:
+        return {}
+
+    runtime_min = None
+    if parts:
+        last = parts[-1]
+        hm = _NWFF_RUNTIME_HM_RE.fullmatch(last)
+        mins = _NWFF_RUNTIME_MIN_RE.fullmatch(last)
+        if hm:
+            hours = int(hm.group(1) or 0)
+            minutes = int(hm.group(2))
+            runtime_min = hours * 60 + minutes
+            parts = parts[:-1]
+        elif mins:
+            runtime_min = int(mins.group(1))
+            parts = parts[:-1]
+
+    release_year = None
+    if parts and _NWFF_YEAR_RE.fullmatch(parts[-1]):
+        release_year = int(parts[-1])
+        parts = parts[:-1]
+
+    directors: list[str] = []
+    if len(parts) >= 2 and _REGION_ABBR_RE.match(parts[-1]):
+        directors = [part for part in parts[:-2] if part]
+    elif len(parts) >= 2:
+        directors = [part for part in parts[:-1] if part]
+    elif len(parts) == 1:
+        directors = [parts[0]]
+
+    out: dict[str, object] = {}
+    if directors:
+        out["directors"] = directors
+    if release_year is not None:
+        out["release_year"] = release_year
+    if runtime_min is not None and 0 < runtime_min <= 24 * 60:
+        out["runtime_min"] = runtime_min
+    if language:
+        out["language"] = language
+    return out
+
+
+def _extract_nwff_about_feature_credit(
+    soup: BeautifulSoup,
+    *,
+    source_title: str | None = None,
+) -> dict[str, object]:
+    """First About-section credit parenthesis for the feature (before shorts).
+
+    Local Sightings pages often omit itemprop director/year/duration but still
+    publish a stable ``(Director, City, YYYY, NNmin, in Language)`` line under
+    About. Shorts after ``Screens with`` are ignored. Shorts-program titles are
+    skipped so child-short credits are never promoted onto the parent listing.
+    """
+    title = (source_title or "").strip()
+    if re.search(r"(?i)\bshorts?\b", title):
+        return {}
+    about = soup.select_one('[itemprop="about"]')
+    if about is not None:
+        blob = about.get_text("\n", strip=True)
+    else:
+        # Fall back to visible body text; still stop at "Screens with".
+        blob = soup.get_text("\n", strip=True)
+        # Prefer the segment after the last "About" heading when present.
+        lowered = blob.split("\n")
+        about_idx = next(
+            (i for i, line in enumerate(lowered) if line.strip().casefold() == "about"),
+            None,
+        )
+        if about_idx is not None:
+            blob = "\n".join(lowered[about_idx + 1 :])
+
+    screens = _NWFF_SCREENS_WITH_RE.search(blob)
+    if screens:
+        blob = blob[: screens.start()]
+
+    for match in _NWFF_CREDIT_PAREN_RE.finditer(blob):
+        inner = match.group(1)
+        # Require a year token so phone numbers / addresses never qualify.
+        if not re.search(r"\b(?:18|19|20)\d{2}\b", inner):
+            continue
+        if not re.search(r"\b\d+\s*min\.?\b|\b\d+\s*h(?:ours?)?\b", inner, re.IGNORECASE):
+            continue
+        parsed = _parse_nwff_feature_credit_inner(inner)
+        if parsed:
+            parsed["credit_line"] = f"({inner.strip()})"
+            parsed["credit_provenance"] = "about_feature_credit_line"
+            return parsed
+    return {}
+
+
 def parse_program_page(html: str, *, url: str) -> ProgramPageData:
     soup = BeautifulSoup(html, "html.parser")
     h1 = soup.find("h1")
@@ -474,38 +598,61 @@ def parse_program_page(html: str, *, url: str) -> ProgramPageData:
     image = soup.select_one('meta[property="og:image"]') or soup.select_one('meta[itemprop="image"]')
 
     runtime_min = None
-    if duration_meta and duration_meta.get("content"):
-        match = re.fullmatch(r"PT(\d+)M", duration_meta["content"].strip())
+    duration_content = (duration_meta.get("content") if duration_meta else None) or ""
+    duration_content = duration_content.strip()
+    if duration_content:
+        match = re.fullmatch(r"PT(\d+)M", duration_content)
         if match:
             runtime_min = int(match.group(1))
 
     release_year = None
-    if year_meta and year_meta.get("content") and year_meta["content"].isdigit():
-        release_year = int(year_meta["content"])
+    year_content = (year_meta.get("content") if year_meta else None) or ""
+    year_content = year_content.strip()
+    if year_content.isdigit():
+        release_year = int(year_content)
+
+    directors: list[str] = []
+    if director_meta and (director_meta.get("content") or "").strip():
+        directors = [director_meta["content"].strip()]
+
+    credit_fallback = {}
+    if not directors or release_year is None or runtime_min is None:
+        credit_fallback = _extract_nwff_about_feature_credit(soup, source_title=title)
+        if not directors and credit_fallback.get("directors"):
+            directors = list(credit_fallback["directors"])  # type: ignore[arg-type]
+        if release_year is None and isinstance(credit_fallback.get("release_year"), int):
+            release_year = int(credit_fallback["release_year"])
+        if runtime_min is None and isinstance(credit_fallback.get("runtime_min"), int):
+            runtime_min = int(credit_fallback["runtime_min"])
 
     description = sanitize_description_html(str(about)) if about else []
     year_hint = release_year or datetime.now(PACIFIC).year
     schedule_slots = parse_detail_schedule(html, year_hint=year_hint)
     structure_ok = bool(h1 or title)
 
+    raw: dict[str, Any] = {
+        "copyright_year": year_content or None,
+        "duration": duration_content or None,
+        "schedule_slot_count": len(schedule_slots),
+    }
+    if credit_fallback.get("credit_line"):
+        raw["feature_credit_line"] = credit_fallback["credit_line"]
+        raw["feature_credit_provenance"] = credit_fallback.get("credit_provenance")
+
     return ProgramPageData(
         url=url,
         source_title=title,
         fetch_ok=True,
         structure_ok=structure_ok,
-        directors=[director_meta["content"]] if director_meta and director_meta.get("content") else [],
-        country=country_meta.get("content") if country_meta else None,
+        directors=directors,
+        country=(country_meta.get("content") if country_meta else None) or None,
         release_year=release_year,
         runtime_min=runtime_min,
         description_paragraphs=description,
         image_url=image.get("content") if image else None,
         ticket_url=ticket.get("href") if ticket else None,
         schedule_slots=schedule_slots,
-        raw={
-            "copyright_year": year_meta.get("content") if year_meta else None,
-            "duration": duration_meta.get("content") if duration_meta else None,
-            "schedule_slot_count": len(schedule_slots),
-        },
+        raw=raw,
     )
 
 

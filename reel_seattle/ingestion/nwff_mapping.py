@@ -150,6 +150,33 @@ def _release_year_from_program(program: Mapping[str, Any] | None) -> int | None:
     return None
 
 
+def _directors_raw_from_program(program: Mapping[str, Any] | None) -> str | None:
+    """Copy structured program directors into showtime attributes when present."""
+    if not program:
+        return None
+    raw = program.get("raw") if isinstance(program.get("raw"), Mapping) else {}
+    value = raw.get("directors")
+    if isinstance(value, str):
+        text = value.strip()
+        return text or None
+    if isinstance(value, (list, tuple)):
+        parts: list[str] = []
+        for item in value:
+            if isinstance(item, str) and item.strip():
+                parts.append(item.strip())
+            elif isinstance(item, Mapping):
+                name = item.get("name") or item.get("director")
+                if isinstance(name, str) and name.strip():
+                    parts.append(name.strip())
+        if not parts:
+            return None
+        # Contract often stores one string that already contains commas between names.
+        if len(parts) == 1:
+            return parts[0]
+        return ", ".join(parts)
+    return None
+
+
 def _image_from_program(program: Mapping[str, Any] | None) -> str | None:
     if not program:
         return None
@@ -384,6 +411,7 @@ def map_nwff_contract_to_indie(
         )
         runtime_raw = _runtime_raw_from_program(program)
         release_year = _release_year_from_program(program)
+        directors_raw = _directors_raw_from_program(program)
         image_url = _image_from_program(program)
         program_kind = program.get("program_kind") if program else None
         program_ticket = None
@@ -411,6 +439,14 @@ def map_nwff_contract_to_indie(
         }
         if release_year is not None:
             attributes["release_year"] = release_year
+        if directors_raw:
+            attributes["directors_raw"] = directors_raw
+            if program and isinstance(program.get("raw"), Mapping):
+                provenance = program["raw"].get("feature_credit_provenance")
+                if isinstance(provenance, str) and provenance.strip():
+                    attributes["directors_provenance"] = provenance.strip()
+                elif program["raw"].get("directors"):
+                    attributes["directors_provenance"] = "program_itemprop_or_contract"
 
         staged.append(
             {
