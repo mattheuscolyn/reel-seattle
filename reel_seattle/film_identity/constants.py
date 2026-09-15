@@ -107,3 +107,5 @@ UNRESOLVED_EVENT_CLASSIFICATIONS_REL = (
 )
 REVIEW_QUEUE_REL = "data/film_identity/tmdb_match_review_queue.json"
 COVERAGE_REL = "data/audits/tmdb_film_identity_coverage.json"
+SHADOW_EVAL_REL = "data/audits/tmdb_matcher_shadow_eval.json"
+SHADOW_EVAL_SUMMARY_REL = "data/audits/tmdb_matcher_shadow_eval_summary.md"
