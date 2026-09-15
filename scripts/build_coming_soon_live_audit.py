@@ -147,6 +147,18 @@ def render_markdown(
         else:
             lines.append("- Per-movie performance endpoint: none responded 200")
         lines.append(f"- National vs theater-specific: {national.get('behavior') or 'not determined'}")
+        scoped = national.get("theater_scoped_endpoints") or []
+        if scoped:
+            lines.append(
+                "  - theater-scoped paths: "
+                + "; ".join(f"`{r.get('path')}` status `{r.get('status')}`" for r in scoped)
+            )
+        with_param = national.get("national_endpoint_with_theater_param") or {}
+        if with_param:
+            lines.append(
+                f"  - national endpoint with `theatre-id`: status `{with_param.get('status')}`, "
+                f"{with_param.get('interpretation') or 'not evaluated'}"
+            )
         lines.append("")
         lines.append("### Target titles (catalog evidence vs theater bookings)")
         lines.append("")

@@ -462,14 +462,17 @@ def investigate_targets(
                 }
             )
 
-        # Direct slug lookup is independent of both the catalog listing and bookings.
+        # Direct single-resource lookup, independent of the catalog listing and
+        # of bookings. Prefer the catalog's own slug over the guessed one.
+        lookup_slug = (catalog_hit or {}).get("slug") or slug
         slug_probe, slug_payload = prober.get(
-            f"/movies/{slug}",
-            name=f"movie_by_slug_{slug}",
+            f"/movies/{lookup_slug}",
+            name=f"movie_by_slug_{lookup_slug}",
             note="direct catalog lookup by slug",
         )
         entry["slug_lookup"] = {
-            "path": f"/movies/{slug}",
+            "path": f"/movies/{lookup_slug}",
+            "slug_source": "catalog record" if (catalog_hit or {}).get("slug") else "guessed",
             "status": slug_probe.get("status"),
             "found": bool(slug_probe.get("ok")),
         }
@@ -507,17 +510,21 @@ def investigate_national_vs_theater(
     prober: AmcProbe,
     *,
     national_movies: list[dict[str, Any]],
+    national_total_count: int | None,
     theater: Mapping[str, Any] | None,
     page_size: int,
 ) -> dict[str, Any]:
     """Compare the national catalog with theater-scoped catalog endpoints."""
     result: dict[str, Any] = {
         "national_title_count": len(national_movies),
+        "national_total_count": national_total_count,
         "theater_probed": None,
-        "theater_endpoints": [],
+        "theater_scoped_endpoints": [],
+        "national_endpoint_with_theater_param": None,
     }
     if theater is None:
-        result["note"] = "No Seattle-area AMC theater id resolved; theater-scoped probes skipped."
+        result["note"] = "No AMC theater id resolved; theater-scoped probes skipped."
+        result["behavior"] = "not determined"
         return result
 
     theater_id = str(theater.get("id"))
@@ -526,46 +533,86 @@ def investigate_national_vs_theater(
         "name": scrub_text(str(theater.get("name") or "")),
     }
 
-    shapes = [
-        (f"/theatres/{theater_id}/movies/views/coming-soon", {"page-number": 1, "page-size": page_size}),
-        (f"/theatres/{theater_id}/movies", {"page-number": 1, "page-size": page_size}),
-        ("/movies/views/coming-soon", {"page-number": 1, "page-size": page_size, "theatre-id": theater_id}),
-    ]
-
     national_keys = {match_key(movie["name"]) for movie in national_movies}
+    national_keys.discard("")
 
-    for path, params in shapes:
+    def probe_shape(path: str, params: Mapping[str, Any], *, name: str) -> dict[str, Any]:
         probe, payload = prober.get(
             path,
-            name=f"theater_scoped{path.replace(theater_id, '{theater_id}')}",
+            name=name,
             params=params,
             note="national vs theater-specific comparison",
         )
         record: dict[str, Any] = {
             "path": path.replace(theater_id, "{theater_id}"),
-            "query": dict(params),
+            "query": {
+                key: ("{theater_id}" if str(value) == theater_id else value)
+                for key, value in params.items()
+            },
             "status": probe.get("status"),
             "accessible": bool(probe.get("ok")),
             "item_count": probe.get("item_count"),
             "total_count": probe.get("total_count"),
+            "error": probe.get("error"),
         }
         if probe.get("ok") and isinstance(payload, Mapping):
             _key, items = _embedded_items(payload)
-            theater_keys = {match_key(str(item.get("name") or "")) for item in items}
-            theater_keys.discard("")
-            record["sample_titles"] = [
-                scrub_text(str(item.get("name") or "")) for item in items[:10]
-            ]
-            record["titles_also_in_national_page"] = len(theater_keys & national_keys)
-            record["titles_not_in_national_page"] = len(theater_keys - national_keys)
-        result["theater_endpoints"].append(record)
+            keys = {match_key(str(item.get("name") or "")) for item in items}
+            keys.discard("")
+            record["sample_titles"] = [scrub_text(str(item.get("name") or "")) for item in items[:10]]
+            record["titles_also_in_national_catalog"] = len(keys & national_keys)
+            record["titles_not_in_national_catalog"] = len(keys - national_keys)
+        return record
 
-    accessible = [r for r in result["theater_endpoints"] if r["accessible"]]
-    result["behavior"] = (
-        "national catalog only; no theater-scoped catalog endpoint responded 200"
-        if not accessible
-        else "both national and theater-scoped catalog endpoints respond"
+    # True theater-scoped catalog paths.
+    for index, path in enumerate(
+        (
+            f"/theatres/{theater_id}/movies/views/coming-soon",
+            f"/theatres/{theater_id}/movies",
+        ),
+        start=1,
+    ):
+        result["theater_scoped_endpoints"].append(
+            probe_shape(
+                path,
+                {"page-number": 1, "page-size": page_size},
+                name=f"theater_scoped_catalog_{index}",
+            )
+        )
+
+    # The national endpoint with a theatre-id filter: accepting the request is
+    # not the same as honoring the filter, so compare the reported total.
+    with_param = probe_shape(
+        "/movies/views/coming-soon",
+        {"page-number": 1, "page-size": page_size, "theatre-id": theater_id},
+        name="national_catalog_with_theatre_id_param",
     )
+    if with_param["accessible"]:
+        reported = with_param.get("total_count")
+        with_param["filter_honored"] = (
+            None
+            if reported is None or national_total_count is None
+            else reported != national_total_count
+        )
+        with_param["interpretation"] = (
+            "theatre-id changed the result set"
+            if with_param["filter_honored"]
+            else "theatre-id appears ignored; identical total to the national catalog"
+        )
+    result["national_endpoint_with_theater_param"] = with_param
+
+    scoped_ok = [record for record in result["theater_scoped_endpoints"] if record["accessible"]]
+    if scoped_ok:
+        result["behavior"] = "theater-scoped catalog endpoints respond alongside the national catalog"
+    elif with_param.get("filter_honored"):
+        result["behavior"] = (
+            "national catalog only, but it accepts a theatre-id filter that narrows results"
+        )
+    else:
+        result["behavior"] = (
+            "national catalog only; theater-scoped catalog paths return 404 and a "
+            "theatre-id filter on the national endpoint is ignored"
+        )
     return result
 
 
@@ -753,6 +800,7 @@ def main() -> int:
     national_vs_theater = investigate_national_vs_theater(
         prober,
         national_movies=movies,
+        national_total_count=(catalog.get("pagination") or {}).get("total_count_field"),
         theater=theater,
         page_size=min(args.page_size, 50),
     )
