@@ -1,0 +1,36 @@
+{
+  "investigation_date": "2026-09-15T05:20:32.724714",
+  "window_start": "2026-09-15",
+  "window_end": "2026-12-14",
+  "amc": {
+    "tested_at": "2026-09-15T05:20:32.724807",
+    "amc_api_key_available": false,
+    "tests": [
+      {
+        "name": "movies_catalog",
+        "endpoint": "/v2/movies?page-number=1&page-size=20",
+        "status": 400,
+        "success": false,
+        "error": "{\n                                \"errors\": [\n                                    {\n                                        \"code\": 1,\n                                        \"exceptionMessage\": \"The request requires vendor authentication\",\n                                        \"message\": \"The req"
+      },
+      {
+        "name": "coming_soon_filter",
+        "endpoint": "/v2/movies?filter=coming-soon&page-number=1&page-size=100",
+        "status": 400,
+        "success": false,
+        "error": "{\n                                \"errors\": [\n                                    {\n                                        \"code\": 1,\n                                        \"exceptionMessage\": \"The request requires vendor authentication\",\n                                        \"message\": \"The req"
+      },
+      {
+        "name": "now_playing_filter",
+        "endpoint": "/v2/movies?filter=now-playing&page-number=1&page-size=20",
+        "status": 400,
+        "success": false,
+        "error": "{\n                                \"errors\": [\n                                    {\n                                        \"code\": 1,\n                                        \"exceptionMessage\": \"The request requires vendor authentication\",\n                                        \"message\": \"The req"
+      }
+    ]
+  },
+  "tmdb": {
+    "error": "Missing TMDB credentials. Set TMDB_READ_ACCESS_TOKEN (preferred) or TMDB_API_KEY. Never pass secrets on the CLI.",
+    "tests": []
+  }
+}
