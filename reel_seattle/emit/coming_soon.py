@@ -26,56 +26,98 @@ from reel_seattle.normalize import (
 )
 
 DEFAULT_WINDOW_DAYS = 90
-EVIDENCE_AMC_COMING_SOON = "amc_coming_soon"
-EVIDENCE_TMDB_US_THEATRICAL = "tmdb_us_theatrical"
-EVIDENCE_REEL_SEATTLE_SCHEDULED = "reel_seattle_scheduled"
 
-STATUS_CONFIRMED_LOCAL = "confirmed_local"
-STATUS_AMC_ANNOUNCED = "amc_announced"
-STATUS_TMDB_UPCOMING = "tmdb_upcoming"
+# Evidence flags - these are INDEPENDENT and must not be conflated
+EVIDENCE_AMC_THEATER_BOOKING = "amc_theater_booking"  # Has actual AMC performance booking
+EVIDENCE_AMC_CATALOG = "amc_catalog"  # In AMC catalog (NOT accessible with our credentials)
+EVIDENCE_TMDB_US_THEATRICAL = "tmdb_us_theatrical"  # TMDB US theatrical release
+EVIDENCE_REEL_SEATTLE_FUTURE = "reel_seattle_future"  # Has future Reel Seattle screening
 
-DEFAULT_OUTPUT_PATH = Path("data/audits/coming_soon_source_audit.json")
+# Status classifications based on evidence
+STATUS_CONFIRMED_LOCAL_FUTURE = "confirmed_local_future"  # Has future screening, no current availability
+STATUS_CURRENTLY_AVAILABLE = "currently_available"  # Has screening in current window
+STATUS_AMC_BOOKED_FUTURE = "amc_booked_future"  # AMC booking but no current local availability
+STATUS_TMDB_UPCOMING = "tmdb_upcoming"  # TMDB evidence only
+
+DEFAULT_OUTPUT_PATH = Path("data/audits/coming_soon_source_audit_v2.json")
 
 
 @dataclass
 class ComingSoonCandidate:
-    """One coming soon movie candidate from any source."""
+    """One coming soon movie candidate from any source.
+    
+    IMPORTANT: Evidence flags are independent:
+    - amcTheaterBooking: Has actual AMC performance slots (from showtimes API)
+    - amcCatalog: In AMC movie catalog (NOT accessible - documented for future)
+    - tmdbUsTheatrical: TMDB US theatrical release data
+    - reelSeattleFuture: Has confirmed future Reel Seattle screening
+    """
     
     canonical_film_id: str | None
     title: str
     tmdb_id: int | None
     amc_movie_id: str | None
-    expected_release_date: date | None
-    expected_release_date_source: str | None
-    first_local_screening_date: date | None
-    local_theater_ids: list[str]
-    evidence: set[str] = field(default_factory=set)
-    amc_first_announced_date: date | None = None
-    tmdb_release_date: date | None = None
-    reel_seattle_earliest_date: date | None = None
-    parent_film_key: str | None = None
-    showtime_film_key: str | None = None
+    parent_film_key: str | None
+    showtime_film_key: str | None
+    
+    # Evidence flags (independent)
+    amc_theater_booking: bool = False
+    amc_catalog: bool = False  # Not accessible in current investigation
+    tmdb_us_theatrical: bool = False
+    reel_seattle_future: bool = False
+    reel_seattle_current: bool = False  # Has screening in current window
+    
+    # Dates (can be from different sources)
+    amc_first_booking_date: date | None = None
+    amc_catalog_release_date: date | None = None  # Not available
+    tmdb_us_release_date: date | None = None
+    first_local_screening_date: date | None = None
+    earliest_current_screening: date | None = None
+    
+    # Theater info
+    local_theater_ids: list[str] = field(default_factory=list)
     
     def provisional_status(self) -> str:
-        """Classify movie by evidence strength."""
-        if EVIDENCE_REEL_SEATTLE_SCHEDULED in self.evidence and self.first_local_screening_date:
-            return STATUS_CONFIRMED_LOCAL
-        if EVIDENCE_AMC_COMING_SOON in self.evidence:
-            return STATUS_AMC_ANNOUNCED
-        if EVIDENCE_TMDB_US_THEATRICAL in self.evidence:
+        """Classify movie by evidence and availability."""
+        # If currently available, it's not "coming soon"
+        if self.reel_seattle_current and self.earliest_current_screening:
+            return STATUS_CURRENTLY_AVAILABLE
+        
+        # If has future local screening (but not current), it's confirmed future
+        if self.reel_seattle_future and self.first_local_screening_date:
+            return STATUS_CONFIRMED_LOCAL_FUTURE
+        
+        # If has AMC theater booking (but no current/future local match), it's AMC booked
+        if self.amc_theater_booking:
+            return STATUS_AMC_BOOKED_FUTURE
+        
+        # TMDB only (when we can query it)
+        if self.tmdb_us_theatrical:
             return STATUS_TMDB_UPCOMING
+        
         return "unknown"
     
     def confidence_explanation(self) -> str:
         """Human-readable confidence reasoning."""
         status = self.provisional_status()
-        if status == STATUS_CONFIRMED_LOCAL:
-            return f"Confirmed Seattle screening on {self.first_local_screening_date}"
-        if status == STATUS_AMC_ANNOUNCED:
-            return f"AMC announced, first screening {self.amc_first_announced_date or 'TBD'}"
+        
+        if status == STATUS_CURRENTLY_AVAILABLE:
+            return f"Currently available (screening {self.earliest_current_screening})"
+        
+        if status == STATUS_CONFIRMED_LOCAL_FUTURE:
+            return f"Confirmed future Seattle screening on {self.first_local_screening_date}"
+        
+        if status == STATUS_AMC_BOOKED_FUTURE:
+            return f"AMC theater booking, first screening {self.amc_first_booking_date or 'TBD'}"
+        
         if status == STATUS_TMDB_UPCOMING:
-            return f"TMDB US theatrical release {self.tmdb_release_date or 'TBD'}"
+            return f"TMDB US theatrical release {self.tmdb_us_release_date or 'TBD'}"
+        
         return "Insufficient evidence"
+    
+    def is_coming_soon(self) -> bool:
+        """True if this should be included in Coming Soon (not currently available)."""
+        return self.provisional_status() != STATUS_CURRENTLY_AVAILABLE
 
 
 def pacific_today(now: datetime | None = None) -> date:
@@ -87,17 +129,20 @@ def pacific_today(now: datetime | None = None) -> date:
     return now.astimezone(ZoneInfo(DEFAULT_TIMEZONE)).date()
 
 
-def extract_amc_coming_soon_candidates(
+def extract_amc_theater_bookings(
     *,
     amc_scrape_log_path: Path,
     today_date: date,
     window_end: date,
-    current_window_start: date,
+    current_window_end: date,  # End of "currently available" window
 ) -> list[ComingSoonCandidate]:
-    """Extract movies from AMC with future announced screenings but no current screenings.
+    """Extract movies from AMC theater bookings (performance data, NOT catalog).
     
-    AMC Coming Soon evidence: movies with first screening >= today + N days.
-    This indicates AMC has announced the movie but it's not yet playing.
+    IMPORTANT: This extracts from theater showtimes API, which returns actual
+    performance bookings. This is NOT the same as AMC's Coming Soon catalog.
+    
+    A movie with future bookings may or may not be "coming soon" depending on
+    whether it's currently available.
     """
     
     if not amc_scrape_log_path.exists():
@@ -131,48 +176,54 @@ def extract_amc_coming_soon_candidates(
             movies_by_id[movie_id] = {
                 "title": record.title_raw,
                 "amc_movie_id": movie_id,
-                "dates": [],
+                "current_dates": [],
+                "future_dates": [],
+                "all_dates": [],
                 "theaters": set(),
             }
         
-        movies_by_id[movie_id]["dates"].append(show_date)
+        movies_by_id[movie_id]["all_dates"].append(show_date)
+        
+        # Classify as current vs future
+        if show_date <= current_window_end:
+            movies_by_id[movie_id]["current_dates"].append(show_date)
+        else:
+            movies_by_id[movie_id]["future_dates"].append(show_date)
+        
         movies_by_id[movie_id]["theaters"].add(record.theater_name_raw)
     
-    # Filter for "coming soon" - movies with NO screenings in current window
-    # but WITH screenings in the coming soon window
+    # Create candidates for ALL movies with bookings in the window
     candidates = []
     
     for movie_id, info in movies_by_id.items():
-        dates = sorted(info["dates"])
-        first_date = dates[0]
+        all_dates = sorted(info["all_dates"])
+        current_dates = sorted(info["current_dates"])
+        future_dates = sorted(info["future_dates"])
         
-        # Check if ANY screening is in the current playing window
-        has_current_screening = any(d < today_date + timedelta(days=7) for d in dates)
+        identity = derive_parent_identity(
+            info["title"],
+            source_film_id=movie_id,
+        )
         
-        # Coming Soon: first screening is sufficiently far out OR no current screenings
-        is_coming_soon = first_date >= today_date + timedelta(days=7) or not has_current_screening
+        candidate = ComingSoonCandidate(
+            canonical_film_id=None,  # Will be resolved later
+            title=info["title"],
+            tmdb_id=None,
+            amc_movie_id=movie_id,
+            parent_film_key=identity.parent_film_key,
+            showtime_film_key=None,
+            amc_theater_booking=True,
+            amc_first_booking_date=all_dates[0] if all_dates else None,
+            earliest_current_screening=current_dates[0] if current_dates else None,
+            first_local_screening_date=future_dates[0] if future_dates else None,
+            local_theater_ids=[],  # TODO: map theater names to IDs
+        )
         
-        if is_coming_soon:
-            identity = derive_parent_identity(
-                info["title"],
-                source_film_id=movie_id,
-            )
-            
-            candidate = ComingSoonCandidate(
-                canonical_film_id=None,  # Will be resolved later
-                title=info["title"],
-                tmdb_id=None,
-                amc_movie_id=movie_id,
-                expected_release_date=first_date,
-                expected_release_date_source="amc_first_announced_screening",
-                first_local_screening_date=first_date if first_date >= today_date else None,
-                local_theater_ids=[],  # TODO: map theater names to IDs
-                amc_first_announced_date=first_date,
-                parent_film_key=identity.parent_film_key,
-                showtime_film_key=None,
-            )
-            candidate.evidence.add(EVIDENCE_AMC_COMING_SOON)
-            candidates.append(candidate)
+        # Set current vs future flags
+        candidate.reel_seattle_current = bool(current_dates)
+        candidate.reel_seattle_future = bool(future_dates)
+        
+        candidates.append(candidate)
     
     return candidates
 
@@ -295,12 +346,13 @@ def build_coming_soon_source_audit(
     amc_log_date: str | None = None,
     logs_dir: Path = Path("data/daily_logs"),
     showtimes_current_path: Path = Path("public/data/showtimes_current.json"),
+    current_window_days: int = 7,  # Days for "currently available" window
 ) -> dict[str, Any]:
-    """Build coming soon source audit artifact."""
+    """Build coming soon source audit artifact (V2 with corrected evidence model)."""
     
     today = today_date or pacific_today()
     window_end = today + timedelta(days=window_days)
-    current_window_start = today - timedelta(days=2)  # Current window for "now playing"
+    current_window_end = today + timedelta(days=current_window_days)
     
     # Find most recent AMC log if not specified
     if amc_log_date is None:
@@ -313,79 +365,109 @@ def build_coming_soon_source_audit(
         amc_log_path = daily_log_path(amc_log_date, "amc", logs_dir=logs_dir)
     
     print(f"Using AMC log: {amc_log_path}")
+    print(f"Current window: {today} to {current_window_end} ({current_window_days} days)")
+    print(f"Full window: {today} to {window_end} ({window_days} days)")
     
-    # Extract candidates
-    amc_candidates = extract_amc_coming_soon_candidates(
+    # Extract AMC theater bookings
+    amc_candidates = extract_amc_theater_bookings(
         amc_scrape_log_path=amc_log_path,
         today_date=today,
         window_end=window_end,
-        current_window_start=current_window_start,
+        current_window_end=current_window_end,
     )
     
-    print(f"AMC coming soon candidates: {len(amc_candidates)}")
+    print(f"AMC theater bookings found: {len(amc_candidates)}")
     
-    # Load Reel Seattle future screenings
-    reel_seattle_future = {}
-    if showtimes_current_path.exists():
-        with showtimes_current_path.open(encoding="utf-8") as f:
-            showtimes_current = json.load(f)
-        reel_seattle_future = extract_reel_seattle_future_screenings(
-            showtimes_current=showtimes_current,
-            today_date=today,
-        )
-        print(f"Reel Seattle future films: {len(reel_seattle_future)}")
+    # Classify candidates
+    currently_available = [c for c in amc_candidates if c.provisional_status() == STATUS_CURRENTLY_AVAILABLE]
+    future_only = [c for c in amc_candidates if c.is_coming_soon()]
     
-    # Merge all sources
-    merged = merge_candidates(
-        amc_candidates=amc_candidates,
-        reel_seattle_future=reel_seattle_future,
-    )
+    print(f"  Currently available: {len(currently_available)}")
+    print(f"  Coming soon (future only): {len(future_only)}")
     
     # Classify by provisional status
     status_counts = {}
-    for candidate in merged:
+    for candidate in amc_candidates:
         status = candidate.provisional_status()
         status_counts[status] = status_counts.get(status, 0) + 1
     
-    # Build artifact entries
+    # Build artifact entries (include ALL for analysis, flag which are truly "coming soon")
     entries = []
-    for candidate in sorted(merged, key=lambda c: (c.expected_release_date or date.max, c.title)):
-        entries.append({
+    for candidate in sorted(amc_candidates, key=lambda c: (c.amc_first_booking_date or date.max, c.title)):
+        entry = {
             "canonical_film_id": candidate.canonical_film_id,
             "title": candidate.title,
             "tmdb_id": candidate.tmdb_id,
             "amc_movie_id": candidate.amc_movie_id,
             "parent_film_key": candidate.parent_film_key,
-            "expected_release_date": candidate.expected_release_date.isoformat() if candidate.expected_release_date else None,
-            "expected_release_date_source": candidate.expected_release_date_source,
+            "showtime_film_key": candidate.showtime_film_key,
+            
+            # Evidence flags (independent)
+            "evidence": {
+                "amc_theater_booking": candidate.amc_theater_booking,
+                "amc_catalog": candidate.amc_catalog,
+                "tmdb_us_theatrical": candidate.tmdb_us_theatrical,
+                "reel_seattle_future": candidate.reel_seattle_future,
+                "reel_seattle_current": candidate.reel_seattle_current,
+            },
+            
+            # Dates
+            "amc_first_booking_date": candidate.amc_first_booking_date.isoformat() if candidate.amc_first_booking_date else None,
+            "amc_catalog_release_date": candidate.amc_catalog_release_date.isoformat() if candidate.amc_catalog_release_date else None,
+            "tmdb_us_release_date": candidate.tmdb_us_release_date.isoformat() if candidate.tmdb_us_release_date else None,
             "first_local_screening_date": candidate.first_local_screening_date.isoformat() if candidate.first_local_screening_date else None,
-            "local_theater_ids": candidate.local_theater_ids,
-            "evidence": sorted(candidate.evidence),
+            "earliest_current_screening": candidate.earliest_current_screening.isoformat() if candidate.earliest_current_screening else None,
+            
+            # Classification
             "provisional_status": candidate.provisional_status(),
+            "is_coming_soon": candidate.is_coming_soon(),
             "confidence_explanation": candidate.confidence_explanation(),
-        })
+            
+            # Theater info
+            "local_theater_ids": candidate.local_theater_ids,
+        }
+        entries.append(entry)
+    
+    # Evaluate different window sizes
+    window_analysis = {}
+    for days in [30, 60, 90]:
+        cutoff = today + timedelta(days=days)
+        in_window = [
+            c for c in amc_candidates
+            if c.is_coming_soon() and c.amc_first_booking_date and c.amc_first_booking_date <= cutoff
+        ]
+        window_analysis[f"{days}_days"] = len(in_window)
     
     artifact = {
-        "schema_version": "0.1.0",
+        "schema_version": "0.2.0",
         "generated_at": datetime.now(ZoneInfo(DEFAULT_TIMEZONE)).isoformat(timespec="seconds"),
-        "investigation_type": "coming_soon_source_audit",
+        "investigation_type": "coming_soon_source_audit_v2",
+        "important_notes": [
+            "This audit uses AMC theater booking data (performance slots), NOT AMC catalog",
+            "AMC catalog API (/v2/movies) requires credentials not available in this environment",
+            "TMDB queries require credentials not available in this environment",
+            "Evidence flags are INDEPENDENT - do not conflate theater bookings with catalog membership",
+        ],
         "window": {
             "start_date": today.isoformat(),
             "end_date": window_end.isoformat(),
             "days": window_days,
+            "current_window_end": current_window_end.isoformat(),
+            "current_window_days": current_window_days,
         },
         "sources": {
             "amc_log": str(amc_log_path),
             "amc_log_date": amc_log_date,
-            "reel_seattle_showtimes": str(showtimes_current_path) if showtimes_current_path.exists() else None,
+            "amc_source_type": "theater_showtimes_api",
+            "amc_catalog_accessible": False,
+            "tmdb_accessible": False,
         },
         "stats": {
             "total_candidates": len(entries),
-            "amc_only_count": sum(1 for e in entries if e["evidence"] == [EVIDENCE_AMC_COMING_SOON]),
-            "confirmed_local_count": status_counts.get(STATUS_CONFIRMED_LOCAL, 0),
-            "amc_announced_count": status_counts.get(STATUS_AMC_ANNOUNCED, 0),
-            "tmdb_upcoming_count": status_counts.get(STATUS_TMDB_UPCOMING, 0),
+            "coming_soon_count": len(future_only),
+            "currently_available_count": len(currently_available),
             "status_counts": status_counts,
+            "window_analysis": window_analysis,
         },
         "entries": entries,
     }

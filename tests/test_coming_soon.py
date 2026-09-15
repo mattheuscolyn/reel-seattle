@@ -1,4 +1,4 @@
-"""Tests for Coming Soon data pipeline."""
+"""Tests for Coming Soon data pipeline (V2 with corrected evidence model)."""
 
 import json
 from datetime import date, timedelta
@@ -6,46 +6,46 @@ from pathlib import Path
 
 from reel_seattle.emit.coming_soon import (
     ComingSoonCandidate,
-    EVIDENCE_AMC_COMING_SOON,
-    EVIDENCE_REEL_SEATTLE_SCHEDULED,
-    STATUS_CONFIRMED_LOCAL,
-    STATUS_AMC_ANNOUNCED,
-    extract_amc_coming_soon_candidates,
-    extract_reel_seattle_future_screenings,
-    merge_candidates,
+    STATUS_CONFIRMED_LOCAL_FUTURE,
+    STATUS_CURRENTLY_AVAILABLE,
+    extract_amc_theater_bookings,
 )
 
 
 def test_coming_soon_candidate_status():
-    """Test candidate status classification."""
+    """Test candidate status classification with V2 schema."""
     
-    # AMC announced only
+    # AMC theater booking, future only
     candidate = ComingSoonCandidate(
         canonical_film_id=None,
         title="Test Movie",
         tmdb_id=None,
         amc_movie_id="12345",
-        expected_release_date=date(2026, 10, 1),
-        expected_release_date_source="amc",
-        first_local_screening_date=None,
-        local_theater_ids=[],
+        parent_film_key="test-movie",
+        showtime_film_key="test-movie",
+        amc_theater_booking=True,
+        reel_seattle_future=True,
+        reel_seattle_current=False,
+        amc_first_booking_date=date(2026, 10, 1),
+        first_local_screening_date=date(2026, 10, 1),
+        local_theater_ids=["amc-pacific-place-11"],
     )
-    candidate.evidence.add(EVIDENCE_AMC_COMING_SOON)
     
-    assert candidate.provisional_status() == STATUS_AMC_ANNOUNCED
-    assert "AMC announced" in candidate.confidence_explanation()
+    assert candidate.provisional_status() == STATUS_CONFIRMED_LOCAL_FUTURE
+    assert "future Seattle screening" in candidate.confidence_explanation()
+    assert candidate.is_coming_soon() is True
     
-    # Confirmed local
-    candidate.evidence.add(EVIDENCE_REEL_SEATTLE_SCHEDULED)
-    candidate.first_local_screening_date = date(2026, 10, 1)
-    candidate.local_theater_ids = ["amc-seattle-10"]
+    # Currently available (should NOT be coming soon)
+    candidate.reel_seattle_current = True
+    candidate.earliest_current_screening = date(2026, 9, 15)
     
-    assert candidate.provisional_status() == STATUS_CONFIRMED_LOCAL
-    assert "Confirmed Seattle screening" in candidate.confidence_explanation()
+    assert candidate.provisional_status() == STATUS_CURRENTLY_AVAILABLE
+    assert "Currently available" in candidate.confidence_explanation()
+    assert candidate.is_coming_soon() is False
 
 
-def test_extract_amc_coming_soon_from_real_log():
-    """Test extraction using real AMC log."""
+def test_extract_amc_theater_bookings_from_real_log():
+    """Test extraction using real AMC log with V2 schema."""
     
     # Use most recent AMC log
     logs_dir = Path("data/daily_logs")
@@ -57,89 +57,76 @@ def test_extract_amc_coming_soon_from_real_log():
     amc_log_path = amc_logs[-1]
     today = date(2026, 9, 15)
     window_end = today + timedelta(days=90)
-    current_window_start = today - timedelta(days=2)
+    current_window_end = today + timedelta(days=7)
     
-    candidates = extract_amc_coming_soon_candidates(
+    candidates = extract_amc_theater_bookings(
         amc_scrape_log_path=amc_log_path,
         today_date=today,
         window_end=window_end,
-        current_window_start=current_window_start,
+        current_window_end=current_window_end,
     )
     
-    assert len(candidates) > 0, "Should find some coming soon movies"
+    assert len(candidates) > 0, "Should find some AMC theater bookings"
     
     for candidate in candidates:
         assert candidate.amc_movie_id is not None
         assert candidate.title
-        assert candidate.expected_release_date is not None
-        assert EVIDENCE_AMC_COMING_SOON in candidate.evidence
+        assert candidate.amc_theater_booking is True
+        assert candidate.amc_first_booking_date is not None
         assert candidate.parent_film_key is not None
+        
+        # Should be classified as either current or future
+        status = candidate.provisional_status()
+        assert status in (STATUS_CURRENTLY_AVAILABLE, STATUS_CONFIRMED_LOCAL_FUTURE)
 
 
-def test_merge_candidates_with_reel_seattle():
-    """Test merging AMC candidates with Reel Seattle future screenings."""
+def test_current_vs_future_classification():
+    """Test current vs future classification."""
     
-    amc_candidates = [
-        ComingSoonCandidate(
-            canonical_film_id=None,
-            title="Test Movie A",
-            tmdb_id=None,
-            amc_movie_id="111",
-            expected_release_date=date(2026, 10, 1),
-            expected_release_date_source="amc",
-            first_local_screening_date=None,
-            local_theater_ids=[],
-            parent_film_key="test-movie-a",
-        ),
-        ComingSoonCandidate(
-            canonical_film_id=None,
-            title="Test Movie B",
-            tmdb_id=None,
-            amc_movie_id="222",
-            expected_release_date=date(2026, 10, 15),
-            expected_release_date_source="amc",
-            first_local_screening_date=None,
-            local_theater_ids=[],
-            parent_film_key="test-movie-b",
-        ),
-    ]
+    # Future only - should be coming soon
+    future_only = ComingSoonCandidate(
+        canonical_film_id=None,
+        title="Future Movie",
+        tmdb_id=None,
+        amc_movie_id="111",
+        parent_film_key="future-movie",
+        showtime_film_key="future-movie",
+        amc_theater_booking=True,
+        reel_seattle_future=True,
+        reel_seattle_current=False,
+        amc_first_booking_date=date(2026, 10, 1),
+        first_local_screening_date=date(2026, 10, 1),
+        local_theater_ids=["amc-pacific-place-11"],
+    )
     
-    for c in amc_candidates:
-        c.evidence.add(EVIDENCE_AMC_COMING_SOON)
+    assert future_only.is_coming_soon() is True
+    assert future_only.provisional_status() == STATUS_CONFIRMED_LOCAL_FUTURE
     
-    # Simulate Reel Seattle having future screenings for Movie A
-    reel_seattle_future = {
-        "test-movie-a-key": {
-            "title": "Test Movie A",
-            "film_id": "tmdb:12345",
-            "parent_film_key": "test-movie-a",
-            "earliest_date": date(2026, 10, 1),
-            "theaters": {"amc-seattle-10"},
-            "source_film_ids": {"111"},
-        }
-    }
+    # Current - should NOT be coming soon
+    current_movie = ComingSoonCandidate(
+        canonical_film_id=None,
+        title="Current Movie",
+        tmdb_id=None,
+        amc_movie_id="222",
+        parent_film_key="current-movie",
+        showtime_film_key="current-movie",
+        amc_theater_booking=True,
+        reel_seattle_future=True,
+        reel_seattle_current=True,
+        amc_first_booking_date=date(2026, 9, 15),
+        earliest_current_screening=date(2026, 9, 15),
+        first_local_screening_date=date(2026, 9, 20),
+        local_theater_ids=["amc-pacific-place-11"],
+    )
     
-    merged = merge_candidates(amc_candidates, reel_seattle_future)
-    
-    assert len(merged) == 2
-    
-    # Find Movie A
-    movie_a = next((c for c in merged if c.amc_movie_id == "111"), None)
-    assert movie_a is not None
-    assert EVIDENCE_REEL_SEATTLE_SCHEDULED in movie_a.evidence
-    assert movie_a.canonical_film_id == "tmdb:12345"
-    assert movie_a.first_local_screening_date == date(2026, 10, 1)
-    
-    # Movie B should not have Reel Seattle evidence
-    movie_b = next((c for c in merged if c.amc_movie_id == "222"), None)
-    assert movie_b is not None
-    assert EVIDENCE_REEL_SEATTLE_SCHEDULED not in movie_b.evidence
+    assert current_movie.is_coming_soon() is False
+    assert current_movie.provisional_status() == STATUS_CURRENTLY_AVAILABLE
 
 
-def test_audit_artifact_structure():
-    """Test that generated audit artifact has expected structure."""
+def test_audit_artifact_v2_structure():
+    """Test that generated V2 audit artifact has expected structure."""
     
-    audit_path = Path("data/audits/coming_soon_source_audit.json")
+    audit_path = Path("data/audits/coming_soon_source_audit_v2.json")
     if not audit_path.exists():
         # Skip if audit hasn't been generated yet
         return
@@ -149,22 +136,29 @@ def test_audit_artifact_structure():
     
     # Check required top-level fields
     assert "schema_version" in artifact
+    assert artifact["schema_version"] == "0.2.0"
     assert "generated_at" in artifact
     assert "window" in artifact
     assert "sources" in artifact
     assert "stats" in artifact
     assert "entries" in artifact
+    assert "important_notes" in artifact
     
     # Check window structure
     window = artifact["window"]
     assert "start_date" in window
     assert "end_date" in window
     assert "days" in window
+    assert "current_window_end" in window
+    assert "current_window_days" in window
     
     # Check stats
     stats = artifact["stats"]
     assert "total_candidates" in stats
+    assert "coming_soon_count" in stats
+    assert "currently_available_count" in stats
     assert "status_counts" in stats
+    assert "window_analysis" in stats
     
     # Check entries
     entries = artifact["entries"]
@@ -173,7 +167,9 @@ def test_audit_artifact_structure():
     if entries:
         entry = entries[0]
         assert "title" in entry
-        assert "expected_release_date" in entry
         assert "evidence" in entry
+        assert isinstance(entry["evidence"], dict)
+        assert "amc_theater_booking" in entry["evidence"]
         assert "provisional_status" in entry
+        assert "is_coming_soon" in entry
         assert "confidence_explanation" in entry
