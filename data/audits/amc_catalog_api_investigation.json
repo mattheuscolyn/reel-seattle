@@ -1,0 +1,70 @@
+{
+  "tested_at": "2026-09-15T05:34:12.688504",
+  "base_url": "https://api.amctheatres.com/v2",
+  "endpoints_tested": [
+    {
+      "name": "coming_soon_view",
+      "endpoint": "/v2/movies/views/coming-soon",
+      "url": "https://api.amctheatres.com/v2/v2/movies/views/coming-soon?page-number=1&page-size=20",
+      "timestamp": "2026-09-15T05:34:12.688519",
+      "status": 400,
+      "error": "{\n                                \"errors\": [\n                                    {\n                                        \"code\": 1,\n                                        \"exceptionMessage\": \"The request requires vendor authentication\",\n                                        \"message\": \"The request requires vendor authentication\"\n                                    }\n                                ]\n                            }"
+    },
+    {
+      "name": "movies_filter_coming_soon",
+      "endpoint": "/v2/movies?filter=coming-soon",
+      "url": "https://api.amctheatres.com/v2/v2/movies?filter=coming-soon&page-number=1&page-size=20",
+      "timestamp": "2026-09-15T05:34:13.346658",
+      "status": 400,
+      "error": "{\n                                \"errors\": [\n                                    {\n                                        \"code\": 1,\n                                        \"exceptionMessage\": \"The request requires vendor authentication\",\n                                        \"message\": \"The request requires vendor authentication\"\n                                    }\n                                ]\n                            }"
+    },
+    {
+      "name": "movies_filter_comingsoon",
+      "endpoint": "/v2/movies?filter=comingsoon",
+      "url": "https://api.amctheatres.com/v2/v2/movies?filter=comingsoon&page-number=1&page-size=20",
+      "timestamp": "2026-09-15T05:34:13.916173",
+      "status": 400,
+      "error": "{\n                                \"errors\": [\n                                    {\n                                        \"code\": 1,\n                                        \"exceptionMessage\": \"The request requires vendor authentication\",\n                                        \"message\": \"The request requires vendor authentication\"\n                                    }\n                                ]\n                            }"
+    },
+    {
+      "name": "movies_filter_now_playing",
+      "endpoint": "/v2/movies?filter=now-playing",
+      "url": "https://api.amctheatres.com/v2/v2/movies?filter=now-playing&page-number=1&page-size=20",
+      "timestamp": "2026-09-15T05:34:14.484445",
+      "status": 400,
+      "error": "{\n                                \"errors\": [\n                                    {\n                                        \"code\": 1,\n                                        \"exceptionMessage\": \"The request requires vendor authentication\",\n                                        \"message\": \"The request requires vendor authentication\"\n                                    }\n                                ]\n                            }"
+    },
+    {
+      "name": "movies_catalog",
+      "endpoint": "/v2/movies",
+      "url": "https://api.amctheatres.com/v2/v2/movies?page-number=1&page-size=20",
+      "timestamp": "2026-09-15T05:34:15.052096",
+      "status": 400,
+      "error": "{\n                                \"errors\": [\n                                    {\n                                        \"code\": 1,\n                                        \"exceptionMessage\": \"The request requires vendor authentication\",\n                                        \"message\": \"The request requires vendor authentication\"\n                                    }\n                                ]\n                            }"
+    },
+    {
+      "name": "movie_verity",
+      "endpoint": "/v2/movies/79853",
+      "url": "https://api.amctheatres.com/v2/v2/movies/79853?page-number=1&page-size=20",
+      "timestamp": "2026-09-15T05:34:15.634635",
+      "status": 400,
+      "error": "{\n                                \"errors\": [\n                                    {\n                                        \"code\": 1,\n                                        \"exceptionMessage\": \"The request requires vendor authentication\",\n                                        \"message\": \"The request requires vendor authentication\"\n                                    }\n                                ]\n                            }"
+    },
+    {
+      "name": "movie_avengers_doomsday",
+      "endpoint": "/v2/movies/70533",
+      "url": "https://api.amctheatres.com/v2/v2/movies/70533?page-number=1&page-size=20",
+      "timestamp": "2026-09-15T05:34:16.217515",
+      "status": 400,
+      "error": "{\n                                \"errors\": [\n                                    {\n                                        \"code\": 1,\n                                        \"exceptionMessage\": \"The request requires vendor authentication\",\n                                        \"message\": \"The request requires vendor authentication\"\n                                    }\n                                ]\n                            }"
+    },
+    {
+      "name": "movie_dune_part_three",
+      "endpoint": "/v2/movies/77032",
+      "url": "https://api.amctheatres.com/v2/v2/movies/77032?page-number=1&page-size=20",
+      "timestamp": "2026-09-15T05:34:16.801269",
+      "status": 400,
+      "error": "{\n                                \"errors\": [\n                                    {\n                                        \"code\": 1,\n                                        \"exceptionMessage\": \"The request requires vendor authentication\",\n                                        \"message\": \"The request requires vendor authentication\"\n                                    }\n                                ]\n                            }"
+    }
+  ]
+}
