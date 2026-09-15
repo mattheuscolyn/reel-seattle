@@ -474,6 +474,9 @@ test('existing whole-plan Plan Details flow remains wired in app shell', () => {
   const appSrc = readFileSync(join(ROOT, 'v2/V2App.jsx'), 'utf8');
   assert.match(appSrc, /BuildPlanPlanDetailsSurface/);
   assert.match(appSrc, /handleOpenSavedPlan/);
+  assert.match(appSrc, /onOpenSavedPlan=\{handleOpenSavedPlan\}/);
+  assert.match(appSrc, /onRemoveAcceptedPlan=/);
+  assert.match(appSrc, /removeAcceptedPlan\(getBrowserStorage\(\), planId\)/);
   assert.equal(PLANNER_SRC.includes('BuildPlanPlanDetailsSurface'), false);
 });
 

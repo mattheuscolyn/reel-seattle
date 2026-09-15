@@ -8,7 +8,10 @@ import {
   mapBuildFormToPlannerFilters,
   parsePlanSizeFilmCounts,
 } from '../../v2/planner/mapBuildFormToPlannerFilters.js';
-import { generateLivePlannerResults } from '../../v2/planner/generateLivePlannerResults.js';
+import {
+  generateLivePlannerResults,
+  mapEngineScheduleToResultsPlan,
+} from '../../v2/planner/generateLivePlannerResults.js';
 import { createLiveBuildPlanFormState } from '../../v2/planner/createLiveBuildPlanFormState.js';
 import {
   isPlanResultsMockupMode,
@@ -420,4 +423,187 @@ test('mockup mode is explicit; live default uses engine', () => {
   assert.equal(FIXTURE_SRC.includes('plannerEngine'), false);
   assert.match(SURFACE_SRC, /generateLivePlannerResults|resolveBuildPlanResultsPagePresentation/);
   assert.match(SURFACE_SRC, /homeData/);
+});
+
+const UPRISING_DATE = '2026-07-28';
+const UPRISING_HOME = {
+  theaters: [{ id: 'amc-pacific-place', name: 'AMC Pacific Place 11' }],
+  theatersById: {
+    'amc-pacific-place': {
+      id: 'amc-pacific-place',
+      name: 'AMC Pacific Place 11',
+    },
+  },
+};
+
+function uprisingRow(overrides = {}) {
+  return {
+    Film: 'The Uprising',
+    showtime_film_key: 'uprising',
+    filmKey: 'uprising',
+    Date: UPRISING_DATE,
+    localDate: UPRISING_DATE,
+    Theater: 'AMC Pacific Place 11',
+    theater_id: 'amc-pacific-place',
+    Runtime: 100,
+    ...overrides,
+  };
+}
+
+function uprisingMovie(overrides = {}) {
+  return {
+    film: 'The Uprising',
+    showtime_film_key: 'uprising',
+    theater: 'AMC Pacific Place 11',
+    theater_id: 'amc-pacific-place',
+    date: UPRISING_DATE,
+    time: '9:40PM',
+    startMin: 21 * 60 + 40,
+    endMin: 21 * 60 + 40 + 100,
+    runtime: 100,
+    ...overrides,
+  };
+}
+
+function uprisingSchedule(movieOverrides = {}) {
+  const movie = uprisingMovie(movieOverrides);
+  return {
+    theater: movie.theater,
+    theater_id: movie.theater_id,
+    filmCount: 1,
+    films: [movie.film],
+    movies: [movie],
+    filmRuntimeMin: movie.runtime,
+    startMin: movie.startMin,
+    endMin: movie.endMin,
+  };
+}
+
+test('live mapping keeps the later exact performance instead of the earliest same-film row', () => {
+  const rows = [
+    uprisingRow({
+      Time: '6:40PM',
+      localTime: '18:40',
+      source: 'amc',
+      source_showtime_id: 'up-640',
+      opportunityKey: 'up-640',
+    }),
+    uprisingRow({
+      Time: '9:40PM',
+      localTime: '21:40',
+      source: 'amc',
+      source_showtime_id: 'up-940',
+      opportunityKey: 'up-940',
+    }),
+  ];
+  const plan = mapEngineScheduleToResultsPlan(
+    uprisingSchedule({
+      performanceKey: 'src:amc:amc-pacific-place:up-940',
+      opportunityKey: 'up-940',
+      source: 'amc',
+      sourceShowtimeId: 'up-940',
+      source_showtime_id: 'up-940',
+    }),
+    UPRISING_HOME,
+    rows,
+    1,
+  );
+  const film = plan.items.find((item) => item.type !== 'break');
+  assert.equal(film.localTime, '21:40');
+  assert.equal(film.time, '21:40');
+  assert.equal(film.sourceShowtimeId, 'up-940');
+  assert.equal(film.opportunityKey, 'up-940');
+  assert.equal(film.performanceKey, 'src:amc:amc-pacific-place:up-940');
+  assert.equal(film.performanceResolved, true);
+  assert.notEqual(film.sourceShowtimeId, 'up-640');
+  assert.notEqual(film.localTime, '18:40');
+
+  const storage = memoryStorage();
+  const accepted = acceptResultsPlan(plan, [film.id], {
+    storage,
+    provenance: 'live',
+  });
+  assert.equal(accepted.ok, true);
+  const saved = getAcceptedPlans(storage)[0].performances[0];
+  assert.equal(saved.localTime, '21:40');
+  assert.equal(saved.sourceShowtimeId, 'up-940');
+  assert.equal(saved.opportunityKey, 'up-940');
+  assert.equal(saved.theaterId, 'amc-pacific-place');
+  assert.equal(saved.performanceKey, 'src:amc:amc-pacific-place:up-940');
+});
+
+test('unresolved exact performance does not fall back to another same-film screening', () => {
+  const rows = [
+    uprisingRow({
+      Time: '6:40PM',
+      localTime: '18:40',
+      source: 'amc',
+      source_showtime_id: 'up-640',
+      opportunityKey: 'up-640',
+    }),
+  ];
+  const plan = mapEngineScheduleToResultsPlan(
+    uprisingSchedule(),
+    UPRISING_HOME,
+    rows,
+    1,
+  );
+  const film = plan.items.find((item) => item.type !== 'break');
+  assert.equal(film.localTime, '21:40');
+  assert.equal(film.startTime, '9:40 PM');
+  assert.equal(film.performanceResolved, false);
+  assert.notEqual(film.sourceShowtimeId, 'up-640');
+  assert.notEqual(film.opportunityKey, 'up-640');
+  assert.notEqual(film.performanceKey, 'src:amc:amc-pacific-place:up-640');
+
+  const storage = memoryStorage();
+  const accepted = acceptResultsPlan(plan, [film.id], {
+    storage,
+    provenance: 'live',
+  });
+  assert.equal(accepted.ok, false);
+  assert.equal(accepted.error, 'mixed_or_incomplete');
+  assert.equal(getAcceptedPlans(storage).length, 0);
+});
+
+test('engine performance ids survive even when the catalog row is missing', () => {
+  const rows = [
+    uprisingRow({
+      Time: '6:40PM',
+      localTime: '18:40',
+      source: 'amc',
+      source_showtime_id: 'up-640',
+      opportunityKey: 'up-640',
+    }),
+  ];
+  const plan = mapEngineScheduleToResultsPlan(
+    uprisingSchedule({
+      performanceKey: 'src:amc:amc-pacific-place:up-940',
+      opportunityKey: 'up-940',
+      source: 'amc',
+      sourceShowtimeId: 'up-940',
+      source_showtime_id: 'up-940',
+      localTime: '21:40',
+    }),
+    UPRISING_HOME,
+    rows,
+    1,
+  );
+  const film = plan.items.find((item) => item.type !== 'break');
+  assert.equal(film.performanceResolved, true);
+  assert.equal(film.localTime, '21:40');
+  assert.equal(film.sourceShowtimeId, 'up-940');
+  assert.equal(film.opportunityKey, 'up-940');
+  assert.notEqual(film.sourceShowtimeId, 'up-640');
+
+  const storage = memoryStorage();
+  const accepted = acceptResultsPlan(plan, [film.id], {
+    storage,
+    provenance: 'live',
+  });
+  assert.equal(accepted.ok, true);
+  const saved = getAcceptedPlans(storage)[0].performances[0];
+  assert.equal(saved.localTime, '21:40');
+  assert.equal(saved.sourceShowtimeId, 'up-940');
+  assert.equal(saved.performanceKey, 'src:amc:amc-pacific-place:up-940');
 });

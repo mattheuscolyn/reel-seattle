@@ -151,7 +151,9 @@ test('Planner landing upcoming list reads saved plans and excludes past plans', 
   assert.equal(landing.summary.upcomingCount, 1);
   assert.equal(landing.summary.screeningCount, 2);
   assert.equal(landing.upcoming.dateGroups.length, 1);
-  assert.equal(landing.upcoming.dateGroups[0].items.length, 2);
+  assert.equal(landing.upcoming.dateGroups[0].items.length, 1);
+  assert.equal(landing.upcoming.dateGroups[0].items[0].kind, 'plan-group');
+  assert.equal(landing.upcoming.dateGroups[0].items[0].members.length, 2);
   assert.equal(
     landing.upcoming.dateGroups[0].items[0].planId.startsWith(
       'accepted:2026-08-20:',
@@ -315,7 +317,8 @@ test('Planner destination opens screening sheet from Upcoming rows', () => {
   assert.match(src, /PlannedScreeningSheet/);
   assert.match(src, /openScreening/);
   assert.match(src, /v2-planner-screening-row/);
-  assert.doesNotMatch(src, /onOpenSavedPlan/);
+  assert.match(src, /onOpenSavedPlan/);
+  assert.match(src, /onRemoveAcceptedPlan/);
   assert.doesNotMatch(
     src,
     /upcoming\.plans\.map\([\s\S]*onClick=\{openSchedule\}/,

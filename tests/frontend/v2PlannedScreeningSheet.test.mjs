@@ -195,8 +195,10 @@ test('Planner Upcoming screening rows open screening sheet, not plan details', (
   assert.match(PLANNER_SRC, /PlannedScreeningSheet/);
   assert.match(PLANNER_SRC, /openScreening/);
   assert.match(PLANNER_SRC, /data-performance-key/);
-  assert.doesNotMatch(PLANNER_SRC, /onOpenSavedPlan/);
+  assert.match(PLANNER_SRC, /onOpenSavedPlan/);
   assert.match(SHEET_SRC, /data-planned-screening-sheet/);
+  assert.match(SHEET_SRC, /View plan details/);
+  assert.match(SHEET_SRC, /onOpenPlanDetails/);
 });
 
 test('resolvePlannedScreeningPresentation selects planId + performanceKey', () => {

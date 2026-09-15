@@ -23,10 +23,13 @@ function asTrimmed(value) {
 /**
  * True when a Results film row already carries exportable live fields.
  * Fixture display strings alone are insufficient.
+ * `performanceResolved: false` fail closed so an unmatched engine
+ * screening cannot be saved as a substitute or composite guess.
  * @param {object} item
  */
 export function isLiveResultsFilmRow(item) {
   if (!item || typeof item !== 'object' || item.type === 'break') return false;
+  if (item.performanceResolved === false) return false;
   const date = asTrimmed(item.date) ?? asTrimmed(item.localDate);
   const time =
     asTrimmed(item.time) ??

@@ -57,6 +57,8 @@ export default function DestinationPlaceholder({
   onOpenProfileFriends,
   onPlannerStubAction,
   onOpenBuildPlan,
+  onOpenSavedPlan = null,
+  onRemoveAcceptedPlan = null,
   onAcceptedPlansChange,
   acceptedPlansRevision = 0,
 }) {
@@ -108,6 +110,8 @@ export default function DestinationPlaceholder({
         onStubAction={onPlannerStubAction}
         onOpenBuildPlan={onOpenBuildPlan}
         onOpenFilmDetail={onOpenFilmDetail}
+        onOpenSavedPlan={onOpenSavedPlan}
+        onRemoveAcceptedPlan={onRemoveAcceptedPlan}
         onAcceptedPlansChange={onAcceptedPlansChange}
         homeData={homeData}
         enrichmentIndex={enrichmentIndex}

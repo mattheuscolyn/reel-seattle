@@ -89,6 +89,66 @@ function formatRuntimeLabel(runtime) {
   return `${h}h ${m}m`;
 }
 
+function hhmmFromStartMin(startMin) {
+  if (typeof startMin !== 'number' || !Number.isFinite(startMin)) return null;
+  const within = ((startMin % 1440) + 1440) % 1440;
+  return `${String(Math.floor(within / 60)).padStart(2, '0')}:${String(
+    within % 60,
+  ).padStart(2, '0')}`;
+}
+
+function advertisedLocalTime(movie) {
+  const fromStart = hhmmFromStartMin(movie?.startMin);
+  if (fromStart) return fromStart;
+  const raw = asTrimmed(movie?.localTime);
+  if (raw && /^\d{1,2}:\d{2}/.test(raw) && !/[ap]m/i.test(raw)) {
+    const [hours, rest] = raw.split(':');
+    return `${String(Number(hours)).padStart(2, '0')}:${rest.slice(0, 2)}`;
+  }
+  const legacy = asTrimmed(movie?.time);
+  if (!legacy) return raw;
+  const parsed = parsePlannerShowtimeMinutes(legacy.replace(/\s+/g, ''));
+  return hhmmFromStartMin(parsed) ?? raw ?? legacy;
+}
+
+function hasExactEnginePerformanceId(movie) {
+  const key = asTrimmed(movie?.performanceKey);
+  if (key && (key.startsWith('src:') || key.startsWith('opp:'))) return true;
+  if (asTrimmed(movie?.opportunityKey)) return true;
+  return Boolean(
+    asTrimmed(movie?.source) &&
+      (asTrimmed(movie?.sourceShowtimeId) ||
+        asTrimmed(movie?.source_showtime_id)),
+  );
+}
+
+function sameFilmDateTheater(row, movie) {
+  const filmKey = asTrimmed(movie.showtime_film_key);
+  const date = asTrimmed(movie.date);
+  return (
+    Boolean(filmKey) &&
+    (row.showtime_film_key === filmKey || row.filmKey === filmKey) &&
+    (row.Date === date || row.localDate === date) &&
+    (row.theater_id === movie.theater_id || row.Theater === movie.theater)
+  );
+}
+
+function rowMatchesSelectedPerformance(row, movie) {
+  if (!row || !movie) return false;
+  const movieKey = asTrimmed(movie.performanceKey);
+  if (movieKey && buildPerformanceKeyFromPlannerRow(row) === movieKey) {
+    return true;
+  }
+  const opp = asTrimmed(movie.opportunityKey);
+  if (opp && asTrimmed(row.opportunityKey) === opp) return true;
+  const expected = advertisedLocalTime(movie);
+  return Boolean(
+    expected &&
+      asTrimmed(row.localTime) === expected &&
+      sameFilmDateTheater(row, movie),
+  );
+}
+
 /**
  * @param {object} movie
  * @param {object | null | undefined} homeData
@@ -105,8 +165,9 @@ function movieToLiveResultsFilm(
   row = null,
   timeFormatId = '12h',
 ) {
+  const matchedRow = rowMatchesSelectedPerformance(row, movie) ? row : null;
   const theaterId =
-    asTrimmed(movie.theater_id) ?? asTrimmed(row?.theater_id) ?? null;
+    asTrimmed(movie.theater_id) ?? asTrimmed(matchedRow?.theater_id) ?? null;
   const theaterMeta =
     (theaterId && homeData?.theatersById?.[theaterId]) ||
     (Array.isArray(homeData?.theaters)
@@ -114,17 +175,17 @@ function movieToLiveResultsFilm(
       : null);
 
   const localDate =
-    asTrimmed(movie.date) ?? asTrimmed(row?.localDate) ?? asTrimmed(row?.Date);
-  let localTime = asTrimmed(row?.localTime);
-  if (!localTime && typeof movie.startMin === 'number') {
-    const within = ((movie.startMin % 1440) + 1440) % 1440;
-    localTime = `${String(Math.floor(within / 60)).padStart(2, '0')}:${String(
-      within % 60,
-    ).padStart(2, '0')}`;
-  }
+    asTrimmed(movie.date) ??
+    asTrimmed(matchedRow?.localDate) ??
+    asTrimmed(matchedRow?.Date);
+  const localTime =
+    advertisedLocalTime(movie) ?? asTrimmed(matchedRow?.localTime);
+  const performanceResolved = Boolean(
+    matchedRow || hasExactEnginePerformanceId(movie),
+  );
 
   const format =
-    primaryPresentationLabel(row?.formatLabels) ||
+    primaryPresentationLabel(matchedRow?.formatLabels) ||
     primaryPresentationLabel(
       asTrimmed(movie.premiumFormat)
         ?.split(',')
@@ -134,7 +195,7 @@ function movieToLiveResultsFilm(
 
   const performanceKey =
     asTrimmed(movie.performanceKey) ??
-    buildPerformanceKeyFromPlannerRow(row) ??
+    buildPerformanceKeyFromPlannerRow(matchedRow) ??
     null;
 
   return {
@@ -145,7 +206,7 @@ function movieToLiveResultsFilm(
     theater: movie.theater,
     runtimeLabel: formatRuntimeLabel(movie.runtime),
     formatBadge: format,
-    imageUrl: movie.poster ?? row?.posterDynamic ?? null,
+    imageUrl: movie.poster ?? matchedRow?.posterDynamic ?? null,
     preference: 'neutral',
     date: localDate,
     localDate,
@@ -156,30 +217,36 @@ function movieToLiveResultsFilm(
     theaterId,
     theater_id: theaterId,
     theaterName: movie.theater,
-    filmKey: asTrimmed(movie.showtime_film_key) ?? asTrimmed(row?.filmKey),
-    filmId: movie.filmId ?? row?.filmId ?? null,
+    filmKey:
+      asTrimmed(movie.showtime_film_key) ?? asTrimmed(matchedRow?.filmKey),
+    filmId: movie.filmId ?? matchedRow?.filmId ?? null,
     parentFilmKey:
-      asTrimmed(movie.parent_film_key) ?? asTrimmed(row?.parentFilmKey),
+      asTrimmed(movie.parent_film_key) ??
+      asTrimmed(matchedRow?.parentFilmKey),
     showtimeFilmKey:
-      asTrimmed(movie.showtime_film_key) ?? asTrimmed(row?.filmKey),
-    source: asTrimmed(row?.source) ?? asTrimmed(movie.source),
+      asTrimmed(movie.showtime_film_key) ?? asTrimmed(matchedRow?.filmKey),
+    source: asTrimmed(movie.source) ?? asTrimmed(matchedRow?.source),
     sourceShowtimeId:
-      asTrimmed(row?.source_showtime_id) ??
       asTrimmed(movie.sourceShowtimeId) ??
-      asTrimmed(movie.source_showtime_id),
+      asTrimmed(movie.source_showtime_id) ??
+      asTrimmed(matchedRow?.source_showtime_id) ??
+      asTrimmed(matchedRow?.sourceShowtimeId),
     source_showtime_id:
-      asTrimmed(row?.source_showtime_id) ??
-      asTrimmed(movie.source_showtime_id),
+      asTrimmed(movie.source_showtime_id) ??
+      asTrimmed(movie.sourceShowtimeId) ??
+      asTrimmed(matchedRow?.source_showtime_id),
     opportunityKey:
-      asTrimmed(row?.opportunityKey) ?? asTrimmed(movie.opportunityKey),
+      asTrimmed(movie.opportunityKey) ??
+      asTrimmed(matchedRow?.opportunityKey),
     screeningId:
-      asTrimmed(row?.screeningId) ??
-      asTrimmed(row?.opportunityKey) ??
-      asTrimmed(movie.opportunityKey),
+      asTrimmed(movie.opportunityKey) ??
+      asTrimmed(matchedRow?.screeningId) ??
+      asTrimmed(matchedRow?.opportunityKey),
     performanceKey,
+    performanceResolved,
     locked: Boolean(movie.locked),
-    ticketUrl: row?.ticket_url ?? null,
-    ticket_url: row?.ticket_url ?? null,
+    ticketUrl: matchedRow?.ticket_url ?? null,
+    ticket_url: matchedRow?.ticket_url ?? null,
     addressLabel: formatTheaterAddressLabel(theaterMeta),
     format,
     formatLabel: format,
@@ -191,34 +258,46 @@ function movieToLiveResultsFilm(
  * @param {object} movie
  */
 function findRowForMovie(rows, movie) {
-  const opportunityKey = asTrimmed(movie.opportunityKey);
-  if (opportunityKey) {
-    const byKey = rows.find((r) => r.opportunityKey === opportunityKey);
+  const performanceKey = asTrimmed(movie.performanceKey);
+  if (performanceKey) {
+    const byKey = rows.find(
+      (r) => buildPerformanceKeyFromPlannerRow(r) === performanceKey,
+    );
     if (byKey) return byKey;
   }
-  let localTime = asTrimmed(movie.localTime) ?? asTrimmed(movie.time);
-  if (!localTime && typeof movie.startMin === 'number') {
-    const within = ((movie.startMin % 1440) + 1440) % 1440;
-    localTime = `${String(Math.floor(within / 60)).padStart(2, '0')}:${String(
-      within % 60,
-    ).padStart(2, '0')}`;
+  const opportunityKey = asTrimmed(movie.opportunityKey);
+  if (opportunityKey) {
+    const byOpp = rows.find((r) => r.opportunityKey === opportunityKey);
+    if (byOpp) return byOpp;
   }
-  return (
-    rows.find(
+  const source = asTrimmed(movie.source);
+  const sourceShowtimeId =
+    asTrimmed(movie.sourceShowtimeId) ?? asTrimmed(movie.source_showtime_id);
+  if (source && sourceShowtimeId) {
+    const bySource = rows.find(
       (r) =>
-        r.showtime_film_key === movie.showtime_film_key &&
-        r.Date === movie.date &&
-        (r.theater_id === movie.theater_id || r.Theater === movie.theater) &&
-        (!localTime || r.localTime === localTime),
-    ) ??
-    rows.find(
-      (r) =>
-        r.showtime_film_key === movie.showtime_film_key &&
-        r.Date === movie.date &&
-        (r.theater_id === movie.theater_id || r.Theater === movie.theater),
-    ) ??
-    null
-  );
+        r.source === source &&
+        (r.source_showtime_id === sourceShowtimeId ||
+          r.sourceShowtimeId === sourceShowtimeId),
+    );
+    if (bySource) return bySource;
+  }
+  const localTime = advertisedLocalTime(movie);
+  const legacyTime = asTrimmed(movie.time);
+  const timed = rows.find((r) => {
+    if (!sameFilmDateTheater(r, movie)) return false;
+    if (localTime && r.localTime === localTime) return true;
+    if (legacyTime && r.Time === legacyTime) return true;
+    if (
+      typeof movie.startMin === 'number' &&
+      parsePlannerShowtimeMinutes(r.Time) === movie.startMin
+    ) {
+      return true;
+    }
+    return false;
+  });
+  // Never fall back to the earliest same-film screening.
+  return timed ?? null;
 }
 
 /**
@@ -377,12 +456,20 @@ function buildSingleFilmSchedules(rows, filters) {
           theater_id: row.theater_id,
           date: row.Date,
           time: row.Time,
+          localTime: row.localTime ?? null,
           startMin,
           endMin: expected.endMin,
           runtime,
           poster: row.posterDynamic ?? null,
           premiumFormat: row.premiumFormat ?? '',
           formatTags: row.formatLabels ?? [],
+          performanceKey: buildPerformanceKeyFromPlannerRow(row),
+          opportunityKey: row.opportunityKey ?? null,
+          source: row.source ?? null,
+          sourceShowtimeId:
+            row.source_showtime_id ?? row.sourceShowtimeId ?? null,
+          source_showtime_id:
+            row.source_showtime_id ?? row.sourceShowtimeId ?? null,
         },
       ],
       totalSpanMin: expected.endMin - startMin,
@@ -643,15 +730,21 @@ export function generateLivePlannerResults({
   const truncated = schedules.length > maxResults;
   schedules = schedules.slice(0, maxResults);
 
-  const plans = schedules.map((s, index) =>
-    mapEngineScheduleToResultsPlan(
-      s,
-      homeData,
-      rows,
-      index + 1,
-      timeFormatId,
-    ),
-  );
+  const plans = schedules
+    .map((s, index) =>
+      mapEngineScheduleToResultsPlan(
+        s,
+        homeData,
+        rows,
+        index + 1,
+        timeFormatId,
+      ),
+    )
+    .filter((plan) =>
+      plan.items
+        .filter((item) => item.type !== 'break')
+        .every((item) => item.performanceResolved !== false),
+    );
 
   const summaryLine = [
     mapped.dateIso,

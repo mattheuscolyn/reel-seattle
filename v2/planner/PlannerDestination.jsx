@@ -240,6 +240,87 @@ function ConflictGroupCard({ group, onOpen }) {
   );
 }
 
+function PlanGroupCard({
+  group,
+  onOpenScreening,
+  onOpenPlanDetails = null,
+  onRemovePlan = null,
+}) {
+  const [confirmRemove, setConfirmRemove] = useState(false);
+  const members = Array.isArray(group.members) ? group.members : [];
+
+  return (
+    <article
+      className="v2-planner-plan-group"
+      data-plan-id={group.planId}
+      data-plan-group="true"
+    >
+      <header className="v2-planner-plan-group-header">
+        <p className="v2-planner-plan-banner">
+          <IconSparkle width={12} height={12} aria-hidden="true" />
+          {group.movieCountLabel || 'Plan'}
+        </p>
+        <h4 className="v2-planner-plan-group-title">{group.title}</h4>
+        {group.metaLine ? (
+          <p className="v2-planner-plan-group-meta">{group.metaLine}</p>
+        ) : null}
+      </header>
+      <div className="v2-planner-plan-group-members">
+        {members.map((screening) => (
+          <ScreeningRow
+            key={screening.id}
+            screening={screening}
+            onOpen={onOpenScreening}
+          />
+        ))}
+      </div>
+      <div className="v2-planner-plan-group-actions">
+        {typeof onOpenPlanDetails === 'function' ? (
+          <button
+            type="button"
+            className="v2-planner-plan-group-details"
+            onClick={() => onOpenPlanDetails(group.planId)}
+          >
+            {group.viewDetailsLabel || 'View plan details'}
+          </button>
+        ) : null}
+        {typeof onRemovePlan === 'function' ? (
+          !confirmRemove ? (
+            <button
+              type="button"
+              className="v2-planner-plan-group-remove"
+              onClick={() => setConfirmRemove(true)}
+            >
+              {group.removePlanLabel || 'Remove entire plan'}
+            </button>
+          ) : (
+            <div className="v2-planner-plan-group-confirm">
+              <p>Remove this plan and its screenings from Planner?</p>
+              <button
+                type="button"
+                className="v2-planner-plan-group-remove"
+                onClick={() => {
+                  onRemovePlan(group.planId);
+                  setConfirmRemove(false);
+                }}
+              >
+                Remove plan
+              </button>
+              <button
+                type="button"
+                className="v2-planner-plan-group-cancel"
+                onClick={() => setConfirmRemove(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          )
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
 /**
  * @param {{
  *   onStubAction?: (actionId: string, label: string) => void,
@@ -260,6 +341,8 @@ export default function PlannerDestination({
   onStubAction,
   onOpenBuildPlan,
   onOpenFilmDetail,
+  onOpenSavedPlan = null,
+  onRemoveAcceptedPlan = null,
   onAcceptedPlansChange,
   homeData = null,
   enrichmentIndex = null,
@@ -357,6 +440,28 @@ export default function PlannerDestination({
     setActiveConflictId(conflictId);
   };
 
+  const openSavedPlan = (planId) => {
+    const id = typeof planId === 'string' ? planId.trim() : '';
+    if (!id) return;
+    if (typeof onOpenSavedPlan === 'function') {
+      setSelectedScreening(null);
+      onOpenSavedPlan(id);
+      return;
+    }
+    announceStub('view-plan-details', 'View plan details');
+  };
+
+  const removeSavedPlan = (planId) => {
+    const id = typeof planId === 'string' ? planId.trim() : '';
+    if (!id) return;
+    if (typeof onRemoveAcceptedPlan === 'function') {
+      setSelectedScreening(null);
+      onRemoveAcceptedPlan(id);
+      return;
+    }
+    announceStub('remove-plan', 'Remove entire plan');
+  };
+
   const closeConflictReview = () => {
     setActiveConflictId(null);
   };
@@ -384,6 +489,7 @@ export default function PlannerDestination({
           homeData={homeData}
           enrichmentIndex={enrichmentIndex}
           onOpenFilmDetail={onOpenFilmDetail}
+          onOpenPlanDetails={openSavedPlan}
           onPlansChanged={onAcceptedPlansChange}
           onStubAction={announceStub}
         />
@@ -579,6 +685,14 @@ export default function PlannerDestination({
                             group={item}
                             onOpen={openScreening}
                           />
+                        ) : item.kind === 'plan-group' ? (
+                          <PlanGroupCard
+                            key={item.id}
+                            group={item}
+                            onOpenScreening={openScreening}
+                            onOpenPlanDetails={openSavedPlan}
+                            onRemovePlan={removeSavedPlan}
+                          />
                         ) : (
                           <ScreeningRow
                             key={item.id}
@@ -657,6 +771,7 @@ export default function PlannerDestination({
         homeData={homeData}
         enrichmentIndex={enrichmentIndex}
         onOpenFilmDetail={onOpenFilmDetail}
+        onOpenPlanDetails={openSavedPlan}
         onPlansChanged={onAcceptedPlansChange}
         onStubAction={announceStub}
       />

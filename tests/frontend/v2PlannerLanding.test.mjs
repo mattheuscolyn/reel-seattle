@@ -30,6 +30,11 @@ import {
   getSavedFilms,
 } from '../../v2/stores/savedFilmsStore.js';
 import { acceptResultsPlan } from '../../v2/planner/acceptPlanFromResults.js';
+import {
+  getAcceptedPlans,
+  removeAcceptedPlan,
+  removePerformanceFromAcceptedPlan,
+} from '../../v2/stores/acceptedPlansStore.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const PLANNER_SRC = readFileSync(
@@ -216,6 +221,11 @@ test('Planner landing keeps interactive controls as buttons', () => {
   assert.match(PLANNER_SRC, /timelineExpanded/);
   assert.match(PLANNER_SRC, /setTimelineExpanded\(true\)/);
   assert.match(PLANNER_SRC, /onOpenBuildPlan/);
+  assert.match(PLANNER_SRC, /onOpenSavedPlan/);
+  assert.match(PLANNER_SRC, /onRemoveAcceptedPlan/);
+  assert.match(PLANNER_SRC, /PlanGroupCard/);
+  assert.match(PLANNER_SRC, /View plan details/);
+  assert.match(PLANNER_SRC, /Remove entire plan/);
   assert.match(PLANNER_SRC, /role="tablist"/);
 });
 
@@ -225,6 +235,12 @@ test('Planner landing CSS covers tabs attention upcoming conflict', () => {
   assert.match(CSS, /\.v2-planner-attention-card\b/);
   assert.match(CSS, /\.v2-planner-screening-row\b/);
   assert.match(CSS, /\.v2-planner-conflict-group\b/);
+  assert.match(CSS, /\.v2-planner-plan-group\b/);
+  assert.match(CSS, /\.v2-planner-plan-group-title\b/);
+  assert.match(CSS, /\.v2-planner-plan-group-details\b/);
+  assert.match(CSS, /\.v2-planner-plan-group-remove\b/);
+  assert.match(CSS, /overflow-wrap:\s*anywhere/);
+  assert.match(CSS, /min-height:\s*2\.75rem/);
   assert.match(CSS, /\.v2-planner-build-btn\b/);
   assert.match(CSS, /--v2-nav-clearance/);
   assert.match(
@@ -274,7 +290,8 @@ test('Planner landing interactions do not mutate storage', () => {
   assert.equal(PLANNER_SRC.includes('savedFilmsStore'), false);
   assert.equal(PLANNER_SRC.includes('getSavedFilms'), false);
   assert.equal(PLANNER_SRC.includes('acceptPlan'), false);
-  assert.equal(PLANNER_SRC.includes('removeAcceptedPlan'), false);
+  assert.doesNotMatch(PLANNER_SRC, /from ['"].*acceptedPlansStore/);
+  assert.doesNotMatch(PLANNER_SRC, /\bremoveAcceptedPlan\(/);
   const storage = memoryStorage();
   assert.equal(getSavedFilms(storage).length, 0);
   assert.equal(getFavoriteTheaters(storage).length, 0);
@@ -287,4 +304,304 @@ test('mockup mode isolation stays behind plannerMockup query', () => {
   assert.match(PLANNER_SRC, /isPlannerMockupMode/);
   assert.match(PLANNER_SRC, /getPlannerLandingMockupPresentation/);
   assert.match(PLANNER_SRC, /composePlannerLandingFromAcceptedPlans/);
+});
+
+function acceptLivePlan(storage, films) {
+  return acceptResultsPlan(
+    {
+      id: `live-${films.map((f) => f.sourceShowtimeId).join('+')}`,
+      provenance: 'live',
+      source: 'live',
+      date: films[0].date,
+      items: films,
+    },
+    [],
+    { storage, provenance: 'live' },
+  );
+}
+
+test('multi-film accepted plans render as grouped Upcoming cards', () => {
+  const storage = memoryStorage();
+  const accepted = acceptLivePlan(storage, [
+    liveFilm({
+      title: 'Screen Unseen',
+      filmKey: 'src:amc:screen-unseen',
+      sourceShowtimeId: 'su-700',
+      localTime: '19:00',
+      time: '19:00',
+      runtimeMin: 90,
+      runtime: 90,
+    }),
+    liveFilm({
+      title: 'The Uprising',
+      filmKey: 'src:amc:uprising',
+      sourceShowtimeId: 'up-940',
+      localTime: '21:40',
+      time: '21:40',
+      runtimeMin: 100,
+      runtime: 100,
+    }),
+  ]);
+  assert.equal(accepted.ok, true);
+  const now = new Date('2026-08-08T18:00:00-07:00');
+  const p = composePlannerLandingFromAcceptedPlans({ storage, now });
+  assert.equal(p.upcoming.dateGroups.length, 1);
+  assert.equal(p.upcoming.dateGroups[0].items.length, 1);
+  const group = p.upcoming.dateGroups[0].items[0];
+  assert.equal(group.kind, 'plan-group');
+  assert.equal(group.planId, accepted.plan.planId);
+  assert.equal(group.id, `plan-group-${accepted.plan.planId}`);
+  assert.match(group.title, /Screen Unseen/);
+  assert.match(group.title, /The Uprising/);
+  assert.equal(group.movieCountLabel, '2-film plan');
+  assert.equal(group.members.length, 2);
+  assert.equal(group.members[0].kind, 'screening');
+  assert.equal(group.members[0].planId, accepted.plan.planId);
+  assert.equal(group.viewDetailsLabel, 'View plan details');
+  assert.equal(group.removePlanLabel, 'Remove entire plan');
+  assert.match(group.metaLine, /break/i);
+  assert.match(group.metaLine, /Finishes/);
+});
+
+test('three- and four-film accepted plans stay one grouped card', () => {
+  const storage = memoryStorage();
+  const three = acceptLivePlan(storage, [
+    liveFilm({
+      title: 'Alpha Very Long Title About Memory And Desire',
+      sourceShowtimeId: 'a1',
+      localTime: '14:00',
+      time: '14:00',
+      runtimeMin: 90,
+      runtime: 90,
+    }),
+    liveFilm({
+      title: 'Beta',
+      filmKey: 'src:siff:beta',
+      sourceShowtimeId: 'b1',
+      localTime: '16:00',
+      time: '16:00',
+      runtimeMin: 80,
+      runtime: 80,
+    }),
+    liveFilm({
+      title: 'Gamma',
+      filmKey: 'src:siff:gamma',
+      sourceShowtimeId: 'c1',
+      localTime: '18:00',
+      time: '18:00',
+      runtimeMin: 95,
+      runtime: 95,
+    }),
+  ]);
+  const four = acceptLivePlan(storage, [
+    liveFilm({
+      title: 'One',
+      filmKey: 'src:beacon:one',
+      source: 'beacon',
+      sourceShowtimeId: 'd1',
+      theaterId: 'beacon',
+      theaterName: 'The Beacon',
+      date: '2026-08-21',
+      localDate: '2026-08-21',
+      localTime: '12:00',
+      time: '12:00',
+      runtimeMin: 80,
+      runtime: 80,
+    }),
+    liveFilm({
+      title: 'Two',
+      filmKey: 'src:beacon:two',
+      source: 'beacon',
+      sourceShowtimeId: 'd2',
+      theaterId: 'beacon',
+      theaterName: 'The Beacon',
+      date: '2026-08-21',
+      localDate: '2026-08-21',
+      localTime: '14:00',
+      time: '14:00',
+      runtimeMin: 80,
+      runtime: 80,
+    }),
+    liveFilm({
+      title: 'Three',
+      filmKey: 'src:nwff:three',
+      source: 'nwff',
+      sourceShowtimeId: 'd3',
+      theaterId: 'nwff',
+      theaterName: 'NWFF',
+      date: '2026-08-21',
+      localDate: '2026-08-21',
+      localTime: '16:00',
+      time: '16:00',
+      runtimeMin: 80,
+      runtime: 80,
+    }),
+    liveFilm({
+      title: 'Four',
+      filmKey: 'src:siff:four',
+      source: 'siff',
+      sourceShowtimeId: 'd4',
+      theaterId: 'siff-uptown',
+      theaterName: 'SIFF Uptown',
+      date: '2026-08-21',
+      localDate: '2026-08-21',
+      localTime: '18:00',
+      time: '18:00',
+      runtimeMin: 80,
+      runtime: 80,
+    }),
+  ]);
+  const now = new Date('2026-08-08T18:00:00-07:00');
+  const p = composePlannerLandingFromAcceptedPlans({ storage, now });
+  const groups = p.upcoming.dateGroups.flatMap((g) => g.items);
+  const threeGroup = groups.find((item) => item.planId === three.plan.planId);
+  const fourGroup = groups.find((item) => item.planId === four.plan.planId);
+  assert.equal(threeGroup.kind, 'plan-group');
+  assert.equal(threeGroup.movieCountLabel, '3-film plan');
+  assert.equal(threeGroup.members.length, 3);
+  assert.match(threeGroup.title, /Alpha Very Long Title/);
+  assert.equal(fourGroup.kind, 'plan-group');
+  assert.equal(fourGroup.movieCountLabel, '4-film plan');
+  assert.equal(fourGroup.members.length, 4);
+  assert.match(fourGroup.metaLine, /The Beacon/);
+  assert.match(fourGroup.metaLine, /NWFF/);
+  assert.match(fourGroup.metaLine, /SIFF Uptown/);
+  assert.match(fourGroup.metaLine, /breaks/i);
+});
+
+test('single-film accepted plans remain ordinary screening rows', () => {
+  const storage = memoryStorage();
+  const accepted = acceptLivePlan(storage, [
+    liveFilm({
+      title: 'The Conversation',
+      sourceShowtimeId: 'st-conv',
+    }),
+  ]);
+  const now = new Date('2026-08-08T18:00:00-07:00');
+  const p = composePlannerLandingFromAcceptedPlans({ storage, now });
+  assert.equal(p.upcoming.dateGroups[0].items.length, 1);
+  const row = p.upcoming.dateGroups[0].items[0];
+  assert.equal(row.kind, 'screening');
+  assert.equal(row.planId, accepted.plan.planId);
+  assert.equal(row.title, 'The Conversation');
+});
+
+test('multi-film plan stays grouped in Upcoming when it conflicts with another screening', () => {
+  const storage = memoryStorage();
+  const plan = acceptLivePlan(storage, [
+    liveFilm({
+      title: 'Screen Unseen',
+      filmKey: 'src:amc:screen-unseen',
+      sourceShowtimeId: 'su-700',
+      localTime: '19:00',
+      time: '19:00',
+      runtimeMin: 90,
+      runtime: 90,
+    }),
+    liveFilm({
+      title: 'The Uprising',
+      filmKey: 'src:amc:uprising',
+      sourceShowtimeId: 'up-940',
+      localTime: '21:40',
+      time: '21:40',
+      runtimeMin: 100,
+      runtime: 100,
+    }),
+  ]);
+  acceptLivePlan(storage, [
+    liveFilm({
+      title: 'Overlapping Film',
+      filmKey: 'src:beacon:overlap',
+      source: 'beacon',
+      sourceShowtimeId: 'ov-1',
+      theaterId: 'beacon',
+      theaterName: 'The Beacon',
+      localTime: '19:30',
+      time: '19:30',
+      runtimeMin: 99,
+      runtime: 99,
+    }),
+  ]);
+  const now = new Date('2026-08-08T18:00:00-07:00');
+  const p = composePlannerLandingFromAcceptedPlans({ storage, now });
+  const items = p.upcoming.dateGroups[0].items;
+  assert.equal(
+    items.some((item) => item.kind === 'conflict-group'),
+    false,
+  );
+  const grouped = items.find((item) => item.kind === 'plan-group');
+  const single = items.find((item) => item.kind === 'screening');
+  assert.equal(grouped.planId, plan.plan.planId);
+  assert.equal(grouped.members.length, 2);
+  assert.equal(single.title, 'Overlapping Film');
+  assert.equal(p.needsAttention.count, 1);
+  assert.match(p.needsAttention.items[0].body, /Overlapping Film/);
+});
+
+test('partial removal keeps planId; last screening ungroups; last remove uses store removal', () => {
+  const storage = memoryStorage();
+  const accepted = acceptLivePlan(storage, [
+    liveFilm({
+      title: 'Screen Unseen',
+      filmKey: 'src:amc:screen-unseen',
+      sourceShowtimeId: 'su-700',
+      localTime: '19:00',
+      time: '19:00',
+      runtimeMin: 90,
+      runtime: 90,
+    }),
+    liveFilm({
+      title: 'The Uprising',
+      filmKey: 'src:amc:uprising',
+      sourceShowtimeId: 'up-940',
+      localTime: '21:40',
+      time: '21:40',
+      runtimeMin: 100,
+      runtime: 100,
+    }),
+  ]);
+  const planId = accepted.plan.planId;
+  const firstKey = accepted.plan.performances[0].performanceKey;
+  const secondKey = accepted.plan.performances[1].performanceKey;
+  const now = new Date('2026-08-08T18:00:00-07:00');
+
+  const partial = removePerformanceFromAcceptedPlan(storage, planId, firstKey);
+  assert.equal(partial.ok, true);
+  assert.equal(partial.plan.planId, planId);
+  const afterPartial = composePlannerLandingFromAcceptedPlans({ storage, now });
+  assert.equal(afterPartial.upcoming.dateGroups[0].items.length, 1);
+  const remaining = afterPartial.upcoming.dateGroups[0].items[0];
+  assert.equal(remaining.kind, 'screening');
+  assert.equal(remaining.planId, planId);
+  assert.equal(remaining.title, 'The Uprising');
+
+  const last = removePerformanceFromAcceptedPlan(storage, planId, secondKey);
+  assert.equal(last.ok, true);
+  assert.equal(getAcceptedPlans(storage).length, 0);
+  const afterLast = composePlannerLandingFromAcceptedPlans({ storage, now });
+  assert.equal(afterLast.upcoming.dateGroups.length, 0);
+
+  const restored = acceptLivePlan(storage, [
+    liveFilm({
+      title: 'Screen Unseen',
+      filmKey: 'src:amc:screen-unseen',
+      sourceShowtimeId: 'su-700',
+      localTime: '19:00',
+      time: '19:00',
+      runtimeMin: 90,
+      runtime: 90,
+    }),
+    liveFilm({
+      title: 'The Uprising',
+      filmKey: 'src:amc:uprising',
+      sourceShowtimeId: 'up-940',
+      localTime: '21:40',
+      time: '21:40',
+      runtimeMin: 100,
+      runtime: 100,
+    }),
+  ]);
+  const whole = removeAcceptedPlan(storage, restored.plan.planId);
+  assert.equal(whole.ok, true);
+  assert.equal(getAcceptedPlans(storage).length, 0);
 });

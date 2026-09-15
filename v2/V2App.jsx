@@ -110,6 +110,7 @@ import {
   resolveShortsProgramIdForListing,
 } from './shortsPrograms/shortsProgramsModel.js';
 import { getScheduleSettings } from './stores/scheduleSettingsStore.js';
+import { removeAcceptedPlan } from './stores/acceptedPlansStore.js';
 import FormatsExperiencesSurface from './formatsExperiences/FormatsExperiencesSurface.jsx';
 import FormatDetailSurface from './formatsExperiences/FormatDetailSurface.jsx';
 import ExperienceDetailSurface from './formatsExperiences/ExperienceDetailSurface.jsx';
@@ -2355,6 +2356,13 @@ export default function V2App() {
         onExploreRestoreConsumed={() => setExploreRestorePending(null)}
         plannerSeed={nav.plannerSeed}
         onOpenBuildPlan={handleOpenBuildPlan}
+        onOpenSavedPlan={handleOpenSavedPlan}
+        onRemoveAcceptedPlan={(planId) => {
+          const result = removeAcceptedPlan(getBrowserStorage(), planId);
+          if (result.ok && result.changed) {
+            setAcceptedPlansRevision((value) => value + 1);
+          }
+        }}
         onAcceptedPlansChange={() =>
           setAcceptedPlansRevision((value) => value + 1)
         }
