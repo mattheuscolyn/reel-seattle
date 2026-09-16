@@ -104,6 +104,35 @@ function asTrimmedString(value) {
 }
 
 /**
+ * Normalize showtimes_current `special_event` (snake_case) to HomeData camelCase.
+ * Product contract: opportunity.specialEvent.isSpecialEvent / confidence / types / labels.
+ * @param {unknown} raw
+ * @returns {object | null}
+ */
+function normalizeSpecialEvent(raw) {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+  const isSpecialEvent =
+    raw.isSpecialEvent === true || raw.is_special_event === true;
+  const confidence = asTrimmedString(raw.confidence);
+  const types = asStringArray(raw.types);
+  const labels = asStringArray(raw.labels);
+  const evidence = Array.isArray(raw.evidence) ? raw.evidence : [];
+  const auditSignals = asStringArray(
+    raw.auditSignals ?? raw.audit_signals,
+  );
+  /** @type {Record<string, unknown>} */
+  const out = {
+    isSpecialEvent,
+    types,
+    labels,
+    confidence,
+    evidence,
+  };
+  if (auditSignals.length > 0) out.auditSignals = auditSignals;
+  return out;
+}
+
+/**
  * Public ticket_url → presentation ticketUrl. Absolute http(s) only.
  * @param {unknown} value
  * @returns {string | null}
@@ -413,10 +442,7 @@ export function buildHomeData(input) {
     const isSpecialScreening =
       raw.is_special_screening === true ||
       listingFilmRef?.is_special_screening === true;
-    const specialEvent =
-      raw.special_event && typeof raw.special_event === 'object'
-        ? raw.special_event
-        : null;
+    const specialEvent = normalizeSpecialEvent(raw.special_event);
     const listingFilmId = asCanonicalFilmId(listingFilmRef?.film_id);
     const parentListingFilmId = asCanonicalFilmId(
       parentFilmKeyHint ? filmRefsByKey.get(parentFilmKeyHint)?.film_id : null,

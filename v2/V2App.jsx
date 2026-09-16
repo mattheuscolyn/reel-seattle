@@ -61,6 +61,7 @@ import {
   openCollection,
   openCollectionDetail,
   openComingSoonDetail,
+  openSpecialEventsDetail,
   openFilmDetail,
   openShortDetail,
   openShortsProgramDetail,
@@ -109,6 +110,8 @@ import { loadCollectionsCurrent } from './exploreCollections/loadCollectionsCurr
 import { loadComingSoonCurrent } from './comingSoon/loadComingSoonCurrent.js';
 import ComingSoonSurface from './comingSoon/ComingSoonSurface.jsx';
 import ComingSoonDetailSurface from './comingSoon/ComingSoonDetailSurface.jsx';
+import SpecialEventsSurface from './specialEvents/SpecialEventsSurface.jsx';
+import SpecialEventsDetailSurface from './specialEvents/SpecialEventsDetailSurface.jsx';
 import { DEFAULT_COMING_SOON_FILTERS } from './comingSoon/comingSoonModel.js';
 import { loadShortsProgramsCurrent } from './shortsPrograms/loadShortsProgramsCurrent.js';
 import {
@@ -302,6 +305,8 @@ export default function V2App() {
     DEFAULT_COMING_SOON_FILTERS,
   );
   const [comingSoonListRestore, setComingSoonListRestore] = useState(null);
+  const [specialEventsListRestore, setSpecialEventsListRestore] =
+    useState(null);
   const [shortsProgramsState, setShortsProgramsState] = useState({
     status: 'loading',
     artifact: null,
@@ -884,6 +889,7 @@ export default function V2App() {
         current.surface?.type === 'theater-detail' ||
         current.surface?.type === 'collection-detail' ||
         current.surface?.type === 'coming-soon-detail' ||
+        current.surface?.type === 'special-events-detail' ||
         current.surface?.type === 'showtimes-browse' ||
         current.surface?.type === 'build-plan-plan-details' ||
         current.surface?.type === 'short-detail' ||
@@ -1012,6 +1018,23 @@ export default function V2App() {
     setNav((current) =>
       openComingSoonDetail(current, {
         entryId: params.entryId,
+        originPrimary:
+          params.originPrimary ??
+          current.surface?.originPrimary ??
+          current.primaryDestinationId ??
+          'explore',
+        exploreRestore:
+          params.exploreRestore ?? current.surface?.exploreRestore ?? null,
+        returnSurface: params.returnSurface ?? current.surface,
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenSpecialEventsDetail = useCallback((params) => {
+    setNav((current) =>
+      openSpecialEventsDetail(current, {
+        engagementId: params.engagementId,
         originPrimary:
           params.originPrimary ??
           current.surface?.originPrimary ??
@@ -1354,6 +1377,10 @@ export default function V2App() {
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.comingSoon;
   const isComingSoonDetail = nav.surface?.type === 'coming-soon-detail';
+  const isSpecialEvents =
+    nav.surface?.type === 'collection' &&
+    nav.surface.collectionId === COLLECTION_IDS.specialEvents;
+  const isSpecialEventsDetail = nav.surface?.type === 'special-events-detail';
   const isCollectionDetail = nav.surface?.type === 'collection-detail';
   const isFormatsExperiences =
     nav.surface?.type === 'collection' &&
@@ -2092,6 +2119,27 @@ export default function V2App() {
         }}
       />
     );
+  } else if (isSpecialEvents) {
+    mainContent = (
+      <SpecialEventsSurface
+        homeData={sharedHomeData.homeData}
+        loadStatus={sharedHomeData.status}
+        enrichmentIndex={enrichmentState.index}
+        listRestore={specialEventsListRestore}
+        onListRestoreConsumed={() => setSpecialEventsListRestore(null)}
+        onOpenEngagement={(row) => {
+          setSpecialEventsListRestore(
+            captureListPosition({ itemKey: row.engagementId }),
+          );
+          handleOpenSpecialEventsDetail({
+            engagementId: row.engagementId,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            exploreRestore: nav.surface.exploreRestore ?? null,
+            returnSurface: nav.surface,
+          });
+        }}
+      />
+    );
   } else if (isCollectionDetail) {
     mainContent = (
       <CollectionDetailSurface
@@ -2117,6 +2165,25 @@ export default function V2App() {
       <ComingSoonDetailSurface
         artifact={comingSoonState.artifact}
         entryId={nav.surface.entryId}
+      />
+    );
+  } else if (isSpecialEventsDetail) {
+    mainContent = (
+      <SpecialEventsDetailSurface
+        homeData={sharedHomeData.homeData}
+        engagementId={nav.surface.engagementId}
+        enrichmentIndex={enrichmentState.index}
+        onOpenFilmDetail={({ filmKey, filmId, opportunityKey }) =>
+          handleOpenFilmDetail({
+            filmKey,
+            filmId,
+            opportunityKey,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            exploreRestore: nav.surface.exploreRestore ?? null,
+            homeRestore: null,
+            returnSurface: nav.surface,
+          })
+        }
       />
     );
   } else if (isTheatersList) {

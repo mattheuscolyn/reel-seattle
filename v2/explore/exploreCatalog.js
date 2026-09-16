@@ -521,8 +521,7 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
       return {
         status: 'unavailable',
         kind: 'empty',
-        reason:
-          'Special Events is not available yet — Q&A / early-access classifications are not stably modeled for Explore.',
+        reason: 'Special Events isn’t available right now.',
         films: [],
         theaters: [],
         formats: [],

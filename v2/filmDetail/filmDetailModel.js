@@ -678,9 +678,11 @@ export function resolveFilmDetailBackLabel(originPrimary, returnSurface) {
   if (returnSurface?.type === 'collection') {
     if (returnSurface.collectionId === 'search-results') return 'Search';
     if (returnSurface.collectionId === 'coming-soon') return 'Coming Soon';
+    if (returnSurface.collectionId === 'special-events') return 'Special Events';
     return 'Explore';
   }
   if (returnSurface?.type === 'coming-soon-detail') return 'Coming Soon';
+  if (returnSurface?.type === 'special-events-detail') return 'Special Events';
   if (returnSurface?.type === 'theater-detail') return 'Theater';
   if (returnSurface?.type === 'collection-detail') return 'Collection';
   if (originPrimary === 'home') return 'Home';
