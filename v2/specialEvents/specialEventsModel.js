@@ -160,17 +160,9 @@ export function formatSpecialEventDescription(specialEvent, filmTitle = '') {
   const usefulLabels = labels.filter((lab) => {
     const fold = lab.toLocaleLowerCase('en');
     if (!fold) return false;
-    if (titleFold && (fold === titleFold || titleFold.includes(fold))) {
-      return false;
-    }
-    // Drop label that is only a weaker restatement of the type line.
-    if (
-      typeLine &&
-      fold === typeLine.toLocaleLowerCase('en') &&
-      types.length <= 1
-    ) {
-      return true; // still fine — same meaning, prefer title case from taxonomy map
-    }
+    // Drop only when the label restates the entire film title — not when the
+    // title merely contains the event subtype (e.g. "Community Screening: …").
+    if (titleFold && fold === titleFold) return false;
     return true;
   });
 

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-16T09:19:10-07:00",
+  "generated_at": "2026-09-16T09:56:23-07:00",
   "timezone": "America/Los_Angeles",
   "method": {
     "name": "screening_event_explicit_v1",
@@ -18,14 +18,14 @@
     ]
   },
   "stats": {
-    "showtimes_inspected": 3886,
-    "high_confidence_special_events": 31,
-    "published_special_event_showtimes": 31,
+    "showtimes_inspected": 3882,
+    "high_confidence_special_events": 30,
+    "published_special_event_showtimes": 30,
     "ambiguous_or_audit_only": 203,
     "legacy_false_positive_samples": 80,
     "type_counts": {
       "early_access": 16,
-      "mystery_screening": 8,
+      "mystery_screening": 7,
       "opening_night": 4,
       "other_event": 1,
       "q_and_a": 2,
@@ -205,7 +205,7 @@
       },
       {
         "date": "2026-09-21",
-        "theater_id": "amc-kent-station-14",
+        "theater_id": "amc-oak-tree-6",
         "source_title": "AMC Screen Unseen: September 21",
         "labels": [
           "Screen Unseen: September 21"
@@ -215,7 +215,7 @@
       },
       {
         "date": "2026-09-21",
-        "theater_id": "amc-oak-tree-6",
+        "theater_id": "amc-pacific-place-11",
         "source_title": "AMC Screen Unseen: September 21",
         "labels": [
           "Screen Unseen: September 21"
@@ -983,50 +983,6 @@
     {
       "showtime_id": "c8548529457f3fd1",
       "theater_id": "amc-factoria-8",
-      "date": "2026-09-21",
-      "time": "19:00",
-      "source": "amc",
-      "source_title": "AMC Screen Unseen: September 21",
-      "film_title": "AMC Screen Unseen: September 21",
-      "parent_display_title": "AMC",
-      "parent_film_key": "amc",
-      "format_tags": [],
-      "screening_variant_type": "fan_event",
-      "is_special_screening": true,
-      "attribute_codes_from_log": [
-        "EVENT",
-        "LASERATAMC",
-        "RECLINERSEATING",
-        "RESERVEDSEATING"
-      ],
-      "special_event": {
-        "is_special_event": true,
-        "types": [
-          "mystery_screening"
-        ],
-        "labels": [
-          "Screen Unseen: September 21"
-        ],
-        "confidence": "high",
-        "evidence": [
-          {
-            "kind": "attribute_code_audit",
-            "signal": "generic_event_attribute",
-            "detail": "EVENT",
-            "confidence": "low"
-          },
-          {
-            "kind": "title_mystery_screening",
-            "type": "mystery_screening",
-            "confidence": "high",
-            "detail": "Screen Unseen"
-          }
-        ]
-      }
-    },
-    {
-      "showtime_id": "54d411136e700e02",
-      "theater_id": "amc-kent-station-14",
       "date": "2026-09-21",
       "time": "19:00",
       "source": "amc",
@@ -7633,7 +7589,7 @@
           "early_access"
         ],
         "labels": [
-          "Early access"
+          "Advance Screening"
         ],
         "confidence": "high",
         "evidence": [
@@ -7899,7 +7855,7 @@
           "early_access"
         ],
         "labels": [
-          "Early access"
+          "Advance Screening"
         ],
         "confidence": "high",
         "evidence": [
@@ -8165,7 +8121,7 @@
           "early_access"
         ],
         "labels": [
-          "Early access"
+          "Advance Screening"
         ],
         "confidence": "high",
         "evidence": [
@@ -8431,7 +8387,7 @@
           "early_access"
         ],
         "labels": [
-          "Early access"
+          "Advance Screening"
         ],
         "confidence": "high",
         "evidence": [

@@ -470,10 +470,114 @@ test('multi-type label prefers richer copy; formats stay secondary', () => {
     }),
     'Early Access Screening with Cast Member Q&A',
   );
+  assert.equal(
+    formatSpecialEventDescription(
+      {
+        types: ['other_event'],
+        labels: ['Community Screening'],
+      },
+      'Community Screening: North By Northwest',
+    ),
+    'Community Screening',
+  );
+  assert.equal(
+    formatSpecialEventDescription({
+      types: ['other_event'],
+      labels: [],
+    }),
+    'Special Event',
+  );
   assert.deepEqual(secondaryFormatLabels(['35mm', 'closed-caption', 'imax']), [
     '35mm',
     'IMAX',
   ]);
+});
+
+test('duplicate identical Screen Unseen rows collapse; distinct theaters survive', () => {
+  const base = {
+    film_title: 'AMC Screen Unseen: September 21',
+    showtime_film_key: 'amc-screen-unseen-september-21',
+    parent_film_key: 'amc',
+    parent_display_title: 'AMC',
+    date: '2026-09-21',
+    time: '19:00',
+    time_display: '7:00 PM',
+    special_event: se(['mystery_screening'], ['Screen Unseen: September 21']),
+    source: 'amc',
+    source_showtime_id: null,
+  };
+  const home = homeFromShowtimes([
+    showtime({ ...base, id: 'dup-kent', theater_id: 'amc-kent-station-14' }),
+    showtime({ ...base, id: 'dup-kent', theater_id: 'amc-kent-station-14' }),
+    showtime({
+      ...base,
+      id: 'uniq-pacific',
+      theater_id: 'amc-pacific-place-11',
+    }),
+    showtime({
+      ...base,
+      id: 'uniq-alderwood',
+      theater_id: 'amc-alderwood-mall-16',
+    }),
+  ]);
+  const mystery = home.opportunities.filter(
+    (o) =>
+      o.specialEvent?.isSpecialEvent &&
+      o.specialEvent.types.includes('mystery_screening'),
+  );
+  assert.equal(mystery.length, 3);
+  const page = composeSpecialEventsPage(home, { now: NOW });
+  const eng = page.engagements.filter((e) =>
+    e.types.includes('mystery_screening'),
+  );
+  assert.equal(eng.length, 1);
+  assert.equal(eng[0].opportunities.length, 3);
+  assert.equal(eng[0].filmTitle, 'Screen Unseen: September 21');
+  // Weak parent "amc" must not drop event metadata or invent film_id.
+  assert.equal(eng[0].filmId, null);
+  assert.ok(eng[0].opportunities.every((o) => o.specialEvent.isSpecialEvent));
+});
+
+test('ticket actions keep the exact special-event opportunityKey', () => {
+  const home = homeFromShowtimes([
+    showtime({
+      id: 'ord',
+      film_title: 'The Weight',
+      showtime_film_key: 'weight',
+      theater_id: 'amc-1',
+      date: '2026-09-17',
+      time: '14:00',
+      time_display: '2:00 PM',
+      ticket_url: 'https://example.com/tickets/ordinary',
+    }),
+    showtime({
+      id: 'evt',
+      film_title: 'The Weight Early Access',
+      showtime_film_key: 'weight',
+      parent_film_key: 'weight',
+      parent_display_title: 'The Weight',
+      theater_id: 'amc-1',
+      date: '2026-09-17',
+      time: '19:00',
+      time_display: '7:00 PM',
+      ticket_url: 'https://example.com/tickets/event-only',
+      special_event: se(['early_access'], ['Early Access']),
+    }),
+  ]);
+  const page = composeSpecialEventsPage(home, { now: NOW });
+  const detail = composeSpecialEventsDetail(
+    home,
+    page.engagements[0].engagementId,
+    { now: NOW },
+  );
+  const eventOpp = home.opportunities.find((o) => o.specialEvent?.isSpecialEvent);
+  const ordinaryOpp = home.opportunities.find((o) => !o.specialEvent?.isSpecialEvent);
+  assert.ok(eventOpp && ordinaryOpp);
+  assert.notEqual(eventOpp.opportunityKey, ordinaryOpp.opportunityKey);
+  assert.equal(detail.showtimes.length, 1);
+  assert.equal(detail.showtimes[0].opportunityKey, eventOpp.opportunityKey);
+  assert.equal(detail.showtimes[0].ticketUrl, 'https://example.com/tickets/event-only');
+  assert.notEqual(detail.showtimes[0].ticketUrl, ordinaryOpp.ticketUrl);
 });
 
 test('Explore tab stays active; back restores Special Events', () => {
@@ -542,14 +646,25 @@ test('live HomeData groups current special events into engagements', () => {
   const newly = JSON.parse(
     readFileSync(join(ROOT, 'public/data/newly_added_current.json'), 'utf8'),
   );
+  const rawHigh = showtimes.showtimes.filter(
+    (s) =>
+      s.special_event?.is_special_event === true &&
+      s.special_event?.confidence === 'high',
+  );
   const home = buildHomeData({
     showtimesCurrent: showtimes,
-    theaters,
+    theatersRegistry: theaters,
     newlyAdded: newly,
   });
+  const homeHigh = home.opportunities.filter(
+    (o) =>
+      o.specialEvent?.isSpecialEvent === true &&
+      o.specialEvent?.confidence === 'high',
+  );
+  assert.equal(rawHigh.length, homeHigh.length);
+  assert.equal(rawHigh.length, 30);
   const page = composeSpecialEventsPage(home, { now: NOW });
-  assert.ok(page.visibleCount >= 7);
-  assert.ok(page.visibleCount <= 12);
+  assert.equal(page.visibleCount, 8);
   const weight = page.engagements.find((e) => e.filmTitle === 'The Weight');
   assert.ok(weight);
   assert.ok(weight.moreCount >= 1);
@@ -557,4 +672,8 @@ test('live HomeData groups current special events into engagements', () => {
     (e) => e.filmTitle === 'Forgotten Island',
   );
   assert.ok(forgotten.length >= 2);
+  const community = page.engagements.find((e) =>
+    e.filmTitle.includes('North By Northwest'),
+  );
+  assert.equal(community?.eventDescription, 'Community Screening');
 });

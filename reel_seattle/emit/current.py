@@ -162,6 +162,7 @@ def build_showtimes_current(
         generated_at = generated_at.replace(tzinfo=ZoneInfo(DEFAULT_TIMEZONE))
 
     showtimes: list[dict[str, Any]] = []
+    seen_showtime_ids: set[str] = set()
     films_by_key: dict[str, dict[str, Any]] = {}
     theater_ids_in_showtimes: set[str] = set()
     sources_included: set[str] = set()
@@ -225,6 +226,10 @@ def build_showtimes_current(
             parsed_time.time_24h,
             film_key,
         )
+        # Identical theater|date|time|film rows collapse — keep first observation.
+        if showtime_id in seen_showtime_ids:
+            continue
+        seen_showtime_ids.add(showtime_id)
 
         source_title = source_title_from_history_row(row)
         special_event = classify_special_event(

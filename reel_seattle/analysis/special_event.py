@@ -277,6 +277,52 @@ def _extract_labels(blob: str) -> list[str]:
     return labels
 
 
+def _title_case_label(text: str) -> str:
+    """Light title-case for evidence snippets without shouting acronyms."""
+    cleaned = re.sub(r"\s+", " ", text).strip(" -–—:")
+    if not cleaned:
+        return cleaned
+    parts: list[str] = []
+    for word in cleaned.split(" "):
+        upper = word.upper()
+        if upper in {"Q&A", "QA"} or upper.replace(".", "") == "QA":
+            parts.append("Q&A")
+        elif word.casefold() in {"imax", "3d"}:
+            parts.append(upper)
+        else:
+            parts.append(word[:1].upper() + word[1:] if word else word)
+    return " ".join(parts)
+
+
+def _labels_from_evidence(
+    evidence: Sequence[Mapping[str, Any]], types: Sequence[str]
+) -> list[str]:
+    """Build display labels from high-confidence evidence details."""
+    generic = {_human_label(t).casefold() for t in types}
+    type_folds = {t.replace("_", " ").casefold() for t in types}
+    labels: list[str] = []
+    seen: set[str] = set()
+    for item in evidence:
+        if not isinstance(item, Mapping):
+            continue
+        if item.get("confidence") != CONFIDENCE_HIGH:
+            continue
+        if item.get("kind") == "orthogonal_format_tags":
+            continue
+        detail = item.get("detail")
+        if not isinstance(detail, str):
+            continue
+        label = _title_case_label(detail)
+        if not label:
+            continue
+        key = label.casefold()
+        if key in seen or key in generic or key in type_folds:
+            continue
+        seen.add(key)
+        labels.append(label)
+    return labels
+
+
 def classify_special_event(
     *,
     title: str | None = None,
@@ -415,9 +461,19 @@ def classify_special_event(
     publish = bool(types) and confidence_rank >= 2
 
     labels = _extract_labels(blob) if publish else []
-    # If we matched types but label extraction missed, synthesize short labels.
+    # If extraction missed, prefer high-confidence evidence details (e.g.
+    # "Community Screening") over generic type fallbacks ("Special event").
+    if publish and not labels:
+        labels = _labels_from_evidence(evidence, types)
     if publish and not labels:
         labels = [_human_label(t) for t in types]
+    elif publish and labels:
+        # Upgrade purely generic type fallbacks when richer evidence exists.
+        generic = {_human_label(t).casefold() for t in types}
+        if all(lab.casefold() in generic for lab in labels):
+            richer = _labels_from_evidence(evidence, types)
+            if richer:
+                labels = richer
 
     confidence = None
     if confidence_rank >= 3:

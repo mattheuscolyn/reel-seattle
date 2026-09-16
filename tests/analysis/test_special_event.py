@@ -160,6 +160,18 @@ def test_sing_along_publishes_as_other_event():
     assert TYPE_OTHER_EVENT in _types(payload)
 
 
+def test_community_screening_preserves_meaningful_other_event_label():
+    payload = classify_special_event(
+        title="Community Screening: North By Northwest"
+    )
+    assert payload["is_special_event"] is True
+    assert TYPE_OTHER_EVENT in _types(payload)
+    assert payload["labels"] == ["Community Screening"]
+    assert any(
+        ev.get("detail") == "Community Screening" for ev in payload["evidence"]
+    )
+
+
 def test_siff_special_screening_plus_qa_preserves_label():
     payload = classify_special_event(
         title="Beware! The Devil’s Wrath - Special Screening + Q&A"

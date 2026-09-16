@@ -255,6 +255,29 @@ def test_special_event_is_screening_level_not_film_global(theaters_registry):
     assert ordinary["parent_display_title"] == "Forgotten Island"
 
 
+def test_duplicate_history_rows_collapse_to_one_showtime(theaters_registry):
+    """Identical theater|date|time|film rows must not inflate the artifact."""
+    row = _history_row(
+        REFERENCE,
+        film="AMC Screen Unseen: September 21",
+        time="7:00PM",
+    )
+    artifact = build_showtimes_current(
+        [row, dict(row), dict(row)],
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    matches = [
+        s
+        for s in artifact["showtimes"]
+        if "Screen Unseen" in (s.get("film_title") or "")
+    ]
+    assert len(matches) == 1
+    assert matches[0]["special_event"]["is_special_event"] is True
+    assert "mystery_screening" in matches[0]["special_event"]["types"]
+
+
 def test_write_showtimes_current_writes_valid_json(tmp_path, theaters_registry):
     registry_path = tmp_path / "theaters.json"
     output_path = tmp_path / "showtimes_current.json"
