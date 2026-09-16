@@ -677,8 +677,10 @@ export function attachHeroBadges(homeData, hero, film) {
 export function resolveFilmDetailBackLabel(originPrimary, returnSurface) {
   if (returnSurface?.type === 'collection') {
     if (returnSurface.collectionId === 'search-results') return 'Search';
+    if (returnSurface.collectionId === 'coming-soon') return 'Coming Soon';
     return 'Explore';
   }
+  if (returnSurface?.type === 'coming-soon-detail') return 'Coming Soon';
   if (returnSurface?.type === 'theater-detail') return 'Theater';
   if (returnSurface?.type === 'collection-detail') return 'Collection';
   if (originPrimary === 'home') return 'Home';

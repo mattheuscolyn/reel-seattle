@@ -16,6 +16,7 @@ test('v2 data allowlist includes Home artifacts including Leaving Soon', () => {
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/leaving_soon_current.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/pipeline_report.json']);
   assert.ok(ALLOWED_V2_DATA_ROUTES['/data/film_enrichment_current.json']);
+  assert.ok(ALLOWED_V2_DATA_ROUTES['/data/coming_soon_current.json']);
   assert.equal(
     EXCLUDED_V2_DATA_PATHS.includes('/data/leaving_soon_current.json'),
     false,

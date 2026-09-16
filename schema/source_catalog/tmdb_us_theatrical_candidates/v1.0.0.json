@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/source_catalog/tmdb_us_theatrical_candidates/v1.0.0.json",
+  "title": "TMDB US Theatrical Candidates",
+  "description": "Durable internal snapshot of TMDB Discover results for upcoming US theatrical / limited-theatrical releases (region=US, with_release_type=2|3) across the Coming Soon window. Supplemental evidence only; quality flags are diagnostics and never an inclusion filter.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "source",
+    "query",
+    "fetch",
+    "stats",
+    "candidates"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "source": { "type": "string", "const": "tmdb" },
+    "query": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "endpoint",
+        "region",
+        "release_types",
+        "sort_by",
+        "language",
+        "include_adult",
+        "start_date",
+        "end_date",
+        "window_days",
+        "timezone"
+      ],
+      "properties": {
+        "endpoint": { "type": "string", "const": "/discover/movie" },
+        "region": { "type": "string", "const": "US" },
+        "release_types": { "type": "string", "const": "2|3" },
+        "sort_by": { "type": "string", "minLength": 1 },
+        "language": { "type": "string", "minLength": 1 },
+        "include_adult": { "type": "boolean", "const": false },
+        "start_date": { "type": "string", "format": "date" },
+        "end_date": { "type": "string", "format": "date" },
+        "window_days": { "type": "integer", "minimum": 1 },
+        "timezone": { "type": "string", "const": "America/Los_Angeles" }
+      }
+    },
+    "fetch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "pages_fetched",
+        "reported_total_results",
+        "reported_total_pages",
+        "exhausted",
+        "errors"
+      ],
+      "properties": {
+        "status": { "type": "string", "enum": ["success", "partial", "failed"] },
+        "pages_fetched": { "type": "integer", "minimum": 0 },
+        "reported_total_results": { "type": ["integer", "null"], "minimum": 0 },
+        "reported_total_pages": { "type": ["integer", "null"], "minimum": 0 },
+        "exhausted": { "type": "boolean" },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["page", "error"],
+            "properties": {
+              "page": { "type": "integer", "minimum": 1 },
+              "error": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_rows",
+        "candidates",
+        "rejected_rows",
+        "with_poster",
+        "without_poster",
+        "with_quality_flags",
+        "earliest_release_date",
+        "latest_release_date",
+        "quality_flag_counts",
+        "rejected_reason_counts",
+        "duplicate_ids_skipped"
+      ],
+      "properties": {
+        "raw_rows": { "type": "integer", "minimum": 0 },
+        "candidates": { "type": "integer", "minimum": 0 },
+        "rejected_rows": { "type": "integer", "minimum": 0 },
+        "with_poster": { "type": "integer", "minimum": 0 },
+        "without_poster": { "type": "integer", "minimum": 0 },
+        "with_quality_flags": { "type": "integer", "minimum": 0 },
+        "earliest_release_date": { "type": ["string", "null"], "format": "date" },
+        "latest_release_date": { "type": ["string", "null"], "format": "date" },
+        "quality_flag_counts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "rejected_reason_counts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "duplicate_ids_skipped": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "tmdb_id",
+          "title",
+          "original_title",
+          "original_language",
+          "release_date",
+          "popularity",
+          "vote_count",
+          "poster_path",
+          "has_poster",
+          "has_overview",
+          "quality_flags"
+        ],
+        "properties": {
+          "source": { "type": "string", "const": "tmdb" },
+          "tmdb_id": { "type": "integer", "minimum": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "original_title": { "type": ["string", "null"] },
+          "original_language": { "type": ["string", "null"] },
+          "release_date": { "type": "string", "format": "date" },
+          "popularity": { "type": "number", "minimum": 0 },
+          "vote_count": { "type": "integer", "minimum": 0 },
+          "poster_path": { "type": ["string", "null"] },
+          "has_poster": { "type": "boolean" },
+          "has_overview": { "type": "boolean" },
+          "overview": { "type": ["string", "null"] },
+          "quality_flags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "missing_poster",
+                "very_low_popularity",
+                "no_votes_and_low_popularity",
+                "missing_overview"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

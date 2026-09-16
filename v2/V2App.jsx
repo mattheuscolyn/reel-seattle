@@ -37,6 +37,7 @@ import {
   markNotificationReadInOverrides,
   notificationNavigationTarget,
 } from './notifications/notificationModel.js';
+import { captureListPosition } from './navigation/listPositionRestore.js';
 import NotificationsSheet from './notifications/NotificationsSheet.jsx';
 import {
   fetchUserNotifications,
@@ -59,6 +60,7 @@ import {
   openBuildPlanPlanDetails,
   openCollection,
   openCollectionDetail,
+  openComingSoonDetail,
   openFilmDetail,
   openShortDetail,
   openShortsProgramDetail,
@@ -104,6 +106,10 @@ import TheaterDetailSurface from './theaters/TheaterDetailSurface.jsx';
 import CollectionsSurface from './exploreCollections/CollectionsSurface.jsx';
 import CollectionDetailSurface from './exploreCollections/CollectionDetailSurface.jsx';
 import { loadCollectionsCurrent } from './exploreCollections/loadCollectionsCurrent.js';
+import { loadComingSoonCurrent } from './comingSoon/loadComingSoonCurrent.js';
+import ComingSoonSurface from './comingSoon/ComingSoonSurface.jsx';
+import ComingSoonDetailSurface from './comingSoon/ComingSoonDetailSurface.jsx';
+import { DEFAULT_COMING_SOON_FILTERS } from './comingSoon/comingSoonModel.js';
 import { loadShortsProgramsCurrent } from './shortsPrograms/loadShortsProgramsCurrent.js';
 import {
   indexShortsProgramsArtifact,
@@ -287,6 +293,15 @@ export default function V2App() {
     artifact: null,
     warning: null,
   });
+  const [comingSoonState, setComingSoonState] = useState({
+    status: 'loading',
+    artifact: null,
+    warning: null,
+  });
+  const [comingSoonFilters, setComingSoonFilters] = useState(
+    DEFAULT_COMING_SOON_FILTERS,
+  );
+  const [comingSoonListRestore, setComingSoonListRestore] = useState(null);
   const [shortsProgramsState, setShortsProgramsState] = useState({
     status: 'loading',
     artifact: null,
@@ -519,6 +534,30 @@ export default function V2App() {
       .catch((error) => {
         if (cancelled) return;
         setCollectionsState({
+          status: 'unavailable',
+          artifact: null,
+          warning: error instanceof Error ? error.message : String(error),
+        });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    loadComingSoonCurrent()
+      .then((result) => {
+        if (cancelled) return;
+        setComingSoonState({
+          status: result.status,
+          artifact: result.artifact,
+          warning: result.warning,
+        });
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        setComingSoonState({
           status: 'unavailable',
           artifact: null,
           warning: error instanceof Error ? error.message : String(error),
@@ -844,6 +883,7 @@ export default function V2App() {
         (current.surface?.type === 'collection' ||
         current.surface?.type === 'theater-detail' ||
         current.surface?.type === 'collection-detail' ||
+        current.surface?.type === 'coming-soon-detail' ||
         current.surface?.type === 'showtimes-browse' ||
         current.surface?.type === 'build-plan-plan-details' ||
         current.surface?.type === 'short-detail' ||
@@ -962,6 +1002,23 @@ export default function V2App() {
           current.surface?.originPrimary ??
           current.primaryDestinationId ??
           'explore',
+        returnSurface: params.returnSurface ?? current.surface,
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenComingSoonDetail = useCallback((params) => {
+    setNav((current) =>
+      openComingSoonDetail(current, {
+        entryId: params.entryId,
+        originPrimary:
+          params.originPrimary ??
+          current.surface?.originPrimary ??
+          current.primaryDestinationId ??
+          'explore',
+        exploreRestore:
+          params.exploreRestore ?? current.surface?.exploreRestore ?? null,
         returnSurface: params.returnSurface ?? current.surface,
       }),
     );
@@ -1293,6 +1350,10 @@ export default function V2App() {
   const isCollectionsList =
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.collections;
+  const isComingSoon =
+    nav.surface?.type === 'collection' &&
+    nav.surface.collectionId === COLLECTION_IDS.comingSoon;
+  const isComingSoonDetail = nav.surface?.type === 'coming-soon-detail';
   const isCollectionDetail = nav.surface?.type === 'collection-detail';
   const isFormatsExperiences =
     nav.surface?.type === 'collection' &&
@@ -1992,6 +2053,45 @@ export default function V2App() {
         }
       />
     );
+  } else if (isComingSoon) {
+    mainContent = (
+      <ComingSoonSurface
+        artifact={comingSoonState.artifact}
+        loadStatus={comingSoonState.status}
+        filters={comingSoonFilters}
+        listRestore={comingSoonListRestore}
+        onFiltersChange={(next) => {
+          setComingSoonFilters(next);
+          setComingSoonListRestore(null);
+        }}
+        onListRestoreConsumed={() => setComingSoonListRestore(null)}
+        onOpenRow={(row) => {
+          setComingSoonListRestore(
+            captureListPosition({ itemKey: row.entryId }),
+          );
+          const target = row.openTarget;
+          if (target?.type === 'film-detail') {
+            handleOpenFilmDetail({
+              filmKey: target.filmKey,
+              filmId: target.filmId,
+              originPrimary: nav.surface.originPrimary ?? 'explore',
+              exploreRestore: nav.surface.exploreRestore ?? null,
+              homeRestore: null,
+              returnSurface: nav.surface,
+            });
+            return;
+          }
+          if (target?.type === 'coming-soon-detail') {
+            handleOpenComingSoonDetail({
+              entryId: target.entryId,
+              originPrimary: nav.surface.originPrimary ?? 'explore',
+              exploreRestore: nav.surface.exploreRestore ?? null,
+              returnSurface: nav.surface,
+            });
+          }
+        }}
+      />
+    );
   } else if (isCollectionDetail) {
     mainContent = (
       <CollectionDetailSurface
@@ -2010,6 +2110,13 @@ export default function V2App() {
             returnSurface: nav.surface,
           })
         }
+      />
+    );
+  } else if (isComingSoonDetail) {
+    mainContent = (
+      <ComingSoonDetailSurface
+        artifact={comingSoonState.artifact}
+        entryId={nav.surface.entryId}
       />
     );
   } else if (isTheatersList) {

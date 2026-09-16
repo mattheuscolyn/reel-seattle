@@ -512,8 +512,7 @@ export function buildExploreCollection(homeData, collectionId, options = {}) {
       return {
         status: 'unavailable',
         kind: 'empty',
-        reason:
-          'Coming Soon is not available yet — no approved upcoming-film classification in public data.',
+        reason: 'Coming Soon isn’t available right now.',
         films: [],
         theaters: [],
         formats: [],

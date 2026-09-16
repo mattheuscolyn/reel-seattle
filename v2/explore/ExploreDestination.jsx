@@ -104,9 +104,8 @@ export default function ExploreDestination({
           <p className="v2-data-status-label">Explore honesty</p>
           <p className="v2-data-status-message">
             Recent searches are device-local only. {SEARCH_EXPLORE_HONESTY_NOTE}{' '}
-            All showtimes uses a rolling 7-day Pacific window. Collections,
-            Coming Soon, Special Events, and 35mm remain incomplete without
-            additional data.
+            All showtimes uses a rolling 7-day Pacific window. Special Events
+            and 35mm remain incomplete without additional data.
           </p>
         </div>
       </details>
