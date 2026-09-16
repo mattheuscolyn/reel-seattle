@@ -54,8 +54,12 @@ const FORBIDDEN_V2_PATHS = [
   'dist-v2/index.html',
 ];
 
-/** Total bytes under dist/data/ must stay well below accidental history CSV size (~75 MB). */
-const MAX_DATA_DIR_BYTES = 5 * 1024 * 1024;
+/**
+ * Total bytes under dist/data/ must stay well below accidental history CSV size (~75 MB).
+ * Raised from 5 MB after screening-level `special_event` payloads landed on every
+ * showtimes_current row (Explore Special Events). Still far below history CSV scale.
+ */
+const MAX_DATA_DIR_BYTES = 6.5 * 1024 * 1024;
 
 function fail(message) {
   console.error(`check_dist_artifacts: ${message}`);
