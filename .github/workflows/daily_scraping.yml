@@ -85,6 +85,22 @@ jobs:
             --pipeline-report-path public/data/pipeline_report.json \
             --temp-dir "${{ runner.temp }}/amc-source-catalog"
 
+      - name: Refresh Coming Soon
+        # Optional stage: AMC/TMDB outages must never block the showtime
+        # publish above, so the script always exits 0 and keeps the previous
+        # coming_soon_current.json when an upstream source is unavailable.
+        env:
+          AMC_API_KEY: ${{ secrets.AMC_API_KEY }}
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: |
+          python scripts/run_daily_coming_soon.py \
+            --live \
+            --catalog-path data/source_catalog/amc_coming_soon_catalog.json \
+            --tmdb-candidates-path data/source_catalog/tmdb_us_theatrical_candidates.json \
+            --output-path public/data/coming_soon_current.json \
+            --json-summary-path "${{ runner.temp }}/coming-soon-summary.json"
+
       - name: Re-validate public data artifacts after catalog health update
         run: python scripts/validate_public_data_artifacts.py
 
@@ -104,6 +120,15 @@ jobs:
           fi
           if [ -f data/source_catalog/amc_release_observations.json ]; then
             git add data/source_catalog/amc_release_observations.json
+          fi
+          if [ -f data/source_catalog/amc_coming_soon_catalog.json ]; then
+            git add data/source_catalog/amc_coming_soon_catalog.json
+          fi
+          if [ -f data/source_catalog/tmdb_us_theatrical_candidates.json ]; then
+            git add data/source_catalog/tmdb_us_theatrical_candidates.json
+          fi
+          if [ -f public/data/coming_soon_current.json ]; then
+            git add public/data/coming_soon_current.json
           fi
           git add public/data/showtimes_current.json
           git add public/data/pipeline_report.json

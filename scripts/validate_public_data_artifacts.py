@@ -22,6 +22,7 @@ from reel_seattle.film_identity.public_emit import (  # noqa: E402
 from reel_seattle.validate import (  # noqa: E402
     SchemaValidationError,
     validate_collections_current,
+    validate_coming_soon_current,
     validate_leaving_soon_current,
     validate_newly_added_current,
     validate_opening_this_week_current,
@@ -57,7 +58,21 @@ VALIDATORS: dict[str, Callable[[dict[str, Any]], None]] = {
     "public/data/theaters.json": validate_theaters_registry,
     "public/data/film_enrichment_current.json": validate_film_enrichment_document,
     "public/data/collections_current.json": validate_collections_current,
+    "public/data/coming_soon_current.json": validate_coming_soon_current,
 }
+
+# Validated when present. Coming Soon depends on optional AMC/TMDB sources, so
+# a branch that has not run that stage yet must still pass validation.
+OPTIONAL_ARTIFACTS: tuple[str, ...] = (
+    "public/data/collections_current.json",
+    "public/data/coming_soon_current.json",
+)
+
+
+def present_optional_artifacts(root: Path | None = None) -> list[str]:
+    """Optional artifacts that exist on disk and were therefore validated."""
+    project_root = root or PROJECT_ROOT
+    return [rel for rel in OPTIONAL_ARTIFACTS if (project_root / rel).is_file()]
 
 
 def validate_public_data_artifacts(root: Path | None = None) -> list[str]:
@@ -88,18 +103,19 @@ def validate_public_data_artifacts(root: Path | None = None) -> list[str]:
         except Exception as exc:  # pragma: no cover - defensive guard for unexpected failures
             errors.append(f"validation failed for {rel}: {exc}")
 
-    optional_collections = "public/data/collections_current.json"
-    collections_path = project_root / optional_collections
-    if collections_path.is_file():
+    for rel in OPTIONAL_ARTIFACTS:
+        path = project_root / rel
+        if not path.is_file():
+            continue
         try:
-            document = json.loads(collections_path.read_text(encoding="utf-8"))
-            validate_collections_current(document)
+            document = json.loads(path.read_text(encoding="utf-8"))
+            VALIDATORS[rel](document)
         except json.JSONDecodeError as exc:
-            errors.append(f"invalid JSON in {optional_collections}: {exc.msg}")
+            errors.append(f"invalid JSON in {rel}: {exc.msg}")
         except SchemaValidationError as exc:
             errors.append(str(exc))
         except Exception as exc:  # pragma: no cover
-            errors.append(f"validation failed for {optional_collections}: {exc}")
+            errors.append(f"validation failed for {rel}: {exc}")
 
     canonical_path = project_root / CANONICAL_THEATERS
     public_path = project_root / PUBLIC_THEATERS
@@ -149,7 +165,13 @@ def main() -> int:
         return 1
 
     print("validate_public_data_artifacts: OK")
-    print(f"  - {len(REQUIRED_ARTIFACTS)} JSON artifacts present and schema-valid")
+    optional_present = present_optional_artifacts()
+    print(f"  - {len(REQUIRED_ARTIFACTS)} required JSON artifacts present and schema-valid")
+    if optional_present:
+        print(
+            f"  - {len(optional_present)} optional artifacts validated: "
+            + ", ".join(optional_present)
+        )
     print(f"  - {CANONICAL_THEATERS} matches {PUBLIC_THEATERS}")
     print("  - no obsolete public/data paths")
     return 0

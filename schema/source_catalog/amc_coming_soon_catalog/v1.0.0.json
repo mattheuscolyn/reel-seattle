@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.com/schema/source_catalog/amc_coming_soon_catalog/v1.0.0.json",
+  "title": "AMC Coming Soon Catalog",
+  "description": "Durable internal snapshot of AMC's national /v2/movies/views/coming-soon catalog view. Announcement evidence only: catalog membership says nothing about Seattle-area bookings, and Seattle bookings say nothing about catalog membership.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "source",
+    "fetch",
+    "stats",
+    "movies"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "const": "amc"
+    },
+    "fetch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "endpoint",
+        "url_template",
+        "status",
+        "page_size",
+        "pages_fetched",
+        "reported_total",
+        "exhausted",
+        "next_link_observed",
+        "duplicate_ids_skipped",
+        "unparsable_records_skipped",
+        "errors"
+      ],
+      "properties": {
+        "endpoint": { "type": "string", "const": "/movies/views/coming-soon" },
+        "url_template": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "enum": ["success", "partial", "failed"] },
+        "page_size": { "type": "integer", "minimum": 1 },
+        "pages_fetched": { "type": "integer", "minimum": 0 },
+        "reported_total": { "type": ["integer", "null"], "minimum": 0 },
+        "exhausted": { "type": "boolean" },
+        "next_link_observed": { "type": "boolean" },
+        "duplicate_ids_skipped": { "type": "integer", "minimum": 0 },
+        "unparsable_records_skipped": { "type": "integer", "minimum": 0 },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["page", "http_status", "error"],
+            "properties": {
+              "page": { "type": "integer", "minimum": 1 },
+              "http_status": { "type": ["integer", "null"] },
+              "error": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "movies",
+        "with_release_date",
+        "without_release_date",
+        "earliest_release_date",
+        "latest_release_date",
+        "with_scheduled_showtimes",
+        "without_scheduled_showtimes",
+        "scheduled_showtimes_unknown",
+        "special_presentations"
+      ],
+      "properties": {
+        "movies": { "type": "integer", "minimum": 0 },
+        "with_release_date": { "type": "integer", "minimum": 0 },
+        "without_release_date": { "type": "integer", "minimum": 0 },
+        "earliest_release_date": { "type": ["string", "null"], "format": "date" },
+        "latest_release_date": { "type": ["string", "null"], "format": "date" },
+        "with_scheduled_showtimes": { "type": "integer", "minimum": 0 },
+        "without_scheduled_showtimes": { "type": "integer", "minimum": 0 },
+        "scheduled_showtimes_unknown": { "type": "integer", "minimum": 0 },
+        "special_presentations": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "movies": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/movie" }
+    }
+  },
+  "$defs": {
+    "movie": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "source_film_id",
+        "source_release_id",
+        "source_title",
+        "sortable_title",
+        "runtime_min",
+        "release_date_utc",
+        "earliest_showing_utc",
+        "online_ticket_availability_date_utc",
+        "has_scheduled_showtimes",
+        "genre",
+        "mpaa_rating",
+        "starring_actors_raw",
+        "directors_raw",
+        "synopsis",
+        "distributor_id",
+        "distributor_code",
+        "preferred_media_type",
+        "available_for_a_list",
+        "slug",
+        "website_url",
+        "showtimes_url",
+        "attribute_codes",
+        "media",
+        "presentation"
+      ],
+      "properties": {
+        "source": { "type": "string", "const": "amc" },
+        "source_film_id": { "type": "string", "minLength": 1 },
+        "source_release_id": { "type": ["string", "null"], "minLength": 1 },
+        "source_title": { "type": ["string", "null"] },
+        "sortable_title": { "type": ["string", "null"] },
+        "runtime_min": { "type": ["integer", "null"] },
+        "release_date_utc": { "type": ["string", "null"] },
+        "earliest_showing_utc": { "type": ["string", "null"] },
+        "online_ticket_availability_date_utc": { "type": ["string", "null"] },
+        "has_scheduled_showtimes": { "type": ["boolean", "null"] },
+        "genre": { "type": ["string", "null"] },
+        "mpaa_rating": { "type": ["string", "null"] },
+        "starring_actors_raw": { "type": ["string", "null"] },
+        "directors_raw": { "type": ["string", "null"] },
+        "synopsis": { "type": ["string", "null"] },
+        "distributor_id": { "type": ["string", "null"] },
+        "distributor_code": { "type": ["string", "null"] },
+        "preferred_media_type": { "type": ["string", "null"] },
+        "available_for_a_list": { "type": ["boolean", "null"] },
+        "slug": { "type": ["string", "null"] },
+        "website_url": { "type": ["string", "null"] },
+        "showtimes_url": { "type": ["string", "null"] },
+        "attribute_codes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "media": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "poster_url",
+            "hero_desktop_url",
+            "hero_mobile_url",
+            "trailer_hd_url",
+            "trailer_mp4_url"
+          ],
+          "properties": {
+            "poster_url": { "type": ["string", "null"] },
+            "hero_desktop_url": { "type": ["string", "null"] },
+            "hero_mobile_url": { "type": ["string", "null"] },
+            "trailer_hd_url": { "type": ["string", "null"] },
+            "trailer_mp4_url": { "type": ["string", "null"] }
+          }
+        },
+        "presentation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "category",
+            "is_special_presentation",
+            "classifier_version"
+          ],
+          "properties": {
+            "category": {
+              "type": "string",
+              "enum": [
+                "standard",
+                "q_and_a",
+                "special_introduction",
+                "sensory_friendly",
+                "open_caption",
+                "dubbed_or_subtitled",
+                "anniversary_or_rerelease",
+                "mystery_screening",
+                "concert_or_event",
+                "marathon_or_multi_feature",
+                "other_special",
+                "unknown"
+              ]
+            },
+            "is_special_presentation": { "type": "boolean" },
+            "classifier_version": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

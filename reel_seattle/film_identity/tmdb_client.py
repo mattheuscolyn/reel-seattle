@@ -106,6 +106,10 @@ class TmdbClient:
             {},
         )
 
+    def discover_movie(self, params: Mapping[str, Any]) -> dict[str, Any]:
+        """Run ``/discover/movie`` with caller-supplied filters."""
+        return self._request("discover", "/discover/movie", params)
+
     def _request(self, kind: str, path: str, params: Mapping[str, Any]) -> dict[str, Any]:
         if self.cache is not None and not self.refresh:
             cached = self.cache.get(kind, {"path": path, **dict(params)})
