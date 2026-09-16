@@ -209,6 +209,9 @@ export function resolveHeaderBackLabel(nav, options = {}) {
   if (surface.type === 'coming-soon-detail') {
     return 'Coming Soon';
   }
+  if (surface.type === 'special-events-detail') {
+    return 'Special Events';
+  }
   if (surface.type === 'build-plan-plan-details') {
     return surface.returnSurface?.type === 'build-plan-results'
       ? 'Results'

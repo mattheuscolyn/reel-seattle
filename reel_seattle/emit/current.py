@@ -39,6 +39,7 @@ from reel_seattle.analysis.film_identity import (
     build_film_key_identity_map,
     derive_parent_identity,
 )
+from reel_seattle.analysis.special_event import classify_special_event
 from reel_seattle.film_identity.content_classification import (
     attach_content_classifications,
 )
@@ -161,6 +162,7 @@ def build_showtimes_current(
         generated_at = generated_at.replace(tzinfo=ZoneInfo(DEFAULT_TIMEZONE))
 
     showtimes: list[dict[str, Any]] = []
+    seen_showtime_ids: set[str] = set()
     films_by_key: dict[str, dict[str, Any]] = {}
     theater_ids_in_showtimes: set[str] = set()
     sources_included: set[str] = set()
@@ -224,7 +226,17 @@ def build_showtimes_current(
             parsed_time.time_24h,
             film_key,
         )
+        # Identical theater|date|time|film rows collapse — keep first observation.
+        if showtime_id in seen_showtime_ids:
+            continue
+        seen_showtime_ids.add(showtime_id)
 
+        source_title = source_title_from_history_row(row)
+        special_event = classify_special_event(
+            title=film_title,
+            source_title=source_title,
+            format_tags=format_tags,
+        )
         showtimes.append(
             {
                 "id": showtime_id,
@@ -241,9 +253,10 @@ def build_showtimes_current(
                 "ticket_url": None,
                 "source": source,
                 "source_film_id": source_film_id_from_history_row(row),
-                "source_title": source_title_from_history_row(row),
+                "source_title": source_title,
                 "source_showtime_id": None,
                 "attributes": {},
+                "special_event": special_event,
                 "first_seen_at": _metadata_date(row.get("first_seen_date")),
                 "last_seen_at": _metadata_date(row.get("last_updated")),
             }

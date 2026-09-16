@@ -79,6 +79,7 @@ from reel_seattle.normalize import (
     format_date_iso,
     normalize_film_title,
     resolve_theater,
+    showtime_film_key,
 )
 from reel_seattle.validate import (
     validate_coming_soon_candidates,
@@ -165,6 +166,17 @@ _SUFFIX_SPLIT_PATTERN = re.compile(
     r"\s+[-\u2013\u2014]\s+|\s*:\s+|\s*\(|\s*\u2013\s*"
 )
 
+# Undelimited named guest Q&A products must keep distinct Coming Soon join keys
+# even though showtimes parent-identity strips them for performance grouping.
+_UNDELIMITED_NAMED_QA = re.compile(
+    r"(?i)(?<![-\u2013\u2014:])\s+(?:live\s+)?q\s*&\s*a\s+with\b"
+)
+
+
+def _is_undelimited_named_qa_title(title: str) -> bool:
+    text = fold_diacritics(normalize_film_title(title) or str(title or "").strip())
+    return bool(text and _UNDELIMITED_NAMED_QA.search(text))
+
 
 def pacific_today(now: datetime | None = None) -> date:
     """Return today's calendar date in America/Los_Angeles."""
@@ -187,15 +199,24 @@ def coming_soon_join_key(title: str, *, source_film_id: str | None = None) -> st
     Wraps the shared parent-film identity derivation with diacritic folding.
     ``derive_parent_identity`` itself is left untouched because its output is
     published inside ``showtimes_current``.
+
+    Exception: undelimited named Q&A / Live Q&A catalog titles stay on their
+    own join key so Coming Soon does not fold guest events into the base film.
     """
     text = normalize_film_title(title) or str(title or "").strip()
+    folded = fold_diacritics(text)
+    if _is_undelimited_named_qa_title(folded):
+        key = showtime_film_key(folded) or ""
+        if key:
+            return key
+        return folded.casefold().strip()
     identity = derive_parent_identity(
-        fold_diacritics(text), source_film_id=source_film_id or ""
+        folded, source_film_id=source_film_id or ""
     )
     key = identity.parent_film_key or ""
     if key:
         return key
-    return fold_diacritics(text).casefold().strip()
+    return folded.casefold().strip()
 
 
 def strip_event_suffix(title: str) -> str | None:
@@ -603,7 +624,7 @@ def extract_amc_theater_bookings(
         candidate.amc_movie_ids.add(movie_id)
         candidate.contributing_sources.add(SOURCE_AMC_BOOKING)
         identity = derive_parent_identity(title, source_film_id=movie_id)
-        if identity.parent_film_key:
+        if identity.parent_film_key and not _is_undelimited_named_qa_title(title):
             candidate.parent_film_keys.add(identity.parent_film_key)
 
         candidate.film_id = _film_id_for_amc_ids({movie_id}, index)
@@ -660,7 +681,7 @@ def candidates_from_amc_catalog(
         candidate.amc_movie_ids.add(movie_id)
         candidate.contributing_sources.add(SOURCE_AMC_CATALOG)
         identity = derive_parent_identity(title, source_film_id=movie_id)
-        if identity.parent_film_key:
+        if identity.parent_film_key and not _is_undelimited_named_qa_title(title):
             candidate.parent_film_keys.add(identity.parent_film_key)
 
         candidate.film_id = _film_id_for_amc_ids({movie_id}, index)
@@ -721,7 +742,7 @@ def candidates_from_tmdb(
         candidate.titles.add(title)
         candidate.contributing_sources.add(SOURCE_TMDB)
         identity = derive_parent_identity(title, source_film_id="")
-        if identity.parent_film_key:
+        if identity.parent_film_key and not _is_undelimited_named_qa_title(title):
             candidate.parent_film_keys.add(identity.parent_film_key)
         candidate.tmdb_metadata = {
             "tmdb_id": tmdb_id,

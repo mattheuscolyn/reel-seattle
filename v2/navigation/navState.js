@@ -796,6 +796,46 @@ export function openComingSoonDetail(state, params) {
 }
 
 /**
+ * Lightweight Special Events engagement detail — exact event showtimes.
+ * @param {object} state
+ * @param {{
+ *   engagementId: string,
+ *   originPrimary?: string,
+ *   exploreRestore?: ExploreRestoreState | null,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openSpecialEventsDetail(state, params) {
+  const engagementId =
+    typeof params?.engagementId === 'string'
+      ? params.engagementId.trim()
+      : '';
+  if (!engagementId) return state;
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'explore',
+  );
+  const returnSurface =
+    params.returnSurface ??
+    (state.surface?.type === 'collection' &&
+    state.surface.collectionId === 'special-events'
+      ? state.surface
+      : null);
+  return {
+    ...state,
+    primaryDestinationId: originPrimary === 'profile' ? 'profile' : 'explore',
+    plannerSeed: null,
+    surface: {
+      type: 'special-events-detail',
+      engagementId,
+      originPrimary,
+      exploreRestore:
+        params.exploreRestore ?? state.surface?.exploreRestore ?? null,
+      returnSurface,
+    },
+  };
+}
+
+/**
  * Indie collection detail within Explore → Collections.
  * @param {object} state
  * @param {{
@@ -1053,6 +1093,7 @@ export function navigateBack(state) {
     state.surface.type === 'theater-detail' ||
     state.surface.type === 'collection-detail' ||
     state.surface.type === 'coming-soon-detail' ||
+    state.surface.type === 'special-events-detail' ||
     state.surface.type === 'format-detail' ||
     state.surface.type === 'experience-detail' ||
     state.surface.type === 'compare-formats' ||

@@ -105,7 +105,8 @@ export default function ExploreDestination({
           <p className="v2-data-status-message">
             Recent searches are device-local only. {SEARCH_EXPLORE_HONESTY_NOTE}{' '}
             All showtimes uses a rolling 7-day Pacific window. Special Events
-            and 35mm remain incomplete without additional data.
+            uses high-confidence screening-level event classification from
+            showtimes.
           </p>
         </div>
       </details>
