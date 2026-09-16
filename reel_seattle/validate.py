@@ -6,7 +6,7 @@ import json
 from dataclasses import dataclass
 from datetime import date, timedelta
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import ValidationError
@@ -24,7 +24,10 @@ OPENING_THIS_WEEK_CURRENT_SCHEMA_PATH = (
     SCHEMA_DIR / "opening_this_week_current" / "v1.1.0.json"
 )
 COLLECTIONS_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "collections_current" / "v1.0.0.json"
-COMING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "coming_soon_current" / "v1.0.0.json"
+COMING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "coming_soon_current" / "v1.1.0.json"
+COMING_SOON_CANDIDATES_SCHEMA_PATH = (
+    SCHEMA_DIR / "audits" / "coming_soon_candidates_current" / "v1.0.0.json"
+)
 
 _VALIDATOR_CACHE: dict[Path, Draft202012Validator] = {}
 
@@ -196,36 +199,55 @@ def validate_coming_soon_current(
 ) -> None:
     """Validate a coming_soon_current artifact plus its window invariants.
 
-    Beyond the schema this enforces the production inclusion rule: every
-    expected release date sits inside the declared window, no currently
-    available film is emitted, visibility matches classification, and the
-    collapsed identity produces one entry per film.
+    The public artifact is render-only: every entry is user-visible, currently
+    available films are absent, expected dates sit inside the declared window,
+    and canonical film_id is only present when identity.film_id_confirmed.
     """
     validate_against_schema(artifact, schema_path, label="coming_soon_current")
+    _validate_coming_soon_invariants(artifact, public=True)
 
+
+def validate_coming_soon_candidates(
+    artifact: dict[str, Any],
+    *,
+    schema_path: Path = COMING_SOON_CANDIDATES_SCHEMA_PATH,
+) -> None:
+    """Validate the analysis Coming Soon candidate dump."""
+    validate_against_schema(
+        artifact, schema_path, label="coming_soon_candidates_current"
+    )
+    _validate_coming_soon_invariants(artifact, public=False)
+
+
+def _validate_coming_soon_invariants(
+    artifact: Mapping[str, Any],
+    *,
+    public: bool,
+) -> None:
+    label = "coming_soon_current" if public else "coming_soon_candidates_current"
     window = artifact.get("window") or {}
     try:
         start_date = date.fromisoformat(str(window.get("start_date")))
         end_date = date.fromisoformat(str(window.get("end_date")))
         cutoff = date.fromisoformat(str(window.get("current_availability_cutoff")))
     except ValueError as exc:
-        raise ValueError(f"coming_soon_current: invalid window dates ({window})") from exc
+        raise ValueError(f"{label}: invalid window dates ({window})") from exc
 
     days = int(window.get("days") or 0)
     if end_date != start_date + timedelta(days=days):
         raise ValueError(
-            "coming_soon_current: window.end_date must be window.start_date plus "
+            f"{label}: window.end_date must be window.start_date plus "
             f"window.days ({days})"
         )
     cutoff_days = int(window.get("current_availability_days") or 0)
     if cutoff != start_date + timedelta(days=cutoff_days):
         raise ValueError(
-            "coming_soon_current: window.current_availability_cutoff must be "
+            f"{label}: window.current_availability_cutoff must be "
             "window.start_date plus window.current_availability_days"
         )
     if cutoff > end_date:
         raise ValueError(
-            "coming_soon_current: current availability cutoff must fall inside the window"
+            f"{label}: current availability cutoff must fall inside the window"
         )
 
     entries = artifact.get("entries") or []
@@ -233,87 +255,130 @@ def validate_coming_soon_current(
     film_ids: set[str] = set()
     user_visible = 0
     previous_sort_key: tuple[str, str] | None = None
+    public_kinds = {"film", "rerelease", "event", "mystery_screening", "other"}
 
     for entry in entries:
         title = str(entry.get("title"))
         expected = date.fromisoformat(str(entry.get("expected_release_date")))
         if not (start_date <= expected <= end_date):
             raise ValueError(
-                f"coming_soon_current: {title!r} expected_release_date {expected} "
+                f"{label}: {title!r} expected_release_date {expected} "
                 f"falls outside the {start_date}..{end_date} window"
             )
 
         classification = str(entry.get("classification"))
-        expected_visible = classification in {"confirmed_local", "amc_announced"}
-        if bool(entry.get("user_visible")) != expected_visible:
-            raise ValueError(
-                f"coming_soon_current: {title!r} user_visible does not match "
-                f"classification {classification!r}"
-            )
-        if expected_visible:
+        visible = bool(entry.get("user_visible"))
+        identity = entry.get("identity") or {}
+        presentation = entry.get("presentation") or {}
+        kind = str(presentation.get("kind") or "")
+
+        if public:
+            if classification not in {"confirmed_local", "amc_announced"}:
+                raise ValueError(
+                    f"{label}: {title!r} classification {classification!r} "
+                    "is not allowed in the public artifact"
+                )
+            if not visible:
+                raise ValueError(f"{label}: {title!r} is not user_visible")
+            if kind not in public_kinds:
+                raise ValueError(
+                    f"{label}: {title!r} presentation.kind {kind!r} is not "
+                    "allowed in the public artifact"
+                )
+        else:
+            if classification == "tmdb_only" and visible:
+                raise ValueError(f"{label}: {title!r} tmdb_only must not be user_visible")
+            if visible and classification not in {"confirmed_local", "amc_announced"}:
+                raise ValueError(
+                    f"{label}: {title!r} user_visible does not match "
+                    f"classification {classification!r}"
+                )
+            if visible and kind not in public_kinds:
+                raise ValueError(
+                    f"{label}: {title!r} user_visible with presentation.kind {kind!r}"
+                )
+        if visible:
             user_visible += 1
+
+        film_id = entry.get("film_id")
+        confirmed = bool(identity.get("film_id_confirmed"))
+        if film_id and not confirmed:
+            raise ValueError(
+                f"{label}: {title!r} emits film_id without film_id_confirmed"
+            )
+        if confirmed and not film_id:
+            raise ValueError(
+                f"{label}: {title!r} film_id_confirmed is true without film_id"
+            )
+        inferred = bool(identity.get("tmdb_id_inferred"))
+        tmdb_id = entry.get("tmdb_id")
+        if inferred and confirmed:
+            raise ValueError(
+                f"{label}: {title!r} cannot be both film_id_confirmed and tmdb_id_inferred"
+            )
+        if inferred and tmdb_id is None:
+            raise ValueError(
+                f"{label}: {title!r} tmdb_id_inferred is true without tmdb_id"
+            )
 
         first_local = entry.get("first_local_screening_date")
         if first_local is not None:
             first_local_date = date.fromisoformat(str(first_local))
             if first_local_date <= cutoff:
                 raise ValueError(
-                    f"coming_soon_current: {title!r} is currently available "
+                    f"{label}: {title!r} is currently available "
                     f"(local screening {first_local_date} on or before cutoff {cutoff})"
                 )
 
         evidence = entry.get("evidence") or {}
         if classification == "confirmed_local" and first_local is None:
             raise ValueError(
-                f"coming_soon_current: {title!r} is confirmed_local without a "
+                f"{label}: {title!r} is confirmed_local without a "
                 "first_local_screening_date"
             )
         if classification == "amc_announced" and not evidence.get("amc_coming_soon_catalog"):
             raise ValueError(
-                f"coming_soon_current: {title!r} is amc_announced without AMC "
+                f"{label}: {title!r} is amc_announced without AMC "
                 "Coming Soon catalog evidence"
             )
         if classification == "tmdb_only":
             if evidence.get("amc_coming_soon_catalog"):
                 raise ValueError(
-                    f"coming_soon_current: {title!r} is tmdb_only but has AMC "
-                    "catalog evidence"
+                    f"{label}: {title!r} is tmdb_only but has AMC catalog evidence"
                 )
             if not evidence.get("tmdb_us_theatrical"):
                 raise ValueError(
-                    f"coming_soon_current: {title!r} is tmdb_only without TMDB evidence"
+                    f"{label}: {title!r} is tmdb_only without TMDB evidence"
                 )
 
         join_key = str(entry.get("join_key"))
         if join_key in join_keys:
             raise ValueError(
-                f"coming_soon_current: duplicate join_key after collapse: {join_key!r}"
+                f"{label}: duplicate join_key after collapse: {join_key!r}"
             )
         join_keys.add(join_key)
 
-        film_id = entry.get("film_id")
         if film_id:
             if str(film_id) in film_ids:
                 raise ValueError(
-                    f"coming_soon_current: duplicate film_id after collapse: {film_id!r}"
+                    f"{label}: duplicate film_id after collapse: {film_id!r}"
                 )
             film_ids.add(str(film_id))
 
         sort_key = (str(entry.get("expected_release_date")), title.casefold())
         if previous_sort_key is not None and sort_key < previous_sort_key:
             raise ValueError(
-                "coming_soon_current: entries must be sorted by "
-                "expected_release_date then title"
+                f"{label}: entries must be sorted by expected_release_date then title"
             )
         previous_sort_key = sort_key
 
     stats = artifact.get("stats") or {}
     if int(stats.get("entry_count") or 0) != len(entries):
-        raise ValueError("coming_soon_current: stats.entry_count does not match entries")
+        raise ValueError(f"{label}: stats.entry_count does not match entries")
     if int(stats.get("user_visible_count") or 0) != user_visible:
-        raise ValueError(
-            "coming_soon_current: stats.user_visible_count does not match entries"
-        )
+        raise ValueError(f"{label}: stats.user_visible_count does not match entries")
+    if public and int(stats.get("hidden_count") or 0) != 0:
+        raise ValueError(f"{label}: public hidden_count must be 0")
 
 
 def validate_theaters_registry_file(

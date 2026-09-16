@@ -21,6 +21,7 @@ from typing import Any, Mapping
 from zoneinfo import ZoneInfo
 
 from reel_seattle.emit.coming_soon import (
+    DEFAULT_ANALYSIS_PATH,
     DEFAULT_CURRENT_AVAILABILITY_DAYS,
     DEFAULT_LOGS_DIR,
     DEFAULT_OUTPUT_PATH,
@@ -322,6 +323,7 @@ def format_diagnostics(result: ComingSoonDailyResult) -> list[str]:
 def run_daily_coming_soon(
     *,
     output_path: Path | str = DEFAULT_OUTPUT_PATH,
+    analysis_path: Path | str = DEFAULT_ANALYSIS_PATH,
     catalog_path: Path | str = DEFAULT_CATALOG_PATH,
     tmdb_candidates_path: Path | str = DEFAULT_CANDIDATES_PATH,
     showtimes_current_path: Path | str = DEFAULT_SHOWTIMES_CURRENT_PATH,
@@ -388,6 +390,7 @@ def run_daily_coming_soon(
     try:
         published = publish_coming_soon_current(
             output_path=resolve(output_path),
+            analysis_path=resolve(analysis_path),
             amc_catalog=amc_catalog,
             tmdb_candidates_artifact=tmdb_artifact,
             showtimes_current=showtimes,
@@ -415,7 +418,9 @@ def run_daily_coming_soon(
         result.user_visible_count = int(stats.get("user_visible_count") or 0)
         result.confirmed_local_count = int(classification.get("confirmed_local") or 0)
         result.amc_announced_count = int(classification.get("amc_announced") or 0)
-        result.tmdb_only_count = int(classification.get("tmdb_only") or 0)
+        result.tmdb_only_count = int(
+            (stats.get("analysis") or {}).get("tmdb_only_count") or 0
+        )
         result.excluded_currently_available = int(
             (stats.get("excluded_counts") or {}).get("currently_available") or 0
         )

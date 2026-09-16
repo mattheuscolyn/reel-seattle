@@ -20,6 +20,7 @@ from reel_seattle.emit.coming_soon import (
     RELEASE_SOURCE_LOCAL,
     RELEASE_SOURCE_TMDB,
     ComingSoonCandidate,
+    build_coming_soon_bundle,
     build_coming_soon_current,
     candidates_from_amc_catalog,
     candidates_from_reel_seattle,
@@ -32,7 +33,11 @@ from reel_seattle.emit.coming_soon import (
     publish_coming_soon_current,
     strip_event_suffix,
 )
-from reel_seattle.validate import validate_coming_soon_current
+from reel_seattle.validate import (
+    SchemaValidationError,
+    validate_coming_soon_candidates,
+    validate_coming_soon_current,
+)
 
 TODAY = date(2026, 9, 15)
 GENERATED_AT = datetime(2026, 9, 15, 23, 30, 0)
@@ -152,9 +157,23 @@ def _build(**overrides):
         "today_date": TODAY,
         "generated_at": GENERATED_AT,
         "identity_catalog": {"films": []},
+        "enrichment_index": {},
+        "amc_product_index": {},
     }
     kwargs.update(overrides)
     return build_coming_soon_current(**kwargs)
+
+
+def _bundle(**overrides):
+    kwargs = {
+        "today_date": TODAY,
+        "generated_at": GENERATED_AT,
+        "identity_catalog": {"films": []},
+        "enrichment_index": {},
+        "amc_product_index": {},
+    }
+    kwargs.update(overrides)
+    return build_coming_soon_bundle(**kwargs)
 
 
 def _entry_by_title(artifact, title):
@@ -407,15 +426,17 @@ def test_strip_event_suffix_handles_rentals_but_not_sequel_subtitles():
 
 def test_inferred_tmdb_identity_is_not_emitted_as_confirmed_film_id():
     """TMDB asserts its own id; accurate, but never review-confirmed."""
-    artifact = _build(tmdb_candidates_artifact=_tmdb_artifact(_tmdb_candidate()))
+    public, analysis = _bundle(tmdb_candidates_artifact=_tmdb_artifact(_tmdb_candidate()))
 
-    entry = _entry_by_title(artifact, "Indie Discovery")
+    assert public["entries"] == []
+    entry = _entry_by_title(analysis, "Indie Discovery")
     assert entry["film_id"] is None
     assert entry["tmdb_id"] == 700001
     assert entry["identity"]["method"] == "tmdb_id"
     assert entry["identity"]["film_id_confirmed"] is False
-    assert artifact["stats"]["entries_with_confirmed_film_id"] == 0
-    assert artifact["stats"]["entries_with_tmdb_id"] == 1
+    assert entry["identity"]["tmdb_id_inferred"] is True
+    assert analysis["stats"]["entries_with_confirmed_film_id"] == 0
+    assert analysis["stats"]["entries_with_tmdb_id"] == 1
 
 
 def test_confirmed_identity_outranks_self_asserted_on_merge():
@@ -554,10 +575,14 @@ def test_currently_available_wins_even_with_amc_catalog_evidence():
     assert artifact["stats"]["excluded_counts"]["currently_available"] == 1
 
 
-def test_tmdb_only_candidate_is_retained_but_hidden():
-    artifact = _build(tmdb_candidates_artifact=_tmdb_artifact(_tmdb_candidate()))
+def test_tmdb_only_candidate_is_retained_in_analysis_not_public():
+    public, analysis = _bundle(tmdb_candidates_artifact=_tmdb_artifact(_tmdb_candidate()))
 
-    entry = _entry_by_title(artifact, "Indie Discovery")
+    assert public["entries"] == []
+    assert public["stats"]["hidden_count"] == 0
+    assert public["stats"]["analysis"]["tmdb_only_count"] == 1
+
+    entry = _entry_by_title(analysis, "Indie Discovery")
     assert entry["classification"] == CLASSIFICATION_TMDB_ONLY
     assert entry["user_visible"] is False
     assert entry["expected_release_date_source"] == RELEASE_SOURCE_TMDB
@@ -565,8 +590,9 @@ def test_tmdb_only_candidate_is_retained_but_hidden():
         "missing_poster",
         "no_votes_and_low_popularity",
     ]
-    assert artifact["stats"]["user_visible_count"] == 0
-    assert artifact["stats"]["hidden_count"] == 1
+    assert analysis["stats"]["user_visible_count"] == 0
+    assert analysis["stats"]["hidden_count"] == 1
+    validate_coming_soon_candidates(analysis)
 
 
 def test_tmdb_evidence_on_amc_announced_film_stays_visible():
@@ -706,11 +732,11 @@ def test_validation_rejects_entry_outside_window():
         validate_coming_soon_current(artifact)
 
 
-def test_validation_rejects_visibility_mismatch():
+def test_validation_rejects_hidden_row_in_public_artifact():
     artifact = _build(amc_catalog=_amc_catalog(_catalog_movie()))
     artifact["entries"][0]["user_visible"] = False
 
-    with pytest.raises(ValueError, match="user_visible does not match"):
+    with pytest.raises((ValueError, SchemaValidationError), match="user_visible|const"):
         validate_coming_soon_current(artifact)
 
 
@@ -758,55 +784,61 @@ def test_validation_rejects_duplicate_join_keys():
 # ---------------------------------------------------------------------------
 
 
-def test_publish_writes_and_revalidates(tmp_path: Path):
-    output = tmp_path / "coming_soon_current.json"
+def _publish_kwargs(tmp_path: Path, **overrides):
+    kwargs = {
+        "output_path": tmp_path / "coming_soon_current.json",
+        "analysis_path": tmp_path / "coming_soon_candidates_current.json",
+        "identity_catalog": {"films": []},
+        "enrichment_index": {},
+        "amc_product_index": {},
+        "today_date": TODAY,
+        "generated_at": GENERATED_AT,
+    }
+    kwargs.update(overrides)
+    return kwargs
 
+
+def test_publish_writes_and_revalidates(tmp_path: Path):
     result = publish_coming_soon_current(
-        output_path=output,
-        amc_catalog=_amc_catalog(_catalog_movie()),
-        identity_catalog={"films": []},
-        today_date=TODAY,
-        generated_at=GENERATED_AT,
+        **_publish_kwargs(tmp_path, amc_catalog=_amc_catalog(_catalog_movie()))
     )
 
     assert result["published"] is True
-    written = json.loads(output.read_text(encoding="utf-8"))
+    written = json.loads(
+        (tmp_path / "coming_soon_current.json").read_text(encoding="utf-8")
+    )
+    analysis = json.loads(
+        (tmp_path / "coming_soon_candidates_current.json").read_text(encoding="utf-8")
+    )
     assert written["stats"]["entry_count"] == 1
     validate_coming_soon_current(written)
+    validate_coming_soon_candidates(analysis)
 
 
 def test_publish_retains_previous_artifact_when_catalog_unavailable(tmp_path: Path):
-    output = tmp_path / "coming_soon_current.json"
-    publish_coming_soon_current(
-        output_path=output,
-        amc_catalog=_amc_catalog(_catalog_movie()),
-        identity_catalog={"films": []},
-        today_date=TODAY,
-        generated_at=GENERATED_AT,
+    kwargs = _publish_kwargs(tmp_path, amc_catalog=_amc_catalog(_catalog_movie()))
+    publish_coming_soon_current(**kwargs)
+    before = (tmp_path / "coming_soon_current.json").read_text(encoding="utf-8")
+    analysis_before = (tmp_path / "coming_soon_candidates_current.json").read_text(
+        encoding="utf-8"
     )
-    before = output.read_text(encoding="utf-8")
 
-    result = publish_coming_soon_current(
-        output_path=output,
-        amc_catalog=None,
-        identity_catalog={"films": []},
-        today_date=TODAY,
-        generated_at=GENERATED_AT,
-    )
+    result = publish_coming_soon_current(**_publish_kwargs(tmp_path, amc_catalog=None))
 
     assert result["published"] is False
     assert result["skipped_reason"] == "amc_catalog_unavailable_retained_previous"
-    assert output.read_text(encoding="utf-8") == before
+    assert (tmp_path / "coming_soon_current.json").read_text(encoding="utf-8") == before
+    assert (
+        tmp_path / "coming_soon_candidates_current.json"
+    ).read_text(encoding="utf-8") == analysis_before
 
 
 def test_publish_skips_rewrite_when_membership_unchanged(tmp_path: Path):
-    output = tmp_path / "coming_soon_current.json"
-    kwargs = {
-        "output_path": output,
-        "amc_catalog": _amc_catalog(_catalog_movie()),
-        "identity_catalog": {"films": []},
-        "today_date": TODAY,
-    }
+    kwargs = _publish_kwargs(
+        tmp_path,
+        amc_catalog=_amc_catalog(_catalog_movie()),
+    )
+    del kwargs["generated_at"]
     publish_coming_soon_current(generated_at=GENERATED_AT, **kwargs)
 
     result = publish_coming_soon_current(
@@ -815,17 +847,168 @@ def test_publish_skips_rewrite_when_membership_unchanged(tmp_path: Path):
 
     assert result["published"] is False
     assert result["skipped_reason"] == "unchanged_membership"
-    written = json.loads(output.read_text(encoding="utf-8"))
+    written = json.loads(
+        (tmp_path / "coming_soon_current.json").read_text(encoding="utf-8")
+    )
     assert written["generated_at"].startswith("2026-09-15T23:30:00")
 
 
 def test_publish_without_previous_artifact_reports_missing_catalog(tmp_path: Path):
-    result = publish_coming_soon_current(
-        output_path=tmp_path / "coming_soon_current.json",
-        amc_catalog=None,
-        identity_catalog={"films": []},
-        today_date=TODAY,
-    )
+    result = publish_coming_soon_current(**_publish_kwargs(tmp_path, amc_catalog=None))
 
     assert result["published"] is False
     assert result["skipped_reason"] == "amc_catalog_unavailable_no_previous_artifact"
+
+
+def test_presentation_prefers_confirmed_enrichment_over_inferred_tmdb():
+    catalog = {
+        "films": [
+            {
+                "film_id": "tmdb:4242",
+                "identity_type": "tmdb",
+                "match_status": "confirmed_manual",
+                "source_identities": [{"source": "amc", "source_film_id": "8001"}],
+            }
+        ]
+    }
+    enrichment = {
+        "tmdb:4242": {
+            "film_id": "tmdb:4242",
+            "poster": {
+                "path": "/confirmed.jpg",
+                "url": "https://image.tmdb.org/t/p/w500/confirmed.jpg",
+            },
+            "overview": "Confirmed overview",
+            "runtime_minutes": 111,
+            "us_certification": "PG-13",
+            "release_year": 2026,
+        }
+    }
+    artifact = _build(
+        amc_catalog=_amc_catalog(_catalog_movie(release_date_utc="2026-10-30T00:00:00Z")),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_candidate(
+                tmdb_id=999999,
+                title="Announced Film",
+                release_date="2026-10-30",
+                poster_path="/inferred.jpg",
+                overview="Inferred overview",
+            )
+        ),
+        identity_catalog=catalog,
+        enrichment_index=enrichment,
+    )
+    entry = artifact["entries"][0]
+    assert entry["film_id"] == "tmdb:4242"
+    assert entry["identity"]["film_id_confirmed"] is True
+    assert entry["identity"]["tmdb_id_inferred"] is False
+    assert entry["presentation"]["source"] == "confirmed_enrichment"
+    assert entry["presentation"]["poster_url"].endswith("/confirmed.jpg")
+    assert entry["presentation"]["overview"] == "Confirmed overview"
+
+
+def test_presentation_uses_amc_catalog_when_film_id_is_not_confirmed():
+    artifact = _build(amc_catalog=_amc_catalog(_catalog_movie()))
+    entry = artifact["entries"][0]
+    assert entry["film_id"] is None
+    assert entry["presentation"]["source"] == "amc_catalog"
+    assert entry["presentation"]["poster_url"] == "https://example.test/poster.jpg"
+    assert entry["presentation"]["runtime_minutes"] == 120
+    assert entry["presentation"]["rating"] == "PG-13"
+    assert entry["presentation"]["kind"] == "film"
+    assert entry["local_status"] == "not_announced"
+
+
+def test_presentation_filter_drops_rentals_and_untitled_placeholders():
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(
+                source_film_id="8001",
+                source_title="Announced Film",
+                release_date_utc="2026-10-30T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_film_id="8002",
+                source_title="Forgotten Island: Private Theatre Rental",
+                release_date_utc="2026-10-30T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_film_id="8003",
+                source_title="Untitled Trafalgar Event (11/19/26)",
+                release_date_utc="2026-11-19T00:00:00Z",
+                presentation={
+                    "category": "concert_or_event",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+            _catalog_movie(
+                source_film_id="8004",
+                source_title="ENE Repeat",
+                release_date_utc="2026-11-19T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_film_id="8005",
+                source_title="Untitled Elon Musk Documentary",
+                release_date_utc="2026-10-16T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_film_id="8006",
+                source_title="AMC Screen Unseen: October 12",
+                release_date_utc="2026-10-12T00:00:00Z",
+                presentation={
+                    "category": "mystery_screening",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+            _catalog_movie(
+                source_film_id="8007",
+                source_title="Princess Mononoke - Studio Ghibli Fest 2026",
+                release_date_utc="2026-09-26T00:00:00Z",
+            ),
+        )
+    )
+
+    titles = [entry["title"] for entry in public["entries"]]
+    assert "Untitled Trafalgar Event (11/19/26)" not in titles
+    assert "ENE Repeat" not in titles
+    assert "Untitled Elon Musk Documentary" in titles
+    assert "AMC Screen Unseen: October 12" in titles
+    assert "Princess Mononoke - Studio Ghibli Fest 2026" in titles
+    assert all("rental" not in title.casefold() for title in titles)
+
+    unseen = _entry_by_title(public, "AMC Screen Unseen: October 12")
+    assert unseen["presentation"]["kind"] == "mystery_screening"
+    ghibli = _entry_by_title(public, "Princess Mononoke - Studio Ghibli Fest 2026")
+    assert ghibli["presentation"]["kind"] == "rerelease"
+
+    assert public["stats"]["excluded_counts"]["presentation_filter"] == 3
+    reasons = {
+        entry["title"]: entry["exclusion_reason"]
+        for entry in analysis["entries"]
+        if entry["exclusion_reason"]
+    }
+    assert "private_theatre_rental" in reasons.values()
+    assert reasons["Untitled Trafalgar Event (11/19/26)"] == (
+        "untitled_distributor_placeholder"
+    )
+    assert reasons["ENE Repeat"] == "operational_or_test_row"
+
+
+def test_confirmed_local_exposes_theater_names_and_scheduled_status():
+    registry = {
+        "theaters": [
+            {"id": "amc-pacific-place-11", "name": "AMC Pacific Place 11"},
+        ]
+    }
+    artifact = _build(
+        showtimes_current=_showtimes_current(_showtime(date="2026-10-01")),
+        registry=registry,
+    )
+    entry = artifact["entries"][0]
+    assert entry["classification"] == CLASSIFICATION_CONFIRMED_LOCAL
+    assert entry["local_status"] == "scheduled"
+    assert entry["local_theaters"] == [
+        {"theater_id": "amc-pacific-place-11", "name": "AMC Pacific Place 11"}
+    ]

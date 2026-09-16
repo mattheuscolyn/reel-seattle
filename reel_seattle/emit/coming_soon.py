@@ -28,7 +28,14 @@ Classification (first match wins):
     window. May have no performances anywhere and no Seattle booking.
 ``tmdb_only``
     TMDB evidence with neither AMC catalog membership nor a confirmed local
-    screening. Retained in the artifact but ``user_visible`` is false.
+    screening. Retained in the analysis artifact
+    (``data/audits/coming_soon_candidates_current.json``) and never shipped in
+    ``public/data/coming_soon_current.json``.
+
+The public artifact contains only user-visible cards: ``confirmed_local`` and
+``amc_announced`` rows that survive the conservative presentation filter.
+High-confidence AMC product noise (private-theatre rentals, dated Untitled
+distributor slots, operational repeats) is kept in the analysis artifact.
 
 "Local" means Seattle-area: both the published showtimes artifact and the AMC
 scrape log cover the theater allowlist only. A booking somewhere else in the
@@ -54,6 +61,18 @@ from reel_seattle.film_identity.public_emit import (
     load_identity_catalog,
     observation_key,
 )
+from reel_seattle.emit.coming_soon_presentation import (
+    DEFAULT_ENRICHMENT_PATH,
+    DEFAULT_PRODUCTS_PATH,
+    classify_presentation_kind,
+    is_public_presentation,
+    load_amc_product_index,
+    load_enrichment_index,
+    local_status_for,
+    local_theaters_payload,
+    resolve_presentation,
+    theater_name_lookup,
+)
 from reel_seattle.normalize import (
     DEFAULT_TIMEZONE,
     build_theater_index,
@@ -61,20 +80,26 @@ from reel_seattle.normalize import (
     normalize_film_title,
     resolve_theater,
 )
-from reel_seattle.validate import validate_coming_soon_current
+from reel_seattle.validate import (
+    validate_coming_soon_candidates,
+    validate_coming_soon_current,
+)
 
-COMING_SOON_SCHEMA_VERSION = "1.0.0"
+COMING_SOON_SCHEMA_VERSION = "1.1.0"
+COMING_SOON_CANDIDATES_SCHEMA_VERSION = "1.0.0"
 METHOD_NAME = "independent_source_evidence_90d"
-METHOD_VERSION = "1.0.0"
+METHOD_VERSION = "1.1.0"
 METHOD_DESCRIPTION = (
     "Coming Soon membership is a 90-day Pacific-local window over four "
     "independent evidence facts: AMC Coming Soon catalog membership, "
     "Seattle-area AMC theater bookings, TMDB US theatrical releases, and "
     "published Reel Seattle showtimes. A film with any local screening on or "
     "before the current-availability cutoff is excluded. Otherwise a local "
-    "future screening yields confirmed_local, AMC catalog membership with an "
-    "in-window catalog release date yields amc_announced, and TMDB-only "
-    "evidence yields tmdb_only which is retained but not user-visible."
+    "future screening yields confirmed_local and AMC catalog membership with "
+    "an in-window catalog release date yields amc_announced. Those rows are "
+    "user-visible unless a high-confidence presentation filter marks them as "
+    "rental, untitled-placeholder, or operational SKUs. TMDB-only evidence is "
+    "retained in the analysis artifact and is never user-visible."
 )
 
 DEFAULT_WINDOW_DAYS = 90
@@ -84,6 +109,7 @@ DEFAULT_CURRENT_AVAILABILITY_DAYS = 7
 TITLE_JOIN_TOLERANCE_DAYS = 45
 
 DEFAULT_OUTPUT_PATH = Path("public/data/coming_soon_current.json")
+DEFAULT_ANALYSIS_PATH = Path("data/audits/coming_soon_candidates_current.json")
 DEFAULT_SHOWTIMES_CURRENT_PATH = Path("public/data/showtimes_current.json")
 DEFAULT_REGISTRY_PATH = Path("data/theaters.json")
 DEFAULT_LOGS_DIR = Path("data/daily_logs")
@@ -119,6 +145,7 @@ DROP_REASON_OUTSIDE_WINDOW = "expected_release_date_outside_window"
 DROP_REASON_NO_EXPECTED_DATE = "no_expected_release_date"
 DROP_REASON_CURRENTLY_AVAILABLE = "currently_available"
 DROP_REASON_UNCLASSIFIED = "insufficient_evidence"
+DROP_REASON_PRESENTATION_FILTER = "presentation_filter"
 
 # Trailing event / screening phrases that mark an AMC catalog duplicate of a
 # base title rather than a distinct film.
@@ -652,7 +679,10 @@ def candidates_from_amc_catalog(
             "mpaa_rating": movie.get("mpaa_rating"),
             "genre": movie.get("genre"),
             "slug": movie.get("slug"),
+            "synopsis": movie.get("synopsis"),
             "poster_url": media.get("poster_url"),
+            "hero_desktop_url": media.get("hero_desktop_url"),
+            "hero_mobile_url": media.get("hero_mobile_url"),
             "presentation_category": presentation.get("category"),
             "is_special_presentation": presentation.get("is_special_presentation"),
         }
@@ -697,6 +727,8 @@ def candidates_from_tmdb(
             "popularity": row.get("popularity"),
             "vote_count": row.get("vote_count"),
             "poster_path": row.get("poster_path"),
+            "backdrop_path": row.get("backdrop_path"),
+            "overview": row.get("overview"),
             "has_poster": row.get("has_poster"),
             "has_overview": row.get("has_overview"),
             "quality_flags": list(row.get("quality_flags") or []),
@@ -938,25 +970,54 @@ def _entry_from_candidate(
     classification: str,
     expected: date,
     expected_source: str,
+    theater_names: Mapping[str, str] | None = None,
+    enrichment_index: Mapping[str, Mapping[str, Any]] | None = None,
+    amc_product_index: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
     amc_movie_id = None
-    if candidate.amc_movie_ids:
-        amc_movie_id = sorted(
-            candidate.amc_movie_ids, key=lambda value: (len(value), value)
-        )[0]
+    amc_ids = sorted(candidate.amc_movie_ids, key=lambda value: (len(value), value))
+    if amc_ids:
+        amc_movie_id = amc_ids[0]
     theaters = sorted(candidate.local_theater_ids)
+    film_id_confirmed = bool(candidate.film_id and candidate.film_id_confirmed)
+    tmdb_id = candidate.resolved_tmdb_id()
+    kind, exclusion_reason = classify_presentation_kind(
+        candidate.title,
+        amc_presentation_category=(candidate.amc_metadata or {}).get(
+            "presentation_category"
+        ),
+        variant_titles=sorted(candidate.titles),
+    )
+    eligible = classification in USER_VISIBLE_CLASSIFICATIONS
+    user_visible = eligible and is_public_presentation(kind, exclusion_reason)
+    scheduled = bool(
+        classification == CLASSIFICATION_CONFIRMED_LOCAL
+        and candidate.first_local_screening_date is not None
+        and candidate.local_showtime_count > 0
+    )
+    presentation = resolve_presentation(
+        film_id=candidate.film_id if film_id_confirmed else None,
+        film_id_confirmed=film_id_confirmed,
+        expected_release_date=expected,
+        amc_metadata=candidate.amc_metadata,
+        tmdb_metadata=candidate.tmdb_metadata,
+        amc_movie_ids=amc_ids,
+        enrichment_index=enrichment_index,
+        amc_product_index=amc_product_index,
+        kind=kind,
+    )
     return {
         # film_id stays confirmed-only so downstream joins keep the same
         # meaning as every other public artifact. Ids inferred from a TMDB
         # discover match are exposed through tmdb_id instead.
-        "film_id": candidate.film_id if candidate.film_id_confirmed else None,
+        "film_id": candidate.film_id if film_id_confirmed else None,
         "title": candidate.title,
         "join_key": candidate.join_key,
         "parent_film_keys": sorted(candidate.parent_film_keys),
         "showtime_film_keys": sorted(candidate.showtime_film_keys),
-        "tmdb_id": candidate.resolved_tmdb_id(),
+        "tmdb_id": tmdb_id,
         "amc_movie_id": amc_movie_id,
-        "amc_movie_ids": sorted(candidate.amc_movie_ids, key=lambda v: (len(v), v)),
+        "amc_movie_ids": amc_ids,
         "expected_release_date": format_date_iso(expected),
         "expected_release_date_source": expected_source,
         "amc_catalog_release_date": (
@@ -975,7 +1036,9 @@ def _entry_from_candidate(
             else None
         ),
         "first_local_screening_source": candidate.first_local_screening_source,
+        "local_status": local_status_for(scheduled=scheduled),
         "local_theater_ids": theaters,
+        "local_theaters": local_theaters_payload(theaters, theater_names or {}),
         "local_theater_count": len(theaters),
         "local_showtime_count": int(candidate.local_showtime_count),
         "evidence": {
@@ -985,10 +1048,13 @@ def _entry_from_candidate(
             "reel_seattle_scheduled": bool(candidate.reel_seattle_scheduled),
         },
         "classification": classification,
-        "user_visible": classification in USER_VISIBLE_CLASSIFICATIONS,
+        "user_visible": user_visible,
+        "exclusion_reason": None if user_visible else exclusion_reason,
+        "presentation": presentation,
         "identity": {
             "method": candidate.identity_method(),
-            "film_id_confirmed": bool(candidate.film_id and candidate.film_id_confirmed),
+            "film_id_confirmed": film_id_confirmed,
+            "tmdb_id_inferred": bool(tmdb_id is not None and not film_id_confirmed),
             "ambiguous": bool(candidate.film_id_conflict),
             "variant_titles": sorted(candidate.titles),
             "contributing_sources": sorted(candidate.contributing_sources),
@@ -1008,12 +1074,47 @@ def build_coming_soon_current(
     amc_scrape_log_path: Path | None = None,
     registry: Mapping[str, Any] | None = None,
     identity_catalog: Mapping[str, Any] | None = None,
+    enrichment_index: Mapping[str, Mapping[str, Any]] | None = None,
+    amc_product_index: Mapping[str, Mapping[str, Any]] | None = None,
     today_date: date | None = None,
     window_days: int = DEFAULT_WINDOW_DAYS,
     current_availability_days: int = DEFAULT_CURRENT_AVAILABILITY_DAYS,
     generated_at: datetime | None = None,
 ) -> dict[str, Any]:
-    """Build the production ``coming_soon_current`` artifact."""
+    """Build the public ``coming_soon_current`` artifact (user-visible rows only)."""
+    public, _analysis = build_coming_soon_bundle(
+        amc_catalog=amc_catalog,
+        tmdb_candidates_artifact=tmdb_candidates_artifact,
+        showtimes_current=showtimes_current,
+        amc_scrape_log_path=amc_scrape_log_path,
+        registry=registry,
+        identity_catalog=identity_catalog,
+        enrichment_index=enrichment_index,
+        amc_product_index=amc_product_index,
+        today_date=today_date,
+        window_days=window_days,
+        current_availability_days=current_availability_days,
+        generated_at=generated_at,
+    )
+    return public
+
+
+def build_coming_soon_bundle(
+    *,
+    amc_catalog: Mapping[str, Any] | None = None,
+    tmdb_candidates_artifact: Mapping[str, Any] | None = None,
+    showtimes_current: Mapping[str, Any] | None = None,
+    amc_scrape_log_path: Path | None = None,
+    registry: Mapping[str, Any] | None = None,
+    identity_catalog: Mapping[str, Any] | None = None,
+    enrichment_index: Mapping[str, Mapping[str, Any]] | None = None,
+    amc_product_index: Mapping[str, Mapping[str, Any]] | None = None,
+    today_date: date | None = None,
+    window_days: int = DEFAULT_WINDOW_DAYS,
+    current_availability_days: int = DEFAULT_CURRENT_AVAILABILITY_DAYS,
+    generated_at: datetime | None = None,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Build the public Coming Soon artifact and the analysis candidate dump."""
     today = today_date or pacific_today()
     window_end = today + timedelta(days=window_days)
     current_window_end = today + timedelta(days=current_availability_days)
@@ -1038,6 +1139,11 @@ def build_coming_soon_current(
         )
 
     theater_index = build_theater_index(registry) if registry else None
+    theater_names = theater_name_lookup(registry)
+    if enrichment_index is None:
+        enrichment_index = load_enrichment_index(DEFAULT_ENRICHMENT_PATH)
+    if amc_product_index is None:
+        amc_product_index = load_amc_product_index(DEFAULT_PRODUCTS_PATH)
 
     booking_candidates: list[ComingSoonCandidate] = []
     if amc_scrape_log_path is not None:
@@ -1070,12 +1176,13 @@ def build_coming_soon_current(
     )
     merged, collapsed_variants = collapse_amc_event_variants(merged)
 
-    entries: list[dict[str, Any]] = []
+    all_entries: list[dict[str, Any]] = []
     dropped: dict[str, int] = {
         DROP_REASON_CURRENTLY_AVAILABLE: 0,
         DROP_REASON_OUTSIDE_WINDOW: 0,
         DROP_REASON_NO_EXPECTED_DATE: 0,
         DROP_REASON_UNCLASSIFIED: 0,
+        DROP_REASON_PRESENTATION_FILTER: 0,
     }
 
     for candidate in merged:
@@ -1086,8 +1193,6 @@ def build_coming_soon_current(
             dropped[DROP_REASON_CURRENTLY_AVAILABLE] += 1
             continue
         if classification == CLASSIFICATION_UNCLASSIFIED:
-            # A known release date that simply sits outside the horizon is a
-            # window exclusion, not missing evidence.
             known = [
                 when
                 for when in (
@@ -1111,55 +1216,105 @@ def build_coming_soon_current(
             dropped[DROP_REASON_OUTSIDE_WINDOW] += 1
             continue
 
-        entries.append(
-            _entry_from_candidate(
-                candidate,
-                classification=classification,
-                expected=expected,
-                expected_source=expected_source,
-            )
+        entry = _entry_from_candidate(
+            candidate,
+            classification=classification,
+            expected=expected,
+            expected_source=expected_source,
+            theater_names=theater_names,
+            enrichment_index=enrichment_index,
+            amc_product_index=amc_product_index,
         )
+        if (
+            classification in USER_VISIBLE_CLASSIFICATIONS
+            and not entry["user_visible"]
+        ):
+            dropped[DROP_REASON_PRESENTATION_FILTER] += 1
+        all_entries.append(entry)
 
-    entries.sort(
+    all_entries.sort(
         key=lambda item: (
             item["expected_release_date"],
             item["title"].casefold(),
             item["join_key"],
         )
     )
+    public_entries = []
+    for entry in all_entries:
+        if not entry["user_visible"]:
+            continue
+        visible = dict(entry)
+        visible.pop("exclusion_reason", None)
+        public_entries.append(visible)
 
-    return {
-        "schema_version": COMING_SOON_SCHEMA_VERSION,
-        "generated_at": generated_at.isoformat(timespec="seconds"),
-        "timezone": DEFAULT_TIMEZONE,
-        "window": {
-            "start_date": format_date_iso(today),
-            "end_date": format_date_iso(window_end),
-            "days": window_days,
-            "current_availability_cutoff": format_date_iso(current_window_end),
-            "current_availability_days": current_availability_days,
-        },
-        "method": {
-            "name": METHOD_NAME,
-            "version": METHOD_VERSION,
-            "description": METHOD_DESCRIPTION,
-        },
-        "sources": _source_health(
-            amc_catalog=amc_catalog,
-            tmdb_artifact=tmdb_candidates_artifact,
-            showtimes_current=showtimes_current,
-            amc_scrape_log_path=amc_scrape_log_path,
-            published_window_end=published_window_end,
-        ),
-        "stats": _artifact_stats(
-            entries,
-            window_start=today,
-            dropped=dropped,
-            collapsed_variants=collapsed_variants,
-            merged_count=len(merged),
-        ),
-        "entries": entries,
+    sources = _source_health(
+        amc_catalog=amc_catalog,
+        tmdb_artifact=tmdb_candidates_artifact,
+        showtimes_current=showtimes_current,
+        amc_scrape_log_path=amc_scrape_log_path,
+        published_window_end=published_window_end,
+    )
+    window = {
+        "start_date": format_date_iso(today),
+        "end_date": format_date_iso(window_end),
+        "days": window_days,
+        "current_availability_cutoff": format_date_iso(current_window_end),
+        "current_availability_days": current_availability_days,
     }
+    method = {
+        "name": METHOD_NAME,
+        "version": METHOD_VERSION,
+        "description": METHOD_DESCRIPTION,
+    }
+    stamp = generated_at.isoformat(timespec="seconds")
+    analysis_stats = _artifact_stats(
+        all_entries,
+        window_start=today,
+        dropped=dropped,
+        collapsed_variants=collapsed_variants,
+        merged_count=len(merged),
+        include_hidden=True,
+    )
+    public_stats = _artifact_stats(
+        public_entries,
+        window_start=today,
+        dropped=dropped,
+        collapsed_variants=collapsed_variants,
+        merged_count=len(merged),
+        include_hidden=False,
+    )
+    public_stats["analysis"] = {
+        "path": DEFAULT_ANALYSIS_PATH.as_posix(),
+        "entry_count": len(all_entries),
+        "tmdb_only_count": analysis_stats["classification_counts"][
+            CLASSIFICATION_TMDB_ONLY
+        ],
+        "presentation_filtered_count": int(
+            dropped.get(DROP_REASON_PRESENTATION_FILTER, 0)
+        ),
+    }
+
+    public = {
+        "schema_version": COMING_SOON_SCHEMA_VERSION,
+        "generated_at": stamp,
+        "timezone": DEFAULT_TIMEZONE,
+        "window": window,
+        "method": method,
+        "sources": sources,
+        "stats": public_stats,
+        "entries": public_entries,
+    }
+    analysis = {
+        "schema_version": COMING_SOON_CANDIDATES_SCHEMA_VERSION,
+        "generated_at": stamp,
+        "timezone": DEFAULT_TIMEZONE,
+        "window": window,
+        "method": method,
+        "sources": sources,
+        "stats": analysis_stats,
+        "entries": all_entries,
+    }
+    return public, analysis
 
 
 def _source_health(
@@ -1221,18 +1376,22 @@ def _artifact_stats(
     dropped: Mapping[str, int],
     collapsed_variants: int,
     merged_count: int,
+    include_hidden: bool,
 ) -> dict[str, Any]:
     classification_counts = {
         CLASSIFICATION_CONFIRMED_LOCAL: 0,
         CLASSIFICATION_AMC_ANNOUNCED: 0,
-        CLASSIFICATION_TMDB_ONLY: 0,
     }
+    if include_hidden:
+        classification_counts[CLASSIFICATION_TMDB_ONLY] = 0
     evidence_counts = {
         "amc_coming_soon_catalog": 0,
         "amc_theater_booking": 0,
         "tmdb_us_theatrical": 0,
         "reel_seattle_scheduled": 0,
     }
+    presentation_kind_counts: dict[str, int] = {}
+    presentation_source_counts: dict[str, int] = {}
     horizon_counts = {"30_days": 0, "60_days": 0, "90_days": 0}
     horizons = ((30, "30_days"), (60, "60_days"), (90, "90_days"))
 
@@ -1241,6 +1400,7 @@ def _artifact_stats(
     ambiguous = 0
     with_film_id = 0
     with_tmdb_id = 0
+    with_poster = 0
     film_id_seen: dict[str, int] = {}
     join_key_seen: dict[str, int] = {}
 
@@ -1267,6 +1427,17 @@ def _artifact_stats(
         for flag, present in (entry.get("evidence") or {}).items():
             if present and flag in evidence_counts:
                 evidence_counts[flag] += 1
+        presentation = entry.get("presentation") or {}
+        kind = str(presentation.get("kind") or "")
+        if kind:
+            presentation_kind_counts[kind] = presentation_kind_counts.get(kind, 0) + 1
+        source = str(presentation.get("source") or "")
+        if source:
+            presentation_source_counts[source] = (
+                presentation_source_counts.get(source, 0) + 1
+            )
+        if presentation.get("poster_url"):
+            with_poster += 1
 
     return {
         "entry_count": len(entries),
@@ -1274,6 +1445,9 @@ def _artifact_stats(
         "hidden_count": len(entries) - user_visible,
         "classification_counts": classification_counts,
         "evidence_counts": evidence_counts,
+        "presentation_kind_counts": dict(sorted(presentation_kind_counts.items())),
+        "presentation_source_counts": dict(sorted(presentation_source_counts.items())),
+        "entries_with_poster": with_poster,
         "horizon_counts": horizon_counts,
         "earliest_expected_release_date": dates[0] if dates else None,
         "latest_expected_release_date": dates[-1] if dates else None,
@@ -1296,6 +1470,9 @@ def _artifact_stats(
             ),
             "no_expected_release_date": int(dropped.get(DROP_REASON_NO_EXPECTED_DATE, 0)),
             "insufficient_evidence": int(dropped.get(DROP_REASON_UNCLASSIFIED, 0)),
+            "presentation_filter": int(
+                dropped.get(DROP_REASON_PRESENTATION_FILTER, 0)
+            ),
         },
     }
 
@@ -1363,25 +1540,29 @@ def existing_artifact_matches(path: Path, artifact: Mapping[str, Any]) -> bool:
 def publish_coming_soon_current(
     *,
     output_path: Path | str = DEFAULT_OUTPUT_PATH,
+    analysis_path: Path | str = DEFAULT_ANALYSIS_PATH,
     amc_catalog: Mapping[str, Any] | None = None,
     tmdb_candidates_artifact: Mapping[str, Any] | None = None,
     showtimes_current: Mapping[str, Any] | None = None,
     amc_scrape_log_path: Path | None = None,
     registry: Mapping[str, Any] | None = None,
     identity_catalog: Mapping[str, Any] | None = None,
+    enrichment_index: Mapping[str, Mapping[str, Any]] | None = None,
+    amc_product_index: Mapping[str, Mapping[str, Any]] | None = None,
     today_date: date | None = None,
     window_days: int = DEFAULT_WINDOW_DAYS,
     current_availability_days: int = DEFAULT_CURRENT_AVAILABILITY_DAYS,
     generated_at: datetime | None = None,
     require_amc_catalog: bool = True,
 ) -> dict[str, Any]:
-    """Build, validate, and write the artifact, preserving last-known-good.
+    """Build, validate, and write public + analysis artifacts.
 
     When the optional AMC catalog snapshot is missing and a previous public
-    artifact exists, the existing file is left untouched: a temporary upstream
+    artifact exists, both files are left untouched: a temporary upstream
     outage must not empty the page.
     """
     target = Path(output_path)
+    analysis_target = Path(analysis_path)
     previous_exists = target.is_file()
 
     if require_amc_catalog and not amc_catalog:
@@ -1390,45 +1571,63 @@ def publish_coming_soon_current(
                 "published": False,
                 "skipped_reason": "amc_catalog_unavailable_retained_previous",
                 "artifact": None,
+                "analysis_artifact": None,
                 "output_path": str(target),
+                "analysis_path": str(analysis_target),
             }
         return {
             "published": False,
             "skipped_reason": "amc_catalog_unavailable_no_previous_artifact",
             "artifact": None,
+            "analysis_artifact": None,
             "output_path": str(target),
+            "analysis_path": str(analysis_target),
         }
 
-    artifact = build_coming_soon_current(
+    public, analysis = build_coming_soon_bundle(
         amc_catalog=amc_catalog,
         tmdb_candidates_artifact=tmdb_candidates_artifact,
         showtimes_current=showtimes_current,
         amc_scrape_log_path=amc_scrape_log_path,
         registry=registry,
         identity_catalog=identity_catalog,
+        enrichment_index=enrichment_index,
+        amc_product_index=amc_product_index,
         today_date=today_date,
         window_days=window_days,
         current_availability_days=current_availability_days,
         generated_at=generated_at,
     )
-    validate_coming_soon_current(artifact)
+    validate_coming_soon_current(public)
+    validate_coming_soon_candidates(analysis)
 
-    if existing_artifact_matches(target, artifact):
+    public_unchanged = existing_artifact_matches(target, public)
+    analysis_unchanged = existing_artifact_matches(analysis_target, analysis)
+    if public_unchanged and analysis_unchanged:
         return {
             "published": False,
             "skipped_reason": "unchanged_membership",
-            "artifact": artifact,
+            "artifact": public,
+            "analysis_artifact": analysis,
             "output_path": str(target),
+            "analysis_path": str(analysis_target),
         }
 
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(
-        json.dumps(artifact, indent=2, ensure_ascii=False) + "\n",
+        json.dumps(public, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    analysis_target.parent.mkdir(parents=True, exist_ok=True)
+    analysis_target.write_text(
+        json.dumps(analysis, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
     return {
         "published": True,
         "skipped_reason": None,
-        "artifact": artifact,
+        "artifact": public,
+        "analysis_artifact": analysis,
         "output_path": str(target),
+        "analysis_path": str(analysis_target),
     }

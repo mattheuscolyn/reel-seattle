@@ -130,6 +130,9 @@ jobs:
           if [ -f public/data/coming_soon_current.json ]; then
             git add public/data/coming_soon_current.json
           fi
+          if [ -f data/audits/coming_soon_candidates_current.json ]; then
+            git add data/audits/coming_soon_candidates_current.json
+          fi
           git add public/data/showtimes_current.json
           git add public/data/pipeline_report.json
           git add public/data/theaters.json

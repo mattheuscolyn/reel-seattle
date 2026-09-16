@@ -263,6 +263,7 @@ def normalize_discover_row(
         "poster_path": str(poster_path) if poster_path else None,
         "has_poster": has_poster,
         "has_overview": has_overview,
+        "overview": str(row.get("overview") or "").strip() or None,
         "quality_flags": quality_flags_for(
             has_poster=has_poster,
             popularity=popularity,

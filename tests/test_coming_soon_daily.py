@@ -45,6 +45,7 @@ class StubTmdbClient:
 
 def _run(tmp_path: Path, **overrides):
     kwargs = {
+        "analysis_path": tmp_path / "coming_soon_candidates_current.json",
         "output_path": tmp_path / "coming_soon_current.json",
         "catalog_path": tmp_path / "amc_coming_soon_catalog.json",
         "tmdb_candidates_path": tmp_path / "tmdb_us_theatrical_candidates.json",

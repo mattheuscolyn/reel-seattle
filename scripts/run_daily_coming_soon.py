@@ -30,6 +30,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from reel_seattle.emit.coming_soon import (  # noqa: E402
+    DEFAULT_ANALYSIS_PATH,
     DEFAULT_CURRENT_AVAILABILITY_DAYS,
     DEFAULT_LOGS_DIR,
     DEFAULT_OUTPUT_PATH,
@@ -79,6 +80,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Reuse the durable TMDB candidates snapshot without refreshing it.",
     )
     parser.add_argument("--output-path", type=Path, default=DEFAULT_OUTPUT_PATH)
+    parser.add_argument("--analysis-path", type=Path, default=DEFAULT_ANALYSIS_PATH)
     parser.add_argument("--catalog-path", type=Path, default=DEFAULT_CATALOG_PATH)
     parser.add_argument(
         "--tmdb-candidates-path", type=Path, default=DEFAULT_CANDIDATES_PATH
@@ -172,6 +174,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         result = run_daily_coming_soon(
             output_path=args.output_path,
+            analysis_path=args.analysis_path,
             catalog_path=args.catalog_path,
             tmdb_candidates_path=args.tmdb_candidates_path,
             showtimes_current_path=args.showtimes_current_path,
