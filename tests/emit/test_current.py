@@ -222,6 +222,39 @@ def test_json_shape_includes_required_sections(artifact):
     assert len(artifact["theaters"]) >= 11
 
 
+def test_special_event_is_screening_level_not_film_global(theaters_registry):
+    """Ordinary + Q&A performances of the same parent stay distinct."""
+    rows = [
+        _history_row(REFERENCE, film="Forgotten Island", premium_format="IMAX"),
+        _history_row(
+            REFERENCE,
+            film="Forgotten Island - Early Access Screening with Cast Member Q&A",
+            time="9:30PM",
+            premium_format="Dolby Cinema",
+        ),
+    ]
+    artifact = build_showtimes_current(
+        rows,
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    by_title = {row["film_title"]: row for row in artifact["showtimes"]}
+    ordinary = by_title["Forgotten Island"]
+    event = by_title[
+        "Forgotten Island - Early Access Screening with Cast Member Q&A"
+    ]
+    assert ordinary["special_event"]["is_special_event"] is False
+    assert event["special_event"]["is_special_event"] is True
+    assert "q_and_a" in event["special_event"]["types"]
+    assert "early_access" in event["special_event"]["types"]
+    assert "dolby-cinema-at-amc" in event["format_tags"] or any(
+        "dolby" in tag for tag in event["format_tags"]
+    )
+    assert event["parent_display_title"] == "Forgotten Island"
+    assert ordinary["parent_display_title"] == "Forgotten Island"
+
+
 def test_write_showtimes_current_writes_valid_json(tmp_path, theaters_registry):
     registry_path = tmp_path / "theaters.json"
     output_path = tmp_path / "showtimes_current.json"

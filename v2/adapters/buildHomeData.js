@@ -413,6 +413,10 @@ export function buildHomeData(input) {
     const isSpecialScreening =
       raw.is_special_screening === true ||
       listingFilmRef?.is_special_screening === true;
+    const specialEvent =
+      raw.special_event && typeof raw.special_event === 'object'
+        ? raw.special_event
+        : null;
     const listingFilmId = asCanonicalFilmId(listingFilmRef?.film_id);
     const parentListingFilmId = asCanonicalFilmId(
       parentFilmKeyHint ? filmRefsByKey.get(parentFilmKeyHint)?.film_id : null,
@@ -571,6 +575,8 @@ export function buildHomeData(input) {
       parentDisplayTitle: parentDisplayTitleHint,
       screeningVariantType,
       isSpecialScreening,
+      // Screening-level product Special Events (Explore). Never film-global.
+      specialEvent,
       sourceTitle,
       contentClassification,
       // Screening observation dates for opportunity-level novelty (feature vectors).

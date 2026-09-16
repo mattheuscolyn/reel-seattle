@@ -223,6 +223,7 @@
         "screening_variant_type",
         "is_special_screening",
         "attributes",
+        "special_event",
         "first_seen_at",
         "last_seen_at"
       ],
@@ -313,6 +314,50 @@
         "attributes": {
           "type": "object",
           "additionalProperties": true
+        },
+        "special_event": {
+          "type": "object",
+          "description": "Screening-level product Special Events classification (Explore). Orthogonal to format_tags and screening_variant_type. A film is never globally special — only individual performances carry is_special_event=true.",
+          "required": ["is_special_event", "types", "labels", "confidence", "evidence"],
+          "additionalProperties": true,
+          "properties": {
+            "is_special_event": { "type": "boolean" },
+            "types": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "q_and_a",
+                  "intro_or_discussion",
+                  "early_access",
+                  "sneak_preview",
+                  "opening_night",
+                  "fan_event",
+                  "mystery_screening",
+                  "special_presentation",
+                  "other_event"
+                ]
+              }
+            },
+            "labels": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "description": "Source-preserving event labels when available (e.g. Q&A with director Jane Smith)."
+            },
+            "confidence": {
+              "type": ["string", "null"],
+              "enum": ["high", "medium", "low", null]
+            },
+            "evidence": {
+              "type": "array",
+              "items": { "type": "object", "additionalProperties": true }
+            },
+            "audit_signals": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "description": "Non-published audit signals (concert cinema, anniversary-only, generic EVENT attribute, etc.)."
+            }
+          }
         },
         "first_seen_at": { "type": ["string", "null"], "format": "date" },
         "last_seen_at": { "type": ["string", "null"], "format": "date" }
