@@ -228,6 +228,11 @@ test('chronological week grouping and within-date sort', () => {
         theaters: [{ theater_id: 'siff-uptown', name: 'SIFF Uptown' }],
       }),
       entry({
+        title: 'Sunday Film',
+        date: '2026-09-20',
+        classification: 'amc_announced',
+      }),
+      entry({
         title: 'Later Film',
         date: '2026-09-23',
         classification: 'amc_announced',
@@ -235,11 +240,19 @@ test('chronological week grouping and within-date sort', () => {
     ]),
   );
   assert.equal(page.sections.length, 2);
-  assert.equal(page.sections[0].label, formatComingSoonWeekLabel('2026-09-13', '2026-09-19'));
+  assert.equal(page.sections[0].label, formatComingSoonWeekLabel('2026-09-14', '2026-09-20'));
+  assert.equal(page.sections[0].label, 'SEP 14–20');
   assert.equal(page.sections[0].entries[0].title, 'Alpha Confirmed');
   assert.equal(page.sections[0].entries[1].title, 'Zed Unannounced');
+  assert.equal(page.sections[0].entries[2].title, 'Sunday Film');
   assert.equal(page.sections[1].entries[0].title, 'Later Film');
-  assert.equal(comingSoonWeekStartIso('2026-09-16'), '2026-09-13');
+  assert.equal(comingSoonWeekStartIso('2026-09-16'), '2026-09-14');
+  assert.equal(comingSoonWeekStartIso('2026-09-14'), '2026-09-14');
+  assert.equal(comingSoonWeekStartIso('2026-09-13'), '2026-09-07');
+  assert.equal(comingSoonWeekStartIso('2026-09-20'), '2026-09-14');
+  assert.equal(comingSoonWeekStartIso('2026-09-21'), '2026-09-21');
+  assert.equal(formatComingSoonWeekLabel('2026-09-21', '2026-09-27'), 'SEP 21–27');
+  assert.equal(formatComingSoonWeekLabel('2026-09-28', '2026-10-04'), 'SEP 28–OCT 4');
 });
 
 test('confirmed_local rows show Seattle status and theater names', () => {
@@ -496,6 +509,15 @@ test('public artifact stays renderable and hides analysis-only rows', () => {
     artifact.entries.filter(isRenderableComingSoonEntry).length,
   );
   assert.ok(page.sections.every((section) => section.entries.length > 0));
+  for (const section of page.sections) {
+    assert.equal(comingSoonWeekStartIso(section.startDate), section.startDate);
+    assert.equal(new Date(`${section.startDate}T12:00:00Z`).getUTCDay(), 1);
+    assert.equal(new Date(`${section.endDate}T12:00:00Z`).getUTCDay(), 0);
+    assert.equal(
+      section.label,
+      formatComingSoonWeekLabel(section.startDate, section.endDate),
+    );
+  }
   const inferred = artifact.entries.filter(
     (row) => row.identity?.tmdb_id_inferred && !row.identity?.film_id_confirmed,
   );

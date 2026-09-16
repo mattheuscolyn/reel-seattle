@@ -339,6 +339,70 @@ def test_collapse_amc_event_variants_requires_existing_base_film():
     ]
 
 
+def test_collapse_retains_named_qa_and_same_date_guest_events():
+    """Named Q&A products are distinct consumer-facing engagements.
+
+    Delimiter-less titles such as ``Appofeniacs Q&A with Director …`` and
+    talent-specific Live Q&A nights must not fold into the base film.
+    """
+    public = _build(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(
+                source_film_id="84071",
+                source_title="Your Mother Your Mother Your Mother",
+                release_date_utc="2026-09-23T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_film_id="85038",
+                source_title=(
+                    "Your Mother Your Mother Your Mother Live Q&A with Mahershala Ali"
+                ),
+                release_date_utc="2026-09-25T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_film_id="84343",
+                source_title="Appofeniacs",
+                release_date_utc="2026-10-02T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_film_id="85035",
+                source_title=(
+                    "APPOFENIACS Q&A with Director Chris Marrs Piliero and cast"
+                ),
+                release_date_utc="2026-10-02T00:00:00Z",
+            ),
+        )
+    )
+    titles = sorted(entry["title"] for entry in public["entries"])
+    assert titles == [
+        "APPOFENIACS Q&A with Director Chris Marrs Piliero and cast",
+        "Appofeniacs",
+        "Your Mother Your Mother Your Mother",
+        "Your Mother Your Mother Your Mother Live Q&A with Mahershala Ali",
+    ]
+
+
+def test_amc_literal_question_mark_in_title_is_preserved():
+    """AMC catalog movie 84887 ships ``d?Afrique``; do not invent an apostrophe."""
+    public = _build(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(
+                source_film_id="84887",
+                source_title="Reve d?Afrique - Les aventuriers voyageurs",
+                slug="reve-d-afrique-les-aventuriers-voyageurs-84887",
+                release_date_utc="2026-09-16T05:00:00Z",
+            )
+        )
+    )
+    assert [entry["title"] for entry in public["entries"]] == [
+        "Reve d?Afrique - Les aventuriers voyageurs"
+    ]
+    title = public["entries"][0]["title"]
+    assert "d'Afrique" not in title
+    assert "d’Afrique" not in title
+    assert "Rêve" not in title
+
+
 def test_title_join_requires_compatible_release_dates():
     """Same normalized title, releases months apart: keep them separate."""
     old = ComingSoonCandidate(

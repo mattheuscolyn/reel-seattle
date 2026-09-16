@@ -70,3 +70,35 @@ jobs:
 
       - name: Frontend smoke check
         run: npm run smoke:frontend
+
+  v2-smoke:
+    name: V2 browser smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build v2
+        run: npm run build:v2
+
+      - name: Verify dist-v2 artifacts
+        run: node scripts/check_dist_v2_artifacts.mjs
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Smoke static dist-v2
+        run: npm run smoke:v2:static
+        env:
+          SKIP_V2_BUILD: "1"

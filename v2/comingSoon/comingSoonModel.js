@@ -168,13 +168,15 @@ export function formatComingSoonDate(isoDate) {
 }
 
 /**
- * Sunday–Saturday Pacific calendar week of an ISO date.
+ * Monday–Sunday Pacific calendar week of an ISO date.
+ * Matches Opening This Week membership (`week_bounds` in opening_this_week.py).
  * @param {string} isoDate
  */
 export function comingSoonWeekStartIso(isoDate) {
   const [year, month, day] = isoDate.split('-').map(Number);
   const utc = new Date(Date.UTC(year, month - 1, day, 12));
-  utc.setUTCDate(utc.getUTCDate() - utc.getUTCDay());
+  const daysFromMonday = (utc.getUTCDay() + 6) % 7;
+  utc.setUTCDate(utc.getUTCDate() - daysFromMonday);
   return utc.toISOString().slice(0, 10);
 }
 

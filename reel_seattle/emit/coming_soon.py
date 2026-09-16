@@ -643,6 +643,9 @@ def candidates_from_amc_catalog(
             continue
         movie_id = str(movie.get("source_film_id") or "").strip()
         raw_title = movie.get("source_title") or ""
+        # Pass AMC catalog titles through. AMC sometimes ships a literal '?'
+        # where an apostrophe or diacritic failed upstream (e.g. movie 84887
+        # ``Reve d?Afrique``). Do not guess a corrected spelling here.
         title = normalize_film_title(raw_title) or str(raw_title).strip()
         if not movie_id or not title:
             continue
@@ -931,7 +934,9 @@ def collapse_amc_event_variants(
 
     Only collapses when the trailing phrase is a recognized event marker *and*
     the base title is already a known candidate, so genuinely distinct films
-    are never merged.
+    are never merged. Undelimited Q&A / fan-event titles with named guests
+    stay separate even when a base film exists — those are distinct AMC
+    products, not SKU suffixes.
     """
     by_key: dict[str, ComingSoonCandidate] = {}
     for candidate in candidates:

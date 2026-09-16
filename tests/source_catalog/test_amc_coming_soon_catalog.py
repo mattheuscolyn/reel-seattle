@@ -151,6 +151,13 @@ def test_normalize_catalog_movie_projects_source_metadata():
     assert record["presentation"]["is_special_presentation"] is False
 
 
+def test_normalize_catalog_movie_preserves_amc_literal_question_mark():
+    record = normalize_catalog_movie(
+        _movie("84887", "Reve d?Afrique - Les aventuriers voyageurs")
+    )
+    assert record["source_title"] == "Reve d?Afrique - Les aventuriers voyageurs"
+
+
 def test_normalize_catalog_movie_requires_id():
     with pytest.raises(ComingSoonCatalogError):
         normalize_catalog_movie({"name": "No Id"})
