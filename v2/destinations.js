@@ -109,6 +109,7 @@ export function resolveActivePrimaryId(nav) {
     nav.surface?.type === 'build-plan-plan-details' ||
     nav.surface?.type === 'theater-detail' ||
     nav.surface?.type === 'collection-detail' ||
+    nav.surface?.type === 'coming-soon-detail' ||
     nav.surface?.type === 'admin-tmdb-review' ||
     nav.surface?.type === 'profile-settings' ||
     nav.surface?.type === 'profile-friends' ||
@@ -204,6 +205,9 @@ export function resolveHeaderBackLabel(nav, options = {}) {
   }
   if (surface.type === 'collection-detail') {
     return 'Collections';
+  }
+  if (surface.type === 'coming-soon-detail') {
+    return 'Coming Soon';
   }
   if (surface.type === 'build-plan-plan-details') {
     return surface.returnSurface?.type === 'build-plan-results'

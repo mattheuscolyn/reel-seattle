@@ -146,6 +146,15 @@ import {
  */
 
 /**
+ * @typedef {object} ComingSoonDetailSurface
+ * @property {'coming-soon-detail'} type
+ * @property {string} entryId
+ * @property {string} originPrimary
+ * @property {ExploreRestoreState | null} [exploreRestore]
+ * @property {object | null} [returnSurface]
+ */
+
+/**
  * @typedef {object} AdminTmdbReviewSurface
  * @property {'admin-tmdb-review'} type
  * @property {string} originPrimary
@@ -749,6 +758,44 @@ export function openTheaterDetail(state, params = {}) {
 }
 
 /**
+ * Lightweight Coming Soon detail — not canonical Film Detail.
+ * @param {object} state
+ * @param {{
+ *   entryId: string,
+ *   originPrimary?: string,
+ *   exploreRestore?: ExploreRestoreState | null,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openComingSoonDetail(state, params) {
+  const entryId =
+    typeof params?.entryId === 'string' ? params.entryId.trim() : '';
+  if (!entryId) return state;
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'explore',
+  );
+  const returnSurface =
+    params.returnSurface ??
+    (state.surface?.type === 'collection' &&
+    state.surface.collectionId === 'coming-soon'
+      ? state.surface
+      : null);
+  return {
+    ...state,
+    primaryDestinationId: originPrimary === 'profile' ? 'profile' : 'explore',
+    plannerSeed: null,
+    surface: {
+      type: 'coming-soon-detail',
+      entryId,
+      originPrimary,
+      exploreRestore:
+        params.exploreRestore ?? state.surface?.exploreRestore ?? null,
+      returnSurface,
+    },
+  };
+}
+
+/**
  * Indie collection detail within Explore → Collections.
  * @param {object} state
  * @param {{
@@ -1005,6 +1052,7 @@ export function navigateBack(state) {
     state.surface.type === 'build-plan-theater-manage' ||
     state.surface.type === 'theater-detail' ||
     state.surface.type === 'collection-detail' ||
+    state.surface.type === 'coming-soon-detail' ||
     state.surface.type === 'format-detail' ||
     state.surface.type === 'experience-detail' ||
     state.surface.type === 'compare-formats' ||

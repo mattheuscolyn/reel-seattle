@@ -47,6 +47,7 @@ test('v2 data allowlist marks showtimes required and enrichment optional', () =>
   assert.equal(byRoute['/data/pipeline_report.json'].required, false);
   assert.equal(byRoute['/data/film_enrichment_current.json'].required, false);
   assert.equal(byRoute['/data/collections_current.json'].required, false);
+  assert.equal(byRoute['/data/coming_soon_current.json'].required, false);
 });
 
 test('resolveV2DataUrl respects Vite BASE_URL (root and subpath)', () => {
