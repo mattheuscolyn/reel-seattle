@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-16T03:40:35-07:00",
+  "generated_at": "2026-09-17T03:49:44-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-09-14",
@@ -12,62 +12,19 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 49,
+    "entry_count": 47,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-09-14",
     "latest_opening_date": "2026-09-20",
     "opening_type_counts": {
-      "event": 6,
       "limited": 17,
       "repertory": 11,
-      "theatrical": 15
+      "theatrical": 15,
+      "event": 4
     }
   },
   "entries": [
-    {
-      "showtime_film_key": "amc-screen-unseen-september-14",
-      "parent_film_key": "amc-screen-unseen-september-14",
-      "film_id": null,
-      "film_title": "AMC Screen Unseen: September 14",
-      "opening_date": "2026-09-14",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16",
-        "amc-factoria-8",
-        "amc-kent-station-14",
-        "amc-oak-tree-6",
-        "amc-pacific-place-11",
-        "amc-southcenter-16",
-        "amc-woodinville-12"
-      ],
-      "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 8,
-      "opening_type": "event",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "amc-screen-unseen-september-14"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "amc-factoria-8",
-          "amc-kent-station-14",
-          "amc-oak-tree-6",
-          "amc-pacific-place-11",
-          "amc-southcenter-16",
-          "amc-woodinville-12"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
     {
       "showtime_film_key": "siff-movie-club-serial-mom",
       "parent_film_key": "siff-movie-club-serial-mom",
@@ -140,7 +97,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 3,
       "historical_screening_count": 3,
       "opening_type": "repertory",
@@ -173,7 +130,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 6,
+      "visible_showtime_count": 0,
       "engagement_days": 2,
       "historical_screening_count": 7,
       "opening_type": "theatrical",
@@ -206,7 +163,7 @@
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -237,7 +194,7 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -271,7 +228,7 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 370,
+      "visible_showtime_count": 366,
       "engagement_days": 9,
       "historical_screening_count": 187,
       "opening_type": "event",
@@ -309,7 +266,7 @@
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -511,9 +468,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 1412,
+      "visible_showtime_count": 1418,
       "engagement_days": 15,
-      "historical_screening_count": 711,
+      "historical_screening_count": 712,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -654,7 +611,7 @@
     {
       "showtime_film_key": "tiny-fugitives",
       "parent_film_key": "tiny-fugitives",
-      "film_id": null,
+      "film_id": "tmdb:1513253",
       "film_title": "Tiny Fugitives",
       "opening_date": "2026-09-17",
       "theaters_on_opening_date": [
@@ -668,7 +625,7 @@
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "tiny-fugitives"
         ],
@@ -687,7 +644,7 @@
     {
       "showtime_film_key": "without-blood",
       "parent_film_key": "without-blood",
-      "film_id": null,
+      "film_id": "tmdb:945883",
       "film_title": "Without Blood",
       "opening_date": "2026-09-17",
       "theaters_on_opening_date": [
@@ -700,7 +657,7 @@
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "without-blood"
         ],
@@ -755,7 +712,7 @@
     {
       "showtime_film_key": "daayra",
       "parent_film_key": "daayra",
-      "film_id": null,
+      "film_id": "tmdb:1215889",
       "film_title": "Daayra",
       "opening_date": "2026-09-18",
       "theaters_on_opening_date": [
@@ -768,7 +725,7 @@
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "daayra"
         ],
@@ -1362,66 +1319,41 @@
       "override": null
     },
     {
-      "showtime_film_key": "forgotten-island-early-access-screening",
-      "parent_film_key": "forgotten-island-screening",
-      "film_id": null,
-      "film_title": "Forgotten Island - Screening",
-      "opening_date": "2026-09-20",
-      "theaters_on_opening_date": [
-        "amc-factoria-8",
-        "amc-kent-station-14",
-        "amc-woodinville-12"
-      ],
-      "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 3,
-      "engagement_days": 1,
-      "historical_screening_count": 3,
-      "opening_type": "event",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "parent_film_key",
-        "variant_showtime_film_keys": [
-          "forgotten-island-early-access-screening"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-factoria-8",
-          "amc-kent-station-14",
-          "amc-woodinville-12"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "forgotten-island-early-access-screening-with-cast-member-q-a",
-      "parent_film_key": "forgotten-island-screening-with-cast-member-q-a",
-      "film_id": null,
-      "film_title": "Forgotten Island - Screening with Cast Member Q&A",
+      "showtime_film_key": "forgotten-island",
+      "parent_film_key": "forgotten-island",
+      "film_id": "tmdb:1465063",
+      "film_title": "Forgotten Island",
       "opening_date": "2026-09-20",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
-        "amc-southcenter-16"
+        "amc-factoria-8",
+        "amc-kent-station-14",
+        "amc-southcenter-16",
+        "amc-woodinville-12"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 2,
-      "engagement_days": 1,
-      "historical_screening_count": 2,
+      "theater_count_on_opening_date": 5,
+      "visible_showtime_count": 439,
+      "engagement_days": 16,
+      "historical_screening_count": 333,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
-        "identity_method": "parent_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
+          "forgotten-island",
+          "forgotten-island-early-access-screening",
           "forgotten-island-early-access-screening-with-cast-member-q-a"
         ],
-        "distinct_scheduled_dates": 1,
+        "distinct_scheduled_dates": 16,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
-          "amc-southcenter-16"
+          "amc-factoria-8",
+          "amc-kent-station-14",
+          "amc-oak-tree-6",
+          "amc-pacific-place-11",
+          "amc-southcenter-16",
+          "amc-woodinville-12"
         ],
         "sources": [
           "amc"
