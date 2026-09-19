@@ -1,13 +1,13 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-18T03:25:05-07:00",
+  "generated_at": "2026-09-19T03:11:08-07:00",
   "source": "amc",
   "model_version": "amc_remaining_run_survival_v1",
   "published": true,
   "skipped_reason": null,
   "window": {
-    "start_date": "2026-09-18",
-    "end_date": "2026-10-02"
+    "start_date": "2026-09-19",
+    "end_date": "2027-09-18"
   },
   "method": {
     "name": "amc_remaining_run_survival_v1",
@@ -21,12 +21,54 @@
     "leaving_soon_threshold": 0.8129915288528309
   },
   "stats": {
-    "candidate_film_count": 30,
-    "flagged_film_count": 19,
-    "last_chance_count": 2,
-    "leaving_soon_count": 17
+    "candidate_film_count": 33,
+    "flagged_film_count": 24,
+    "last_chance_count": 11,
+    "leaving_soon_count": 13
   },
   "items": [
+    {
+      "film_key": "twenty-years-of-the-met-in-cinemas-an-anniversary-celebration",
+      "film_title": "Twenty Years of the Met in Cinemas: An Anniversary Celebration",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84280",
+      "run_id": "84280#01",
+      "run_type": "rerelease_anniversary",
+      "sort_rank": 1,
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-19",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-19"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1783768037/amc-cdn/production/2/movies/84300/84280/Poster/416519R1.jpg",
+      "runtime_min": 150
+    },
     {
       "film_key": "ghost-in-the-shell-30th-anniversary",
       "film_title": "Ghost in the Shell 30th Anniversary",
@@ -37,11 +79,11 @@
       "source_film_id": "84779",
       "run_id": "84779#01",
       "run_type": "rerelease_anniversary",
-      "sort_rank": 1,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
+      "sort_rank": 2,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 15,
+      "total_visible_showtimes": 12,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -54,7 +96,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
         "2026-09-19",
         "2026-09-20",
         "2026-09-21",
@@ -67,234 +108,20 @@
       "runtime_min": 82
     },
     {
-      "film_key": "paw-patrol-the-dino-movie",
-      "film_title": "PAW Patrol: The Dino Movie",
+      "film_key": "batman-mask-of-the-phantasm-2026bd",
+      "film_title": "Batman: Mask of the Phantasm (2026BD)",
       "risk_level": "high",
       "reason": "This theatrical run looks likely to end this week.",
       "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "76344",
-      "run_id": "76344#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 2,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
-      "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 6,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        }
-      ],
-      "show_dates": [
-        "2026-09-18",
-        "2026-09-19",
-        "2026-09-20",
-        "2026-09-21",
-        "2026-09-22",
-        "2026-09-23"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1776713132/amc-cdn/content/general/g1qtttbv00tysyl2oeku.jpg",
-      "runtime_min": 88
-    },
-    {
-      "film_key": "fix",
-      "film_title": "The Fix",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84047",
-      "run_id": "84047#01",
+      "source_film_id": "84560",
+      "run_id": "84560#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 3,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
-      "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 7,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-09-18",
-        "2026-09-19",
-        "2026-09-20",
-        "2026-09-21",
-        "2026-09-22",
-        "2026-09-23"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785198491/amc-cdn/content/general/ueq7f4f680zv46lqbjt0.jpg",
-      "runtime_min": 142
-    },
-    {
-      "film_key": "by-any-means",
-      "film_title": "By Any Means",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "82711",
-      "run_id": "82711#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 4,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
-      "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 12,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "theater_name": "AMC Woodinville 12"
-        }
-      ],
-      "show_dates": [
-        "2026-09-18",
-        "2026-09-19",
-        "2026-09-20",
-        "2026-09-21",
-        "2026-09-22",
-        "2026-09-23"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782228736/amc-cdn/content/general/nlrxoucbgmels9zfe1ws.jpg",
-      "runtime_min": 107
-    },
-    {
-      "film_key": "mighty-mary",
-      "film_title": "Mighty Mary",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "83748",
-      "run_id": "83748#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 5,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
-      "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 6,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-09-18",
-        "2026-09-19",
-        "2026-09-20",
-        "2026-09-21",
-        "2026-09-22",
-        "2026-09-23"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1786550221/amc-cdn/content/general/rcyhd2qgfgbhnrlodobd.png",
-      "runtime_min": 99
-    },
-    {
-      "film_key": "sunny-dancer",
-      "film_title": "Sunny Dancer",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84674",
-      "run_id": "84674#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 6,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
-      "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 7,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-09-18",
-        "2026-09-19",
-        "2026-09-20",
-        "2026-09-21",
-        "2026-09-22",
-        "2026-09-23"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1788275038/amc-cdn/content/general/paj6g19kwve6bffhl20h.jpg",
-      "runtime_min": 106
-    },
-    {
-      "film_key": "dear-you",
-      "film_title": "Dear You",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84200",
-      "run_id": "84200#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 7,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
-      "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 10,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-09-18",
-        "2026-09-19",
-        "2026-09-20",
-        "2026-09-21",
-        "2026-09-22",
-        "2026-09-23"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785323235/amc-cdn/production/2/movies/84200/84200/Poster/416182R1.jpg",
-      "runtime_min": 118
-    },
-    {
-      "film_key": "batman-1989",
-      "film_title": "Batman (1989)",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84559",
-      "run_id": "84559#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 8,
-      "visible_show_date_count": 2,
-      "min_show_date": "2026-09-18",
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-19",
-      "total_visible_showtimes": 8,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -315,13 +142,305 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
+        "2026-09-19"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1787656768/amc-cdn/production/2/movies/84600/84560/Poster/007576R1.jpg",
+      "runtime_min": 76
+    },
+    {
+      "film_key": "paw-patrol-the-dino-movie",
+      "film_title": "PAW Patrol: The Dino Movie",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "76344",
+      "run_id": "76344#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 4,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-23",
+      "total_visible_showtimes": 5,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1776713132/amc-cdn/content/general/g1qtttbv00tysyl2oeku.jpg",
+      "runtime_min": 88
+    },
+    {
+      "film_key": "lego-batman-movie",
+      "film_title": "The Lego Batman Movie",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84558",
+      "run_id": "84558#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 5,
+      "visible_show_date_count": 2,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-20",
+      "total_visible_showtimes": 9,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1787656652/amc-cdn/production/2/movies/84600/84558/Poster/241505R1.jpg",
+      "runtime_min": 105
+    },
+    {
+      "film_key": "mighty-mary",
+      "film_title": "Mighty Mary",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "83748",
+      "run_id": "83748#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 6,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-23",
+      "total_visible_showtimes": 5,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1786550221/amc-cdn/content/general/rcyhd2qgfgbhnrlodobd.png",
+      "runtime_min": 99
+    },
+    {
+      "film_key": "sunny-dancer",
+      "film_title": "Sunny Dancer",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84674",
+      "run_id": "84674#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 7,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-23",
+      "total_visible_showtimes": 6,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1788275038/amc-cdn/content/general/paj6g19kwve6bffhl20h.jpg",
+      "runtime_min": 106
+    },
+    {
+      "film_key": "batman-1989",
+      "film_title": "Batman (1989)",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84559",
+      "run_id": "84559#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 8,
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-19",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 4,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
         "2026-09-19"
       ],
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1788189054/amc-cdn/content/general/betelfrvsqhihfjrlnig.jpg",
       "runtime_min": 126
+    },
+    {
+      "film_key": "fix",
+      "film_title": "The Fix",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84047",
+      "run_id": "84047#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 9,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-23",
+      "total_visible_showtimes": 6,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785198491/amc-cdn/content/general/ueq7f4f680zv46lqbjt0.jpg",
+      "runtime_min": 142
+    },
+    {
+      "film_key": "by-any-means",
+      "film_title": "By Any Means",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "82711",
+      "run_id": "82711#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 10,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-23",
+      "total_visible_showtimes": 10,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1782228736/amc-cdn/content/general/nlrxoucbgmels9zfe1ws.jpg",
+      "runtime_min": 107
+    },
+    {
+      "film_key": "dear-you",
+      "film_title": "Dear You",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84200",
+      "run_id": "84200#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 11,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-23",
+      "total_visible_showtimes": 9,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1785323235/amc-cdn/production/2/movies/84200/84200/Poster/416182R1.jpg",
+      "runtime_min": 118
     },
     {
       "film_key": "without-blood",
@@ -333,11 +452,11 @@
       "source_film_id": "84478",
       "run_id": "84478#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 9,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
+      "sort_rank": 12,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 11,
+      "total_visible_showtimes": 9,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -346,7 +465,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
         "2026-09-19",
         "2026-09-20",
         "2026-09-21",
@@ -368,11 +486,11 @@
       "source_film_id": "84743",
       "run_id": "84743#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 10,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
+      "sort_rank": 13,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -381,7 +499,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
         "2026-09-19",
         "2026-09-20",
         "2026-09-21",
@@ -403,11 +520,11 @@
       "source_film_id": "84900",
       "run_id": "84900#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 11,
-      "visible_show_date_count": 7,
-      "min_show_date": "2026-09-18",
+      "sort_rank": 14,
+      "visible_show_date_count": 6,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-24",
-      "total_visible_showtimes": 14,
+      "total_visible_showtimes": 12,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -420,7 +537,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
         "2026-09-19",
         "2026-09-20",
         "2026-09-21",
@@ -434,6 +550,40 @@
       "runtime_min": 100
     },
     {
+      "film_key": "hanuman-ansh",
+      "film_title": "Hanuman Ansh",
+      "risk_level": "elevated",
+      "reason": "This theatrical run may be winding down soon.",
+      "leaving_soon_bucket": "leaving_soon",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84956",
+      "run_id": "84956#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 15,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-23",
+      "total_visible_showtimes": 10,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1788606481/amc-cdn/production/2/movies/85000/84956/Poster/422068R1.jpg",
+      "runtime_min": 150
+    },
+    {
       "film_key": "insidious-out-of-the-further",
       "film_title": "Insidious: Out of the Further",
       "risk_level": "elevated",
@@ -443,11 +593,11 @@
       "source_film_id": "77101",
       "run_id": "77101#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 12,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
+      "sort_rank": 16,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 19,
+      "total_visible_showtimes": 15,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -464,7 +614,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
         "2026-09-19",
         "2026-09-20",
         "2026-09-21",
@@ -477,41 +626,6 @@
       "runtime_min": 106
     },
     {
-      "film_key": "hanuman-ansh",
-      "film_title": "Hanuman Ansh",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84956",
-      "run_id": "84956#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 13,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
-      "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 12,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        }
-      ],
-      "show_dates": [
-        "2026-09-18",
-        "2026-09-19",
-        "2026-09-20",
-        "2026-09-21",
-        "2026-09-22",
-        "2026-09-23"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1788606481/amc-cdn/production/2/movies/85000/84956/Poster/422068R1.jpg",
-      "runtime_min": 150
-    },
-    {
       "film_key": "daniel-and-the-fiery-furnace",
       "film_title": "Daniel and the Fiery Furnace",
       "risk_level": "elevated",
@@ -521,11 +635,11 @@
       "source_film_id": "84477",
       "run_id": "84477#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 14,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
+      "sort_rank": 17,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 38,
+      "total_visible_showtimes": 31,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -542,7 +656,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
         "2026-09-19",
         "2026-09-20",
         "2026-09-21",
@@ -564,11 +677,11 @@
       "source_film_id": "84708",
       "run_id": "84708#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 15,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
+      "sort_rank": 18,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 18,
+      "total_visible_showtimes": 15,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -581,7 +694,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
         "2026-09-19",
         "2026-09-20",
         "2026-09-21",
@@ -603,11 +715,11 @@
       "source_film_id": "84336",
       "run_id": "84336#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 16,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
+      "sort_rank": 19,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 17,
+      "total_visible_showtimes": 14,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -620,7 +732,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
         "2026-09-19",
         "2026-09-20",
         "2026-09-21",
@@ -642,11 +753,11 @@
       "source_film_id": "83884",
       "run_id": "83884#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 17,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
+      "sort_rank": 20,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 24,
+      "total_visible_showtimes": 20,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -667,7 +778,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
         "2026-09-19",
         "2026-09-20",
         "2026-09-21",
@@ -689,11 +799,11 @@
       "source_film_id": "84453",
       "run_id": "84453#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 18,
-      "visible_show_date_count": 7,
-      "min_show_date": "2026-09-18",
+      "sort_rank": 21,
+      "visible_show_date_count": 6,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-24",
-      "total_visible_showtimes": 29,
+      "total_visible_showtimes": 24,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -710,7 +820,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
         "2026-09-19",
         "2026-09-20",
         "2026-09-21",
@@ -733,11 +842,11 @@
       "source_film_id": "82986",
       "run_id": "82986#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 19,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-18",
+      "sort_rank": 22,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
       "max_show_date": "2026-09-23",
-      "total_visible_showtimes": 69,
+      "total_visible_showtimes": 58,
       "total_visible_theaters": 5,
       "theaters": [
         {
@@ -762,7 +871,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-18",
         "2026-09-19",
         "2026-09-20",
         "2026-09-21",
@@ -773,6 +881,110 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789485029/amc-cdn/content/general/jbsj2jquamxfifmnytbu.jpg",
       "runtime_min": 80
+    },
+    {
+      "film_key": "buddy",
+      "film_title": "Buddy",
+      "risk_level": "elevated",
+      "reason": "This theatrical run may be winding down soon.",
+      "leaving_soon_bucket": "leaving_soon",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "83749",
+      "run_id": "83749#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 23,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-23",
+      "total_visible_showtimes": 43,
+      "total_visible_theaters": 5,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784905670/amc-cdn/content/general/sbtcudrskcz2jwx9zny4.jpg",
+      "runtime_min": 95
+    },
+    {
+      "film_key": "uprising",
+      "film_title": "The Uprising",
+      "risk_level": "elevated",
+      "reason": "This theatrical run may be winding down soon.",
+      "leaving_soon_bucket": "leaving_soon",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "83716",
+      "run_id": "83716#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 24,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-19",
+      "max_show_date": "2026-09-23",
+      "total_visible_showtimes": 48,
+      "total_visible_theaters": 6,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1784142559/amc-cdn/content/general/g46girtcut37vv0pz7qn.jpg",
+      "runtime_min": 128
     }
   ]
 }
