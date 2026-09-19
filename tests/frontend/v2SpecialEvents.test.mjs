@@ -636,7 +636,10 @@ test('unavailable vs empty messaging; scaffold language removed', () => {
   assert.match(DETAIL_SRC, /opportunityKey/);
 });
 
-test('live HomeData groups current special events into engagements', () => {
+test('live HomeData preserves high-confidence special events into engagements', () => {
+  // Reads production showtimes_current.json. Assert only feed-stable
+  // adapter/page invariants — not exact counts or currently-playing titles.
+  // Detailed grouping/Q&A/community-screening behavior is covered by fixtures above.
   const showtimes = JSON.parse(
     readFileSync(join(ROOT, 'public/data/showtimes_current.json'), 'utf8'),
   );
@@ -651,6 +654,11 @@ test('live HomeData groups current special events into engagements', () => {
       s.special_event?.is_special_event === true &&
       s.special_event?.confidence === 'high',
   );
+  assert.ok(
+    rawHigh.length > 0,
+    'expected showtimes_current to include high-confidence special events',
+  );
+
   const home = buildHomeData({
     showtimesCurrent: showtimes,
     theatersRegistry: theaters,
@@ -661,19 +669,47 @@ test('live HomeData groups current special events into engagements', () => {
       o.specialEvent?.isSpecialEvent === true &&
       o.specialEvent?.confidence === 'high',
   );
+  // buildHomeData must not drop high-confidence special-event showtimes.
   assert.equal(rawHigh.length, homeHigh.length);
-  assert.equal(rawHigh.length, 30);
+  for (const opportunity of homeHigh) {
+    assert.equal(opportunity.specialEvent?.isSpecialEvent, true);
+    assert.equal(opportunity.specialEvent?.confidence, 'high');
+    assert.ok(isQualifyingSpecialEventOpportunity(opportunity));
+  }
+
   const page = composeSpecialEventsPage(home, { now: NOW });
-  assert.equal(page.visibleCount, 8);
-  const weight = page.engagements.find((e) => e.filmTitle === 'The Weight');
-  assert.ok(weight);
-  assert.ok(weight.moreCount >= 1);
-  const forgotten = page.engagements.filter(
-    (e) => e.filmTitle === 'Forgotten Island',
+  assert.equal(page.loadStatus, 'ready');
+  assert.ok(page.state === 'ready' || page.state === 'empty');
+  assert.ok(Array.isArray(page.engagements));
+  assert.equal(page.visibleCount, page.engagements.length);
+  // Grouping collapses identical performances and drops dates before `now`,
+  // so visible engagements never exceed the source high-confidence set.
+  assert.ok(page.visibleCount <= homeHigh.length);
+  assert.ok(page.visibleCount > 0);
+
+  const sectionEngagementTotal = (page.sections || []).reduce(
+    (sum, section) => sum + (section.engagements?.length || 0),
+    0,
   );
-  assert.ok(forgotten.length >= 2);
-  const community = page.engagements.find((e) =>
-    e.filmTitle.includes('North By Northwest'),
-  );
-  assert.equal(community?.eventDescription, 'Community Screening');
+  assert.equal(sectionEngagementTotal, page.visibleCount);
+
+  const seenIds = new Set();
+  for (const engagement of page.engagements) {
+    assert.equal(typeof engagement.engagementId, 'string');
+    assert.ok(engagement.engagementId.length > 0);
+    assert.equal(seenIds.has(engagement.engagementId), false);
+    seenIds.add(engagement.engagementId);
+    assert.equal(typeof engagement.filmTitle, 'string');
+    assert.ok(engagement.filmTitle.length > 0);
+    assert.ok(Array.isArray(engagement.opportunities));
+    assert.ok(engagement.opportunities.length >= 1);
+    assert.equal(
+      engagement.moreCount,
+      Math.max(0, engagement.opportunities.length - 1),
+    );
+    for (const opportunity of engagement.opportunities) {
+      assert.ok(isQualifyingSpecialEventOpportunity(opportunity));
+      assert.equal(opportunity.specialEvent?.confidence, 'high');
+    }
+  }
 });
