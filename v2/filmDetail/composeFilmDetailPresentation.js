@@ -14,7 +14,7 @@ import {
   truncateSynopsis,
 } from './filmDetailModel.js';
 import { formatRuntimeLabel } from '../home/shelfData.js';
-import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
+import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
 import { FILM_DETAIL_DESIGN_FIXTURE } from '../fixtures/filmDetailVisualFixtures.js';
 
 /**
@@ -155,17 +155,23 @@ function composeRealPresentation(
   const bestOpp = selectBestOpportunity(homeData, filmKey, opportunityKey, {
     now,
   });
-  const enriched = resolveEnrichedFilmPresentation({
-    sourceFilm: {
+  const enriched = resolveCanonicalFilmPresentation({
+    filmKey: film.filmKey ?? filmKey,
+    filmId: film.filmId ?? null,
+    homeData,
+    enrichmentIndex,
+    fallbackRecord: {
       filmId: film.filmId ?? null,
       title: film.title ?? null,
       sourceTitle: film.sourceTitle ?? film.title ?? null,
       posterUrl: film.posterUrl ?? null,
+      backdropUrl: film.backdropUrl ?? null,
       runtimeMin: film.runtimeMin ?? null,
+      synopsis: film.synopsis ?? null,
+      certification: film.certification ?? film.rating ?? null,
     },
-    enrichmentIndex,
     context: 'film-detail',
-  });
+  }).enriched;
 
   const baseHero = buildFilmHero(film, bestOpp);
   const yearLabel =

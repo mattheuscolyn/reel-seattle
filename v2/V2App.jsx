@@ -19,7 +19,10 @@ import {
 } from './navigation/primaryTabSessions.js';
 import { loadHomeData } from './data/loadHomeData.js';
 import { loadFilmEnrichment } from './enrichment/loadFilmEnrichment.js';
-import { hydrateShelfFilmEnrichment } from './enrichment/hydrateShelfFilmEnrichment.js';
+import {
+  hydrateFilmEnrichmentForIds,
+  hydrateShelfFilmEnrichment,
+} from './enrichment/hydrateShelfFilmEnrichment.js';
 import { reconcileUserFilmStores } from './stores/reconcileUserFilmStores.js';
 import { subscribeFilmStoreMutations } from './auth/filmStoreMutationBridge.js';
 import { isAllowedV2Hostname } from './isAllowedV2Hostname.js';
@@ -329,6 +332,9 @@ export default function V2App() {
     index: null,
     warning: null,
   });
+  const enrichmentIndexRef = useRef(null);
+  enrichmentIndexRef.current = enrichmentState.index;
+  const hydrateAbortRef = useRef(/** @type {AbortController | null} */ (null));
 
   useEffect(() => {
     return subscribeFilmStoreMutations((event) => {
@@ -453,6 +459,7 @@ export default function V2App() {
   useEffect(() => {
     let cancelled = false;
     const hydrateAbort = new AbortController();
+    hydrateAbortRef.current = hydrateAbort;
     Promise.all([loadHomeData(), loadFilmEnrichment()])
       .then(async ([homeResult, enrichmentResult]) => {
         if (cancelled) return;
@@ -482,10 +489,12 @@ export default function V2App() {
           index: enrichmentResult.index,
           warning: enrichmentResult.warning,
         });
+        enrichmentIndexRef.current = enrichmentResult.index;
 
         // Central shelf hydrate: durable filmIds on shelves without static
         // enrichment rows (e.g. Bareilles opening cold film) join via one
-        // shared TMDB fetch path — never per React card.
+        // shared TMDB fetch path — never per React card. Other surfaces
+        // request IDs through hydrateFilmEnrichmentForIds.
         if (homeResult.ok && homeResult.homeData) {
           try {
             const hydrated = await hydrateShelfFilmEnrichment(
@@ -495,6 +504,7 @@ export default function V2App() {
             );
             if (cancelled) return;
             if (hydrated.hydratedIds.length > 0 && hydrated.index) {
+              enrichmentIndexRef.current = hydrated.index;
               setEnrichmentState((prev) => ({
                 ...prev,
                 status: hydrated.index.status ?? prev.status,
@@ -871,6 +881,31 @@ export default function V2App() {
       return openAdminTmdbReview(current, { originPrimary: 'profile' });
     });
     window.scrollTo(0, 0);
+  }, []);
+
+  const handleHydrateFilmIds = useCallback(async (ids) => {
+    try {
+      const hydrated = await hydrateFilmEnrichmentForIds(
+        ids,
+        enrichmentIndexRef.current,
+        { signal: hydrateAbortRef.current?.signal },
+      );
+      if (hydrated.hydratedIds.length > 0 && hydrated.index) {
+        enrichmentIndexRef.current = hydrated.index;
+        setEnrichmentState((prev) => ({
+          ...prev,
+          status: hydrated.index.status ?? prev.status,
+          index: hydrated.index,
+        }));
+      }
+      return hydrated;
+    } catch {
+      return {
+        index: enrichmentIndexRef.current,
+        hydratedIds: [],
+        snapshots: [],
+      };
+    }
   }, []);
 
   const handleOpenFilmDetail = useCallback((params) => {
@@ -1684,6 +1719,7 @@ export default function V2App() {
           })
         }
         onStartPlanner={handleStartPlanner}
+        onHydrateFilmIds={handleHydrateFilmIds}
       />
     );
   } else if (isShortDetail) {
@@ -2147,6 +2183,7 @@ export default function V2App() {
         collectionId={nav.surface.collectionId}
         homeData={sharedHomeData.homeData}
         enrichmentIndex={enrichmentState.index}
+        onHydrateFilmIds={handleHydrateFilmIds}
         onOpenFilmDetail={({ filmKey, filmId, opportunityKey }) =>
           handleOpenFilmDetail({
             filmKey,

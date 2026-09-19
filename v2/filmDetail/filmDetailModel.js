@@ -629,7 +629,7 @@ export function buildTodaysShowtimes(
 
 /**
  * Hero view-model — enrichment fields filled by composeFilmDetailPresentation
- * via shared resolveEnrichedFilmPresentation (exact filmId join).
+ * via shared resolveCanonicalFilmPresentation (exact filmId join).
  * @param {object | null} film
  * @param {object | null} bestOpp
  */

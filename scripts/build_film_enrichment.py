@@ -29,6 +29,9 @@ from reel_seattle.enrichment.pipeline import (  # noqa: E402
     load_prior_artifact,
     write_enrichment_outputs,
 )
+from reel_seattle.enrichment.product_ids import (  # noqa: E402
+    collect_product_surfaced_tmdb_films,
+)
 from reel_seattle.film_identity.cache import TmdbResponseCache  # noqa: E402
 from reel_seattle.film_identity.env_local import load_dotenv_local  # noqa: E402
 from reel_seattle.film_identity.tmdb_client import (  # noqa: E402
@@ -54,6 +57,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--no-shorts",
         action="store_true",
         help="Ignore shorts artifact when collecting enrichment eligibility.",
+    )
+    parser.add_argument(
+        "--no-product-ids",
+        action="store_true",
+        help="Ignore canonical IDs already stamped on public product artifacts.",
     )
     parser.add_argument(
         "--artifact-path",
@@ -106,6 +114,10 @@ def main(argv: list[str] | None = None) -> int:
         except (OSError, json.JSONDecodeError):
             shorts_artifact = None
 
+    product_films = None
+    if not args.no_product_ids:
+        product_films = collect_product_surfaced_tmdb_films(PROJECT_ROOT)
+
     client: TmdbClient | None = None
     if not args.offline:
         try:
@@ -134,6 +146,7 @@ def main(argv: list[str] | None = None) -> int:
         only_tmdb_id=args.tmdb_id,
         include_top_cast=not args.no_top_cast,
         shorts_artifact=shorts_artifact,
+        product_films=product_films,
     )
 
     if args.dry_run:

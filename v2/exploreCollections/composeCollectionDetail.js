@@ -1,9 +1,13 @@
 /**
  * Collection detail presentation.
  * Upcoming rows join only collection-associated source listings — never filmId alone.
+ * Film-level title/poster/year/director/genre use the shared canonical presentation
+ * contract once a canonical filmId is known (membership stamp or listing-joined
+ * home/showtime film).
  */
 
-import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
+import { asCanonicalFilmId } from '../enrichment/enrichmentIndex.js';
+import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
 import { pacificDateString } from '../explore/exploreCatalog.js';
 import { resolveFilmDetailNavParams } from '../identity/filmIdentity.js';
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
@@ -143,16 +147,28 @@ export function composeCollectionDetail(artifact, collectionId, options = {}) {
       collectionTitle: collection.title,
       titlePrefixAliases: collection.titlePrefixAliases,
     });
-    const filmId = asText(membership.canonicalFilmId);
-    const presentation = resolveEnrichedFilmPresentation({
-      sourceFilm: {
-        filmId,
-        title: sourceTitle,
-        posterUrl: homeFilm?.posterUrl ?? null,
-      },
+    const filmId =
+      asCanonicalFilmId(membership.canonicalFilmId) ??
+      asCanonicalFilmId(homeFilm?.filmId) ??
+      asCanonicalFilmId(nextOpp?.filmId) ??
+      null;
+    const resolved = resolveCanonicalFilmPresentation({
+      filmKey: nextOpp?.filmKey ?? homeFilm?.filmKey ?? null,
+      filmId,
+      homeData,
       enrichmentIndex: options.enrichmentIndex ?? null,
+      fallbackRecord: {
+        filmId,
+        filmKey: nextOpp?.filmKey ?? homeFilm?.filmKey ?? null,
+        title: sourceTitle,
+        sourceTitle,
+        posterUrl: homeFilm?.posterUrl ?? null,
+        runtimeMin: homeFilm?.runtimeMin ?? null,
+        synopsis: homeFilm?.synopsis ?? null,
+      },
       context: 'collection',
     });
+    const presentation = resolved.enriched;
     const nav = resolveFilmDetailNavParams(
       {
         filmKey: nextOpp?.filmKey ?? homeFilm?.filmKey ?? filmId,
@@ -172,14 +188,17 @@ export function composeCollectionDetail(artifact, collectionId, options = {}) {
     const row = {
       listingKey: listingKey ?? membership.sourceFilmUrl,
       title: presentation.displayTitle ?? sourceTitle,
+      sourceTitle,
       year: presentation.canonicalYear,
       directors: presentation.directors,
       genreLine: presentation.genreLine,
+      runtimeMin: presentation.runtimeMin,
       posterUrl: presentation.posterUrl,
       filmId,
       filmKey: nav?.filmKey ?? null,
       opportunityKey: nav?.opportunityKey ?? null,
       unresolved: !filmId,
+      hasEnrichment: presentation.hasEnrichment,
       sourceUrl: safeExternalHttpUrl(membership.sourceFilmUrl),
       theaterName: asText(nextOpp?.theaterName),
       formatLabel,
@@ -228,4 +247,25 @@ export function composeCollectionDetail(artifact, collectionId, options = {}) {
     alsoInCollection,
     todayIso,
   };
+}
+
+/**
+ * Canonical filmIds currently rendered on Collection Detail.
+ * Hydrate these — not the entire historical membership archive.
+ *
+ * @param {object | null | undefined} detail
+ * @returns {string[]}
+ */
+export function collectCollectionDetailCanonicalFilmIds(detail) {
+  /** @type {Set<string>} */
+  const ids = new Set();
+  const rows = [
+    ...(Array.isArray(detail?.upcoming) ? detail.upcoming : []),
+    ...(Array.isArray(detail?.alsoInCollection) ? detail.alsoInCollection : []),
+  ];
+  for (const row of rows) {
+    const id = asCanonicalFilmId(row?.filmId);
+    if (id) ids.add(id);
+  }
+  return [...ids];
 }

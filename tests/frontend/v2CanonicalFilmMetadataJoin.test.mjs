@@ -20,6 +20,7 @@ import { enrichmentRowFromTmdbSnapshot } from '../../v2/enrichment/enrichmentFro
 import {
   collectShelfFilmIdsNeedingEnrichment,
   hydrateShelfFilmEnrichment,
+  resetFilmEnrichmentHydrationState,
 } from '../../v2/enrichment/hydrateShelfFilmEnrichment.js';
 import { buildOpeningThisWeekShelf } from '../../v2/home/shelfData.js';
 import { resolveOpeningEntryPresentation } from '../../v2/opening/resolveOpeningEntryPresentation.js';
@@ -434,6 +435,7 @@ test('9. No component-specific TMDB rescue — hydrate is shared model layer onl
 
   const appSrc = readFileSync(join(ROOT, 'v2/V2App.jsx'), 'utf8');
   assert.match(appSrc, /hydrateShelfFilmEnrichment/);
+  assert.match(appSrc, /hydrateFilmEnrichmentForIds/);
 });
 
 test('10. findCanonicalHomeFilm joins by filmId when slug is absent', () => {
@@ -455,6 +457,7 @@ test('10. findCanonicalHomeFilm joins by filmId when slug is absent', () => {
 });
 
 test('hydrate merges TMDB snapshots into enrichment index for cold shelf ids', async () => {
+  resetFilmEnrichmentHydrationState();
   setCachedTmdbOnlyFilm('tmdb:1675218', {
     filmId: 'tmdb:1675218',
     title: 'Sara Bareilles: Good Grief',
