@@ -31,6 +31,88 @@ export const EXPERIENCE_CANONICAL_IDS = Object.freeze([
 ]);
 
 /**
+ * Showtime accessibility metadata — valid for filters / Film Detail rows /
+ * Formats & Experiences destinations, but NOT for Special Presentations
+ * qualification or "special format" discovery promotion.
+ * @type {readonly string[]}
+ */
+export const ACCESSIBILITY_CANONICAL_IDS = Object.freeze([
+  'open-caption',
+  'closed-caption',
+  'audio-description',
+]);
+
+const ACCESSIBILITY_CANONICAL_SET = new Set(ACCESSIBILITY_CANONICAL_IDS);
+
+/**
+ * Experiences that can independently qualify Special Presentations.
+ * Accessibility experiences are intentionally excluded.
+ * @type {readonly ExperienceCanonicalId[]}
+ */
+export const SPECIAL_PRESENTATION_EXPERIENCE_IDS = Object.freeze(
+  EXPERIENCE_CANONICAL_IDS.filter((id) => !ACCESSIBILITY_CANONICAL_SET.has(id)),
+);
+
+/**
+ * @param {unknown} canonicalId
+ * @returns {boolean}
+ */
+export function isAccessibilityCanonicalId(canonicalId) {
+  return (
+    typeof canonicalId === 'string' &&
+    ACCESSIBILITY_CANONICAL_SET.has(canonicalId.trim())
+  );
+}
+
+/**
+ * Whether a raw format/experience label is accessibility metadata.
+ * @param {unknown} raw
+ * @param {{ exhibitorHint?: string | null }} [opts]
+ * @returns {boolean}
+ */
+export function isAccessibilityFormatLabel(raw, opts = {}) {
+  if (typeof raw !== 'string' || !raw.trim()) return false;
+  const { formatId, experienceId } = classifyFormatLabel(raw, opts);
+  if (formatId && isAccessibilityCanonicalId(formatId)) return true;
+  if (experienceId && isAccessibilityCanonicalId(experienceId)) return true;
+  // Closed captions often appear as a format_tags slug without an experience id.
+  const slug = slugify(raw);
+  if (slug === 'closed-caption' || slug === 'closed-captions' || slug === 'cc') {
+    return true;
+  }
+  const collapsed = collapseKey(raw);
+  return (
+    collapsed === 'closed caption' ||
+    collapsed === 'closed captions' ||
+    collapsed === 'cc'
+  );
+}
+
+/**
+ * True when labels include at least one non-accessibility presentation
+ * (premium format or genuine experience such as live-score).
+ * @param {unknown} rawLabels
+ * @param {{ exhibitorHint?: string | null }} [opts]
+ * @returns {boolean}
+ */
+export function hasSpecialPresentationLabel(rawLabels, opts = {}) {
+  if (!Array.isArray(rawLabels) || rawLabels.length === 0) return false;
+  for (const raw of rawLabels) {
+    if (isAccessibilityFormatLabel(raw, opts)) continue;
+    const { formatId, experienceId } = classifyFormatLabel(raw, opts);
+    if (formatId) return true;
+    if (
+      experienceId &&
+      SPECIAL_PRESENTATION_EXPERIENCE_IDS.includes(experienceId)
+    ) {
+      return true;
+    }
+    // Unmapped non-a11y tags are not treated as special presentations.
+  }
+  return false;
+}
+
+/**
  * Exact / known slug aliases → canonical format id.
  * Ambiguous tokens are intentionally omitted.
  * @type {Readonly<Record<string, FormatCanonicalId>>}

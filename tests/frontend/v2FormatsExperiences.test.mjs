@@ -449,3 +449,35 @@ test('Landing filters can hide unavailable rows', () => {
     false,
   );
 });
+
+test('accessibility taxonomy helper separates discovery specialness from OC/AD destinations', async () => {
+  const {
+    ACCESSIBILITY_CANONICAL_IDS,
+    SPECIAL_PRESENTATION_EXPERIENCE_IDS,
+    EXPERIENCE_CANONICAL_IDS,
+    hasSpecialPresentationLabel,
+    isAccessibilityFormatLabel,
+  } = await import('../../v2/formatsExperiences/formatNormalize.js');
+
+  assert.deepEqual([...ACCESSIBILITY_CANONICAL_IDS], [
+    'open-caption',
+    'closed-caption',
+    'audio-description',
+  ]);
+  assert.equal(SPECIAL_PRESENTATION_EXPERIENCE_IDS.includes('live-score'), true);
+  assert.equal(SPECIAL_PRESENTATION_EXPERIENCE_IDS.includes('open-caption'), false);
+  assert.equal(SPECIAL_PRESENTATION_EXPERIENCE_IDS.includes('audio-description'), false);
+  assert.equal(EXPERIENCE_CANONICAL_IDS.includes('open-caption'), true);
+  assert.equal(EXPERIENCE_CANONICAL_IDS.includes('audio-description'), true);
+
+  assert.equal(isAccessibilityFormatLabel('Open Captions'), true);
+  assert.equal(isAccessibilityFormatLabel('audio-description'), true);
+  assert.equal(isAccessibilityFormatLabel('IMAX'), false);
+  assert.equal(hasSpecialPresentationLabel(['Open Captions']), false);
+  assert.equal(hasSpecialPresentationLabel(['Audio Description']), false);
+  assert.equal(
+    hasSpecialPresentationLabel(['IMAX', 'Open Captions']),
+    true,
+  );
+  assert.equal(hasSpecialPresentationLabel(['Live Score']), true);
+});

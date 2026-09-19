@@ -17,6 +17,7 @@ import {
 } from '../explore/exploreCatalog.js';
 import {
   CANONICAL_BROWSE_LABEL,
+  ACCESSIBILITY_CANONICAL_IDS,
   classifyFormatLabel,
 } from '../formatsExperiences/formatNormalize.js';
 import { isIsoDate, isLocalTime } from '../adapters/opportunityIdentity.js';
@@ -53,10 +54,9 @@ export const PREMIUM_FORMAT_IDS = Object.freeze([
 ]);
 
 /** Accessibility experiences — never inflate rare/premium. */
-export const ACCESSIBILITY_EXPERIENCE_IDS = Object.freeze([
-  'open-caption',
-  'audio-description',
-]);
+export const ACCESSIBILITY_EXPERIENCE_IDS = Object.freeze(
+  ACCESSIBILITY_CANONICAL_IDS.filter((id) => id !== 'closed-caption'),
+);
 
 /** Raw a11y tags that may not map through experience aliases. */
 const RAW_CLOSED_CAPTION_SLUGS = Object.freeze([

@@ -65,7 +65,7 @@ export function buildLiveSpecialPresentationsPresentation(
       countLabel: null,
       emptyTitle: 'No special presentations right now',
       emptyBody:
-        'When IMAX, film, Dolby, captions, or other special screenings are playing, they’ll show up here.',
+        'When IMAX, film, Dolby, or other special screenings are playing, they’ll show up here.',
       sortLabel: 'Sort',
       filtersLabel: 'Filters',
       films: [],
@@ -136,8 +136,8 @@ export function buildLiveSpecialPresentationsPresentation(
       theaterName: theaterLine,
       theaters,
       timeLabel: bestOpportunity?.timeDisplay ?? null,
-      // Qualifying special-presentation labels only (includes OC/AD when they
-      // are what made an opportunity special — never generic Closed Captions).
+      // Qualifying special-presentation labels only (premium formats / live-score).
+      // Accessibility (OC/AD/CC) never appears as film-level SP identity.
       formatLabel,
       formatLabels: presentationLabels,
       presentationCanonicalIds: row.presentationCanonicalIds,

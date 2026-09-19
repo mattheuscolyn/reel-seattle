@@ -13,7 +13,8 @@
  *    sortableLocalDateTime (“Unknown theater” theaterName is excluded).
  * 4. Fill slots in order:
  *    a. One newly-added film (earliest chronological among newly-added reps)
- *    b. One special-format film (non-empty formatLabels; earliest; not yet selected)
+ *    b. One special-format film (non-accessibility presentation labels;
+ *       earliest; not yet selected)
  *    c. One limited-listings film (filmShowtimeCount <= LIMITED_SHOWTIME_MAX;
  *       earliest; not yet selected)
  *    d. Remaining slots by upcoming sortableLocalDateTime, preferring
@@ -22,7 +23,11 @@
  *    inclusion (or showing_soon when filled only by chronology).
  *
  * Labels explain inclusion mechanics — never cultural importance or taste.
+ * Accessibility-only tags (Open Captions / Audio Description / Closed Captions)
+ * do not count as special_format.
  */
+
+import { hasSpecialPresentationLabel } from '../formatsExperiences/formatNormalize.js';
 
 export const TOP_OPPORTUNITIES_DEFAULT_MAX = 3;
 export const TOP_OPPORTUNITIES_HARD_MAX = 5;
@@ -109,11 +114,24 @@ function compareChronological(a, b) {
 
 /**
  * @param {object} candidate
+ * @returns {boolean}
+ */
+function hasSpecialFormatLabels(candidate) {
+  const labels = Array.isArray(candidate?.formatLabels)
+    ? candidate.formatLabels
+    : [];
+  const exhibitorHint =
+    typeof candidate?.theaterName === 'string' ? candidate.theaterName : null;
+  return hasSpecialPresentationLabel(labels, { exhibitorHint });
+}
+
+/**
+ * @param {object} candidate
  * @returns {string}
  */
 export function assignPrimaryReasonCode(candidate) {
   if (candidate.isNewlyAdded === true) return SELECTION_REASON_CODES.newly_added;
-  if (Array.isArray(candidate.formatLabels) && candidate.formatLabels.length > 0) {
+  if (hasSpecialFormatLabels(candidate)) {
     return SELECTION_REASON_CODES.special_format;
   }
   if (
@@ -274,9 +292,7 @@ export function selectTopOpportunities(homeData, options = {}) {
     pickFirst((c) => c.isNewlyAdded === true);
   }
   if (selected.length < max) {
-    pickFirst(
-      (c) => Array.isArray(c.formatLabels) && c.formatLabels.length > 0,
-    );
+    pickFirst((c) => hasSpecialFormatLabels(c));
   }
   if (selected.length < max) {
     pickFirst(
@@ -315,7 +331,7 @@ export function selectTopOpportunities(homeData, options = {}) {
     if (
       reasonCode === SELECTION_REASON_CODES.multiple_theaters &&
       candidate.isNewlyAdded !== true &&
-      !(Array.isArray(candidate.formatLabels) && candidate.formatLabels.length > 0) &&
+      !hasSpecialFormatLabels(candidate) &&
       !(
         typeof candidate.filmShowtimeCount === 'number' &&
         candidate.filmShowtimeCount <= LIMITED_SHOWTIME_MAX
