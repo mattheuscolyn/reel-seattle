@@ -9,10 +9,12 @@ import pytest
 
 from reel_seattle.emit.current import (
     CURRENT_SCHEMA_VERSION,
+    WINDOW_DAYS,
     build_showtimes_current,
     make_showtime_id,
     write_showtimes_current,
 )
+from reel_seattle.showtime_horizon import PUBLIC_SHOWTIME_HORIZON_POLICY
 from reel_seattle.normalize import format_date_csv, format_date_iso
 
 PACIFIC = ZoneInfo("America/Los_Angeles")
@@ -56,7 +58,7 @@ def artifact(theaters_registry):
     rows = [
         _history_row(REFERENCE, premium_format="IMAX, Dolby Cinema"),
         _history_row(REFERENCE - timedelta(days=1), film="Past Film"),
-        _history_row(REFERENCE + timedelta(days=15), film="Too Far"),
+        _history_row(REFERENCE + timedelta(days=120), film="Far Future"),
         _history_row(REFERENCE, film="Canceled Film", canceled=True),
         _history_row(
             REFERENCE,
@@ -79,13 +81,16 @@ def artifact(theaters_registry):
     )
 
 
-def test_window_includes_today_through_fourteen_days(artifact):
+def test_window_is_all_known_future_with_latest_end_date(artifact):
+    assert PUBLIC_SHOWTIME_HORIZON_POLICY == "all_known_future"
+    assert WINDOW_DAYS is None
     dates = {row["date"] for row in artifact["showtimes"]}
     assert format_date_iso(REFERENCE) in dates
     assert format_date_iso(REFERENCE + timedelta(days=14)) in dates
+    assert format_date_iso(REFERENCE + timedelta(days=120)) in dates
     assert artifact["window"] == {
-        "start_date": "2026-06-26",
-        "end_date": "2026-07-10",
+        "start_date": format_date_iso(REFERENCE),
+        "end_date": format_date_iso(REFERENCE + timedelta(days=120)),
     }
 
 
@@ -93,9 +98,25 @@ def test_past_rows_excluded(artifact):
     assert all(row["film_title"] != "Past Film" for row in artifact["showtimes"])
 
 
-def test_rows_beyond_window_excluded(artifact):
-    """Public emit stays on the 14-day viewing horizon even if history has farther rows."""
-    assert all(row["film_title"] != "Too Far" for row in artifact["showtimes"])
+def test_far_future_rows_included_under_all_known_future(artifact):
+    """All-known-future emit retains far-advance bookings from history."""
+    assert any(row["film_title"] == "Far Future" for row in artifact["showtimes"])
+
+
+def test_empty_future_window_end_equals_start(theaters_registry):
+    """No future rows → window.end_date equals window.start_date."""
+    rows = [_history_row(REFERENCE - timedelta(days=1), film="Past Only")]
+    artifact = build_showtimes_current(
+        rows,
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    assert artifact["stats"]["showtime_count"] == 0
+    assert artifact["window"] == {
+        "start_date": format_date_iso(REFERENCE),
+        "end_date": format_date_iso(REFERENCE),
+    }
 
 
 def test_canceled_rows_excluded(artifact):
@@ -293,9 +314,13 @@ def test_write_showtimes_current_writes_valid_json(tmp_path, theaters_registry):
         reference_date=REFERENCE,
     )
 
-    loaded = json.loads(output_path.read_text(encoding="utf-8"))
+    raw = output_path.read_text(encoding="utf-8")
+    loaded = json.loads(raw)
     assert loaded == artifact
     assert output_path.exists()
+    assert artifact["window"]["end_date"] == format_date_iso(REFERENCE)
+    # Repo source stays pretty (indent=2); deployment builds compact separately.
+    assert "\n  " in raw
 
 
 def test_parent_fields_emitted_for_regular_films(theaters_registry):

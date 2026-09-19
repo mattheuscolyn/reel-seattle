@@ -466,8 +466,8 @@ def fetch_amc_showtimes(
 ) -> FetchResult:
     """Fetch all currently announced future AMC showtimes for enabled theaters.
 
-    Does not use ``FetchContext.window_end`` as a product horizon. Public UI
-    horizon is enforced later by ``reel_seattle.emit.current.WINDOW_DAYS``.
+    Does not use ``FetchContext.window_end`` as a product horizon. Public emit
+    keeps all retained future rows (``all_known_future``); UIs own display horizons.
     """
     session = _session_for_context(context)
     all_theaters_fn = get_all_theaters_fn or get_all_theaters

@@ -89,6 +89,23 @@ test('copyAllowedV2DataArtifacts writes allowlisted JSON only into outDir/data',
   }
 });
 
+test('showtimes_current deployment copy is compact but deep-equal to pretty source', () => {
+  const outDir = mkdtempSync(join(tmpdir(), 'v2-data-compact-'));
+  try {
+    copyAllowedV2DataArtifacts({ outDir });
+    const sourcePath = join(V2_PUBLIC_DATA_ROOT, 'showtimes_current.json');
+    const destPath = join(outDir, 'data', 'showtimes_current.json');
+    const sourceRaw = readFileSync(sourcePath, 'utf8');
+    const destRaw = readFileSync(destPath, 'utf8');
+    assert.ok(sourceRaw.includes('\n  '), 'source should stay pretty');
+    assert.equal(destRaw.includes('\n  '), false, 'deploy copy should be compact');
+    assert.deepEqual(JSON.parse(sourceRaw), JSON.parse(destRaw));
+    assert.ok(destRaw.length < sourceRaw.length);
+  } finally {
+    rmSync(outDir, { recursive: true, force: true });
+  }
+});
+
 test('copyAllowedV2DataArtifacts fails when required source is missing', () => {
   const outDir = mkdtempSync(join(tmpdir(), 'v2-data-copy-miss-'));
   try {

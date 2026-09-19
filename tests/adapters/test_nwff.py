@@ -35,12 +35,14 @@ GENERATED_AT = "2026-07-15T12:05:00-07:00"
 THEATER_IDS = {NWFF_THEATER_ID, "the-beacon", "siff-cinema-uptown"}
 
 
-def test_default_window_is_inclusive_14_days():
+def test_default_window_covers_indie_scrape_horizon():
+    from reel_seattle.showtime_horizon import INDIE_SCRAPE_HORIZON_DAYS
+
     now = datetime(2026, 7, 20, 9, 0, tzinfo=PACIFIC)
     start, end = default_nwff_window(now=now)
     assert start == date(2026, 7, 20)
-    assert end == date(2026, 8, 2)
-    assert (end - start).days == 13
+    assert end == start + timedelta(days=INDIE_SCRAPE_HORIZON_DAYS)
+    assert (end - start).days == INDIE_SCRAPE_HORIZON_DAYS
 
 
 def test_fixture_success_emits_contract_and_option_c_log():
