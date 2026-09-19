@@ -440,3 +440,55 @@ test('special format reason uses format labels', () => {
   assert.equal(selected[0].selectionReasonLabel, 'Special format');
   assert.equal(selected[0].supportingFacts.formatLabel, 'IMAX');
 });
+
+test('accessibility-only labels do not qualify as special_format', () => {
+  assert.equal(
+    assignPrimaryReasonCode(
+      candidate({ formatLabels: ['Audio Description'] }),
+    ),
+    SELECTION_REASON_CODES.showing_soon,
+  );
+  assert.equal(
+    assignPrimaryReasonCode(candidate({ formatLabels: ['Open Captions'] })),
+    SELECTION_REASON_CODES.showing_soon,
+  );
+  assert.equal(
+    assignPrimaryReasonCode(
+      candidate({
+        formatLabels: ['Audio Description', 'Closed Captions'],
+      }),
+    ),
+    SELECTION_REASON_CODES.showing_soon,
+  );
+  assert.equal(
+    assignPrimaryReasonCode(
+      candidate({ formatLabels: ['IMAX', 'Audio Description'] }),
+    ),
+    SELECTION_REASON_CODES.special_format,
+  );
+  assert.equal(
+    assignPrimaryReasonCode(
+      candidate({ formatLabels: ['70mm', 'Open Captions'] }),
+    ),
+    SELECTION_REASON_CODES.special_format,
+  );
+
+  const selected = selectTopOpportunities(
+    homeFromCandidates([
+      candidate({
+        filmKey: 'ad-only',
+        title: 'AD Only',
+        opportunityKey: 'ad-only',
+        formatLabels: ['audio-description'],
+        chronologicalKey: '2026-06-28T19:00|t1|ad-only|ad-only',
+        filmShowtimeCount: 5,
+        filmTheaterCount: 1,
+      }),
+    ]),
+  );
+  assert.equal(selected.length, 1);
+  assert.notEqual(
+    selected[0].selectionReasonCode,
+    SELECTION_REASON_CODES.special_format,
+  );
+});

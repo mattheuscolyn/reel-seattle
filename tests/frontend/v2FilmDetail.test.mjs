@@ -613,3 +613,85 @@ test('Film Detail surface reuses shared enrichmentIndex (no second fetch)', () =
   assert.equal(SURFACE.includes('enrichmentIndex'), true);
   assert.ok(APP.includes('enrichmentIndex={enrichmentState.index}'));
 });
+
+test('Film Detail hero prefers premium presentation over accessibility', async () => {
+  const {
+    buildFilmHero,
+    buildTodaysShowtimes,
+    opportunityFormatLabel,
+    opportunityHeroFormatLabel,
+  } = await import('../../v2/filmDetail/filmDetailModel.js');
+  const { primaryPresentationLabel } = await import(
+    '../../v2/showtimes/canonicalScreening.js'
+  );
+
+  const premiumOpp = {
+    opportunityKey: 'opp-dolby-ad',
+    filmKey: 'film-x',
+    theaterId: 'amc-1',
+    theaterName: 'AMC Pacific Place 11',
+    localDate: '2026-09-07',
+    localTime: '19:00',
+    timeDisplay: '7:00 PM',
+    formatLabels: [
+      'Audio Description',
+      'dolby-cinema-at-amc',
+      'Closed Captions',
+    ],
+  };
+  assert.equal(opportunityHeroFormatLabel(premiumOpp), 'Dolby Cinema');
+  assert.equal(opportunityFormatLabel(premiumOpp), 'Dolby Cinema');
+  assert.equal(
+    primaryPresentationLabel(premiumOpp.formatLabels),
+    'Dolby Cinema',
+  );
+  const hero = buildFilmHero(
+    { filmKey: 'film-x', title: 'Film X', runtimeMin: 120 },
+    premiumOpp,
+  );
+  assert.equal(hero.badges.some((b) => b.label === 'DOLBY CINEMA'), true);
+  assert.equal(hero.badges.some((b) => /AUDIO DESCRIPTION/i.test(b.label)), false);
+
+  const a11yOnlyOpp = {
+    opportunityKey: 'opp-ad',
+    filmKey: 'film-ad',
+    theaterId: 'amc-1',
+    theaterName: 'AMC Pacific Place 11',
+    localDate: '2026-09-07',
+    localTime: '19:00',
+    timeDisplay: '7:00 PM',
+    formatLabels: ['Audio Description'],
+  };
+  assert.equal(opportunityHeroFormatLabel(a11yOnlyOpp), null);
+  assert.equal(opportunityFormatLabel(a11yOnlyOpp), 'Audio Description');
+  assert.equal(primaryPresentationLabel(a11yOnlyOpp.formatLabels), null);
+  const a11yHero = buildFilmHero(
+    { filmKey: 'film-ad', title: 'AD Film', runtimeMin: 100 },
+    a11yOnlyOpp,
+  );
+  assert.equal(
+    a11yHero.badges.some((b) => /AUDIO DESCRIPTION|OPEN CAPTIONS/i.test(b.label)),
+    false,
+  );
+
+  const today = new Date('2026-09-07T19:00:00-07:00');
+  const home = {
+    films: [{ filmKey: 'film-ad', title: 'AD Film', runtimeMin: 100 }],
+    opportunities: [
+      {
+        ...a11yOnlyOpp,
+        localDate: '2026-09-07',
+        screeningVariantType: 'audio_description',
+      },
+    ],
+  };
+  const todays = buildTodaysShowtimes(home, 'film-ad', null, { now: today });
+  assert.ok(
+    todays.rows[0].times.some(
+      (t) =>
+        t.formatLabel === 'Audio Description' ||
+        String(t.detailLabel ?? '').includes('Audio Description') ||
+        todays.rows[0].formatChips.includes('Audio Description'),
+    ),
+  );
+});

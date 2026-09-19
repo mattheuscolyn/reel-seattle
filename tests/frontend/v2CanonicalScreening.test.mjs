@@ -10,6 +10,7 @@ import {
   dedupeScreeningsByContent,
   formatPresentationLabel,
   formatPresentationLabels,
+  primaryPresentationLabel,
   isActionableScreening,
   isPastScreening,
   scheduleScreeningState,
@@ -136,6 +137,19 @@ test('raw format slugs never become user-facing labels', () => {
     formatPresentationLabels(['imax-at-amc', 'IMAX', 'closed-caption']),
     ['IMAX', 'Closed Captions'],
   );
+});
+
+test('primaryPresentationLabel prefers premium over accessibility; a11y-only is null', () => {
+  assert.equal(
+    primaryPresentationLabel(['Audio Description', 'Dolby Cinema']),
+    'Dolby Cinema',
+  );
+  assert.equal(
+    primaryPresentationLabel(['Open Captions', 'IMAX']),
+    'IMAX',
+  );
+  assert.equal(primaryPresentationLabel(['Audio Description']), null);
+  assert.equal(primaryPresentationLabel(['open-caption']), null);
 });
 
 test('source-label differences collapse to one content identity', () => {

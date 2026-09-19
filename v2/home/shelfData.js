@@ -323,9 +323,10 @@ export const HOME_JUST_ANNOUNCED_MAX_CARDS = 6;
 export const JUST_ANNOUNCED_WINDOW_DAYS = 7;
 
 /**
- * Films with notable format/experience showtimes (IMAX, 70mm, OC, etc.).
+ * Films with notable format/experience showtimes (IMAX, 70mm, Dolby, Live Score, etc.).
  * Dedupes by film; prefers soonest qualifying showtime among ties on priority.
  * Qualification: SPECIAL_PRESENTATION_CANONICAL_IDS via collectSpecialPresentationsByFilm.
+ * Accessibility (OC/AD/CC) does not qualify.
  *
  * @param {object | null} homeData
  * @param {object | null} [enrichmentIndex]
@@ -355,7 +356,7 @@ export function buildSpecialPresentationsShelf(
       reason: 'No special presentations right now.',
       emptyTitle: 'No special presentations right now',
       emptyBody:
-        'When IMAX, film, Dolby, captions, or other special screenings are playing, they’ll show up here.',
+        'When IMAX, film, Dolby, or other special screenings are playing, they’ll show up here.',
       semantics: 'special-presentations-empty',
       films: [],
     };

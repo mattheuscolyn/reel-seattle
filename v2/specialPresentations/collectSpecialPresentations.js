@@ -2,16 +2,17 @@
  * Canonical Special Presentations film collection.
  *
  * Qualification matches Home shelf semantics: an opportunity qualifies when it
- * matches any id in SPECIAL_PRESENTATION_CANONICAL_IDS (format + experience
- * canonicals from formatNormalize — e.g. 70mm, IMAX, Live Score, Open Captions).
+ * matches any id in SPECIAL_PRESENTATION_CANONICAL_IDS — distinctive theatrical
+ * formats plus genuine experiences (e.g. Live Score). Accessibility metadata
+ * (Open Captions / Audio Description / Closed Captions) does NOT qualify.
  *
  * List is film-level: one entry per film with aggregated qualifying opportunities.
  */
 
 import {
   CANONICAL_BROWSE_LABEL,
-  EXPERIENCE_CANONICAL_IDS,
   FORMAT_CANONICAL_IDS,
+  SPECIAL_PRESENTATION_EXPERIENCE_IDS,
   opportunityMatchesCanonical,
 } from '../formatsExperiences/formatNormalize.js';
 import { isShortsProgramListing } from '../home/excludeShortsProgramsFromStandardHome.js';
@@ -27,13 +28,11 @@ export const SPECIAL_PRESENTATION_PRIORITY = Object.freeze([
   'xl-amc',
   'reald-3d',
   'live-score',
-  'open-caption',
-  'audio-description',
 ]);
 
 export const SPECIAL_PRESENTATION_CANONICAL_IDS = Object.freeze([
   ...FORMAT_CANONICAL_IDS,
-  ...EXPERIENCE_CANONICAL_IDS,
+  ...SPECIAL_PRESENTATION_EXPERIENCE_IDS,
 ]);
 
 /**

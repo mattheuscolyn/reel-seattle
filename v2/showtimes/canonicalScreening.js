@@ -19,6 +19,7 @@ import {
   opportunitySortableKey,
   pacificSortableDateTime,
 } from './showtimeEligibility.js';
+import { isAccessibilityFormatLabel } from '../formatsExperiences/formatNormalize.js';
 
 export const SEATTLE_TIMEZONE = 'America/Los_Angeles';
 
@@ -189,7 +190,17 @@ export function formatPresentationLabels(rawLabels) {
  * @returns {string | null}
  */
 export function primaryPresentationLabel(rawLabels) {
-  return formatPresentationLabels(rawLabels)[0] ?? null;
+  const labels = formatPresentationLabels(rawLabels);
+  if (labels.length === 0) return null;
+  const rawList = Array.isArray(rawLabels) ? rawLabels : [];
+  // Prefer non-accessibility presentation when both are present.
+  for (let i = 0; i < rawList.length; i += 1) {
+    const raw = rawList[i];
+    if (isAccessibilityFormatLabel(raw)) continue;
+    const label = formatPresentationLabel(raw);
+    if (label) return label;
+  }
+  return null;
 }
 
 const ACCESSIBILITY_LABELS = new Set([

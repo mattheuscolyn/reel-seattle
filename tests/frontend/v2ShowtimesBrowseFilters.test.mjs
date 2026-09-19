@@ -378,6 +378,44 @@ test('formats: normalized keys', () => {
   );
 });
 
+test('formats: Open Captions and Audio Description filters still match', () => {
+  assert.equal(
+    opportunityMatchesBrowseFormats(
+      { formatLabels: ['open-caption', 'audio-description'] },
+      ['open captions'],
+    ),
+    true,
+  );
+  assert.equal(
+    opportunityMatchesBrowseFormats(
+      { formatLabels: ['Open Captions'] },
+      ['open captions'],
+    ),
+    true,
+  );
+  assert.equal(
+    opportunityMatchesBrowseFormats(
+      { formatLabels: ['Audio Description'] },
+      ['audio description'],
+    ),
+    true,
+  );
+  assert.equal(
+    opportunityMatchesBrowseFormats(
+      { formatLabels: ['Digital'] },
+      ['open captions'],
+    ),
+    false,
+  );
+  assert.equal(
+    opportunityMatchesBrowseFormats(
+      { formatLabels: ['IMAX', 'Open Captions'] },
+      ['open captions'],
+    ),
+    true,
+  );
+});
+
 // SAVED / SEEN / NI (27–36)
 test('user state: saved only', () => {
   const storage = memoryStorage();

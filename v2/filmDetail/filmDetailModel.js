@@ -13,6 +13,7 @@ import {
   resolveClock,
   scheduleScreeningState,
 } from '../showtimes/canonicalScreening.js';
+import { isAccessibilityFormatLabel } from '../formatsExperiences/formatNormalize.js';
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 import { unresolvedProgramLabel } from './unresolvedProgramLabels.js';
 
@@ -204,13 +205,53 @@ function premiumScore(opp) {
 }
 
 /**
+ * Split format labels into distinctive presentation vs accessibility.
+ * @param {object} opportunity
+ * @returns {{ presentation: string[], accessibility: string[] }}
+ */
+function splitOpportunityFormatLabels(opportunity) {
+  const rawLabels = Array.isArray(opportunity?.formatLabels)
+    ? opportunity.formatLabels
+    : [];
+  const exhibitorHint =
+    typeof opportunity?.theaterName === 'string' ? opportunity.theaterName : null;
+  /** @type {string[]} */
+  const presentation = [];
+  /** @type {string[]} */
+  const accessibility = [];
+  const seen = new Set();
+  for (const raw of rawLabels) {
+    const label = formatPresentationLabel(raw);
+    if (!label) continue;
+    const key = label.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    if (isAccessibilityFormatLabel(raw, { exhibitorHint })) {
+      accessibility.push(label);
+    } else {
+      presentation.push(label);
+    }
+  }
+  return { presentation, accessibility };
+}
+
+/**
+ * Showtime-row format label: prefer distinctive presentation, then accessibility.
+ * Accessibility remains visible on the specific showtime when that is all it has.
  * @param {object} opportunity
  */
 export function opportunityFormatLabel(opportunity) {
-  const labels = (opportunity?.formatLabels ?? [])
-    .map(formatPresentationLabel)
-    .filter(Boolean);
-  return labels[0] ?? null;
+  const { presentation, accessibility } = splitOpportunityFormatLabels(opportunity);
+  return presentation[0] ?? accessibility[0] ?? null;
+}
+
+/**
+ * Film-level / hero presentation identity — never AD/OC/CC alone.
+ * @param {object | null | undefined} opportunity
+ */
+export function opportunityHeroFormatLabel(opportunity) {
+  if (!opportunity) return null;
+  return splitOpportunityFormatLabels(opportunity).presentation[0] ?? null;
 }
 
 /**
@@ -387,7 +428,7 @@ export function buildWhySeeItSignals(homeData, film) {
 export function buildBestWayCard(opportunity, film, homeData = null) {
   if (!opportunity) return null;
   const today = pacificDateString();
-  const formatLabel = opportunityFormatLabel(opportunity);
+  const formatLabel = opportunityHeroFormatLabel(opportunity);
   const dateLabel =
     opportunity.localDate === today
       ? 'Today'
@@ -595,7 +636,7 @@ export function buildTodaysShowtimes(
 export function buildFilmHero(film, bestOpp) {
   if (!film) return null;
   const badges = [];
-  const formatLabel = opportunityFormatLabel(bestOpp);
+  const formatLabel = opportunityHeroFormatLabel(bestOpp);
   if (formatLabel) {
     badges.push({ id: 'fmt', label: formatLabel.toUpperCase(), tone: 'neutral' });
   }

@@ -257,8 +257,9 @@ test('labels derive from canonical qualifying data and dedupe', () => {
   );
   const dune = presentation.films.find((f) => f.filmKey === 'dune');
   assert.ok(dune);
-  assert.deepEqual(dune.presentationCanonicalIds, ['imax', 'open-caption']);
-  assert.equal(dune.formatLabel, 'IMAX · Open Captions');
+  // Open Captions do not qualify or appear in film-level SP identity.
+  assert.deepEqual(dune.presentationCanonicalIds, ['imax']);
+  assert.equal(dune.formatLabel, 'IMAX');
   assert.equal(
     formatCompactPresentationLabelLine(dune.formatLabels),
     dune.formatLabel,
@@ -286,16 +287,18 @@ test('theater aggregation uses only qualifying special opportunities', () => {
     homeWithSpecials(),
   );
   const dune = presentation.films.find((f) => f.filmKey === 'dune');
-  assert.equal(dune.theaters.length, 2);
+  // OC-only SIFF opportunity is excluded; only IMAX theater remains.
+  assert.equal(dune.theaters.length, 1);
   assert.equal(
     dune.theaters.some((t) => t.name === 'Central Cinema'),
     false,
   );
   assert.equal(
-    dune.theaterName,
-    'AMC Pacific Place 11 · SIFF Cinema Uptown',
+    dune.theaters.some((t) => t.name === 'SIFF Cinema Uptown'),
+    false,
   );
-  assert.equal(dune.dateLabel, 'Sep 6');
+  assert.equal(dune.theaterName, 'AMC Pacific Place 11');
+  assert.equal(dune.dateLabel, 'Sep 7');
 
   const sinners = presentation.films.find((f) => f.filmKey === 'sinners');
   assert.equal(sinners.theaters.length, 3);
@@ -321,7 +324,7 @@ test('default sort is soonest qualifying presentation', () => {
     'soonest-presentation',
   );
   assert.equal(sorted[0].filmKey, 'dune');
-  assert.equal(sorted[0].earliestLocalDate, '2026-09-06');
+  assert.equal(sorted[0].earliestLocalDate, '2026-09-07');
   assert.ok(
     sorted[0].earliestSortableLocalDateTime <=
       sorted[1].earliestSortableLocalDateTime,
@@ -379,4 +382,178 @@ test('other shelf-detail surfaces remain independent; no duplicate shell', () =>
     SP_SRC,
     /from '\.\.\/homeShelfDetail\/HomeShelfDetailSurface\.jsx'/,
   );
+});
+
+test('AD-only and OC-only opportunities do not qualify for Special Presentations', () => {
+  const home = {
+    timezone: 'America/Los_Angeles',
+    films: [
+      {
+        filmKey: 'ad-only',
+        title: 'AD Only',
+        theaterCount: 1,
+        showtimeCount: 1,
+        runtimeMin: 100,
+        posterUrl: null,
+        filmId: null,
+      },
+      {
+        filmKey: 'oc-only',
+        title: 'OC Only',
+        theaterCount: 1,
+        showtimeCount: 1,
+        runtimeMin: 100,
+        posterUrl: null,
+        filmId: null,
+      },
+      {
+        filmKey: 'cc-only',
+        title: 'CC Only',
+        theaterCount: 1,
+        showtimeCount: 1,
+        runtimeMin: 100,
+        posterUrl: null,
+        filmId: null,
+      },
+    ],
+    opportunities: [
+      {
+        opportunityKey: 'opp-ad',
+        filmKey: 'ad-only',
+        theaterId: 'amc-1',
+        theaterName: 'AMC Pacific Place 11',
+        localDate: '2026-09-07',
+        formatLabels: ['Audio Description'],
+        sortableLocalDateTime: '2026-09-07T19:00:00',
+      },
+      {
+        opportunityKey: 'opp-oc',
+        filmKey: 'oc-only',
+        theaterId: 'amc-1',
+        theaterName: 'AMC Pacific Place 11',
+        localDate: '2026-09-07',
+        formatLabels: ['Open Captions'],
+        sortableLocalDateTime: '2026-09-07T19:00:00',
+      },
+      {
+        opportunityKey: 'opp-cc',
+        filmKey: 'cc-only',
+        theaterId: 'amc-1',
+        theaterName: 'AMC Pacific Place 11',
+        localDate: '2026-09-07',
+        formatLabels: ['Closed Captions'],
+        sortableLocalDateTime: '2026-09-07T19:00:00',
+      },
+    ],
+  };
+  const collected = collectSpecialPresentationsByFilm(home);
+  assert.equal(collected.length, 0);
+  const shelf = buildSpecialPresentationsShelf(home);
+  assert.equal(shelf.films.length, 0);
+  const presentation = buildLiveSpecialPresentationsPresentation(home);
+  assert.equal(presentation.films.length, 0);
+});
+
+test('IMAX + OC qualifies via IMAX; OC is not film-level SP identity', () => {
+  const home = {
+    timezone: 'America/Los_Angeles',
+    films: [
+      {
+        filmKey: 'mixed',
+        title: 'Mixed',
+        theaterCount: 1,
+        showtimeCount: 1,
+        runtimeMin: 120,
+        posterUrl: null,
+        filmId: null,
+      },
+    ],
+    opportunities: [
+      {
+        opportunityKey: 'opp-mixed',
+        filmKey: 'mixed',
+        theaterId: 'amc-1',
+        theaterName: 'AMC Pacific Place 11',
+        localDate: '2026-09-07',
+        formatLabels: ['IMAX at AMC', 'Open Captions'],
+        sortableLocalDateTime: '2026-09-07T19:00:00',
+      },
+    ],
+  };
+  const collected = collectSpecialPresentationsByFilm(home);
+  assert.equal(collected.length, 1);
+  assert.deepEqual(collected[0].presentationCanonicalIds, ['imax']);
+  assert.equal(collected[0].bestCanonicalId, 'imax');
+  const presentation = buildLiveSpecialPresentationsPresentation(home);
+  assert.equal(presentation.films[0].formatLabel, 'IMAX');
+  assert.equal(presentation.films[0].formatLabels.includes('Open Captions'), false);
+});
+
+test('Dolby + AD qualifies via Dolby; primary identity is Dolby Cinema', () => {
+  const home = {
+    timezone: 'America/Los_Angeles',
+    films: [
+      {
+        filmKey: 'dolby-ad',
+        title: 'Dolby AD',
+        theaterCount: 1,
+        showtimeCount: 1,
+        runtimeMin: 120,
+        posterUrl: null,
+        filmId: null,
+      },
+    ],
+    opportunities: [
+      {
+        opportunityKey: 'opp-dolby-ad',
+        filmKey: 'dolby-ad',
+        theaterId: 'amc-1',
+        theaterName: 'AMC Pacific Place 11',
+        localDate: '2026-09-07',
+        formatLabels: ['Audio Description', 'Dolby Cinema at AMC'],
+        sortableLocalDateTime: '2026-09-07T19:00:00',
+      },
+    ],
+  };
+  const collected = collectSpecialPresentationsByFilm(home);
+  assert.equal(collected.length, 1);
+  assert.deepEqual(collected[0].presentationCanonicalIds, ['dolby-cinema']);
+  assert.equal(collected[0].bestCanonicalId, 'dolby-cinema');
+  const presentation = buildLiveSpecialPresentationsPresentation(home);
+  assert.equal(presentation.films[0].formatLabel, 'Dolby Cinema');
+  assert.equal(
+    presentation.films[0].formatLabels.includes('Audio Description'),
+    false,
+  );
+});
+
+test('live-score remains eligible for Special Presentations', () => {
+  const home = {
+    timezone: 'America/Los_Angeles',
+    films: [
+      {
+        filmKey: 'live',
+        title: 'Live Score Night',
+        theaterCount: 1,
+        showtimeCount: 1,
+        runtimeMin: 100,
+        posterUrl: null,
+        filmId: null,
+      },
+    ],
+    opportunities: [
+      {
+        opportunityKey: 'opp-live',
+        filmKey: 'live',
+        theaterId: 'beacon',
+        theaterName: 'The Beacon Cinema',
+        localDate: '2026-09-07',
+        formatLabels: ['Live Score'],
+        sortableLocalDateTime: '2026-09-07T19:00:00',
+      },
+    ],
+  };
+  const collected = collectSpecialPresentationsByFilm(home);
+  assert.equal(collected.length, 1);
+  assert.equal(collected[0].bestCanonicalId, 'live-score');
 });

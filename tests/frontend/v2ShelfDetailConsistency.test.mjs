@@ -173,7 +173,7 @@ test('month/day formatting and theater aggregation stay shared', () => {
   );
 });
 
-test('OTW/Leaving/JA omit generic a11y chips; SP may show qualifying OC/AD', () => {
+test('OTW/Leaving/JA omit generic a11y chips; SP no longer treats OC/AD as special', () => {
   assert.match(OPENING_SRC, /HomeShelfDetailFilmCard/);
   assert.equal(OPENING_SRC.includes('Closed Captions'), false);
   assert.equal(LEAVING_SRC.includes('Closed Captions'), false);
@@ -185,16 +185,13 @@ test('OTW/Leaving/JA omit generic a11y chips; SP may show qualifying OC/AD', () 
     ),
     /isOpeningScreeningLevelFormatLabel/,
   );
-  assert.match(
-    readFileSync(
-      join(
-        ROOT,
-        'v2/specialPresentations/buildLiveSpecialPresentationsPresentation.js',
-      ),
-      'utf8',
-    ),
-    /Open Captions|specialPresentationBrowseLabel/,
+  const spCollect = readFileSync(
+    join(ROOT, 'v2/specialPresentations/collectSpecialPresentations.js'),
+    'utf8',
   );
+  assert.match(spCollect, /SPECIAL_PRESENTATION_EXPERIENCE_IDS/);
+  assert.equal(spCollect.includes("'open-caption'"), false);
+  assert.equal(spCollect.includes("'audio-description'"), false);
 });
 
 test('shelf-specific control semantics remain distinct', () => {
