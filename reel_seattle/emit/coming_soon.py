@@ -1,14 +1,15 @@
 """Emit the production ``coming_soon_current.json`` artifact.
 
-Coming Soon answers: *what movies are expected to become theatrically available
-soon, including titles whose local Seattle showtimes have not been announced
-yet?* It looks 90 days ahead, deliberately wider than Opening This Week.
+Coming Soon is a *film-level* Seattle theatrical discovery calendar. A public
+row means the film has meaningful evidence of theatrical relevance to a Reel
+Seattle user — not merely that AMC lists the title in its national catalog.
 
 Four evidence facts are tracked independently and never inferred from each
 other:
 
 ``amc_coming_soon_catalog``
     The film appears in AMC's national ``/v2/movies/views/coming-soon`` catalog.
+    This is national evidence, not Seattle evidence.
 ``amc_theater_booking``
     A Seattle-area AMC theater has an actual performance booked (scrape log).
 ``tmdb_us_theatrical``
@@ -16,30 +17,36 @@ other:
 ``reel_seattle_scheduled``
     The published ``showtimes_current`` artifact has a screening.
 
-Classification (first match wins):
+``classification`` is pipeline/source state (first match wins):
 
 ``currently_available``
     A local screening falls on or before the current-availability cutoff. Never
     emitted as an entry; counted in diagnostics only.
 ``confirmed_local``
-    A *local* future screening exists past the cutoff. Strongest evidence.
+    A *local* future screening exists past the cutoff.
 ``amc_announced``
     In the AMC Coming Soon catalog with a catalog release date inside the
-    window. May have no performances anywhere and no Seattle booking.
+    window. May have no Seattle booking.
 ``tmdb_only``
-    TMDB evidence with neither AMC catalog membership nor a confirmed local
-    screening. Retained in the analysis artifact
-    (``data/audits/coming_soon_candidates_current.json``) and never shipped in
-    ``public/data/coming_soon_current.json``.
+    TMDB evidence without AMC catalog membership or a confirmed local
+    screening. Analysis-only.
 
-The public artifact contains only user-visible cards: ``confirmed_local`` and
-``amc_announced`` rows that survive the conservative presentation filter.
-High-confidence AMC product noise (private-theatre rentals, dated Untitled
-distributor slots, operational repeats) is kept in the analysis artifact.
+``relevance_tier`` is the Seattle-relevance answer that drives public
+film-calendar visibility:
 
-"Local" means Seattle-area: both the published showtimes artifact and the AMC
-scrape log cover the theater allowlist only. A booking somewhere else in the
-country never reaches this module and never makes a film ``confirmed_local``.
+``confirmed_local`` / ``locally_announced`` / ``strongly_expected``
+    Public by default (when presentation allows).
+``weak_national_only``
+    Analysis-only demotion of national AMC (or similar) rows.
+``strongly_expected`` is a *proxy* (AMC catalog ∩ TMDB US theatrical for an
+underlying film) — not proven Seattle availability.
+
+Q&A / Fan First / Fan Event / Early Access SKUs consolidate under the parent
+film as ``engagements`` rather than separate release cards. Orphan engagement
+SKUs that strip to the same base title may form a synthetic film-level group
+that inherits only child evidence (never fabricated identifiers).
+
+"Local" means Seattle-area allowlisted theaters only.
 """
 
 from __future__ import annotations
@@ -64,14 +71,27 @@ from reel_seattle.film_identity.public_emit import (
 from reel_seattle.emit.coming_soon_presentation import (
     DEFAULT_ENRICHMENT_PATH,
     DEFAULT_PRODUCTS_PATH,
+    KIND_FILM,
     classify_presentation_kind,
-    is_public_presentation,
     load_amc_product_index,
     load_enrichment_index,
     local_status_for,
     local_theaters_payload,
     resolve_presentation,
     theater_name_lookup,
+)
+from reel_seattle.emit.coming_soon_relevance import (
+    PUBLIC_RELEVANCE_TIERS,
+    RELEVANCE_CONFIRMED_LOCAL,
+    RELEVANCE_LOCALLY_ANNOUNCED,
+    RELEVANCE_SORT_RANK,
+    RELEVANCE_STRONGLY_EXPECTED,
+    RELEVANCE_WEAK_NATIONAL_ONLY,
+    assign_relevance_and_visibility,
+    build_engagement_record,
+    infer_engagement_base_title,
+    infer_engagement_kind,
+    is_engagement_title,
 )
 from reel_seattle.normalize import (
     DEFAULT_TIMEZONE,
@@ -86,21 +106,23 @@ from reel_seattle.validate import (
     validate_coming_soon_current,
 )
 
-COMING_SOON_SCHEMA_VERSION = "1.1.0"
-COMING_SOON_CANDIDATES_SCHEMA_VERSION = "1.0.0"
+COMING_SOON_SCHEMA_VERSION = "1.2.0"
+COMING_SOON_CANDIDATES_SCHEMA_VERSION = "1.1.0"
 METHOD_NAME = "independent_source_evidence_90d"
-METHOD_VERSION = "1.1.0"
+METHOD_VERSION = "1.2.0"
 METHOD_DESCRIPTION = (
-    "Coming Soon membership is a 90-day Pacific-local window over four "
-    "independent evidence facts: AMC Coming Soon catalog membership, "
-    "Seattle-area AMC theater bookings, TMDB US theatrical releases, and "
-    "published Reel Seattle showtimes. A film with any local screening on or "
-    "before the current-availability cutoff is excluded. Otherwise a local "
-    "future screening yields confirmed_local and AMC catalog membership with "
-    "an in-window catalog release date yields amc_announced. Those rows are "
-    "user-visible unless a high-confidence presentation filter marks them as "
-    "rental, untitled-placeholder, or operational SKUs. TMDB-only evidence is "
-    "retained in the analysis artifact and is never user-visible."
+    "Coming Soon is a film-level Seattle theatrical calendar over a 90-day "
+    "Pacific-local window. Four independent evidence facts are tracked: AMC "
+    "Coming Soon catalog membership (national), Seattle-area AMC theater "
+    "bookings, TMDB US theatrical releases, and published Reel Seattle "
+    "showtimes. classification remains pipeline/source state; relevance_tier "
+    "drives public visibility (confirmed_local, locally_announced, "
+    "strongly_expected). Bare national AMC catalog rows are weak_national_only "
+    "and analysis-only. strongly_expected is a proxy (AMC catalog ∩ TMDB US "
+    "theatrical for an underlying film), not proven Seattle availability. "
+    "Engagement SKUs (Q&A, Fan First, Early Access, Fan Event) consolidate "
+    "under the parent film. TMDB-only and special-programming rows stay in "
+    "the analysis artifact."
 )
 
 DEFAULT_WINDOW_DAYS = 90
@@ -126,6 +148,8 @@ CLASSIFICATION_TMDB_ONLY = "tmdb_only"
 CLASSIFICATION_CURRENTLY_AVAILABLE = "currently_available"
 CLASSIFICATION_UNCLASSIFIED = "unclassified"
 
+# Legacy pipeline classifications that may appear on public rows after
+# relevance filtering. Public membership is gated by relevance_tier, not these.
 USER_VISIBLE_CLASSIFICATIONS = frozenset(
     {CLASSIFICATION_CONFIRMED_LOCAL, CLASSIFICATION_AMC_ANNOUNCED}
 )
@@ -166,16 +190,10 @@ _SUFFIX_SPLIT_PATTERN = re.compile(
     r"\s+[-\u2013\u2014]\s+|\s*:\s+|\s*\(|\s*\u2013\s*"
 )
 
-# Undelimited named guest Q&A products must keep distinct Coming Soon join keys
-# even though showtimes parent-identity strips them for performance grouping.
-_UNDELIMITED_NAMED_QA = re.compile(
-    r"(?i)(?<![-\u2013\u2014:])\s+(?:live\s+)?q\s*&\s*a\s+with\b"
-)
-
-
-def _is_undelimited_named_qa_title(title: str) -> bool:
-    text = fold_diacritics(normalize_film_title(title) or str(title or "").strip())
-    return bool(text and _UNDELIMITED_NAMED_QA.search(text))
+# Undelimited named guest Q&A titles are film-level engagements of the parent
+# film for Coming Soon. Parent identity (via derive_parent_identity) is the
+# join key so they consolidate with the base title when present, or with each
+# other as a synthetic film group when the base catalog row is absent.
 
 
 def pacific_today(now: datetime | None = None) -> date:
@@ -196,23 +214,28 @@ def fold_diacritics(value: str) -> str:
 def coming_soon_join_key(title: str, *, source_film_id: str | None = None) -> str:
     """Derive the cross-source join key for a title.
 
-    Wraps the shared parent-film identity derivation with diacritic folding.
-    ``derive_parent_identity`` itself is left untouched because its output is
-    published inside ``showtimes_current``.
+    Wraps the shared parent-film identity derivation with diacritic folding so
+    engagement SKUs (Q&A, Fan First, Early Access, …) share the parent film's
+    join key. When a more specific engagement base title is available, that
+    base is preferred over the raw title.
 
-    Exception: undelimited named Q&A / Live Q&A catalog titles stay on their
-    own join key so Coming Soon does not fold guest events into the base film.
+    ``source_film_id`` is accepted for call-site compatibility but intentionally
+    ignored: Coming Soon must use title-based join keys so AMC catalog rows can
+    still merge with TMDB theatrical evidence when titles contain a year
+    (for example ``Studio Ghibli Fest 2026``). Distinct AMC SKUs still merge via
+    ``amc_movie_id`` / parent keys / date-tolerant title joins.
     """
+    # Title-based join keys only. Ignore source_film_id so AMC catalog rows
+    # still merge with TMDB when titles embed a year (e.g. Ghibli Fest 2026).
+    _ = source_film_id
     text = normalize_film_title(title) or str(title or "").strip()
     folded = fold_diacritics(text)
-    if _is_undelimited_named_qa_title(folded):
-        key = showtime_film_key(folded) or ""
-        if key:
-            return key
-        return folded.casefold().strip()
-    identity = derive_parent_identity(
-        folded, source_film_id=source_film_id or ""
-    )
+    engagement_base = infer_engagement_base_title(folded)
+    if engagement_base:
+        folded = fold_diacritics(
+            normalize_film_title(engagement_base) or engagement_base
+        )
+    identity = derive_parent_identity(folded, source_film_id="")
     key = identity.parent_film_key or ""
     if key:
         return key
@@ -307,6 +330,14 @@ class ComingSoonCandidate:
     tmdb_metadata: dict[str, Any] | None = None
     titles: set[str] = field(default_factory=set)
     contributing_sources: set[str] = field(default_factory=set)
+    # Screening/event SKUs folded under this film-level row.
+    engagements: list[dict[str, Any]] = field(default_factory=list)
+    # True when this row was formed only from engagement SKUs (no plain base
+    # catalog/title evidence). Inherits child evidence only — never fabricates
+    # identifiers or catalog membership beyond what children contributed.
+    synthetic_film_group: bool = False
+    # Titles observed that were not engagement SKUs (proves a real base film).
+    non_engagement_titles: set[str] = field(default_factory=set)
 
     def anchor_date(self) -> date | None:
         """Best-known release date, used for conservative title joins."""
@@ -327,6 +358,44 @@ class ComingSoonCandidate:
         if self.earliest_current_screening is None or when < self.earliest_current_screening:
             self.earliest_current_screening = when
 
+    def note_title(self, title: str) -> None:
+        """Record a variant title and whether it is a plain film vs engagement."""
+        text = normalize_film_title(title) or str(title or "").strip()
+        if not text:
+            return
+        self.titles.add(text)
+        if is_engagement_title(text):
+            self._record_engagement_from_title(text)
+            if not self.non_engagement_titles:
+                self.synthetic_film_group = True
+        else:
+            self.non_engagement_titles.add(text)
+            self.synthetic_film_group = False
+
+    def _record_engagement_from_title(
+        self,
+        title: str,
+        *,
+        amc_movie_ids: Iterable[str] | None = None,
+    ) -> None:
+        record = build_engagement_record(
+            title=title,
+            amc_movie_ids=list(amc_movie_ids or self.amc_movie_ids),
+            kind=infer_engagement_kind(title),
+        )
+        title_key = str(record.get("title") or "").casefold()
+        kind = record.get("kind")
+        for index, existing in enumerate(self.engagements):
+            if (
+                existing.get("kind") == kind
+                and str(existing.get("title") or "").casefold() == title_key
+            ):
+                # Prefer the copy that carries an AMC product id.
+                if not existing.get("amc_movie_id") and record.get("amc_movie_id"):
+                    self.engagements[index] = record
+                return
+        self.engagements.append(record)
+
     def merge_from(self, other: ComingSoonCandidate) -> None:
         """Fold *other* into this candidate without losing evidence."""
         self.amc_coming_soon_catalog = self.amc_coming_soon_catalog or other.amc_coming_soon_catalog
@@ -340,7 +409,36 @@ class ComingSoonCandidate:
         self.local_theater_ids |= other.local_theater_ids
         self.titles |= other.titles
         self.contributing_sources |= other.contributing_sources
+        self.non_engagement_titles |= other.non_engagement_titles
         self.local_showtime_count += other.local_showtime_count
+
+        for engagement in other.engagements:
+            self._record_engagement_from_title(
+                str(engagement.get("title") or ""),
+                amc_movie_ids=(
+                    [engagement["amc_movie_id"]]
+                    if engagement.get("amc_movie_id")
+                    else other.amc_movie_ids
+                ),
+            )
+
+        # When folding an engagement-only SKU into a film (or vice versa),
+        # capture the engagement title if not already recorded.
+        for title in sorted(other.titles):
+            if is_engagement_title(title):
+                self._record_engagement_from_title(
+                    title, amc_movie_ids=other.amc_movie_ids
+                )
+
+        if self.non_engagement_titles or other.non_engagement_titles:
+            self.synthetic_film_group = False
+        else:
+            self.synthetic_film_group = (
+                self.synthetic_film_group and other.synthetic_film_group
+            ) or (
+                bool(self.engagements or other.engagements)
+                and not self.non_engagement_titles
+            )
 
         if self.film_id is None:
             self.film_id = other.film_id
@@ -375,8 +473,16 @@ class ComingSoonCandidate:
         if other.earliest_current_screening is not None:
             self.note_current_screening(other.earliest_current_screening)
 
-        if self.amc_metadata is None:
-            self.amc_metadata = other.amc_metadata
+        # Prefer non-engagement AMC metadata (base film) over guest-event SKUs.
+        if other.amc_metadata is not None:
+            if self.amc_metadata is None:
+                self.amc_metadata = other.amc_metadata
+            elif is_engagement_title(
+                str((self.amc_metadata or {}).get("source_title") or self.title)
+            ) and not is_engagement_title(
+                str((other.amc_metadata or {}).get("source_title") or other.title)
+            ):
+                self.amc_metadata = other.amc_metadata
         if self.tmdb_metadata is None:
             self.tmdb_metadata = other.tmdb_metadata
 
@@ -524,7 +630,7 @@ def candidates_from_reel_seattle(
             reel_seattle_scheduled=True,
             local_showtime_count=int(info.get("showtime_count") or 0),
         )
-        candidate.titles.add(title)
+        candidate.note_title(title)
         candidate.showtime_film_keys.add(film_key)
         candidate.contributing_sources.add(SOURCE_REEL_SEATTLE)
         parent_key = info.get("parent_film_key")
@@ -620,11 +726,11 @@ def extract_amc_theater_bookings(
             amc_theater_booking=True,
             local_showtime_count=int(info["tail_screenings"]),
         )
-        candidate.titles.add(title)
         candidate.amc_movie_ids.add(movie_id)
+        candidate.note_title(title)
         candidate.contributing_sources.add(SOURCE_AMC_BOOKING)
         identity = derive_parent_identity(title, source_film_id=movie_id)
-        if identity.parent_film_key and not _is_undelimited_named_qa_title(title):
+        if identity.parent_film_key:
             candidate.parent_film_keys.add(identity.parent_film_key)
 
         candidate.film_id = _film_id_for_amc_ids({movie_id}, index)
@@ -677,11 +783,11 @@ def candidates_from_amc_catalog(
             amc_coming_soon_catalog=True,
             amc_catalog_release_date=_parse_iso_date(movie.get("release_date_utc")),
         )
-        candidate.titles.add(title)
         candidate.amc_movie_ids.add(movie_id)
+        candidate.note_title(title)
         candidate.contributing_sources.add(SOURCE_AMC_CATALOG)
         identity = derive_parent_identity(title, source_film_id=movie_id)
-        if identity.parent_film_key and not _is_undelimited_named_qa_title(title):
+        if identity.parent_film_key:
             candidate.parent_film_keys.add(identity.parent_film_key)
 
         candidate.film_id = _film_id_for_amc_ids({movie_id}, index)
@@ -739,10 +845,10 @@ def candidates_from_tmdb(
             tmdb_us_theatrical=True,
             tmdb_us_release_date=_parse_iso_date(row.get("release_date")),
         )
-        candidate.titles.add(title)
+        candidate.note_title(title)
         candidate.contributing_sources.add(SOURCE_TMDB)
         identity = derive_parent_identity(title, source_film_id="")
-        if identity.parent_film_key and not _is_undelimited_named_qa_title(title):
+        if identity.parent_film_key:
             candidate.parent_film_keys.add(identity.parent_film_key)
         candidate.tmdb_metadata = {
             "tmdb_id": tmdb_id,
@@ -929,16 +1035,26 @@ def merge_candidates(
 def _preferred_title(candidate: ComingSoonCandidate) -> str:
     """Pick the most display-worthy title among merged variants.
 
-    The sort key is total so the published title cannot drift between runs
-    when variants differ only by case: shortest first, then least shouty
-    (AMC ships some rows in ALL CAPS), then a stable lexical tiebreak.
+    Prefer plain film titles over engagement SKUs. For synthetic engagement-only
+    groups, prefer the stripped base title. Otherwise: shortest, then least
+    shouty, then stable lexical tiebreak.
     """
     options = sorted(title for title in candidate.titles if title)
     if not options:
         return candidate.title
-    base_titles = [strip_event_suffix(title) or title for title in options]
+
+    plain = sorted(candidate.non_engagement_titles)
+    if plain:
+        pool = plain
+    else:
+        bases = []
+        for title in options:
+            base = infer_engagement_base_title(title) or strip_event_suffix(title)
+            bases.append(base or title)
+        pool = bases
+
     return min(
-        base_titles,
+        pool,
         key=lambda text: (
             len(text),
             sum(1 for char in text if char.isupper()),
@@ -951,13 +1067,12 @@ def _preferred_title(candidate: ComingSoonCandidate) -> str:
 def collapse_amc_event_variants(
     candidates: Sequence[ComingSoonCandidate],
 ) -> tuple[list[ComingSoonCandidate], int]:
-    """Fold AMC event/screening variants into a base film already present.
+    """Fold AMC engagement/screening variants into a base film when present.
 
-    Only collapses when the trailing phrase is a recognized event marker *and*
-    the base title is already a known candidate, so genuinely distinct films
-    are never merged. Undelimited Q&A / fan-event titles with named guests
-    stay separate even when a base film exists — those are distinct AMC
-    products, not SKU suffixes.
+    Collapses when a recognized engagement base title matches an existing
+    candidate. Named Q&A / Fan First / Early Access SKUs are engagements of the
+    parent film for the Coming Soon calendar, not separate release cards.
+    Distinct AMC movie IDs do not block consolidation.
     """
     by_key: dict[str, ComingSoonCandidate] = {}
     for candidate in candidates:
@@ -970,7 +1085,9 @@ def collapse_amc_event_variants(
         # already have promoted a shorter name that no longer shows the suffix.
         base = None
         for variant in sorted({candidate.title, *candidate.titles}):
-            base_title = strip_event_suffix(variant)
+            base_title = infer_engagement_base_title(variant) or strip_event_suffix(
+                variant
+            )
             if not base_title:
                 continue
             match = by_key.get(coming_soon_join_key(base_title))
@@ -1014,8 +1131,29 @@ def _entry_from_candidate(
         ),
         variant_titles=sorted(candidate.titles),
     )
-    eligible = classification in USER_VISIBLE_CLASSIFICATIONS
-    user_visible = eligible and is_public_presentation(kind, exclusion_reason)
+    # After engagement consolidation, prefer film presentation for film-level rows.
+    if candidate.engagements and kind not in {KIND_FILM, "rerelease"}:
+        if candidate.non_engagement_titles or candidate.synthetic_film_group:
+            kind = KIND_FILM
+            exclusion_reason = None
+
+    evidence = {
+        "amc_coming_soon_catalog": bool(candidate.amc_coming_soon_catalog),
+        "amc_theater_booking": bool(candidate.amc_theater_booking),
+        "tmdb_us_theatrical": bool(candidate.tmdb_us_theatrical),
+        "reel_seattle_scheduled": bool(candidate.reel_seattle_scheduled),
+    }
+    relevance_tier, user_visible, visibility_reason = assign_relevance_and_visibility(
+        classification=classification,
+        presentation_kind=kind,
+        exclusion_reason=exclusion_reason,
+        evidence=evidence,
+        title=candidate.title,
+        amc_presentation_category=(candidate.amc_metadata or {}).get(
+            "presentation_category"
+        ),
+        variant_titles=sorted(candidate.titles),
+    )
     scheduled = bool(
         classification == CLASSIFICATION_CONFIRMED_LOCAL
         and candidate.first_local_screening_date is not None
@@ -1031,6 +1169,14 @@ def _entry_from_candidate(
         enrichment_index=enrichment_index,
         amc_product_index=amc_product_index,
         kind=kind,
+    )
+    engagements = sorted(
+        candidate.engagements,
+        key=lambda item: (
+            str(item.get("kind") or ""),
+            str(item.get("title") or "").casefold(),
+            str(item.get("amc_movie_id") or ""),
+        ),
     )
     return {
         # film_id stays confirmed-only so downstream joins keep the same
@@ -1067,21 +1213,24 @@ def _entry_from_candidate(
         "local_theaters": local_theaters_payload(theaters, theater_names or {}),
         "local_theater_count": len(theaters),
         "local_showtime_count": int(candidate.local_showtime_count),
-        "evidence": {
-            "amc_coming_soon_catalog": bool(candidate.amc_coming_soon_catalog),
-            "amc_theater_booking": bool(candidate.amc_theater_booking),
-            "tmdb_us_theatrical": bool(candidate.tmdb_us_theatrical),
-            "reel_seattle_scheduled": bool(candidate.reel_seattle_scheduled),
-        },
+        "evidence": evidence,
         "classification": classification,
+        "relevance_tier": relevance_tier,
         "user_visible": user_visible,
-        "exclusion_reason": None if user_visible else exclusion_reason,
+        "visibility_reason": None if user_visible else visibility_reason,
+        "exclusion_reason": None if user_visible else (
+            exclusion_reason or visibility_reason
+        ),
+        "engagements": engagements,
         "presentation": presentation,
         "identity": {
             "method": candidate.identity_method(),
             "film_id_confirmed": film_id_confirmed,
             "tmdb_id_inferred": bool(tmdb_id is not None and not film_id_confirmed),
             "ambiguous": bool(candidate.film_id_conflict),
+            "synthetic_film_group": bool(
+                candidate.synthetic_film_group and not candidate.non_engagement_titles
+            ),
             "variant_titles": sorted(candidate.titles),
             "contributing_sources": sorted(candidate.contributing_sources),
         },
@@ -1251,16 +1400,20 @@ def build_coming_soon_bundle(
             enrichment_index=enrichment_index,
             amc_product_index=amc_product_index,
         )
-        if (
-            classification in USER_VISIBLE_CLASSIFICATIONS
-            and not entry["user_visible"]
-        ):
-            dropped[DROP_REASON_PRESENTATION_FILTER] += 1
+        if not entry["user_visible"]:
+            reason = entry.get("visibility_reason") or entry.get("exclusion_reason")
+            if reason in {
+                "private_theatre_rental",
+                "untitled_distributor_placeholder",
+                "operational_or_test_row",
+            }:
+                dropped[DROP_REASON_PRESENTATION_FILTER] += 1
         all_entries.append(entry)
 
     all_entries.sort(
         key=lambda item: (
             item["expected_release_date"],
+            RELEVANCE_SORT_RANK.get(item.get("relevance_tier"), 99),
             item["title"].casefold(),
             item["join_key"],
         )
@@ -1269,8 +1422,11 @@ def build_coming_soon_bundle(
     for entry in all_entries:
         if not entry["user_visible"]:
             continue
+        if entry.get("relevance_tier") not in PUBLIC_RELEVANCE_TIERS:
+            continue
         visible = dict(entry)
         visible.pop("exclusion_reason", None)
+        visible.pop("visibility_reason", None)
         public_entries.append(visible)
 
     sources = _source_health(
@@ -1312,9 +1468,12 @@ def build_coming_soon_bundle(
     public_stats["analysis"] = {
         "path": DEFAULT_ANALYSIS_PATH.as_posix(),
         "entry_count": len(all_entries),
-        "tmdb_only_count": analysis_stats["classification_counts"][
-            CLASSIFICATION_TMDB_ONLY
-        ],
+        "tmdb_only_count": analysis_stats["classification_counts"].get(
+            CLASSIFICATION_TMDB_ONLY, 0
+        ),
+        "weak_national_only_count": analysis_stats["relevance_tier_counts"].get(
+            RELEVANCE_WEAK_NATIONAL_ONLY, 0
+        ),
         "presentation_filtered_count": int(
             dropped.get(DROP_REASON_PRESENTATION_FILTER, 0)
         ),
@@ -1418,6 +1577,12 @@ def _artifact_stats(
     }
     presentation_kind_counts: dict[str, int] = {}
     presentation_source_counts: dict[str, int] = {}
+    relevance_tier_counts = {
+        RELEVANCE_CONFIRMED_LOCAL: 0,
+        RELEVANCE_LOCALLY_ANNOUNCED: 0,
+        RELEVANCE_STRONGLY_EXPECTED: 0,
+        RELEVANCE_WEAK_NATIONAL_ONLY: 0,
+    }
     horizon_counts = {"30_days": 0, "60_days": 0, "90_days": 0}
     horizons = ((30, "30_days"), (60, "60_days"), (90, "90_days"))
 
@@ -1427,6 +1592,8 @@ def _artifact_stats(
     with_film_id = 0
     with_tmdb_id = 0
     with_poster = 0
+    engagements_total = 0
+    synthetic_groups = 0
     film_id_seen: dict[str, int] = {}
     join_key_seen: dict[str, int] = {}
 
@@ -1434,6 +1601,9 @@ def _artifact_stats(
         classification = str(entry["classification"])
         if classification in classification_counts:
             classification_counts[classification] += 1
+        tier = entry.get("relevance_tier")
+        if tier in relevance_tier_counts:
+            relevance_tier_counts[tier] += 1
         if entry.get("user_visible"):
             user_visible += 1
             expected = date.fromisoformat(str(entry["expected_release_date"]))
@@ -1442,6 +1612,9 @@ def _artifact_stats(
                     horizon_counts[label] += 1
         if (entry.get("identity") or {}).get("ambiguous"):
             ambiguous += 1
+        if (entry.get("identity") or {}).get("synthetic_film_group"):
+            synthetic_groups += 1
+        engagements_total += len(entry.get("engagements") or [])
         film_id = entry.get("film_id")
         if film_id:
             with_film_id += 1
@@ -1470,10 +1643,13 @@ def _artifact_stats(
         "user_visible_count": user_visible,
         "hidden_count": len(entries) - user_visible,
         "classification_counts": classification_counts,
+        "relevance_tier_counts": relevance_tier_counts,
         "evidence_counts": evidence_counts,
         "presentation_kind_counts": dict(sorted(presentation_kind_counts.items())),
         "presentation_source_counts": dict(sorted(presentation_source_counts.items())),
         "entries_with_poster": with_poster,
+        "engagement_count": engagements_total,
+        "synthetic_film_group_count": synthetic_groups,
         "horizon_counts": horizon_counts,
         "earliest_expected_release_date": dates[0] if dates else None,
         "latest_expected_release_date": dates[-1] if dates else None,

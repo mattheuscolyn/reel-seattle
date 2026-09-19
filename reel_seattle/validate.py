@@ -24,9 +24,9 @@ OPENING_THIS_WEEK_CURRENT_SCHEMA_PATH = (
     SCHEMA_DIR / "opening_this_week_current" / "v1.1.0.json"
 )
 COLLECTIONS_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "collections_current" / "v1.0.0.json"
-COMING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "coming_soon_current" / "v1.1.0.json"
+COMING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "coming_soon_current" / "v1.2.0.json"
 COMING_SOON_CANDIDATES_SCHEMA_PATH = (
-    SCHEMA_DIR / "audits" / "coming_soon_candidates_current" / "v1.0.0.json"
+    SCHEMA_DIR / "audits" / "coming_soon_candidates_current" / "v1.1.0.json"
 )
 
 _VALIDATOR_CACHE: dict[Path, Draft202012Validator] = {}
@@ -254,8 +254,13 @@ def _validate_coming_soon_invariants(
     join_keys: set[str] = set()
     film_ids: set[str] = set()
     user_visible = 0
-    previous_sort_key: tuple[str, str] | None = None
-    public_kinds = {"film", "rerelease", "event", "mystery_screening", "other"}
+    previous_sort_key: tuple | None = None
+    public_kinds = {"film", "rerelease", "other"}
+    public_relevance = {
+        "confirmed_local",
+        "locally_announced",
+        "strongly_expected",
+    }
 
     for entry in entries:
         title = str(entry.get("title"))
@@ -267,12 +272,18 @@ def _validate_coming_soon_invariants(
             )
 
         classification = str(entry.get("classification"))
+        relevance = entry.get("relevance_tier")
         visible = bool(entry.get("user_visible"))
         identity = entry.get("identity") or {}
         presentation = entry.get("presentation") or {}
         kind = str(presentation.get("kind") or "")
 
         if public:
+            if relevance not in public_relevance:
+                raise ValueError(
+                    f"{label}: {title!r} relevance_tier {relevance!r} "
+                    "is not allowed in the public artifact"
+                )
             if classification not in {"confirmed_local", "amc_announced"}:
                 raise ValueError(
                     f"{label}: {title!r} classification {classification!r} "
@@ -285,17 +296,31 @@ def _validate_coming_soon_invariants(
                     f"{label}: {title!r} presentation.kind {kind!r} is not "
                     "allowed in the public artifact"
                 )
+            if relevance == "confirmed_local" and classification != "confirmed_local":
+                raise ValueError(
+                    f"{label}: {title!r} relevance confirmed_local requires "
+                    "classification confirmed_local"
+                )
+            if relevance == "strongly_expected" and classification != "amc_announced":
+                raise ValueError(
+                    f"{label}: {title!r} strongly_expected requires "
+                    "classification amc_announced"
+                )
         else:
             if classification == "tmdb_only" and visible:
                 raise ValueError(f"{label}: {title!r} tmdb_only must not be user_visible")
-            if visible and classification not in {"confirmed_local", "amc_announced"}:
+            if visible and relevance not in public_relevance:
                 raise ValueError(
-                    f"{label}: {title!r} user_visible does not match "
-                    f"classification {classification!r}"
+                    f"{label}: {title!r} user_visible with relevance_tier "
+                    f"{relevance!r}"
                 )
             if visible and kind not in public_kinds:
                 raise ValueError(
                     f"{label}: {title!r} user_visible with presentation.kind {kind!r}"
+                )
+            if not visible and entry.get("visibility_reason") in (None, ""):
+                raise ValueError(
+                    f"{label}: {title!r} hidden row missing visibility_reason"
                 )
         if visible:
             user_visible += 1
@@ -341,6 +366,15 @@ def _validate_coming_soon_invariants(
                 f"{label}: {title!r} is amc_announced without AMC "
                 "Coming Soon catalog evidence"
             )
+        if relevance == "strongly_expected":
+            if not evidence.get("amc_coming_soon_catalog"):
+                raise ValueError(
+                    f"{label}: {title!r} strongly_expected without AMC catalog evidence"
+                )
+            if not evidence.get("tmdb_us_theatrical"):
+                raise ValueError(
+                    f"{label}: {title!r} strongly_expected without TMDB theatrical evidence"
+                )
         if classification == "tmdb_only":
             if evidence.get("amc_coming_soon_catalog"):
                 raise ValueError(
@@ -365,10 +399,20 @@ def _validate_coming_soon_invariants(
                 )
             film_ids.add(str(film_id))
 
-        sort_key = (str(entry.get("expected_release_date")), title.casefold())
+        sort_key = (
+            str(entry.get("expected_release_date")),
+            {
+                "confirmed_local": 0,
+                "locally_announced": 1,
+                "strongly_expected": 2,
+                "weak_national_only": 3,
+            }.get(relevance, 99),
+            title.casefold(),
+        )
         if previous_sort_key is not None and sort_key < previous_sort_key:
             raise ValueError(
-                f"{label}: entries must be sorted by expected_release_date then title"
+                f"{label}: entries must be sorted by expected_release_date, "
+                "relevance_tier, then title"
             )
         previous_sort_key = sort_key
 

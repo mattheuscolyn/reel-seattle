@@ -8,7 +8,20 @@ import { formatRuntimeLabel } from '../home/shelfData.js';
 
 export const COMING_SOON_PAGE_TITLE = 'Coming Soon';
 export const COMING_SOON_PAGE_TAGLINE =
-  'Movies and events expected in theaters over the next 90 days. Local showtimes appear as they’re announced.';
+  'Films expected to become theatrically relevant in Seattle over the next 90 days. Local showtimes appear as they’re announced.';
+
+export const PUBLIC_RELEVANCE_TIERS = Object.freeze([
+  'confirmed_local',
+  'locally_announced',
+  'strongly_expected',
+]);
+
+const RELEVANCE_SORT_RANK = Object.freeze({
+  confirmed_local: 0,
+  locally_announced: 1,
+  strongly_expected: 2,
+  weak_national_only: 3,
+});
 
 export const COMING_SOON_LOCAL_FILTERS = Object.freeze([
   Object.freeze({ id: 'all', label: 'All' }),
@@ -134,7 +147,12 @@ export function comingSoonKindChip(entry) {
  * @param {object | null | undefined} entry
  */
 export function comingSoonLocalStatusLabel(entry) {
-  if (entry?.classification === 'confirmed_local') return LOCAL_CONFIRMED_LABEL;
+  if (
+    entry?.relevance_tier === 'confirmed_local' ||
+    entry?.classification === 'confirmed_local'
+  ) {
+    return LOCAL_CONFIRMED_LABEL;
+  }
   return LOCAL_UNANNOUNCED_LABEL;
 }
 
@@ -205,10 +223,15 @@ export function isRenderableComingSoonEntry(entry) {
   if (!entry || typeof entry !== 'object') return false;
   if (entry.user_visible === false) return false;
   if (entry.classification === 'tmdb_only') return false;
-  if (
+  const tier =
+    typeof entry.relevance_tier === 'string' ? entry.relevance_tier : null;
+  if (tier) {
+    if (!PUBLIC_RELEVANCE_TIERS.includes(tier)) return false;
+  } else if (
     entry.classification !== 'confirmed_local' &&
     entry.classification !== 'amc_announced'
   ) {
+    // Legacy fixtures without relevance_tier.
     return false;
   }
   if (typeof entry.title !== 'string' || !entry.title.trim()) return false;
@@ -227,11 +250,11 @@ export function isRenderableComingSoonEntry(entry) {
  */
 export function comingSoonEntryMatchesFilters(entry, filters) {
   const normalized = normalizeComingSoonFilters(filters);
-  if (
-    normalized.local === 'confirmed' &&
-    entry.classification !== 'confirmed_local'
-  ) {
-    return false;
+  if (normalized.local === 'confirmed') {
+    const confirmed =
+      entry.relevance_tier === 'confirmed_local' ||
+      entry.classification === 'confirmed_local';
+    if (!confirmed) return false;
   }
   if (normalized.kinds.length === 0) return true;
   const kind = String(entry?.presentation?.kind || 'film');
@@ -249,9 +272,13 @@ export function compareComingSoonEntries(a, b) {
   const dateA = a.expected_release_date;
   const dateB = b.expected_release_date;
   if (dateA !== dateB) return dateA < dateB ? -1 : 1;
-  const localA = a.classification === 'confirmed_local' ? 0 : 1;
-  const localB = b.classification === 'confirmed_local' ? 0 : 1;
-  if (localA !== localB) return localA - localB;
+  const rankA =
+    RELEVANCE_SORT_RANK[a.relevance_tier] ??
+    (a.classification === 'confirmed_local' ? 0 : 2);
+  const rankB =
+    RELEVANCE_SORT_RANK[b.relevance_tier] ??
+    (b.classification === 'confirmed_local' ? 0 : 2);
+  if (rankA !== rankB) return rankA - rankB;
   return String(a.title).localeCompare(String(b.title), 'en', {
     sensitivity: 'base',
   });
@@ -266,7 +293,9 @@ export function composeComingSoonRow(entry) {
     entry.presentation.poster_url.trim()
       ? entry.presentation.poster_url.trim()
       : null;
-  const confirmed = entry.classification === 'confirmed_local';
+  const confirmed =
+    entry.relevance_tier === 'confirmed_local' ||
+    entry.classification === 'confirmed_local';
   return {
     entryId: comingSoonEntryId(entry),
     title: entry.title.trim(),
@@ -275,6 +304,7 @@ export function composeComingSoonRow(entry) {
     expectedReleaseDate: entry.expected_release_date,
     expectedDateLabel: formatComingSoonDate(entry.expected_release_date),
     classification: entry.classification,
+    relevanceTier: entry.relevance_tier ?? null,
     localStatusLabel: comingSoonLocalStatusLabel(entry),
     theaterLine: confirmed
       ? formatComingSoonTheaterLine(entry.local_theaters)
@@ -427,7 +457,9 @@ export function composeComingSoonDetail(artifact, entryId) {
       ? presentation.overview.trim()
       : null;
   const kind = String(presentation.kind || 'film');
-  const confirmed = entry.classification === 'confirmed_local';
+  const confirmed =
+    entry.relevance_tier === 'confirmed_local' ||
+    entry.classification === 'confirmed_local';
   const theaters = confirmed
     ? (Array.isArray(entry.local_theaters) ? entry.local_theaters : [])
         .map((row) => ({
@@ -460,6 +492,7 @@ export function composeComingSoonDetail(artifact, entryId) {
         ? presentation.release_year
         : null,
     classification: entry.classification,
+    relevanceTier: entry.relevance_tier ?? null,
     localStatusLabel: comingSoonLocalStatusLabel(entry),
     theaters,
     openTarget: selectComingSoonOpenTarget(entry),
