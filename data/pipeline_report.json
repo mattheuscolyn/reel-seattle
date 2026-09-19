@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-18T03:22:10-07:00",
+  "status": "success",
+  "window": {
+    "start_date": "2026-09-18",
+    "end_date": "2026-10-02"
+  },
+  "sources": {
+    "amc": {
+      "status": "success",
+      "showtime_count": 3199,
+      "film_count": 58,
+      "theater_count": 7,
+      "last_successful_run": "2026-09-18",
+      "warnings": [
+        "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
+      ],
+      "errors": []
+    },
+    "siff": {
+      "status": "success",
+      "showtime_count": 133,
+      "film_count": 19,
+      "theater_count": 3,
+      "last_successful_run": "2026-09-18",
+      "warnings": [
+        "SIFF parent/series page with no direct showtimes: programs-and-events/celluloid-screenings",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/community-screenings",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/nouvelles-femmes/band-of-outsiders",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/siff-book-club",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/siff-movie-club",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/stage-to-screen",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/the-open-road"
+      ],
+      "errors": []
+    },
+    "beacon": {
+      "status": "success",
+      "showtime_count": 26,
+      "film_count": 16,
+      "theater_count": 1,
+      "last_successful_run": "2026-09-18",
+      "warnings": [],
+      "errors": []
+    },
+    "nwff": {
+      "status": "success",
+      "showtime_count": 22,
+      "film_count": 21,
+      "theater_count": 1,
+      "last_successful_run": "2026-09-18",
+      "warnings": [],
+      "errors": []
+    },
+    "central_cinema": {
+      "status": "success",
+      "showtime_count": 39,
+      "film_count": 8,
+      "theater_count": 1,
+      "last_successful_run": "2026-09-18",
+      "warnings": [],
+      "errors": []
+    }
+  },
+  "totals": {
+    "showtime_count": 3419,
+    "film_count": 118,
+    "theater_count": 13
+  },
+  "messages": [],
+  "amc_source_catalog": {
+    "id": "amc_source_catalog",
+    "status": "success",
+    "build_attempted": true,
+    "build_succeeded": true,
+    "soft_failure": false,
+    "outcome": "promoted",
+    "artifacts_written_this_run": true,
+    "artifacts_retained_from_prior": false,
+    "reported_at": "2026-09-18T03:28:32-07:00",
+    "last_successful_build_at": "2026-09-18T03:26:40-07:00",
+    "message": "AMC source catalog: promoted",
+    "warnings": [],
+    "errors": [],
+    "refresh": {
+      "active_ids": 105,
+      "selected": 105,
+      "success": 105,
+      "failed": 0,
+      "invalid": 0
+    },
+    "artifacts": {
+      "amc_movie_products": {
+        "id": "amc_movie_products",
+        "path": "data/source_catalog/amc_movie_products.json",
+        "exists": true,
+        "valid": true,
+        "schema_version": "1.0.0",
+        "generated_at": "2026-09-18T03:26:40-07:00",
+        "record_count": 288,
+        "written_this_run": true,
+        "retained_from_prior": false,
+        "warnings": [],
+        "errors": []
+      },
+      "amc_release_observations": {
+        "id": "amc_release_observations",
+        "path": "data/source_catalog/amc_release_observations.json",
+        "exists": true,
+        "valid": true,
+        "schema_version": "1.0.0",
+        "generated_at": "2026-09-18T03:26:40-07:00",
+        "record_count": 261,
+        "written_this_run": true,
+        "retained_from_prior": false,
+        "warnings": [],
+        "errors": []
+      }
+    },
+    "products_summary": {
+      "total": 288,
+      "active": 105,
+      "inactive": 183,
+      "with_release_id": 281,
+      "without_release_id": 7,
+      "refresh_pending": 0,
+      "refresh_success": 288,
+      "refresh_stale": 0,
+      "refresh_failed": 0,
+      "refresh_invalid": 0,
+      "refresh_status_missing": 0,
+      "stored_stats": {
+        "products": 288,
+        "active_products": 105,
+        "inactive_products": 183,
+        "with_release_id": 281,
+        "without_release_id": 7,
+        "refresh_pending": 0,
+        "refresh_success": 288,
+        "refresh_stale": 0,
+        "refresh_failed": 0,
+        "refresh_invalid": 0,
+        "special_presentations": 145
+      }
+    },
+    "releases_summary": {
+      "total": 261,
+      "singleton_groups": 252,
+      "multi_product_groups": 9,
+      "membership_references": 281,
+      "unresolved_member_references": 0,
+      "stored_stats": {
+        "release_observations": 261,
+        "singleton_groups": 252,
+        "multi_product_groups": 9,
+        "largest_group": 11
+      }
+    }
+  }
+}
