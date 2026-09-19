@@ -71,6 +71,7 @@ function entry({
   title,
   date,
   classification = 'amc_announced',
+  relevanceTier,
   joinKey,
   filmId = null,
   filmIdConfirmed = false,
@@ -82,6 +83,14 @@ function entry({
   showtimeKeys = [],
   overview = null,
 }) {
+  const confirmed = classification === 'confirmed_local';
+  const tier =
+    relevanceTier ??
+    (confirmed
+      ? 'confirmed_local'
+      : classification === 'amc_announced'
+        ? 'strongly_expected'
+        : null);
   return {
     film_id: filmId,
     title,
@@ -95,22 +104,23 @@ function entry({
     expected_release_date_source: 'amc_catalog_release_date',
     amc_catalog_release_date: date,
     tmdb_us_release_date: null,
-    first_local_screening_date: classification === 'confirmed_local' ? date : null,
-    first_local_screening_source:
-      classification === 'confirmed_local' ? 'reel_seattle_showtimes' : null,
-    local_status: classification === 'confirmed_local' ? 'scheduled' : 'not_announced',
+    first_local_screening_date: confirmed ? date : null,
+    first_local_screening_source: confirmed ? 'reel_seattle_showtimes' : null,
+    local_status: confirmed ? 'scheduled' : 'not_announced',
     local_theater_ids: theaters.map((row) => row.theater_id),
     local_theaters: theaters,
     local_theater_count: theaters.length,
-    local_showtime_count: classification === 'confirmed_local' ? 1 : 0,
+    local_showtime_count: confirmed ? 1 : 0,
     evidence: {
       amc_coming_soon_catalog: true,
-      amc_theater_booking: classification === 'confirmed_local',
-      tmdb_us_theatrical: Boolean(tmdbId),
-      reel_seattle_scheduled: classification === 'confirmed_local',
+      amc_theater_booking: confirmed,
+      tmdb_us_theatrical: Boolean(tmdbId) || tier === 'strongly_expected',
+      reel_seattle_scheduled: confirmed,
     },
     classification,
+    relevance_tier: tier,
     user_visible: true,
+    engagements: [],
     presentation: {
       kind,
       source: posterUrl ? 'amc_catalog' : 'fallback',
@@ -128,6 +138,7 @@ function entry({
       film_id_confirmed: filmIdConfirmed,
       tmdb_id_inferred: tmdbInferred,
       ambiguous: false,
+      synthetic_film_group: false,
       variant_titles: [title],
       contributing_sources: ['amc_catalog'],
     },
@@ -137,7 +148,7 @@ function entry({
 
 function fixtureArtifact(entries) {
   return {
-    schema_version: '1.1.0',
+    schema_version: '1.2.0',
     generated_at: '2026-09-14T12:00:00-07:00',
     timezone: 'America/Los_Angeles',
     entries,
@@ -496,7 +507,7 @@ test('confirmed Film Detail back returns to Coming Soon', () => {
 
 test('public artifact stays renderable and hides analysis-only rows', () => {
   const artifact = liveArtifact();
-  assert.equal(artifact.schema_version, '1.1.0');
+  assert.equal(artifact.schema_version, '1.2.0');
   const hidden = artifact.entries.filter(
     (row) =>
       row.classification === 'tmdb_only' || row.user_visible === false,

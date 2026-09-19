@@ -176,6 +176,19 @@ def _bundle(**overrides):
     return build_coming_soon_bundle(**kwargs)
 
 
+
+def _tmdb_for_title(title: str, tmdb_id: int, release_date: str):
+    return _tmdb_candidate(tmdb_id=tmdb_id, title=title, release_date=release_date)
+
+
+def _public_amc_film(**overrides):
+    """AMC catalog film that also has TMDB theatrical evidence (strongly_expected)."""
+    movie = _catalog_movie(**overrides)
+    title = movie["source_title"]
+    release = str(movie["release_date_utc"])[:10]
+    tmdb_id = 700000 + int(str(movie["source_film_id"])[-3:])
+    return movie, _tmdb_for_title(title, tmdb_id, release)
+
 def _entry_by_title(artifact, title):
     for entry in artifact["entries"]:
         if entry["title"] == title:
@@ -339,13 +352,9 @@ def test_collapse_amc_event_variants_requires_existing_base_film():
     ]
 
 
-def test_collapse_retains_named_qa_and_same_date_guest_events():
-    """Named Q&A products are distinct consumer-facing engagements.
-
-    Delimiter-less titles such as ``Appofeniacs Q&A with Director …`` and
-    talent-specific Live Q&A nights must not fold into the base film.
-    """
-    public = _build(
+def test_named_qa_consolidates_under_parent_film():
+    """Named Q&A SKUs are engagements of the parent film, not separate cards."""
+    public, analysis = _bundle(
         amc_catalog=_amc_catalog(
             _catalog_movie(
                 source_film_id="84071",
@@ -371,32 +380,41 @@ def test_collapse_retains_named_qa_and_same_date_guest_events():
                 ),
                 release_date_utc="2026-10-02T00:00:00Z",
             ),
-        )
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Your Mother Your Mother Your Mother", 701001, "2026-09-23"),
+            _tmdb_for_title("Appofeniacs", 701002, "2026-10-02"),
+        ),
     )
     titles = sorted(entry["title"] for entry in public["entries"])
     assert titles == [
-        "APPOFENIACS Q&A with Director Chris Marrs Piliero and cast",
         "Appofeniacs",
         "Your Mother Your Mother Your Mother",
-        "Your Mother Your Mother Your Mother Live Q&A with Mahershala Ali",
     ]
+    mother = _entry_by_title(public, "Your Mother Your Mother Your Mother")
+    assert any("Mahershala Ali" in (e.get("title") or "") for e in mother["engagements"])
+    app = _entry_by_title(public, "Appofeniacs")
+    assert any("Q&A" in (e.get("title") or "") for e in app["engagements"])
+    assert not any("Q&A" in entry["title"] for entry in public["entries"])
 
 
 def test_amc_literal_question_mark_in_title_is_preserved():
     """AMC catalog movie 84887 ships ``d?Afrique``; do not invent an apostrophe."""
+    title = "Reve d?Afrique - Les aventuriers voyageurs"
     public = _build(
         amc_catalog=_amc_catalog(
             _catalog_movie(
                 source_film_id="84887",
-                source_title="Reve d?Afrique - Les aventuriers voyageurs",
+                source_title=title,
                 slug="reve-d-afrique-les-aventuriers-voyageurs-84887",
                 release_date_utc="2026-09-16T05:00:00Z",
             )
-        )
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title(title, 84887, "2026-09-16")
+        ),
     )
-    assert [entry["title"] for entry in public["entries"]] == [
-        "Reve d?Afrique - Les aventuriers voyageurs"
-    ]
+    assert [entry["title"] for entry in public["entries"]] == [title]
     title = public["entries"][0]["title"]
     assert "d'Afrique" not in title
     assert "d’Afrique" not in title
@@ -544,6 +562,9 @@ def test_film_id_resolution_from_identity_catalog():
 
     artifact = _build(
         amc_catalog=_amc_catalog(_catalog_movie()),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Announced Film", 550, "2026-11-20")
+        ),
         identity_catalog=catalog,
     )
 
@@ -551,6 +572,7 @@ def test_film_id_resolution_from_identity_catalog():
     assert entry["film_id"] == "tmdb:550"
     assert entry["tmdb_id"] == 550
     assert entry["identity"]["method"] == "film_id"
+    assert entry["relevance_tier"] == "strongly_expected"
 
 
 # ---------------------------------------------------------------------------
@@ -558,32 +580,56 @@ def test_film_id_resolution_from_identity_catalog():
 # ---------------------------------------------------------------------------
 
 
-def test_amc_catalog_membership_yields_user_visible_announcement():
-    artifact = _build(amc_catalog=_amc_catalog(_catalog_movie()))
+def test_amc_only_national_catalog_is_weak_national_not_public():
+    public, analysis = _bundle(amc_catalog=_amc_catalog(_catalog_movie()))
 
-    entry = _entry_by_title(artifact, "Announced Film")
+    assert public["entries"] == []
+    entry = _entry_by_title(analysis, "Announced Film")
     assert entry["classification"] == CLASSIFICATION_AMC_ANNOUNCED
-    assert entry["user_visible"] is True
+    assert entry["relevance_tier"] == "weak_national_only"
+    assert entry["user_visible"] is False
+    assert entry["visibility_reason"] == "weak_national_only"
     assert entry["evidence"] == {
         "amc_coming_soon_catalog": True,
         "amc_theater_booking": False,
         "tmdb_us_theatrical": False,
         "reel_seattle_scheduled": False,
     }
+
+
+def test_amc_plus_tmdb_yields_strongly_expected_public():
+    artifact = _build(
+        amc_catalog=_amc_catalog(_catalog_movie()),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Announced Film", 700001, "2026-11-20")
+        ),
+    )
+
+    entry = _entry_by_title(artifact, "Announced Film")
+    assert entry["classification"] == CLASSIFICATION_AMC_ANNOUNCED
+    assert entry["relevance_tier"] == "strongly_expected"
+    assert entry["user_visible"] is True
+    assert entry["evidence"]["amc_coming_soon_catalog"] is True
+    assert entry["evidence"]["tmdb_us_theatrical"] is True
     assert entry["expected_release_date"] == "2026-11-20"
     assert entry["expected_release_date_source"] == RELEASE_SOURCE_AMC
-    assert entry["source_metadata"]["amc"]["has_scheduled_showtimes"] is False
 
 
-def test_amc_catalog_entry_with_no_performances_is_still_included():
+def test_amc_catalog_entry_with_no_performances_still_strongly_expected_with_tmdb():
     artifact = _build(
         amc_catalog=_amc_catalog(
-            _catalog_movie(has_scheduled_showtimes=False, release_date_utc="2026-12-01T00:00:00Z")
-        )
+            _catalog_movie(
+                has_scheduled_showtimes=False, release_date_utc="2026-12-01T00:00:00Z"
+            )
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Announced Film", 700001, "2026-12-01")
+        ),
     )
 
     entry = _entry_by_title(artifact, "Announced Film")
     assert entry["user_visible"] is True
+    assert entry["relevance_tier"] == "strongly_expected"
     assert entry["local_theater_count"] == 0
     assert entry["local_showtime_count"] == 0
 
@@ -678,6 +724,7 @@ def test_tmdb_evidence_on_amc_announced_film_stays_visible():
 def test_window_uses_ninety_days_and_excludes_beyond_horizon():
     inside = (TODAY + timedelta(days=89)).isoformat() + "T00:00:00Z"
     outside = (TODAY + timedelta(days=120)).isoformat() + "T00:00:00Z"
+    inside_day = (TODAY + timedelta(days=89)).isoformat()
     artifact = _build(
         amc_catalog=_amc_catalog(
             _catalog_movie(
@@ -686,7 +733,10 @@ def test_window_uses_ninety_days_and_excludes_beyond_horizon():
             _catalog_movie(
                 source_film_id="8002", source_title="Beyond Horizon", release_date_utc=outside
             ),
-        )
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Inside Window", 700101, inside_day),
+        ),
     )
 
     assert artifact["window"]["days"] == 90
@@ -708,24 +758,32 @@ def test_catalog_release_date_in_the_past_is_not_announced():
 
 
 def test_horizon_counts_track_user_visible_entries():
+    soon = (TODAY + timedelta(days=20)).isoformat()
+    mid = (TODAY + timedelta(days=50)).isoformat()
+    late = (TODAY + timedelta(days=85)).isoformat()
     artifact = _build(
         amc_catalog=_amc_catalog(
             _catalog_movie(
                 source_film_id="8001",
                 source_title="Soon Film",
-                release_date_utc=(TODAY + timedelta(days=20)).isoformat() + "T00:00:00Z",
+                release_date_utc=soon + "T00:00:00Z",
             ),
             _catalog_movie(
                 source_film_id="8002",
                 source_title="Mid Film",
-                release_date_utc=(TODAY + timedelta(days=50)).isoformat() + "T00:00:00Z",
+                release_date_utc=mid + "T00:00:00Z",
             ),
             _catalog_movie(
                 source_film_id="8003",
                 source_title="Late Film",
-                release_date_utc=(TODAY + timedelta(days=85)).isoformat() + "T00:00:00Z",
+                release_date_utc=late + "T00:00:00Z",
             ),
-        )
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Soon Film", 700201, soon),
+            _tmdb_for_title("Mid Film", 700202, mid),
+            _tmdb_for_title("Late Film", 700203, late),
+        ),
     )
 
     assert artifact["stats"]["horizon_counts"] == {
@@ -735,7 +793,7 @@ def test_horizon_counts_track_user_visible_entries():
     }
 
 
-def test_entries_are_sorted_by_expected_date_then_title():
+def test_entries_are_sorted_by_expected_date_relevance_then_title():
     artifact = _build(
         amc_catalog=_amc_catalog(
             _catalog_movie(
@@ -753,14 +811,29 @@ def test_entries_are_sorted_by_expected_date_then_title():
                 source_title="Early Film",
                 release_date_utc="2026-09-30T00:00:00Z",
             ),
-        )
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Zebra Film", 700301, "2026-10-01"),
+            _tmdb_for_title("Alpha Film", 700302, "2026-10-01"),
+            _tmdb_for_title("Early Film", 700303, "2026-09-30"),
+        ),
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-01",
+                film_title="Local Alpha",
+                showtime_film_key="local-alpha",
+                parent_film_key="local-alpha",
+                source_film_id="9009",
+            )
+        ),
     )
 
-    assert [entry["title"] for entry in artifact["entries"]] == [
-        "Early Film",
-        "Alpha Film",
-        "Zebra Film",
-    ]
+    titles = [entry["title"] for entry in artifact["entries"]]
+    assert titles[0] == "Early Film"
+    # Same date: confirmed_local before strongly_expected, then title.
+    assert "Local Alpha" in titles
+    assert titles.index("Local Alpha") < titles.index("Alpha Film")
+    assert titles.index("Alpha Film") < titles.index("Zebra Film")
 
 
 def test_source_health_reports_optional_availability():
@@ -789,7 +862,12 @@ def test_generated_artifact_passes_schema_validation():
 
 
 def test_validation_rejects_entry_outside_window():
-    artifact = _build(amc_catalog=_amc_catalog(_catalog_movie()))
+    artifact = _build(
+        amc_catalog=_amc_catalog(_catalog_movie()),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Announced Film", 700001, "2026-11-20")
+        ),
+    )
     artifact["entries"][0]["expected_release_date"] = "2027-06-01"
 
     with pytest.raises(ValueError, match="outside the"):
@@ -797,7 +875,12 @@ def test_validation_rejects_entry_outside_window():
 
 
 def test_validation_rejects_hidden_row_in_public_artifact():
-    artifact = _build(amc_catalog=_amc_catalog(_catalog_movie()))
+    artifact = _build(
+        amc_catalog=_amc_catalog(_catalog_movie()),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Announced Film", 700001, "2026-11-20")
+        ),
+    )
     artifact["entries"][0]["user_visible"] = False
 
     with pytest.raises((ValueError, SchemaValidationError), match="user_visible|const"):
@@ -815,7 +898,12 @@ def test_validation_rejects_currently_available_entry():
 
 
 def test_validation_rejects_amc_announced_without_catalog_evidence():
-    artifact = _build(amc_catalog=_amc_catalog(_catalog_movie()))
+    artifact = _build(
+        amc_catalog=_amc_catalog(_catalog_movie()),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Announced Film", 700001, "2026-11-20")
+        ),
+    )
     artifact["entries"][0]["evidence"]["amc_coming_soon_catalog"] = False
 
     with pytest.raises(ValueError, match="without AMC"):
@@ -835,7 +923,11 @@ def test_validation_rejects_duplicate_join_keys():
         amc_catalog=_amc_catalog(
             _catalog_movie(source_film_id="8001", source_title="Alpha Film"),
             _catalog_movie(source_film_id="8002", source_title="Beta Film"),
-        )
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Alpha Film", 700401, "2026-11-20"),
+            _tmdb_for_title("Beta Film", 700402, "2026-11-20"),
+        ),
     )
     artifact["entries"][1]["join_key"] = artifact["entries"][0]["join_key"]
 
@@ -864,7 +956,13 @@ def _publish_kwargs(tmp_path: Path, **overrides):
 
 def test_publish_writes_and_revalidates(tmp_path: Path):
     result = publish_coming_soon_current(
-        **_publish_kwargs(tmp_path, amc_catalog=_amc_catalog(_catalog_movie()))
+        **_publish_kwargs(
+            tmp_path,
+            amc_catalog=_amc_catalog(_catalog_movie()),
+            tmdb_candidates_artifact=_tmdb_artifact(
+                _tmdb_for_title("Announced Film", 700001, "2026-11-20")
+            ),
+        )
     )
 
     assert result["published"] is True
@@ -972,7 +1070,12 @@ def test_presentation_prefers_confirmed_enrichment_over_inferred_tmdb():
 
 
 def test_presentation_uses_amc_catalog_when_film_id_is_not_confirmed():
-    artifact = _build(amc_catalog=_amc_catalog(_catalog_movie()))
+    artifact = _build(
+        amc_catalog=_amc_catalog(_catalog_movie()),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Announced Film", 700001, "2026-11-20")
+        ),
+    )
     entry = artifact["entries"][0]
     assert entry["film_id"] is None
     assert entry["presentation"]["source"] == "amc_catalog"
@@ -1031,19 +1134,26 @@ def test_presentation_filter_drops_rentals_and_untitled_placeholders():
                 source_title="Princess Mononoke - Studio Ghibli Fest 2026",
                 release_date_utc="2026-09-26T00:00:00Z",
             ),
-        )
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Untitled Elon Musk Documentary", 930001, "2026-10-16"),
+            _tmdb_for_title(
+                "Princess Mononoke - Studio Ghibli Fest 2026", 930002, "2026-09-26"
+            ),
+        ),
     )
 
     titles = [entry["title"] for entry in public["entries"]]
     assert "Untitled Trafalgar Event (11/19/26)" not in titles
     assert "ENE Repeat" not in titles
     assert "Untitled Elon Musk Documentary" in titles
-    assert "AMC Screen Unseen: October 12" in titles
+    assert "AMC Screen Unseen: October 12" not in titles
     assert "Princess Mononoke - Studio Ghibli Fest 2026" in titles
     assert all("rental" not in title.casefold() for title in titles)
 
-    unseen = _entry_by_title(public, "AMC Screen Unseen: October 12")
-    assert unseen["presentation"]["kind"] == "mystery_screening"
+    unseen = _entry_by_title(analysis, "AMC Screen Unseen: October 12")
+    assert unseen["user_visible"] is False
+    assert unseen["visibility_reason"] == "special_programming_not_film_calendar"
     ghibli = _entry_by_title(public, "Princess Mononoke - Studio Ghibli Fest 2026")
     assert ghibli["presentation"]["kind"] == "rerelease"
 
@@ -1076,3 +1186,261 @@ def test_confirmed_local_exposes_theater_names_and_scheduled_status():
     assert entry["local_theaters"] == [
         {"theater_id": "amc-pacific-place-11", "name": "AMC Pacific Place 11"}
     ]
+
+
+# ---------------------------------------------------------------------------
+# Relevance tiers + film-level engagements
+# ---------------------------------------------------------------------------
+
+
+def test_confirmed_local_public_without_amc_or_tmdb():
+    artifact = _build(
+        showtimes_current=_showtimes_current(_showtime(date="2026-09-26")),
+    )
+    entry = _entry_by_title(artifact, "Example Film")
+    assert entry["relevance_tier"] == "confirmed_local"
+    assert entry["user_visible"] is True
+
+
+def test_tmdb_only_remains_analysis_only():
+    public, analysis = _bundle(
+        tmdb_candidates_artifact=_tmdb_artifact(_tmdb_candidate()),
+    )
+    assert public["entries"] == []
+    entry = _entry_by_title(analysis, "Indie Discovery")
+    assert entry["classification"] == CLASSIFICATION_TMDB_ONLY
+    assert entry["user_visible"] is False
+    assert entry["visibility_reason"] == "tmdb_only_analysis_only"
+    assert entry["relevance_tier"] is None
+
+
+def test_fan_first_and_early_access_consolidate_under_parent():
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(
+                source_film_id="82629",
+                source_title="Wildwood",
+                release_date_utc="2026-10-08T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_film_id="85063",
+                source_title="WILDWOOD Fan First Screening",
+                release_date_utc="2026-10-08T00:00:00Z",
+                presentation={
+                    "category": "concert_or_event",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+            _catalog_movie(
+                source_film_id="84881",
+                source_title="The Incomer",
+                release_date_utc="2026-09-25T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_film_id="84941",
+                source_title="THE INCOMER Early Access with Domhnall Gleeson Q&A",
+                release_date_utc="2026-09-21T00:00:00Z",
+            ),
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Wildwood", 800001, "2026-10-08"),
+            _tmdb_for_title("The Incomer", 800002, "2026-09-25"),
+        ),
+    )
+    titles = sorted(entry["title"] for entry in public["entries"])
+    assert titles == ["The Incomer", "Wildwood"]
+    wildwood = _entry_by_title(public, "Wildwood")
+    assert any(e["kind"] == "fan_first" for e in wildwood["engagements"])
+    incomer = _entry_by_title(public, "The Incomer")
+    assert any(e["kind"] == "early_access" for e in incomer["engagements"])
+
+
+def test_orphan_sunny_dancer_qa_skus_form_synthetic_film_group():
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(
+                source_film_id="84938",
+                source_title=(
+                    "Sunny Dancer Q&A with Director George Jaques and Neil Patrick Harris"
+                ),
+                release_date_utc="2026-09-17T00:00:00Z",
+                presentation={
+                    "category": "q_and_a",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+            _catalog_movie(
+                source_film_id="84939",
+                source_title=(
+                    "Sunny Dancer Q&A with Director George Jaques and Composer Este Haim "
+                    "and moderated by Marlo Thomas"
+                ),
+                release_date_utc="2026-09-18T00:00:00Z",
+                presentation={
+                    "category": "q_and_a",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+            _catalog_movie(
+                source_film_id="84940",
+                source_title=(
+                    "Sunny Dancer Q&A with Director George Jaques and Composer Este Haim"
+                ),
+                release_date_utc="2026-09-19T00:00:00Z",
+                presentation={
+                    "category": "q_and_a",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+        ),
+    )
+    # Without TMDB/local evidence the synthetic group is analysis-only.
+    assert public["entries"] == []
+    sunny_rows = [
+        entry
+        for entry in analysis["entries"]
+        if "sunny dancer" in entry["title"].casefold()
+        or entry["join_key"] == "sunny-dancer"
+    ]
+    assert len(sunny_rows) == 1
+    entry = sunny_rows[0]
+    assert entry["title"] == "Sunny Dancer"
+    assert entry["identity"]["synthetic_film_group"] is True
+    assert len(entry["engagements"]) >= 2
+    assert entry["tmdb_id"] is None
+    assert entry["film_id"] is None
+    assert entry["amc_movie_id"] in {"84938", "84939", "84940"}
+    assert entry["relevance_tier"] == "weak_national_only"
+
+
+def test_similar_but_distinct_films_are_not_merged():
+    public = _build(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(
+                source_film_id="8001",
+                source_title="The Night House",
+                release_date_utc="2026-10-01T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_film_id="8002",
+                source_title="The Night House II",
+                release_date_utc="2026-10-01T00:00:00Z",
+            ),
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("The Night House", 910001, "2026-10-01"),
+            _tmdb_for_title("The Night House II", 910002, "2026-10-01"),
+        ),
+    )
+    titles = sorted(entry["title"] for entry in public["entries"])
+    assert titles == ["The Night House", "The Night House II"]
+
+
+def test_ohio_goes_and_met_opera_are_not_ordinary_film_calendar_rows():
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(
+                source_film_id="87001",
+                source_title="Superman (2025) - Ohio Goes To The Movies",
+                release_date_utc="2026-09-18T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_film_id="87002",
+                source_title="MET Opera: Carmen (2026 Encore)",
+                release_date_utc="2026-10-03T00:00:00Z",
+                genre="OPERA",
+                presentation={
+                    "category": "concert_or_event",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Superman (2025) - Ohio Goes To The Movies", 920001, "2026-09-18"),
+        ),
+    )
+    assert public["entries"] == []
+    ohio = _entry_by_title(analysis, "Superman (2025) - Ohio Goes To The Movies")
+    assert ohio["user_visible"] is False
+    assert ohio["visibility_reason"] == "special_programming_not_film_calendar"
+    met = _entry_by_title(analysis, "MET Opera: Carmen (2026 Encore)")
+    assert met["user_visible"] is False
+
+
+def test_amc_concert_category_does_not_drop_miscategorized_films():
+    """AMC often tags real films as concert_or_event; genre/title must decide."""
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(
+                source_film_id="88001",
+                source_title="Ninja Scroll",
+                release_date_utc="2026-10-04T00:00:00Z",
+                genre="Special Event",
+                presentation={
+                    "category": "concert_or_event",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+            _catalog_movie(
+                source_film_id="88002",
+                source_title="Queen Budapest",
+                release_date_utc="2026-10-07T00:00:00Z",
+                genre="ROCK/POP CONCERT",
+                presentation={
+                    "category": "concert_or_event",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+            _catalog_movie(
+                source_film_id="88003",
+                source_title="Hostel - Welcome to Horrorwood Series",
+                release_date_utc="2026-10-02T00:00:00Z",
+                genre="Horror",
+                presentation={
+                    "category": "concert_or_event",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+        ),
+        showtimes_current=_showtimes_current(
+            _showtime(
+                showtime_film_key="ninja-scroll",
+                parent_film_key="ninja-scroll",
+                film_title="Ninja Scroll",
+                source_film_id="88001",
+                date="2026-10-04",
+            ),
+            window_end="2026-10-10",
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Ninja Scroll", 930101, "2026-10-04"),
+        ),
+    )
+    titles = {entry["title"] for entry in public["entries"]}
+    assert "Ninja Scroll" in titles
+    assert "Queen Budapest" not in titles
+    assert "Hostel - Welcome to Horrorwood Series" not in titles
+    ninja = _entry_by_title(public, "Ninja Scroll")
+    assert ninja["relevance_tier"] == "confirmed_local"
+    queen = _entry_by_title(analysis, "Queen Budapest")
+    assert queen["user_visible"] is False
+    assert queen["visibility_reason"] == "special_programming_not_film_calendar"
+    hostel = _entry_by_title(analysis, "Hostel - Welcome to Horrorwood Series")
+    assert hostel["visibility_reason"] == "special_programming_not_film_calendar"
+
+
+def test_analysis_preserves_weak_national_with_reason():
+    public, analysis = _bundle(amc_catalog=_amc_catalog(_catalog_movie()))
+    assert public["entries"] == []
+    entry = _entry_by_title(analysis, "Announced Film")
+    assert entry["relevance_tier"] == "weak_national_only"
+    assert entry["visibility_reason"] == "weak_national_only"
+    assert analysis["stats"]["relevance_tier_counts"]["weak_national_only"] >= 1

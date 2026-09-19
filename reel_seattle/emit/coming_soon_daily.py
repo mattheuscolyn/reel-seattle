@@ -102,6 +102,8 @@ class ComingSoonDailyResult:
     user_visible_count: int = 0
     confirmed_local_count: int = 0
     amc_announced_count: int = 0
+    strongly_expected_count: int = 0
+    weak_national_only_count: int = 0
     tmdb_only_count: int = 0
     excluded_currently_available: int = 0
     output_path: str | None = None
@@ -313,9 +315,10 @@ def format_diagnostics(result: ComingSoonDailyResult) -> list[str]:
         lines.append(
             "Coming Soon: "
             f"{result.entry_count} entries / {result.user_visible_count} user-visible "
-            f"({result.confirmed_local_count} confirmed local, "
-            f"{result.amc_announced_count} AMC announced, "
-            f"{result.tmdb_only_count} TMDB-only hidden)"
+            f"({result.confirmed_local_count} confirmed_local, "
+            f"{result.strongly_expected_count} strongly_expected; "
+            f"{result.weak_national_only_count} weak_national_only + "
+            f"{result.tmdb_only_count} TMDB-only in analysis)"
         )
     return lines
 
@@ -418,6 +421,13 @@ def run_daily_coming_soon(
         result.user_visible_count = int(stats.get("user_visible_count") or 0)
         result.confirmed_local_count = int(classification.get("confirmed_local") or 0)
         result.amc_announced_count = int(classification.get("amc_announced") or 0)
+        relevance = stats.get("relevance_tier_counts") or {}
+        result.strongly_expected_count = int(relevance.get("strongly_expected") or 0)
+        result.weak_national_only_count = int(
+            (stats.get("analysis") or {}).get("weak_national_only_count")
+            or relevance.get("weak_national_only")
+            or 0
+        )
         result.tmdb_only_count = int(
             (stats.get("analysis") or {}).get("tmdb_only_count") or 0
         )

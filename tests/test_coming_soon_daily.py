@@ -25,6 +25,49 @@ TODAY = date(2026, 9, 15)
 GENERATED_AT = "2026-09-15T23:30:00-07:00"
 
 
+def _seed_tmdb_candidates(path: Path) -> None:
+    """Write TMDB theatrical evidence for fixture AMC titles (strongly_expected)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "schema_version": "1.0.0",
+        "generated_at": GENERATED_AT,
+        "source": "tmdb",
+        "fetch": {"status": "success"},
+        "stats": {"candidates": 2},
+        "candidates": [
+            {
+                "source": "tmdb",
+                "tmdb_id": 910001,
+                "title": "Fixture Tentpole",
+                "original_title": "Fixture Tentpole",
+                "original_language": "en",
+                "release_date": "2026-11-20",
+                "popularity": 10.0,
+                "vote_count": 0,
+                "poster_path": None,
+                "has_poster": False,
+                "has_overview": True,
+                "quality_flags": [],
+            },
+            {
+                "source": "tmdb",
+                "tmdb_id": 910002,
+                "title": "Fixture Amélie Revival",
+                "original_title": "Fixture Amélie Revival",
+                "original_language": "fr",
+                "release_date": "2026-10-02",
+                "popularity": 5.0,
+                "vote_count": 0,
+                "poster_path": None,
+                "has_poster": False,
+                "has_overview": True,
+                "quality_flags": [],
+            },
+        ],
+    }
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+
 class FailingTmdbClient:
     def discover_movie(self, params):  # noqa: ARG002 - signature parity
         raise RuntimeError("tmdb offline")
@@ -44,11 +87,14 @@ class StubTmdbClient:
 
 
 def _run(tmp_path: Path, **overrides):
+    tmdb_path = tmp_path / "tmdb_us_theatrical_candidates.json"
+    if "tmdb_candidates_path" not in overrides:
+        _seed_tmdb_candidates(tmdb_path)
     kwargs = {
         "analysis_path": tmp_path / "coming_soon_candidates_current.json",
         "output_path": tmp_path / "coming_soon_current.json",
         "catalog_path": tmp_path / "amc_coming_soon_catalog.json",
-        "tmdb_candidates_path": tmp_path / "tmdb_us_theatrical_candidates.json",
+        "tmdb_candidates_path": tmdb_path,
         "showtimes_current_path": tmp_path / "missing_showtimes.json",
         "registry_path": tmp_path / "missing_theaters.json",
         "logs_dir": tmp_path / "logs",
@@ -56,6 +102,7 @@ def _run(tmp_path: Path, **overrides):
         "amc_fixture_pages": AMC_PAGES,
         "today_date": TODAY,
         "generated_at": GENERATED_AT,
+        "refresh_tmdb": False,
     }
     kwargs.update(overrides)
     return run_daily_coming_soon(**kwargs)
@@ -71,12 +118,18 @@ def test_fixture_run_publishes_and_collapses_event_variant(tmp_path: Path):
     artifact = json.loads(
         (tmp_path / "coming_soon_current.json").read_text(encoding="utf-8")
     )
+    analysis = json.loads(
+        (tmp_path / "coming_soon_candidates_current.json").read_text(encoding="utf-8")
+    )
     titles = [entry["title"] for entry in artifact["entries"]]
     # Three catalog rows collapse to two films: the event variant folds in.
     # Display titles keep their diacritics; only join keys fold them.
     assert titles == ["Fixture Am\u00e9lie Revival", "Fixture Tentpole"]
-    assert artifact["stats"]["collapsed_event_variants"] == 1
     assert artifact["stats"]["user_visible_count"] == 2
+    tentpole = next(entry for entry in artifact["entries"] if entry["title"] == "Fixture Tentpole")
+    assert tentpole["relevance_tier"] == "strongly_expected"
+    assert any("Fan First" in (row.get("title") or "") for row in tentpole["engagements"])
+    assert analysis["stats"]["relevance_tier_counts"]["strongly_expected"] == 2
 
 
 def test_amc_stage_refreshes_durable_snapshot(tmp_path: Path):
@@ -202,7 +255,15 @@ def test_second_identical_run_reports_unchanged_membership(tmp_path: Path):
 
 
 def test_tmdb_failure_does_not_block_publication(tmp_path: Path):
-    result = _run(tmp_path, live=True, refresh_amc=False, tmdb_client=FailingTmdbClient())
+    # Seed AMC-only catalog first; TMDB live refresh fails but prior seed remains.
+    _seed_tmdb_candidates(tmp_path / "tmdb_us_theatrical_candidates.json")
+    result = _run(
+        tmp_path,
+        live=True,
+        refresh_amc=False,
+        refresh_tmdb=True,
+        tmdb_client=FailingTmdbClient(),
+    )
 
     assert result.published is True
     assert result.soft_failure is True
