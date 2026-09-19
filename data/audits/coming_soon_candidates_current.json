@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-18T18:56:58-07:00",
+  "generated_at": "2026-09-18T19:28:15-07:00",
   "timezone": "America/Los_Angeles",
   "window": {
     "start_date": "2026-09-18",
@@ -39,8 +39,8 @@
   },
   "stats": {
     "entry_count": 485,
-    "user_visible_count": 135,
-    "hidden_count": 350,
+    "user_visible_count": 142,
+    "hidden_count": 343,
     "classification_counts": {
       "confirmed_local": 65,
       "amc_announced": 231,
@@ -49,8 +49,8 @@
     "relevance_tier_counts": {
       "confirmed_local": 65,
       "locally_announced": 0,
-      "strongly_expected": 94,
-      "weak_national_only": 137
+      "strongly_expected": 96,
+      "weak_national_only": 135
     },
     "evidence_counts": {
       "amc_coming_soon_catalog": 277,
@@ -59,8 +59,8 @@
       "reel_seattle_scheduled": 28
     },
     "presentation_kind_counts": {
-      "event": 27,
-      "film": 429,
+      "event": 15,
+      "film": 441,
       "other": 1,
       "placeholder": 10,
       "rental": 4,
@@ -76,9 +76,9 @@
     "engagement_count": 50,
     "synthetic_film_group_count": 32,
     "horizon_counts": {
-      "30_days": 83,
-      "60_days": 114,
-      "90_days": 135
+      "30_days": 90,
+      "60_days": 121,
+      "90_days": 142
     },
     "earliest_expected_release_date": "2026-09-18",
     "latest_expected_release_date": "2026-12-17",
@@ -1150,11 +1150,11 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
+      "visibility_reason": "weak_national_only",
+      "exclusion_reason": "weak_national_only",
       "engagements": [],
       "presentation": {
-        "kind": "event",
+        "kind": "film",
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1789682619/amc-cdn/content/general/trtpa4lmjjoeqawpcbr4.png",
         "poster_path": null,
@@ -6171,12 +6171,12 @@
       },
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
-      "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
+      "user_visible": true,
+      "visibility_reason": null,
+      "exclusion_reason": null,
       "engagements": [],
       "presentation": {
-        "kind": "event",
+        "kind": "film",
         "source": "confirmed_enrichment",
         "poster_url": "https://image.tmdb.org/t/p/w500/xFKph57zIjwBnifWPNpFU9aBadk.jpg",
         "poster_path": "/xFKph57zIjwBnifWPNpFU9aBadk.jpg",
@@ -9822,12 +9822,12 @@
       },
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
-      "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
+      "user_visible": true,
+      "visibility_reason": null,
+      "exclusion_reason": null,
       "engagements": [],
       "presentation": {
-        "kind": "event",
+        "kind": "film",
         "source": "confirmed_enrichment",
         "poster_url": "https://image.tmdb.org/t/p/w500/kHNrz7DBVPrtyMhJxmBm2poS2l9.jpg",
         "poster_path": "/kHNrz7DBVPrtyMhJxmBm2poS2l9.jpg",
@@ -10107,6 +10107,103 @@
     },
     {
       "film_id": null,
+      "title": "Camp Duval",
+      "join_key": "camp-duval",
+      "parent_film_keys": [
+        "camp-duval"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1735772,
+      "amc_movie_id": "84654",
+      "amc_movie_ids": [
+        "84654"
+      ],
+      "expected_release_date": "2026-09-30",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-09-30",
+      "tmdb_us_release_date": "2026-09-30",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "strongly_expected",
+      "user_visible": true,
+      "visibility_reason": null,
+      "exclusion_reason": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1786638883/amc-cdn/content/general/dqtfelyujykujfhy1q4n.jpg",
+        "poster_path": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1788260777/amc-cdn/production/2/movies/84700/84654/MovieStills/423058R6.jpg",
+        "backdrop_path": null,
+        "overview": "CAMP DUVAL follows comedian Lil Duval as he purchases a rundown former summer camp and invites a group of fellow comics for a weekend comedy retreat. What starts as a chance to sharpen their stand-up routines quickly turns into a hilariously chaotic fight for survival when a vengeful ghost begins picking o comedians in absurdly ironic ways, forcing Duval and his crew to uncover the camp's dark past and save themselves through the power of comedy.",
+        "runtime_minutes": 67,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Camp Duval"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84654",
+          "source_title": "Camp Duval",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-09-30T05:00:00Z",
+          "earliest_showing_utc": "2026-09-30T20:00:00Z",
+          "runtime_min": 67,
+          "mpaa_rating": "NR",
+          "genre": "COMEDY",
+          "slug": "camp-duval-84654",
+          "synopsis": "CAMP DUVAL follows comedian Lil Duval as he purchases a rundown former summer camp and invites a group of fellow comics for a weekend comedy retreat. What starts as a chance to sharpen their stand-up routines quickly turns into a hilariously chaotic fight for survival when a vengeful ghost begins picking o comedians in absurdly ironic ways, forcing Duval and his crew to uncover the camp's dark past and save themselves through the power of comedy.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1786638883/amc-cdn/content/general/dqtfelyujykujfhy1q4n.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788260777/amc-cdn/production/2/movies/84700/84654/MovieStills/423058R6.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788260777/amc-cdn/production/2/movies/84700/84654/MovieStills/423058R6.jpg",
+          "presentation_category": "concert_or_event",
+          "is_special_presentation": true
+        },
+        "tmdb": {
+          "tmdb_id": 1735772,
+          "original_title": "Camp Duval",
+          "original_language": "en",
+          "popularity": 1.861,
+          "vote_count": 0,
+          "poster_path": "/g9aRX7Lwrtl3TfKbb6BLJTOh7k5.jpg",
+          "backdrop_path": null,
+          "overview": "Welcome to Camp Duval, the wildest comedy camp ever created — where rising comics come to sharpen their jokes, survive the chaos, and hopefully make it through the night.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
+        }
+      }
+    },
+    {
+      "film_id": null,
       "title": "Begotten (1989) (re)",
       "join_key": "begotten-1989-re-1989",
       "parent_film_keys": [
@@ -10185,103 +10282,6 @@
           "is_special_presentation": false
         },
         "tmdb": null
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Camp Duval",
-      "join_key": "camp-duval",
-      "parent_film_keys": [
-        "camp-duval"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1735772,
-      "amc_movie_id": "84654",
-      "amc_movie_ids": [
-        "84654"
-      ],
-      "expected_release_date": "2026-09-30",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-09-30",
-      "tmdb_us_release_date": "2026-09-30",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
-      "engagements": [],
-      "presentation": {
-        "kind": "event",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1786638883/amc-cdn/content/general/dqtfelyujykujfhy1q4n.jpg",
-        "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1788260777/amc-cdn/production/2/movies/84700/84654/MovieStills/423058R6.jpg",
-        "backdrop_path": null,
-        "overview": "CAMP DUVAL follows comedian Lil Duval as he purchases a rundown former summer camp and invites a group of fellow comics for a weekend comedy retreat. What starts as a chance to sharpen their stand-up routines quickly turns into a hilariously chaotic fight for survival when a vengeful ghost begins picking o comedians in absurdly ironic ways, forcing Duval and his crew to uncover the camp's dark past and save themselves through the power of comedy.",
-        "runtime_minutes": 67,
-        "rating": "NR",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Camp Duval"
-        ],
-        "contributing_sources": [
-          "amc_catalog",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "84654",
-          "source_title": "Camp Duval",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-09-30T05:00:00Z",
-          "earliest_showing_utc": "2026-09-30T20:00:00Z",
-          "runtime_min": 67,
-          "mpaa_rating": "NR",
-          "genre": "COMEDY",
-          "slug": "camp-duval-84654",
-          "synopsis": "CAMP DUVAL follows comedian Lil Duval as he purchases a rundown former summer camp and invites a group of fellow comics for a weekend comedy retreat. What starts as a chance to sharpen their stand-up routines quickly turns into a hilariously chaotic fight for survival when a vengeful ghost begins picking o comedians in absurdly ironic ways, forcing Duval and his crew to uncover the camp's dark past and save themselves through the power of comedy.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1786638883/amc-cdn/content/general/dqtfelyujykujfhy1q4n.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788260777/amc-cdn/production/2/movies/84700/84654/MovieStills/423058R6.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788260777/amc-cdn/production/2/movies/84700/84654/MovieStills/423058R6.jpg",
-          "presentation_category": "concert_or_event",
-          "is_special_presentation": true
-        },
-        "tmdb": {
-          "tmdb_id": 1735772,
-          "original_title": "Camp Duval",
-          "original_language": "en",
-          "popularity": 1.861,
-          "vote_count": 0,
-          "poster_path": "/g9aRX7Lwrtl3TfKbb6BLJTOh7k5.jpg",
-          "backdrop_path": null,
-          "overview": "Welcome to Camp Duval, the wildest comedy camp ever created — where rising comics come to sharpen their jokes, survive the chaos, and hopefully make it through the night.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
-        }
       }
     },
     {
@@ -15805,12 +15805,12 @@
       },
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
-      "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
+      "user_visible": true,
+      "visibility_reason": null,
+      "exclusion_reason": null,
       "engagements": [],
       "presentation": {
-        "kind": "event",
+        "kind": "film",
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1786187232/amc-cdn/production/2/movies/84600/84607/Poster/418053R1.jpg",
         "poster_path": null,
@@ -15900,12 +15900,12 @@
       },
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
-      "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
+      "user_visible": true,
+      "visibility_reason": null,
+      "exclusion_reason": null,
       "engagements": [],
       "presentation": {
-        "kind": "event",
+        "kind": "film",
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1788292572/amc-cdn/content/general/jctmzwpbzdf4p8ff5qba.jpg",
         "poster_path": null,
@@ -17228,11 +17228,11 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
+      "visibility_reason": "weak_national_only",
+      "exclusion_reason": "weak_national_only",
       "engagements": [],
       "presentation": {
-        "kind": "event",
+        "kind": "film",
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1787930414/amc-cdn/content/general/pgzowra4xjmkthg5rdsg.jpg",
         "poster_path": null,
@@ -20994,12 +20994,12 @@
       },
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
-      "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
+      "user_visible": true,
+      "visibility_reason": null,
+      "exclusion_reason": null,
       "engagements": [],
       "presentation": {
-        "kind": "event",
+        "kind": "film",
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1789491148/amc-cdn/content/general/bjq8pww9aiwermy9aomg.jpg",
         "poster_path": null,
@@ -21247,13 +21247,13 @@
         "reel_seattle_scheduled": false
       },
       "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
+      "relevance_tier": "strongly_expected",
+      "user_visible": true,
+      "visibility_reason": null,
+      "exclusion_reason": null,
       "engagements": [],
       "presentation": {
-        "kind": "event",
+        "kind": "film",
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1788964181/amc-cdn/content/general/cnlwfnn9ejnwbzadvohz.jpg",
         "poster_path": null,
@@ -25232,11 +25232,11 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
+      "visibility_reason": "weak_national_only",
+      "exclusion_reason": "weak_national_only",
       "engagements": [],
       "presentation": {
-        "kind": "event",
+        "kind": "film",
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1789470410/amc-cdn/production/2/movies/85000/84972/Poster/349859R1.jpg",
         "poster_path": null,
@@ -29370,11 +29370,11 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
+      "visibility_reason": "weak_national_only",
+      "exclusion_reason": "weak_national_only",
       "engagements": [],
       "presentation": {
-        "kind": "event",
+        "kind": "film",
         "source": "amc_catalog",
         "poster_url": null,
         "poster_path": null,
@@ -31004,8 +31004,8 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": false,
-      "visibility_reason": "weak_national_only",
-      "exclusion_reason": "weak_national_only",
+      "visibility_reason": "special_programming_not_film_calendar",
+      "exclusion_reason": "special_programming_not_film_calendar",
       "engagements": [
         {
           "kind": "other_engagement",
@@ -31092,11 +31092,11 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
+      "visibility_reason": "weak_national_only",
+      "exclusion_reason": "weak_national_only",
       "engagements": [],
       "presentation": {
-        "kind": "event",
+        "kind": "film",
         "source": "fallback",
         "poster_url": null,
         "poster_path": null,

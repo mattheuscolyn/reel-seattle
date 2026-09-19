@@ -1352,6 +1352,7 @@ def test_ohio_goes_and_met_opera_are_not_ordinary_film_calendar_rows():
                 source_film_id="87002",
                 source_title="MET Opera: Carmen (2026 Encore)",
                 release_date_utc="2026-10-03T00:00:00Z",
+                genre="OPERA",
                 presentation={
                     "category": "concert_or_event",
                     "is_special_presentation": True,
@@ -1369,6 +1370,71 @@ def test_ohio_goes_and_met_opera_are_not_ordinary_film_calendar_rows():
     assert ohio["visibility_reason"] == "special_programming_not_film_calendar"
     met = _entry_by_title(analysis, "MET Opera: Carmen (2026 Encore)")
     assert met["user_visible"] is False
+
+
+def test_amc_concert_category_does_not_drop_miscategorized_films():
+    """AMC often tags real films as concert_or_event; genre/title must decide."""
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(
+                source_film_id="88001",
+                source_title="Ninja Scroll",
+                release_date_utc="2026-10-04T00:00:00Z",
+                genre="Special Event",
+                presentation={
+                    "category": "concert_or_event",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+            _catalog_movie(
+                source_film_id="88002",
+                source_title="Queen Budapest",
+                release_date_utc="2026-10-07T00:00:00Z",
+                genre="ROCK/POP CONCERT",
+                presentation={
+                    "category": "concert_or_event",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+            _catalog_movie(
+                source_film_id="88003",
+                source_title="Hostel - Welcome to Horrorwood Series",
+                release_date_utc="2026-10-02T00:00:00Z",
+                genre="Horror",
+                presentation={
+                    "category": "concert_or_event",
+                    "is_special_presentation": True,
+                    "classifier_version": "1.0.0",
+                },
+            ),
+        ),
+        showtimes_current=_showtimes_current(
+            _showtime(
+                showtime_film_key="ninja-scroll",
+                parent_film_key="ninja-scroll",
+                film_title="Ninja Scroll",
+                source_film_id="88001",
+                date="2026-10-04",
+            ),
+            window_end="2026-10-10",
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Ninja Scroll", 930101, "2026-10-04"),
+        ),
+    )
+    titles = {entry["title"] for entry in public["entries"]}
+    assert "Ninja Scroll" in titles
+    assert "Queen Budapest" not in titles
+    assert "Hostel - Welcome to Horrorwood Series" not in titles
+    ninja = _entry_by_title(public, "Ninja Scroll")
+    assert ninja["relevance_tier"] == "confirmed_local"
+    queen = _entry_by_title(analysis, "Queen Budapest")
+    assert queen["user_visible"] is False
+    assert queen["visibility_reason"] == "special_programming_not_film_calendar"
+    hostel = _entry_by_title(analysis, "Hostel - Welcome to Horrorwood Series")
+    assert hostel["visibility_reason"] == "special_programming_not_film_calendar"
 
 
 def test_analysis_preserves_weak_national_with_reason():

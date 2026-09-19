@@ -71,6 +71,7 @@ from reel_seattle.film_identity.public_emit import (
 from reel_seattle.emit.coming_soon_presentation import (
     DEFAULT_ENRICHMENT_PATH,
     DEFAULT_PRODUCTS_PATH,
+    KIND_EVENT,
     KIND_FILM,
     classify_presentation_kind,
     load_amc_product_index,
@@ -92,6 +93,7 @@ from reel_seattle.emit.coming_soon_relevance import (
     infer_engagement_base_title,
     infer_engagement_kind,
     is_engagement_title,
+    is_special_programming,
 )
 from reel_seattle.normalize import (
     DEFAULT_TIMEZONE,
@@ -1137,6 +1139,23 @@ def _entry_from_candidate(
             kind = KIND_FILM
             exclusion_reason = None
 
+    amc_presentation_category = (candidate.amc_metadata or {}).get(
+        "presentation_category"
+    )
+    amc_genre = (candidate.amc_metadata or {}).get("genre")
+    # AMC bins many real films as concert_or_event → kind=event. When
+    # special-programming checks (title/genre) clear the row, emit it as a
+    # film so the public schema stays film-calendar-only.
+    if kind == KIND_EVENT and not is_special_programming(
+        candidate.title,
+        presentation_kind=kind,
+        amc_presentation_category=amc_presentation_category,
+        amc_genre=amc_genre,
+        variant_titles=sorted(candidate.titles),
+    ):
+        kind = KIND_FILM
+        exclusion_reason = None
+
     evidence = {
         "amc_coming_soon_catalog": bool(candidate.amc_coming_soon_catalog),
         "amc_theater_booking": bool(candidate.amc_theater_booking),
@@ -1149,9 +1168,8 @@ def _entry_from_candidate(
         exclusion_reason=exclusion_reason,
         evidence=evidence,
         title=candidate.title,
-        amc_presentation_category=(candidate.amc_metadata or {}).get(
-            "presentation_category"
-        ),
+        amc_presentation_category=amc_presentation_category,
+        amc_genre=amc_genre,
         variant_titles=sorted(candidate.titles),
     )
     scheduled = bool(

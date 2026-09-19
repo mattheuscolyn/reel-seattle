@@ -1,6 +1,6 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-09-18T18:56:58-07:00",
+  "generated_at": "2026-09-18T19:28:15-07:00",
   "timezone": "America/Los_Angeles",
   "window": {
     "start_date": "2026-09-18",
@@ -38,48 +38,48 @@
     }
   },
   "stats": {
-    "entry_count": 135,
-    "user_visible_count": 135,
+    "entry_count": 142,
+    "user_visible_count": 142,
     "hidden_count": 0,
     "classification_counts": {
-      "confirmed_local": 41,
-      "amc_announced": 94
+      "confirmed_local": 46,
+      "amc_announced": 96
     },
     "relevance_tier_counts": {
-      "confirmed_local": 41,
+      "confirmed_local": 46,
       "locally_announced": 0,
-      "strongly_expected": 94,
+      "strongly_expected": 96,
       "weak_national_only": 0
     },
     "evidence_counts": {
-      "amc_coming_soon_catalog": 116,
-      "amc_theater_booking": 22,
-      "tmdb_us_theatrical": 101,
-      "reel_seattle_scheduled": 25
+      "amc_coming_soon_catalog": 123,
+      "amc_theater_booking": 27,
+      "tmdb_us_theatrical": 106,
+      "reel_seattle_scheduled": 27
     },
     "presentation_kind_counts": {
-      "film": 126,
+      "film": 133,
       "rerelease": 9
     },
     "presentation_source_counts": {
-      "amc_catalog": 69,
-      "confirmed_enrichment": 3,
+      "amc_catalog": 74,
+      "confirmed_enrichment": 5,
       "fallback": 19,
       "inferred_tmdb": 44
     },
-    "entries_with_poster": 112,
+    "entries_with_poster": 119,
     "engagement_count": 25,
     "synthetic_film_group_count": 10,
     "horizon_counts": {
-      "30_days": 83,
-      "60_days": 114,
-      "90_days": 135
+      "30_days": 90,
+      "60_days": 121,
+      "90_days": 142
     },
     "earliest_expected_release_date": "2026-09-21",
     "latest_expected_release_date": "2026-12-15",
-    "entries_with_confirmed_film_id": 3,
-    "entries_without_confirmed_film_id": 132,
-    "entries_with_tmdb_id": 103,
+    "entries_with_confirmed_film_id": 5,
+    "entries_without_confirmed_film_id": 137,
+    "entries_with_tmdb_id": 108,
     "ambiguous_identity_count": 1,
     "duplicate_film_id_count": 0,
     "duplicate_join_key_count": 0,
@@ -96,7 +96,7 @@
       "path": "data/audits/coming_soon_candidates_current.json",
       "entry_count": 485,
       "tmdb_only_count": 189,
-      "weak_national_only_count": 137,
+      "weak_national_only_count": 135,
       "presentation_filtered_count": 15
     }
   },
@@ -1627,6 +1627,115 @@
       }
     },
     {
+      "film_id": "tmdb:1638303",
+      "title": "No Limbs No Limits",
+      "join_key": "no-limbs-no-limits-the-nickv-story",
+      "parent_film_keys": [
+        "no-limbs-no-limits",
+        "no-limbs-no-limits-the-nickv-story"
+      ],
+      "showtime_film_keys": [
+        "no-limbs-no-limits-the-nickv-story"
+      ],
+      "tmdb_id": 1638303,
+      "amc_movie_id": "84659",
+      "amc_movie_ids": [
+        "84659"
+      ],
+      "expected_release_date": "2026-09-26",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": "2026-09-25",
+      "tmdb_us_release_date": "2026-09-25",
+      "first_local_screening_date": "2026-09-26",
+      "first_local_screening_source": "amc_theater_booking",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "amc-alderwood-mall-16"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 2,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": true,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "confirmed_enrichment",
+        "poster_url": "https://image.tmdb.org/t/p/w500/xFKph57zIjwBnifWPNpFU9aBadk.jpg",
+        "poster_path": "/xFKph57zIjwBnifWPNpFU9aBadk.jpg",
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "The powerful true story of world-renowned speaker Nick Vujicic—a man who has defined what it means to live without limits. This film is more than a documentary; it’s a testament to resilience, faith, and the unstoppable human spirit. Born without arms or legs, Nick overcame his disability to live not just independently but a rich, fulfilling life, becoming a model for anyone seeking true happiness.",
+        "runtime_minutes": 91,
+        "rating": "PG",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "film_id",
+        "film_id_confirmed": true,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "NO LIMBS, NO LIMITS: The NickV Story",
+          "No Limbs No Limits"
+        ],
+        "contributing_sources": [
+          "amc_booking",
+          "amc_catalog",
+          "reel_seattle",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84659",
+          "source_title": "NO LIMBS, NO LIMITS: The NickV Story",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-09-25T05:00:00Z",
+          "earliest_showing_utc": "2026-09-25T18:00:00Z",
+          "runtime_min": 102,
+          "mpaa_rating": "PG",
+          "genre": "DOCUMENTARY",
+          "slug": "no-limbs-no-limits-the-nickv-story-84659",
+          "synopsis": "Born without arms or legs, NickV has become a voice of hope to a billion people worldwide. No Limbs, No Limits is more than one man?s incredible story of overcoming the impossible. It asks the deeply personal question, ?What if the thing you spent your life trying to fix is the very thing God wants to use?? Through an extraordinary cinematic journey, Nick?s story reveals our deepest brokenness isn?t the end? it?s often where purpose begins.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1786187170/amc-cdn/production/2/movies/84700/84659/Poster/417124R1.jpg",
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "concert_or_event",
+          "is_special_presentation": true
+        },
+        "tmdb": {
+          "tmdb_id": 1638303,
+          "original_title": "No Limbs No Limits",
+          "original_language": "en",
+          "popularity": 0.634,
+          "vote_count": 0,
+          "poster_path": "/xFKph57zIjwBnifWPNpFU9aBadk.jpg",
+          "backdrop_path": null,
+          "overview": "The powerful true story of world-renowned speaker Nick Vujicic—a man who has defined what it means to live without limits. This film is more than a documentary; it’s a testament to resilience, faith, and the unstoppable human spirit. Born without arms or legs, Nick overcame his disability to live not just independently but a rich, fulfilling life, becoming a model for anyone seeking true happiness.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": [
+            "very_low_popularity",
+            "no_votes_and_low_popularity"
+          ]
+        }
+      }
+    },
+    {
       "film_id": "tmdb:128",
       "title": "Princess Mononoke - Studio Ghibli Fest 2026",
       "join_key": "princess-mononoke-studio-ghibli-fest-2026",
@@ -2262,6 +2371,115 @@
       }
     },
     {
+      "film_id": "tmdb:1388805",
+      "title": "Linkin Park: Unshatter",
+      "join_key": "linkin-park-unshatter",
+      "parent_film_keys": [
+        "linkin-park-unshatter"
+      ],
+      "showtime_film_keys": [
+        "linkin-park-unshatter"
+      ],
+      "tmdb_id": 1388805,
+      "amc_movie_id": "84695",
+      "amc_movie_ids": [
+        "84695"
+      ],
+      "expected_release_date": "2026-09-30",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": "2026-09-30",
+      "tmdb_us_release_date": "2026-09-30",
+      "first_local_screening_date": "2026-09-30",
+      "first_local_screening_source": "amc_theater_booking",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "amc-alderwood-mall-16",
+        "amc-southcenter-16"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "name": "AMC Southcenter 16"
+        }
+      ],
+      "local_theater_count": 2,
+      "local_showtime_count": 4,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": true,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "confirmed_enrichment",
+        "poster_url": "https://image.tmdb.org/t/p/w500/kHNrz7DBVPrtyMhJxmBm2poS2l9.jpg",
+        "poster_path": "/kHNrz7DBVPrtyMhJxmBm2poS2l9.jpg",
+        "backdrop_url": "https://image.tmdb.org/t/p/w780/sEpHqsxIhAo7Q7fNZ4G60RxUgrP.jpg",
+        "backdrop_path": "/sEpHqsxIhAo7Q7fNZ4G60RxUgrP.jpg",
+        "overview": "After a seven-year hiatus following the devastating loss of their beloved bandmate Chester Bennington, LINKIN PARK'S remaining members struggled to find their way forward. Their shared history and enduring friendship, combined with the fresh perspective of two new band members Emily Armstrong and Colin Brittain spark a renewed creative energy that leads them on a transformative journey of artistic reinvention. Following the band from intimate 2022 studio sessions through their explosive FROM ZERO album release and concert in São Paulo, this documentary weaves together rare vault footage, electrifying performances from sold-out shows, and candid interviews with band members and fans—capturing the raw, honest story of what it means to start over.",
+        "runtime_minutes": 110,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "film_id",
+        "film_id_confirmed": true,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Linkin Park: Unshatter"
+        ],
+        "contributing_sources": [
+          "amc_booking",
+          "amc_catalog",
+          "reel_seattle",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84695",
+          "source_title": "Linkin Park: Unshatter",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-09-30T05:00:00Z",
+          "earliest_showing_utc": "2026-09-30T18:00:00Z",
+          "runtime_min": 107,
+          "mpaa_rating": "NR",
+          "genre": "DOCUMENTARY",
+          "slug": "linkin-park-unshatter-84695",
+          "synopsis": "The hardest part of ending is starting again. \n\nAfter a seven-year hiatus following the devastating loss of their beloved bandmate Chester Bennington, LINKIN PARK'S remaining members struggle to find their way forward. Their shared history and enduring friendship, combined with the fresh perspective of two new band members spark a renewed creative energy that leads them on a transformative journey of artistic reinvention. \n\nFollowing the band from intimate 2022 studio sessions through their explosive FROM ZERO album release and concert in S?o Paulo, the film UNSHATTER weaves together rare vault footage, electrifying performances from sold-out shows, and candid interviews with band members and fans--capturing the raw, honest story of what it means to start over.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1786502329/amc-cdn/content/general/gswgms0qxqs0mgkanlly.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1786532897/amc-cdn/production/2/movies/84700/84695/MovieStills/422877R2.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1786532897/amc-cdn/production/2/movies/84700/84695/MovieStills/422877R2.jpg",
+          "presentation_category": "concert_or_event",
+          "is_special_presentation": true
+        },
+        "tmdb": {
+          "tmdb_id": 1388805,
+          "original_title": "LINKIN PARK: UNSHATTER",
+          "original_language": "en",
+          "popularity": 4.21,
+          "vote_count": 0,
+          "poster_path": "/kHNrz7DBVPrtyMhJxmBm2poS2l9.jpg",
+          "backdrop_path": null,
+          "overview": "After a seven-year hiatus following the devastating loss of their beloved bandmate Chester Bennington, LINKIN PARK'S remaining members struggled to find their way forward. Their shared history and enduring friendship, combined with the fresh perspective of two new band members Emily Armstrong and Colin Brittain spark a renewed creative energy that leads them on a transformative journey of artistic reinvention. Following the band from intimate 2022 studio sessions through their explosive FROM ZERO album release and concert in São Paulo, this documentary weaves together rare vault footage, electrifying performances from sold-out shows, and candid interviews with band members and fans—capturing the raw, honest story of what it means to start over.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
+        }
+      }
+    },
+    {
       "film_id": null,
       "title": "Nouvelles Femmes: Cléo from 5 to 7",
       "join_key": "nouvelles-femmes-cleo-from-5-to-7",
@@ -2472,6 +2690,101 @@
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []
+        }
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Camp Duval",
+      "join_key": "camp-duval",
+      "parent_film_keys": [
+        "camp-duval"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1735772,
+      "amc_movie_id": "84654",
+      "amc_movie_ids": [
+        "84654"
+      ],
+      "expected_release_date": "2026-09-30",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-09-30",
+      "tmdb_us_release_date": "2026-09-30",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "strongly_expected",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1786638883/amc-cdn/content/general/dqtfelyujykujfhy1q4n.jpg",
+        "poster_path": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1788260777/amc-cdn/production/2/movies/84700/84654/MovieStills/423058R6.jpg",
+        "backdrop_path": null,
+        "overview": "CAMP DUVAL follows comedian Lil Duval as he purchases a rundown former summer camp and invites a group of fellow comics for a weekend comedy retreat. What starts as a chance to sharpen their stand-up routines quickly turns into a hilariously chaotic fight for survival when a vengeful ghost begins picking o comedians in absurdly ironic ways, forcing Duval and his crew to uncover the camp's dark past and save themselves through the power of comedy.",
+        "runtime_minutes": 67,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Camp Duval"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84654",
+          "source_title": "Camp Duval",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-09-30T05:00:00Z",
+          "earliest_showing_utc": "2026-09-30T20:00:00Z",
+          "runtime_min": 67,
+          "mpaa_rating": "NR",
+          "genre": "COMEDY",
+          "slug": "camp-duval-84654",
+          "synopsis": "CAMP DUVAL follows comedian Lil Duval as he purchases a rundown former summer camp and invites a group of fellow comics for a weekend comedy retreat. What starts as a chance to sharpen their stand-up routines quickly turns into a hilariously chaotic fight for survival when a vengeful ghost begins picking o comedians in absurdly ironic ways, forcing Duval and his crew to uncover the camp's dark past and save themselves through the power of comedy.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1786638883/amc-cdn/content/general/dqtfelyujykujfhy1q4n.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788260777/amc-cdn/production/2/movies/84700/84654/MovieStills/423058R6.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788260777/amc-cdn/production/2/movies/84700/84654/MovieStills/423058R6.jpg",
+          "presentation_category": "concert_or_event",
+          "is_special_presentation": true
+        },
+        "tmdb": {
+          "tmdb_id": 1735772,
+          "original_title": "Camp Duval",
+          "original_language": "en",
+          "popularity": 1.861,
+          "vote_count": 0,
+          "poster_path": "/g9aRX7Lwrtl3TfKbb6BLJTOh7k5.jpg",
+          "backdrop_path": null,
+          "overview": "Welcome to Camp Duval, the wildest comedy camp ever created — where rising comics come to sharpen their jokes, survive the chaos, and hopefully make it through the night.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
         }
       }
     },
@@ -4542,6 +4855,197 @@
             "no_votes_and_low_popularity"
           ]
         }
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Adore Him: He is Here",
+      "join_key": "adore-him-he-is-here",
+      "parent_film_keys": [
+        "adore-him-he-is-here"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "84607",
+      "amc_movie_ids": [
+        "84607"
+      ],
+      "expected_release_date": "2026-10-04",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": "2026-10-04",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-04",
+      "first_local_screening_source": "amc_theater_booking",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "amc-alderwood-mall-16",
+        "amc-southcenter-16",
+        "amc-woodinville-12"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "name": "AMC Woodinville 12"
+        }
+      ],
+      "local_theater_count": 3,
+      "local_showtime_count": 15,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": true,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1786187232/amc-cdn/production/2/movies/84600/84607/Poster/418053R1.jpg",
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "ADORE HIM is a new docudrama that invites you to enter the very presence of God. Through cinematic reenactments that span salvation history and intimate modern-day interviews from around the world, this film explores the transforming power of meeting the Creator of the Universe face to face. ADORE HIM is the squeal to the Gabriel Award-winning Jesus Thirsts: The Miracle of the Eucharist. From encountering the Ark of the Covenant as it traveled across the wilderness to bumping into Jesus as he taught in the marketplace, this story builds to a culmination in the Eucharist, and today millions are finding out how much God truly loves them as they adore Him in the Blessed Sacrament. He is here. Will you come?",
+        "runtime_minutes": 118,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Adore Him: He is Here"
+        ],
+        "contributing_sources": [
+          "amc_booking",
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84607",
+          "source_title": "Adore Him: He is Here",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-10-04T05:00:00Z",
+          "earliest_showing_utc": "2026-10-04T15:30:00Z",
+          "runtime_min": 118,
+          "mpaa_rating": "NR",
+          "genre": "DOCUMENTARY",
+          "slug": "adore-him-he-is-here-84607",
+          "synopsis": "ADORE HIM is a new docudrama that invites you to enter the very presence of God. Through cinematic reenactments that span salvation history and intimate modern-day interviews from around the world, this film explores the transforming power of meeting the Creator of the Universe face to face. ADORE HIM is the squeal to the Gabriel Award-winning Jesus Thirsts: The Miracle of the Eucharist. From encountering the Ark of the Covenant as it traveled across the wilderness to bumping into Jesus as he taught in the marketplace, this story builds to a culmination in the Eucharist, and today millions are finding out how much God truly loves them as they adore Him in the Blessed Sacrament. He is here. Will you come?",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1786187232/amc-cdn/production/2/movies/84600/84607/Poster/418053R1.jpg",
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "concert_or_event",
+          "is_special_presentation": true
+        },
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Ninja Scroll",
+      "join_key": "ninja-scroll",
+      "parent_film_keys": [
+        "ninja-scroll"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "83499",
+      "amc_movie_ids": [
+        "83499"
+      ],
+      "expected_release_date": "2026-10-04",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": "2026-10-04",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-04",
+      "first_local_screening_source": "amc_theater_booking",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "amc-alderwood-mall-16",
+        "amc-southcenter-16"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "name": "AMC Southcenter 16"
+        }
+      ],
+      "local_theater_count": 2,
+      "local_showtime_count": 4,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": true,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788292572/amc-cdn/content/general/jctmzwpbzdf4p8ff5qba.jpg",
+        "poster_path": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1788292693/amc-cdn/content/general/vamaqdh66xzrrzo3mlrj.png",
+        "backdrop_path": null,
+        "overview": "Shown in 4K where available\n\nWhen Jubei saves a young ninja woman from the unthinkable, he assumes that's the end of it. To his surprise, it's only just the beginning. Together, the two investigate the mysterious deaths of an entire village which uncovers a conspiracy of demonic proportions! Getting closer to the truth, the demonic forces will stop at nothing to silence Jubei and his companion for good!",
+        "runtime_minutes": 94,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Ninja Scroll"
+        ],
+        "contributing_sources": [
+          "amc_booking",
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "83499",
+          "source_title": "Ninja Scroll",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-10-04T05:00:00Z",
+          "earliest_showing_utc": "2026-10-04T16:00:00Z",
+          "runtime_min": 94,
+          "mpaa_rating": "NR",
+          "genre": "Special Event",
+          "slug": "ninja-scroll-83499",
+          "synopsis": "Shown in 4K where available\n\nWhen Jubei saves a young ninja woman from the unthinkable, he assumes that's the end of it. To his surprise, it's only just the beginning. Together, the two investigate the mysterious deaths of an entire village which uncovers a conspiracy of demonic proportions! Getting closer to the truth, the demonic forces will stop at nothing to silence Jubei and his companion for good!",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1788292572/amc-cdn/content/general/jctmzwpbzdf4p8ff5qba.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788292693/amc-cdn/content/general/vamaqdh66xzrrzo3mlrj.png",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788292693/amc-cdn/content/general/vamaqdh66xzrrzo3mlrj.png",
+          "presentation_category": "concert_or_event",
+          "is_special_presentation": true
+        },
+        "tmdb": null
       }
     },
     {
@@ -6641,6 +7145,202 @@
           "is_special_presentation": true
         },
         "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Grandmasters",
+      "join_key": "grandmasters",
+      "parent_film_keys": [
+        "grandmasters"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1768029,
+      "amc_movie_id": "84836",
+      "amc_movie_ids": [
+        "84836"
+      ],
+      "expected_release_date": "2026-10-11",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": "2026-10-11",
+      "tmdb_us_release_date": "2026-10-11",
+      "first_local_screening_date": "2026-10-11",
+      "first_local_screening_source": "amc_theater_booking",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "amc-alderwood-mall-16"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 2,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": true,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1789491148/amc-cdn/content/general/bjq8pww9aiwermy9aomg.jpg",
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "The once esoteric and uninspired world of competitive chess is thrown into turmoil when an eccentric German entrepreneur enlists reigning champion Magnus Carlsen to launch a new league that aims to revolutionize the game, challenge the sport's governing body, and \"make chess cool.\" As the chess world fractures, Grandmasters like Wesley So -- Magnus's soft-spoken rival whose quiet brilliance contrasts with the sport's emerging showbiz era -- and Hans Niemann, a rebellious American prodigy with raw talent and controversy, find themselves at the center of this upheaval. GRANDMASTERS chronicles the rivalries, reinventions, and personal battles shaping the modern pursuit of greatness in the game of kings.",
+        "runtime_minutes": 170,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Grandmasters"
+        ],
+        "contributing_sources": [
+          "amc_booking",
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84836",
+          "source_title": "Grandmasters",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-10-11T05:00:00Z",
+          "earliest_showing_utc": "2026-10-11T18:00:00Z",
+          "runtime_min": 170,
+          "mpaa_rating": "NR",
+          "genre": "Documentary",
+          "slug": "grandmasters-84836",
+          "synopsis": "The once esoteric and uninspired world of competitive chess is thrown into turmoil when an eccentric German entrepreneur enlists reigning champion Magnus Carlsen to launch a new league that aims to revolutionize the game, challenge the sport's governing body, and \"make chess cool.\" As the chess world fractures, Grandmasters like Wesley So -- Magnus's soft-spoken rival whose quiet brilliance contrasts with the sport's emerging showbiz era -- and Hans Niemann, a rebellious American prodigy with raw talent and controversy, find themselves at the center of this upheaval. GRANDMASTERS chronicles the rivalries, reinventions, and personal battles shaping the modern pursuit of greatness in the game of kings.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1789491148/amc-cdn/content/general/bjq8pww9aiwermy9aomg.jpg",
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "concert_or_event",
+          "is_special_presentation": true
+        },
+        "tmdb": {
+          "tmdb_id": 1768029,
+          "original_title": "Grandmasters",
+          "original_language": "en",
+          "popularity": 2.759,
+          "vote_count": 0,
+          "poster_path": "/aKK1YpNUe8HX0SA2uANo11SXM7M.jpg",
+          "backdrop_path": null,
+          "overview": "The once esoteric and uninspired world of competitive chess is thrown into turmoil when an eccentric German entrepreneur enlists reigning champion Magnus Carlsen to launch a new league that aims to revolutionize the game, challenge the sport's governing body, and \"make chess cool.\"",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
+        }
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Always Lalisa",
+      "join_key": "always-lalisa",
+      "parent_film_keys": [
+        "always-lalisa"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1489932,
+      "amc_movie_id": "84725",
+      "amc_movie_ids": [
+        "84725"
+      ],
+      "expected_release_date": "2026-10-12",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-10-12",
+      "tmdb_us_release_date": "2026-10-12",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "strongly_expected",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788964181/amc-cdn/content/general/cnlwfnn9ejnwbzadvohz.jpg",
+        "poster_path": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1788964329/amc-cdn/content/general/sueeo8ez29psivhfzlyk.jpg",
+        "backdrop_path": null,
+        "overview": "ALWAYS LALISA is a feature-length documentary following global superstar LISA during a transformative year away from Blackpink, the K-pop phenomenon that made her one of the world's most recognizable performers. As the group pauses activities, LISA embarks on the first true chapter of her solo career, confronting the question of who she is beyond Blackpink.\n\nThe film follows LISA as she writes, records, and releases her debut solo album, Alter Ego, makes her acting debut in the third season of The White Lotus, and prepares for her first major solo performance at the 2025 Coachella Music Festival. Born and raised in Thailand, LISA left home at fourteen to train in South Korea's demanding K-pop system, ultimately rising to global superstardom. But forging her own path, particularly in the Western music market, brings new pressures, relentless scrutiny, and the challenge of redefining herself on her own terms.\n\nIntimate, emotional, and revealing, Always Lalisa captures an artist at a crossroads, documenting a year of risk, reinvention, and self-discovery as LISA begins to define not only her next chapter, but the woman and artist she wants to become.",
+        "runtime_minutes": 100,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Always Lalisa"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84725",
+          "source_title": "ALWAYS LALISA",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-10-12T05:00:00Z",
+          "earliest_showing_utc": "2026-10-12T19:00:00Z",
+          "runtime_min": 100,
+          "mpaa_rating": "NR",
+          "genre": "DOCUMENTARY",
+          "slug": "always-lalisa-84725",
+          "synopsis": "ALWAYS LALISA is a feature-length documentary following global superstar LISA during a transformative year away from Blackpink, the K-pop phenomenon that made her one of the world's most recognizable performers. As the group pauses activities, LISA embarks on the first true chapter of her solo career, confronting the question of who she is beyond Blackpink.\n\nThe film follows LISA as she writes, records, and releases her debut solo album, Alter Ego, makes her acting debut in the third season of The White Lotus, and prepares for her first major solo performance at the 2025 Coachella Music Festival. Born and raised in Thailand, LISA left home at fourteen to train in South Korea's demanding K-pop system, ultimately rising to global superstardom. But forging her own path, particularly in the Western music market, brings new pressures, relentless scrutiny, and the challenge of redefining herself on her own terms.\n\nIntimate, emotional, and revealing, Always Lalisa captures an artist at a crossroads, documenting a year of risk, reinvention, and self-discovery as LISA begins to define not only her next chapter, but the woman and artist she wants to become.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1788964181/amc-cdn/content/general/cnlwfnn9ejnwbzadvohz.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788964329/amc-cdn/content/general/sueeo8ez29psivhfzlyk.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788964329/amc-cdn/content/general/sueeo8ez29psivhfzlyk.jpg",
+          "presentation_category": "concert_or_event",
+          "is_special_presentation": true
+        },
+        "tmdb": {
+          "tmdb_id": 1489932,
+          "original_title": "Always Lalisa",
+          "original_language": "en",
+          "popularity": 3.574,
+          "vote_count": 0,
+          "poster_path": "/pOZnrUX1UMblLiqq9ZtZUde3cQV.jpg",
+          "backdrop_path": null,
+          "overview": "Documentary following global superstar LISA during a transformative year away from BLACKPINK, the K-pop phenomenon that made her one of the world's most recognizable performers. Documenting a year of risk, reinvention, and self-discovery as LISA begins to define her next chapter.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
+        }
       }
     },
     {

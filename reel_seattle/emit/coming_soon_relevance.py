@@ -97,11 +97,12 @@ _SPECIAL_PROGRAMMING_TITLE_RE = re.compile(
     r")"
 )
 
-_AMC_SPECIAL_CATEGORIES = frozenset(
-    {
-        "concert_or_event",
-        "mystery_screening",
-    }
+# AMC genres that indicate alternative content even when the title is plain.
+_NON_FILM_AMC_GENRE_RE = re.compile(
+    r"(?i)\b(?:"
+    r"concert|opera|theatre|theater|rock\s*/\s*pop|"
+    r"wrestling|wwe|ufc|sports?|live\s*entertainment"
+    r")\b"
 )
 
 # Promotional wrappers that still leave a deterministic base film title.
@@ -210,24 +211,35 @@ def is_special_programming(
     *,
     presentation_kind: str | None = None,
     amc_presentation_category: str | None = None,
+    amc_genre: str | None = None,
     variant_titles: Sequence[str] = (),
 ) -> bool:
-    """True for non-film / non-local series products kept off the film calendar."""
+    """True for non-film / non-local series products kept off the film calendar.
+
+    AMC ``concert_or_event`` alone is not enough: many Seattle-booked films are
+    miscategorized that way. Require a title pattern (MET Opera, WWE, branded
+    regional series, live concert viewing, …) or a non-film AMC genre.
+    """
     kind = str(presentation_kind or "")
     if kind == KIND_MYSTERY:
         return True
     category = str(amc_presentation_category or "")
-    if category in _AMC_SPECIAL_CATEGORIES and kind == KIND_EVENT:
-        # Q&A / fan engagements use q_and_a or title patterns and are film engagements.
-        if category == "concert_or_event" and not infer_engagement_kind(title):
-            return True
-        if category == "mystery_screening":
-            return True
+    if category == "mystery_screening":
+        return True
 
     samples = [title, *variant_titles]
     for sample in samples:
         if sample and _SPECIAL_PROGRAMMING_TITLE_RE.search(sample):
             return True
+
+    # Engagement SKUs (Q&A / fan / early access) are film calendar material.
+    if infer_engagement_kind(title):
+        return False
+
+    if category == "concert_or_event" and _NON_FILM_AMC_GENRE_RE.search(
+        str(amc_genre or "")
+    ):
+        return True
     return False
 
 
@@ -243,6 +255,7 @@ def assign_relevance_and_visibility(
     evidence: Mapping[str, Any],
     title: str,
     amc_presentation_category: str | None = None,
+    amc_genre: str | None = None,
     variant_titles: Sequence[str] = (),
 ) -> tuple[str | None, bool, str | None]:
     """Return ``(relevance_tier, user_visible, visibility_reason)``.
@@ -271,6 +284,7 @@ def assign_relevance_and_visibility(
         title,
         presentation_kind=presentation_kind,
         amc_presentation_category=amc_presentation_category,
+        amc_genre=amc_genre,
         variant_titles=variant_titles,
     )
     if special:
