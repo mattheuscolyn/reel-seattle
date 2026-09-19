@@ -3,13 +3,17 @@
  * Shared by the Vite build plugin and unit tests — no shell / platform deps.
  */
 
-import { cpSync, existsSync, mkdirSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import {
   listV2DataArtifacts,
   resolveV2DataArtifactSource,
   validateV2DataAllowlist,
 } from './allowedDataRoutes.js';
+import {
+  SHOWTIMES_CURRENT_BASENAME,
+  copyShowtimesCurrentCompact,
+} from '../../scripts/compactShowtimesCurrentJson.mjs';
 
 /**
  * @param {{
@@ -44,6 +48,8 @@ export function copyAllowedV2DataArtifacts(options) {
   const exists = fsApi.existsSync ?? existsSync;
   const mkdir = fsApi.mkdirSync ?? mkdirSync;
   const copy = fsApi.cpSync ?? cpSync;
+  const read = fsApi.readFileSync ?? readFileSync;
+  const write = fsApi.writeFileSync ?? writeFileSync;
 
   const artifacts = options.artifacts ?? listV2DataArtifacts();
   const dataDir = join(outDir, 'data');
@@ -71,7 +77,16 @@ export function copyAllowedV2DataArtifacts(options) {
       continue;
     }
 
-    copy(source, dest);
+    // Pretty source in git; compact only the showtimes_current deployment copy.
+    if (fileName === SHOWTIMES_CURRENT_BASENAME) {
+      copyShowtimesCurrentCompact(source, dest, {
+        readFileSync: read,
+        writeFileSync: write,
+        mkdirSync: mkdir,
+      });
+    } else {
+      copy(source, dest);
+    }
     copied.push({ route: artifact.route, destRelative });
   }
 

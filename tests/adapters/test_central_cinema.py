@@ -40,12 +40,14 @@ WINDOW_END = date(2027, 1, 10)
 THEATER_IDS = {CENTRAL_THEATER_ID, "the-beacon", "northwest-film-forum", "siff-cinema-uptown"}
 
 
-def test_default_window_is_inclusive_14_days():
+def test_default_window_covers_indie_scrape_horizon():
+    from reel_seattle.showtime_horizon import INDIE_SCRAPE_HORIZON_DAYS
+
     now = datetime(2026, 7, 20, 9, 0, tzinfo=PACIFIC)
     start, end = default_central_cinema_window(now=now)
     assert start == date(2026, 7, 20)
-    assert end == date(2026, 8, 2)
-    assert (end - start).days == 13
+    assert end == start + timedelta(days=INDIE_SCRAPE_HORIZON_DAYS)
+    assert (end - start).days == INDIE_SCRAPE_HORIZON_DAYS
 
 
 def test_fixture_success_emits_contract_and_option_c_log():
@@ -507,6 +509,8 @@ def test_invalid_log_rejected():
 
 
 def test_default_window_used_when_dates_omitted():
+    from reel_seattle.showtime_horizon import INDIE_SCRAPE_HORIZON_DAYS
+
     now = datetime(2026, 7, 16, 10, 0, tzinfo=PACIFIC)
     calls: list[str] = []
 
@@ -522,5 +526,11 @@ def test_default_window_used_when_dates_omitted():
         sleep_seconds=0.0,
         theater_ids=THEATER_IDS,
     )
-    assert result.requested_window == {"start": "2026-07-16", "end": "2026-07-29"}
-    assert (date.fromisoformat(result.requested_window["end"]) - date.fromisoformat(result.requested_window["start"])).days == 13
+    assert result.requested_window == {
+        "start": "2026-07-16",
+        "end": "2027-07-16",
+    }
+    assert (
+        date.fromisoformat(result.requested_window["end"])
+        - date.fromisoformat(result.requested_window["start"])
+    ).days == INDIE_SCRAPE_HORIZON_DAYS

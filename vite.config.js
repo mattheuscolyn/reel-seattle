@@ -3,6 +3,10 @@ import { dirname, join, relative } from 'path'
 import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import {
+  copyShowtimesCurrentCompact,
+  isShowtimesCurrentPublicRelPath,
+} from './scripts/compactShowtimesCurrentJson.mjs'
 
 const ROOT = fileURLToPath(new URL('.', import.meta.url))
 const PUBLIC_DIR = join(ROOT, 'public')
@@ -42,7 +46,12 @@ function copyPublicDir(srcDir, destDir, rootDir = srcDir) {
       copyPublicDir(srcPath, destPath, rootDir)
     } else {
       mkdirSync(dirname(destPath), { recursive: true })
-      cpSync(srcPath, destPath)
+      // Keep public/data/showtimes_current.json pretty in git; compact for Pages.
+      if (isShowtimesCurrentPublicRelPath(relPath)) {
+        copyShowtimesCurrentCompact(srcPath, destPath)
+      } else {
+        cpSync(srcPath, destPath)
+      }
     }
   }
 }

@@ -99,10 +99,13 @@ def test_showtimes_current_shape_and_window(golden):
         "films",
         "showtimes",
     }
+    # all_known_future: end_date is the latest included showtime, not start+N days.
+    show_dates = [row["date"] for row in artifact["showtimes"]]
     assert artifact["window"] == {
         "start_date": "2026-06-26",
-        "end_date": "2026-07-10",
+        "end_date": max(show_dates),
     }
+    assert artifact["window"]["end_date"] == "2026-07-02"
 
 
 def test_showtimes_current_normalized_ids_and_keys(golden):

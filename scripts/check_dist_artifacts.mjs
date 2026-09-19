@@ -55,11 +55,17 @@ const FORBIDDEN_V2_PATHS = [
 ];
 
 /**
- * Total bytes under dist/data/ must stay well below accidental history CSV size (~75 MB).
- * Raised from 5 MB after screening-level `special_event` payloads landed on every
- * showtimes_current row (Explore Special Events). Still far below history CSV scale.
+ * Aggregate size under dist/data/ is an internal regression / safety guardrail
+ * (and is far below accidental history CSV scale ~75 MB). It is NOT a product
+ * showtime-window constraint and NOT an external GitHub Pages hard limit.
+ * Forbidden-path checks below remain the primary protection against history CSVs,
+ * daily_logs, and source_catalog leaking into Pages.
+ * If all-known-future showtimes_current eventually becomes too large for the
+ * client, prefer splitting or lazy-loading by date range — do not silently
+ * truncate known future screenings to satisfy this byte ceiling.
+ * Sized with headroom above today's ~8 MB compact dist/data footprint.
  */
-const MAX_DATA_DIR_BYTES = 6.5 * 1024 * 1024;
+const MAX_DATA_DIR_BYTES = 15 * 1024 * 1024;
 
 function fail(message) {
   console.error(`check_dist_artifacts: ${message}`);

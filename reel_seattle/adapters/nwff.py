@@ -49,6 +49,7 @@ from reel_seattle.prototypes.nwff import (
     default_fetch as prototype_default_fetch,
     fixture_fetch_map,
 )
+from reel_seattle.showtime_horizon import INDIE_SCRAPE_HORIZON_DAYS
 from reel_seattle.source_identity import source_film_id_from_raw, source_title_from_raw
 
 SOURCE = "nwff"
@@ -60,7 +61,10 @@ USER_AGENT = (
 DEFAULT_SLEEP_SECONDS = 0.35
 DEFAULT_TIMEOUT_SECONDS = 30.0
 DEFAULT_RETRIES = 2
-WINDOW_DAYS_INCLUSIVE = 14
+# Inclusive calendar days for SOURCE scrape pagination only
+# (end = start + WINDOW_DAYS_INCLUSIVE - 1). Public emit is all_known_future
+# and does not clip to this bound.
+WINDOW_DAYS_INCLUSIVE = INDIE_SCRAPE_HORIZON_DAYS + 1
 
 
 class NwffAdapterError(ValueError):
@@ -96,7 +100,11 @@ class NwffAdapterResult:
 
 
 def default_nwff_window(*, now: datetime | None = None) -> tuple[date, date]:
-    """Inclusive 14-day Pacific window: today .. today+13."""
+    """Inclusive Pacific scrape window for NWFF calendar pagination.
+
+    Covers ``today`` through ``today + INDIE_SCRAPE_HORIZON_DAYS``. Public emit
+    is all-known-future and does not clip to this bound.
+    """
     moment = now or datetime.now(PACIFIC)
     if moment.tzinfo is None:
         moment = moment.replace(tzinfo=PACIFIC)

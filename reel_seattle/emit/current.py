@@ -48,11 +48,12 @@ from reel_seattle.film_identity.public_emit import (
     write_identity_emit_report,
 )
 from reel_seattle.validate import validate_showtimes_current, validate_theaters_registry
+from reel_seattle.showtime_horizon import PUBLIC_SHOWTIME_HORIZON_POLICY
 
 CURRENT_SCHEMA_VERSION = "1.0.0"
-# Public/client viewing horizon only. AMC ingestion retains all announced future
-# showtimes in daily logs and history; this window is applied at emit time.
-WINDOW_DAYS = 14
+# Public emit includes all known future history rows (see showtime_horizon.py).
+# WINDOW_DAYS remains None so callers do not treat a day count as an emit clip.
+WINDOW_DAYS = None
 DEFAULT_REGISTRY_PATH = Path("data/theaters.json")
 DEFAULT_OUTPUT_PATH = Path("public/data/showtimes_current.json")
 
@@ -122,10 +123,21 @@ def _theater_snapshot(entry: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def _window_bounds(reference_date: date) -> tuple[date, date]:
-    return reference_date, reference_date + timedelta(days=WINDOW_DAYS)
+    """Return (start, end) filter bounds for history rows.
+
+    For ``all_known_future``, end is a sentinel; inclusion uses start only and
+    the public ``window.end_date`` is set to the latest included showtime date.
+    """
+    if PUBLIC_SHOWTIME_HORIZON_POLICY == "all_known_future":
+        return reference_date, date(9999, 12, 31)
+    raise ValueError(
+        f"Unsupported PUBLIC_SHOWTIME_HORIZON_POLICY={PUBLIC_SHOWTIME_HORIZON_POLICY!r}"
+    )
 
 
 def _is_in_window(show_date: date, start_date: date, end_date: date) -> bool:
+    if PUBLIC_SHOWTIME_HORIZON_POLICY == "all_known_future":
+        return show_date >= start_date
     return start_date <= show_date <= end_date
 
 
@@ -355,13 +367,26 @@ def build_showtimes_current(
         emit_report_out.update(identity_emit_report)
     sources = build_sources_metadata(showtimes, history_evidence)
 
+    # Schema requires concrete end_date; for all-known-future it is the latest
+    # included showtime (not a clip horizon).
+    latest_show_date = start_date
+    for row in showtimes:
+        raw = row.get("date")
+        if isinstance(raw, str) and raw:
+            try:
+                parsed = date.fromisoformat(raw)
+            except ValueError:
+                continue
+            if parsed > latest_show_date:
+                latest_show_date = parsed
+
     return {
         "schema_version": CURRENT_SCHEMA_VERSION,
         "generated_at": generated_at.isoformat(timespec="seconds"),
         "timezone": DEFAULT_TIMEZONE,
         "window": {
             "start_date": format_date_iso(start_date),
-            "end_date": format_date_iso(end_date),
+            "end_date": format_date_iso(latest_show_date),
         },
         "sources_included": sorted(sources_included),
         "sources": sources,
@@ -403,6 +428,8 @@ def write_showtimes_current(
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8") as handle:
+        # Pretty JSON in the repo for human review. Deployment builds compact
+        # showtimes_current.json into dist/ / dist-v2/ without mutating source.
         json.dump(artifact, handle, indent=2, ensure_ascii=False)
         handle.write("\n")
 

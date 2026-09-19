@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import requests
 
 from reel_seattle.adapters.beacon import fetch_beacon_showtimes
 from reel_seattle.adapters.central_cinema import (
+    default_central_cinema_window,
     fetch_central_cinema,
     write_central_cinema_scrape_log,
 )
@@ -19,6 +20,7 @@ from reel_seattle.adapters.indie_legacy import (
     write_legacy_indie_csv,
 )
 from reel_seattle.adapters.nwff import (
+    default_nwff_window,
     fetch_nwff,
     write_nwff_scrape_log,
 )
@@ -41,18 +43,22 @@ def collect_indie_showtimes(context):
     siff_result = fetch_siff_showtimes(context)
     beacon_result = fetch_beacon_showtimes(context)
 
-    start = context.run_date
-    end = start + timedelta(days=13)
+    # NWFF / Central scrape pagination uses INDIE_SCRAPE_HORIZON_DAYS. Public
+    # emit is all-known-future (no upper clip); these bounds only limit HTTP.
+    scrape_now = datetime.combine(context.run_date, datetime.min.time())
+    nwff_start, nwff_end = default_nwff_window(now=scrape_now)
 
     nwff_result = None
     try:
-        nwff_result = fetch_nwff(start, end)
+        nwff_result = fetch_nwff(nwff_start, nwff_end)
     except Exception as exc:  # noqa: BLE001 - source-local soft-fail
         print(f"ERROR: NWFF collection failed (source-local): {exc}")
 
+    central_start, central_end = default_central_cinema_window(now=scrape_now)
+
     central_result = None
     try:
-        central_result = fetch_central_cinema(start, end)
+        central_result = fetch_central_cinema(central_start, central_end)
     except Exception as exc:  # noqa: BLE001 - source-local soft-fail
         print(f"ERROR: Central Cinema collection failed (source-local): {exc}")
 
