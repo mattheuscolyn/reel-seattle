@@ -185,10 +185,10 @@ def build_showtimes_current(
     history_evidence = empty_history_evidence()
 
     for row in history_rows:
-        source = resolve_history_row_source(row, theater_index)
-        if source is not None:
+        resolved_source = resolve_history_row_source(row, theater_index)
+        if resolved_source is not None:
             update_history_evidence(
-                history_evidence[source],
+                history_evidence[resolved_source],
                 row,
                 reference_date=ref,
             )
@@ -224,12 +224,12 @@ def build_showtimes_current(
             continue
 
         theater_entry = theater_index.theaters_by_id[resolved_theater_id]
-        # Prefer explicit history source so programmer scrapes (e.g. Grand
-        # Illusion at a partner venue) are not rewritten to the venue's
-        # native registry source.
-        row_source = str(row.get("source", "")).strip()
-        registry_source = str(theater_entry.get("source", "")).strip()
-        source = row_source or registry_source or "unknown"
+        # Only validated known sources may override the theater registry.
+        # Legacy values like "indie" / garbage fall through to registry source.
+        if resolved_source is not None:
+            source = resolved_source
+        else:
+            source = str(theater_entry.get("source", "")).strip() or "unknown"
 
         runtime_min = parse_runtime_minutes(row.get("Runtime"))
         poster_url = _poster_url(row.get("posterDynamic"))

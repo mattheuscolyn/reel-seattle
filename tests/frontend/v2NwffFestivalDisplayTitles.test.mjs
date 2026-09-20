@@ -307,10 +307,13 @@ test('9. Just Announced uses the clean display title', () => {
       ],
     },
   });
-  const presentation = buildLiveJustAnnouncedPresentation(home, {
-    enrichmentIndex: emptyEnrichmentIndex(),
-    now: new Date('2026-09-14T12:00:00-07:00'),
-  });
+  const presentation = buildLiveJustAnnouncedPresentation(
+    home,
+    emptyEnrichmentIndex(),
+    {
+      now: new Date('2026-09-14T12:00:00-07:00'),
+    },
+  );
   const row = presentation.films.find((film) =>
     /assets/i.test(film.title) || /assets/i.test(film.filmKey),
   );
