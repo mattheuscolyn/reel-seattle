@@ -97,6 +97,25 @@ button {
   );
 }
 
+/*
+ * iOS Safari auto-zooms focused text inputs below 16px.
+ * Keep a shared mobile floor for every consumer-facing type=search control
+ * inside the app shell so current and future search fields stay safe.
+ * Do not “fix” this with maximum-scale / user-scalable viewport hacks.
+ */
+@media (max-width: 48rem) {
+  .v2-shell input[type='search'] {
+    font-size: 1rem;
+  }
+
+  /* Compact Build-a-Plan manage search needs a little more room at 16px. */
+  .v2-shell .v2-bp-manage-search-input {
+    min-height: 2.5rem;
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+  }
+}
+
 .v2-header {
   display: grid;
   grid-template-columns: minmax(2.5rem, auto) 1fr minmax(2.5rem, auto);
