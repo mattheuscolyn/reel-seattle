@@ -103,7 +103,11 @@ def _write_central_log(logs_dir: Path, envelope: dict, run_date: str = RUN_DATE)
 
 def test_history_fieldnames_include_source_showtime_id():
     assert "source_showtime_id" in HISTORY_FIELDNAMES
-    assert HISTORY_FIELDNAMES[-1] == "source_showtime_id"
+    assert "ticket_url" in HISTORY_FIELDNAMES
+    assert "source_film_url" in HISTORY_FIELDNAMES
+    assert HISTORY_FIELDNAMES.index("source_showtime_id") < HISTORY_FIELDNAMES.index(
+        "ticket_url"
+    )
 
 
 def test_option_c_records_load_and_preserve_identity(tmp_path, theater_index):

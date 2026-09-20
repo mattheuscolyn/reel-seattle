@@ -11,11 +11,16 @@
  * Build the deduplication / opportunity key for a normalized showtime row.
  *
  * Preference order:
- * 1. source + source_showtime_id (when source_showtime_id is non-empty)
- * 2. artifact showtime `id` (when present)
- * 3. composite of theater|date|time|filmKey|sorted format labels
+ * 1. public ``performance_id`` (cross-source physical performance identity)
+ * 2. source + source_showtime_id (when source_showtime_id is non-empty)
+ * 3. artifact showtime `id` (when present)
+ * 4. composite of theater|date|time|filmKey|sorted format labels
+ *
+ * When ``performance_id`` is present it is returned as-is (already namespaced:
+ * ``id:<hash>`` or ``xsrc:grand-illusion:<hash>``).
  *
  * @param {{
+ *   performanceId?: string | null,
  *   id?: string | null,
  *   source?: string | null,
  *   sourceShowtimeId?: string | null,
@@ -28,6 +33,12 @@
  * @returns {string}
  */
 export function buildOpportunityKey(parts) {
+  const performanceId =
+    typeof parts.performanceId === 'string' ? parts.performanceId.trim() : '';
+  if (performanceId) {
+    return performanceId;
+  }
+
   const source = typeof parts.source === 'string' ? parts.source.trim() : '';
   const sourceShowtimeId =
     typeof parts.sourceShowtimeId === 'string' ? parts.sourceShowtimeId.trim() : '';

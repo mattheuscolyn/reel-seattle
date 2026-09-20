@@ -501,8 +501,9 @@ export function buildHomeData(input) {
 
     const filmKey = canonical.filmKey;
     const formatLabels = asStringArray(raw.format_tags);
-    // Opportunity identity stays keyed by the source listing key for provenance.
+    // Prefer durable cross-source performance_id when present (GI continuity).
     const opportunityKey = buildOpportunityKey({
+      performanceId: asTrimmedString(raw.performance_id),
       id: asTrimmedString(raw.id),
       source: asTrimmedString(raw.source),
       sourceShowtimeId: asTrimmedString(raw.source_showtime_id),

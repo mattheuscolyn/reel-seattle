@@ -55,3 +55,21 @@ def source_title_from_history_row(row: Mapping[str, Any]) -> str | None:
         return explicit
     legacy = str(row.get("Film", "")).strip()
     return legacy or None
+
+
+def source_showtime_id_from_history_row(row: Mapping[str, Any]) -> str | None:
+    """Read ``source_showtime_id`` from a history CSV row; null when absent/blank."""
+    value = str(row.get("source_showtime_id", "")).strip()
+    return value or None
+
+
+def ticket_url_from_history_row(row: Mapping[str, Any]) -> str | None:
+    """Read optional ``ticket_url`` from history; null when absent/blank."""
+    value = str(row.get("ticket_url", "")).strip()
+    return value or None
+
+
+def source_film_url_from_history_row(row: Mapping[str, Any]) -> str | None:
+    """Read optional ``source_film_url`` from history; null when absent/blank."""
+    value = str(row.get("source_film_url", "")).strip()
+    return value or None

@@ -39,6 +39,8 @@ INDIE_CSV_FIELDNAMES = [
     "source_film_id",
     "source_title",
     "source_showtime_id",
+    "ticket_url",
+    "source_film_url",
 ]
 
 SUPPORTED_SIFF_VENUES = frozenset(
@@ -75,6 +77,16 @@ def raw_showtime_to_legacy_row(raw: RawShowtime) -> dict[str, str]:
         "source_film_id": source_film_id_from_raw(raw),
         "source_title": source_title_from_raw(raw),
         "source_showtime_id": source_showtime_id_from_raw(raw),
+        "ticket_url": (
+            str(raw.ticket_url_raw).strip()
+            if raw.ticket_url_raw not in (None, "")
+            else ""
+        ),
+        "source_film_url": (
+            str(raw.source_film_url).strip()
+            if raw.source_film_url not in (None, "")
+            else ""
+        ),
     }
     # Distinctive formats (e.g. Grand Illusion 35mm/16mm) flow into history
     # premiumFormat when adapters set RawShowtime.format_raw.

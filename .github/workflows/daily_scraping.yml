@@ -134,6 +134,9 @@ jobs:
             git add data/audits/coming_soon_candidates_current.json
           fi
           git add public/data/showtimes_current.json
+          if [ -f data/performance_identity/performance_identity_current.json ]; then
+            git add data/performance_identity/performance_identity_current.json
+          fi
           git add public/data/pipeline_report.json
           git add public/data/theaters.json
           git add public/data/movies_announcements.csv

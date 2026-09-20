@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reelseattle.local/schema/performance_identity/v1.0.0.json",
+  "title": "performance_identity_current",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "performances"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "performances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "performance_id",
+          "theater_id",
+          "local_date",
+          "local_time",
+          "aliases",
+          "first_seen_at",
+          "last_seen_at"
+        ],
+        "properties": {
+          "performance_id": {
+            "type": "string",
+            "pattern": "^(id:[a-f0-9]{8,64}|xsrc:grand-illusion:[a-f0-9]{16})$"
+          },
+          "theater_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "local_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "local_time": {
+            "type": "string",
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+          },
+          "film_id": {
+            "type": ["string", "null"]
+          },
+          "parent_film_key": {
+            "type": ["string", "null"]
+          },
+          "film_keys": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "aliases": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "first_seen_at": {
+            "type": "string",
+            "minLength": 1
+          },
+          "last_seen_at": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}
