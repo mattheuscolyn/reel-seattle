@@ -18505,5 +18505,342 @@ a.v2-stb-time:focus-visible {
   margin-top: var(--v2-space-2);
 }
 
+/* Explore → All Movies */
+
+.v2-am-page {
+  display: grid;
+  gap: var(--v2-space-4);
+  padding-bottom: calc(var(--v2-space-7) + 0.5rem);
+  min-width: 0;
+}
+
+.v2-am-page-header {
+  display: grid;
+  gap: var(--v2-space-2);
+}
+
+.v2-am-page-title {
+  margin: 0;
+  font-family: var(--v2-font-display);
+  font-size: clamp(1.65rem, 6.2vw, 1.95rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.v2-am-page-tagline {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.v2-am-search {
+  position: relative;
+  min-width: 0;
+}
+
+.v2-am-search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--v2-muted);
+  display: grid;
+  place-content: center;
+  pointer-events: none;
+}
+
+.v2-am-search-input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.65rem 2.6rem 0.65rem 2.45rem;
+  border: 1px solid var(--v2-border-strong);
+  border-radius: 0.85rem;
+  background: var(--v2-bg-raised);
+  color: var(--v2-fg);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.v2-am-search-input::placeholder {
+  color: var(--v2-muted-soft);
+}
+
+.v2-am-search-input:focus {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 1px;
+}
+
+.v2-am-search-clear {
+  position: absolute;
+  right: 0.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--v2-fg);
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+}
+
+.v2-am-search-clear:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 1px;
+}
+
+.v2-am-availability {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.v2-am-availability-btn {
+  min-height: 2.5rem;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid var(--v2-border);
+  border-radius: 999px;
+  background: var(--v2-bg-raised);
+  color: var(--v2-muted);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.v2-am-availability-btn.is-selected {
+  border-color: var(--v2-fg);
+  background: var(--v2-fg);
+  color: var(--v2-bg);
+}
+
+.v2-am-availability-btn:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-am-page-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--v2-space-3);
+  min-width: 0;
+}
+
+.v2-am-page-count {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: 0.85rem;
+}
+
+.v2-am-sort {
+  position: relative;
+}
+
+.v2-am-sort-btn {
+  min-height: 2.25rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--v2-border);
+  border-radius: 999px;
+  background: var(--v2-bg-raised);
+  color: inherit;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.v2-am-sort-btn:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-am-sort-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.35rem);
+  z-index: 5;
+  min-width: 9rem;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  border: 1px solid var(--v2-border);
+  border-radius: 0.75rem;
+  background: var(--v2-bg-raised);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.v2-am-sort-option {
+  display: block;
+  width: 100%;
+  min-height: 2.25rem;
+  padding: 0.4rem 0.65rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.v2-am-sort-option.is-selected,
+.v2-am-sort-option:hover {
+  background: var(--v2-bg);
+}
+
+.v2-am-sort-option:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 1px;
+}
+
+.v2-am-section {
+  display: grid;
+  gap: var(--v2-space-3);
+  min-width: 0;
+}
+
+.v2-am-section-heading {
+  margin: 0;
+  color: var(--v2-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.v2-am-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--v2-space-2);
+  min-width: 0;
+}
+
+.v2-am-row {
+  display: grid;
+  grid-template-columns: 3.1rem minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--v2-border);
+  border-radius: 0.85rem;
+  background: var(--v2-bg-raised);
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.v2-am-row-text {
+  grid-template-columns: 3.1rem minmax(0, 1fr) auto;
+}
+
+.v2-am-row:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-am-row-poster {
+  width: 3.1rem;
+  height: 4.2rem;
+  border-radius: 0.45rem;
+  overflow: hidden;
+  background: var(--v2-bg);
+  flex-shrink: 0;
+}
+
+.v2-am-row-poster img,
+.v2-am-row-poster .v2-shelf-poster-fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v2-am-row-copy {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.v2-am-row-title {
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.v2-am-row-meta,
+.v2-am-row-when,
+.v2-am-row-more {
+  color: var(--v2-muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.v2-am-row-when {
+  color: var(--v2-fg);
+}
+
+.v2-am-row-chevron {
+  color: var(--v2-muted);
+  display: grid;
+  place-content: center;
+}
+
+.v2-am-empty {
+  display: grid;
+  gap: var(--v2-space-3);
+  padding: var(--v2-space-5) var(--v2-space-3);
+  border: 1px dashed var(--v2-border);
+  border-radius: 0.85rem;
+}
+
+.v2-am-empty-body {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.v2-am-empty-action {
+  justify-self: start;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.55rem;
+  border: 1px solid var(--v2-border-strong);
+  background: var(--v2-fg);
+  color: var(--v2-bg);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.v2-am-empty-action:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+@media (min-width: 720px) {
+  .v2-am-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .v2-am-page {
+    max-width: 68rem;
+  }
+}
+
 
 

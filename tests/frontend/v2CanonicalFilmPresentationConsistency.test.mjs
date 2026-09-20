@@ -22,6 +22,7 @@ import { groupBrowseOpportunitiesByFilm } from '../../v2/showtimes/showtimesBrow
 import { buildTheaterNowShowing } from '../../v2/theaters/resolveTheaterPresentation.js';
 import { composePlannerSavedFilmsPresentation } from '../../v2/planner/composePlannerSavedFilmsPresentation.js';
 import { composeFilmDetailPresentation } from '../../v2/filmDetail/composeFilmDetailPresentation.js';
+import { composeAllMoviesPresentation } from '../../v2/allMovies/composeAllMoviesPresentation.js';
 import { saveFilm } from '../../v2/stores/savedFilmsStore.js';
 import {
   clearTmdbOnlyFilmCache,
@@ -258,6 +259,17 @@ test('same film has the same canonical presentation across composers', () => {
   assert.equal(detail.hero.year, '1984');
   assert.match(detail.hero.director ?? '', /Ada Director/);
   assert.equal(detail.sourceTitle, SOURCE_TITLE);
+
+  const allMovies = composeAllMoviesPresentation(home, {
+    enrichmentIndex: index,
+    now: NOW,
+  });
+  const allMoviesRow = allMovies.films.find((row) => row.filmId === FILM_ID);
+  assertCanonicalCard(allMoviesRow, 'all-movies');
+  assert.equal(allMoviesRow.sourceTitle, SOURCE_TITLE);
+  assert.equal(allMoviesRow.year, 1984);
+  assert.match(allMoviesRow.metaLine ?? '', /1984/);
+  assert.match(allMoviesRow.metaLine ?? '', /Drama/);
 });
 
 test('Beacon collection joins home/showtime filmId when membership stamp is null', () => {
