@@ -20,11 +20,8 @@ import {
   IconEye,
   IconEyeOff,
   IconInfo,
-  IconPerson,
-  IconPin,
   IconShare,
   IconSpark,
-  IconStar,
 } from '../icons.jsx';
 import {
   getScheduleSettings,
@@ -151,12 +148,6 @@ function SignalIcon({ name }) {
   return <IconSpark width={24} height={24} />;
 }
 
-function FactIcon({ name }) {
-  if (name === 'pin') return <IconPin />;
-  if (name === 'person') return <IconPerson />;
-  return <IconStar />;
-}
-
 /**
  * Film Detail — production uses real HomeData via composeFilmDetailPresentation.
  * Mockup / visual fixtures activate only through explicit QC flags.
@@ -184,13 +175,15 @@ export default function FilmDetailSurface({
   shareTitle = null,
   shareStatus = null,
   onStartPlanner = null,
-  onOpenOpportunity,
+  onOpenOpportunity = null,
   onOpenShowtimes,
+  onOpenRecommendedExperience = null,
   onAcceptedPlansChange = null,
   onViewPlanner = null,
   onHydrateFilmIds,
 }) {
   void onStartPlanner;
+  void onOpenOpportunity;
   const [settingsTick, setSettingsTick] = useState(0);
   const [tmdbRevision, setTmdbRevision] = useState(0);
   const [tmdbFetchState, setTmdbFetchState] = useState('idle');
@@ -296,7 +289,9 @@ export default function FilmDetailSurface({
     );
   }
 
-  const { hero, whySeeIt, synopsis, bestWay, today } = view;
+  const { hero, whySeeIt, synopsis, recommendedExperience, today } = view;
+  const recommendedSignals = view.recommendedExperienceSignals ?? [];
+  const bestWay = view.bestWay;
   const hasBackdrop = Boolean(hero.backdropUrl);
   const hasPoster = Boolean(hero.posterUrl);
   const backdropStyle = hasBackdrop
@@ -659,58 +654,62 @@ export default function FilmDetailSurface({
         </div>
       </section>
 
-      <section className="v2-fd-section" aria-labelledby="v2-fd-best-h">
-        <div className="v2-fd-section-head">
-          <h2 id="v2-fd-best-h" className="v2-section-caps">
-            Best way to see it
-          </h2>
-        </div>
-        {view.bestWayEmpty || !bestWay ? (
-          <p className="v2-fd-muted" role="status">
-            {view.availabilityNote ||
-              'No upcoming opportunity is available for this film in the current window.'}
-          </p>
-        ) : (
+      {!view.recommendedExperienceEmpty && recommendedExperience ? (
+        <section className="v2-fd-section" aria-labelledby="v2-fd-re-h">
+          <div className="v2-fd-section-head">
+            <h2 id="v2-fd-re-h" className="v2-section-caps">
+              Recommended Experience
+            </h2>
+          </div>
           <button
             type="button"
-            className="v2-fd-best"
-            aria-label={`Best opportunity: ${bestWay.formatLabel} at ${bestWay.theaterName}, ${bestWay.whenLabel}`}
+            className="v2-fd-best v2-fd-re-card"
+            data-experience-type={recommendedExperience.type}
+            data-experience-id={recommendedExperience.id}
+            aria-label={`Recommended Experience: ${recommendedExperience.label}`}
             onClick={() =>
-              onOpenOpportunity?.({
-                filmKey: bestWay.filmKey ?? view.filmKey,
-                opportunityKey: bestWay.opportunityKey ?? null,
+              onOpenRecommendedExperience?.({
+                filmKey: view.filmKey,
+                experienceType: recommendedExperience.type,
+                experienceId: recommendedExperience.id,
               })
             }
           >
-            <span className="v2-fd-best-top">
-              <span className="v2-fd-best-format">
-                <span className="v2-fd-best-kicker">Best opportunity</span>
+            <span className="v2-fd-best-top v2-fd-re-top">
+              <span className="v2-fd-best-format v2-fd-re-format">
+                <span className="v2-fd-best-kicker">Recommended</span>
                 <span className="v2-fd-best-format-value">
-                  {bestWay.formatLabel}
+                  {recommendedExperience.label}
                 </span>
               </span>
-              <span className="v2-fd-best-copy">
-                <span className="v2-fd-best-theater">{bestWay.theaterName}</span>
-                <span className="v2-fd-best-pres">
-                  {bestWay.presentationLabel}
-                </span>
-                <span className="v2-fd-best-when">{bestWay.whenLabel}</span>
+              <span className="v2-fd-best-copy v2-fd-re-copy">
+                {recommendedExperience.reason ? (
+                  <span className="v2-fd-re-reason">
+                    {recommendedExperience.reason}
+                  </span>
+                ) : null}
               </span>
               <IconChevron />
             </span>
-            {bestWay.facts?.length ? (
-              <span className="v2-fd-best-facts" aria-label="Supporting details">
-                {bestWay.facts.map((f) => (
-                  <span key={f.id} className="v2-fd-best-fact">
-                    <FactIcon name={f.icon} />
-                    <span>{f.label}</span>
+            {recommendedSignals.length > 0 ? (
+              <span
+                className="v2-fd-best-facts v2-fd-re-signals"
+                aria-label="Availability signals"
+              >
+                {recommendedSignals.map((signal) => (
+                  <span
+                    key={signal.id}
+                    className={`v2-fd-best-fact v2-fd-re-signal v2-fd-re-signal-${signal.kind}`}
+                    data-signal-kind={signal.kind}
+                  >
+                    <span>{signal.label}</span>
                   </span>
                 ))}
               </span>
             ) : null}
           </button>
-        )}
-      </section>
+        </section>
+      ) : null}
 
       <section
         className="v2-fd-section v2-fd-section-last"

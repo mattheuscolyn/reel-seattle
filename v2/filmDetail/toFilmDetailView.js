@@ -72,6 +72,9 @@ function emptyView({ mode, source, filmKey }) {
     },
     bestWay: null,
     bestWayEmpty: true,
+    recommendedExperience: null,
+    recommendedExperienceSignals: [],
+    recommendedExperienceEmpty: true,
     today: {
       rows: [],
       empty: true,
@@ -152,6 +155,38 @@ function mockupToView(p) {
         }
       : null,
     bestWayEmpty: !p.bestWay,
+    recommendedExperience: p.bestWay
+      ? {
+          type: 'format',
+          id: String(p.bestWay.formatLabel ?? 'experience')
+            .toLowerCase()
+            .replace(/\s+/g, '-'),
+          label: p.bestWay.formatLabel ?? 'Recommended experience',
+          reason: p.bestWay.presentationLabel ?? null,
+          matchingPerformanceKeys: p.bestWay.opportunityKey
+            ? [p.bestWay.opportunityKey]
+            : [],
+          venueCount: 1,
+          showtimeCount: 1,
+          firstShowDate: null,
+          bookedThroughLabel: null,
+          availabilityPattern: null,
+          departureTimingLabel: null,
+          urgencyConfidence: null,
+          source: 'temporary_best_way_seed',
+          seedOpportunityKey: p.bestWay.opportunityKey ?? null,
+        }
+      : null,
+    recommendedExperienceSignals: p.bestWay
+      ? [
+          {
+            id: 'venue',
+            label: p.bestWay.theaterName ?? '1 venue',
+            kind: 'meta',
+          },
+        ]
+      : [],
+    recommendedExperienceEmpty: !p.bestWay,
     today: {
       rows: (p.todaysShowtimes?.rows ?? []).map((row) => ({
         id: row.id,
@@ -252,6 +287,14 @@ function composedToView(p, mode) {
         }
       : null,
     bestWayEmpty: Boolean(p.bestWayEmpty) || !p.bestWay,
+    recommendedExperience: p.recommendedExperience
+      ? { ...p.recommendedExperience }
+      : null,
+    recommendedExperienceSignals: [
+      ...(p.recommendedExperienceSignals ?? []),
+    ],
+    recommendedExperienceEmpty:
+      Boolean(p.recommendedExperienceEmpty) || !p.recommendedExperience,
     today: {
       rows: todayRows.map((row) => ({
         id: row.theaterId ?? row.id,

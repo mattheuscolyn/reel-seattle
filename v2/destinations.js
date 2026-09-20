@@ -100,6 +100,7 @@ export function resolveActivePrimaryId(nav) {
     nav.surface?.type === 'short-detail' ||
     nav.surface?.type === 'shorts-program-detail' ||
     nav.surface?.type === 'opportunity-detail' ||
+    nav.surface?.type === 'recommended-experience' ||
     nav.surface?.type === 'showtimes' ||
     nav.surface?.type === 'showtimes-browse' ||
     nav.surface?.type === 'build-plan' ||
@@ -198,6 +199,9 @@ export function resolveHeaderBackLabel(nav, options = {}) {
   }
   if (surface.type === 'opportunity-detail') {
     return originBackLabel(surface.originPrimary);
+  }
+  if (surface.type === 'recommended-experience') {
+    return 'Film';
   }
   if (surface.type === 'theater-detail') {
     if (surface.returnSurface?.type === 'collection') return 'Theaters';
