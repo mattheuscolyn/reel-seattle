@@ -186,11 +186,15 @@ class PerformanceIdentityRegistry:
         parent_film_key: str | None = None,
         film_keys: set[str] | None = None,
         seen_on: str | None = None,
-    ) -> dict[str, Any]:
+    ) -> tuple[dict[str, Any], bool]:
         """Create or extend a performance identity.
 
         Never overwrites an existing ``performance_id`` with a different one
         for the same alias. Extends aliases / film keys additively.
+
+        Returns ``(row, changed)`` where ``changed`` is True only when identity
+        evidence materially changed (new row, new alias, new film key, or
+        first-time film_id/parent fill). Timestamp-only touches do not count.
         """
         if not is_valid_performance_id(performance_id):
             raise PerformanceIdentityError(f"invalid performance_id: {performance_id!r}")
@@ -235,42 +239,63 @@ class PerformanceIdentityRegistry:
                 "last_seen_at": today,
             }
             self._payload["performances"].append(row)
-        else:
-            # Stable identity: never change performance_id; never move slot.
-            if (
-                str(row.get("theater_id")) != theater_id
-                or str(row.get("local_date")) != local_date
-                or str(row.get("local_time")) != local_time
-            ):
-                # Same identity claiming a different physical slot is unsafe.
-                raise PerformanceIdentityError(
-                    f"performance_id {performance_id} slot mismatch"
-                )
-            alias_set = set(row.get("aliases") or [])
-            alias_set.update(cleaned_aliases)
+            self._rebuild_indexes()
+            validate_registry(self._payload)
+            return row, True
+
+        # Stable identity: never change performance_id; never move slot.
+        if (
+            str(row.get("theater_id")) != theater_id
+            or str(row.get("local_date")) != local_date
+            or str(row.get("local_time")) != local_time
+        ):
+            raise PerformanceIdentityError(
+                f"performance_id {performance_id} slot mismatch"
+            )
+
+        changed = False
+        alias_set = set(row.get("aliases") or [])
+        before_aliases = set(alias_set)
+        alias_set.update(cleaned_aliases)
+        if alias_set != before_aliases:
             row["aliases"] = sorted(alias_set)
-            key_set = set(row.get("film_keys") or [])
-            if film_keys:
-                key_set.update(film_keys)
+            changed = True
+        else:
+            # Keep aliases sorted deterministically even on no-op.
+            row["aliases"] = sorted(alias_set)
+
+        key_set = set(row.get("film_keys") or [])
+        before_keys = set(key_set)
+        if film_keys:
+            key_set.update(film_keys)
+        if key_set != before_keys:
             row["film_keys"] = sorted(key_set)
-            # Enrich film_id / parent only when previously empty (no churn of id).
-            if row.get("film_id") in (None, "", "null") and film_id not in (
-                None,
-                "",
-                "null",
-            ):
-                row["film_id"] = film_id
-            if row.get("parent_film_key") in (None, "", "null") and parent_film_key not in (
-                None,
-                "",
-                "null",
-            ):
-                row["parent_film_key"] = parent_film_key
+            changed = True
+        else:
+            row["film_keys"] = sorted(key_set)
+
+        # Enrich film_id / parent only when previously empty (no churn of id).
+        if row.get("film_id") in (None, "", "null") and film_id not in (
+            None,
+            "",
+            "null",
+        ):
+            row["film_id"] = film_id
+            changed = True
+        if row.get("parent_film_key") in (None, "", "null") and parent_film_key not in (
+            None,
+            "",
+            "null",
+        ):
+            row["parent_film_key"] = parent_film_key
+            changed = True
+
+        if changed:
             row["last_seen_at"] = today
 
         self._rebuild_indexes()
         validate_registry(self._payload)
-        return row
+        return row, changed
 
     def touch_generated_at(self, stamp: str | None = None) -> None:
         self._payload["generated_at"] = stamp or datetime.now().isoformat(

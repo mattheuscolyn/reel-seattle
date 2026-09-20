@@ -138,6 +138,69 @@ def test_host_inherits_xsrc_identity_after_gi_disappears(tmp_path):
     assert day3_host["performance_id"] == original_id
 
 
+def test_cross_process_gi_disappears_then_host_recovers_from_disk(tmp_path):
+    """Prove GI→absent→host continuity across independent registry load cycles."""
+    registry_path = tmp_path / "registry.json"
+
+    # Run A (process 1): GI-only publishes mapping to disk.
+    day1_gi = _gi("occ-cross-process")
+    report_a = attach_performance_ids(
+        [day1_gi],
+        registry_path=registry_path,
+        persist=True,
+        reference_date=date(2026, 9, 20),
+    )
+    original_id = day1_gi["performance_id"]
+    assert original_id.startswith("xsrc:grand-illusion:")
+    assert report_a["registry_persisted"] is True
+    on_disk = registry_path.read_text(encoding="utf-8")
+
+    # Run B (process 2): GI absent; registry must still load from disk unchanged.
+    report_b = attach_performance_ids(
+        [],
+        registry_path=registry_path,
+        persist=True,
+        reference_date=date(2026, 9, 21),
+    )
+    assert report_b["registry_upserts"] == 0
+    assert registry_path.read_text(encoding="utf-8") == on_disk
+
+    # Run C (process 3): host alone inherits persisted GI-first identity.
+    day3_host = _host("abcdef99")
+    attach_performance_ids(
+        [day3_host],
+        registry_path=registry_path,
+        persist=True,
+        reference_date=date(2026, 9, 22),
+    )
+    assert day3_host["performance_id"] == original_id
+
+
+def test_attach_noop_second_run_does_not_rewrite_registry(tmp_path):
+    registry_path = tmp_path / "registry.json"
+    rows = [_gi("occ-noop")]
+    first = attach_performance_ids(
+        rows,
+        registry_path=registry_path,
+        persist=True,
+        reference_date=date(2026, 9, 20),
+    )
+    assert first["registry_persisted"] is True
+    before = registry_path.read_text(encoding="utf-8")
+
+    rows2 = [_gi("occ-noop")]
+    second = attach_performance_ids(
+        rows2,
+        registry_path=registry_path,
+        persist=True,
+        reference_date=date(2026, 9, 21),
+    )
+    assert second["registry_upserts"] == 0
+    assert second["registry_persisted"] is False
+    assert registry_path.read_text(encoding="utf-8") == before
+    assert rows2[0]["performance_id"] == rows[0]["performance_id"]
+
+
 def test_same_slot_different_films_get_different_performance_ids(tmp_path):
     rows = [
         _gi("occ-screen-a", title="The Hole", showtime_id="gi-a"),

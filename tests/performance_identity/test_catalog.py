@@ -1,5 +1,7 @@
 """Tests for the durable performance identity registry."""
 
+import json
+
 import pytest
 
 from reel_seattle.performance_identity.catalog import (
@@ -25,6 +27,26 @@ def _row(performance_id: str, alias: str) -> dict:
         "first_seen_at": "2026-09-20",
         "last_seen_at": "2026-09-20",
     }
+
+
+def test_registry_noop_second_upsert_does_not_mark_changed():
+    registry = PerformanceIdentityRegistry()
+    kwargs = {
+        "theater_id": "siff-film-center",
+        "local_date": "2026-09-20",
+        "local_time": "18:30",
+        "aliases": ["grand_illusion:occ-1", "public_showtime:gi-1"],
+        "film_keys": {"parent:the-hole"},
+        "seen_on": "2026-09-20",
+    }
+    _, first = registry.upsert(performance_id="xsrc:grand-illusion:0123456789abcdef", **kwargs)
+    before = json.dumps(registry.payload, sort_keys=True)
+    _, second = registry.upsert(performance_id="xsrc:grand-illusion:0123456789abcdef", **kwargs)
+    after = json.dumps(registry.payload, sort_keys=True)
+
+    assert first is True
+    assert second is False
+    assert before == after
 
 
 def test_registry_roundtrip_save_and_load(tmp_path):

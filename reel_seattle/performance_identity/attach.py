@@ -147,7 +147,7 @@ def attach_performance_ids(
 
         slot = occurrence_slot(host) or occurrence_slot(gi)
         assert slot is not None
-        reg.upsert(
+        _, changed = reg.upsert(
             performance_id=perf_id,
             theater_id=slot[0],
             local_date=slot[1],
@@ -162,7 +162,8 @@ def attach_performance_ids(
         host["performance_id"] = perf_id
         gi["performance_id"] = perf_id
         report["matched"] += 1
-        report["registry_upserts"] += 1
+        if changed:
+            report["registry_upserts"] += 1
 
     # --- Unmatched GI (publishable fallbacks) ---
     for gi in unmatched_gi:
@@ -193,7 +194,7 @@ def attach_performance_ids(
         else:
             perf_id = gi_performance_id(occ)
 
-        reg.upsert(
+        _, changed = reg.upsert(
             performance_id=perf_id,
             theater_id=slot[0],
             local_date=slot[1],
@@ -206,7 +207,8 @@ def attach_performance_ids(
         )
         gi["performance_id"] = perf_id
         report["unmatched_gi"] += 1
-        report["registry_upserts"] += 1
+        if changed:
+            report["registry_upserts"] += 1
 
     report["ambiguous"] = len(ambiguous_gi)
 
@@ -243,7 +245,7 @@ def attach_performance_ids(
         new_aliases = list(aliases)
         if host_id:
             new_aliases.append(public_alias(host_id))
-        reg.upsert(
+        _, changed = reg.upsert(
             performance_id=perf_id,
             theater_id=slot[0],
             local_date=slot[1],
@@ -256,15 +258,23 @@ def attach_performance_ids(
         )
         host["performance_id"] = perf_id
         report["inherited_from_registry"] += 1
-        report["registry_upserts"] += 1
+        if changed:
+            report["registry_upserts"] += 1
 
-    reg.touch_generated_at()
-    if persist and report["registry_upserts"] > 0:
+    material = report["registry_upserts"] > 0
+    if persist and material:
+        reg.touch_generated_at()
+        # Deterministic row order for stable serialization / git diffs.
+        reg.payload["performances"] = sorted(
+            reg.payload["performances"],
+            key=lambda row: str(row.get("performance_id") or ""),
+        )
         save_registry(reg.payload, path)
     elif persist and not Path(path).exists():
         # Ensure the empty registry artifact exists for first-time setup.
         save_registry(reg.payload, path)
     report["registry_path"] = str(path)
+    report["registry_persisted"] = bool(persist and (material or not Path(path).exists()))
     return report
 
 

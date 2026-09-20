@@ -442,6 +442,13 @@ def build_showtimes_current(
         persist=persist_performance_identity,
     )
     showtimes[:] = reconcile_grand_illusion_showtimes(showtimes)
+    # Drop film refs that only existed on suppressed GI rows (matched duplicates).
+    used_film_keys = {
+        str(row.get("showtime_film_key") or "")
+        for row in showtimes
+        if row.get("showtime_film_key")
+    }
+    films = [film for film in films if film.get("showtime_film_key") in used_film_keys]
     if emit_report_out is not None:
         emit_report_out.clear()
         emit_report_out.update(identity_emit_report)
