@@ -16,6 +16,11 @@ import {
 import { isAccessibilityFormatLabel } from '../formatsExperiences/formatNormalize.js';
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 import { unresolvedProgramLabel } from './unresolvedProgramLabels.js';
+import {
+  buildDepartureTimingPresentation,
+  findLeavingSoonEntryForFilm,
+} from './departureTiming.js';
+import { formatShelfDetailMonthDay } from '../homeShelfDetail/formatShelfDetailMonthDay.js';
 
 const PREMIUM_FORMAT_HINTS = Object.freeze([
   '70mm',
@@ -309,8 +314,27 @@ export function buildWhySeeItSignals(homeData, film) {
     }
   }
 
-  /** @type {{ id: string, type: string, primary: string, secondary: string | null, tone: string }[]} */
+  /** @type {{ id: string, type: string, primary: string, secondary: string | null, tone: string, icon?: string }[]} */
   const signals = [];
+
+  const leavingEntry = findLeavingSoonEntryForFilm(
+    film,
+    homeData?.leavingSoon?.entries,
+  );
+  const departureTiming = buildDepartureTimingPresentation(leavingEntry, {
+    todayIso: today,
+  });
+  if (departureTiming) {
+    signals.push({
+      id: 'departure-timing',
+      type: 'departure_timing',
+      primary: departureTiming.primaryLabel,
+      secondary: departureTiming.secondaryLabel,
+      tone: 'coral',
+      icon: 'calendar',
+      departureTiming,
+    });
+  }
 
   const newly = (Array.isArray(homeData?.newlyAdded) ? homeData.newlyAdded : []).find(
     (e) => e.filmKey === film.filmKey,
@@ -375,6 +399,21 @@ export function buildWhySeeItSignals(homeData, film) {
   const future = opps.filter((o) => o.localDate >= today);
   if (future.length > 0 && future.length <= 5) {
     const last = future[future.length - 1];
+    const throughLabel = last?.localDate
+      ? formatShelfDetailMonthDay(last.localDate) ??
+        formatLocalDateLabel(last.localDate)
+      : null;
+    const bookedThrough = departureTiming?.bookedThroughDate
+      ? formatShelfDetailMonthDay(departureTiming.bookedThroughDate)
+      : null;
+    // When departure timing already states the booked-through date, keep the
+    // screening-count scarcity line but drop the redundant "Through …" date.
+    const secondary =
+      throughLabel && bookedThrough && throughLabel === bookedThrough
+        ? null
+        : throughLabel
+          ? `Through ${throughLabel}`
+          : null;
     signals.push({
       id: 'screenings-left',
       type: 'scarcity',
@@ -382,9 +421,7 @@ export function buildWhySeeItSignals(homeData, film) {
         future.length === 1
           ? '1 screening left'
           : `${future.length} screenings left`,
-      secondary: last?.localDate
-        ? `Through ${formatLocalDateLabel(last.localDate) ?? last.localDate}`
-        : null,
+      secondary,
       tone: 'coral',
       icon: 'calendar',
     });
@@ -401,13 +438,14 @@ export function buildWhySeeItSignals(homeData, film) {
     });
   }
 
-  // Deterministic order: scarcity/format first, then newly added, then venue.
+  // Departure timing first when present; then format/scarcity/newly/venue.
   const order = {
-    special_format: 0,
-    scarcity: 1,
-    newly_added: 2,
-    limited_venue: 3,
-    special_event: 4,
+    departure_timing: 0,
+    special_format: 1,
+    scarcity: 2,
+    newly_added: 3,
+    limited_venue: 4,
+    special_event: 5,
   };
   signals.sort((a, b) => (order[a.type] ?? 9) - (order[b.type] ?? 9));
 

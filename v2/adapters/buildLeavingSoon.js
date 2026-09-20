@@ -1,10 +1,16 @@
 /**
  * Leaving Soon artifact adapter — normalizes leaving_soon_current.json
- * into homeData.leavingSoon. Bucket copy only; no probabilities or exact days.
+ * into homeData.leavingSoon. Keeps public semantic timing fields only;
+ * never surfaces raw probabilities or remaining-day medians.
  */
 
 import { createHomeWarning } from './homeWarnings.js';
 import { asCanonicalFilmId } from '../enrichment/enrichmentIndex.js';
+import {
+  DEPARTURE_TIMING_FRESHNESS_MAX_AGE_DAYS,
+  isDepartureTimingFresh,
+} from '../filmDetail/departureTiming.js';
+import { pacificDateString } from '../explore/exploreCatalog.js';
 
 export const LEAVING_SOON_BUCKETS = Object.freeze({
   lastChance: 'last_chance',
@@ -40,8 +46,9 @@ export function assertLeavingSoonShape(payload) {
 
 /**
  * @param {unknown} raw
+ * @param {{ todayIso?: string | null }} [options]
  */
-function normalizeItem(raw) {
+function normalizeItem(raw, options = {}) {
   if (raw == null || typeof raw !== 'object') return null;
   const filmKey = asTrimmedString(raw.film_key);
   const title = asTrimmedString(raw.film_title);
@@ -52,6 +59,52 @@ function normalizeItem(raw) {
     typeof raw.sort_rank === 'number' && Number.isFinite(raw.sort_rank)
       ? Math.trunc(raw.sort_rank)
       : null;
+
+  const predictionAsOf = asTrimmedString(raw.prediction_as_of);
+  const timingConfidence = asTrimmedString(raw.timing_confidence);
+  const timingMode = asTrimmedString(raw.timing_mode);
+  const predictedEndDate = asTrimmedString(raw.predicted_end_date);
+  const predictionScope = asTrimmedString(raw.prediction_scope) ?? 'amc';
+  const todayIso = asTrimmedString(options.todayIso) ?? pacificDateString();
+  const timingFresh = predictionAsOf
+    ? isDepartureTimingFresh(predictionAsOf, todayIso)
+    : false;
+
+  /** @type {string | null} */
+  let safeConfidence = null;
+  /** @type {string | null} */
+  let safeMode = null;
+  /** @type {string | null} */
+  let safePredicted = null;
+  if (
+    timingConfidence &&
+    timingMode &&
+    (timingConfidence === 'high' ||
+      timingConfidence === 'moderate' ||
+      timingConfidence === 'low') &&
+    (timingMode === 'likely_around' ||
+      timingMode === 'could_around' ||
+      timingMode === 'horizon_only')
+  ) {
+    if (!timingFresh) {
+      safeConfidence = 'low';
+      safeMode = 'horizon_only';
+      safePredicted = null;
+    } else if (timingMode === 'horizon_only' || timingConfidence === 'low') {
+      safeConfidence = 'low';
+      safeMode = 'horizon_only';
+      safePredicted = null;
+    } else if (predictedEndDate) {
+      safeConfidence = timingConfidence;
+      safeMode = timingMode;
+      safePredicted = predictedEndDate;
+    } else {
+      safeConfidence = 'low';
+      safeMode = 'horizon_only';
+      safePredicted = null;
+    }
+  }
+
   return {
     filmKey,
     title,
@@ -74,13 +127,19 @@ function normalizeItem(raw) {
       typeof raw.total_visible_showtimes === 'number'
         ? Math.max(0, Math.trunc(raw.total_visible_showtimes))
         : 0,
-    // Window/model max date — last known visible screening in the model window.
+    // Observed booking fact — last currently known screening, not a prediction.
     maxShowDate: asTrimmedString(raw.max_show_date),
     totalVisibleTheaters:
       typeof raw.total_visible_theaters === 'number'
         ? Math.max(0, Math.trunc(raw.total_visible_theaters))
         : 0,
     theaters: normalizeTheaters(raw.theaters),
+    predictionAsOf,
+    predictedEndDate: safePredicted,
+    timingConfidence: safeConfidence,
+    timingMode: safeMode,
+    predictionScope: safeConfidence ? predictionScope : null,
+    timingFreshnessMaxAgeDays: DEPARTURE_TIMING_FRESHNESS_MAX_AGE_DAYS,
   };
 }
 
@@ -152,7 +211,7 @@ export function buildLeavingSoon(artifact, options = {}) {
   }
 
   const entries = artifact.items
-    .map(normalizeItem)
+    .map((item) => normalizeItem(item, { todayIso: pacificDateString() }))
     .filter(Boolean)
     .sort((a, b) => {
       const rankA = a.sortRank ?? Number.MAX_SAFE_INTEGER;

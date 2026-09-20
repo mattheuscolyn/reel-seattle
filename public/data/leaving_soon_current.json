@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.2.0",
   "generated_at": "2026-09-19T03:11:08-07:00",
   "source": "amc",
   "model_version": "amc_remaining_run_survival_v1",
@@ -11,11 +11,11 @@
   },
   "method": {
     "name": "amc_remaining_run_survival_v1",
-    "description": "Frozen daily discrete-time logistic remaining-run model. Public copy is bucketed; exact remaining days are not shown as certainty.",
+    "description": "Frozen daily discrete-time logistic remaining-run model. Public copy is bucketed with presentation-safe AMC departure timing; raw probabilities and remaining-day medians stay internal.",
     "evaluated_precision": 0.925,
     "evaluated_recall": 0.715,
     "evaluated_coverage": 0.715,
-    "evaluation_note": "Held-out backtest of amc_remaining_run_survival_v1. The validation 95% 7-day operating point held at about 92.5% test precision; the 90% point did not. Production use does not mean the model is final. Ship-gate remains promising_continue.",
+    "evaluation_note": "Held-out backtest of amc_remaining_run_survival_v1. The validation 95% 7-day operating point held at about 92.5% test precision; the 90% point did not. Production use does not mean the model is final. Ship-gate remains promising_continue. Presentation dates use observation_date + median_remaining_days, lower-bounded by max_show_date; weak segments stay horizon-only. No formal percentage confidence is published.",
     "model_version": "amc_remaining_run_survival_v1",
     "last_chance_threshold": 0.8789871756000429,
     "leaving_soon_threshold": 0.8129915288528309
@@ -67,7 +67,12 @@
       "has_primetime": false,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1783768037/amc-cdn/production/2/movies/84300/84280/Poster/416519R1.jpg",
-      "runtime_min": 150
+      "runtime_min": 150,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "ghost-in-the-shell-30th-anniversary",
@@ -105,7 +110,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787890033/amc-cdn/content/general/kx5atycqia9dpy2ftihb.jpg",
-      "runtime_min": 82
+      "runtime_min": 82,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "batman-mask-of-the-phantasm-2026bd",
@@ -147,7 +157,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787656768/amc-cdn/production/2/movies/84600/84560/Poster/007576R1.jpg",
-      "runtime_min": 76
+      "runtime_min": 76,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "paw-patrol-the-dino-movie",
@@ -181,7 +196,12 @@
       "has_primetime": false,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1776713132/amc-cdn/content/general/g1qtttbv00tysyl2oeku.jpg",
-      "runtime_min": 88
+      "runtime_min": 88,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-23",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "lego-batman-movie",
@@ -224,7 +244,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787656652/amc-cdn/production/2/movies/84600/84558/Poster/241505R1.jpg",
-      "runtime_min": 105
+      "runtime_min": 105,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "mighty-mary",
@@ -258,7 +283,12 @@
       "has_primetime": false,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1786550221/amc-cdn/content/general/rcyhd2qgfgbhnrlodobd.png",
-      "runtime_min": 99
+      "runtime_min": 99,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-23",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "sunny-dancer",
@@ -292,7 +322,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1788275038/amc-cdn/content/general/paj6g19kwve6bffhl20h.jpg",
-      "runtime_min": 106
+      "runtime_min": 106,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-23",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "batman-1989",
@@ -334,7 +369,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1788189054/amc-cdn/content/general/betelfrvsqhihfjrlnig.jpg",
-      "runtime_min": 126
+      "runtime_min": 126,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "fix",
@@ -368,7 +408,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1785198491/amc-cdn/content/general/ueq7f4f680zv46lqbjt0.jpg",
-      "runtime_min": 142
+      "runtime_min": 142,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-23",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "by-any-means",
@@ -406,7 +451,12 @@
       "has_primetime": false,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782228736/amc-cdn/content/general/nlrxoucbgmels9zfe1ws.jpg",
-      "runtime_min": 107
+      "runtime_min": 107,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-23",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "dear-you",
@@ -440,7 +490,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1785323235/amc-cdn/production/2/movies/84200/84200/Poster/416182R1.jpg",
-      "runtime_min": 118
+      "runtime_min": 118,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-23",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "without-blood",
@@ -474,7 +529,12 @@
       "has_primetime": false,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787075947/amc-cdn/content/general/faq8uoqkk3odfigkwrrr.jpg",
-      "runtime_min": 91
+      "runtime_min": 91,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-24",
+      "timing_confidence": "moderate",
+      "timing_mode": "could_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "daayra",
@@ -508,7 +568,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789574459/amc-cdn/content/general/yhv1phosvdjfsheflm5g.jpg",
-      "runtime_min": 143
+      "runtime_min": 143,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-24",
+      "timing_confidence": "moderate",
+      "timing_mode": "could_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "dora-and-the-lost-city-of-gold",
@@ -547,7 +612,12 @@
       "has_primetime": false,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787841766/amc-cdn/content/general/x8ztwprf9ftzvu1l91tg.jpg",
-      "runtime_min": 100
+      "runtime_min": 100,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-24",
+      "timing_confidence": "moderate",
+      "timing_mode": "could_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "hanuman-ansh",
@@ -581,7 +651,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1788606481/amc-cdn/production/2/movies/85000/84956/Poster/422068R1.jpg",
-      "runtime_min": 150
+      "runtime_min": 150,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-25",
+      "timing_confidence": "moderate",
+      "timing_mode": "could_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "insidious-out-of-the-further",
@@ -623,7 +698,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1776976774/amc-cdn/content/general/jnnfokmlybbiojysiqp8.jpg",
-      "runtime_min": 106
+      "runtime_min": 106,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "daniel-and-the-fiery-furnace",
@@ -665,7 +745,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787156895/amc-cdn/content/general/m9yntmxbkmdotpnwufl7.png",
-      "runtime_min": 108
+      "runtime_min": 108,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "musical",
@@ -703,7 +788,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1788606343/amc-cdn/production/2/movies/84700/84708/Poster/407910R1.jpg",
-      "runtime_min": 84
+      "runtime_min": 84,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-25",
+      "timing_confidence": "moderate",
+      "timing_mode": "could_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "tiny-fugitives",
@@ -741,7 +831,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789055465/amc-cdn/content/general/lz78hyndhdkdtrk32ueo.jpg",
-      "runtime_min": 99
+      "runtime_min": 99,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-25",
+      "timing_confidence": "moderate",
+      "timing_mode": "could_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "oasis-don-t-look-back-in-anger",
@@ -787,7 +882,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787767494/amc-cdn/content/general/dutue0nrtvnpnotyi5a1.jpg",
-      "runtime_min": 124
+      "runtime_min": 124,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "if-i-go-will-they-miss-me",
@@ -830,7 +930,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787239761/amc-cdn/content/general/lrirv9tmda9sjehc673m.png",
-      "runtime_min": 95
+      "runtime_min": 95,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "shaun-the-sheep-the-beast-of-mossy-bottom",
@@ -880,7 +985,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789485029/amc-cdn/content/general/jbsj2jquamxfifmnytbu.jpg",
-      "runtime_min": 80
+      "runtime_min": 80,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-28",
+      "timing_confidence": "moderate",
+      "timing_mode": "could_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "buddy",
@@ -930,7 +1040,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1784905670/amc-cdn/content/general/sbtcudrskcz2jwx9zny4.jpg",
-      "runtime_min": 95
+      "runtime_min": 95,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-30",
+      "timing_confidence": "moderate",
+      "timing_mode": "could_around",
+      "prediction_scope": "amc"
     },
     {
       "film_key": "uprising",
@@ -984,7 +1099,12 @@
       "has_primetime": true,
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1784142559/amc-cdn/content/general/g46girtcut37vv0pz7qn.jpg",
-      "runtime_min": 128
+      "runtime_min": 128,
+      "prediction_as_of": "2026-09-19",
+      "predicted_end_date": "2026-09-30",
+      "timing_confidence": "moderate",
+      "timing_mode": "could_around",
+      "prediction_scope": "amc"
     }
   ]
 }

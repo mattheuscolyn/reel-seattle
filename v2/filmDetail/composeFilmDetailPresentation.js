@@ -96,6 +96,7 @@ function composeFixturePresentation(options = {}) {
     },
     signals: [...fx.signals],
     signalTotal: fx.signals.length,
+    departureTiming: null,
     synopsis: {
       available: true,
       preview: synopsis.preview,
@@ -207,6 +208,8 @@ function composeRealPresentation(
   );
 
   const signals = buildWhySeeItSignals(homeData, film);
+  const departureTiming =
+    signals.find((s) => s.type === 'departure_timing')?.departureTiming ?? null;
   const bestWay = buildBestWayCard(bestOpp, film, homeData);
   const today = buildTodaysShowtimes(
     homeData,
@@ -239,6 +242,7 @@ function composeRealPresentation(
     },
     signals,
     signalTotal: signals.length,
+    departureTiming,
     synopsis: {
       available: Boolean(synopsisText),
       preview: synopsisParts.preview,
