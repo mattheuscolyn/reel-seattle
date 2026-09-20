@@ -19,7 +19,7 @@ from reel_seattle.normalize import DEFAULT_TIMEZONE, format_date_iso, showtime_f
 from reel_seattle.validate import validate_leaving_soon_current
 
 LEAVING_SOON_SCHEMA_VERSION = "1.0.0"
-MODEL_PUBLIC_SCHEMA_VERSION = "1.1.0"
+MODEL_PUBLIC_SCHEMA_VERSION = "1.2.0"
 DEFAULT_OUTPUT_PATH = Path("public/data/leaving_soon_current.json")
 DEFAULT_SHOWTIMES_CURRENT_PATH = Path("public/data/showtimes_current.json")
 
@@ -296,6 +296,10 @@ def build_model_leaving_soon_current(
         REASON_LAST_CHANCE,
         REASON_LEAVING_SOON,
     )
+    from reel_seattle.analysis.leaving_soon_timing import (
+        assert_no_raw_probability_leakage,
+        timing_fields_from_ranked_item,
+    )
 
     if generated_at is None:
         generated_at = datetime.now(ZoneInfo(DEFAULT_TIMEZONE))
@@ -327,31 +331,38 @@ def build_model_leaving_soon_current(
             "elevated",
             REASON_LEAVING_SOON,
         )
-        public_items.append(
-            {
-                "film_key": film_key,
-                "film_title": item.observation.title,
-                "risk_level": risk_level,
-                "reason": reason,
-                "leaving_soon_bucket": item.bucket,
-                "model_version": MODEL_VERSION,
-                "source_film_id": item.observation.product_id,
-                "run_id": item.observation.run_id,
-                "run_type": item.observation.run_type,
-                "sort_rank": rank,
-                "visible_show_date_count": agg.visible_show_date_count if agg else 0,
-                "min_show_date": format_date_iso(min_date) if min_date else None,
-                "max_show_date": format_date_iso(max_date) if max_date else None,
-                "total_visible_showtimes": agg.showtime_count if agg else 0,
-                "total_visible_theaters": len(agg.theater_ids) if agg else 0,
-                "theaters": theaters,
-                "show_dates": [format_date_iso(d) for d in sorted(agg.show_dates)] if agg else [],
-                "has_primetime": bool(agg.has_primetime) if agg else False,
-                "has_weekend_show": bool(agg.has_weekend_show) if agg else False,
-                "poster_url": agg.poster_url if agg else None,
-                "runtime_min": agg.runtime_min if agg else None,
-            }
+        timing = timing_fields_from_ranked_item(
+            item,
+            max_show_date=max_date,
+            observation_date=item.observation.observation_date,
+            today=generated_at.date(),
         )
+        row = {
+            "film_key": film_key,
+            "film_title": item.observation.title,
+            "risk_level": risk_level,
+            "reason": reason,
+            "leaving_soon_bucket": item.bucket,
+            "model_version": MODEL_VERSION,
+            "source_film_id": item.observation.product_id,
+            "run_id": item.observation.run_id,
+            "run_type": item.observation.run_type,
+            "sort_rank": rank,
+            "visible_show_date_count": agg.visible_show_date_count if agg else 0,
+            "min_show_date": format_date_iso(min_date) if min_date else None,
+            "max_show_date": format_date_iso(max_date) if max_date else None,
+            "total_visible_showtimes": agg.showtime_count if agg else 0,
+            "total_visible_theaters": len(agg.theater_ids) if agg else 0,
+            "theaters": theaters,
+            "show_dates": [format_date_iso(d) for d in sorted(agg.show_dates)] if agg else [],
+            "has_primetime": bool(agg.has_primetime) if agg else False,
+            "has_weekend_show": bool(agg.has_weekend_show) if agg else False,
+            "poster_url": agg.poster_url if agg else None,
+            "runtime_min": agg.runtime_min if agg else None,
+            **timing,
+        }
+        assert_no_raw_probability_leakage(row)
+        public_items.append(row)
 
     window = current_artifact.get("window", {})
     last_chance_thr = model.threshold(horizon=7, min_precision="min_precision_0.95")
@@ -368,7 +379,8 @@ def build_model_leaving_soon_current(
             "name": MODEL_VERSION,
             "description": (
                 "Frozen daily discrete-time logistic remaining-run model. "
-                "Public copy is bucketed; exact remaining days are not shown as certainty."
+                "Public copy is bucketed with presentation-safe AMC departure timing; "
+                "raw probabilities and remaining-day medians stay internal."
             ),
             "evaluated_precision": 0.925,
             "evaluated_recall": 0.715,
@@ -377,7 +389,10 @@ def build_model_leaving_soon_current(
                 "Held-out backtest of amc_remaining_run_survival_v1. "
                 "The validation 95% 7-day operating point held at about 92.5% test precision; "
                 "the 90% point did not. Production use does not mean the model is final. "
-                "Ship-gate remains promising_continue."
+                "Ship-gate remains promising_continue. "
+                "Presentation dates use observation_date + median_remaining_days, "
+                "lower-bounded by max_show_date; weak segments stay horizon-only. "
+                "No formal percentage confidence is published."
             ),
             "model_version": MODEL_VERSION,
             "last_chance_threshold": last_chance_thr,

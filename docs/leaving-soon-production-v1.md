@@ -68,11 +68,47 @@ Includes identity, observation metadata, model version, calibrated `p_end_within
 
 ## 7. Public artifact schema
 
-`public/data/leaving_soon_current.json` — schema `schema/leaving_soon_current/v1.1.0.json`.
+`public/data/leaving_soon_current.json` — schema `schema/leaving_soon_current/v1.2.0.json` (writers emit `1.2.0`).
 
-Backward-compatible with the old heuristic 1.0.0 object (optional model fields). Production writer emits `schema_version: 1.1.0` plus `leaving_soon_bucket`, `model_version`, `sort_rank`.
+Schemas `1.0.0` / `1.1.0` remain valid for older fixtures and readers. Production writer emits `schema_version: 1.2.0` plus `leaving_soon_bucket`, `model_version`, `sort_rank`, and presentation-safe departure timing fields when classified.
 
-Does **not** expose feature vectors or user-facing exact remaining days.
+### Public timing fields (v1.2+)
+
+Publisher-owned translation in `reel_seattle/analysis/leaving_soon_timing.py`. The browser must not invent confidence from raw probabilities.
+
+| Field | Meaning |
+|-------|---------|
+| `prediction_as_of` | Observation date of the model pass |
+| `predicted_end_date` | Bounded presentation date, or `null` for horizon-only |
+| `timing_confidence` | `high` \| `moderate` \| `low` (wording tier, **not** a percentage) |
+| `timing_mode` | `likely_around` \| `could_around` \| `horizon_only` |
+| `prediction_scope` | Always `amc` for v1 |
+| `max_show_date` | **Observed** last currently announced AMC booking (unchanged) |
+
+**Point-date construction (post-process only; v1 weights frozen):**
+
+1. `raw = observation_date + round(median_remaining_days)` when median is usable and not beyond horizon  
+2. `predicted_end_date = max(raw, max_show_date)` when both exist  
+
+Do **not** treat calibrated 3/7/14/21 scores as a CDF. Do **not** publish formal interval coverage (“80% confidence”). Conformal investigation remains non-defensible for active runs.
+
+**Tier rules:**
+
+| Tier | Requirements | Exact date? | Primary copy pattern |
+|------|--------------|-------------|----------------------|
+| HIGH | bucket `last_chance`, no `weak_segment`, usable bounded date, fresh `prediction_as_of` | yes | `Likely leaving AMC around Sep 23` |
+| MODERATE | bucket `leaving_soon`, no weak segment, usable bounded date, fresh | yes | `Could leave AMC around Sep 25` |
+| LOW | weak segment (`rerelease` / `mid_footprint`), stale prediction, missing/beyond-horizon median, or other stability concern | no | Last Chance → `Could leave AMC within the next week`; Leaving Soon → `Could leave AMC within the next two weeks` |
+
+Optional secondary observed line: `Currently booked through Sep 23` (from `max_show_date` only).
+
+Freshness: if `prediction_as_of` is older than the inference stale window (2 days), suppress exact dates and fall back to LOW / horizon-only. A skipped publish still leaves the prior public file on disk; Film Detail must not treat a stale exact date as fresh.
+
+Does **not** expose feature vectors, `p_end_within_*`, raw `median_remaining_days`, or `expected_remaining_days`.
+
+**AMC scope:** the model predicts Seattle-area **AMC network** run remaining lifetime. User-facing timing copy must say AMC. It is not a multi-source “leaving Seattle” claim.
+
+**Shelf note:** Leaving Soon shelf copy `Last screening {max_show_date}` remains an observed booking label, not the predicted end. Do not repurpose that field to `predicted_end_date`.
 
 ## 8. Bucket thresholds
 
