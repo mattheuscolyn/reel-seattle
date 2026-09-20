@@ -173,7 +173,7 @@ function mockupToView(p) {
           availabilityPattern: null,
           departureTimingLabel: null,
           urgencyConfidence: null,
-          source: 'temporary_best_way_seed',
+          source: 'recommended_experience_engine_v1',
           seedOpportunityKey: p.bestWay.opportunityKey ?? null,
         }
       : null,

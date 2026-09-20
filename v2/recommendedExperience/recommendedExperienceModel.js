@@ -1,23 +1,13 @@
 /**
- * Recommended Experience presentation contract + temporary selection adapter.
+ * Recommended Experience presentation contract + resolver.
  *
- * TEMPORARY SELECTION (replace with recommendation engine later):
- * 1. Reuse existing `selectBestOpportunity` (premium-then-earliest / entry emphasis).
- * 2. If that seed has a premium presentation format (Dolby / IMAX / 70mm / 35mm / XL),
- *    recommend that FORMAT and expand to all matching actionable performances.
- * 3. Else if the seed theater looks like a specialty venue (SIFF / Beacon / Grand Illusion /
- *    NWFF / etc.), recommend that VENUE and expand to matching theater performances.
- * 4. Otherwise return null — do not manufacture a generic Digital/AMC recommendation.
- *
- * UI must not invent ranking; later engines populate the same contract shape.
+ * Selection is owned by `recommendedExperienceEngine.js` (v1).
+ * UI must not invent ranking; this module attaches presentation fields and
+ * departure timing signals to the engine winner.
  */
 
+import { listFilmOpportunities } from '../filmDetail/filmDetailModel.js';
 import {
-  listFilmOpportunities,
-  selectBestOpportunity,
-} from '../filmDetail/filmDetailModel.js';
-import {
-  CANONICAL_BROWSE_LABEL,
   classifyFormatLabel,
   opportunityMatchesCanonical,
 } from '../formatsExperiences/formatNormalize.js';
@@ -25,6 +15,14 @@ import {
   compareScreeningsByStart,
   isActionableScreening,
 } from '../showtimes/canonicalScreening.js';
+import {
+  ENGINE_SOURCE,
+  describeEngineAvailabilityPattern,
+  isSpecialtyVenue,
+  listEngineFormatIdsOnOpportunity,
+  selectRecommendedExperienceCandidate,
+  summarizeCohort,
+} from './recommendedExperienceEngine.js';
 
 /** @typedef {'format' | 'venue'} RecommendedExperienceType */
 
@@ -42,143 +40,59 @@ import {
  * @property {string | null} availabilityPattern
  * @property {string | null} departureTimingLabel predicted leave copy
  * @property {'high' | 'moderate' | 'low' | null} urgencyConfidence
- * @property {'temporary_best_way_seed'} source documents temporary adapter
- * @property {string | null} seedOpportunityKey debug / replacement seam
+ * @property {'recommended_experience_engine_v1'} source
+ * @property {string | null} seedOpportunityKey first matching performance key (debug)
  */
 
-const PREMIUM_FORMAT_IDS = new Set([
-  'dolby-cinema',
-  'imax',
-  'imax-70mm',
-  '70mm',
-  '35mm',
-  'xl-amc',
-]);
-
-const FORMAT_REASONS = Object.freeze({
-  'dolby-cinema': 'Best for sound and picture',
-  imax: 'Largest premium screen',
-  'imax-70mm': 'Largest premium film presentation',
-  '70mm': 'Film print presentation',
-  '35mm': 'Film print presentation',
-  'xl-amc': 'Expanded premium screen',
-});
-
-const SPECIALTY_VENUE_PATTERN =
-  /\b(siff|beacon|grand illusion|nwff|northwest film|cinema seattle|arkade)\b/i;
-
 /**
+ * Prefer most specific premium format id on an opportunity (IMAX 70mm > IMAX).
  * @param {object | null | undefined} opportunity
  * @returns {string | null}
  */
 export function resolvePremiumFormatId(opportunity) {
-  if (!opportunity) return null;
-  const labels = Array.isArray(opportunity.formatLabels)
-    ? opportunity.formatLabels
-    : [];
-  const exhibitorHint =
-    typeof opportunity.theaterName === 'string' ? opportunity.theaterName : null;
-  /** Prefer more specific IMAX 70mm over IMAX when both present. */
-  let found = null;
-  for (const raw of labels) {
-    const { formatId } = classifyFormatLabel(raw, { exhibitorHint });
-    if (!formatId || !PREMIUM_FORMAT_IDS.has(formatId)) continue;
-    if (formatId === 'imax-70mm') return 'imax-70mm';
-    if (!found) found = formatId;
-  }
-  return found;
+  const ids = listEngineFormatIdsOnOpportunity(opportunity);
+  if (ids.length === 0) return null;
+  // Engine list already drops plain imax when imax-70mm present.
+  return ids[0] ?? null;
 }
 
 /**
  * @param {string | null | undefined} theaterName
+ * @param {string | null | undefined} [theaterId]
+ * @param {object | null | undefined} [theaterMeta]
  */
-export function isSpecialtyVenueName(theaterName) {
-  return typeof theaterName === 'string' && SPECIALTY_VENUE_PATTERN.test(theaterName);
+export function isSpecialtyVenueName(theaterName, theaterId = null, theaterMeta = null) {
+  return isSpecialtyVenue(theaterId, theaterName, theaterMeta);
 }
 
 /**
+ * Observed availability pattern for a cohort of opportunities.
  * @param {object[]} opportunities
  * @returns {string | null}
  */
 export function describeAvailabilityPattern(opportunities) {
   if (!Array.isArray(opportunities) || opportunities.length === 0) return null;
-  let morning = 0;
-  let afternoon = 0;
-  let evening = 0;
+  const summary = summarizeCohort(opportunities);
+
   let weekend = 0;
   let weekday = 0;
   for (const opp of opportunities) {
-    const time =
-      typeof opp.localTime === 'string'
-        ? opp.localTime
-        : typeof opp.sortableLocalDateTime === 'string'
-          ? opp.sortableLocalDateTime.slice(11, 16)
-          : null;
-    const hour = time ? Number(time.slice(0, 2)) : NaN;
-    if (Number.isFinite(hour)) {
-      if (hour < 12) morning += 1;
-      else if (hour < 17) afternoon += 1;
-      else evening += 1;
-    }
     const date =
       typeof opp.localDate === 'string'
         ? opp.localDate
         : typeof opp.sortableLocalDateTime === 'string'
           ? opp.sortableLocalDateTime.slice(0, 10)
           : null;
-    if (date) {
-      const day = new Date(`${date}T12:00:00`).getUTCDay();
-      if (day === 0 || day === 6) weekend += 1;
-      else weekday += 1;
-    }
+    if (!date) continue;
+    const day = new Date(`${date}T12:00:00`).getUTCDay();
+    if (day === 0 || day === 6) weekend += 1;
+    else weekday += 1;
   }
-  const timed = morning + afternoon + evening;
-  if (timed === 0 && weekend + weekday === 0) return null;
-
   if (weekend + weekday >= 3 && weekday === 0 && weekend > 0) {
     return 'Weekends only';
   }
 
-  if (timed === 0) return null;
-  const eveShare = evening / timed;
-  const aftShare = afternoon / timed;
-  const mornShare = morning / timed;
-  if (eveShare >= 0.6) return 'Mostly evenings';
-  if (aftShare + eveShare >= 0.75 && mornShare < 0.2) {
-    return 'Mostly afternoons + evenings';
-  }
-  if (mornShare >= 0.6) return 'Mostly mornings';
-  if (aftShare >= 0.6) return 'Mostly afternoons';
-  return null;
-}
-
-/**
- * @param {object[]} opportunities
- */
-function summarizeMatching(opportunities) {
-  const keys = [];
-  const theaters = new Set();
-  let firstShowDate = null;
-  for (const opp of opportunities) {
-    if (typeof opp.opportunityKey === 'string' && opp.opportunityKey) {
-      keys.push(opp.opportunityKey);
-    }
-    const tid = opp.theaterId ?? opp.theaterName;
-    if (tid) theaters.add(String(tid));
-    const date =
-      typeof opp.localDate === 'string'
-        ? opp.localDate
-        : typeof opp.sortableLocalDateTime === 'string'
-          ? opp.sortableLocalDateTime.slice(0, 10)
-          : null;
-    if (date && (!firstShowDate || date < firstShowDate)) firstShowDate = date;
-  }
-  return {
-    matchingPerformanceKeys: keys,
-    venueCount: theaters.size,
-    showtimeCount: keys.length,
-    firstShowDate,
-  };
+  return describeEngineAvailabilityPattern(summary);
 }
 
 /**
@@ -200,71 +114,58 @@ export function resolveRecommendedExperience(params = {}) {
   const filmKey = typeof params.filmKey === 'string' ? params.filmKey.trim() : '';
   if (!filmKey || !homeData) return null;
 
-  const seed = selectBestOpportunity(
-    homeData,
-    filmKey,
-    params.opportunityKey ?? null,
-    { now: params.now },
-  );
-  if (!seed) return null;
-
-  const now = typeof params.now === 'function' ? params.now() : (params.now ?? new Date());
+  const now =
+    typeof params.now === 'function' ? params.now() : (params.now ?? new Date());
   const actionable = listFilmOpportunities(homeData, filmKey).filter((row) =>
     isActionableScreening(row, now),
   );
+  if (actionable.length === 0) return null;
 
-  const formatId = resolvePremiumFormatId(seed);
-  /** @type {RecommendedExperiencePresentation | null} */
-  let experience = null;
+  const winner = selectRecommendedExperienceCandidate({
+    opportunities: actionable,
+    theatersById: homeData.theatersById ?? null,
+    departureTiming: params.departureTiming ?? null,
+  });
+  if (!winner) return null;
 
-  if (formatId) {
-    const matching = actionable
-      .filter((opp) => opportunityMatchesCanonical(opp, formatId))
-      .sort(compareScreeningsByStart);
-    if (matching.length === 0) return null;
-    const summary = summarizeMatching(matching);
-    experience = {
-      type: 'format',
-      id: formatId,
-      label: CANONICAL_BROWSE_LABEL[formatId] ?? formatId,
-      reason: FORMAT_REASONS[formatId] ?? null,
-      ...summary,
-      bookedThroughLabel: null,
-      availabilityPattern: describeAvailabilityPattern(matching),
-      departureTimingLabel: null,
-      urgencyConfidence: null,
-      source: 'temporary_best_way_seed',
-      seedOpportunityKey: seed.opportunityKey ?? null,
-    };
-  } else if (isSpecialtyVenueName(seed.theaterName) && seed.theaterId) {
-    const matching = actionable
-      .filter((opp) => opp.theaterId === seed.theaterId)
-      .sort(compareScreeningsByStart);
-    if (matching.length === 0) return null;
-    const summary = summarizeMatching(matching);
-    experience = {
-      type: 'venue',
-      id: String(seed.theaterId),
-      label: seed.theaterName ?? 'Theater',
-      reason: 'Focused venue selection',
-      ...summary,
-      bookedThroughLabel: null,
-      availabilityPattern: describeAvailabilityPattern(matching),
-      departureTimingLabel: null,
-      urgencyConfidence: null,
-      source: 'temporary_best_way_seed',
-      seedOpportunityKey: seed.opportunityKey ?? null,
-    };
-  } else {
-    return null;
-  }
+  const matchedRows = actionable.filter((opp) => {
+    if (winner.type === 'format') {
+      return listEngineFormatIdsOnOpportunity(opp).includes(winner.id);
+    }
+    return String(opp.theaterId) === winner.id;
+  });
+
+  /** @type {RecommendedExperiencePresentation} */
+  const experience = {
+    type: winner.type,
+    id: winner.id,
+    label: winner.label,
+    reason: winner.reason,
+    matchingPerformanceKeys: winner.matchingPerformanceKeys,
+    venueCount: winner.venueCount,
+    showtimeCount: winner.showtimeCount,
+    firstShowDate: winner.firstShowDate,
+    bookedThroughLabel: null,
+    availabilityPattern:
+      describeAvailabilityPattern(matchedRows) ?? winner.availabilityPattern,
+    departureTimingLabel: null,
+    urgencyConfidence: null,
+    source: ENGINE_SOURCE,
+    seedOpportunityKey: winner.matchingPerformanceKeys[0] ?? null,
+  };
 
   const departure = params.departureTiming;
   if (departure && typeof departure === 'object') {
-    if (typeof departure.secondaryLabel === 'string' && departure.secondaryLabel.trim()) {
+    if (
+      typeof departure.secondaryLabel === 'string' &&
+      departure.secondaryLabel.trim()
+    ) {
       experience.bookedThroughLabel = departure.secondaryLabel.trim();
     }
-    if (typeof departure.primaryLabel === 'string' && departure.primaryLabel.trim()) {
+    if (
+      typeof departure.primaryLabel === 'string' &&
+      departure.primaryLabel.trim()
+    ) {
       experience.departureTimingLabel = departure.primaryLabel.trim();
     }
     const conf = departure.confidence;
@@ -289,11 +190,13 @@ export function resolveRecommendedExperience(params = {}) {
 export function listMatchingOpportunitiesForExperience(params = {}) {
   const homeData = params.homeData ?? null;
   const filmKey = typeof params.filmKey === 'string' ? params.filmKey.trim() : '';
-  const type = params.type === 'venue' ? 'venue' : params.type === 'format' ? 'format' : null;
+  const type =
+    params.type === 'venue' ? 'venue' : params.type === 'format' ? 'format' : null;
   const id = typeof params.id === 'string' ? params.id.trim() : '';
   if (!homeData || !filmKey || !type || !id) return [];
 
-  const now = typeof params.now === 'function' ? params.now() : (params.now ?? new Date());
+  const now =
+    typeof params.now === 'function' ? params.now() : (params.now ?? new Date());
   const actionable = listFilmOpportunities(homeData, filmKey).filter((row) =>
     isActionableScreening(row, now),
   );
@@ -361,3 +264,6 @@ export function buildRecommendedExperienceSignals(experience) {
   }
   return signals.slice(0, 5);
 }
+
+// Re-export classify helper used by older tests / tooling.
+export { classifyFormatLabel };

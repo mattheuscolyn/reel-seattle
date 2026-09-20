@@ -135,7 +135,7 @@ export function composeRecommendedExperienceDestination(params = {}) {
         availabilityPattern: null,
         departureTimingLabel: params.departureTiming?.primaryLabel ?? null,
         urgencyConfidence: params.departureTiming?.confidence ?? null,
-        source: 'temporary_best_way_seed',
+        source: 'recommended_experience_engine_v1',
         seedOpportunityKey: matching[0]?.opportunityKey ?? null,
       };
     }
