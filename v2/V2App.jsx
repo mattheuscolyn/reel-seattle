@@ -116,6 +116,11 @@ import ComingSoonDetailSurface from './comingSoon/ComingSoonDetailSurface.jsx';
 import SpecialEventsSurface from './specialEvents/SpecialEventsSurface.jsx';
 import SpecialEventsDetailSurface from './specialEvents/SpecialEventsDetailSurface.jsx';
 import { DEFAULT_COMING_SOON_FILTERS } from './comingSoon/comingSoonModel.js';
+import AllMoviesSurface from './allMovies/AllMoviesSurface.jsx';
+import {
+  DEFAULT_ALL_MOVIES_UI,
+  normalizeAllMoviesUi,
+} from './allMovies/composeAllMoviesPresentation.js';
 import { loadShortsProgramsCurrent } from './shortsPrograms/loadShortsProgramsCurrent.js';
 import {
   indexShortsProgramsArtifact,
@@ -308,6 +313,8 @@ export default function V2App() {
     DEFAULT_COMING_SOON_FILTERS,
   );
   const [comingSoonListRestore, setComingSoonListRestore] = useState(null);
+  const [allMoviesUi, setAllMoviesUi] = useState(DEFAULT_ALL_MOVIES_UI);
+  const [allMoviesListRestore, setAllMoviesListRestore] = useState(null);
   const [specialEventsListRestore, setSpecialEventsListRestore] =
     useState(null);
   const [shortsProgramsState, setShortsProgramsState] = useState({
@@ -1408,6 +1415,9 @@ export default function V2App() {
   const isCollectionsList =
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.collections;
+  const isAllMovies =
+    nav.surface?.type === 'collection' &&
+    nav.surface.collectionId === COLLECTION_IDS.allMovies;
   const isComingSoon =
     nav.surface?.type === 'collection' &&
     nav.surface.collectionId === COLLECTION_IDS.comingSoon;
@@ -2114,6 +2124,37 @@ export default function V2App() {
             returnSurface: nav.surface,
           })
         }
+      />
+    );
+  } else if (isAllMovies) {
+    mainContent = (
+      <AllMoviesSurface
+        homeData={sharedHomeData.homeData}
+        loadStatus={sharedHomeData.status}
+        enrichmentIndex={enrichmentState.index}
+        timeFormatId={getScheduleSettings(getBrowserStorage()).timeFormatId}
+        ui={allMoviesUi}
+        listRestore={allMoviesListRestore}
+        onUiChange={(next) => {
+          setAllMoviesUi(normalizeAllMoviesUi(next));
+          setAllMoviesListRestore(null);
+        }}
+        onHydrateFilmIds={handleHydrateFilmIds}
+        onListRestoreConsumed={() => setAllMoviesListRestore(null)}
+        onOpenFilmDetail={({ filmKey, filmId, opportunityKey, groupId }) => {
+          setAllMoviesListRestore(
+            captureListPosition({ itemKey: groupId || filmId || filmKey }),
+          );
+          handleOpenFilmDetail({
+            filmKey,
+            filmId,
+            opportunityKey,
+            originPrimary: nav.surface.originPrimary ?? 'explore',
+            exploreRestore: nav.surface.exploreRestore ?? null,
+            homeRestore: null,
+            returnSurface: nav.surface,
+          });
+        }}
       />
     );
   } else if (isComingSoon) {
