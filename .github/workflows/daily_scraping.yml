@@ -61,9 +61,9 @@ jobs:
           echo "AMC_API_KEY=$AMC_API_KEY" >> $GITHUB_ENV
 
       - name: Run daily scraping
-        # Indie collection (SIFF, Beacon, NWFF, Central Cinema) runs inside
-        # webscrapetheaters.py via run_daily_scraping.py. Option C logs land in
-        # data/daily_logs/ for NWFF and Central Cinema.
+        # Indie collection (SIFF, Beacon, NWFF, Central Cinema, Grand Illusion)
+        # runs inside webscrapetheaters.py via run_daily_scraping.py. Option C
+        # logs land in data/daily_logs/ for NWFF, Central Cinema, and Grand Illusion.
         # daily_processor → write_showtimes_current → attach_public_film_ids.
         run: python run_daily_scraping.py
 

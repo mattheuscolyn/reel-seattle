@@ -61,7 +61,7 @@ def format_indie_date(date_str: str, year: int) -> str | None:
 def raw_showtime_to_legacy_row(raw: RawShowtime) -> dict[str, str]:
     """Convert a RawShowtime to the legacy indie CSV row shape."""
     poster = raw.poster_url_raw if raw.poster_url_raw not in (None, "") else "None"
-    return {
+    row = {
         "Date": raw.date_raw,
         "Time": raw.time_raw,
         "Theater": raw.theater_name_raw,
@@ -76,6 +76,11 @@ def raw_showtime_to_legacy_row(raw: RawShowtime) -> dict[str, str]:
         "source_title": source_title_from_raw(raw),
         "source_showtime_id": source_showtime_id_from_raw(raw),
     }
+    # Distinctive formats (e.g. Grand Illusion 35mm/16mm) flow into history
+    # premiumFormat when adapters set RawShowtime.format_raw.
+    if raw.format_raw not in (None, ""):
+        row["premiumFormat"] = str(raw.format_raw)
+    return row
 
 
 def normalize_legacy_indie_row(row: Mapping[str, object]) -> dict[str, str]:

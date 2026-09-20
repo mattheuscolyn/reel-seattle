@@ -1,4 +1,4 @@
-"""Thin CLI wrapper for SIFF, Beacon, NWFF, and Central Cinema indie adapters."""
+"""Thin CLI wrapper for SIFF, Beacon, NWFF, Central Cinema, and Grand Illusion indie adapters."""
 
 from __future__ import annotations
 
@@ -11,6 +11,11 @@ from reel_seattle.adapters.central_cinema import (
     default_central_cinema_window,
     fetch_central_cinema,
     write_central_cinema_scrape_log,
+)
+from reel_seattle.adapters.grand_illusion import (
+    default_grand_illusion_window,
+    fetch_grand_illusion,
+    write_grand_illusion_scrape_log,
 )
 from reel_seattle.adapters.indie_legacy import (
     DEFAULT_INDIE_CSV_PATH,
@@ -35,16 +40,16 @@ CSV_FILENAME = str(DEFAULT_INDIE_CSV_PATH)
 
 
 def collect_indie_showtimes(context):
-    """Run SIFF, Beacon, NWFF, and Central Cinema adapters; return per-source results.
+    """Run indie adapters; return per-source results.
 
-    NWFF and Central failures are isolated: SIFF/Beacon still return successfully.
-    NWFF or Central may be ``None`` when collection raises unexpectedly.
+    NWFF, Central, and Grand Illusion failures are isolated: SIFF/Beacon still
+    return successfully. Option C sources may be ``None`` when collection raises.
     """
     siff_result = fetch_siff_showtimes(context)
     beacon_result = fetch_beacon_showtimes(context)
 
-    # NWFF / Central scrape pagination uses INDIE_SCRAPE_HORIZON_DAYS. Public
-    # emit is all-known-future (no upper clip); these bounds only limit HTTP.
+    # Indie scrape pagination uses INDIE_SCRAPE_HORIZON_DAYS. Public emit is
+    # all-known-future (no upper clip); these bounds only limit HTTP.
     scrape_now = datetime.combine(context.run_date, datetime.min.time())
     nwff_start, nwff_end = default_nwff_window(now=scrape_now)
 
@@ -61,6 +66,13 @@ def collect_indie_showtimes(context):
         central_result = fetch_central_cinema(central_start, central_end)
     except Exception as exc:  # noqa: BLE001 - source-local soft-fail
         print(f"ERROR: Central Cinema collection failed (source-local): {exc}")
+
+    gi_start, gi_end = default_grand_illusion_window(now=scrape_now)
+    grand_illusion_result = None
+    try:
+        grand_illusion_result = fetch_grand_illusion(gi_start, gi_end)
+    except Exception as exc:  # noqa: BLE001 - source-local soft-fail
+        print(f"ERROR: Grand Illusion collection failed (source-local): {exc}")
 
     for message in siff_result.warnings + beacon_result.warnings:
         print(message)
@@ -86,8 +98,24 @@ def collect_indie_showtimes(context):
             f"restate_safe={central_result.restate_safe} "
             f"records={len(central_result.records)}"
         )
+    if grand_illusion_result is not None:
+        for message in grand_illusion_result.warnings:
+            print(f"Grand Illusion: {message}")
+        for message in grand_illusion_result.errors:
+            print(f"Grand Illusion ERROR: {message}")
+        print(
+            f"Grand Illusion status={grand_illusion_result.contract.get('status')} "
+            f"restate_safe={grand_illusion_result.restate_safe} "
+            f"records={len(grand_illusion_result.records)}"
+        )
 
-    return siff_result, beacon_result, nwff_result, central_result
+    return (
+        siff_result,
+        beacon_result,
+        nwff_result,
+        central_result,
+        grand_illusion_result,
+    )
 
 
 def main() -> None:
@@ -96,7 +124,13 @@ def main() -> None:
     session.headers.update(DEFAULT_HEADERS)
     context = build_default_indie_fetch_context(run_date=run_date, session=session)
 
-    siff_result, beacon_result, nwff_result, central_result = collect_indie_showtimes(context)
+    (
+        siff_result,
+        beacon_result,
+        nwff_result,
+        central_result,
+        grand_illusion_result,
+    ) = collect_indie_showtimes(context)
 
     siff_json_path = daily_log_path(run_date, "siff")
     beacon_json_path = daily_log_path(run_date, "beacon")
@@ -131,11 +165,24 @@ def main() -> None:
             f"(restate_safe={central_result.restate_safe})"
         )
 
+    if grand_illusion_result is not None:
+        gi_json_path = daily_log_path(
+            run_date, "grand_illusion", logs_dir=DEFAULT_DAILY_LOGS_DIR
+        )
+        write_grand_illusion_scrape_log(gi_json_path, grand_illusion_result.log_envelope)
+        print(
+            f"Wrote Grand Illusion Option C scrape log {gi_json_path}: "
+            f"{len(grand_illusion_result.records)} records "
+            f"(restate_safe={grand_illusion_result.restate_safe})"
+        )
+
     records = list(siff_result.records) + list(beacon_result.records)
     if nwff_result is not None:
         records.extend(nwff_result.records)
     if central_result is not None:
         records.extend(central_result.records)
+    if grand_illusion_result is not None:
+        records.extend(grand_illusion_result.records)
     rows = [raw_showtime_to_legacy_row(record) for record in records]
     write_legacy_indie_csv(CSV_FILENAME, rows)
     print(f"Saved {len(rows)} showtimes to {CSV_FILENAME}.")

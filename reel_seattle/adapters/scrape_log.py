@@ -184,10 +184,16 @@ def load_scrape_daily_log(path: Path | str) -> FetchResult:
 def raw_showtimes_to_legacy_rows(source: str, records: list[RawShowtime]) -> list[dict[str, str]]:
     """Convert adapter records to legacy CSV row dicts for daily_processor.py."""
     if source == "amc":
-        return [amc_raw_to_legacy_row(record) for record in records]
-    if source in {"siff", "beacon", "nwff", "central_cinema"}:
-        return [indie_raw_to_legacy_row(record) for record in records]
-    raise ValueError(f"unsupported scrape source: {source}")
+        rows = [amc_raw_to_legacy_row(record) for record in records]
+    elif source in {"siff", "beacon", "nwff", "central_cinema", "grand_illusion"}:
+        rows = [indie_raw_to_legacy_row(record) for record in records]
+    else:
+        raise ValueError(f"unsupported scrape source: {source}")
+    # Stamp explicit source so programmer scrapes (Grand Illusion at partner
+    # venues) are not reclassified via the theater registry during restatement.
+    for row in rows:
+        row["source"] = source
+    return rows
 
 
 def _optional_str(value: object | None) -> str | None:
