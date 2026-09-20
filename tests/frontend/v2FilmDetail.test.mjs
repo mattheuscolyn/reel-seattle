@@ -97,10 +97,11 @@ test('Film Detail surface preserves structural contract', () => {
     'v2-fd-signals-grid',
     'v2-fd-synopsis',
     'v2-fd-best',
+    'v2-fd-re-card',
     'v2-fd-today-list',
     'Why see it now',
     'What it’s about',
-    'Best way to see it',
+    'Recommended Experience',
     'Today’s showtimes',
     'Save',
     'Seen',
@@ -109,6 +110,8 @@ test('Film Detail surface preserves structural contract', () => {
   ]) {
     assert.ok(SURFACE.includes(marker), `missing ${marker}`);
   }
+  assert.equal(SURFACE.includes('Best way to see it'), false);
+  assert.equal(SURFACE.includes('Best opportunity'), false);
   assert.equal(SURFACE.includes('<span>Add to planner</span>'), false);
   assert.equal(SURFACE.includes('<span>Add to calendar</span>'), false);
   assert.equal(SURFACE.includes('v2-fd-calendar-export'), false);
@@ -120,12 +123,12 @@ test('Film Detail surface preserves structural contract', () => {
   assert.equal(SURFACE.includes('loadHomeData'), false);
 });
 
-test('Best Way card and Newly Added badges stay contained', () => {
+test('Recommended Experience card and Newly Added badges stay contained', () => {
   assert.match(CSS, /\.v2-fd-best\s*\{[^}]*max-width:\s*100%/s);
   assert.match(CSS, /\.v2-fd-best\s*\{[^}]*min-width:\s*0/s);
   assert.match(
     CSS,
-    /\.v2-fd-best-top\s*\{[^}]*grid-template-columns:\s*minmax\(5\.5rem,\s*0\.85fr\)\s+minmax\(0,\s*2\.1fr\)\s+auto/s,
+    /\.v2-fd-re-top\s*\{[^}]*grid-template-columns:\s*minmax\(6rem,\s*1\.05fr\)\s+minmax\(0,\s*2fr\)\s+auto/s,
   );
   assert.match(
     CSS,

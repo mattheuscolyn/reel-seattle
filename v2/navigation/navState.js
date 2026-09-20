@@ -49,6 +49,16 @@ import {
  */
 
 /**
+ * @typedef {object} RecommendedExperienceSurface
+ * @property {'recommended-experience'} type
+ * @property {string} filmKey
+ * @property {'format' | 'venue'} experienceType
+ * @property {string} experienceId
+ * @property {string} originPrimary
+ * @property {object | null} returnSurface
+ */
+
+/**
  * @typedef {object} ShowtimesBrowseUiState
  * @property {'today' | 'tomorrow' | 'week'} [dateMode]
  * @property {string[]} [theaterIds]
@@ -372,6 +382,38 @@ export function openShowtimes(state, params) {
       filmKey: params.filmKey,
       theaterId: params.theaterId ?? null,
       opportunityKey: params.opportunityKey ?? null,
+      originPrimary: state.surface.originPrimary,
+      returnSurface: state.surface,
+    },
+  };
+}
+
+/**
+ * Film Detail → Recommended Experience destination (format/venue cohort).
+ * @param {object} state
+ * @param {{
+ *   filmKey: string,
+ *   experienceType: 'format' | 'venue',
+ *   experienceId: string,
+ * }} params
+ */
+export function openRecommendedExperience(state, params) {
+  if (state.surface?.type !== 'film-detail') {
+    return state;
+  }
+  const experienceType =
+    params.experienceType === 'venue' ? 'venue' : 'format';
+  const experienceId =
+    typeof params.experienceId === 'string' ? params.experienceId.trim() : '';
+  const filmKey = typeof params.filmKey === 'string' ? params.filmKey.trim() : '';
+  if (!filmKey || !experienceId) return state;
+  return {
+    ...state,
+    surface: {
+      type: 'recommended-experience',
+      filmKey,
+      experienceType,
+      experienceId,
       originPrimary: state.surface.originPrimary,
       returnSurface: state.surface,
     },
@@ -1082,6 +1124,7 @@ export function navigateBack(state) {
 
   if (
     state.surface.type === 'opportunity-detail' ||
+    state.surface.type === 'recommended-experience' ||
     state.surface.type === 'showtimes' ||
     state.surface.type === 'showtimes-browse' ||
     state.surface.type === 'build-plan' ||

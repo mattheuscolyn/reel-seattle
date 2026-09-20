@@ -285,7 +285,7 @@ describe('v2 shorts program UI', () => {
       'utf8',
     );
     assert.match(source, /Today’s showtimes/);
-    assert.match(source, /Best way to see it/);
+    assert.match(source, /Recommended Experience/);
     assert.doesNotMatch(source, /Screens as part of/);
   });
 

@@ -16,6 +16,10 @@ import {
 import { formatRuntimeLabel } from '../home/shelfData.js';
 import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
 import { FILM_DETAIL_DESIGN_FIXTURE } from '../fixtures/filmDetailVisualFixtures.js';
+import {
+  buildRecommendedExperienceSignals,
+  resolveRecommendedExperience,
+} from '../recommendedExperience/recommendedExperienceModel.js';
 
 /**
  * Join metadata fragments without dangling separators.
@@ -106,6 +110,34 @@ function composeFixturePresentation(options = {}) {
     },
     bestWay,
     bestWayEmpty: false,
+    recommendedExperience: {
+      type: 'format',
+      id: String(bestWay.formatLabel ?? 'experience')
+        .toLowerCase()
+        .replace(/\s+/g, '-'),
+      label: bestWay.formatLabel ?? 'Recommended experience',
+      reason: bestWay.presentationLabel ?? null,
+      matchingPerformanceKeys: bestWay.opportunityKey
+        ? [bestWay.opportunityKey]
+        : [],
+      venueCount: 1,
+      showtimeCount: 1,
+      firstShowDate: null,
+      bookedThroughLabel: null,
+      availabilityPattern: null,
+      departureTimingLabel: null,
+      urgencyConfidence: null,
+      source: 'temporary_best_way_seed',
+      seedOpportunityKey: bestWay.opportunityKey ?? null,
+    },
+    recommendedExperienceSignals: [
+      {
+        id: 'venue',
+        label: bestWay.theaterName ?? '1 venue',
+        kind: 'meta',
+      },
+    ],
+    recommendedExperienceEmpty: false,
     today: {
       localDate: null,
       rows: fx.todayRows.map((row) => ({
@@ -149,6 +181,9 @@ function composeRealPresentation(
       },
       bestWay: null,
       bestWayEmpty: true,
+      recommendedExperience: null,
+      recommendedExperienceSignals: [],
+      recommendedExperienceEmpty: true,
       today: { localDate: null, rows: [], empty: true },
     };
   }
@@ -211,6 +246,16 @@ function composeRealPresentation(
   const departureTiming =
     signals.find((s) => s.type === 'departure_timing')?.departureTiming ?? null;
   const bestWay = buildBestWayCard(bestOpp, film, homeData);
+  const recommendedExperience = resolveRecommendedExperience({
+    homeData,
+    filmKey,
+    opportunityKey: opportunityKey ?? null,
+    departureTiming,
+    now,
+  });
+  const recommendedExperienceSignals = buildRecommendedExperienceSignals(
+    recommendedExperience,
+  );
   const today = buildTodaysShowtimes(
     homeData,
     filmKey,
@@ -252,6 +297,9 @@ function composeRealPresentation(
     },
     bestWay,
     bestWayEmpty: !bestWay,
+    recommendedExperience,
+    recommendedExperienceSignals,
+    recommendedExperienceEmpty: !recommendedExperience,
     today,
   };
 }

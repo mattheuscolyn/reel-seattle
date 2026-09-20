@@ -70,6 +70,7 @@ import {
   openShortsProgramDetail,
   openTheaterDetail,
   openOpportunityDetail,
+  openRecommendedExperience,
   openShowtimes,
   openShowtimesBrowse,
   openFormatDetail,
@@ -91,6 +92,7 @@ import FilmDetailSurface from './surfaces/FilmDetailSurface.jsx';
 import ShortDetailSurface from './surfaces/ShortDetailSurface.jsx';
 import ShortsProgramDetailSurface from './surfaces/ShortsProgramDetailSurface.jsx';
 import OpportunityDetailSurface from './surfaces/OpportunityDetailSurface.jsx';
+import RecommendedExperienceSurface from './surfaces/RecommendedExperienceSurface.jsx';
 import SearchResultsSurface from './surfaces/SearchResultsSurface.jsx';
 import ShowtimesSurface from './surfaces/ShowtimesSurface.jsx';
 import ShowtimesBrowseSurface from './surfaces/ShowtimesBrowseSurface.jsx';
@@ -1210,6 +1212,11 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleOpenRecommendedExperience = useCallback((params) => {
+    setNav((current) => openRecommendedExperience(current, params));
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleOpenShowtimes = useCallback((params) => {
     setNav((current) => openShowtimes(current, params));
     window.scrollTo(0, 0);
@@ -1445,6 +1452,8 @@ export default function V2App() {
   const isShortsProgramDetail = nav.surface?.type === 'shorts-program-detail';
   const isDetailChrome = isFilmDetail || isShortDetail || isShortsProgramDetail;
   const isOpportunityDetail = nav.surface?.type === 'opportunity-detail';
+  const isRecommendedExperience =
+    nav.surface?.type === 'recommended-experience';
   const isShowtimes = nav.surface?.type === 'showtimes';
   const isShowtimesBrowse = nav.surface?.type === 'showtimes-browse';
   const isBuildPlan = nav.surface?.type === 'build-plan';
@@ -1715,17 +1724,22 @@ export default function V2App() {
               }
             : null
         }
-        onOpenOpportunity={({ filmKey: fk, opportunityKey: ok }) =>
-          handleOpenOpportunity({
-            filmKey: fk ?? filmKey,
-            opportunityKey: ok ?? null,
-          })
-        }
         onOpenShowtimes={({ filmKey: fk, theaterId, opportunityKey: ok }) =>
           handleOpenShowtimes({
             filmKey: fk ?? filmKey,
             theaterId: theaterId ?? null,
             opportunityKey: ok ?? null,
+          })
+        }
+        onOpenRecommendedExperience={({
+          filmKey: fk,
+          experienceType,
+          experienceId,
+        }) =>
+          handleOpenRecommendedExperience({
+            filmKey: fk ?? filmKey,
+            experienceType,
+            experienceId,
           })
         }
         onStartPlanner={handleStartPlanner}
@@ -1847,6 +1861,20 @@ export default function V2App() {
             returnSurface: nav.surface,
           })
         }
+      />
+    );
+  } else if (isRecommendedExperience) {
+    mainContent = (
+      <RecommendedExperienceSurface
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
+        filmKey={nav.surface.filmKey}
+        experienceType={nav.surface.experienceType}
+        experienceId={nav.surface.experienceId}
+        onAcceptedPlansChange={() =>
+          setAcceptedPlansRevision((value) => value + 1)
+        }
+        onViewPlanner={() => handleSelectDestination('planner')}
       />
     );
   } else if (isOpportunityDetail) {
