@@ -15,6 +15,7 @@ import {
   IconBookmark,
   IconCalendar,
   IconCalendarPlus,
+  IconCheck,
   IconChevron,
   IconEye,
   IconEyeOff,
@@ -393,7 +394,7 @@ export default function FilmDetailSurface({
           type="button"
           className={
             isSaved
-              ? 'v2-fd-action v2-fd-action-save v2-fd-action-save-on'
+              ? 'v2-fd-action v2-fd-action-save v2-fd-action-save-on is-selected'
               : 'v2-fd-action v2-fd-action-save'
           }
           aria-pressed={isSaved}
@@ -410,7 +411,17 @@ export default function FilmDetailSurface({
           }}
         >
           <IconBookmark />
-          <span>{saveLabel}</span>
+          <span className="v2-fd-action-copy">
+            <span className="v2-fd-action-text">{saveLabel}</span>
+            {isSaved ? (
+              <IconCheck
+                className="v2-fd-action-check"
+                width={11}
+                height={11}
+                aria-hidden="true"
+              />
+            ) : null}
+          </span>
         </button>
         {saveError ? (
           <span className="v2-visually-hidden" role="status">
@@ -421,7 +432,7 @@ export default function FilmDetailSurface({
           type="button"
           className={
             isSeen
-              ? 'v2-fd-action v2-fd-action-seen v2-fd-action-seen-on'
+              ? 'v2-fd-action v2-fd-action-seen v2-fd-action-seen-on is-selected'
               : 'v2-fd-action v2-fd-action-seen'
           }
           aria-pressed={isSeen}
@@ -438,7 +449,17 @@ export default function FilmDetailSurface({
           }}
         >
           <IconEye />
-          <span>Seen</span>
+          <span className="v2-fd-action-copy">
+            <span className="v2-fd-action-text">Seen</span>
+            {isSeen ? (
+              <IconCheck
+                className="v2-fd-action-check"
+                width={11}
+                height={11}
+                aria-hidden="true"
+              />
+            ) : null}
+          </span>
         </button>
         {seenError ? (
           <span className="v2-visually-hidden" role="status">
@@ -449,7 +470,7 @@ export default function FilmDetailSurface({
           type="button"
           className={
             isNotInterested
-              ? 'v2-fd-action v2-fd-action-hide v2-fd-action-hide-on'
+              ? 'v2-fd-action v2-fd-action-hide v2-fd-action-hide-on is-selected'
               : 'v2-fd-action v2-fd-action-hide'
           }
           aria-pressed={isNotInterested}
@@ -466,7 +487,17 @@ export default function FilmDetailSurface({
           }}
         >
           <IconEyeOff />
-          <span>Not interested</span>
+          <span className="v2-fd-action-copy">
+            <span className="v2-fd-action-text">Not interested</span>
+            {isNotInterested ? (
+              <IconCheck
+                className="v2-fd-action-check"
+                width={11}
+                height={11}
+                aria-hidden="true"
+              />
+            ) : null}
+          </span>
         </button>
         {notInterestedError ? (
           <span className="v2-visually-hidden" role="status">
