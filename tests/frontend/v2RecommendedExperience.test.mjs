@@ -1,5 +1,5 @@
 /**
- * Recommended Experience UI + temporary adapter contract.
+ * Recommended Experience UI + engine presentation contract.
  */
 
 import test from 'node:test';
@@ -70,6 +70,12 @@ function sampleHome() {
         title: 'Plain Digital',
         runtimeMin: 90,
       },
+      {
+        filmKey: 'indie',
+        filmId: 'tmdb:300',
+        title: 'Indie Specialty',
+        runtimeMin: 95,
+      },
     ],
     opportunities: [
       {
@@ -127,8 +133,21 @@ function sampleHome() {
         runtimeMin: 90,
       },
       {
+        opportunityKey: 'indie-amc',
+        filmKey: 'indie',
+        theaterId: 'amc-oak',
+        theaterName: 'AMC Oak Tree 6',
+        localDate: '2026-08-01',
+        localTime: '18:00',
+        sortableLocalDateTime: '2026-08-01T18:00',
+        formatLabels: ['Digital'],
+        source: 'amc',
+        sourceShowtimeId: 'i0',
+        runtimeMin: 95,
+      },
+      {
         opportunityKey: 'siff-35',
-        filmKey: 'plain',
+        filmKey: 'indie',
         theaterId: 'siff-downtown',
         theaterName: 'SIFF Cinema Downtown',
         localDate: '2026-08-02',
@@ -137,7 +156,7 @@ function sampleHome() {
         formatLabels: ['Digital'],
         source: 'siff',
         sourceShowtimeId: 's1',
-        runtimeMin: 90,
+        runtimeMin: 95,
       },
     ],
     leavingSoon: {
@@ -167,10 +186,10 @@ test('Recommended Experience card represents format/venue rather than one rigid 
   assert.equal(experience.type, 'format');
   assert.equal(experience.id, 'dolby-cinema');
   assert.equal(experience.label, 'Dolby Cinema');
-  assert.equal(experience.reason, 'Best for sound and picture');
+  assert.match(experience.reason, /picture and sound|broad availability/i);
   assert.ok(experience.matchingPerformanceKeys.length >= 2);
   assert.ok(!experience.matchingPerformanceKeys.includes('alpha-digital'));
-  assert.equal(experience.source, 'temporary_best_way_seed');
+  assert.equal(experience.source, 'recommended_experience_engine_v1');
   assert.doesNotMatch(JSON.stringify(experience), /whenLabel|19:00 ·/);
 
   assert.match(FD, /Recommended Experience/);
@@ -274,12 +293,10 @@ test('observed booking language stays distinct from predicted departure', () => 
 
 test('no-recommendation case is safe for plain digital films', () => {
   const homeData = sampleHome();
-  // Emphasize digital-only AMC screening so temporary adapter finds no premium format
-  // and no specialty venue.
+  // Digital-only AMC film — engine abstains (no distinctive format/venue).
   const experience = resolveRecommendedExperience({
     homeData,
     filmKey: 'plain',
-    opportunityKey: 'plain-digital',
     now: NOW,
   });
   assert.equal(experience, null);
@@ -303,8 +320,7 @@ test('specialty venue can become a venue experience', () => {
   const homeData = sampleHome();
   const experience = resolveRecommendedExperience({
     homeData,
-    filmKey: 'plain',
-    opportunityKey: 'siff-35',
+    filmKey: 'indie',
     now: NOW,
   });
   assert.ok(experience);
@@ -312,6 +328,7 @@ test('specialty venue can become a venue experience', () => {
   assert.equal(experience.id, 'siff-downtown');
   assert.equal(experience.label, 'SIFF Cinema Downtown');
   assert.deepEqual(experience.matchingPerformanceKeys, ['siff-35']);
+  assert.equal(experience.source, 'recommended_experience_engine_v1');
 });
 
 test('availability pattern helper only reports defensible patterns', () => {
