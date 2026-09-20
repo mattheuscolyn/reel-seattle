@@ -551,7 +551,8 @@ export default function FilmDetailSurface({
             ).map((signal) => (
               <li
                 key={signal.id}
-                className={`v2-fd-signal v2-fd-signal-${signal.tone}`}
+                className={`v2-fd-signal v2-fd-signal-${signal.tone} v2-fd-signal-${signal.type}`}
+                data-signal-type={signal.type}
               >
                 <span
                   className={`v2-fd-signal-graphic v2-fd-signal-graphic-${signal.tone}`}

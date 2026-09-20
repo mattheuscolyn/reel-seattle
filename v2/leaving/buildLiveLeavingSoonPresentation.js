@@ -25,7 +25,9 @@ export function formatLeavingDateShort(isoDate) {
  */
 export function buildLeavingDateLabel(maxShowDate) {
   const short = formatShelfDetailMonthDay(maxShowDate);
-  return short ? `Last screening ${short}` : null;
+  // maxShowDate is the latest currently known/booked AMC screening — not a
+  // confirmed final screening. Match Film Detail observed-fact vocabulary.
+  return short ? `Currently booked through ${short}` : null;
 }
 
 /**

@@ -182,18 +182,32 @@ test('Film Detail page shell avoids viewport-filling spacer', () => {
   );
 });
 
-test('Why See It uses a four-column row at the mobile target', () => {
+test('Why See It uses a mobile-readable 2-column grid with full-width departure', () => {
   assert.ok(SURFACE.includes('v2-fd-signals-grid'));
+  assert.ok(SURFACE.includes('data-signal-type={signal.type}'));
+  assert.ok(SURFACE.includes('v2-fd-signal-${signal.type}'));
   assert.ok(CSS.includes('.v2-fd-signals-grid'));
   assert.match(
     CSS,
-    /\.v2-fd-signals-grid\s*\{[^}]*grid-template-columns:\s*repeat\(4,\s*minmax\(0,\s*1fr\)\)/,
+    /\.v2-fd-signals-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/,
   );
+  assert.match(
+    CSS,
+    /@media \(min-width:\s*720px\)[\s\S]*?\.v2-fd-signals-grid[\s\S]*?repeat\(4,\s*minmax\(0,\s*1fr\)\)/,
+  );
+  assert.match(
+    CSS,
+    /@media \(max-width:\s*719px\)[\s\S]*?\.v2-fd-signal-departure_timing[\s\S]*?grid-column:\s*1\s*\/\s*-1/,
+  );
+  assert.equal(/@media \(max-width:\s*319px\)/.test(CSS), false);
   assert.equal(
-    /\.v2-fd-signals-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2/.test(CSS),
+    /\.v2-fd-signal-primary\s*\{[^}]*-webkit-line-clamp:\s*4/.test(CSS),
     false,
   );
-  assert.match(CSS, /@media \(max-width:\s*319px\)/);
+  assert.equal(
+    /\.v2-fd-signal-secondary\s*\{[^}]*-webkit-line-clamp:\s*2/.test(CSS),
+    false,
+  );
   assert.equal(FILM_DETAIL_MOCKUP_FIXTURE.whySeeIt.signals.length, 5);
 });
 

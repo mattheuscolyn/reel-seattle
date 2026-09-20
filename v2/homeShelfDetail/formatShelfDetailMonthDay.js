@@ -1,6 +1,6 @@
 /**
  * Shared compact month/day for shelf-detail date lines: "Sep 14".
- * Shelf-specific prefixes (Opens / Last screening / bare date) stay local.
+ * Shelf-specific prefixes (Opens / Currently booked through / bare date) stay local.
  *
  * @param {string | null | undefined} isoDate YYYY-MM-DD
  * @returns {string | null}
