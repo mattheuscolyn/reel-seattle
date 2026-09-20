@@ -30,6 +30,8 @@ import {
   getScheduleSettings,
   subscribeScheduleSettings,
 } from '../stores/scheduleSettingsStore.js';
+import ShowtimeActionSheet from '../showtimes/ShowtimeActionSheet.jsx';
+import { resolveHomeOpportunity } from '../showtimes/resolveHomeOpportunity.js';
 
 function getBrowserStorage() {
   try {
@@ -181,11 +183,14 @@ export default function FilmDetailSurface({
   onShare = null,
   shareTitle = null,
   shareStatus = null,
-  onStartPlanner,
+  onStartPlanner = null,
   onOpenOpportunity,
   onOpenShowtimes,
+  onAcceptedPlansChange = null,
+  onViewPlanner = null,
   onHydrateFilmIds,
 }) {
+  void onStartPlanner;
   const [settingsTick, setSettingsTick] = useState(0);
   const [tmdbRevision, setTmdbRevision] = useState(0);
   const [tmdbFetchState, setTmdbFetchState] = useState('idle');
@@ -264,7 +269,8 @@ export default function FilmDetailSurface({
 
   const [synopsisExpanded, setSynopsisExpanded] = useState(false);
   const [whySeeItExpanded, setWhySeeItExpanded] = useState(false);
-  const [plannerOpen, setPlannerOpen] = useState(false);
+  /** @type {[null | { filmKey: string, opportunity: object, row: object }, Function]} */
+  const [actionSheet, setActionSheet] = useState(null);
 
   if (!view.resolved) {
     const waitingOnTmdb =
@@ -310,6 +316,46 @@ export default function FilmDetailSurface({
       : undefined;
 
   const synopsisText = synopsisExpanded ? synopsis.full : synopsis.preview;
+
+  const openFilmShowtimeActions = (row, time) => {
+    if (!time?.opportunityKey || time.actionable === false) return;
+    const opportunity = resolveHomeOpportunity(homeData, time.opportunityKey);
+    if (!opportunity) return;
+    setActionSheet({
+      filmKey: view.filmKey,
+      opportunity,
+      row: {
+        opportunityKey: time.opportunityKey,
+        filmKey: view.filmKey,
+        filmTitle: hero.title,
+        localDate: today.localDate ?? null,
+        localTime: time.localTime,
+        timeDisplay: time.timeDisplay,
+        theaterName: row.theaterName,
+        formatLabels: time.formatLabel ? [time.formatLabel] : [],
+        ticketUrl: time.ticketUrl,
+      },
+    });
+  };
+
+  const openTheaterShowtimes = (row) => {
+    onOpenShowtimes?.({
+      filmKey: view.filmKey,
+      theaterId: row.theaterId,
+      opportunityKey:
+        row.times.find((t) => t.emphasized)?.opportunityKey ??
+        row.times.find((t) => t.actionable !== false)?.opportunityKey ??
+        row.times[0]?.opportunityKey ??
+        null,
+    });
+  };
+
+  const openAllShowtimes = () => {
+    onOpenShowtimes?.({
+      filmKey: view.filmKey,
+      opportunityKey: bestWay?.opportunityKey ?? null,
+    });
+  };
 
   return (
     <section
@@ -507,10 +553,10 @@ export default function FilmDetailSurface({
         <button
           type="button"
           className="v2-fd-action v2-fd-action-planner"
-          onClick={() => setPlannerOpen(true)}
+          onClick={openAllShowtimes}
         >
           <IconCalendarPlus />
-          <span>Add to planner</span>
+          <span>Find a time</span>
         </button>
       </div>
 
@@ -677,12 +723,7 @@ export default function FilmDetailSurface({
           <button
             type="button"
             className="v2-fd-link"
-            onClick={() =>
-              onOpenShowtimes?.({
-                filmKey: view.filmKey,
-                opportunityKey: bestWay?.opportunityKey ?? null,
-              })
-            }
+            onClick={openAllShowtimes}
           >
             See all showtimes
           </button>
@@ -701,80 +742,93 @@ export default function FilmDetailSurface({
           <ul className="v2-fd-today-list" role="list">
             {today.rows.map((row) => (
               <li key={row.id}>
-                <button
-                  type="button"
+                <div
                   className={`v2-fd-today-row v2-fd-today-accent-${row.accent}`}
-                  aria-label={`${row.theaterName}, today’s showtimes`}
-                  onClick={() =>
-                    onOpenShowtimes?.({
-                      filmKey: view.filmKey,
-                      theaterId: row.theaterId,
-                      opportunityKey:
-                        row.times.find((t) => t.emphasized)?.opportunityKey ??
-                        row.times.find((t) => t.actionable !== false)
-                          ?.opportunityKey ??
-                        row.times[0]?.opportunityKey ??
-                        null,
-                    })
-                  }
                 >
-                  <span
-                    className={`v2-fd-today-mark v2-fd-today-mark-${row.venueMark}`}
-                    aria-hidden="true"
+                  <button
+                    type="button"
+                    className="v2-fd-today-theater-btn"
+                    aria-label={`${row.theaterName}, see all showtimes`}
+                    onClick={() => openTheaterShowtimes(row)}
                   >
-                    {row.venueMark}
-                  </span>
-                  <span className="v2-fd-today-main">
-                    <span className="v2-fd-today-theater">{row.theaterName}</span>
-                    {row.chips.length > 0 ? (
-                      <span className="v2-fd-today-chips">
-                        {row.chips.map((chip) => (
-                          <span key={chip.label} className="v2-fd-today-chip">
-                            {chip.icon === 'lock' ? <IconLock /> : null}
-                            {chip.label}
-                          </span>
-                        ))}
+                    <span
+                      className={`v2-fd-today-mark v2-fd-today-mark-${row.venueMark}`}
+                      aria-hidden="true"
+                    >
+                      {row.venueMark}
+                    </span>
+                    <span className="v2-fd-today-main">
+                      <span className="v2-fd-today-theater">
+                        {row.theaterName}
                       </span>
-                    ) : null}
-                  </span>
-                  <span className="v2-fd-today-times">
-                    {row.times.map((time) => (
-                      <span
-                        key={`${time.opportunityKey ?? ''}:${time.timeDisplay}`}
-                        className={
-                          time.actionable === false
-                            ? 'v2-fd-today-time v2-fd-today-time-started'
-                            : time.emphasized
+                      {row.chips.length > 0 ? (
+                        <span className="v2-fd-today-chips">
+                          {row.chips.map((chip) => (
+                            <span
+                              key={chip.label}
+                              className="v2-fd-today-chip"
+                            >
+                              {chip.icon === 'lock' ? <IconLock /> : null}
+                              {chip.label}
+                            </span>
+                          ))}
+                        </span>
+                      ) : null}
+                    </span>
+                    <IconChevron />
+                  </button>
+                  <div className="v2-fd-today-times" role="group" aria-label={`${row.theaterName} times`}>
+                    {row.times.map((time) => {
+                      const timeKey = `${time.opportunityKey ?? ''}:${time.timeDisplay}`;
+                      if (time.actionable === false) {
+                        return (
+                          <span
+                            key={timeKey}
+                            className="v2-fd-today-time v2-fd-today-time-started"
+                            data-ticket-url="0"
+                            aria-label={`${time.timeDisplay}, ${time.stateLabel ?? 'Started'}`}
+                          >
+                            <span className="v2-fd-today-time-clock">
+                              {time.timeDisplay}
+                            </span>
+                            <span className="v2-visually-hidden">
+                              {time.stateLabel ?? 'Started'}
+                            </span>
+                            {time.detailLabel ? (
+                              <span className="v2-fd-today-time-detail">
+                                {time.detailLabel}
+                              </span>
+                            ) : null}
+                          </span>
+                        );
+                      }
+                      return (
+                        <button
+                          key={timeKey}
+                          type="button"
+                          className={
+                            time.emphasized
                               ? 'v2-fd-today-time v2-fd-today-time-on'
                               : 'v2-fd-today-time'
-                        }
-                        data-ticket-url={
-                          time.actionable !== false && time.ticketUrl ? '1' : '0'
-                        }
-                        aria-label={
-                          time.actionable === false
-                            ? `${time.timeDisplay}, ${time.stateLabel ?? 'Started'}`
-                            : time.timeDisplay
-                        }
-                      >
-                        <span className="v2-fd-today-time-clock">
-                          {time.timeDisplay}
-                        </span>
-                        {time.actionable === false ? (
-                          <span className="v2-visually-hidden">
-                            {time.stateLabel ?? 'Started'}
+                          }
+                          data-opportunity-key={time.opportunityKey ?? undefined}
+                          data-ticket-url={time.ticketUrl ? '1' : '0'}
+                          aria-label={`Select ${time.timeDisplay} at ${row.theaterName}`}
+                          onClick={() => openFilmShowtimeActions(row, time)}
+                        >
+                          <span className="v2-fd-today-time-clock">
+                            {time.timeDisplay}
                           </span>
-                        ) : null}
-                        {time.detailLabel ? (
-                          <span className="v2-fd-today-time-detail">
-                            {time.detailLabel}
-                          </span>
-                        ) : null}
-                      </span>
-                    ))}
-                  </span>
-                  <IconChevron />
-                </button>
+                          {time.detailLabel ? (
+                            <span className="v2-fd-today-time-detail">
+                              {time.detailLabel}
+                            </span>
+                          ) : null}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
@@ -784,65 +838,17 @@ export default function FilmDetailSurface({
         </p>
       </section>
 
-      {plannerOpen ? (
-        <div className="v2-fd-sheet-backdrop" role="presentation">
-          <div
-            className="v2-fd-sheet"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="v2-fd-planner-title"
-          >
-            <h2 id="v2-fd-planner-title">Add to planner</h2>
-            <p className="v2-fd-sheet-copy">
-              Choose how you want to plan around{' '}
-              <strong>{hero.title}</strong>.
-            </p>
-            <button
-              type="button"
-              className="v2-fd-sheet-choice"
-              onClick={() => {
-                setPlannerOpen(false);
-                onStartPlanner?.({
-                  filmKey: view.filmKey,
-                  opportunityKey: bestWay?.opportunityKey ?? null,
-                  mode: 'single',
-                });
-              }}
-            >
-              <span className="v2-fd-sheet-choice-title">
-                Add this film to my calendar
-              </span>
-              <span className="v2-fd-sheet-choice-desc">
-                Plan a single screening for this title.
-              </span>
-            </button>
-            <button
-              type="button"
-              className="v2-fd-sheet-choice"
-              onClick={() => {
-                setPlannerOpen(false);
-                onStartPlanner?.({
-                  filmKey: view.filmKey,
-                  opportunityKey: bestWay?.opportunityKey ?? null,
-                  mode: 'multi',
-                });
-              }}
-            >
-              <span className="v2-fd-sheet-choice-title">Build a movie day</span>
-              <span className="v2-fd-sheet-choice-desc">
-                Plan multiple films together (marathon / double-feature style).
-              </span>
-            </button>
-            <button
-              type="button"
-              className="v2-section-action"
-              onClick={() => setPlannerOpen(false)}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      ) : null}
+      <ShowtimeActionSheet
+        open={Boolean(actionSheet)}
+        onClose={() => setActionSheet(null)}
+        opportunity={actionSheet?.opportunity ?? null}
+        filmKey={actionSheet?.filmKey ?? null}
+        row={actionSheet?.row ?? null}
+        homeData={homeData}
+        enrichmentIndex={enrichmentIndex}
+        onPlansChanged={onAcceptedPlansChange}
+        onViewPlanner={onViewPlanner}
+      />
     </section>
   );
 }

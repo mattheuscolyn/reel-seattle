@@ -3655,20 +3655,18 @@ button {
 }
 
 .v2-fd-today-row {
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
-  align-items: center;
-  gap: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
   width: 100%;
   margin: 0;
-  padding: 0.85rem 0.5rem 0.85rem 0.65rem;
+  padding: 0.75rem 0.55rem 0.75rem 0.65rem;
   border-radius: 0.55rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(18, 20, 28, 0.92);
   text-align: left;
-  cursor: pointer;
   position: relative;
-  min-height: 4.55rem;
+  min-height: 0;
 }
 
 .v2-fd-today-row::before {
@@ -3696,6 +3694,29 @@ button {
 
 .v2-fd-today-accent-gold::before {
   background: rgba(212, 165, 116, 0.85);
+}
+
+.v2-fd-today-theater-btn {
+  appearance: none;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 0.35rem;
+}
+
+.v2-fd-today-theater-btn:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
 }
 
 .v2-fd-today-row:focus-visible {
@@ -3766,24 +3787,51 @@ button {
 
 .v2-fd-today-times {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.2rem;
-  min-width: 3.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  padding-left: calc(2.85rem + 0.6rem + 0.3rem);
 }
 
 .v2-fd-today-time {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
+  justify-content: center;
   gap: 0.05rem;
-  font-size: 0.88rem;
-  color: var(--v2-accent);
+  margin: 0;
+  min-height: 2.5rem;
+  padding: 0.38rem 0.58rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(8, 9, 14, 0.92);
+  color: var(--v2-fg);
+  font-size: 0.8rem;
   font-weight: 600;
+  line-height: 1.15;
+  text-align: left;
+}
+
+button.v2-fd-today-time {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  color: var(--v2-fg);
+}
+
+button.v2-fd-today-time:hover {
+  border-color: rgba(139, 92, 246, 0.55);
+}
+
+button.v2-fd-today-time:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
 }
 
 .v2-fd-today-time-on {
-  color: var(--v2-accent);
+  border-color: rgba(139, 92, 246, 0.7);
+  background: rgba(139, 92, 246, 0.14);
 }
 
 .v2-fd-today-time-started {
@@ -3791,13 +3839,20 @@ button {
   font-weight: 500;
   text-decoration: line-through;
   text-decoration-thickness: 1px;
+  border-color: rgba(255, 255, 255, 0.08);
+  background: transparent;
+  cursor: default;
+}
+
+.v2-fd-today-time-clock {
+  white-space: nowrap;
 }
 
 .v2-fd-today-time-detail {
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   font-weight: 500;
   color: var(--v2-muted-soft);
-  text-align: right;
+  text-align: left;
   max-width: 7.5rem;
   line-height: 1.2;
 }
@@ -3810,6 +3865,12 @@ button {
 
 .v2-fd-today-empty {
   align-items: flex-start;
+}
+
+@media (max-width: 380px) {
+  .v2-fd-today-times {
+    padding-left: 0;
+  }
 }
 
 .v2-fd-tz {

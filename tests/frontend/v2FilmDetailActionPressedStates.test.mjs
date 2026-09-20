@@ -30,7 +30,8 @@ test('Film Detail toggle actions expose aria-pressed; Planner does not', () => {
 
   const planner = actionBlock('planner');
   assert.equal(planner.includes('aria-pressed'), false);
-  assert.match(planner, /Add to planner/);
+  assert.match(planner, /Find a time/);
+  assert.match(planner, /onClick=\{openAllShowtimes\}/);
 });
 
 test('selected toggles use shared is-selected plus accent classes', () => {
