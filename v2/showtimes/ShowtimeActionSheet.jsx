@@ -1,10 +1,15 @@
 /**
- * Action sheet for one exact showtime — Add to Planner, calendar, tickets.
+ * Canonical action sheet for one exact showtime performance.
+ *
+ * Driven by opportunity → performanceKey identity. Used by Showtimes Browse,
+ * per-film Showtimes, Special Events, and intended for later Film Detail /
+ * Recommended Experience reuse.
  */
 
 import { useEffect, useId, useRef, useState } from 'react';
 import {
   IconCalendar,
+  IconCheckCircle,
   IconChevron,
   IconClose,
   IconTicket,
@@ -44,7 +49,8 @@ function getBrowserStorage() {
  *   storage?: Storage | null,
  *   homeData?: object | null,
  *   enrichmentIndex?: object | null,
- *   onPlansChanged?: () => void,
+ *   onPlansChanged?: (() => void) | null,
+ *   onViewPlanner?: (() => void) | null,
  * }} props
  */
 export default function ShowtimeActionSheet({
@@ -57,6 +63,7 @@ export default function ShowtimeActionSheet({
   homeData = null,
   enrichmentIndex = null,
   onPlansChanged = null,
+  onViewPlanner = null,
 }) {
   const titleId = useId();
   const statusId = useId();
@@ -66,7 +73,10 @@ export default function ShowtimeActionSheet({
   const [plansTick, setPlansTick] = useState(0);
   const [busy, setBusy] = useState(false);
   const [statusMessage, setStatusMessage] = useState(null);
-  const [localInPlanner, setLocalInPlanner] = useState(false);
+  /** @type {['actions' | 'confirmation', (v: 'actions' | 'confirmation') => void]} */
+  const [phase, setPhase] = useState('actions');
+  /** @type {['added' | 'already', (v: 'added' | 'already') => void]} */
+  const [confirmKind, setConfirmKind] = useState('added');
 
   useEffect(
     () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
@@ -76,7 +86,6 @@ export default function ShowtimeActionSheet({
     () =>
       subscribeScheduleStoreMutations(() => {
         setPlansTick((n) => n + 1);
-        setLocalInPlanner(false);
       }),
     [],
   );
@@ -87,8 +96,15 @@ export default function ShowtimeActionSheet({
     if (!open) {
       setStatusMessage(null);
       setBusy(false);
-      setLocalInPlanner(false);
+      setPhase('actions');
+      setConfirmKind('added');
+      return;
     }
+    // Fresh open: if already planned, land on confirmation so View Planner is available.
+    setStatusMessage(null);
+    setBusy(false);
+    setPhase('actions');
+    setConfirmKind('added');
   }, [open, opportunity?.opportunityKey, filmKey]);
 
   useEffect(() => {
@@ -126,26 +142,34 @@ export default function ShowtimeActionSheet({
   if (!resolved.ok || !resolved.context) return null;
 
   const { context, ticketUrl } = resolved;
-  const inPlanner = localInPlanner || resolved.inPlanner;
   const ticketLink = externalTicketLinkProps(ticketUrl);
 
+  // When opening an already-planned performance, prefer confirmation UI.
+  const effectivePhase =
+    phase === 'confirmation' || resolved.inPlanner ? 'confirmation' : 'actions';
+  const effectiveConfirmKind =
+    phase === 'confirmation'
+      ? confirmKind
+      : resolved.inPlanner
+        ? 'already'
+        : confirmKind;
+
   const handleAddToPlanner = () => {
-    if (busy || inPlanner) return;
+    if (busy || resolved.inPlanner || phase === 'confirmation') return;
     setBusy(true);
     const result = addShowtimeToPlanner(storage, opportunity, filmKey, {
       homeData,
       enrichmentIndex,
     });
     if (result.ok) {
-      if (result.performanceKey) {
-        setLocalInPlanner(true);
-      }
       onPlansChanged?.();
       if (result.status === 'already_planned') {
-        setStatusMessage('Already in Planner.');
+        setConfirmKind('already');
       } else {
-        setStatusMessage('Added to Planner.');
+        setConfirmKind('added');
       }
+      setPhase('confirmation');
+      setStatusMessage(null);
     } else {
       setStatusMessage('Could not add this showtime to Planner.');
     }
@@ -161,6 +185,19 @@ export default function ShowtimeActionSheet({
     setStatusMessage(calendarExportStatusMessage(result));
   };
 
+  const handleViewPlanner = () => {
+    onClose();
+    onViewPlanner?.();
+  };
+
+  const handleAddAnother = () => {
+    onClose();
+  };
+
+  const handleDone = () => {
+    onClose();
+  };
+
   const screeningSummary = [
     context.filmTitle,
     context.dateLabel,
@@ -171,12 +208,19 @@ export default function ShowtimeActionSheet({
     .filter(Boolean)
     .join(' · ');
 
+  const confirmationTitle =
+    effectiveConfirmKind === 'already'
+      ? 'Already in Planner'
+      : 'Added to Planner!';
+
   return (
     <div
       className="v2-ss-backdrop"
       role="presentation"
       data-showtime-action-sheet="open"
+      data-sheet-phase={effectivePhase}
       data-opportunity-key={opportunity.opportunityKey ?? undefined}
+      data-performance-key={resolved.performanceKey ?? undefined}
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -224,60 +268,108 @@ export default function ShowtimeActionSheet({
           </div>
         </div>
 
-        <div className="v2-stas-actions" aria-label="Showtime actions">
-          {inPlanner ? (
-            <span className="v2-stas-in-planner" role="status">
-              In Planner
-            </span>
-          ) : (
-            <button
-              type="button"
-              className="v2-stas-primary"
-              disabled={busy}
-              onClick={handleAddToPlanner}
-              aria-label={`Add ${screeningSummary} to Planner`}
-            >
-              Add to Planner
-              <IconChevron
-                width={14}
-                height={14}
-                className="v2-stas-primary-chevron"
-                aria-hidden="true"
-              />
-            </button>
-          )}
-
-          <button
-            type="button"
-            className="v2-stas-secondary"
-            onClick={handleAddToCalendar}
-            aria-label={`Add ${screeningSummary} to calendar`}
+        {effectivePhase === 'confirmation' ? (
+          <div
+            className="v2-stas-confirm"
+            data-confirm-kind={effectiveConfirmKind}
+            role="status"
+            aria-live="polite"
           >
-            <IconCalendar width={16} height={16} aria-hidden="true" />
-            Add to calendar
-          </button>
+            <span className="v2-stas-confirm-icon" aria-hidden="true">
+              <IconCheckCircle width={28} height={28} />
+            </span>
+            <p className="v2-stas-confirm-title">{confirmationTitle}</p>
+            <p className="v2-stas-confirm-copy">
+              You can view and manage this in your Planner.
+            </p>
+            <div className="v2-stas-actions" aria-label="Planner confirmation">
+              <button
+                type="button"
+                className="v2-stas-primary"
+                onClick={handleViewPlanner}
+                aria-label="View Planner"
+              >
+                View Planner
+                <IconChevron
+                  width={14}
+                  height={14}
+                  className="v2-stas-primary-chevron"
+                  aria-hidden="true"
+                />
+              </button>
+              <button
+                type="button"
+                className="v2-stas-secondary"
+                onClick={handleAddAnother}
+              >
+                Add Another Showtime
+              </button>
+              <button
+                type="button"
+                className="v2-stas-cancel"
+                onClick={handleDone}
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="v2-stas-actions" aria-label="Showtime actions">
+              <button
+                type="button"
+                className="v2-stas-primary"
+                disabled={busy}
+                onClick={handleAddToPlanner}
+                aria-label={`Add ${screeningSummary} to Planner`}
+              >
+                Add to Planner
+                <IconChevron
+                  width={14}
+                  height={14}
+                  className="v2-stas-primary-chevron"
+                  aria-hidden="true"
+                />
+              </button>
 
-          {ticketLink ? (
-            <a
-              className="v2-stas-secondary v2-stas-tickets"
-              href={ticketLink.href}
-              target={EXTERNAL_TICKET_LINK_TARGET}
-              rel={EXTERNAL_TICKET_LINK_RELS}
-              aria-label={`Tickets for ${screeningSummary} — opens ticket site in a new tab`}
+              <button
+                type="button"
+                className="v2-stas-secondary"
+                onClick={handleAddToCalendar}
+                aria-label={`Add ${screeningSummary} to calendar`}
+              >
+                <IconCalendar width={16} height={16} aria-hidden="true" />
+                Add to Calendar
+              </button>
+
+              {ticketLink ? (
+                <a
+                  className="v2-stas-secondary v2-stas-tickets"
+                  href={ticketLink.href}
+                  target={EXTERNAL_TICKET_LINK_TARGET}
+                  rel={EXTERNAL_TICKET_LINK_RELS}
+                  aria-label={`Get tickets for ${screeningSummary} — opens ticket site in a new tab`}
+                >
+                  <IconTicket width={16} height={16} aria-hidden="true" />
+                  Get Tickets
+                </a>
+              ) : null}
+            </div>
+
+            <button type="button" className="v2-stas-cancel" onClick={onClose}>
+              Cancel
+            </button>
+
+            <p
+              id={statusId}
+              className="v2-stas-status"
+              role="status"
+              aria-live="polite"
             >
-              <IconTicket width={16} height={16} aria-hidden="true" />
-              Tickets
-            </a>
-          ) : null}
-        </div>
-
-        <button type="button" className="v2-stas-cancel" onClick={onClose}>
-          Cancel
-        </button>
-
-        <p id={statusId} className="v2-stas-status" role="status" aria-live="polite">
-          {statusMessage ?? ''}
-        </p>
+              {statusMessage ?? ''}
+            </p>
+          </>
+        )}
       </div>
     </div>
   );

@@ -171,7 +171,9 @@ test('Browse showtime pills open action sheet wiring', () => {
   assert.match(BROWSE_SRC, /<button[^>]*className="v2-stb-time"/);
   assert.doesNotMatch(BROWSE_SRC, /v2-stb-time-plain/);
   assert.doesNotMatch(BROWSE_SRC, /externalTicketLinkProps/);
+  assert.match(BROWSE_SRC, /onViewPlanner=\{onViewPlanner\}/);
   assert.match(APP_SRC, /onAcceptedPlansChange/);
+  assert.match(APP_SRC, /onViewPlanner=\{\(\) => handleSelectDestination\('planner'\)\}/);
 });
 
 test('action sheet shows correct screening context', () => {
@@ -192,9 +194,10 @@ test('action sheet shows correct screening context', () => {
   assert.match(state.context.timeLabel, /7:00|19:00/);
 });
 
-test('ticketed showtime action sheet includes Tickets action', () => {
+test('ticketed showtime action sheet includes Get Tickets action', () => {
   assert.match(SHEET_SRC, /ticketLink \?/);
-  assert.match(SHEET_SRC, /Tickets/);
+  assert.match(SHEET_SRC, /Get Tickets/);
+  assert.doesNotMatch(SHEET_SRC, /Tickets unavailable|no ticket|ticket scaffold/i);
   const homeData = sampleHome();
   const opp = resolveHomeOpportunity(homeData, 'today-ticketed');
   const state = resolveShowtimeActionSheetState({
@@ -221,7 +224,11 @@ test('showtime without ticket URL still resolves sheet state and omits ticket UR
   assert.equal(state.ok, true);
   assert.equal(state.ticketUrl, null);
   assert.match(SHEET_SRC, /Add to Planner/);
-  assert.match(SHEET_SRC, /Add to calendar/);
+  assert.match(SHEET_SRC, /Add to Calendar/);
+  // Missing ticket URL omits the link — no dead-end explanatory route.
+  assert.match(SHEET_SRC, /ticketLink \? \(/);
+  assert.doesNotMatch(SHEET_SRC, /handleSelectDestination\(['"]ticket/);
+  assert.doesNotMatch(SHEET_SRC, /Tickets unavailable|Why no tickets|ticket scaffold/i);
 });
 
 test('Add to Planner creates single-performance accepted plan', () => {
@@ -267,11 +274,14 @@ test('added screening appears in Planner Upcoming presentation', () => {
   assert.ok(titles.includes('Alpha'));
 });
 
-test('exact screening becomes In Planner in action sheet state', () => {
+test('exact screening becomes planned and sheet uses confirmation state', () => {
   const storage = memoryStorage();
   const homeData = sampleHome();
   const opp = resolveHomeOpportunity(homeData, 'today-ticketed');
-  addShowtimeToPlanner(storage, opp, 'alpha', { homeData, now: () => NOW });
+  const added = addShowtimeToPlanner(storage, opp, 'alpha', {
+    homeData,
+    now: () => NOW,
+  });
   const state = resolveShowtimeActionSheetState({
     storage,
     opportunity: opp,
@@ -279,7 +289,67 @@ test('exact screening becomes In Planner in action sheet state', () => {
     homeData,
   });
   assert.equal(state.inPlanner, true);
-  assert.match(SHEET_SRC, /In Planner/);
+  assert.equal(state.performanceKey, added.performanceKey);
+  assert.match(SHEET_SRC, /data-sheet-phase=\{effectivePhase\}/);
+  assert.match(SHEET_SRC, /Added to Planner!/);
+  assert.match(SHEET_SRC, /Already in Planner/);
+  assert.match(SHEET_SRC, /View Planner/);
+  assert.match(SHEET_SRC, /Add Another Showtime/);
+  assert.match(SHEET_SRC, />\s*Done\s*</);
+  // Successful add stays on sheet — no auto-nav to Planner.
+  assert.match(SHEET_SRC, /setPhase\('confirmation'\)/);
+  const addHandler = SHEET_SRC.match(
+    /const handleAddToPlanner = \(\) => \{[\s\S]*?\n  \};/,
+  )?.[0];
+  assert.ok(addHandler, 'handleAddToPlanner present');
+  assert.doesNotMatch(addHandler, /onViewPlanner/);
+  assert.match(addHandler, /setPhase\('confirmation'\)/);
+});
+
+test('confirmation actions: View Planner navigates; Add Another and Done only close', () => {
+  assert.match(SHEET_SRC, /const handleViewPlanner = \(\) => \{[\s\S]*onClose\(\);[\s\S]*onViewPlanner\?\.\(\);/);
+  assert.match(SHEET_SRC, /const handleAddAnother = \(\) => \{[\s\S]*onClose\(\);[\s\S]*\};/);
+  assert.match(SHEET_SRC, /const handleDone = \(\) => \{[\s\S]*onClose\(\);[\s\S]*\};/);
+  assert.match(SHEET_SRC, /onClick=\{handleViewPlanner\}/);
+  assert.match(SHEET_SRC, /onClick=\{handleAddAnother\}/);
+  assert.match(SHEET_SRC, /onClick=\{handleDone\}/);
+  assert.match(SHEET_SRC, /data-performance-key=\{resolved\.performanceKey/);
+  assert.match(SHEET_SRC, /data-opportunity-key=\{opportunity\.opportunityKey/);
+});
+
+test('selected performance identity drives sheet display context', () => {
+  const homeData = sampleHome();
+  const early = resolveHomeOpportunity(homeData, 'today-ticketed');
+  const late = resolveHomeOpportunity(homeData, 'today-alpha-late');
+  const earlyState = resolveShowtimeActionSheetState({
+    storage: memoryStorage(),
+    opportunity: early,
+    filmKey: 'alpha',
+    homeData,
+  });
+  const lateState = resolveShowtimeActionSheetState({
+    storage: memoryStorage(),
+    opportunity: late,
+    filmKey: 'alpha',
+    homeData,
+  });
+  assert.equal(earlyState.ok, true);
+  assert.equal(lateState.ok, true);
+  assert.notEqual(earlyState.performanceKey, lateState.performanceKey);
+  assert.equal(earlyState.context.theaterName, 'Theater One');
+  assert.equal(earlyState.context.formatLabel, 'Digital');
+  assert.match(earlyState.context.timeLabel, /7:00|19:00/);
+  assert.equal(lateState.context.formatLabel, 'IMAX');
+  assert.match(lateState.context.timeLabel, /9:30|21:30/);
+  // Add preserves exact late performance, not first matching alpha screening.
+  const storage = memoryStorage();
+  const added = addShowtimeToPlanner(storage, late, 'alpha', {
+    homeData,
+    now: () => NOW,
+  });
+  assert.equal(added.performanceKey, lateState.performanceKey);
+  assert.equal(added.plan.performances[0].localTime, '21:30');
+  assert.equal(added.plan.performances[0].sourceShowtimeId, 'src-a-2130');
 });
 
 test('exact duplicate cannot be added twice', () => {
@@ -477,7 +547,9 @@ test('per-film Showtimes pills open shared ShowtimeActionSheet', () => {
   assert.match(FILM_ST_SRC, /openShowtimeActions/);
   assert.match(FILM_ST_SRC, /resolveHomeOpportunity/);
   assert.doesNotMatch(FILM_ST_SRC, /externalTicketLinkProps/);
+  assert.match(FILM_ST_SRC, /onViewPlanner=\{onViewPlanner\}/);
   assert.match(APP_SRC, /isShowtimes[\s\S]*onAcceptedPlansChange/);
+  assert.match(APP_SRC, /isShowtimes[\s\S]*onViewPlanner/);
 });
 
 test('per-film ticketed and ticketless showtimes resolve through shared sheet state', () => {
@@ -521,7 +593,7 @@ test('per-film ticketed and ticketless showtimes resolve through shared sheet st
   assert.equal(plainState.ticketUrl, null);
 });
 
-test('per-film Add to Planner uses shared path and becomes In Planner', () => {
+test('per-film Add to Planner uses shared path and becomes planned', () => {
   const storage = memoryStorage();
   const homeData = sampleHome();
   const view = composeFilmShowtimesPresentation(homeData, 'alpha', {
@@ -537,6 +609,7 @@ test('per-film Add to Planner uses shared path and becomes In Planner', () => {
     now: () => NOW,
   });
   assert.equal(added.status, 'added');
+  assert.equal(added.plan.performances[0].performanceKey, added.performanceKey);
   const state = resolveShowtimeActionSheetState({
     storage,
     opportunity: opp,
@@ -545,6 +618,7 @@ test('per-film Add to Planner uses shared path and becomes In Planner', () => {
     row: time,
   });
   assert.equal(state.inPlanner, true);
+  assert.equal(state.performanceKey, added.performanceKey);
   const duplicate = addShowtimeToPlanner(storage, opp, 'alpha', {
     homeData,
     now: () => NOW,

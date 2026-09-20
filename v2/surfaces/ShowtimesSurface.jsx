@@ -35,6 +35,7 @@ export default function ShowtimesSurface({
   opportunityKey = null,
   onOpenTheaterDetail,
   onAcceptedPlansChange = null,
+  onViewPlanner = null,
 }) {
   const titleId = useId();
   const datesId = useId();
@@ -519,6 +520,7 @@ export default function ShowtimesSurface({
         homeData={homeData}
         enrichmentIndex={enrichmentIndex}
         onPlansChanged={onAcceptedPlansChange}
+        onViewPlanner={onViewPlanner}
       />
     </section>
   );

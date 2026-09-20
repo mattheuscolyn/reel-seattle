@@ -6084,6 +6084,48 @@ a.v2-st-time:hover {
   font-size: 0.76rem;
 }
 
+.v2-stas-confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.15rem 0.25rem;
+  text-align: center;
+}
+
+.v2-stas-confirm-icon {
+  display: grid;
+  place-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 0.15rem;
+  color: #7dcea0;
+}
+
+.v2-stas-confirm-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 650;
+  line-height: 1.25;
+  color: var(--v2-fg);
+}
+
+.v2-stas-confirm-copy {
+  margin: 0 0 0.55rem;
+  max-width: 18rem;
+  color: var(--v2-muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.v2-stas-confirm .v2-stas-actions {
+  width: 100%;
+}
+
+.v2-stas-confirm .v2-stas-cancel {
+  margin-top: 0.15rem;
+}
+
 /* Saved film choose showtime sheet */
 .v2-sfcs-sheet {
   max-height: 88vh;
