@@ -55,8 +55,8 @@ test('T-CAL-02 keeps calendar export off Film Detail; Showtimes + Results retain
   assert.equal(FD_SURFACE.includes('<span>Add to calendar</span>'), false);
   assert.equal(FD_SURFACE.includes('exportOpportunityToCalendar'), false);
   assert.equal(FD_SURFACE.includes('v2-fd-best-export'), false);
-  assert.match(FD_SURFACE, /Add to planner/);
-  // Action row stays Save · Seen · Not interested · Add to planner
+  assert.match(FD_SURFACE, /Find a time/);
+  // Action row stays Save · Seen · Not interested · Find a time
   assert.equal(
     (FD_SURFACE.match(/className=\{[\s\S]*?v2-fd-action/g) || []).length >= 1,
     true,

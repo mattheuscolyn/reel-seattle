@@ -1729,6 +1729,10 @@ export default function V2App() {
           })
         }
         onStartPlanner={handleStartPlanner}
+        onAcceptedPlansChange={() =>
+          setAcceptedPlansRevision((value) => value + 1)
+        }
+        onViewPlanner={() => handleSelectDestination('planner')}
         onHydrateFilmIds={handleHydrateFilmIds}
       />
     );

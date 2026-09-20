@@ -105,10 +105,11 @@ test('Film Detail surface preserves structural contract', () => {
     'Save',
     'Seen',
     'Not interested',
-    'Add to planner',
+    'Find a time',
   ]) {
     assert.ok(SURFACE.includes(marker), `missing ${marker}`);
   }
+  assert.equal(SURFACE.includes('<span>Add to planner</span>'), false);
   assert.equal(SURFACE.includes('<span>Add to calendar</span>'), false);
   assert.equal(SURFACE.includes('v2-fd-calendar-export'), false);
   assert.equal(SURFACE.includes('exportOpportunityToCalendar'), false);
