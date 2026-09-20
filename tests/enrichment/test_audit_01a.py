@@ -77,6 +77,30 @@ def test_confirmed_tmdb_dedup_and_excludes_fallbacks():
     assert films[0]["match_status"] == "confirmed_manual"
 
 
+def test_confirmed_tmdb_films_merges_product_artifact_ids():
+    from reel_seattle.enrichment.product_ids import collect_tmdb_ids_from_product_docs
+
+    product = collect_tmdb_ids_from_product_docs(
+        {
+            "collections": {
+                "memberships": [
+                    {"canonicalFilmId": "tmdb:11592", "rawTitle": "Serial Mom"},
+                    {"canonicalFilmId": None, "rawTitle": "Unmatched"},
+                    {"canonicalFilmId": "not-an-id", "rawTitle": "Ignored"},
+                ]
+            },
+            "showtimes": {"films": [{"film_id": "tmdb:15080"}]},
+        }
+    )
+    films = confirmed_tmdb_films(_sample_catalog(), product_films=product)
+    ids = {row["tmdb_id"] for row in films}
+    assert ids == {15080, 11592}
+    serial = next(row for row in films if row["tmdb_id"] == 11592)
+    assert "collections" in serial["sources"]
+    shared = next(row for row in films if row["tmdb_id"] == 15080)
+    assert "showtimes" in shared["sources"]
+
+
 def test_extract_and_presence():
     details = {
         "id": 15080,

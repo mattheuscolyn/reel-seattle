@@ -4,7 +4,7 @@
  */
 
 import { truncateSynopsis } from '../filmDetail/filmDetailModel.js';
-import { resolveEnrichedFilmPresentation } from '../enrichment/resolveEnrichedFilmPresentation.js';
+import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
 import {
   asText,
   buildShortDetailRows,
@@ -66,8 +66,11 @@ export function composeShortDetailPresentation(input) {
 
   const sourceImageUrl = asText(short.imageUrl) || asText(program?.imageUrl);
   const canonicalFilmId = asText(short.canonicalFilmId);
-  const enriched = resolveEnrichedFilmPresentation({
-    sourceFilm: {
+  const enriched = resolveCanonicalFilmPresentation({
+    filmId: canonicalFilmId,
+    homeData: input?.homeData ?? null,
+    enrichmentIndex: input?.enrichmentIndex ?? null,
+    fallbackRecord: {
       filmId: canonicalFilmId,
       title,
       posterUrl: sourceImageUrl,
@@ -75,9 +78,8 @@ export function composeShortDetailPresentation(input) {
       runtimeMin: short.runtimeMin ?? null,
       synopsis: description,
     },
-    enrichmentIndex: input?.enrichmentIndex ?? null,
     context: 'film-detail',
-  });
+  }).enriched;
 
   const hero = {
     title,

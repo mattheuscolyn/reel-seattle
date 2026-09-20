@@ -6,6 +6,7 @@ import {
   cacheTmdbMovieDetail,
   getCachedTmdbOnlyFilm,
 } from '../filmDetail/tmdbOnlyFilmCache.js';
+import { lookupEnrichment } from '../enrichment/enrichmentIndex.js';
 import {
   asTmdbFilmId,
   fetchTmdbMovieDetail,
@@ -182,6 +183,7 @@ export default function FilmDetailSurface({
   onStartPlanner,
   onOpenOpportunity,
   onOpenShowtimes,
+  onHydrateFilmIds,
 }) {
   const [settingsTick, setSettingsTick] = useState(0);
   const [tmdbRevision, setTmdbRevision] = useState(0);
@@ -200,26 +202,26 @@ export default function FilmDetailSurface({
       setTmdbFetchState('idle');
       return undefined;
     }
-    const inHome =
-      Array.isArray(homeData?.films) &&
-      homeData.films.some(
-        (film) =>
-          film?.filmKey === filmKey ||
-          asTmdbFilmId(film?.filmId) === tmdbFilmId,
-      );
-    if (inHome) {
+    if (lookupEnrichment(enrichmentIndex, tmdbFilmId)) {
       setTmdbFetchState('idle');
-      return undefined;
-    }
-    const cached = getCachedTmdbOnlyFilm(tmdbFilmId);
-    if (cached?.fetchedAt) {
-      setTmdbFetchState('ready');
       return undefined;
     }
 
     const controller = new AbortController();
+    const cached = getCachedTmdbOnlyFilm(tmdbFilmId);
     setTmdbFetchState(cached ? 'refreshing' : 'loading');
     void (async () => {
+      if (typeof onHydrateFilmIds === 'function') {
+        await onHydrateFilmIds([tmdbFilmId]);
+        if (controller.signal.aborted) return;
+        setTmdbRevision((n) => n + 1);
+        setTmdbFetchState('ready');
+        return;
+      }
+      if (cached?.fetchedAt) {
+        setTmdbFetchState('ready');
+        return;
+      }
       const result = await fetchTmdbMovieDetail(tmdbFilmId, {
         signal: controller.signal,
       });
@@ -235,7 +237,7 @@ export default function FilmDetailSurface({
     })();
 
     return () => controller.abort();
-  }, [tmdbFilmId, filmKey, filmId, homeData]);
+  }, [tmdbFilmId, enrichmentIndex, onHydrateFilmIds]);
 
   const resolved = useMemo(
     () =>

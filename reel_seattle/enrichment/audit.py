@@ -56,8 +56,9 @@ def confirmed_tmdb_films(
     catalog: Mapping[str, Any],
     *,
     shorts_artifact: Mapping[str, Any] | None = None,
+    product_films: Sequence[Mapping[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
-    """Deduped confirmed TMDB identities (manual + automatic + Shorts stamps)."""
+    """Deduped confirmed TMDB identities (manual + automatic + product IDs)."""
     by_id: dict[int, dict[str, Any]] = {}
     for film in catalog.get("films") or []:
         if not isinstance(film, Mapping):
@@ -91,6 +92,29 @@ def confirmed_tmdb_films(
         from reel_seattle.shorts_programs.tmdb_match import confirmed_tmdb_ids_from_shorts
 
         for row in confirmed_tmdb_ids_from_shorts(shorts_artifact):
+            tmdb_id = row.get("tmdb_id")
+            if not isinstance(tmdb_id, int) or tmdb_id < 1:
+                continue
+            existing = by_id.get(tmdb_id)
+            sources = set(row.get("sources") or [])
+            if existing is None:
+                by_id[tmdb_id] = {
+                    "film_id": row.get("film_id") or f"tmdb:{tmdb_id}",
+                    "tmdb_id": tmdb_id,
+                    "match_status": row.get("match_status") or STATUS_CONFIRMED_AUTOMATIC,
+                    "sources": sorted(sources),
+                    "normalized_title": row.get("normalized_title"),
+                }
+            else:
+                existing["sources"] = sorted(set(existing["sources"]) | sources)
+
+    # Exact canonical IDs already stamped on public product artifacts.
+    # Collections memberships and similar can be eligible even when the
+    # durable catalog has not yet confirmed the same identity.
+    if product_films:
+        for row in product_films:
+            if not isinstance(row, Mapping):
+                continue
             tmdb_id = row.get("tmdb_id")
             if not isinstance(tmdb_id, int) or tmdb_id < 1:
                 continue

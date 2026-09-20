@@ -2,10 +2,14 @@
  * Collection detail — upcoming collection-associated listings + remaining members.
  */
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { IconChevron } from '../icons.jsx';
 import { TheaterVenueImage } from '../theaters/TheaterVenueImage.jsx';
-import { composeCollectionDetail } from './composeCollectionDetail.js';
+import { MAX_SURFACE_HYDRATION_IDS } from '../enrichment/hydrateShelfFilmEnrichment.js';
+import {
+  collectCollectionDetailCanonicalFilmIds,
+  composeCollectionDetail,
+} from './composeCollectionDetail.js';
 
 /**
  * @param {{
@@ -96,6 +100,7 @@ function MemberRow({ row, variant, onOpenFilm }) {
  *   collectionId: string,
  *   homeData?: object | null,
  *   enrichmentIndex?: object | null,
+ *   onHydrateFilmIds?: (ids: string[]) => void | Promise<unknown>,
  *   onOpenFilmDetail?: (payload: {
  *     filmKey: string,
  *     filmId?: string | null,
@@ -108,6 +113,7 @@ export default function CollectionDetailSurface({
   collectionId,
   homeData = null,
   enrichmentIndex = null,
+  onHydrateFilmIds,
   onOpenFilmDetail,
 }) {
   const detail = useMemo(
@@ -118,6 +124,16 @@ export default function CollectionDetailSurface({
       }),
     [artifact, collectionId, homeData, enrichmentIndex],
   );
+
+  useEffect(() => {
+    if (!detail.found || typeof onHydrateFilmIds !== 'function') return;
+    const ids = collectCollectionDetailCanonicalFilmIds(detail).slice(
+      0,
+      MAX_SURFACE_HYDRATION_IDS,
+    );
+    if (ids.length === 0) return;
+    void onHydrateFilmIds(ids);
+  }, [detail, onHydrateFilmIds]);
 
   if (!detail.found) {
     return (
