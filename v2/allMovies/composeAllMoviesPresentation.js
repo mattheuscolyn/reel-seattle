@@ -13,6 +13,9 @@
  *
  * Identity: parent/canonical film family + exact tmdb:* filmId. Never
  * dedupe by normalized title.
+ *
+ * UI state (search, availability, sort, genreKeys) lives in in-app
+ * session state (`allMoviesUi`), not URL query parameters.
  */
 
 import {
@@ -20,8 +23,12 @@ import {
   normalizeSearchQuery,
   pacificDateString,
 } from '../explore/exploreCatalog.js';
-import { asCanonicalFilmId } from '../enrichment/enrichmentIndex.js';
+import {
+  asCanonicalFilmId,
+  lookupEnrichment,
+} from '../enrichment/enrichmentIndex.js';
 import { resolveCanonicalFilmPresentation } from '../enrichment/resolveCanonicalFilmPresentation.js';
+import { formatGenreNames } from '../enrichment/resolveEnrichedFilmPresentation.js';
 import {
   MAX_SURFACE_HYDRATION_IDS,
   uniqueCanonicalFilmIds,
@@ -60,9 +67,123 @@ export const DEFAULT_ALL_MOVIES_UI = Object.freeze({
   query: '',
   availability: 'all',
   sort: 'soonest',
+  genreKeys: Object.freeze([]),
 });
 
+/** TMDB films rarely exceed a handful of genres; keep the full structured list. */
+export const ALL_MOVIES_MAX_GENRES = 20;
+
 const EVENING_START_MINUTES = 17 * 60;
+
+/**
+ * Stable filter key for a TMDB genre display label.
+ * @param {unknown} label
+ * @returns {string | null}
+ */
+export function allMoviesGenreKey(label) {
+  if (typeof label !== 'string') return null;
+  const key = label.trim().toLowerCase();
+  return key || null;
+}
+
+/**
+ * Defensive unique, lowercase, sorted genre keys.
+ * @param {unknown} value
+ * @returns {string[]}
+ */
+export function normalizeAllMoviesGenreKeys(value) {
+  if (!Array.isArray(value)) return [];
+  /** @type {Set<string>} */
+  const seen = new Set();
+  /** @type {string[]} */
+  const keys = [];
+  for (const raw of value) {
+    const key = allMoviesGenreKey(typeof raw === 'string' ? raw : '');
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    keys.push(key);
+  }
+  keys.sort((a, b) => a.localeCompare(b, 'en'));
+  return keys;
+}
+
+/**
+ * Full structured TMDB genre labels for a canonical filmId.
+ * Never infers from title, theater, keywords, or source copy.
+ *
+ * @param {object | null | undefined} enrichmentIndex
+ * @param {string | null | undefined} filmId
+ * @returns {string[]}
+ */
+export function extractAllMoviesGenres(enrichmentIndex, filmId) {
+  const row = lookupEnrichment(enrichmentIndex, filmId);
+  return formatGenreNames(row?.genres, ALL_MOVIES_MAX_GENRES);
+}
+
+/**
+ * @param {string[] | undefined} filmGenreKeys
+ * @param {Iterable<string>} selectedKeys
+ */
+export function filmMatchesAllMoviesGenres(filmGenreKeys, selectedKeys) {
+  const set =
+    selectedKeys instanceof Set
+      ? selectedKeys
+      : new Set(Array.isArray(selectedKeys) ? selectedKeys : []);
+  if (set.size === 0) return true;
+  return (Array.isArray(filmGenreKeys) ? filmGenreKeys : []).some((key) =>
+    set.has(key),
+  );
+}
+
+/**
+ * Faceted genre counts: unique films matching All Movies eligibility +
+ * active search + active availability, excluding the genre dimension
+ * itself so selected genres do not zero out other options.
+ *
+ * @param {object[]} rows
+ * @returns {{ key: string, label: string, count: number }[]}
+ */
+export function buildAllMoviesGenreOptions(rows) {
+  /** @type {Map<string, { key: string, label: string, count: number }>} */
+  const byKey = new Map();
+  for (const row of Array.isArray(rows) ? rows : []) {
+    const labels = Array.isArray(row?.genres) ? row.genres : [];
+    /** @type {Set<string>} */
+    const seen = new Set();
+    for (const label of labels) {
+      const key = allMoviesGenreKey(label);
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      const existing = byKey.get(key);
+      if (existing) existing.count += 1;
+      else byKey.set(key, { key, label, count: 1 });
+    }
+  }
+  return [...byKey.values()]
+    .filter((option) => option.count > 0)
+    .sort((a, b) => {
+      if (b.count !== a.count) return b.count - a.count;
+      return a.label.localeCompare(b.label, 'en');
+    });
+}
+
+/**
+ * Preview how many facet films match a draft genre selection (OR).
+ *
+ * @param {string[][]} facetGenreKeys
+ * @param {unknown} selectedKeys
+ */
+export function countAllMoviesMatchingGenreKeys(facetGenreKeys, selectedKeys) {
+  const rows = Array.isArray(facetGenreKeys) ? facetGenreKeys : [];
+  const keys = normalizeAllMoviesGenreKeys(selectedKeys);
+  if (keys.length === 0) return rows.length;
+  const set = new Set(keys);
+  let count = 0;
+  for (const filmKeys of rows) {
+    if (filmMatchesAllMoviesGenres(filmKeys, set)) count += 1;
+  }
+  return count;
+}
 
 /**
  * @param {unknown} ui
@@ -75,7 +196,8 @@ export function normalizeAllMoviesUi(ui) {
   const sort = ui?.sort === 'az' ? 'az' : DEFAULT_ALL_MOVIES_UI.sort;
   const query =
     typeof ui?.query === 'string' ? normalizeSearchQuery(ui.query) : '';
-  return { query, availability, sort };
+  const genreKeys = normalizeAllMoviesGenreKeys(ui?.genreKeys);
+  return { query, availability, sort, genreKeys };
 }
 
 /**
@@ -474,7 +596,21 @@ function toAllMoviesRow(item, resolved, options) {
         ? String(item.representative.releaseYear)
         : null;
   const runtime = formatRuntimeLabel(enriched.runtimeMin);
-  const genre = enriched.genres?.[0] ?? null;
+  const genres = extractAllMoviesGenres(
+    options.enrichmentIndex,
+    resolved.filmId ?? item.filmId,
+  );
+  /** @type {string[]} */
+  const genreKeys = [];
+  /** @type {Set<string>} */
+  const seenGenreKeys = new Set();
+  for (const label of genres) {
+    const key = allMoviesGenreKey(label);
+    if (!key || seenGenreKeys.has(key)) continue;
+    seenGenreKeys.add(key);
+    genreKeys.push(key);
+  }
+  const genre = genres[0] ?? null;
   const metaLine = [year, runtime, genre].filter(Boolean).join(' · ') || null;
   const nextWhenLabel = formatAllMoviesNextWhen(item.nextOpportunity, options);
   let aggregateLabel = null;
@@ -499,6 +635,8 @@ function toAllMoviesRow(item, resolved, options) {
     year: enriched.canonicalYear ?? item.representative.releaseYear ?? null,
     runtimeMin: enriched.runtimeMin ?? null,
     genre,
+    genres,
+    genreKeys,
     metaLine,
     searchAliases: [
       ...(Array.isArray(item.representative.identityAliases)
@@ -528,6 +666,7 @@ function toAllMoviesRow(item, resolved, options) {
  *   query?: string,
  *   availability?: string,
  *   sort?: string,
+ *   genreKeys?: string[],
  *   enrichmentIndex?: object | null,
  *   timeFormatId?: string,
  *   now?: Date,
@@ -550,6 +689,14 @@ export function composeAllMoviesPresentation(homeData, options = {}) {
       query: ui.query,
       availability: ui.availability,
       sort: ui.sort,
+      genreKeys: ui.genreKeys,
+      genreOptions: [],
+      genreInventory: [],
+      facetGenreKeys: [],
+      facetCount: 0,
+      matchedCount: 0,
+      matchedThisWeekCount: 0,
+      matchedLaterCount: 0,
       totalCount: 0,
       visibleCount: 0,
       thisWeekCount: 0,
@@ -570,6 +717,14 @@ export function composeAllMoviesPresentation(homeData, options = {}) {
       query: ui.query,
       availability: ui.availability,
       sort: ui.sort,
+      genreKeys: ui.genreKeys,
+      genreOptions: [],
+      genreInventory: [],
+      facetGenreKeys: [],
+      facetCount: 0,
+      matchedCount: 0,
+      matchedThisWeekCount: 0,
+      matchedLaterCount: 0,
       totalCount: 0,
       visibleCount: 0,
       thisWeekCount: 0,
@@ -592,6 +747,7 @@ export function composeAllMoviesPresentation(homeData, options = {}) {
     return toAllMoviesRow(item, resolved, {
       todayIso: inventory.todayIso,
       timeFormatId,
+      enrichmentIndex,
     });
   });
 
@@ -599,15 +755,30 @@ export function composeAllMoviesPresentation(homeData, options = {}) {
   const searched = ui.query
     ? rows.filter((row) => matchesAllMoviesQuery(row, ui.query))
     : rows;
-  searched.sort(compared);
-
-  const filtered =
+  const facetRows =
     ui.availability === 'all'
       ? searched
       : searched.filter((row) => row.availability === ui.availability);
+  const genreInventory = buildAllMoviesGenreOptions(rows);
+  const genreOptions = buildAllMoviesGenreOptions(facetRows);
+  const selectedGenreSet = new Set(ui.genreKeys);
+  const matched = ui.genreKeys.length
+    ? searched.filter((row) =>
+        filmMatchesAllMoviesGenres(row.genreKeys, selectedGenreSet),
+      )
+    : searched;
 
-  const thisWeek = filtered.filter((row) => row.availability === 'this-week');
-  const later = filtered.filter((row) => row.availability === 'later');
+  const matchedThisWeek = matched.filter((row) => row.availability === 'this-week');
+  const matchedLater = matched.filter((row) => row.availability === 'later');
+  const filtered =
+    ui.availability === 'all'
+      ? matched
+      : matched.filter((row) => row.availability === ui.availability);
+  const ordered = [...filtered];
+  ordered.sort(compared);
+
+  const thisWeek = ordered.filter((row) => row.availability === 'this-week');
+  const later = ordered.filter((row) => row.availability === 'later');
 
   /** @type {{ id: string, label: string, films: object[] }[]} */
   const sections = [];
@@ -628,10 +799,11 @@ export function composeAllMoviesPresentation(homeData, options = {}) {
 
   const totalCount = rows.length;
   const visibleCount = filtered.length;
-  const countLabel =
-    ui.query || ui.availability !== 'all'
-      ? `${visibleCount} of ${totalCount} ${totalCount === 1 ? 'movie' : 'movies'}`
-      : `${totalCount} ${totalCount === 1 ? 'movie' : 'movies'}`;
+  const hasRestrictingFilter =
+    Boolean(ui.query) || ui.availability !== 'all' || ui.genreKeys.length > 0;
+  const countLabel = hasRestrictingFilter
+    ? `${visibleCount} of ${totalCount} ${totalCount === 1 ? 'movie' : 'movies'}`
+    : `${totalCount} ${totalCount === 1 ? 'movie' : 'movies'}`;
 
   let state = 'ready';
   let emptyMessage = null;
@@ -643,6 +815,10 @@ export function composeAllMoviesPresentation(homeData, options = {}) {
     state = 'search-empty';
     emptyMessage = `No movies match ‘${ui.query}’.`;
     emptyAction = { id: 'clear-search', label: 'Clear search' };
+  } else if (ui.genreKeys.length > 0 && matched.length === 0) {
+    state = 'genre-empty';
+    emptyMessage = 'No movies match these genres.';
+    emptyAction = { id: 'clear-genres', label: 'Clear genres' };
   } else if (visibleCount === 0 && ui.availability === 'this-week') {
     state = 'filter-empty';
     emptyMessage =
@@ -664,12 +840,20 @@ export function composeAllMoviesPresentation(homeData, options = {}) {
     query: ui.query,
     availability: ui.availability,
     sort: ui.sort,
+    genreKeys: ui.genreKeys,
+    genreOptions,
+    genreInventory,
+    facetGenreKeys: facetRows.map((row) => row.genreKeys),
+    facetCount: facetRows.length,
+    matchedCount: matched.length,
+    matchedThisWeekCount: matchedThisWeek.length,
+    matchedLaterCount: matchedLater.length,
     totalCount,
     visibleCount,
     thisWeekCount: inventory.thisWeekCount,
     laterCount: inventory.laterCount,
     sections,
-    films: filtered,
+    films: ordered,
   };
 }
 
