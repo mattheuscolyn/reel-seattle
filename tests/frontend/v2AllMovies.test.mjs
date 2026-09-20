@@ -410,6 +410,8 @@ test('navigation opens Film Detail identity and back returns to All Movies', () 
   assert.match(APP_SRC, /allMoviesUi/);
   assert.match(APP_SRC, /allMoviesListRestore/);
   assert.match(PAGE_SRC, /listRestore/);
+  assert.match(PAGE_SRC, /genreKeys/);
+  assert.match(COMPOSER_SRC, /genreKeys/);
 });
 
 test('Seen / Saved / Not Interested films stay in the comprehensive inventory', () => {
@@ -504,6 +506,7 @@ test('UI defaults and hydration IDs stay capped', () => {
     query: 'Heat',
     availability: 'all',
     sort: 'soonest',
+    genreKeys: [],
   });
   const films = [];
   const opportunities = [];

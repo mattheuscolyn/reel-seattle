@@ -2,7 +2,7 @@
  * Explore → All Movies. Compact film browse of booked future Seattle screenings.
  */
 
-import { useEffect, useId, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { IconChevron, IconClose, IconSearch } from '../icons.jsx';
 import TmdbAttribution from '../enrichment/TmdbAttribution.jsx';
 import { MAX_SURFACE_HYDRATION_IDS } from '../enrichment/hydrateShelfFilmEnrichment.js';
@@ -18,6 +18,8 @@ import {
   DEFAULT_ALL_MOVIES_UI,
   collectAllMoviesCanonicalFilmIds,
   composeAllMoviesPresentation,
+  countAllMoviesMatchingGenreKeys,
+  normalizeAllMoviesGenreKeys,
   normalizeAllMoviesUi,
 } from './composeAllMoviesPresentation.js';
 
@@ -66,14 +68,140 @@ function AllMoviesRow({ row, onOpen }) {
 }
 
 /**
+ * Mobile-first genre picker. Sheet-open state stays local — not in allMoviesUi.
+ *
+ * @param {{
+ *   open: boolean,
+ *   titleId: string,
+ *   sheetId: string,
+ *   options: { key: string, label: string, count: number }[],
+ *   draftKeys: string[],
+ *   previewCount: number,
+ *   onToggle: (key: string) => void,
+ *   onClose: () => void,
+ *   onApply: () => void,
+ *   onReset: () => void,
+ * }} props
+ */
+function AllMoviesGenreSheet({
+  open,
+  titleId,
+  sheetId,
+  options,
+  draftKeys,
+  previewCount,
+  onToggle,
+  onClose,
+  onApply,
+  onReset,
+}) {
+  const closeRef = useRef(/** @type {HTMLButtonElement | null} */ (null));
+  const selected = new Set(draftKeys);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const frame = requestAnimationFrame(() => closeRef.current?.focus());
+    const onKey = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const previewLabel = `${previewCount} ${previewCount === 1 ? 'movie' : 'movies'}`;
+
+  return (
+    <div
+      id={sheetId}
+      className="v2-am-genre-sheet"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
+      data-all-movies-genre-sheet="open"
+    >
+      <button
+        type="button"
+        className="v2-am-genre-sheet-backdrop"
+        aria-label="Close genres"
+        onClick={onClose}
+      />
+      <div className="v2-am-genre-sheet-panel">
+        <div className="v2-am-genre-sheet-head">
+          <h2 id={titleId}>Genres</h2>
+          <button
+            ref={closeRef}
+            type="button"
+            className="v2-am-genre-sheet-close"
+            onClick={onClose}
+          >
+            Close
+          </button>
+        </div>
+        <p className="v2-am-genre-sheet-preview" aria-live="polite">
+          {previewLabel}
+        </p>
+        <ul className="v2-am-genre-options" role="list">
+          {options.map((option) => {
+            const checked = selected.has(option.key);
+            return (
+              <li key={option.key}>
+                <label className="v2-am-genre-option">
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => onToggle(option.key)}
+                  />
+                  <span className="v2-am-genre-option-label">{option.label}</span>
+                  <span className="v2-am-genre-option-count">{option.count}</span>
+                </label>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="v2-am-genre-sheet-actions">
+          <button type="button" onClick={onReset}>
+            Clear genres
+          </button>
+          <button
+            type="button"
+            className="v2-am-genre-sheet-apply"
+            onClick={onApply}
+          >
+            Apply
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
  * @param {{
  *   homeData?: object | null,
  *   loadStatus?: string,
  *   enrichmentIndex?: object | null,
  *   timeFormatId?: string,
- *   ui?: { query?: string, availability?: string, sort?: string },
+ *   ui?: {
+ *     query?: string,
+ *     availability?: string,
+ *     sort?: string,
+ *     genreKeys?: string[],
+ *   },
  *   listRestore?: object | null,
- *   onUiChange?: (ui: { query: string, availability: string, sort: string }) => void,
+ *   onUiChange?: (ui: {
+ *     query: string,
+ *     availability: string,
+ *     sort: string,
+ *     genreKeys: string[],
+ *   }) => void,
  *   onHydrateFilmIds?: (ids: string[]) => void | Promise<unknown>,
  *   onListRestoreConsumed?: () => void,
  *   onOpenFilmDetail?: (payload: {
@@ -98,10 +226,15 @@ export default function AllMoviesSurface({
   const searchId = useId();
   const sortMenuId = useId();
   const availabilityLabelId = useId();
+  const genreSheetTitleId = useId();
+  const genreSheetId = useId();
   const normalized = normalizeAllMoviesUi(ui);
   const [sortOpen, setSortOpen] = useState(false);
+  const [genresOpen, setGenresOpen] = useState(false);
+  const [draftGenreKeys, setDraftGenreKeys] = useState(normalized.genreKeys);
   const [draftQuery, setDraftQuery] = useState(normalized.query);
 
+  const genreKeySig = normalized.genreKeys.join('\0');
   const presentation = useMemo(
     () =>
       composeAllMoviesPresentation(homeData, {
@@ -109,6 +242,7 @@ export default function AllMoviesSurface({
         query: normalized.query,
         availability: normalized.availability,
         sort: normalized.sort,
+        genreKeys: normalized.genreKeys,
         enrichmentIndex,
         timeFormatId,
       }),
@@ -118,16 +252,22 @@ export default function AllMoviesSurface({
       normalized.query,
       normalized.availability,
       normalized.sort,
+      genreKeySig,
       enrichmentIndex,
       timeFormatId,
     ],
   );
 
-  useBodyScrollLock(sortOpen);
+  useBodyScrollLock(sortOpen || genresOpen);
 
   useEffect(() => {
     setDraftQuery(normalized.query);
   }, [normalized.query]);
+
+  useEffect(() => {
+    if (genresOpen) return;
+    setDraftGenreKeys(normalized.genreKeys);
+  }, [normalized.genreKeys, genresOpen]);
 
   useEffect(() => {
     if (typeof onHydrateFilmIds !== 'function') return;
@@ -167,9 +307,50 @@ export default function AllMoviesSurface({
 
   const handleEmptyAction = (actionId) => {
     if (actionId === 'clear-search') commitUi({ query: '' });
+    if (actionId === 'clear-genres') commitUi({ genreKeys: [] });
     if (actionId === 'show-later') commitUi({ availability: 'later' });
     if (actionId === 'show-all') commitUi({ availability: 'all' });
   };
+
+  const openGenres = () => {
+    setDraftGenreKeys(normalized.genreKeys);
+    setSortOpen(false);
+    setGenresOpen(true);
+  };
+
+  const closeGenres = () => {
+    setGenresOpen(false);
+    setDraftGenreKeys(normalized.genreKeys);
+  };
+
+  const applyGenres = () => {
+    commitUi({ genreKeys: normalizeAllMoviesGenreKeys(draftGenreKeys) });
+    setGenresOpen(false);
+  };
+
+  const resetGenres = () => {
+    setDraftGenreKeys([]);
+    commitUi({ genreKeys: [] });
+    setGenresOpen(false);
+  };
+
+  const toggleDraftGenre = (key) => {
+    setDraftGenreKeys((current) => {
+      const next = current.includes(key)
+        ? current.filter((item) => item !== key)
+        : [...current, key];
+      return normalizeAllMoviesGenreKeys(next);
+    });
+  };
+
+  const previewCount = countAllMoviesMatchingGenreKeys(
+    presentation.facetGenreKeys,
+    draftGenreKeys,
+  );
+  const genreButtonLabel =
+    normalized.genreKeys.length > 0
+      ? `Genres · ${normalized.genreKeys.length}`
+      : 'Genres';
 
   return (
     <section
@@ -251,6 +432,29 @@ export default function AllMoviesSurface({
       </div>
 
       <div className="v2-am-page-controls">
+        <button
+          type="button"
+          className={
+            normalized.genreKeys.length > 0
+              ? 'v2-am-genre-btn is-active'
+              : 'v2-am-genre-btn'
+          }
+          aria-label={
+            normalized.genreKeys.length > 0
+              ? `Genres, ${normalized.genreKeys.length} selected`
+              : 'Genres'
+          }
+          aria-expanded={genresOpen}
+          aria-controls={genresOpen ? genreSheetId : undefined}
+          aria-haspopup="dialog"
+          data-all-movies-genres="trigger"
+          onClick={() => {
+            if (genresOpen) closeGenres();
+            else openGenres();
+          }}
+        >
+          {genreButtonLabel}
+        </button>
         {presentation.countLabel ? (
           <p className="v2-am-page-count">{presentation.countLabel}</p>
         ) : (
@@ -264,7 +468,10 @@ export default function AllMoviesSurface({
             aria-expanded={sortOpen}
             aria-controls={sortMenuId}
             aria-haspopup="listbox"
-            onClick={() => setSortOpen((open) => !open)}
+            onClick={() => {
+              setGenresOpen(false);
+              setSortOpen((open) => !open);
+            }}
           >
             {sortOption.label}
             <span aria-hidden="true"> ▾</span>
@@ -350,6 +557,21 @@ export default function AllMoviesSurface({
       )}
 
       <TmdbAttribution compact />
+
+      {genresOpen ? (
+        <AllMoviesGenreSheet
+          open={genresOpen}
+          titleId={genreSheetTitleId}
+          sheetId={genreSheetId}
+          options={presentation.genreOptions}
+          draftKeys={draftGenreKeys}
+          previewCount={previewCount}
+          onToggle={toggleDraftGenre}
+          onClose={closeGenres}
+          onApply={applyGenres}
+          onReset={resetGenres}
+        />
+      ) : null}
     </section>
   );
 }
