@@ -21,8 +21,8 @@ from reel_seattle.adapters.indie_completeness import (
     reconcile_option_c_restate_safe,
 )
 
-INDIE_RESTATE_SOURCES = ("siff", "beacon", "nwff", "central_cinema")
-OPTION_C_RESTATE_SOURCES = frozenset({"nwff", "central_cinema"})
+INDIE_RESTATE_SOURCES = ("siff", "beacon", "nwff", "central_cinema", "grand_illusion")
+OPTION_C_RESTATE_SOURCES = frozenset({"nwff", "central_cinema", "grand_illusion"})
 
 HISTORY_FIELDNAMES = [
     "Date",
@@ -92,7 +92,17 @@ def count_future_scrape_rows(scrape_rows, today_date) -> int:
 
 
 def resolve_indie_row_source(row: dict, theater_index) -> str | None:
-    """Map a row to an indie source via the theater registry."""
+    """Map a row to an indie restatement source.
+
+    Prefer an explicit known history/scrape ``source`` so programmer sources
+    (e.g. Grand Illusion at a partner venue) are not misclassified as the
+    venue's native theater-registry source. Fall back to the theater registry
+    only for legacy rows that lack a usable source stamp.
+    """
+    raw_source = str(row.get("source", "")).strip().casefold()
+    if raw_source in INDIE_RESTATE_SOURCES:
+        return raw_source
+
     resolution = resolve_theater(row.get("Theater", ""), theater_index)
     if resolution is not None:
         entry = theater_index.theaters_by_id.get(resolution.theater_id)
@@ -100,10 +110,6 @@ def resolve_indie_row_source(row: dict, theater_index) -> str | None:
             source = entry.get("source")
             if source in INDIE_RESTATE_SOURCES:
                 return str(source)
-
-    raw_source = str(row.get("source", "")).strip().casefold()
-    if raw_source in INDIE_RESTATE_SOURCES:
-        return raw_source
     return None
 
 

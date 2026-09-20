@@ -473,3 +473,51 @@ def test_double_feature_not_auto_merged(theaters_registry):
     assert double_feature["screening_variant_type"] == "double_feature"
     assert double_feature["is_special_screening"] is True
 
+
+def test_emit_source_rejects_legacy_indie_and_garbage(theaters_registry):
+    """Only validated known sources override the theater registry on emit."""
+    from reel_seattle.source_freshness import resolve_history_row_source
+    from reel_seattle.normalize import build_theater_index
+
+    theater_index = build_theater_index(theaters_registry)
+    gi_row = _history_row(
+        REFERENCE,
+        film="GI Programmer",
+        theater="SIFF Film Center",
+        source="grand_illusion",
+        time="9:00PM",
+    )
+    assert resolve_history_row_source(gi_row, theater_index) == "grand_illusion"
+
+    artifact = build_showtimes_current(
+        [
+            _history_row(
+                REFERENCE,
+                film="Beacon Indie Label",
+                theater="The Beacon",
+                source="indie",
+            ),
+            _history_row(
+                REFERENCE,
+                film="NWFF Garbage Label",
+                theater="Northwest Film Forum",
+                source="garbage",
+                time="8:00PM",
+            ),
+            gi_row,
+        ],
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    by_title = {row["film_title"]: row for row in artifact["showtimes"]}
+    assert by_title["Beacon Indie Label"]["source"] == "beacon"
+    assert by_title["NWFF Garbage Label"]["source"] == "nwff"
+    # Unmatched GI rows stay non-public, but validated GI evidence still lands
+    # under grand_illusion freshness (not the SIFF registry source).
+    assert "GI Programmer" not in by_title
+    assert "indie" not in artifact["sources_included"]
+    assert "garbage" not in artifact["sources_included"]
+    assert artifact["sources"]["grand_illusion"]["status"] == "stale"
+    assert artifact["sources"]["siff"]["showtime_count"] == 0
+

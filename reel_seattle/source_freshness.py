@@ -14,7 +14,14 @@ from reel_seattle.normalize import (
     resolve_theater,
 )
 
-KNOWN_SOURCES: tuple[str, ...] = ("amc", "siff", "beacon", "nwff", "central_cinema")
+KNOWN_SOURCES: tuple[str, ...] = (
+    "amc",
+    "siff",
+    "beacon",
+    "nwff",
+    "central_cinema",
+    "grand_illusion",
+)
 SOURCE_STATUSES: tuple[str, ...] = ("success", "stale", "empty", "failed")
 
 
@@ -60,7 +67,17 @@ def resolve_history_row_source(
     row: Mapping[str, Any],
     theater_index: TheaterIndex,
 ) -> str | None:
-    """Map a history CSV row to a known adapter source, if possible."""
+    """Map a history CSV row to a known adapter source, if possible.
+
+    Prefer an explicit known row ``source`` so programmer/presenter scrapes
+    (source ≠ venue registry source) retain correct freshness attribution.
+    Fall back to the theater registry, then AMC name heuristics, for legacy
+    rows without a usable source stamp.
+    """
+    raw_source = str(row.get("source", "")).strip().casefold()
+    if raw_source in KNOWN_SOURCES:
+        return raw_source
+
     resolution = resolve_theater(row.get("Theater", ""), theater_index)
     if resolution is not None:
         entry = theater_index.theaters_by_id.get(resolution.theater_id)
@@ -68,10 +85,6 @@ def resolve_history_row_source(
             source = entry.get("source")
             if source in KNOWN_SOURCES:
                 return str(source)
-
-    raw_source = str(row.get("source", "")).strip().casefold()
-    if raw_source in KNOWN_SOURCES:
-        return raw_source
 
     theater_name = str(row.get("Theater", "")).strip()
     if theater_name.startswith("AMC "):

@@ -21,6 +21,7 @@ from reel_seattle.pipeline_report import (
     write_pipeline_report,
 )
 from reel_seattle.source_freshness import (
+    KNOWN_SOURCES,
     build_sources_metadata,
     empty_history_evidence,
     scan_history_source_evidence,
@@ -139,7 +140,7 @@ def test_last_successful_run_uses_current_last_seen_at(theaters_registry):
 def test_showtimes_current_includes_sources_metadata(theaters_registry):
     artifact = _build_artifact([_history_row(REFERENCE)], theaters_registry)
     assert "sources" in artifact
-    assert set(artifact["sources"]) == {"amc", "siff", "beacon", "nwff", "central_cinema"}
+    assert set(artifact["sources"]) == set(KNOWN_SOURCES)
     validate_showtimes_current(artifact)
 
 
@@ -273,8 +274,8 @@ def amc_raw_fixture():
 def test_load_daily_scrape_diagnostics_warns_on_missing_log(tmp_path):
     diagnostics = load_daily_scrape_diagnostics("2026-06-26", logs_dir=tmp_path)
 
-    assert len(diagnostics) == 5
-    for source in ("amc", "siff", "beacon", "nwff", "central_cinema"):
+    assert len(diagnostics) == len(KNOWN_SOURCES)
+    for source in KNOWN_SOURCES:
         assert len(diagnostics[source].warnings) == 1
         assert "No daily scrape log found" in diagnostics[source].warnings[0]
         assert source in diagnostics[source].warnings[0]

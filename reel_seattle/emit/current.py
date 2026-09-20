@@ -47,6 +47,10 @@ from reel_seattle.film_identity.public_emit import (
     attach_public_film_ids,
     write_identity_emit_report,
 )
+from reel_seattle.ingestion.grand_illusion_reconcile import (
+    reconcile_grand_illusion_showtimes,
+)
+from reel_seattle.prototypes.grand_illusion import GI_BASE, PRESENTER_ID, PRESENTER_NAME
 from reel_seattle.validate import validate_showtimes_current, validate_theaters_registry
 from reel_seattle.showtime_horizon import PUBLIC_SHOWTIME_HORIZON_POLICY
 
@@ -181,10 +185,10 @@ def build_showtimes_current(
     history_evidence = empty_history_evidence()
 
     for row in history_rows:
-        source = resolve_history_row_source(row, theater_index)
-        if source is not None:
+        resolved_source = resolve_history_row_source(row, theater_index)
+        if resolved_source is not None:
             update_history_evidence(
-                history_evidence[source],
+                history_evidence[resolved_source],
                 row,
                 reference_date=ref,
             )
@@ -220,7 +224,12 @@ def build_showtimes_current(
             continue
 
         theater_entry = theater_index.theaters_by_id[resolved_theater_id]
-        source = str(theater_entry.get("source", row.get("source", ""))).strip() or "unknown"
+        # Only validated known sources may override the theater registry.
+        # Legacy values like "indie" / garbage fall through to registry source.
+        if resolved_source is not None:
+            source = resolved_source
+        else:
+            source = str(theater_entry.get("source", "")).strip() or "unknown"
 
         runtime_min = parse_runtime_minutes(row.get("Runtime"))
         poster_url = _poster_url(row.get("posterDynamic"))
@@ -238,9 +247,25 @@ def build_showtimes_current(
             parsed_time.time_24h,
             film_key,
         )
-        # Identical theater|date|time|film rows collapse — keep first observation.
+        # Identical theater|date|time|film rows collapse — keep first observation,
+        # but never let a Grand Illusion programmer row displace a host-venue row.
         if showtime_id in seen_showtime_ids:
-            continue
+            existing_idx = next(
+                (
+                    i
+                    for i, item in enumerate(showtimes)
+                    if item.get("id") == showtime_id
+                ),
+                None,
+            )
+            if (
+                existing_idx is not None
+                and str(showtimes[existing_idx].get("source") or "") == "grand_illusion"
+                and source != "grand_illusion"
+            ):
+                showtimes.pop(existing_idx)
+            else:
+                continue
         seen_showtime_ids.add(showtime_id)
 
         source_title = source_title_from_history_row(row)
@@ -249,6 +274,23 @@ def build_showtimes_current(
             source_title=source_title,
             format_tags=format_tags,
         )
+        attributes: dict[str, Any] = {}
+        source_film_id = source_film_id_from_history_row(row)
+        if source == "grand_illusion":
+            program_url = (
+                f"{GI_BASE}/film/{source_film_id}/" if source_film_id else ""
+            )
+            attributes = {
+                "presenters": [
+                    {
+                        "id": PRESENTER_ID,
+                        "name": PRESENTER_NAME,
+                        "source_url": program_url,
+                    }
+                ],
+                "program_url": program_url,
+                "presenter_id": PRESENTER_ID,
+            }
         showtimes.append(
             {
                 "id": showtime_id,
@@ -264,10 +306,10 @@ def build_showtimes_current(
                 "format_tags": format_tags,
                 "ticket_url": None,
                 "source": source,
-                "source_film_id": source_film_id_from_history_row(row),
+                "source_film_id": source_film_id,
                 "source_title": source_title,
                 "source_showtime_id": None,
-                "attributes": {},
+                "attributes": attributes,
                 "special_event": special_event,
                 "first_seen_at": _metadata_date(row.get("first_seen_date")),
                 "last_seen_at": _metadata_date(row.get("last_updated")),
@@ -362,6 +404,9 @@ def build_showtimes_current(
     # T-FILMID-02: nullable canonical film_id from durable identity catalog.
     identity_emit_report = attach_public_film_ids(films, showtimes)
     attach_content_classifications(films, showtimes)
+    # Grand Illusion programmer reconciliation: suppress GI duplicates, attach
+    # presenters to matched host showtimes; unmatched GI stays out of public emit.
+    showtimes[:] = reconcile_grand_illusion_showtimes(showtimes)
     if emit_report_out is not None:
         emit_report_out.clear()
         emit_report_out.update(identity_emit_report)

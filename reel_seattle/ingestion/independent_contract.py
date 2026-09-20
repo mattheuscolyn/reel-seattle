@@ -18,7 +18,9 @@ from typing import Any, Iterable, Mapping, Sequence
 CONTRACT_VERSION = "1.0.0"
 DEFAULT_TIMEZONE = "America/Los_Angeles"
 
-KNOWN_SOURCES = frozenset({"siff", "beacon", "nwff", "central_cinema"})
+KNOWN_SOURCES = frozenset(
+    {"siff", "beacon", "nwff", "central_cinema", "grand_illusion"}
+)
 
 STATUS_SUCCESS = "success"
 STATUS_VALID_EMPTY = "valid_empty"

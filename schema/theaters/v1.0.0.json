@@ -4,7 +4,11 @@
   "title": "Reel Seattle Theater Registry",
   "description": "Canonical list of theaters supported by Reel Seattle. Authored in data/theaters.json and deployed as public/data/theaters.json.",
   "type": "object",
-  "required": ["schema_version", "updated_at", "theaters"],
+  "required": [
+    "schema_version",
+    "updated_at",
+    "theaters"
+  ],
   "additionalProperties": false,
   "properties": {
     "schema_version": {
@@ -20,13 +24,22 @@
     "theaters": {
       "type": "array",
       "minItems": 1,
-      "items": { "$ref": "#/$defs/theater" }
+      "items": {
+        "$ref": "#/$defs/theater"
+      }
     }
   },
   "$defs": {
     "theater": {
       "type": "object",
-      "required": ["id", "name", "aliases", "source", "enabled", "type"],
+      "required": [
+        "id",
+        "name",
+        "aliases",
+        "source",
+        "enabled",
+        "type"
+      ],
       "additionalProperties": false,
       "properties": {
         "id": {
@@ -42,16 +55,29 @@
         "aliases": {
           "type": "array",
           "description": "Alternate names from scrapers or historical data. Matched case-insensitively after trim.",
-          "items": { "type": "string", "minLength": 1 },
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
           "uniqueItems": true
         },
         "source": {
           "type": "string",
           "description": "Adapter that ingests this theater (amc, siff, beacon, etc.).",
-          "enum": ["amc", "siff", "beacon", "nwff", "central_cinema"]
+          "enum": [
+            "amc",
+            "siff",
+            "beacon",
+            "nwff",
+            "central_cinema",
+            "grand_illusion"
+          ]
         },
         "source_external_id": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Vendor-specific ID (e.g. AMC API theatre id). Used for API calls; null until populated."
         },
         "enabled": {
@@ -61,7 +87,12 @@
         "type": {
           "type": "string",
           "description": "Venue category for UX and filtering.",
-          "enum": ["chain", "indie", "rep", "festival"]
+          "enum": [
+            "chain",
+            "indie",
+            "rep",
+            "festival"
+          ]
         },
         "city": {
           "type": "string",
@@ -80,11 +111,19 @@
       "allOf": [
         {
           "if": {
-            "properties": { "source": { "const": "amc" } },
-            "required": ["source"]
+            "properties": {
+              "source": {
+                "const": "amc"
+              }
+            },
+            "required": [
+              "source"
+            ]
           },
           "then": {
-            "required": ["source_external_id"]
+            "required": [
+              "source_external_id"
+            ]
           }
         }
       ]

@@ -33,54 +33,108 @@
     },
     "window": {
       "type": "object",
-      "required": ["start_date", "end_date"],
+      "required": [
+        "start_date",
+        "end_date"
+      ],
       "additionalProperties": false,
       "properties": {
-        "start_date": { "type": "string", "format": "date" },
-        "end_date": { "type": "string", "format": "date" }
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        }
       }
     },
     "sources_included": {
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["amc", "siff", "beacon", "nwff", "central_cinema"]
+        "enum": [
+          "amc",
+          "siff",
+          "beacon",
+          "nwff",
+          "central_cinema",
+          "grand_illusion"
+        ]
       },
       "uniqueItems": true
     },
     "sources": {
       "type": "object",
-      "required": ["amc", "siff", "beacon", "nwff", "central_cinema"],
+      "required": [
+        "amc",
+        "siff",
+        "beacon",
+        "nwff",
+        "central_cinema"
+      ],
       "additionalProperties": false,
       "properties": {
-        "amc": { "$ref": "#/$defs/source_freshness" },
-        "siff": { "$ref": "#/$defs/source_freshness" },
-        "beacon": { "$ref": "#/$defs/source_freshness" },
-        "nwff": { "$ref": "#/$defs/source_freshness" },
-        "central_cinema": { "$ref": "#/$defs/source_freshness" }
+        "amc": {
+          "$ref": "#/$defs/source_freshness"
+        },
+        "siff": {
+          "$ref": "#/$defs/source_freshness"
+        },
+        "beacon": {
+          "$ref": "#/$defs/source_freshness"
+        },
+        "nwff": {
+          "$ref": "#/$defs/source_freshness"
+        },
+        "central_cinema": {
+          "$ref": "#/$defs/source_freshness"
+        },
+        "grand_illusion": {
+          "$ref": "#/$defs/source_freshness"
+        }
       }
     },
     "stats": {
       "type": "object",
-      "required": ["showtime_count", "film_count", "theater_count"],
+      "required": [
+        "showtime_count",
+        "film_count",
+        "theater_count"
+      ],
       "additionalProperties": false,
       "properties": {
-        "showtime_count": { "type": "integer", "minimum": 0 },
-        "film_count": { "type": "integer", "minimum": 0 },
-        "theater_count": { "type": "integer", "minimum": 0 }
+        "showtime_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "film_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "theater_count": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "theaters": {
       "type": "array",
-      "items": { "$ref": "#/$defs/theater_snapshot" }
+      "items": {
+        "$ref": "#/$defs/theater_snapshot"
+      }
     },
     "films": {
       "type": "array",
-      "items": { "$ref": "#/$defs/film_ref" }
+      "items": {
+        "$ref": "#/$defs/film_ref"
+      }
     },
     "showtimes": {
       "type": "array",
-      "items": { "$ref": "#/$defs/showtime_record" }
+      "items": {
+        "$ref": "#/$defs/showtime_record"
+      }
     }
   },
   "$defs": {
@@ -97,52 +151,136 @@
       "properties": {
         "status": {
           "type": "string",
-          "enum": ["success", "stale", "empty", "failed"]
+          "enum": [
+            "success",
+            "stale",
+            "empty",
+            "failed"
+          ]
         },
-        "showtime_count": { "type": "integer", "minimum": 0 },
-        "film_count": { "type": "integer", "minimum": 0 },
-        "theater_count": { "type": "integer", "minimum": 0 },
-        "last_successful_run": { "type": ["string", "null"], "format": "date" }
+        "showtime_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "film_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "theater_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "last_successful_run": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        }
       }
     },
     "theater_snapshot": {
       "type": "object",
-      "required": ["id", "name", "aliases", "source", "enabled", "type"],
+      "required": [
+        "id",
+        "name",
+        "aliases",
+        "source",
+        "enabled",
+        "type"
+      ],
       "additionalProperties": false,
       "properties": {
         "id": {
           "type": "string",
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
         },
-        "name": { "type": "string", "minLength": 1 },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
         "aliases": {
           "type": "array",
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "source": {
           "type": "string",
-          "enum": ["amc", "siff", "beacon", "nwff", "central_cinema"]
+          "enum": [
+            "amc",
+            "siff",
+            "beacon",
+            "nwff",
+            "central_cinema",
+            "grand_illusion"
+          ]
         },
-        "source_external_id": { "type": ["string", "null"] },
-        "enabled": { "type": "boolean" },
+        "source_external_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "enabled": {
+          "type": "boolean"
+        },
         "type": {
           "type": "string",
-          "enum": ["chain", "indie", "rep", "festival"]
+          "enum": [
+            "chain",
+            "indie",
+            "rep",
+            "festival"
+          ]
         },
-        "city": { "type": "string" },
-        "neighborhood": { "type": "string" },
-        "timezone": { "type": "string" }
+        "city": {
+          "type": "string"
+        },
+        "neighborhood": {
+          "type": "string"
+        },
+        "timezone": {
+          "type": "string"
+        }
       }
     },
     "film_ref": {
       "type": "object",
-      "required": ["showtime_film_key", "title", "parent_film_key", "parent_display_title", "screening_variant_type", "is_special_screening", "film_id"],
+      "required": [
+        "showtime_film_key",
+        "title",
+        "parent_film_key",
+        "parent_display_title",
+        "screening_variant_type",
+        "is_special_screening",
+        "film_id"
+      ],
       "additionalProperties": false,
       "properties": {
-        "showtime_film_key": { "type": "string", "minLength": 1 },
-        "title": { "type": "string", "minLength": 1 },
-        "runtime_min": { "type": ["integer", "null"], "minimum": 1 },
-        "poster_url": { "type": ["string", "null"], "format": "uri" },
+        "showtime_film_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_min": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "poster_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
         "parent_film_key": {
           "type": "string",
           "minLength": 1,
@@ -185,17 +323,26 @@
           "description": "True if this is a special screening variant of a parent film."
         },
         "source_film_id": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Stable vendor film id when available (AMC movieId)."
         },
         "film_id": {
-          "type": ["string", "null"],
-          "description": "Nullable canonical namespaced film identity from the durable identity catalog (T-FILMID-02). Confirmed TMDB matches emit tmdb:<id>; unmatched/program/source fallbacks emit null. Parallel to showtime_film_key — does not replace schedule joins.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Nullable canonical namespaced film identity from the durable identity catalog (T-FILMID-02). Confirmed TMDB matches emit tmdb:<id>; unmatched/program/source fallbacks emit null. Parallel to showtime_film_key \u2014 does not replace schedule joins.",
           "pattern": "^tmdb:[1-9][0-9]*$"
         },
         "content_classification": {
-          "type": ["string", "null"],
-          "description": "Reviewed unresolved-event classification from film identity (e.g. non_film_event, shorts_program). Null/omitted means unclassified — not a positive film assertion and not a public/private ticketability flag."
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Reviewed unresolved-event classification from film identity (e.g. non_film_event, shorts_program). Null/omitted means unclassified \u2014 not a positive film assertion and not a public/private ticketability flag."
         }
       }
     },
@@ -234,40 +381,94 @@
           "minLength": 1,
           "description": "Stable hash of theater_id, date, time, and showtime_film_key."
         },
-        "date": { "type": "string", "format": "date" },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
         "time": {
           "type": "string",
           "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
         },
-        "time_display": { "type": "string", "minLength": 1 },
+        "time_display": {
+          "type": "string",
+          "minLength": 1
+        },
         "theater_id": {
           "type": "string",
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
         },
-        "showtime_film_key": { "type": "string", "minLength": 1 },
-        "film_title": { "type": "string", "minLength": 1 },
-        "runtime_min": { "type": ["integer", "null"], "minimum": 1 },
-        "poster_url": { "type": ["string", "null"], "format": "uri" },
+        "showtime_film_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "film_title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_min": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "poster_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
         "status": {
           "type": "string",
-          "enum": ["active", "sold_out"]
+          "enum": [
+            "active",
+            "sold_out"
+          ]
         },
         "format_tags": {
           "type": "array",
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
-        "ticket_url": { "type": ["string", "null"], "format": "uri" },
+        "ticket_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
         "source": {
           "type": "string",
-          "enum": ["amc", "siff", "beacon", "nwff", "central_cinema"]
+          "enum": [
+            "amc",
+            "siff",
+            "beacon",
+            "nwff",
+            "central_cinema",
+            "grand_illusion"
+          ]
         },
-        "source_showtime_id": { "type": ["string", "null"] },
+        "source_showtime_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "source_film_id": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Stable vendor film id when available (AMC movieId)."
         },
         "source_title": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Exact source/API title before display normalization."
         },
         "parent_film_key": {
@@ -317,11 +518,19 @@
         },
         "special_event": {
           "type": "object",
-          "description": "Screening-level product Special Events classification (Explore). Orthogonal to format_tags and screening_variant_type. A film is never globally special — only individual performances carry is_special_event=true.",
-          "required": ["is_special_event", "types", "labels", "confidence", "evidence"],
+          "description": "Screening-level product Special Events classification (Explore). Orthogonal to format_tags and screening_variant_type. A film is never globally special \u2014 only individual performances carry is_special_event=true.",
+          "required": [
+            "is_special_event",
+            "types",
+            "labels",
+            "confidence",
+            "evidence"
+          ],
           "additionalProperties": true,
           "properties": {
-            "is_special_event": { "type": "boolean" },
+            "is_special_event": {
+              "type": "boolean"
+            },
             "types": {
               "type": "array",
               "items": {
@@ -341,26 +550,55 @@
             },
             "labels": {
               "type": "array",
-              "items": { "type": "string", "minLength": 1 },
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
               "description": "Source-preserving event labels when available (e.g. Q&A with director Jane Smith)."
             },
             "confidence": {
-              "type": ["string", "null"],
-              "enum": ["high", "medium", "low", null]
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "high",
+                "medium",
+                "low",
+                null
+              ]
             },
             "evidence": {
               "type": "array",
-              "items": { "type": "object", "additionalProperties": true }
+              "items": {
+                "type": "object",
+                "additionalProperties": true
+              }
             },
             "audit_signals": {
               "type": "array",
-              "items": { "type": "string", "minLength": 1 },
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
               "description": "Non-published audit signals (concert cinema, anniversary-only, generic EVENT attribute, etc.)."
             }
           }
         },
-        "first_seen_at": { "type": ["string", "null"], "format": "date" },
-        "last_seen_at": { "type": ["string", "null"], "format": "date" }
+        "first_seen_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "last_seen_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        }
       }
     }
   }

@@ -5,11 +5,12 @@ This system automatically scrapes showtimes from indie theaters and AMC theaters
 ## Files Overview
 
 ### Core Scripts
-- `webscrapetheaters.py` - Thin CLI wrapper that writes `public/indieshowtimes.csv` via SIFF, Beacon, NWFF, and Central Cinema adapters
+- `webscrapetheaters.py` - Thin CLI wrapper that writes `public/indieshowtimes.csv` via SIFF, Beacon, NWFF, Central Cinema, and Grand Illusion adapters
 - `reel_seattle/adapters/siff.py` - SIFF cinema source adapter
 - `reel_seattle/adapters/beacon.py` - The Beacon source adapter
 - `reel_seattle/adapters/nwff.py` - Northwest Film Forum production adapter (Option C logs)
 - `reel_seattle/adapters/central_cinema.py` - Central Cinema production adapter (Option C logs; scheduled)
+- `reel_seattle/adapters/grand_illusion.py` - Grand Illusion programmer/presenter adapter (Option C; multi-venue partner theaters; scheduled)
 - `amc_logger.py` - Thin CLI wrapper that writes `public/showtimes.csv` via the AMC adapter
 - `reel_seattle/adapters/amc.py` - AMC API source adapter (all currently announced future showtimes, allowlist, legacy CSV conversion). Collection horizon is not the public 14-day viewing window; see [docs/amc-all-announced-showtimes.md](docs/amc-all-announced-showtimes.md).
 - `daily_processor.py` - Processes and consolidates daily data
@@ -23,6 +24,7 @@ This system automatically scrapes showtimes from indie theaters and AMC theaters
 - `data/daily_logs/YYYY-MM-DD_beacon.json` - Normalized raw Beacon adapter scrape log
 - `data/daily_logs/YYYY-MM-DD_nwff.json` - Option C NWFF scrape log (contract + mapping + `records[]`)
 - `data/daily_logs/YYYY-MM-DD_central_cinema.json` - Option C Central Cinema scrape log (contract + mapping + `records[]`)
+- `data/daily_logs/YYYY-MM-DD_grand_illusion.json` - Option C Grand Illusion scrape log (programmer source; partner `theater_id`s)
 - `data/history/showtimes_history.csv` - **Canonical** historical showtime data (not shipped to GitHub Pages); includes nullable `source_showtime_id`
 - `public/data/showtimes_current.json` - Lean normalized showtimes for today through today + 14 days (emitted by `daily_processor.py`; loaded by the React app). This is the **public viewing horizon**. AMC collection/history may contain farther-future rows that this file intentionally omits.
 - `public/data/pipeline_report.json` - Daily pipeline observability report with per-source freshness (emitted by `daily_processor.py`)
