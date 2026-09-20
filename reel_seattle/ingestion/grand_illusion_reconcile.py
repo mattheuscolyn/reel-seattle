@@ -6,19 +6,17 @@ screening, keep ONE user-visible showtime:
 - Prefer the host venue's native record (stronger venue/ticket identity).
 - Attach Grand Illusion presenter provenance under ``attributes.presenters``.
 - Do not overwrite richer host facts with weaker GI data.
+- Propagate the shared ``performance_id`` onto the surviving host row.
 
 Matching requires strong evidence only:
 same theater_id + local date + local time + film identity via film_id
 (when both sides have one) or presentation-stripped parent title keys.
 Never fuzzy-match titles.
 
-Unmatched GI occurrences are retained in the Grand Illusion daily log /
-history for audit and Coming Soon readiness, but are NOT published as
-fallback public showtimes in this PR. Publishing GI-only rows would create
-Planner identity churn when a host record appears later under a different
-``showtime_film_key`` while ``make_showtime_id`` stays theater|date|time|film_key.
-Fallback publication requires a stable cross-source performance identity
-that does not churn existing AMC/SIFF/Beacon/NWFF/Central IDs.
+Unmatched, publishable GI occurrences are emitted as public fallbacks with
+``source=grand_illusion`` at the physical host venue and a durable
+``performance_id`` so a later host listing inherits the same identity.
+Ambiguous matches fail closed (no extra public row).
 """
 
 from __future__ import annotations
@@ -118,26 +116,43 @@ def _presenter_from_gi(showtime: Mapping[str, Any]) -> dict[str, str]:
         first = presenters[0]
         if isinstance(first, Mapping) and first.get("id"):
             return {
-                "id": str(first.get("id")),
+                "id": str(first["id"]),
                 "name": str(first.get("name") or PRESENTER_NAME),
                 "source_url": str(first.get("source_url") or ""),
             }
     program_url = ""
     if isinstance(attrs, Mapping):
         program_url = str(attrs.get("program_url") or "")
-    if not program_url:
-        program_url = str(showtime.get("source_title") or "")
     return {
         "id": PRESENTER_ID,
         "name": PRESENTER_NAME,
-        "source_url": program_url if program_url.startswith("http") else "",
+        "source_url": program_url,
     }
 
 
-def attach_presenter(
-    host: MutableMapping[str, Any],
-    gi: Mapping[str, Any],
-) -> None:
+def _is_publishable_gi_fallback(showtime: Mapping[str, Any]) -> bool:
+    """Minimum eligibility for a GI-only public fallback row."""
+    if occurrence_slot(showtime) is None:
+        return False
+    if str(showtime.get("status") or "active") not in ("active", "sold_out"):
+        return False
+    # Durable program + occurrence identity.
+    source_film = showtime.get("source_film_id")
+    if source_film in (None, "", "null"):
+        return False
+    attrs = showtime.get("attributes") if isinstance(showtime.get("attributes"), Mapping) else {}
+    occ = showtime.get("source_showtime_id")
+    if occ in (None, "", "null") and isinstance(attrs, Mapping):
+        occ = attrs.get("source_occurrence_id") or attrs.get("source_showtime_id")
+    if occ in (None, "", "null"):
+        return False
+    # Must carry a stable performance_id from the attach step.
+    if not showtime.get("performance_id"):
+        return False
+    return True
+
+
+def attach_presenter(host: MutableMapping[str, Any], gi: Mapping[str, Any]) -> None:
     attrs = host.get("attributes")
     if not isinstance(attrs, dict):
         attrs = {}
@@ -160,17 +175,28 @@ def attach_presenter(
         ticket = None
         if isinstance(gi_attrs, Mapping):
             ticket = gi_attrs.get("ticket_url")
+        if not ticket:
+            ticket = gi.get("ticket_url")
         if ticket:
             host["ticket_url"] = ticket
+    # Propagate shared performance identity onto the surviving host row.
+    gi_perf = gi.get("performance_id")
+    host_perf = host.get("performance_id")
+    if gi_perf and not host_perf:
+        host["performance_id"] = gi_perf
+    elif gi_perf and host_perf and gi_perf != host_perf:
+        # Prefer the already-attached shared id from attach_performance_ids
+        # (both should already match); if not, keep host_perf for host-first.
+        pass
 
 
 def reconcile_grand_illusion_showtimes(
     showtimes: Sequence[MutableMapping[str, Any]],
 ) -> list[MutableMapping[str, Any]]:
-    """Return public showtimes with GI duplicates suppressed and presenters attached.
+    """Return public showtimes: host-primary matches + publishable GI fallbacks.
 
-    Unmatched GI rows are omitted from the public list (retained upstream in
-    history / daily logs only).
+    Ambiguous GI matches are omitted (fail closed). Unknown-venue / invalid
+    rows should already have been filtered before emit.
     """
     hosts: list[MutableMapping[str, Any]] = []
     gi_rows: list[MutableMapping[str, Any]] = []
@@ -197,7 +223,8 @@ def reconcile_grand_illusion_showtimes(
             continue
         by_slot.setdefault(slot, []).append(host)
 
-    matched_gi_ids: set[str] = set()
+    matched_gi_ids: set[int] = set()
+    ambiguous_gi_ids: set[int] = set()
     for gi in gi_rows:
         slot = occurrence_slot(gi)
         if slot is None:
@@ -206,12 +233,14 @@ def reconcile_grand_illusion_showtimes(
         matches = [host for host in candidates if identities_compatible(gi, host)]
         if len(matches) == 1:
             attach_presenter(matches[0], gi)
-            matched_gi_ids.add(str(gi.get("id") or id(gi)))
+            matched_gi_ids.add(id(gi))
         elif len(matches) > 1:
-            # Ambiguous — do not attach; leave GI unpublished.
-            continue
-        # zero matches → unmatched; omit from public emit
+            ambiguous_gi_ids.add(id(gi))
 
-    # Public list: all non-GI rows (with presenters updated on matched hosts).
-    # Explicitly drop all GI rows from public output in this PR.
-    return others
+    public: list[MutableMapping[str, Any]] = list(others)
+    for gi in gi_rows:
+        if id(gi) in matched_gi_ids or id(gi) in ambiguous_gi_ids:
+            continue
+        if _is_publishable_gi_fallback(gi):
+            public.append(gi)
+    return public

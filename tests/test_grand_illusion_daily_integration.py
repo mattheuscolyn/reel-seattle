@@ -49,6 +49,9 @@ def _row(
     source: str,
     time: str = "7:15PM",
     source_film_id: str = "",
+    source_showtime_id: str = "",
+    ticket_url: str = "",
+    source_film_url: str = "",
 ) -> dict:
     return normalize_history_row(
         {
@@ -62,6 +65,9 @@ def _row(
             "last_updated": RUN_DATE,
             "source_film_id": source_film_id,
             "source_title": film,
+            "source_showtime_id": source_showtime_id,
+            "ticket_url": ticket_url,
+            "source_film_url": source_film_url,
         }
     )
 
@@ -178,7 +184,7 @@ def test_gi_restate_does_not_delete_siff_rows(tmp_path, theater_index):
     assert any(r["source"] == "grand_illusion" for r in history)
 
 
-def test_emit_prefers_row_source_and_suppresses_unmatched_gi(theater_index, tmp_path):
+def test_emit_prefers_host_and_publishes_unmatched_gi(theater_index, tmp_path):
     history = [
         _row(
             date(2026, 9, 28),
@@ -187,6 +193,11 @@ def test_emit_prefers_row_source_and_suppresses_unmatched_gi(theater_index, tmp_
             source="grand_illusion",
             time="7:00PM",
             source_film_id="shu-lea-cheang-double-feature",
+            source_showtime_id=(
+                "shu-lea-cheang-double-feature|northwest-film-forum|2026-09-28|19:00"
+            ),
+            ticket_url="https://grandillusioncinema.org/film/shu-lea-cheang-double-feature/",
+            source_film_url="https://grandillusioncinema.org/film/shu-lea-cheang-double-feature/",
         ),
         _row(
             date(2026, 9, 20),
@@ -202,16 +213,20 @@ def test_emit_prefers_row_source_and_suppresses_unmatched_gi(theater_index, tmp_
             source="grand_illusion",
             time="6:30PM",
             source_film_id="the-hole-in-35mm",
+            source_showtime_id="the-hole-in-35mm|siff-film-center|2026-09-20|18:30",
         ),
     ]
     registry = json.loads(Path("data/theaters.json").read_text(encoding="utf-8"))
+    perf_path = tmp_path / "performance_identity_current.json"
     artifact = build_showtimes_current(
         history,
         registry=registry,
         reference_date=WINDOW_START,
+        performance_identity_path=perf_path,
+        persist_performance_identity=True,
     )
     sources = {s["source"] for s in artifact["showtimes"]}
-    assert "grand_illusion" not in sources  # unmatched + matched GI omitted from public
+    assert "grand_illusion" in sources  # unmatched GI fallback published
     hole = [
         s
         for s in artifact["showtimes"]
@@ -220,3 +235,9 @@ def test_emit_prefers_row_source_and_suppresses_unmatched_gi(theater_index, tmp_
     assert len(hole) == 1
     assert hole[0]["source"] == "siff"
     assert hole[0]["attributes"].get("presenters")
+    assert hole[0].get("performance_id", "").startswith("id:")
+    gi_only = [s for s in artifact["showtimes"] if s["source"] == "grand_illusion"]
+    assert len(gi_only) == 1
+    assert gi_only[0]["theater_id"] == "northwest-film-forum"
+    assert gi_only[0]["performance_id"].startswith("xsrc:grand-illusion:")
+    assert gi_only[0]["ticket_url"]

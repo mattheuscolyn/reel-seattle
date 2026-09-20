@@ -33,7 +33,10 @@ from reel_seattle.source_freshness import (
 )
 from reel_seattle.source_identity import (
     source_film_id_from_history_row,
+    source_film_url_from_history_row,
+    source_showtime_id_from_history_row,
     source_title_from_history_row,
+    ticket_url_from_history_row,
 )
 from reel_seattle.analysis.film_identity import (
     build_film_key_identity_map,
@@ -49,6 +52,10 @@ from reel_seattle.film_identity.public_emit import (
 )
 from reel_seattle.ingestion.grand_illusion_reconcile import (
     reconcile_grand_illusion_showtimes,
+)
+from reel_seattle.performance_identity import attach_performance_ids
+from reel_seattle.performance_identity.constants import (
+    DEFAULT_REGISTRY_REL as DEFAULT_PERFORMANCE_IDENTITY_PATH,
 )
 from reel_seattle.prototypes.grand_illusion import GI_BASE, PRESENTER_ID, PRESENTER_NAME
 from reel_seattle.validate import validate_showtimes_current, validate_theaters_registry
@@ -162,11 +169,17 @@ def build_showtimes_current(
     reference_date: date | None = None,
     generated_at: datetime | None = None,
     emit_report_out: dict[str, Any] | None = None,
+    performance_identity_path: Path | None = None,
+    persist_performance_identity: bool = False,
 ) -> dict[str, Any]:
     """Build the showtimes_current artifact from history CSV rows.
 
     When ``emit_report_out`` is provided, it is filled with the T-FILMID-02
     identity-emission coverage report (not part of the public artifact).
+
+    Performance identity registry persistence defaults to off so unit tests
+    do not mutate ``data/performance_identity/``. Production writers should
+    pass ``persist_performance_identity=True`` (see ``write_showtimes_current``).
     """
     ref = reference_date or datetime.now(ZoneInfo(DEFAULT_TIMEZONE)).date()
     start_date, end_date = _window_bounds(ref)
@@ -276,9 +289,13 @@ def build_showtimes_current(
         )
         attributes: dict[str, Any] = {}
         source_film_id = source_film_id_from_history_row(row)
+        history_ticket_url = ticket_url_from_history_row(row)
+        history_source_film_url = source_film_url_from_history_row(row)
+        history_source_showtime_id = source_showtime_id_from_history_row(row)
         if source == "grand_illusion":
             program_url = (
-                f"{GI_BASE}/film/{source_film_id}/" if source_film_id else ""
+                history_source_film_url
+                or (f"{GI_BASE}/film/{source_film_id}/" if source_film_id else "")
             )
             attributes = {
                 "presenters": [
@@ -291,6 +308,16 @@ def build_showtimes_current(
                 "program_url": program_url,
                 "presenter_id": PRESENTER_ID,
             }
+            if history_source_showtime_id:
+                # Durable GI occurrence id for performance_identity attach.
+                # Public source_showtime_id stays null (Planner precedence safety).
+                attributes["source_occurrence_id"] = history_source_showtime_id
+            if history_ticket_url:
+                attributes["ticket_url"] = history_ticket_url
+            if history_source_film_url:
+                attributes["source_url"] = history_source_film_url
+            elif program_url:
+                attributes["source_url"] = program_url
         showtimes.append(
             {
                 "id": showtime_id,
@@ -304,10 +331,13 @@ def build_showtimes_current(
                 "poster_url": poster_url,
                 "status": status,
                 "format_tags": format_tags,
-                "ticket_url": None,
+                "ticket_url": history_ticket_url,
                 "source": source,
                 "source_film_id": source_film_id,
                 "source_title": source_title,
+                # Keep public null: exposing source_showtime_id would change
+                # HomeData/Planner precedence ahead of performance_id for
+                # non-GI paths. GI occurrence id lives in attributes.
                 "source_showtime_id": None,
                 "attributes": attributes,
                 "special_event": special_event,
@@ -404,12 +434,18 @@ def build_showtimes_current(
     # T-FILMID-02: nullable canonical film_id from durable identity catalog.
     identity_emit_report = attach_public_film_ids(films, showtimes)
     attach_content_classifications(films, showtimes)
-    # Grand Illusion programmer reconciliation: suppress GI duplicates, attach
-    # presenters to matched host showtimes; unmatched GI stays out of public emit.
+    # Cross-source performance identity (GI ↔ host continuity), then reconcile.
+    performance_report = attach_performance_ids(
+        showtimes,
+        registry_path=performance_identity_path or DEFAULT_PERFORMANCE_IDENTITY_PATH,
+        reference_date=ref,
+        persist=persist_performance_identity,
+    )
     showtimes[:] = reconcile_grand_illusion_showtimes(showtimes)
     if emit_report_out is not None:
         emit_report_out.clear()
         emit_report_out.update(identity_emit_report)
+        emit_report_out["performance_identity"] = performance_report
     sources = build_sources_metadata(showtimes, history_evidence)
 
     # Schema requires concrete end_date; for all-known-future it is the latest
@@ -453,6 +489,8 @@ def write_showtimes_current(
     output_path: Path = DEFAULT_OUTPUT_PATH,
     registry_path: Path = DEFAULT_REGISTRY_PATH,
     reference_date: date | None = None,
+    performance_identity_path: Path | None = None,
+    persist_performance_identity: bool = True,
 ) -> dict[str, Any]:
     """Build and write ``showtimes_current.json``."""
     if history_rows is None:
@@ -468,6 +506,9 @@ def write_showtimes_current(
         registry=registry,
         reference_date=reference_date,
         emit_report_out=emit_report,
+        performance_identity_path=performance_identity_path
+        or DEFAULT_PERFORMANCE_IDENTITY_PATH,
+        persist_performance_identity=persist_performance_identity,
     )
     validate_showtimes_current(artifact)
 

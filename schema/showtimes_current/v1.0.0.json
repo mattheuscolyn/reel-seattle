@@ -381,6 +381,14 @@
           "minLength": 1,
           "description": "Stable hash of theater_id, date, time, and showtime_film_key."
         },
+        "performance_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "description": "Reel Seattle stable identity for the physical performance across listing sources. Optional; absent on legacy artifacts. Prefer over artifact id for HomeData opportunity identity when present."
+        },
         "date": {
           "type": "string",
           "format": "date"

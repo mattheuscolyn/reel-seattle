@@ -11,6 +11,7 @@ HISTORY_OPTIONAL_CSV_FIELDS = (
     "Runtime",
     "posterDynamic",
     "ticket_url",
+    "source_film_url",
     "source_showtime_id",
     "source_film_id",
     "source_title",

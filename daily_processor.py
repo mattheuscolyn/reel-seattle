@@ -45,6 +45,8 @@ HISTORY_FIELDNAMES = [
     "source_film_id",
     "source_title",
     "source_showtime_id",
+    "ticket_url",
+    "source_film_url",
 ]
 
 HISTORY_PATH = Path("data/history/showtimes_history.csv")

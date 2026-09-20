@@ -74,7 +74,7 @@ def test_reconcile_prefers_host_and_attaches_presenter():
     assert presenters[0]["id"] == PRESENTER_ID
 
 
-def test_unmatched_gi_not_published():
+def test_unmatched_gi_published_when_eligible():
     gi = {
         "id": "gi-only",
         "theater_id": "northwest-film-forum",
@@ -82,7 +82,9 @@ def test_unmatched_gi_not_published():
         "time": "19:00",
         "film_title": "Shu Lea Cheang double feature",
         "source": "grand_illusion",
-        "attributes": {},
+        "source_film_id": "shu-lea-cheang-double-feature",
+        "performance_id": "xsrc:grand-illusion:0123456789abcdef",
+        "attributes": {"source_occurrence_id": "gi-occurrence-1"},
     }
     host = {
         "id": "other",
@@ -94,4 +96,19 @@ def test_unmatched_gi_not_published():
         "attributes": {},
     }
     out = reconcile_grand_illusion_showtimes([host, gi])
-    assert [row["id"] for row in out] == ["other"]
+    assert [row["id"] for row in out] == ["other", "gi-only"]
+
+
+def test_unmatched_gi_without_performance_id_not_published():
+    gi = {
+        "id": "gi-only",
+        "theater_id": "northwest-film-forum",
+        "date": "2026-09-28",
+        "time": "19:00",
+        "film_title": "Shu Lea Cheang double feature",
+        "source": "grand_illusion",
+        "source_film_id": "shu-lea-cheang-double-feature",
+        "attributes": {"source_occurrence_id": "gi-occurrence-1"},
+    }
+
+    assert reconcile_grand_illusion_showtimes([gi]) == []

@@ -23,10 +23,19 @@ NULL_SENTINEL_FIELDS: tuple[str, ...] = tuple(
 DEFAULT_MAX_ERRORS = 20
 
 
-def _header_mismatch_message(header: list[str]) -> str:
+def _resolve_header(header: list[str]) -> tuple[list[str] | None, str]:
+    """Accept exact HISTORY_FIELDNAMES or an older prefix missing optional trailing cols."""
     expected = list(HISTORY_FIELDNAMES)
     if header == expected:
-        return ""
+        return expected, ""
+
+    # Older committed history may omit newest optional trailing columns.
+    if (
+        len(header) < len(expected)
+        and expected[: len(header)] == header
+        and all(name in HISTORY_OPTIONAL_CSV_FIELDS for name in expected[len(header) :])
+    ):
+        return header, ""
 
     lines = [
         "history CSV header does not match HISTORY_FIELDNAMES",
@@ -41,7 +50,7 @@ def _header_mismatch_message(header: list[str]) -> str:
         lines.append(f"  extra columns: {extra}")
     if not missing and not extra:
         lines.append("  columns match as a set but order differs")
-    return "\n".join(lines)
+    return None, "\n".join(lines)
 
 
 def validate_history_csv(
@@ -54,6 +63,9 @@ def validate_history_csv(
 
     Default checks: file exists, header order, row width, optional-field null sentinels.
     ``strict=True`` also requires core fields to be non-empty and dates to parse.
+
+    Headers that are an exact prefix of ``HISTORY_FIELDNAMES`` missing only
+    newest optional trailing columns remain valid (backward compatible).
     """
     path = history_path or DEFAULT_HISTORY_PATH
     errors: list[str] = []
@@ -74,11 +86,11 @@ def validate_history_csv(
         except StopIteration:
             return ["history CSV is empty (no header row)"], 0
 
-        mismatch = _header_mismatch_message(header)
-        if mismatch:
-            return [mismatch], 0
+        resolved_header, mismatch = _resolve_header(header)
+        if mismatch or resolved_header is None:
+            return [mismatch or "history CSV header mismatch"], 0
 
-        expected_width = len(HISTORY_FIELDNAMES)
+        expected_width = len(resolved_header)
         for row_number, row in enumerate(reader, start=2):
             data_row_count += 1
             if len(errors) >= max_errors:
@@ -91,7 +103,8 @@ def validate_history_csv(
                 )
                 continue
 
-            record = dict(zip(HISTORY_FIELDNAMES, row, strict=True))
+            record = {name: "" for name in HISTORY_FIELDNAMES}
+            record.update(dict(zip(resolved_header, row, strict=True)))
 
             if strict:
                 for field in REQUIRED_NON_EMPTY_FIELDS:
@@ -105,6 +118,8 @@ def validate_history_csv(
                     )
 
             for field in NULL_SENTINEL_FIELDS:
+                if field not in resolved_header:
+                    continue
                 raw = record[field]
                 if raw.strip() and normalize_optional_string(raw) is None:
                     errors.append(
@@ -140,7 +155,7 @@ def main(argv: list[str] | None = None) -> int:
     print("validate_history_csv: OK")
     print(f"  - mode: {mode}")
     print(f"  - {DEFAULT_HISTORY_PATH.as_posix()} exists")
-    print(f"  - header matches HISTORY_FIELDNAMES ({len(HISTORY_FIELDNAMES)} columns)")
+    print(f"  - header compatible with HISTORY_FIELDNAMES ({len(HISTORY_FIELDNAMES)} columns)")
     print(f"  - {row_count:,} data rows passed contract checks")
     if not args.strict:
         print("  - core field/date checks deferred (use --strict)")
