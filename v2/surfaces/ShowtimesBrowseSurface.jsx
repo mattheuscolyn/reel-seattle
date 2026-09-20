@@ -54,6 +54,7 @@ export default function ShowtimesBrowseSurface({
   onOpenFilmDetail,
   onOpenTheaterDetail,
   onAcceptedPlansChange = null,
+  onViewPlanner = null,
 }) {
   const dateToolbarId = useId();
   const initial = normalizeBrowseFilters(
@@ -616,6 +617,7 @@ export default function ShowtimesBrowseSurface({
         homeData={homeData}
         enrichmentIndex={enrichmentIndex}
         onPlansChanged={onAcceptedPlansChange}
+        onViewPlanner={onViewPlanner}
       />
     </section>
   );

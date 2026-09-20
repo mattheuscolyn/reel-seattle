@@ -1872,6 +1872,7 @@ export default function V2App() {
         onAcceptedPlansChange={() =>
           setAcceptedPlansRevision((value) => value + 1)
         }
+        onViewPlanner={() => handleSelectDestination('planner')}
       />
     );
   } else if (isShowtimesBrowse) {
@@ -1908,6 +1909,7 @@ export default function V2App() {
         onAcceptedPlansChange={() =>
           setAcceptedPlansRevision((value) => value + 1)
         }
+        onViewPlanner={() => handleSelectDestination('planner')}
       />
     );
   } else if (isSearchResults) {
@@ -2262,6 +2264,10 @@ export default function V2App() {
             returnSurface: nav.surface,
           })
         }
+        onAcceptedPlansChange={() =>
+          setAcceptedPlansRevision((value) => value + 1)
+        }
+        onViewPlanner={() => handleSelectDestination('planner')}
       />
     );
   } else if (isTheatersList) {

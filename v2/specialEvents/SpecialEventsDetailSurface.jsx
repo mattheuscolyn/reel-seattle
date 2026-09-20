@@ -26,6 +26,8 @@ export default function SpecialEventsDetailSurface({
   engagementId = null,
   enrichmentIndex = null,
   onOpenFilmDetail,
+  onViewPlanner = null,
+  onAcceptedPlansChange = null,
 }) {
   const detail = composeSpecialEventsDetail(homeData, engagementId, {
     enrichmentIndex,
@@ -172,6 +174,8 @@ export default function SpecialEventsDetailSurface({
         row={activeShowtime}
         homeData={homeData}
         enrichmentIndex={enrichmentIndex}
+        onPlansChanged={onAcceptedPlansChange}
+        onViewPlanner={onViewPlanner}
       />
     </article>
   );
