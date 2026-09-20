@@ -3227,27 +3227,25 @@ button {
   padding: 0;
 }
 
+/* Mobile-first: two readable columns. Desktop restores a compact 4-up grid. */
 .v2-fd-signals-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.32rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
   width: 100%;
   overflow-x: visible;
 }
 
-/* Below supported mobile target only ? not active at ~360px QC. */
-@media (max-width: 319px) {
-  .v2-fd-signals-grid {
-    grid-template-columns: repeat(4, minmax(4.35rem, 1fr));
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 0.15rem;
-  }
+.v2-fd-signals-expanded {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.v2-fd-signals-expanded {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+@media (min-width: 720px) {
+  .v2-fd-signals-grid,
+  .v2-fd-signals-expanded {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.32rem;
+  }
 }
 
 .v2-fd-signal {
@@ -3255,14 +3253,21 @@ button {
   flex-direction: column;
   gap: 0.14rem;
   margin: 0;
-  padding: 0.55rem 0.48rem 0.48rem;
+  padding: 0.55rem 0.55rem 0.5rem;
   border-radius: 0.5rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(18, 20, 28, 0.94);
   aspect-ratio: auto;
-  min-height: 6.25rem;
+  min-height: 0;
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
+}
+
+/* Departure timing is densest: full-width on mobile when present. */
+@media (max-width: 719px) {
+  .v2-fd-signal-departure_timing {
+    grid-column: 1 / -1;
+  }
 }
 
 .v2-fd-signal-graphic {
@@ -3286,14 +3291,11 @@ button {
   margin: 0;
   font-size: 0.76rem;
   font-weight: 650;
-  line-height: 1.22;
+  line-height: 1.28;
   color: var(--v2-fg);
   white-space: pre-line;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  overflow-wrap: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
   hyphens: manual;
 }
 
@@ -3301,14 +3303,35 @@ button {
   margin: 0;
   margin-top: auto;
   font-size: 0.64rem;
-  line-height: 1.25;
+  line-height: 1.3;
   font-weight: 450;
   color: var(--v2-muted);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* Soft wrap safeguards for non-departure cards on very dense desktop grids. */
+@media (min-width: 720px) {
+  .v2-fd-signal:not(.v2-fd-signal-departure_timing) .v2-fd-signal-primary {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .v2-fd-signal:not(.v2-fd-signal-departure_timing) .v2-fd-signal-secondary {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .v2-fd-signal-departure_timing .v2-fd-signal-primary,
+  .v2-fd-signal-departure_timing .v2-fd-signal-secondary {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
 }
 
 .v2-fd-signal-graphic-violet {

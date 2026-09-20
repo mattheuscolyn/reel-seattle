@@ -108,7 +108,7 @@ Does **not** expose feature vectors, `p_end_within_*`, raw `median_remaining_day
 
 **AMC scope:** the model predicts Seattle-area **AMC network** run remaining lifetime. User-facing timing copy must say AMC. It is not a multi-source “leaving Seattle” claim.
 
-**Shelf note:** Leaving Soon shelf copy `Last screening {max_show_date}` remains an observed booking label, not the predicted end. Do not repurpose that field to `predicted_end_date`.
+**Shelf note:** Leaving Soon full-list copy `Currently booked through {max_show_date}` is an observed booking label, not the predicted end. Do not repurpose that field to `predicted_end_date`. Compact Home shelf continues to use bucket labels (`Last chance` / `Leaving soon`) without an exact booked-through date.
 
 ## 8. Bucket thresholds
 

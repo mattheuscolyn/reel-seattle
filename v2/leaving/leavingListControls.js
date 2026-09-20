@@ -3,7 +3,8 @@
  */
 
 export const LEAVING_SORT_OPTIONS = Object.freeze([
-  Object.freeze({ id: 'leaving-soonest', label: 'Leaving soonest' }),
+  // Sorts by maxShowDate (booking horizon), not predicted departure.
+  Object.freeze({ id: 'leaving-soonest', label: 'Booked through' }),
   Object.freeze({ id: 'title-az', label: 'Title A–Z' }),
 ]);
 

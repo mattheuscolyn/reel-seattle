@@ -269,9 +269,10 @@ test('5. Leaving Soon preserves last-screening metadata with enrichment join', (
   const page = buildLiveLeavingSoonPresentation(homeData, index);
   assert.equal(page.films.length, 1);
   assert.equal(page.films[0].title, 'Leaving Canonical');
-  assert.match(page.films[0].dateLabel ?? '', /Last screening/);
+  assert.match(page.films[0].dateLabel ?? '', /Currently booked through/);
   assert.match(page.films[0].dateLabel ?? '', /Sep/);
   assert.equal(page.films[0].maxShowDate, '2026-09-14');
+  assert.equal((page.films[0].dateLabel ?? '').includes('Last screening'), false);
 });
 
 test('6. Special Presentations preserves format/presentation labels', () => {

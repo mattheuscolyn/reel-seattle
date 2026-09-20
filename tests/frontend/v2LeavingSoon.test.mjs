@@ -172,22 +172,35 @@ test('Leaving Soon presentation title and no redundant subtitle', () => {
   assert.equal(LEAVING_SRC.includes('categoryChips={null}'), true);
 });
 
-test('Leaving Soon cards use shared card fields and last-screening copy', () => {
+test('Leaving Soon cards use shared card fields and booked-through copy', () => {
   assert.equal(formatLeavingDateShort('2026-09-14'), 'Sep 14');
-  assert.equal(buildLeavingDateLabel('2026-09-14'), 'Last screening Sep 14');
+  assert.equal(
+    buildLeavingDateLabel('2026-09-14'),
+    'Currently booked through Sep 14',
+  );
   assert.equal(buildLeavingDateLabel(null), null);
 
   const presentation = buildLiveLeavingSoonPresentation(homeWithLeaving());
   const sinners = presentation.films.find((film) => film.filmKey === 'sinners');
   assert.ok(sinners);
   assert.equal(sinners.badge, 'Last chance');
-  assert.equal(sinners.dateLabel, 'Last screening Sep 5');
+  assert.equal(sinners.dateLabel, 'Currently booked through Sep 5');
   assert.equal(sinners.maxShowDate, '2026-09-05');
   assert.equal(sinners.formatLabel, null);
   assert.deepEqual(sinners.formatLabels, []);
   assert.equal(sinners.formatLabels.includes('Closed Captions'), false);
   assert.match(CARD_SRC, /film\.dateLabel/);
   assert.match(CARD_SRC, /film\.theaterName/);
+  assert.equal(
+    JSON.stringify(presentation).includes('Last screening'),
+    false,
+  );
+});
+
+test('Leaving Soon default sort label describes booking horizon', () => {
+  assert.equal(LEAVING_SORT_OPTIONS[0].id, 'leaving-soonest');
+  assert.equal(LEAVING_SORT_OPTIONS[0].label, 'Booked through');
+  assert.equal(LEAVING_SORT_OPTIONS[0].label.includes('Leaving soonest'), false);
 });
 
 test('Leaving Soon aggregates unique theaters with +N more truncation', () => {
