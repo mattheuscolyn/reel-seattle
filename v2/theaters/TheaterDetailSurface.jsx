@@ -26,6 +26,9 @@ import {
 } from '../fixtures/theaterDetailMockupFixture.js';
 import { resolveTheaterDetailPagePresentation } from './resolveTheatersPagePresentation.js';
 import { TheaterVenueImage } from './TheaterVenueImage.jsx';
+import TheaterShowtimesFilterSheet from './TheaterShowtimesFilterSheet.jsx';
+import ShowtimeActionSheet from '../showtimes/ShowtimeActionSheet.jsx';
+import { resolveHomeOpportunity } from '../showtimes/resolveHomeOpportunity.js';
 import {
   isTheaterFavorite,
   toggleFavoriteTheater,
@@ -56,20 +59,6 @@ function getBrowserStorage() {
   } catch {
     return null;
   }
-}
-
-function firstActionableTimeId(presentation) {
-  const groups = presentation?.todaysShowtimes?.filmGroups ?? [];
-  for (const group of groups) {
-    const hit = (group.times ?? []).find((time) => time.actionable !== false);
-    if (hit) return hit.id;
-  }
-  const screens = presentation?.todaysShowtimes?.screens ?? [];
-  for (const screen of screens) {
-    const hit = (screen.times ?? []).find((time) => time.actionable !== false);
-    if (hit) return hit.id;
-  }
-  return null;
 }
 
 function TheaterTimeButton({
@@ -122,6 +111,8 @@ function TheaterTimeButton({
  *   onOpenFilmDetail?: (payload: { filmKey: string, opportunityKey?: string | null }) => void,
  *   onOpenShowtimesBrowse?: (payload: { theaterId: string }) => void,
  *   onStubAction?: (actionId: string, label: string) => void,
+ *   onAcceptedPlansChange?: () => void,
+ *   onViewPlanner?: () => void,
  * }} props
  */
 export default function TheaterDetailSurface({
@@ -131,6 +122,8 @@ export default function TheaterDetailSurface({
   onOpenFilmDetail,
   onOpenShowtimesBrowse,
   onStubAction,
+  onAcceptedPlansChange,
+  onViewPlanner,
 }) {
   const storage = getBrowserStorage();
   const [settingsTick, setSettingsTick] = useState(0);
@@ -138,20 +131,26 @@ export default function TheaterDetailSurface({
   void settingsTick;
   const timeFormatId = getScheduleSettings(storage).timeFormatId;
 
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [formatKeys, setFormatKeys] = useState(/** @type {string[]} */ ([]));
+  const [timeRangeId, setTimeRangeId] = useState('any');
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [actionSheet, setActionSheet] = useState(null);
+  const [favoriteRevision, setFavoriteRevision] = useState(0);
+  const stubStatusId = useId();
+  const [stubMessage, setStubMessage] = useState(null);
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
+  const [selectedTimeId, setSelectedTimeId] = useState(null);
+
   const { presentation } = resolveTheaterDetailPagePresentation({
     theaterId,
     homeData,
     enrichmentIndex,
     timeFormatId,
+    selectedDate,
+    formatKeys,
+    timeRangeId,
   });
-  const stubStatusId = useId();
-  const [stubMessage, setStubMessage] = useState(null);
-  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
-  const [screenTabId, setScreenTabId] = useState('all');
-  const [selectedTimeId, setSelectedTimeId] = useState(() =>
-    firstActionableTimeId(presentation),
-  );
-  const [favoriteRevision, setFavoriteRevision] = useState(0);
 
   const isFavorite = useMemo(() => {
     void favoriteRevision;
@@ -191,12 +190,9 @@ export default function TheaterDetailSurface({
 
   const filmGroups = presentation.todaysShowtimes?.filmGroups ?? [];
   const hasFilmGroups = filmGroups.length > 0;
-  const visibleScreens = (presentation.todaysShowtimes?.screens ?? []).filter(
-    (screen) => screenTabId === 'all' || screen.id === screenTabId,
-  );
-  const visibleFilmGroups = filmGroups.filter(
-    (group) => screenTabId === 'all' || group.id === screenTabId,
-  );
+  const dateChips = presentation.todaysShowtimes?.dateChips ?? [];
+  const activeFilterCount = presentation.todaysShowtimes?.activeFilterCount ?? 0;
+  const screens = presentation.todaysShowtimes?.screens ?? [];
 
   const sections = presentation.sectionsVisible ?? {
     address: Boolean(presentation.addressLabel),
@@ -543,63 +539,50 @@ export default function TheaterDetailSurface({
       >
         <div className="v2-td-section-head">
           <h2 id="v2-td-showtimes-h" className="v2-td-section-label">
-            {presentation.todaysShowtimes.title}
+            Showtimes
           </h2>
           <button
             type="button"
-            className="v2-td-link-btn"
-            onClick={() =>
-              announce(
-                'view-week',
-                presentation.todaysShowtimes.viewWeekLabel,
-                presentation.deferredMessages?.viewWeek,
-              )
+            className={
+              activeFilterCount > 0
+                ? 'v2-td-filters-btn is-active'
+                : 'v2-td-filters-btn'
             }
-          >
-            {presentation.todaysShowtimes.viewWeekLabel}
-          </button>
-        </div>
-
-        <div className="v2-td-showtimes-controls">
-          <div
-            className="v2-td-screen-tabs"
-            role="toolbar"
-            aria-label="Screens"
-          >
-            {presentation.todaysShowtimes.screenTabs.map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                className={
-                  screenTabId === tab.id
-                    ? 'v2-td-screen-tab v2-td-screen-tab-active'
-                    : 'v2-td-screen-tab'
-                }
-                aria-pressed={screenTabId === tab.id}
-                onClick={() => setScreenTabId(tab.id)}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-          <button
-            type="button"
-            className="v2-td-filters-btn"
-            onClick={() =>
-              announce(
-                'filters',
-                presentation.todaysShowtimes.filtersLabel,
-                presentation.deferredMessages?.filters,
-              )
-            }
+            aria-expanded={filtersOpen}
+            onClick={() => setFiltersOpen(true)}
           >
             <IconSliders aria-hidden="true" />
             {presentation.todaysShowtimes.filtersLabel}
+            {activeFilterCount > 0 ? (
+              <span className="v2-td-filter-count">{activeFilterCount}</span>
+            ) : null}
           </button>
         </div>
 
+        {dateChips.length > 0 ? (
+          <div className="v2-st-dates" role="toolbar" aria-label="Showtime dates">
+            {dateChips.map((chip) => (
+              <button
+                key={chip.id}
+                type="button"
+                className={
+                  presentation.todaysShowtimes.selectedDate === chip.id
+                    ? 'v2-st-date-chip is-active'
+                    : chip.isToday
+                      ? 'v2-st-date-chip is-today'
+                      : 'v2-st-date-chip'
+                }
+                aria-pressed={presentation.todaysShowtimes.selectedDate === chip.id}
+                onClick={() => setSelectedDate(chip.id)}
+              >
+                {chip.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
         {hasFilmGroups ? (
-          visibleFilmGroups.map((group) => (
+          filmGroups.map((group) => (
             <article
               key={group.id}
               className="v2-td-featured-film"
@@ -659,12 +642,28 @@ export default function TheaterDetailSurface({
                       selectedTimeId={selectedTimeId}
                       showFormat={showTimeFormats}
                       onSelect={(row) => {
-                        setSelectedTimeId(row.id);
-                        announce(
-                          'showtime',
-                          row.label,
-                          presentation.deferredMessages?.showtime,
+                        if (!row.opportunityKey) return;
+                        const opportunity = resolveHomeOpportunity(
+                          homeData,
+                          row.opportunityKey,
                         );
+                        if (!opportunity) return;
+                        setSelectedTimeId(row.id);
+                        setActionSheet({
+                          filmKey: row.filmKey || group.filmKey,
+                          opportunity,
+                          row: {
+                            opportunityKey: row.opportunityKey,
+                            filmKey: row.filmKey || group.filmKey,
+                            filmTitle: group.title,
+                            localDate: row.localDate,
+                            localTime: row.localTime,
+                            timeDisplay: row.label,
+                            theaterName: presentation.name,
+                            formatLabels: row.formatLabel ? [row.formatLabel] : [],
+                            ticketUrl: opportunity.ticketUrl ?? null,
+                          },
+                        });
                       }}
                     />
                   ));
@@ -672,6 +671,11 @@ export default function TheaterDetailSurface({
               </div>
             </article>
           ))
+        ) : dateChips.length > 0 ? (
+          <p className="v2-td-showtimes-empty" role="status">
+            {presentation.todaysShowtimes.emptyMessage ??
+              'No showtimes at this theater on this date.'}
+          </p>
         ) : presentation.todaysShowtimes.featuredFilm ? (
         <article className="v2-td-featured-film">
           <button
@@ -712,7 +716,7 @@ export default function TheaterDetailSurface({
             </span>
           </button>
 
-          {visibleScreens.map((screen) => (
+          {screens.map((screen) => (
             <div key={screen.id} className="v2-td-screen-block">
               <p className="v2-td-screen-label">
                 {screen.label}
@@ -743,7 +747,7 @@ export default function TheaterDetailSurface({
           ))}
         </article>
         ) : (
-          visibleScreens.map((screen) => (
+          screens.map((screen) => (
             <div key={screen.id} className="v2-td-screen-block">
               <p className="v2-td-screen-label">{screen.label}</p>
               <div
@@ -772,6 +776,31 @@ export default function TheaterDetailSurface({
         )}
       </section>
       ) : null}
+
+      <TheaterShowtimesFilterSheet
+        open={filtersOpen}
+        formatOptions={presentation.todaysShowtimes?.formatOptions ?? []}
+        appliedFormatKeys={formatKeys}
+        appliedTimeRangeId={timeRangeId}
+        onClose={() => setFiltersOpen(false)}
+        onApply={({ formatKeys: nextFormats, timeRangeId: nextTime }) => {
+          setFormatKeys(nextFormats);
+          setTimeRangeId(nextTime);
+          setFiltersOpen(false);
+        }}
+      />
+
+      <ShowtimeActionSheet
+        open={Boolean(actionSheet)}
+        onClose={() => setActionSheet(null)}
+        opportunity={actionSheet?.opportunity ?? null}
+        filmKey={actionSheet?.filmKey ?? null}
+        row={actionSheet?.row ?? null}
+        homeData={homeData}
+        enrichmentIndex={enrichmentIndex}
+        onPlansChanged={onAcceptedPlansChange}
+        onViewPlanner={onViewPlanner}
+      />
 
       <p
         id={stubStatusId}
