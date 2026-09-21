@@ -1,12 +1,12 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-09-20T03:33:38-07:00",
+  "generated_at": "2026-09-21T04:48:11-07:00",
   "timezone": "America/Los_Angeles",
   "window": {
-    "start_date": "2026-09-20",
-    "end_date": "2026-12-19",
+    "start_date": "2026-09-21",
+    "end_date": "2026-12-20",
     "days": 90,
-    "current_availability_cutoff": "2026-09-27",
+    "current_availability_cutoff": "2026-09-28",
     "current_availability_days": 7
   },
   "method": {
@@ -17,86 +17,86 @@
   "sources": {
     "amc_coming_soon_catalog": {
       "available": true,
-      "generated_at": "2026-09-20T03:33:34-07:00",
+      "generated_at": "2026-09-21T04:48:05-07:00",
       "fetch_status": "success",
-      "movies": 405
+      "movies": 404
     },
     "tmdb_us_theatrical": {
       "available": true,
-      "generated_at": "2026-09-20T03:33:34-07:00",
+      "generated_at": "2026-09-21T04:48:05-07:00",
       "fetch_status": "success",
-      "candidates": 303
+      "candidates": 300
     },
     "reel_seattle_showtimes": {
       "available": true,
-      "generated_at": "2026-09-20T03:25:38-07:00",
-      "published_window_end": "2027-09-19"
+      "generated_at": "2026-09-21T04:41:07-07:00",
+      "published_window_end": "2027-09-20"
     },
     "amc_theater_bookings": {
       "available": true,
-      "scrape_log": "data/daily_logs/2026-09-20_amc.json"
+      "scrape_log": "data/daily_logs/2026-09-21_amc.json"
     }
   },
   "stats": {
-    "entry_count": 236,
-    "user_visible_count": 236,
+    "entry_count": 248,
+    "user_visible_count": 248,
     "hidden_count": 0,
     "classification_counts": {
-      "confirmed_local": 135,
+      "confirmed_local": 147,
       "amc_announced": 101
     },
     "relevance_tier_counts": {
-      "confirmed_local": 135,
+      "confirmed_local": 147,
       "locally_announced": 0,
       "strongly_expected": 101,
       "weak_national_only": 0
     },
     "evidence_counts": {
-      "amc_coming_soon_catalog": 135,
-      "amc_theater_booking": 32,
+      "amc_coming_soon_catalog": 136,
+      "amc_theater_booking": 33,
       "tmdb_us_theatrical": 115,
-      "reel_seattle_scheduled": 135
+      "reel_seattle_scheduled": 147
     },
     "presentation_kind_counts": {
-      "film": 224,
+      "film": 236,
       "rerelease": 12
     },
     "presentation_source_counts": {
       "amc_catalog": 76,
       "confirmed_enrichment": 14,
-      "fallback": 100,
-      "inferred_tmdb": 46
+      "fallback": 111,
+      "inferred_tmdb": 47
     },
-    "entries_with_poster": 132,
-    "engagement_count": 32,
+    "entries_with_poster": 134,
+    "engagement_count": 31,
     "synthetic_film_group_count": 15,
     "horizon_counts": {
-      "30_days": 132,
-      "60_days": 200,
-      "90_days": 236
+      "30_days": 145,
+      "60_days": 218,
+      "90_days": 248
     },
     "earliest_expected_release_date": "2026-09-22",
     "latest_expected_release_date": "2026-12-18",
     "entries_with_confirmed_film_id": 14,
-    "entries_without_confirmed_film_id": 222,
+    "entries_without_confirmed_film_id": 234,
     "entries_with_tmdb_id": 120,
     "ambiguous_identity_count": 0,
     "duplicate_film_id_count": 0,
     "duplicate_join_key_count": 0,
-    "merged_candidate_count": 735,
+    "merged_candidate_count": 738,
     "collapsed_event_variants": 0,
     "excluded_counts": {
-      "currently_available": 84,
-      "expected_release_date_outside_window": 81,
+      "currently_available": 78,
+      "expected_release_date_outside_window": 82,
       "no_expected_release_date": 0,
       "insufficient_evidence": 0,
       "presentation_filter": 13
     },
     "analysis": {
       "path": "data/audits/coming_soon_candidates_current.json",
-      "entry_count": 570,
-      "tmdb_only_count": 177,
-      "weak_national_only_count": 138,
+      "entry_count": 578,
+      "tmdb_only_count": 175,
+      "weak_national_only_count": 135,
       "presentation_filtered_count": 13
     }
   },
@@ -183,7 +183,7 @@
           "tmdb_id": 1355388,
           "original_title": "Concessions",
           "original_language": "en",
-          "popularity": 1.526,
+          "popularity": 1.488,
           "vote_count": 0,
           "poster_path": "/u3nG83N5yOiQO3hbm0WqD0e0VEi.jpg",
           "backdrop_path": null,
@@ -278,7 +278,7 @@
           "tmdb_id": 1569461,
           "original_title": "Take Me Home",
           "original_language": "en",
-          "popularity": 2.794,
+          "popularity": 2.725,
           "vote_count": 0,
           "poster_path": "/oC9NQnmyPr5bcqog5sTKZofdQw7.jpg",
           "backdrop_path": null,
@@ -395,7 +395,7 @@
           "tmdb_id": 1437396,
           "original_title": "Your Mother Your Mother Your Mother",
           "original_language": "en",
-          "popularity": 5.629,
+          "popularity": 5.726,
           "vote_count": 0,
           "poster_path": "/4KaPZSKnInnArErTTgy9Oy14leR.jpg",
           "backdrop_path": null,
@@ -488,113 +488,11 @@
           "tmdb_id": 1732420,
           "original_title": "Power Trip",
           "original_language": "en",
-          "popularity": 2.528,
+          "popularity": 2.412,
           "vote_count": 0,
           "poster_path": "/eNcd1fIpeCMuIqacgdMfbKnHpVp.jpg",
           "backdrop_path": null,
           "overview": "A rideshare driver ends up in an unexpectedly complicated conversation with a passenger.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Pulp: What Do You Do for an Encore?",
-      "join_key": "pulp-what-do-you-do-for-an",
-      "parent_film_keys": [
-        "pulp-what-do-you-do-for-an"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1715598,
-      "amc_movie_id": "84603",
-      "amc_movie_ids": [
-        "84603"
-      ],
-      "expected_release_date": "2026-09-24",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-09-24",
-      "tmdb_us_release_date": "2026-09-24",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "strongly_expected",
-      "user_visible": true,
-      "engagements": [
-        {
-          "kind": "other_engagement",
-          "title": "Pulp: What Do You Do For An Encore?",
-          "amc_movie_id": "84603"
-        }
-      ],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/1htt5hSk2jIxwAvNIGibRIhfVCl.jpg",
-        "poster_path": "/1htt5hSk2jIxwAvNIGibRIhfVCl.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "In the spirit of Stop Making Sense and The Last Waltz, director Garth Jennings crafts a kinetic 90 minute movie that fuses the spectacle of Pulp's arena show with four decades of colourful archival material, charting Pulp's extraordinary journey from obscurity to cultural touchstone. Narrated by Pulp's iconic frontman, Jarvis Cocker and featuring twenty songs - hits and deep cuts - this movie is Pulp and Garth's spectacular answer to the question, 'What do you do for an encore?'",
-        "runtime_minutes": 98,
-        "rating": "NR",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": true,
-        "variant_titles": [
-          "Pulp: What Do You Do For An Encore?",
-          "Pulp: What Do You Do for an Encore?"
-        ],
-        "contributing_sources": [
-          "amc_catalog",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "84603",
-          "source_title": "Pulp: What Do You Do For An Encore?",
-          "has_scheduled_showtimes": false,
-          "online_ticket_availability_date_utc": "2026-09-24T05:00:00Z",
-          "earliest_showing_utc": null,
-          "runtime_min": 98,
-          "mpaa_rating": "NR",
-          "genre": "DOCUMENTARY",
-          "slug": "pulp-what-do-you-do-for-an-encore-84603",
-          "synopsis": "In the spirit of Stop Making Sense and The Last Waltz, director Garth Jennings crafts a kinetic 90 minute movie that fuses the spectacle of Pulp's arena show with four decades of colourful archival material, charting Pulp's extraordinary journey from obscurity to cultural touchstone. Narrated by Pulp's iconic frontman, Jarvis Cocker and featuring twenty songs - hits and deep cuts - this movie is Pulp and Garth's spectacular answer to the question, 'What do you do for an encore?'",
-          "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "concert_or_event",
-          "is_special_presentation": true
-        },
-        "tmdb": {
-          "tmdb_id": 1715598,
-          "original_title": "Pulp: What Do You Do for an Encore?",
-          "original_language": "en",
-          "popularity": 1.791,
-          "vote_count": 0,
-          "poster_path": "/1htt5hSk2jIxwAvNIGibRIhfVCl.jpg",
-          "backdrop_path": null,
-          "overview": "A fusion of the brilliantly choreographed stage spectacle of Pulp’s biggest ever arena show — part of the global tour for More, the band’s first album in 24 years — with four decades of colorful, never-seen-before archival material.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": [
@@ -685,7 +583,7 @@
           "tmdb_id": 1578079,
           "original_title": "டோரதி",
           "original_language": "ta",
-          "popularity": 3.35,
+          "popularity": 3.051,
           "vote_count": 0,
           "poster_path": "/3RnxzfJ66aKrb7TIxsozj1DkWtU.jpg",
           "backdrop_path": null,
@@ -778,7 +676,7 @@
           "tmdb_id": 1044945,
           "original_title": "Hellbilly Hollow",
           "original_language": "en",
-          "popularity": 2.399,
+          "popularity": 2.541,
           "vote_count": 0,
           "poster_path": "/y0gNZQqqfzP9MuDxbVQKbSCzhLs.jpg",
           "backdrop_path": null,
@@ -874,7 +772,7 @@
           "tmdb_id": 1086037,
           "original_title": "Long Day's Journey into Night",
           "original_language": "en",
-          "popularity": 2.86,
+          "popularity": 2.556,
           "vote_count": 0,
           "poster_path": "/nFupOsOEWt0Q0olnqugNKR690Hn.jpg",
           "backdrop_path": null,
@@ -969,7 +867,7 @@
           "tmdb_id": 1629051,
           "original_title": "Never After Dark",
           "original_language": "ja",
-          "popularity": 3.223,
+          "popularity": 3.767,
           "vote_count": 4,
           "poster_path": "/jguB76QbAx6yExiOLIPvOaxW95b.jpg",
           "backdrop_path": null,
@@ -1062,7 +960,7 @@
           "tmdb_id": 1376856,
           "original_title": "ది ప్యారడైస్",
           "original_language": "te",
-          "popularity": 6.226,
+          "popularity": 6.224,
           "vote_count": 0,
           "poster_path": "/9k5F5Lk2bUP7ODifk1KP5Vw8yGm.jpg",
           "backdrop_path": null,
@@ -1155,7 +1053,7 @@
           "tmdb_id": 1474107,
           "original_title": "The Route to Cappyness",
           "original_language": "en",
-          "popularity": 1.334,
+          "popularity": 1.145,
           "vote_count": 0,
           "poster_path": "/7scUsql29Jvddblgy6MP9UiWJoz.jpg",
           "backdrop_path": null,
@@ -1250,7 +1148,7 @@
           "tmdb_id": 1562777,
           "original_title": "The Stunt Driver",
           "original_language": "en",
-          "popularity": 2.631,
+          "popularity": 2.97,
           "vote_count": 0,
           "poster_path": "/jFiMdTG8Hw41A3VxrzLEWtMFIYX.jpg",
           "backdrop_path": null,
@@ -1265,22 +1163,22 @@
     },
     {
       "film_id": null,
-      "title": "The Open Road: Wanda",
-      "join_key": "open-road-wanda",
+      "title": "Don’t Play With Fire – New Restoration",
+      "join_key": "don-t-play-with-fire-new-restoration",
       "parent_film_keys": [
-        "open-road-wanda"
+        "don-t-play-with-fire-new-restoration"
       ],
       "showtime_film_keys": [
-        "open-road-wanda"
+        "don-t-play-with-fire-new-restoration"
       ],
       "tmdb_id": null,
       "amc_movie_id": null,
       "amc_movie_ids": [],
-      "expected_release_date": "2026-09-28",
+      "expected_release_date": "2026-09-29",
       "expected_release_date_source": "reel_seattle_first_local_screening",
       "amc_catalog_release_date": null,
       "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-09-28",
+      "first_local_screening_date": "2026-09-29",
       "first_local_screening_source": "reel_seattle_showtimes",
       "local_status": "scheduled",
       "local_theater_ids": [
@@ -1293,7 +1191,7 @@
         }
       ],
       "local_theater_count": 1,
-      "local_showtime_count": 1,
+      "local_showtime_count": 2,
       "evidence": {
         "amc_coming_soon_catalog": false,
         "amc_theater_booking": false,
@@ -1323,7 +1221,7 @@
         "ambiguous": false,
         "synthetic_film_group": false,
         "variant_titles": [
-          "The Open Road: Wanda"
+          "Don’t Play With Fire – New Restoration"
         ],
         "contributing_sources": [
           "reel_seattle"
@@ -1645,7 +1543,7 @@
           "tmdb_id": 1388805,
           "original_title": "LINKIN PARK: UNSHATTER",
           "original_language": "en",
-          "popularity": 5.255,
+          "popularity": 4.849,
           "vote_count": 0,
           "poster_path": "/kHNrz7DBVPrtyMhJxmBm2poS2l9.jpg",
           "backdrop_path": null,
@@ -1859,7 +1757,7 @@
           "tmdb_id": 1283515,
           "original_title": "Verity",
           "original_language": "en",
-          "popularity": 16.402,
+          "popularity": 17.381,
           "vote_count": 0,
           "poster_path": "/7ZgjGeacN0PwenoQX4DjI4FlN6Z.jpg",
           "backdrop_path": null,
@@ -1952,7 +1850,7 @@
           "tmdb_id": 1735772,
           "original_title": "Camp Duval",
           "original_language": "en",
-          "popularity": 1.706,
+          "popularity": 2.168,
           "vote_count": 0,
           "poster_path": "/g9aRX7Lwrtl3TfKbb6BLJTOh7k5.jpg",
           "backdrop_path": null,
@@ -2242,12 +2140,11 @@
       "tmdb_id": 1554956,
       "amc_movie_id": "84881",
       "amc_movie_ids": [
-        "84881",
-        "84941"
+        "84881"
       ],
       "expected_release_date": "2026-10-01",
       "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": "2026-09-21",
+      "amc_catalog_release_date": "2026-09-25",
       "tmdb_us_release_date": "2026-09-25",
       "first_local_screening_date": "2026-10-01",
       "first_local_screening_source": "amc_theater_booking",
@@ -2282,13 +2179,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "engagements": [
-        {
-          "kind": "early_access",
-          "title": "THE INCOMER Early Access with Domhnall Gleeson Q&A",
-          "amc_movie_id": "84941"
-        }
-      ],
+      "engagements": [],
       "presentation": {
         "kind": "film",
         "source": "confirmed_enrichment",
@@ -2308,7 +2199,6 @@
         "ambiguous": false,
         "synthetic_film_group": false,
         "variant_titles": [
-          "THE INCOMER Early Access with Domhnall Gleeson Q&A",
           "The Incomer"
         ],
         "contributing_sources": [
@@ -2340,7 +2230,7 @@
           "tmdb_id": 1554956,
           "original_title": "The Incomer",
           "original_language": "en",
-          "popularity": 4.645,
+          "popularity": 4.851,
           "vote_count": 4,
           "poster_path": "/iccroKK1eUTdCnLfmp7I3YXwAKF.jpg",
           "backdrop_path": null,
@@ -2449,7 +2339,7 @@
           "tmdb_id": 1654086,
           "original_title": "The Influencer Project",
           "original_language": "en",
-          "popularity": 1.799,
+          "popularity": 1.899,
           "vote_count": 0,
           "poster_path": "/3yolfJrhMf8XvfKVlBB6Zetn2wS.jpg",
           "backdrop_path": null,
@@ -2686,7 +2576,7 @@
           "tmdb_id": 1740387,
           "original_title": "आचार्य",
           "original_language": "ne",
-          "popularity": 2.684,
+          "popularity": 2.627,
           "vote_count": 0,
           "poster_path": "/z3z4hK7E2UZvF8hhKu3iKZyZJvw.jpg",
           "backdrop_path": null,
@@ -2781,7 +2671,7 @@
           "tmdb_id": 1515692,
           "original_title": "பத்தா",
           "original_language": "ta",
-          "popularity": 2.541,
+          "popularity": 2.446,
           "vote_count": 0,
           "poster_path": "/bsFSlIwsH0Lrqo9TtGv4KwvgKS1.jpg",
           "backdrop_path": null,
@@ -2876,7 +2766,7 @@
           "tmdb_id": 1559764,
           "original_title": "The Trial of Alec Baldwin",
           "original_language": "en",
-          "popularity": 2.059,
+          "popularity": 2.42,
           "vote_count": 0,
           "poster_path": null,
           "backdrop_path": null,
@@ -3949,7 +3839,7 @@
           "tmdb_id": 1403676,
           "original_title": "April X",
           "original_language": "en",
-          "popularity": 3.3,
+          "popularity": 3.278,
           "vote_count": 0,
           "poster_path": "/3QrpmL3VLFkKwW1VUpq46RhCj3X.jpg",
           "backdrop_path": null,
@@ -4042,7 +3932,7 @@
           "tmdb_id": 1484085,
           "original_title": "Atonement",
           "original_language": "en",
-          "popularity": 2.062,
+          "popularity": 2.169,
           "vote_count": 0,
           "poster_path": "/ajiuCAvkuPiRJ4E6ymKmOx9W1rD.jpg",
           "backdrop_path": null,
@@ -4139,7 +4029,7 @@
           "tmdb_id": 1244523,
           "original_title": "Beware Boiúna",
           "original_language": "en",
-          "popularity": 10.398,
+          "popularity": 10.633,
           "vote_count": 0,
           "poster_path": "/tENVMxKvOkslv8kagVNdIEQ13RT.jpg",
           "backdrop_path": null,
@@ -4232,7 +4122,7 @@
           "tmdb_id": 1248832,
           "original_title": "Digger",
           "original_language": "en",
-          "popularity": 23.659,
+          "popularity": 24.316,
           "vote_count": 0,
           "poster_path": "/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg",
           "backdrop_path": null,
@@ -4326,7 +4216,7 @@
           "tmdb_id": 1269325,
           "original_title": "दृश्यम्: द कन्क्लूजन",
           "original_language": "hi",
-          "popularity": 5.9,
+          "popularity": 5.57,
           "vote_count": 0,
           "poster_path": "/7T62GSduOWDMB0gGDBs9pmtLTSB.jpg",
           "backdrop_path": null,
@@ -4419,7 +4309,7 @@
           "tmdb_id": 1393326,
           "original_title": "Ghost in the Cell",
           "original_language": "id",
-          "popularity": 116.013,
+          "popularity": 108.49,
           "vote_count": 67,
           "poster_path": "/zxcMdx0w5Zmg8yZuuiS7CJ8vOea.jpg",
           "backdrop_path": null,
@@ -4512,7 +4402,7 @@
           "tmdb_id": 853777,
           "original_title": "Journey",
           "original_language": "en",
-          "popularity": 0.944,
+          "popularity": 1.01,
           "vote_count": 0,
           "poster_path": "/vAILXfSi0izyHE3VaqxyjRLtiXw.jpg",
           "backdrop_path": null,
@@ -4520,7 +4410,6 @@
           "has_poster": true,
           "has_overview": true,
           "quality_flags": [
-            "very_low_popularity",
             "no_votes_and_low_popularity"
           ]
         }
@@ -4563,8 +4452,8 @@
       "presentation": {
         "kind": "film",
         "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/m47qTIbhtVlgawG6WJ5Ura5IZvI.jpg",
-        "poster_path": "/m47qTIbhtVlgawG6WJ5Ura5IZvI.jpg",
+        "poster_url": "https://image.tmdb.org/t/p/w500/5Z2e8UCzVVsHjuqDIZvOdQhySht.jpg",
+        "poster_path": "/5Z2e8UCzVVsHjuqDIZvOdQhySht.jpg",
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "Riggle stars as Tom Monroe, a successful entrepreneur and devoted family man who has never recovered from the tragic motorcycle accident that claimed his older brother's life when he was a teenager. Thirty years later, after his neighbor's son, Mitch Diller (Aaron Holliday), is involved in a devastating motorcycle crash, Tom begins to believe his brother's spirit may have returned. His search for answers impacts everyone closest to him including his daughter (Odessa A'zion), and his wife (Bitsie Tulloch) as the film is forced to confront grief, faith and the possibility of second chances.",
@@ -4608,9 +4497,9 @@
           "tmdb_id": 1313826,
           "original_title": "Nickels",
           "original_language": "en",
-          "popularity": 1.328,
+          "popularity": 1.626,
           "vote_count": 0,
-          "poster_path": "/m47qTIbhtVlgawG6WJ5Ura5IZvI.jpg",
+          "poster_path": "/5Z2e8UCzVVsHjuqDIZvOdQhySht.jpg",
           "backdrop_path": null,
           "overview": "A successful entrepreneur and family man is involved in a bike accident involving his neighbor's son, triggering memories of his older brother's tragic death 30 years earlier.",
           "has_poster": true,
@@ -4703,7 +4592,7 @@
           "tmdb_id": 1596303,
           "original_title": "The Last First: Winter K2",
           "original_language": "en",
-          "popularity": 5.992,
+          "popularity": 7.048,
           "vote_count": 0,
           "poster_path": "/6pavyVdI2z7PlOUwB7nlnhLRSgl.jpg",
           "backdrop_path": null,
@@ -4712,6 +4601,148 @@
           "has_overview": true,
           "quality_flags": []
         }
+      }
+    },
+    {
+      "film_id": null,
+      "title": "From Beyond",
+      "join_key": "from-beyond",
+      "parent_film_keys": [
+        "from-beyond"
+      ],
+      "showtime_film_keys": [
+        "from-beyond"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-03",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-03",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "From Beyond"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Society",
+      "join_key": "society",
+      "parent_film_keys": [
+        "society"
+      ],
+      "showtime_film_keys": [
+        "society"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-03",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-03",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Society"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
       }
     },
     {
@@ -4796,7 +4827,7 @@
           "tmdb_id": 1767753,
           "original_title": "Jet Lag: The Game Japanorama Finale",
           "original_language": "en",
-          "popularity": 1.245,
+          "popularity": 1.526,
           "vote_count": 0,
           "poster_path": "/lQcOXNIiSvl9zNCw8hOa2NyMYek.jpg",
           "backdrop_path": null,
@@ -4911,6 +4942,77 @@
       }
     },
     {
+      "film_id": null,
+      "title": "EGG",
+      "join_key": "egg",
+      "parent_film_keys": [
+        "egg"
+      ],
+      "showtime_film_keys": [
+        "egg"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-04",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-04",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "EGG"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
       "film_id": "tmdb:14282",
       "title": "Ninja Scroll",
       "join_key": "ninja-scroll",
@@ -5003,6 +5105,77 @@
           "presentation_category": "concert_or_event",
           "is_special_presentation": true
         },
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Session 9 (with Climax Golden Twins!)",
+      "join_key": "session-9-with-climax-golden-twins",
+      "parent_film_keys": [
+        "session-9-with-climax-golden-twins"
+      ],
+      "showtime_film_keys": [
+        "session-9-with-climax-golden-twins"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-04",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-04",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Session 9 (with Climax Golden Twins!)"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
         "tmdb": null
       }
     },
@@ -5254,6 +5427,77 @@
     },
     {
       "film_id": null,
+      "title": "An Aria on Gazes – New Restoration",
+      "join_key": "aria-on-gazes-new-restoration",
+      "parent_film_keys": [
+        "aria-on-gazes-new-restoration"
+      ],
+      "showtime_film_keys": [
+        "aria-on-gazes-new-restoration"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-06",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-06",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "An Aria on Gazes – New Restoration"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
       "title": "Narrow Margin Release Party: Buchanan Rides Alone",
       "join_key": "narrow-margin-release-party-buchanan-rides-alone",
       "parent_film_keys": [
@@ -5313,6 +5557,77 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "Narrow Margin Release Party: Buchanan Rides Alone"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Videodrome: The Director’s Cut",
+      "join_key": "videodrome-the-director-s-cut",
+      "parent_film_keys": [
+        "videodrome-the-director-s-cut"
+      ],
+      "showtime_film_keys": [
+        "videodrome-the-director-s-cut"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-06",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-06",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Videodrome: The Director’s Cut"
         ],
         "contributing_sources": [
           "reel_seattle"
@@ -5562,8 +5877,8 @@
           "tmdb_id": 1401459,
           "original_title": "Fjord",
           "original_language": "ro",
-          "popularity": 8.891,
-          "vote_count": 72,
+          "popularity": 9.102,
+          "vote_count": 74,
           "poster_path": "/3PPPIeSdeivjUn3O9RahGiaJ9b8.jpg",
           "backdrop_path": null,
           "overview": "Following the deaths of Mihai's parents, Mihai and Lisbeth Gheorghiu leave their life behind in Romania and move with their children to a remote village in Norway, hoping to rebuild their lives near Lisbeth's family. There, they grow close to their neighbors, the Halbergs, whose warmth gives them hope for a fresh start. But the fragile peace begins to unravel when the Gheorghiu family’s young daughter, Elia, arrives at school covered in bruises.",
@@ -5676,7 +5991,7 @@
           "tmdb_id": 1669915,
           "original_title": "Angel and the Badman",
           "original_language": "en",
-          "popularity": 2.837,
+          "popularity": 2.882,
           "vote_count": 0,
           "poster_path": "/igrWgzlxwHLzuNUrL4agCNmRfDi.jpg",
           "backdrop_path": null,
@@ -5924,9 +6239,9 @@
           "tmdb_id": 1400837,
           "original_title": "Other Mommy",
           "original_language": "en",
-          "popularity": 27.604,
+          "popularity": 27.585,
           "vote_count": 0,
-          "poster_path": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg",
+          "poster_path": "/mH3eovbLEK38DmVZ4nHSORpzuVI.jpg",
           "backdrop_path": null,
           "overview": "A young girl, Bela, forms a relationship with a sinister entity in her home who looks uncannily like her own mother.",
           "has_poster": true,
@@ -6388,7 +6703,7 @@
           "tmdb_id": 1755291,
           "original_title": "NAZA",
           "original_language": "en",
-          "popularity": 11.026,
+          "popularity": 9.401,
           "vote_count": 0,
           "poster_path": "/aXlTjDmbYVNjGWt256MWeYVKFN.jpg",
           "backdrop_path": null,
@@ -6491,7 +6806,7 @@
           "tmdb_id": 1403519,
           "original_title": "The Scout",
           "original_language": "en",
-          "popularity": 1.743,
+          "popularity": 1.85,
           "vote_count": 0,
           "poster_path": "/6cKjHu5Jog6wb65leue376lgSqY.jpg",
           "backdrop_path": null,
@@ -6728,14 +7043,16 @@
           "tmdb_id": 1241046,
           "original_title": "A Prayer for the Dying",
           "original_language": "en",
-          "popularity": 3.0,
+          "popularity": 2.692,
           "vote_count": 0,
           "poster_path": "/kYIhGPwr5ztkvnRcD4GzZGfuNhv.jpg",
           "backdrop_path": null,
           "overview": "In 1870 Friendship, Wisconsin, a small town of Scandinavian settlers still suffering the repercussions of the recent Civil War. When faced with a new and even deadlier threat, one man is forced to make a harrowing choice: save his young family or defend the community that gave him a second chance at life and meaning.",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": []
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
         }
       }
     },
@@ -6823,7 +7140,7 @@
           "tmdb_id": 1557817,
           "original_title": "André Leon Talley — Style is Forever",
           "original_language": "en",
-          "popularity": 0.772,
+          "popularity": 0.711,
           "vote_count": 0,
           "poster_path": "/tXu0gXfAtTOKFhScTCfsfzb6wFv.jpg",
           "backdrop_path": null,
@@ -6919,7 +7236,7 @@
           "tmdb_id": 1236045,
           "original_title": "Animals",
           "original_language": "en",
-          "popularity": 6.304,
+          "popularity": 6.249,
           "vote_count": 0,
           "poster_path": "/cyltXU1lAGhRFBuHQIMWBAPj8fI.jpg",
           "backdrop_path": null,
@@ -7002,9 +7319,9 @@
         "amc": {
           "amc_movie_id": "80751",
           "source_title": "California Schemin'",
-          "has_scheduled_showtimes": false,
+          "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
-          "earliest_showing_utc": null,
+          "earliest_showing_utc": "2026-10-15T19:00:00Z",
           "runtime_min": 101,
           "mpaa_rating": "R",
           "genre": "DRAMA",
@@ -7020,7 +7337,7 @@
           "tmdb_id": 1193550,
           "original_title": "California Schemin'",
           "original_language": "en",
-          "popularity": 2.278,
+          "popularity": 2.224,
           "vote_count": 7,
           "poster_path": "/2tYRbCPZVQD1AjZ6YGMRx71lbDU.jpg",
           "backdrop_path": null,
@@ -7113,7 +7430,7 @@
           "tmdb_id": 1443151,
           "original_title": "Double Trouble",
           "original_language": "en",
-          "popularity": 4.371,
+          "popularity": 4.334,
           "vote_count": 0,
           "poster_path": "/2ecp59fHPF5Uq6vRQ6CJtyx4iAp.jpg",
           "backdrop_path": null,
@@ -7206,7 +7523,7 @@
           "tmdb_id": 1651316,
           "original_title": "Eh Din Roz Ni Aune",
           "original_language": "pa",
-          "popularity": 0.838,
+          "popularity": 0.769,
           "vote_count": 0,
           "poster_path": "/6Xb3U9L59uZ0eoiSXA81FjesfDT.jpg",
           "backdrop_path": null,
@@ -7302,7 +7619,7 @@
           "tmdb_id": 1308980,
           "original_title": "Falling",
           "original_language": "en",
-          "popularity": 1.103,
+          "popularity": 0.969,
           "vote_count": 0,
           "poster_path": null,
           "backdrop_path": null,
@@ -7311,6 +7628,7 @@
           "has_overview": true,
           "quality_flags": [
             "missing_poster",
+            "very_low_popularity",
             "no_votes_and_low_popularity"
           ]
         }
@@ -7398,7 +7716,7 @@
           "tmdb_id": 1381221,
           "original_title": "Misty Green",
           "original_language": "en",
-          "popularity": 2.665,
+          "popularity": 2.483,
           "vote_count": 0,
           "poster_path": "/qOFIOfZzteCoiOFjXDvqTgBnUTz.jpg",
           "backdrop_path": null,
@@ -7493,7 +7811,7 @@
           "tmdb_id": 1572116,
           "original_title": "Monster Mia",
           "original_language": "de",
-          "popularity": 4.896,
+          "popularity": 4.415,
           "vote_count": 3,
           "poster_path": "/9I2w1Sw4DrcQpe2VNvduvUNkVkW.jpg",
           "backdrop_path": null,
@@ -7594,7 +7912,7 @@
           "tmdb_id": 1096228,
           "original_title": "Musk",
           "original_language": "en",
-          "popularity": 2.853,
+          "popularity": 2.758,
           "vote_count": 0,
           "poster_path": "/6Gd6yXlfHALsEEiXxd1ypUA2dRI.jpg",
           "backdrop_path": null,
@@ -7689,7 +8007,7 @@
           "tmdb_id": 1594307,
           "original_title": "My Undesirable Friends: Part II - Exile",
           "original_language": "en",
-          "popularity": 1.325,
+          "popularity": 1.467,
           "vote_count": 0,
           "poster_path": "/tFOToWNgd48Y8JQ2PUHEN5Hx6ju.jpg",
           "backdrop_path": null,
@@ -7785,7 +8103,7 @@
           "tmdb_id": 1391021,
           "original_title": "欢迎来龙餐馆",
           "original_language": "zh",
-          "popularity": 13.732,
+          "popularity": 12.815,
           "vote_count": 40,
           "poster_path": "/wAuGgXjA7GV8NrKfmUKl2AP8vqG.jpg",
           "backdrop_path": null,
@@ -7878,7 +8196,7 @@
           "tmdb_id": 1756286,
           "original_title": "Portrait of an Artist: Stephen Curry",
           "original_language": "en",
-          "popularity": 1.827,
+          "popularity": 2.008,
           "vote_count": 0,
           "poster_path": "/bKVscDx3dWrOwZuy0X1WMlOUNWN.jpg",
           "backdrop_path": null,
@@ -7973,7 +8291,7 @@
           "tmdb_id": 1185344,
           "original_title": "The Beast",
           "original_language": "en",
-          "popularity": 2.314,
+          "popularity": 2.042,
           "vote_count": 0,
           "poster_path": "/rH6xnAWY1Asb0DlIczPXzVig5cI.jpg",
           "backdrop_path": null,
@@ -8069,7 +8387,7 @@
           "tmdb_id": 1746535,
           "original_title": "The Sixty Year Mission: How Star Trek Changed Television and the World",
           "original_language": "en",
-          "popularity": 1.61,
+          "popularity": 1.452,
           "vote_count": 0,
           "poster_path": "/wcG2Mr4HQbIlQMc3N3O3izG7CZj.jpg",
           "backdrop_path": null,
@@ -8164,7 +8482,7 @@
           "tmdb_id": 1281331,
           "original_title": "The Social Reckoning",
           "original_language": "en",
-          "popularity": 10.839,
+          "popularity": 11.294,
           "vote_count": 0,
           "poster_path": "/qZr5bxGXE1t2A9pNSikb9fQKzov.jpg",
           "backdrop_path": null,
@@ -8257,7 +8575,7 @@
           "tmdb_id": 1630237,
           "original_title": "Treasure Trekkers",
           "original_language": "en",
-          "popularity": 2.692,
+          "popularity": 2.688,
           "vote_count": 0,
           "poster_path": "/3xENFcu7Efyg1jtNUCCpUE0jJLW.jpg",
           "backdrop_path": null,
@@ -8352,7 +8670,7 @@
           "tmdb_id": 1375156,
           "original_title": "उड़ता तीर",
           "original_language": "hi",
-          "popularity": 2.187,
+          "popularity": 2.21,
           "vote_count": 0,
           "poster_path": "/mC1e8e9L42DKGeq4FMSEThuTTLC.jpg",
           "backdrop_path": null,
@@ -8783,7 +9101,7 @@
           "tmdb_id": 1768029,
           "original_title": "Grandmasters",
           "original_language": "en",
-          "popularity": 4.168,
+          "popularity": 5.144,
           "vote_count": 0,
           "poster_path": "/aKK1YpNUe8HX0SA2uANo11SXM7M.jpg",
           "backdrop_path": null,
@@ -9089,7 +9407,7 @@
           "tmdb_id": 1489932,
           "original_title": "Always Lalisa",
           "original_language": "en",
-          "popularity": 3.965,
+          "popularity": 4.243,
           "vote_count": 0,
           "poster_path": "/pOZnrUX1UMblLiqq9ZtZUde3cQV.jpg",
           "backdrop_path": null,
@@ -9414,7 +9732,7 @@
           "tmdb_id": 1401433,
           "original_title": "Appofeniacs",
           "original_language": "en",
-          "popularity": 2.026,
+          "popularity": 2.028,
           "vote_count": 0,
           "poster_path": "/6uKZM73i8HnR3wmrGWzxHtjmvYb.jpg",
           "backdrop_path": null,
@@ -9590,6 +9908,118 @@
           "hero_mobile_url": null,
           "presentation_category": "standard",
           "is_special_presentation": false
+        },
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Street Fighter: Bonus Round",
+      "join_key": "street-fighter-bonus-round",
+      "parent_film_keys": [
+        "street-fighter-bonus-round"
+      ],
+      "showtime_film_keys": [
+        "street-fighter-bonus-round-fan-event"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": "85061",
+      "amc_movie_ids": [
+        "85061"
+      ],
+      "expected_release_date": "2026-10-15",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": "2026-10-15",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-15",
+      "first_local_screening_source": "amc_theater_booking",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "amc-alderwood-mall-16",
+        "amc-kent-station-14",
+        "amc-southcenter-16",
+        "amc-woodinville-12"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "name": "AMC Woodinville 12"
+        }
+      ],
+      "local_theater_count": 4,
+      "local_showtime_count": 6,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": true,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [
+        {
+          "kind": "fan_event",
+          "title": "Street Fighter: Bonus Round Fan Event",
+          "amc_movie_id": "85061"
+        }
+      ],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1789156371/amc-cdn/content/general/lnicnk57yur8aik4yo9t.jpg",
+        "poster_path": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1789156393/amc-cdn/content/general/zzfqj8qchlll2kxvmemx.jpg",
+        "backdrop_path": null,
+        "overview": "Set in 1993, estranged Street Fighters Ryu (Andrew Koji) and Ken Masters (Noah Centineo) are thrown back into combat when the mysterious Chun-Li (Callina Liang) recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don’t, it’s GAME OVER!\nHelmed by director Kitao Sakurai, Street Fighter is set to bring the battle from the arcade to the big screen with Hadoukens, roundhouses, and all your favorite characters.",
+        "runtime_minutes": 126,
+        "rating": "PG13",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": true,
+        "variant_titles": [
+          "Street Fighter: Bonus Round Fan Event"
+        ],
+        "contributing_sources": [
+          "amc_booking",
+          "amc_catalog",
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85061",
+          "source_title": "Street Fighter: Bonus Round Fan Event",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-10-15T05:00:00Z",
+          "earliest_showing_utc": "2026-10-15T19:00:00Z",
+          "runtime_min": 126,
+          "mpaa_rating": "PG13",
+          "genre": null,
+          "slug": "street-fighter-bonus-round-fan-event-85061",
+          "synopsis": "Set in 1993, estranged Street Fighters Ryu (Andrew Koji) and Ken Masters (Noah Centineo) are thrown back into combat when the mysterious Chun-Li (Callina Liang) recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don’t, it’s GAME OVER!\nHelmed by director Kitao Sakurai, Street Fighter is set to bring the battle from the arcade to the big screen with Hadoukens, roundhouses, and all your favorite characters.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1789156371/amc-cdn/content/general/lnicnk57yur8aik4yo9t.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789156393/amc-cdn/content/general/zzfqj8qchlll2kxvmemx.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789156393/amc-cdn/content/general/zzfqj8qchlll2kxvmemx.jpg",
+          "presentation_category": "concert_or_event",
+          "is_special_presentation": true
         },
         "tmdb": null
       }
@@ -9960,7 +10390,7 @@
           "tmdb_id": 1496696,
           "original_title": "Breeder",
           "original_language": "en",
-          "popularity": 8.029,
+          "popularity": 7.827,
           "vote_count": 0,
           "poster_path": "/1ru0fNB2dy6cjVXwGnzd8jgMQEn.jpg",
           "backdrop_path": null,
@@ -10007,9 +10437,9 @@
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": null,
-        "poster_path": null,
+        "source": "inferred_tmdb",
+        "poster_url": "https://image.tmdb.org/t/p/w500/g5qpNDC5vLb3aTuPTqddfSqzuEy.jpg",
+        "poster_path": "/g5qpNDC5vLb3aTuPTqddfSqzuEy.jpg",
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "When respected minister Brielle Burns learns she's pregnant at 45, her carefully planned future unravels. Under scrutiny from family, friends, and her church, she must confront faith, fear, and responsibility to find courage to find in a life-changing season. Based on a true story, this inspiring drama explores the power of faith in life's most unexpected moments.",
@@ -10053,15 +10483,14 @@
           "tmdb_id": 1744879,
           "original_title": "Conceivable",
           "original_language": "en",
-          "popularity": 2.248,
+          "popularity": 2.413,
           "vote_count": 0,
-          "poster_path": null,
+          "poster_path": "/g5qpNDC5vLb3aTuPTqddfSqzuEy.jpg",
           "backdrop_path": null,
           "overview": "When faced with an unexpected pregnancy, a couple in midlife must navigate their beliefs, relationships, and the support of their community. A compelling story that explores the complexities of family, faith, and the choices that define us.",
-          "has_poster": false,
+          "has_poster": true,
           "has_overview": true,
           "quality_flags": [
-            "missing_poster",
             "no_votes_and_low_popularity"
           ]
         }
@@ -10149,7 +10578,7 @@
           "tmdb_id": 1376400,
           "original_title": "Crawlers",
           "original_language": "en",
-          "popularity": 4.239,
+          "popularity": 4.594,
           "vote_count": 0,
           "poster_path": "/lNXeEpg4yLSRwXwOeR5lbPgwbqL.jpg",
           "backdrop_path": null,
@@ -10242,7 +10671,7 @@
           "tmdb_id": 1511171,
           "original_title": "A Virada: Ignição da Alma",
           "original_language": "pt",
-          "popularity": 2.016,
+          "popularity": 2.176,
           "vote_count": 0,
           "poster_path": "/lwt3hYZ8brDke280XpgvXu2M4kt.jpg",
           "backdrop_path": null,
@@ -10338,9 +10767,9 @@
           "tmdb_id": 1422041,
           "original_title": "La bola negra",
           "original_language": "es",
-          "popularity": 7.451,
+          "popularity": 7.962,
           "vote_count": 0,
-          "poster_path": "/4omaYktw4VYkk5Tkq7rmUsWnQa5.jpg",
+          "poster_path": "/oNvDkdJ0Ykx4sOrcxsFtE6LoOS.jpg",
           "backdrop_path": null,
           "overview": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy.",
           "has_poster": true,
@@ -10439,14 +10868,16 @@
           "tmdb_id": 1596300,
           "original_title": "Once Upon a Time in Harlem",
           "original_language": "en",
-          "popularity": 3.131,
+          "popularity": 2.883,
           "vote_count": 0,
           "poster_path": "/9eukk5gby8NZCwraiC7mloZmasP.jpg",
           "backdrop_path": null,
           "overview": "A decade after his death, genre-defying filmmaker William Greaves has one last trick up his sleeve with what he considered the most important event he captured on film: a 1972 party he engineered with the living luminaries of the Harlem Renaissance.",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": []
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
         }
       }
     },
@@ -10516,7 +10947,7 @@
           "source_title": "Sense and Sensibility",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
-          "earliest_showing_utc": "2026-10-15T16:30:00Z",
+          "earliest_showing_utc": "2026-10-15T14:00:00Z",
           "runtime_min": 131,
           "mpaa_rating": "PG",
           "genre": "DRAMA",
@@ -10532,7 +10963,7 @@
           "tmdb_id": 1503762,
           "original_title": "Sense and Sensibility",
           "original_language": "en",
-          "popularity": 7.932,
+          "popularity": 7.481,
           "vote_count": 0,
           "poster_path": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg",
           "backdrop_path": null,
@@ -10625,7 +11056,7 @@
           "tmdb_id": 1249202,
           "original_title": "Trust Me, I'm a Doctor",
           "original_language": "en",
-          "popularity": 2.128,
+          "popularity": 2.476,
           "vote_count": 0,
           "poster_path": "/fG3MKWWnSlpNhXKK9q7pDXyVdCo.jpg",
           "backdrop_path": null,
@@ -10704,7 +11135,7 @@
           "source_title": "Whalefall",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
-          "earliest_showing_utc": "2026-10-15T16:15:00Z",
+          "earliest_showing_utc": "2026-10-15T14:00:00Z",
           "runtime_min": 106,
           "mpaa_rating": "PG13",
           "genre": "Suspense",
@@ -10720,7 +11151,7 @@
           "tmdb_id": 1255833,
           "original_title": "Whalefall",
           "original_language": "en",
-          "popularity": 9.977,
+          "popularity": 9.421,
           "vote_count": 0,
           "poster_path": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg",
           "backdrop_path": null,
@@ -10813,7 +11244,7 @@
           "tmdb_id": 1765072,
           "original_title": "You Can See Everything",
           "original_language": "en",
-          "popularity": 7.276,
+          "popularity": 6.231,
           "vote_count": 0,
           "poster_path": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg",
           "backdrop_path": null,
@@ -10906,7 +11337,7 @@
           "tmdb_id": 1760638,
           "original_title": "You Can't Leave",
           "original_language": "en",
-          "popularity": 2.201,
+          "popularity": 2.046,
           "vote_count": 0,
           "poster_path": "/n8X4geolvhtAdcQ4mg8LnLv7gAE.jpg",
           "backdrop_path": null,
@@ -10980,6 +11411,153 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "Begotten"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Black Zombie",
+      "join_key": "black-zombie",
+      "parent_film_keys": [
+        "black-zombie"
+      ],
+      "showtime_film_keys": [
+        "black-zombie"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-17",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-17",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Black Zombie"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "I Walked With A Zombie",
+      "join_key": "i-walked-with-a-zombie",
+      "parent_film_keys": [
+        "i-walked-with-a-zombie"
+      ],
+      "showtime_film_keys": [
+        "i-walked-with-a-zombie"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-17",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-17",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center",
+        "the-beacon"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        },
+        {
+          "theater_id": "the-beacon",
+          "name": "The Beacon"
+        }
+      ],
+      "local_theater_count": 2,
+      "local_showtime_count": 4,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "I Walked With A Zombie"
         ],
         "contributing_sources": [
           "reel_seattle"
@@ -11234,6 +11812,77 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "Isle Of The Dead"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Television Terror Triple Feature Pizza Party 2",
+      "join_key": "television-terror-triple-feature-pizza-party-2",
+      "parent_film_keys": [
+        "television-terror-triple-feature-pizza-party-2"
+      ],
+      "showtime_film_keys": [
+        "television-terror-triple-feature-pizza-party-2"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-18",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-18",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Television Terror Triple Feature Pizza Party 2"
         ],
         "contributing_sources": [
           "reel_seattle"
@@ -11512,7 +12161,7 @@
         }
       ],
       "local_theater_count": 4,
-      "local_showtime_count": 70,
+      "local_showtime_count": 71,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -11580,7 +12229,7 @@
           "tmdb_id": 791523,
           "original_title": "Wildwood",
           "original_language": "en",
-          "popularity": 13.327,
+          "popularity": 12.717,
           "vote_count": 0,
           "poster_path": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg",
           "backdrop_path": null,
@@ -11690,6 +12339,77 @@
           "presentation_category": "anniversary_or_rerelease",
           "is_special_presentation": true
         },
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "A Chinese Ghost Story – New 4K Restoration",
+      "join_key": "chinese-ghost-story-new-4k-restoration",
+      "parent_film_keys": [
+        "chinese-ghost-story-new-4k-restoration"
+      ],
+      "showtime_film_keys": [
+        "chinese-ghost-story-new-4k-restoration"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-20",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-20",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "A Chinese Ghost Story – New 4K Restoration"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
         "tmdb": null
       }
     },
@@ -12704,7 +13424,7 @@
           "tmdb_id": 1084409,
           "original_title": "A Talent for Murder",
           "original_language": "en",
-          "popularity": 4.175,
+          "popularity": 4.599,
           "vote_count": 0,
           "poster_path": "/mstDPKNKgSGFvVFVdfzeMNkcyw2.jpg",
           "backdrop_path": null,
@@ -12797,16 +13517,14 @@
           "tmdb_id": 1727734,
           "original_title": "Ali G: Who Iz I?",
           "original_language": "en",
-          "popularity": 2.906,
+          "popularity": 3.045,
           "vote_count": 0,
           "poster_path": "/uTyVxPeWX8Ai30IQoyDDQONNcq.jpg",
           "backdrop_path": null,
           "overview": "After twenty years spent \"chillin', tokin' and bonin'\", Ali G is shocked to discover that his long-term girlfriend, Julie, is 8 months pregnant. Faced with an extra mouth to feed, he gets off his batty and heads to America to reclaim his former glory… but soon encounters adversaries who will ultimately threaten his and his child's very existence.",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
+          "quality_flags": []
         }
       }
     },
@@ -12892,7 +13610,7 @@
           "tmdb_id": 1527075,
           "original_title": "আন্ধার",
           "original_language": "bn",
-          "popularity": 0.848,
+          "popularity": 0.754,
           "vote_count": 0,
           "poster_path": "/eopxkt7rLfToAHbqQ0wzOMeKvlM.jpg",
           "backdrop_path": null,
@@ -12988,7 +13706,7 @@
           "tmdb_id": 1400940,
           "original_title": "Clayface",
           "original_language": "en",
-          "popularity": 16.16,
+          "popularity": 14.131,
           "vote_count": 0,
           "poster_path": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg",
           "backdrop_path": null,
@@ -13081,8 +13799,8 @@
           "tmdb_id": 1437696,
           "original_title": "Ojczyzna",
           "original_language": "pl",
-          "popularity": 13.058,
-          "vote_count": 23,
+          "popularity": 12.845,
+          "vote_count": 24,
           "poster_path": "/oNejN1l69nBF8LdQwy5FkAQZT44.jpg",
           "backdrop_path": null,
           "overview": "In 1949, German writer Thomas Mann and his daughter Erika embark on a road trip across a Germany in ruins, from US-dominated Frankfurt to Soviet-controlled Weimar.",
@@ -13174,7 +13892,7 @@
           "tmdb_id": 858035,
           "original_title": "Klara and the Sun",
           "original_language": "en",
-          "popularity": 6.174,
+          "popularity": 5.524,
           "vote_count": 0,
           "poster_path": "/xqovj2p6HRsgHxN81qYAYF4StgM.jpg",
           "backdrop_path": null,
@@ -13267,7 +13985,7 @@
           "tmdb_id": 1754364,
           "original_title": "Making Marie Antoinette",
           "original_language": "fr",
-          "popularity": 1.878,
+          "popularity": 1.76,
           "vote_count": 0,
           "poster_path": "/4B2qSMSyev7aqPNT00TNPVCBKGF.jpg",
           "backdrop_path": null,
@@ -13363,7 +14081,7 @@
           "tmdb_id": 1458099,
           "original_title": "The Only Living Pickpocket in New York",
           "original_language": "en",
-          "popularity": 3.563,
+          "popularity": 3.851,
           "vote_count": 0,
           "poster_path": "/pNdB9va2AEPQe9UfhKAdIt8nus9.jpg",
           "backdrop_path": null,
@@ -13456,7 +14174,7 @@
           "tmdb_id": 1195803,
           "original_title": "Wicker",
           "original_language": "en",
-          "popularity": 7.205,
+          "popularity": 6.899,
           "vote_count": 0,
           "poster_path": "/rnoD8w0SUetL3S4Uje8HgSxDXzK.jpg",
           "backdrop_path": null,
@@ -13682,77 +14400,6 @@
     },
     {
       "film_id": null,
-      "title": "I Walked With A Zombie",
-      "join_key": "i-walked-with-a-zombie",
-      "parent_film_keys": [
-        "i-walked-with-a-zombie"
-      ],
-      "showtime_film_keys": [
-        "i-walked-with-a-zombie"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-10-25",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-10-25",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "the-beacon"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "the-beacon",
-          "name": "The Beacon"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 3,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "I Walked With A Zombie"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      }
-    },
-    {
-      "film_id": null,
       "title": "Landscape In The Mist",
       "join_key": "landscape-in-the-mist",
       "parent_film_keys": [
@@ -13954,6 +14601,77 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "The Open Road: The Passenger (35mm)"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "The Most Dangerous Game (1932) plus shorts, on 16mm",
+      "join_key": "most-dangerous-game-1932-plus-shorts-on-16mm-1932",
+      "parent_film_keys": [
+        "amc-movie-the-most-dangerous-game-on-16mm"
+      ],
+      "showtime_film_keys": [
+        "most-dangerous-game-1932-plus-shorts-on-16mm-1932"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-27",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-27",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "The Most Dangerous Game (1932) plus shorts, on 16mm"
         ],
         "contributing_sources": [
           "reel_seattle"
@@ -14250,6 +14968,99 @@
     },
     {
       "film_id": null,
+      "title": "On the Road",
+      "join_key": "on-the-road",
+      "parent_film_keys": [
+        "on-the-road"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1517123,
+      "amc_movie_id": "84927",
+      "amc_movie_ids": [
+        "84927"
+      ],
+      "expected_release_date": "2026-10-28",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-10-28",
+      "tmdb_us_release_date": "2026-10-28",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "strongly_expected",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "inferred_tmdb",
+        "poster_url": "https://image.tmdb.org/t/p/w500/u169hcLX3OsM9eRs4wtIzi0ymGZ.jpg",
+        "poster_path": "/u169hcLX3OsM9eRs4wtIzi0ymGZ.jpg",
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "A drifter who sleeps with truckers meets a reserved driver and joins him hauling freight across northern Mexico. As they grow closer on the road, the drifter's past threatens them both.",
+        "runtime_minutes": 93,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "On the Road"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84927",
+          "source_title": "On the Road",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-10-28T05:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 93,
+          "mpaa_rating": "NR",
+          "genre": "DRAMA",
+          "slug": "on-the-road-84927",
+          "synopsis": "A drifter who sleeps with truckers meets a reserved driver and joins him hauling freight across northern Mexico. As they grow closer on the road, the drifter's past threatens them both.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": {
+          "tmdb_id": 1517123,
+          "original_title": "En el camino",
+          "original_language": "es",
+          "popularity": 12.251,
+          "vote_count": 11,
+          "poster_path": "/u169hcLX3OsM9eRs4wtIzi0ymGZ.jpg",
+          "backdrop_path": null,
+          "overview": "Veneno, a rebellious young drifter, frequents roadside diners where he sleeps with truck drivers. Urgently needing a ride, he meets Muñeco, a hard-edged driver who keeps to himself. He convinces Muñeco to take him deep into the hyper-masculine world of long-haul trucking across the north of Mexico. As they travel together and an unexpected intimacy builds between them, shadows from Veneno’s past resurface, putting both their lives at risk.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
+        }
+      }
+    },
+    {
+      "film_id": null,
       "title": "CatVideoFest 2026",
       "join_key": "catvideofest-2026",
       "parent_film_keys": [
@@ -14309,6 +15120,77 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "CatVideoFest 2026"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Night of the Vamp-Friars",
+      "join_key": "night-of-the-vamp-friars",
+      "parent_film_keys": [
+        "night-of-the-vamp-friars"
+      ],
+      "showtime_film_keys": [
+        "night-of-the-vamp-friars"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-29",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-29",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "central-cinema"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "central-cinema",
+          "name": "Central Cinema"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Night of the Vamp-Friars"
         ],
         "contributing_sources": [
           "reel_seattle"
@@ -14543,7 +15425,7 @@
           "tmdb_id": 939541,
           "original_title": "Christmas at the Kringles",
           "original_language": "en",
-          "popularity": 3.023,
+          "popularity": 3.299,
           "vote_count": 0,
           "poster_path": "/z0uOPm2KjrZp1v4jp4SdPsrdgWB.jpg",
           "backdrop_path": null,
@@ -14636,7 +15518,7 @@
           "tmdb_id": 1603262,
           "original_title": "Everest: The Other Side",
           "original_language": "en",
-          "popularity": 2.526,
+          "popularity": 2.575,
           "vote_count": 0,
           "poster_path": "/yE86EFh0niJM9W84NWbR7s9VoT3.jpg",
           "backdrop_path": null,
@@ -14731,7 +15613,7 @@
           "tmdb_id": 1021848,
           "original_title": "Queen at Sea",
           "original_language": "en",
-          "popularity": 3.409,
+          "popularity": 3.118,
           "vote_count": 2,
           "poster_path": "/iGfTwhMYMLd1z81AO3d1MHVTCbP.jpg",
           "backdrop_path": null,
@@ -14824,7 +15706,7 @@
           "tmdb_id": 1294189,
           "original_title": "The Mongoose",
           "original_language": "en",
-          "popularity": 295.553,
+          "popularity": 248.147,
           "vote_count": 0,
           "poster_path": "/eSS5mvSG84UUuvtbHel5Yu3Wik4.jpg",
           "backdrop_path": null,
@@ -14917,7 +15799,7 @@
           "tmdb_id": 1458300,
           "original_title": "The Mosquito Bowl",
           "original_language": "en",
-          "popularity": 3.354,
+          "popularity": 3.063,
           "vote_count": 0,
           "poster_path": "/yYyakG09lQMhlF3GW0ZCTjnDhah.jpg",
           "backdrop_path": null,
@@ -15010,7 +15892,7 @@
           "tmdb_id": 1162823,
           "original_title": "Who Killed Alex Odeh?",
           "original_language": "en",
-          "popularity": 2.072,
+          "popularity": 1.916,
           "vote_count": 0,
           "poster_path": "/yO1m1fh4N7kMNxB0Nn9hrVIUJOw.jpg",
           "backdrop_path": null,
@@ -15517,7 +16399,7 @@
           "tmdb_id": 1697911,
           "original_title": "Drummer Boy",
           "original_language": "en",
-          "popularity": 2.149,
+          "popularity": 2.443,
           "vote_count": 0,
           "poster_path": "/bhjdgMm2fFrysSzVqv5RwRwIbVf.jpg",
           "backdrop_path": null,
@@ -15633,7 +16515,7 @@
           "tmdb_id": 1241478,
           "original_title": "Jimmy",
           "original_language": "en",
-          "popularity": 2.885,
+          "popularity": 2.83,
           "vote_count": 0,
           "poster_path": "/c3fWnsg5VEP5EhYZ4oY2NpFrrU1.jpg",
           "backdrop_path": null,
@@ -15799,7 +16681,7 @@
           "tmdb_id": 1585239,
           "original_title": "Club Kid",
           "original_language": "en",
-          "popularity": 4.653,
+          "popularity": 4.716,
           "vote_count": 0,
           "poster_path": "/3CdM37GtEDMAp7fGlRn9MCpFjn1.jpg",
           "backdrop_path": null,
@@ -15892,7 +16774,7 @@
           "tmdb_id": 1381071,
           "original_title": "ゴジラ-0.0",
           "original_language": "ja",
-          "popularity": 10.003,
+          "popularity": 9.148,
           "vote_count": 0,
           "poster_path": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg",
           "backdrop_path": null,
@@ -15985,7 +16867,7 @@
           "tmdb_id": 1286656,
           "original_title": "I Play Rocky",
           "original_language": "en",
-          "popularity": 5.442,
+          "popularity": 5.112,
           "vote_count": 0,
           "poster_path": "/xE5tY3lppZUyG7WKKThsuYHuAHr.jpg",
           "backdrop_path": null,
@@ -16078,7 +16960,7 @@
           "tmdb_id": 656908,
           "original_title": "रामायण",
           "original_language": "hi",
-          "popularity": 8.325,
+          "popularity": 8.326,
           "vote_count": 0,
           "poster_path": "/f3yZZw7zIsWo6m9xJStfjDauIZX.jpg",
           "backdrop_path": null,
@@ -16171,7 +17053,7 @@
           "tmdb_id": 891621,
           "original_title": "Wild Horse Nine",
           "original_language": "en",
-          "popularity": 8.156,
+          "popularity": 7.817,
           "vote_count": 0,
           "poster_path": "/dNJFRtVg3xLQ7dbNIQ55cmmIniD.jpg",
           "backdrop_path": null,
@@ -16523,11 +17405,11 @@
           "tmdb_id": 1562642,
           "original_title": "Ghost Soldier",
           "original_language": "en",
-          "popularity": 11.892,
+          "popularity": 10.94,
           "vote_count": 0,
           "poster_path": "/8Y4oJ5iUs3hgPcDB3SIEmsNYjZk.jpg",
           "backdrop_path": null,
-          "overview": "Reclusive government asset Henry Fitzgerald is living off the grid in Wyoming, designing new systems for a weapons research agency. When a multi trillion dollar investment management firm begins employing corrupt police and foreign mercenaries to force farmers off their ranches, the Green Beret veteran decides to employ his weapon prototypes to assist his neighbors.",
+          "overview": "A former Green Beret and weapons expert stands with his Wyoming neighbors against a ruthless corporation threatening their rural community.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []
@@ -16687,7 +17569,7 @@
           "tmdb_id": 1088548,
           "original_title": "Amarga Navidad",
           "original_language": "es",
-          "popularity": 10.989,
+          "popularity": 10.261,
           "vote_count": 144,
           "poster_path": "/kiPGcHX0YT49nrab76G0bqw3gHW.jpg",
           "backdrop_path": null,
@@ -16780,7 +17662,7 @@
           "tmdb_id": 1567605,
           "original_title": "Ebenezer",
           "original_language": "en",
-          "popularity": 7.622,
+          "popularity": 7.966,
           "vote_count": 0,
           "poster_path": "/wmuMZrelOQBAN2KlA30yOIeIUJl.jpg",
           "backdrop_path": null,
@@ -16873,7 +17755,7 @@
           "tmdb_id": 1437511,
           "original_title": "How to Rob a Bank",
           "original_language": "en",
-          "popularity": 9.875,
+          "popularity": 9.545,
           "vote_count": 0,
           "poster_path": "/ifYDZkr2qkHFz87TNVvlxajOxl5.jpg",
           "backdrop_path": null,
@@ -16966,7 +17848,7 @@
           "tmdb_id": 1381273,
           "original_title": "Paper Tiger",
           "original_language": "en",
-          "popularity": 5.792,
+          "popularity": 4.88,
           "vote_count": 0,
           "poster_path": "/v023L1AFtd3rpy61B5JiEOR1sMF.jpg",
           "backdrop_path": null,
@@ -17059,7 +17941,7 @@
           "tmdb_id": 1379486,
           "original_title": "Victorian Psycho",
           "original_language": "en",
-          "popularity": 6.449,
+          "popularity": 5.981,
           "vote_count": 0,
           "poster_path": "/9LHVZevgdsdbjJdkFr6bk9EwX7q.jpg",
           "backdrop_path": null,
@@ -17578,7 +18460,7 @@
           "tmdb_id": 1599230,
           "original_title": "Elsinore",
           "original_language": "en",
-          "popularity": 6.602,
+          "popularity": 7.134,
           "vote_count": 0,
           "poster_path": "/sWLwzqjaTDtAjK01erubswLkQwl.jpg",
           "backdrop_path": null,
@@ -17672,7 +18554,7 @@
           "tmdb_id": 1300968,
           "original_title": "The Hunger Games: Sunrise on the Reaping",
           "original_language": "en",
-          "popularity": 18.924,
+          "popularity": 18.596,
           "vote_count": 0,
           "poster_path": "/ffJaYMtB6v1TrvkyhCOqwqCKm0o.jpg",
           "backdrop_path": null,
@@ -17765,7 +18647,7 @@
           "tmdb_id": 1299329,
           "original_title": "Josephine",
           "original_language": "en",
-          "popularity": 2.99,
+          "popularity": 2.682,
           "vote_count": 0,
           "poster_path": "/eqMWdviWwaRahQ7QkHLpXCpqIfu.jpg",
           "backdrop_path": null,
@@ -17860,7 +18742,7 @@
           "tmdb_id": 848700,
           "original_title": "Minotaure",
           "original_language": "fr",
-          "popularity": 6.972,
+          "popularity": 6.491,
           "vote_count": 0,
           "poster_path": "/bM37B5CuMWrPyGPpNsKzTGict4Q.jpg",
           "backdrop_path": null,
@@ -17954,7 +18836,7 @@
           "tmdb_id": 1287520,
           "original_title": "November 1963",
           "original_language": "en",
-          "popularity": 3.871,
+          "popularity": 3.897,
           "vote_count": 0,
           "poster_path": "/nUfvPsCIUfe95aRDEdUT2sgiXqK.jpg",
           "backdrop_path": null,
@@ -18378,8 +19260,8 @@
           "tmdb_id": 1476614,
           "original_title": "急に具合が悪くなる",
           "original_language": "ja",
-          "popularity": 5.87,
-          "vote_count": 50,
+          "popularity": 5.135,
+          "vote_count": 51,
           "poster_path": "/kFD1vl6FPt8heIIgFiAyIbZqrYh.jpg",
           "backdrop_path": null,
           "overview": "Marie-Lou Fontaine, director of a nursing home in the Paris suburbs, defies convention by adopting the 'Humanitude' method despite her team’s resistance. Her encounter with Mari Morisaki, a terminally ill Japanese playwright, transforms her life. Together, they turn the facility into a symbol of resistance and humanity against the system’s limits.",
@@ -18472,7 +19354,7 @@
           "tmdb_id": 1400336,
           "original_title": "Focker-in-Law",
           "original_language": "en",
-          "popularity": 8.836,
+          "popularity": 8.358,
           "vote_count": 0,
           "poster_path": "/gPdzdeehaoaYqxH2rA6yayEDSsS.jpg",
           "backdrop_path": null,
@@ -18547,9 +19429,9 @@
         "amc": {
           "amc_movie_id": "83726",
           "source_title": "Hershey",
-          "has_scheduled_showtimes": false,
+          "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-11-25T06:00:00Z",
-          "earliest_showing_utc": null,
+          "earliest_showing_utc": "2026-11-24T12:00:00Z",
           "runtime_min": 110,
           "mpaa_rating": "PG",
           "genre": "DRAMA",
@@ -18565,7 +19447,7 @@
           "tmdb_id": 1461490,
           "original_title": "Hershey",
           "original_language": "en",
-          "popularity": 2.427,
+          "popularity": 2.164,
           "vote_count": 0,
           "poster_path": "/ojd8Gu2bPsOzdMz6Ip5AYDu4Vki.jpg",
           "backdrop_path": null,
@@ -18661,7 +19543,7 @@
           "tmdb_id": 1457866,
           "original_title": "THE FURTHER MIS-ADVENTURES OF CLIFF BOOTH",
           "original_language": "en",
-          "popularity": 7.018,
+          "popularity": 6.6,
           "vote_count": 0,
           "poster_path": "/nuNOKDt0mVWhwq2HZ9ytczuUFSf.jpg",
           "backdrop_path": null,
@@ -19038,7 +19920,7 @@
           "tmdb_id": 1198746,
           "original_title": "Above the Below",
           "original_language": "en",
-          "popularity": 1.722,
+          "popularity": 1.368,
           "vote_count": 0,
           "poster_path": null,
           "backdrop_path": null,
@@ -19134,7 +20016,7 @@
           "tmdb_id": 1452168,
           "original_title": "Behemoth!",
           "original_language": "en",
-          "popularity": 2.833,
+          "popularity": 2.889,
           "vote_count": 0,
           "poster_path": "/bcyGYWfcXr0GnXewaE5gkvYy1iQ.jpg",
           "backdrop_path": null,
@@ -19229,7 +20111,7 @@
           "tmdb_id": 1370191,
           "original_title": "Tender Loving Care",
           "original_language": "en",
-          "popularity": 2.304,
+          "popularity": 2.485,
           "vote_count": 0,
           "poster_path": "/iPwhnonUlzcHKLvqJyqvtBNUZRF.jpg",
           "backdrop_path": null,
@@ -19324,7 +20206,7 @@
           "tmdb_id": 1078446,
           "original_title": "Violent Night 2",
           "original_language": "en",
-          "popularity": 4.767,
+          "popularity": 4.017,
           "vote_count": 0,
           "poster_path": "/7HPvgItDw9NgW3iy4tFRRuGNbuN.jpg",
           "backdrop_path": null,
@@ -19742,7 +20624,7 @@
           "tmdb_id": 1630464,
           "original_title": "Clarissa",
           "original_language": "en",
-          "popularity": 2.779,
+          "popularity": 2.391,
           "vote_count": 0,
           "poster_path": "/9qS8heXhQdLoyGsqZHHb3HkrK62.jpg",
           "backdrop_path": null,
@@ -19837,7 +20719,7 @@
           "tmdb_id": 1649403,
           "original_title": "George Michael: The Faith Tour",
           "original_language": "en",
-          "popularity": 1.63,
+          "popularity": 1.845,
           "vote_count": 0,
           "poster_path": "/sMksgsvrU6h0dmTILD8x5dUlXrt.jpg",
           "backdrop_path": null,
@@ -19933,7 +20815,7 @@
           "tmdb_id": 1532610,
           "original_title": "INK",
           "original_language": "en",
-          "popularity": 4.487,
+          "popularity": 3.864,
           "vote_count": 0,
           "poster_path": "/aZECpoGsveEXtxogaz0GMiyVB6n.jpg",
           "backdrop_path": null,
@@ -20026,8 +20908,8 @@
           "tmdb_id": 1176962,
           "original_title": "Rose",
           "original_language": "de",
-          "popularity": 8.374,
-          "vote_count": 32,
+          "popularity": 10.394,
+          "vote_count": 35,
           "poster_path": "/4k3ph6BoeZr7IMiQx8ioEV8d9cJ.jpg",
           "backdrop_path": null,
           "overview": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers' suspicions about his identity grow and they force a reckoning.",
@@ -20119,7 +21001,7 @@
           "tmdb_id": 1391239,
           "original_title": "The Debut",
           "original_language": "en",
-          "popularity": 6.705,
+          "popularity": 6.622,
           "vote_count": 0,
           "poster_path": "/5CZdxLiBpYMBXwo0rur6YzZTVP4.jpg",
           "backdrop_path": null,
@@ -20514,7 +21396,7 @@
           "tmdb_id": 1003596,
           "original_title": "Avengers: Doomsday",
           "original_language": "en",
-          "popularity": 45.129,
+          "popularity": 46.56,
           "vote_count": 0,
           "poster_path": "/jzPwsojjFStf5lR5Nm07w2hH56G.jpg",
           "backdrop_path": null,
