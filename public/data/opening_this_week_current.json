@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-21T04:44:37-07:00",
+  "generated_at": "2026-09-22T03:49:58-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-09-21",
@@ -12,14 +12,14 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 35,
+    "entry_count": 37,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-09-21",
     "latest_opening_date": "2026-09-27",
     "opening_type_counts": {
       "repertory": 7,
-      "theatrical": 10,
+      "theatrical": 12,
       "limited": 15,
       "event": 3
     }
@@ -35,7 +35,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -66,7 +66,7 @@
         "siff-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "theatrical",
@@ -235,9 +235,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 228,
+      "visible_showtime_count": 240,
       "engagement_days": 8,
-      "historical_screening_count": 228,
+      "historical_screening_count": 240,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
@@ -270,12 +270,13 @@
       "opening_date": "2026-09-24",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
+        "amc-pacific-place-11",
         "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 32,
+      "theater_count_on_opening_date": 3,
+      "visible_showtime_count": 36,
       "engagement_days": 7,
-      "historical_screening_count": 16,
+      "historical_screening_count": 18,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -287,6 +288,7 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
+          "amc-pacific-place-11",
           "amc-southcenter-16"
         ],
         "sources": [
@@ -348,9 +350,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 400,
+      "visible_showtime_count": 398,
       "engagement_days": 8,
-      "historical_screening_count": 200,
+      "historical_screening_count": 199,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -516,9 +518,9 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 8,
-      "visible_showtime_count": 454,
+      "visible_showtime_count": 520,
       "engagement_days": 15,
-      "historical_screening_count": 227,
+      "historical_screening_count": 260,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -572,6 +574,70 @@
         ],
         "sources": [
           "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "stunt-driver",
+      "parent_film_key": "stunt-driver",
+      "film_id": null,
+      "film_title": "The Stunt Driver",
+      "opening_date": "2026-09-24",
+      "theaters_on_opening_date": [
+        "amc-kent-station-14",
+        "amc-pacific-place-11"
+      ],
+      "theater_count_on_opening_date": 2,
+      "visible_showtime_count": 26,
+      "engagement_days": 7,
+      "historical_screening_count": 13,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "stunt-driver"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-kent-station-14",
+          "amc-pacific-place-11"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "you-had-to-be-there-how-the-toronto-godspell-ignited-the-comedy-revolution-spread-love-overalls",
+      "parent_film_key": "you-had-to-be-there-how-the-toronto-godspell-ignited-the-comedy-revolution-spread-love-overalls",
+      "film_id": null,
+      "film_title": "You Had to Be There: How the Toronto Godspell Ignited the Comedy Revolution, Spread Love & Overalls.",
+      "opening_date": "2026-09-24",
+      "theaters_on_opening_date": [
+        "amc-pacific-place-11"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 6,
+      "engagement_days": 2,
+      "historical_screening_count": 3,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "you-had-to-be-there-how-the-toronto-godspell-ignited-the-comedy-revolution-spread-love-overalls"
+        ],
+        "distinct_scheduled_dates": 2,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-pacific-place-11"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -1087,9 +1153,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 24,
+      "visible_showtime_count": 25,
       "engagement_days": 5,
-      "historical_screening_count": 24,
+      "historical_screening_count": 25,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
