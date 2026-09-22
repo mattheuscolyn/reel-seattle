@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5467625899280576,
-  "generated_at": "2026-09-22T10:46:40+00:00",
-  "index_size": 158,
+  "coverage_rate": 0.5812274368231047,
+  "generated_at": "2026-09-22T12:11:30+00:00",
+  "index_size": 166,
   "invalid_identities": 0,
-  "mapping_misses": 126,
-  "non_null_film_id": 152,
+  "mapping_misses": 116,
+  "non_null_film_id": 161,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,17 +14,17 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 126,
+  "null_film_id": 116,
   "per_source": {
     "amc": {
       "films": 107,
-      "null_film_id": 49,
-      "with_film_id": 58
+      "null_film_id": 47,
+      "with_film_id": 60
     },
     "beacon": {
       "films": 34,
-      "null_film_id": 17,
-      "with_film_id": 17
+      "null_film_id": 13,
+      "with_film_id": 21
     },
     "central_cinema": {
       "films": 20,
@@ -32,36 +32,27 @@
       "with_film_id": 12
     },
     "grand_illusion": {
-      "films": 16,
-      "null_film_id": 9,
+      "films": 15,
+      "null_film_id": 8,
       "with_film_id": 7
     },
     "nwff": {
       "films": 45,
-      "null_film_id": 18,
-      "with_film_id": 27
+      "null_film_id": 17,
+      "with_film_id": 28
     },
     "siff": {
       "films": 61,
-      "null_film_id": 25,
-      "with_film_id": 36
+      "null_film_id": 23,
+      "with_film_id": 38
     }
-  },
-  "performance_identity": {
-    "ambiguous": 0,
-    "inherited_from_registry": 17,
-    "matched": 1,
-    "registry_path": "data/performance_identity/performance_identity_current.json",
-    "registry_persisted": false,
-    "registry_upserts": 0,
-    "unmatched_gi": 16
   },
   "repeated_canonical_across_films": 5,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
-  "total_public_films": 278,
-  "unique_tmdb_ids": 147,
+  "total_public_films": 277,
+  "unique_tmdb_ids": 156,
   "warning_count": 0,
   "warnings": []
 }
