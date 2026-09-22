@@ -3,7 +3,7 @@
  * No fabricated synopsis, year, director, Letterboxd ranks, or thematic tags.
  */
 
-import { pacificDateString } from '../explore/exploreCatalog.js';
+import { addIsoDays, pacificDateString } from '../explore/exploreCatalog.js';
 import { formatRuntimeLabel } from '../home/shelfData.js';
 import { formatLocalDateLabel } from '../topOpportunities/topOpportunityFormat.js';
 import {
@@ -570,25 +570,62 @@ export function buildVenueMark(theaterName, theaterId = null) {
 }
 
 /**
- * Today's showtimes grouped by theater (Pacific local date).
+ * Cap visible time chips while guaranteeing actionable showtimes stay visible.
+ * Prefer upcoming performances; fill remaining slots with the nearest started times.
+ * @param {object[]} times chronological
+ * @param {number} [limit]
+ */
+export function selectVisibleShowtimes(times, limit = 3) {
+  if (!Array.isArray(times) || times.length === 0) return [];
+  const sorted = times
+    .slice()
+    .sort((a, b) =>
+      String(a.localTime ?? a.timeDisplay ?? '').localeCompare(
+        String(b.localTime ?? b.timeDisplay ?? ''),
+      ),
+    );
+  if (sorted.length <= limit) return sorted;
+
+  const actionable = sorted.filter((time) => time.actionable !== false);
+  const started = sorted.filter((time) => time.actionable === false);
+
+  if (actionable.length === 0) return sorted.slice(0, limit);
+  if (actionable.length >= limit) return actionable.slice(0, limit);
+
+  const need = limit - actionable.length;
+  const fillers = started.slice(Math.max(0, started.length - need));
+  return [...fillers, ...actionable].sort((a, b) =>
+    String(a.localTime ?? a.timeDisplay ?? '').localeCompare(
+      String(b.localTime ?? b.timeDisplay ?? ''),
+    ),
+  );
+}
+
+/**
+ * Showtimes for one Pacific calendar date, grouped by theater.
  * @param {object | null} homeData
  * @param {string} filmKey
+ * @param {string} localDate
  * @param {string | null} [emphasizedOpportunityKey]
- * @param {{ timeFormatId?: string }} [options]
+ * @param {{ timeFormatId?: string, now?: Date | (() => Date) }} [options]
  */
-export function buildTodaysShowtimes(
+export function buildShowtimesForDate(
   homeData,
   filmKey,
+  localDate,
   emphasizedOpportunityKey = null,
   options = {},
 ) {
-  const today = pacificDateString(resolveClock(options.now));
   const timeFormatId =
     typeof options.timeFormatId === 'string' && options.timeFormatId
       ? options.timeFormatId
       : '12h';
+  const date =
+    typeof localDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(localDate)
+      ? localDate
+      : pacificDateString(resolveClock(options.now));
   const opps = listFilmOpportunities(homeData, filmKey)
-    .filter((o) => o.localDate === today)
+    .filter((o) => o.localDate === date)
     .slice()
     .sort(compareScreeningsByStart);
   const byTheater = new Map();
@@ -613,6 +650,7 @@ export function buildTodaysShowtimes(
         timeFormatId,
       ),
       localTime: opp.localTime ?? null,
+      localDate: date,
       emphasized:
         state.actionable && opp.opportunityKey === emphasizedOpportunityKey,
       ticketUrl: state.actionable ? opp.ticketUrl ?? null : null,
@@ -645,23 +683,150 @@ export function buildTodaysShowtimes(
             : null,
         };
       });
+      const visible = selectVisibleShowtimes(timesWithDetail, 3);
       return {
         theaterId: row.theaterId,
         theaterName: row.theaterName,
         venueMark: mark.label,
         accent: mark.accent,
         formatChips: sharedChips.slice(0, 3),
-        times: timesWithDetail.slice(0, 3),
-        extraTimeCount: Math.max(0, timesWithDetail.length - 3),
+        times: visible,
+        extraTimeCount: Math.max(0, timesWithDetail.length - visible.length),
         totalTimes: timesWithDetail.length,
       };
     })
     .sort((a, b) => String(a.theaterName).localeCompare(String(b.theaterName)));
 
   return {
-    localDate: today,
+    localDate: date,
     rows,
     empty: rows.length === 0,
+  };
+}
+
+/**
+ * Today's showtimes grouped by theater (Pacific local date).
+ * @param {object | null} homeData
+ * @param {string} filmKey
+ * @param {string | null} [emphasizedOpportunityKey]
+ * @param {{ timeFormatId?: string, now?: Date | (() => Date) }} [options]
+ */
+export function buildTodaysShowtimes(
+  homeData,
+  filmKey,
+  emphasizedOpportunityKey = null,
+  options = {},
+) {
+  const today = pacificDateString(resolveClock(options.now));
+  return buildShowtimesForDate(
+    homeData,
+    filmKey,
+    today,
+    emphasizedOpportunityKey,
+    options,
+  );
+}
+
+/**
+ * Film Detail showtime section with late-night / next-date fallback.
+ * @param {object | null} homeData
+ * @param {string} filmKey
+ * @param {string | null} [emphasizedOpportunityKey]
+ * @param {{ timeFormatId?: string, now?: Date | (() => Date) }} [options]
+ */
+export function composeFilmDetailTodaySection(
+  homeData,
+  filmKey,
+  emphasizedOpportunityKey = null,
+  options = {},
+) {
+  const now = resolveClock(options.now);
+  const today = pacificDateString(now);
+  const tomorrow = addIsoDays(today, 1);
+  const allOpps = listFilmOpportunities(homeData, filmKey);
+  const actionable = allOpps.filter((opp) => isActionableScreening(opp, now));
+
+  if (actionable.length === 0) {
+    return {
+      mode: 'none_upcoming',
+      localDate: today,
+      rows: [],
+      empty: true,
+      emptyMessage: 'No upcoming showtimes currently scheduled',
+      fallback: null,
+    };
+  }
+
+  const actionableToday = actionable.filter((opp) => opp.localDate === today);
+  if (actionableToday.length > 0) {
+    const built = buildShowtimesForDate(
+      homeData,
+      filmKey,
+      today,
+      emphasizedOpportunityKey,
+      options,
+    );
+    return {
+      mode: 'active',
+      localDate: today,
+      rows: built.rows,
+      empty: false,
+      emptyMessage: null,
+      fallback: null,
+    };
+  }
+
+  const emptyTodayMessage = 'No more showtimes today';
+  const actionableTomorrow = actionable.filter(
+    (opp) => opp.localDate === tomorrow,
+  );
+  if (actionableTomorrow.length > 0) {
+    const built = buildShowtimesForDate(
+      homeData,
+      filmKey,
+      tomorrow,
+      emphasizedOpportunityKey,
+      options,
+    );
+    const monthDay = formatShelfDetailMonthDay(tomorrow) ?? tomorrow;
+    return {
+      mode: 'finished_with_fallback',
+      localDate: today,
+      rows: [],
+      empty: true,
+      emptyMessage: emptyTodayMessage,
+      fallback: {
+        kind: 'tomorrow',
+        localDate: tomorrow,
+        title: `Tomorrow, ${monthDay}`,
+        rows: built.rows,
+      },
+    };
+  }
+
+  const nextDate = [...new Set(actionable.map((opp) => opp.localDate))]
+    .filter((date) => typeof date === 'string')
+    .sort()[0];
+  const built = buildShowtimesForDate(
+    homeData,
+    filmKey,
+    nextDate,
+    emphasizedOpportunityKey,
+    options,
+  );
+  const dateLabel = formatLocalDateLabel(nextDate) ?? nextDate;
+  return {
+    mode: 'finished_with_fallback',
+    localDate: today,
+    rows: [],
+    empty: true,
+    emptyMessage: emptyTodayMessage,
+    fallback: {
+      kind: 'next',
+      localDate: nextDate,
+      title: `Next showtimes · ${dateLabel}`,
+      rows: built.rows,
+    },
   };
 }
 

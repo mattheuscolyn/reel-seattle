@@ -76,8 +76,11 @@ function emptyView({ mode, source, filmKey }) {
     recommendedExperienceSignals: [],
     recommendedExperienceEmpty: true,
     today: {
+      mode: 'none_upcoming',
       rows: [],
       empty: true,
+      emptyMessage: 'No upcoming showtimes currently scheduled',
+      fallback: null,
       timezoneNote: 'All times in PT',
     },
     availabilityNote: null,
@@ -209,6 +212,69 @@ function mockupToView(p) {
   };
 }
 
+function mapTodayRows(rows) {
+  return (rows ?? []).map((row) => ({
+    id: row.theaterId ?? row.id,
+    theaterId: row.theaterId ?? row.id,
+    theaterName: row.theaterName,
+    venueMark: row.venueMark,
+    accent: row.accent,
+    chips: (row.formatChips ?? row.chips ?? []).map((chip) =>
+      typeof chip === 'string' ? { label: chip } : chip,
+    ),
+    times: (row.times ?? []).map((time) =>
+      typeof time === 'string'
+        ? {
+            timeDisplay: time,
+            opportunityKey: null,
+            ticketUrl: null,
+            detailLabel: null,
+            localTime: null,
+            localDate: null,
+            formatLabel: null,
+          }
+        : {
+            timeDisplay: time.timeDisplay,
+            opportunityKey: time.opportunityKey ?? null,
+            ticketUrl: time.ticketUrl ?? null,
+            emphasized: Boolean(time.emphasized),
+            detailLabel: time.detailLabel ?? null,
+            past: time.past === true,
+            actionable: time.actionable !== false,
+            stateLabel: time.stateLabel ?? null,
+            localTime: time.localTime ?? null,
+            localDate: time.localDate ?? null,
+            formatLabel: time.formatLabel ?? null,
+          },
+    ),
+  }));
+}
+
+function mapTodaySection(today) {
+  const rows = mapTodayRows(today?.rows);
+  const fallback = today?.fallback
+    ? {
+        kind: today.fallback.kind ?? 'next',
+        localDate: today.fallback.localDate ?? null,
+        title: today.fallback.title ?? 'Next showtimes',
+        rows: mapTodayRows(today.fallback.rows),
+      }
+    : null;
+  return {
+    mode: today?.mode ?? (rows.length > 0 ? 'active' : 'none_upcoming'),
+    localDate: today?.localDate ?? null,
+    rows,
+    empty: Boolean(today?.empty) || (rows.length === 0 && !fallback),
+    emptyMessage:
+      today?.emptyMessage ??
+      (rows.length === 0 && !fallback
+        ? 'No upcoming showtimes currently scheduled'
+        : null),
+    fallback,
+    timezoneNote: 'All times in PT',
+  };
+}
+
 function composedToView(p, mode) {
   if (!p?.resolved) {
     return emptyView({
@@ -220,7 +286,7 @@ function composedToView(p, mode) {
 
   const hero = p.hero ?? {};
   const signals = Array.isArray(p.signals) ? p.signals : [];
-  const todayRows = Array.isArray(p.today?.rows) ? p.today.rows : [];
+  const today = mapTodaySection(p.today);
 
   return {
     mode: mode === 'visual-fixture' ? 'visual-fixture' : 'production',
@@ -295,39 +361,7 @@ function composedToView(p, mode) {
     ],
     recommendedExperienceEmpty:
       Boolean(p.recommendedExperienceEmpty) || !p.recommendedExperience,
-    today: {
-      rows: todayRows.map((row) => ({
-        id: row.theaterId ?? row.id,
-        theaterId: row.theaterId ?? row.id,
-        theaterName: row.theaterName,
-        venueMark: row.venueMark,
-        accent: row.accent,
-        chips: (row.formatChips ?? row.chips ?? []).map((chip) =>
-          typeof chip === 'string' ? { label: chip } : chip,
-        ),
-        times: (row.times ?? []).map((time) =>
-          typeof time === 'string'
-            ? {
-                timeDisplay: time,
-                opportunityKey: null,
-                ticketUrl: null,
-                detailLabel: null,
-              }
-            : {
-                timeDisplay: time.timeDisplay,
-                opportunityKey: time.opportunityKey ?? null,
-                ticketUrl: time.ticketUrl ?? null,
-                emphasized: Boolean(time.emphasized),
-                detailLabel: time.detailLabel ?? null,
-                past: time.past === true,
-                actionable: time.actionable !== false,
-                stateLabel: time.stateLabel ?? null,
-              },
-        ),
-      })),
-      empty: Boolean(p.today?.empty) || todayRows.length === 0,
-      timezoneNote: 'All times in PT',
-    },
+    today,
     availabilityNote:
       typeof p.availabilityNote === 'string' ? p.availabilityNote : null,
     availabilityHint:
