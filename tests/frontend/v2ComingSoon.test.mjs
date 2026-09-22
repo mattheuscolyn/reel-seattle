@@ -148,7 +148,7 @@ function entry({
 
 function fixtureArtifact(entries) {
   return {
-    schema_version: '1.2.0',
+    schema_version: '1.3.0',
     generated_at: '2026-09-14T12:00:00-07:00',
     timezone: 'America/Los_Angeles',
     entries,
@@ -507,7 +507,7 @@ test('confirmed Film Detail back returns to Coming Soon', () => {
 
 test('public artifact stays renderable and hides analysis-only rows', () => {
   const artifact = liveArtifact();
-  assert.equal(artifact.schema_version, '1.2.0');
+  assert.equal(artifact.schema_version, '1.3.0');
   const hidden = artifact.entries.filter(
     (row) =>
       row.classification === 'tmdb_only' || row.user_visible === false,

@@ -88,8 +88,11 @@ from reel_seattle.emit.coming_soon_relevance import (
     RELEVANCE_SORT_RANK,
     RELEVANCE_STRONGLY_EXPECTED,
     RELEVANCE_WEAK_NATIONAL_ONLY,
+    STRONGLY_EXPECTED_MIN_POPULARITY,
+    VISIBILITY_LOW_RELEVANCE,
     assign_relevance_and_visibility,
     build_engagement_record,
+    extract_tmdb_popularity,
     infer_engagement_base_title,
     infer_engagement_kind,
     is_engagement_title,
@@ -108,10 +111,10 @@ from reel_seattle.validate import (
     validate_coming_soon_current,
 )
 
-COMING_SOON_SCHEMA_VERSION = "1.2.0"
-COMING_SOON_CANDIDATES_SCHEMA_VERSION = "1.1.0"
+COMING_SOON_SCHEMA_VERSION = "1.3.0"
+COMING_SOON_CANDIDATES_SCHEMA_VERSION = "1.2.0"
 METHOD_NAME = "independent_source_evidence_90d"
-METHOD_VERSION = "1.2.0"
+METHOD_VERSION = "1.3.0"
 METHOD_DESCRIPTION = (
     "Coming Soon is a film-level Seattle theatrical calendar over a 90-day "
     "Pacific-local window. Four independent evidence facts are tracked: AMC "
@@ -119,12 +122,12 @@ METHOD_DESCRIPTION = (
     "bookings, TMDB US theatrical releases, and published Reel Seattle "
     "showtimes. classification remains pipeline/source state; relevance_tier "
     "drives public visibility (confirmed_local, locally_announced, "
-    "strongly_expected). Bare national AMC catalog rows are weak_national_only "
-    "and analysis-only. strongly_expected is a proxy (AMC catalog ∩ TMDB US "
-    "theatrical for an underlying film), not proven Seattle availability. "
-    "Engagement SKUs (Q&A, Fan First, Early Access, Fan Event) consolidate "
-    "under the parent film. TMDB-only and special-programming rows stay in "
-    "the analysis artifact."
+    "strongly_expected). Confirmed local evidence stays public regardless of "
+    "TMDB popularity. strongly_expected requires AMC catalog ∩ TMDB US "
+    "theatrical plus TMDB popularity at/above the configured floor (not proven "
+    "Seattle availability). Lower-popularity AMC∩TMDB rows, bare national AMC, "
+    "TMDB-only, and special-programming stay analysis-only. Engagement SKUs "
+    "(Q&A, Fan First, Early Access, Fan Event) consolidate under the parent film."
 )
 
 DEFAULT_WINDOW_DAYS = 90
@@ -1162,7 +1165,8 @@ def _entry_from_candidate(
         "tmdb_us_theatrical": bool(candidate.tmdb_us_theatrical),
         "reel_seattle_scheduled": bool(candidate.reel_seattle_scheduled),
     }
-    relevance_tier, user_visible, visibility_reason = assign_relevance_and_visibility(
+    popularity = extract_tmdb_popularity(candidate.tmdb_metadata)
+    decision = assign_relevance_and_visibility(
         classification=classification,
         presentation_kind=kind,
         exclusion_reason=exclusion_reason,
@@ -1171,7 +1175,12 @@ def _entry_from_candidate(
         amc_presentation_category=amc_presentation_category,
         amc_genre=amc_genre,
         variant_titles=sorted(candidate.titles),
+        tmdb_popularity=popularity,
+        popularity_threshold=STRONGLY_EXPECTED_MIN_POPULARITY,
     )
+    relevance_tier = decision.relevance_tier
+    user_visible = decision.user_visible
+    visibility_reason = decision.visibility_reason
     scheduled = bool(
         classification == CLASSIFICATION_CONFIRMED_LOCAL
         and candidate.first_local_screening_date is not None
@@ -1239,6 +1248,10 @@ def _entry_from_candidate(
         "exclusion_reason": None if user_visible else (
             exclusion_reason or visibility_reason
         ),
+        "tmdb_popularity": decision.tmdb_popularity,
+        "local_evidence_strength": decision.local_evidence_strength,
+        "relevance_reason": decision.relevance_reason,
+        "popularity_threshold_applied": decision.popularity_threshold_applied,
         "engagements": engagements,
         "presentation": presentation,
         "identity": {
@@ -1492,6 +1505,10 @@ def build_coming_soon_bundle(
         "weak_national_only_count": analysis_stats["relevance_tier_counts"].get(
             RELEVANCE_WEAK_NATIONAL_ONLY, 0
         ),
+        "low_relevance_no_local_evidence_count": analysis_stats.get(
+            "low_relevance_no_local_evidence_count", 0
+        ),
+        "popularity_threshold": STRONGLY_EXPECTED_MIN_POPULARITY,
         "presentation_filtered_count": int(
             dropped.get(DROP_REASON_PRESENTATION_FILTER, 0)
         ),
@@ -1612,6 +1629,7 @@ def _artifact_stats(
     with_poster = 0
     engagements_total = 0
     synthetic_groups = 0
+    low_relevance_count = 0
     film_id_seen: dict[str, int] = {}
     join_key_seen: dict[str, int] = {}
 
@@ -1622,6 +1640,8 @@ def _artifact_stats(
         tier = entry.get("relevance_tier")
         if tier in relevance_tier_counts:
             relevance_tier_counts[tier] += 1
+        if entry.get("visibility_reason") == VISIBILITY_LOW_RELEVANCE:
+            low_relevance_count += 1
         if entry.get("user_visible"):
             user_visible += 1
             expected = date.fromisoformat(str(entry["expected_release_date"]))
@@ -1656,7 +1676,7 @@ def _artifact_stats(
         if presentation.get("poster_url"):
             with_poster += 1
 
-    return {
+    stats = {
         "entry_count": len(entries),
         "user_visible_count": user_visible,
         "hidden_count": len(entries) - user_visible,
@@ -1695,6 +1715,10 @@ def _artifact_stats(
             ),
         },
     }
+    if include_hidden:
+        stats["low_relevance_no_local_evidence_count"] = low_relevance_count
+        stats["popularity_threshold"] = STRONGLY_EXPECTED_MIN_POPULARITY
+    return stats
 
 
 # ---------------------------------------------------------------------------
