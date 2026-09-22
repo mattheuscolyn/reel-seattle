@@ -58,6 +58,130 @@ export const SHOWTIMES_BROWSE_TIME_RANGES = Object.freeze([
 
 export const SHOWTIMES_BROWSE_QUICK_START_ID = 'all-showtimes';
 
+/** Hard cap for expanded All Showtimes film-card preview chips. */
+export const BROWSE_EXPANDED_SHOWTIME_PREVIEW_LIMIT = 6;
+
+/**
+ * CTA copy for drilling into Film Showtimes from an expanded browse card.
+ * @param {number} totalCount
+ */
+export function formatBrowseSeeAllShowtimesLabel(totalCount) {
+  const n = Number.isFinite(totalCount) ? Math.max(0, Math.floor(totalCount)) : 0;
+  return n === 1 ? 'See all 1 showtime' : `See all ${n} showtimes`;
+}
+
+/**
+ * Pick up to `limit` showtimes from theater blocks with breadth-first rounds
+ * (one slot per theater per round) so a single theater cannot monopolize.
+ * @param {{ theaterId: string | null, theaterName: string, showtimes: object[] }[]} theaters
+ * @param {number} limit
+ */
+function pickTheaterShowtimesWithBreadth(theaters, limit) {
+  if (!Array.isArray(theaters) || limit <= 0) return [];
+  /** @type {Map<string, object[]>} */
+  const pickedByTheater = new Map();
+  let picked = 0;
+  let round = 0;
+  while (picked < limit) {
+    let added = false;
+    for (const theater of theaters) {
+      if (picked >= limit) break;
+      const showtimes = Array.isArray(theater.showtimes) ? theater.showtimes : [];
+      const next = showtimes[round];
+      if (!next) continue;
+      const key = theater.theaterId ?? theater.theaterName;
+      const bucket = pickedByTheater.get(key) ?? [];
+      bucket.push(next);
+      pickedByTheater.set(key, bucket);
+      picked += 1;
+      added = true;
+    }
+    if (!added) break;
+    round += 1;
+  }
+  return theaters
+    .map((theater) => {
+      const key = theater.theaterId ?? theater.theaterName;
+      const showtimes = pickedByTheater.get(key);
+      if (!showtimes?.length) return null;
+      return {
+        theaterId: theater.theaterId,
+        theaterName: theater.theaterName,
+        showtimes,
+      };
+    })
+    .filter(Boolean);
+}
+
+/**
+ * Build a capped expanded-card preview from full date→theater groups.
+ * Dates stay chronological; within each date theaters get breadth before
+ * additional slots fill from the same theater. Never mutates the input.
+ * @param {object[]} dateGroups
+ * @param {number} [limit]
+ * @returns {{
+ *   dateGroups: object[],
+ *   previewShowtimeCount: number,
+ *   totalShowtimeCount: number,
+ *   hasMoreShowtimes: boolean,
+ * }}
+ */
+export function selectBrowseExpandedShowtimePreview(
+  dateGroups,
+  limit = BROWSE_EXPANDED_SHOWTIME_PREVIEW_LIMIT,
+) {
+  const groups = Array.isArray(dateGroups) ? dateGroups : [];
+  const totalShowtimeCount = groups.reduce((sum, group) => {
+    const theaters = Array.isArray(group?.theaters) ? group.theaters : [];
+    return (
+      sum +
+      theaters.reduce(
+        (inner, theater) =>
+          inner + (Array.isArray(theater?.showtimes) ? theater.showtimes.length : 0),
+        0,
+      )
+    );
+  }, 0);
+
+  const cap = Number.isFinite(limit) && limit > 0 ? Math.floor(limit) : 0;
+  if (cap <= 0 || totalShowtimeCount === 0) {
+    return {
+      dateGroups: [],
+      previewShowtimeCount: 0,
+      totalShowtimeCount,
+      hasMoreShowtimes: totalShowtimeCount > 0,
+    };
+  }
+
+  let remaining = cap;
+  /** @type {object[]} */
+  const previewGroups = [];
+  for (const group of groups) {
+    if (remaining <= 0) break;
+    const theaters = Array.isArray(group?.theaters) ? group.theaters : [];
+    const previewTheaters = pickTheaterShowtimesWithBreadth(theaters, remaining);
+    const taken = previewTheaters.reduce(
+      (sum, theater) => sum + theater.showtimes.length,
+      0,
+    );
+    if (taken === 0) continue;
+    previewGroups.push({
+      localDate: group.localDate,
+      dateLabel: group.dateLabel,
+      theaters: previewTheaters,
+    });
+    remaining -= taken;
+  }
+
+  const previewShowtimeCount = cap - remaining;
+  return {
+    dateGroups: previewGroups,
+    previewShowtimeCount,
+    totalShowtimeCount,
+    hasMoreShowtimes: totalShowtimeCount > previewShowtimeCount,
+  };
+}
+
 /**
  * @returns {{
  *   dateMode: 'today' | 'tomorrow' | 'week',
@@ -322,6 +446,7 @@ export function groupBrowseOpportunitiesByFilm(
 
     const theaterIds = new Set(rows.map((r) => r.theaterId).filter(Boolean));
     const enriched = enrichHomeFilm(film, enrichmentIndex, 'showtimes', homeData);
+    const preview = selectBrowseExpandedShowtimePreview(dateGroups);
     films.push({
       filmKey,
       filmId: enriched.filmId ?? film.filmId ?? null,
@@ -338,6 +463,12 @@ export function groupBrowseOpportunitiesByFilm(
       showtimeCount: rows.length,
       theaterCount: theaterIds.size,
       dateGroups,
+      previewDateGroups: preview.dateGroups,
+      previewShowtimeCount: preview.previewShowtimeCount,
+      hasMoreShowtimes: preview.hasMoreShowtimes,
+      seeAllShowtimesLabel: preview.hasMoreShowtimes
+        ? formatBrowseSeeAllShowtimesLabel(rows.length)
+        : null,
       // Flat list for simple Today/Tomorrow rendering
       showtimes: rows,
     });

@@ -366,15 +366,40 @@ export function openOpportunityDetail(state, params) {
  *   filmKey: string,
  *   theaterId?: string | null,
  *   opportunityKey?: string | null,
+ *   formatKeys?: string[],
+ *   timeRangeId?: string | null,
+ *   selectedDate?: string | null,
+ *   returnSurface?: object | null,
  * }} params
  */
 export function openShowtimes(state, params) {
+  const originType = state.surface?.type;
   if (
-    state.surface?.type !== 'film-detail' &&
-    state.surface?.type !== 'shorts-program-detail'
+    originType !== 'film-detail' &&
+    originType !== 'shorts-program-detail' &&
+    originType !== 'showtimes-browse'
   ) {
     return state;
   }
+  const formatKeys = Array.isArray(params.formatKeys)
+    ? params.formatKeys.filter((key) => typeof key === 'string' && key)
+    : [];
+  const timeRangeId =
+    typeof params.timeRangeId === 'string' && params.timeRangeId.trim()
+      ? params.timeRangeId.trim()
+      : null;
+  const selectedDate =
+    typeof params.selectedDate === 'string' &&
+    /^\d{4}-\d{2}-\d{2}$/.test(params.selectedDate.trim())
+      ? params.selectedDate.trim()
+      : null;
+  const hasExplicitReturn = Object.prototype.hasOwnProperty.call(
+    params,
+    'returnSurface',
+  );
+  const returnSurface = hasExplicitReturn
+    ? params.returnSurface ?? null
+    : state.surface;
   return {
     ...state,
     surface: {
@@ -382,8 +407,11 @@ export function openShowtimes(state, params) {
       filmKey: params.filmKey,
       theaterId: params.theaterId ?? null,
       opportunityKey: params.opportunityKey ?? null,
+      formatKeys,
+      timeRangeId,
+      selectedDate,
       originPrimary: state.surface.originPrimary,
-      returnSurface: state.surface,
+      returnSurface,
     },
   };
 }

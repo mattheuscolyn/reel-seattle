@@ -301,6 +301,47 @@ export function browseFiltersToNavUi(filters) {
 }
 
 /**
+ * Minimal Browse → Film Showtimes seed. Only maps filters that Film Showtimes
+ * can express clearly; drops sort, custom time, favorites, film-state, week/range.
+ * @param {BrowseFilters | object | null | undefined} filters
+ * @param {Date | (() => Date)} [now]
+ * @returns {{
+ *   formatKeys: string[],
+ *   theaterId: string | null,
+ *   timeRangeId: string,
+ *   selectedDate: string | null,
+ * }}
+ */
+export function browseFiltersToFilmShowtimesSeed(filters, now = new Date()) {
+  const normalized = normalizeBrowseFilters(filters ?? {}, now);
+  const formatKeys = Array.isArray(normalized.formatKeys)
+    ? normalized.formatKeys.filter(Boolean)
+    : [];
+  const theaterId =
+    normalized.theaterIds.length === 1 ? normalized.theaterIds[0] : null;
+  const preset = normalized.time?.preset;
+  const timeRangeId =
+    typeof preset === 'string' &&
+    preset &&
+    preset !== 'custom' &&
+    preset !== 'any'
+      ? preset
+      : 'any';
+  const mode = normalized.dateSelection?.mode;
+  const selectedDate =
+    (mode === 'today' || mode === 'tomorrow') &&
+    typeof normalized.dateSelection.startDate === 'string'
+      ? normalized.dateSelection.startDate
+      : null;
+  return {
+    formatKeys,
+    theaterId,
+    timeRangeId,
+    selectedDate,
+  };
+}
+
+/**
  * Sheet-editable fields only (date + sort stay on the main page).
  * @param {BrowseFilters} filters
  */
