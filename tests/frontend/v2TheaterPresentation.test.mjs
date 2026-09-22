@@ -460,7 +460,7 @@ test('Theater Detail showtimes emit one filmGroup card per canonical identity', 
   const groups = detail.todaysShowtimes.filmGroups;
   assert.equal(detail.todaysShowtimes.featuredFilm, null);
   assert.equal(detail.todaysShowtimes.selectedDate, '2026-08-10');
-  assert.match(detail.todaysShowtimes.title, /Showtimes · Mon, Aug 10/i);
+  assert.match(detail.todaysShowtimes.title, /Showtimes · Today/i);
   assert.equal(groups.length, 6);
 
   const titles = groups.map((g) => g.title);
@@ -578,7 +578,7 @@ test('Theater Detail defaults to Pacific today, not earliest opportunity date', 
     { now, timeFormatId: '12h' },
   );
   assert.equal(detail.todaysShowtimes.selectedDate, '2026-08-08');
-  assert.match(detail.todaysShowtimes.title, /Showtimes · Sat, Aug 8/i);
+  assert.match(detail.todaysShowtimes.title, /Showtimes · Today/i);
   assert.equal(detail.todaysShowtimes.filmGroups.length, 1);
   assert.deepEqual(
     detail.todaysShowtimes.filmGroups[0].times.map((t) => t.label),
@@ -602,7 +602,7 @@ test('Theater Detail defaults to Pacific today, not earliest opportunity date', 
   );
   // Do not silently fall back to Friday when Saturday has no rows.
   assert.equal(emptyToday.todaysShowtimes.selectedDate, '2026-08-08');
-  assert.match(emptyToday.todaysShowtimes.title, /Showtimes · Sat, Aug 8/i);
+  assert.match(emptyToday.todaysShowtimes.title, /Showtimes · Today/i);
   assert.equal(emptyToday.todaysShowtimes.filmGroups.length, 0);
 
   const as24h = composeTheaterDetailPresentation(
@@ -660,7 +660,7 @@ test('Theater Detail with a single film still renders one group', () => {
   assert.equal(detail.sectionsVisible.todaysShowtimes, true);
 });
 
-test('Theater Detail empty-date venue hides showtimes section', () => {
+test('Theater Detail empty venue still shows the date strip and an empty state', () => {
   const home = {
     theatersById: {
       'empty-venue': {
@@ -677,5 +677,6 @@ test('Theater Detail empty-date venue hides showtimes section', () => {
   const detail = composeTheaterDetailPresentation(home, 'empty-venue');
   assert.equal(detail.todaysShowtimes.filmGroups.length, 0);
   assert.equal(detail.todaysShowtimes.screens.length, 0);
-  assert.equal(detail.sectionsVisible.todaysShowtimes, false);
+  assert.equal(detail.sectionsVisible.todaysShowtimes, true);
+  assert.equal(detail.todaysShowtimes.emptyReason, 'date');
 });

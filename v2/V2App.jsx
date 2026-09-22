@@ -2137,6 +2137,10 @@ export default function V2App() {
             returnSurface: nav.surface,
           })
         }
+        onAcceptedPlansChange={() =>
+          setAcceptedPlansRevision((value) => value + 1)
+        }
+        onViewPlanner={() => handleSelectDestination('planner')}
         onStubAction={(_actionId, label) => {
           setProfileStubStatus(
             `${label} isn’t available in this Stage 1 Theater Detail shell yet.`,

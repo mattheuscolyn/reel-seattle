@@ -95,6 +95,9 @@ export function resolveTheatersPagePresentation({
  *   forceMode?: 'production' | 'mockup-fixture' | null,
  *   now?: Date | (() => Date),
  *   timeFormatId?: string,
+ *   selectedDate?: string | null,
+ *   formatKeys?: string[],
+ *   timeRangeId?: string | null,
  * }} [params]
  */
 export function resolveTheaterDetailPagePresentation({
@@ -104,6 +107,9 @@ export function resolveTheaterDetailPagePresentation({
   forceMode = null,
   now = undefined,
   timeFormatId = undefined,
+  selectedDate = undefined,
+  formatKeys = undefined,
+  timeRangeId = undefined,
 } = {}) {
   const mode =
     forceMode ??
@@ -123,7 +129,7 @@ export function resolveTheaterDetailPagePresentation({
     homeData,
     theaterId,
     enrichmentIndex,
-    { now, timeFormatId },
+    { now, timeFormatId, selectedDate, formatKeys, timeRangeId },
   );
   return {
     mode: /** @type {'production'} */ ('production'),

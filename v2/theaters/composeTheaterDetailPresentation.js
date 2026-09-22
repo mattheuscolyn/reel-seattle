@@ -19,9 +19,17 @@ import {
   normalizeShowtimeFilmKey,
 } from '../stores/savedFilmsStore.js';
 import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
-import { pacificDateString } from '../explore/exploreCatalog.js';
+import { addIsoDays, pacificDateString } from '../explore/exploreCatalog.js';
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 import { scheduleScreeningState } from '../showtimes/canonicalScreening.js';
+import {
+  SHOWTIMES_BROWSE_TIME_RANGES,
+  normalizeBrowseFormat,
+  opportunityMatchesTimeRange,
+} from '../showtimes/showtimesBrowseModel.js';
+
+/** Stable Theater Detail date strip: today plus the next six calendar days. */
+export const THEATER_DETAIL_DATE_WINDOW_DAYS = 7;
 
 /**
  * @param {unknown} raw
@@ -50,6 +58,9 @@ function formatShowtimeVariantLabel(raw) {
  * @param {{
  *   now?: Date | (() => Date),
  *   timeFormatId?: string,
+ *   selectedDate?: string | null,
+ *   formatKeys?: string[],
+ *   timeRangeId?: string | null,
  * }} [options]
  * @returns {object}
  */
@@ -197,9 +208,7 @@ export function composeTheaterDetailPresentation(
     sectionsVisible: {
       ...card.sectionsVisible,
       nowShowing: true,
-      todaysShowtimes:
-        (todaysShowtimes.filmGroups?.length ?? 0) > 0 ||
-        todaysShowtimes.screens.length > 0,
+      todaysShowtimes: true,
       pricingHours: false,
       descriptionExpand:
         Boolean(card.description) && (card.description?.length ?? 0) > 180,
@@ -207,9 +216,9 @@ export function composeTheaterDetailPresentation(
     deferredMessages: {
       share: 'Shareable Theater Detail URLs are not available yet.',
       viewAll: 'Full theater program view is deferred.',
-      viewWeek: '7-day schedule view is deferred.',
-      filters: 'Showtime filters are deferred.',
-      showtime: 'Open the film for ticket links when available.',
+      viewWeek: null,
+      filters: null,
+      showtime: null,
       pricing: 'Pricing is deferred until ownership and freshness policy land.',
       hours: 'Hours are deferred until ownership and freshness policy land.',
     },
@@ -221,8 +230,8 @@ export function composeTheaterDetailPresentation(
  * Emits one `filmGroups` card per canonical identity; `featuredFilm` stays null
  * so live rendering does not nest every film inside the first mockup card.
  *
- * Selected calendar day is Pacific “today” (not the earliest opportunity date).
- * The header stays on today even when no showtimes exist for that day.
+ * Selected calendar day defaults to Pacific today. The date strip always
+ * covers today plus the next six days, including empty days.
  *
  * @param {object | null | undefined} homeData
  * @param {string} theaterId
@@ -230,6 +239,9 @@ export function composeTheaterDetailPresentation(
  * @param {{
  *   now?: Date | (() => Date),
  *   timeFormatId?: string,
+ *   selectedDate?: string | null,
+ *   formatKeys?: string[],
+ *   timeRangeId?: string | null,
  * }} [options]
  */
 function buildTodaysShowtimes(
@@ -247,19 +259,43 @@ function buildTodaysShowtimes(
     typeof options.timeFormatId === 'string' && options.timeFormatId
       ? options.timeFormatId
       : '12h';
-  const dateTitle = `Showtimes · ${formatLocalDateLabel(today) ?? today}`;
-  const empty = {
+  const dateChips = buildTheaterDateChips(today);
+  const requested =
+    typeof options.selectedDate === 'string' &&
+    dateChips.some((chip) => chip.id === options.selectedDate)
+      ? options.selectedDate
+      : today;
+  const selectedChip = dateChips.find((chip) => chip.id === requested) ?? dateChips[0];
+  const formatKeys = Array.isArray(options.formatKeys)
+    ? options.formatKeys.filter((key) => typeof key === 'string' && key)
+    : [];
+  const timeRangeId =
+    typeof options.timeRangeId === 'string' && options.timeRangeId
+      ? options.timeRangeId
+      : 'any';
+  const filtersActive = formatKeys.length > 0 || timeRangeId !== 'any';
+  const dateTitle = `Showtimes · ${selectedChip?.label ?? formatLocalDateLabel(requested) ?? requested}`;
+  const emptyBase = {
     title: dateTitle,
-    selectedDate: today,
-    viewWeekLabel: 'View 7 days',
+    selectedDate: requested,
+    dateChips,
     filtersLabel: 'Filters',
-    screenTabs: [{ id: 'all', label: 'All Screens' }],
+    activeFilterCount: (formatKeys.length > 0 ? 1 : 0) + (timeRangeId !== 'any' ? 1 : 0),
+    formatOptions: [],
+    timeRangeOptions: SHOWTIMES_BROWSE_TIME_RANGES.map((range) => ({
+      id: range.id,
+      label: range.label,
+    })),
+    appliedFormatKeys: formatKeys,
+    appliedTimeRangeId: timeRangeId,
+    emptyMessage: 'No showtimes at this theater on this date.',
+    emptyReason: 'date',
     featuredFilm: null,
     filmGroups: [],
     screens: [],
   };
 
-  if (!theaterId || !homeData) return empty;
+  if (!theaterId || !homeData) return emptyBase;
 
   const opps = (Array.isArray(homeData.opportunities)
     ? homeData.opportunities
@@ -273,9 +309,33 @@ function buildTodaysShowtimes(
       ),
     );
 
-  if (opps.length === 0) return empty;
+  const windowDates = new Set(dateChips.map((chip) => chip.id));
+  const windowOpps = opps.filter((opp) => windowDates.has(opp.localDate));
+  const formatOptions = collectTheaterFormatOptions(windowOpps);
+  const dayUnfiltered = windowOpps.filter((opp) => opp.localDate === requested);
+  const wantedFormats = new Set(formatKeys);
+  const dayOpps = dayUnfiltered.filter((opp) => {
+    if (wantedFormats.size > 0) {
+      const match = (opp.formatLabels ?? []).some((raw) => {
+        const normalized = normalizeBrowseFormat(raw);
+        return normalized && wantedFormats.has(normalized.key);
+      });
+      if (!match) return false;
+    }
+    return opportunityMatchesTimeRange(opp, timeRangeId);
+  });
 
-  const todayOpps = opps.filter((opp) => opp.localDate === today);
+  const empty = {
+    ...emptyBase,
+    formatOptions,
+    emptyMessage:
+      dayUnfiltered.length === 0
+        ? 'No showtimes at this theater on this date.'
+        : 'No showtimes match these filters.',
+    emptyReason: dayUnfiltered.length === 0 ? 'date' : 'filters',
+  };
+
+  if (opps.length === 0 || dayOpps.length === 0) return empty;
 
   /** @type {Map<string, object>} */
   const filmsByKey = new Map(
@@ -301,7 +361,7 @@ function buildTodaysShowtimes(
    */
   const byGroup = new Map();
 
-  for (const opp of todayOpps) {
+  for (const opp of dayOpps) {
     const showtimeKey = normalizeShowtimeFilmKey(opp.filmKey);
     if (!showtimeKey) continue;
     const film = filmsByKey.get(showtimeKey) ?? null;
@@ -344,13 +404,17 @@ function buildTodaysShowtimes(
       formatShowtimeVariantLabel(film?.screeningVariantType) ??
       null;
     const state = scheduleScreeningState(opp, options.now);
+    const rawFormat = formatLabel ?? variantLabel;
+    const displayFormat =
+      rawFormat && !/^none$/i.test(String(rawFormat)) ? rawFormat : null;
     const timeRow = {
       id: opp.opportunityKey ?? `${showtimeKey}-${timeLabel}`,
       label: timeLabel,
-      formatLabel: formatLabel ?? variantLabel,
+      formatLabel: displayFormat,
       opportunityKey: opp.opportunityKey ?? null,
+      filmKey: showtimeKey,
       screeningId: opp.screeningId ?? opp.opportunityKey ?? null,
-      localDate: today,
+      localDate: requested,
       localTime: opp.localTime ?? null,
       past: state.past,
       actionable: state.actionable,
@@ -411,7 +475,7 @@ function buildTodaysShowtimes(
         opportunityKey: opp.opportunityKey ?? null,
         sortKey:
           String(opp.sortableLocalDateTime ?? '') ||
-          `${today}${timeLabel}`,
+          `${requested}${timeLabel}`,
         times: [],
       };
       byGroup.set(groupKey, bucket);
@@ -446,12 +510,73 @@ function buildTodaysShowtimes(
 
   return {
     title: dateTitle,
-    selectedDate: today,
-    viewWeekLabel: 'View 7 days',
+    selectedDate: requested,
+    dateChips,
     filtersLabel: 'Filters',
-    screenTabs: [{ id: 'all', label: 'All films' }],
+    activeFilterCount:
+      (formatKeys.length > 0 ? 1 : 0) + (timeRangeId !== 'any' ? 1 : 0),
+    formatOptions,
+    timeRangeOptions: SHOWTIMES_BROWSE_TIME_RANGES.map((range) => ({
+      id: range.id,
+      label: range.label,
+    })),
+    appliedFormatKeys: formatKeys,
+    appliedTimeRangeId: timeRangeId,
+    emptyMessage: null,
+    emptyReason: null,
+    filtersActive,
     featuredFilm: null,
     filmGroups: filmGroups.map(({ sortKey: _s, ...group }) => group),
     screens,
   };
+}
+
+/**
+ * @param {string} today
+ */
+function buildTheaterDateChips(today) {
+  return Array.from({ length: THEATER_DETAIL_DATE_WINDOW_DAYS }, (_, offset) => {
+    const iso = addIsoDays(today, offset);
+    return {
+      id: iso,
+      label: theaterDateChipLabel(iso, today),
+      isToday: offset === 0,
+    };
+  });
+}
+
+/**
+ * @param {string} iso
+ * @param {string} today
+ */
+function theaterDateChipLabel(iso, today) {
+  if (iso === today) return 'Today';
+  if (iso === addIsoDays(today, 1)) return 'Tomorrow';
+  const [, month, day] = iso.split('-').map(Number);
+  const [y, m, d] = iso.split('-').map(Number);
+  const date = new Date(Date.UTC(y, m - 1, d, 12));
+  const weekday = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC',
+    weekday: 'short',
+  }).format(date);
+  return `${weekday} ${month}/${day}`;
+}
+
+/**
+ * @param {object[]} opportunities
+ */
+function collectTheaterFormatOptions(opportunities) {
+  /** @type {Map<string, string>} */
+  const byKey = new Map();
+  for (const opp of opportunities) {
+    for (const raw of opp.formatLabels ?? []) {
+      const normalized = normalizeBrowseFormat(raw);
+      if (normalized && !byKey.has(normalized.key)) {
+        byKey.set(normalized.key, normalized.label);
+      }
+    }
+  }
+  return [...byKey.entries()]
+    .map(([key, label]) => ({ key, label }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 }
