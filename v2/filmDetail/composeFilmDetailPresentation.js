@@ -7,7 +7,7 @@ import {
   attachHeroBadges,
   buildBestWayCard,
   buildFilmHero,
-  buildTodaysShowtimes,
+  composeFilmDetailTodaySection,
   buildWhySeeItSignals,
   resolveFilm,
   selectBestOpportunity,
@@ -184,7 +184,14 @@ function composeRealPresentation(
       recommendedExperience: null,
       recommendedExperienceSignals: [],
       recommendedExperienceEmpty: true,
-      today: { localDate: null, rows: [], empty: true },
+      today: {
+        mode: 'none_upcoming',
+        localDate: null,
+        rows: [],
+        empty: true,
+        emptyMessage: 'No upcoming showtimes currently scheduled',
+        fallback: null,
+      },
     };
   }
 
@@ -256,7 +263,7 @@ function composeRealPresentation(
   const recommendedExperienceSignals = buildRecommendedExperienceSignals(
     recommendedExperience,
   );
-  const today = buildTodaysShowtimes(
+  const today = composeFilmDetailTodaySection(
     homeData,
     filmKey,
     opportunityKey ?? bestOpp?.opportunityKey,

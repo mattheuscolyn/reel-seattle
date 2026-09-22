@@ -323,11 +323,15 @@ export default function FilmDetailSurface({
         opportunityKey: time.opportunityKey,
         filmKey: view.filmKey,
         filmTitle: hero.title,
-        localDate: today.localDate ?? null,
+        localDate: time.localDate ?? today.localDate ?? null,
         localTime: time.localTime,
         timeDisplay: time.timeDisplay,
         theaterName: row.theaterName,
-        formatLabels: time.formatLabel ? [time.formatLabel] : [],
+        formatLabels: time.formatLabel
+          ? [time.formatLabel]
+          : time.detailLabel
+            ? [time.detailLabel]
+            : [],
         ticketUrl: time.ticketUrl,
       },
     });
@@ -727,17 +731,7 @@ export default function FilmDetailSurface({
             See all showtimes
           </button>
         </div>
-        {today.empty ? (
-          <div role="status">
-            <p className="v2-fd-muted">
-              {view.availabilityNote ??
-                'No showtimes for today in the current window.'}
-            </p>
-            {view.availabilityHint ? (
-              <p className="v2-fd-muted">{view.availabilityHint}</p>
-            ) : null}
-          </div>
-        ) : (
+        {today.mode === 'active' && !today.empty ? (
           <ul className="v2-fd-today-list" role="list">
             {today.rows.map((row) => (
               <li key={row.id}>
@@ -831,7 +825,120 @@ export default function FilmDetailSurface({
               </li>
             ))}
           </ul>
+        ) : (
+          <div role="status">
+            <p className="v2-fd-muted">
+              {today.emptyMessage ??
+                view.availabilityNote ??
+                'No upcoming showtimes currently scheduled'}
+            </p>
+            {view.availabilityHint && !today.fallback ? (
+              <p className="v2-fd-muted">{view.availabilityHint}</p>
+            ) : null}
+          </div>
         )}
+
+        {today.fallback?.rows?.length ? (
+          <div className="v2-fd-today-fallback">
+            <h3 className="v2-fd-today-fallback-title">{today.fallback.title}</h3>
+            <ul className="v2-fd-today-list" role="list">
+              {today.fallback.rows.map((row) => (
+                <li key={`fallback-${row.id}`}>
+                  <div
+                    className={`v2-fd-today-row v2-fd-today-accent-${row.accent}`}
+                  >
+                    <button
+                      type="button"
+                      className="v2-fd-today-theater-btn"
+                      aria-label={`${row.theaterName}, see all showtimes`}
+                      onClick={() => openTheaterShowtimes(row)}
+                    >
+                      <span
+                        className={`v2-fd-today-mark v2-fd-today-mark-${row.venueMark}`}
+                        aria-hidden="true"
+                      >
+                        {row.venueMark}
+                      </span>
+                      <span className="v2-fd-today-main">
+                        <span className="v2-fd-today-theater">
+                          {row.theaterName}
+                        </span>
+                        {row.chips.length > 0 ? (
+                          <span className="v2-fd-today-chips">
+                            {row.chips.map((chip) => (
+                              <span
+                                key={chip.label}
+                                className="v2-fd-today-chip"
+                              >
+                                {chip.icon === 'lock' ? <IconLock /> : null}
+                                {chip.label}
+                              </span>
+                            ))}
+                          </span>
+                        ) : null}
+                      </span>
+                      <IconChevron />
+                    </button>
+                    <div className="v2-fd-today-times" role="group" aria-label={`${row.theaterName} times`}>
+                      {row.times.map((time) => {
+                        const timeKey = `${time.opportunityKey ?? ''}:${time.timeDisplay}`;
+                        if (time.actionable === false) {
+                          return (
+                            <span
+                              key={timeKey}
+                              className="v2-fd-today-time v2-fd-today-time-started"
+                              data-ticket-url="0"
+                              aria-label={`${time.timeDisplay}, ${time.stateLabel ?? 'Started'}`}
+                            >
+                              <span className="v2-fd-today-time-clock">
+                                {time.timeDisplay}
+                              </span>
+                              <span className="v2-visually-hidden">
+                                {time.stateLabel ?? 'Started'}
+                              </span>
+                              {time.detailLabel ? (
+                                <span className="v2-fd-today-time-detail">
+                                  {time.detailLabel}
+                                </span>
+                              ) : null}
+                            </span>
+                          );
+                        }
+                        return (
+                          <button
+                            key={timeKey}
+                            type="button"
+                            className={
+                              time.emphasized
+                                ? 'v2-fd-today-time v2-fd-today-time-on'
+                                : 'v2-fd-today-time'
+                            }
+                            data-opportunity-key={
+                              time.opportunityKey ?? undefined
+                            }
+                            data-ticket-url={time.ticketUrl ? '1' : '0'}
+                            aria-label={`Select ${time.timeDisplay} at ${row.theaterName}`}
+                            onClick={() => openFilmShowtimeActions(row, time)}
+                          >
+                            <span className="v2-fd-today-time-clock">
+                              {time.timeDisplay}
+                            </span>
+                            {time.detailLabel ? (
+                              <span className="v2-fd-today-time-detail">
+                                {time.detailLabel}
+                              </span>
+                            ) : null}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
         <p className="v2-fd-tz">
           <IconInfo /> {today.timezoneNote}
         </p>
