@@ -12,6 +12,7 @@ import {
 } from '../showtimes/browseFilterEngine.js';
 import {
   browseEmptyMessageForReason,
+  browseFiltersToFilmShowtimesSeed,
   browseFiltersToNavUi,
   createDefaultBrowseFilters,
   dateModeToDateSelection,
@@ -53,6 +54,7 @@ export default function ShowtimesBrowseSurface({
   onBrowseUiChange,
   onOpenFilmDetail,
   onOpenTheaterDetail,
+  onOpenShowtimes = null,
   onAcceptedPlansChange = null,
   onViewPlanner = null,
 }) {
@@ -257,6 +259,33 @@ export default function ShowtimesBrowseSurface({
       filmKey: film.filmKey,
       row,
       opportunity,
+    });
+  };
+
+  const openAllShowtimesForFilm = (film) => {
+    if (typeof onOpenShowtimes !== 'function') return;
+    const position = captureListPosition({ itemKey: film.filmKey });
+    const seed = browseFiltersToFilmShowtimesSeed(appliedFilters);
+    onOpenShowtimes({
+      filmKey: film.filmKey,
+      theaterId: seed.theaterId,
+      formatKeys: seed.formatKeys,
+      timeRangeId: seed.timeRangeId,
+      selectedDate: seed.selectedDate,
+      opportunityKey: film.showtimes[0]?.opportunityKey ?? null,
+      returnSurface: {
+        type: 'showtimes-browse',
+        originPrimary,
+        browseUi: {
+          ...browseFiltersToNavUi(
+            emitUi(appliedFilters, {
+              expandedFilmKey: film.filmKey,
+            }),
+          ),
+          restoreItemKey: position.itemKey,
+          scrollY: position.scrollY,
+        },
+      },
     });
   };
 
@@ -506,7 +535,7 @@ export default function ShowtimesBrowseSurface({
                     id={`v2-stb-body-${film.filmKey}`}
                     className="v2-stb-film-body"
                   >
-                    {film.dateGroups.map((group) => (
+                    {(film.previewDateGroups ?? film.dateGroups).map((group) => (
                       <div key={group.localDate} className="v2-stb-date-group">
                         {showDateLabels ? (
                           <h3 className="v2-stb-date-label">{group.dateLabel}</h3>
@@ -567,6 +596,15 @@ export default function ShowtimesBrowseSurface({
                         ))}
                       </div>
                     ))}
+                    {film.hasMoreShowtimes && film.seeAllShowtimesLabel ? (
+                      <button
+                        type="button"
+                        className="v2-stb-see-all"
+                        onClick={() => openAllShowtimesForFilm(film)}
+                      >
+                        {film.seeAllShowtimesLabel}
+                      </button>
+                    ) : null}
                   </div>
                 ) : null}
               </li>

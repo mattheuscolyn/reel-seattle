@@ -192,6 +192,7 @@ export function resolveHeaderBackLabel(nav, options = {}) {
   }
   if (surface.type === 'showtimes') {
     if (surface.returnSurface?.type === 'shorts-program-detail') return 'Program';
+    if (surface.returnSurface?.type === 'showtimes-browse') return 'Showtimes';
     return 'Film';
   }
   if (surface.type === 'showtimes-browse') {

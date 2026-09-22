@@ -33,6 +33,9 @@ export default function ShowtimesSurface({
   filmKey,
   theaterId = null,
   opportunityKey = null,
+  formatKeys: initialFormatKeys = null,
+  timeRangeId: initialTimeRangeId = null,
+  selectedDate: initialSelectedDate = null,
   onOpenTheaterDetail,
   onAcceptedPlansChange = null,
   onViewPlanner = null,
@@ -43,9 +46,19 @@ export default function ShowtimesSurface({
   const formatFilterId = useId();
   const sortFilterId = useId();
   const moreFiltersId = useId();
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [formatKeys, setFormatKeys] = useState([]);
-  const [timeRangeId, setTimeRangeId] = useState('any');
+  const [selectedDate, setSelectedDate] = useState(
+    typeof initialSelectedDate === 'string' ? initialSelectedDate : null,
+  );
+  const [formatKeys, setFormatKeys] = useState(() =>
+    Array.isArray(initialFormatKeys)
+      ? initialFormatKeys.filter((key) => typeof key === 'string' && key)
+      : [],
+  );
+  const [timeRangeId, setTimeRangeId] = useState(
+    typeof initialTimeRangeId === 'string' && initialTimeRangeId
+      ? initialTimeRangeId
+      : 'any',
+  );
   const [sortId, setSortId] = useState('time');
   const [moreOpen, setMoreOpen] = useState(false);
   const [theaterScope, setTheaterScope] = useState(theaterId);
@@ -63,7 +76,27 @@ export default function ShowtimesSurface({
   useEffect(() => {
     setSelectedKey(opportunityKey);
     setTheaterScope(theaterId);
-  }, [opportunityKey, filmKey, theaterId]);
+    setFormatKeys(
+      Array.isArray(initialFormatKeys)
+        ? initialFormatKeys.filter((key) => typeof key === 'string' && key)
+        : [],
+    );
+    setTimeRangeId(
+      typeof initialTimeRangeId === 'string' && initialTimeRangeId
+        ? initialTimeRangeId
+        : 'any',
+    );
+    setSelectedDate(
+      typeof initialSelectedDate === 'string' ? initialSelectedDate : null,
+    );
+  }, [
+    opportunityKey,
+    filmKey,
+    theaterId,
+    initialFormatKeys,
+    initialTimeRangeId,
+    initialSelectedDate,
+  ]);
 
   const presentation = useMemo(
     () =>

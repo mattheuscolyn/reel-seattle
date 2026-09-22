@@ -1894,6 +1894,9 @@ export default function V2App() {
         filmKey={nav.surface.filmKey}
         theaterId={nav.surface.theaterId}
         opportunityKey={nav.surface.opportunityKey}
+        formatKeys={nav.surface.formatKeys ?? null}
+        timeRangeId={nav.surface.timeRangeId ?? null}
+        selectedDate={nav.surface.selectedDate ?? null}
         onOpenTheaterDetail={(params) =>
           handleOpenTheaterDetail({
             ...params,
@@ -1936,6 +1939,25 @@ export default function V2App() {
             theaterId,
             originPrimary: nav.surface.originPrimary ?? 'explore',
             returnSurface: returnSurface ?? nav.surface,
+          })
+        }
+        onOpenShowtimes={({
+          filmKey,
+          theaterId,
+          opportunityKey,
+          formatKeys,
+          timeRangeId,
+          selectedDate,
+          returnSurface,
+        }) =>
+          handleOpenShowtimes({
+            filmKey,
+            theaterId: theaterId ?? null,
+            opportunityKey: opportunityKey ?? null,
+            formatKeys: formatKeys ?? [],
+            timeRangeId: timeRangeId ?? null,
+            selectedDate: selectedDate ?? null,
+            returnSurface: returnSurface ?? null,
           })
         }
         onAcceptedPlansChange={() =>
