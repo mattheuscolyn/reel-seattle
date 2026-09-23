@@ -130,15 +130,29 @@ def _tmdb_candidate(**overrides):
         "original_title": "Indie Discovery",
         "original_language": "en",
         "release_date": "2026-10-30",
-        "popularity": 2.5,
-        "vote_count": 0,
+        "popularity": 12.0,
+        "vote_count": 40,
         "poster_path": None,
         "has_poster": False,
         "has_overview": True,
-        "quality_flags": ["missing_poster", "no_votes_and_low_popularity"],
+        "quality_flags": ["missing_poster"],
     }
     base.update(overrides)
     return base
+
+
+def _tmdb_for_title(title: str, tmdb_id: int, release_date: str, *, popularity: float = 12.0):
+    return _tmdb_candidate(
+        title=title,
+        original_title=title,
+        tmdb_id=tmdb_id,
+        release_date=release_date,
+        popularity=popularity,
+        vote_count=40 if popularity >= 5 else 0,
+        quality_flags=["missing_poster"]
+        if popularity >= 5
+        else ["missing_poster", "no_votes_and_low_popularity"],
+    )
 
 
 def _tmdb_artifact(*candidates):
@@ -176,11 +190,6 @@ def _bundle(**overrides):
     return build_coming_soon_bundle(**kwargs)
 
 
-
-def _tmdb_for_title(title: str, tmdb_id: int, release_date: str):
-    return _tmdb_candidate(tmdb_id=tmdb_id, title=title, release_date=release_date)
-
-
 def _public_amc_film(**overrides):
     """AMC catalog film that also has TMDB theatrical evidence (strongly_expected)."""
     movie = _catalog_movie(**overrides)
@@ -188,6 +197,7 @@ def _public_amc_film(**overrides):
     release = str(movie["release_date_utc"])[:10]
     tmdb_id = 700000 + int(str(movie["source_film_id"])[-3:])
     return movie, _tmdb_for_title(title, tmdb_id, release)
+
 
 def _entry_by_title(artifact, title):
     for entry in artifact["entries"]:
@@ -686,7 +696,15 @@ def test_currently_available_wins_even_with_amc_catalog_evidence():
 
 
 def test_tmdb_only_candidate_is_retained_in_analysis_not_public():
-    public, analysis = _bundle(tmdb_candidates_artifact=_tmdb_artifact(_tmdb_candidate()))
+    public, analysis = _bundle(
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_candidate(
+                popularity=2.5,
+                vote_count=0,
+                quality_flags=["missing_poster", "no_votes_and_low_popularity"],
+            )
+        )
+    )
 
     assert public["entries"] == []
     assert public["stats"]["hidden_count"] == 0
@@ -1444,3 +1462,269 @@ def test_analysis_preserves_weak_national_with_reason():
     assert entry["relevance_tier"] == "weak_national_only"
     assert entry["visibility_reason"] == "weak_national_only"
     assert analysis["stats"]["relevance_tier_counts"]["weak_national_only"] >= 1
+
+
+# ---------------------------------------------------------------------------
+# Relevance model v2 — TMDB popularity + local evidence
+# ---------------------------------------------------------------------------
+
+
+def test_confirmed_local_overrides_low_tmdb_popularity():
+    public, analysis = _bundle(
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-05",
+                film_title="Niche Local Booking",
+                showtime_film_key="niche-local",
+                parent_film_key="niche-local",
+            )
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Niche Local Booking", 810001, "2026-10-05", popularity=0.4)
+        ),
+    )
+    entry = _entry_by_title(public, "Niche Local Booking")
+    assert entry is not None
+    assert entry["relevance_tier"] == "confirmed_local"
+    assert entry["user_visible"] is True
+    assert entry["tmdb_popularity"] == 0.4
+    assert entry["local_evidence_strength"] == "strong"
+    assert entry["relevance_reason"] == "confirmed_local_release_like"
+    assert entry["local_booking_kind"] == "release_like"
+    assert entry["popularity_threshold_applied"] is None
+    assert _entry_by_title(analysis, "Niche Local Booking")["user_visible"] is True
+
+
+def test_high_popularity_amc_tmdb_proxy_is_public():
+    artifact = _build(
+        amc_catalog=_amc_catalog(_catalog_movie()),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Announced Film", 700001, "2026-11-20", popularity=18.5)
+        ),
+    )
+    entry = _entry_by_title(artifact, "Announced Film")
+    assert entry["relevance_tier"] == "strongly_expected"
+    assert entry["user_visible"] is True
+    assert entry["tmdb_popularity"] == 18.5
+    assert entry["popularity_threshold_applied"] == 5.0
+    assert entry["local_evidence_strength"] == "proxy"
+    assert entry["relevance_reason"] == "amc_tmdb_proxy_meets_popularity"
+
+
+def test_low_popularity_amc_tmdb_proxy_is_analysis_only():
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(_catalog_movie()),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Announced Film", 700001, "2026-11-20", popularity=1.2)
+        ),
+    )
+    assert _entry_by_title(public, "Announced Film") is None
+    entry = _entry_by_title(analysis, "Announced Film")
+    assert entry["classification"] == CLASSIFICATION_AMC_ANNOUNCED
+    assert entry["relevance_tier"] == "weak_national_only"
+    assert entry["user_visible"] is False
+    assert entry["visibility_reason"] == "low_relevance_no_local_evidence"
+    assert entry["exclusion_reason"] == "low_relevance_no_local_evidence"
+    assert entry["tmdb_popularity"] == 1.2
+    assert entry["popularity_threshold_applied"] == 5.0
+    assert entry["relevance_reason"] == "amc_tmdb_proxy_below_popularity_threshold"
+    assert analysis["stats"]["low_relevance_no_local_evidence_count"] >= 1
+    validate_coming_soon_candidates(analysis)
+    validate_coming_soon_current(public)
+
+
+def test_missing_popularity_does_not_qualify_amc_tmdb_proxy():
+    tmdb = _tmdb_for_title("Announced Film", 700001, "2026-11-20")
+    tmdb["popularity"] = None
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(_catalog_movie()),
+        tmdb_candidates_artifact=_tmdb_artifact(tmdb),
+    )
+    assert _entry_by_title(public, "Announced Film") is None
+    entry = _entry_by_title(analysis, "Announced Film")
+    assert entry["user_visible"] is False
+    assert entry["visibility_reason"] == "low_relevance_no_local_evidence"
+    assert entry["tmdb_popularity"] is None
+    assert entry["relevance_reason"] == "amc_tmdb_proxy_missing_popularity"
+    assert entry["popularity_threshold_applied"] == 5.0
+
+
+def test_special_programming_exclusion_precedes_popularity_gate():
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(source_title="Met Opera: Tosca", source_film_id="8801")
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Met Opera: Tosca", 880101, "2026-11-20", popularity=40.0)
+        ),
+    )
+    assert _entry_by_title(public, "Met Opera: Tosca") is None
+    entry = _entry_by_title(analysis, "Met Opera: Tosca")
+    assert entry["visibility_reason"] == "special_programming_not_film_calendar"
+    assert entry["relevance_reason"] == "special_programming_not_film_calendar"
+    assert entry["user_visible"] is False
+
+
+def test_public_artifact_only_contains_user_visible_rows():
+    movie, tmdb = _public_amc_film()
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(
+            movie,
+            _catalog_movie(
+                source_title="Obscure National",
+                source_film_id="8111",
+                release_date_utc="2026-11-15T00:00:00Z",
+            ),
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            tmdb,
+            _tmdb_for_title("Obscure National", 811101, "2026-11-15", popularity=0.8),
+            _tmdb_candidate(title="TMDB Only Title", tmdb_id=900001, popularity=99.0),
+        ),
+        showtimes_current=_showtimes_current(_showtime(date="2026-10-02")),
+    )
+    assert all(entry["user_visible"] is True for entry in public["entries"])
+    assert all(
+        entry["relevance_tier"]
+        in {"confirmed_local", "locally_announced", "strongly_expected"}
+        for entry in public["entries"]
+    )
+    assert public["schema_version"] == "1.3.0"
+    assert analysis["schema_version"] == "1.2.0"
+    assert public["method"]["version"] == "1.4.0"
+    validate_coming_soon_current(public)
+    validate_coming_soon_candidates(analysis)
+
+
+def test_confirmed_local_catalog_backed_is_release_like():
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(
+                source_film_id="91001",
+                source_title="Catalog Local Film",
+                release_date_utc="2026-10-12T00:00:00Z",
+            )
+        ),
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-12",
+                film_title="Catalog Local Film",
+                showtime_film_key="catalog-local",
+                parent_film_key="catalog-local",
+                source_film_id="91001",
+            )
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Catalog Local Film", 910101, "2026-10-12", popularity=2.0)
+        ),
+    )
+    entry = _entry_by_title(public, "Catalog Local Film")
+    assert entry is not None
+    assert entry["local_booking_kind"] == "release_like"
+    assert entry["relevance_reason"] == "confirmed_local_release_like"
+
+
+def test_confirmed_local_rerelease_programming_excluded():
+    public, analysis = _bundle(
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-08",
+                film_title="Nightmare Before Christmas 30th Anniversary",
+                showtime_film_key="nbc-anniversary",
+                parent_film_key="nbc-anniversary",
+                theater_id="siff-film-center",
+                source="siff",
+                source_film_id="siff-nbc-anniversary",
+            ),
+            window_end="2026-12-31",
+        ),
+    )
+    assert _entry_by_title(public, "Nightmare Before Christmas 30th Anniversary") is None
+    entry = _entry_by_title(analysis, "Nightmare Before Christmas 30th Anniversary")
+    assert entry["local_booking_kind"] == "local_programming"
+    assert entry["visibility_reason"] == "local_programming_not_upcoming_release"
+    assert entry["relevance_reason"] == "confirmed_local_repertory_or_rerelease"
+
+
+def test_confirmed_local_movie_club_series_excluded():
+    public, analysis = _bundle(
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-09",
+                film_title="Cinemancy: Crouching Tiger Hidden Dragon",
+                showtime_film_key="cinemancy-cthd",
+                parent_film_key="cinemancy-cthd",
+                theater_id="central-cinema",
+                source="siff",
+                source_film_id="siff-cinemancy-cthd",
+            ),
+            window_end="2026-12-31",
+        ),
+    )
+    assert _entry_by_title(public, "Cinemancy: Crouching Tiger Hidden Dragon") is None
+    entry = _entry_by_title(analysis, "Cinemancy: Crouching Tiger Hidden Dragon")
+    assert entry["local_booking_kind"] == "local_programming"
+    assert entry["relevance_reason"] == "confirmed_local_series_or_member_programming"
+
+
+def test_confirmed_local_central_cinema_beetlejuice_excluded():
+    public, analysis = _bundle(
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-10",
+                film_title="Beetlejuice",
+                showtime_film_key="beetlejuice-cc",
+                parent_film_key="beetlejuice-cc",
+                theater_id="central-cinema",
+                source="central_cinema",
+                source_film_id="cc-beetlejuice",
+            ),
+            window_end="2026-12-31",
+        ),
+    )
+    assert _entry_by_title(public, "Beetlejuice") is None
+    entry = _entry_by_title(analysis, "Beetlejuice")
+    assert entry["local_booking_kind"] == "local_programming"
+    assert entry["relevance_reason"] == "confirmed_local_repertory_venue_programming"
+
+
+def test_confirmed_local_restoration_excluded():
+    public, analysis = _bundle(
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-11",
+                film_title="Contempt (New 4K Restoration)",
+                showtime_film_key="contempt-4k",
+                parent_film_key="contempt-4k",
+                theater_id="grand-illusion",
+                source="siff",
+                source_film_id="siff-contempt-4k",
+            ),
+            window_end="2026-12-31",
+        ),
+    )
+    assert _entry_by_title(public, "Contempt (New 4K Restoration)") is None
+    entry = _entry_by_title(analysis, "Contempt (New 4K Restoration)")
+    assert entry["local_booking_kind"] == "local_programming"
+    assert entry["relevance_reason"] == "confirmed_local_restoration_programming"
+
+
+def test_confirmed_local_re26_title_programming_excluded():
+    public, analysis = _bundle(
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-13",
+                film_title="Spirited Away RE26",
+                showtime_film_key="spirited-re26",
+                parent_film_key="spirited-re26",
+                theater_id="amc-pacific-place-11",
+                source="amc",
+                source_film_id="92001",
+            ),
+            window_end="2026-12-31",
+        ),
+    )
+    assert _entry_by_title(public, "Spirited Away RE26") is None
+    entry = _entry_by_title(analysis, "Spirited Away RE26")
+    assert entry["local_booking_kind"] == "local_programming"
+    assert entry["relevance_reason"] == "confirmed_local_repertory_or_rerelease"

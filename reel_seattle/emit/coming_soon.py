@@ -88,8 +88,15 @@ from reel_seattle.emit.coming_soon_relevance import (
     RELEVANCE_SORT_RANK,
     RELEVANCE_STRONGLY_EXPECTED,
     RELEVANCE_WEAK_NATIONAL_ONLY,
+    LOCAL_BOOKING_AMBIGUOUS,
+    LOCAL_BOOKING_PROGRAMMING,
+    LOCAL_BOOKING_RELEASE_LIKE,
+    STRONGLY_EXPECTED_MIN_POPULARITY,
+    VISIBILITY_LOCAL_PROGRAMMING,
+    VISIBILITY_LOW_RELEVANCE,
     assign_relevance_and_visibility,
     build_engagement_record,
+    extract_tmdb_popularity,
     infer_engagement_base_title,
     infer_engagement_kind,
     is_engagement_title,
@@ -108,10 +115,10 @@ from reel_seattle.validate import (
     validate_coming_soon_current,
 )
 
-COMING_SOON_SCHEMA_VERSION = "1.2.0"
-COMING_SOON_CANDIDATES_SCHEMA_VERSION = "1.1.0"
+COMING_SOON_SCHEMA_VERSION = "1.3.0"
+COMING_SOON_CANDIDATES_SCHEMA_VERSION = "1.2.0"
 METHOD_NAME = "independent_source_evidence_90d"
-METHOD_VERSION = "1.2.0"
+METHOD_VERSION = "1.4.0"
 METHOD_DESCRIPTION = (
     "Coming Soon is a film-level Seattle theatrical calendar over a 90-day "
     "Pacific-local window. Four independent evidence facts are tracked: AMC "
@@ -119,12 +126,14 @@ METHOD_DESCRIPTION = (
     "bookings, TMDB US theatrical releases, and published Reel Seattle "
     "showtimes. classification remains pipeline/source state; relevance_tier "
     "drives public visibility (confirmed_local, locally_announced, "
-    "strongly_expected). Bare national AMC catalog rows are weak_national_only "
-    "and analysis-only. strongly_expected is a proxy (AMC catalog ∩ TMDB US "
-    "theatrical for an underlying film), not proven Seattle availability. "
-    "Engagement SKUs (Q&A, Fan First, Early Access, Fan Event) consolidate "
-    "under the parent film. TMDB-only and special-programming rows stay in "
-    "the analysis artifact."
+    "strongly_expected). Confirmed local bookings are classified as "
+    "release-like vs local programming (repertory, series, restoration, "
+    "events); ambiguous niche Seattle openings are retained without a TMDB "
+    "popularity gate. strongly_expected requires AMC catalog ∩ TMDB US "
+    "theatrical plus TMDB popularity at/above the configured floor (not proven "
+    "Seattle availability). Lower-popularity AMC∩TMDB rows, bare national AMC, "
+    "TMDB-only, and special-programming stay analysis-only. Engagement SKUs "
+    "(Q&A, Fan First, Early Access, Fan Event) consolidate under the parent film."
 )
 
 DEFAULT_WINDOW_DAYS = 90
@@ -1115,6 +1124,7 @@ def _entry_from_candidate(
     classification: str,
     expected: date,
     expected_source: str,
+    today_date: date,
     theater_names: Mapping[str, str] | None = None,
     enrichment_index: Mapping[str, Mapping[str, Any]] | None = None,
     amc_product_index: Mapping[str, Mapping[str, Any]] | None = None,
@@ -1156,22 +1166,6 @@ def _entry_from_candidate(
         kind = KIND_FILM
         exclusion_reason = None
 
-    evidence = {
-        "amc_coming_soon_catalog": bool(candidate.amc_coming_soon_catalog),
-        "amc_theater_booking": bool(candidate.amc_theater_booking),
-        "tmdb_us_theatrical": bool(candidate.tmdb_us_theatrical),
-        "reel_seattle_scheduled": bool(candidate.reel_seattle_scheduled),
-    }
-    relevance_tier, user_visible, visibility_reason = assign_relevance_and_visibility(
-        classification=classification,
-        presentation_kind=kind,
-        exclusion_reason=exclusion_reason,
-        evidence=evidence,
-        title=candidate.title,
-        amc_presentation_category=amc_presentation_category,
-        amc_genre=amc_genre,
-        variant_titles=sorted(candidate.titles),
-    )
     scheduled = bool(
         classification == CLASSIFICATION_CONFIRMED_LOCAL
         and candidate.first_local_screening_date is not None
@@ -1188,6 +1182,37 @@ def _entry_from_candidate(
         amc_product_index=amc_product_index,
         kind=kind,
     )
+    evidence = {
+        "amc_coming_soon_catalog": bool(candidate.amc_coming_soon_catalog),
+        "amc_theater_booking": bool(candidate.amc_theater_booking),
+        "tmdb_us_theatrical": bool(candidate.tmdb_us_theatrical),
+        "reel_seattle_scheduled": bool(candidate.reel_seattle_scheduled),
+    }
+    popularity = extract_tmdb_popularity(candidate.tmdb_metadata)
+    release_year = presentation.get("release_year")
+    parsed_release_year = (
+        int(release_year) if isinstance(release_year, int) else None
+    )
+    decision = assign_relevance_and_visibility(
+        classification=classification,
+        presentation_kind=kind,
+        exclusion_reason=exclusion_reason,
+        evidence=evidence,
+        title=candidate.title,
+        amc_presentation_category=amc_presentation_category,
+        amc_genre=amc_genre,
+        variant_titles=sorted(candidate.titles),
+        tmdb_popularity=popularity,
+        popularity_threshold=STRONGLY_EXPECTED_MIN_POPULARITY,
+        local_theater_ids=theaters,
+        local_theater_count=len(theaters),
+        local_showtime_count=int(candidate.local_showtime_count),
+        release_year=parsed_release_year,
+        today=today_date,
+    )
+    relevance_tier = decision.relevance_tier
+    user_visible = decision.user_visible
+    visibility_reason = decision.visibility_reason
     engagements = sorted(
         candidate.engagements,
         key=lambda item: (
@@ -1239,6 +1264,11 @@ def _entry_from_candidate(
         "exclusion_reason": None if user_visible else (
             exclusion_reason or visibility_reason
         ),
+        "tmdb_popularity": decision.tmdb_popularity,
+        "local_evidence_strength": decision.local_evidence_strength,
+        "relevance_reason": decision.relevance_reason,
+        "popularity_threshold_applied": decision.popularity_threshold_applied,
+        "local_booking_kind": decision.local_booking_kind,
         "engagements": engagements,
         "presentation": presentation,
         "identity": {
@@ -1414,6 +1444,7 @@ def build_coming_soon_bundle(
             classification=classification,
             expected=expected,
             expected_source=expected_source,
+            today_date=today,
             theater_names=theater_names,
             enrichment_index=enrichment_index,
             amc_product_index=amc_product_index,
@@ -1492,8 +1523,23 @@ def build_coming_soon_bundle(
         "weak_national_only_count": analysis_stats["relevance_tier_counts"].get(
             RELEVANCE_WEAK_NATIONAL_ONLY, 0
         ),
+        "low_relevance_no_local_evidence_count": analysis_stats.get(
+            "low_relevance_no_local_evidence_count", 0
+        ),
+        "popularity_threshold": STRONGLY_EXPECTED_MIN_POPULARITY,
         "presentation_filtered_count": int(
             dropped.get(DROP_REASON_PRESENTATION_FILTER, 0)
+        ),
+        "local_programming_excluded_count": analysis_stats.get(
+            "local_programming_excluded_count", 0
+        ),
+        "local_booking_kind_counts": analysis_stats.get(
+            "local_booking_kind_counts",
+            {
+                LOCAL_BOOKING_RELEASE_LIKE: 0,
+                LOCAL_BOOKING_PROGRAMMING: 0,
+                LOCAL_BOOKING_AMBIGUOUS: 0,
+            },
         ),
     }
 
@@ -1612,6 +1658,13 @@ def _artifact_stats(
     with_poster = 0
     engagements_total = 0
     synthetic_groups = 0
+    low_relevance_count = 0
+    local_programming_excluded_count = 0
+    local_booking_kind_counts = {
+        LOCAL_BOOKING_RELEASE_LIKE: 0,
+        LOCAL_BOOKING_PROGRAMMING: 0,
+        LOCAL_BOOKING_AMBIGUOUS: 0,
+    }
     film_id_seen: dict[str, int] = {}
     join_key_seen: dict[str, int] = {}
 
@@ -1622,6 +1675,16 @@ def _artifact_stats(
         tier = entry.get("relevance_tier")
         if tier in relevance_tier_counts:
             relevance_tier_counts[tier] += 1
+        if entry.get("visibility_reason") == VISIBILITY_LOW_RELEVANCE:
+            low_relevance_count += 1
+        booking_kind = entry.get("local_booking_kind")
+        if booking_kind in local_booking_kind_counts:
+            local_booking_kind_counts[booking_kind] += 1
+        if (
+            classification == CLASSIFICATION_CONFIRMED_LOCAL
+            and entry.get("visibility_reason") == VISIBILITY_LOCAL_PROGRAMMING
+        ):
+            local_programming_excluded_count += 1
         if entry.get("user_visible"):
             user_visible += 1
             expected = date.fromisoformat(str(entry["expected_release_date"]))
@@ -1656,7 +1719,7 @@ def _artifact_stats(
         if presentation.get("poster_url"):
             with_poster += 1
 
-    return {
+    stats = {
         "entry_count": len(entries),
         "user_visible_count": user_visible,
         "hidden_count": len(entries) - user_visible,
@@ -1695,6 +1758,12 @@ def _artifact_stats(
             ),
         },
     }
+    if include_hidden:
+        stats["low_relevance_no_local_evidence_count"] = low_relevance_count
+        stats["popularity_threshold"] = STRONGLY_EXPECTED_MIN_POPULARITY
+        stats["local_programming_excluded_count"] = local_programming_excluded_count
+        stats["local_booking_kind_counts"] = local_booking_kind_counts
+    return stats
 
 
 # ---------------------------------------------------------------------------

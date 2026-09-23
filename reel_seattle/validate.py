@@ -25,9 +25,9 @@ OPENING_THIS_WEEK_CURRENT_SCHEMA_PATH = (
     SCHEMA_DIR / "opening_this_week_current" / "v1.1.0.json"
 )
 COLLECTIONS_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "collections_current" / "v1.0.0.json"
-COMING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "coming_soon_current" / "v1.2.0.json"
+COMING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "coming_soon_current" / "v1.3.0.json"
 COMING_SOON_CANDIDATES_SCHEMA_PATH = (
-    SCHEMA_DIR / "audits" / "coming_soon_candidates_current" / "v1.1.0.json"
+    SCHEMA_DIR / "audits" / "coming_soon_candidates_current" / "v1.2.0.json"
 )
 
 _VALIDATOR_CACHE: dict[Path, Draft202012Validator] = {}
