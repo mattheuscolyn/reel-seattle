@@ -247,7 +247,9 @@ function splitOpportunityFormatLabels(opportunity) {
  */
 export function opportunityFormatLabel(opportunity) {
   const { presentation, accessibility } = splitOpportunityFormatLabels(opportunity);
-  return presentation[0] ?? accessibility[0] ?? null;
+  // Keep all non-accessibility presentation tags visible (e.g. Dolby + Infinity Vision).
+  if (presentation.length > 0) return presentation.join(' · ');
+  return accessibility[0] ?? null;
 }
 
 /**

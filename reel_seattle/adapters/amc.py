@@ -6,6 +6,7 @@ import csv
 import json
 import math
 import os
+import re
 import time
 from dataclasses import dataclass
 from datetime import date, datetime
@@ -115,6 +116,50 @@ def format_optional_number(value: object | None) -> str:
     return str(value)
 
 
+_INFINITY_VISION_PHRASE_RE = re.compile(r"infinity[\s_\-]*vision", re.IGNORECASE)
+_NON_ALNUM_RE = re.compile(r"[^a-z0-9]+")
+
+
+def _alnum_fold(value: object | None) -> str:
+    if value is None:
+        return ""
+    return _NON_ALNUM_RE.sub("", str(value).casefold())
+
+
+def _is_infinity_vision_token(value: object | None) -> bool:
+    """True when *value* is exactly Infinity Vision (any punctuation/spacing)."""
+    return _alnum_fold(value) == "infinityvision"
+
+
+def _contains_infinity_vision_phrase(value: object | None) -> bool:
+    if value is None:
+        return False
+    return bool(_INFINITY_VISION_PHRASE_RE.search(str(value)))
+
+
+def _attribute_signals_infinity_vision(attr: Mapping[str, Any]) -> bool:
+    """Detect Infinity Vision from AMC attribute code/name/description."""
+    for key in ("code", "name", "description"):
+        raw = attr.get(key)
+        if raw is None or raw == "":
+            continue
+        if _is_infinity_vision_token(raw):
+            return True
+        if key == "description" and _contains_infinity_vision_phrase(raw):
+            return True
+    return False
+
+
+def _strip_infinity_vision_phrase(text: str) -> str:
+    cleaned = _INFINITY_VISION_PHRASE_RE.sub(" ", text)
+    cleaned = re.sub(r"[\s,;/\-]+", " ", cleaned).strip(" ,;/-")
+    return cleaned
+
+
+def _format_parts_include_infinity_vision(parts: list[str]) -> bool:
+    return any(_is_infinity_vision_token(part) for part in parts)
+
+
 def normalize_legacy_row(row: Mapping[str, object]) -> dict[str, str]:
     return {key: str(row.get(key, "") or "") for key in AMC_CSV_FIELDNAMES}
 
@@ -124,30 +169,46 @@ def api_showtime_to_raw(showtime: Mapping[str, Any], theater_name: str) -> RawSh
     dt = datetime.fromisoformat(str(showtime["showDateTimeLocal"]))
     premium = showtime.get("premiumFormat")
     metadata = extract_showtime_metadata(showtime)
-    
-    # Extract accessibility attributes from AMC attributes array
-    accessibility_tags = []
+
+    # Extract accessibility + Infinity Vision from AMC attributes array.
+    # Infinity Vision is a presentation tag, not an accessibility attribute, and
+    # must only be set from explicit AMC evidence (never inferred from PLF alone).
+    accessibility_tags: list[str] = []
+    infinity_vision = False
     attributes_list = showtime.get("attributes", [])
     if isinstance(attributes_list, list):
         for attr in attributes_list:
-            if isinstance(attr, dict):
-                code = attr.get("code", "").upper()
-                if code == "OPENCAPTION":
-                    accessibility_tags.append("OC")
-                elif code == "CLOSEDCAPTION":
-                    accessibility_tags.append("CC")
-                elif code == "DESCRIPTIVEVIDEO":
-                    accessibility_tags.append("Audio Description")
-    
-    # Combine premium format with accessibility tags
-    format_parts = []
+            if not isinstance(attr, dict):
+                continue
+            if _attribute_signals_infinity_vision(attr):
+                infinity_vision = True
+            code = str(attr.get("code", "") or "").upper()
+            if code == "OPENCAPTION":
+                accessibility_tags.append("OC")
+            elif code == "CLOSEDCAPTION":
+                accessibility_tags.append("CC")
+            elif code == "DESCRIPTIVEVIDEO":
+                accessibility_tags.append("Audio Description")
+
+    # Combine premium format with presentation/accessibility tags.
+    format_parts: list[str] = []
     premium_formatted = format_premium_format(premium)
     if premium_formatted:
-        format_parts.append(premium_formatted)
+        if _is_infinity_vision_token(premium_formatted):
+            infinity_vision = True
+        elif _contains_infinity_vision_phrase(premium_formatted):
+            infinity_vision = True
+            remainder = _strip_infinity_vision_phrase(premium_formatted)
+            if remainder:
+                format_parts.append(remainder)
+        else:
+            format_parts.append(premium_formatted)
+    if infinity_vision and not _format_parts_include_infinity_vision(format_parts):
+        format_parts.append("Infinity Vision")
     if accessibility_tags:
         format_parts.extend(accessibility_tags)
     combined_format = ", ".join(format_parts) if format_parts else None
-    
+
     return RawShowtime(
         theater_name_raw=theater_name,
         date_raw=dt.strftime("%m/%d/%Y"),

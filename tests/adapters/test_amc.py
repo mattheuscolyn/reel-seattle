@@ -173,6 +173,92 @@ def test_premium_format_preserves_value(api_showtime):
     assert row["premiumFormat"] == "Dolby Cinema"
 
 
+def test_infinity_vision_attribute_appended_beside_premium(api_showtime):
+    from reel_seattle.normalize.formats import parse_format_tags
+
+    payload = {
+        **api_showtime,
+        "premiumFormat": "Dolby Cinema",
+        "attributes": [
+            {
+                "code": "INFINITYVISION",
+                "name": "Infinity Vision",
+                "description": "AMC Infinity Vision presentation",
+            }
+        ],
+    }
+    raw = api_showtime_to_raw(payload, THEATER_NAME)
+    assert raw.format_raw == "Dolby Cinema, Infinity Vision"
+    assert parse_format_tags(raw.format_raw) == ("dolby-cinema", "infinity-vision")
+
+
+@pytest.mark.parametrize(
+    "attr",
+    [
+        {"code": "INFINITY_VISION", "name": "XL"},
+        {"code": "XL", "name": "INFINITY-VISION"},
+        {"code": "OTHER", "name": "Infinity Vision"},
+        {"code": "OTHER", "name": "Other", "description": "Featuring Infinity Vision"},
+    ],
+)
+def test_infinity_vision_detected_from_normalized_attribute_fields(api_showtime, attr):
+    from reel_seattle.normalize.formats import parse_format_tags
+
+    payload = {
+        **api_showtime,
+        "premiumFormat": "XL at AMC",
+        "attributes": [attr],
+    }
+    raw = api_showtime_to_raw(payload, THEATER_NAME)
+    tags = parse_format_tags(raw.format_raw)
+    assert "infinity-vision" in tags
+    assert "xl-at-amc" in tags or "xl" in tags
+
+
+def test_ordinary_dolby_does_not_infer_infinity_vision(api_showtime):
+    from reel_seattle.normalize.formats import parse_format_tags
+
+    payload = {
+        **api_showtime,
+        "premiumFormat": "Dolby Cinema",
+        "attributes": [
+            {"code": "DOLBYCINEMA", "name": "Dolby Cinema", "description": "Dolby Cinema"},
+        ],
+    }
+    raw = api_showtime_to_raw(payload, THEATER_NAME)
+    assert raw.format_raw == "Dolby Cinema"
+    assert "infinity-vision" not in parse_format_tags(raw.format_raw)
+
+
+def test_duplicate_infinity_vision_evidence_dedupes(api_showtime):
+    from reel_seattle.normalize.formats import parse_format_tags
+
+    payload = {
+        **api_showtime,
+        "premiumFormat": "Infinity Vision",
+        "attributes": [
+            {"code": "INFINITYVISION", "name": "Infinity Vision"},
+            {"code": "INFINITY_VISION", "name": "Infinity Vision"},
+        ],
+    }
+    raw = api_showtime_to_raw(payload, THEATER_NAME)
+    assert raw.format_raw == "Infinity Vision"
+    assert parse_format_tags(raw.format_raw) == ("infinity-vision",)
+
+
+def test_infinity_vision_phrase_in_premium_keeps_underlying_format(api_showtime):
+    from reel_seattle.normalize.formats import parse_format_tags
+
+    payload = {
+        **api_showtime,
+        "premiumFormat": "Dolby Cinema Infinity Vision",
+        "attributes": [],
+    }
+    raw = api_showtime_to_raw(payload, THEATER_NAME)
+    assert raw.format_raw == "Dolby Cinema, Infinity Vision"
+    assert parse_format_tags(raw.format_raw) == ("dolby-cinema", "infinity-vision")
+
+
 def test_fetch_uses_injected_api_functions_without_network(registry):
     run_date = date(2026, 6, 26)
 
