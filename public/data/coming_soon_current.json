@@ -1,6 +1,6 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-09-22T03:53:33-07:00",
+  "generated_at": "2026-09-22T23:35:27-07:00",
   "timezone": "America/Los_Angeles",
   "window": {
     "start_date": "2026-09-22",
@@ -17,185 +17,90 @@
   "sources": {
     "amc_coming_soon_catalog": {
       "available": true,
-      "generated_at": "2026-09-22T03:53:28-07:00",
+      "generated_at": "2026-09-22T23:35:24-07:00",
       "fetch_status": "success",
-      "movies": 413
+      "movies": 418
     },
     "tmdb_us_theatrical": {
       "available": true,
-      "generated_at": "2026-09-22T03:53:28-07:00",
+      "generated_at": "2026-09-22T23:35:24-07:00",
       "fetch_status": "success",
-      "candidates": 303
+      "candidates": 307
     },
     "reel_seattle_showtimes": {
       "available": true,
-      "generated_at": "2026-09-22T03:46:35-07:00",
+      "generated_at": "2026-09-22T23:27:18-07:00",
       "published_window_end": "2027-09-21"
     },
     "amc_theater_bookings": {
       "available": true,
-      "scrape_log": "data/daily_logs/2026-09-22_amc.json"
+      "scrape_log": "data/daily_logs/2026-09-23_amc.json"
     }
   },
   "stats": {
-    "entry_count": 253,
-    "user_visible_count": 253,
+    "entry_count": 257,
+    "user_visible_count": 257,
     "hidden_count": 0,
     "classification_counts": {
-      "confirmed_local": 156,
+      "confirmed_local": 160,
       "amc_announced": 97
     },
     "relevance_tier_counts": {
-      "confirmed_local": 156,
+      "confirmed_local": 160,
       "locally_announced": 0,
       "strongly_expected": 97,
       "weak_national_only": 0
     },
     "evidence_counts": {
-      "amc_coming_soon_catalog": 136,
-      "amc_theater_booking": 36,
-      "tmdb_us_theatrical": 115,
-      "reel_seattle_scheduled": 156
+      "amc_coming_soon_catalog": 137,
+      "amc_theater_booking": 38,
+      "tmdb_us_theatrical": 116,
+      "reel_seattle_scheduled": 160
     },
     "presentation_kind_counts": {
-      "film": 241,
+      "film": 245,
       "rerelease": 12
     },
     "presentation_source_counts": {
-      "amc_catalog": 77,
-      "confirmed_enrichment": 14,
-      "fallback": 115,
-      "inferred_tmdb": 47
+      "amc_catalog": 80,
+      "confirmed_enrichment": 15,
+      "fallback": 118,
+      "inferred_tmdb": 44
     },
     "entries_with_poster": 135,
-    "engagement_count": 39,
+    "engagement_count": 40,
     "synthetic_film_group_count": 15,
     "horizon_counts": {
-      "30_days": 150,
-      "60_days": 223,
-      "90_days": 253
+      "30_days": 153,
+      "60_days": 227,
+      "90_days": 257
     },
-    "earliest_expected_release_date": "2026-09-23",
+    "earliest_expected_release_date": "2026-09-24",
     "latest_expected_release_date": "2026-12-18",
-    "entries_with_confirmed_film_id": 14,
-    "entries_without_confirmed_film_id": 239,
-    "entries_with_tmdb_id": 120,
+    "entries_with_confirmed_film_id": 15,
+    "entries_without_confirmed_film_id": 242,
+    "entries_with_tmdb_id": 121,
     "ambiguous_identity_count": 0,
     "duplicate_film_id_count": 0,
     "duplicate_join_key_count": 0,
-    "merged_candidate_count": 749,
+    "merged_candidate_count": 762,
     "collapsed_event_variants": 0,
     "excluded_counts": {
-      "currently_available": 80,
-      "expected_release_date_outside_window": 84,
+      "currently_available": 83,
+      "expected_release_date_outside_window": 82,
       "no_expected_release_date": 0,
       "insufficient_evidence": 0,
-      "presentation_filter": 12
+      "presentation_filter": 11
     },
     "analysis": {
       "path": "data/audits/coming_soon_candidates_current.json",
-      "entry_count": 585,
-      "tmdb_only_count": 178,
-      "weak_national_only_count": 134,
-      "presentation_filtered_count": 12
+      "entry_count": 597,
+      "tmdb_only_count": 181,
+      "weak_national_only_count": 136,
+      "presentation_filtered_count": 11
     }
   },
   "entries": [
-    {
-      "film_id": null,
-      "title": "Take Me Home",
-      "join_key": "take-me-home",
-      "parent_film_keys": [
-        "take-me-home"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1569461,
-      "amc_movie_id": "85120",
-      "amc_movie_ids": [
-        "85120"
-      ],
-      "expected_release_date": "2026-09-23",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-09-23",
-      "tmdb_us_release_date": "2026-09-23",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "strongly_expected",
-      "user_visible": true,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/oC9NQnmyPr5bcqog5sTKZofdQw7.jpg",
-        "poster_path": "/oC9NQnmyPr5bcqog5sTKZofdQw7.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Anna cares for her aging parents in a fragile balance of meeting one another's needs. When a Florida heat wave shatters their family and Anna's routine, her future is uncertain until she creates a world where she can thrive.",
-        "runtime_minutes": 91,
-        "rating": "NR",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Take Me Home"
-        ],
-        "contributing_sources": [
-          "amc_catalog",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85120",
-          "source_title": "Take Me Home",
-          "has_scheduled_showtimes": false,
-          "online_ticket_availability_date_utc": "2026-09-23T05:00:00Z",
-          "earliest_showing_utc": null,
-          "runtime_min": 91,
-          "mpaa_rating": "NR",
-          "genre": "COMEDY",
-          "slug": "take-me-home-85120",
-          "synopsis": "Anna cares for her aging parents in a fragile balance of meeting one another's needs. When a Florida heat wave shatters their family and Anna's routine, her future is uncertain until she creates a world where she can thrive.",
-          "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": {
-          "tmdb_id": 1569461,
-          "original_title": "Take Me Home",
-          "original_language": "en",
-          "popularity": 2.921,
-          "vote_count": 0,
-          "poster_path": "/oC9NQnmyPr5bcqog5sTKZofdQw7.jpg",
-          "backdrop_path": null,
-          "overview": "Anna (Anna Sargent making her acting debut), a middle-aged Korean adoptee with a cognitive disability, cares for her aging parents in a fragile balance of meeting one another’s needs. Alongside her sister Emily (Ali Ahn) and her father (Victor Slezak), they must confront challenging questions about the future, but Anna remains determined to build a life where all of them can thrive.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
     {
       "film_id": null,
       "title": "Power Trip",
@@ -278,7 +183,7 @@
           "tmdb_id": 1732420,
           "original_title": "Power Trip",
           "original_language": "en",
-          "popularity": 2.624,
+          "popularity": 2.815,
           "vote_count": 0,
           "poster_path": "/eNcd1fIpeCMuIqacgdMfbKnHpVp.jpg",
           "backdrop_path": null,
@@ -373,7 +278,7 @@
           "tmdb_id": 1578079,
           "original_title": "டோரதி",
           "original_language": "ta",
-          "popularity": 4.18,
+          "popularity": 4.745,
           "vote_count": 0,
           "poster_path": "/fJolSn02M7xBOWp3mzDF8pjZfld.jpg",
           "backdrop_path": null,
@@ -466,16 +371,14 @@
           "tmdb_id": 1044945,
           "original_title": "Hellbilly Hollow",
           "original_language": "en",
-          "popularity": 2.701,
+          "popularity": 3.062,
           "vote_count": 0,
           "poster_path": "/y0gNZQqqfzP9MuDxbVQKbSCzhLs.jpg",
           "backdrop_path": null,
           "overview": "A team of paranormal YouTubers venture deep into the Alabama backwoods to film at a haunted attraction the day before Halloween. They encounter a sinister presence far more frightening - and deadlier - than specters and staged scares: Tickles and his caretaker brother Bull. One by one, the investigators, together with local thrill-seekers, fall victim!",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
+          "quality_flags": []
         }
       }
     },
@@ -562,7 +465,7 @@
           "tmdb_id": 1086037,
           "original_title": "Long Day's Journey into Night",
           "original_language": "en",
-          "popularity": 2.789,
+          "popularity": 2.728,
           "vote_count": 0,
           "poster_path": "/nFupOsOEWt0Q0olnqugNKR690Hn.jpg",
           "backdrop_path": null,
@@ -641,7 +544,7 @@
           "source_title": "Never After Dark",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-09-25T05:00:00Z",
-          "earliest_showing_utc": "2026-09-24T18:15:00Z",
+          "earliest_showing_utc": "2026-09-24T18:00:00Z",
           "runtime_min": 105,
           "mpaa_rating": "NR",
           "genre": "HORROR",
@@ -657,7 +560,7 @@
           "tmdb_id": 1629051,
           "original_title": "Never After Dark",
           "original_language": "ja",
-          "popularity": 3.88,
+          "popularity": 3.387,
           "vote_count": 4,
           "poster_path": "/jguB76QbAx6yExiOLIPvOaxW95b.jpg",
           "backdrop_path": null,
@@ -710,7 +613,7 @@
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "In 1980s Secunderabad, a marginalized tribe battles discrimination and fights for citizenship under an unexpected leader's guidance, challenging systemic oppression.",
-        "runtime_minutes": 176,
+        "runtime_minutes": 180,
         "rating": "NR",
         "release_year": 2026
       },
@@ -735,7 +638,7 @@
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-09-25T05:00:00Z",
           "earliest_showing_utc": "2026-09-24T18:00:00Z",
-          "runtime_min": 176,
+          "runtime_min": 180,
           "mpaa_rating": "NR",
           "genre": null,
           "slug": "the-paradise-84806",
@@ -750,7 +653,7 @@
           "tmdb_id": 1376856,
           "original_title": "ది ప్యారడైస్",
           "original_language": "te",
-          "popularity": 7.194,
+          "popularity": 8.487,
           "vote_count": 0,
           "poster_path": "/nwfbqtbFbgqQuMfAtkesuCVHJjq.jpg",
           "backdrop_path": null,
@@ -802,7 +705,7 @@
         "poster_path": null,
         "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1789682701/amc-cdn/content/general/uvuccdq71g8au5tcub1q.jpg",
         "backdrop_path": null,
-        "overview": "A meditative journey spanning South America, Japan, the USA and the UK, this documentary uncovers the extraordinary rise of the capybara, from little-known rodent to global viral icon and unlikely ambassador of calm in an anxious world.",
+        "overview": "A meditative journey spanning South America, Japan, the USA and the UK, this documentary uncovers the extraordinary rise of the capybara, from little-known rodent to global viral icon and unlikely ambassador of calm in an anxious world. Following the film there will be a Q&A with capybara keepers from Darkwings Wildlife and Showcase of Citrus",
         "runtime_minutes": 98,
         "rating": "NR",
         "release_year": 2026
@@ -825,14 +728,14 @@
         "amc": {
           "amc_movie_id": "84799",
           "source_title": "The Route to Cappyness",
-          "has_scheduled_showtimes": false,
+          "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-09-25T05:00:00Z",
-          "earliest_showing_utc": null,
+          "earliest_showing_utc": "2026-09-25T10:45:00Z",
           "runtime_min": 98,
           "mpaa_rating": "NR",
           "genre": "Documentary",
           "slug": "the-route-to-cappyness-84799",
-          "synopsis": "A meditative journey spanning South America, Japan, the USA and the UK, this documentary uncovers the extraordinary rise of the capybara, from little-known rodent to global viral icon and unlikely ambassador of calm in an anxious world.",
+          "synopsis": "A meditative journey spanning South America, Japan, the USA and the UK, this documentary uncovers the extraordinary rise of the capybara, from little-known rodent to global viral icon and unlikely ambassador of calm in an anxious world. Following the film there will be a Q&A with capybara keepers from Darkwings Wildlife and Showcase of Citrus",
           "poster_url": "https://amc-theatres-res.cloudinary.com/v1789682619/amc-cdn/content/general/trtpa4lmjjoeqawpcbr4.png",
           "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789682701/amc-cdn/content/general/uvuccdq71g8au5tcub1q.jpg",
           "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789682701/amc-cdn/content/general/uvuccdq71g8au5tcub1q.jpg",
@@ -843,7 +746,7 @@
           "tmdb_id": 1474107,
           "original_title": "The Route to Cappyness",
           "original_language": "en",
-          "popularity": 1.142,
+          "popularity": 1.207,
           "vote_count": 0,
           "poster_path": "/7scUsql29Jvddblgy6MP9UiWJoz.jpg",
           "backdrop_path": null,
@@ -1096,7 +999,7 @@
           "tmdb_id": 1388805,
           "original_title": "LINKIN PARK: UNSHATTER",
           "original_language": "en",
-          "popularity": 5.066,
+          "popularity": 4.821,
           "vote_count": 0,
           "poster_path": "/kHNrz7DBVPrtyMhJxmBm2poS2l9.jpg",
           "backdrop_path": null,
@@ -1314,7 +1217,7 @@
         }
       ],
       "local_theater_count": 7,
-      "local_showtime_count": 250,
+      "local_showtime_count": 251,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -1379,8 +1282,8 @@
           "slug": "verity-79853",
           "synopsis": "Struggling writer Lowen Ashleigh is hired as a ghostwriter for renowned author Verity Crawford under mysterious circumstances, but her assignment takes a dark turn after discovering chilling autobiographical notes. Faced with a series of deadly family secrets, Lowen struggles to separate fiction from reality, while also blurring the lines with Verity's husband, Jeremy.",
           "poster_url": "https://amc-theatres-res.cloudinary.com/v1788888013/amc-cdn/content/general/jfgvxretdi3pgqmcbsdj.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788952137/amc-cdn/production/2/movies/79900/79853/MovieStills/380866R5.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788952137/amc-cdn/production/2/movies/79900/79853/MovieStills/380866R5.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075221/amc-cdn/production/2/movies/79900/79853/MovieStills/380866R6.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075221/amc-cdn/production/2/movies/79900/79853/MovieStills/380866R6.jpg",
           "presentation_category": "standard",
           "is_special_presentation": false
         },
@@ -1388,7 +1291,7 @@
           "tmdb_id": 1283515,
           "original_title": "Verity",
           "original_language": "en",
-          "popularity": 19.082,
+          "popularity": 19.943,
           "vote_count": 0,
           "poster_path": "/97y0RdzRIeZ2j6se98hRQpxz3eR.jpg",
           "backdrop_path": null,
@@ -1465,7 +1368,7 @@
           "source_title": "Camp Duval",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-09-30T05:00:00Z",
-          "earliest_showing_utc": "2026-09-30T20:00:00Z",
+          "earliest_showing_utc": "2026-09-30T18:50:00Z",
           "runtime_min": 67,
           "mpaa_rating": "NR",
           "genre": "COMEDY",
@@ -1481,7 +1384,7 @@
           "tmdb_id": 1735772,
           "original_title": "Camp Duval",
           "original_language": "en",
-          "popularity": 2.296,
+          "popularity": 2.211,
           "vote_count": 0,
           "poster_path": "/g9aRX7Lwrtl3TfKbb6BLJTOh7k5.jpg",
           "backdrop_path": null,
@@ -1514,22 +1417,57 @@
       "amc_catalog_release_date": "2026-10-02",
       "tmdb_us_release_date": "2026-10-02",
       "first_local_screening_date": "2026-10-01",
-      "first_local_screening_source": "reel_seattle_showtimes",
+      "first_local_screening_source": "amc_theater_booking",
       "local_status": "scheduled",
       "local_theater_ids": [
+        "amc-alderwood-mall-16",
+        "amc-factoria-8",
+        "amc-kent-station-14",
+        "amc-oak-tree-6",
+        "amc-pacific-place-11",
+        "amc-southcenter-16",
+        "amc-woodinville-12",
         "siff-cinema-downtown"
       ],
       "local_theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "name": "AMC Factoria 8"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "name": "AMC Oak Tree 6"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "name": "AMC Woodinville 12"
+        },
         {
           "theater_id": "siff-cinema-downtown",
           "name": "SIFF Cinema Downtown"
         }
       ],
-      "local_theater_count": 1,
-      "local_showtime_count": 30,
+      "local_theater_count": 8,
+      "local_showtime_count": 405,
       "evidence": {
         "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
+        "amc_theater_booking": true,
         "tmdb_us_theatrical": true,
         "reel_seattle_scheduled": true
       },
@@ -1540,13 +1478,13 @@
       "presentation": {
         "kind": "film",
         "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1789730828/amc-cdn/content/general/u9jq7qoqopgzdw2gafkt.jpg",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790097608/amc-cdn/content/general/sp3stef0b2fq6allbjrb.jpg",
         "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1784372836/amc-cdn/production/2/movies/79100/79125/MovieStills/373163R3.jpg",
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1790075208/amc-cdn/production/2/movies/79100/79125/MovieStills/373163R9.jpg",
         "backdrop_path": null,
         "overview": "The most powerful man in the world embarks on a frantic mission to prove he is humanity's savior before the disaster he's unleashed destroys everything.",
         "runtime_minutes": 129,
-        "rating": null,
+        "rating": "R",
         "release_year": 2026
       },
       "identity": {
@@ -1559,6 +1497,7 @@
           "Digger"
         ],
         "contributing_sources": [
+          "amc_booking",
           "amc_catalog",
           "reel_seattle",
           "tmdb"
@@ -1572,13 +1511,13 @@
           "online_ticket_availability_date_utc": "2026-10-02T05:00:00Z",
           "earliest_showing_utc": "2026-10-01T12:45:00Z",
           "runtime_min": 129,
-          "mpaa_rating": null,
+          "mpaa_rating": "R",
           "genre": "COMEDY",
           "slug": "digger-79125",
           "synopsis": "The most powerful man in the world embarks on a frantic mission to prove he is humanity's savior before the disaster he's unleashed destroys everything.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1789730828/amc-cdn/content/general/u9jq7qoqopgzdw2gafkt.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1784372836/amc-cdn/production/2/movies/79100/79125/MovieStills/373163R3.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1784372836/amc-cdn/production/2/movies/79100/79125/MovieStills/373163R3.jpg",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1790097608/amc-cdn/content/general/sp3stef0b2fq6allbjrb.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075208/amc-cdn/production/2/movies/79100/79125/MovieStills/373163R9.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075208/amc-cdn/production/2/movies/79100/79125/MovieStills/373163R9.jpg",
           "presentation_category": "standard",
           "is_special_presentation": false
         },
@@ -1586,7 +1525,7 @@
           "tmdb_id": 1248832,
           "original_title": "Digger",
           "original_language": "en",
-          "popularity": 28.449,
+          "popularity": 33.864,
           "vote_count": 0,
           "poster_path": "/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg",
           "backdrop_path": null,
@@ -1964,7 +1903,7 @@
           "tmdb_id": 1554956,
           "original_title": "The Incomer",
           "original_language": "en",
-          "popularity": 4.611,
+          "popularity": 4.702,
           "vote_count": 4,
           "poster_path": "/iccroKK1eUTdCnLfmp7I3YXwAKF.jpg",
           "backdrop_path": null,
@@ -2073,7 +2012,7 @@
           "tmdb_id": 1654086,
           "original_title": "The Influencer Project",
           "original_language": "en",
-          "popularity": 1.895,
+          "popularity": 1.966,
           "vote_count": 0,
           "poster_path": "/3yolfJrhMf8XvfKVlBB6Zetn2wS.jpg",
           "backdrop_path": null,
@@ -2310,7 +2249,7 @@
           "tmdb_id": 1740387,
           "original_title": "आचार्य",
           "original_language": "ne",
-          "popularity": 2.858,
+          "popularity": 2.543,
           "vote_count": 0,
           "poster_path": "/z3z4hK7E2UZvF8hhKu3iKZyZJvw.jpg",
           "backdrop_path": null,
@@ -2405,7 +2344,7 @@
           "tmdb_id": 1515692,
           "original_title": "பத்தா",
           "original_language": "ta",
-          "popularity": 2.289,
+          "popularity": 2.657,
           "vote_count": 0,
           "poster_path": "/bsFSlIwsH0Lrqo9TtGv4KwvgKS1.jpg",
           "backdrop_path": null,
@@ -2500,7 +2439,7 @@
           "tmdb_id": 1559764,
           "original_title": "The Trial of Alec Baldwin",
           "original_language": "en",
-          "popularity": 2.286,
+          "popularity": 2.394,
           "vote_count": 0,
           "poster_path": null,
           "backdrop_path": null,
@@ -3557,7 +3496,7 @@
           "source_title": "April X",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-10-02T05:00:00Z",
-          "earliest_showing_utc": "2026-10-02T13:00:00Z",
+          "earliest_showing_utc": "2026-10-02T10:00:00Z",
           "runtime_min": 92,
           "mpaa_rating": "NR",
           "genre": "ACTION",
@@ -3573,7 +3512,7 @@
           "tmdb_id": 1403676,
           "original_title": "April X",
           "original_language": "en",
-          "popularity": 3.472,
+          "popularity": 3.218,
           "vote_count": 0,
           "poster_path": "/3QrpmL3VLFkKwW1VUpq46RhCj3X.jpg",
           "backdrop_path": null,
@@ -3648,9 +3587,9 @@
         "amc": {
           "amc_movie_id": "84833",
           "source_title": "Atonement",
-          "has_scheduled_showtimes": false,
+          "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-10-02T05:00:00Z",
-          "earliest_showing_utc": null,
+          "earliest_showing_utc": "2026-10-09T19:15:00Z",
           "runtime_min": 118,
           "mpaa_rating": "NR",
           "genre": "DRAMA",
@@ -3666,7 +3605,7 @@
           "tmdb_id": 1484085,
           "original_title": "Atonement",
           "original_language": "en",
-          "popularity": 2.272,
+          "popularity": 2.128,
           "vote_count": 0,
           "poster_path": "/ajiuCAvkuPiRJ4E6ymKmOx9W1rD.jpg",
           "backdrop_path": null,
@@ -3763,7 +3702,7 @@
           "tmdb_id": 1244523,
           "original_title": "Beware Boiúna",
           "original_language": "en",
-          "popularity": 10.639,
+          "popularity": 11.161,
           "vote_count": 0,
           "poster_path": "/tENVMxKvOkslv8kagVNdIEQ13RT.jpg",
           "backdrop_path": null,
@@ -3857,7 +3796,7 @@
           "tmdb_id": 1269325,
           "original_title": "दृश्यम्: द कन्क्लूजन",
           "original_language": "hi",
-          "popularity": 5.9,
+          "popularity": 5.582,
           "vote_count": 0,
           "poster_path": "/7T62GSduOWDMB0gGDBs9pmtLTSB.jpg",
           "backdrop_path": null,
@@ -3950,8 +3889,8 @@
           "tmdb_id": 1393326,
           "original_title": "Ghost in the Cell",
           "original_language": "id",
-          "popularity": 95.965,
-          "vote_count": 69,
+          "popularity": 87.569,
+          "vote_count": 72,
           "poster_path": "/zxcMdx0w5Zmg8yZuuiS7CJ8vOea.jpg",
           "backdrop_path": null,
           "overview": "In a notorious prison, an invisible force begins killing inmates brutally, compelling enemy gangs and corrupt guards to work together as they try to survive the mounting bloodshed.",
@@ -4043,7 +3982,7 @@
           "tmdb_id": 853777,
           "original_title": "Journey",
           "original_language": "en",
-          "popularity": 0.962,
+          "popularity": 0.988,
           "vote_count": 0,
           "poster_path": "/vAILXfSi0izyHE3VaqxyjRLtiXw.jpg",
           "backdrop_path": null,
@@ -4139,7 +4078,7 @@
           "tmdb_id": 1313826,
           "original_title": "Nickels",
           "original_language": "en",
-          "popularity": 1.907,
+          "popularity": 1.603,
           "vote_count": 0,
           "poster_path": "/5Z2e8UCzVVsHjuqDIZvOdQhySht.jpg",
           "backdrop_path": null,
@@ -4234,7 +4173,7 @@
           "tmdb_id": 1596303,
           "original_title": "The Last First: Winter K2",
           "original_language": "en",
-          "popularity": 8.209,
+          "popularity": 7.248,
           "vote_count": 0,
           "poster_path": "/6pavyVdI2z7PlOUwB7nlnhLRSgl.jpg",
           "backdrop_path": null,
@@ -4469,7 +4408,7 @@
           "tmdb_id": 1767753,
           "original_title": "Jet Lag: The Game Japanorama Finale",
           "original_language": "en",
-          "popularity": 1.659,
+          "popularity": 1.662,
           "vote_count": 0,
           "poster_path": "/lQcOXNIiSvl9zNCw8hOa2NyMYek.jpg",
           "backdrop_path": null,
@@ -4568,7 +4507,7 @@
           "source_title": "Adore Him: He is Here",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-10-04T05:00:00Z",
-          "earliest_showing_utc": "2026-10-04T15:30:00Z",
+          "earliest_showing_utc": "2026-10-04T13:30:00Z",
           "runtime_min": 118,
           "mpaa_rating": "NR",
           "genre": "DOCUMENTARY",
@@ -5050,9 +4989,9 @@
         "amc": {
           "amc_movie_id": "85042",
           "source_title": "The North",
-          "has_scheduled_showtimes": false,
+          "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
-          "earliest_showing_utc": null,
+          "earliest_showing_utc": "2026-10-09T18:30:00Z",
           "runtime_min": 130,
           "mpaa_rating": "PG13",
           "genre": "DRAMA",
@@ -5661,7 +5600,7 @@
           "tmdb_id": 1401459,
           "original_title": "Fjord",
           "original_language": "ro",
-          "popularity": 9.509,
+          "popularity": 8.08,
           "vote_count": 74,
           "poster_path": "/3PPPIeSdeivjUn3O9RahGiaJ9b8.jpg",
           "backdrop_path": null,
@@ -5669,6 +5608,102 @@
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []
+        }
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Vampire Carnival",
+      "join_key": "vampire-carnival",
+      "parent_film_keys": [
+        "vampire-carnival"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1634905,
+      "amc_movie_id": "85163",
+      "amc_movie_ids": [
+        "85163"
+      ],
+      "expected_release_date": "2026-10-07",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-10-07",
+      "tmdb_us_release_date": "2026-10-07",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "strongly_expected",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "Haunted by her past, a grieving girl is drawn to a mysterious traveling carnival that arrives in her small town - only to discover an underground world that feeds on despair and demands a costly price for escape.",
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Vampire Carnival"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85163",
+          "source_title": "Vampire Carnival",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-10-07T05:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": null,
+          "mpaa_rating": null,
+          "genre": "HORROR",
+          "slug": "vampire-carnival-85163",
+          "synopsis": "Haunted by her past, a grieving girl is drawn to a mysterious traveling carnival that arrives in her small town - only to discover an underground world that feeds on despair and demands a costly price for escape.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": {
+          "tmdb_id": 1634905,
+          "original_title": "Vampire Carnival",
+          "original_language": "en",
+          "popularity": 1.427,
+          "vote_count": 0,
+          "poster_path": null,
+          "backdrop_path": null,
+          "overview": "When a grief-stricken young woman visits a mysterious, traveling carnival in her small town, she becomes seduced into a dangerous world of pleasure and deception.",
+          "has_poster": false,
+          "has_overview": true,
+          "quality_flags": [
+            "missing_poster",
+            "no_votes_and_low_popularity"
+          ]
         }
       }
     },
@@ -5775,16 +5810,14 @@
           "tmdb_id": 1669915,
           "original_title": "Angel and the Badman",
           "original_language": "en",
-          "popularity": 2.98,
+          "popularity": 3.077,
           "vote_count": 0,
           "poster_path": "/igrWgzlxwHLzuNUrL4agCNmRfDi.jpg",
           "backdrop_path": null,
           "overview": "A wounded outlaw finds unexpected mercy in the care of a rancher's daughter. The hope of love pulls him toward a different life until the law, and his violent past, close in on his new home. Now he must choose the kind of man he'll become.",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
+          "quality_flags": []
         }
       }
     },
@@ -6023,9 +6056,9 @@
           "tmdb_id": 1400837,
           "original_title": "Other Mommy",
           "original_language": "en",
-          "popularity": 27.712,
+          "popularity": 25.692,
           "vote_count": 0,
-          "poster_path": "/mH3eovbLEK38DmVZ4nHSORpzuVI.jpg",
+          "poster_path": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg",
           "backdrop_path": null,
           "overview": "A young girl, Bela, forms a relationship with a sinister entity in her home who looks uncannily like her own mother.",
           "has_poster": true,
@@ -6183,7 +6216,7 @@
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1789066324/amc-cdn/content/general/stsrssxkzjqv0dp75xow.jpg",
         "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1782818020/amc-cdn/production/2/movies/81600/81643/MovieStills/395189R5.jpg",
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1790075592/amc-cdn/production/2/movies/81600/81643/MovieStills/395189R8.jpg",
         "backdrop_path": null,
         "overview": "Inspired by true events and the whistleblower who started the social media reckoning we?re seeing play out today, this Aaron Sorkin original screenplay is a companion piece to the hit film The Social Network and a true David and Goliath story. Frances Haugen (Madison), a young Facebook engineer, enlists the help of Jeff Horwitz (White), a Wall Street Journal reporter, to go on a dangerous journey that ends up blowing the whistle on the social network?s most guarded secrets.",
         "runtime_minutes": 112,
@@ -6219,8 +6252,8 @@
           "slug": "the-social-reckoning-81643",
           "synopsis": "Inspired by true events and the whistleblower who started the social media reckoning we?re seeing play out today, this Aaron Sorkin original screenplay is a companion piece to the hit film The Social Network and a true David and Goliath story. Frances Haugen (Madison), a young Facebook engineer, enlists the help of Jeff Horwitz (White), a Wall Street Journal reporter, to go on a dangerous journey that ends up blowing the whistle on the social network?s most guarded secrets.",
           "poster_url": "https://amc-theatres-res.cloudinary.com/v1789066324/amc-cdn/content/general/stsrssxkzjqv0dp75xow.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1782818020/amc-cdn/production/2/movies/81600/81643/MovieStills/395189R5.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1782818020/amc-cdn/production/2/movies/81600/81643/MovieStills/395189R5.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075592/amc-cdn/production/2/movies/81600/81643/MovieStills/395189R8.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075592/amc-cdn/production/2/movies/81600/81643/MovieStills/395189R8.jpg",
           "presentation_category": "standard",
           "is_special_presentation": false
         },
@@ -6228,7 +6261,7 @@
           "tmdb_id": 1281331,
           "original_title": "The Social Reckoning",
           "original_language": "en",
-          "popularity": 12.874,
+          "popularity": 12.725,
           "vote_count": 0,
           "poster_path": "/qZr5bxGXE1t2A9pNSikb9fQKzov.jpg",
           "backdrop_path": null,
@@ -6621,7 +6654,7 @@
           "tmdb_id": 1755291,
           "original_title": "NAZA",
           "original_language": "en",
-          "popularity": 9.278,
+          "popularity": 9.047,
           "vote_count": 0,
           "poster_path": "/b4Gyj8VRoJAeU13jfKPuOTMr5GL.jpg",
           "backdrop_path": null,
@@ -6724,7 +6757,7 @@
           "tmdb_id": 1403519,
           "original_title": "The Scout",
           "original_language": "en",
-          "popularity": 1.959,
+          "popularity": 1.87,
           "vote_count": 0,
           "poster_path": "/6cKjHu5Jog6wb65leue376lgSqY.jpg",
           "backdrop_path": null,
@@ -6961,7 +6994,7 @@
           "tmdb_id": 1241046,
           "original_title": "A Prayer for the Dying",
           "original_language": "en",
-          "popularity": 2.716,
+          "popularity": 2.402,
           "vote_count": 0,
           "poster_path": "/kYIhGPwr5ztkvnRcD4GzZGfuNhv.jpg",
           "backdrop_path": null,
@@ -7058,7 +7091,7 @@
           "tmdb_id": 1557817,
           "original_title": "André Leon Talley — Style is Forever",
           "original_language": "en",
-          "popularity": 0.798,
+          "popularity": 0.766,
           "vote_count": 0,
           "poster_path": "/tXu0gXfAtTOKFhScTCfsfzb6wFv.jpg",
           "backdrop_path": null,
@@ -7154,7 +7187,7 @@
           "tmdb_id": 1236045,
           "original_title": "Animals",
           "original_language": "en",
-          "popularity": 6.248,
+          "popularity": 5.577,
           "vote_count": 0,
           "poster_path": "/cyltXU1lAGhRFBuHQIMWBAPj8fI.jpg",
           "backdrop_path": null,
@@ -7162,6 +7195,102 @@
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []
+        }
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Brother Joseph Again",
+      "join_key": "brother-joseph-again",
+      "parent_film_keys": [
+        "brother-joseph-again"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1775692,
+      "amc_movie_id": "85180",
+      "amc_movie_ids": [
+        "85180"
+      ],
+      "expected_release_date": "2026-10-09",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-10-09",
+      "tmdb_us_release_date": "2026-10-09",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "strongly_expected",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "inferred_tmdb",
+        "poster_url": "https://image.tmdb.org/t/p/w500/4XxhNYAJfBG5jkoLqHiOsg1qLau.jpg",
+        "poster_path": "/4XxhNYAJfBG5jkoLqHiOsg1qLau.jpg",
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "In BROTHER JOSEPH AGAIN: EXPLORING THE VISUAL IMAGE OF JOSEPH SMITH JR., researchers Patrick A. Bishop and Joseph F. Brickey combine investigative history, historical biography, and modern forensic science to uncover the most accurate representation yet of the LDS Prophet's face.",
+        "runtime_minutes": 91,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Brother Joseph Again"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85180",
+          "source_title": "Brother Joseph Again",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 91,
+          "mpaa_rating": "NR",
+          "genre": "DOCUMENTARY",
+          "slug": "brother-joseph-again-85180",
+          "synopsis": "In BROTHER JOSEPH AGAIN: EXPLORING THE VISUAL IMAGE OF JOSEPH SMITH JR., researchers Patrick A. Bishop and Joseph F. Brickey combine investigative history, historical biography, and modern forensic science to uncover the most accurate representation yet of the LDS Prophet's face.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": {
+          "tmdb_id": 1775692,
+          "original_title": "Brother Joseph Again",
+          "original_language": "en",
+          "popularity": 0.297,
+          "vote_count": 0,
+          "poster_path": "/4XxhNYAJfBG5jkoLqHiOsg1qLau.jpg",
+          "backdrop_path": null,
+          "overview": "Brother Joseph Again is a rigorous, faith-filled investigation into one of the most fascinating questions in Church history: what did Joseph Smith really look like?",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": [
+            "very_low_popularity",
+            "no_votes_and_low_popularity"
+          ]
         }
       }
     },
@@ -7239,7 +7368,7 @@
           "source_title": "California Schemin'",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
-          "earliest_showing_utc": "2026-10-09T18:30:00Z",
+          "earliest_showing_utc": "2026-10-08T19:00:00Z",
           "runtime_min": 101,
           "mpaa_rating": "R",
           "genre": "DRAMA",
@@ -7255,7 +7384,7 @@
           "tmdb_id": 1193550,
           "original_title": "California Schemin'",
           "original_language": "en",
-          "popularity": 2.427,
+          "popularity": 2.507,
           "vote_count": 7,
           "poster_path": "/2tYRbCPZVQD1AjZ6YGMRx71lbDU.jpg",
           "backdrop_path": null,
@@ -7348,7 +7477,7 @@
           "tmdb_id": 1443151,
           "original_title": "Double Trouble",
           "original_language": "en",
-          "popularity": 4.635,
+          "popularity": 4.261,
           "vote_count": 0,
           "poster_path": "/2ecp59fHPF5Uq6vRQ6CJtyx4iAp.jpg",
           "backdrop_path": null,
@@ -7441,7 +7570,7 @@
           "tmdb_id": 1651316,
           "original_title": "Eh Din Roz Ni Aune",
           "original_language": "pa",
-          "popularity": 0.741,
+          "popularity": 0.721,
           "vote_count": 0,
           "poster_path": "/6Xb3U9L59uZ0eoiSXA81FjesfDT.jpg",
           "backdrop_path": null,
@@ -7537,7 +7666,7 @@
           "tmdb_id": 1308980,
           "original_title": "Falling",
           "original_language": "en",
-          "popularity": 1.106,
+          "popularity": 1.132,
           "vote_count": 0,
           "poster_path": null,
           "backdrop_path": null,
@@ -7633,7 +7762,7 @@
           "tmdb_id": 1381221,
           "original_title": "Misty Green",
           "original_language": "en",
-          "popularity": 2.413,
+          "popularity": 2.062,
           "vote_count": 0,
           "poster_path": "/qOFIOfZzteCoiOFjXDvqTgBnUTz.jpg",
           "backdrop_path": null,
@@ -7728,7 +7857,7 @@
           "tmdb_id": 1572116,
           "original_title": "Monster Mia",
           "original_language": "de",
-          "popularity": 5.482,
+          "popularity": 5.077,
           "vote_count": 3,
           "poster_path": "/9I2w1Sw4DrcQpe2VNvduvUNkVkW.jpg",
           "backdrop_path": null,
@@ -7751,8 +7880,7 @@
       "amc_movie_id": "84502",
       "amc_movie_ids": [
         "84502",
-        "85145",
-        "85168"
+        "85145"
       ],
       "expected_release_date": "2026-10-09",
       "expected_release_date_source": "amc_catalog_release_date",
@@ -7779,11 +7907,6 @@
           "kind": "q_and_a",
           "title": "MUSK Q&A with Director Alex Gibney",
           "amc_movie_id": "85145"
-        },
-        {
-          "kind": "q_and_a",
-          "title": "Musk Q&A with Journalist Zoë Shiffer",
-          "amc_movie_id": "85168"
         }
       ],
       "presentation": {
@@ -7806,8 +7929,7 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "MUSK Q&A with Director Alex Gibney",
-          "Musk",
-          "Musk Q&A with Journalist Zoë Shiffer"
+          "Musk"
         ],
         "contributing_sources": [
           "amc_catalog",
@@ -7836,7 +7958,7 @@
           "tmdb_id": 1096228,
           "original_title": "Musk",
           "original_language": "en",
-          "popularity": 2.809,
+          "popularity": 2.951,
           "vote_count": 0,
           "poster_path": "/6Gd6yXlfHALsEEiXxd1ypUA2dRI.jpg",
           "backdrop_path": null,
@@ -7931,7 +8053,7 @@
           "tmdb_id": 1594307,
           "original_title": "My Undesirable Friends: Part II - Exile",
           "original_language": "en",
-          "popularity": 1.484,
+          "popularity": 1.517,
           "vote_count": 0,
           "poster_path": "/tFOToWNgd48Y8JQ2PUHEN5Hx6ju.jpg",
           "backdrop_path": null,
@@ -8027,7 +8149,7 @@
           "tmdb_id": 1391021,
           "original_title": "欢迎来龙餐馆",
           "original_language": "zh",
-          "popularity": 13.123,
+          "popularity": 12.327,
           "vote_count": 40,
           "poster_path": "/wAuGgXjA7GV8NrKfmUKl2AP8vqG.jpg",
           "backdrop_path": null,
@@ -8120,7 +8242,7 @@
           "tmdb_id": 1756286,
           "original_title": "Portrait of an Artist: Stephen Curry",
           "original_language": "en",
-          "popularity": 1.763,
+          "popularity": 1.887,
           "vote_count": 0,
           "poster_path": "/bKVscDx3dWrOwZuy0X1WMlOUNWN.jpg",
           "backdrop_path": null,
@@ -8169,9 +8291,9 @@
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/rH6xnAWY1Asb0DlIczPXzVig5cI.jpg",
-        "poster_path": "/rH6xnAWY1Asb0DlIczPXzVig5cI.jpg",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790107755/amc-cdn/content/general/pwizrkwah7figqfgwnxp.jpg",
+        "poster_path": null,
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "When a militia of unidentified hostiles coordinates a coup against the U.S., the president uncovers the extent of The Beast's highly classified offensive capabilities in order to save his life and America.",
@@ -8205,7 +8327,7 @@
           "genre": "ACTION",
           "slug": "the-beast-84967",
           "synopsis": "When a militia of unidentified hostiles coordinates a coup against the U.S., the president uncovers the extent of The Beast's highly classified offensive capabilities in order to save his life and America.",
-          "poster_url": null,
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1790107755/amc-cdn/content/general/pwizrkwah7figqfgwnxp.jpg",
           "hero_desktop_url": null,
           "hero_mobile_url": null,
           "presentation_category": "standard",
@@ -8215,7 +8337,7 @@
           "tmdb_id": 1185344,
           "original_title": "The Beast",
           "original_language": "en",
-          "popularity": 2.415,
+          "popularity": 2.785,
           "vote_count": 0,
           "poster_path": "/rH6xnAWY1Asb0DlIczPXzVig5cI.jpg",
           "backdrop_path": null,
@@ -8311,7 +8433,7 @@
           "tmdb_id": 1746535,
           "original_title": "The Sixty Year Mission: How Star Trek Changed Television and the World",
           "original_language": "en",
-          "popularity": 1.656,
+          "popularity": 1.732,
           "vote_count": 0,
           "poster_path": "/wcG2Mr4HQbIlQMc3N3O3izG7CZj.jpg",
           "backdrop_path": null,
@@ -8360,9 +8482,9 @@
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/3xENFcu7Efyg1jtNUCCpUE0jJLW.jpg",
-        "poster_path": "/3xENFcu7Efyg1jtNUCCpUE0jJLW.jpg",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790104497/amc-cdn/content/general/nhtpncswlley3cx7amyd.jpg",
+        "poster_path": null,
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "Mip is a 12-year-old adopted monkey living in a world populated by only cats and rodents. After a magical map transports him to the faraway land of EMPATHRA, he sets out on a dangerous adventure to discover the truth behind his mysterious origins, unlocking his own special power of empathy and return caring to a land that has long since forgotten it.",
@@ -8396,7 +8518,7 @@
           "genre": "ANIMATION",
           "slug": "treasure-trekkers-85047",
           "synopsis": "Mip is a 12-year-old adopted monkey living in a world populated by only cats and rodents. After a magical map transports him to the faraway land of EMPATHRA, he sets out on a dangerous adventure to discover the truth behind his mysterious origins, unlocking his own special power of empathy and return caring to a land that has long since forgotten it.",
-          "poster_url": null,
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1790104497/amc-cdn/content/general/nhtpncswlley3cx7amyd.jpg",
           "hero_desktop_url": null,
           "hero_mobile_url": null,
           "presentation_category": "standard",
@@ -8406,7 +8528,7 @@
           "tmdb_id": 1630237,
           "original_title": "Treasure Trekkers",
           "original_language": "en",
-          "popularity": 2.944,
+          "popularity": 2.738,
           "vote_count": 0,
           "poster_path": "/3xENFcu7Efyg1jtNUCCpUE0jJLW.jpg",
           "backdrop_path": null,
@@ -8501,7 +8623,7 @@
           "tmdb_id": 1375156,
           "original_title": "उड़ता तीर",
           "original_language": "hi",
-          "popularity": 2.262,
+          "popularity": 2.221,
           "vote_count": 0,
           "poster_path": "/tvICKypVlW7Iio4KVs7NousbSKi.jpg",
           "backdrop_path": null,
@@ -8932,7 +9054,7 @@
           "tmdb_id": 1768029,
           "original_title": "Grandmasters",
           "original_language": "en",
-          "popularity": 5.504,
+          "popularity": 5.41,
           "vote_count": 0,
           "poster_path": "/aKK1YpNUe8HX0SA2uANo11SXM7M.jpg",
           "backdrop_path": null,
@@ -9087,6 +9209,77 @@
     },
     {
       "film_id": null,
+      "title": "Joybubbles",
+      "join_key": "joybubbles",
+      "parent_film_keys": [
+        "joybubbles"
+      ],
+      "showtime_film_keys": [
+        "joybubbles"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-12",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-12",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Joybubbles"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
       "title": "SIFF Movie Club: Ginger Snaps",
       "join_key": "siff-movie-club-ginger-snaps",
       "parent_film_keys": [
@@ -9195,7 +9388,7 @@
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1788964181/amc-cdn/content/general/cnlwfnn9ejnwbzadvohz.jpg",
         "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1788964329/amc-cdn/content/general/sueeo8ez29psivhfzlyk.jpg",
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1790075657/amc-cdn/production/2/movies/84700/84725/MovieStills/422452R3.jpg",
         "backdrop_path": null,
         "overview": "ALWAYS LALISA is a feature-length documentary following global superstar LISA during a transformative year away from Blackpink, the K-pop phenomenon that made her one of the world's most recognizable performers. As the group pauses activities, LISA embarks on the first true chapter of her solo career, confronting the question of who she is beyond Blackpink.\n\nThe film follows LISA as she writes, records, and releases her debut solo album, Alter Ego, makes her acting debut in the third season of The White Lotus, and prepares for her first major solo performance at the 2025 Coachella Music Festival. Born and raised in Thailand, LISA left home at fourteen to train in South Korea's demanding K-pop system, ultimately rising to global superstardom. But forging her own path, particularly in the Western music market, brings new pressures, relentless scrutiny, and the challenge of redefining herself on her own terms.\n\nIntimate, emotional, and revealing, Always Lalisa captures an artist at a crossroads, documenting a year of risk, reinvention, and self-discovery as LISA begins to define not only her next chapter, but the woman and artist she wants to become.",
         "runtime_minutes": 100,
@@ -9229,8 +9422,8 @@
           "slug": "always-lalisa-84725",
           "synopsis": "ALWAYS LALISA is a feature-length documentary following global superstar LISA during a transformative year away from Blackpink, the K-pop phenomenon that made her one of the world's most recognizable performers. As the group pauses activities, LISA embarks on the first true chapter of her solo career, confronting the question of who she is beyond Blackpink.\n\nThe film follows LISA as she writes, records, and releases her debut solo album, Alter Ego, makes her acting debut in the third season of The White Lotus, and prepares for her first major solo performance at the 2025 Coachella Music Festival. Born and raised in Thailand, LISA left home at fourteen to train in South Korea's demanding K-pop system, ultimately rising to global superstardom. But forging her own path, particularly in the Western music market, brings new pressures, relentless scrutiny, and the challenge of redefining herself on her own terms.\n\nIntimate, emotional, and revealing, Always Lalisa captures an artist at a crossroads, documenting a year of risk, reinvention, and self-discovery as LISA begins to define not only her next chapter, but the woman and artist she wants to become.",
           "poster_url": "https://amc-theatres-res.cloudinary.com/v1788964181/amc-cdn/content/general/cnlwfnn9ejnwbzadvohz.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788964329/amc-cdn/content/general/sueeo8ez29psivhfzlyk.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788964329/amc-cdn/content/general/sueeo8ez29psivhfzlyk.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075657/amc-cdn/production/2/movies/84700/84725/MovieStills/422452R3.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075657/amc-cdn/production/2/movies/84700/84725/MovieStills/422452R3.jpg",
           "presentation_category": "concert_or_event",
           "is_special_presentation": true
         },
@@ -9238,7 +9431,7 @@
           "tmdb_id": 1489932,
           "original_title": "Always Lalisa",
           "original_language": "en",
-          "popularity": 4.567,
+          "popularity": 4.385,
           "vote_count": 0,
           "poster_path": "/pOZnrUX1UMblLiqq9ZtZUde3cQV.jpg",
           "backdrop_path": null,
@@ -9553,7 +9746,7 @@
           "tmdb_id": 1503762,
           "original_title": "Sense and Sensibility",
           "original_language": "en",
-          "popularity": 9.455,
+          "popularity": 10.062,
           "vote_count": 0,
           "poster_path": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg",
           "backdrop_path": null,
@@ -9665,7 +9858,7 @@
           "tmdb_id": 1401433,
           "original_title": "Appofeniacs",
           "original_language": "en",
-          "popularity": 2.126,
+          "popularity": 1.914,
           "vote_count": 0,
           "poster_path": "/6uKZM73i8HnR3wmrGWzxHtjmvYb.jpg",
           "backdrop_path": null,
@@ -9914,7 +10107,7 @@
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1789156371/amc-cdn/content/general/lnicnk57yur8aik4yo9t.jpg",
         "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1789156393/amc-cdn/content/general/zzfqj8qchlll2kxvmemx.jpg",
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1790075265/amc-cdn/production/2/movies/85100/85061/MovieStills/366913R6.jpg",
         "backdrop_path": null,
         "overview": "Set in 1993, estranged Street Fighters Ryu (Andrew Koji) and Ken Masters (Noah Centineo) are thrown back into combat when the mysterious Chun-Li (Callina Liang) recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don’t, it’s GAME OVER!\nHelmed by director Kitao Sakurai, Street Fighter is set to bring the battle from the arcade to the big screen with Hadoukens, roundhouses, and all your favorite characters.",
         "runtime_minutes": 126,
@@ -9949,8 +10142,8 @@
           "slug": "street-fighter-bonus-round-fan-event-85061",
           "synopsis": "Set in 1993, estranged Street Fighters Ryu (Andrew Koji) and Ken Masters (Noah Centineo) are thrown back into combat when the mysterious Chun-Li (Callina Liang) recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don’t, it’s GAME OVER!\nHelmed by director Kitao Sakurai, Street Fighter is set to bring the battle from the arcade to the big screen with Hadoukens, roundhouses, and all your favorite characters.",
           "poster_url": "https://amc-theatres-res.cloudinary.com/v1789156371/amc-cdn/content/general/lnicnk57yur8aik4yo9t.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789156393/amc-cdn/content/general/zzfqj8qchlll2kxvmemx.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789156393/amc-cdn/content/general/zzfqj8qchlll2kxvmemx.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075265/amc-cdn/production/2/movies/85100/85061/MovieStills/366913R6.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075265/amc-cdn/production/2/movies/85100/85061/MovieStills/366913R6.jpg",
           "presentation_category": "concert_or_event",
           "is_special_presentation": true
         },
@@ -10030,6 +10223,110 @@
     },
     {
       "film_id": null,
+      "title": "You Can See Everything",
+      "join_key": "you-can-see-everything",
+      "parent_film_keys": [
+        "you-can-see-everything"
+      ],
+      "showtime_film_keys": [
+        "you-can-see-everything"
+      ],
+      "tmdb_id": 1765072,
+      "amc_movie_id": "85142",
+      "amc_movie_ids": [
+        "85142"
+      ],
+      "expected_release_date": "2026-10-15",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": "2026-10-16",
+      "tmdb_us_release_date": "2026-10-16",
+      "first_local_screening_date": "2026-10-15",
+      "first_local_screening_source": "amc_theater_booking",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "amc-pacific-place-11"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "name": "AMC Pacific Place 11"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 34,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": true,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790075445/amc-cdn/production/2/movies/85100/85142/Poster/425170R1.jpg",
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes YOU CAN SEE EVERYTHING.",
+        "runtime_minutes": 174,
+        "rating": "R",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "You Can See Everything"
+        ],
+        "contributing_sources": [
+          "amc_booking",
+          "amc_catalog",
+          "reel_seattle",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85142",
+          "source_title": "You Can See Everything",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
+          "earliest_showing_utc": "2026-10-15T15:00:00Z",
+          "runtime_min": 174,
+          "mpaa_rating": "R",
+          "genre": "DOCUMENTARY",
+          "slug": "you-can-see-everything-85142",
+          "synopsis": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes YOU CAN SEE EVERYTHING.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1790075445/amc-cdn/production/2/movies/85100/85142/Poster/425170R1.jpg",
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": {
+          "tmdb_id": 1765072,
+          "original_title": "You Can See Everything",
+          "original_language": "en",
+          "popularity": 5.823,
+          "vote_count": 0,
+          "poster_path": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg",
+          "backdrop_path": null,
+          "overview": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
+        }
+      }
+    },
+    {
+      "film_id": "tmdb:1437396",
       "title": "Your Mother Your Mother Your Mother",
       "join_key": "your-mother-your-mother-your-mother",
       "parent_film_keys": [
@@ -10042,33 +10339,44 @@
       "amc_movie_id": "84071",
       "amc_movie_ids": [
         "84071",
-        "84907",
         "85037",
-        "85038"
+        "85038",
+        "85039",
+        "85040"
       ],
       "expected_release_date": "2026-10-15",
       "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": "2026-09-23",
+      "amc_catalog_release_date": "2026-09-25",
       "tmdb_us_release_date": "2026-09-25",
       "first_local_screening_date": "2026-10-15",
       "first_local_screening_source": "amc_theater_booking",
       "local_status": "scheduled",
       "local_theater_ids": [
+        "amc-alderwood-mall-16",
         "amc-kent-station-14",
+        "amc-southcenter-16",
         "amc-woodinville-12"
       ],
       "local_theaters": [
         {
+          "theater_id": "amc-alderwood-mall-16",
+          "name": "AMC Alderwood Mall 16"
+        },
+        {
           "theater_id": "amc-kent-station-14",
           "name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "name": "AMC Southcenter 16"
         },
         {
           "theater_id": "amc-woodinville-12",
           "name": "AMC Woodinville 12"
         }
       ],
-      "local_theater_count": 2,
-      "local_showtime_count": 55,
+      "local_theater_count": 4,
+      "local_showtime_count": 114,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -10080,9 +10388,14 @@
       "user_visible": true,
       "engagements": [
         {
-          "kind": "early_access",
-          "title": "Your Mother Your Mother Your Mother Early Access",
-          "amc_movie_id": "84907"
+          "kind": "q_and_a",
+          "title": "Your Mother Your Mother Your Mother Live Q&A with Dir Bassam Tariq & John Cho",
+          "amc_movie_id": "85039"
+        },
+        {
+          "kind": "q_and_a",
+          "title": "Your Mother Your Mother Your Mother Live Q&A with John Cho",
+          "amc_movie_id": "85040"
         },
         {
           "kind": "q_and_a",
@@ -10097,25 +10410,26 @@
       ],
       "presentation": {
         "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1785775787/amc-cdn/content/general/fvtw5wvasaqffkdzap5h.jpg",
-        "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1785927904/amc-cdn/production/2/movies/84100/84071/MovieStills/387235R5.jpg",
-        "backdrop_path": null,
-        "overview": "From writer-director Bassam Tariq, Your Mother, Your Mother, Your Mother stars Mahershala Ali as Latif, a devoutly religious hitman who struggles to balance work, faith and fatherhood. When his wife dies, he embarks on a desperate journey across Houston to protect his children, confronting the forces closing in around him - and the beliefs threatening to unravel within.",
+        "source": "confirmed_enrichment",
+        "poster_url": "https://image.tmdb.org/t/p/w500/4KaPZSKnInnArErTTgy9Oy14leR.jpg",
+        "poster_path": "/4KaPZSKnInnArErTTgy9Oy14leR.jpg",
+        "backdrop_url": "https://image.tmdb.org/t/p/w780/jiFLiatBtBALlAzV5R72gzspBad.jpg",
+        "backdrop_path": "/jiFLiatBtBALlAzV5R72gzspBad.jpg",
+        "overview": "Latif, a devoutly religious hitman, struggles to balance work, faith and fatherhood. When his wife dies, he embarks on a desperate journey across Houston to protect his children, confronting the forces closing in around him – and the beliefs threatening to unravel within.",
         "runtime_minutes": 111,
         "rating": "R",
         "release_year": 2026
       },
       "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
+        "method": "film_id",
+        "film_id_confirmed": true,
+        "tmdb_id_inferred": false,
         "ambiguous": false,
         "synthetic_film_group": false,
         "variant_titles": [
           "Your Mother Your Mother Your Mother",
-          "Your Mother Your Mother Your Mother Early Access",
+          "Your Mother Your Mother Your Mother Live Q&A with Dir Bassam Tariq & John Cho",
+          "Your Mother Your Mother Your Mother Live Q&A with John Cho",
           "Your Mother Your Mother Your Mother Live Q&A with Mahershala Ali",
           "Your Mother Your Mother Your Mother Live Q&A with Mahershala Ali & Dir Bassam Tariq"
         ],
@@ -10148,8 +10462,8 @@
           "tmdb_id": 1437396,
           "original_title": "Your Mother Your Mother Your Mother",
           "original_language": "en",
-          "popularity": 5.907,
-          "vote_count": 0,
+          "popularity": 6.05,
+          "vote_count": 1,
           "poster_path": "/4KaPZSKnInnArErTTgy9Oy14leR.jpg",
           "backdrop_path": null,
           "overview": "Latif, a devoutly religious hitman, struggles to balance work, faith and fatherhood. When his wife dies, he embarks on a desperate journey across Houston to protect his children, confronting the forces closing in around him – and the beliefs threatening to unravel within.",
@@ -10388,7 +10702,7 @@
       "expected_release_date": "2026-10-16",
       "expected_release_date_source": "amc_catalog_release_date",
       "amc_catalog_release_date": "2026-10-16",
-      "tmdb_us_release_date": "2026-10-16",
+      "tmdb_us_release_date": "2026-10-28",
       "first_local_screening_date": null,
       "first_local_screening_source": null,
       "local_status": "not_announced",
@@ -10454,7 +10768,7 @@
           "tmdb_id": 1496696,
           "original_title": "Breeder",
           "original_language": "en",
-          "popularity": 7.323,
+          "popularity": 7.272,
           "vote_count": 0,
           "poster_path": "/1ru0fNB2dy6cjVXwGnzd8jgMQEn.jpg",
           "backdrop_path": null,
@@ -10547,7 +10861,7 @@
           "tmdb_id": 1744879,
           "original_title": "Conceivable",
           "original_language": "en",
-          "popularity": 2.743,
+          "popularity": 2.384,
           "vote_count": 0,
           "poster_path": "/g5qpNDC5vLb3aTuPTqddfSqzuEy.jpg",
           "backdrop_path": null,
@@ -10599,7 +10913,7 @@
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1789756599/amc-cdn/content/general/ec2hv9xpifpirme3mduq.jpg",
         "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1789470420/amc-cdn/production/2/movies/83900/83864/MovieStills/368208R5.jpg",
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1790075340/amc-cdn/production/2/movies/83900/83864/MovieStills/368208R9.jpg",
         "backdrop_path": null,
         "overview": "As residents of the Paradiso Palms apartments battle a catastrophic infestation of venomous spiders, the wily building manager may be the only one who can keep people alive.",
         "runtime_minutes": 86,
@@ -10633,8 +10947,8 @@
           "slug": "crawlers-83864",
           "synopsis": "As residents of the Paradiso Palms apartments battle a catastrophic infestation of venomous spiders, the wily building manager may be the only one who can keep people alive.",
           "poster_url": "https://amc-theatres-res.cloudinary.com/v1789756599/amc-cdn/content/general/ec2hv9xpifpirme3mduq.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789470420/amc-cdn/production/2/movies/83900/83864/MovieStills/368208R5.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789470420/amc-cdn/production/2/movies/83900/83864/MovieStills/368208R5.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075340/amc-cdn/production/2/movies/83900/83864/MovieStills/368208R9.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075340/amc-cdn/production/2/movies/83900/83864/MovieStills/368208R9.jpg",
           "presentation_category": "standard",
           "is_special_presentation": false
         },
@@ -10642,7 +10956,7 @@
           "tmdb_id": 1376400,
           "original_title": "Crawlers",
           "original_language": "en",
-          "popularity": 4.831,
+          "popularity": 4.822,
           "vote_count": 0,
           "poster_path": "/lNXeEpg4yLSRwXwOeR5lbPgwbqL.jpg",
           "backdrop_path": null,
@@ -10735,7 +11049,7 @@
           "tmdb_id": 1511171,
           "original_title": "A Virada: Ignição da Alma",
           "original_language": "pt",
-          "popularity": 2.025,
+          "popularity": 1.872,
           "vote_count": 0,
           "poster_path": "/lwt3hYZ8brDke280XpgvXu2M4kt.jpg",
           "backdrop_path": null,
@@ -10759,7 +11073,8 @@
       "tmdb_id": 1422041,
       "amc_movie_id": "84366",
       "amc_movie_ids": [
-        "84366"
+        "84366",
+        "85186"
       ],
       "expected_release_date": "2026-10-16",
       "expected_release_date_source": "amc_catalog_release_date",
@@ -10781,7 +11096,13 @@
       "classification": "amc_announced",
       "relevance_tier": "strongly_expected",
       "user_visible": true,
-      "engagements": [],
+      "engagements": [
+        {
+          "kind": "q_and_a",
+          "title": "La Bola Negra Q&A with Directors Javier Calvo & Javier Ambrossi",
+          "amc_movie_id": "85186"
+        }
+      ],
       "presentation": {
         "kind": "film",
         "source": "amc_catalog",
@@ -10802,6 +11123,7 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "La Bola Negra",
+          "La Bola Negra Q&A with Directors Javier Calvo & Javier Ambrossi",
           "La bola negra"
         ],
         "contributing_sources": [
@@ -10831,7 +11153,7 @@
           "tmdb_id": 1422041,
           "original_title": "La bola negra",
           "original_language": "es",
-          "popularity": 8.404,
+          "popularity": 8.807,
           "vote_count": 0,
           "poster_path": "/oNvDkdJ0Ykx4sOrcxsFtE6LoOS.jpg",
           "backdrop_path": null,
@@ -10932,7 +11254,7 @@
           "tmdb_id": 1596300,
           "original_title": "Once Upon a Time in Harlem",
           "original_language": "en",
-          "popularity": 2.921,
+          "popularity": 2.978,
           "vote_count": 0,
           "poster_path": "/9eukk5gby8NZCwraiC7mloZmasP.jpg",
           "backdrop_path": null,
@@ -11027,7 +11349,7 @@
           "tmdb_id": 1249202,
           "original_title": "Trust Me, I'm a Doctor",
           "original_language": "en",
-          "popularity": 2.406,
+          "popularity": 2.428,
           "vote_count": 0,
           "poster_path": "/fG3MKWWnSlpNhXKK9q7pDXyVdCo.jpg",
           "backdrop_path": null,
@@ -11079,7 +11401,7 @@
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1789756490/amc-cdn/content/general/dcj1hh4njsuwahcbemry.jpg",
         "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1782817601/amc-cdn/production/2/movies/80500/80471/MovieStills/388096R5.jpg",
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1790075362/amc-cdn/production/2/movies/80500/80471/MovieStills/388096R9.jpg",
         "backdrop_path": null,
         "overview": "Following the death of his father (Josh Brolin), Jay Gardiner (Austin Abrams) goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape.",
         "runtime_minutes": 106,
@@ -11113,8 +11435,8 @@
           "slug": "whalefall-80471",
           "synopsis": "Following the death of his father (Josh Brolin), Jay Gardiner (Austin Abrams) goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape.",
           "poster_url": "https://amc-theatres-res.cloudinary.com/v1789756490/amc-cdn/content/general/dcj1hh4njsuwahcbemry.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1782817601/amc-cdn/production/2/movies/80500/80471/MovieStills/388096R5.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1782817601/amc-cdn/production/2/movies/80500/80471/MovieStills/388096R5.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075362/amc-cdn/production/2/movies/80500/80471/MovieStills/388096R9.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075362/amc-cdn/production/2/movies/80500/80471/MovieStills/388096R9.jpg",
           "presentation_category": "standard",
           "is_special_presentation": false
         },
@@ -11122,104 +11444,11 @@
           "tmdb_id": 1255833,
           "original_title": "Whalefall",
           "original_language": "en",
-          "popularity": 10.882,
+          "popularity": 10.285,
           "vote_count": 0,
           "poster_path": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg",
           "backdrop_path": null,
           "overview": "Following the death of his father, Jay Gardiner goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": []
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "You Can See Everything",
-      "join_key": "you-can-see-everything",
-      "parent_film_keys": [
-        "you-can-see-everything"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1765072,
-      "amc_movie_id": "85142",
-      "amc_movie_ids": [
-        "85142"
-      ],
-      "expected_release_date": "2026-10-16",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-10-16",
-      "tmdb_us_release_date": "2026-10-16",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "strongly_expected",
-      "user_visible": true,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg",
-        "poster_path": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes YOU CAN SEE EVERYTHING.",
-        "runtime_minutes": 174,
-        "rating": "R",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "You Can See Everything"
-        ],
-        "contributing_sources": [
-          "amc_catalog",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85142",
-          "source_title": "You Can See Everything",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
-          "earliest_showing_utc": "2026-10-15T15:00:00Z",
-          "runtime_min": 174,
-          "mpaa_rating": "R",
-          "genre": "DOCUMENTARY",
-          "slug": "you-can-see-everything-85142",
-          "synopsis": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss. From boundary-pushing directors Nathan Fielder and Lance Oppenheim comes YOU CAN SEE EVERYTHING.",
-          "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": {
-          "tmdb_id": 1765072,
-          "original_title": "You Can See Everything",
-          "original_language": "en",
-          "popularity": 6.096,
-          "vote_count": 0,
-          "poster_path": "/qhFWz1BsEMg5rcs6TAstmGQggMT.jpg",
-          "backdrop_path": null,
-          "overview": "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []
@@ -11308,7 +11537,7 @@
           "tmdb_id": 1760638,
           "original_title": "You Can't Leave",
           "original_language": "en",
-          "popularity": 2.354,
+          "popularity": 2.088,
           "vote_count": 0,
           "poster_path": "/n8X4geolvhtAdcQ4mg8LnLv7gAE.jpg",
           "backdrop_path": null,
@@ -11707,7 +11936,7 @@
           "source_title": "Spirited Away 25th Anniversary - Studio Ghibli Fest 2026",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-10-17T05:00:00Z",
-          "earliest_showing_utc": "2026-10-17T14:30:00Z",
+          "earliest_showing_utc": "2026-10-17T13:15:00Z",
           "runtime_min": 132,
           "mpaa_rating": "PG",
           "genre": "ADVENTURE",
@@ -11795,14 +12024,16 @@
           "tmdb_id": 1629356,
           "original_title": "Capturing Bigfoot",
           "original_language": "en",
-          "popularity": 3.412,
+          "popularity": 2.792,
           "vote_count": 0,
           "poster_path": "/5je8ali4g3RUYDnxk706KoPflGi.jpg",
           "backdrop_path": null,
           "overview": "On October 20, 1967, Roger Patterson captured 60 seconds of film showing a creature walking through the Northern California woods—footage that became the most analyzed and debated in history. Fifty-seven years later, a reel of 16mm film discovered in a safe changes everything, revealing the untold story behind the world's greatest mystery, told for the first time by Patterson's own son and the people who were there.",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": []
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
         }
       }
     },
@@ -12287,7 +12518,7 @@
         }
       ],
       "local_theater_count": 4,
-      "local_showtime_count": 71,
+      "local_showtime_count": 73,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -12355,7 +12586,7 @@
           "tmdb_id": 791523,
           "original_title": "Wildwood",
           "original_language": "en",
-          "popularity": 12.917,
+          "popularity": 11.767,
           "vote_count": 0,
           "poster_path": "/snFM00mpNAfUzUtkdEW0uDEvXA0.jpg",
           "backdrop_path": null,
@@ -12600,6 +12831,77 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "A. Rimbaud"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Flying Embers And A Fortress",
+      "join_key": "flying-embers-and-a-fortress",
+      "parent_film_keys": [
+        "flying-embers-and-a-fortress"
+      ],
+      "showtime_film_keys": [
+        "flying-embers-and-a-fortress"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-20",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-20",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "the-beacon"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "the-beacon",
+          "name": "The Beacon"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 2,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Flying Embers And A Fortress"
         ],
         "contributing_sources": [
           "reel_seattle"
@@ -13722,7 +14024,7 @@
           "tmdb_id": 1084409,
           "original_title": "A Talent for Murder",
           "original_language": "en",
-          "popularity": 4.795,
+          "popularity": 4.266,
           "vote_count": 0,
           "poster_path": "/mstDPKNKgSGFvVFVdfzeMNkcyw2.jpg",
           "backdrop_path": null,
@@ -13815,7 +14117,7 @@
           "tmdb_id": 1727734,
           "original_title": "Ali G: Who Iz I?",
           "original_language": "en",
-          "popularity": 3.263,
+          "popularity": 3.054,
           "vote_count": 0,
           "poster_path": "/uTyVxPeWX8Ai30IQoyDDQONNcq.jpg",
           "backdrop_path": null,
@@ -13908,7 +14210,7 @@
           "tmdb_id": 1527075,
           "original_title": "আন্ধার",
           "original_language": "bn",
-          "popularity": 0.849,
+          "popularity": 0.775,
           "vote_count": 0,
           "poster_path": "/eopxkt7rLfToAHbqQ0wzOMeKvlM.jpg",
           "backdrop_path": null,
@@ -14004,7 +14306,7 @@
           "tmdb_id": 1400940,
           "original_title": "Clayface",
           "original_language": "en",
-          "popularity": 14.922,
+          "popularity": 14.616,
           "vote_count": 0,
           "poster_path": "/5jCpQnWPikggmQZoDp1eAi6BI6w.jpg",
           "backdrop_path": null,
@@ -14097,8 +14399,8 @@
           "tmdb_id": 1437696,
           "original_title": "Ojczyzna",
           "original_language": "pl",
-          "popularity": 13.287,
-          "vote_count": 24,
+          "popularity": 13.154,
+          "vote_count": 25,
           "poster_path": "/oNejN1l69nBF8LdQwy5FkAQZT44.jpg",
           "backdrop_path": null,
           "overview": "In 1949, German writer Thomas Mann and his daughter Erika embark on a road trip across a Germany in ruins, from US-dominated Frankfurt to Soviet-controlled Weimar.",
@@ -14190,7 +14492,7 @@
           "tmdb_id": 858035,
           "original_title": "Klara and the Sun",
           "original_language": "en",
-          "popularity": 6.606,
+          "popularity": 6.685,
           "vote_count": 0,
           "poster_path": "/xqovj2p6HRsgHxN81qYAYF4StgM.jpg",
           "backdrop_path": null,
@@ -14283,7 +14585,7 @@
           "tmdb_id": 1754364,
           "original_title": "Making Marie Antoinette",
           "original_language": "fr",
-          "popularity": 2.096,
+          "popularity": 1.899,
           "vote_count": 0,
           "poster_path": "/4B2qSMSyev7aqPNT00TNPVCBKGF.jpg",
           "backdrop_path": null,
@@ -14379,7 +14681,7 @@
           "tmdb_id": 1458099,
           "original_title": "The Only Living Pickpocket in New York",
           "original_language": "en",
-          "popularity": 3.71,
+          "popularity": 3.712,
           "vote_count": 0,
           "poster_path": "/pNdB9va2AEPQe9UfhKAdIt8nus9.jpg",
           "backdrop_path": null,
@@ -14472,7 +14774,7 @@
           "tmdb_id": 1195803,
           "original_title": "Wicker",
           "original_language": "en",
-          "popularity": 7.233,
+          "popularity": 7.033,
           "vote_count": 0,
           "poster_path": "/rnoD8w0SUetL3S4Uje8HgSxDXzK.jpg",
           "backdrop_path": null,
@@ -15275,8 +15577,8 @@
           "tmdb_id": 1517123,
           "original_title": "En el camino",
           "original_language": "es",
-          "popularity": 10.31,
-          "vote_count": 13,
+          "popularity": 11.798,
+          "vote_count": 29,
           "poster_path": "/u169hcLX3OsM9eRs4wtIzi0ymGZ.jpg",
           "backdrop_path": null,
           "overview": "Veneno, a rebellious young drifter, frequents roadside diners where he sleeps with truck drivers. Urgently needing a ride, he meets Muñeco, a hard-edged driver who keeps to himself. He convinces Muñeco to take him deep into the hyper-masculine world of long-haul trucking across the north of Mexico. As they travel together and an unexpected intimacy builds between them, shadows from Veneno’s past resurface, putting both their lives at risk.",
@@ -15347,6 +15649,77 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "CatVideoFest 2026"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Idle Hands",
+      "join_key": "idle-hands",
+      "parent_film_keys": [
+        "idle-hands"
+      ],
+      "showtime_film_keys": [
+        "idle-hands"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-29",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-29",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "the-beacon"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "the-beacon",
+          "name": "The Beacon"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Idle Hands"
         ],
         "contributing_sources": [
           "reel_seattle"
@@ -15680,7 +16053,7 @@
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1789816182/amc-cdn/production/2/movies/84100/84131/Poster/417870R1.jpg",
         "poster_path": null,
-        "backdrop_url": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1790075629/amc-cdn/production/2/movies/84100/84131/MovieStills/417870R5.jpg",
         "backdrop_path": null,
         "overview": "The Severson family move to a suburban neighborhood where their neighbors, the Kringles, celebrate Christmas year-round and harbor sinister intentions to hypnotize and indoctrinate them.",
         "runtime_minutes": null,
@@ -15714,8 +16087,8 @@
           "slug": "christmas-at-the-kringles-84131",
           "synopsis": "The Severson family move to a suburban neighborhood where their neighbors, the Kringles, celebrate Christmas year-round and harbor sinister intentions to hypnotize and indoctrinate them.",
           "poster_url": "https://amc-theatres-res.cloudinary.com/v1789816182/amc-cdn/production/2/movies/84100/84131/Poster/417870R1.jpg",
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075629/amc-cdn/production/2/movies/84100/84131/MovieStills/417870R5.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075629/amc-cdn/production/2/movies/84100/84131/MovieStills/417870R5.jpg",
           "presentation_category": "standard",
           "is_special_presentation": false
         },
@@ -15723,7 +16096,7 @@
           "tmdb_id": 939541,
           "original_title": "Christmas at the Kringles",
           "original_language": "en",
-          "popularity": 2.975,
+          "popularity": 2.865,
           "vote_count": 0,
           "poster_path": "/z0uOPm2KjrZp1v4jp4SdPsrdgWB.jpg",
           "backdrop_path": null,
@@ -15818,11 +16191,11 @@
           "tmdb_id": 1603262,
           "original_title": "Everest: The Other Side",
           "original_language": "en",
-          "popularity": 2.674,
+          "popularity": 2.492,
           "vote_count": 0,
           "poster_path": "/yE86EFh0niJM9W84NWbR7s9VoT3.jpg",
           "backdrop_path": null,
-          "overview": "An intimate portrait of two people bound by love, ambition, and the pursuit of the impossible. Elite ski mountaineers Jim Morrison and Hilaree Nelson fell deeply in love while reaching the pinnacle of their sport. Their drive sharpened into a shared dream: to climb and ski the direct North Face of Mount Everest - the most difficult and dangerous climb on the mountain and the most coveted ski line on Earth - something only a handful have ever achieved, and no one has successfully skied down.",
+          "overview": "An intimate portrait of two people bound by love, ambition, and the pursuit of the impossible. Elite ski mountaineers Jim Morrison and Hilaree Nelson fell deeply in love while reaching the pinnacle of their sport. Their drive sharpened into a shared dream: to climb and ski the direct North Face of Mount Everest—the most difficult and dangerous climb on the mountain and the most coveted ski line on Earth—something only a handful have ever achieved, and no one has successfully skied down.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": [
@@ -15913,11 +16286,11 @@
           "tmdb_id": 1021848,
           "original_title": "Queen at Sea",
           "original_language": "en",
-          "popularity": 3.769,
+          "popularity": 3.285,
           "vote_count": 2,
           "poster_path": "/ueYawr1nldKchzyP8Q9KJpn31SK.jpg",
           "backdrop_path": null,
-          "overview": "Amanda and her stepfather Martin struggle with a moral issue that divides them. Has Amanda’s mother Leslie, who has dementia, lost the ability to make critical decisions in her own best interests? And, if so, who is responsible – a spouse, a child, an institution – for making such a determination? As Amanda and Martin are forced to make increasingly difficult choices, the repercussions spiral out of their control. Academy Award winner Juliette Binoche (The Taste of Things), Academy Award nominee Tom Courtenay (45 Years), Anna Calder-Marshall (Wuthering Heights), and Florence Hunt (Bridgerton) star in this unflinching drama. The film won the Silver Bear Jury Prize and Tom Courtenay and Anna Calder-Marshall won the Silver Bear for Best Supporting Performance at the 2026 Berlin International Film Festival.",
+          "overview": "Amanda and her stepfather Martin struggle with a moral issue that divides them. Has Amanda’s mother Leslie, who has dementia, lost the ability to make critical decisions in her own best interests? And, if so, who is responsible – a spouse, a child, an institution – for making such a determination? As Amanda and Martin are forced to make increasingly difficult choices, the repercussions spiral out of their control.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []
@@ -16006,7 +16379,7 @@
           "tmdb_id": 1294189,
           "original_title": "The Mongoose",
           "original_language": "en",
-          "popularity": 277.152,
+          "popularity": 266.575,
           "vote_count": 0,
           "poster_path": "/eSS5mvSG84UUuvtbHel5Yu3Wik4.jpg",
           "backdrop_path": null,
@@ -16099,14 +16472,16 @@
           "tmdb_id": 1458300,
           "original_title": "The Mosquito Bowl",
           "original_language": "en",
-          "popularity": 3.168,
+          "popularity": 2.874,
           "vote_count": 0,
           "poster_path": "/yYyakG09lQMhlF3GW0ZCTjnDhah.jpg",
           "backdrop_path": null,
           "overview": "In the aftermath of Pearl Harbor, four US college football stars enlist in the Marines, discovering the strength of brotherhood and the cost of war.",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": []
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
         }
       }
     },
@@ -16192,7 +16567,7 @@
           "tmdb_id": 1162823,
           "original_title": "Who Killed Alex Odeh?",
           "original_language": "en",
-          "popularity": 2.173,
+          "popularity": 1.982,
           "vote_count": 0,
           "poster_path": "/yO1m1fh4N7kMNxB0Nn9hrVIUJOw.jpg",
           "backdrop_path": null,
@@ -16699,7 +17074,7 @@
           "tmdb_id": 1697911,
           "original_title": "Drummer Boy",
           "original_language": "en",
-          "popularity": 2.586,
+          "popularity": 2.434,
           "vote_count": 0,
           "poster_path": "/bhjdgMm2fFrysSzVqv5RwRwIbVf.jpg",
           "backdrop_path": null,
@@ -16770,7 +17145,7 @@
         "source": "amc_catalog",
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1787915267/amc-cdn/production/2/movies/83000/83023/Poster/397954R1.jpg",
         "poster_path": null,
-        "backdrop_url": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1790075251/amc-cdn/production/2/movies/83000/83023/MovieStills/397954R8.jpg",
         "backdrop_path": null,
         "overview": "JIMMY, the untold true story of America's most-beloved actor and the iconic role that saved him, focuses on the most transformative season in Jimmy Stewart's life--from winning the Academy Award for Best Actor in The Philadelphia Story to enlisting and becoming a combat pilot in the U.S. Army Air Corps at the beginning of World War II. Stewart flew twenty missions over Europe, rising to the rank of colonel by the end of the war, only to return home broken and disheartened. Then George Bailey and It's a Wonderful Life came calling...",
         "runtime_minutes": 120,
@@ -16806,8 +17181,8 @@
           "slug": "jimmy-83023",
           "synopsis": "JIMMY, the untold true story of America's most-beloved actor and the iconic role that saved him, focuses on the most transformative season in Jimmy Stewart's life--from winning the Academy Award for Best Actor in The Philadelphia Story to enlisting and becoming a combat pilot in the U.S. Army Air Corps at the beginning of World War II. Stewart flew twenty missions over Europe, rising to the rank of colonel by the end of the war, only to return home broken and disheartened. Then George Bailey and It's a Wonderful Life came calling...",
           "poster_url": "https://amc-theatres-res.cloudinary.com/v1787915267/amc-cdn/production/2/movies/83000/83023/Poster/397954R1.jpg",
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075251/amc-cdn/production/2/movies/83000/83023/MovieStills/397954R8.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075251/amc-cdn/production/2/movies/83000/83023/MovieStills/397954R8.jpg",
           "presentation_category": "standard",
           "is_special_presentation": false
         },
@@ -16815,7 +17190,7 @@
           "tmdb_id": 1241478,
           "original_title": "Jimmy",
           "original_language": "en",
-          "popularity": 2.692,
+          "popularity": 2.828,
           "vote_count": 0,
           "poster_path": "/c3fWnsg5VEP5EhYZ4oY2NpFrrU1.jpg",
           "backdrop_path": null,
@@ -16981,7 +17356,7 @@
           "tmdb_id": 1585239,
           "original_title": "Club Kid",
           "original_language": "en",
-          "popularity": 4.787,
+          "popularity": 4.698,
           "vote_count": 0,
           "poster_path": "/3CdM37GtEDMAp7fGlRn9MCpFjn1.jpg",
           "backdrop_path": null,
@@ -17082,7 +17457,7 @@
           "tmdb_id": 1381071,
           "original_title": "ゴジラ-0.0",
           "original_language": "ja",
-          "popularity": 9.404,
+          "popularity": 8.195,
           "vote_count": 0,
           "poster_path": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg",
           "backdrop_path": null,
@@ -17175,7 +17550,7 @@
           "tmdb_id": 1286656,
           "original_title": "I Play Rocky",
           "original_language": "en",
-          "popularity": 6.013,
+          "popularity": 5.151,
           "vote_count": 0,
           "poster_path": "/xE5tY3lppZUyG7WKKThsuYHuAHr.jpg",
           "backdrop_path": null,
@@ -17268,7 +17643,7 @@
           "tmdb_id": 656908,
           "original_title": "रामायण",
           "original_language": "hi",
-          "popularity": 8.326,
+          "popularity": 8.039,
           "vote_count": 0,
           "poster_path": "/f3yZZw7zIsWo6m9xJStfjDauIZX.jpg",
           "backdrop_path": null,
@@ -17372,7 +17747,7 @@
           "tmdb_id": 1117898,
           "original_title": "The Cat in the Hat",
           "original_language": "en",
-          "popularity": 9.079,
+          "popularity": 8.553,
           "vote_count": 0,
           "poster_path": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg",
           "backdrop_path": null,
@@ -17465,7 +17840,7 @@
           "tmdb_id": 891621,
           "original_title": "Wild Horse Nine",
           "original_language": "en",
-          "popularity": 8.521,
+          "popularity": 8.223,
           "vote_count": 0,
           "poster_path": "/dNJFRtVg3xLQ7dbNIQ55cmmIniD.jpg",
           "backdrop_path": null,
@@ -17817,7 +18192,7 @@
           "tmdb_id": 1562642,
           "original_title": "Ghost Soldier",
           "original_language": "en",
-          "popularity": 10.913,
+          "popularity": 10.65,
           "vote_count": 0,
           "poster_path": "/8Y4oJ5iUs3hgPcDB3SIEmsNYjZk.jpg",
           "backdrop_path": null,
@@ -18052,7 +18427,7 @@
           "tmdb_id": 1088548,
           "original_title": "Amarga Navidad",
           "original_language": "es",
-          "popularity": 10.56,
+          "popularity": 9.738,
           "vote_count": 144,
           "poster_path": "/kiPGcHX0YT49nrab76G0bqw3gHW.jpg",
           "backdrop_path": null,
@@ -18153,7 +18528,7 @@
           "tmdb_id": 1567605,
           "original_title": "Ebenezer",
           "original_language": "en",
-          "popularity": 8.481,
+          "popularity": 8.461,
           "vote_count": 0,
           "poster_path": "/wmuMZrelOQBAN2KlA30yOIeIUJl.jpg",
           "backdrop_path": null,
@@ -18246,7 +18621,7 @@
           "tmdb_id": 1437511,
           "original_title": "How to Rob a Bank",
           "original_language": "en",
-          "popularity": 10.022,
+          "popularity": 9.403,
           "vote_count": 0,
           "poster_path": "/ifYDZkr2qkHFz87TNVvlxajOxl5.jpg",
           "backdrop_path": null,
@@ -18339,7 +18714,7 @@
           "tmdb_id": 1381273,
           "original_title": "Paper Tiger",
           "original_language": "en",
-          "popularity": 6.462,
+          "popularity": 7.009,
           "vote_count": 0,
           "poster_path": "/p6oLmq5KmuWY6uRXBQBL2q30jia.jpg",
           "backdrop_path": null,
@@ -18366,7 +18741,7 @@
       "expected_release_date": "2026-11-13",
       "expected_release_date_source": "amc_catalog_release_date",
       "amc_catalog_release_date": "2026-11-13",
-      "tmdb_us_release_date": "2026-11-13",
+      "tmdb_us_release_date": "2026-09-25",
       "first_local_screening_date": null,
       "first_local_screening_source": null,
       "local_status": "not_announced",
@@ -18432,8 +18807,8 @@
           "tmdb_id": 1379486,
           "original_title": "Victorian Psycho",
           "original_language": "en",
-          "popularity": 6.374,
-          "vote_count": 0,
+          "popularity": 6.46,
+          "vote_count": 1,
           "poster_path": "/9LHVZevgdsdbjJdkFr6bk9EwX7q.jpg",
           "backdrop_path": null,
           "overview": "When eccentric young governess Winifred Notty arrives at a remote Gothic manor, a string of unsettling events leads the household to suspect she isn't who she claims to be—but the truth may be far more dangerous than they imagine.",
@@ -18908,7 +19283,7 @@
         "source": "inferred_tmdb",
         "poster_url": "https://image.tmdb.org/t/p/w500/sWLwzqjaTDtAjK01erubswLkQwl.jpg",
         "poster_path": "/sWLwzqjaTDtAjK01erubswLkQwl.jpg",
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1789816168/amc-cdn/production/2/movies/84600/84636/MovieStills/408276R2.jpg",
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1790075614/amc-cdn/production/2/movies/84600/84636/MovieStills/408276R4.jpg",
         "backdrop_path": null,
         "overview": "The deeply emotional and inspirational true story of Ian Charleson, a gifted actor whose greatest challenge becomes his greatest triumph. Facing his own mortality with unflinching honesty, wit, and grace, Charleson delivers a courageous performance that becomes a source of healing and inspiration for those around him.",
         "runtime_minutes": 104,
@@ -18942,8 +19317,8 @@
           "slug": "elsinore-84636",
           "synopsis": "The deeply emotional and inspirational true story of Ian Charleson, a gifted actor whose greatest challenge becomes his greatest triumph. Facing his own mortality with unflinching honesty, wit, and grace, Charleson delivers a courageous performance that becomes a source of healing and inspiration for those around him.",
           "poster_url": null,
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789816168/amc-cdn/production/2/movies/84600/84636/MovieStills/408276R2.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789816168/amc-cdn/production/2/movies/84600/84636/MovieStills/408276R2.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075614/amc-cdn/production/2/movies/84600/84636/MovieStills/408276R4.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075614/amc-cdn/production/2/movies/84600/84636/MovieStills/408276R4.jpg",
           "presentation_category": "standard",
           "is_special_presentation": false
         },
@@ -18951,7 +19326,7 @@
           "tmdb_id": 1599230,
           "original_title": "Elsinore",
           "original_language": "en",
-          "popularity": 7.044,
+          "popularity": 6.534,
           "vote_count": 0,
           "poster_path": "/sWLwzqjaTDtAjK01erubswLkQwl.jpg",
           "backdrop_path": null,
@@ -19053,7 +19428,7 @@
           "tmdb_id": 1300968,
           "original_title": "The Hunger Games: Sunrise on the Reaping",
           "original_language": "en",
-          "popularity": 20.075,
+          "popularity": 18.75,
           "vote_count": 0,
           "poster_path": "/jNcZH8yplxttRlf0wwqfGGMKHxX.jpg",
           "backdrop_path": null,
@@ -19146,14 +19521,16 @@
           "tmdb_id": 1299329,
           "original_title": "Josephine",
           "original_language": "en",
-          "popularity": 3.146,
+          "popularity": 2.666,
           "vote_count": 0,
           "poster_path": "/eqMWdviWwaRahQ7QkHLpXCpqIfu.jpg",
           "backdrop_path": null,
           "overview": "After eight-year-old Josephine accidentally witnesses a brutal assault in Golden Gate Park, she begins acting out violently to protect herself. This emotional trauma leads to conflicts between her parents as they search for justice, and a way to feel safe again.",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": []
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
         }
       }
     },
@@ -19239,7 +19616,7 @@
           "tmdb_id": 848700,
           "original_title": "Minotaure",
           "original_language": "fr",
-          "popularity": 7.587,
+          "popularity": 6.612,
           "vote_count": 0,
           "poster_path": "/bM37B5CuMWrPyGPpNsKzTGict4Q.jpg",
           "backdrop_path": null,
@@ -19288,8 +19665,8 @@
       "presentation": {
         "kind": "film",
         "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/nUfvPsCIUfe95aRDEdUT2sgiXqK.jpg",
-        "poster_path": "/nUfvPsCIUfe95aRDEdUT2sgiXqK.jpg",
+        "poster_url": "https://image.tmdb.org/t/p/w500/ujp2aHu1lWMjAGoletnsmv3mcMn.jpg",
+        "poster_path": "/ujp2aHu1lWMjAGoletnsmv3mcMn.jpg",
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "The story of the Killing of a President as told by Joseph Giancana, who was with his brother, Sam Giancana during those days. Written by their nephew and told in real time about the underbelly that pulled off this crime.",
@@ -19333,9 +19710,9 @@
           "tmdb_id": 1287520,
           "original_title": "November 1963",
           "original_language": "en",
-          "popularity": 4.108,
+          "popularity": 3.828,
           "vote_count": 0,
-          "poster_path": "/nUfvPsCIUfe95aRDEdUT2sgiXqK.jpg",
+          "poster_path": "/ujp2aHu1lWMjAGoletnsmv3mcMn.jpg",
           "backdrop_path": null,
           "overview": "Follows the 48 hours after the assassination of President John F. Kennedy, the alleged involvement of Sam Giancana and the 'Chicago Outfit', and a supposed broken promise after the mob helped to get Kennedy elected.",
           "has_poster": true,
@@ -19757,7 +20134,7 @@
           "tmdb_id": 1476614,
           "original_title": "急に具合が悪くなる",
           "original_language": "ja",
-          "popularity": 5.486,
+          "popularity": 4.9,
           "vote_count": 51,
           "poster_path": "/kFD1vl6FPt8heIIgFiAyIbZqrYh.jpg",
           "backdrop_path": null,
@@ -19851,7 +20228,7 @@
           "tmdb_id": 1400336,
           "original_title": "Focker-in-Law",
           "original_language": "en",
-          "popularity": 8.9,
+          "popularity": 8.86,
           "vote_count": 0,
           "poster_path": "/gPdzdeehaoaYqxH2rA6yayEDSsS.jpg",
           "backdrop_path": null,
@@ -19944,7 +20321,7 @@
           "tmdb_id": 1461490,
           "original_title": "Hershey",
           "original_language": "en",
-          "popularity": 2.218,
+          "popularity": 1.999,
           "vote_count": 0,
           "poster_path": "/ojd8Gu2bPsOzdMz6Ip5AYDu4Vki.jpg",
           "backdrop_path": null,
@@ -19994,8 +20371,8 @@
       "presentation": {
         "kind": "film",
         "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/skSMOTFYcWyHZqFNPfz0f3Jsyc5.jpg",
-        "poster_path": "/skSMOTFYcWyHZqFNPfz0f3Jsyc5.jpg",
+        "poster_url": "https://image.tmdb.org/t/p/w500/nuNOKDt0mVWhwq2HZ9ytczuUFSf.jpg",
+        "poster_path": "/nuNOKDt0mVWhwq2HZ9ytczuUFSf.jpg",
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "Brad Pitt returns to his Academy Award-winning role as Cliff Booth, only this time it's 1977 and it's a very different Hollywood. Directed by David Fincher from a screenplay by Quentin Tarantino, the film also stars Elizabeth Debicki, Scott Caan, Carla Gugino, Yahya Abdul-Mateen II and Peter Weller.",
@@ -20040,9 +20417,9 @@
           "tmdb_id": 1457866,
           "original_title": "The Further Mis-Adventures of Cliff Booth",
           "original_language": "en",
-          "popularity": 12.658,
+          "popularity": 13.873,
           "vote_count": 0,
-          "poster_path": "/skSMOTFYcWyHZqFNPfz0f3Jsyc5.jpg",
+          "poster_path": "/nuNOKDt0mVWhwq2HZ9ytczuUFSf.jpg",
           "backdrop_path": null,
           "overview": "Eight years after the events of Once Upon a Time in... Hollywood, Cliff Booth returns to a changing Los Angeles. Now working as a fixer in the shadows of the Hollywood studio system, Cliff finds himself entangled in a dangerous web of secrets, crimes and betrayals that will test everything he knows about loyalty and survival.",
           "has_poster": true,
@@ -20417,7 +20794,7 @@
           "tmdb_id": 1198746,
           "original_title": "Above the Below",
           "original_language": "en",
-          "popularity": 1.541,
+          "popularity": 1.226,
           "vote_count": 0,
           "poster_path": null,
           "backdrop_path": null,
@@ -20513,7 +20890,7 @@
           "tmdb_id": 1452168,
           "original_title": "Behemoth!",
           "original_language": "en",
-          "popularity": 3.57,
+          "popularity": 3.097,
           "vote_count": 0,
           "poster_path": "/bcyGYWfcXr0GnXewaE5gkvYy1iQ.jpg",
           "backdrop_path": null,
@@ -20606,7 +20983,7 @@
           "tmdb_id": 1370191,
           "original_title": "Tender Loving Care",
           "original_language": "en",
-          "popularity": 2.57,
+          "popularity": 2.684,
           "vote_count": 0,
           "poster_path": "/iPwhnonUlzcHKLvqJyqvtBNUZRF.jpg",
           "backdrop_path": null,
@@ -20709,7 +21086,7 @@
           "tmdb_id": 1078446,
           "original_title": "Violent Night 2",
           "original_language": "en",
-          "popularity": 4.575,
+          "popularity": 4.059,
           "vote_count": 0,
           "poster_path": "/7HPvgItDw9NgW3iy4tFRRuGNbuN.jpg",
           "backdrop_path": null,
@@ -21127,7 +21504,7 @@
           "tmdb_id": 1630464,
           "original_title": "Clarissa",
           "original_language": "en",
-          "popularity": 2.546,
+          "popularity": 2.781,
           "vote_count": 0,
           "poster_path": "/9qS8heXhQdLoyGsqZHHb3HkrK62.jpg",
           "backdrop_path": null,
@@ -21177,8 +21554,8 @@
       "presentation": {
         "kind": "film",
         "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/sMksgsvrU6h0dmTILD8x5dUlXrt.jpg",
-        "poster_path": "/sMksgsvrU6h0dmTILD8x5dUlXrt.jpg",
+        "poster_url": "https://image.tmdb.org/t/p/w500/LXqHnaJ4ffkcx5YCuJN1noxkhr.jpg",
+        "poster_path": "/LXqHnaJ4ffkcx5YCuJN1noxkhr.jpg",
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "An electric concert film featuring recently rediscovered, never-before-seen footage of the global superstar at the Palais Omnisports de Paris-Bercy during the European leg of the Faith Tour in 1988. A triumph in archival filmmaking, George Michael: The Faith Tour transforms footage assembled from a 14-camera shoot captured on 35mm film over two nights, into an extraordinary cinematic event and audio experience.",
@@ -21222,9 +21599,9 @@
           "tmdb_id": 1649403,
           "original_title": "George Michael: The Faith Tour",
           "original_language": "en",
-          "popularity": 2.132,
+          "popularity": 2.214,
           "vote_count": 0,
-          "poster_path": "/sMksgsvrU6h0dmTILD8x5dUlXrt.jpg",
+          "poster_path": "/LXqHnaJ4ffkcx5YCuJN1noxkhr.jpg",
           "backdrop_path": null,
           "overview": "A stunning delve into George Michael's 1988 Faith Tour, as shot live at the famous Palais Omnisports de Paris-Bercy. This exclusive footage, assembled from a 14-camera shoot captured on 35mm over two nights (30–31 May 1988), features the 24-year-old pop star at the height of his powers.",
           "has_poster": true,
@@ -21317,7 +21694,7 @@
           "tmdb_id": 1532610,
           "original_title": "Ink",
           "original_language": "en",
-          "popularity": 4.071,
+          "popularity": 4.004,
           "vote_count": 0,
           "poster_path": "/aZECpoGsveEXtxogaz0GMiyVB6n.jpg",
           "backdrop_path": null,
@@ -21410,7 +21787,7 @@
           "tmdb_id": 1176962,
           "original_title": "Rose",
           "original_language": "de",
-          "popularity": 9.606,
+          "popularity": 8.723,
           "vote_count": 37,
           "poster_path": "/4k3ph6BoeZr7IMiQx8ioEV8d9cJ.jpg",
           "backdrop_path": null,
@@ -21503,7 +21880,7 @@
           "tmdb_id": 1391239,
           "original_title": "The Debut",
           "original_language": "en",
-          "popularity": 6.843,
+          "popularity": 6.138,
           "vote_count": 0,
           "poster_path": "/5CZdxLiBpYMBXwo0rur6YzZTVP4.jpg",
           "backdrop_path": null,
@@ -21898,7 +22275,7 @@
           "tmdb_id": 1003596,
           "original_title": "Avengers: Doomsday",
           "original_language": "en",
-          "popularity": 53.765,
+          "popularity": 53.028,
           "vote_count": 0,
           "poster_path": "/jzPwsojjFStf5lR5Nm07w2hH56G.jpg",
           "backdrop_path": null,

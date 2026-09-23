@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-22T03:49:58-07:00",
+  "generated_at": "2026-09-22T23:31:46-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-09-21",
@@ -12,14 +12,14 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 37,
+    "entry_count": 38,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-09-21",
     "latest_opening_date": "2026-09-27",
     "opening_type_counts": {
       "repertory": 7,
-      "theatrical": 12,
+      "theatrical": 13,
       "limited": 15,
       "event": 3
     }
@@ -194,9 +194,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 12,
-      "engagement_days": 2,
-      "historical_screening_count": 6,
+      "visible_showtime_count": 30,
+      "engagement_days": 8,
+      "historical_screening_count": 15,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -204,7 +204,7 @@
         "variant_showtime_film_keys": [
           "paradise-telugu"
         ],
-        "distinct_scheduled_dates": 2,
+        "distinct_scheduled_dates": 8,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
@@ -235,9 +235,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 240,
+      "visible_showtime_count": 262,
       "engagement_days": 8,
-      "historical_screening_count": 240,
+      "historical_screening_count": 262,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
@@ -274,9 +274,9 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 36,
+      "visible_showtime_count": 84,
       "engagement_days": 7,
-      "historical_screening_count": 18,
+      "historical_screening_count": 42,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -335,6 +335,39 @@
       "override": null
     },
     {
+      "showtime_film_key": "ha-chan-shake-your-booty",
+      "parent_film_key": "ha-chan-shake-your-booty",
+      "film_id": "tmdb:1596249",
+      "film_title": "Ha-Chan, Shake Your Booty!",
+      "opening_date": "2026-09-24",
+      "theaters_on_opening_date": [
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 60,
+      "engagement_days": 10,
+      "historical_screening_count": 30,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "ha-chan-shake-your-booty"
+        ],
+        "distinct_scheduled_dates": 10,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-southcenter-16",
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "amc",
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
       "showtime_film_key": "heart-of-the-beast",
       "parent_film_key": "heart-of-the-beast",
       "film_id": "tmdb:1263337",
@@ -350,9 +383,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 398,
+      "visible_showtime_count": 480,
       "engagement_days": 8,
-      "historical_screening_count": 199,
+      "historical_screening_count": 240,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -518,9 +551,9 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 8,
-      "visible_showtime_count": 520,
+      "visible_showtime_count": 574,
       "engagement_days": 15,
-      "historical_screening_count": 260,
+      "historical_screening_count": 287,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -581,21 +614,22 @@
     {
       "showtime_film_key": "stunt-driver",
       "parent_film_key": "stunt-driver",
-      "film_id": null,
+      "film_id": "tmdb:1562777",
       "film_title": "The Stunt Driver",
       "opening_date": "2026-09-24",
       "theaters_on_opening_date": [
         "amc-kent-station-14",
-        "amc-pacific-place-11"
+        "amc-pacific-place-11",
+        "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 26,
+      "theater_count_on_opening_date": 3,
+      "visible_showtime_count": 60,
       "engagement_days": 7,
-      "historical_screening_count": 13,
+      "historical_screening_count": 30,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "stunt-driver"
         ],
@@ -603,7 +637,8 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-kent-station-14",
-          "amc-pacific-place-11"
+          "amc-pacific-place-11",
+          "amc-southcenter-16"
         ],
         "sources": [
           "amc"
@@ -618,12 +653,13 @@
       "film_title": "You Had to Be There: How the Toronto Godspell Ignited the Comedy Revolution, Spread Love & Overalls.",
       "opening_date": "2026-09-24",
       "theaters_on_opening_date": [
+        "amc-alderwood-mall-16",
         "amc-pacific-place-11"
       ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 6,
-      "engagement_days": 2,
-      "historical_screening_count": 3,
+      "theater_count_on_opening_date": 2,
+      "visible_showtime_count": 52,
+      "engagement_days": 7,
+      "historical_screening_count": 26,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -631,9 +667,10 @@
         "variant_showtime_film_keys": [
           "you-had-to-be-there-how-the-toronto-godspell-ignited-the-comedy-revolution-spread-love-overalls"
         ],
-        "distinct_scheduled_dates": 2,
+        "distinct_scheduled_dates": 7,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
+          "amc-alderwood-mall-16",
           "amc-pacific-place-11"
         ],
         "sources": [
@@ -728,37 +765,6 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "siff-film-center"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "ha-chan-shake-your-booty",
-      "parent_film_key": "ha-chan-shake-your-booty",
-      "film_id": "tmdb:1596249",
-      "film_title": "Ha-Chan, Shake Your Booty!",
-      "opening_date": "2026-09-25",
-      "theaters_on_opening_date": [
-        "siff-cinema-uptown"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 60,
-      "engagement_days": 14,
-      "historical_screening_count": 30,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "film_id",
-        "variant_showtime_film_keys": [
-          "ha-chan-shake-your-booty"
-        ],
-        "distinct_scheduled_dates": 14,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-cinema-uptown"
         ],
         "sources": [
           "siff"
@@ -950,6 +956,37 @@
         ],
         "sources": [
           "beacon"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "vvaan-force-of-the-forrest",
+      "parent_film_key": "vvaan-force-of-the-forrest",
+      "film_id": null,
+      "film_title": "The Vvaan: Force of the Forrest",
+      "opening_date": "2026-09-25",
+      "theaters_on_opening_date": [
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 12,
+      "engagement_days": 6,
+      "historical_screening_count": 6,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "vvaan-force-of-the-forrest"
+        ],
+        "distinct_scheduled_dates": 6,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
