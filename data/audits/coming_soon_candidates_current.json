@@ -1,6 +1,6 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-09-23T00:15:56-07:00",
+  "generated_at": "2026-09-23T03:46:07-07:00",
   "timezone": "America/Los_Angeles",
   "window": {
     "start_date": "2026-09-23",
@@ -17,20 +17,20 @@
   "sources": {
     "amc_coming_soon_catalog": {
       "available": true,
-      "generated_at": "2026-09-22T23:35:24-07:00",
+      "generated_at": "2026-09-23T03:46:03-07:00",
       "fetch_status": "success",
       "movies": 418
     },
     "tmdb_us_theatrical": {
       "available": true,
-      "generated_at": "2026-09-22T23:35:24-07:00",
+      "generated_at": "2026-09-23T03:46:03-07:00",
       "fetch_status": "success",
-      "candidates": 307
+      "candidates": 304
     },
     "reel_seattle_showtimes": {
       "available": true,
-      "generated_at": "2026-09-22T23:27:18-07:00",
-      "published_window_end": "2027-09-21"
+      "generated_at": "2026-09-23T03:37:51-07:00",
+      "published_window_end": "2027-09-22"
     },
     "amc_theater_bookings": {
       "available": true,
@@ -38,16 +38,16 @@
     }
   },
   "stats": {
-    "entry_count": 588,
+    "entry_count": 589,
     "user_visible_count": 118,
-    "hidden_count": 470,
+    "hidden_count": 471,
     "classification_counts": {
-      "confirmed_local": 177,
+      "confirmed_local": 178,
       "amc_announced": 233,
       "tmdb_only": 178
     },
     "relevance_tier_counts": {
-      "confirmed_local": 177,
+      "confirmed_local": 178,
       "locally_announced": 0,
       "strongly_expected": 37,
       "weak_national_only": 196
@@ -56,11 +56,11 @@
       "amc_coming_soon_catalog": 293,
       "amc_theater_booking": 58,
       "tmdb_us_theatrical": 294,
-      "reel_seattle_scheduled": 177
+      "reel_seattle_scheduled": 178
     },
     "presentation_kind_counts": {
       "event": 13,
-      "film": 545,
+      "film": 546,
       "other": 1,
       "placeholder": 8,
       "rental": 3,
@@ -69,7 +69,7 @@
     "presentation_source_counts": {
       "amc_catalog": 222,
       "confirmed_enrichment": 16,
-      "fallback": 129,
+      "fallback": 130,
       "inferred_tmdb": 221
     },
     "entries_with_poster": 322,
@@ -83,26 +83,26 @@
     "earliest_expected_release_date": "2026-09-23",
     "latest_expected_release_date": "2026-12-20",
     "entries_with_confirmed_film_id": 16,
-    "entries_without_confirmed_film_id": 572,
+    "entries_without_confirmed_film_id": 573,
     "entries_with_tmdb_id": 300,
     "ambiguous_identity_count": 0,
     "duplicate_film_id_count": 0,
     "duplicate_join_key_count": 0,
-    "merged_candidate_count": 761,
+    "merged_candidate_count": 759,
     "collapsed_event_variants": 0,
     "excluded_counts": {
       "currently_available": 88,
-      "expected_release_date_outside_window": 85,
+      "expected_release_date_outside_window": 82,
       "no_expected_release_date": 0,
       "insufficient_evidence": 0,
       "presentation_filter": 12
     },
     "low_relevance_no_local_evidence_count": 60,
     "popularity_threshold": 5.0,
-    "local_programming_excluded_count": 72,
+    "local_programming_excluded_count": 73,
     "local_booking_kind_counts": {
       "release_like": 28,
-      "local_programming": 72,
+      "local_programming": 73,
       "ambiguous_retained": 53
     }
   },
@@ -34039,6 +34039,84 @@
     },
     {
       "film_id": null,
+      "title": "Camp Napalm presents: Basic Instinct",
+      "join_key": "camp-napalm-presents-basic-instinct",
+      "parent_film_keys": [
+        "camp-napalm-presents-basic-instinct"
+      ],
+      "showtime_film_keys": [
+        "camp-napalm-presents-basic-instinct"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-25",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-10-25",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "central-cinema"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "central-cinema",
+          "name": "Central Cinema"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": false,
+      "visibility_reason": "local_programming_not_upcoming_release",
+      "exclusion_reason": "local_programming_not_upcoming_release",
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_repertory_venue_programming",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "local_programming",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Camp Napalm presents: Basic Instinct"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
       "title": "Landscape In The Mist",
       "join_key": "landscape-in-the-mist",
       "parent_film_keys": [
@@ -45383,7 +45461,7 @@
           "original_language": "en",
           "popularity": 18.75,
           "vote_count": 0,
-          "poster_path": "/jNcZH8yplxttRlf0wwqfGGMKHxX.jpg",
+          "poster_path": "/hDDBRwPOIztAhawTjWWsEA7rDis.jpg",
           "backdrop_path": null,
           "overview": "Return to the world of Panem 24 years before the events of The Hunger Games, starting on the morning of the reaping of the 50th Hunger Games, also known as the Second Quarter Quell.",
           "has_poster": true,
