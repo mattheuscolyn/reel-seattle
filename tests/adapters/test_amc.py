@@ -181,15 +181,28 @@ def test_infinity_vision_attribute_appended_beside_premium(api_showtime):
         "premiumFormat": "Dolby Cinema",
         "attributes": [
             {
-                "code": "INFINITYVISION",
+                "code": "INFINITYVI",
                 "name": "Infinity Vision",
-                "description": "AMC Infinity Vision presentation",
+                "description": "",
             }
         ],
     }
     raw = api_showtime_to_raw(payload, THEATER_NAME)
     assert raw.format_raw == "Dolby Cinema, Infinity Vision"
     assert parse_format_tags(raw.format_raw) == ("dolby-cinema", "infinity-vision")
+
+
+def test_infinity_vision_truncated_amc_code_alone(api_showtime):
+    """AMC live code is INFINITYVI (truncated); do not require name."""
+    from reel_seattle.normalize.formats import parse_format_tags
+
+    payload = {
+        **api_showtime,
+        "premiumFormat": "XL at AMC",
+        "attributes": [{"code": "INFINITYVI"}],
+    }
+    raw = api_showtime_to_raw(payload, THEATER_NAME)
+    assert parse_format_tags(raw.format_raw) == ("xl-at-amc", "infinity-vision")
 
 
 @pytest.mark.parametrize(

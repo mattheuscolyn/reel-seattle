@@ -139,6 +139,12 @@ def _contains_infinity_vision_phrase(value: object | None) -> bool:
 
 def _attribute_signals_infinity_vision(attr: Mapping[str, Any]) -> bool:
     """Detect Infinity Vision from AMC attribute code/name/description."""
+    # Live AMC currently emits truncated code INFINITYVI with name "Infinity Vision".
+    code_fold = _alnum_fold(attr.get("code"))
+    if code_fold in {"infinityvision", "infinityvi"} or code_fold.startswith(
+        "infinityvision"
+    ):
+        return True
     for key in ("code", "name", "description"):
         raw = attr.get(key)
         if raw is None or raw == "":
