@@ -167,10 +167,11 @@ function normalizeTheaters(rawTheaters) {
 
 /**
  * @param {unknown | null | undefined} artifact
- * @param {{ warnings?: object[] }} [options]
+ * @param {{ warnings?: object[], todayIso?: string | null }} [options]
  */
 export function buildLeavingSoon(artifact, options = {}) {
   const warnings = options.warnings ?? [];
+  const todayIso = asTrimmedString(options.todayIso) ?? pacificDateString();
 
   if (artifact == null) {
     warnings.push(
@@ -211,7 +212,7 @@ export function buildLeavingSoon(artifact, options = {}) {
   }
 
   const entries = artifact.items
-    .map((item) => normalizeItem(item, { todayIso: pacificDateString() }))
+    .map((item) => normalizeItem(item, { todayIso }))
     .filter(Boolean)
     .sort((a, b) => {
       const rankA = a.sortRank ?? Number.MAX_SAFE_INTEGER;

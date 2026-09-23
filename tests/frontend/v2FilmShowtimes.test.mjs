@@ -560,3 +560,101 @@ test('dedupe drops duplicate showtimes from parent/variant grouping', () => {
   assert.equal(keys.filter((k) => k === 'today-imax').length, 1);
   assert.ok(!keys.includes('today-imax-dup'));
 });
+
+test('Infinity Vision is a filterable presentation tag on Film Showtimes', () => {
+  const home = {
+    films: [
+      {
+        filmKey: 'endgame',
+        filmId: 'tmdb:299534',
+        title: 'Avengers: Endgame Encore',
+        runtimeMin: 181,
+        posterUrl: null,
+        parentFilmKey: null,
+      },
+    ],
+    opportunities: [
+      {
+        opportunityKey: 'endgame-dolby-iv',
+        filmKey: 'endgame',
+        theaterId: 'amc-south',
+        theaterName: 'AMC Southcenter 16',
+        localDate: '2026-08-01',
+        localTime: '19:00',
+        sortableLocalDateTime: '2026-08-01T19:00',
+        timeDisplay: '7:00 PM',
+        formatLabels: ['dolby-cinema', 'infinity-vision'],
+        ticketUrl: 'https://tickets.example/endgame-iv',
+      },
+      {
+        opportunityKey: 'endgame-dolby-only',
+        filmKey: 'endgame',
+        theaterId: 'amc-alder',
+        theaterName: 'AMC Alderwood Mall 16',
+        localDate: '2026-08-01',
+        localTime: '20:00',
+        sortableLocalDateTime: '2026-08-01T20:00',
+        timeDisplay: '8:00 PM',
+        formatLabels: ['dolby-cinema'],
+        ticketUrl: 'https://tickets.example/endgame-dolby',
+      },
+      {
+        opportunityKey: 'endgame-digital',
+        filmKey: 'endgame',
+        theaterId: 'amc-south',
+        theaterName: 'AMC Southcenter 16',
+        localDate: '2026-08-01',
+        localTime: '16:00',
+        sortableLocalDateTime: '2026-08-01T16:00',
+        timeDisplay: '4:00 PM',
+        formatLabels: ['Digital'],
+        ticketUrl: 'https://tickets.example/endgame-digital',
+      },
+    ],
+    theaters: [],
+  };
+
+  const view = composeFilmShowtimesPresentation(home, 'endgame', {
+    now: NOW,
+    selectedDate: '2026-08-01',
+  });
+  const formatByKey = new Map(view.formatOptions.map((f) => [f.key, f.label]));
+  assert.equal(formatByKey.get('dolby cinema'), 'Dolby Cinema');
+  assert.equal(formatByKey.get('infinity vision'), 'Infinity Vision');
+
+  const ivOnly = composeFilmShowtimesPresentation(home, 'endgame', {
+    now: NOW,
+    selectedDate: '2026-08-01',
+    formatKeys: ['infinity vision'],
+  });
+  const ivKeys = ivOnly.theaterGroups.flatMap((g) =>
+    g.times.map((t) => t.opportunityKey),
+  );
+  assert.deepEqual(ivKeys, ['endgame-dolby-iv']);
+
+  const dolbyOnly = composeFilmShowtimesPresentation(home, 'endgame', {
+    now: NOW,
+    selectedDate: '2026-08-01',
+    formatKeys: ['dolby cinema'],
+  });
+  const dolbyKeys = new Set(
+    dolbyOnly.theaterGroups.flatMap((g) => g.times.map((t) => t.opportunityKey)),
+  );
+  assert.ok(dolbyKeys.has('endgame-dolby-iv'));
+  assert.ok(dolbyKeys.has('endgame-dolby-only'));
+  assert.ok(!dolbyKeys.has('endgame-digital'));
+
+  const ivTime = view.theaterGroups
+    .flatMap((g) => g.times)
+    .find((t) => t.opportunityKey === 'endgame-dolby-iv');
+  const visible =
+    ivTime?.detailLabel ||
+    view.theaterGroups
+      .find((g) => g.times.some((t) => t.opportunityKey === 'endgame-dolby-iv'))
+      ?.sharedChips?.map((c) => c.label)
+      .join(' · ') ||
+    ivTime?.formatLabel ||
+    '';
+  assert.match(visible, /Dolby Cinema/i);
+  assert.match(visible, /Infinity Vision/i);
+});

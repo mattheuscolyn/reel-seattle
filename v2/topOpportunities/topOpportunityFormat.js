@@ -38,6 +38,10 @@ const FORMAT_DISPLAY = Object.freeze({
   xl: 'XL',
   'xl-at-amc': 'XL at AMC',
   'xl-amc': 'XL at AMC',
+  // Presentation tags
+  'infinity-vision': 'Infinity Vision',
+  'infinity vision': 'Infinity Vision',
+  infinityvision: 'Infinity Vision',
   // Accessibility features
   'open-caption': 'Open Captions',
   'open-captions': 'Open Captions',

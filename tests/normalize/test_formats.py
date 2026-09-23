@@ -14,6 +14,8 @@ from reel_seattle.normalize.formats import parse_format_tags
         ("IMAX / Dolby Atmos", ("imax", "dolby-atmos")),
         ("PRIME at AMC", ("prime",)),
         ("Laser Projection 70mm", ("laser-projection-70mm",)),
+        ("Infinity Vision", ("infinity-vision",)),
+        ("Dolby Cinema, Infinity Vision", ("dolby-cinema", "infinity-vision")),
         ("", ()),
         (None, ()),
         ("None", ()),

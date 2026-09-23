@@ -36,6 +36,8 @@ _KNOWN_FORMATS: dict[str, str] = {
     "oc": "open-caption",
     "audio description": "audio-description",
     "descriptive video": "audio-description",
+    "infinity vision": "infinity-vision",
+    "infinityvision": "infinity-vision",
 }
 
 
