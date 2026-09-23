@@ -1,30 +1,30 @@
 # Film identity live match summary
 
 - schema_version: `1.0.0`
-- generated_at: `2026-09-22T12:10:35+00:00`
-- total_unique_source_identities: **282**
-- confirmed_automatic: **138**
-- confirmed_manual: **28**
-- review_required: **36**
-- unmatched: **52**
-- non_film: **28**
+- generated_at: `2026-09-23T12:22:48+00:00`
+- total_unique_source_identities: **294**
+- confirmed_automatic: **141**
+- confirmed_manual: **29**
+- review_required: **39**
+- unmatched: **55**
+- non_film: **30**
 - deferred: **0**
 - rejected: **0**
 - errors: **0**
-- fallback_usage: **116**
-- review_queue_size: **36**
+- fallback_usage: **124**
+- review_queue_size: **39**
 - tmdb_auth_mode: `bearer`
 
 ## Coverage by source
 
 | source | total | auto | manual | review | unmatched | non_film | errors |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| amc | 107 | 42 | 18 | 16 | 19 | 12 | 0 |
-| beacon | 34 | 16 | 5 | 5 | 7 | 1 | 0 |
-| central_cinema | 20 | 10 | 2 | 0 | 5 | 3 | 0 |
+| amc | 114 | 44 | 18 | 18 | 21 | 13 | 0 |
+| beacon | 35 | 17 | 5 | 5 | 7 | 1 | 0 |
+| central_cinema | 21 | 10 | 2 | 0 | 6 | 3 | 0 |
 | grand_illusion | 15 | 7 | 0 | 1 | 5 | 2 | 0 |
-| nwff | 45 | 25 | 3 | 4 | 5 | 8 | 0 |
-| siff | 61 | 38 | 0 | 10 | 11 | 2 | 0 |
+| nwff | 47 | 25 | 4 | 4 | 5 | 9 | 0 |
+| siff | 62 | 38 | 0 | 11 | 11 | 2 | 0 |
 
 ## Generated path changes
 
