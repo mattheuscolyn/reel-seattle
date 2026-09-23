@@ -299,12 +299,16 @@ export function screeningVariantLabel(variantType, opportunity = null) {
  * Database-derived Why See It signals (no editorial invention).
  * @param {object | null} homeData
  * @param {object} film
+ * @param {{ todayIso?: string | null }} [options]
  * @returns {{ id: string, type: string, primary: string, secondary: string | null, tone: string }[]}
  */
-export function buildWhySeeItSignals(homeData, film) {
+export function buildWhySeeItSignals(homeData, film, options = {}) {
   if (!film?.filmKey) return [];
   const opps = listFilmOpportunities(homeData, film.filmKey);
-  const today = pacificDateString();
+  const today =
+    typeof options.todayIso === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(options.todayIso.trim())
+      ? options.todayIso.trim()
+      : pacificDateString();
   const theaters = new Set(opps.map((o) => o.theaterId).filter(Boolean));
   const formatVenueMap = new Map();
   for (const opp of opps) {

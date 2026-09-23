@@ -142,53 +142,59 @@ describe('departure timing presentation', () => {
   });
 
   it('adapter keeps timing fields and tolerates v1.1 without them', () => {
-    const withTiming = buildLeavingSoon({
-      ...baseArtifact,
-      items: [
-        {
-          film_key: 'paw-patrol-the-dino-movie',
-          film_title: 'PAW Patrol: The Dino Movie',
-          risk_level: 'high',
-          reason: 'test',
-          leaving_soon_bucket: 'last_chance',
-          sort_rank: 1,
-          run_type: 'probable_normal_first_run',
-          visible_show_date_count: 2,
-          total_visible_showtimes: 4,
-          max_show_date: '2026-09-23',
-          total_visible_theaters: 2,
-          theaters: [],
-          prediction_as_of: '2026-09-19',
-          predicted_end_date: '2026-09-23',
-          timing_confidence: 'high',
-          timing_mode: 'likely_around',
-          prediction_scope: 'amc',
-        },
-      ],
-    });
+    const withTiming = buildLeavingSoon(
+      {
+        ...baseArtifact,
+        items: [
+          {
+            film_key: 'paw-patrol-the-dino-movie',
+            film_title: 'PAW Patrol: The Dino Movie',
+            risk_level: 'high',
+            reason: 'test',
+            leaving_soon_bucket: 'last_chance',
+            sort_rank: 1,
+            run_type: 'probable_normal_first_run',
+            visible_show_date_count: 2,
+            total_visible_showtimes: 4,
+            max_show_date: '2026-09-23',
+            total_visible_theaters: 2,
+            theaters: [],
+            prediction_as_of: '2026-09-19',
+            predicted_end_date: '2026-09-23',
+            timing_confidence: 'high',
+            timing_mode: 'likely_around',
+            prediction_scope: 'amc',
+          },
+        ],
+      },
+      { todayIso: '2026-09-19' },
+    );
     assert.equal(withTiming.entries[0].timingConfidence, 'high');
     assert.equal(withTiming.entries[0].predictedEndDate, '2026-09-23');
 
-    const legacy = buildLeavingSoon({
-      ...baseArtifact,
-      schema_version: '1.1.0',
-      items: [
-        {
-          film_key: 'sinners',
-          film_title: 'Sinners',
-          risk_level: 'elevated',
-          reason: 'test',
-          leaving_soon_bucket: 'leaving_soon',
-          sort_rank: 1,
-          run_type: 'probable_normal_first_run',
-          visible_show_date_count: 3,
-          total_visible_showtimes: 5,
-          max_show_date: '2026-09-25',
-          total_visible_theaters: 2,
-          theaters: [],
-        },
-      ],
-    });
+    const legacy = buildLeavingSoon(
+      {
+        ...baseArtifact,
+        schema_version: '1.1.0',
+        items: [
+          {
+            film_key: 'sinners',
+            film_title: 'Sinners',
+            risk_level: 'elevated',
+            reason: 'test',
+            leaving_soon_bucket: 'leaving_soon',
+            sort_rank: 1,
+            run_type: 'probable_normal_first_run',
+            visible_show_date_count: 3,
+            total_visible_showtimes: 5,
+            max_show_date: '2026-09-25',
+            total_visible_theaters: 2,
+            theaters: [],
+          },
+        ],
+      },
+      { todayIso: '2026-09-19' },
+    );
     assert.equal(legacy.entries[0].timingConfidence, null);
     assert.equal(legacy.entries[0].predictedEndDate, null);
   });
@@ -221,7 +227,9 @@ describe('departure timing presentation', () => {
       ],
       films: [film],
     };
-    const signals = buildWhySeeItSignals(homeData, film);
+    const signals = buildWhySeeItSignals(homeData, film, {
+      todayIso: '2026-09-19',
+    });
     assert.equal(signals[0]?.type, 'departure_timing');
     assert.match(signals[0].primary, /Likely leaving AMC around/);
     assert.doesNotMatch(signals[0].primary, /Leaving Seattle/);
