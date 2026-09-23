@@ -232,7 +232,9 @@
         "engagement_count",
         "synthetic_film_group_count",
         "low_relevance_no_local_evidence_count",
-        "popularity_threshold"
+        "popularity_threshold",
+        "local_programming_excluded_count",
+        "local_booking_kind_counts"
       ],
       "properties": {
         "entry_count": {
@@ -460,6 +462,34 @@
         },
         "popularity_threshold": {
           "type": "number"
+        },
+        "local_programming_excluded_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Confirmed-local rows hidden as local programming / repertory / series / event bookings."
+        },
+        "local_booking_kind_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "release_like",
+            "local_programming",
+            "ambiguous_retained"
+          ],
+          "properties": {
+            "release_like": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "local_programming": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ambiguous_retained": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
         }
       }
     },
@@ -506,6 +536,7 @@
         "visibility_reason",
         "tmdb_popularity",
         "local_evidence_strength",
+        "local_booking_kind",
         "relevance_reason",
         "popularity_threshold_applied"
       ],
@@ -1028,6 +1059,19 @@
             "null"
           ],
           "description": "Popularity floor applied for AMC\u2229TMDB proxy gating; null when the gate was not evaluated."
+        },
+        "local_booking_kind": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "release_like",
+            "local_programming",
+            "ambiguous_retained",
+            null
+          ],
+          "description": "Confirmed-local booking shape: release-like, local programming, or ambiguous niche retained. Null when classification is not confirmed_local."
         }
       }
     },

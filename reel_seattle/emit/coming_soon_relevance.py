@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from datetime import date
 from typing import Any, Mapping, Sequence
 
 from reel_seattle.analysis.film_identity import infer_parent_display_title
@@ -78,8 +79,21 @@ VISIBILITY_SPECIAL_PROGRAMMING = "special_programming_not_film_calendar"
 VISIBILITY_PRESENTATION_FILTER = "presentation_filter"
 VISIBILITY_NOT_FILM_KIND = "non_film_presentation_kind"
 VISIBILITY_LOW_RELEVANCE = "low_relevance_no_local_evidence"
+VISIBILITY_LOCAL_PROGRAMMING = "local_programming_not_upcoming_release"
 
-REASON_CONFIRMED_LOCAL = "confirmed_local_evidence"
+LOCAL_BOOKING_RELEASE_LIKE = "release_like"
+LOCAL_BOOKING_PROGRAMMING = "local_programming"
+LOCAL_BOOKING_AMBIGUOUS = "ambiguous_retained"
+
+REASON_CONFIRMED_LOCAL_RELEASE_LIKE = "confirmed_local_release_like"
+REASON_CONFIRMED_LOCAL_AMBIGUOUS = "confirmed_local_ambiguous_retained"
+REASON_CONFIRMED_LOCAL_RERELEASE = "confirmed_local_repertory_or_rerelease"
+REASON_CONFIRMED_LOCAL_SERIES = "confirmed_local_series_or_member_programming"
+REASON_CONFIRMED_LOCAL_RESTORATION = "confirmed_local_restoration_programming"
+REASON_CONFIRMED_LOCAL_EVENT = "confirmed_local_event_or_special_screening"
+REASON_CONFIRMED_LOCAL_VENUE = "confirmed_local_repertory_venue_programming"
+
+REASON_CONFIRMED_LOCAL = REASON_CONFIRMED_LOCAL_RELEASE_LIKE
 REASON_STRONGLY_EXPECTED = "amc_tmdb_proxy_meets_popularity"
 REASON_BELOW_POPULARITY = "amc_tmdb_proxy_below_popularity_threshold"
 REASON_MISSING_POPULARITY = "amc_tmdb_proxy_missing_popularity"
@@ -154,6 +168,40 @@ _PLUS_QA_RE = re.compile(
     r"(?i)^(.+?)\s*\+\s*Special\s+In-Person\s+Q\s*&\s*A\b.*$"
 )
 
+_REPERTORY_TITLE_RE = re.compile(
+    r"(?i)\b(?:anniversary|re-?release|\bRE\d{2}\b)\b"
+)
+_SERIES_MEMBER_RE = re.compile(
+    r"(?i)(?:"
+    r"movie\s+club|book\s+club|free\s+member\s+screening|member\s+screening|"
+    r"insider\s+screening|community\s+screening|nouvelles\s+femmes|"
+    r"the\s+open\s+road|trauma\s+bond|cinemancy|scarecrowber|"
+    r"aria\s+on\s+gazes|narrow\s+margin|truth\s+to\s+fiction|unarius"
+    r")"
+)
+_RESTORATION_RE = re.compile(
+    r"(?i)(?:"
+    r"new\s+restoration|4k\s+restoration|\brestoration\b|\brestored\b|"
+    r"new\s+print|director'?s\s+cut|\b35mm\b|\b16mm\b|\b70mm\b"
+    r")"
+)
+_EVENT_PROGRAMMING_RE = re.compile(
+    r"(?i)(?:"
+    r"live\s+on\s+stage|sing[-\s]?along|double\s+feature|triple\s+feature|"
+    r"\btrivia\b|pizza\s+party|release\s+party|private\s+rental|"
+    r"\(\s*\d{4}\s+event\s*\)|ski\s+film|mountains\s+on\s+stage"
+    r")"
+)
+_CENTRAL_CINEMA_THEATER_ID = "central-cinema"
+
+
+@dataclass(frozen=True)
+class LocalBookingClassification:
+    """Confirmed-local booking shape for film-calendar eligibility."""
+
+    kind: str
+    reason: str
+
 
 @dataclass(frozen=True)
 class RelevanceDecision:
@@ -166,6 +214,7 @@ class RelevanceDecision:
     tmdb_popularity: float | None
     popularity_threshold_applied: float | None
     local_evidence_strength: str
+    local_booking_kind: str | None = None
 
 
 def coerce_tmdb_popularity(value: Any) -> float | None:
@@ -318,6 +367,84 @@ def is_film_calendar_kind(kind: str) -> bool:
     return kind in FILM_CALENDAR_KINDS
 
 
+def classify_confirmed_local_booking(
+    *,
+    title: str,
+    presentation_kind: str,
+    amc_presentation_category: str | None,
+    evidence: Mapping[str, Any],
+    local_theater_ids: Sequence[str],
+    local_theater_count: int,
+    local_showtime_count: int,
+    release_year: int | None,
+    today: date,
+    variant_titles: Sequence[str] = (),
+) -> LocalBookingClassification:
+    """Distinguish release-like local bookings from repertory/programming."""
+    samples = [title, *variant_titles]
+    blob = " ".join(sample for sample in samples if sample)
+
+    if presentation_kind == KIND_RERELEASE:
+        return LocalBookingClassification(
+            LOCAL_BOOKING_PROGRAMMING, REASON_CONFIRMED_LOCAL_RERELEASE
+        )
+    if str(amc_presentation_category or "") == "anniversary_or_rerelease":
+        return LocalBookingClassification(
+            LOCAL_BOOKING_PROGRAMMING, REASON_CONFIRMED_LOCAL_RERELEASE
+        )
+    if _REPERTORY_TITLE_RE.search(blob):
+        return LocalBookingClassification(
+            LOCAL_BOOKING_PROGRAMMING, REASON_CONFIRMED_LOCAL_RERELEASE
+        )
+    if _SERIES_MEMBER_RE.search(blob):
+        return LocalBookingClassification(
+            LOCAL_BOOKING_PROGRAMMING, REASON_CONFIRMED_LOCAL_SERIES
+        )
+    if _RESTORATION_RE.search(blob):
+        return LocalBookingClassification(
+            LOCAL_BOOKING_PROGRAMMING, REASON_CONFIRMED_LOCAL_RESTORATION
+        )
+    if _EVENT_PROGRAMMING_RE.search(blob):
+        return LocalBookingClassification(
+            LOCAL_BOOKING_PROGRAMMING, REASON_CONFIRMED_LOCAL_EVENT
+        )
+
+    has_national = bool(evidence.get("amc_coming_soon_catalog")) or bool(
+        evidence.get("tmdb_us_theatrical")
+    )
+    if (
+        release_year is not None
+        and release_year <= today.year - 5
+        and not has_national
+    ):
+        return LocalBookingClassification(
+            LOCAL_BOOKING_PROGRAMMING, REASON_CONFIRMED_LOCAL_RERELEASE
+        )
+
+    if has_national:
+        return LocalBookingClassification(
+            LOCAL_BOOKING_RELEASE_LIKE, REASON_CONFIRMED_LOCAL_RELEASE_LIKE
+        )
+    if local_theater_count >= 2:
+        return LocalBookingClassification(
+            LOCAL_BOOKING_RELEASE_LIKE, REASON_CONFIRMED_LOCAL_RELEASE_LIKE
+        )
+    if bool(evidence.get("amc_theater_booking")) and local_showtime_count >= 4:
+        return LocalBookingClassification(
+            LOCAL_BOOKING_RELEASE_LIKE, REASON_CONFIRMED_LOCAL_RELEASE_LIKE
+        )
+
+    theater_ids = {str(value).strip() for value in local_theater_ids if value}
+    if theater_ids == {_CENTRAL_CINEMA_THEATER_ID} and not has_national:
+        return LocalBookingClassification(
+            LOCAL_BOOKING_PROGRAMMING, REASON_CONFIRMED_LOCAL_VENUE
+        )
+
+    return LocalBookingClassification(
+        LOCAL_BOOKING_AMBIGUOUS, REASON_CONFIRMED_LOCAL_AMBIGUOUS
+    )
+
+
 def _decision(
     *,
     relevance_tier: str | None,
@@ -327,6 +454,7 @@ def _decision(
     tmdb_popularity: float | None,
     popularity_threshold_applied: float | None,
     local_evidence_strength: str,
+    local_booking_kind: str | None = None,
 ) -> RelevanceDecision:
     return RelevanceDecision(
         relevance_tier=relevance_tier,
@@ -336,6 +464,7 @@ def _decision(
         tmdb_popularity=tmdb_popularity,
         popularity_threshold_applied=popularity_threshold_applied,
         local_evidence_strength=local_evidence_strength,
+        local_booking_kind=local_booking_kind,
     )
 
 
@@ -351,6 +480,11 @@ def assign_relevance_and_visibility(
     variant_titles: Sequence[str] = (),
     tmdb_popularity: Any = None,
     popularity_threshold: float = STRONGLY_EXPECTED_MIN_POPULARITY,
+    local_theater_ids: Sequence[str] = (),
+    local_theater_count: int = 0,
+    local_showtime_count: int = 0,
+    release_year: int | None = None,
+    today: date | None = None,
 ) -> RelevanceDecision:
     """Return an auditable relevance / visibility decision.
 
@@ -457,15 +591,38 @@ def assign_relevance_and_visibility(
         )
 
     if classification == "confirmed_local":
-        # Tier A: strong Seattle evidence overrides TMDB popularity.
+        booking = classify_confirmed_local_booking(
+            title=title,
+            presentation_kind=presentation_kind,
+            amc_presentation_category=amc_presentation_category,
+            evidence=evidence,
+            local_theater_ids=local_theater_ids,
+            local_theater_count=local_theater_count,
+            local_showtime_count=local_showtime_count,
+            release_year=release_year,
+            today=today or date.today(),
+            variant_titles=variant_titles,
+        )
+        if booking.kind == LOCAL_BOOKING_PROGRAMMING:
+            return _decision(
+                relevance_tier=RELEVANCE_CONFIRMED_LOCAL,
+                user_visible=False,
+                visibility_reason=VISIBILITY_LOCAL_PROGRAMMING,
+                relevance_reason=booking.reason,
+                tmdb_popularity=popularity,
+                popularity_threshold_applied=None,
+                local_evidence_strength=LOCAL_EVIDENCE_STRONG,
+                local_booking_kind=booking.kind,
+            )
         return _decision(
             relevance_tier=RELEVANCE_CONFIRMED_LOCAL,
             user_visible=True,
             visibility_reason=None,
-            relevance_reason=REASON_CONFIRMED_LOCAL,
+            relevance_reason=booking.reason,
             tmdb_popularity=popularity,
             popularity_threshold_applied=None,
             local_evidence_strength=LOCAL_EVIDENCE_STRONG,
+            local_booking_kind=booking.kind,
         )
 
     if classification == "amc_announced":

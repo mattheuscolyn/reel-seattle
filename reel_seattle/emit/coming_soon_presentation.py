@@ -50,7 +50,7 @@ DEFAULT_PRODUCTS_PATH = Path("data/source_catalog/amc_movie_products.json")
 DEFAULT_ENRICHMENT_PATH = Path("public/data/film_enrichment_current.json")
 
 _RENTAL_RE = re.compile(
-    r"private\s+theat(?:re|er)\s+rental",
+    r"private\s+(?:theat(?:re|er)\s+)?rental(?:\s+event)?",
     re.IGNORECASE,
 )
 _DATED_PARENS_RE = re.compile(

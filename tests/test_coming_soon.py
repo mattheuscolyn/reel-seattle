@@ -1489,7 +1489,8 @@ def test_confirmed_local_overrides_low_tmdb_popularity():
     assert entry["user_visible"] is True
     assert entry["tmdb_popularity"] == 0.4
     assert entry["local_evidence_strength"] == "strong"
-    assert entry["relevance_reason"] == "confirmed_local_evidence"
+    assert entry["relevance_reason"] == "confirmed_local_release_like"
+    assert entry["local_booking_kind"] == "release_like"
     assert entry["popularity_threshold_applied"] is None
     assert _entry_by_title(analysis, "Niche Local Booking")["user_visible"] is True
 
@@ -1590,6 +1591,140 @@ def test_public_artifact_only_contains_user_visible_rows():
     )
     assert public["schema_version"] == "1.3.0"
     assert analysis["schema_version"] == "1.2.0"
-    assert public["method"]["version"] == "1.3.0"
+    assert public["method"]["version"] == "1.4.0"
     validate_coming_soon_current(public)
     validate_coming_soon_candidates(analysis)
+
+
+def test_confirmed_local_catalog_backed_is_release_like():
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(
+                source_film_id="91001",
+                source_title="Catalog Local Film",
+                release_date_utc="2026-10-12T00:00:00Z",
+            )
+        ),
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-12",
+                film_title="Catalog Local Film",
+                showtime_film_key="catalog-local",
+                parent_film_key="catalog-local",
+                source_film_id="91001",
+            )
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Catalog Local Film", 910101, "2026-10-12", popularity=2.0)
+        ),
+    )
+    entry = _entry_by_title(public, "Catalog Local Film")
+    assert entry is not None
+    assert entry["local_booking_kind"] == "release_like"
+    assert entry["relevance_reason"] == "confirmed_local_release_like"
+
+
+def test_confirmed_local_rerelease_programming_excluded():
+    public, analysis = _bundle(
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-08",
+                film_title="Nightmare Before Christmas 30th Anniversary",
+                showtime_film_key="nbc-anniversary",
+                parent_film_key="nbc-anniversary",
+                theater_id="siff-film-center",
+                source="siff",
+                source_film_id="siff-nbc-anniversary",
+            ),
+            window_end="2026-12-31",
+        ),
+    )
+    assert _entry_by_title(public, "Nightmare Before Christmas 30th Anniversary") is None
+    entry = _entry_by_title(analysis, "Nightmare Before Christmas 30th Anniversary")
+    assert entry["local_booking_kind"] == "local_programming"
+    assert entry["visibility_reason"] == "local_programming_not_upcoming_release"
+    assert entry["relevance_reason"] == "confirmed_local_repertory_or_rerelease"
+
+
+def test_confirmed_local_movie_club_series_excluded():
+    public, analysis = _bundle(
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-09",
+                film_title="Cinemancy: Crouching Tiger Hidden Dragon",
+                showtime_film_key="cinemancy-cthd",
+                parent_film_key="cinemancy-cthd",
+                theater_id="central-cinema",
+                source="siff",
+                source_film_id="siff-cinemancy-cthd",
+            ),
+            window_end="2026-12-31",
+        ),
+    )
+    assert _entry_by_title(public, "Cinemancy: Crouching Tiger Hidden Dragon") is None
+    entry = _entry_by_title(analysis, "Cinemancy: Crouching Tiger Hidden Dragon")
+    assert entry["local_booking_kind"] == "local_programming"
+    assert entry["relevance_reason"] == "confirmed_local_series_or_member_programming"
+
+
+def test_confirmed_local_central_cinema_beetlejuice_excluded():
+    public, analysis = _bundle(
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-10",
+                film_title="Beetlejuice",
+                showtime_film_key="beetlejuice-cc",
+                parent_film_key="beetlejuice-cc",
+                theater_id="central-cinema",
+                source="central_cinema",
+                source_film_id="cc-beetlejuice",
+            ),
+            window_end="2026-12-31",
+        ),
+    )
+    assert _entry_by_title(public, "Beetlejuice") is None
+    entry = _entry_by_title(analysis, "Beetlejuice")
+    assert entry["local_booking_kind"] == "local_programming"
+    assert entry["relevance_reason"] == "confirmed_local_repertory_venue_programming"
+
+
+def test_confirmed_local_restoration_excluded():
+    public, analysis = _bundle(
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-11",
+                film_title="Contempt (New 4K Restoration)",
+                showtime_film_key="contempt-4k",
+                parent_film_key="contempt-4k",
+                theater_id="grand-illusion",
+                source="siff",
+                source_film_id="siff-contempt-4k",
+            ),
+            window_end="2026-12-31",
+        ),
+    )
+    assert _entry_by_title(public, "Contempt (New 4K Restoration)") is None
+    entry = _entry_by_title(analysis, "Contempt (New 4K Restoration)")
+    assert entry["local_booking_kind"] == "local_programming"
+    assert entry["relevance_reason"] == "confirmed_local_restoration_programming"
+
+
+def test_confirmed_local_re26_title_programming_excluded():
+    public, analysis = _bundle(
+        showtimes_current=_showtimes_current(
+            _showtime(
+                date="2026-10-13",
+                film_title="Spirited Away RE26",
+                showtime_film_key="spirited-re26",
+                parent_film_key="spirited-re26",
+                theater_id="amc-pacific-place-11",
+                source="amc",
+                source_film_id="92001",
+            ),
+            window_end="2026-12-31",
+        ),
+    )
+    assert _entry_by_title(public, "Spirited Away RE26") is None
+    entry = _entry_by_title(analysis, "Spirited Away RE26")
+    assert entry["local_booking_kind"] == "local_programming"
+    assert entry["relevance_reason"] == "confirmed_local_repertory_or_rerelease"
