@@ -9,7 +9,6 @@ import {
   IconChevron,
   IconInfo,
   IconMore,
-  IconSliders,
   IconTrash,
 } from '../icons.jsx';
 import { subscribeFilmStoreMutations } from '../auth/filmStoreMutationBridge.js';
@@ -71,15 +70,12 @@ export default function PlannerSavedFilmsPanel({
   const [savedRevision, setSavedRevision] = useState(0);
   const [settingsTick, setSettingsTick] = useState(0);
   const [sortId, setSortId] = useState('urgent');
-  const [filterId, setFilterId] = useState('all');
   const [sortOpen, setSortOpen] = useState(false);
-  const [filterOpen, setFilterOpen] = useState(false);
   const [menuFilmKey, setMenuFilmKey] = useState(null);
   const [chooseFilmKey, setChooseFilmKey] = useState(null);
   const [chooseRow, setChooseRow] = useState(null);
   const [statusMessage, setStatusMessage] = useState(null);
   const sortMenuId = useId();
-  const filterMenuId = useId();
   const panelRef = useRef(null);
 
   useEffect(() => subscribeFilmStoreMutations(() => setSavedRevision((n) => n + 1)), []);
@@ -95,7 +91,6 @@ export default function PlannerSavedFilmsPanel({
     const onDocClick = (event) => {
       if (!panelRef.current?.contains(event.target)) {
         setSortOpen(false);
-        setFilterOpen(false);
         setMenuFilmKey(null);
       }
     };
@@ -117,7 +112,7 @@ export default function PlannerSavedFilmsPanel({
         enrichmentIndex,
         timeFormatId,
         sortId,
-        filterId,
+        filterId: 'all',
         mockupMode,
         plannedPerformanceKeys: plannedKeys ?? undefined,
       }),
@@ -127,7 +122,6 @@ export default function PlannerSavedFilmsPanel({
       enrichmentIndex,
       timeFormatId,
       sortId,
-      filterId,
       mockupMode,
       plannedKeys,
       savedRevision,
@@ -138,9 +132,6 @@ export default function PlannerSavedFilmsPanel({
   const activeSort =
     presentation.sortOptions.find((o) => o.id === presentation.sortId) ??
     presentation.sortOptions[0];
-  const activeFilter =
-    presentation.filterOptions.find((o) => o.id === presentation.filterId) ??
-    presentation.filterOptions[0];
 
   const openChooseShowtime = (row) => {
     if (!row.chooseShowtimeEnabled) return;
@@ -178,9 +169,6 @@ export default function PlannerSavedFilmsPanel({
     }
   };
 
-  const isFilteredEmpty =
-    presentation.queueCount > 0 && presentation.count === 0;
-
   return (
     <div
       ref={panelRef}
@@ -202,22 +190,27 @@ export default function PlannerSavedFilmsPanel({
 
       {presentation.queueCount > 0 ? (
         <div className="v2-psf-controls">
-          <div className="v2-psf-control-wrap">
+          <div className="v2-psf-control-wrap v2-psf-control-wrap-sort">
             <button
               type="button"
               className="v2-psf-control-btn"
               aria-expanded={sortOpen}
+              aria-haspopup="menu"
               aria-controls={sortMenuId}
               onClick={(e) => {
                 e.stopPropagation();
-                setFilterOpen(false);
                 setSortOpen((v) => !v);
               }}
             >
-              <span className="v2-psf-control-icon" aria-hidden="true">
-                ≡
+              <span className="v2-psf-control-label">
+                Sort: {activeSort.label}
               </span>
-              Sort: {activeSort.label}
+              <IconChevron
+                width={14}
+                height={14}
+                className="v2-psf-control-chevron"
+                aria-hidden="true"
+              />
             </button>
             {sortOpen ? (
               <ul id={sortMenuId} className="v2-psf-menu" role="menu">
@@ -234,47 +227,6 @@ export default function PlannerSavedFilmsPanel({
                       onClick={() => {
                         setSortId(option.id);
                         setSortOpen(false);
-                      }}
-                    >
-                      {option.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
-
-          <div className="v2-psf-control-wrap">
-            <button
-              type="button"
-              className="v2-psf-control-btn"
-              aria-expanded={filterOpen}
-              aria-controls={filterMenuId}
-              onClick={(e) => {
-                e.stopPropagation();
-                setSortOpen(false);
-                setFilterOpen((v) => !v);
-              }}
-            >
-              <IconSliders width={14} height={14} aria-hidden="true" />
-              Filter
-              {presentation.filterId !== 'all' ? `: ${activeFilter.label}` : ''}
-            </button>
-            {filterOpen ? (
-              <ul id={filterMenuId} className="v2-psf-menu v2-psf-menu-right" role="menu">
-                {presentation.filterOptions.map((option) => (
-                  <li key={option.id} role="none">
-                    <button
-                      type="button"
-                      role="menuitem"
-                      className={
-                        option.id === presentation.filterId
-                          ? 'v2-psf-menu-item v2-psf-menu-item-active'
-                          : 'v2-psf-menu-item'
-                      }
-                      onClick={() => {
-                        setFilterId(option.id);
-                        setFilterOpen(false);
                       }}
                     >
                       {option.label}
@@ -317,7 +269,6 @@ export default function PlannerSavedFilmsPanel({
                     onClick={(e) => {
                       e.stopPropagation();
                       setSortOpen(false);
-                      setFilterOpen(false);
                       setMenuFilmKey((current) =>
                         current === row.filmKey ? null : row.filmKey,
                       );
@@ -355,6 +306,8 @@ export default function PlannerSavedFilmsPanel({
                   <button
                     type="button"
                     className="v2-psf-choose-btn"
+                    aria-haspopup="dialog"
+                    aria-expanded={chooseFilmKey === row.filmKey}
                     onClick={() => openChooseShowtime(row)}
                   >
                     Choose showtime
@@ -376,14 +329,10 @@ export default function PlannerSavedFilmsPanel({
       ) : (
         <div className="v2-planner-empty" role="status">
           <p className="v2-planner-empty-title">
-            {isFilteredEmpty
-              ? presentation.filteredEmptyTitle
-              : presentation.emptyTitle}
+            {presentation.emptyTitle}
           </p>
           <p className="v2-planner-empty-body">
-            {isFilteredEmpty
-              ? presentation.filteredEmptyBody
-              : presentation.emptyBody}
+            {presentation.emptyBody}
           </p>
         </div>
       )}

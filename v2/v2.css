@@ -5881,13 +5881,19 @@ a.v2-st-time:hover {
 }
 
 .v2-psf-controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  align-items: stretch;
   gap: 0.55rem;
 }
 
 .v2-psf-control-wrap {
   position: relative;
+  flex: 1 1 auto;
+  max-width: 16rem;
+}
+
+.v2-psf-control-wrap-sort {
+  max-width: 18rem;
 }
 
 .v2-psf-control-btn {
@@ -5895,10 +5901,10 @@ a.v2-st-time:hover {
   width: 100%;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
+  justify-content: space-between;
+  gap: 0.45rem;
   margin: 0;
-  padding: 0.55rem 0.65rem;
+  padding: 0.55rem 0.7rem;
   border-radius: 0.65rem;
   border: 1px solid var(--v2-planner-panel-border);
   background: var(--v2-planner-panel);
@@ -5907,6 +5913,20 @@ a.v2-st-time:hover {
   font-size: 0.78rem;
   font-weight: 500;
   cursor: pointer;
+  text-align: left;
+}
+
+.v2-psf-control-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.v2-psf-control-chevron {
+  flex-shrink: 0;
+  transform: rotate(90deg);
+  opacity: 0.72;
 }
 
 .v2-psf-control-icon {
@@ -6121,7 +6141,7 @@ a.v2-st-time:hover {
   appearance: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.15rem;
+  gap: 0.2rem;
   margin: 0;
   padding: 0;
   border: 0;
@@ -6134,8 +6154,15 @@ a.v2-st-time:hover {
   white-space: nowrap;
 }
 
+.v2-psf-choose-btn:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+  border-radius: 0.2rem;
+}
+
 .v2-psf-choose-chevron {
-  transform: rotate(-90deg);
+  /* IconChevron points right — keep that for sheet/action affordance. */
+  flex-shrink: 0;
 }
 
 .v2-psf-choose-disabled {

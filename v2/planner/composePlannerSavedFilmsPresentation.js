@@ -19,7 +19,6 @@ import {
   formatPlannerSavedDateLabel,
   formatSavedFilmNextShowtimeLine,
   formatSavedFilmShowtimeSummary,
-  PLANNER_SAVED_URGENCY,
 } from './plannerSavedFilmsUrgency.js';
 import { getPlannerSavedFilmsMockupPresentation } from '../fixtures/plannerSavedFilmsMockupFixture.js';
 import { isPlannerMockupMode } from '../fixtures/plannerLandingMockupFixture.js';
@@ -55,7 +54,7 @@ export function sortPlannerSavedFilmRows(rows, sortId) {
     });
     return list;
   }
-  // Most urgent (default)
+  // Leaving Soon urgency (default) — last chance / limited showtimes first
   list.sort((a, b) => {
     if (a.urgencyRank !== b.urgencyRank) return a.urgencyRank - b.urgencyRank;
     const aStart = a.nextSortable ?? 'z';
@@ -71,16 +70,11 @@ export function sortPlannerSavedFilmRows(rows, sortId) {
 
 /**
  * @param {object[]} rows
- * @param {'all' | 'leaving_soon'} filterId
+ * @param {string} filterId
  */
 export function filterPlannerSavedFilmRows(rows, filterId) {
-  if (filterId === 'leaving_soon') {
-    return rows.filter(
-      (row) =>
-        row.urgencyId === PLANNER_SAVED_URGENCY.lastChance ||
-        row.urgencyId === PLANNER_SAVED_URGENCY.leavingSoon,
-    );
-  }
+  // Only "all" remains; legacy leaving_soon filter ids fall through to all.
+  void filterId;
   return rows;
 }
 
