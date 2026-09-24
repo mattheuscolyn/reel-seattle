@@ -276,13 +276,6 @@ export function getPlannerSavedFilmsMockupPresentation(options = {}) {
   let rows = filterMockupSavedFilmsQueueRows([...MOCK_ROWS], {
     scheduledFilmKeys: options.scheduledFilmKeys ?? [],
   });
-  if (filterId === 'leaving_soon') {
-    rows = rows.filter(
-      (r) =>
-        r.urgencyId === PLANNER_SAVED_URGENCY.lastChance ||
-        r.urgencyId === PLANNER_SAVED_URGENCY.leavingSoon,
-    );
-  }
 
   if (sortId === 'title') {
     rows.sort((a, b) => a.sortTitle.localeCompare(b.sortTitle));

@@ -20,7 +20,10 @@ import {
   formatSavedFilmShowtimeSummary,
   PLANNER_SAVED_URGENCY,
 } from '../../v2/planner/plannerSavedFilmsUrgency.js';
-import { PLANNER_SAVED_FILTER_OPTIONS } from '../../v2/planner/plannerSavedFilmsConfig.js';
+import {
+  PLANNER_SAVED_FILTER_OPTIONS,
+  PLANNER_SAVED_SORT_OPTIONS,
+} from '../../v2/planner/plannerSavedFilmsConfig.js';
 import {
   getPlannerSavedFilmsMockupPresentation,
   PLANNER_SAVED_MOCKUP_NO_SHOWTIMES_FILM_KEY,
@@ -38,7 +41,15 @@ import { resolvePlannerConflictReviewPresentation } from '../../v2/planner/resol
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const PLANNER_SRC = readFileSync(join(ROOT, 'v2/planner/PlannerDestination.jsx'), 'utf8');
+const PANEL_SRC = readFileSync(
+  join(ROOT, 'v2/planner/PlannerSavedFilmsPanel.jsx'),
+  'utf8',
+);
 const CSS = readFileSync(join(ROOT, 'v2/v2.css'), 'utf8');
+const CONFIG_SRC = readFileSync(
+  join(ROOT, 'v2/planner/plannerSavedFilmsConfig.js'),
+  'utf8',
+);
 
 const NOW = new Date('2026-05-10T12:00:00-07:00');
 
@@ -211,7 +222,7 @@ test('urgency derives last chance and leaving soon from showtime counts', () => 
   assert.equal(deriveSavedFilmUrgency(5).badge, null);
 });
 
-test('most urgent sort orders last chance before others', () => {
+test('leaving soon sort orders last chance before others', () => {
   const rows = [
     {
       id: 'a',
@@ -250,12 +261,40 @@ test('title sort is alphabetical', () => {
   assert.equal(sorted[0].id, 'b');
 });
 
-test('filters work for leaving soon', () => {
+test('Saved Films sort labels are Leaving Soon and Title (A–Z)', () => {
+  assert.deepEqual(
+    PLANNER_SAVED_SORT_OPTIONS.map((o) => ({ id: o.id, label: o.label })),
+    [
+      { id: 'urgent', label: 'Leaving Soon' },
+      { id: 'recent', label: 'Recently saved' },
+      { id: 'title', label: 'Title (A–Z)' },
+    ],
+  );
+  assert.equal(CONFIG_SRC.includes('Most urgent'), false);
+  assert.match(CONFIG_SRC, /Title \(A–Z\)/);
+});
+
+test('Saved Films has no theater filter and no Leaving Soon filter option', () => {
+  assert.deepEqual(
+    PLANNER_SAVED_FILTER_OPTIONS.map((o) => o.id),
+    ['all'],
+  );
+  assert.equal(
+    PLANNER_SAVED_FILTER_OPTIONS.some((o) => o.id === 'leaving_soon'),
+    false,
+  );
+  assert.equal(PANEL_SRC.includes('Filter'), false);
+  assert.equal(PANEL_SRC.includes('IconSliders'), false);
+  assert.equal(PANEL_SRC.includes('filterOpen'), false);
+});
+
+test('legacy leaving_soon filter id no longer hides rows', () => {
   const rows = [
     { showtimeCount: 1, urgencyId: PLANNER_SAVED_URGENCY.lastChance },
     { showtimeCount: 3, urgencyId: PLANNER_SAVED_URGENCY.none },
   ];
-  assert.equal(filterPlannerSavedFilmRows(rows, 'leaving_soon').length, 1);
+  assert.equal(filterPlannerSavedFilmRows(rows, 'leaving_soon').length, 2);
+  assert.equal(filterPlannerSavedFilmRows(rows, 'all').length, 2);
 });
 
 test('Has showtimes filter no longer exists', () => {
@@ -337,15 +376,27 @@ test('removing planned screening returns film to queue when showtimes remain', (
   assert.equal(restored.rows[0].filmKey, 'heat');
 });
 
-test('choose showtime sheet component is wired', () => {
+test('choose showtime opens the bottom sheet without select affordance', () => {
   assert.match(PLANNER_SRC, /PlannerSavedFilmsPanel/);
-  const panelSrc = readFileSync(
-    join(ROOT, 'v2/planner/PlannerSavedFilmsPanel.jsx'),
-    'utf8',
+  assert.match(PANEL_SRC, /SavedFilmChooseShowtimeSheet/);
+  assert.match(PANEL_SRC, /Choose showtime/);
+  assert.match(PANEL_SRC, /aria-haspopup="dialog"/);
+  assert.match(PANEL_SRC, /openChooseShowtime/);
+  assert.match(PANEL_SRC, /closeChooseShowtime/);
+  assert.equal(PANEL_SRC.includes('<select'), false);
+  assert.doesNotMatch(
+    CSS,
+    /\.v2-psf-choose-chevron\s*\{[^}]*transform:\s*rotate\(-90deg\)/,
   );
-  assert.match(panelSrc, /SavedFilmChooseShowtimeSheet/);
   const mock = getPlannerSavedFilmsMockupPresentation();
   assert.ok(mock.rows[0].sheetShowtimes.length > 0);
+});
+
+test('sort menu is a menu trigger, not a native select', () => {
+  assert.match(PANEL_SRC, /aria-haspopup="menu"/);
+  assert.match(PANEL_SRC, /Sort: \{activeSort\.label\}/);
+  assert.match(PANEL_SRC, /v2-psf-control-chevron/);
+  assert.equal(PANEL_SRC.includes('type="select"'), false);
 });
 
 test('add to planner persists exact performance and remains saved', () => {
@@ -418,17 +469,13 @@ test('remove from saved does not remove planner screening', () => {
 });
 
 test('three-dot menu actions are present in panel source', () => {
-  const panelSrc = readFileSync(
-    join(ROOT, 'v2/planner/PlannerSavedFilmsPanel.jsx'),
-    'utf8',
-  );
-  assert.match(panelSrc, /View film details/);
-  assert.match(panelSrc, /Remove from Saved/);
-  assert.match(panelSrc, /unsaveFilm/);
-  assert.match(panelSrc, /Choose showtime/);
-  assert.match(panelSrc, /v2-psf-card-footer/);
-  assert.match(panelSrc, /v2-psf-more/);
-  assert.match(panelSrc, /closeChooseShowtime/);
+  assert.match(PANEL_SRC, /View film details/);
+  assert.match(PANEL_SRC, /Remove from Saved/);
+  assert.match(PANEL_SRC, /unsaveFilm/);
+  assert.match(PANEL_SRC, /Choose showtime/);
+  assert.match(PANEL_SRC, /v2-psf-card-footer/);
+  assert.match(PANEL_SRC, /v2-psf-more/);
+  assert.match(PANEL_SRC, /closeChooseShowtime/);
 });
 
 test('mockup mode renders actionable saved films queue rows', () => {
