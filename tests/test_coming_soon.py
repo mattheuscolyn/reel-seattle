@@ -590,10 +590,14 @@ def test_film_id_resolution_from_identity_catalog():
 # ---------------------------------------------------------------------------
 
 
-def test_amc_only_national_catalog_is_weak_national_not_public():
+def test_amc_only_national_catalog_is_all_releases_not_recommended():
     public, analysis = _bundle(amc_catalog=_amc_catalog(_catalog_movie()))
 
-    assert public["entries"] == []
+    public_entry = _entry_by_title(public, "Announced Film")
+    assert public_entry is not None
+    assert public_entry["in_recommended"] is False
+    assert public_entry["relevance_tier"] == "weak_national_only"
+    assert public_entry["user_visible"] is True
     entry = _entry_by_title(analysis, "Announced Film")
     assert entry["classification"] == CLASSIFICATION_AMC_ANNOUNCED
     assert entry["relevance_tier"] == "weak_national_only"
@@ -1316,8 +1320,11 @@ def test_orphan_sunny_dancer_qa_skus_form_synthetic_film_group():
             ),
         ),
     )
-    # Without TMDB/local evidence the synthetic group is analysis-only.
-    assert public["entries"] == []
+    # Without TMDB/local evidence the synthetic group is All-releases only.
+    public_entry = _entry_by_title(public, "Sunny Dancer")
+    assert public_entry is not None
+    assert public_entry["in_recommended"] is False
+    assert public_entry["relevance_tier"] == "weak_national_only"
     sunny_rows = [
         entry
         for entry in analysis["entries"]
@@ -1457,7 +1464,9 @@ def test_amc_concert_category_does_not_drop_miscategorized_films():
 
 def test_analysis_preserves_weak_national_with_reason():
     public, analysis = _bundle(amc_catalog=_amc_catalog(_catalog_movie()))
-    assert public["entries"] == []
+    public_entry = _entry_by_title(public, "Announced Film")
+    assert public_entry is not None
+    assert public_entry["in_recommended"] is False
     entry = _entry_by_title(analysis, "Announced Film")
     assert entry["relevance_tier"] == "weak_national_only"
     assert entry["visibility_reason"] == "weak_national_only"
@@ -1511,14 +1520,17 @@ def test_high_popularity_amc_tmdb_proxy_is_public():
     assert entry["relevance_reason"] == "amc_tmdb_proxy_meets_popularity"
 
 
-def test_low_popularity_amc_tmdb_proxy_is_analysis_only():
+def test_low_popularity_amc_tmdb_proxy_is_all_releases_not_recommended():
     public, analysis = _bundle(
         amc_catalog=_amc_catalog(_catalog_movie()),
         tmdb_candidates_artifact=_tmdb_artifact(
             _tmdb_for_title("Announced Film", 700001, "2026-11-20", popularity=1.2)
         ),
     )
-    assert _entry_by_title(public, "Announced Film") is None
+    public_entry = _entry_by_title(public, "Announced Film")
+    assert public_entry is not None
+    assert public_entry["in_recommended"] is False
+    assert public_entry["relevance_tier"] == "weak_national_only"
     entry = _entry_by_title(analysis, "Announced Film")
     assert entry["classification"] == CLASSIFICATION_AMC_ANNOUNCED
     assert entry["relevance_tier"] == "weak_national_only"
@@ -1533,14 +1545,16 @@ def test_low_popularity_amc_tmdb_proxy_is_analysis_only():
     validate_coming_soon_current(public)
 
 
-def test_missing_popularity_does_not_qualify_amc_tmdb_proxy():
+def test_missing_popularity_is_all_releases_not_recommended():
     tmdb = _tmdb_for_title("Announced Film", 700001, "2026-11-20")
     tmdb["popularity"] = None
     public, analysis = _bundle(
         amc_catalog=_amc_catalog(_catalog_movie()),
         tmdb_candidates_artifact=_tmdb_artifact(tmdb),
     )
-    assert _entry_by_title(public, "Announced Film") is None
+    public_entry = _entry_by_title(public, "Announced Film")
+    assert public_entry is not None
+    assert public_entry["in_recommended"] is False
     entry = _entry_by_title(analysis, "Announced Film")
     assert entry["user_visible"] is False
     assert entry["visibility_reason"] == "low_relevance_no_local_evidence"
@@ -1565,7 +1579,7 @@ def test_special_programming_exclusion_precedes_popularity_gate():
     assert entry["user_visible"] is False
 
 
-def test_public_artifact_only_contains_user_visible_rows():
+def test_public_artifact_ships_recommended_and_all_releases():
     movie, tmdb = _public_amc_film()
     public, analysis = _bundle(
         amc_catalog=_amc_catalog(
@@ -1574,6 +1588,11 @@ def test_public_artifact_only_contains_user_visible_rows():
                 source_title="Obscure National",
                 source_film_id="8111",
                 release_date_utc="2026-11-15T00:00:00Z",
+            ),
+            _catalog_movie(
+                source_title="Bare National Only",
+                source_film_id="8112",
+                release_date_utc="2026-11-20T00:00:00Z",
             ),
         ),
         tmdb_candidates_artifact=_tmdb_artifact(
@@ -1584,14 +1603,28 @@ def test_public_artifact_only_contains_user_visible_rows():
         showtimes_current=_showtimes_current(_showtime(date="2026-10-02")),
     )
     assert all(entry["user_visible"] is True for entry in public["entries"])
+    assert all("in_recommended" in entry for entry in public["entries"])
+    recommended = [e for e in public["entries"] if e["in_recommended"]]
+    all_only = [e for e in public["entries"] if not e["in_recommended"]]
+    assert recommended
     assert all(
         entry["relevance_tier"]
         in {"confirmed_local", "locally_announced", "strongly_expected"}
-        for entry in public["entries"]
+        for entry in recommended
     )
-    assert public["schema_version"] == "1.3.0"
+    assert all_only
+    assert all(entry["relevance_tier"] == "weak_national_only" for entry in all_only)
+    assert _entry_by_title(public, "Obscure National") is not None
+    assert _entry_by_title(public, "Obscure National")["in_recommended"] is False
+    assert _entry_by_title(public, "Bare National Only") is not None
+    assert _entry_by_title(public, "Bare National Only")["in_recommended"] is False
+    assert _entry_by_title(public, "TMDB Only Title") is None
+    assert _entry_by_title(analysis, "TMDB Only Title") is not None
+    assert public["schema_version"] == "1.4.0"
     assert analysis["schema_version"] == "1.2.0"
-    assert public["method"]["version"] == "1.4.0"
+    assert public["method"]["version"] == "1.5.0"
+    assert public["stats"]["recommended_count"] == len(recommended)
+    assert public["stats"]["all_releases_count"] == len(public["entries"])
     validate_coming_soon_current(public)
     validate_coming_soon_candidates(analysis)
 

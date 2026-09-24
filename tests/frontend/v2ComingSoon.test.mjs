@@ -24,13 +24,18 @@ import {
   comingSoonActiveFilterCount,
   comingSoonEntryMatchesFilters,
   comingSoonKindChip,
+  comingSoonMonthKey,
+  comingSoonTheatricalFridayIso,
   comingSoonWeekStartIso,
   compareComingSoonEntries,
   composeComingSoonDetail,
   composeComingSoonPage,
+  COMING_SOON_SCOPE,
   DEFAULT_COMING_SOON_FILTERS,
+  formatComingSoonMonthLabel,
   formatComingSoonTheaterLine,
   formatComingSoonWeekLabel,
+  isComingSoonRecommendedEntry,
   isRenderableComingSoonEntry,
   selectComingSoonOpenTarget,
 } from '../../v2/comingSoon/comingSoonModel.js';
@@ -39,6 +44,10 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const APP_SRC = readFileSync(join(ROOT, 'v2/V2App.jsx'), 'utf8');
 const PAGE_SRC = readFileSync(
   join(ROOT, 'v2/comingSoon/ComingSoonSurface.jsx'),
+  'utf8',
+);
+const MODEL_SRC = readFileSync(
+  join(ROOT, 'v2/comingSoon/comingSoonModel.js'),
   'utf8',
 );
 const DETAIL_SRC = readFileSync(
@@ -82,6 +91,7 @@ function entry({
   theaters = [],
   showtimeKeys = [],
   overview = null,
+  inRecommended,
 }) {
   const confirmed = classification === 'confirmed_local';
   const tier =
@@ -91,6 +101,12 @@ function entry({
       : classification === 'amc_announced'
         ? 'strongly_expected'
         : null);
+  const recommended =
+    typeof inRecommended === 'boolean'
+      ? inRecommended
+      : tier === 'confirmed_local' ||
+        tier === 'locally_announced' ||
+        tier === 'strongly_expected';
   return {
     film_id: filmId,
     title,
@@ -120,6 +136,7 @@ function entry({
     classification,
     relevance_tier: tier,
     user_visible: true,
+    in_recommended: recommended,
     engagements: [],
     presentation: {
       kind,
@@ -148,7 +165,7 @@ function entry({
 
 function fixtureArtifact(entries) {
   return {
-    schema_version: '1.3.0',
+    schema_version: '1.4.0',
     generated_at: '2026-09-14T12:00:00-07:00',
     timezone: 'America/Los_Angeles',
     entries,
@@ -224,46 +241,151 @@ test('loader accepts a valid artifact and degrades when missing', async () => {
   assert.match(unavailable.emptyMessage, /isn’t available right now/);
 });
 
-test('chronological week grouping and within-date sort', () => {
+test('month grouping with release-weekend subgroups when dense enough', () => {
   const page = composeComingSoonPage(
     fixtureArtifact([
       entry({
         title: 'Zed Unannounced',
-        date: '2026-09-16',
+        date: '2026-09-25',
         classification: 'amc_announced',
       }),
       entry({
         title: 'Alpha Confirmed',
-        date: '2026-09-16',
+        date: '2026-09-25',
         classification: 'confirmed_local',
         theaters: [{ theater_id: 'siff-uptown', name: 'SIFF Uptown' }],
       }),
       entry({
-        title: 'Sunday Film',
-        date: '2026-09-20',
+        title: 'Weekend B',
+        date: '2026-09-18',
         classification: 'amc_announced',
       }),
       entry({
-        title: 'Later Film',
-        date: '2026-09-23',
+        title: 'October Opener',
+        date: '2026-10-02',
+        classification: 'amc_announced',
+      }),
+      entry({
+        title: 'October Later',
+        date: '2026-10-09',
+        classification: 'amc_announced',
+      }),
+      entry({
+        title: 'October Mid',
+        date: '2026-10-03',
+        classification: 'amc_announced',
+      }),
+      entry({
+        title: 'October Extra',
+        date: '2026-10-10',
         classification: 'amc_announced',
       }),
     ]),
   );
   assert.equal(page.sections.length, 2);
-  assert.equal(page.sections[0].label, formatComingSoonWeekLabel('2026-09-14', '2026-09-20'));
-  assert.equal(page.sections[0].label, 'SEP 14–20');
-  assert.equal(page.sections[0].entries[0].title, 'Alpha Confirmed');
-  assert.equal(page.sections[0].entries[1].title, 'Zed Unannounced');
-  assert.equal(page.sections[0].entries[2].title, 'Sunday Film');
-  assert.equal(page.sections[1].entries[0].title, 'Later Film');
-  assert.equal(comingSoonWeekStartIso('2026-09-16'), '2026-09-14');
-  assert.equal(comingSoonWeekStartIso('2026-09-14'), '2026-09-14');
-  assert.equal(comingSoonWeekStartIso('2026-09-13'), '2026-09-07');
-  assert.equal(comingSoonWeekStartIso('2026-09-20'), '2026-09-14');
-  assert.equal(comingSoonWeekStartIso('2026-09-21'), '2026-09-21');
+  assert.equal(page.sections[0].label, 'September');
+  assert.equal(page.sections[0].monthKey, '2026-09');
+  assert.equal(page.sections[1].label, 'October');
+  // September has 3 titles across 2 weekends → flat (sparse)
+  assert.equal(page.sections[0].subgroups.length, 1);
+  assert.equal(page.sections[0].subgroups[0].label, null);
+  assert.equal(page.sections[0].subgroups[0].entries[0].title, 'Weekend B');
+  assert.equal(page.sections[0].subgroups[0].entries[1].title, 'Alpha Confirmed');
+  assert.equal(page.sections[0].subgroups[0].entries[2].title, 'Zed Unannounced');
+  // October has 4 titles across 2 weekends → week subgroups
+  assert.ok(page.sections[1].subgroups.length >= 2);
+  assert.equal(page.sections[1].subgroups[0].label, 'Oct 2');
+  assert.equal(page.sections[1].subgroups[1].label, 'Oct 9');
+  assert.equal(comingSoonWeekStartIso('2026-09-25'), '2026-09-21');
+  assert.equal(comingSoonTheatricalFridayIso('2026-09-25'), '2026-09-25');
+  assert.equal(comingSoonTheatricalFridayIso('2026-09-23'), '2026-09-25');
+  assert.equal(comingSoonMonthKey('2026-10-02'), '2026-10');
+  assert.equal(formatComingSoonMonthLabel('2026-10-02'), 'October');
   assert.equal(formatComingSoonWeekLabel('2026-09-21', '2026-09-27'), 'SEP 21–27');
-  assert.equal(formatComingSoonWeekLabel('2026-09-28', '2026-10-04'), 'SEP 28–OCT 4');
+});
+
+test('sparse months stay flat without week headings', () => {
+  const page = composeComingSoonPage(
+    fixtureArtifact([
+      entry({ title: 'Only One', date: '2026-11-06' }),
+      entry({ title: 'Only Two', date: '2026-11-13' }),
+    ]),
+  );
+  assert.equal(page.sections.length, 1);
+  assert.equal(page.sections[0].label, 'November');
+  assert.equal(page.sections[0].subgroups.length, 1);
+  assert.equal(page.sections[0].subgroups[0].label, null);
+  assert.equal(page.sections[0].subgroups[0].entries.length, 2);
+});
+
+test('Recommended is the default scope; All releases expands the list', () => {
+  const artifact = fixtureArtifact([
+    entry({
+      title: 'Curated',
+      date: '2026-09-25',
+      classification: 'amc_announced',
+      inRecommended: true,
+    }),
+    entry({
+      title: 'Broader',
+      date: '2026-09-25',
+      classification: 'amc_announced',
+      relevanceTier: 'weak_national_only',
+      inRecommended: false,
+    }),
+    entry({
+      title: 'TMDB Noise',
+      date: '2026-09-25',
+      classification: 'tmdb_only',
+      relevanceTier: null,
+      inRecommended: false,
+    }),
+  ]);
+  const recommended = composeComingSoonPage(artifact);
+  assert.equal(recommended.scope, COMING_SOON_SCOPE.recommended);
+  assert.equal(recommended.visibleCount, 1);
+  assert.equal(recommended.sections[0].subgroups[0].entries[0].title, 'Curated');
+
+  const all = composeComingSoonPage(artifact, {
+    ...DEFAULT_COMING_SOON_FILTERS,
+    scope: COMING_SOON_SCOPE.all,
+  });
+  assert.equal(all.scope, COMING_SOON_SCOPE.all);
+  assert.equal(all.visibleCount, 2);
+  const titles = all.sections[0].subgroups[0].entries.map((row) => row.title);
+  assert.deepEqual(titles, ['Curated', 'Broader']);
+  assert.equal(isComingSoonRecommendedEntry(artifact.entries[0]), true);
+  assert.equal(isComingSoonRecommendedEntry(artifact.entries[1]), false);
+  assert.equal(isRenderableComingSoonEntry(artifact.entries[2]), false);
+  assert.match(PAGE_SRC, /Recommended|COMING_SOON_SCOPE_OPTIONS/);
+  assert.match(MODEL_SRC, /All releases/);
+  assert.match(MODEL_SRC, /Recommended/);
+  assert.match(PAGE_SRC, /data-coming-soon-scope/);
+});
+
+test('All releases still excludes non-film programming kinds from live filters', () => {
+  const artifact = fixtureArtifact([
+    entry({
+      title: 'Movie',
+      date: '2026-09-25',
+      kind: 'film',
+      inRecommended: false,
+      relevanceTier: 'weak_national_only',
+    }),
+    entry({
+      title: 'Mystery',
+      date: '2026-09-25',
+      kind: 'mystery_screening',
+      inRecommended: true,
+    }),
+  ]);
+  const moviesOnly = composeComingSoonPage(artifact, {
+    scope: COMING_SOON_SCOPE.all,
+    local: 'all',
+    kinds: ['movies'],
+  });
+  assert.equal(moviesOnly.visibleCount, 1);
+  assert.equal(moviesOnly.sections[0].subgroups[0].entries[0].title, 'Movie');
 });
 
 test('confirmed_local rows show Seattle status and theater names', () => {
@@ -281,7 +403,7 @@ test('confirmed_local rows show Seattle status and theater names', () => {
       }),
     ]),
   );
-  const row = page.sections[0].entries[0];
+  const row = page.sections[0].subgroups[0].entries[0];
   assert.equal(row.localStatusLabel, 'Confirmed in Seattle');
   assert.equal(row.theaterLine, 'SIFF Uptown + 2 more');
   assert.equal(row.classification, 'confirmed_local');
@@ -298,7 +420,7 @@ test('amc_announced rows show showtimes-not-announced and no theaters', () => {
       }),
     ]),
   );
-  const row = page.sections[0].entries[0];
+  const row = page.sections[0].subgroups[0].entries[0];
   assert.equal(row.localStatusLabel, 'Showtimes not announced yet');
   assert.equal(row.theaterLine, null);
   assert.match(PAGE_SRC, /Showtimes not announced yet|localStatusLabel/);
@@ -316,7 +438,7 @@ test('missing poster uses a text-forward row without fake artwork', () => {
     ]),
   );
   const byTitle = Object.fromEntries(
-    page.sections[0].entries.map((row) => [row.title, row]),
+    page.sections[0].subgroups[0].entries.map((row) => [row.title, row]),
   );
   assert.equal(byTitle['No Art'].hasPoster, false);
   assert.equal(byTitle['Has Art'].hasPoster, true);
@@ -342,7 +464,7 @@ test('kind labels appear only for rerelease, event, and mystery screening', () =
   );
 });
 
-test('All / Confirmed filtering removes empty week sections', () => {
+test('All / Confirmed filtering removes empty month sections', () => {
   const artifact = fixtureArtifact([
     entry({
       title: 'Local A',
@@ -357,14 +479,15 @@ test('All / Confirmed filtering removes empty week sections', () => {
     }),
   ]);
   const all = composeComingSoonPage(artifact, { local: 'all', kinds: [] });
-  assert.equal(all.sections.length, 2);
+  assert.equal(all.sections.length, 1);
+  assert.equal(all.sections[0].subgroups[0].entries.length, 2);
   const confirmed = composeComingSoonPage(artifact, {
     local: 'confirmed',
     kinds: [],
   });
   assert.equal(confirmed.sections.length, 1);
-  assert.equal(confirmed.sections[0].entries.length, 1);
-  assert.equal(confirmed.sections[0].entries[0].title, 'Local A');
+  assert.equal(confirmed.sections[0].subgroups[0].entries.length, 1);
+  assert.equal(confirmed.sections[0].subgroups[0].entries[0].title, 'Local A');
   assert.equal(confirmed.activeFilterCount, 1);
 
   const eventsOnly = composeComingSoonPage(
@@ -383,7 +506,7 @@ test('All / Confirmed filtering removes empty week sections', () => {
     { local: 'all', kinds: ['events'] },
   );
   assert.equal(eventsOnly.sections.length, 1);
-  assert.equal(eventsOnly.sections[0].entries[0].title, 'Q&A');
+  assert.equal(eventsOnly.sections[0].subgroups[0].entries[0].title, 'Q&A');
 });
 
 test('confirmed film_id opens Film Detail; inferred tmdb_id does not', () => {
@@ -505,30 +628,41 @@ test('confirmed Film Detail back returns to Coming Soon', () => {
   assert.equal(nav.surface?.collectionId, 'coming-soon');
 });
 
-test('public artifact stays renderable and hides analysis-only rows', () => {
+test('public artifact stays renderable across Recommended and All releases', () => {
   const artifact = liveArtifact();
-  assert.equal(artifact.schema_version, '1.3.0');
+  assert.equal(artifact.schema_version, '1.4.0');
   const hidden = artifact.entries.filter(
     (row) =>
       row.classification === 'tmdb_only' || row.user_visible === false,
   );
   assert.equal(hidden.length, 0);
-  const page = composeComingSoonPage(artifact);
-  assert.ok(page.visibleCount > 0);
-  assert.equal(
-    page.visibleCount,
-    artifact.entries.filter(isRenderableComingSoonEntry).length,
+  assert.ok(artifact.entries.every((row) => typeof row.in_recommended === 'boolean'));
+  const recommendedEntries = artifact.entries.filter((row) => row.in_recommended);
+  const allOnly = artifact.entries.filter((row) => !row.in_recommended);
+  assert.ok(recommendedEntries.length > 0);
+  assert.ok(allOnly.length > 0);
+  assert.ok(
+    allOnly.every((row) => row.relevance_tier === 'weak_national_only'),
   );
-  assert.ok(page.sections.every((section) => section.entries.length > 0));
-  for (const section of page.sections) {
-    assert.equal(comingSoonWeekStartIso(section.startDate), section.startDate);
-    assert.equal(new Date(`${section.startDate}T12:00:00Z`).getUTCDay(), 1);
-    assert.equal(new Date(`${section.endDate}T12:00:00Z`).getUTCDay(), 0);
-    assert.equal(
-      section.label,
-      formatComingSoonWeekLabel(section.startDate, section.endDate),
-    );
-  }
+
+  const page = composeComingSoonPage(artifact);
+  assert.equal(page.scope, COMING_SOON_SCOPE.recommended);
+  assert.ok(page.visibleCount > 0);
+  assert.equal(page.visibleCount, recommendedEntries.length);
+  assert.ok(page.sections.every((section) => section.type === 'month'));
+  assert.ok(
+    page.sections.every((section) =>
+      section.subgroups.every((subgroup) => subgroup.entries.length > 0),
+    ),
+  );
+
+  const allPage = composeComingSoonPage(artifact, {
+    ...DEFAULT_COMING_SOON_FILTERS,
+    scope: COMING_SOON_SCOPE.all,
+  });
+  assert.equal(allPage.visibleCount, artifact.entries.length);
+  assert.ok(allPage.visibleCount > page.visibleCount);
+
   const inferred = artifact.entries.filter(
     (row) => row.identity?.tmdb_id_inferred && !row.identity?.film_id_confirmed,
   );
@@ -551,7 +685,9 @@ test('public artifact stays renderable and hides analysis-only rows', () => {
   assert.ok(filtered.visibleCount < page.visibleCount);
   assert.ok(
     filtered.sections.every((section) =>
-      section.entries.every((row) => row.classification === 'confirmed_local'),
+      section.subgroups.every((subgroup) =>
+        subgroup.entries.every((row) => row.classification === 'confirmed_local'),
+      ),
     ),
   );
 });

@@ -18564,6 +18564,55 @@ a.v2-stb-time:focus-visible {
   line-height: 1.4;
 }
 
+.v2-cs-scope {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem;
+  border: 1px solid var(--v2-border);
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.v2-cs-scope-label {
+  padding: 0 0.35rem 0 0.45rem;
+  color: var(--v2-muted-soft);
+  font-size: 0.66rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.v2-cs-scope-btn {
+  appearance: none;
+  min-width: 0;
+  min-height: 2.2rem;
+  margin: 0;
+  padding: 0.4rem 0.45rem;
+  border: 0;
+  border-radius: 0.65rem;
+  background: transparent;
+  color: var(--v2-muted);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.15;
+  cursor: pointer;
+}
+
+.v2-cs-scope-btn-active {
+  background: var(--v2-bg-raised);
+  color: var(--v2-fg);
+  box-shadow: 0 0 0 1px var(--v2-border-strong);
+}
+
+.v2-cs-scope-btn:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
 .v2-cs-page-controls {
   display: flex;
   align-items: center;
@@ -18587,10 +18636,46 @@ a.v2-stb-time:focus-visible {
   line-height: 1.45;
 }
 
-.v2-cs-week {
+.v2-cs-month {
   display: grid;
   gap: var(--v2-space-3);
   min-width: 0;
+  padding-top: var(--v2-space-2);
+  border-top: 1px solid var(--v2-border);
+}
+
+.v2-cs-month:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.v2-cs-month-heading {
+  margin: 0;
+  color: var(--v2-fg);
+  font-family: var(--v2-font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.v2-cs-week {
+  display: grid;
+  gap: var(--v2-space-2);
+  min-width: 0;
+  padding-left: 0.1rem;
+}
+
+.v2-cs-week + .v2-cs-week {
+  margin-top: 0.35rem;
+  padding-top: 0.65rem;
+  border-top: 1px dashed var(--v2-border);
+}
+
+.v2-cs-week-flat + .v2-cs-week-flat {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
 }
 
 .v2-cs-week-heading {
@@ -18598,7 +18683,8 @@ a.v2-stb-time:focus-visible {
   color: var(--v2-accent);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
+  text-transform: none;
 }
 
 .v2-cs-list {
