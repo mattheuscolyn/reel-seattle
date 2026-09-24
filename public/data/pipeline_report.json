@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-23T03:37:51-07:00",
+  "generated_at": "2026-09-24T03:56:46-07:00",
   "status": "success",
   "window": {
-    "start_date": "2026-09-23",
-    "end_date": "2027-09-22"
+    "start_date": "2026-09-24",
+    "end_date": "2027-09-23"
   },
   "sources": {
     "amc": {
       "status": "success",
-      "showtime_count": 7254,
-      "film_count": 114,
+      "showtime_count": 7002,
+      "film_count": 107,
       "theater_count": 7,
-      "last_successful_run": "2026-09-23",
+      "last_successful_run": "2026-09-24",
       "warnings": [
         "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
       ],
@@ -20,15 +20,17 @@
     },
     "siff": {
       "status": "success",
-      "showtime_count": 223,
-      "film_count": 62,
+      "showtime_count": 229,
+      "film_count": 69,
       "theater_count": 3,
-      "last_successful_run": "2026-09-23",
+      "last_successful_run": "2026-09-24",
       "warnings": [
+        "SIFF parent/series page with no direct showtimes: programs-and-events/andrzej-wajda",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/andrzej-wajda/ashes-and-diamonds",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/andrzej-wajda/man-of-marble",
         "SIFF parent/series page with no direct showtimes: programs-and-events/celluloid-screenings",
         "SIFF parent/series page with no direct showtimes: programs-and-events/community-screenings",
         "SIFF parent/series page with no direct showtimes: programs-and-events/courageous-documentary-filmmaking-grant",
-        "SIFF parent/series page with no direct showtimes: programs-and-events/nouvelles-femmes/band-of-outsiders",
         "SIFF parent/series page with no direct showtimes: programs-and-events/siff-book-club",
         "SIFF parent/series page with no direct showtimes: programs-and-events/siff-movie-club",
         "SIFF parent/series page with no direct showtimes: programs-and-events/stage-to-screen",
@@ -38,28 +40,30 @@
     },
     "beacon": {
       "status": "success",
-      "showtime_count": 58,
+      "showtime_count": 57,
       "film_count": 35,
       "theater_count": 1,
-      "last_successful_run": "2026-09-23",
+      "last_successful_run": "2026-09-24",
       "warnings": [],
       "errors": []
     },
     "nwff": {
       "status": "success",
-      "showtime_count": 92,
-      "film_count": 47,
+      "showtime_count": 90,
+      "film_count": 45,
       "theater_count": 1,
       "last_successful_run": "2026-09-23",
-      "warnings": [],
+      "warnings": [
+        "NWFF scrape incomplete or unsafe (scrape_status=partial_failure); retained prior future rows."
+      ],
       "errors": []
     },
     "central_cinema": {
       "status": "success",
-      "showtime_count": 93,
-      "film_count": 21,
+      "showtime_count": 102,
+      "film_count": 23,
       "theater_count": 1,
-      "last_successful_run": "2026-09-23",
+      "last_successful_run": "2026-09-24",
       "warnings": [],
       "errors": []
     },
@@ -68,14 +72,14 @@
       "showtime_count": 16,
       "film_count": 15,
       "theater_count": 4,
-      "last_successful_run": "2026-09-23",
+      "last_successful_run": "2026-09-24",
       "warnings": [],
       "errors": []
     }
   },
   "totals": {
-    "showtime_count": 7736,
-    "film_count": 287,
+    "showtime_count": 7496,
+    "film_count": 286,
     "theater_count": 13
   },
   "messages": [],
@@ -88,15 +92,15 @@
     "outcome": "promoted",
     "artifacts_written_this_run": true,
     "artifacts_retained_from_prior": false,
-    "reported_at": "2026-09-23T03:46:03-07:00",
-    "last_successful_build_at": "2026-09-23T03:44:05-07:00",
+    "reported_at": "2026-09-24T04:04:20-07:00",
+    "last_successful_build_at": "2026-09-24T04:02:29-07:00",
     "message": "AMC source catalog: promoted",
     "warnings": [],
     "errors": [],
     "refresh": {
-      "active_ids": 114,
-      "selected": 114,
-      "success": 114,
+      "active_ids": 107,
+      "selected": 107,
+      "success": 107,
       "failed": 0,
       "invalid": 0
     },
@@ -107,8 +111,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-09-23T03:44:05-07:00",
-        "record_count": 307,
+        "generated_at": "2026-09-24T04:02:29-07:00",
+        "record_count": 309,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -120,8 +124,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-09-23T03:44:05-07:00",
-        "record_count": 277,
+        "generated_at": "2026-09-24T04:02:29-07:00",
+        "record_count": 279,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -129,40 +133,40 @@
       }
     },
     "products_summary": {
-      "total": 307,
-      "active": 114,
-      "inactive": 193,
-      "with_release_id": 300,
+      "total": 309,
+      "active": 107,
+      "inactive": 202,
+      "with_release_id": 302,
       "without_release_id": 7,
       "refresh_pending": 0,
-      "refresh_success": 307,
+      "refresh_success": 309,
       "refresh_stale": 0,
       "refresh_failed": 0,
       "refresh_invalid": 0,
       "refresh_status_missing": 0,
       "stored_stats": {
-        "products": 307,
-        "active_products": 114,
-        "inactive_products": 193,
-        "with_release_id": 300,
+        "products": 309,
+        "active_products": 107,
+        "inactive_products": 202,
+        "with_release_id": 302,
         "without_release_id": 7,
         "refresh_pending": 0,
-        "refresh_success": 307,
+        "refresh_success": 309,
         "refresh_stale": 0,
         "refresh_failed": 0,
         "refresh_invalid": 0,
-        "special_presentations": 152
+        "special_presentations": 151
       }
     },
     "releases_summary": {
-      "total": 277,
-      "singleton_groups": 266,
+      "total": 279,
+      "singleton_groups": 268,
       "multi_product_groups": 11,
-      "membership_references": 300,
+      "membership_references": 302,
       "unresolved_member_references": 0,
       "stored_stats": {
-        "release_observations": 277,
-        "singleton_groups": 266,
+        "release_observations": 279,
+        "singleton_groups": 268,
         "multi_product_groups": 11,
         "largest_group": 12
       }
