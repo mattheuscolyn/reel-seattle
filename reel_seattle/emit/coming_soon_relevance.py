@@ -81,6 +81,16 @@ VISIBILITY_NOT_FILM_KIND = "non_film_presentation_kind"
 VISIBILITY_LOW_RELEVANCE = "low_relevance_no_local_evidence"
 VISIBILITY_LOCAL_PROGRAMMING = "local_programming_not_upcoming_release"
 
+# Film-calendar rows eligible for the browser "All releases" list. These are
+# national/upcoming film announcements that fail only the curated popularity /
+# local-evidence gate — not special programming, local repertory, or TMDB-only.
+ALL_RELEASES_VISIBILITY_REASONS = frozenset(
+    {
+        VISIBILITY_WEAK_NATIONAL,
+        VISIBILITY_LOW_RELEVANCE,
+    }
+)
+
 LOCAL_BOOKING_RELEASE_LIKE = "release_like"
 LOCAL_BOOKING_PROGRAMMING = "local_programming"
 LOCAL_BOOKING_AMBIGUOUS = "ambiguous_retained"
@@ -678,6 +688,29 @@ def assign_relevance_and_visibility(
         popularity_threshold_applied=None,
         local_evidence_strength=LOCAL_EVIDENCE_NONE,
     )
+
+
+def is_recommended_entry(entry: Mapping[str, Any]) -> bool:
+    """Curated Coming Soon membership (former public-only gate)."""
+    if not entry.get("user_visible"):
+        return False
+    return entry.get("relevance_tier") in PUBLIC_RELEVANCE_TIERS
+
+
+def is_all_releases_entry(entry: Mapping[str, Any]) -> bool:
+    """Browser "All releases" membership: curated plus weak national film calendar.
+
+    Excludes TMDB-only noise, special programming, local repertory/series, and
+    presentation filters. Those remain analysis-only.
+    """
+    if is_recommended_entry(entry):
+        return True
+    if entry.get("classification") == "tmdb_only":
+        return False
+    if entry.get("relevance_tier") != RELEVANCE_WEAK_NATIONAL_ONLY:
+        return False
+    reason = entry.get("visibility_reason")
+    return reason in ALL_RELEASES_VISIBILITY_REASONS
 
 
 def build_engagement_record(

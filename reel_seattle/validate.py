@@ -25,7 +25,7 @@ OPENING_THIS_WEEK_CURRENT_SCHEMA_PATH = (
     SCHEMA_DIR / "opening_this_week_current" / "v1.1.0.json"
 )
 COLLECTIONS_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "collections_current" / "v1.0.0.json"
-COMING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "coming_soon_current" / "v1.3.0.json"
+COMING_SOON_CURRENT_SCHEMA_PATH = SCHEMA_DIR / "coming_soon_current" / "v1.4.0.json"
 COMING_SOON_CANDIDATES_SCHEMA_PATH = (
     SCHEMA_DIR / "audits" / "coming_soon_candidates_current" / "v1.2.0.json"
 )
@@ -211,9 +211,11 @@ def validate_coming_soon_current(
 ) -> None:
     """Validate a coming_soon_current artifact plus its window invariants.
 
-    The public artifact is render-only: every entry is user-visible, currently
-    available films are absent, expected dates sit inside the declared window,
-    and canonical film_id is only present when identity.film_id_confirmed.
+    The public artifact is the browser film calendar: curated Recommended rows
+    plus a broader All releases slice. Special programming, local repertory,
+    and TMDB-only candidates remain analysis-only. Expected dates sit inside
+    the declared window, and canonical film_id is only present when
+    identity.film_id_confirmed.
     """
     validate_against_schema(artifact, schema_path, label="coming_soon_current")
     _validate_coming_soon_invariants(artifact, public=True)
@@ -273,6 +275,7 @@ def _validate_coming_soon_invariants(
         "locally_announced",
         "strongly_expected",
     }
+    all_releases_relevance = public_relevance | {"weak_national_only"}
 
     for entry in entries:
         title = str(entry.get("title"))
@@ -291,7 +294,12 @@ def _validate_coming_soon_invariants(
         kind = str(presentation.get("kind") or "")
 
         if public:
-            if relevance not in public_relevance:
+            in_recommended = entry.get("in_recommended")
+            if not isinstance(in_recommended, bool):
+                raise ValueError(
+                    f"{label}: {title!r} missing boolean in_recommended"
+                )
+            if relevance not in all_releases_relevance:
                 raise ValueError(
                     f"{label}: {title!r} relevance_tier {relevance!r} "
                     "is not allowed in the public artifact"
@@ -301,13 +309,24 @@ def _validate_coming_soon_invariants(
                     f"{label}: {title!r} classification {classification!r} "
                     "is not allowed in the public artifact"
                 )
-            if not visible:
-                raise ValueError(f"{label}: {title!r} is not user_visible")
             if kind not in public_kinds:
                 raise ValueError(
                     f"{label}: {title!r} presentation.kind {kind!r} is not "
                     "allowed in the public artifact"
                 )
+            if in_recommended:
+                if relevance not in public_relevance:
+                    raise ValueError(
+                        f"{label}: {title!r} in_recommended with relevance_tier "
+                        f"{relevance!r}"
+                    )
+            elif relevance != "weak_national_only":
+                raise ValueError(
+                    f"{label}: {title!r} All-releases-only row requires "
+                    "relevance_tier weak_national_only"
+                )
+            if not visible:
+                raise ValueError(f"{label}: {title!r} is not user_visible")
             if relevance == "confirmed_local" and classification != "confirmed_local":
                 raise ValueError(
                     f"{label}: {title!r} relevance confirmed_local requires "
@@ -316,6 +335,11 @@ def _validate_coming_soon_invariants(
             if relevance == "strongly_expected" and classification != "amc_announced":
                 raise ValueError(
                     f"{label}: {title!r} strongly_expected requires "
+                    "classification amc_announced"
+                )
+            if relevance == "weak_national_only" and classification != "amc_announced":
+                raise ValueError(
+                    f"{label}: {title!r} weak_national_only requires "
                     "classification amc_announced"
                 )
         else:
@@ -435,6 +459,18 @@ def _validate_coming_soon_invariants(
         raise ValueError(f"{label}: stats.user_visible_count does not match entries")
     if public and int(stats.get("hidden_count") or 0) != 0:
         raise ValueError(f"{label}: public hidden_count must be 0")
+    if public:
+        recommended = sum(1 for entry in entries if entry.get("in_recommended"))
+        rec_stat = stats.get("recommended_count")
+        if rec_stat is None or int(rec_stat) != recommended:
+            raise ValueError(
+                f"{label}: stats.recommended_count does not match entries"
+            )
+        all_stat = stats.get("all_releases_count")
+        if all_stat is None or int(all_stat) != len(entries):
+            raise ValueError(
+                f"{label}: stats.all_releases_count does not match entries"
+            )
 
 
 def validate_theaters_registry_file(

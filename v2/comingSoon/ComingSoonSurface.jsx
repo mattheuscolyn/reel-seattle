@@ -1,5 +1,5 @@
 /**
- * Explore → Coming Soon. Compact chronological list of upcoming theatrical titles.
+ * Explore → Coming Soon. Chronological month / release-weekend list.
  */
 
 import { useEffect, useId, useMemo, useState } from 'react';
@@ -13,6 +13,7 @@ import {
 import {
   COMING_SOON_KIND_FILTERS,
   COMING_SOON_LOCAL_FILTERS,
+  COMING_SOON_SCOPE_OPTIONS,
   DEFAULT_COMING_SOON_FILTERS,
   composeComingSoonPage,
   normalizeComingSoonFilters,
@@ -35,6 +36,7 @@ function ComingSoonRow({ row, onOpen }) {
       className={className}
       data-coming-soon-entry={row.entryId}
       data-coming-soon-classification={row.classification}
+      data-coming-soon-recommended={row.inRecommended ? 'true' : 'false'}
       data-coming-soon-has-poster={row.hasPoster ? 'true' : 'false'}
       data-coming-soon-open={row.openTarget?.type ?? ''}
       {...{ [LIST_RESTORE_ATTR]: row.entryId }}
@@ -69,9 +71,9 @@ function ComingSoonRow({ row, onOpen }) {
  * @param {{
  *   artifact?: object | null,
  *   loadStatus?: string,
- *   filters?: { local?: string, kinds?: string[] },
+ *   filters?: { scope?: string, local?: string, kinds?: string[] },
  *   listRestore?: object | null,
- *   onFiltersChange?: (filters: { local: string, kinds: string[] }) => void,
+ *   onFiltersChange?: (filters: { scope: string, local: string, kinds: string[] }) => void,
  *   onListRestoreConsumed?: () => void,
  *   onOpenRow?: (row: object) => void,
  * }} props
@@ -86,6 +88,7 @@ export default function ComingSoonSurface({
   onOpenRow,
 }) {
   const filtersTitleId = useId();
+  const scopeLabelId = useId();
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [draftFilters, setDraftFilters] = useState(() =>
     normalizeComingSoonFilters(filters),
@@ -118,7 +121,10 @@ export default function ComingSoonSurface({
   };
 
   const resetFilters = () => {
-    const next = normalizeComingSoonFilters(DEFAULT_COMING_SOON_FILTERS);
+    const next = normalizeComingSoonFilters({
+      ...DEFAULT_COMING_SOON_FILTERS,
+      scope: normalizeComingSoonFilters(filters).scope,
+    });
     setDraftFilters(next);
     onFiltersChange?.(next);
     setFiltersOpen(false);
@@ -136,12 +142,18 @@ export default function ComingSoonSurface({
     });
   };
 
+  const setScope = (scope) => {
+    const next = normalizeComingSoonFilters({ ...filters, scope });
+    onFiltersChange?.(next);
+  };
+
   return (
     <section
       className="v2-cs-page"
       aria-labelledby="v2-cs-page-title"
       data-coming-soon-surface="list"
       data-coming-soon-state={presentation.state}
+      data-coming-soon-scope={presentation.scope}
     >
       <header className="v2-cs-page-header">
         <h1 id="v2-cs-page-title" className="v2-cs-page-title">
@@ -149,6 +161,36 @@ export default function ComingSoonSurface({
         </h1>
         <p className="v2-cs-page-tagline">{presentation.pageTagline}</p>
       </header>
+
+      <div
+        className="v2-cs-scope"
+        role="tablist"
+        aria-labelledby={scopeLabelId}
+      >
+        <span id={scopeLabelId} className="v2-cs-scope-label">
+          Browse
+        </span>
+        {COMING_SOON_SCOPE_OPTIONS.map((opt) => {
+          const selected = presentation.scope === opt.id;
+          return (
+            <button
+              key={opt.id}
+              type="button"
+              role="tab"
+              aria-selected={selected}
+              className={
+                selected
+                  ? 'v2-cs-scope-btn v2-cs-scope-btn-active'
+                  : 'v2-cs-scope-btn'
+              }
+              data-coming-soon-scope-option={opt.id}
+              onClick={() => setScope(opt.id)}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
 
       <div className="v2-cs-page-controls">
         {presentation.countLabel ? (
@@ -179,20 +221,42 @@ export default function ComingSoonSurface({
         presentation.sections.map((section) => (
           <section
             key={section.id}
-            className="v2-cs-week"
-            data-coming-soon-week={section.id}
-            aria-labelledby={`v2-cs-week-${section.id}`}
+            className="v2-cs-month"
+            data-coming-soon-month={section.monthKey}
+            aria-labelledby={`v2-cs-month-${section.id}`}
           >
-            <h2 id={`v2-cs-week-${section.id}`} className="v2-cs-week-heading">
+            <h2
+              id={`v2-cs-month-${section.id}`}
+              className="v2-cs-month-heading"
+            >
               {section.label}
             </h2>
-            <ul className="v2-cs-list" role="list">
-              {section.entries.map((row) => (
-                <li key={row.entryId}>
-                  <ComingSoonRow row={row} onOpen={(item) => onOpenRow?.(item)} />
-                </li>
-              ))}
-            </ul>
+            {section.subgroups.map((subgroup) => (
+              <div
+                key={subgroup.id}
+                className={
+                  subgroup.label
+                    ? 'v2-cs-week'
+                    : 'v2-cs-week v2-cs-week-flat'
+                }
+                data-coming-soon-week={subgroup.weekStart ?? ''}
+                data-coming-soon-weekend={subgroup.fridayIso ?? ''}
+              >
+                {subgroup.label ? (
+                  <h3 className="v2-cs-week-heading">{subgroup.label}</h3>
+                ) : null}
+                <ul className="v2-cs-list" role="list">
+                  {subgroup.entries.map((row) => (
+                    <li key={row.entryId}>
+                      <ComingSoonRow
+                        row={row}
+                        onOpen={(item) => onOpenRow?.(item)}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </section>
         ))
       )}

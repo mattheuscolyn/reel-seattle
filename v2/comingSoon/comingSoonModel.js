@@ -1,5 +1,5 @@
 /**
- * Coming Soon presentation — week grouping, filters, row/detail view-models.
+ * Coming Soon presentation — month/week grouping, filters, row/detail view-models.
  * Never promotes inferred TMDB ids into canonical film identity.
  */
 
@@ -16,12 +16,28 @@ export const PUBLIC_RELEVANCE_TIERS = Object.freeze([
   'strongly_expected',
 ]);
 
+/** Browser All-releases slice also includes weak national film calendar rows. */
+export const ALL_RELEASES_RELEVANCE_TIERS = Object.freeze([
+  ...PUBLIC_RELEVANCE_TIERS,
+  'weak_national_only',
+]);
+
 const RELEVANCE_SORT_RANK = Object.freeze({
   confirmed_local: 0,
   locally_announced: 1,
   strongly_expected: 2,
   weak_national_only: 3,
 });
+
+export const COMING_SOON_SCOPE = Object.freeze({
+  recommended: 'recommended',
+  all: 'all',
+});
+
+export const COMING_SOON_SCOPE_OPTIONS = Object.freeze([
+  Object.freeze({ id: COMING_SOON_SCOPE.recommended, label: 'Recommended' }),
+  Object.freeze({ id: COMING_SOON_SCOPE.all, label: 'All releases' }),
+]);
 
 export const COMING_SOON_LOCAL_FILTERS = Object.freeze([
   Object.freeze({ id: 'all', label: 'All' }),
@@ -52,9 +68,14 @@ export const COMING_SOON_KIND_FILTERS = Object.freeze([
 ]);
 
 export const DEFAULT_COMING_SOON_FILTERS = Object.freeze({
+  scope: COMING_SOON_SCOPE.recommended,
   local: 'all',
   kinds: Object.freeze([]),
 });
+
+/** Show week/weekend subgroups when a month has enough titles to benefit. */
+const WEEK_SUBGROUP_MIN_TITLES = 4;
+const WEEK_SUBGROUP_MIN_BUCKETS = 2;
 
 const KIND_CHIP_LABELS = Object.freeze({
   rerelease: 'Rerelease',
@@ -75,13 +96,17 @@ const LOCAL_UNANNOUNCED_LABEL = 'Showtimes not announced yet';
  * @param {unknown} filters
  */
 export function normalizeComingSoonFilters(filters) {
+  const scope =
+    filters?.scope === COMING_SOON_SCOPE.all
+      ? COMING_SOON_SCOPE.all
+      : COMING_SOON_SCOPE.recommended;
   const local =
     filters?.local === 'confirmed' ? 'confirmed' : DEFAULT_COMING_SOON_FILTERS.local;
   const allowed = new Set(COMING_SOON_KIND_FILTERS.map((opt) => opt.id));
   const kinds = Array.isArray(filters?.kinds)
     ? [...new Set(filters.kinds.filter((id) => allowed.has(id)))]
     : [];
-  return { local, kinds };
+  return { scope, local, kinds };
 }
 
 /**
@@ -186,6 +211,21 @@ export function formatComingSoonDate(isoDate) {
 }
 
 /**
+ * @param {string | null | undefined} isoDate
+ */
+export function formatComingSoonMonthLabel(isoDate) {
+  if (typeof isoDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) {
+    return null;
+  }
+  const [year, month, day] = isoDate.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day, 12));
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC',
+    month: 'long',
+  }).format(date);
+}
+
+/**
  * Monday–Sunday Pacific calendar week of an ISO date.
  * Matches Opening This Week membership (`week_bounds` in opening_this_week.py).
  * @param {string} isoDate
@@ -195,6 +235,18 @@ export function comingSoonWeekStartIso(isoDate) {
   const utc = new Date(Date.UTC(year, month - 1, day, 12));
   const daysFromMonday = (utc.getUTCDay() + 6) % 7;
   utc.setUTCDate(utc.getUTCDate() - daysFromMonday);
+  return utc.toISOString().slice(0, 10);
+}
+
+/**
+ * Friday of the Monday–Sunday week containing `isoDate` (US theatrical weekend anchor).
+ * @param {string} isoDate
+ */
+export function comingSoonTheatricalFridayIso(isoDate) {
+  const weekStart = comingSoonWeekStartIso(isoDate);
+  const [year, month, day] = weekStart.split('-').map(Number);
+  const utc = new Date(Date.UTC(year, month - 1, day, 12));
+  utc.setUTCDate(utc.getUTCDate() + 4);
   return utc.toISOString().slice(0, 10);
 }
 
@@ -217,16 +269,41 @@ export function formatComingSoonWeekLabel(startIso, endIso) {
 }
 
 /**
+ * @param {string} isoDate
+ */
+export function comingSoonMonthKey(isoDate) {
+  return isoDate.slice(0, 7);
+}
+
+/**
+ * @param {object | null | undefined} entry
+ */
+export function isComingSoonRecommendedEntry(entry) {
+  if (!entry || typeof entry !== 'object') return false;
+  if (typeof entry.in_recommended === 'boolean') {
+    return entry.in_recommended;
+  }
+  // Legacy fixtures / older artifacts without in_recommended.
+  if (entry.user_visible === false) return false;
+  const tier =
+    typeof entry.relevance_tier === 'string' ? entry.relevance_tier : null;
+  if (tier) return PUBLIC_RELEVANCE_TIERS.includes(tier);
+  return (
+    entry.classification === 'confirmed_local' ||
+    entry.classification === 'amc_announced'
+  );
+}
+
+/**
  * @param {object | null | undefined} entry
  */
 export function isRenderableComingSoonEntry(entry) {
   if (!entry || typeof entry !== 'object') return false;
-  if (entry.user_visible === false) return false;
   if (entry.classification === 'tmdb_only') return false;
   const tier =
     typeof entry.relevance_tier === 'string' ? entry.relevance_tier : null;
   if (tier) {
-    if (!PUBLIC_RELEVANCE_TIERS.includes(tier)) return false;
+    if (!ALL_RELEASES_RELEVANCE_TIERS.includes(tier)) return false;
   } else if (
     entry.classification !== 'confirmed_local' &&
     entry.classification !== 'amc_announced'
@@ -246,10 +323,16 @@ export function isRenderableComingSoonEntry(entry) {
 
 /**
  * @param {object | null | undefined} entry
- * @param {{ local?: string, kinds?: string[] }} filters
+ * @param {{ scope?: string, local?: string, kinds?: string[] }} filters
  */
 export function comingSoonEntryMatchesFilters(entry, filters) {
   const normalized = normalizeComingSoonFilters(filters);
+  if (
+    normalized.scope === COMING_SOON_SCOPE.recommended &&
+    !isComingSoonRecommendedEntry(entry)
+  ) {
+    return false;
+  }
   if (normalized.local === 'confirmed') {
     const confirmed =
       entry.relevance_tier === 'confirmed_local' ||
@@ -305,6 +388,7 @@ export function composeComingSoonRow(entry) {
     expectedDateLabel: formatComingSoonDate(entry.expected_release_date),
     classification: entry.classification,
     relevanceTier: entry.relevance_tier ?? null,
+    inRecommended: isComingSoonRecommendedEntry(entry),
     localStatusLabel: comingSoonLocalStatusLabel(entry),
     theaterLine: confirmed
       ? formatComingSoonTheaterLine(entry.local_theaters)
@@ -315,8 +399,88 @@ export function composeComingSoonRow(entry) {
 }
 
 /**
+ * @param {object[]} rows
+ */
+function groupComingSoonByMonthAndWeek(rows) {
+  /** @type {Map<string, { id: string, label: string, monthKey: string, entries: object[] }>} */
+  const months = new Map();
+  for (const row of rows) {
+    const monthKey = comingSoonMonthKey(row.expectedReleaseDate);
+    let month = months.get(monthKey);
+    if (!month) {
+      month = {
+        id: monthKey,
+        monthKey,
+        label: formatComingSoonMonthLabel(row.expectedReleaseDate),
+        entries: [],
+      };
+      months.set(monthKey, month);
+    }
+    month.entries.push(row);
+  }
+
+  return [...months.values()].map((month) => {
+    /** @type {Map<string, { id: string, label: string, weekStart: string, fridayIso: string, entries: object[] }>} */
+    const weeks = new Map();
+    for (const row of month.entries) {
+      const weekStart = comingSoonWeekStartIso(row.expectedReleaseDate);
+      const fridayIso = comingSoonTheatricalFridayIso(row.expectedReleaseDate);
+      let week = weeks.get(weekStart);
+      if (!week) {
+        week = {
+          id: `${month.monthKey}-${weekStart}`,
+          weekStart,
+          fridayIso,
+          label: formatComingSoonDate(fridayIso),
+          entries: [],
+        };
+        weeks.set(weekStart, week);
+      }
+      week.entries.push(row);
+    }
+
+    const weekBuckets = [...weeks.values()];
+    const useWeekSubgroups =
+      month.entries.length >= WEEK_SUBGROUP_MIN_TITLES &&
+      weekBuckets.length >= WEEK_SUBGROUP_MIN_BUCKETS;
+
+    if (!useWeekSubgroups) {
+      return {
+        id: month.id,
+        type: 'month',
+        label: month.label,
+        monthKey: month.monthKey,
+        subgroups: [
+          {
+            id: `${month.id}-all`,
+            label: null,
+            weekStart: null,
+            fridayIso: null,
+            entries: month.entries,
+          },
+        ],
+      };
+    }
+
+    return {
+      id: month.id,
+      type: 'month',
+      label: month.label,
+      monthKey: month.monthKey,
+      subgroups: weekBuckets.map((week) => ({
+        id: week.id,
+        label: week.label,
+        weekStart: week.weekStart,
+        fridayIso: week.fridayIso,
+        entries: week.entries,
+      })),
+    };
+  });
+}
+
+/**
  * @param {object | null | undefined} artifact
- * @param {{ local?: string, kinds?: string[] }} [filters]
+ * @param {{ scope?: string, local?: string, kinds?: string[] }} [filters]
  * @param {{ loadStatus?: string }} [options]
  */
 export function composeComingSoonPage(
@@ -338,6 +502,7 @@ export function composeComingSoonPage(
       filtersLabel: 'Filters',
       activeFilterCount,
       filters: normalized,
+      scope: normalized.scope,
       sections: [],
       emptyMessage: 'Loading Coming Soon…',
       visibleCount: 0,
@@ -354,6 +519,7 @@ export function composeComingSoonPage(
       filtersLabel: 'Filters',
       activeFilterCount,
       filters: normalized,
+      scope: normalized.scope,
       sections: [],
       emptyMessage: 'Coming Soon isn’t available right now.',
       visibleCount: 0,
@@ -366,26 +532,9 @@ export function composeComingSoonPage(
     .slice()
     .sort(compareComingSoonEntries);
 
-  /** @type {Map<string, { id: string, label: string, entries: object[] }>} */
-  const weeks = new Map();
-  for (const entry of visible) {
-    const weekStart = comingSoonWeekStartIso(entry.expected_release_date);
-    const weekEnd = comingSoonWeekEndIso(weekStart);
-    let section = weeks.get(weekStart);
-    if (!section) {
-      section = {
-        id: weekStart,
-        label: formatComingSoonWeekLabel(weekStart, weekEnd),
-        startDate: weekStart,
-        endDate: weekEnd,
-        entries: [],
-      };
-      weeks.set(weekStart, section);
-    }
-    section.entries.push(composeComingSoonRow(entry));
-  }
-
-  const sections = [...weeks.values()];
+  const sections = groupComingSoonByMonthAndWeek(
+    visible.map((entry) => composeComingSoonRow(entry)),
+  );
   const visibleCount = visible.length;
   let state = 'ready';
   let emptyMessage = null;
@@ -394,7 +543,9 @@ export function composeComingSoonPage(
     emptyMessage =
       activeFilterCount > 0
         ? 'No upcoming titles match these filters.'
-        : 'No upcoming titles in the next 90 days.';
+        : normalized.scope === COMING_SOON_SCOPE.all
+          ? 'No upcoming releases in the next 90 days.'
+          : 'No upcoming titles in the next 90 days.';
   }
 
   const countLabel =
@@ -409,6 +560,7 @@ export function composeComingSoonPage(
     filtersLabel: 'Filters',
     activeFilterCount,
     filters: normalized,
+    scope: normalized.scope,
     sections,
     emptyMessage,
     visibleCount,
@@ -493,6 +645,7 @@ export function composeComingSoonDetail(artifact, entryId) {
         : null,
     classification: entry.classification,
     relevanceTier: entry.relevance_tier ?? null,
+    inRecommended: isComingSoonRecommendedEntry(entry),
     localStatusLabel: comingSoonLocalStatusLabel(entry),
     theaters,
     openTarget: selectComingSoonOpenTarget(entry),

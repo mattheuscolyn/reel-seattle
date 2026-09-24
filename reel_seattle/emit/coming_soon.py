@@ -82,7 +82,6 @@ from reel_seattle.emit.coming_soon_presentation import (
     theater_name_lookup,
 )
 from reel_seattle.emit.coming_soon_relevance import (
-    PUBLIC_RELEVANCE_TIERS,
     RELEVANCE_CONFIRMED_LOCAL,
     RELEVANCE_LOCALLY_ANNOUNCED,
     RELEVANCE_SORT_RANK,
@@ -99,7 +98,9 @@ from reel_seattle.emit.coming_soon_relevance import (
     extract_tmdb_popularity,
     infer_engagement_base_title,
     infer_engagement_kind,
+    is_all_releases_entry,
     is_engagement_title,
+    is_recommended_entry,
     is_special_programming,
 )
 from reel_seattle.normalize import (
@@ -115,25 +116,27 @@ from reel_seattle.validate import (
     validate_coming_soon_current,
 )
 
-COMING_SOON_SCHEMA_VERSION = "1.3.0"
+COMING_SOON_SCHEMA_VERSION = "1.4.0"
 COMING_SOON_CANDIDATES_SCHEMA_VERSION = "1.2.0"
 METHOD_NAME = "independent_source_evidence_90d"
-METHOD_VERSION = "1.4.0"
+METHOD_VERSION = "1.5.0"
 METHOD_DESCRIPTION = (
     "Coming Soon is a film-level Seattle theatrical calendar over a 90-day "
     "Pacific-local window. Four independent evidence facts are tracked: AMC "
     "Coming Soon catalog membership (national), Seattle-area AMC theater "
     "bookings, TMDB US theatrical releases, and published Reel Seattle "
     "showtimes. classification remains pipeline/source state; relevance_tier "
-    "drives public visibility (confirmed_local, locally_announced, "
-    "strongly_expected). Confirmed local bookings are classified as "
-    "release-like vs local programming (repertory, series, restoration, "
-    "events); ambiguous niche Seattle openings are retained without a TMDB "
-    "popularity gate. strongly_expected requires AMC catalog ∩ TMDB US "
-    "theatrical plus TMDB popularity at/above the configured floor (not proven "
-    "Seattle availability). Lower-popularity AMC∩TMDB rows, bare national AMC, "
-    "TMDB-only, and special-programming stay analysis-only. Engagement SKUs "
-    "(Q&A, Fan First, Early Access, Fan Event) consolidate under the parent film."
+    "and in_recommended drive the curated Recommended list "
+    "(confirmed_local, locally_announced, strongly_expected). The public "
+    "artifact also ships a broader All releases film-calendar slice "
+    "(weak_national_only / below-popularity AMC∩TMDB) while TMDB-only, "
+    "special-programming, and local repertory/series stay analysis-only. "
+    "Confirmed local bookings are classified as release-like vs local "
+    "programming; ambiguous niche Seattle openings are retained without a "
+    "TMDB popularity gate. strongly_expected requires AMC catalog ∩ TMDB US "
+    "theatrical plus TMDB popularity at/above the configured floor. "
+    "Engagement SKUs (Q&A, Fan First, Early Access, Fan Event) consolidate "
+    "under the parent film."
 )
 
 DEFAULT_WINDOW_DAYS = 90
@@ -1304,7 +1307,11 @@ def build_coming_soon_current(
     current_availability_days: int = DEFAULT_CURRENT_AVAILABILITY_DAYS,
     generated_at: datetime | None = None,
 ) -> dict[str, Any]:
-    """Build the public ``coming_soon_current`` artifact (user-visible rows only)."""
+    """Build the public ``coming_soon_current`` artifact.
+
+    Includes curated Recommended rows plus the broader All releases
+    film-calendar slice. Analysis-only candidates stay in the audit dump.
+    """
     public, _analysis = build_coming_soon_bundle(
         amc_catalog=amc_catalog,
         tmdb_candidates_artifact=tmdb_candidates_artifact,
@@ -1469,11 +1476,14 @@ def build_coming_soon_bundle(
     )
     public_entries = []
     for entry in all_entries:
-        if not entry["user_visible"]:
-            continue
-        if entry.get("relevance_tier") not in PUBLIC_RELEVANCE_TIERS:
+        if not is_all_releases_entry(entry):
             continue
         visible = dict(entry)
+        in_recommended = is_recommended_entry(entry)
+        visible["in_recommended"] = in_recommended
+        # Browser-shipped rows are user_visible; curated membership is
+        # in_recommended. Analysis keeps the relevance-model visibility flags.
+        visible["user_visible"] = True
         visible.pop("exclusion_reason", None)
         visible.pop("visibility_reason", None)
         public_entries.append(visible)
@@ -1514,6 +1524,11 @@ def build_coming_soon_bundle(
         merged_count=len(merged),
         include_hidden=False,
     )
+    recommended_count = sum(
+        1 for entry in public_entries if entry.get("in_recommended")
+    )
+    public_stats["recommended_count"] = recommended_count
+    public_stats["all_releases_count"] = len(public_entries)
     public_stats["analysis"] = {
         "path": DEFAULT_ANALYSIS_PATH.as_posix(),
         "entry_count": len(all_entries),
