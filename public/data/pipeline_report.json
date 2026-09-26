@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-25T03:58:38-07:00",
+  "generated_at": "2026-09-26T03:39:19-07:00",
   "status": "success",
   "window": {
-    "start_date": "2026-09-25",
-    "end_date": "2027-09-24"
+    "start_date": "2026-09-26",
+    "end_date": "2027-09-25"
   },
   "sources": {
     "amc": {
       "status": "success",
-      "showtime_count": 6722,
-      "film_count": 100,
+      "showtime_count": 6422,
+      "film_count": 102,
       "theater_count": 7,
-      "last_successful_run": "2026-09-25",
+      "last_successful_run": "2026-09-26",
       "warnings": [
         "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
       ],
@@ -20,10 +20,10 @@
     },
     "siff": {
       "status": "success",
-      "showtime_count": 253,
-      "film_count": 68,
+      "showtime_count": 244,
+      "film_count": 69,
       "theater_count": 3,
-      "last_successful_run": "2026-09-25",
+      "last_successful_run": "2026-09-26",
       "warnings": [
         "SIFF parent/series page with no direct showtimes: programs-and-events/andrzej-wajda",
         "SIFF parent/series page with no direct showtimes: programs-and-events/andrzej-wajda/ashes-and-diamonds",
@@ -40,46 +40,44 @@
     },
     "beacon": {
       "status": "success",
-      "showtime_count": 54,
-      "film_count": 33,
+      "showtime_count": 51,
+      "film_count": 31,
       "theater_count": 1,
-      "last_successful_run": "2026-09-25",
+      "last_successful_run": "2026-09-26",
       "warnings": [],
       "errors": []
     },
     "nwff": {
       "status": "success",
-      "showtime_count": 88,
-      "film_count": 43,
+      "showtime_count": 84,
+      "film_count": 39,
       "theater_count": 1,
-      "last_successful_run": "2026-09-23",
-      "warnings": [
-        "NWFF scrape incomplete or unsafe (scrape_status=partial_failure); retained prior future rows."
-      ],
+      "last_successful_run": "2026-09-26",
+      "warnings": [],
       "errors": []
     },
     "central_cinema": {
       "status": "success",
-      "showtime_count": 100,
-      "film_count": 21,
+      "showtime_count": 97,
+      "film_count": 20,
       "theater_count": 1,
-      "last_successful_run": "2026-09-25",
+      "last_successful_run": "2026-09-26",
       "warnings": [],
       "errors": []
     },
     "grand_illusion": {
       "status": "success",
-      "showtime_count": 15,
-      "film_count": 14,
+      "showtime_count": 16,
+      "film_count": 15,
       "theater_count": 3,
-      "last_successful_run": "2026-09-25",
+      "last_successful_run": "2026-09-26",
       "warnings": [],
       "errors": []
     }
   },
   "totals": {
-    "showtime_count": 7232,
-    "film_count": 271,
+    "showtime_count": 6914,
+    "film_count": 268,
     "theater_count": 13
   },
   "messages": [],
@@ -92,15 +90,15 @@
     "outcome": "promoted",
     "artifacts_written_this_run": true,
     "artifacts_retained_from_prior": false,
-    "reported_at": "2026-09-25T04:05:07-07:00",
-    "last_successful_build_at": "2026-09-25T04:03:23-07:00",
+    "reported_at": "2026-09-26T03:47:18-07:00",
+    "last_successful_build_at": "2026-09-26T03:45:33-07:00",
     "message": "AMC source catalog: promoted",
     "warnings": [],
     "errors": [],
     "refresh": {
-      "active_ids": 100,
-      "selected": 100,
-      "success": 100,
+      "active_ids": 102,
+      "selected": 102,
+      "success": 102,
       "failed": 0,
       "invalid": 0
     },
@@ -111,8 +109,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-09-25T04:03:23-07:00",
-        "record_count": 311,
+        "generated_at": "2026-09-26T03:45:33-07:00",
+        "record_count": 314,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -124,8 +122,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-09-25T04:03:23-07:00",
-        "record_count": 281,
+        "generated_at": "2026-09-26T03:45:33-07:00",
+        "record_count": 282,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -133,40 +131,40 @@
       }
     },
     "products_summary": {
-      "total": 311,
-      "active": 100,
-      "inactive": 211,
-      "with_release_id": 304,
-      "without_release_id": 7,
+      "total": 314,
+      "active": 102,
+      "inactive": 212,
+      "with_release_id": 305,
+      "without_release_id": 9,
       "refresh_pending": 0,
-      "refresh_success": 311,
+      "refresh_success": 314,
       "refresh_stale": 0,
       "refresh_failed": 0,
       "refresh_invalid": 0,
       "refresh_status_missing": 0,
       "stored_stats": {
-        "products": 311,
-        "active_products": 100,
-        "inactive_products": 211,
-        "with_release_id": 304,
-        "without_release_id": 7,
+        "products": 314,
+        "active_products": 102,
+        "inactive_products": 212,
+        "with_release_id": 305,
+        "without_release_id": 9,
         "refresh_pending": 0,
-        "refresh_success": 311,
+        "refresh_success": 314,
         "refresh_stale": 0,
         "refresh_failed": 0,
         "refresh_invalid": 0,
-        "special_presentations": 152
+        "special_presentations": 154
       }
     },
     "releases_summary": {
-      "total": 281,
-      "singleton_groups": 270,
+      "total": 282,
+      "singleton_groups": 271,
       "multi_product_groups": 11,
-      "membership_references": 304,
+      "membership_references": 305,
       "unresolved_member_references": 0,
       "stored_stats": {
-        "release_observations": 281,
-        "singleton_groups": 270,
+        "release_observations": 282,
+        "singleton_groups": 271,
         "multi_product_groups": 11,
         "largest_group": 12
       }

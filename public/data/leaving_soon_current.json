@@ -1,13 +1,13 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-09-25T04:02:00-07:00",
+  "generated_at": "2026-09-26T03:43:40-07:00",
   "source": "amc",
   "model_version": "amc_remaining_run_survival_v1",
   "published": true,
   "skipped_reason": null,
   "window": {
-    "start_date": "2026-09-25",
-    "end_date": "2027-09-24"
+    "start_date": "2026-09-26",
+    "end_date": "2027-09-25"
   },
   "method": {
     "name": "amc_remaining_run_survival_v1",
@@ -21,10 +21,10 @@
     "leaving_soon_threshold": 0.8129915288528309
   },
   "stats": {
-    "candidate_film_count": 25,
+    "candidate_film_count": 26,
     "flagged_film_count": 15,
-    "last_chance_count": 1,
-    "leaving_soon_count": 14
+    "last_chance_count": 2,
+    "leaving_soon_count": 13
   },
   "items": [
     {
@@ -38,10 +38,10 @@
       "run_id": "84779#01",
       "run_type": "rerelease_anniversary",
       "sort_rank": 1,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -50,7 +50,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -61,7 +60,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787890033/amc-cdn/content/general/kx5atycqia9dpy2ftihb.jpg",
       "runtime_min": 82,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -70,18 +69,18 @@
     {
       "film_key": "buddy",
       "film_title": "Buddy",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "83749",
       "run_id": "83749#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 2,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -90,7 +89,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -101,10 +99,10 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1784905670/amc-cdn/content/general/sbtcudrskcz2jwx9zny4.jpg",
       "runtime_min": 95,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": "2026-09-30",
-      "timing_confidence": "moderate",
-      "timing_mode": "could_around",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
       "prediction_scope": "amc"
     },
     {
@@ -118,10 +116,10 @@
       "run_id": "82986#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 3,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 16,
+      "total_visible_showtimes": 14,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -134,7 +132,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -145,48 +142,8 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789485029/amc-cdn/content/general/jbsj2jquamxfifmnytbu.jpg",
       "runtime_min": 80,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": "2026-09-30",
-      "timing_confidence": "moderate",
-      "timing_mode": "could_around",
-      "prediction_scope": "amc"
-    },
-    {
-      "film_key": "paradise-telugu",
-      "film_title": "The Paradise (Telugu)",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "83709",
-      "run_id": "83709#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 4,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
-      "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 7,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        }
-      ],
-      "show_dates": [
-        "2026-09-25",
-        "2026-09-26",
-        "2026-09-27",
-        "2026-09-28",
-        "2026-09-29",
-        "2026-09-30"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1789574249/amc-cdn/content/general/arsyosm1wjbpsth4xbrl.jpg",
-      "runtime_min": 180,
-      "prediction_as_of": "2026-09-25",
-      "predicted_end_date": "2026-10-01",
       "timing_confidence": "moderate",
       "timing_mode": "could_around",
       "prediction_scope": "amc"
@@ -201,11 +158,11 @@
       "source_film_id": "84901",
       "run_id": "84901#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 5,
-      "visible_show_date_count": 7,
-      "min_show_date": "2026-09-25",
+      "sort_rank": 4,
+      "visible_show_date_count": 6,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-10-01",
-      "total_visible_showtimes": 14,
+      "total_visible_showtimes": 12,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -218,7 +175,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -230,7 +186,46 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787841830/amc-cdn/content/general/cihn0svfbzgbjq8qfkv6.jpg",
       "runtime_min": 128,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
+      "predicted_end_date": "2026-10-01",
+      "timing_confidence": "moderate",
+      "timing_mode": "could_around",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "paradise-telugu",
+      "film_title": "The Paradise (Telugu)",
+      "risk_level": "elevated",
+      "reason": "This theatrical run may be winding down soon.",
+      "leaving_soon_bucket": "leaving_soon",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "83709",
+      "run_id": "83709#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 5,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
+      "max_show_date": "2026-09-30",
+      "total_visible_showtimes": 6,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1789574249/amc-cdn/content/general/arsyosm1wjbpsth4xbrl.jpg",
+      "runtime_min": 180,
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": "2026-10-01",
       "timing_confidence": "moderate",
       "timing_mode": "could_around",
@@ -247,10 +242,10 @@
       "run_id": "84368#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 6,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 12,
+      "total_visible_showtimes": 10,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -259,7 +254,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -270,7 +264,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1785349332/amc-cdn/content/general/ao8vl29zgx5b5a6jyqwj.jpg",
       "runtime_min": 121,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": "2026-10-01",
       "timing_confidence": "moderate",
       "timing_mode": "could_around",
@@ -287,10 +281,10 @@
       "run_id": "84477#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 7,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 24,
+      "total_visible_showtimes": 17,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -307,7 +301,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -318,7 +311,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787156895/amc-cdn/content/general/m9yntmxbkmdotpnwufl7.png",
       "runtime_min": 108,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -335,10 +328,10 @@
       "run_id": "84835#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 8,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -347,7 +340,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -358,8 +350,51 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787753317/amc-cdn/content/general/ridtkzacsxhh73x179tu.png",
       "runtime_min": 135,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": "2026-10-02",
+      "timing_confidence": "moderate",
+      "timing_mode": "could_around",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "you-had-to-be-there-how-the-toronto-godspell-ignited-the-comedy-revolution-spread-love-overalls",
+      "film_title": "You Had to Be There: How the Toronto Godspell Ignited the Comedy Revolution, Spread Love & Overalls.",
+      "risk_level": "elevated",
+      "reason": "This theatrical run may be winding down soon.",
+      "leaving_soon_bucket": "leaving_soon",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84243",
+      "run_id": "84243#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 9,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
+      "max_show_date": "2026-09-30",
+      "total_visible_showtimes": 18,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1789470531/amc-cdn/production/2/movies/84200/84243/Poster/396834R1.jpg",
+      "runtime_min": 98,
+      "prediction_as_of": "2026-09-26",
+      "predicted_end_date": "2026-10-03",
       "timing_confidence": "moderate",
       "timing_mode": "could_around",
       "prediction_scope": "amc"
@@ -374,11 +409,11 @@
       "source_film_id": "83715",
       "run_id": "83715#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 9,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "sort_rank": 10,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 37,
+      "total_visible_showtimes": 30,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -399,7 +434,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -410,54 +444,10 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787606522/amc-cdn/content/general/pc3c23kwefbqqkjmfosf.jpg",
       "runtime_min": 97,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
-      "prediction_scope": "amc"
-    },
-    {
-      "film_key": "you-had-to-be-there-how-the-toronto-godspell-ignited-the-comedy-revolution-spread-love-overalls",
-      "film_title": "You Had to Be There: How the Toronto Godspell Ignited the Comedy Revolution, Spread Love & Overalls.",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84243",
-      "run_id": "84243#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 10,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
-      "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 23,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-09-25",
-        "2026-09-26",
-        "2026-09-27",
-        "2026-09-28",
-        "2026-09-29",
-        "2026-09-30"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1789470531/amc-cdn/production/2/movies/84200/84243/Poster/396834R1.jpg",
-      "runtime_min": 98,
-      "prediction_as_of": "2026-09-25",
-      "predicted_end_date": "2026-10-03",
-      "timing_confidence": "moderate",
-      "timing_mode": "could_around",
       "prediction_scope": "amc"
     },
     {
@@ -471,10 +461,10 @@
       "run_id": "84082#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 11,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 31,
+      "total_visible_showtimes": 24,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -495,7 +485,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -506,7 +495,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1785773003/amc-cdn/content/general/ldqsktaucqlvqqxrfgwa.jpg",
       "runtime_min": 157,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -523,10 +512,10 @@
       "run_id": "84617#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 12,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 25,
+      "total_visible_showtimes": 19,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -543,7 +532,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -554,7 +542,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789470507/amc-cdn/production/2/movies/84600/84617/Poster/380396R1.jpg",
       "runtime_min": 99,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -571,10 +559,10 @@
       "run_id": "81850#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 13,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 36,
+      "total_visible_showtimes": 26,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -591,7 +579,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -602,7 +589,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1790008017/amc-cdn/content/general/i1zu9ekesqesoyf1xwag.jpg",
       "runtime_min": 102,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -619,10 +606,10 @@
       "run_id": "83100#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 14,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 46,
+      "total_visible_showtimes": 32,
       "total_visible_theaters": 5,
       "theaters": [
         {
@@ -647,7 +634,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -658,8 +644,8 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787329481/amc-cdn/content/general/vl0decness9trww0ipiy.jpg",
       "runtime_min": 112,
-      "prediction_as_of": "2026-09-25",
-      "predicted_end_date": "2026-10-05",
+      "prediction_as_of": "2026-09-26",
+      "predicted_end_date": "2026-10-04",
       "timing_confidence": "moderate",
       "timing_mode": "could_around",
       "prediction_scope": "amc"
@@ -675,10 +661,10 @@
       "run_id": "65798#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 15,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-09-25",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-09-26",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 67,
+      "total_visible_showtimes": 55,
       "total_visible_theaters": 5,
       "theaters": [
         {
@@ -703,7 +689,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-25",
         "2026-09-26",
         "2026-09-27",
         "2026-09-28",
@@ -714,7 +699,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1776890696/amc-cdn/content/general/drmtwg7l2qonvi011lri.jpg",
       "runtime_min": 103,
-      "prediction_as_of": "2026-09-25",
+      "prediction_as_of": "2026-09-26",
       "predicted_end_date": "2026-10-06",
       "timing_confidence": "moderate",
       "timing_mode": "could_around",
