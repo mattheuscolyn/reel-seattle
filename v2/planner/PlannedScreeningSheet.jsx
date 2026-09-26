@@ -46,6 +46,7 @@ function getBrowserStorage() {
  *   }) => void,
  *   onPlansChanged?: () => void,
  *   onStubAction?: (actionId: string, label: string) => void,
+ *   onInviteFriends?: (planId: string) => void,
  * }} props
  */
 export default function PlannedScreeningSheet({
@@ -59,6 +60,7 @@ export default function PlannedScreeningSheet({
   onOpenPlanDetails = null,
   onPlansChanged = null,
   onStubAction = null,
+  onInviteFriends = null,
 }) {
   const titleId = useId();
   const statusId = useId();
@@ -405,6 +407,23 @@ export default function PlannedScreeningSheet({
               aria-hidden="true"
             />
           </button>
+
+          {typeof onInviteFriends === 'function' && selection?.planId ? (
+            <button
+              type="button"
+              className="v2-pss-action"
+              onClick={() => onInviteFriends(selection.planId)}
+            >
+              <IconInfo width={16} height={16} aria-hidden="true" />
+              <span>Invite friends</span>
+              <IconChevron
+                className="v2-pss-action-chevron"
+                width={14}
+                height={14}
+                aria-hidden="true"
+              />
+            </button>
+          ) : null}
 
           <label className="v2-pss-toggle-row">
             <span className="v2-pss-toggle-copy">Mark tickets purchased</span>

@@ -5,7 +5,7 @@
  * Live mode composes accepted-plan screenings + overlap conflicts.
  */
 
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useState, useSyncExternalStore } from 'react';
 import {
   IconBookmark,
   IconCalendar,
@@ -19,6 +19,7 @@ import {
   isPlannerMockupMode,
 } from '../fixtures/plannerLandingMockupFixture.js';
 import { composePlannerLandingFromAcceptedPlans } from './composePlannerLandingPresentation.js';
+import { mergeSharedPlansIntoPlannerLanding } from './mergeSharedPlansIntoPlannerLanding.js';
 import { PLANNER_UPCOMING_COMPACT_DATE_GROUP_LIMIT } from './plannerLandingConfig.js';
 import PlannedScreeningSheet from './PlannedScreeningSheet.jsx';
 import PlannerConflictReviewSurface from './PlannerConflictReviewSurface.jsx';
@@ -27,6 +28,14 @@ import {
   getScheduleSettings,
   subscribeScheduleSettings,
 } from '../stores/scheduleSettingsStore.js';
+import { useAuth } from '../auth/useAuth.js';
+import InviteFriendsToPlanSheet from '../sharedPlans/InviteFriendsToPlanSheet.jsx';
+import SharedPlanInviteDetailSheet from '../sharedPlans/SharedPlanInviteDetailSheet.jsx';
+import {
+  getSharedPlansPlannerSnapshot,
+  refreshSharedPlansForPlanner,
+  subscribeSharedPlansPlanner,
+} from '../sharedPlans/sharedPlansPlannerStore.js';
 
 function getBrowserStorage() {
   try {
@@ -245,15 +254,19 @@ function PlanGroupCard({
   onOpenScreening,
   onOpenPlanDetails = null,
   onRemovePlan = null,
+  onInviteFriends = null,
+  onOpenSharedPlan = null,
 }) {
   const [confirmRemove, setConfirmRemove] = useState(false);
   const members = Array.isArray(group.members) ? group.members : [];
+  const isShared = group.origin === 'shared-plan' || group.kind === 'shared-plan-group';
 
   return (
     <article
       className="v2-planner-plan-group"
       data-plan-id={group.planId}
       data-plan-group="true"
+      data-shared-plan={isShared ? 'true' : undefined}
     >
       <header className="v2-planner-plan-group-header">
         <p className="v2-planner-plan-banner">
@@ -275,7 +288,15 @@ function PlanGroupCard({
         ))}
       </div>
       <div className="v2-planner-plan-group-actions">
-        {typeof onOpenPlanDetails === 'function' ? (
+        {isShared && typeof onOpenSharedPlan === 'function' ? (
+          <button
+            type="button"
+            className="v2-planner-plan-group-details"
+            onClick={() => onOpenSharedPlan(group.sharedPlanId || group.planId)}
+          >
+            View shared plan
+          </button>
+        ) : typeof onOpenPlanDetails === 'function' ? (
           <button
             type="button"
             className="v2-planner-plan-group-details"
@@ -284,7 +305,16 @@ function PlanGroupCard({
             {group.viewDetailsLabel || 'View plan details'}
           </button>
         ) : null}
-        {typeof onRemovePlan === 'function' ? (
+        {!isShared && typeof onInviteFriends === 'function' ? (
+          <button
+            type="button"
+            className="v2-planner-plan-group-details"
+            onClick={() => onInviteFriends(group.planId)}
+          >
+            Invite friends
+          </button>
+        ) : null}
+        {!isShared && typeof onRemovePlan === 'function' ? (
           !confirmRemove ? (
             <button
               type="button"
@@ -352,19 +382,43 @@ export default function PlannerDestination({
 }) {
   const mockupMode = isPlannerMockupMode();
   const storage = getBrowserStorage();
+  const auth = useAuth();
+  const viewerId = auth.user?.id ?? null;
+  const sharedPlansSnap = useSyncExternalStore(
+    subscribeSharedPlansPlanner,
+    getSharedPlansPlannerSnapshot,
+    getSharedPlansPlannerSnapshot,
+  );
   const [settingsTick, setSettingsTick] = useState(0);
   const [activeTab, setActiveTab] = useState('upcoming');
   const [timelineExpanded, setTimelineExpanded] = useState(false);
+  const [invitePlanId, setInvitePlanId] = useState(/** @type {string | null} */ (null));
+  const [sharedDetailPlanId, setSharedDetailPlanId] = useState(
+    /** @type {string | null} */ (null),
+  );
   useEffect(
     () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
     [],
   );
+  useEffect(() => {
+    if (mockupMode || !viewerId) return;
+    void refreshSharedPlansForPlanner(viewerId);
+  }, [mockupMode, viewerId, acceptedPlansRevision]);
   void settingsTick;
   void acceptedPlansRevision;
   const timeFormatId = getScheduleSettings(storage).timeFormatId;
-  const presentation = mockupMode
+  const basePresentation = mockupMode
     ? getPlannerLandingMockupPresentation()
     : composePlannerLandingFromAcceptedPlans({ storage, timeFormatId });
+  const presentation = mockupMode
+    ? basePresentation
+    : mergeSharedPlansIntoPlannerLanding({
+        landing: basePresentation,
+        pendingInvitations: sharedPlansSnap.pendingInvitations,
+        activeSharedPlans: sharedPlansSnap.activeSharedPlans,
+        viewerId,
+        timeFormatId,
+      });
   const stubStatusId = useId();
   const [stubMessage, setStubMessage] = useState(null);
   const [selectedScreening, setSelectedScreening] = useState(null);
@@ -409,6 +463,10 @@ export default function PlannerDestination({
   const canExpandTimeline = totalDateGroupCount > compactDateGroupLimit;
 
   const openScreening = (target) => {
+    if (target?.origin === 'shared-plan' || target?.sharedPlanId) {
+      setSharedDetailPlanId(target.sharedPlanId || target.planId);
+      return;
+    }
     const planId = typeof target?.planId === 'string' ? target.planId.trim() : '';
     const performanceKey =
       typeof target?.performanceKey === 'string'
@@ -425,7 +483,24 @@ export default function PlannerDestination({
     setSelectedScreening(null);
   };
 
+  const openInviteFriends = (planId) => {
+    if (!viewerId) {
+      announceStub('invite-friends-signin', 'Sign in to invite friends');
+      return;
+    }
+    setInvitePlanId(planId);
+    setSelectedScreening(null);
+  };
+
+  const refreshShared = () => {
+    if (viewerId) void refreshSharedPlansForPlanner(viewerId);
+  };
+
   const openReviewOptions = (item) => {
+    if (item?.kind === 'plan-invite' || item?.kind === 'plan-invite-maybe') {
+      setSharedDetailPlanId(item.sharedPlanId || item.planId);
+      return;
+    }
     const conflictId =
       typeof item?.conflictId === 'string' && item.conflictId.trim()
         ? item.conflictId.trim()
@@ -630,6 +705,11 @@ export default function PlannerDestination({
                           {item.headline}
                         </p>
                         <p className="v2-planner-attention-body">{item.body}</p>
+                        {item.inviteMessage ? (
+                          <p className="v2-planner-attention-quote">
+                            “{item.inviteMessage}”
+                          </p>
+                        ) : null}
                         <button
                           type="button"
                           className="v2-planner-attention-cta"
@@ -685,13 +765,16 @@ export default function PlannerDestination({
                             group={item}
                             onOpen={openScreening}
                           />
-                        ) : item.kind === 'plan-group' ? (
+                        ) : item.kind === 'plan-group' ||
+                          item.kind === 'shared-plan-group' ? (
                           <PlanGroupCard
                             key={item.id}
                             group={item}
                             onOpenScreening={openScreening}
                             onOpenPlanDetails={openSavedPlan}
                             onRemovePlan={removeSavedPlan}
+                            onInviteFriends={openInviteFriends}
+                            onOpenSharedPlan={setSharedDetailPlanId}
                           />
                         ) : (
                           <ScreeningRow
@@ -774,6 +857,28 @@ export default function PlannerDestination({
         onOpenPlanDetails={openSavedPlan}
         onPlansChanged={onAcceptedPlansChange}
         onStubAction={announceStub}
+        onInviteFriends={openInviteFriends}
+      />
+
+      <InviteFriendsToPlanSheet
+        open={Boolean(invitePlanId)}
+        acceptedPlanId={invitePlanId}
+        ownerId={viewerId}
+        onClose={() => setInvitePlanId(null)}
+        onInvited={() => {
+          refreshShared();
+          onAcceptedPlansChange?.();
+        }}
+      />
+
+      <SharedPlanInviteDetailSheet
+        open={Boolean(sharedDetailPlanId)}
+        planId={sharedDetailPlanId}
+        viewerId={viewerId}
+        onClose={() => setSharedDetailPlanId(null)}
+        onResponded={() => {
+          refreshShared();
+        }}
       />
 
       <p

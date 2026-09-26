@@ -144,11 +144,12 @@ export function repoSetPlanVisibility(repo, planId, actorId, nextVisibility, opt
  * @param {string} planId
  * @param {string} ownerId
  * @param {string} inviteeId
- * @param {{ now?: string | number | Date, requireFriendship?: boolean }} [options]
+ * @param {{ now?: string | number | Date, requireFriendship?: boolean, inviteMessage?: string | null }} [options]
  */
 export function repoInviteFriend(repo, planId, ownerId, inviteeId, options = {}) {
   const plan = getSharedPlan(repo, planId);
   if (!plan) return { ok: false, reason: 'plan_not_found' };
+  if (plan.ownerId !== ownerId) return { ok: false, reason: 'not_owner' };
   if (options.requireFriendship !== false && !areFriends(repo, ownerId, inviteeId)) {
     return { ok: false, reason: 'not_friend' };
   }
@@ -159,7 +160,51 @@ export function repoInviteFriend(repo, planId, ownerId, inviteeId, options = {})
   const members = listPlanMembers(repo, planId);
   members.push(built.member);
   repo.membersByPlan.set(planId, members);
+  // Direct invite promotes private → invited (visibility ≠ open-to-all-friends).
+  if (plan.visibility === 'private') {
+    const next = {
+      ...plan,
+      visibility: /** @type {'invited'} */ ('invited'),
+      updatedAt: built.member.updatedAt,
+    };
+    repo.plans.set(planId, next);
+    return { ok: true, member: built.member, plan: next };
+  }
   return { ok: true, member: built.member, plan };
+}
+
+/**
+ * Invite multiple friends in one pass (mirrors invite_friends_to_shared_plan RPC).
+ *
+ * @param {SharedPlanRepositoryState} repo
+ * @param {string} planId
+ * @param {string} ownerId
+ * @param {string[]} inviteeIds
+ * @param {{ now?: string | number | Date, inviteMessage?: string | null }} [options]
+ */
+export function repoInviteFriends(repo, planId, ownerId, inviteeIds, options = {}) {
+  /** @type {import('./sharedPlanModel.js').PlanMember[]} */
+  const invited = [];
+  /** @type {Array<{ userId: string | null, reason: string }>} */
+  const skipped = [];
+  const ids = Array.isArray(inviteeIds) ? inviteeIds : [];
+  for (const inviteeId of ids) {
+    const result = repoInviteFriend(repo, planId, ownerId, inviteeId, options);
+    if (result.ok && result.member) {
+      invited.push(result.member);
+    } else {
+      skipped.push({
+        userId: typeof inviteeId === 'string' ? inviteeId : null,
+        reason: result.reason || 'invalid_invitees',
+      });
+    }
+  }
+  return {
+    ok: true,
+    plan: getSharedPlan(repo, planId),
+    invited,
+    skipped,
+  };
 }
 
 /**
@@ -226,6 +271,57 @@ export function repoLeavePlan(repo, planId, userId) {
   if (next.length === members.length) return { ok: false, reason: 'not_member' };
   repo.membersByPlan.set(planId, next);
   return { ok: true, plan, members: next };
+}
+
+/**
+ * @param {SharedPlanRepositoryState} repo
+ * @param {string} viewerId
+ * @param {{ includeMaybe?: boolean }} [options]
+ */
+export function repoListPendingInvitationsForUser(repo, viewerId) {
+  /** @type {Array<{ plan: import('./sharedPlanModel.js').SharedPlan, member: import('./sharedPlanModel.js').PlanMember }>} */
+  const out = [];
+  for (const [planId, members] of repo.membersByPlan.entries()) {
+    const member = members.find(
+      (m) =>
+        m.userId === viewerId &&
+        m.role === 'invitee' &&
+        m.response === 'pending',
+    );
+    if (!member) continue;
+    const plan = getSharedPlan(repo, planId);
+    if (!plan) continue;
+    out.push({ plan, member });
+  }
+  return out;
+}
+
+/**
+ * Active shared plans for Planner projection (owner + positive/maybe).
+ * Declined excluded. Never clones into AcceptedPlanItem.
+ *
+ * @param {SharedPlanRepositoryState} repo
+ * @param {string} viewerId
+ */
+export function repoListActiveSharedPlansForUser(repo, viewerId) {
+  /** @type {Array<{ plan: import('./sharedPlanModel.js').SharedPlan, member: import('./sharedPlanModel.js').PlanMember }>} */
+  const out = [];
+  for (const [planId, members] of repo.membersByPlan.entries()) {
+    const member = members.find((m) => m.userId === viewerId);
+    if (!member) continue;
+    if (
+      member.role !== 'owner' &&
+      member.response !== 'interested' &&
+      member.response !== 'maybe' &&
+      member.response !== 'going'
+    ) {
+      continue;
+    }
+    const plan = getSharedPlan(repo, planId);
+    if (!plan) continue;
+    out.push({ plan, member });
+  }
+  return out;
 }
 
 /**

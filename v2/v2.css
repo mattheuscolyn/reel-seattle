@@ -19816,3 +19816,264 @@ a.v2-stb-time:focus-visible {
   text-transform: uppercase;
   color: #c5cad6;
 }
+
+/* Shared plan invite / RSVP (Planner Friends coordination) */
+.v2-planner-attention-quote {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--v2-ink);
+  font-style: italic;
+}
+
+.v2-plan-invite-type {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.v2-plan-invite-legend {
+  margin: 0 0 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--v2-muted-soft);
+}
+
+.v2-plan-invite-type-option {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  padding: 0.65rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--v2-border) 80%, transparent);
+  background: color-mix(in srgb, var(--v2-surface) 92%, var(--v2-bg));
+}
+
+.v2-plan-invite-type-option strong {
+  display: block;
+  font-size: 0.92rem;
+}
+
+.v2-plan-invite-type-hint {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.78rem;
+  color: var(--v2-muted);
+}
+
+.v2-plan-invite-message label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.v2-plan-invite-optional {
+  font-weight: 500;
+  color: var(--v2-muted);
+}
+
+.v2-plan-invite-message-input {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 3.2rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--v2-border) 80%, transparent);
+  padding: 0.65rem 0.75rem;
+  font: inherit;
+  background: var(--v2-surface);
+  color: var(--v2-ink);
+}
+
+.v2-plan-invite-friend-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 14rem;
+  overflow: auto;
+}
+
+.v2-plan-invite-friend-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.45rem;
+  border-radius: 10px;
+}
+
+.v2-plan-invite-friend-row.is-existing {
+  opacity: 0.72;
+}
+
+.v2-plan-invite-friend-copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.v2-plan-invite-friend-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.v2-plan-invite-friend-status {
+  font-size: 0.75rem;
+  color: var(--v2-muted);
+}
+
+.v2-plan-invite-status-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.v2-plan-invite-status-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.v2-plan-invite-status-list li,
+.v2-plan-invite-status-person {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+}
+
+.v2-plan-invite-status-person {
+  justify-content: flex-start;
+}
+
+.v2-plan-invite-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.v2-plan-invite-error {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.85rem;
+}
+
+.v2-plan-invite-confirm {
+  margin: 0;
+  color: var(--v2-ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.v2-plan-invite-send {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.85rem 1.1rem;
+  font: inherit;
+  font-weight: 650;
+  background: var(--v2-ink);
+  color: var(--v2-surface);
+}
+
+.v2-plan-invite-send:disabled {
+  opacity: 0.45;
+}
+
+.v2-shared-plan-invite-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.v2-shared-plan-invite-eyebrow {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--v2-muted-soft);
+}
+
+.v2-shared-plan-invite-title {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+.v2-shared-plan-invite-message {
+  margin: 0.25rem 0 0;
+  padding: 0.55rem 0.7rem;
+  border-left: 3px solid color-mix(in srgb, var(--v2-ink) 35%, transparent);
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--v2-ink);
+  background: color-mix(in srgb, var(--v2-surface) 88%, var(--v2-bg));
+}
+
+.v2-shared-plan-invite-screenings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.v2-shared-plan-invite-screenings li {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0.15rem 0.75rem;
+  font-size: 0.88rem;
+}
+
+.v2-shared-plan-invite-time {
+  grid-row: span 2;
+  font-weight: 650;
+}
+
+.v2-shared-plan-invite-film {
+  font-weight: 600;
+}
+
+.v2-shared-plan-invite-venue {
+  color: var(--v2-muted);
+  font-size: 0.8rem;
+}
+
+.v2-shared-plan-rsvp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.v2-shared-plan-rsvp-btn {
+  appearance: none;
+  border: 1px solid color-mix(in srgb, var(--v2-border) 85%, transparent);
+  border-radius: 999px;
+  padding: 0.55rem 0.9rem;
+  font: inherit;
+  font-size: 0.88rem;
+  background: var(--v2-surface);
+  color: var(--v2-ink);
+}
+
+.v2-shared-plan-rsvp-btn.is-selected {
+  background: var(--v2-ink);
+  color: var(--v2-surface);
+  border-color: var(--v2-ink);
+}
