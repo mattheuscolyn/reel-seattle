@@ -153,3 +153,57 @@ export function filterFilmStatesToAcceptedFriends(rows, acceptedFriendIds) {
     (row) => row?.userId && allowed.has(row.userId),
   );
 }
+
+/**
+ * Pure aggregation mirroring list_friend_film_states SQL semantics.
+ * Used when PostgreSQL cannot be executed in frontend tests.
+ *
+ * Returns exactly one array with one object per matching friend (never a
+ * multi-row scalar-subquery failure shape). Multiple active preference rows
+ * for the same friend+film collapse into one states object.
+ *
+ * @param {Array<{
+ *   user_id: string,
+ *   film_key: string,
+ *   film_id?: string | null,
+ *   showtime_film_key?: string | null,
+ *   preference_type: 'saved' | 'seen' | 'not_interested',
+ *   is_active: boolean,
+ * }>} preferenceRows
+ * @param {{ viewerId: string, filmKey: string, friendIds: string[] }} options
+ */
+export function aggregateFriendFilmStates(preferenceRows, options) {
+  const viewerId = options.viewerId;
+  const filmKey = options.filmKey;
+  const friends = new Set(options.friendIds);
+  /** @type {Map<string, {
+   *   user_id: string,
+   *   film_key: string,
+   *   film_id: string | null,
+   *   showtime_film_key: string | null,
+   *   states: { saved: boolean, seen: boolean, not_interested: boolean },
+   * }>} */
+  const byUser = new Map();
+  for (const row of preferenceRows) {
+    if (!row || row.is_active !== true) continue;
+    if (row.film_key !== filmKey) continue;
+    if (row.user_id === viewerId) continue;
+    if (!friends.has(row.user_id)) continue;
+    const existing = byUser.get(row.user_id) ?? {
+      user_id: row.user_id,
+      film_key: row.film_key,
+      film_id: row.film_id ?? null,
+      showtime_film_key: row.showtime_film_key ?? null,
+      states: { saved: false, seen: false, not_interested: false },
+    };
+    if (row.preference_type === 'saved') existing.states.saved = true;
+    if (row.preference_type === 'seen') existing.states.seen = true;
+    if (row.preference_type === 'not_interested') {
+      existing.states.not_interested = true;
+    }
+    byUser.set(row.user_id, existing);
+  }
+  return [...byUser.values()].sort((a, b) =>
+    a.user_id < b.user_id ? -1 : a.user_id > b.user_id ? 1 : 0,
+  );
+}

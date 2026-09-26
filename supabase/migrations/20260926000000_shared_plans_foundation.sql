@@ -201,28 +201,36 @@ begin
     return '[]'::jsonb;
   end if;
 
+  -- Aggregate per-friend first, then wrap in a single jsonb array.
+  -- A bare SELECT jsonb_agg(...) ... GROUP BY in a scalar subquery fails when
+  -- multiple friends match (PostgreSQL: more than one row returned by a subquery
+  -- used as an expression).
   return coalesce(
     (
-      select jsonb_agg(
-        jsonb_build_object(
+      select jsonb_agg(friend_obj order by friend_obj ->> 'user_id')
+      from (
+        select jsonb_build_object(
           'user_id', prefs.user_id,
           'film_key', prefs.film_key,
           'film_id', prefs.film_id,
           'showtime_film_key', prefs.showtime_film_key,
           'states', jsonb_build_object(
-            'saved', bool_or(prefs.preference_type = 'saved' and prefs.is_active),
-            'seen', bool_or(prefs.preference_type = 'seen' and prefs.is_active),
-            'not_interested', bool_or(prefs.preference_type = 'not_interested' and prefs.is_active)
+            'saved', bool_or(prefs.preference_type = 'saved'),
+            'seen', bool_or(prefs.preference_type = 'seen'),
+            'not_interested', bool_or(prefs.preference_type = 'not_interested')
           )
-        )
-        order by prefs.user_id
-      )
-      from public.user_film_preferences prefs
-      where prefs.film_key = v_key
-        and prefs.is_active = true
-        and prefs.user_id <> v_uid
-        and public.are_accepted_friends(v_uid, prefs.user_id)
-      group by prefs.user_id, prefs.film_key, prefs.film_id, prefs.showtime_film_key
+        ) as friend_obj
+        from public.user_film_preferences prefs
+        where prefs.film_key = v_key
+          and prefs.is_active = true
+          and prefs.user_id <> v_uid
+          and public.are_accepted_friends(v_uid, prefs.user_id)
+        group by
+          prefs.user_id,
+          prefs.film_key,
+          prefs.film_id,
+          prefs.showtime_film_key
+      ) per_friend
     ),
     '[]'::jsonb
   );
@@ -353,7 +361,8 @@ declare
   v_uid uuid := auth.uid();
   v_plan_id text := nullif(trim(coalesce(p_plan_id, '')), '');
   v_row public.shared_plans%rowtype;
-  v_members jsonb;
+  v_members jsonb := '[]'::jsonb;
+  v_is_member boolean := false;
 begin
   if v_uid is null then
     raise exception 'not_authenticated' using errcode = 'P0001';
@@ -367,24 +376,38 @@ begin
     raise exception 'plan_not_found' using errcode = 'P0001';
   end if;
 
-  select coalesce(
-    jsonb_agg(
-      jsonb_build_object(
-        'plan_id', m.plan_id,
-        'user_id', m.user_id,
-        'role', m.role,
-        'response', m.response,
-        'invited_by', m.invited_by,
-        'joined_at', m.joined_at,
-        'updated_at', m.updated_at
-      )
-      order by m.created_at
-    ),
-    '[]'::jsonb
+  -- Visibility controls discoverability. Membership controls access to
+  -- invite/RSVP metadata. Non-member friends who can discover a friends-visible
+  -- plan receive the plan body with an empty members array (no invitee /
+  -- declined / invited_by leakage).
+  select exists (
+    select 1
+    from public.shared_plan_members m
+    where m.plan_id = v_plan_id
+      and m.user_id = v_uid
   )
-  into v_members
-  from public.shared_plan_members m
-  where m.plan_id = v_plan_id;
+  into v_is_member;
+
+  if v_row.owner_id = v_uid or v_is_member then
+    select coalesce(
+      jsonb_agg(
+        jsonb_build_object(
+          'plan_id', m.plan_id,
+          'user_id', m.user_id,
+          'role', m.role,
+          'response', m.response,
+          'invited_by', m.invited_by,
+          'joined_at', m.joined_at,
+          'updated_at', m.updated_at
+        )
+        order by m.created_at
+      ),
+      '[]'::jsonb
+    )
+    into v_members
+    from public.shared_plan_members m
+    where m.plan_id = v_plan_id;
+  end if;
 
   return jsonb_build_object(
     'plan', jsonb_build_object(

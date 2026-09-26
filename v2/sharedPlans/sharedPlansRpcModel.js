@@ -51,9 +51,33 @@ export function normalizeSharedPlanRpcPlan(raw) {
 }
 
 /**
- * @param {unknown} raw
+ * Project membership for a viewer.
+ *
+ * - owner / member → full membership list
+ * - non-member discoverer (friends-visible) → empty list (no invite/RSVP leakage)
+ *
+ * @param {import('./sharedPlanModel.js').SharedPlan | null | undefined} plan
+ * @param {import('./sharedPlanModel.js').PlanMember[] | null | undefined} members
+ * @param {string | null | undefined} viewerId
+ * @returns {import('./sharedPlanModel.js').PlanMember[]}
  */
-export function normalizeGetSharedPlanPayload(raw) {
+export function projectSharedPlanMembersForViewer(plan, members, viewerId) {
+  const viewer =
+    typeof viewerId === 'string' && viewerId.trim() ? viewerId.trim() : null;
+  if (!plan || !viewer) return [];
+  const list = Array.isArray(members)
+    ? members.map(normalizePlanMember).filter(Boolean)
+    : [];
+  if (plan.ownerId === viewer) return list;
+  if (list.some((member) => member.userId === viewer)) return list;
+  return [];
+}
+
+/**
+ * @param {unknown} raw
+ * @param {{ viewerId?: string | null }} [options]
+ */
+export function normalizeGetSharedPlanPayload(raw, options = {}) {
   if (!raw || typeof raw !== 'object') return null;
   const row = /** @type {Record<string, unknown>} */ (raw);
   const plan = normalizeSharedPlanRpcPlan(row.plan ?? row);
@@ -61,5 +85,12 @@ export function normalizeGetSharedPlanPayload(raw) {
   const members = Array.isArray(row.members)
     ? row.members.map(normalizePlanMember).filter(Boolean)
     : [];
-  return { plan, members };
+  const viewerId = options.viewerId ?? null;
+  return {
+    plan,
+    members:
+      viewerId != null
+        ? projectSharedPlanMembersForViewer(plan, members, viewerId)
+        : members,
+  };
 }

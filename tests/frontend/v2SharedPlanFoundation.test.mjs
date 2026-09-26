@@ -33,6 +33,7 @@ import {
   repoSetPlanVisibility,
   repoLeavePlan,
   repoCanViewerSeePlan,
+  repoGetSharedPlanForViewer,
   getSharedPlan,
   listPlanMembers,
 } from '../../v2/sharedPlans/sharedPlanRepository.js';
@@ -43,8 +44,13 @@ import {
 import {
   getLocalFilmUserState,
   filterFilmStatesToAcceptedFriends,
+  aggregateFriendFilmStates,
   normalizeFriendFilmUserState,
 } from '../../v2/filmState/filmUserStateModel.js';
+import {
+  normalizeGetSharedPlanPayload,
+  projectSharedPlanMembersForViewer,
+} from '../../v2/sharedPlans/sharedPlansRpcModel.js';
 import {
   markFilmSeen,
   SEEN_FILMS_STORAGE_KEY,
@@ -63,6 +69,16 @@ const MIGRATION = readFileSync(
   join(ROOT, 'supabase/migrations/20260926000000_shared_plans_foundation.sql'),
   'utf8',
 );
+
+/**
+ * Local frontend tests cannot execute PostgreSQL SECURITY DEFINER RPCs.
+ * Coverage map for this file:
+ * - Exercised: domain models, in-memory repository, pure SQL-semantic mirrors
+ *   (aggregateFriendFilmStates, projectSharedPlanMembersForViewer), and static
+ *   migration source assertions (nested per_friend agg + member-gate).
+ * - Not exercised against a live Postgres/Supabase instance: auth.uid(),
+ *   are_accepted_friends, list_friend_film_states, get_shared_plan.
+ */
 
 function memoryStorage(seed = {}) {
   const map = new Map(Object.entries(seed));
@@ -400,4 +416,215 @@ test('migration defines shared plan tables, privacy RPCs, and friend film states
   assert.match(MIGRATION, /are_accepted_friends/);
   assert.match(MIGRATION, /visibility = 'friends'/);
   assert.match(MIGRATION, /revoke all on table public\.shared_plans from authenticated/);
+});
+
+test('list_friend_film_states aggregates multiple friends into one JSON array', () => {
+  // Pure mirror of the fixed SQL shape. Detects the multi-friend regression that
+  // previously used a scalar subquery with GROUP BY (PostgreSQL error when >1 friend).
+  const rows = [
+    {
+      user_id: 'friend-b',
+      film_key: 'tmdb:1001',
+      film_id: 'tmdb:1001',
+      showtime_film_key: 'fk-alpha',
+      preference_type: 'saved',
+      is_active: true,
+    },
+    {
+      user_id: 'friend-a',
+      film_key: 'tmdb:1001',
+      film_id: 'tmdb:1001',
+      showtime_film_key: 'fk-alpha',
+      preference_type: 'seen',
+      is_active: true,
+    },
+    {
+      user_id: 'friend-a',
+      film_key: 'tmdb:1001',
+      film_id: 'tmdb:1001',
+      showtime_film_key: 'fk-alpha',
+      preference_type: 'saved',
+      is_active: true,
+    },
+    {
+      user_id: 'friend-a',
+      film_key: 'tmdb:1001',
+      film_id: 'tmdb:1001',
+      showtime_film_key: 'fk-alpha',
+      preference_type: 'not_interested',
+      is_active: false, // inactive excluded
+    },
+    {
+      user_id: 'stranger',
+      film_key: 'tmdb:1001',
+      film_id: 'tmdb:1001',
+      showtime_film_key: 'fk-alpha',
+      preference_type: 'saved',
+      is_active: true,
+    },
+    {
+      user_id: 'viewer',
+      film_key: 'tmdb:1001',
+      film_id: 'tmdb:1001',
+      showtime_film_key: 'fk-alpha',
+      preference_type: 'saved',
+      is_active: true,
+    },
+    {
+      user_id: 'friend-b',
+      film_key: 'tmdb:9999',
+      film_id: 'tmdb:9999',
+      showtime_film_key: 'fk-other',
+      preference_type: 'saved',
+      is_active: true,
+    },
+  ];
+
+  assert.deepEqual(
+    aggregateFriendFilmStates(rows, {
+      viewerId: 'viewer',
+      filmKey: 'tmdb:1001',
+      friendIds: [],
+    }),
+    [],
+  );
+
+  const one = aggregateFriendFilmStates(rows, {
+    viewerId: 'viewer',
+    filmKey: 'tmdb:1001',
+    friendIds: ['friend-a'],
+  });
+  assert.equal(one.length, 1);
+  assert.equal(one[0].user_id, 'friend-a');
+  assert.deepEqual(one[0].states, {
+    saved: true,
+    seen: true,
+    not_interested: false,
+  });
+
+  const many = aggregateFriendFilmStates(rows, {
+    viewerId: 'viewer',
+    filmKey: 'tmdb:1001',
+    friendIds: ['friend-a', 'friend-b'],
+  });
+  assert.equal(many.length, 2, 'must return one array with one object per friend');
+  assert.equal(many[0].user_id, 'friend-a');
+  assert.equal(many[1].user_id, 'friend-b');
+  assert.deepEqual(many[1].states, {
+    saved: true,
+    seen: false,
+    not_interested: false,
+  });
+
+  // Migration must nest per-friend aggregation inside a single jsonb_agg.
+  assert.match(MIGRATION, /\)\s+per_friend/);
+  assert.match(
+    MIGRATION,
+    /select jsonb_agg\(friend_obj order by friend_obj ->> 'user_id'\)/,
+  );
+  assert.match(
+    MIGRATION,
+    /A bare SELECT jsonb_agg\(\.\.\.\) \.\.\. GROUP BY in a scalar subquery fails/,
+  );
+});
+
+test('non-member friend discovering friends-visible plan gets empty members', () => {
+  const repo = createSharedPlanRepository();
+  markFriends(repo, 'owner', 'invitee');
+  markFriends(repo, 'owner', 'discoverer');
+
+  const created = repoCreateSharedPlan(repo, {
+    ownerId: 'owner',
+    type: 'proposal',
+    visibility: 'friends',
+    screenings: [screening()],
+  });
+  repoInviteFriend(repo, created.plan.planId, 'owner', 'invitee');
+  repoRespondToPlan(repo, created.plan.planId, 'invitee', 'declined');
+
+  const full = listPlanMembers(repo, created.plan.planId);
+  assert.ok(full.some((m) => m.response === 'declined'));
+  assert.ok(full.some((m) => m.invitedBy === 'owner'));
+
+  // Discoverer can see the plan but must not receive invite/RSVP metadata.
+  const discovered = repoGetSharedPlanForViewer(
+    repo,
+    created.plan.planId,
+    'discoverer',
+  );
+  assert.equal(discovered.ok, true);
+  assert.equal(discovered.plan.planId, created.plan.planId);
+  assert.deepEqual(discovered.members, []);
+
+  // Owner and members still receive the full list.
+  assert.equal(
+    repoGetSharedPlanForViewer(repo, created.plan.planId, 'owner').members
+      .length,
+    2,
+  );
+  assert.equal(
+    repoGetSharedPlanForViewer(repo, created.plan.planId, 'invitee').members
+      .length,
+    2,
+  );
+
+  // Payload normalizer mirrors RPC: empty members for non-member viewers.
+  const payload = normalizeGetSharedPlanPayload(
+    {
+      plan: {
+        plan_id: created.plan.planId,
+        owner_id: 'owner',
+        type: 'proposal',
+        visibility: 'friends',
+        label: null,
+        date: created.plan.date,
+        timezone: created.plan.timezone,
+        plan_snapshot: { performances: created.plan.screenings },
+      },
+      members: full,
+    },
+    { viewerId: 'discoverer' },
+  );
+  assert.deepEqual(payload.members, []);
+  assert.equal(
+    projectSharedPlanMembersForViewer(created.plan, full, 'discoverer').length,
+    0,
+  );
+
+  // Static migration gate: members only loaded when owner or member.
+  assert.match(MIGRATION, /v_is_member boolean/);
+  assert.match(
+    MIGRATION,
+    /if v_row\.owner_id = v_uid or v_is_member then/,
+  );
+});
+
+test('friend-visible discovery does not auto-create membership; private stays closed', () => {
+  const repo = createSharedPlanRepository();
+  markFriends(repo, 'owner', 'friend');
+  const opened = repoCreateSharedPlan(repo, {
+    ownerId: 'owner',
+    visibility: 'friends',
+    screenings: [screening()],
+  });
+  assert.equal(
+    listPlanMembers(repo, opened.plan.planId).some((m) => m.userId === 'friend'),
+    false,
+  );
+  assert.equal(repoCanViewerSeePlan(repo, opened.plan.planId, 'friend'), true);
+  assert.deepEqual(
+    repoGetSharedPlanForViewer(repo, opened.plan.planId, 'friend').members,
+    [],
+  );
+
+  const closed = repoCreateSharedPlan(repo, {
+    ownerId: 'owner',
+    visibility: 'private',
+    screenings: [screening({ sourceShowtimeId: 'priv-1' })],
+  });
+  assert.equal(repoCanViewerSeePlan(repo, closed.plan.planId, 'friend'), false);
+  assert.equal(
+    repoGetSharedPlanForViewer(repo, closed.plan.planId, 'friend').ok,
+    false,
+  );
 });

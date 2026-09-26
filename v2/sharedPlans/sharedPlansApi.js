@@ -101,7 +101,7 @@ export async function createSharedPlanRemote(plan, options = {}) {
 
 /**
  * @param {string} planId
- * @param {{ getClient?: () => unknown }} [options]
+ * @param {{ getClient?: () => unknown, viewerId?: string | null }} [options]
  */
 export async function getSharedPlanRemote(planId, options = {}) {
   const resolved = await resolveClient(options);
@@ -110,7 +110,11 @@ export async function getSharedPlanRemote(planId, options = {}) {
     p_plan_id: planId,
   });
   if (error) return { ok: false, reason: rpcFailureReason(error) };
-  const payload = normalizeGetSharedPlanPayload(data);
+  // Defense in depth: RPC already strips members for non-members; client
+  // projection also empties the list when viewerId is supplied.
+  const payload = normalizeGetSharedPlanPayload(data, {
+    viewerId: options.viewerId ?? null,
+  });
   if (!payload) return { ok: false, reason: 'plan_not_found' };
   return { ok: true, ...payload };
 }

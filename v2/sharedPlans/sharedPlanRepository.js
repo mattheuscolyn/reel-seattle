@@ -21,6 +21,7 @@ import {
   transitionSharedPlanType,
   transitionSharedPlanVisibility,
 } from './sharedPlanModel.js';
+import { projectSharedPlanMembersForViewer } from './sharedPlansRpcModel.js';
 
 /**
  * @typedef {{
@@ -282,6 +283,33 @@ export function repoCanViewerSeePlan(repo, planId, viewerId) {
   return canViewerSeeSharedPlan(plan, members, viewerId, {
     isFriendOfOwner: areFriends(repo, plan.ownerId, viewerId),
   });
+}
+
+/**
+ * Viewer-scoped get: plan body when discoverable, membership only when
+ * the viewer is owner or an actual member (not a non-member friend discoverer).
+ *
+ * @param {SharedPlanRepositoryState} repo
+ * @param {string} planId
+ * @param {string} viewerId
+ * @returns {{
+ *   ok: true,
+ *   plan: import('./sharedPlanModel.js').SharedPlan,
+ *   members: import('./sharedPlanModel.js').PlanMember[],
+ * } | { ok: false, reason: string }}
+ */
+export function repoGetSharedPlanForViewer(repo, planId, viewerId) {
+  if (!repoCanViewerSeePlan(repo, planId, viewerId)) {
+    return { ok: false, reason: 'plan_not_found' };
+  }
+  const plan = getSharedPlan(repo, planId);
+  if (!plan) return { ok: false, reason: 'plan_not_found' };
+  const members = listPlanMembers(repo, planId);
+  return {
+    ok: true,
+    plan,
+    members: projectSharedPlanMembersForViewer(plan, members, viewerId),
+  };
 }
 
 /**
