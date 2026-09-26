@@ -179,6 +179,7 @@ export function isAuthSensitiveSurfaceType(surfaceType) {
     surfaceType === 'friend-detail' ||
     surfaceType === 'profile-settings' ||
     surfaceType === 'friend-invite-landing' ||
+    surfaceType === 'shared-plan-detail' ||
     surfaceType === 'admin-tmdb-review'
   );
 }

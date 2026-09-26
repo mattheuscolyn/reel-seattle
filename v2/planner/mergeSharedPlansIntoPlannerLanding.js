@@ -8,6 +8,7 @@
  */
 
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
+import { formatSharedPlanWithLine } from '../sharedPlans/sharedPlanCopy.js';
 
 /**
  * @param {string | null | undefined} localTime
@@ -49,8 +50,12 @@ function planBodyLine(plan, timeFormatId) {
 /**
  * @param {import('../sharedPlans/sharedPlanModel.js').SharedPlan} plan
  * @param {string} timeFormatId
+ * @param {{
+ *   viewerId?: string | null,
+ *   companions?: Array<{ userId: string, displayName?: string | null, response?: string | null }>,
+ * }} [context]
  */
-function toSharedPlanGroup(plan, timeFormatId) {
+function toSharedPlanGroup(plan, timeFormatId, context = {}) {
   const screenings = (plan.screenings ?? []).map((perf, index) => ({
     kind: 'screening',
     id: `${plan.planId}::${perf.performanceKey}`,
@@ -61,14 +66,21 @@ function toSharedPlanGroup(plan, timeFormatId) {
     title: perf.title,
     theaterName: perf.theaterName,
     theaterId: perf.theaterId,
+    venueLabel: perf.theaterName || perf.theaterId || null,
     localDate: perf.localDate,
     localTime: perf.localTime,
     timeLabel: formatTimeLabel(perf.localTime, timeFormatId),
     startsAt: perf.startsAt,
     posterUrl: perf.posterUrl,
     format: perf.format,
+    formatLabel: perf.format || null,
     index,
   }));
+  const withLine = formatSharedPlanWithLine({
+    ownerId: plan.ownerId,
+    viewerId: context.viewerId ?? null,
+    companions: context.companions,
+  });
   return {
     kind: 'shared-plan-group',
     id: `shared-${plan.planId}`,
@@ -77,6 +89,7 @@ function toSharedPlanGroup(plan, timeFormatId) {
     origin: 'shared-plan',
     title: planTitle(plan),
     date: plan.date,
+    metaLine: withLine,
     movieCountLabel:
       screenings.length === 1
         ? '1-film plan'
@@ -191,7 +204,39 @@ export function mergeSharedPlansIntoPlannerLanding(options) {
     if (group.items.some((item) => item.sharedPlanId === plan.planId)) {
       continue;
     }
-    group.items.push(toSharedPlanGroup(plan, timeFormatId));
+    group.items.push(
+      toSharedPlanGroup(plan, timeFormatId, {
+        viewerId,
+        companions: row.companions,
+      }),
+    );
+  }
+
+  // Owner solo plan-groups: attach "With …" when this AcceptedPlan was shared.
+  if (viewerId) {
+    for (const row of active) {
+      if (row.plan?.ownerId !== viewerId) continue;
+      const sourceId = row.plan.sourceAcceptedPlanId;
+      if (!sourceId) continue;
+      const withLine = formatSharedPlanWithLine({
+        ownerId: row.plan.ownerId,
+        viewerId,
+        companions: row.companions,
+      });
+      if (!withLine) continue;
+      for (const group of dateGroups) {
+        for (const item of group.items) {
+          if (
+            (item.kind === 'plan-group' || item.kind === 'screening') &&
+            item.planId === sourceId &&
+            !item.metaLine
+          ) {
+            item.metaLine = withLine;
+            item.sharedPlanId = row.plan.planId;
+          }
+        }
+      }
+    }
   }
 
   dateGroups.sort((a, b) => String(a.dateKey).localeCompare(String(b.dateKey)));
@@ -233,37 +278,4 @@ export function mergeSharedPlansIntoPlannerLanding(options) {
  * Response chips for a plan type.
  * @param {'proposal' | 'decided'} planType
  */
-export function sharedPlanRsvpOptions(planType) {
-  if (planType === 'decided') {
-    return [
-      { id: 'going', label: 'Going' },
-      { id: 'declined', label: 'Can’t go' },
-    ];
-  }
-  return [
-    { id: 'interested', label: 'Interested' },
-    { id: 'maybe', label: 'Maybe' },
-    { id: 'declined', label: 'Can’t go' },
-  ];
-}
-
-/**
- * Owner-facing RSVP label.
- * @param {string} response
- */
-export function formatMemberResponseLabel(response) {
-  switch (response) {
-    case 'pending':
-      return 'Pending';
-    case 'interested':
-      return 'Interested';
-    case 'maybe':
-      return 'Maybe';
-    case 'going':
-      return 'Going';
-    case 'declined':
-      return 'Can’t go';
-    default:
-      return response || '—';
-  }
-}
+export { sharedPlanRsvpOptions, formatMemberResponseLabel } from '../sharedPlans/sharedPlanCopy.js';

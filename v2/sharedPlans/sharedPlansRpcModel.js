@@ -53,16 +53,36 @@ export function normalizeSharedPlanOwnerSummary(raw) {
 /**
  * @param {unknown} raw
  */
+export function normalizeSharedPlanCompanion(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const row = /** @type {Record<string, unknown>} */ (raw);
+  const summary = normalizeSharedPlanOwnerSummary(row);
+  if (!summary) return null;
+  const response =
+    typeof row.response === 'string' ? row.response : null;
+  return {
+    ...summary,
+    response,
+  };
+}
+
+/**
+ * @param {unknown} raw
+ */
 export function normalizeSharedPlanInvitationRow(raw) {
   if (!raw || typeof raw !== 'object') return null;
   const row = /** @type {Record<string, unknown>} */ (raw);
   const plan = normalizeSharedPlanRpcPlan(row.plan ?? row);
   const member = normalizePlanMember(row.member);
   if (!plan || !member) return null;
+  const companions = Array.isArray(row.companions)
+    ? row.companions.map(normalizeSharedPlanCompanion).filter(Boolean)
+    : [];
   return {
     plan,
     member,
     owner: normalizeSharedPlanOwnerSummary(row.owner),
+    companions,
   };
 }
 
