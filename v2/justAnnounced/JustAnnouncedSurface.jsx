@@ -25,14 +25,8 @@ import {
   resolveJustAnnouncedSortOption,
   sortJustAnnouncedFilms,
 } from './justAnnouncedListControls.js';
-
-function getBrowserStorage() {
-  try {
-    return typeof localStorage !== 'undefined' ? localStorage : null;
-  } catch {
-    return null;
-  }
-}
+import { filterVisibleListPresentation } from '../visibility/filmVisibility.js';
+import { useDiscoveryVisibility } from '../visibility/useDiscoveryVisibility.js';
 
 /**
  * @param {{
@@ -50,11 +44,20 @@ export default function JustAnnouncedSurface({
   onOpenShowtimes,
   onOpenShowtimesBrowse,
 }) {
-  const basePresentation = buildLiveJustAnnouncedPresentation(
+  const rawPresentation = buildLiveJustAnnouncedPresentation(
     homeData,
     enrichmentIndex,
   );
-  const storage = getBrowserStorage();
+  const { storage, preferences, revision } = useDiscoveryVisibility();
+  const basePresentation = useMemo(
+    () =>
+      filterVisibleListPresentation(rawPresentation, {
+        storage,
+        preferences,
+        context: 'just-announced',
+      }),
+    [rawPresentation, storage, preferences, revision],
+  );
   const sortMenuId = useId();
   const [expandedFilmKey, setExpandedFilmKey] = useState(null);
   const [actionRevision, setActionRevision] = useState(0);

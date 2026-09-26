@@ -1463,6 +1463,7 @@ export function attributeOpportunityReason(scored) {
  *   enrichmentIndex?: object | null,
  *   weights?: typeof DEFAULT_TOP_OPPORTUNITY_WEIGHTS,
  *   topN?: number,
+ *   isCandidateVisible?: (scored: object) => boolean,
  * }} [options]
  */
 export function buildRankedTopOpportunityCandidates(homeData, options = {}) {
@@ -1477,8 +1478,12 @@ export function buildRankedTopOpportunityCandidates(homeData, options = {}) {
     enrichmentIndex: options.enrichmentIndex ?? null,
   });
   const { scored, ineligible } = rankOpportunityVectors(vectors, { weights });
-  const { representatives, suppressedDuplicates } =
+  const { representatives: rawRepresentatives, suppressedDuplicates } =
     selectFilmRepresentatives(scored);
+  const representatives =
+    typeof options.isCandidateVisible === 'function'
+      ? rawRepresentatives.filter((item) => options.isCandidateVisible(item))
+      : rawRepresentatives;
   const { selected, nearMisses, diagnostics } =
     selectDiversifiedTopOpportunities(representatives, { weights, topN });
 

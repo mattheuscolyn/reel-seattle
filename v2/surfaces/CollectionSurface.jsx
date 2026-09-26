@@ -19,6 +19,8 @@ import {
   getSavedFilms,
   unsaveFilm,
 } from '../stores/savedFilmsStore.js';
+import { filterVisibleFilms } from '../visibility/filmVisibility.js';
+import { useDiscoveryVisibility } from '../visibility/useDiscoveryVisibility.js';
 
 function getStorage() {
   try {
@@ -40,6 +42,7 @@ export default function CollectionSurface({
   onOpenCollection,
 }) {
   const storage = getStorage();
+  const { preferences, revision } = useDiscoveryVisibility(storage);
   const [dismissedKeys, setDismissedKeys] = useState(() =>
     loadDismissedFilmKeys(storage),
   );
@@ -64,12 +67,16 @@ export default function CollectionSurface({
         reason: shelf.status === 'ready' ? null : shelf.reason,
         emptyTitle: shelf.emptyTitle,
         emptyBody: shelf.emptyBody,
-        films: shelf.films,
+        films: filterVisibleFilms(shelf.films, {
+          storage,
+          preferences,
+          context: 'collection',
+        }),
         theaters: [],
         formats: [],
       };
     }
-    return (
+    const built =
       buildExploreCollection(homeData, collectionId, {
         query,
         dismissedKeys,
@@ -83,9 +90,30 @@ export default function CollectionSurface({
         films: [],
         theaters: [],
         formats: [],
-      }
-    );
-  }, [collectionId, homeData, enrichmentIndex, query, dismissedKeys, seenKeys, savedKeys]);
+      };
+    if (Array.isArray(built.films)) {
+      return {
+        ...built,
+        films: filterVisibleFilms(built.films, {
+          storage,
+          preferences,
+          context: 'collection',
+        }),
+      };
+    }
+    return built;
+  }, [
+    collectionId,
+    homeData,
+    enrichmentIndex,
+    query,
+    dismissedKeys,
+    seenKeys,
+    savedKeys,
+    storage,
+    preferences,
+    revision,
+  ]);
 
   const suggested = useMemo(() => buildSuggestedStarts(), []);
   const isLeavingSoon = collectionId === COLLECTION_IDS.leavingSoon;

@@ -10,6 +10,7 @@ import {
   collectCollectionDetailCanonicalFilmIds,
   composeCollectionDetail,
 } from './composeCollectionDetail.js';
+import { useDiscoveryVisibility } from '../visibility/useDiscoveryVisibility.js';
 
 /**
  * @param {{
@@ -116,13 +117,16 @@ export default function CollectionDetailSurface({
   onHydrateFilmIds,
   onOpenFilmDetail,
 }) {
+  const { storage, preferences, revision } = useDiscoveryVisibility();
   const detail = useMemo(
     () =>
       composeCollectionDetail(artifact, collectionId, {
         homeData,
         enrichmentIndex,
+        storage,
+        visibilityPreferences: preferences,
       }),
-    [artifact, collectionId, homeData, enrichmentIndex],
+    [artifact, collectionId, homeData, enrichmentIndex, storage, preferences, revision],
   );
 
   useEffect(() => {

@@ -13,6 +13,11 @@ import {
   wrapSelectionIndex,
 } from '../topOpportunities/topOpportunityFormat.js';
 import { formatRuntimeLabel } from './shelfData.js';
+import {
+  shouldShowFilm,
+} from '../visibility/filmVisibility.js';
+import { useDiscoveryVisibility } from '../visibility/useDiscoveryVisibility.js';
+import { rankedFilmKey } from '../topOpportunities/buildRankedTopOpportunitySelections.js';
 
 /**
  * Top Opportunity — real HomeData via ranked Top Opportunity selections.
@@ -49,15 +54,48 @@ export default function TopOpportunityFeature({
 }) {
   const headingId = useId();
   const [index, setIndex] = useState(initialIndex);
+  const { storage, preferences, revision } = useDiscoveryVisibility();
 
   const selections = useMemo(() => {
     if (Array.isArray(mockSelections)) return mockSelections;
     if (status !== 'ready' || !homeData) return [];
-    const options = { enrichmentIndex };
+    const films = Array.isArray(homeData.films) ? homeData.films : [];
+    const options = {
+      enrichmentIndex,
+      isCandidateVisible: (scored) => {
+        const filmKey = rankedFilmKey(scored);
+        const ids = scored?.vector?.identifiers ?? {};
+        const film =
+          (filmKey && films.find((row) => row.filmKey === filmKey)) ||
+          (ids.parentFilmKey &&
+            films.find((row) => row.filmKey === ids.parentFilmKey)) ||
+          (filmKey
+            ? {
+                filmKey,
+                filmId: ids.filmId ?? null,
+              }
+            : null);
+        return shouldShowFilm({
+          film,
+          storage,
+          preferences,
+          context: 'home',
+        });
+      },
+    };
     if (now != null) options.now = now;
     const ranked = buildRankedTopOpportunitySelections(homeData, options);
     return Array.isArray(ranked?.selections) ? ranked.selections : [];
-  }, [mockSelections, status, homeData, enrichmentIndex, now]);
+  }, [
+    mockSelections,
+    status,
+    homeData,
+    enrichmentIndex,
+    now,
+    storage,
+    preferences,
+    revision,
+  ]);
   const length = selections.length;
   const safeIndex = clampSelectionIndex(index, length);
   const rawActive = selections[safeIndex] ?? null;

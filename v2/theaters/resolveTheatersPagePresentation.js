@@ -110,6 +110,8 @@ export function resolveTheaterDetailPagePresentation({
   selectedDate = undefined,
   formatKeys = undefined,
   timeRangeId = undefined,
+  storage = undefined,
+  visibilityPreferences = undefined,
 } = {}) {
   const mode =
     forceMode ??
@@ -129,7 +131,15 @@ export function resolveTheaterDetailPagePresentation({
     homeData,
     theaterId,
     enrichmentIndex,
-    { now, timeFormatId, selectedDate, formatKeys, timeRangeId },
+    {
+      now,
+      timeFormatId,
+      selectedDate,
+      formatKeys,
+      timeRangeId,
+      storage,
+      visibilityPreferences,
+    },
   );
   return {
     mode: /** @type {'production'} */ ('production'),

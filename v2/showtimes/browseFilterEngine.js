@@ -23,6 +23,8 @@ import {
   normalizeBrowseFormat,
   SHOWTIMES_BROWSE_TIME_RANGES,
 } from './showtimesBrowseModel.js';
+import { filterVisibleOpportunities } from '../visibility/filmVisibility.js';
+import { getVisibilityPreferences } from '../stores/visibilityPreferencesStore.js';
 
 /** @typedef {import('./browseFilterState.js').BrowseFilters} BrowseFilters */
 
@@ -425,6 +427,24 @@ export function evaluateBrowseFilters(homeData, rawFilters, options = {}) {
     options.storage ?? null,
     filters,
   );
+
+  // Global Hide Seen / Hide Not Interested apply only when the browse sheet
+  // leaves that dimension on `any` (sheet modes stay orthogonal overlays).
+  const visibilityPrefs = getVisibilityPreferences(options.storage ?? null);
+  filtered = filterVisibleOpportunities(filtered, homeData, {
+    storage: options.storage ?? null,
+    preferences: {
+      hideNotInterested:
+        filters.notInterestedMode === 'any' &&
+        visibilityPrefs.hideNotInterested,
+      hideSeen: filters.seenMode === 'any' && visibilityPrefs.hideSeen,
+    },
+    context: 'showtimes-browse',
+    now:
+      typeof options.now === 'function'
+        ? options.now()
+        : options.now,
+  });
 
   const grouped = groupBrowseOpportunitiesByFilm(
     filtered,

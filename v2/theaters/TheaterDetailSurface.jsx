@@ -33,6 +33,7 @@ import {
   isTheaterFavorite,
   toggleFavoriteTheater,
 } from '../stores/favoriteTheatersStore.js';
+import { useDiscoveryVisibility } from '../visibility/useDiscoveryVisibility.js';
 import {
   getScheduleSettings,
   subscribeScheduleSettings,
@@ -126,6 +127,8 @@ export default function TheaterDetailSurface({
   onViewPlanner,
 }) {
   const storage = getBrowserStorage();
+  const { preferences: visibilityPreferences, revision: visibilityRevision } =
+    useDiscoveryVisibility(storage);
   const [settingsTick, setSettingsTick] = useState(0);
   useEffect(() => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)), []);
   void settingsTick;
@@ -150,7 +153,10 @@ export default function TheaterDetailSurface({
     selectedDate,
     formatKeys,
     timeRangeId,
+    storage,
+    visibilityPreferences,
   });
+  void visibilityRevision;
 
   const isFavorite = useMemo(() => {
     void favoriteRevision;

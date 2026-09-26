@@ -445,11 +445,40 @@ test('user state: not seen', () => {
   assert.ok(!result.opportunities.some((o) => o.filmKey === 'beta'));
 });
 
-test('user state: not interested any is neutral', () => {
+test('user state: not interested any is neutral under default prefs', () => {
   const storage = memoryStorage();
   markFilmNotInterested(storage, filmRefFromHomeFilm({ filmKey: 'gamma', title: 'Gamma' }));
   const defaults = createDefaultBrowseFilters(NOW);
   assert.equal(defaults.notInterestedMode, 'any');
+  // Global defaults are opt-in (hideNotInterested=false).
+  const result = evaluate(sampleHome(), {}, storage);
+  assert.ok(result.opportunities.some((o) => o.filmKey === 'gamma'));
+});
+
+test('user state: not interested any with Hide Not Interested on suppresses', () => {
+  const storage = memoryStorage();
+  markFilmNotInterested(storage, filmRefFromHomeFilm({ filmKey: 'gamma', title: 'Gamma' }));
+  storage.setItem(
+    'reel-seattle.v2.visibilityPreferences',
+    JSON.stringify({
+      version: 1,
+      settings: { hideNotInterested: true, hideSeen: false },
+    }),
+  );
+  const result = evaluate(sampleHome(), {}, storage);
+  assert.ok(!result.opportunities.some((o) => o.filmKey === 'gamma'));
+});
+
+test('user state: not interested any with Hide Not Interested off stays neutral', () => {
+  const storage = memoryStorage();
+  markFilmNotInterested(storage, filmRefFromHomeFilm({ filmKey: 'gamma', title: 'Gamma' }));
+  storage.setItem(
+    'reel-seattle.v2.visibilityPreferences',
+    JSON.stringify({
+      version: 1,
+      settings: { hideNotInterested: false, hideSeen: false },
+    }),
+  );
   const result = evaluate(sampleHome(), {}, storage);
   assert.ok(result.opportunities.some((o) => o.filmKey === 'gamma'));
 });

@@ -27,6 +27,9 @@ import {
   normalizeBrowseFormat,
   opportunityMatchesTimeRange,
 } from '../showtimes/showtimesBrowseModel.js';
+import {
+  filterVisibleOpportunities,
+} from '../visibility/filmVisibility.js';
 
 /** Stable Theater Detail date strip: today plus the next six calendar days. */
 export const THEATER_DETAIL_DATE_WINDOW_DAYS = 7;
@@ -61,6 +64,8 @@ function formatShowtimeVariantLabel(raw) {
  *   selectedDate?: string | null,
  *   formatKeys?: string[],
  *   timeRangeId?: string | null,
+ *   storage?: Storage | null,
+ *   visibilityPreferences?: { hideNotInterested?: boolean, hideSeen?: boolean } | null,
  * }} [options]
  * @returns {object}
  */
@@ -71,6 +76,12 @@ export function composeTheaterDetailPresentation(
   options = {},
 ) {
   const id = typeof theaterId === 'string' ? theaterId.trim() : '';
+  const visibilityOptions = {
+    storage: options.storage ?? null,
+    preferences: options.visibilityPreferences ?? null,
+    context: 'theater-detail',
+    now: options.now,
+  };
   const theater =
     (id && homeData?.theatersById?.[id]) ||
     (Array.isArray(homeData?.theaters)
@@ -151,6 +162,12 @@ export function composeTheaterDetailPresentation(
   const nowShowingFilms = buildTheaterNowShowing(homeData, id, {
     limit: THEATER_NOW_SHOWING_DETAIL_LIMIT,
     enrichmentIndex,
+    storage: visibilityOptions.storage,
+    visibilityPreferences: visibilityOptions.preferences,
+    now:
+      typeof options.now === 'function'
+        ? options.now()
+        : options.now,
   }).map((film) => ({
     ...film,
     badge: null,
@@ -160,7 +177,7 @@ export function composeTheaterDetailPresentation(
     homeData,
     id,
     enrichmentIndex,
-    options,
+    { ...options, visibilityOptions },
   );
 
   return {
@@ -242,6 +259,7 @@ export function composeTheaterDetailPresentation(
  *   selectedDate?: string | null,
  *   formatKeys?: string[],
  *   timeRangeId?: string | null,
+ *   visibilityOptions?: object | null,
  * }} [options]
  */
 function buildTodaysShowtimes(
@@ -314,7 +332,7 @@ function buildTodaysShowtimes(
   const formatOptions = collectTheaterFormatOptions(windowOpps);
   const dayUnfiltered = windowOpps.filter((opp) => opp.localDate === requested);
   const wantedFormats = new Set(formatKeys);
-  const dayOpps = dayUnfiltered.filter((opp) => {
+  const dayOppsRaw = dayUnfiltered.filter((opp) => {
     if (wantedFormats.size > 0) {
       const match = (opp.formatLabels ?? []).some((raw) => {
         const normalized = normalizeBrowseFormat(raw);
@@ -324,6 +342,11 @@ function buildTodaysShowtimes(
     }
     return opportunityMatchesTimeRange(opp, timeRangeId);
   });
+  const dayOpps = filterVisibleOpportunities(
+    dayOppsRaw,
+    homeData,
+    options.visibilityOptions ?? { context: 'theater-detail' },
+  );
 
   const empty = {
     ...emptyBase,

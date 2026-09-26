@@ -351,7 +351,7 @@ export function rankEligibleHomeShortFilms(
  * @param {object | null} homeData
  * @param {object | null} shortsIndex
  * @param {object | null} [enrichmentIndex]
- * @param {{ now?: Date | (() => Date) | string | number }} [options]
+ * @param {{ now?: Date | (() => Date) | string | number, maxCards?: number | null }} [options]
  */
 export function buildShortFilmsShelf(
   homeData,
@@ -386,7 +386,10 @@ export function buildShortFilmsShelf(
     enrichmentIndex,
     {
       now: options.now,
-      maxCards: HOME_SHORT_FILMS_MAX_CARDS,
+      maxCards:
+        options.maxCards === undefined
+          ? HOME_SHORT_FILMS_MAX_CARDS
+          : options.maxCards,
     },
   );
 

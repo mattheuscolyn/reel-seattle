@@ -28,14 +28,8 @@ import {
   resolveLeavingSortOption,
   sortLeavingFilms,
 } from './leavingListControls.js';
-
-function getBrowserStorage() {
-  try {
-    return typeof localStorage !== 'undefined' ? localStorage : null;
-  } catch {
-    return null;
-  }
-}
+import { filterVisibleListPresentation } from '../visibility/filmVisibility.js';
+import { useDiscoveryVisibility } from '../visibility/useDiscoveryVisibility.js';
 
 /**
  * @param {{
@@ -53,11 +47,20 @@ export default function LeavingSoonSurface({
   onOpenShowtimes,
   onOpenShowtimesBrowse,
 }) {
-  const basePresentation = buildLiveLeavingSoonPresentation(
+  const rawPresentation = buildLiveLeavingSoonPresentation(
     homeData,
     enrichmentIndex,
   );
-  const storage = getBrowserStorage();
+  const { storage, preferences, revision } = useDiscoveryVisibility();
+  const basePresentation = useMemo(
+    () =>
+      filterVisibleListPresentation(rawPresentation, {
+        storage,
+        preferences,
+        context: 'leaving-soon',
+      }),
+    [rawPresentation, storage, preferences, revision],
+  );
   const sortMenuId = useId();
   const filterMenuId = useId();
   const [expandedFilmKey, setExpandedFilmKey] = useState(null);

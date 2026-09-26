@@ -9,6 +9,10 @@ import {
   isFilmSeen,
   toggleFilmSeen,
 } from '../stores/seenFilmsStore.js';
+import {
+  clearRecentSeen,
+  recordRecentSeen,
+} from '../stores/recentSeenStore.js';
 
 /**
  * @typedef {{
@@ -82,12 +86,14 @@ export function buildSeenActionState({
 
 /**
  * Toggle Seen with confirmed-write semantics. Never passes showtimeRef.
+ * Records/clears recent-seen grace for Hide Seen discovery stability.
  *
  * @param {{
  *   storage?: Storage | null,
  *   filmRef: object | null,
  *   persist?: boolean,
  *   currentIsSeen?: boolean,
+ *   now?: number | Date,
  * }} params
  * @returns {{
  *   ok: boolean,
@@ -101,6 +107,7 @@ export function applySeenToggle({
   filmRef = null,
   persist = true,
   currentIsSeen = false,
+  now = Date.now(),
 } = {}) {
   if (!persist) {
     return {
@@ -133,6 +140,12 @@ export function applySeenToggle({
   }
 
   const next = Boolean(result.seen);
+  if (!prior && next) {
+    recordRecentSeen(storage, filmRef, { now });
+  } else if (prior && !next) {
+    clearRecentSeen(storage, filmRef, { now });
+  }
+
   return {
     ok: true,
     isSeen: next,

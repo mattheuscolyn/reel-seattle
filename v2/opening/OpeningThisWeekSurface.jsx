@@ -33,14 +33,8 @@ import {
   resolveOpeningSortOption,
   sortOpeningFilms,
 } from './openingListControls.js';
-
-function getBrowserStorage() {
-  try {
-    return typeof localStorage !== 'undefined' ? localStorage : null;
-  } catch {
-    return null;
-  }
-}
+import { filterVisibleListPresentation } from '../visibility/filmVisibility.js';
+import { useDiscoveryVisibility } from '../visibility/useDiscoveryVisibility.js';
 
 /**
  * @param {{
@@ -60,10 +54,19 @@ export default function OpeningThisWeekSurface({
   onOpenShowtimesBrowse,
   onStubAction,
 }) {
-  const basePresentation = homeData
+  const rawPresentation = homeData
     ? buildLiveOpeningThisWeekPresentation(homeData, enrichmentIndex)
     : resolveOpeningThisWeekPresentation();
-  const storage = getBrowserStorage();
+  const { storage, preferences, revision } = useDiscoveryVisibility();
+  const basePresentation = useMemo(
+    () =>
+      filterVisibleListPresentation(
+        rawPresentation,
+        { storage, preferences, context: 'opening-this-week' },
+        { rebuildSections: (films) => buildOpeningSections(films) },
+      ),
+    [rawPresentation, storage, preferences, revision],
+  );
   const sortMenuId = useId();
   const filterMenuId = useId();
   const [stubMessage, setStubMessage] = useState(null);
