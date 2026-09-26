@@ -8,7 +8,6 @@ import {
 } from '../shortsPrograms/composeHomeShortFilms.js';
 import {
   isFilmSaved,
-  toggleSavedFilm,
 } from '../stores/savedFilmsStore.js';
 import {
   isFilmSeen,
@@ -19,6 +18,7 @@ import {
   toggleFilmNotInterested,
 } from '../stores/notInterestedFilmsStore.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
+import { applySaveToggleWithSmartHandoff } from '../save/applySaveToggleWithSmartHandoff.js';
 import { subscribeFilmStoreMutations } from '../auth/filmStoreMutationBridge.js';
 
 function getBrowserStorage() {
@@ -256,9 +256,16 @@ export default function FilmShelf({
                 notInterested={notInterested}
                 onToggleSave={() => {
                   if (!filmRef) return;
-                  toggleSavedFilm(storage, filmRef, {
-                    title: detail.title,
-                    posterUrl: detail.posterUrl,
+                  applySaveToggleWithSmartHandoff({
+                    storage,
+                    filmRef,
+                    persist: true,
+                    homeData,
+                    enrichmentIndex,
+                    saveOptions: {
+                      title: detail.title,
+                      posterUrl: detail.posterUrl,
+                    },
                   });
                   setActionRevision((n) => n + 1);
                 }}

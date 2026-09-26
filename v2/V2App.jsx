@@ -165,9 +165,10 @@ import { isFilmDetailVisualFixtureMode } from './fixtures/filmDetailVisualFixtur
 import { getCachedTmdbOnlyFilm } from './filmDetail/tmdbOnlyFilmCache.js';
 import { asTmdbFilmId } from './search/tmdbSearchClient.js';
 import {
-  applySaveToggle,
   buildSaveActionState,
 } from './save/saveActionState.js';
+import { applySaveToggleWithSmartHandoff } from './save/applySaveToggleWithSmartHandoff.js';
+import SmartSaveHandoffHost from './save/SmartSaveHandoffHost.jsx';
 import {
   applySeenToggle,
   buildSeenActionState,
@@ -1579,11 +1580,13 @@ export default function V2App() {
 
   const handleToggleSave = useCallback(() => {
     if ((!isFilmDetail && !isShortsProgramDetail) || !saveAction.available) return;
-    const result = applySaveToggle({
+    const result = applySaveToggleWithSmartHandoff({
       storage: getBrowserStorage(),
       filmRef: saveAction.filmRef,
       persist: saveAction.persist,
       currentIsSaved: saveAction.isSaved,
+      homeData: sharedHomeData.homeData,
+      enrichmentIndex: enrichmentState.index,
     });
     if (!saveAction.persist) {
       setFixtureSaved(result.isSaved);
@@ -1596,7 +1599,13 @@ export default function V2App() {
     }
     setSaveError(null);
     setSaveRevision((value) => value + 1);
-  }, [isFilmDetail, isShortsProgramDetail, saveAction]);
+  }, [
+    isFilmDetail,
+    isShortsProgramDetail,
+    saveAction,
+    sharedHomeData.homeData,
+    enrichmentState.index,
+  ]);
 
   const seenAction = useMemo(() => {
     void seenRevision;
@@ -2873,6 +2882,22 @@ export default function V2App() {
       }
     >
       {mainContent}
+      <SmartSaveHandoffHost
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
+        onOpenFilmDetail={handleOpenFilmDetail}
+        onPlansChanged={() => setAcceptedPlansRevision((n) => n + 1)}
+        navigationKey={[
+          nav.primaryDestinationId ?? '',
+          nav.surface?.type ?? '',
+          nav.surface?.filmKey ?? '',
+          nav.surface?.filmId ?? '',
+          nav.surface?.collectionId ?? '',
+          nav.surface?.shortsProgramId ?? '',
+          nav.surface?.theaterId ?? '',
+          nav.surface?.shortId ?? '',
+        ].join('|')}
+      />
       {profileStubStatus ? (
         <p className="v2-visually-hidden" role="status" aria-live="polite">
           {profileStubStatus}

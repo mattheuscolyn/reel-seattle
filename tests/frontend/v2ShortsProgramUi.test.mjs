@@ -138,9 +138,9 @@ describe('v2 shorts program UI', () => {
             filmKey: 'local-sightings-2026-like-a-local-shorts-2026',
             theaterId: 'northwest-film-forum',
             theaterName: 'Northwest Film Forum',
-            localDate: '2026-09-25',
+            localDate: '2026-09-26',
             timeDisplay: '7:30 PM',
-            sortableLocalDateTime: '2026-09-25T19:30',
+            sortableLocalDateTime: '2026-09-26T19:30',
             formatTags: [],
             isSpecialScreening: false,
           },
@@ -182,7 +182,7 @@ describe('v2 shorts program UI', () => {
     assert.match(view.bestWay.theaterName || '', /Film Forum/i);
     assert.match(
       `${view.bestWay.whenLabel || ''} ${view.bestWay.timeLabel || ''} ${view.bestWay.dateLabel || ''}`,
-      /7:30|Sep 25|Sep\. 25/i,
+      /7:30|Sep 26|Sep\. 26/i,
     );
     assert.equal(view.today?.empty, true);
   });

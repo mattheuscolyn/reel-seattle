@@ -94,6 +94,8 @@ export function buildSaveActionState({
  *   isSaved: boolean,
  *   error: string | null,
  *   changed: boolean,
+ *   becameSaved: boolean,
+ *   becameUnsaved: boolean,
  * }}
  */
 export function applySaveToggle({
@@ -101,6 +103,7 @@ export function applySaveToggle({
   filmRef = null,
   persist = true,
   currentIsSaved = false,
+  saveOptions = null,
 } = {}) {
   if (!persist) {
     const next = !currentIsSaved;
@@ -109,6 +112,8 @@ export function applySaveToggle({
       isSaved: next,
       error: null,
       changed: true,
+      becameSaved: next,
+      becameUnsaved: !next,
     };
   }
 
@@ -118,17 +123,25 @@ export function applySaveToggle({
       isSaved: false,
       error: 'invalid_ref',
       changed: false,
+      becameSaved: false,
+      becameUnsaved: false,
     };
   }
 
   const prior = isFilmSaved(storage, filmRef);
-  const result = toggleSavedFilm(storage, filmRef);
+  const result = toggleSavedFilm(
+    storage,
+    filmRef,
+    saveOptions && typeof saveOptions === 'object' ? saveOptions : {},
+  );
   if (!result.ok) {
     return {
       ok: false,
       isSaved: isFilmSaved(storage, filmRef),
       error: result.error ?? 'storage_set_failed',
       changed: false,
+      becameSaved: false,
+      becameUnsaved: false,
     };
   }
 
@@ -138,5 +151,7 @@ export function applySaveToggle({
     isSaved: next,
     error: null,
     changed: prior !== next || Boolean(result.changed),
+    becameSaved: !prior && next,
+    becameUnsaved: prior && !next,
   };
 }

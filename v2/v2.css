@@ -6584,6 +6584,102 @@ a.v2-st-time:hover {
   font-size: 0.76rem;
 }
 
+/* Smart Save → Planner handoff (direct-add confirm; not labeled Smart Save in UI) */
+.v2-ssh-sheet {
+  max-height: min(70dvh, 22rem);
+}
+
+.v2-ssh-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 0.15rem;
+}
+
+.v2-ssh-body {
+  padding: 0.15rem 0.15rem 0.85rem;
+  text-align: left;
+}
+
+.v2-ssh-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--v2-text);
+}
+
+.v2-ssh-film {
+  margin: 0 0 0.55rem;
+  color: var(--v2-muted);
+  font-size: 0.9rem;
+}
+
+.v2-ssh-screening {
+  margin: 0 0 0.75rem;
+  color: var(--v2-text);
+  font-size: 0.95rem;
+  font-weight: 550;
+  line-height: 1.35;
+}
+
+.v2-ssh-prompt {
+  margin: 0;
+  color: var(--v2-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.v2-ssh-actions {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0 0.15rem 0.35rem;
+}
+
+.v2-ssh-primary,
+.v2-ssh-secondary {
+  appearance: none;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.65rem;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.v2-ssh-primary {
+  border: 0;
+  background: var(--v2-accent, #c4b5fd);
+  color: #121018;
+}
+
+.v2-ssh-primary:disabled,
+.v2-ssh-secondary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.v2-ssh-primary:focus-visible,
+.v2-ssh-secondary:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-ssh-secondary {
+  border: 1px solid var(--v2-border-strong);
+  background: transparent;
+  color: var(--v2-muted);
+  font-weight: 500;
+}
+
+.v2-ssh-status {
+  margin: 0;
+  padding: 0 0.15rem 0.35rem;
+  min-height: 1rem;
+  color: var(--v2-planner-meta);
+  font-size: 0.76rem;
+}
+
 .v2-planner-timeline-link {
   appearance: none;
   align-self: center;

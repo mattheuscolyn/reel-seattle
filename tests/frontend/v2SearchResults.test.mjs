@@ -309,7 +309,7 @@ test('Search Results Save uses shared store helpers', () => {
     'utf8',
   );
   assert.match(source, /filmRefFromHomeFilm/);
-  assert.match(source, /applySaveToggle/);
+  assert.match(source, /applySaveToggleWithSmartHandoff/);
   assert.match(source, /aria-pressed=\{isSaved\}/);
   assert.match(source, /Not interested/);
   assert.equal(source.includes('Save is not available yet'), false);
