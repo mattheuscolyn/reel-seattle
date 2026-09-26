@@ -11,9 +11,60 @@ import {
 export const SHARED_PLAN_RPC = Object.freeze({
   create: 'create_shared_plan',
   get: 'get_shared_plan',
+  getBySourceAccepted: 'get_shared_plan_by_source_accepted_plan',
+  inviteFriends: 'invite_friends_to_shared_plan',
+  respond: 'respond_to_shared_plan',
+  listPendingInvitations: 'list_pending_shared_plan_invitations',
+  listMySharedPlans: 'list_my_shared_plans',
   listOpenFriend: 'list_open_friend_shared_plans',
   listFriendFilmStates: 'list_friend_film_states',
 });
+
+/**
+ * @param {unknown} raw
+ */
+export function normalizeSharedPlanOwnerSummary(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const row = /** @type {Record<string, unknown>} */ (raw);
+  const userId =
+    typeof row.user_id === 'string'
+      ? row.user_id
+      : typeof row.userId === 'string'
+        ? row.userId
+        : null;
+  if (!userId) return null;
+  return {
+    userId,
+    displayName:
+      typeof row.display_name === 'string'
+        ? row.display_name
+        : typeof row.displayName === 'string'
+          ? row.displayName
+          : null,
+    avatarUrl:
+      typeof row.avatar_url === 'string'
+        ? row.avatar_url
+        : typeof row.avatarUrl === 'string'
+          ? row.avatarUrl
+          : null,
+  };
+}
+
+/**
+ * @param {unknown} raw
+ */
+export function normalizeSharedPlanInvitationRow(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const row = /** @type {Record<string, unknown>} */ (raw);
+  const plan = normalizeSharedPlanRpcPlan(row.plan ?? row);
+  const member = normalizePlanMember(row.member);
+  if (!plan || !member) return null;
+  return {
+    plan,
+    member,
+    owner: normalizeSharedPlanOwnerSummary(row.owner),
+  };
+}
 
 /**
  * @param {unknown} raw

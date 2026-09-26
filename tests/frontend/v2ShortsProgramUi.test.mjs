@@ -120,9 +120,13 @@ describe('v2 shorts program UI', () => {
 
   it('renders Shorts Program members in source order and joins schedule film key', () => {
     const index = indexShortsProgramsArtifact(ARTIFACT);
+    // Pin "now" so the fixture's 2026-09-26 opportunity is upcoming but not
+    // Pacific "today" — otherwise this assertion flips on calendar day.
+    const now = new Date('2026-09-25T12:00:00-07:00');
     const view = composeShortsProgramDetailPresentation({
       index,
       shortsProgramId: LIKE_A_LOCAL_ID,
+      now,
       homeData: {
         films: [
           {

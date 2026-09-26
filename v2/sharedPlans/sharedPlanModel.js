@@ -92,10 +92,44 @@ export const SHARED_PLAN_ERROR_REASONS = Object.freeze([
  *   role: 'owner' | 'invitee' | 'participant',
  *   response: 'pending' | 'interested' | 'maybe' | 'going' | 'declined',
  *   invitedBy: string | null,
+ *   inviteMessage: string | null,
  *   joinedAt: string | null,
  *   updatedAt: string,
  * }} PlanMember
  */
+
+/** Max plain-text invitation message length (matches DB constraint). */
+export const SHARED_PLAN_INVITE_MESSAGE_MAX = 280;
+
+/**
+ * RSVP responses allowed for a plan type (excludes initial `pending`).
+ * @param {'proposal' | 'decided' | null | undefined} planType
+ * @param {string | null | undefined} response
+ */
+export function isValidResponseForPlanType(planType, response) {
+  if (typeof response !== 'string' || !response) return false;
+  if (planType === 'proposal') {
+    return response === 'interested' || response === 'maybe' || response === 'declined';
+  }
+  if (planType === 'decided') {
+    return response === 'going' || response === 'declined';
+  }
+  return false;
+}
+
+/**
+ * @param {unknown} value
+ * @returns {string | null}
+ */
+export function normalizeInviteMessage(value) {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  if (trimmed.length > SHARED_PLAN_INVITE_MESSAGE_MAX) {
+    return trimmed.slice(0, SHARED_PLAN_INVITE_MESSAGE_MAX);
+  }
+  return trimmed;
+}
 
 /**
  * @param {unknown} value
@@ -302,6 +336,9 @@ export function normalizePlanMember(raw) {
     response: /** @type {PlanMember['response']} */ (response),
     invitedBy:
       asOptionalString(row.invitedBy) ?? asOptionalString(row.invited_by),
+    inviteMessage:
+      normalizeInviteMessage(row.inviteMessage) ??
+      normalizeInviteMessage(row.invite_message),
     joinedAt: asIso(row.joinedAt) ?? asIso(row.joined_at),
     updatedAt,
   };
@@ -361,6 +398,7 @@ export function createSharedPlan(input) {
     role: 'owner',
     response: type === 'decided' ? 'going' : 'interested',
     invitedBy: null,
+    inviteMessage: null,
     joinedAt: nowIso,
     updatedAt: nowIso,
   });
@@ -473,7 +511,7 @@ export function isFriendVisibleOpenPlan(plan, viewerId, context) {
  * @param {SharedPlan} plan
  * @param {string} ownerId
  * @param {string} inviteeId
- * @param {{ now?: string | number | Date }} [options]
+ * @param {{ now?: string | number | Date, inviteMessage?: string | null }} [options]
  */
 export function buildDirectInviteMember(plan, ownerId, inviteeId, options = {}) {
   const normalized = normalizeSharedPlan(plan);
@@ -486,6 +524,7 @@ export function buildDirectInviteMember(plan, ownerId, inviteeId, options = {}) 
   if (!invitee) return { ok: false, reason: 'not_authenticated' };
   if (invitee === owner) return { ok: false, reason: 'cannot_invite_self' };
   const nowIso = sharedPlanNowIso(options.now);
+  const inviteMessage = normalizeInviteMessage(options.inviteMessage);
   return {
     ok: true,
     member: /** @type {PlanMember} */ ({
@@ -494,6 +533,7 @@ export function buildDirectInviteMember(plan, ownerId, inviteeId, options = {}) 
       role: 'invitee',
       response: 'pending',
       invitedBy: owner,
+      inviteMessage,
       joinedAt: null,
       updatedAt: nowIso,
     }),
@@ -528,6 +568,7 @@ export function buildOpenJoinMember(plan, userId, context) {
       role: 'participant',
       response: normalized.type === 'decided' ? 'going' : 'interested',
       invitedBy: null,
+      inviteMessage: null,
       joinedAt: nowIso,
       updatedAt: nowIso,
     }),
@@ -547,6 +588,13 @@ export function transitionPlanMemberResponse(member, nextResponse, options = {})
   }
   if (normalized.role === 'owner' && nextResponse === 'declined') {
     // Owner leaving is a different operation (leave/delete), not RSVP decline.
+    return { ok: false, reason: 'invalid_transition' };
+  }
+  if (
+    options.planType &&
+    nextResponse !== 'pending' &&
+    !isValidResponseForPlanType(options.planType, nextResponse)
+  ) {
     return { ok: false, reason: 'invalid_transition' };
   }
   const nowIso = sharedPlanNowIso(options.now);
