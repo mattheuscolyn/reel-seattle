@@ -9,15 +9,13 @@ import {
 import {
   isFilmSaved,
 } from '../stores/savedFilmsStore.js';
-import {
-  isFilmSeen,
-  toggleFilmSeen,
-} from '../stores/seenFilmsStore.js';
+import { isFilmSeen } from '../stores/seenFilmsStore.js';
 import {
   isFilmNotInterested,
   toggleFilmNotInterested,
 } from '../stores/notInterestedFilmsStore.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
+import { applySeenToggle } from '../save/seenActionState.js';
 import { applySaveToggleWithSmartHandoff } from '../save/applySaveToggleWithSmartHandoff.js';
 import { subscribeFilmStoreMutations } from '../auth/filmStoreMutationBridge.js';
 
@@ -271,9 +269,11 @@ export default function FilmShelf({
                 }}
                 onToggleSeen={() => {
                   if (!filmRef) return;
-                  toggleFilmSeen(storage, filmRef, {
-                    title: detail.title,
-                    posterUrl: detail.posterUrl,
+                  applySeenToggle({
+                    storage,
+                    filmRef,
+                    persist: true,
+                    currentIsSeen: seen,
                   });
                   setActionRevision((n) => n + 1);
                 }}

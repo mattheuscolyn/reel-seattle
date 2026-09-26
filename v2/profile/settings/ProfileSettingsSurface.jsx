@@ -18,6 +18,11 @@ import {
   subscribeScheduleSettings,
   updateScheduleSettings,
 } from '../../stores/scheduleSettingsStore.js';
+import {
+  getVisibilityPreferences,
+  subscribeVisibilityPreferences,
+  updateVisibilityPreferences,
+} from '../../stores/visibilityPreferencesStore.js';
 import { PROFILE_SETTINGS_COPY } from './profileSettingsCopy.js';
 import {
   PROFILE_SETTINGS_SECTION_IDS,
@@ -88,6 +93,9 @@ function PreferencesSection() {
   const [experience, setExperience] = useState(() =>
     getExperiencePreferences(storage),
   );
+  const [visibility, setVisibility] = useState(() =>
+    getVisibilityPreferences(storage),
+  );
 
   useEffect(() => {
     const unsubTime = subscribeScheduleSettings(() => {
@@ -96,9 +104,13 @@ function PreferencesSection() {
     const unsubExp = subscribeExperiencePreferences(() => {
       setExperience(getExperiencePreferences(storage));
     });
+    const unsubVis = subscribeVisibilityPreferences(() => {
+      setVisibility(getVisibilityPreferences(storage));
+    });
     return () => {
       unsubTime();
       unsubExp();
+      unsubVis();
     };
   }, [storage]);
 
@@ -188,6 +200,58 @@ function PreferencesSection() {
           </span>
         </button>
         <p className="v2-settings-note">{copy.experienceNote}</p>
+      </div>
+
+      <div className="v2-settings-group" data-settings-group="discovery">
+        <h2 className="v2-settings-group-label" id="v2-settings-discovery-h">
+          {copy.discoveryGroupLabel}
+        </h2>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={visibility.hideNotInterested}
+          aria-describedby="v2-settings-hide-ni-desc"
+          className="v2-settings-switch-row"
+          data-settings-control="hide-not-interested"
+          onClick={() => {
+            const result = updateVisibilityPreferences(storage, {
+              hideNotInterested: !visibility.hideNotInterested,
+            });
+            if (result.ok) setVisibility(result.settings);
+          }}
+        >
+          <span className="v2-settings-switch-label">
+            {copy.hideNotInterestedLabel}
+          </span>
+          <span className="v2-settings-switch-track" aria-hidden="true">
+            <span className="v2-settings-switch-thumb" />
+          </span>
+        </button>
+        <p id="v2-settings-hide-ni-desc" className="v2-settings-note">
+          {copy.hideNotInterestedDescription}
+        </p>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={visibility.hideSeen}
+          aria-describedby="v2-settings-hide-seen-desc"
+          className="v2-settings-switch-row"
+          data-settings-control="hide-seen"
+          onClick={() => {
+            const result = updateVisibilityPreferences(storage, {
+              hideSeen: !visibility.hideSeen,
+            });
+            if (result.ok) setVisibility(result.settings);
+          }}
+        >
+          <span className="v2-settings-switch-label">{copy.hideSeenLabel}</span>
+          <span className="v2-settings-switch-track" aria-hidden="true">
+            <span className="v2-settings-switch-thumb" />
+          </span>
+        </button>
+        <p id="v2-settings-hide-seen-desc" className="v2-settings-note">
+          {copy.hideSeenDescription}
+        </p>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import {
 import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 import { addIsoDays, pacificDateString } from '../explore/exploreCatalog.js';
 import { resolveTheaterImagery } from './resolveTheaterImagery.js';
+import { shouldShowFilm } from '../visibility/filmVisibility.js';
 
 /** Approved Theater List Now Showing film cap. */
 export const THEATER_NOW_SHOWING_LIST_LIMIT = 5;
@@ -194,7 +195,14 @@ export function formatTheaterFormatsLabel(theater, homeData = null) {
  *
  * @param {object | null | undefined} homeData
  * @param {string | null | undefined} theaterId
- * @param {{ limit?: number, now?: Date, daySpan?: number, enrichmentIndex?: object | null }} [options]
+ * @param {{
+ *   limit?: number,
+ *   now?: Date,
+ *   daySpan?: number,
+ *   enrichmentIndex?: object | null,
+ *   storage?: Storage | null,
+ *   visibilityPreferences?: { hideNotInterested?: boolean, hideSeen?: boolean } | null,
+ * }} [options]
  * @returns {Array<{ filmKey: string, filmId: string | null, title: string, detailLabel: string | null, posterUrl: string | null, formatLabel: string | null, opportunityKey: string | null }>}
  */
 export function buildTheaterNowShowing(homeData, theaterId, options = {}) {
@@ -210,6 +218,12 @@ export function buildTheaterNowShowing(homeData, theaterId, options = {}) {
       ? options.daySpan
       : THEATER_NOW_SHOWING_DAY_SPAN;
   const enrichmentIndex = options.enrichmentIndex ?? null;
+  const visibilityOptions = {
+    storage: options.storage ?? null,
+    preferences: options.visibilityPreferences ?? null,
+    context: 'theater-detail',
+    now: options.now,
+  };
   const today = pacificDateString(options.now ?? new Date());
   const windowEnd = addIsoDays(today, daySpan - 1);
 
@@ -282,6 +296,13 @@ export function buildTheaterNowShowing(homeData, theaterId, options = {}) {
 
   return [...byIdentity.values()]
     .sort((a, b) => (a.sortKey < b.sortKey ? -1 : a.sortKey > b.sortKey ? 1 : 0))
+    .filter((row) => {
+      const film = filmsByKey.get(row.filmKey) ?? {
+        filmKey: row.filmKey,
+        filmId: row.filmId,
+      };
+      return shouldShowFilm({ ...visibilityOptions, film });
+    })
     .slice(0, limit)
     .map(({ sortKey: _s, ...row }) => row);
 }

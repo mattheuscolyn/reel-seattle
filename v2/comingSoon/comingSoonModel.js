@@ -5,6 +5,10 @@
 
 import { formatBrowseShortDateRange } from '../showtimes/browseDateSortUtils.js';
 import { formatRuntimeLabel } from '../home/shelfData.js';
+import {
+  filmStubFromComingSoonEntry,
+  shouldShowFilm,
+} from '../visibility/filmVisibility.js';
 
 export const COMING_SOON_PAGE_TITLE = 'Coming Soon';
 export const COMING_SOON_PAGE_TAGLINE =
@@ -481,7 +485,12 @@ function groupComingSoonByMonthAndWeek(rows) {
 /**
  * @param {object | null | undefined} artifact
  * @param {{ scope?: string, local?: string, kinds?: string[] }} [filters]
- * @param {{ loadStatus?: string }} [options]
+ * @param {{
+ *   loadStatus?: string,
+ *   storage?: Storage | null,
+ *   visibilityPreferences?: { hideNotInterested?: boolean, hideSeen?: boolean } | null,
+ *   now?: number | Date,
+ * }} [options]
  */
 export function composeComingSoonPage(
   artifact,
@@ -491,6 +500,12 @@ export function composeComingSoonPage(
   const loadStatus = options.loadStatus ?? (artifact ? 'ready' : 'unavailable');
   const normalized = normalizeComingSoonFilters(filters);
   const activeFilterCount = comingSoonActiveFilterCount(normalized);
+  const visibilityOptions = {
+    storage: options.storage ?? null,
+    preferences: options.visibilityPreferences ?? null,
+    context: 'coming-soon',
+    now: options.now,
+  };
 
   if (loadStatus === 'loading') {
     return {
@@ -529,6 +544,11 @@ export function composeComingSoonPage(
   const renderable = (artifact.entries || []).filter(isRenderableComingSoonEntry);
   const visible = renderable
     .filter((entry) => comingSoonEntryMatchesFilters(entry, normalized))
+    .filter((entry) => {
+      const film = filmStubFromComingSoonEntry(entry);
+      if (!film) return true;
+      return shouldShowFilm({ ...visibilityOptions, film });
+    })
     .slice()
     .sort(compareComingSoonEntries);
 

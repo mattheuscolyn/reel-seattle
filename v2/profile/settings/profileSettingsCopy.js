@@ -17,13 +17,19 @@ export const PROFILE_SETTINGS_COPY = Object.freeze({
   }),
   preferences: Object.freeze({
     title: 'Preferences',
-    subtitle: 'How times and accessibility should feel in Reel Seattle.',
+    subtitle: 'How times, accessibility, and discovery should feel in Reel Seattle.',
     timeFormatLabel: 'Time format',
     captionsLabel: 'Prefer Open Caption screenings when available',
     audioDescriptionLabel:
       'Prefer Audio Description screenings when available',
     experienceNote:
       'These are soft preferences. Reel Seattle does not hide other screenings.',
+    discoveryGroupLabel: 'Discovery',
+    hideNotInterestedLabel: 'Hide Not Interested',
+    hideNotInterestedDescription:
+      'Hide films you’ve marked Not Interested from discovery.',
+    hideSeenLabel: 'Hide Seen',
+    hideSeenDescription: 'Hide films you’ve marked Seen from discovery.',
   }),
   privacy: Object.freeze({
     title: 'Privacy & Sharing',

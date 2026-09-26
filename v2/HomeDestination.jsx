@@ -1,19 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { COLLECTION_IDS } from './destinations.js';
 import FilmShelf from './home/FilmShelf.jsx';
 import TopOpportunityFeature from './home/TopOpportunityFeature.jsx';
 import {
+  HOME_JUST_ANNOUNCED_MAX_CARDS,
+  HOME_LEAVING_SOON_MAX_CARDS,
+  HOME_SPECIAL_PRESENTATIONS_MAX_CARDS,
   buildJustAnnouncedShelf,
   buildLeavingSoonShelf,
   buildOpeningThisWeekShelf,
   buildSpecialPresentationsShelf,
 } from './home/shelfData.js';
-import { buildShortFilmsShelf } from './shortsPrograms/composeHomeShortFilms.js';
+import { HOME_OPENING_SHELF_MAX_CARDS } from './home/openingShelfRanking.js';
+import {
+  HOME_SHORT_FILMS_MAX_CARDS,
+  buildShortFilmsShelf,
+} from './shortsPrograms/composeHomeShortFilms.js';
 import {
   getHomeLandingMockupPresentation,
   isHomeMockupMode,
 } from './fixtures/homeLandingMockupPresentation.js';
 import { captureHomeRestore } from './navigation/navState.js';
+import { capVisibleShelf } from './visibility/filmVisibility.js';
+import { useDiscoveryVisibility } from './visibility/useDiscoveryVisibility.js';
 
 /**
  * Home destination — curated moviegoing dashboard.
@@ -63,6 +72,16 @@ export default function HomeDestination({
     });
   }, [restoreState, onRestoreConsumed]);
 
+  const { storage, preferences, revision } = useDiscoveryVisibility();
+  const visibilityOptions = useMemo(
+    () => ({
+      storage,
+      preferences,
+      context: 'home',
+    }),
+    [storage, preferences, revision],
+  );
+
   const effectiveHomeData = mockup ? mockup.homeData : homeData;
   const dataForShelves = mockup
     ? mockup.homeData
@@ -70,26 +89,52 @@ export default function HomeDestination({
       ? homeData
       : null;
 
-  const leavingShelf = mockup
-    ? mockup.leavingShelf
-    : buildLeavingSoonShelf(dataForShelves, enrichmentIndex);
-  const specialShelf = buildSpecialPresentationsShelf(
-    dataForShelves,
-    mockup ? null : enrichmentIndex,
+  const uncapped = { maxCards: Number.POSITIVE_INFINITY };
+
+  const leavingShelf = capVisibleShelf(
+    mockup
+      ? mockup.leavingShelf
+      : buildLeavingSoonShelf(dataForShelves, enrichmentIndex, uncapped),
+    visibilityOptions,
+    HOME_LEAVING_SOON_MAX_CARDS,
   );
-  const openingShelf = mockup
-    ? mockup.openingShelf
-    : buildOpeningThisWeekShelf(dataForShelves, enrichmentIndex);
-  const shortFilmsShelf = mockup
-    ? { status: 'unavailable', films: [] }
-    : buildShortFilmsShelf(
-        dataForShelves,
-        shortsIndex,
-        enrichmentIndex,
-      );
-  const announcedShelf = buildJustAnnouncedShelf(
-    dataForShelves,
-    mockup ? null : enrichmentIndex,
+  const specialShelf = capVisibleShelf(
+    buildSpecialPresentationsShelf(
+      dataForShelves,
+      mockup ? null : enrichmentIndex,
+      uncapped,
+    ),
+    visibilityOptions,
+    HOME_SPECIAL_PRESENTATIONS_MAX_CARDS,
+  );
+  const openingShelf = capVisibleShelf(
+    mockup
+      ? mockup.openingShelf
+      : buildOpeningThisWeekShelf(
+          dataForShelves,
+          enrichmentIndex,
+          uncapped,
+        ),
+    visibilityOptions,
+    HOME_OPENING_SHELF_MAX_CARDS,
+  );
+  const shortFilmsShelf = capVisibleShelf(
+    mockup
+      ? { status: 'unavailable', films: [] }
+      : buildShortFilmsShelf(dataForShelves, shortsIndex, enrichmentIndex, {
+          maxCards: null,
+        }),
+    visibilityOptions,
+    HOME_SHORT_FILMS_MAX_CARDS,
+  );
+  const announcedShelf = capVisibleShelf(
+    buildJustAnnouncedShelf(
+      dataForShelves,
+      mockup ? null : enrichmentIndex,
+      uncapped,
+    ),
+    visibilityOptions,
+    HOME_JUST_ANNOUNCED_MAX_CARDS,
   );
 
   const openDetailFromHome = ({

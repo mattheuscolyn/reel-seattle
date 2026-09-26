@@ -183,6 +183,7 @@ export function adaptRankedOpportunityForHome(scored, homeData, meta = {}) {
  *   enrichmentIndex?: object | null,
  *   weights?: object,
  *   topN?: number,
+ *   isCandidateVisible?: (scored: object) => boolean,
  * }} [options]
  */
 export function buildRankedTopOpportunitySelections(homeData, options = {}) {

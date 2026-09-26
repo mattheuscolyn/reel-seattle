@@ -44,7 +44,8 @@ import {
   applyNotInterestedToggle,
   buildNotInterestedActionState,
 } from '../save/notInterestedActionState.js';
-import { isFilmNotInterested } from '../stores/notInterestedFilmsStore.js';
+import { shouldShowFilm } from '../visibility/filmVisibility.js';
+import { useDiscoveryVisibility } from '../visibility/useDiscoveryVisibility.js';
 import { subscribeFilmStoreMutations } from '../auth/filmStoreMutationBridge.js';
 
 function getStorage() {
@@ -118,6 +119,9 @@ export default function SearchResultsSurface({
     return map;
   }, [homeData]);
 
+  const { preferences: visibilityPreferences, revision: visibilityRevision } =
+    useDiscoveryVisibility(storage);
+
   useEffect(() => {
     return subscribeFilmStoreMutations(() => {
       setPrefRevision((value) => value + 1);
@@ -126,12 +130,23 @@ export default function SearchResultsSurface({
 
   const isDismissedFilm = useMemo(() => {
     void prefRevision;
+    void visibilityRevision;
     return (film) => {
       const homeFilm = homeFilmByKey.get(film.filmKey) ?? film;
-      const ref = filmRefFromHomeFilm(homeFilm);
-      return Boolean(ref && isFilmNotInterested(storage, ref));
+      return !shouldShowFilm({
+        film: homeFilm,
+        storage,
+        preferences: visibilityPreferences,
+        context: 'search',
+      });
     };
-  }, [homeFilmByKey, storage, prefRevision]);
+  }, [
+    homeFilmByKey,
+    storage,
+    prefRevision,
+    visibilityRevision,
+    visibilityPreferences,
+  ]);
 
   const localModel = useMemo(
     () =>

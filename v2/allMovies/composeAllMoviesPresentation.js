@@ -44,6 +44,7 @@ import {
   opportunitySortableKey,
   parseLocalTimeMinutes,
 } from '../showtimes/showtimeEligibility.js';
+import { filterVisibleFilms } from '../visibility/filmVisibility.js';
 
 export const ALL_MOVIES_PAGE_TITLE = 'All Movies';
 export const ALL_MOVIES_PAGE_TAGLINE =
@@ -670,6 +671,8 @@ function toAllMoviesRow(item, resolved, options) {
  *   enrichmentIndex?: object | null,
  *   timeFormatId?: string,
  *   now?: Date,
+ *   storage?: Storage | null,
+ *   visibilityPreferences?: { hideNotInterested?: boolean, hideSeen?: boolean } | null,
  * }} [options]
  */
 export function composeAllMoviesPresentation(homeData, options = {}) {
@@ -677,6 +680,12 @@ export function composeAllMoviesPresentation(homeData, options = {}) {
   const ui = normalizeAllMoviesUi(options);
   const timeFormatId = options.timeFormatId ?? '12h';
   const enrichmentIndex = options.enrichmentIndex ?? null;
+  const visibilityOptions = {
+    storage: options.storage ?? null,
+    preferences: options.visibilityPreferences ?? null,
+    context: 'all-movies',
+    now: options.now,
+  };
 
   if (loadStatus === 'loading' && !homeData) {
     return {
@@ -735,7 +744,7 @@ export function composeAllMoviesPresentation(homeData, options = {}) {
   }
 
   const inventory = buildAllMoviesInventory(homeData, { now: options.now });
-  const rows = inventory.items.map((item) => {
+  const rawRows = inventory.items.map((item) => {
     const resolved = resolveCanonicalFilmPresentation({
       filmKey: item.filmKey,
       filmId: item.filmId,
@@ -750,6 +759,8 @@ export function composeAllMoviesPresentation(homeData, options = {}) {
       enrichmentIndex,
     });
   });
+
+  const rows = filterVisibleFilms(rawRows, visibilityOptions);
 
   const compared = ui.sort === 'az' ? compareAllMoviesAz : compareAllMoviesSoonest;
   const searched = ui.query

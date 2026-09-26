@@ -22,6 +22,7 @@ import {
   normalizeAllMoviesGenreKeys,
   normalizeAllMoviesUi,
 } from './composeAllMoviesPresentation.js';
+import { useDiscoveryVisibility } from '../visibility/useDiscoveryVisibility.js';
 
 /**
  * @param {{
@@ -229,6 +230,7 @@ export default function AllMoviesSurface({
   const genreSheetTitleId = useId();
   const genreSheetId = useId();
   const normalized = normalizeAllMoviesUi(ui);
+  const { storage, preferences, revision } = useDiscoveryVisibility();
   const [sortOpen, setSortOpen] = useState(false);
   const [genresOpen, setGenresOpen] = useState(false);
   const [draftGenreKeys, setDraftGenreKeys] = useState(normalized.genreKeys);
@@ -245,6 +247,8 @@ export default function AllMoviesSurface({
         genreKeys: normalized.genreKeys,
         enrichmentIndex,
         timeFormatId,
+        storage,
+        visibilityPreferences: preferences,
       }),
     [
       homeData,
@@ -255,6 +259,9 @@ export default function AllMoviesSurface({
       genreKeySig,
       enrichmentIndex,
       timeFormatId,
+      storage,
+      preferences,
+      revision,
     ],
   );
 

@@ -29,6 +29,7 @@ import {
   opportunityListingKey,
   safeExternalHttpUrl,
 } from './collectionsModel.js';
+import { shouldShowFilm } from '../visibility/filmVisibility.js';
 
 /**
  * @param {object | null | undefined} homeData
@@ -90,6 +91,8 @@ function formatWhenLabel(opportunity) {
  *   homeData?: object | null,
  *   enrichmentIndex?: object | null,
  *   now?: Date,
+ *   storage?: Storage | null,
+ *   visibilityPreferences?: { hideNotInterested?: boolean, hideSeen?: boolean } | null,
  * }} [options]
  */
 export function composeCollectionDetail(artifact, collectionId, options = {}) {
@@ -218,13 +221,50 @@ export function composeCollectionDetail(artifact, collectionId, options = {}) {
     }
   }
 
+  const visibilityOptions = {
+    storage: options.storage ?? null,
+    preferences: options.visibilityPreferences ?? null,
+    context: 'collection',
+    now: options.now,
+  };
+  const visibleUpcoming = upcoming.filter((row) =>
+    shouldShowFilm({
+      ...visibilityOptions,
+      film: row.filmKey
+        ? { filmKey: row.filmKey, filmId: row.filmId }
+        : null,
+      filmRef: row.filmKey
+        ? {
+            filmKey: row.filmKey,
+            showtimeFilmKey: row.filmKey,
+            filmId: row.filmId,
+          }
+        : null,
+    }),
+  );
+  const visibleAlso = alsoInCollection.filter((row) =>
+    shouldShowFilm({
+      ...visibilityOptions,
+      film: row.filmKey
+        ? { filmKey: row.filmKey, filmId: row.filmId }
+        : null,
+      filmRef: row.filmKey
+        ? {
+            filmKey: row.filmKey,
+            showtimeFilmKey: row.filmKey,
+            filmId: row.filmId,
+          }
+        : null,
+    }),
+  );
+
   const dateRangeLabel = formatCollectionDateRangeLabel(
     collection.startDate,
     collection.endDate,
     generatedAt,
   );
   const memberCount = Number(collection.memberCount) || members.length;
-  const upcomingCount = upcoming.length;
+  const upcomingCount = visibleUpcoming.length;
   const artifactShowtimeCount = Number(collection.currentShowtimeCount) || 0;
 
   return {
@@ -243,8 +283,8 @@ export function composeCollectionDetail(artifact, collectionId, options = {}) {
     upcomingCount,
     artifactShowtimeCount,
     dateRangeLabel,
-    upcoming,
-    alsoInCollection,
+    upcoming: visibleUpcoming,
+    alsoInCollection: visibleAlso,
     todayIso,
   };
 }

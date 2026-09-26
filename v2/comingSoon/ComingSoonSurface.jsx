@@ -18,6 +18,7 @@ import {
   composeComingSoonPage,
   normalizeComingSoonFilters,
 } from './comingSoonModel.js';
+import { useDiscoveryVisibility } from '../visibility/useDiscoveryVisibility.js';
 
 /**
  * @param {{
@@ -93,10 +94,16 @@ export default function ComingSoonSurface({
   const [draftFilters, setDraftFilters] = useState(() =>
     normalizeComingSoonFilters(filters),
   );
+  const { storage, preferences, revision } = useDiscoveryVisibility();
 
   const presentation = useMemo(
-    () => composeComingSoonPage(artifact, filters, { loadStatus }),
-    [artifact, filters, loadStatus],
+    () =>
+      composeComingSoonPage(artifact, filters, {
+        loadStatus,
+        storage,
+        visibilityPreferences: preferences,
+      }),
+    [artifact, filters, loadStatus, storage, preferences, revision],
   );
 
   useBodyScrollLock(filtersOpen);

@@ -66,8 +66,14 @@ export function findNextOpportunityForFilm(homeData, filmKey, now = new Date()) 
  *
  * @param {object | null} homeData
  * @param {object | null} [enrichmentIndex]
+ * @param {{ maxCards?: number }} [options]
  */
-export function buildOpeningThisWeekShelf(homeData, enrichmentIndex = null) {
+export function buildOpeningThisWeekShelf(
+  homeData,
+  enrichmentIndex = null,
+  options = {},
+) {
+  const maxCards = options.maxCards ?? HOME_OPENING_SHELF_MAX_CARDS;
   if (!homeData) {
     return {
       status: 'unavailable',
@@ -146,7 +152,7 @@ export function buildOpeningThisWeekShelf(homeData, enrichmentIndex = null) {
   }
 
   const ranked = rankOpeningShelfEntries(enrichedEntries, {
-    maxCards: HOME_OPENING_SHELF_MAX_CARDS,
+    maxCards,
   });
 
   const shelfFilms = ranked.map((entry) => {
