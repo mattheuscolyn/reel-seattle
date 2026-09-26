@@ -10,6 +10,7 @@ import {
   FRIEND_INVITE_LANDING_SURFACE_TYPE,
   PROFILE_FRIENDS_SURFACE_TYPE,
 } from '../friends/friendsIds.js';
+import { SHARED_PLAN_DETAIL_SURFACE_TYPE } from '../sharedPlans/sharedPlanCopy.js';
 import {
   PROFILE_SETTINGS_SURFACE_TYPE,
   resolveProfileSettingsSectionId,
@@ -1174,6 +1175,35 @@ export function openFriendInviteLanding(state, params) {
 }
 
 /**
+ * Shared Plan Detail — canonical destination keyed by planId.
+ * @param {object} state
+ * @param {{
+ *   planId: string,
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openSharedPlanDetail(state, params) {
+  const planId =
+    typeof params?.planId === 'string' ? params.planId.trim() : '';
+  if (!planId) return state;
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'planner',
+  );
+  return {
+    ...state,
+    primaryDestinationId: 'planner',
+    plannerSeed: null,
+    surface: {
+      type: SHARED_PLAN_DETAIL_SURFACE_TYPE,
+      planId,
+      originPrimary,
+      returnSurface: params.returnSurface ?? null,
+    },
+  };
+}
+
+/**
  * Back from a deep surface.
  * @param {object} state
  */
@@ -1203,7 +1233,8 @@ export function navigateBack(state) {
     state.surface.type === PROFILE_SETTINGS_SURFACE_TYPE ||
     state.surface.type === PROFILE_FRIENDS_SURFACE_TYPE ||
     state.surface.type === FRIEND_DETAIL_SURFACE_TYPE ||
-    state.surface.type === FRIEND_INVITE_LANDING_SURFACE_TYPE
+    state.surface.type === FRIEND_INVITE_LANDING_SURFACE_TYPE ||
+    state.surface.type === SHARED_PLAN_DETAIL_SURFACE_TYPE
   ) {
     if (state.surface.type === 'showtimes-browse') {
       if (state.surface.returnSurface) {

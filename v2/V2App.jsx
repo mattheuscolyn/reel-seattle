@@ -89,6 +89,7 @@ import {
   openProfileFriends,
   openFriendDetail,
   openFriendInviteLanding,
+  openSharedPlanDetail,
   startPlannerFromFilm,
   updateSearchUi,
   updateShowtimesBrowseUi,
@@ -148,16 +149,18 @@ import ProfileSettingsSurface from './profile/settings/ProfileSettingsSurface.js
 import FriendsSurface from './friends/FriendsSurface.jsx';
 import FriendDetailSurface from './friends/FriendDetailSurface.jsx';
 import FriendInviteLandingSurface from './friends/FriendInviteLandingSurface.jsx';
-import {
-  isLikelyFriendInviteToken,
-  parseInviteTokenFromPath,
-  restoreInvitePath,
-} from './friends/friendsModel.js';
+import SharedPlanDetailSurface from './sharedPlans/SharedPlanDetailSurface.jsx';
+import { SHARED_PLAN_DETAIL_SURFACE_TYPE } from './sharedPlans/sharedPlanCopy.js';
 import {
   FRIEND_DETAIL_SURFACE_TYPE,
   FRIEND_INVITE_LANDING_SURFACE_TYPE,
   PROFILE_FRIENDS_SURFACE_TYPE,
 } from './friends/friendsIds.js';
+import {
+  isLikelyFriendInviteToken,
+  parseInviteTokenFromPath,
+  restoreInvitePath,
+} from './friends/friendsModel.js';
 import { createDefaultShowtimesBrowseUi } from './showtimes/showtimesBrowseModel.js';
 import { resolveFilmDetailBackLabel } from './filmDetail/filmDetailModel.js';
 import { isPlanDetailsMockupMode } from './fixtures/buildPlanPlanDetailsMockupFixture.js';
@@ -916,6 +919,20 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleOpenSharedPlanDetail = useCallback((params = {}) => {
+    const planId =
+      typeof params.planId === 'string' ? params.planId.trim() : '';
+    if (!planId) return;
+    setNav((current) =>
+      openSharedPlanDetail(current, {
+        planId,
+        originPrimary: params.originPrimary ?? 'planner',
+        returnSurface: params.returnSurface ?? null,
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
@@ -973,7 +990,8 @@ export default function V2App() {
         current.surface?.type === 'build-plan-plan-details' ||
         current.surface?.type === 'short-detail' ||
         current.surface?.type === 'shorts-program-detail' ||
-        current.surface?.type === FRIEND_DETAIL_SURFACE_TYPE
+        current.surface?.type === FRIEND_DETAIL_SURFACE_TYPE ||
+        current.surface?.type === SHARED_PLAN_DETAIL_SURFACE_TYPE
           ? current.surface
           : null);
       const filmKey =
@@ -1524,6 +1542,8 @@ export default function V2App() {
   const isFriendDetail = nav.surface?.type === FRIEND_DETAIL_SURFACE_TYPE;
   const isFriendInviteLanding =
     nav.surface?.type === FRIEND_INVITE_LANDING_SURFACE_TYPE;
+  const isSharedPlanDetail =
+    nav.surface?.type === SHARED_PLAN_DETAIL_SURFACE_TYPE;
   const isTheaterDetail = nav.surface?.type === 'theater-detail';
   const isFilmDetail = nav.surface?.type === 'film-detail';
   const isShortDetail = nav.surface?.type === 'short-detail';
@@ -2750,6 +2770,23 @@ export default function V2App() {
         }
       />
     );
+  } else if (isSharedPlanDetail) {
+    mainContent = (
+      <SharedPlanDetailSurface
+        planId={nav.surface.planId}
+        onBack={handleBack}
+        onResponded={() => setAcceptedPlansRevision((n) => n + 1)}
+        onOpenFilmDetail={(payload) =>
+          handleOpenFilmDetail({
+            filmKey: payload.filmKey,
+            filmId: payload.filmId ?? null,
+            opportunityKey: payload.opportunityKey ?? null,
+            originPrimary: 'planner',
+            returnSurface: nav.surface,
+          })
+        }
+      />
+    );
   } else if (isFriendInviteLanding) {
     mainContent = (
       <FriendInviteLandingSurface
@@ -2779,6 +2816,7 @@ export default function V2App() {
         plannerSeed={nav.plannerSeed}
         onOpenBuildPlan={handleOpenBuildPlan}
         onOpenSavedPlan={handleOpenSavedPlan}
+        onOpenSharedPlan={handleOpenSharedPlanDetail}
         onRemoveAcceptedPlan={(planId) => {
           const result = removeAcceptedPlan(getBrowserStorage(), planId);
           if (result.ok && result.changed) {

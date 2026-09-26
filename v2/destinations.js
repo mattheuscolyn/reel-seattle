@@ -115,7 +115,8 @@ export function resolveActivePrimaryId(nav) {
     nav.surface?.type === 'profile-settings' ||
     nav.surface?.type === 'profile-friends' ||
     nav.surface?.type === 'friend-detail' ||
-    nav.surface?.type === 'friend-invite-landing'
+    nav.surface?.type === 'friend-invite-landing' ||
+    nav.surface?.type === 'shared-plan-detail'
   ) {
     return resolveDestinationId(nav.surface.originPrimary ?? primary);
   }
@@ -180,6 +181,7 @@ export function resolveHeaderBackLabel(nav, options = {}) {
 
   if (surface.type === 'film-detail') {
     if (surface.returnSurface?.type === 'friend-detail') return 'Friend';
+    if (surface.returnSurface?.type === 'shared-plan-detail') return 'Plan';
     return options.filmBackLabel || originBackLabel(surface.originPrimary);
   }
   if (surface.type === 'short-detail') {
@@ -244,6 +246,9 @@ export function resolveHeaderBackLabel(nav, options = {}) {
   }
   if (surface.type === 'friend-invite-landing') {
     return originBackLabel(surface.originPrimary, 'Home');
+  }
+  if (surface.type === 'shared-plan-detail') {
+    return originBackLabel(surface.originPrimary, 'Planner');
   }
   if (
     surface.type === 'format-detail' ||

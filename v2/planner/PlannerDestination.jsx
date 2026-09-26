@@ -30,12 +30,12 @@ import {
 } from '../stores/scheduleSettingsStore.js';
 import { useAuth } from '../auth/useAuth.js';
 import InviteFriendsToPlanSheet from '../sharedPlans/InviteFriendsToPlanSheet.jsx';
-import SharedPlanInviteDetailSheet from '../sharedPlans/SharedPlanInviteDetailSheet.jsx';
 import {
   getSharedPlansPlannerSnapshot,
   refreshSharedPlansForPlanner,
   subscribeSharedPlansPlanner,
 } from '../sharedPlans/sharedPlansPlannerStore.js';
+import { getSharedPlanBySourceAcceptedRemote } from '../sharedPlans/sharedPlansApi.js';
 
 function getBrowserStorage() {
   try {
@@ -372,6 +372,7 @@ export default function PlannerDestination({
   onOpenBuildPlan,
   onOpenFilmDetail,
   onOpenSavedPlan = null,
+  onOpenSharedPlan = null,
   onRemoveAcceptedPlan = null,
   onAcceptedPlansChange,
   homeData = null,
@@ -393,9 +394,6 @@ export default function PlannerDestination({
   const [activeTab, setActiveTab] = useState('upcoming');
   const [timelineExpanded, setTimelineExpanded] = useState(false);
   const [invitePlanId, setInvitePlanId] = useState(/** @type {string | null} */ (null));
-  const [sharedDetailPlanId, setSharedDetailPlanId] = useState(
-    /** @type {string | null} */ (null),
-  );
   useEffect(
     () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
     [],
@@ -462,9 +460,19 @@ export default function PlannerDestination({
       : (upcoming.dateGroups ?? []).slice(0, compactDateGroupLimit);
   const canExpandTimeline = totalDateGroupCount > compactDateGroupLimit;
 
+  const openSharedPlanDetail = (planId) => {
+    const id = typeof planId === 'string' ? planId.trim() : '';
+    if (!id) return;
+    if (typeof onOpenSharedPlan === 'function') {
+      onOpenSharedPlan({ planId: id, originPrimary: 'planner' });
+      return;
+    }
+    announceStub('shared-plan-detail', 'Shared plan');
+  };
+
   const openScreening = (target) => {
     if (target?.origin === 'shared-plan' || target?.sharedPlanId) {
-      setSharedDetailPlanId(target.sharedPlanId || target.planId);
+      openSharedPlanDetail(target.sharedPlanId || target.planId);
       return;
     }
     const planId = typeof target?.planId === 'string' ? target.planId.trim() : '';
@@ -498,7 +506,7 @@ export default function PlannerDestination({
 
   const openReviewOptions = (item) => {
     if (item?.kind === 'plan-invite' || item?.kind === 'plan-invite-maybe') {
-      setSharedDetailPlanId(item.sharedPlanId || item.planId);
+      openSharedPlanDetail(item.sharedPlanId || item.planId);
       return;
     }
     const conflictId =
@@ -515,9 +523,22 @@ export default function PlannerDestination({
     setActiveConflictId(conflictId);
   };
 
-  const openSavedPlan = (planId) => {
+  const openSavedPlan = async (planId) => {
     const id = typeof planId === 'string' ? planId.trim() : '';
     if (!id) return;
+    // If this AcceptedPlan was promoted to a shared plan, open the canonical destination.
+    if (viewerId && typeof onOpenSharedPlan === 'function') {
+      try {
+        const found = await getSharedPlanBySourceAcceptedRemote(id);
+        if (found.ok && found.plan?.planId) {
+          setSelectedScreening(null);
+          openSharedPlanDetail(found.plan.planId);
+          return;
+        }
+      } catch {
+        // Fall through to solo plan details.
+      }
+    }
     if (typeof onOpenSavedPlan === 'function') {
       setSelectedScreening(null);
       onOpenSavedPlan(id);
@@ -774,7 +795,7 @@ export default function PlannerDestination({
                             onOpenPlanDetails={openSavedPlan}
                             onRemovePlan={removeSavedPlan}
                             onInviteFriends={openInviteFriends}
-                            onOpenSharedPlan={setSharedDetailPlanId}
+                            onOpenSharedPlan={openSharedPlanDetail}
                           />
                         ) : (
                           <ScreeningRow
@@ -868,16 +889,6 @@ export default function PlannerDestination({
         onInvited={() => {
           refreshShared();
           onAcceptedPlansChange?.();
-        }}
-      />
-
-      <SharedPlanInviteDetailSheet
-        open={Boolean(sharedDetailPlanId)}
-        planId={sharedDetailPlanId}
-        viewerId={viewerId}
-        onClose={() => setSharedDetailPlanId(null)}
-        onResponded={() => {
-          refreshShared();
         }}
       />
 

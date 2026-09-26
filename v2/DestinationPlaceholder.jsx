@@ -64,6 +64,7 @@ export default function DestinationPlaceholder({
   onPlannerStubAction,
   onOpenBuildPlan,
   onOpenSavedPlan = null,
+  onOpenSharedPlan = null,
   onRemoveAcceptedPlan = null,
   onAcceptedPlansChange,
   acceptedPlansRevision = 0,
@@ -120,6 +121,7 @@ export default function DestinationPlaceholder({
         onOpenBuildPlan={onOpenBuildPlan}
         onOpenFilmDetail={onOpenFilmDetail}
         onOpenSavedPlan={onOpenSavedPlan}
+        onOpenSharedPlan={onOpenSharedPlan}
         onRemoveAcceptedPlan={onRemoveAcceptedPlan}
         onAcceptedPlansChange={onAcceptedPlansChange}
         homeData={homeData}
