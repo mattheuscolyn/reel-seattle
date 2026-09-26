@@ -24,6 +24,7 @@ import {
  *   collectionsArtifact?: object | null,
  *   timeFormatId?: string | null,
  *   opportunityKey?: string | null,
+ *   now?: Date | (() => Date) | null,
  * }} input
  */
 export function composeShortsProgramDetailPresentation(input) {
@@ -74,6 +75,7 @@ export function composeShortsProgramDetailPresentation(input) {
           {
             enrichmentIndex: input.enrichmentIndex ?? null,
             timeFormatId: input.timeFormatId ?? null,
+            now: input.now ?? undefined,
           },
         )
       : null;
