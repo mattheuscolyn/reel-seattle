@@ -84,7 +84,7 @@ test('Theater Detail View all uses shared browse helper with theater + back', ()
 });
 
 test('Opening Save / Not Interested use shared stores (not stubs)', () => {
-  assert.match(OPENING_SRC, /toggleSavedFilm/);
+  assert.match(OPENING_SRC, /applySaveToggleWithSmartHandoff/);
   assert.match(OPENING_SRC, /toggleFilmNotInterested/);
   assert.match(OPENING_SRC, /isFilmSaved/);
   assert.match(OPENING_SRC, /isFilmNotInterested/);

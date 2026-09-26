@@ -381,7 +381,8 @@ test('production view marks Save available for resolved films', () => {
 
 test('Film Detail wires Save through the action panel (not the header)', () => {
   assert.match(APP, /buildSaveActionState/);
-  assert.match(APP, /applySaveToggle/);
+  assert.match(APP, /applySaveToggleWithSmartHandoff/);
+  assert.match(APP, /SmartSaveHandoffHost/);
   assert.match(APP, /onToggleSave/);
   assert.match(SURFACE, /aria-pressed=\{isSaved\}/);
   assert.match(SURFACE, /\{saveLabel\}/);
@@ -389,7 +390,7 @@ test('Film Detail wires Save through the action panel (not the header)', () => {
   assert.equal(HEADER.includes('v2-header-film-actions'), false);
   assert.equal(HEADER.includes('aria-pressed={savePressed}'), false);
   assert.match(SEARCH, /filmRefFromHomeFilm/);
-  assert.match(SEARCH, /applySaveToggle/);
+  assert.match(SEARCH, /applySaveToggleWithSmartHandoff/);
   assert.match(SEARCH, /aria-pressed=\{isSaved\}/);
   assert.equal(SEARCH.includes('Save is not available yet'), false);
 });

@@ -12,9 +12,9 @@ import HomeShelfDetailFilmCard from '../homeShelfDetail/HomeShelfDetailFilmCard.
 import HomeShelfDetailSurface from '../homeShelfDetail/HomeShelfDetailSurface.jsx';
 import { useBodyScrollLock } from '../homeShelfDetail/useBodyScrollLock.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
+import { applySaveToggleWithSmartHandoff } from '../save/applySaveToggleWithSmartHandoff.js';
 import {
   isFilmSaved,
-  toggleSavedFilm,
 } from '../stores/savedFilmsStore.js';
 import {
   isFilmNotInterested,
@@ -90,9 +90,16 @@ export default function SpecialPresentationsSurface({
   const handleToggleSave = (film) => {
     const { filmRef } = filmActionState(film);
     if (!filmRef) return;
-    toggleSavedFilm(storage, filmRef, {
-      title: film.title,
-      posterUrl: film.posterUrl,
+    applySaveToggleWithSmartHandoff({
+      storage,
+      filmRef,
+      persist: true,
+      homeData,
+      enrichmentIndex,
+      saveOptions: {
+        title: film.title,
+        posterUrl: film.posterUrl,
+      },
     });
     setActionRevision((n) => n + 1);
   };

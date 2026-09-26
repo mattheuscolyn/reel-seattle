@@ -201,9 +201,9 @@ test('More details wires to Film Detail; Save/NI use shared film stores', () => 
   assert.match(CARD_SRC, /onOpenFilmDetail/);
   assert.match(OPENING_SRC, /savedFilmsStore/);
   assert.match(OPENING_SRC, /notInterestedFilmsStore/);
-  assert.match(OPENING_SRC, /toggleSavedFilm/);
+  assert.match(OPENING_SRC, /applySaveToggleWithSmartHandoff/);
   assert.match(CARD_SRC, /Showtimes/);
-  assert.equal(OPENING_SRC.includes('applySaveToggle'), false);
+  assert.equal(OPENING_SRC.includes('toggleSavedFilm'), false);
   assert.equal(FIXTURE_SRC.includes('stores/'), false);
   const storage = memoryStorage();
   assert.equal(getSavedFilms(storage).length, 0);

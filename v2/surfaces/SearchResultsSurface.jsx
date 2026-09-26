@@ -35,7 +35,9 @@ import {
 import { IMAX_FORMAT_TAGS, THIRTY_FIVE_MM_FORMAT_TAGS } from '../explore/exploreIds.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 import {
-  applySaveToggle,
+  applySaveToggleWithSmartHandoff,
+} from '../save/applySaveToggleWithSmartHandoff.js';
+import {
   buildSaveActionState,
 } from '../save/saveActionState.js';
 import {
@@ -373,11 +375,13 @@ export default function SearchResultsSurface({
       storage,
     });
     if (!action.available) return;
-    const result = applySaveToggle({
+    const result = applySaveToggleWithSmartHandoff({
       storage,
       filmRef: action.filmRef,
       persist: true,
       currentIsSaved: action.isSaved,
+      homeData,
+      enrichmentIndex,
     });
     if (!result.ok) {
       setSaveErrorByKey((current) => ({
