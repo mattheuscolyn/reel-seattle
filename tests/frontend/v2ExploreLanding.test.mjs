@@ -39,12 +39,17 @@ import {
 import { COLLECTION_IDS } from '../../v2/explore/exploreIds.js';
 import {
   browseUiForQuickStart,
+  buildQuickStartItems,
+  DEFAULT_QUICK_START,
   QUICK_START,
   QUICK_START_ALL_SHOWTIMES_ID,
   QUICK_START_TODAY_ID,
   QUICK_START_WEEKEND_ID,
 } from '../../v2/explore/exploreQuickStart.js';
-import { BROWSE_ROWS } from '../../v2/explore/exploreBrowseBy.js';
+import {
+  BROWSE_ROWS,
+  BROWSE_SHOWTIMES_ID,
+} from '../../v2/explore/exploreBrowseBy.js';
 import { normalizeBrowseFilters } from '../../v2/showtimes/browseFilterState.js';
 import {
   createDefaultShowtimesBrowseUi,
@@ -332,9 +337,9 @@ test('All Movies / IMAX / 35mm honesty unchanged', () => {
   assert.equal(filmsWithFormatTags(sampleHome(), ['35mm']).length, 0);
 });
 
-test('Quick Start is exactly All showtimes, Today, and This weekend', () => {
+test('Quick Start defaults are All showtimes, Today, and This weekend', () => {
   assert.deepEqual(
-    QUICK_START.map((item) => item.label),
+    DEFAULT_QUICK_START.map((item) => item.label),
     ['All showtimes', 'Today', 'This weekend'],
   );
   assert.deepEqual(
@@ -346,7 +351,12 @@ test('Quick Start is exactly All showtimes, Today, and This weekend', () => {
     ],
   );
   assert.equal(QUICK_START_ALL_SHOWTIMES_ID, SHOWTIMES_BROWSE_QUICK_START_ID);
-  const labels = QUICK_START.map((item) => item.label);
+  const noHistory = buildQuickStartItems({ storage: memoryStorage() });
+  assert.deepEqual(
+    noHistory.map((item) => item.id),
+    DEFAULT_QUICK_START.map((item) => item.id),
+  );
+  const labels = DEFAULT_QUICK_START.map((item) => item.label);
   assert.equal(labels.includes('All Movies'), false);
   assert.equal(labels.includes('This Week'), false);
   assert.equal(labels.includes('Theaters'), false);
@@ -354,10 +364,11 @@ test('Quick Start is exactly All showtimes, Today, and This weekend', () => {
   assert.equal(labels.includes('35mm'), false);
 });
 
-test('Browse By keeps the six categorical destinations', () => {
+test('Browse By leads with Showtimes above Movies and keeps remaining destinations', () => {
   assert.deepEqual(
     BROWSE_ROWS.map((row) => row.label),
     [
+      'Showtimes',
       'Movies',
       'Theaters',
       'Formats & Experiences',
@@ -366,9 +377,28 @@ test('Browse By keeps the six categorical destinations', () => {
       'Special Events',
     ],
   );
-  for (const row of BROWSE_ROWS) {
+  assert.equal(BROWSE_ROWS[0].id, BROWSE_SHOWTIMES_ID);
+  assert.equal(BROWSE_ROWS[1].id, COLLECTION_IDS.allMovies);
+  const showtimesCount = BROWSE_ROWS.filter(
+    (row) => row.id === BROWSE_SHOWTIMES_ID || row.label === 'Showtimes',
+  ).length;
+  assert.equal(showtimesCount, 1);
+  for (const row of BROWSE_ROWS.slice(1)) {
     assert.ok(Object.values(COLLECTION_IDS).includes(row.id));
   }
+});
+
+test('Browse By Showtimes opens Showtimes week mode', () => {
+  const browseUi = browseUiForQuickStart(BROWSE_SHOWTIMES_ID);
+  assert.equal(browseUi.dateMode, 'week');
+  let nav = selectPrimaryDestination(createInitialNavState(), 'explore');
+  nav = openShowtimesBrowse(nav, {
+    originPrimary: 'explore',
+    exploreRestore: { scrollY: 40 },
+    browseUi,
+  });
+  assert.equal(nav.surface?.type, 'showtimes-browse');
+  assert.equal(nav.surface?.browseUi?.dateMode, 'week');
 });
 
 test('Quick Start All showtimes opens Showtimes week mode, not default today', () => {

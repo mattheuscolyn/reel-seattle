@@ -25,6 +25,8 @@ import ProfileDestination from './profile/ProfileDestination.jsx';
  *   onProfileStubAction?: (actionId: string, label: string) => void,
  *   onOpenAdminTmdbReview?: () => void,
  *   onOpenTheaterDetail?: (payload: object) => void,
+ *   onOpenFormatDetail?: (payload: object) => void,
+ *   onOpenCollectionDetail?: (payload: object) => void,
  *   onOpenProfileSettings?: (payload: object) => void,
  *   onOpenProfileFriends?: (payload?: object) => void,
  *   onPlannerStubAction?: (actionId: string, label: string) => void,
@@ -53,6 +55,8 @@ export default function DestinationPlaceholder({
   onProfileStubAction,
   onOpenAdminTmdbReview,
   onOpenTheaterDetail,
+  onOpenFormatDetail = null,
+  onOpenCollectionDetail = null,
   onOpenProfileSettings,
   onOpenProfileFriends,
   onPlannerStubAction,
@@ -91,6 +95,9 @@ export default function DestinationPlaceholder({
         onOpenCollection={onOpenCollection}
         onOpenShowtimesBrowse={onOpenShowtimesBrowse}
         onOpenFilmDetail={onOpenFilmDetail}
+        onOpenTheaterDetail={onOpenTheaterDetail}
+        onOpenFormatDetail={onOpenFormatDetail}
+        onOpenCollectionDetail={onOpenCollectionDetail}
         restoreState={exploreRestore}
         onRestoreConsumed={onExploreRestoreConsumed}
       />
