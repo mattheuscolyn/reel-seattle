@@ -68,6 +68,7 @@ const SETTINGS_ICONS = {
  *   onOpenTheaterDetail?: (payload: object) => void,
  *   onOpenProfileSettings?: (payload: object) => void,
  *   onOpenProfileFriends?: (payload?: { focusUserId?: string | null }) => void,
+ *   onOpenFriendDetail?: (payload: { friendUserId: string }) => void,
  * }} [props]
  */
 export default function ProfileDestination({
@@ -77,6 +78,7 @@ export default function ProfileDestination({
   onOpenTheaterDetail,
   onOpenProfileSettings,
   onOpenProfileFriends,
+  onOpenFriendDetail,
 }) {
   const auth = useAuth();
   const storage = getBrowserStorage();
@@ -372,6 +374,12 @@ export default function ProfileDestination({
           onOpenProfileFriends?.({
             originPrimary: 'profile',
             focusUserId: payload?.focusUserId ?? null,
+          })
+        }
+        onOpenFriendDetail={(payload) =>
+          onOpenFriendDetail?.({
+            friendUserId: payload.friendUserId,
+            originPrimary: 'profile',
           })
         }
       />

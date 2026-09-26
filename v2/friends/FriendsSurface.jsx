@@ -15,9 +15,13 @@ import EnterFriendCodeSheet from './EnterFriendCodeSheet.jsx';
 /**
  * @param {{
  *   focusUserId?: string | null,
+ *   onOpenFriendDetail?: (payload: { friendUserId: string }) => void,
  * }} [props]
  */
-export default function FriendsSurface({ focusUserId = null }) {
+export default function FriendsSurface({
+  focusUserId = null,
+  onOpenFriendDetail = null,
+}) {
   const auth = useAuth();
   const { friends, status, signedIn, refresh } = useFriends();
   const [inviteOpen, setInviteOpen] = useState(false);
@@ -121,12 +125,21 @@ export default function FriendsSurface({ focusUserId = null }) {
                 className="v2-friends-row"
                 data-friend-row={friend.userId}
               >
-                <FriendAvatar
-                  displayName={friend.displayName}
-                  avatarUrl={friend.avatarUrl}
-                  size="md"
-                />
-                <span className="v2-friends-row-name">{name}</span>
+                <button
+                  type="button"
+                  className="v2-friends-row-main"
+                  data-friends-action="open-friend-detail"
+                  onClick={() =>
+                    onOpenFriendDetail?.({ friendUserId: friend.userId })
+                  }
+                >
+                  <FriendAvatar
+                    displayName={friend.displayName}
+                    avatarUrl={friend.avatarUrl}
+                    size="md"
+                  />
+                  <span className="v2-friends-row-name">{name}</span>
+                </button>
                 <button
                   type="button"
                   className="v2-friends-more"

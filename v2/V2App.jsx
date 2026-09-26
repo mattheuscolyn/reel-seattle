@@ -87,6 +87,7 @@ import {
   openAdminTmdbReview,
   openProfileSettings,
   openProfileFriends,
+  openFriendDetail,
   openFriendInviteLanding,
   startPlannerFromFilm,
   updateSearchUi,
@@ -145,13 +146,18 @@ import FormatRecommendationSurface from './formatsExperiences/FormatRecommendati
 import TmdbMatchReviewSurface from './admin/tmdbReview/TmdbMatchReviewSurface.jsx';
 import ProfileSettingsSurface from './profile/settings/ProfileSettingsSurface.jsx';
 import FriendsSurface from './friends/FriendsSurface.jsx';
+import FriendDetailSurface from './friends/FriendDetailSurface.jsx';
 import FriendInviteLandingSurface from './friends/FriendInviteLandingSurface.jsx';
 import {
   isLikelyFriendInviteToken,
   parseInviteTokenFromPath,
   restoreInvitePath,
 } from './friends/friendsModel.js';
-import { FRIEND_INVITE_LANDING_SURFACE_TYPE, PROFILE_FRIENDS_SURFACE_TYPE } from './friends/friendsIds.js';
+import {
+  FRIEND_DETAIL_SURFACE_TYPE,
+  FRIEND_INVITE_LANDING_SURFACE_TYPE,
+  PROFILE_FRIENDS_SURFACE_TYPE,
+} from './friends/friendsIds.js';
 import { createDefaultShowtimesBrowseUi } from './showtimes/showtimesBrowseModel.js';
 import { resolveFilmDetailBackLabel } from './filmDetail/filmDetailModel.js';
 import { isPlanDetailsMockupMode } from './fixtures/buildPlanPlanDetailsMockupFixture.js';
@@ -889,6 +895,27 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleOpenFriendDetail = useCallback((params = {}) => {
+    const friendUserId =
+      typeof params.friendUserId === 'string' ? params.friendUserId.trim() : '';
+    if (!friendUserId) return;
+    setNav((current) => {
+      const returnSurface =
+        params.returnSurface ??
+        (current.surface?.type === PROFILE_FRIENDS_SURFACE_TYPE
+          ? current.surface
+          : openProfileFriends(current, {
+              originPrimary: params.originPrimary ?? 'profile',
+            }).surface);
+      return openFriendDetail(current, {
+        friendUserId,
+        originPrimary: params.originPrimary ?? 'profile',
+        returnSurface,
+      });
+    });
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
@@ -945,7 +972,8 @@ export default function V2App() {
         current.surface?.type === 'showtimes-browse' ||
         current.surface?.type === 'build-plan-plan-details' ||
         current.surface?.type === 'short-detail' ||
-        current.surface?.type === 'shorts-program-detail'
+        current.surface?.type === 'shorts-program-detail' ||
+        current.surface?.type === FRIEND_DETAIL_SURFACE_TYPE
           ? current.surface
           : null);
       const filmKey =
@@ -1493,6 +1521,7 @@ export default function V2App() {
   const isAdminTmdbReview = nav.surface?.type === 'admin-tmdb-review';
   const isProfileSettings = nav.surface?.type === 'profile-settings';
   const isProfileFriends = nav.surface?.type === PROFILE_FRIENDS_SURFACE_TYPE;
+  const isFriendDetail = nav.surface?.type === FRIEND_DETAIL_SURFACE_TYPE;
   const isFriendInviteLanding =
     nav.surface?.type === FRIEND_INVITE_LANDING_SURFACE_TYPE;
   const isTheaterDetail = nav.surface?.type === 'theater-detail';
@@ -2699,7 +2728,27 @@ export default function V2App() {
     );
   } else if (isProfileFriends) {
     mainContent = (
-      <FriendsSurface focusUserId={nav.surface.focusUserId} />
+      <FriendsSurface
+        focusUserId={nav.surface.focusUserId}
+        onOpenFriendDetail={handleOpenFriendDetail}
+      />
+    );
+  } else if (isFriendDetail) {
+    mainContent = (
+      <FriendDetailSurface
+        friendUserId={nav.surface.friendUserId}
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
+        onOpenFilm={(payload) =>
+          handleOpenFilmDetail({
+            filmKey: payload.filmKey,
+            filmId: payload.filmId ?? null,
+            opportunityKey: payload.opportunityKey ?? null,
+            originPrimary: 'profile',
+            returnSurface: nav.surface,
+          })
+        }
+      />
     );
   } else if (isFriendInviteLanding) {
     mainContent = (
@@ -2752,6 +2801,7 @@ export default function V2App() {
         onOpenCollectionDetail={handleOpenCollectionDetail}
         onOpenProfileSettings={handleOpenProfileSettings}
         onOpenProfileFriends={handleOpenProfileFriends}
+        onOpenFriendDetail={handleOpenFriendDetail}
         onPlannerStubAction={(_actionId, label) => {
           setProfileStubStatus(
             `${label} isn’t available in this Stage 1 Planner shell yet.`,

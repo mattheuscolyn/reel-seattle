@@ -29,6 +29,7 @@ import ProfileDestination from './profile/ProfileDestination.jsx';
  *   onOpenCollectionDetail?: (payload: object) => void,
  *   onOpenProfileSettings?: (payload: object) => void,
  *   onOpenProfileFriends?: (payload?: object) => void,
+ *   onOpenFriendDetail?: (payload: { friendUserId: string }) => void,
  *   onPlannerStubAction?: (actionId: string, label: string) => void,
  *   onOpenBuildPlan?: () => void,
  *   onAcceptedPlansChange?: () => void,
@@ -59,6 +60,7 @@ export default function DestinationPlaceholder({
   onOpenCollectionDetail = null,
   onOpenProfileSettings,
   onOpenProfileFriends,
+  onOpenFriendDetail,
   onPlannerStubAction,
   onOpenBuildPlan,
   onOpenSavedPlan = null,
@@ -136,6 +138,7 @@ export default function DestinationPlaceholder({
         onOpenTheaterDetail={onOpenTheaterDetail}
         onOpenProfileSettings={onOpenProfileSettings}
         onOpenProfileFriends={onOpenProfileFriends}
+        onOpenFriendDetail={onOpenFriendDetail}
       />
     );
   }
