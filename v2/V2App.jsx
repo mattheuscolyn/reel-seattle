@@ -53,6 +53,13 @@ import {
 } from './fixtures/notificationsMockupFixture.js';
 import { COLLECTION_IDS } from './explore/exploreIds.js';
 import {
+  collectionDestinationId,
+  formatDestinationId,
+  recordQuickStartVisit,
+  theaterDestinationId,
+} from './explore/quickStartHistoryStore.js';
+import { FORMAT_CONTENT } from './formatsExperiences/formatsExperiencesContent.js';
+import {
   createInitialNavState,
   navigateBack,
   openBuildPlan,
@@ -1045,17 +1052,30 @@ export default function V2App() {
   }, []);
 
   const handleOpenCollectionDetail = useCallback((params) => {
-    setNav((current) =>
-      openCollectionDetail(current, {
+    const collectionId =
+      typeof params?.collectionId === 'string' ? params.collectionId.trim() : '';
+    const origin =
+      params?.originPrimary ??
+      null;
+    setNav((current) => {
+      const resolvedOrigin =
+        origin ??
+        current.surface?.originPrimary ??
+        current.primaryDestinationId ??
+        'explore';
+      if (resolvedOrigin === 'explore' && collectionId) {
+        recordQuickStartVisit(getBrowserStorage(), {
+          destinationId: collectionDestinationId(collectionId),
+          kind: 'collection',
+          label: collectionId,
+        });
+      }
+      return openCollectionDetail(current, {
         collectionId: params.collectionId,
-        originPrimary:
-          params.originPrimary ??
-          current.surface?.originPrimary ??
-          current.primaryDestinationId ??
-          'explore',
+        originPrimary: resolvedOrigin,
         returnSurface: params.returnSurface ?? current.surface,
-      }),
-    );
+      });
+    });
     window.scrollTo(0, 0);
   }, []);
 
@@ -1094,28 +1114,56 @@ export default function V2App() {
   }, []);
 
   const handleOpenTheaterDetail = useCallback((params) => {
-    setNav((current) =>
-      openTheaterDetail(current, {
-        originPrimary:
-          params.originPrimary ??
-          current.surface?.originPrimary ??
-          current.primaryDestinationId ??
-          'explore',
+    setNav((current) => {
+      const originPrimary =
+        params.originPrimary ??
+        current.surface?.originPrimary ??
+        current.primaryDestinationId ??
+        'explore';
+      const theaterId =
+        typeof params.theaterId === 'string' ? params.theaterId.trim() : '';
+      if (originPrimary === 'explore' && theaterId) {
+        const theater =
+          sharedHomeData.homeData?.theatersById?.[theaterId] ?? null;
+        recordQuickStartVisit(getBrowserStorage(), {
+          destinationId: theaterDestinationId(theaterId),
+          kind: 'theater',
+          label:
+            (typeof theater?.name === 'string' && theater.name.trim()) ||
+            theaterId,
+        });
+      }
+      return openTheaterDetail(current, {
+        originPrimary,
         theaterId: params.theaterId,
         returnSurface: params.returnSurface ?? current.surface,
-      }),
-    );
+      });
+    });
     window.scrollTo(0, 0);
-  }, []);
+  }, [sharedHomeData.homeData]);
 
   const handleOpenFormatDetail = useCallback((params) => {
-    setNav((current) =>
-      openFormatDetail(current, {
+    setNav((current) => {
+      const originPrimary =
+        params.originPrimary ?? current.primaryDestinationId;
+      const formatId =
+        typeof params.formatId === 'string' ? params.formatId.trim() : '';
+      if (originPrimary === 'explore' && formatId) {
+        const content = FORMAT_CONTENT?.[formatId] ?? null;
+        recordQuickStartVisit(getBrowserStorage(), {
+          destinationId: formatDestinationId(formatId),
+          kind: 'format',
+          label:
+            (typeof content?.name === 'string' && content.name.trim()) ||
+            formatId,
+        });
+      }
+      return openFormatDetail(current, {
         formatId: params.formatId,
-        originPrimary: params.originPrimary ?? current.primaryDestinationId,
+        originPrimary,
         returnSurface: params.returnSurface ?? current.surface,
-      }),
-    );
+      });
+    });
     window.scrollTo(0, 0);
   }, []);
 
@@ -2700,6 +2748,8 @@ export default function V2App() {
         }}
         onOpenAdminTmdbReview={handleOpenAdminTmdbReview}
         onOpenTheaterDetail={handleOpenTheaterDetail}
+        onOpenFormatDetail={handleOpenFormatDetail}
+        onOpenCollectionDetail={handleOpenCollectionDetail}
         onOpenProfileSettings={handleOpenProfileSettings}
         onOpenProfileFriends={handleOpenProfileFriends}
         onPlannerStubAction={(_actionId, label) => {

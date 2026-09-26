@@ -15,6 +15,14 @@ function BrowseIcon({ name }) {
     focusable: false,
   };
   switch (name) {
+    case 'showtimes':
+      return (
+        <svg {...common}>
+          <rect x="3.5" y="5" width="17" height="15" rx="2" />
+          <path d="M8 3.5v3M16 3.5v3M3.5 10h17" />
+          <path d="M8 13.5h8M8 16.5h5" />
+        </svg>
+      );
     case 'film':
       return (
         <svg {...common}>
@@ -79,6 +87,7 @@ export default function ExploreBrowseBy({ onSelect }) {
             <button
               type="button"
               className={`v2-browse-row v2-browse-row-${row.tone}`}
+              data-browse-by={row.id}
               onClick={() => onSelect?.(row.id)}
             >
               <span className="v2-browse-icon" aria-hidden="true">
