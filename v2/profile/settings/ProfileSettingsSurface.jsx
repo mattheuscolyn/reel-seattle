@@ -23,6 +23,14 @@ import {
   subscribeVisibilityPreferences,
   updateVisibilityPreferences,
 } from '../../stores/visibilityPreferencesStore.js';
+import {
+  getFriendActivityPrivacy,
+  subscribeFriendActivityPrivacy,
+} from '../../friends/friendActivityPrivacyStore.js';
+import {
+  pullShareFilmActivityPreference,
+  setShareFilmActivityWithFriends,
+} from '../../friends/friendFilmActivityApi.js';
 import { PROFILE_SETTINGS_COPY } from './profileSettingsCopy.js';
 import {
   PROFILE_SETTINGS_SECTION_IDS,
@@ -259,9 +267,84 @@ function PreferencesSection() {
 
 function PrivacySection() {
   const copy = PROFILE_SETTINGS_COPY.privacy;
+  const auth = useAuth();
+  const storage = getBrowserStorage();
+  const [privacy, setPrivacy] = useState(() => getFriendActivityPrivacy(storage));
+  const [shareError, setShareError] = useState(/** @type {string | null} */ (null));
+  const [shareBusy, setShareBusy] = useState(false);
+
+  useEffect(
+    () =>
+      subscribeFriendActivityPrivacy(() => {
+        setPrivacy(getFriendActivityPrivacy(storage));
+      }),
+    [storage],
+  );
+
+  // Cloud profile is authoritative when signed in.
+  useEffect(() => {
+    if (!auth.user?.id) return undefined;
+    let cancelled = false;
+    void (async () => {
+      const result = await pullShareFilmActivityPreference({ storage });
+      if (cancelled) return;
+      if (result.ok && result.settings) setPrivacy(result.settings);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [auth.user?.id, storage]);
+
+  const shareOn = privacy.shareFilmActivityWithFriends === true;
+
   return (
     <div data-settings-panel="privacy-sharing">
       <SettingsCopyCard title={copy.inviteOnlyTitle} body={copy.inviteOnlyBody} />
+      <div className="v2-settings-group" data-settings-group="friend-activity">
+        <button
+          type="button"
+          role="switch"
+          aria-checked={shareOn}
+          aria-describedby="v2-settings-share-activity-desc"
+          className="v2-settings-switch-row"
+          data-settings-control="share-film-activity"
+          disabled={shareBusy}
+          onClick={() => {
+            if (shareBusy) return;
+            setShareBusy(true);
+            setShareError(null);
+            void (async () => {
+              const result = await setShareFilmActivityWithFriends(!shareOn, {
+                storage,
+              });
+              setShareBusy(false);
+              if (result.settings) setPrivacy(result.settings);
+              if (!result.ok) {
+                setShareError(copy.shareActivityError);
+                return;
+              }
+              setShareError(null);
+            })();
+          }}
+        >
+          <span className="v2-settings-switch-label">{copy.shareActivityLabel}</span>
+          <span className="v2-settings-switch-track" aria-hidden="true">
+            <span className="v2-settings-switch-thumb" />
+          </span>
+        </button>
+        <p id="v2-settings-share-activity-desc" className="v2-settings-note">
+          {copy.shareActivityDescription}
+        </p>
+        {shareError ? (
+          <p
+            className="v2-settings-note"
+            role="status"
+            data-settings-error="share-film-activity"
+          >
+            {shareError}
+          </p>
+        ) : null}
+      </div>
       <SettingsCopyCard title={copy.localDataTitle} body={copy.localDataBody} />
     </div>
   );

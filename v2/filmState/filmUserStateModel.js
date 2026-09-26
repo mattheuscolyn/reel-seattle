@@ -13,7 +13,11 @@ import {
 import { isFilmSaved } from '../stores/savedFilmsStore.js';
 import { isFilmSeen } from '../stores/seenFilmsStore.js';
 import { isFilmNotInterested } from '../stores/notInterestedFilmsStore.js';
-import { normalizeSavedFilmRef } from '../stores/savedFilmsStore.js';
+import {
+  asCanonicalStoreFilmId,
+  normalizeSavedFilmRef,
+  normalizeShowtimeFilmKey,
+} from '../stores/savedFilmsStore.js';
 
 /** @type {readonly ['saved', 'seen', 'not_interested']} */
 export const FILM_USER_STATES = Object.freeze([
@@ -21,6 +25,17 @@ export const FILM_USER_STATES = Object.freeze([
   'seen',
   'not_interested',
 ]);
+
+/**
+ * Deterministic synthetic showtime catalog key for TMDB-only preference rows.
+ * Stable across sessions; never derived from title text.
+ *
+ * @param {string} filmId canonical `tmdb:<n>`
+ * @returns {string}
+ */
+export function syntheticShowtimeKeyForCanonicalFilmId(filmId) {
+  return filmId;
+}
 
 /**
  * @typedef {{
@@ -97,19 +112,24 @@ export function normalizeFriendFilmUserState(raw) {
         : null;
   if (!userId || !filmKey) return null;
   const parsed = parseFilmPreferenceKey(filmKey);
+  const filmId =
+    asCanonicalStoreFilmId(row.filmId ?? row.film_id) ?? parsed?.filmId ?? null;
+  const showtimeFilmKey =
+    normalizeShowtimeFilmKey(
+      row.showtimeFilmKey ?? row.showtime_film_key ?? parsed?.showtimeFilmKey,
+    ) ??
+    // Canonical-only cloud rows still need a catalog key for local refs.
+    (filmId ? syntheticShowtimeKeyForCanonicalFilmId(filmId) : null) ??
+    normalizeShowtimeFilmKey(filmKey);
   const filmRef =
     normalizeSavedFilmRef({
-      filmId: row.filmId ?? row.film_id ?? parsed?.filmId ?? null,
-      showtimeFilmKey:
-        row.showtimeFilmKey ??
-        row.showtime_film_key ??
-        parsed?.showtimeFilmKey ??
-        null,
+      filmId,
+      showtimeFilmKey,
     }) ??
-    (parsed?.showtimeFilmKey
+    (showtimeFilmKey
       ? {
-          filmId: parsed.filmId,
-          showtimeFilmKey: parsed.showtimeFilmKey,
+          filmId,
+          showtimeFilmKey,
           sourceFilmId: null,
           source: null,
         }

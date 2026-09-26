@@ -29,6 +29,10 @@ import {
 } from '../stores/scheduleSettingsStore.js';
 import ShowtimeActionSheet from '../showtimes/ShowtimeActionSheet.jsx';
 import { resolveHomeOpportunity } from '../showtimes/resolveHomeOpportunity.js';
+import FromYourFriendsSection from '../friends/FromYourFriendsSection.jsx';
+import { useFriendActivityForFilm } from '../friends/useFriendActivityForFilm.js';
+import { resolveFilmUserStateIdentity } from '../filmState/filmUserStateModel.js';
+import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 
 function getBrowserStorage() {
   try {
@@ -195,6 +199,24 @@ export default function FilmDetailSurface({
   const timeFormatId = getScheduleSettings(getBrowserStorage()).timeFormatId;
 
   const tmdbFilmId = asTmdbFilmId(filmId) || asTmdbFilmId(filmKey);
+
+  const friendActivityFilmRef = useMemo(() => {
+    const fromHome = filmRefFromHomeFilm({
+      filmKey,
+      filmId: tmdbFilmId || filmId,
+    });
+    if (fromHome) return fromHome;
+    return resolveFilmUserStateIdentity({
+      filmKey,
+      filmId: tmdbFilmId || filmId,
+    })?.filmRef;
+  }, [filmKey, filmId, tmdbFilmId]);
+
+  const { presentation: friendActivityPresentation } = useFriendActivityForFilm({
+    filmKey,
+    filmId: tmdbFilmId || filmId,
+    filmRef: friendActivityFilmRef,
+  });
 
   useEffect(() => {
     if (!tmdbFilmId) {
@@ -558,6 +580,8 @@ export default function FilmDetailSurface({
           <span>Find a time</span>
         </button>
       </div>
+
+      <FromYourFriendsSection presentation={friendActivityPresentation} />
 
       <section className="v2-fd-section" aria-labelledby="v2-fd-why-h" data-fd-slot="why-see-it">
         <div className="v2-fd-section-head">

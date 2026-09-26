@@ -16,9 +16,13 @@ import InviteFriendSheet from './InviteFriendSheet.jsx';
 /**
  * @param {{
  *   onOpenFriends?: (payload?: { focusUserId?: string | null }) => void,
+ *   onOpenFriendDetail?: (payload: { friendUserId: string }) => void,
  * }} [props]
  */
-export default function ProfileFriendsPreview({ onOpenFriends }) {
+export default function ProfileFriendsPreview({
+  onOpenFriends,
+  onOpenFriendDetail,
+}) {
   const { friends, status, signedIn, refresh } = useFriends();
   const [inviteOpen, setInviteOpen] = useState(false);
   const [signInBusy, setSignInBusy] = useState(false);
@@ -106,7 +110,13 @@ export default function ProfileFriendsPreview({ onOpenFriends }) {
                   type="button"
                   className="v2-friends-preview-item"
                   aria-label={full}
-                  onClick={() => onOpenFriends?.({ focusUserId: friend.userId })}
+                  onClick={() => {
+                    if (typeof onOpenFriendDetail === 'function') {
+                      onOpenFriendDetail({ friendUserId: friend.userId });
+                      return;
+                    }
+                    onOpenFriends?.({ focusUserId: friend.userId });
+                  }}
                 >
                   <FriendAvatar
                     displayName={friend.displayName}

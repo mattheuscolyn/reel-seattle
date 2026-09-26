@@ -114,6 +114,7 @@ export function resolveActivePrimaryId(nav) {
     nav.surface?.type === 'admin-tmdb-review' ||
     nav.surface?.type === 'profile-settings' ||
     nav.surface?.type === 'profile-friends' ||
+    nav.surface?.type === 'friend-detail' ||
     nav.surface?.type === 'friend-invite-landing'
   ) {
     return resolveDestinationId(nav.surface.originPrimary ?? primary);
@@ -178,6 +179,7 @@ export function resolveHeaderBackLabel(nav, options = {}) {
   }
 
   if (surface.type === 'film-detail') {
+    if (surface.returnSurface?.type === 'friend-detail') return 'Friend';
     return options.filmBackLabel || originBackLabel(surface.originPrimary);
   }
   if (surface.type === 'short-detail') {
@@ -234,6 +236,10 @@ export function resolveHeaderBackLabel(nav, options = {}) {
     surface.type === 'profile-settings' ||
     surface.type === 'profile-friends'
   ) {
+    return originBackLabel(surface.originPrimary);
+  }
+  if (surface.type === 'friend-detail') {
+    if (surface.returnSurface?.type === 'profile-friends') return 'Friends';
     return originBackLabel(surface.originPrimary);
   }
   if (surface.type === 'friend-invite-landing') {

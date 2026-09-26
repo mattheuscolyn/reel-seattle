@@ -176,6 +176,7 @@ export function openPrimaryTabRoot(nav, sessions, destinationId) {
 export function isAuthSensitiveSurfaceType(surfaceType) {
   return (
     surfaceType === 'profile-friends' ||
+    surfaceType === 'friend-detail' ||
     surfaceType === 'profile-settings' ||
     surfaceType === 'friend-invite-landing' ||
     surfaceType === 'admin-tmdb-review'

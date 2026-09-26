@@ -6,6 +6,7 @@
 import { resolveDestinationId } from '../destinations.js';
 import { EXPLORE_SURFACE_IDS } from '../explore/exploreIds.js';
 import {
+  FRIEND_DETAIL_SURFACE_TYPE,
   FRIEND_INVITE_LANDING_SURFACE_TYPE,
   PROFILE_FRIENDS_SURFACE_TYPE,
 } from '../friends/friendsIds.js';
@@ -1118,6 +1119,35 @@ export function openProfileFriends(state, params = {}) {
 }
 
 /**
+ * Friend Detail — shared film activity for one accepted friend.
+ * @param {object} state
+ * @param {{
+ *   friendUserId: string,
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openFriendDetail(state, params) {
+  const friendUserId =
+    typeof params?.friendUserId === 'string' ? params.friendUserId.trim() : '';
+  if (!friendUserId) return state;
+  const originPrimary = resolveDestinationId(
+    params.originPrimary ?? state.primaryDestinationId ?? 'profile',
+  );
+  return {
+    ...state,
+    primaryDestinationId: 'profile',
+    plannerSeed: null,
+    surface: {
+      type: FRIEND_DETAIL_SURFACE_TYPE,
+      friendUserId,
+      originPrimary,
+      returnSurface: params.returnSurface ?? null,
+    },
+  };
+}
+
+/**
  * Inbound `/invite/<token>` landing. Origin is typically Home.
  * @param {object} state
  * @param {{
@@ -1172,6 +1202,7 @@ export function navigateBack(state) {
     state.surface.type === 'admin-tmdb-review' ||
     state.surface.type === PROFILE_SETTINGS_SURFACE_TYPE ||
     state.surface.type === PROFILE_FRIENDS_SURFACE_TYPE ||
+    state.surface.type === FRIEND_DETAIL_SURFACE_TYPE ||
     state.surface.type === FRIEND_INVITE_LANDING_SURFACE_TYPE
   ) {
     if (state.surface.type === 'showtimes-browse') {

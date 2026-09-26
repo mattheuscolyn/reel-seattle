@@ -37,6 +37,11 @@ export const PROFILE_SETTINGS_COPY = Object.freeze({
     inviteOnlyTitle: 'Invite-only connections',
     inviteOnlyBody:
       'Friends on Reel Seattle connect through private invites. Reel Seattle does not offer public profile search or discoverability.',
+    shareActivityLabel: 'Share my film activity with friends',
+    shareActivityDescription:
+      'Off by default. When on, friends can see films you’ve Saved, marked Seen, or marked Not Interested. When off, friends see none of that activity.',
+    shareActivityError:
+      'Couldn’t update sharing. Your previous setting was kept.',
     localDataTitle: 'Data on this device',
     localDataBody:
       'Saved, Seen, Not Interested, favorite theaters, and plans stay on this browser until you enable sync from Profile.',
