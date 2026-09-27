@@ -8,6 +8,8 @@ import {
   getSharedFilmActivityForFriend,
 } from './friendFilmActivityModel.js';
 import PersonalCollectionFilmRow from '../collections/PersonalCollectionFilmRow.jsx';
+import { useFriendPlanSignals } from '../social/useFriendPlanSignals.js';
+import { buildFriendPlanCards } from '../social/socialPlanContext.js';
 
 /**
  * @param {{
@@ -19,6 +21,7 @@ import PersonalCollectionFilmRow from '../collections/PersonalCollectionFilmRow.
  *     filmId?: string | null,
  *     opportunityKey?: string | null,
  *   }) => void,
+ *   onOpenSharedPlan?: (planId: string) => void,
  * }} props
  */
 export default function FriendDetailSurface({
@@ -26,6 +29,7 @@ export default function FriendDetailSurface({
   homeData = null,
   enrichmentIndex = null,
   onOpenFilm = null,
+  onOpenSharedPlan = null,
 }) {
   const { friends, signedIn, status: friendsStatus, refresh } = useFriends();
   const [rows, setRows] = useState(/** @type {unknown[]} */ ([]));
@@ -100,6 +104,15 @@ export default function FriendDetailSurface({
     [activity?.notInterested, homeData, enrichmentIndex],
   );
 
+  const planSignals = useFriendPlanSignals({
+    friendId: friend && signedIn ? friendUserId : null,
+    enabled: Boolean(friend && signedIn),
+  });
+  const planCards = useMemo(
+    () => buildFriendPlanCards(planSignals),
+    [planSignals],
+  );
+
   const name = friendDisplayLabel(friend?.displayName);
   const privacyHidden =
     loadStatus === 'ready' && friend && sharesActivity !== true;
@@ -168,6 +181,31 @@ export default function FriendDetailSurface({
         <p className="v2-friends-error" role="status">
           Couldn’t load shared film activity.
         </p>
+      ) : null}
+
+      {planCards.length > 0 ? (
+        <section className="v2-friend-detail-plans" aria-label="Plans" data-friend-plans="">
+          <h2 className="v2-profile-section-label">Plans</h2>
+          <ul className="v2-friend-detail-plan-list">
+            {planCards.map((card) => (
+              <li key={card.planId}>
+                <button
+                  type="button"
+                  className="v2-friend-detail-plan"
+                  onClick={() => onOpenSharedPlan?.(card.planId)}
+                >
+                  <span className="v2-friend-detail-plan-title">{card.title}</span>
+                  {card.when ? (
+                    <span className="v2-friend-detail-plan-when">{card.when}</span>
+                  ) : null}
+                  <span className="v2-friend-detail-plan-response">
+                    {card.responseLabel}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
       ) : null}
 
       {privacyHidden ? (

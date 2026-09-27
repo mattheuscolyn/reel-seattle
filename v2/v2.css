@@ -4065,6 +4065,73 @@ button.v2-fd-today-time:focus-visible {
   white-space: nowrap;
 }
 
+.v2-fd-today-time-social {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--v2-muted);
+  white-space: nowrap;
+}
+
+.v2-fd-plan-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  align-items: baseline;
+  margin: 0.35rem 0 0.85rem;
+  font-size: 0.92rem;
+}
+
+.v2-stas-social {
+  margin: 0.45rem 0 0;
+  font-size: 0.88rem;
+}
+
+.v2-stas-social-hint {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--v2-muted);
+  font-size: 0.8rem;
+}
+
+.v2-friend-detail-plans {
+  margin: 0 0 1.1rem;
+}
+
+.v2-friend-detail-plan-list {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.v2-friend-detail-plan {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  padding: 0.35rem 0;
+  cursor: pointer;
+}
+
+.v2-friend-detail-plan-title {
+  font-weight: 650;
+}
+
+.v2-friend-detail-plan-when,
+.v2-friend-detail-plan-response {
+  font-size: 0.85rem;
+  color: var(--v2-muted);
+}
+
 .v2-fd-today-time-detail {
   font-size: 0.58rem;
   font-weight: 500;

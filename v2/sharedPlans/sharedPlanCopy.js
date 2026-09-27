@@ -85,12 +85,14 @@ export function isPositiveSharedPlanResponse(response) {
  * - exclude owner
  * - exclude viewer (self)
  * - exclude pending and declined
- * - include interested / maybe / going
+ * - proposal (default): interested, maybe, and going
+ * - decided: going only (historical interested/maybe are not Going)
  * - first remaining display name + optional +N
  *
  * @param {{
  *   ownerId: string | null | undefined,
  *   viewerId?: string | null,
+ *   planType?: 'proposal' | 'decided' | string | null,
  *   members?: Array<{
  *     userId: string,
  *     response?: string | null,
@@ -114,6 +116,12 @@ export function formatSharedPlanWithLine(input) {
     typeof input?.viewerId === 'string' && input.viewerId.trim()
       ? input.viewerId.trim()
       : null;
+  const decided = input?.planType === 'decided';
+
+  const counts = (response) => {
+    if (decided) return response === 'going';
+    return isPositiveSharedPlanResponse(response);
+  };
 
   /** @type {Array<{ userId: string, displayName: string }>} */
   const people = [];
@@ -134,12 +142,12 @@ export function formatSharedPlanWithLine(input) {
 
   if (Array.isArray(input?.companions)) {
     for (const row of input.companions) {
-      if (!row || !isPositiveSharedPlanResponse(row.response)) continue;
+      if (!row || !counts(row.response)) continue;
       push(row.userId, row.displayName);
     }
   } else if (Array.isArray(input?.members)) {
     for (const row of input.members) {
-      if (!row || !isPositiveSharedPlanResponse(row.response)) continue;
+      if (!row || !counts(row.response)) continue;
       if (row.role === 'owner') continue;
       push(row.userId, row.displayName);
     }

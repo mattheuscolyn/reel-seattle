@@ -1853,6 +1853,13 @@ export default function V2App() {
           setAcceptedPlansRevision((value) => value + 1)
         }
         onViewPlanner={() => handleSelectDestination('planner')}
+        onOpenSharedPlan={(planId) =>
+          handleOpenSharedPlanDetail({
+            planId,
+            originPrimary: nav.surface?.originPrimary ?? 'home',
+            returnSurface: nav.surface,
+          })
+        }
         onHydrateFilmIds={handleHydrateFilmIds}
       />
     );
@@ -2772,6 +2779,13 @@ export default function V2App() {
             filmKey: payload.filmKey,
             filmId: payload.filmId ?? null,
             opportunityKey: payload.opportunityKey ?? null,
+            originPrimary: 'profile',
+            returnSurface: nav.surface,
+          })
+        }
+        onOpenSharedPlan={(planId) =>
+          handleOpenSharedPlanDetail({
+            planId,
             originPrimary: 'profile',
             returnSurface: nav.surface,
           })

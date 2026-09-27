@@ -136,6 +136,7 @@ export default function SharedPlanDetailSurface({
     ? formatSharedPlanWithLine({
         ownerId: plan.ownerId,
         viewerId,
+        planType: plan.type,
         members: members.map((m) => ({
           userId: m.userId,
           response: m.response,
