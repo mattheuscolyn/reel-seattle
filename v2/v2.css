@@ -16863,6 +16863,7 @@ a.v2-stb-time:focus-visible {
   gap: var(--v2-space-6);
   padding-bottom: calc(var(--v2-space-7) + var(--v2-space-4));
   min-width: 0;
+  container-type: inline-size;
 }
 
 .v2-fe-back {
@@ -17022,7 +17023,7 @@ a.v2-stb-time:focus-visible {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: var(--v2-space-3);
 }
 
@@ -17031,15 +17032,15 @@ a.v2-stb-time:focus-visible {
   min-width: 0;
 }
 
-@media (max-width: 720px) {
+@container (min-width: 520px) {
   .v2-fe-experience-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 480px) {
+@container (min-width: 840px) {
   .v2-fe-experience-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

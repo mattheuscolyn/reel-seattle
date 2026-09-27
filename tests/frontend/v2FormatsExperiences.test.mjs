@@ -435,7 +435,7 @@ test('CSS covers key Formats & Experiences layout regions', () => {
   assert.match(CSS, /\.v2-fe-compare-scroll\b/);
   assert.match(CSS, /prefers-reduced-motion/);
   assert.doesNotMatch(CSS, /\.v2-fe-landing-section \+ \.v2-fe-landing-section/);
-  assert.match(CSS, /@media \(max-width: 480px\)/);
+  assert.match(CSS, /@container \(min-width: 520px\)/);
 });
 
 test('Landing filters can hide unavailable rows', () => {
