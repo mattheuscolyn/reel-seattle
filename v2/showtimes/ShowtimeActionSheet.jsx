@@ -51,6 +51,13 @@ function getBrowserStorage() {
  *   enrichmentIndex?: object | null,
  *   onPlansChanged?: (() => void) | null,
  *   onViewPlanner?: (() => void) | null,
+ *   socialCue?: {
+ *     text: string,
+ *     actionLabel?: string | null,
+ *     planId?: string | null,
+ *     kind?: string,
+ *   } | null,
+ *   onOpenSharedPlan?: ((planId: string) => void) | null,
  * }} props
  */
 export default function ShowtimeActionSheet({
@@ -64,6 +71,8 @@ export default function ShowtimeActionSheet({
   enrichmentIndex = null,
   onPlansChanged = null,
   onViewPlanner = null,
+  socialCue = null,
+  onOpenSharedPlan = null,
 }) {
   const titleId = useId();
   const statusId = useId();
@@ -264,6 +273,24 @@ export default function ShowtimeActionSheet({
             <p className="v2-stas-meta">{context.theaterName}</p>
             {context.formatLabel ? (
               <span className="v2-stas-format">{context.formatLabel}</span>
+            ) : null}
+            {socialCue?.text ? (
+              <p className="v2-stas-social" data-showtime-social={socialCue.kind || 'context'}>
+                <span>{socialCue.text}</span>
+                {socialCue.planId && typeof onOpenSharedPlan === 'function' ? (
+                  <button
+                    type="button"
+                    className="v2-fd-link"
+                    onClick={() => onOpenSharedPlan(socialCue.planId)}
+                  >
+                    {socialCue.actionLabel || 'View plan'}
+                  </button>
+                ) : socialCue.kind === 'saved' ? (
+                  <span className="v2-stas-social-hint">
+                    {socialCue.actionLabel}. No invite is sent until you choose friends.
+                  </span>
+                ) : null}
+              </p>
             ) : null}
           </div>
         </div>

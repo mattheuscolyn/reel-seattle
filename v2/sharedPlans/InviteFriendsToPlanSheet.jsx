@@ -17,8 +17,12 @@ import {
 import {
   getSharedPlanBySourceAcceptedRemote,
   getSharedPlanRemote,
+  listFriendPlanSignalsRemote,
   setSharedPlanVisibilityRemote,
 } from '../sharedPlans/sharedPlansApi.js';
+import { listFriendActivityForFilm } from '../friends/friendFilmActivityApi.js';
+import { getFriendActivityForFilm } from '../friends/friendFilmActivityModel.js';
+import { buildInviteSuggestions } from '../social/socialPlanContext.js';
 import { formatMemberResponseLabel } from '../planner/mergeSharedPlansIntoPlannerLanding.js';
 import { getAcceptedPlanById } from '../stores/acceptedPlansStore.js';
 
@@ -79,6 +83,9 @@ export default function InviteFriendsToPlanSheet({
   );
   const [resolvedPlanId, setResolvedPlanId] = useState(
     /** @type {string | null} */ (sharedPlanId),
+  );
+  const [suggestions, setSuggestions] = useState(
+    /** @type {Array<{ userId: string, displayName: string | null, reason: string }>} */ ([]),
   );
 
   useEffect(() => {
@@ -156,6 +163,49 @@ export default function InviteFriendsToPlanSheet({
       setResolvedPlanId(sharedPlanId);
     }
   }, [open, initialVisibility, sharedPlanId]);
+
+  const suggestionFilmKey = useMemo(() => {
+    const performances = acceptedPlan?.performances || acceptedPlan?.screenings || [];
+    const first = performances[0];
+    if (!first) return null;
+    return first.filmId || first.filmKey || null;
+  }, [acceptedPlan]);
+
+  useEffect(() => {
+    if (!open || !ownerId || !suggestionFilmKey) {
+      setSuggestions([]);
+      return undefined;
+    }
+    let cancelled = false;
+    void (async () => {
+      const [activityResult, signalResult] = await Promise.all([
+        listFriendActivityForFilm(suggestionFilmKey),
+        listFriendPlanSignalsRemote({ filmKey: suggestionFilmKey }),
+      ]);
+      if (cancelled) return;
+      const activity = getFriendActivityForFilm({
+        filmKey: suggestionFilmKey,
+        activityRows: activityResult.ok ? activityResult.states : [],
+        friends,
+      });
+      const memberIds = existingMembers.map((member) => member.userId);
+      setSuggestions(
+        buildInviteSuggestions({
+          friends,
+          savedUserIds: (activity?.saved ?? []).map((person) => person.userId),
+          notInterestedUserIds: (activity?.notInterested ?? []).map(
+            (person) => person.userId,
+          ),
+          seenUserIds: (activity?.seen ?? []).map((person) => person.userId),
+          signals: signalResult.ok ? signalResult.signals : [],
+          memberUserIds: memberIds,
+        }),
+      );
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [open, ownerId, suggestionFilmKey, friends, existingMembers]);
 
   const memberByUserId = useMemo(() => {
     /** @type {Map<string, import('../sharedPlans/sharedPlanModel.js').PlanMember>} */
@@ -390,8 +440,50 @@ export default function InviteFriendsToPlanSheet({
           </p>
         </div>
       ) : (
+        <>
+          {suggestions.length > 0 ? (
+            <>
+              <p className="v2-plan-invite-legend">Suggested</p>
+              <ul className="v2-plan-invite-friend-list">
+                {suggestions.map((suggestion) => {
+                  const friend = friends.find((row) => row.userId === suggestion.userId);
+                  if (!friend) return null;
+                  const checked = selected.has(friend.userId);
+                  return (
+                    <li key={friend.userId}>
+                      <label className="v2-plan-invite-friend-row">
+                        <FriendAvatar
+                          displayName={friend.displayName}
+                          avatarUrl={friend.avatarUrl}
+                          size="sm"
+                        />
+                        <span className="v2-plan-invite-friend-copy">
+                          <span className="v2-plan-invite-friend-name">
+                            {friendDisplayLabel(friend.displayName)}
+                          </span>
+                          <span className="v2-plan-invite-friend-status">
+                            {suggestion.reason}
+                          </span>
+                        </span>
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          disabled={busy}
+                          onChange={() => toggle(friend.userId)}
+                          aria-label={`Invite ${friendDisplayLabel(friend.displayName)}`}
+                        />
+                      </label>
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          ) : null}
+          <p className="v2-plan-invite-legend">All friends</p>
         <ul className="v2-plan-invite-friend-list">
-          {friends.map((friend) => {
+          {friends
+            .filter((friend) => !suggestions.some((row) => row.userId === friend.userId))
+            .map((friend) => {
             const existing = memberByUserId.get(friend.userId);
             const checked = selected.has(friend.userId);
             const disabled = Boolean(existing) || busy;
@@ -431,6 +523,7 @@ export default function InviteFriendsToPlanSheet({
             );
           })}
         </ul>
+        </>
       )}
 
       {existingMembers.filter((m) => m.role !== 'owner').length > 0 ? (

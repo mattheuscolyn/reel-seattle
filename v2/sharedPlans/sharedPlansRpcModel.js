@@ -20,6 +20,7 @@ export const SHARED_PLAN_RPC = Object.freeze({
   setVisibility: 'set_shared_plan_visibility',
   joinOpen: 'join_open_shared_plan',
   listFriendFilmStates: 'list_friend_film_states',
+  listFriendPlanSignals: 'list_friend_plan_signals',
 });
 
 /**

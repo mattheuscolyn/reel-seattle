@@ -31,6 +31,13 @@ import ShowtimeActionSheet from '../showtimes/ShowtimeActionSheet.jsx';
 import { resolveHomeOpportunity } from '../showtimes/resolveHomeOpportunity.js';
 import FromYourFriendsSection from '../friends/FromYourFriendsSection.jsx';
 import { useFriendActivityForFilm } from '../friends/useFriendActivityForFilm.js';
+import { useFriendPlanSignals } from '../social/useFriendPlanSignals.js';
+import {
+  buildFilmPlanSocialLine,
+  buildShowtimeSocialCue,
+  showtimeAttendanceLabel,
+} from '../social/socialPlanContext.js';
+import { buildPerformanceKey } from '../../src/utils/performanceIdentity.js';
 import { resolveFilmUserStateIdentity } from '../filmState/filmUserStateModel.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
 
@@ -184,6 +191,7 @@ export default function FilmDetailSurface({
   onOpenRecommendedExperience = null,
   onAcceptedPlansChange = null,
   onViewPlanner = null,
+  onOpenSharedPlan = null,
   onHydrateFilmIds,
 }) {
   void onStartPlanner;
@@ -212,11 +220,17 @@ export default function FilmDetailSurface({
     })?.filmRef;
   }, [filmKey, filmId, tmdbFilmId]);
 
-  const { presentation: friendActivityPresentation } = useFriendActivityForFilm({
-    filmKey,
-    filmId: tmdbFilmId || filmId,
-    filmRef: friendActivityFilmRef,
+  const { presentation: friendActivityPresentation, preferenceKey, activity: friendActivity } =
+    useFriendActivityForFilm({
+      filmKey,
+      filmId: tmdbFilmId || filmId,
+      filmRef: friendActivityFilmRef,
+    });
+  const planSignals = useFriendPlanSignals({
+    filmKey: preferenceKey,
+    enabled: Boolean(preferenceKey),
   });
+  const planSocialLine = buildFilmPlanSocialLine(planSignals);
 
   useEffect(() => {
     if (!tmdbFilmId) {
@@ -286,6 +300,12 @@ export default function FilmDetailSurface({
   const [whySeeItExpanded, setWhySeeItExpanded] = useState(false);
   /** @type {[null | { filmKey: string, opportunity: object, row: object }, Function]} */
   const [actionSheet, setActionSheet] = useState(null);
+
+  const attendanceLabelForTime = (time) => {
+    if (!time?.opportunityKey) return null;
+    const opportunity = resolveHomeOpportunity(homeData, time.opportunityKey);
+    return showtimeAttendanceLabel(planSignals, buildPerformanceKey(opportunity));
+  };
 
   if (!view.resolved) {
     const waitingOnTmdb =
@@ -582,6 +602,20 @@ export default function FilmDetailSurface({
       </div>
 
       <FromYourFriendsSection presentation={friendActivityPresentation} />
+      {planSocialLine ? (
+        <p className="v2-fd-plan-social" data-fd-slot="plan-social">
+          <span>{planSocialLine.text}</span>
+          {typeof onOpenSharedPlan === 'function' ? (
+            <button
+              type="button"
+              className="v2-fd-link"
+              onClick={() => onOpenSharedPlan(planSocialLine.planId)}
+            >
+              {planSocialLine.actionLabel}
+            </button>
+          ) : null}
+        </p>
+      ) : null}
 
       <section className="v2-fd-section" aria-labelledby="v2-fd-why-h" data-fd-slot="why-see-it">
         <div className="v2-fd-section-head">
@@ -836,6 +870,11 @@ export default function FilmDetailSurface({
                           <span className="v2-fd-today-time-clock">
                             {time.timeDisplay}
                           </span>
+                          {attendanceLabelForTime(time) ? (
+                            <span className="v2-fd-today-time-social">
+                              {attendanceLabelForTime(time)}
+                            </span>
+                          ) : null}
                           {time.detailLabel ? (
                             <span className="v2-fd-today-time-detail">
                               {time.detailLabel}
@@ -947,6 +986,11 @@ export default function FilmDetailSurface({
                             <span className="v2-fd-today-time-clock">
                               {time.timeDisplay}
                             </span>
+                            {attendanceLabelForTime(time) ? (
+                              <span className="v2-fd-today-time-social">
+                                {attendanceLabelForTime(time)}
+                              </span>
+                            ) : null}
                             {time.detailLabel ? (
                               <span className="v2-fd-today-time-detail">
                                 {time.detailLabel}
@@ -976,6 +1020,16 @@ export default function FilmDetailSurface({
         row={actionSheet?.row ?? null}
         homeData={homeData}
         enrichmentIndex={enrichmentIndex}
+        socialCue={
+          actionSheet
+            ? buildShowtimeSocialCue({
+                performanceKey: buildPerformanceKey(actionSheet.opportunity),
+                signals: planSignals,
+                savedFriends: friendActivity?.saved ?? [],
+              })
+            : null
+        }
+        onOpenSharedPlan={onOpenSharedPlan}
         onPlansChanged={onAcceptedPlansChange}
         onViewPlanner={onViewPlanner}
       />

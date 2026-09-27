@@ -79,6 +79,7 @@ function toSharedPlanGroup(plan, timeFormatId, context = {}) {
   const withLine = formatSharedPlanWithLine({
     ownerId: plan.ownerId,
     viewerId: context.viewerId ?? null,
+    planType: plan.type,
     companions: context.companions,
   });
   return {
@@ -221,6 +222,7 @@ export function mergeSharedPlansIntoPlannerLanding(options) {
       const withLine = formatSharedPlanWithLine({
         ownerId: row.plan.ownerId,
         viewerId,
+        planType: row.plan.type,
         companions: row.companions,
       });
       if (!withLine) continue;

@@ -10,6 +10,7 @@ import {
   normalizeSharedPlanInvitationRow,
   normalizeSharedPlanRpcPlan,
 } from './sharedPlansRpcModel.js';
+import { normalizeFriendPlanSignal } from '../social/socialPlanContext.js';
 import { normalizeFriendFilmUserState } from '../filmState/filmUserStateModel.js';
 import { normalizePlanMember } from './sharedPlanModel.js';
 
@@ -322,6 +323,33 @@ export async function listFriendFilmStatesRemote(filmKey, options = {}) {
   return {
     ok: true,
     states: rows.map(normalizeFriendFilmUserState).filter(Boolean),
+  };
+}
+
+/**
+ * Upcoming friend plan attendance the caller is allowed to see.
+ * Pass a film key, a friend id, or both. Not a feed.
+ * @param {{ filmKey?: string | null, friendId?: string | null, getClient?: () => unknown }} [input]
+ */
+export async function listFriendPlanSignalsRemote(input = {}) {
+  const resolved = await resolveClient(input);
+  if (!resolved.ok) return resolved;
+  const filmKey = typeof input.filmKey === 'string' ? input.filmKey.trim() : '';
+  const friendId = typeof input.friendId === 'string' ? input.friendId.trim() : '';
+  if (!filmKey && !friendId) return { ok: true, signals: [] };
+  const { data, error } = await callRpc(
+    resolved.client,
+    SHARED_PLAN_RPC.listFriendPlanSignals,
+    {
+      p_film_key: filmKey || null,
+      p_friend_id: friendId || null,
+    },
+  );
+  if (error) return { ok: false, reason: rpcFailureReason(error) };
+  const rows = Array.isArray(data) ? data : [];
+  return {
+    ok: true,
+    signals: rows.map(normalizeFriendPlanSignal).filter(Boolean),
   };
 }
 
