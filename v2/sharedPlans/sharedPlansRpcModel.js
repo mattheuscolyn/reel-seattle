@@ -17,6 +17,8 @@ export const SHARED_PLAN_RPC = Object.freeze({
   listPendingInvitations: 'list_pending_shared_plan_invitations',
   listMySharedPlans: 'list_my_shared_plans',
   listOpenFriend: 'list_open_friend_shared_plans',
+  setVisibility: 'set_shared_plan_visibility',
+  joinOpen: 'join_open_shared_plan',
   listFriendFilmStates: 'list_friend_film_states',
 });
 
@@ -157,11 +159,41 @@ export function normalizeGetSharedPlanPayload(raw, options = {}) {
     ? row.members.map(normalizePlanMember).filter(Boolean)
     : [];
   const viewerId = options.viewerId ?? null;
+  const publicCompanions = Array.isArray(row.public_companions)
+    ? row.public_companions.map(normalizeSharedPlanCompanion).filter(Boolean)
+    : Array.isArray(row.publicCompanions)
+      ? row.publicCompanions.map(normalizeSharedPlanCompanion).filter(Boolean)
+      : [];
   return {
     plan,
     members:
       viewerId != null
         ? projectSharedPlanMembersForViewer(plan, members, viewerId)
         : members,
+    owner: normalizeSharedPlanOwnerSummary(row.owner),
+    publicCompanions,
+  };
+}
+
+/**
+ * Open Invites list row. No membership payload.
+ * @param {unknown} raw
+ */
+export function normalizeOpenFriendSharedPlanRow(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const row = /** @type {Record<string, unknown>} */ (raw);
+  const plan = normalizeSharedPlanRpcPlan(row.plan ?? row);
+  if (!plan || plan.visibility !== 'friends') return null;
+  const companions = Array.isArray(row.companions)
+    ? row.companions.map(normalizeSharedPlanCompanion).filter(Boolean)
+    : [];
+  return {
+    plan,
+    owner: normalizeSharedPlanOwnerSummary(row.owner),
+    companions: companions.filter((row) =>
+      row.response === 'interested' ||
+      row.response === 'maybe' ||
+      row.response === 'going',
+    ),
   };
 }

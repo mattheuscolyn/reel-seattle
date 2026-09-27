@@ -248,6 +248,7 @@ export function resolveHeaderBackLabel(nav, options = {}) {
     return originBackLabel(surface.originPrimary, 'Home');
   }
   if (surface.type === 'shared-plan-detail') {
+    if (surface.returnSurface?.type === 'profile-friends') return 'Friends';
     return originBackLabel(surface.originPrimary, 'Planner');
   }
   if (

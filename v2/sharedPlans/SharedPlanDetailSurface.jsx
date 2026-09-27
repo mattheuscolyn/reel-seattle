@@ -10,6 +10,7 @@ import { useFriends } from '../friends/useFriends.js';
 import { useAuth } from '../auth/useAuth.js';
 import {
   getSharedPlanRemote,
+  joinOpenSharedPlanRemote,
   respondToSharedPlanRemote,
 } from './sharedPlansApi.js';
 import {
@@ -18,6 +19,7 @@ import {
   formatSharedPlanWithLine,
   sharedPlanDisplayTitle,
   sharedPlanRsvpOptions,
+  sharedPlanSharingLabel,
   sharedPlanStateBadge,
 } from './sharedPlanCopy.js';
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
@@ -69,6 +71,16 @@ export default function SharedPlanDetailSurface({
   );
   const [inviteOpen, setInviteOpen] = useState(false);
   const [reloadToken, setReloadToken] = useState(0);
+  const [ownerSummary, setOwnerSummary] = useState(
+    /** @type {{ userId: string, displayName: string | null, avatarUrl: string | null } | null} */ (
+      null
+    ),
+  );
+  const [publicCompanions, setPublicCompanions] = useState(
+    /** @type {Array<{ userId: string, displayName: string | null, avatarUrl: string | null, response: string | null }>} */ (
+      []
+    ),
+  );
 
   useEffect(() => {
     if (!planId) {
@@ -85,10 +97,14 @@ export default function SharedPlanDetailSurface({
         setStatus(result.reason === 'plan_not_found' ? 'missing' : 'error');
         setPlan(null);
         setMembers([]);
+        setOwnerSummary(null);
+        setPublicCompanions([]);
         return;
       }
       setPlan(result.plan);
       setMembers(result.members);
+      setOwnerSummary(result.owner ?? null);
+      setPublicCompanions(result.publicCompanions ?? []);
       const mine = result.members.find((m) => m.userId === viewerId);
       setLocalResponse(mine?.response ?? null);
       setStatus('ready');
@@ -109,6 +125,7 @@ export default function SharedPlanDetailSurface({
 
   const isOwner = Boolean(plan && viewerId && plan.ownerId === viewerId);
   const myMember = members.find((m) => m.userId === viewerId) ?? null;
+  const isDiscoverer = Boolean(plan && viewerId && !isOwner && !myMember);
   const organizerNote =
     myMember?.inviteMessage ||
     members.find((m) => m.inviteMessage)?.inviteMessage ||
@@ -181,6 +198,25 @@ export default function SharedPlanDetailSurface({
     onResponded?.();
   };
 
+  const handleJoin = async () => {
+    if (!plan || !isDiscoverer || busy) return;
+    setBusy(true);
+    setError(null);
+    const result = await joinOpenSharedPlanRemote(plan.planId);
+    setBusy(false);
+    if (!result.ok) {
+      setError(
+        result.reason === 'already_member'
+          ? 'You’re already on this plan.'
+          : 'Couldn’t join this plan. Try again.',
+      );
+      setReloadToken((n) => n + 1);
+      return;
+    }
+    setReloadToken((n) => n + 1);
+    onResponded?.();
+  };
+
   const acceptedPlanForInvite =
     isOwner && plan?.sourceAcceptedPlanId
       ? getAcceptedPlanById(getBrowserStorage(), plan.sourceAcceptedPlanId)
@@ -222,12 +258,17 @@ export default function SharedPlanDetailSurface({
             {dateLabel ? (
               <p className="v2-shared-plan-detail-date">{dateLabel}</p>
             ) : null}
-            {withLine ? (
+            {withLine && !isDiscoverer ? (
               <p className="v2-shared-plan-detail-with">{withLine}</p>
+            ) : null}
+            {isOwner ? (
+              <p className="v2-shared-plan-detail-sharing">
+                Sharing · {sharedPlanSharingLabel(plan.visibility)}
+              </p>
             ) : null}
           </header>
 
-          {organizerNote ? (
+          {organizerNote && !isDiscoverer ? (
             <blockquote className="v2-shared-plan-detail-note">
               “{organizerNote}”
             </blockquote>
@@ -293,7 +334,47 @@ export default function SharedPlanDetailSurface({
           <section className="v2-shared-plan-detail-people" aria-label="People">
             <h2 className="v2-shared-plan-detail-section-title">People</h2>
             <ul className="v2-shared-plan-detail-people-list">
-              {peopleRows.map((person) => (
+              {isDiscoverer ? (
+                <li key={plan.ownerId}>
+                  <span className="v2-shared-plan-detail-person">
+                    <FriendAvatar
+                      displayName={
+                        ownerSummary?.displayName ||
+                        friendById.get(plan.ownerId)?.displayName ||
+                        'Organizer'
+                      }
+                      avatarUrl={
+                        ownerSummary?.avatarUrl ||
+                        friendById.get(plan.ownerId)?.avatarUrl ||
+                        null
+                      }
+                      size="sm"
+                    />
+                    <span className="v2-shared-plan-detail-person-name">
+                      {friendDisplayLabel(
+                        ownerSummary?.displayName ||
+                          friendById.get(plan.ownerId)?.displayName,
+                      ) || 'Organizer'}
+                    </span>
+                  </span>
+                  <span className="v2-shared-plan-detail-person-response">
+                    Organizer
+                  </span>
+                </li>
+              ) : null}
+              {(isDiscoverer
+                ? publicCompanions.map((person) => ({
+                    userId: person.userId,
+                    displayName:
+                      friendDisplayLabel(person.displayName) || 'Friend',
+                    avatarUrl: person.avatarUrl,
+                    responseLabel: formatSharedPlanResponseLabel(
+                      person.response,
+                      plan.type,
+                    ),
+                  }))
+                : peopleRows
+              ).map((person) => (
                 <li key={person.userId}>
                   <span className="v2-shared-plan-detail-person">
                     <FriendAvatar
@@ -311,12 +392,29 @@ export default function SharedPlanDetailSurface({
                 </li>
               ))}
             </ul>
-            {peopleRows.length <= 1 ? (
+            {!isDiscoverer && peopleRows.length <= 1 ? (
               <p className="v2-shared-plan-detail-empty-people">
                 No other responses yet.
               </p>
             ) : null}
           </section>
+
+          {isDiscoverer && plan.visibility === 'friends' ? (
+            <section className="v2-shared-plan-detail-rsvp" aria-label="Join">
+              <button
+                type="button"
+                className="v2-shared-plan-detail-invite-btn"
+                disabled={busy}
+                onClick={handleJoin}
+              >
+                {busy
+                  ? 'Joining…'
+                  : plan.type === 'decided'
+                    ? 'Join'
+                    : 'Interested'}
+              </button>
+            </section>
+          ) : null}
 
           {!isOwner && myMember ? (
             <section className="v2-shared-plan-detail-rsvp" aria-label="Your response">
@@ -339,7 +437,7 @@ export default function SharedPlanDetailSurface({
             </section>
           ) : null}
 
-          {isOwner && acceptedPlanForInvite ? (
+          {isOwner ? (
             <div className="v2-shared-plan-detail-owner-actions">
               <button
                 type="button"
@@ -362,6 +460,8 @@ export default function SharedPlanDetailSurface({
       <InviteFriendsToPlanSheet
         open={inviteOpen}
         acceptedPlan={acceptedPlanForInvite}
+        sharedPlanId={plan?.planId ?? planId}
+        initialVisibility={plan?.visibility ?? null}
         ownerId={viewerId}
         onClose={() => setInviteOpen(false)}
         onInvited={() => {

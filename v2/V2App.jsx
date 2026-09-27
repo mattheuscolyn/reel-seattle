@@ -2751,6 +2751,14 @@ export default function V2App() {
       <FriendsSurface
         focusUserId={nav.surface.focusUserId}
         onOpenFriendDetail={handleOpenFriendDetail}
+        onOpenSharedPlan={(payload) =>
+          handleOpenSharedPlanDetail({
+            planId: payload?.planId,
+            originPrimary: 'profile',
+            returnSurface: nav.surface,
+          })
+        }
+        onJoinedOpenInvite={() => setAcceptedPlansRevision((n) => n + 1)}
       />
     );
   } else if (isFriendDetail) {

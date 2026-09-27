@@ -165,7 +165,79 @@ export function sharedPlanDisplayTitle(plan) {
 }
 
 /**
- * Format a plan date for the detail header.
+ * Owner-facing sharing line.
+ * @param {'private' | 'invited' | 'friends' | string | null | undefined} visibility
+ */
+export function sharedPlanSharingLabel(visibility) {
+  if (visibility === 'friends') return 'All friends can join';
+  if (visibility === 'invited') return 'Specific friends';
+  return 'Just you';
+}
+
+/**
+ * Upcoming in America/Los_Angeles. Missing date stays visible.
+ * @param {{ date?: string | null }} plan
+ * @param {Date} [now]
+ */
+export function isSharedPlanUpcoming(plan, now = new Date()) {
+  if (!plan?.date || typeof plan.date !== 'string') return true;
+  const today = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Los_Angeles',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(now);
+  return plan.date >= today;
+}
+
+/**
+ * Open Invites card summary. Multi-film plans are not flattened to one title.
+ * @param {import('./sharedPlanModel.js').SharedPlan | null | undefined} plan
+ */
+export function formatOpenInviteCardSummary(plan) {
+  const screenings = plan?.screenings ?? [];
+  const count = screenings.length;
+  const first = screenings[0] ?? null;
+  const last = screenings[count - 1] ?? null;
+  const title =
+    count > 1
+      ? `${count}-film plan`
+      : plan?.label || first?.title || 'Shared plan';
+  const start = first?.localTime || null;
+  const end = last?.localTime || null;
+  const timeLabel =
+    count > 1 && start && end && start !== end ? `${start}–${end}` : start;
+  const theaters = [
+    ...new Set(screenings.map((row) => row.theaterName).filter(Boolean)),
+  ];
+  return {
+    title,
+    dateLabel: formatSharedPlanDateLabel(plan?.date),
+    timeLabel,
+    venue: theaters.length === 1 ? theaters[0] : null,
+    filmCount: count,
+  };
+}
+
+/**
+ * "Jamie +2 are going" — owner plus positive companions. Pending/declined excluded.
+ * @param {{
+ *   ownerName: string,
+ *   companionCount: number,
+ *   planType?: string | null,
+ * }} input
+ */
+export function formatOpenInviteSocialLine(input) {
+  const name = typeof input?.ownerName === 'string' ? input.ownerName.trim() : '';
+  const count = Number(input?.companionCount) || 0;
+  if (!name || count < 1) return null;
+  if (input?.planType === 'decided') {
+    return count === 1 ? `${name} +1 are going` : `${name} +${count} are going`;
+  }
+  return count === 1 ? `${name} +1 interested` : `${name} +${count} interested`;
+}
+
+/**
  * @param {string | null | undefined} isoDate
  */
 export function formatSharedPlanDateLabel(isoDate) {
