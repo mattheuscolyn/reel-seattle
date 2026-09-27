@@ -9,6 +9,7 @@ import { useState } from 'react';
  * @param {{
  *   src?: string | null,
  *   alt?: string,
+ *   venueName?: string | null,
  *   className?: string,
  *   fallbackClassName?: string,
  *   loading?: 'lazy' | 'eager',
@@ -17,15 +18,22 @@ import { useState } from 'react';
 export function TheaterVenueImage({
   src = null,
   alt = '',
+  venueName = null,
   className = '',
   fallbackClassName = 'v2-shelf-poster-fallback',
   loading = 'lazy',
 }) {
   const [failed, setFailed] = useState(false);
   const usable = typeof src === 'string' && src.trim().length > 0 && !failed;
+  const label = typeof venueName === 'string' ? venueName.trim() : '';
 
   if (!usable) {
-    return <span className={fallbackClassName} aria-hidden="true" />;
+    return (
+      <span className={`${fallbackClassName} v2-venue-fallback`} aria-hidden="true">
+        <span className="v2-venue-fallback-screen" />
+        {label ? <span className="v2-venue-fallback-name">{label}</span> : null}
+      </span>
+    );
   }
 
   return (

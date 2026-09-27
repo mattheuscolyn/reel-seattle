@@ -121,7 +121,9 @@ function TheaterListItem({
           <span className="v2-theaters-card-thumb">
             <TheaterVenueImage
               src={theater.thumbnailUrl ?? theater.imageUrl}
+              venueName={theater.name}
               loading="lazy"
+              alt={theater.thumbnailUrl || theater.imageUrl ? theater.name : ''}
             />
           </span>
           <span className="v2-theaters-card-copy">
