@@ -148,12 +148,32 @@ test('live venue without curated imagery stays placeholder-ready', () => {
   assert.equal(card.sectionsVisible.image, false);
 });
 
-test('UI uses TheaterVenueImage with lazy loading and onError fallback', () => {
+test('UI uses TheaterVenueImage with lazy loading, venue-name fallback, and onError', () => {
   assert.match(VENUE_IMAGE, /onError/);
   assert.match(VENUE_IMAGE, /loading/);
+  assert.match(VENUE_IMAGE, /venueName/);
+  assert.match(VENUE_IMAGE, /v2-venue-fallback-name/);
   assert.match(SURFACE_LIST, /TheaterVenueImage/);
   assert.match(SURFACE_DETAIL, /TheaterVenueImage/);
+  assert.match(SURFACE_DETAIL, /venueName=\{presentation.name\}/);
   assert.match(SURFACE_DETAIL, /imageAttribution/);
+});
+
+test('every enabled registry theater resolves imagery or the designed fallback', () => {
+  const registry = JSON.parse(
+    readFileSync(join(ROOT, 'data/theaters.json'), 'utf8'),
+  );
+  const enabled = registry.theaters.filter((theater) => theater.enabled === true);
+  assert.ok(enabled.length >= 12);
+  for (const theater of enabled) {
+    const imagery = resolveTheaterImagery(theater);
+    assert.equal(typeof imagery.hasImage, 'boolean');
+    if (!imagery.hasImage) {
+      assert.equal(imagery.heroUrl, null);
+      assert.equal(typeof theater.name, 'string');
+      assert.ok(theater.name.trim().length > 0);
+    }
+  }
 });
 
 test('schema documents hero, thumbnail, attribution, and license', () => {

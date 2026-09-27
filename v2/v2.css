@@ -14091,10 +14091,61 @@ a.v2-st-time:hover {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  object-position: center;
 }
 
-.v2-td-hero-fallback {
-  background: linear-gradient(160deg, #2a2a2a 0%, #141414 100%);
+.v2-td-hero-fallback,
+.v2-venue-fallback {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--v2-space-3);
+  overflow: hidden;
+  padding: var(--v2-space-4);
+  background:
+    linear-gradient(180deg, rgba(7, 8, 13, 0.08), rgba(7, 8, 13, 0.45)),
+    linear-gradient(165deg, #2c3342 0%, #141820 72%);
+}
+
+.v2-venue-fallback-screen {
+  width: min(42%, 11rem);
+  aspect-ratio: 16 / 9;
+  border-radius: 0.35rem;
+  background: #0c0f16;
+  box-shadow:
+    0 0 0 0.4rem rgba(255, 255, 255, 0.05),
+    0 0.65rem 1.2rem rgba(0, 0, 0, 0.28);
+}
+
+.v2-venue-fallback-name {
+  max-width: 16rem;
+  text-align: center;
+  color: var(--v2-fg);
+  font-family: var(--v2-font-display);
+  font-size: clamp(0.95rem, 3.2vw, 1.28rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.v2-theaters-card-thumb .v2-venue-fallback {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  gap: 0;
+  padding: 0.2rem;
+}
+
+.v2-theaters-card-thumb .v2-venue-fallback-screen {
+  width: 70%;
+  box-shadow: 0 0 0 0.15rem rgba(255, 255, 255, 0.06);
+}
+
+.v2-theaters-card-thumb .v2-venue-fallback-name {
+  display: none;
 }
 
 .v2-td-image-attribution {
@@ -14150,10 +14201,12 @@ a.v2-st-time:hover {
 
 .v2-td-title {
   margin: 0;
+  min-width: 0;
   font-family: var(--v2-font-display);
   font-size: clamp(1.45rem, 5.8vw, 1.75rem);
   font-weight: 600;
   line-height: 1.15;
+  overflow-wrap: anywhere;
 }
 
 .v2-td-favorite-badge {

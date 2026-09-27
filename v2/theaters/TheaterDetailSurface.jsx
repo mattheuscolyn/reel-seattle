@@ -245,10 +245,11 @@ export default function TheaterDetailSurface({
       <div className="v2-td-hero" data-td-section="hero">
         <TheaterVenueImage
           src={presentation.heroImageUrl}
+          venueName={presentation.name}
           className="v2-td-hero-image"
           fallbackClassName="v2-td-hero-image v2-td-hero-fallback"
           loading="eager"
-          alt=""
+          alt={presentation.heroImageUrl ? presentation.name : ''}
         />
         <div className="v2-td-hero-actions">
           <button
