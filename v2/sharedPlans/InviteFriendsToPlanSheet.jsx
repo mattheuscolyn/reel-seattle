@@ -10,8 +10,15 @@ import { friendDisplayLabel } from '../friends/friendsCopy.js';
 import {
   SHARED_PLAN_INVITE_MESSAGE_MAX,
 } from '../sharedPlans/sharedPlanModel.js';
-import { promoteAcceptedPlanAndInvite } from '../sharedPlans/promoteAcceptedPlanAndInvite.js';
-import { getSharedPlanBySourceAcceptedRemote, getSharedPlanRemote } from '../sharedPlans/sharedPlansApi.js';
+import {
+  applySharedPlanAudience,
+  promoteAcceptedPlanAndInvite,
+} from '../sharedPlans/promoteAcceptedPlanAndInvite.js';
+import {
+  getSharedPlanBySourceAcceptedRemote,
+  getSharedPlanRemote,
+  setSharedPlanVisibilityRemote,
+} from '../sharedPlans/sharedPlansApi.js';
 import { formatMemberResponseLabel } from '../planner/mergeSharedPlansIntoPlannerLanding.js';
 import { getAcceptedPlanById } from '../stores/acceptedPlansStore.js';
 
@@ -28,6 +35,8 @@ function getBrowserStorage() {
  *   open: boolean,
  *   acceptedPlanId?: string | null,
  *   acceptedPlan?: import('../stores/acceptedPlansStore.js').AcceptedPlanItem | null,
+ *   sharedPlanId?: string | null,
+ *   initialVisibility?: 'private' | 'invited' | 'friends' | null,
  *   ownerId: string | null,
  *   onClose?: () => void,
  *   onInvited?: (result: object) => void,
@@ -37,6 +46,8 @@ export default function InviteFriendsToPlanSheet({
   open,
   acceptedPlanId = null,
   acceptedPlan: acceptedPlanProp = null,
+  sharedPlanId = null,
+  initialVisibility = null,
   ownerId,
   onClose,
   onInvited,
@@ -59,6 +70,16 @@ export default function InviteFriendsToPlanSheet({
   const [existingMembers, setExistingMembers] = useState(
     /** @type {import('../sharedPlans/sharedPlanModel.js').PlanMember[]} */ ([]),
   );
+  const [audience, setAudience] = useState(
+    /** @type {'private' | 'invited' | 'friends'} */ (
+      initialVisibility === 'friends' || initialVisibility === 'private'
+        ? initialVisibility
+        : 'invited'
+    ),
+  );
+  const [resolvedPlanId, setResolvedPlanId] = useState(
+    /** @type {string | null} */ (sharedPlanId),
+  );
 
   useEffect(() => {
     if (!open || !ownerId) return;
@@ -76,30 +97,48 @@ export default function InviteFriendsToPlanSheet({
   }, [open, ownerId]);
 
   useEffect(() => {
-    if (!open || !acceptedPlan?.planId || !ownerId) {
+    if (!open || !ownerId) {
       setExistingMembers([]);
       return;
     }
     let cancelled = false;
     (async () => {
-      const found = await getSharedPlanBySourceAcceptedRemote(acceptedPlan.planId);
-      if (cancelled || !found.ok || !found.plan) {
-        if (!cancelled) setExistingMembers([]);
+      let planId = sharedPlanId;
+      /** @type {import('./sharedPlanModel.js').SharedPlan | null} */
+      let foundPlan = null;
+      if (!planId && acceptedPlan?.planId) {
+        const found = await getSharedPlanBySourceAcceptedRemote(acceptedPlan.planId);
+        if (cancelled) return;
+        if (found.ok && found.plan) {
+          planId = found.plan.planId;
+          foundPlan = found.plan;
+        }
+      }
+      if (!planId) {
+        if (!cancelled) {
+          setExistingMembers([]);
+          setResolvedPlanId(null);
+        }
         return;
       }
-      const full = await getSharedPlanRemote(found.plan.planId, {
-        viewerId: ownerId,
-      });
+      const full = await getSharedPlanRemote(planId, { viewerId: ownerId });
       if (cancelled) return;
+      setResolvedPlanId(planId);
       setExistingMembers(full.ok ? full.members : []);
-      if (full.ok && (full.plan?.type === 'decided' || found.plan.type === 'decided')) {
-        setPlanType('decided');
+      const loaded = full.ok ? full.plan : foundPlan;
+      if (loaded?.type === 'decided') setPlanType('decided');
+      if (
+        loaded?.visibility === 'private' ||
+        loaded?.visibility === 'invited' ||
+        loaded?.visibility === 'friends'
+      ) {
+        setAudience(loaded.visibility);
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [open, acceptedPlan?.planId, ownerId]);
+  }, [open, acceptedPlan?.planId, ownerId, sharedPlanId]);
 
   useEffect(() => {
     if (!open) {
@@ -109,8 +148,14 @@ export default function InviteFriendsToPlanSheet({
       setConfirm(null);
       setBusy(false);
       setPlanType('proposal');
+      setAudience(
+        initialVisibility === 'friends' || initialVisibility === 'private'
+          ? initialVisibility
+          : 'invited',
+      );
+      setResolvedPlanId(sharedPlanId);
     }
-  }, [open]);
+  }, [open, initialVisibility, sharedPlanId]);
 
   const memberByUserId = useMemo(() => {
     /** @type {Map<string, import('../sharedPlans/sharedPlanModel.js').PlanMember>} */
@@ -140,48 +185,148 @@ export default function InviteFriendsToPlanSheet({
       : `Send invites (${selectedCount})`;
 
   const handleSend = async () => {
-    if (busy || !acceptedPlan || !ownerId || selectedCount === 0) return;
+    if (busy || !ownerId) return;
+    if (audience === 'invited' && selectedCount === 0 && !resolvedPlanId) return;
+    if (audience === 'friends' && !acceptedPlan && !resolvedPlanId) return;
+    if (audience === 'invited' && selectedCount > 0 && !acceptedPlan) return;
     setBusy(true);
     setError(null);
     setConfirm(null);
-    const result = await promoteAcceptedPlanAndInvite({
-      acceptedPlan,
-      ownerId,
-      type: planType,
-      inviteeIds: [...selected],
-      message: message.trim() || null,
-    });
+
+    let result;
+    if (audience === 'invited' && selectedCount > 0 && acceptedPlan) {
+      result = await promoteAcceptedPlanAndInvite({
+        acceptedPlan,
+        ownerId,
+        type: planType,
+        inviteeIds: [...selected],
+        message: message.trim() || null,
+      });
+      if (result.ok && result.plan && result.plan.visibility !== 'invited') {
+        const narrowed = await setSharedPlanVisibilityRemote(
+          result.plan.planId,
+          'invited',
+        );
+        if (narrowed.ok && narrowed.plan) {
+          result = { ...result, plan: narrowed.plan };
+        }
+      }
+    } else {
+      result = await applySharedPlanAudience({
+        acceptedPlan,
+        sharedPlanId: resolvedPlanId,
+        ownerId,
+        mode: audience,
+        type: planType,
+      });
+    }
+
     setBusy(false);
     if (!result.ok) {
       setError(
         result.reason === 'not_authenticated'
           ? 'Sign in to invite friends.'
-          : result.reason === 'invalid_invitees'
-            ? 'Select at least one friend.'
-            : 'Couldn’t send invites. Try again.',
+          : result.reason === 'not_owner'
+            ? 'Only the organizer can change who can join.'
+            : result.reason === 'invalid_invitees'
+              ? 'Select at least one friend.'
+              : 'Couldn’t update sharing. Try again.',
       );
       return;
     }
-    const invitedCount = result.invited?.length ?? 0;
-    setConfirm(
-      invitedCount === 0
-        ? 'Those friends are already on this plan.'
-        : invitedCount === 1
-          ? 'Invite sent.'
-          : `${invitedCount} invites sent.`,
-    );
+    if (audience === 'invited' && selectedCount > 0) {
+      const invitedCount = result.invited?.length ?? 0;
+      setConfirm(
+        invitedCount === 0
+          ? 'Those friends are already on this plan.'
+          : invitedCount === 1
+            ? 'Invite sent.'
+            : `${invitedCount} invites sent.`,
+      );
+    } else if (audience === 'friends') {
+      setConfirm('Friends can find this plan in Open Invites.');
+    } else if (audience === 'private') {
+      setConfirm('This plan is private.');
+    } else {
+      setConfirm('Sharing updated.');
+    }
     onInvited?.(result);
     window.setTimeout(() => {
       onClose?.();
     }, 900);
   };
 
+  const primaryDisabled =
+    busy ||
+    !ownerId ||
+    (audience === 'invited' && selectedCount === 0 && !resolvedPlanId) ||
+    (audience === 'friends' && !acceptedPlan && !resolvedPlanId) ||
+    (audience === 'invited' && selectedCount > 0 && !acceptedPlan);
+
+  const primaryLabel = busy
+    ? 'Saving…'
+    : audience === 'private'
+      ? 'Keep private'
+      : audience === 'friends'
+        ? 'Open to all friends'
+        : selectedCount > 0
+          ? sendLabel
+          : 'Save';
+
   return (
-    <FriendsSheet title="Invite friends" onClose={onClose}>
+    <FriendsSheet title="Who can join?" onClose={onClose}>
       <p className="v2-friends-sheet-lead">
-        Share this plan with friends you already know on Reel Seattle.
+        Choose who can find this plan. People already on it stay on it.
       </p>
 
+      <fieldset className="v2-plan-invite-type">
+        <legend className="v2-plan-invite-legend">Who can join?</legend>
+        <label className="v2-plan-invite-type-option">
+          <input
+            type="radio"
+            name="plan-audience"
+            checked={audience === 'private'}
+            disabled={busy}
+            onChange={() => setAudience('private')}
+          />
+          <span>
+            <strong>Just me</strong>
+            <span className="v2-plan-invite-type-hint">Keep this plan private.</span>
+          </span>
+        </label>
+        <label className="v2-plan-invite-type-option">
+          <input
+            type="radio"
+            name="plan-audience"
+            checked={audience === 'invited'}
+            disabled={busy}
+            onChange={() => setAudience('invited')}
+          />
+          <span>
+            <strong>Specific friends</strong>
+            <span className="v2-plan-invite-type-hint">
+              Invite selected friends directly.
+            </span>
+          </span>
+        </label>
+        <label className="v2-plan-invite-type-option">
+          <input
+            type="radio"
+            name="plan-audience"
+            checked={audience === 'friends'}
+            disabled={busy}
+            onChange={() => setAudience('friends')}
+          />
+          <span>
+            <strong>All friends</strong>
+            <span className="v2-plan-invite-type-hint">
+              Any of your friends can see this plan and join.
+            </span>
+          </span>
+        </label>
+      </fieldset>
+
+      {audience !== 'private' && !resolvedPlanId ? (
       <fieldset className="v2-plan-invite-type">
         <legend className="v2-plan-invite-legend">How are you sharing this?</legend>
         <label className="v2-plan-invite-type-option">
@@ -215,7 +360,10 @@ export default function InviteFriendsToPlanSheet({
           </span>
         </label>
       </fieldset>
+      ) : null}
 
+      {audience === 'invited' ? (
+      <>
       <div className="v2-plan-invite-message">
         <label htmlFor="v2-plan-invite-message-input">
           Add a message <span className="v2-plan-invite-optional">(optional)</span>
@@ -307,6 +455,8 @@ export default function InviteFriendsToPlanSheet({
           </ul>
         </div>
       ) : null}
+      </>
+      ) : null}
 
       {error ? (
         <p className="v2-plan-invite-error" role="alert">
@@ -322,10 +472,10 @@ export default function InviteFriendsToPlanSheet({
       <button
         type="button"
         className="v2-plan-invite-send"
-        disabled={busy || selectedCount === 0 || !acceptedPlan || !ownerId}
+        disabled={primaryDisabled}
         onClick={handleSend}
       >
-        {busy ? 'Sending…' : sendLabel}
+        {primaryLabel}
       </button>
     </FriendsSheet>
   );

@@ -6,6 +6,7 @@ import { getSupabaseClient } from '../auth/supabaseClient.js';
 import {
   SHARED_PLAN_RPC,
   normalizeGetSharedPlanPayload,
+  normalizeOpenFriendSharedPlanRow,
   normalizeSharedPlanInvitationRow,
   normalizeSharedPlanRpcPlan,
 } from './sharedPlansRpcModel.js';
@@ -68,6 +69,7 @@ function rpcFailureReason(error) {
   if (message.includes('invalid_message')) return 'invalid_message';
   if (message.includes('invalid_invitees')) return 'invalid_invitees';
   if (message.includes('already_member')) return 'already_member';
+  if (message.includes('visibility_forbidden')) return 'visibility_forbidden';
   return 'rpc_failed';
 }
 
@@ -254,8 +256,53 @@ export async function listOpenFriendSharedPlansRemote(options = {}) {
   const rows = Array.isArray(data) ? data : [];
   return {
     ok: true,
-    plans: rows.map(normalizeSharedPlanRpcPlan).filter(Boolean),
+    plans: rows.map(normalizeOpenFriendSharedPlanRow).filter(Boolean),
   };
+}
+
+/**
+ * Owner-only visibility change. Does not remove members.
+ * @param {string} planId
+ * @param {'private' | 'invited' | 'friends'} visibility
+ * @param {{ getClient?: () => unknown }} [options]
+ */
+export async function setSharedPlanVisibilityRemote(planId, visibility, options = {}) {
+  const resolved = await resolveClient(options);
+  if (!resolved.ok) return resolved;
+  const { data, error } = await callRpc(
+    resolved.client,
+    SHARED_PLAN_RPC.setVisibility,
+    {
+      p_plan_id: planId,
+      p_visibility: visibility,
+    },
+  );
+  if (error) return { ok: false, reason: rpcFailureReason(error) };
+  const plan = normalizeSharedPlanRpcPlan(data);
+  if (!plan) return { ok: false, reason: 'rpc_failed' };
+  return { ok: true, plan };
+}
+
+/**
+ * Opt into a friends-visible plan on the same planId.
+ * @param {string} planId
+ * @param {{ getClient?: () => unknown }} [options]
+ */
+export async function joinOpenSharedPlanRemote(planId, options = {}) {
+  const resolved = await resolveClient(options);
+  if (!resolved.ok) return resolved;
+  const { data, error } = await callRpc(
+    resolved.client,
+    SHARED_PLAN_RPC.joinOpen,
+    { p_plan_id: planId },
+  );
+  if (error) return { ok: false, reason: rpcFailureReason(error) };
+  if (!data || typeof data !== 'object') return { ok: false, reason: 'rpc_failed' };
+  const row = /** @type {Record<string, unknown>} */ (data);
+  const plan = normalizeSharedPlanRpcPlan(row.plan);
+  const member = normalizePlanMember(row.member);
+  if (!plan || !member) return { ok: false, reason: 'rpc_failed' };
+  return { ok: true, plan, member };
 }
 
 /**

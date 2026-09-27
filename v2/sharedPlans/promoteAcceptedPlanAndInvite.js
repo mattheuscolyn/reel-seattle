@@ -9,6 +9,7 @@ import {
   getSharedPlanBySourceAcceptedRemote,
   getSharedPlanRemote,
   inviteFriendsToSharedPlanRemote,
+  setSharedPlanVisibilityRemote,
 } from './sharedPlansApi.js';
 import { createSharedPlanId } from './sharedPlanModel.js';
 
@@ -92,4 +93,80 @@ export async function promoteAcceptedPlanAndInvite(input) {
     invited: inviteResult.invited,
     skipped: inviteResult.skipped,
   };
+}
+
+/**
+ * Set who can join an existing or newly promoted SharedPlan.
+ * Visibility changes never remove members. "All friends" does not insert memberships.
+ *
+ * @param {{
+ *   acceptedPlan?: import('../stores/acceptedPlansStore.js').AcceptedPlanItem | null,
+ *   sharedPlanId?: string | null,
+ *   ownerId: string,
+ *   mode: 'private' | 'invited' | 'friends',
+ *   type?: 'proposal' | 'decided',
+ *   getClient?: () => unknown,
+ * }} input
+ */
+export async function applySharedPlanAudience(input) {
+  const {
+    acceptedPlan = null,
+    sharedPlanId = null,
+    ownerId,
+    mode,
+    type = 'proposal',
+    getClient,
+  } = input;
+  if (!ownerId || !['private', 'invited', 'friends'].includes(mode)) {
+    return { ok: false, reason: 'invalid_plan' };
+  }
+
+  let plan = null;
+  if (sharedPlanId) {
+    const loaded = await getSharedPlanRemote(sharedPlanId, {
+      getClient,
+      viewerId: ownerId,
+    });
+    if (!loaded.ok) return loaded;
+    plan = loaded.plan;
+  } else if (acceptedPlan?.planId) {
+    const existing = await getSharedPlanBySourceAcceptedRemote(acceptedPlan.planId, {
+      getClient,
+    });
+    if (!existing.ok) return existing;
+    plan = existing.plan;
+  }
+
+  if (!plan && mode === 'private') {
+    return { ok: true, plan: null, created: false };
+  }
+
+  if (!plan) {
+    if (!acceptedPlan) return { ok: false, reason: 'invalid_plan' };
+    if (mode === 'invited') {
+      return { ok: false, reason: 'invalid_invitees' };
+    }
+    const adapted = sharedPlanFromAcceptedPlan(acceptedPlan, {
+      ownerId,
+      type,
+      visibility: 'friends',
+    });
+    if (!adapted.ok || !adapted.plan) {
+      return { ok: false, reason: adapted.reason || 'invalid_plan' };
+    }
+    const createdRemote = await createSharedPlanRemote(
+      { ...adapted.plan, planId: createSharedPlanId() },
+      { getClient },
+    );
+    if (!createdRemote.ok) return createdRemote;
+    return { ok: true, plan: createdRemote.plan, created: true };
+  }
+
+  if (plan.ownerId && plan.ownerId !== ownerId) {
+    return { ok: false, reason: 'not_owner' };
+  }
+  if (plan.visibility === mode) {
+    return { ok: true, plan, created: false };
+  }
+  return setSharedPlanVisibilityRemote(plan.planId, mode, { getClient });
 }

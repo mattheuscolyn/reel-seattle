@@ -11,16 +11,21 @@ import { useFriends } from './useFriends.js';
 import FriendAvatar from './FriendAvatar.jsx';
 import InviteFriendSheet from './InviteFriendSheet.jsx';
 import EnterFriendCodeSheet from './EnterFriendCodeSheet.jsx';
+import OpenInvitesSection from '../sharedPlans/OpenInvitesSection.jsx';
 
 /**
  * @param {{
  *   focusUserId?: string | null,
  *   onOpenFriendDetail?: (payload: { friendUserId: string }) => void,
+ *   onOpenSharedPlan?: (payload: { planId: string }) => void,
+ *   onJoinedOpenInvite?: () => void,
  * }} [props]
  */
 export default function FriendsSurface({
   focusUserId = null,
   onOpenFriendDetail = null,
+  onOpenSharedPlan = null,
+  onJoinedOpenInvite = null,
 }) {
   const auth = useAuth();
   const { friends, status, signedIn, refresh } = useFriends();
@@ -84,6 +89,12 @@ export default function FriendsSurface({
           </button>
         ) : null}
       </header>
+
+      <OpenInvitesSection
+        signedIn={signedIn}
+        onViewPlan={(planId) => onOpenSharedPlan?.({ planId, originPrimary: 'profile' })}
+        onJoined={onJoinedOpenInvite}
+      />
 
       {removeError ? (
         <p className="v2-friends-error" role="status">
