@@ -21,6 +21,10 @@ KNOWN_SOURCES: tuple[str, ...] = (
     "nwff",
     "central_cinema",
     "grand_illusion",
+    "tasveer",
+    "anderson_school",
+    "stg",
+    "majestic_bay",
 )
 SOURCE_STATUSES: tuple[str, ...] = ("success", "stale", "empty", "failed")
 

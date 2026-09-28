@@ -73,7 +73,16 @@ from reel_seattle.source_identity import (
 _LOG_NAME_RE = re.compile(
     r"^(?P<date>\d{4}-\d{2}-\d{2})_(?P<source>[a-z0-9_]+)\.json$"
 )
-_OPTION_C = frozenset({"nwff", "central_cinema"})
+_OPTION_C = frozenset(
+    {
+        "nwff",
+        "central_cinema",
+        "tasveer",
+        "anderson_school",
+        "stg",
+        "majestic_bay",
+    }
+)
 
 _TRACKED_ATTR_KEYS = (
     "source_title",

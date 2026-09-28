@@ -378,7 +378,16 @@ def derived_indie_completeness_warnings(
     stats: Mapping[str, object],
 ) -> list[str]:
     """Pipeline-report warnings derived from indie completeness stats."""
-    if source not in {"siff", "beacon", "nwff", "central_cinema"}:
+    if source not in {
+        "siff",
+        "beacon",
+        "nwff",
+        "central_cinema",
+        "tasveer",
+        "anderson_school",
+        "stg",
+        "majestic_bay",
+    }:
         return []
     if "restate_safe" not in stats:
         return []
@@ -388,14 +397,17 @@ def derived_indie_completeness_warnings(
     status = str(stats.get("scrape_status") or "").strip()
     succeeded = stats.get("program_pages_succeeded")
     discovered = stats.get("discovered_programs")
-    if source == "siff":
-        label = "SIFF"
-    elif source == "beacon":
-        label = "Beacon"
-    elif source == "central_cinema":
-        label = "Central Cinema"
-    else:
-        label = "NWFF"
+    labels = {
+        "siff": "SIFF",
+        "beacon": "Beacon",
+        "nwff": "NWFF",
+        "central_cinema": "Central Cinema",
+        "tasveer": "Tasveer",
+        "anderson_school": "Anderson School",
+        "stg": "STG",
+        "majestic_bay": "Majestic Bay",
+    }
+    label = labels[source]
 
     if restate_safe is False:
         if status == STATUS_PARTIAL_FAILURE and isinstance(succeeded, int) and isinstance(

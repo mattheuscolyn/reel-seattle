@@ -1,4 +1,4 @@
-"""Thin CLI wrapper for SIFF, Beacon, NWFF, Central Cinema, and Grand Illusion indie adapters."""
+"""Thin CLI wrapper for independent-source adapters."""
 
 from __future__ import annotations
 
@@ -6,6 +6,7 @@ from datetime import datetime
 
 import requests
 
+from reel_seattle.adapters.anderson_school import fetch_anderson_school
 from reel_seattle.adapters.beacon import fetch_beacon_showtimes
 from reel_seattle.adapters.central_cinema import (
     default_central_cinema_window,
@@ -24,19 +25,30 @@ from reel_seattle.adapters.indie_legacy import (
     raw_showtime_to_legacy_row,
     write_legacy_indie_csv,
 )
+from reel_seattle.adapters.majestic_bay import fetch_majestic_bay
 from reel_seattle.adapters.nwff import (
     default_nwff_window,
     fetch_nwff,
     write_nwff_scrape_log,
 )
+from reel_seattle.adapters.option_c import write_option_c_scrape_log
 from reel_seattle.adapters.scrape_log import (
     DEFAULT_DAILY_LOGS_DIR,
     daily_log_path,
     write_scrape_daily_log,
 )
 from reel_seattle.adapters.siff import fetch_siff_showtimes
+from reel_seattle.adapters.stg import fetch_stg
+from reel_seattle.adapters.tasveer import fetch_tasveer
 
 CSV_FILENAME = str(DEFAULT_INDIE_CSV_PATH)
+
+_NEW_OPTION_C = (
+    ("tasveer", "Tasveer", "fetch_tasveer"),
+    ("anderson_school", "Anderson School", "fetch_anderson_school"),
+    ("stg", "STG", "fetch_stg"),
+    ("majestic_bay", "Majestic Bay", "fetch_majestic_bay"),
+)
 
 
 def collect_indie_showtimes(context):
@@ -109,12 +121,33 @@ def collect_indie_showtimes(context):
             f"records={len(grand_illusion_result.records)}"
         )
 
+    added_results = {}
+    for source_key, label, fetch_name in _NEW_OPTION_C:
+        result = None
+        fetch = globals()[fetch_name]
+        try:
+            result = fetch(context.window_start, context.window_end)
+        except Exception as exc:  # noqa: BLE001 - source-local soft-fail
+            print(f"ERROR: {label} collection failed (source-local): {exc}")
+        if result is not None:
+            for message in result.warnings:
+                print(f"{label}: {message}")
+            for message in result.errors:
+                print(f"{label} ERROR: {message}")
+            print(
+                f"{label} status={result.contract.get('status')} "
+                f"restate_safe={result.restate_safe} "
+                f"records={len(result.records)}"
+            )
+        added_results[source_key] = result
+
     return (
         siff_result,
         beacon_result,
         nwff_result,
         central_result,
         grand_illusion_result,
+        added_results,
     )
 
 
@@ -130,6 +163,7 @@ def main() -> None:
         nwff_result,
         central_result,
         grand_illusion_result,
+        added_results,
     ) = collect_indie_showtimes(context)
 
     siff_json_path = daily_log_path(run_date, "siff")
@@ -176,6 +210,17 @@ def main() -> None:
             f"(restate_safe={grand_illusion_result.restate_safe})"
         )
 
+    for source_key, result in added_results.items():
+        if result is None:
+            continue
+        json_path = daily_log_path(run_date, source_key, logs_dir=DEFAULT_DAILY_LOGS_DIR)
+        write_option_c_scrape_log(json_path, result.log_envelope)
+        print(
+            f"Wrote {source_key} Option C scrape log {json_path}: "
+            f"{len(result.records)} records "
+            f"(restate_safe={result.restate_safe})"
+        )
+
     records = list(siff_result.records) + list(beacon_result.records)
     if nwff_result is not None:
         records.extend(nwff_result.records)
@@ -183,6 +228,9 @@ def main() -> None:
         records.extend(central_result.records)
     if grand_illusion_result is not None:
         records.extend(grand_illusion_result.records)
+    for result in added_results.values():
+        if result is not None:
+            records.extend(result.records)
     rows = [raw_showtime_to_legacy_row(record) for record in records]
     write_legacy_indie_csv(CSV_FILENAME, rows)
     print(f"Saved {len(rows)} showtimes to {CSV_FILENAME}.")
