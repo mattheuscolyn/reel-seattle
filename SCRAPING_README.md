@@ -198,9 +198,26 @@ AMC locations that appeared in historical scrapes but are **not** in the registr
 
 ### Indie adapters (PR 16) and normalized raw JSON logs (PR 17)
 
-`webscrapetheaters.py` delegates to `reel_seattle/adapters/siff.py`, `reel_seattle/adapters/beacon.py`, `reel_seattle/adapters/nwff.py`, and `reel_seattle/adapters/central_cinema.py`. SIFF and Beacon write normalized JSON daily logs; NWFF and Central write Option C envelopes. The CLI converts combined records to the legacy indie CSV shape (`public/indieshowtimes.csv`). SIFF venues include SIFF Cinema Downtown, SIFF Cinema Uptown, and SIFF Film Center. SIFF P-20B preserves exact `<h1>` titles, canonical program paths as `source_film_id`, Elevent `ShowtimeId` as `source_showtime_id` when present, window-aware date years (no page-wide `\d{4}`), and allowlisted venues only (see `docs/siff-minimal-alignment.md`). Beacon rows use `The Beacon` with exact source titles, canonical movie slugs as `source_film_id`, and `data-inventory-id` as `source_showtime_id` when present (P-19A production-accepted 2026-07-17; see `docs/beacon-minimal-alignment.md`). NWFF uses `Northwest Film Forum` with a default 14-day Pacific window. Completeness helpers live in `reel_seattle/adapters/indie_completeness.py`. NWFF/Central collection soft-fails so SIFF/Beacon continue on unexpected adapter errors.
+`webscrapetheaters.py` delegates to the independent-source adapters (`siff`, `beacon`, `nwff`, `central_cinema`, `grand_illusion`, `tasveer`, `anderson_school`, `stg`, `majestic_bay`). Each adapter soft-fails on its own. SIFF and Beacon write normalized JSON daily logs; the others write Option C envelopes under `data/daily_logs/YYYY-MM-DD_{source}.json`. The CLI still appends combined records to the legacy indie CSV (`public/indieshowtimes.csv`). See "Tasveer, Anderson School, STG, and Majestic Bay" below for the four newest sources.
 
-`amc_logger.py` and the indie scraper still write legacy CSV files for at least one release cycle. `daily_processor.py` reads today's JSON logs first when present; missing JSON falls back to CSV. Malformed JSON raises a clear error and does not silently fall back.
+Venues not listed in `data/theaters.json` are not ingested. STG rows keep `source=stg` at the physical venue (Paramount Theatre); there is no generic STG theater.
+
+`daily_processor.py` reads today's JSON logs first when present; missing JSON falls back to CSV. Malformed JSON raises a clear error and does not silently fall back. A request or structural failure is `restate_safe: false` with an error string, which is distinct from a successful scrape that found zero showtimes (`valid_empty`).
+
+### Tasveer, Anderson School, STG, and Majestic Bay
+
+| Source key | Daily log | Theater id | How it is scraped |
+|---|---|---|---|
+| `tasveer` | `YYYY-MM-DD_tasveer.json` | `tasveer-film-center` | Public Indy GraphQL `POST https://filmcenter.tasveer.org/graphql` with the consumer `site-id` / `circuit-id` published in the showtimes bundle. Movie `id` is `source_film_id`. Showing `id` is `source_showtime_id`. Showing `time` is UTC and stored in `America/Los_Angeles`. |
+| `anderson_school` | `YYYY-MM-DD_anderson_school.json` | `anderson-school-theater` | Public McMenamins HTML modals. Modal id `ST…` is `source_film_id`. Veezi `/purchase/{id}` in the button is `source_showtime_id`. |
+| `stg` | `YYYY-MM-DD_stg.json` | `paramount-theatre` for The Paramount Theatre | Public WordPress `mec-events` JSON (`/wp-json/wp/v2/mec-events`). The HTML calendar returns 403 to non-browser clients, so this version does not scrape that HTML. MEC event `id` is `source_film_id`. A single occurrence uses that id as `source_showtime_id`; shared event ids get `{id}:{date}`. |
+| `majestic_bay` | `YYYY-MM-DD_majestic_bay.json` | `majestic-bay` | Public Veezi sessions HTML at `ticketing.useast.veezi.com`. No private Veezi API token. Poster `code` is `source_film_id`. Purchase session id is `source_showtime_id`. Schema.org `VisualArtsEvent` supplies date, time, and runtime. |
+
+Anderson identity titles drop only a terminal open-caption suffix: `(OCAP)`, `(open caption)` / `(open captions)`, or a trailing `OCAP`. The exact source title stays on `source_title`. The suffix becomes format `open caption` (`open-caption`). Titles such as `(Part II)`, `(Director's Cut)`, and `(2024)` are not stripped.
+
+STG ingests an event only when it is a screening of an identifiable film. Silent Movie Mondays with a film title qualifies, and so does explicit screening language or a feature accompanied by organ/orchestra. Soundtrack or score concerts, talks, stage productions, and a bare Film category do not. Ambiguous events are rejected with a warning and are not stored as films. `Silent Movie Mondays: Metropolis (1927)` (colon or dash) becomes film identity `Metropolis`, with `1927` kept as year evidence and the series name in source attributes. The prefix strip is STG-specific. A qualifying film at an unmapped venue is rejected and the STG scrape is not restatement-safe.
+
+Majestic Bay's canonical name is **Majestic Bay Theatres**. Presentation labels such as `Retro` are stored as published labels. "Selling fast" is not a format. The normalized record shape stays the Option C contract, so a later authorized Veezi API token would not change downstream rows.
 
 Matching order for each AMC API theatre:
 
@@ -208,8 +225,6 @@ Matching order for each AMC API theatre:
 2. Normalized canonical `name` or `aliases` (case-insensitive, whitespace-collapsed)
 
 Unmatched or disabled theatres are skipped with a summary log line. `source_external_id` values can be populated when an `AMC_API_KEY` discovery run maps API ids to registry names; until then, name matching is used.
-
-Venues not listed here (e.g. Northwest Film Forum, Grand Illusion) are intentionally omitted until a dedicated adapter PR adds them.
 
 ## Data Structure
 

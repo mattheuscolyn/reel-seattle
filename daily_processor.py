@@ -21,8 +21,28 @@ from reel_seattle.adapters.indie_completeness import (
     reconcile_option_c_restate_safe,
 )
 
-INDIE_RESTATE_SOURCES = ("siff", "beacon", "nwff", "central_cinema", "grand_illusion")
-OPTION_C_RESTATE_SOURCES = frozenset({"nwff", "central_cinema", "grand_illusion"})
+INDIE_RESTATE_SOURCES = (
+    "siff",
+    "beacon",
+    "nwff",
+    "central_cinema",
+    "grand_illusion",
+    "tasveer",
+    "anderson_school",
+    "stg",
+    "majestic_bay",
+)
+OPTION_C_RESTATE_SOURCES = frozenset(
+    {
+        "nwff",
+        "central_cinema",
+        "grand_illusion",
+        "tasveer",
+        "anderson_school",
+        "stg",
+        "majestic_bay",
+    }
+)
 
 HISTORY_FIELDNAMES = [
     "Date",

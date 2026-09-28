@@ -19,7 +19,17 @@ CONTRACT_VERSION = "1.0.0"
 DEFAULT_TIMEZONE = "America/Los_Angeles"
 
 KNOWN_SOURCES = frozenset(
-    {"siff", "beacon", "nwff", "central_cinema", "grand_illusion"}
+    {
+        "siff",
+        "beacon",
+        "nwff",
+        "central_cinema",
+        "grand_illusion",
+        "tasveer",
+        "anderson_school",
+        "stg",
+        "majestic_bay",
+    }
 )
 
 STATUS_SUCCESS = "success"

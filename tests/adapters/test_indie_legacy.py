@@ -103,20 +103,40 @@ def test_webscrapetheaters_wrapper_collects_fixture_records(monkeypatch):
 
     monkeypatch.setattr("webscrapetheaters.fetch_grand_illusion", fake_gi_fetch)
 
+    def fake_added(start, end, **kwargs):
+        from reel_seattle.adapters.option_c import OptionCAdapterResult
+
+        return OptionCAdapterResult(
+            records=[],
+            stats={},
+            warnings=[],
+            errors=[],
+            contract={"status": "request_failure"},
+            mapping={},
+            log_envelope={},
+            restate_safe=False,
+        )
+
+    monkeypatch.setattr("webscrapetheaters.fetch_tasveer", fake_added)
+    monkeypatch.setattr("webscrapetheaters.fetch_anderson_school", fake_added)
+    monkeypatch.setattr("webscrapetheaters.fetch_stg", fake_added)
+    monkeypatch.setattr("webscrapetheaters.fetch_majestic_bay", fake_added)
+
     context = FetchContext(
         run_date=date(2026, 6, 26),
         window_start=date(2026, 6, 26),
         window_end=date(2026, 12, 31),
         theaters_registry={},
     )
-    siff_result, beacon_result, nwff_result, central_result, gi_result = collect_indie_showtimes(
-        context
+    siff_result, beacon_result, nwff_result, central_result, gi_result, added = (
+        collect_indie_showtimes(context)
     )
     records = siff_result.records + beacon_result.records
 
     assert nwff_result is not None
     assert central_result is not None
     assert gi_result is None or gi_result is not None
+    assert set(added) == {"tasveer", "anderson_school", "stg", "majestic_bay"}
     assert len(records) >= 3
     theaters = {record.theater_name_raw for record in records}
     assert "SIFF Cinema Uptown" in theaters

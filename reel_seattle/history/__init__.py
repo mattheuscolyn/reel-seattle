@@ -11,7 +11,18 @@ from __future__ import annotations
 
 SCHEMA_VERSION = "1.0.0"
 
-KNOWN_SOURCES = ("amc", "siff", "beacon", "nwff", "central_cinema", "grand_illusion")
+KNOWN_SOURCES = (
+    "amc",
+    "siff",
+    "beacon",
+    "nwff",
+    "central_cinema",
+    "grand_illusion",
+    "tasveer",
+    "anderson_school",
+    "stg",
+    "majestic_bay",
+)
 
 STATUS_ACTIVE = "active"
 STATUS_PAST = "past"

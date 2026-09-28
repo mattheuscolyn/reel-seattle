@@ -67,7 +67,7 @@ def raw_showtime_to_legacy_row(raw: RawShowtime) -> dict[str, str]:
         "Date": raw.date_raw,
         "Time": raw.time_raw,
         "Theater": raw.theater_name_raw,
-        "Film": raw.title_raw,
+        "Film": str((raw.attributes or {}).get("identity_title") or raw.title_raw),
         "Runtime": raw.runtime_raw or "Unknown",
         "isAlmostSoldOut": "None",
         "posterDynamic": poster,
