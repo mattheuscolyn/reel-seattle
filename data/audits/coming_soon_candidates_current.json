@@ -1,12 +1,12 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-09-27T21:22:32-07:00",
+  "generated_at": "2026-09-28T05:43:38-07:00",
   "timezone": "America/Los_Angeles",
   "window": {
-    "start_date": "2026-09-27",
-    "end_date": "2026-12-26",
+    "start_date": "2026-09-28",
+    "end_date": "2026-12-27",
     "days": 90,
-    "current_availability_cutoff": "2026-10-04",
+    "current_availability_cutoff": "2026-10-05",
     "current_availability_days": 7
   },
   "method": {
@@ -17,20 +17,20 @@
   "sources": {
     "amc_coming_soon_catalog": {
       "available": true,
-      "generated_at": "2026-09-27T21:22:27-07:00",
+      "generated_at": "2026-09-28T05:43:33-07:00",
       "fetch_status": "success",
       "movies": 425
     },
     "tmdb_us_theatrical": {
       "available": true,
-      "generated_at": "2026-09-27T21:22:27-07:00",
+      "generated_at": "2026-09-28T05:43:33-07:00",
       "fetch_status": "success",
-      "candidates": 300
+      "candidates": 285
     },
     "reel_seattle_showtimes": {
       "available": true,
-      "generated_at": "2026-09-27T21:14:53-07:00",
-      "published_window_end": "2027-09-26"
+      "generated_at": "2026-09-28T05:35:57-07:00",
+      "published_window_end": "2027-09-27"
     },
     "amc_theater_bookings": {
       "available": true,
@@ -38,57 +38,57 @@
     }
   },
   "stats": {
-    "entry_count": 600,
-    "user_visible_count": 138,
-    "hidden_count": 462,
+    "entry_count": 581,
+    "user_visible_count": 136,
+    "hidden_count": 445,
     "classification_counts": {
-      "confirmed_local": 182,
+      "confirmed_local": 178,
       "amc_announced": 250,
-      "tmdb_only": 168
+      "tmdb_only": 153
     },
     "relevance_tier_counts": {
-      "confirmed_local": 182,
+      "confirmed_local": 178,
       "locally_announced": 0,
       "strongly_expected": 42,
       "weak_national_only": 208
     },
     "evidence_counts": {
-      "amc_coming_soon_catalog": 300,
-      "amc_theater_booking": 48,
-      "tmdb_us_theatrical": 293,
-      "reel_seattle_scheduled": 182
+      "amc_coming_soon_catalog": 298,
+      "amc_theater_booking": 46,
+      "tmdb_us_theatrical": 277,
+      "reel_seattle_scheduled": 178
     },
     "presentation_kind_counts": {
       "event": 17,
-      "film": 553,
+      "film": 534,
       "other": 1,
       "placeholder": 9,
       "rental": 3,
       "rerelease": 17
     },
     "presentation_source_counts": {
-      "amc_catalog": 200,
-      "confirmed_enrichment": 34,
-      "fallback": 146,
-      "inferred_tmdb": 220
+      "amc_catalog": 199,
+      "confirmed_enrichment": 33,
+      "fallback": 144,
+      "inferred_tmdb": 205
     },
-    "entries_with_poster": 330,
-    "engagement_count": 73,
-    "synthetic_film_group_count": 44,
+    "entries_with_poster": 324,
+    "engagement_count": 65,
+    "synthetic_film_group_count": 43,
     "horizon_counts": {
-      "30_days": 86,
-      "60_days": 126,
-      "90_days": 138
+      "30_days": 87,
+      "60_days": 124,
+      "90_days": 136
     },
-    "earliest_expected_release_date": "2026-09-27",
+    "earliest_expected_release_date": "2026-09-28",
     "latest_expected_release_date": "2026-12-25",
-    "entries_with_confirmed_film_id": 34,
-    "entries_without_confirmed_film_id": 566,
-    "entries_with_tmdb_id": 314,
+    "entries_with_confirmed_film_id": 33,
+    "entries_without_confirmed_film_id": 548,
+    "entries_with_tmdb_id": 298,
     "ambiguous_identity_count": 0,
     "duplicate_film_id_count": 0,
     "duplicate_join_key_count": 0,
-    "merged_candidate_count": 767,
+    "merged_candidate_count": 748,
     "collapsed_event_variants": 0,
     "excluded_counts": {
       "currently_available": 85,
@@ -99,1613 +99,14 @@
     },
     "low_relevance_no_local_evidence_count": 63,
     "popularity_threshold": 5.0,
-    "local_programming_excluded_count": 66,
+    "local_programming_excluded_count": 65,
     "local_booking_kind_counts": {
-      "release_like": 24,
-      "local_programming": 66,
-      "ambiguous_retained": 72
+      "release_like": 23,
+      "local_programming": 65,
+      "ambiguous_retained": 71
     }
   },
   "entries": [
-    {
-      "film_id": null,
-      "title": "Ann Arbor After Asphyxia",
-      "join_key": "ann-arbor-after-asphyxia",
-      "parent_film_keys": [
-        "ann-arbor-after-asphyxia"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1646372,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.651,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/waT5u3Ca6F0S6MduWN51k3Pbpvy.jpg",
-        "poster_path": "/waT5u3Ca6F0S6MduWN51k3Pbpvy.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "The summer my dad died, I rediscovered the last birthday card he ever wrote for me.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Ann Arbor After Asphyxia"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1646372,
-          "original_title": "Ann Arbor After Asphyxia",
-          "original_language": "en",
-          "popularity": 0.651,
-          "vote_count": 0,
-          "poster_path": "/waT5u3Ca6F0S6MduWN51k3Pbpvy.jpg",
-          "backdrop_path": null,
-          "overview": "The summer my dad died, I rediscovered the last birthday card he ever wrote for me.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Diego",
-      "join_key": "diego",
-      "parent_film_keys": [
-        "diego"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1745348,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 1.057,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A documentary about Diego, a beloved dog in Barcelona who has a neighborhood of people who look forward to his daily visits with his owner.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Diego"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1745348,
-          "original_title": "Diego",
-          "original_language": "en",
-          "popularity": 1.057,
-          "vote_count": 0,
-          "poster_path": null,
-          "backdrop_path": null,
-          "overview": "A documentary about Diego, a beloved dog in Barcelona who has a neighborhood of people who look forward to his daily visits with his owner.",
-          "has_poster": false,
-          "has_overview": true,
-          "quality_flags": [
-            "missing_poster",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Dog Crease Pattern",
-      "join_key": "dog-crease-pattern",
-      "parent_film_keys": [
-        "dog-crease-pattern"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1683467,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.531,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/AtdfjqoF8jeEj9nzIizlPphpXcF.jpg",
-        "poster_path": "/AtdfjqoF8jeEj9nzIizlPphpXcF.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "An origami dog interprets real people's unique and universal experiences of dog ownership and loss.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Dog Crease Pattern"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1683467,
-          "original_title": "Dog Crease Pattern",
-          "original_language": "en",
-          "popularity": 0.531,
-          "vote_count": 0,
-          "poster_path": "/AtdfjqoF8jeEj9nzIizlPphpXcF.jpg",
-          "backdrop_path": null,
-          "overview": "An origami dog interprets real people's unique and universal experiences of dog ownership and loss.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Dog-End Balm",
-      "join_key": "dog-end-balm",
-      "parent_film_keys": [
-        "dog-end-balm"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1780357,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.184,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/c3mOu7BrQoumpqCSSafpQUuwvvc.jpg",
-        "poster_path": "/c3mOu7BrQoumpqCSSafpQUuwvvc.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A person tries to find their missing sentient cigarette as three narrators express frustrations.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Dog-End Balm"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1780357,
-          "original_title": "Dog-End Balm",
-          "original_language": "en",
-          "popularity": 0.184,
-          "vote_count": 0,
-          "poster_path": "/c3mOu7BrQoumpqCSSafpQUuwvvc.jpg",
-          "backdrop_path": null,
-          "overview": "A person tries to find their missing sentient cigarette as three narrators express frustrations.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "elifnaz",
-      "join_key": "elifnaz",
-      "parent_film_keys": [
-        "elifnaz"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1781519,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.093,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/ltzjsUH8m9aIFFXlXfMxHqGu6o.jpg",
-        "poster_path": "/ltzjsUH8m9aIFFXlXfMxHqGu6o.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "The princess",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "elifnaz"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1781519,
-          "original_title": "elifnaz",
-          "original_language": "en",
-          "popularity": 0.093,
-          "vote_count": 0,
-          "poster_path": "/ltzjsUH8m9aIFFXlXfMxHqGu6o.jpg",
-          "backdrop_path": null,
-          "overview": "The princess",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Giants of the Valley",
-      "join_key": "giants-of-the-valley",
-      "parent_film_keys": [
-        "giants-of-the-valley"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1745318,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.969,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "In the rolling hills of Yorkshire, England, live a family with 16 dogs, including the world's largest pack of Irish Wolfhounds.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Giants of the Valley"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1745318,
-          "original_title": "Giants of the Valley",
-          "original_language": "en",
-          "popularity": 0.969,
-          "vote_count": 0,
-          "poster_path": null,
-          "backdrop_path": null,
-          "overview": "In the rolling hills of Yorkshire, England, live a family with 16 dogs, including the world's largest pack of Irish Wolfhounds.",
-          "has_poster": false,
-          "has_overview": true,
-          "quality_flags": [
-            "missing_poster",
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Heavy is the Crown",
-      "join_key": "heavy-is-the-crown",
-      "parent_film_keys": [
-        "heavy-is-the-crown"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1743233,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 1.179,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/6aoqYXLLIsVuqN2SCS7qNDnNXfR.jpg",
-        "poster_path": "/6aoqYXLLIsVuqN2SCS7qNDnNXfR.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Heavy is the Crown follows Milwaukee community activist and violence interrupter Vaun Mayes as he works alongside individuals and neighborhoods most affected by cycles of violence, systemic neglect, and contested approaches to policing. The film examines what it means to care for a city from the inside out, foregrounding the resilience and forms of care that sustain communities from within.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Heavy is the Crown"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1743233,
-          "original_title": "Heavy is the Crown",
-          "original_language": "en",
-          "popularity": 1.179,
-          "vote_count": 0,
-          "poster_path": "/6aoqYXLLIsVuqN2SCS7qNDnNXfR.jpg",
-          "backdrop_path": null,
-          "overview": "Heavy is the Crown follows Milwaukee community activist and violence interrupter Vaun Mayes as he works alongside individuals and neighborhoods most affected by cycles of violence, systemic neglect, and contested approaches to policing. The film examines what it means to care for a city from the inside out, foregrounding the resilience and forms of care that sustain communities from within.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Leader of the Pack",
-      "join_key": "leader-of-the-pack",
-      "parent_film_keys": [
-        "leader-of-the-pack"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1745361,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.444,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A documentary about a devoted dog sitter who takes care of up to 25 dogs, walking and kayaking with them through the Irish hills.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Leader of the Pack"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1745361,
-          "original_title": "Leader of the Pack",
-          "original_language": "en",
-          "popularity": 0.444,
-          "vote_count": 0,
-          "poster_path": null,
-          "backdrop_path": null,
-          "overview": "A documentary about a devoted dog sitter who takes care of up to 25 dogs, walking and kayaking with them through the Irish hills.",
-          "has_poster": false,
-          "has_overview": true,
-          "quality_flags": [
-            "missing_poster",
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Mom & Max",
-      "join_key": "mom-max",
-      "parent_film_keys": [
-        "mom-max"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1745350,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.504,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A documentary about a woman who adopts a little blind dog to fill the empty space when her children grow up and leave home.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Mom & Max"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1745350,
-          "original_title": "Mom & Max",
-          "original_language": "en",
-          "popularity": 0.504,
-          "vote_count": 0,
-          "poster_path": null,
-          "backdrop_path": null,
-          "overview": "A documentary about a woman who adopts a little blind dog to fill the empty space when her children grow up and leave home.",
-          "has_poster": false,
-          "has_overview": true,
-          "quality_flags": [
-            "missing_poster",
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "No One Leaves",
-      "join_key": "no-one-leaves",
-      "parent_film_keys": [
-        "no-one-leaves"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1777858,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 1.052,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/ddkahholu2Dd3mdFsBBTasOE1PG.jpg",
-        "poster_path": "/ddkahholu2Dd3mdFsBBTasOE1PG.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "When Meredith and her husband go to have dinner with their neighbor on the next farm over, he introduces them to his visiting niece. But as the evening progresses, Meredith begins to suspect that this young woman isn't his niece, but his captive.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "No One Leaves"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1777858,
-          "original_title": "No One Leaves",
-          "original_language": "en",
-          "popularity": 1.052,
-          "vote_count": 0,
-          "poster_path": "/ddkahholu2Dd3mdFsBBTasOE1PG.jpg",
-          "backdrop_path": null,
-          "overview": "When Meredith and her husband go to have dinner with their neighbor on the next farm over, he introduces them to his visiting niece. But as the evening progresses, Meredith begins to suspect that this young woman isn't his niece, but his captive.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Not So Different",
-      "join_key": "not-so-different",
-      "parent_film_keys": [
-        "not-so-different"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1745363,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 1.045,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A volunteer playing with dogs at his local animal shelter notices that their different ways of responding to a game of fetch remind him of his former co-workers.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Not So Different"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1745363,
-          "original_title": "Not So Different",
-          "original_language": "en",
-          "popularity": 1.045,
-          "vote_count": 0,
-          "poster_path": null,
-          "backdrop_path": null,
-          "overview": "A volunteer playing with dogs at his local animal shelter notices that their different ways of responding to a game of fetch remind him of his former co-workers.",
-          "has_poster": false,
-          "has_overview": true,
-          "quality_flags": [
-            "missing_poster",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "On Hind Legs",
-      "join_key": "on-hind-legs",
-      "parent_film_keys": [
-        "on-hind-legs"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1745351,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.489,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A funny tale about an overworked angel at the gates of heaven who interviews a dog about how he wants to be reincarnated.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "On Hind Legs"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1745351,
-          "original_title": "On Hind Legs",
-          "original_language": "en",
-          "popularity": 0.489,
-          "vote_count": 0,
-          "poster_path": null,
-          "backdrop_path": null,
-          "overview": "A funny tale about an overworked angel at the gates of heaven who interviews a dog about how he wants to be reincarnated.",
-          "has_poster": false,
-          "has_overview": true,
-          "quality_flags": [
-            "missing_poster",
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Pierre's Tale",
-      "join_key": "pierre-s-tale",
-      "parent_film_keys": [
-        "pierre-s-tale"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1745337,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.94,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A documentary about a much beloved French bulldog, Pierre, who exemplifies the health challenges that French bulldogs face, which the narrator wants to raise awareness about.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Pierre's Tale"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1745337,
-          "original_title": "Pierre's Tale",
-          "original_language": "en",
-          "popularity": 0.94,
-          "vote_count": 0,
-          "poster_path": null,
-          "backdrop_path": null,
-          "overview": "A documentary about a much beloved French bulldog, Pierre, who exemplifies the health challenges that French bulldogs face, which the narrator wants to raise awareness about.",
-          "has_poster": false,
-          "has_overview": true,
-          "quality_flags": [
-            "missing_poster",
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Retrieving Roadie",
-      "join_key": "retrieving-roadie",
-      "parent_film_keys": [
-        "retrieving-roadie"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1440978,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 1.096,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/b6zWH3CCqefPYF3r3znbyEJ1AyR.jpg",
-        "poster_path": "/b6zWH3CCqefPYF3r3znbyEJ1AyR.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "It’s just another dull business trip for a lonely pet food salesman until he rescues a dog who could change his life – if they survive a harrowing journey home.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Retrieving Roadie"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1440978,
-          "original_title": "Retrieving Roadie",
-          "original_language": "en",
-          "popularity": 1.096,
-          "vote_count": 0,
-          "poster_path": "/b6zWH3CCqefPYF3r3znbyEJ1AyR.jpg",
-          "backdrop_path": null,
-          "overview": "It’s just another dull business trip for a lonely pet food salesman until he rescues a dog who could change his life – if they survive a harrowing journey home.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Return to Sender",
-      "join_key": "return-to-sender",
-      "parent_film_keys": [
-        "return-to-sender"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1745342,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.531,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "An animated film about a mail delivery woman with an extreme fear of dogs who overcomes it with the persistent help of a cheerful, charming puppy with a ball.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Return to Sender"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1745342,
-          "original_title": "Return to Sender",
-          "original_language": "en",
-          "popularity": 0.531,
-          "vote_count": 0,
-          "poster_path": null,
-          "backdrop_path": null,
-          "overview": "An animated film about a mail delivery woman with an extreme fear of dogs who overcomes it with the persistent help of a cheerful, charming puppy with a ball.",
-          "has_poster": false,
-          "has_overview": true,
-          "quality_flags": [
-            "missing_poster",
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Rw-Lo",
-      "join_key": "rw-lo",
-      "parent_film_keys": [
-        "rw-lo"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1748894,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 2.351,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/5HyMJvdHFKaoIpTs8Xl2GmHwxM2.jpg",
-        "poster_path": "/5HyMJvdHFKaoIpTs8Xl2GmHwxM2.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Martine Syms blends recreations with home movies from the life of Brent David Freaney, a lifelong pop girlie who was once, as vintage camcorder footage reveals, a Deep South teenager obsessed with outspoken The Real World: New Orleans castmate Melissa Howard. RW-LO is a nostalgic—and surprising—inquiry into what happens when people start being celebrities, and they stop being real.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Rw-Lo"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1748894,
-          "original_title": "RW-LO",
-          "original_language": "en",
-          "popularity": 2.351,
-          "vote_count": 0,
-          "poster_path": "/5HyMJvdHFKaoIpTs8Xl2GmHwxM2.jpg",
-          "backdrop_path": null,
-          "overview": "Martine Syms blends recreations with home movies from the life of Brent David Freaney, a lifelong pop girlie who was once, as vintage camcorder footage reveals, a Deep South teenager obsessed with outspoken The Real World: New Orleans castmate Melissa Howard. RW-LO is a nostalgic—and surprising—inquiry into what happens when people start being celebrities, and they stop being real.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Street Cat Fighter",
-      "join_key": "street-cat-fighter",
-      "parent_film_keys": [
-        "street-cat-fighter"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1745343,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.925,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "An animated film about how a dog reacts to the challenge of a street cat.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Street Cat Fighter"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1745343,
-          "original_title": "Street Cat Fighter",
-          "original_language": "en",
-          "popularity": 0.925,
-          "vote_count": 0,
-          "poster_path": null,
-          "backdrop_path": null,
-          "overview": "An animated film about how a dog reacts to the challenge of a street cat.",
-          "has_poster": false,
-          "has_overview": true,
-          "quality_flags": [
-            "missing_poster",
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "The Vampires of New Orleans",
-      "join_key": "vampires-of-new-orleans",
-      "parent_film_keys": [
-        "vampires-of-new-orleans"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1498944,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 1.857,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/u7eJEcEJHmoFwvelyEKBY9M52Cb.jpg",
-        "poster_path": "/u7eJEcEJHmoFwvelyEKBY9M52Cb.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "The horrors of New Orleans history reverberate down to the present in this docudrama combining Southern Gothic terror with investigations into the city's real-life folklore.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "The Vampires of New Orleans"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1498944,
-          "original_title": "The Vampires of New Orleans",
-          "original_language": "en",
-          "popularity": 1.857,
-          "vote_count": 0,
-          "poster_path": "/u7eJEcEJHmoFwvelyEKBY9M52Cb.jpg",
-          "backdrop_path": null,
-          "overview": "The horrors of New Orleans history reverberate down to the present in this docudrama combining Southern Gothic terror with investigations into the city's real-life folklore.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Wolfdogs & Warriors",
-      "join_key": "wolfdogs-warriors",
-      "parent_film_keys": [
-        "wolfdogs-warriors"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1745357,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-09-27",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-09-27",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.53,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A documentary about a wildlife sanctuary in rural California that rescues wolves and particularly wolf dogs with the help of veterans suffering from PTSD.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Wolfdogs & Warriors"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1745357,
-          "original_title": "Wolfdogs & Warriors",
-          "original_language": "en",
-          "popularity": 0.53,
-          "vote_count": 0,
-          "poster_path": null,
-          "backdrop_path": null,
-          "overview": "A documentary about a wildlife sanctuary in rural California that rescues wolves and particularly wolf dogs with the help of veterans suffering from PTSD.",
-          "has_poster": false,
-          "has_overview": true,
-          "quality_flags": [
-            "missing_poster",
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
     {
       "film_id": null,
       "title": "The Flesh of the Mountain",
@@ -2655,6 +1056,90 @@
     },
     {
       "film_id": null,
+      "title": "The House",
+      "join_key": "house",
+      "parent_film_keys": [
+        "house"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1765637,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-09-30",
+      "expected_release_date_source": "tmdb_us_release_date",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": "2026-09-30",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "tmdb_only",
+      "relevance_tier": null,
+      "user_visible": false,
+      "visibility_reason": "tmdb_only_analysis_only",
+      "exclusion_reason": "tmdb_only_analysis_only",
+      "tmdb_popularity": 0.434,
+      "local_evidence_strength": "none",
+      "relevance_reason": "tmdb_only_analysis_only",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "inferred_tmdb",
+        "poster_url": "https://image.tmdb.org/t/p/w500/n1XqYSWqEHV23tfnlA1eqdGw9mL.jpg",
+        "poster_path": "/n1XqYSWqEHV23tfnlA1eqdGw9mL.jpg",
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "A teenager calls his friend over to talk about a reoccurring dream he has about a house.",
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "tmdb_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "The House"
+        ],
+        "contributing_sources": [
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": {
+          "tmdb_id": 1765637,
+          "original_title": "The House",
+          "original_language": "en",
+          "popularity": 0.434,
+          "vote_count": 0,
+          "poster_path": "/n1XqYSWqEHV23tfnlA1eqdGw9mL.jpg",
+          "backdrop_path": null,
+          "overview": "A teenager calls his friend over to talk about a reoccurring dream he has about a house.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": [
+            "very_low_popularity",
+            "no_votes_and_low_popularity"
+          ]
+        }
+      }
+    },
+    {
+      "film_id": null,
       "title": "Acharya",
       "join_key": "acharya",
       "parent_film_keys": [
@@ -3210,6 +1695,90 @@
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []
+        }
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Somethin' Stupid",
+      "join_key": "somethin-stupid",
+      "parent_film_keys": [
+        "somethin-stupid"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1782713,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-01",
+      "expected_release_date_source": "tmdb_us_release_date",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": "2026-10-01",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "tmdb_only",
+      "relevance_tier": null,
+      "user_visible": false,
+      "visibility_reason": "tmdb_only_analysis_only",
+      "exclusion_reason": "tmdb_only_analysis_only",
+      "tmdb_popularity": 0.0,
+      "local_evidence_strength": "none",
+      "relevance_reason": "tmdb_only_analysis_only",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "inferred_tmdb",
+        "poster_url": "https://image.tmdb.org/t/p/w500/qgzl6OPKbe6OADteSmeo28lIOYY.jpg",
+        "poster_path": "/qgzl6OPKbe6OADteSmeo28lIOYY.jpg",
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "When Brynn discovers that her ex has moved in next door, she must muster the courage to tell him how she really feels.",
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "tmdb_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Somethin' Stupid"
+        ],
+        "contributing_sources": [
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": {
+          "tmdb_id": 1782713,
+          "original_title": "Somethin' Stupid",
+          "original_language": "en",
+          "popularity": 0.0,
+          "vote_count": 0,
+          "poster_path": "/qgzl6OPKbe6OADteSmeo28lIOYY.jpg",
+          "backdrop_path": null,
+          "overview": "When Brynn discovers that her ex has moved in next door, she must muster the courage to tell him how she really feels.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": [
+            "very_low_popularity",
+            "no_votes_and_low_popularity"
+          ]
         }
       }
     },
@@ -6128,6 +4697,89 @@
     },
     {
       "film_id": null,
+      "title": "Jhingedaau 2",
+      "join_key": "jhingedaau-2",
+      "parent_film_keys": [
+        "jhingedaau-2"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1693902,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-10-02",
+      "expected_release_date_source": "tmdb_us_release_date",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": "2026-10-02",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "tmdb_only",
+      "relevance_tier": null,
+      "user_visible": false,
+      "visibility_reason": "tmdb_only_analysis_only",
+      "exclusion_reason": "tmdb_only_analysis_only",
+      "tmdb_popularity": 1.183,
+      "local_evidence_strength": "none",
+      "relevance_reason": "tmdb_only_analysis_only",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "inferred_tmdb",
+        "poster_url": "https://image.tmdb.org/t/p/w500/9GhyuqIrjKRaWeXjGCHGjthUJD8.jpg",
+        "poster_path": "/9GhyuqIrjKRaWeXjGCHGjthUJD8.jpg",
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "As Khanalni goes missing, her two sons and their wives embark on a search to find her, uncovering unexpected challenges along the way.",
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "tmdb_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Jhingedaau 2"
+        ],
+        "contributing_sources": [
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": {
+          "tmdb_id": 1693902,
+          "original_title": "झिंगेदाउ २",
+          "original_language": "ne",
+          "popularity": 1.183,
+          "vote_count": 0,
+          "poster_path": "/9GhyuqIrjKRaWeXjGCHGjthUJD8.jpg",
+          "backdrop_path": null,
+          "overview": "As Khanalni goes missing, her two sons and their wives embark on a search to find her, uncovering unexpected challenges along the way.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
+        }
+      }
+    },
+    {
+      "film_id": null,
       "title": "Nine Days of Sadness",
       "join_key": "nine-days-of-sadness",
       "parent_film_keys": [
@@ -7152,463 +5804,6 @@
             "no_votes_and_low_popularity"
           ]
         }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "AMC Screen Unseen: October 5",
-      "join_key": "amc",
-      "parent_film_keys": [
-        "amc"
-      ],
-      "showtime_film_keys": [
-        "amc-screen-unseen-october-5"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": "84802",
-      "amc_movie_ids": [
-        "84802",
-        "85032",
-        "85033",
-        "85231",
-        "85232",
-        "85233"
-      ],
-      "expected_release_date": "2026-10-05",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": "2026-10-05",
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-10-05",
-      "first_local_screening_source": "amc_theater_booking",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "amc-alderwood-mall-16",
-        "amc-factoria-8",
-        "amc-kent-station-14",
-        "amc-oak-tree-6",
-        "amc-pacific-place-11",
-        "amc-southcenter-16",
-        "amc-woodinville-12"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-factoria-8",
-          "name": "AMC Factoria 8"
-        },
-        {
-          "theater_id": "amc-kent-station-14",
-          "name": "AMC Kent Station 14"
-        },
-        {
-          "theater_id": "amc-oak-tree-6",
-          "name": "AMC Oak Tree 6"
-        },
-        {
-          "theater_id": "amc-pacific-place-11",
-          "name": "AMC Pacific Place 11"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "name": "AMC Southcenter 16"
-        },
-        {
-          "theater_id": "amc-woodinville-12",
-          "name": "AMC Woodinville 12"
-        }
-      ],
-      "local_theater_count": 7,
-      "local_showtime_count": 7,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": true,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": false,
-      "visibility_reason": "special_programming_not_film_calendar",
-      "exclusion_reason": "special_programming_not_film_calendar",
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "special_programming_not_film_calendar",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [
-        {
-          "kind": "other_engagement",
-          "title": "AMC Scream Unseen: October 12",
-          "amc_movie_id": "85033"
-        },
-        {
-          "kind": "other_engagement",
-          "title": "AMC Screen Unseen: November 2",
-          "amc_movie_id": "85233"
-        },
-        {
-          "kind": "other_engagement",
-          "title": "AMC Screen Unseen: October 12",
-          "amc_movie_id": "85032"
-        },
-        {
-          "kind": "other_engagement",
-          "title": "AMC Screen Unseen: October 19",
-          "amc_movie_id": "85231"
-        },
-        {
-          "kind": "other_engagement",
-          "title": "AMC Screen Unseen: October 26",
-          "amc_movie_id": "85232"
-        },
-        {
-          "kind": "other_engagement",
-          "title": "AMC Screen Unseen: October 5",
-          "amc_movie_id": "84802"
-        }
-      ],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788186721/amc-cdn/content/general/uo6hev20cwvymqstkvw2.jpg",
-        "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1788186701/amc-cdn/content/general/agyne9ciidl0y45ndvmw.jpg",
-        "backdrop_path": null,
-        "overview": "AMC Screen Unseen, where guests can watch a never-before-seen film. We will share the movie’s MPA rating ahead of time, but the feature presentation will remain a mystery until showtime. Share your reaction after the movie with #AMCScreenUnseen on Instagram, Facebook, TikTok, Threads and X.",
-        "runtime_minutes": 136,
-        "rating": "PG",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": true,
-        "variant_titles": [
-          "AMC Scream Unseen: October 12",
-          "AMC Screen Unseen: November 2",
-          "AMC Screen Unseen: October 12",
-          "AMC Screen Unseen: October 19",
-          "AMC Screen Unseen: October 26",
-          "AMC Screen Unseen: October 5"
-        ],
-        "contributing_sources": [
-          "amc_booking",
-          "amc_catalog",
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "84802",
-          "source_title": "AMC Screen Unseen: October 5",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-10-05T05:00:00Z",
-          "earliest_showing_utc": "2026-10-05T19:00:00Z",
-          "runtime_min": 136,
-          "mpaa_rating": "PG",
-          "genre": null,
-          "slug": "amc-screen-unseen-october-5-84802",
-          "synopsis": "AMC Screen Unseen, where guests can watch a never-before-seen film. We will share the movie’s MPA rating ahead of time, but the feature presentation will remain a mystery until showtime. Share your reaction after the movie with #AMCScreenUnseen on Instagram, Facebook, TikTok, Threads and X.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1788186721/amc-cdn/content/general/uo6hev20cwvymqstkvw2.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788186701/amc-cdn/content/general/agyne9ciidl0y45ndvmw.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788186701/amc-cdn/content/general/agyne9ciidl0y45ndvmw.jpg",
-          "presentation_category": "mystery_screening",
-          "is_special_presentation": true
-        },
-        "tmdb": null
-      }
-    },
-    {
-      "film_id": null,
-      "title": "The Abominable Dr. Phibes",
-      "join_key": "abominable-dr-phibes",
-      "parent_film_keys": [
-        "abominable-dr-phibes"
-      ],
-      "showtime_film_keys": [
-        "abominable-dr-phibes"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-10-05",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-10-05",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "the-beacon"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "the-beacon",
-          "name": "The Beacon"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 2,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "visibility_reason": null,
-      "exclusion_reason": null,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "The Abominable Dr. Phibes"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      }
-    },
-    {
-      "film_id": "tmdb:1434113",
-      "title": "The North",
-      "join_key": "north",
-      "parent_film_keys": [
-        "north",
-        "north-with-intro"
-      ],
-      "showtime_film_keys": [
-        "north-early-access"
-      ],
-      "tmdb_id": 1434113,
-      "amc_movie_id": "85042",
-      "amc_movie_ids": [
-        "85042",
-        "85103",
-        "85235"
-      ],
-      "expected_release_date": "2026-10-05",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": "2026-10-05",
-      "tmdb_us_release_date": "2026-10-09",
-      "first_local_screening_date": "2026-10-05",
-      "first_local_screening_source": "amc_theater_booking",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "amc-alderwood-mall-16",
-        "amc-southcenter-16"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "name": "AMC Southcenter 16"
-        }
-      ],
-      "local_theater_count": 2,
-      "local_showtime_count": 2,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": true,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "visibility_reason": null,
-      "exclusion_reason": null,
-      "tmdb_popularity": 1.536,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_release_like",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "release_like",
-      "engagements": [
-        {
-          "kind": "early_access",
-          "title": "The North: Early Access",
-          "amc_movie_id": "85103"
-        },
-        {
-          "kind": "early_access",
-          "title": "The North: Early Access (with Intro)",
-          "amc_movie_id": "85235"
-        }
-      ],
-      "presentation": {
-        "kind": "film",
-        "source": "confirmed_enrichment",
-        "poster_url": "https://image.tmdb.org/t/p/w500/9VM5eHTgwTYk9ElQMRm9qMepwbT.jpg",
-        "poster_path": "/9VM5eHTgwTYk9ElQMRm9qMepwbT.jpg",
-        "backdrop_url": "https://image.tmdb.org/t/p/w780/fWiaSsn1zPmZCZUxbBIVMl99kkU.jpg",
-        "backdrop_path": "/fWiaSsn1zPmZCZUxbBIVMl99kkU.jpg",
-        "overview": "A decade after they were best friends and roommates, Chris and Lluis set out on a 600 kilometer hike through the Scottish Highlands to reconnect with each other, nature and parts of themselves they lost.",
-        "runtime_minutes": 132,
-        "rating": "PG13",
-        "release_year": 2025
-      },
-      "identity": {
-        "method": "film_id",
-        "film_id_confirmed": true,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "The North",
-          "The North: Early Access",
-          "The North: Early Access (with Intro)"
-        ],
-        "contributing_sources": [
-          "amc_booking",
-          "amc_catalog",
-          "reel_seattle",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85042",
-          "source_title": "The North",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
-          "earliest_showing_utc": "2026-10-09T18:30:00Z",
-          "runtime_min": 130,
-          "mpaa_rating": "PG13",
-          "genre": "DRAMA",
-          "slug": "the-north-85042",
-          "synopsis": "Two male friends in their early thirties reunite after a decade apart to hike Scotland's grueling 330-mile West Highland Way and Cape Wrath Trail on a journey filled with overwhelming natural beauty, unexpected epiphanies and life-changing self-discovery.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1790012743/amc-cdn/content/general/c7vfly7j1y1jp619tyah.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789762024/amc-cdn/content/general/anm1ddnviqlhtlrjokth.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789762024/amc-cdn/content/general/anm1ddnviqlhtlrjokth.jpg",
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": {
-          "tmdb_id": 1434113,
-          "original_title": "The North",
-          "original_language": "en",
-          "popularity": 1.536,
-          "vote_count": 28,
-          "poster_path": "/9VM5eHTgwTYk9ElQMRm9qMepwbT.jpg",
-          "backdrop_path": null,
-          "overview": "A decade after they were best friends and roommates, Chris and Lluis set out on a 600 kilometer hike through the Scottish Highlands to reconnect with each other, nature and parts of themselves they lost.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": []
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "The Open Road: Kikujiro (35mm)",
-      "join_key": "open-road-kikujiro-35mm",
-      "parent_film_keys": [
-        "open-road-kikujiro-35mm"
-      ],
-      "showtime_film_keys": [
-        "open-road-kikujiro-35mm"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-10-05",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-10-05",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "siff-film-center"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "siff-film-center",
-          "name": "SIFF Film Center"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 2,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": false,
-      "visibility_reason": "local_programming_not_upcoming_release",
-      "exclusion_reason": "local_programming_not_upcoming_release",
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_series_or_member_programming",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "local_programming",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "The Open Road: Kikujiro (35mm)"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
       }
     },
     {
@@ -9309,7 +7504,7 @@
         }
       ],
       "local_theater_count": 7,
-      "local_showtime_count": 201,
+      "local_showtime_count": 200,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -9638,7 +7833,7 @@
         }
       ],
       "local_theater_count": 7,
-      "local_showtime_count": 216,
+      "local_showtime_count": 215,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -12962,7 +11157,7 @@
       "presentation": {
         "kind": "film",
         "source": "amc_catalog",
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790574540/amc-cdn/content/general/mnihy1jtitugjvbvjate.jpg",
         "poster_path": null,
         "backdrop_url": null,
         "backdrop_path": null,
@@ -12996,7 +11191,7 @@
           "genre": "DRAMA",
           "slug": "luck-for-sale-85113",
           "synopsis": "An owner of a struggling funeral home and a young man desperate for cash find themselves bound by a 'fateful contract.' As one fights to preserve her trade and the other scrambles to save his ill mother, a dark secret about a long-buried debt begins to unravel.",
-          "poster_url": null,
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1790574540/amc-cdn/content/general/mnihy1jtitugjvbvjate.jpg",
           "hero_desktop_url": null,
           "hero_mobile_url": null,
           "presentation_category": "standard",
@@ -18510,7 +16705,7 @@
           "original_title": "Sense and Sensibility",
           "original_language": "en",
           "popularity": 13.46,
-          "vote_count": 3,
+          "vote_count": 4,
           "poster_path": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg",
           "backdrop_path": null,
           "overview": "A charming, witty, and deeply relatable story of love and sisterhood.",
@@ -28743,7 +26938,7 @@
           "original_title": "Ojczyzna",
           "original_language": "pl",
           "popularity": 12.541,
-          "vote_count": 28,
+          "vote_count": 29,
           "poster_path": "/oNejN1l69nBF8LdQwy5FkAQZT44.jpg",
           "backdrop_path": null,
           "overview": "In 1949, German writer Thomas Mann and his daughter Erika embark on a road trip across a Germany in ruins, from US-dominated Frankfurt to Soviet-controlled Weimar.",
@@ -38130,7 +36325,7 @@
           "original_title": "La bola negra",
           "original_language": "es",
           "popularity": 17.832,
-          "vote_count": 14,
+          "vote_count": 18,
           "poster_path": "/jT5SR5qc9KvVg7HUEmjMWEUYMce.jpg",
           "backdrop_path": null,
           "overview": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy.",
@@ -39964,7 +38159,7 @@
           "original_title": "大红灯笼高高挂",
           "original_language": "zh",
           "popularity": 4.85,
-          "vote_count": 820,
+          "vote_count": 821,
           "poster_path": "/j6MGZpg55cTqlHHwahBtzI2qQg1.jpg",
           "backdrop_path": null,
           "overview": "In 1920s China, 19-year-old Songlian becomes a concubine of a powerful lord and is forced to compete with his three wives for the privileges gained.",
@@ -47543,6 +45738,87 @@
     },
     {
       "film_id": null,
+      "title": "Castration Movie ⅗ Year of the Hyaena",
+      "join_key": "castration-movie-3-5-year-of-the-hyaena",
+      "parent_film_keys": [
+        "castration-movie-year-of-the-hyaena"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1528721,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-12-02",
+      "expected_release_date_source": "tmdb_us_release_date",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": "2026-12-02",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "tmdb_only",
+      "relevance_tier": null,
+      "user_visible": false,
+      "visibility_reason": "tmdb_only_analysis_only",
+      "exclusion_reason": "tmdb_only_analysis_only",
+      "tmdb_popularity": 3.058,
+      "local_evidence_strength": "none",
+      "relevance_reason": "tmdb_only_analysis_only",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "inferred_tmdb",
+        "poster_url": "https://image.tmdb.org/t/p/w500/eK37SoEOj1P2RRSBifoHPueUcuh.jpg",
+        "poster_path": "/eK37SoEOj1P2RRSBifoHPueUcuh.jpg",
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "Michaela tries her best to be a good person.",
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "tmdb_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Castration Movie ⅗ Year of the Hyaena"
+        ],
+        "contributing_sources": [
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": {
+          "tmdb_id": 1528721,
+          "original_title": "Castration Movie ⅗ Year of the Hyaena",
+          "original_language": "en",
+          "popularity": 3.058,
+          "vote_count": 0,
+          "poster_path": "/eK37SoEOj1P2RRSBifoHPueUcuh.jpg",
+          "backdrop_path": null,
+          "overview": "Michaela tries her best to be a good person.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
+        }
+      }
+    },
+    {
+      "film_id": null,
       "title": "The Open Road: Beavis and Butt-Head Do America (35mm)",
       "join_key": "open-road-beavis-and-butt-head-do-america-35mm",
       "parent_film_keys": [
@@ -47790,7 +46066,7 @@
           "vote_count": 0,
           "poster_path": "/rpP29aOKpHy1FhX8OZQdUICEs2j.jpg",
           "backdrop_path": null,
-          "overview": "In Metropia, a gigantic city in an alternate future as seen from 1939, private eye Raymond Gunn and his alien companion Eyera are making a living on the edge of society, delving into secrets that some people would rather keep hidden away. After accepting a sleazy spy job related to pop-star Venus Nova, Gunn finds himself drawn into a murder mystery unlike any case he’s taken.",
+          "overview": "In Metropia, a gigantic city in an alternate future as seen from 1939, private eye Raymond Gunn is drawn into a case involving aliens, murder and a multimedia star named Venus Nova.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []

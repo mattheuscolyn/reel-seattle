@@ -1,12 +1,12 @@
 {
   "schema_version": "1.4.0",
-  "generated_at": "2026-09-27T21:22:32-07:00",
+  "generated_at": "2026-09-28T05:43:38-07:00",
   "timezone": "America/Los_Angeles",
   "window": {
-    "start_date": "2026-09-27",
-    "end_date": "2026-12-26",
+    "start_date": "2026-09-28",
+    "end_date": "2026-12-27",
     "days": 90,
-    "current_availability_cutoff": "2026-10-04",
+    "current_availability_cutoff": "2026-10-05",
     "current_availability_days": 7
   },
   "method": {
@@ -17,20 +17,20 @@
   "sources": {
     "amc_coming_soon_catalog": {
       "available": true,
-      "generated_at": "2026-09-27T21:22:27-07:00",
+      "generated_at": "2026-09-28T05:43:33-07:00",
       "fetch_status": "success",
       "movies": 425
     },
     "tmdb_us_theatrical": {
       "available": true,
-      "generated_at": "2026-09-27T21:22:27-07:00",
+      "generated_at": "2026-09-28T05:43:33-07:00",
       "fetch_status": "success",
-      "candidates": 300
+      "candidates": 285
     },
     "reel_seattle_showtimes": {
       "available": true,
-      "generated_at": "2026-09-27T21:14:53-07:00",
-      "published_window_end": "2027-09-26"
+      "generated_at": "2026-09-28T05:35:57-07:00",
+      "published_window_end": "2027-09-27"
     },
     "amc_theater_bookings": {
       "available": true,
@@ -38,52 +38,52 @@
     }
   },
   "stats": {
-    "entry_count": 322,
-    "user_visible_count": 322,
+    "entry_count": 320,
+    "user_visible_count": 320,
     "hidden_count": 0,
     "classification_counts": {
-      "confirmed_local": 96,
+      "confirmed_local": 94,
       "amc_announced": 226
     },
     "relevance_tier_counts": {
-      "confirmed_local": 96,
+      "confirmed_local": 94,
       "locally_announced": 0,
       "strongly_expected": 42,
       "weak_national_only": 184
     },
     "evidence_counts": {
-      "amc_coming_soon_catalog": 248,
-      "amc_theater_booking": 20,
-      "tmdb_us_theatrical": 122,
-      "reel_seattle_scheduled": 96
+      "amc_coming_soon_catalog": 247,
+      "amc_theater_booking": 19,
+      "tmdb_us_theatrical": 121,
+      "reel_seattle_scheduled": 94
     },
     "presentation_kind_counts": {
-      "film": 316,
+      "film": 314,
       "rerelease": 6
     },
     "presentation_source_counts": {
       "amc_catalog": 178,
-      "confirmed_enrichment": 14,
-      "fallback": 77,
+      "confirmed_enrichment": 13,
+      "fallback": 76,
       "inferred_tmdb": 53
     },
     "entries_with_poster": 153,
-    "engagement_count": 42,
+    "engagement_count": 40,
     "synthetic_film_group_count": 20,
     "horizon_counts": {
-      "30_days": 199,
-      "60_days": 285,
-      "90_days": 322
+      "30_days": 201,
+      "60_days": 284,
+      "90_days": 320
     },
     "earliest_expected_release_date": "2026-09-29",
     "latest_expected_release_date": "2026-12-25",
-    "entries_with_confirmed_film_id": 14,
-    "entries_without_confirmed_film_id": 308,
-    "entries_with_tmdb_id": 125,
+    "entries_with_confirmed_film_id": 13,
+    "entries_without_confirmed_film_id": 307,
+    "entries_with_tmdb_id": 124,
     "ambiguous_identity_count": 0,
     "duplicate_film_id_count": 0,
     "duplicate_join_key_count": 0,
-    "merged_candidate_count": 767,
+    "merged_candidate_count": 748,
     "collapsed_event_variants": 0,
     "excluded_counts": {
       "currently_available": 85,
@@ -92,21 +92,21 @@
       "insufficient_evidence": 0,
       "presentation_filter": 13
     },
-    "recommended_count": 138,
-    "all_releases_count": 322,
+    "recommended_count": 136,
+    "all_releases_count": 320,
     "analysis": {
       "path": "data/audits/coming_soon_candidates_current.json",
-      "entry_count": 600,
-      "tmdb_only_count": 168,
+      "entry_count": 581,
+      "tmdb_only_count": 153,
       "weak_national_only_count": 208,
       "low_relevance_no_local_evidence_count": 63,
       "popularity_threshold": 5.0,
       "presentation_filtered_count": 13,
-      "local_programming_excluded_count": 66,
+      "local_programming_excluded_count": 65,
       "local_booking_kind_counts": {
-        "release_like": 24,
-        "local_programming": 66,
-        "ambiguous_retained": 72
+        "release_like": 23,
+        "local_programming": 65,
+        "ambiguous_retained": 71
       }
     }
   },
@@ -3179,214 +3179,6 @@
     },
     {
       "film_id": null,
-      "title": "The Abominable Dr. Phibes",
-      "join_key": "abominable-dr-phibes",
-      "parent_film_keys": [
-        "abominable-dr-phibes"
-      ],
-      "showtime_film_keys": [
-        "abominable-dr-phibes"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-10-05",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-10-05",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "the-beacon"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "the-beacon",
-          "name": "The Beacon"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 2,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "The Abominable Dr. Phibes"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": "tmdb:1434113",
-      "title": "The North",
-      "join_key": "north",
-      "parent_film_keys": [
-        "north",
-        "north-with-intro"
-      ],
-      "showtime_film_keys": [
-        "north-early-access"
-      ],
-      "tmdb_id": 1434113,
-      "amc_movie_id": "85042",
-      "amc_movie_ids": [
-        "85042",
-        "85103",
-        "85235"
-      ],
-      "expected_release_date": "2026-10-05",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": "2026-10-05",
-      "tmdb_us_release_date": "2026-10-09",
-      "first_local_screening_date": "2026-10-05",
-      "first_local_screening_source": "amc_theater_booking",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "amc-alderwood-mall-16",
-        "amc-southcenter-16"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "name": "AMC Southcenter 16"
-        }
-      ],
-      "local_theater_count": 2,
-      "local_showtime_count": 2,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": true,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": 1.536,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_release_like",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "release_like",
-      "engagements": [
-        {
-          "kind": "early_access",
-          "title": "The North: Early Access",
-          "amc_movie_id": "85103"
-        },
-        {
-          "kind": "early_access",
-          "title": "The North: Early Access (with Intro)",
-          "amc_movie_id": "85235"
-        }
-      ],
-      "presentation": {
-        "kind": "film",
-        "source": "confirmed_enrichment",
-        "poster_url": "https://image.tmdb.org/t/p/w500/9VM5eHTgwTYk9ElQMRm9qMepwbT.jpg",
-        "poster_path": "/9VM5eHTgwTYk9ElQMRm9qMepwbT.jpg",
-        "backdrop_url": "https://image.tmdb.org/t/p/w780/fWiaSsn1zPmZCZUxbBIVMl99kkU.jpg",
-        "backdrop_path": "/fWiaSsn1zPmZCZUxbBIVMl99kkU.jpg",
-        "overview": "A decade after they were best friends and roommates, Chris and Lluis set out on a 600 kilometer hike through the Scottish Highlands to reconnect with each other, nature and parts of themselves they lost.",
-        "runtime_minutes": 132,
-        "rating": "PG13",
-        "release_year": 2025
-      },
-      "identity": {
-        "method": "film_id",
-        "film_id_confirmed": true,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "The North",
-          "The North: Early Access",
-          "The North: Early Access (with Intro)"
-        ],
-        "contributing_sources": [
-          "amc_booking",
-          "amc_catalog",
-          "reel_seattle",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85042",
-          "source_title": "The North",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
-          "earliest_showing_utc": "2026-10-09T18:30:00Z",
-          "runtime_min": 130,
-          "mpaa_rating": "PG13",
-          "genre": "DRAMA",
-          "slug": "the-north-85042",
-          "synopsis": "Two male friends in their early thirties reunite after a decade apart to hike Scotland's grueling 330-mile West Highland Way and Cape Wrath Trail on a journey filled with overwhelming natural beauty, unexpected epiphanies and life-changing self-discovery.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1790012743/amc-cdn/content/general/c7vfly7j1y1jp619tyah.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789762024/amc-cdn/content/general/anm1ddnviqlhtlrjokth.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789762024/amc-cdn/content/general/anm1ddnviqlhtlrjokth.jpg",
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": {
-          "tmdb_id": 1434113,
-          "original_title": "The North",
-          "original_language": "en",
-          "popularity": 1.536,
-          "vote_count": 28,
-          "poster_path": "/9VM5eHTgwTYk9ElQMRm9qMepwbT.jpg",
-          "backdrop_path": null,
-          "overview": "A decade after they were best friends and roommates, Chris and Lluis set out on a 600 kilometer hike through the Scottish Highlands to reconnect with each other, nature and parts of themselves they lost.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": []
-        }
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
       "title": "Videodrome: The Director’s Cut",
       "join_key": "videodrome-the-director-s-cut",
       "parent_film_keys": [
@@ -4375,7 +4167,7 @@
         }
       ],
       "local_theater_count": 7,
-      "local_showtime_count": 201,
+      "local_showtime_count": 200,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -4522,7 +4314,7 @@
         }
       ],
       "local_theater_count": 7,
-      "local_showtime_count": 216,
+      "local_showtime_count": 215,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -7224,7 +7016,7 @@
       "presentation": {
         "kind": "film",
         "source": "amc_catalog",
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790574540/amc-cdn/content/general/mnihy1jtitugjvbvjate.jpg",
         "poster_path": null,
         "backdrop_url": null,
         "backdrop_path": null,
@@ -7258,7 +7050,7 @@
           "genre": "DRAMA",
           "slug": "luck-for-sale-85113",
           "synopsis": "An owner of a struggling funeral home and a young man desperate for cash find themselves bound by a 'fateful contract.' As one fights to preserve her trade and the other scrambles to save his ill mother, a dark secret about a long-buried debt begins to unravel.",
-          "poster_url": null,
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1790574540/amc-cdn/content/general/mnihy1jtitugjvbvjate.jpg",
           "hero_desktop_url": null,
           "hero_mobile_url": null,
           "presentation_category": "standard",
@@ -10051,7 +9843,7 @@
           "original_title": "Sense and Sensibility",
           "original_language": "en",
           "popularity": 13.46,
-          "vote_count": 3,
+          "vote_count": 4,
           "poster_path": "/czsyPHosFNbh4PPqXfqWu1aBXnA.jpg",
           "backdrop_path": null,
           "overview": "A charming, witty, and deeply relatable story of love and sisterhood.",
@@ -16207,7 +15999,7 @@
           "original_title": "Ojczyzna",
           "original_language": "pl",
           "popularity": 12.541,
-          "vote_count": 28,
+          "vote_count": 29,
           "poster_path": "/oNejN1l69nBF8LdQwy5FkAQZT44.jpg",
           "backdrop_path": null,
           "overview": "In 1949, German writer Thomas Mann and his daughter Erika embark on a road trip across a Germany in ruins, from US-dominated Frankfurt to Soviet-controlled Weimar.",
@@ -21682,7 +21474,7 @@
           "original_title": "La bola negra",
           "original_language": "es",
           "popularity": 17.832,
-          "vote_count": 14,
+          "vote_count": 18,
           "poster_path": "/jT5SR5qc9KvVg7HUEmjMWEUYMce.jpg",
           "backdrop_path": null,
           "overview": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy.",
@@ -26531,7 +26323,7 @@
           "vote_count": 0,
           "poster_path": "/rpP29aOKpHy1FhX8OZQdUICEs2j.jpg",
           "backdrop_path": null,
-          "overview": "In Metropia, a gigantic city in an alternate future as seen from 1939, private eye Raymond Gunn and his alien companion Eyera are making a living on the edge of society, delving into secrets that some people would rather keep hidden away. After accepting a sleazy spy job related to pop-star Venus Nova, Gunn finds himself drawn into a murder mystery unlike any case he’s taken.",
+          "overview": "In Metropia, a gigantic city in an alternate future as seen from 1939, private eye Raymond Gunn is drawn into a case involving aliens, murder and a multimedia star named Venus Nova.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []
