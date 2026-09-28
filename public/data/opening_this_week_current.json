@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-27T04:16:42-07:00",
+  "generated_at": "2026-09-27T21:18:41-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-09-21",
@@ -383,9 +383,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 270,
+      "visible_showtime_count": 282,
       "engagement_days": 8,
-      "historical_screening_count": 240,
+      "historical_screening_count": 246,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -394,7 +394,9 @@
           "heart-of-the-beast"
         ],
         "distinct_scheduled_dates": 8,
-        "bootstrap_theater_ids": [],
+        "bootstrap_theater_ids": [
+          "majestic-bay"
+        ],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-factoria-8",
@@ -405,7 +407,8 @@
           "amc-woodinville-12"
         ],
         "sources": [
-          "amc"
+          "amc",
+          "majestic_bay"
         ]
       },
       "override": null
@@ -994,7 +997,7 @@
     {
       "showtime_film_key": "extraordinary-stories",
       "parent_film_key": "extraordinary-stories",
-      "film_id": "tmdb:111188",
+      "film_id": null,
       "film_title": "Extraordinary Stories",
       "opening_date": "2026-09-26",
       "theaters_on_opening_date": [
@@ -1007,7 +1010,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "extraordinary-stories"
         ],
@@ -1025,7 +1028,7 @@
     {
       "showtime_film_key": "local-sightings-2026-beau-ideal-2026",
       "parent_film_key": "amc-movie-local-sightings-2026-beau-ideal",
-      "film_id": "tmdb:1155799",
+      "film_id": null,
       "film_title": "Local Sightings 2026 – Beau Ideal",
       "opening_date": "2026-09-26",
       "theaters_on_opening_date": [
@@ -1038,7 +1041,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "parent_film_key",
         "variant_showtime_film_keys": [
           "local-sightings-2026-beau-ideal-2026"
         ],
@@ -1056,7 +1059,7 @@
     {
       "showtime_film_key": "local-sightings-2026-dad-genes-2026",
       "parent_film_key": "amc-movie-local-sightings-2026-dad-genes",
-      "film_id": "tmdb:1648677",
+      "film_id": null,
       "film_title": "Local Sightings 2026 – Dad Genes",
       "opening_date": "2026-09-26",
       "theaters_on_opening_date": [
@@ -1069,7 +1072,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "parent_film_key",
         "variant_showtime_film_keys": [
           "local-sightings-2026-dad-genes-2026"
         ],
