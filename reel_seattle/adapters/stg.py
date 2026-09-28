@@ -38,16 +38,22 @@ PER_PAGE = 100
 MAX_PAGES = 15
 THEATER_NAMES = {
     "paramount-theatre": "Paramount Theatre",
+    "the-moore-theatre": "The Moore Theatre",
+    "the-5th-avenue-theatre": "The 5th Avenue Theatre",
 }
 VENUES = {
     "paramount theatre": "paramount-theatre",
     "the paramount theatre": "paramount-theatre",
+    "moore theatre": "the-moore-theatre",
+    "the moore theatre": "the-moore-theatre",
+    "5th avenue theatre": "the-5th-avenue-theatre",
+    "the 5th avenue theatre": "the-5th-avenue-theatre",
 }
 
 _DATE_RE = re.compile(
     r"(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*,\s*)?"
     r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\w*\.?\s+"
-    r"(\d{1,2}),?\s+(\d{4})",
+    r"(\d{1,2})(?:\s*(?:-|–|—|&|to)\s*(\d{1,2}))?,?\s+(\d{4})",
     re.IGNORECASE,
 )
 _TIME_RE = re.compile(r"\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b", re.IGNORECASE)
@@ -106,22 +112,41 @@ def _dates(text: str) -> list[date]:
             month = _MONTHS.get(match.group(1).casefold()[:3])
         if month is None:
             continue
-        try:
-            found.append(date(int(match.group(3)), month, int(match.group(2))))
-        except ValueError:
-            continue
+        start_day = int(match.group(2))
+        end_day = int(match.group(3) or match.group(2))
+        year = int(match.group(4))
+        if end_day < start_day:
+            end_day = start_day
+        for day_num in range(start_day, end_day + 1):
+            try:
+                found.append(date(year, month, day_num))
+            except ValueError:
+                continue
     return found
 
 
-def _venue_line(excerpt_text: str) -> str:
+def _excerpt_lines(excerpt_text: str) -> list[str]:
+    lines: list[str] = []
     for line in excerpt_text.splitlines():
         cleaned = line.strip()
         if not cleaned or cleaned.casefold().startswith("get tickets"):
             continue
         if _DATE_RE.search(cleaned) or _TIME_RE.search(cleaned):
             continue
-        return cleaned
-    return ""
+        lines.append(cleaned)
+    return lines
+
+
+def _venue_from_excerpt(excerpt_text: str) -> tuple[str, str | None]:
+    """Prefer a line that names a registered theater over a tour or guest line."""
+    lines = _excerpt_lines(excerpt_text)
+    for line in lines:
+        theater_id = _map_venue(line)
+        if theater_id:
+            return line, theater_id
+    if lines:
+        return lines[0], None
+    return "", None
 
 
 def _ticket_url(excerpt_html: str) -> str | None:
@@ -282,18 +307,20 @@ def fetch_stg(
             has_schedule_text = bool(_DATE_RE.search(excerpt_text) or _TIME_RE.search(excerpt_text))
             if not has_schedule_text:
                 continue
+            decision, reason = qualify_stg_event(source_title, f"{excerpt_text}\n{body_text}")
             rejected.append(
                 {
                     "code": "unparsed_schedule",
-                    "message": f"STG event {event_id} ({source_title}) has no parsable excerpt date or time",
-                    "affects_completeness": True,
+                    "message": (
+                        f"STG event {event_id} ({source_title}) has no parsable excerpt date or time"
+                    ),
+                    "affects_completeness": decision == "accept",
                 }
             )
             continue
         decision, reason = qualify_stg_event(source_title, f"{excerpt_text}\n{body_text}")
         identity, year, series = split_stg_title(source_title)
-        venue_name = _venue_line(excerpt_text)
-        theater_id = _map_venue(venue_name)
+        venue_name, theater_id = _venue_from_excerpt(excerpt_text)
         if decision != "accept":
             rejected.append(
                 {

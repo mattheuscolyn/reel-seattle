@@ -20,26 +20,30 @@ _NON_FILM_REMAINDER_RE = re.compile(
     r"\b(conversation|panel|talk|lecture|workshop|concert|musical|q\s*&\s*a)\b",
     re.IGNORECASE,
 )
+# Exhibition language only. A biography that says a concert film "screened"
+# somewhere else, or that merely mentions "the film", is not this event.
 _SCREENING_RE = re.compile(
     r"("
-    r"\bscreenings?\b|\bscreened\b|\bprojected\b|\bprojection\b|"
-    r"\bon the big screen\b|\bfeature film\b|\bdcp\b|\b35\s*mm\b|\b16\s*mm\b|"
-    r"\bfilm is shown\b|\bthe film\b"
+    r"\bscreenings?\b|"
+    r"\bon the big screen\b|"
+    r"\bbig-screen presentation\b|"
+    r"\bpresentation of the film\b|"
+    r"\bprojected on\b|"
+    r"\bcinema screen\b|"
+    r"\b(?:the )?film (?:is shown|plays)\b|"
+    r"\bas the film plays\b|"
+    r"\bfeature film\b|"
+    r"\bfilm screening\b|"
+    r"\bdcp\b|"
+    r"\b35\s*mm\b|"
+    r"\b16\s*mm\b"
     r")",
-    re.IGNORECASE,
-)
-_ACCOMPANIMENT_RE = re.compile(
-    r"\b(organist|live organ|theatre organ|theater organ|orchestra|live score)\b",
-    re.IGNORECASE,
-)
-_ACCOMPANIMENT_FILM_RE = re.compile(
-    r"\b(film|silent|screening|feature)\b",
     re.IGNORECASE,
 )
 _DENY_RE = re.compile(
     r"("
     r"\bsoundtrack\b|\bsongs from\b|\bmusic from the film\b|\bperforms the score\b|"
-    r"\bscore concert\b|\bconcert\b|\blecture\b|\bpanel\b|\btalks?\b|"
+    r"\bscore concert\b|\bconcert\b|\blecture\b|\bdemonstration\b|\bpanel\b|\btalks?\b|"
     r"\bq\s*&\s*a\b|\bstage production\b|\bbroadway\b|\bmusical\b|"
     r"\bworkshop\b|\bclass\b|\bcamp\b"
     r")",
@@ -91,10 +95,6 @@ def qualify_stg_event(source_title: str, body_text: str) -> tuple[Decision, str]
     identity, _year, series = split_stg_title(source_title)
     haystack = f"{source_title}\n{body_text}"
     screening = _has_screening(haystack)
-    accompaniment = (
-        _ACCOMPANIMENT_RE.search(haystack) is not None
-        and _ACCOMPANIMENT_FILM_RE.search(haystack) is not None
-    )
     film_like_series = (
         series == "Silent Movie Mondays"
         and _identifiable_film_title(identity)
@@ -105,8 +105,6 @@ def qualify_stg_event(source_title: str, body_text: str) -> tuple[Decision, str]
         return "accept", "silent_movie_mondays_film"
     if screening and _identifiable_film_title(identity):
         return "accept", "explicit_screening"
-    if accompaniment and _identifiable_film_title(identity):
-        return "accept", "accompanied_film"
     if _DENY_RE.search(haystack):
         return "deny", "non_screening_event"
     return "ambiguous", "insufficient_screening_evidence"

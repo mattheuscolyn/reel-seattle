@@ -80,12 +80,33 @@ def test_stg_title_split_is_series_specific():
         "Category: Film. An evening with the director.",
     )
     assert decision == "ambiguous"
+    decision, _reason = qualify_stg_event(
+        "The Warning",
+        "Everything's Falling World Tour. Their concert film Live From Auditorio Nacional, which screened in AMC theaters.",
+    )
+    assert decision == "deny"
+    decision, _reason = qualify_stg_event(
+        "Silent Movie Monday Matinee Lecture Demonstration",
+        "Organist: Tyler Pattison. Hear the organ while watching a short silent film.",
+    )
+    assert decision == "deny"
+    decision, reason = qualify_stg_event(
+        "The Legend of Korra in Concert",
+        "The series is projected on a full-size cinema screen while a live orchestra performs the score.",
+    )
+    assert decision == "accept"
+    assert reason == "explicit_screening"
     decision, reason = qualify_stg_event(
         "The General",
         "Feature film screened with live organ accompaniment.",
     )
     assert decision == "accept"
     assert reason == "explicit_screening"
+    decision, _reason = qualify_stg_event(
+        "Dweezil Zappa",
+        "His work spans television, film, and entrepreneurship, and a 100-piece orchestra has performed his compositions.",
+    )
+    assert decision != "accept"
 
 
 def test_tasveer_maps_ids_timezone_and_open_captions():
@@ -327,8 +348,60 @@ def test_stg_qualifies_films_and_rejects_non_films():
     assert changed.contract["status"] == "structural_failure"
 
 
-def test_stg_unmapped_venue_is_partial_and_not_a_fake_theater():
-    excerpt = "<p>The Moore Theatre<br />Monday, Oct. 5, 2026<br />7pm</p>"
+def test_stg_date_ranges_and_venue_lines():
+    excerpt = (
+        "<p>DZ20: Like Father, Like Son<br />The Moore Theatre<br />"
+        "Friday, Oct. 19 to 20, 2026<br />8pm<br />"
+        '<a href="https://www.ticketmaster.com/event/1">Get Tickets</a></p>'
+    )
+    events = [
+        _stg_event(
+            74971,
+            "The Blair Witch Project: Film Screening and QA",
+            excerpt,
+            "<p>A screening of the original movie on the big screen.</p>",
+            "blair",
+        )
+    ]
+    result = fetch_stg(START, END, fetch=_http(json.dumps(events)), scraped_at=SCRAPED_AT)
+    assert result.restate_safe is True
+    assert len(result.records) == 2
+    assert {row.date_raw for row in result.records} == {"10/19/2026", "10/20/2026"}
+    assert {row.attributes["theater_id"] for row in result.records} == {"the-moore-theatre"}
+    assert {row.source_showtime_id for row in result.records} == {"74971:2026-10-19", "74971:2026-10-20"}
+
+
+def test_ambiguous_schedule_does_not_block_a_parsed_film():
+    film = (
+        "<p>The Paramount Theatre<br />Monday, Oct. 5, 2026<br />7pm</p>"
+    )
+    ambiguous = (
+        "<p>The Paramount Theatre<br />Thursday, Jan. 7 &amp; 8, 2027<br />8pm</p>"
+    )
+    events = [
+        _stg_event(
+            74288,
+            "Silent Movie Mondays &#8211; Metropolis (1927)",
+            film,
+            "<p>The film is shown. Run time: 148 mins</p>",
+        ),
+        _stg_event(
+            74589,
+            "Lord Huron",
+            ambiguous,
+            "<p>An evening of songs.</p>",
+        ),
+        _stg_event(
+            6398,
+            "Free Neptune Tour",
+            "<p>The Neptune Theatre<br />Tours depart at 8pm</p>",
+            "<p>A building tour.</p>",
+        ),
+    ]
+    result = fetch_stg(START, END, fetch=_http(json.dumps(events)), scraped_at=SCRAPED_AT)
+    assert result.restate_safe is True
+    assert [row.attributes.get("identity_title") for row in result.records] == ["Metropolis"]
+    excerpt = "<p>The Neptune Theatre<br />Monday, Oct. 5, 2026<br />7pm</p>"
     events = [
         _stg_event(
             900,

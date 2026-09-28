@@ -200,7 +200,7 @@ AMC locations that appeared in historical scrapes but are **not** in the registr
 
 `webscrapetheaters.py` delegates to the independent-source adapters (`siff`, `beacon`, `nwff`, `central_cinema`, `grand_illusion`, `tasveer`, `anderson_school`, `stg`, `majestic_bay`). Each adapter soft-fails on its own. SIFF and Beacon write normalized JSON daily logs; the others write Option C envelopes under `data/daily_logs/YYYY-MM-DD_{source}.json`. The CLI still appends combined records to the legacy indie CSV (`public/indieshowtimes.csv`). See "Tasveer, Anderson School, STG, and Majestic Bay" below for the four newest sources.
 
-Venues not listed in `data/theaters.json` are not ingested. STG rows keep `source=stg` at the physical venue (Paramount Theatre); there is no generic STG theater.
+Venues not listed in `data/theaters.json` are not ingested. STG rows keep `source=stg` at the physical venue (Paramount Theatre, The Moore Theatre, or The 5th Avenue Theatre); there is no generic STG theater.
 
 `daily_processor.py` reads today's JSON logs first when present; missing JSON falls back to CSV. Malformed JSON raises a clear error and does not silently fall back. A request or structural failure is `restate_safe: false` with an error string, which is distinct from a successful scrape that found zero showtimes (`valid_empty`).
 
@@ -210,7 +210,7 @@ Venues not listed in `data/theaters.json` are not ingested. STG rows keep `sourc
 |---|---|---|---|
 | `tasveer` | `YYYY-MM-DD_tasveer.json` | `tasveer-film-center` | Public Indy GraphQL `POST https://filmcenter.tasveer.org/graphql` with the consumer `site-id` / `circuit-id` published in the showtimes bundle. Movie `id` is `source_film_id`. Showing `id` is `source_showtime_id`. Showing `time` is UTC and stored in `America/Los_Angeles`. |
 | `anderson_school` | `YYYY-MM-DD_anderson_school.json` | `anderson-school-theater` | Public McMenamins HTML modals. Modal id `ST…` is `source_film_id`. Veezi `/purchase/{id}` in the button is `source_showtime_id`. |
-| `stg` | `YYYY-MM-DD_stg.json` | `paramount-theatre` for The Paramount Theatre | Public WordPress `mec-events` JSON (`/wp-json/wp/v2/mec-events`). The HTML calendar returns 403 to non-browser clients, so this version does not scrape that HTML. MEC event `id` is `source_film_id`. A single occurrence uses that id as `source_showtime_id`; shared event ids get `{id}:{date}`. |
+| `stg` | `YYYY-MM-DD_stg.json` | `paramount-theatre`, `the-moore-theatre`, `the-5th-avenue-theatre` | Public WordPress `mec-events` JSON (`/wp-json/wp/v2/mec-events`). The HTML calendar returns 403 to non-browser clients, so this version does not scrape that HTML. MEC event `id` is `source_film_id`. A single occurrence uses that id as `source_showtime_id`; shared event ids get `{id}:{date}`. |
 | `majestic_bay` | `YYYY-MM-DD_majestic_bay.json` | `majestic-bay` | Public Veezi sessions HTML at `ticketing.useast.veezi.com`. No private Veezi API token. Poster `code` is `source_film_id`. Purchase session id is `source_showtime_id`. Schema.org `VisualArtsEvent` supplies date, time, and runtime. |
 
 Anderson identity titles drop only a terminal open-caption suffix: `(OCAP)`, `(open caption)` / `(open captions)`, or a trailing `OCAP`. The exact source title stays on `source_title`. The suffix becomes format `open caption` (`open-caption`). Titles such as `(Part II)`, `(Director's Cut)`, and `(2024)` are not stripped.
