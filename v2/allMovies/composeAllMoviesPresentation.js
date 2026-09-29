@@ -76,6 +76,19 @@ export const ALL_MOVIES_MAX_GENRES = 20;
 
 const EVENING_START_MINUTES = 17 * 60;
 
+const allMoviesWeekdayFormatter = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'UTC',
+  weekday: 'short',
+  month: 'short',
+  day: 'numeric',
+});
+
+const allMoviesMonthDayFormatter = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'UTC',
+  month: 'short',
+  day: 'numeric',
+});
+
 /**
  * Stable filter key for a TMDB genre display label.
  * @param {unknown} label
@@ -504,18 +517,9 @@ export function formatAllMoviesDateLabel(isoDate, todayIso, localTime) {
   const [year, month, day] = isoDate.split('-').map(Number);
   const date = new Date(Date.UTC(year, month - 1, day, 12));
   if (isoDate <= weekEndIso) {
-    return new Intl.DateTimeFormat('en-US', {
-      timeZone: 'UTC',
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-    }).format(date);
+    return allMoviesWeekdayFormatter.format(date);
   }
-  const monthDay = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'UTC',
-    month: 'short',
-    day: 'numeric',
-  }).format(date);
+  const monthDay = allMoviesMonthDayFormatter.format(date);
   const todayYear = Number(todayIso.slice(0, 4));
   return year !== todayYear ? `${monthDay}, ${year}` : monthDay;
 }

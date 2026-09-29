@@ -14,6 +14,8 @@ import {
 } from '../navigation/listPositionRestore.js';
 import {
   ALL_MOVIES_AVAILABILITY_FILTERS,
+  ALL_MOVIES_PAGE_TAGLINE,
+  ALL_MOVIES_PAGE_TITLE,
   ALL_MOVIES_SORT_OPTIONS,
   DEFAULT_ALL_MOVIES_UI,
   collectAllMoviesCanonicalFilmIds,
@@ -22,7 +24,25 @@ import {
   normalizeAllMoviesGenreKeys,
   normalizeAllMoviesUi,
 } from './composeAllMoviesPresentation.js';
+import { readAllMoviesPresentation } from './allMoviesPresentationCache.js';
 import { useDiscoveryVisibility } from '../visibility/useDiscoveryVisibility.js';
+import {
+  useDestinationReveal,
+  useProgressiveCount,
+} from '../navigation/useDestinationReveal.js';
+import { pacificSortableDateTime } from '../showtimes/showtimeEligibility.js';
+
+function visibleMovieSections(sections, count) {
+  let remaining = count;
+  const visible = [];
+  for (const section of sections) {
+    if (remaining <= 0) break;
+    const films = section.films.slice(0, remaining);
+    remaining -= films.length;
+    if (films.length > 0) visible.push({ ...section, films });
+  }
+  return visible;
+}
 
 /**
  * @param {{
@@ -237,33 +257,66 @@ export default function AllMoviesSurface({
   const [draftQuery, setDraftQuery] = useState(normalized.query);
 
   const genreKeySig = normalized.genreKeys.join('\0');
-  const presentation = useMemo(
-    () =>
-      composeAllMoviesPresentation(homeData, {
+  const contentRevealed = useDestinationReveal('all-movies');
+  const presentation = useMemo(() => {
+    if (!contentRevealed) return null;
+    return readAllMoviesPresentation(
+      {
+        homeData,
+        enrichmentIndex: enrichmentIndex ?? null,
         loadStatus,
         query: normalized.query,
         availability: normalized.availability,
         sort: normalized.sort,
-        genreKeys: normalized.genreKeys,
-        enrichmentIndex,
-        timeFormatId,
-        storage,
-        visibilityPreferences: preferences,
-      }),
-    [
-      homeData,
-      loadStatus,
-      normalized.query,
-      normalized.availability,
-      normalized.sort,
-      genreKeySig,
-      enrichmentIndex,
-      timeFormatId,
-      storage,
-      preferences,
-      revision,
-    ],
-  );
+        genreKeySig,
+        timeFormatId: timeFormatId ?? '',
+        revision,
+        hideNotInterested: preferences.hideNotInterested === true,
+        hideSeen: preferences.hideSeen === true,
+        nowMinute: pacificSortableDateTime(),
+      },
+      () =>
+        composeAllMoviesPresentation(homeData, {
+          loadStatus,
+          query: normalized.query,
+          availability: normalized.availability,
+          sort: normalized.sort,
+          genreKeys: normalized.genreKeys,
+          enrichmentIndex,
+          timeFormatId,
+          storage,
+          visibilityPreferences: preferences,
+        }),
+    );
+  }, [
+    contentRevealed,
+    homeData,
+    loadStatus,
+    normalized.query,
+    normalized.availability,
+    normalized.sort,
+    genreKeySig,
+    enrichmentIndex,
+    timeFormatId,
+    storage,
+    preferences,
+    revision,
+  ]);
+  const movieTotal = presentation
+    ? presentation.sections.reduce(
+        (sum, section) => sum + section.films.length,
+        0,
+      )
+    : 0;
+  const shownMovieCount = useProgressiveCount(movieTotal, {
+    initial: 18,
+    step: 48,
+    resetKey: `${normalized.query}\0${normalized.availability}\0${normalized.sort}\0${genreKeySig}`,
+    revealAll: listRestore != null,
+  });
+  const shownSections = presentation
+    ? visibleMovieSections(presentation.sections, shownMovieCount)
+    : [];
 
   useBodyScrollLock(sortOpen || genresOpen);
 
@@ -273,8 +326,10 @@ export default function AllMoviesSurface({
 
   useEffect(() => {
     if (genresOpen) return;
+    // genreKeySig is the stable dependency. normalized.genreKeys is a new
+    // array every render, and depending on it retriggers this effect forever.
     setDraftGenreKeys(normalized.genreKeys);
-  }, [normalized.genreKeys, genresOpen]);
+  }, [genreKeySig, genresOpen]);
 
   useEffect(() => {
     if (typeof onHydrateFilmIds !== 'function') return;
@@ -287,13 +342,13 @@ export default function AllMoviesSurface({
   }, [presentation, onHydrateFilmIds]);
 
   useEffect(() => {
-    if (!listRestore) return undefined;
+    if (!listRestore || !presentation) return undefined;
     const frame = requestAnimationFrame(() => {
       restoreListPosition(listRestore, { itemAttr: LIST_RESTORE_ATTR });
       onListRestoreConsumed?.();
     });
     return () => cancelAnimationFrame(frame);
-  }, [listRestore, onListRestoreConsumed, presentation.visibleCount]);
+  }, [listRestore, onListRestoreConsumed, presentation]);
 
   const commitUi = (patch) => {
     onUiChange?.(
@@ -350,10 +405,12 @@ export default function AllMoviesSurface({
     });
   };
 
-  const previewCount = countAllMoviesMatchingGenreKeys(
-    presentation.facetGenreKeys,
-    draftGenreKeys,
-  );
+  const previewCount = presentation
+    ? countAllMoviesMatchingGenreKeys(
+        presentation.facetGenreKeys,
+        draftGenreKeys,
+      )
+    : 0;
   const genreButtonLabel =
     normalized.genreKeys.length > 0
       ? `Genres · ${normalized.genreKeys.length}`
@@ -364,13 +421,16 @@ export default function AllMoviesSurface({
       className="v2-am-page"
       aria-labelledby="v2-am-page-title"
       data-all-movies-surface="list"
-      data-all-movies-state={presentation.state}
+      data-destination-phase={contentRevealed ? 'content' : 'shell'}
+      data-all-movies-content={contentRevealed ? 'ready' : 'preparing'}
+      data-all-movies-state={presentation?.state ?? 'preparing'}
+      aria-busy={contentRevealed ? undefined : 'true'}
     >
       <header className="v2-am-page-header">
         <h1 id="v2-am-page-title" className="v2-am-page-title">
-          {presentation.pageTitle}
+          {ALL_MOVIES_PAGE_TITLE}
         </h1>
-        <p className="v2-am-page-tagline">{presentation.pageTagline}</p>
+        <p className="v2-am-page-tagline">{ALL_MOVIES_PAGE_TAGLINE}</p>
       </header>
 
       <div className="v2-am-search">
@@ -462,10 +522,16 @@ export default function AllMoviesSurface({
         >
           {genreButtonLabel}
         </button>
-        {presentation.countLabel ? (
+        {presentation?.countLabel ? (
           <p className="v2-am-page-count">{presentation.countLabel}</p>
         ) : (
-          <p className="v2-am-page-count">&nbsp;</p>
+          <p className="v2-am-page-count">
+            {contentRevealed ? (
+              '\u00a0'
+            ) : (
+              <span className="v2-visually-hidden">Preparing movies</span>
+            )}
+          </p>
         )}
         <div className="v2-am-sort">
           <button
@@ -515,7 +581,8 @@ export default function AllMoviesSurface({
         </div>
       </div>
 
-      {presentation.emptyMessage && presentation.sections.length === 0 ? (
+      {!contentRevealed ? null : presentation.emptyMessage &&
+        presentation.sections.length === 0 ? (
         <div className="v2-am-empty" role="status">
           <p className="v2-am-empty-body">{presentation.emptyMessage}</p>
           {presentation.emptyAction ? (
@@ -529,7 +596,7 @@ export default function AllMoviesSurface({
           ) : null}
         </div>
       ) : (
-        presentation.sections.map((section) => (
+        shownSections.map((section) => (
           <section
             key={section.id}
             className="v2-am-section"
@@ -565,7 +632,7 @@ export default function AllMoviesSurface({
 
       <TmdbAttribution compact />
 
-      {genresOpen ? (
+      {genresOpen && presentation ? (
         <AllMoviesGenreSheet
           open={genresOpen}
           titleId={genreSheetTitleId}

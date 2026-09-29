@@ -57,6 +57,12 @@ const FORMAT_DISPLAY = Object.freeze({
   'open caption': 'Open Captions',
 });
 
+const localDateFormatter = new Intl.DateTimeFormat('en-US', {
+  weekday: 'short',
+  month: 'short',
+  day: 'numeric',
+});
+
 /**
  * Format a local YYYY-MM-DD for display without timezone shifting.
  * @param {string | null | undefined} isoDate
@@ -67,11 +73,7 @@ export function formatLocalDateLabel(isoDate) {
   }
   const [year, month, day] = isoDate.split('-').map(Number);
   const date = new Date(year, month - 1, day);
-  return date.toLocaleDateString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-  });
+  return localDateFormatter.format(date);
 }
 
 /**

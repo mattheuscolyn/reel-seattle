@@ -435,6 +435,13 @@ test('empty date-mode messages are honest', () => {
 test('pacificSortableDateTime returns ISO-like key', () => {
   const key = pacificSortableDateTime(NOW);
   assert.match(key, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/);
+  const winter = pacificSortableDateTime(new Date('2026-01-15T12:00:00Z'));
+  const summer = pacificSortableDateTime(new Date('2026-07-15T12:00:00Z'));
+  assert.notEqual(winter.slice(0, 10), summer.slice(0, 10));
+  assert.equal(
+    pacificSortableDateTime(new Date('2026-01-15T12:00:00Z')),
+    winter,
+  );
 });
 
 test('Explore Quick Start All showtimes is not a collection id', () => {

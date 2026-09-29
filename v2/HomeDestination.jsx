@@ -1,4 +1,4 @@
-import { startTransition, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { COLLECTION_IDS } from './destinations.js';
 import FilmShelf from './home/FilmShelf.jsx';
 import TopOpportunityFeature from './home/TopOpportunityFeature.jsx';
@@ -23,6 +23,9 @@ import {
 import { captureHomeRestore } from './navigation/navState.js';
 import { capVisibleShelf } from './visibility/filmVisibility.js';
 import { useDiscoveryVisibility } from './visibility/useDiscoveryVisibility.js';
+import { useDestinationReveal } from './navigation/useDestinationReveal.js';
+import { readHomeShelfModels } from './home/homeShelfModelCache.js';
+import { pacificSortableDateTime } from './showtimes/showtimeEligibility.js';
 
 const HOME_SHELF_SKELETONS = Object.freeze([
   Object.freeze({ id: 'v2-leaving', title: 'Leaving Soon' }),
@@ -30,9 +33,6 @@ const HOME_SHELF_SKELETONS = Object.freeze([
   Object.freeze({ id: 'v2-opening', title: 'Opening This Week' }),
   Object.freeze({ id: 'v2-announced', title: 'Just Announced' }),
 ]);
-
-/** Survives destination unmount so returning to Home does not flash skeletons. */
-let revealedHomeSnapshot = null;
 
 function HomeShelfSkeleton({ id, title }) {
   return (
@@ -87,19 +87,7 @@ export default function HomeDestination({
   const [topOppIndex, setTopOppIndex] = useState(
     mockup ? mockup.initialTopOppIndex : 0,
   );
-  const [revealedHomeData, setRevealedHomeData] = useState(null);
-
-  useEffect(() => {
-    if (mockupMode || loadStatus !== 'ready' || !homeData) return undefined;
-    if (revealedHomeSnapshot === homeData) return undefined;
-    const frame = requestAnimationFrame(() => {
-      startTransition(() => {
-        revealedHomeSnapshot = homeData;
-        setRevealedHomeData(homeData);
-      });
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [mockupMode, loadStatus, homeData]);
+  const contentRevealed = useDestinationReveal('home');
 
   useEffect(() => {
     if (!restoreState) return;
@@ -126,31 +114,35 @@ export default function HomeDestination({
   );
 
   const effectiveHomeData = mockup ? mockup.homeData : homeData;
+  const dataReady = loadStatus === 'ready' && homeData != null;
   const dataForShelves = mockup
     ? mockup.homeData
-    : loadStatus === 'ready'
+    : dataReady
       ? homeData
       : null;
-  // Paint the Home shell before shelf construction and Top Opportunity
-  // ranking. Those run only after the next frame, and as a transition so a
-  // primary-nav tap can paint the next destination first.
-  const heavyHomeReady =
-    Boolean(mockup) ||
-    (homeData != null &&
-      (revealedHomeData === homeData || revealedHomeSnapshot === homeData));
-  const showShelfSkeletons = !mockup && loadStatus !== 'error' && !heavyHomeReady;
+  // Every Home mount paints the shell first. Loaded data is revealed on the
+  // next frame, so a warm return does not rebuild shelves before paint.
+  const showContent = Boolean(mockup) || (contentRevealed && dataReady);
+  const showShelfSkeletons = !mockup && loadStatus !== 'error' && !showContent;
+  const homeContentPhase = mockup
+    ? 'ready'
+    : showContent
+      ? 'ready'
+      : dataReady
+        ? 'preparing'
+        : 'loading';
   const featureStatus = mockup
     ? 'ready'
     : loadStatus === 'error'
       ? 'error'
-      : heavyHomeReady
+      : showContent
         ? loadStatus
-        : 'loading';
+        : homeContentPhase;
 
   const shelfModels = useMemo(() => {
     if (showShelfSkeletons) return null;
     const uncapped = { maxCards: Number.POSITIVE_INFINITY };
-    return {
+    const buildModels = () => ({
       leaving: capVisibleShelf(
         mockup
           ? mockup.leavingShelf
@@ -196,14 +188,31 @@ export default function HomeDestination({
         visibilityOptions,
         HOME_JUST_ANNOUNCED_MAX_CARDS,
       ),
-    };
+    });
+    if (mockup) return buildModels();
+    return readHomeShelfModels(
+      {
+        homeData,
+        enrichmentIndex,
+        shortsIndex,
+        revision,
+        hideNotInterested: preferences.hideNotInterested === true,
+        hideSeen: preferences.hideSeen === true,
+        nowMinute: pacificSortableDateTime(),
+      },
+      buildModels,
+    );
   }, [
     showShelfSkeletons,
     mockup,
     dataForShelves,
+    homeData,
     enrichmentIndex,
     shortsIndex,
     visibilityOptions,
+    revision,
+    preferences.hideNotInterested,
+    preferences.hideSeen,
   ]);
 
   const leavingShelf = shelfModels?.leaving;
@@ -269,6 +278,8 @@ export default function HomeDestination({
     <div
       className="v2-home"
       data-home-source={mockup ? 'home-landing-mockup' : 'home-data'}
+      data-destination-phase={showContent ? 'content' : 'shell'}
+      data-home-content={homeContentPhase}
       data-home-loading={showShelfSkeletons ? 'true' : undefined}
       aria-busy={showShelfSkeletons ? 'true' : undefined}
     >

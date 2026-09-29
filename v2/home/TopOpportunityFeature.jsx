@@ -87,6 +87,7 @@ export default function TopOpportunityFeature({
       },
     };
     if (now != null) options.now = now;
+    options.cacheToken = `${revision}:${preferences.hideNotInterested ? 1 : 0}:${preferences.hideSeen ? 1 : 0}`;
     const ranked = buildRankedTopOpportunitySelections(homeData, options);
     return Array.isArray(ranked?.selections) ? ranked.selections : [];
   }, [
@@ -199,10 +200,18 @@ export default function TopOpportunityFeature({
         ) : null}
       </div>
 
-      {status === 'loading' ? (
-        <div className="v2-feature v2-feature-skeleton" role="status">
+      {status === 'loading' || status === 'preparing' ? (
+        <div
+          className="v2-feature v2-feature-skeleton"
+          role="status"
+          data-top-opportunity-state={status}
+        >
           <div className="v2-feature-media">
-            <p className="v2-top-state">Loading current opportunities…</p>
+            {status === 'loading' ? (
+              <p className="v2-top-state">Loading current opportunities…</p>
+            ) : (
+              <p className="v2-visually-hidden">Preparing Home</p>
+            )}
           </div>
         </div>
       ) : null}
