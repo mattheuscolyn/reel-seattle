@@ -16,6 +16,7 @@ from reel_seattle.adapters.beacon import (
     extract_beacon_movie_links,
     fetch_beacon_showtimes,
     parse_beacon_film_page,
+    repair_beacon_mojibake,
 )
 from reel_seattle.adapters.base import FetchContext, RawShowtime
 from reel_seattle.adapters.indie_legacy import raw_showtime_to_legacy_row
@@ -136,6 +137,31 @@ def beacon_film_legacy_html() -> str:
 @pytest.fixture
 def beacon_calendar_html() -> str:
     return (FIXTURES_DIR / "beacon_calendar.html").read_text(encoding="utf-8")
+
+
+def test_beacon_repairs_observed_utf8_mojibake():
+    assert repair_beacon_mojibake("LâAMOUR FOU W/ A.S. HAMRAH") == "L’AMOUR FOU W/ A.S. HAMRAH"
+    assert repair_beacon_mojibake("VHS ÃBER ALLES PRESENTS...") == "VHS ÜBER ALLES PRESENTS..."
+    assert repair_beacon_mojibake("A BAY OF BLOOD") == "A BAY OF BLOOD"
+
+
+def test_beacon_registered_series_metadata():
+    html = _film_html(
+        title="SECS FEST PRESENTS DRILLER",
+        runtime="60 minutes",
+        release_year=1982,
+        showtimes=[("Fri, Sep 18 at 7:00 PM", "INV-DRILLER")],
+    )
+    record = BeaconAdapter.parse_film_page(
+        html,
+        film_url="https://thebeacon.film/calendar/movie/secs-fest-presents-driller",
+        window_start=date(2026, 9, 1),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 9, 13),
+    )[0]
+    assert record.title_raw == "SECS FEST PRESENTS DRILLER"
+    assert record.attributes["identity_title"] == "DRILLER"
+    assert record.attributes["program_series"] == "Secs Fest Presents"
 
 
 def test_beacon_fixture_parses_showtime(beacon_film_html):
