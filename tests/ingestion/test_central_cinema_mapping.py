@@ -175,6 +175,30 @@ def test_slug_maps_to_source_film_id():
     assert mapped.records[0].source_film_url.endswith("/movie/faceslashoff/")
 
 
+def test_series_prefix_promoted_to_identity_metadata():
+    result = base_result()
+    result["programs"] = [
+        program(
+            slug="the-elephant-man",
+            title="The Elephant Man",
+            runtime_min=124,
+            release_year=1980,
+        )
+    ]
+    result["showtimes"] = [
+        showtime(
+            slug="the-elephant-man",
+            showing_id="9001",
+            title="Cinemancy: The Elephant Man",
+        )
+    ]
+    mapped = map_central_cinema_contract_to_indie(result, theater_ids=THEATER_IDS)
+    record = mapped.records[0]
+    assert record.title_raw == "Cinemancy: The Elephant Man"
+    assert record.attributes["identity_title"] == "The Elephant Man"
+    assert record.attributes["program_series"] == "Cinemancy"
+
+
 def test_title_change_does_not_alter_program_identity():
     result = safe_success()
     result["showtimes"][0]["source_title"] = "FACE / OFF (Special Presentation)"
