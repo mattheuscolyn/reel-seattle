@@ -185,13 +185,13 @@ def test_series_prefix_promoted_to_identity_metadata():
             release_year=1980,
         )
     ]
-    result["showtimes"] = [
-        showtime(
-            slug="the-elephant-man",
-            showing_id="9001",
-            title="Cinemancy: The Elephant Man",
-        )
-    ]
+    row = showtime(
+        slug="the-elephant-man",
+        showing_id="9001",
+        title="Cinemancy: The Elephant Man",
+    )
+    row["raw"]["title_differs_from_program"] = True
+    result["showtimes"] = [row]
     mapped = map_central_cinema_contract_to_indie(result, theater_ids=THEATER_IDS)
     record = mapped.records[0]
     assert record.title_raw == "Cinemancy: The Elephant Man"
