@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import re
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Mapping
@@ -41,6 +42,9 @@ INDIE_CSV_FIELDNAMES = [
     "source_showtime_id",
     "ticket_url",
     "source_film_url",
+    "identity_title",
+    "release_year",
+    "program_series",
 ]
 
 SUPPORTED_SIFF_VENUES = frozenset(
@@ -60,6 +64,29 @@ def format_indie_date(date_str: str, year: int) -> str | None:
         return None
 
 
+def _identity_attribute(raw: RawShowtime, key: str) -> str:
+    value = (raw.attributes or {}).get(key)
+    if value in (None, ""):
+        return ""
+    return str(value).strip()
+
+
+def _release_year_from_attributes(raw: RawShowtime) -> str:
+    """Return one credible canonical release year from source metadata."""
+    attributes = raw.attributes or {}
+    for key in ("release_year", "year_raw"):
+        value = attributes.get(key)
+        if isinstance(value, bool) or value in (None, ""):
+            continue
+        text = str(value).strip()
+        if not re.fullmatch(r"(?:18|19|20)\d{2}", text):
+            continue
+        year = int(text)
+        if 1888 <= year <= 2100:
+            return text
+    return ""
+
+
 def raw_showtime_to_legacy_row(raw: RawShowtime) -> dict[str, str]:
     """Convert a RawShowtime to the legacy indie CSV row shape."""
     poster = raw.poster_url_raw if raw.poster_url_raw not in (None, "") else "None"
@@ -76,6 +103,9 @@ def raw_showtime_to_legacy_row(raw: RawShowtime) -> dict[str, str]:
         "source": "",
         "source_film_id": source_film_id_from_raw(raw),
         "source_title": source_title_from_raw(raw),
+        "identity_title": _identity_attribute(raw, "identity_title"),
+        "release_year": _release_year_from_attributes(raw),
+        "program_series": _identity_attribute(raw, "program_series"),
         "source_showtime_id": source_showtime_id_from_raw(raw),
         "ticket_url": (
             str(raw.ticket_url_raw).strip()

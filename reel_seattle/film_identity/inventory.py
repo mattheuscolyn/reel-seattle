@@ -24,7 +24,9 @@ class SourceIdentityRecord:
     source_film_id: str | None
     showtime_film_key: str | None
     source_title: str | None
+    identity_title: str | None
     normalized_title: str | None
+    program_series: str | None
     year_hint: int | None
     runtime_min: int | None
     directors_raw: str | None
@@ -93,6 +95,9 @@ def inventory_source_identities(
         source_film_id = _opt_str(row.get("source_film_id"))
         showtime_film_key = _opt_str(row.get("showtime_film_key"))
         source_title = _opt_str(row.get("source_title")) or _opt_str(row.get("film_title"))
+        identity_title = _opt_str(row.get("identity_title"))
+        source_release_year = _opt_int(row.get("release_year"))
+        source_program_series = _opt_str(row.get("program_series"))
         group_key = (
             f"{source}|id|{source_film_id}"
             if source_film_id
@@ -112,9 +117,11 @@ def inventory_source_identities(
             year_info = interpret_source_years(
                 source_title=source_title,
                 product_year=product_year,
+                explicit_canonical_year=source_release_year,
                 source=source,
             )
             release_year = year_info.scoring_year()
+            program_series = source_program_series or year_info.program_series
             year_hint = release_year or extract_year_hint(source_title)
             eligibility = classify_eligibility(
                 source_title=source_title,
@@ -141,9 +148,12 @@ def inventory_source_identities(
                 source_film_id=source_film_id,
                 showtime_film_key=showtime_film_key,
                 source_title=source_title,
-                normalized_title=eligibility.search_title
+                identity_title=identity_title,
+                normalized_title=normalize_search_title(identity_title, source=source)
+                or eligibility.search_title
                 or year_info.base_title
                 or normalize_search_title(source_title, source=source),
+                program_series=program_series,
                 year_hint=year_hint,
                 runtime_min=runtime,
                 directors_raw=directors,

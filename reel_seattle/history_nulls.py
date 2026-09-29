@@ -15,6 +15,9 @@ HISTORY_OPTIONAL_CSV_FIELDS = (
     "source_showtime_id",
     "source_film_id",
     "source_title",
+    "identity_title",
+    "release_year",
+    "program_series",
 )
 
 
