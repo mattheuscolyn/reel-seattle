@@ -60,6 +60,23 @@ _CENTRAL_NON_FILM_PROGRAM_TITLES = frozenset(
         "the totally halloween sing along",
     }
 )
+_AMC_NON_FILM_PROGRAM_TITLES = frozenset(
+    {
+        "yuri!!! on ice 10th anniversary",
+        "hybe cheering party",
+    }
+)
+_BEACON_MULTI_FILM_PROGRAM_TITLES = frozenset(
+    {
+        "the arrival: films of the unarius academy of science",
+    }
+)
+_SIFF_MULTI_FILM_PROGRAM_TITLES = frozenset(
+    {
+        "nature is a language (16mm & 35mm)",
+        "mountains on stage - winter edition 2026",
+    }
+)
 _LIVE_RE = re.compile(
     r"\bnt\s*live\b|\bmet\s+opera\b|\blive\s+in\s+(concert|theater)\b|"
     r"\bfathom\b|\bufc\b|\bworld\s+cup\b|\bconcert\b|\bstand[- ]?up\b",
@@ -124,11 +141,22 @@ def classify_eligibility(
         source == "beacon" and _BEACON_MYSTERY_PROGRAM_RE.search(title)
     ):
         reasons.append("mystery_or_unannounced")
+    folded_title = title.casefold()
     if (
         source == "central_cinema"
-        and title.casefold() in _CENTRAL_NON_FILM_PROGRAM_TITLES
+        and folded_title in _CENTRAL_NON_FILM_PROGRAM_TITLES
     ):
         reasons.append("source_non_film_program")
+    if source == "amc" and folded_title in _AMC_NON_FILM_PROGRAM_TITLES:
+        reasons.append("source_non_film_program")
+    if (
+        source == "beacon"
+        and folded_title in _BEACON_MULTI_FILM_PROGRAM_TITLES
+    ) or (
+        source == "siff"
+        and folded_title in _SIFF_MULTI_FILM_PROGRAM_TITLES
+    ):
+        reasons.append("multi_feature_program")
     if _DOUBLE_RE.search(title):
         reasons.append("double_feature")
     if _MULTI_FEATURE_RE.search(title) or (

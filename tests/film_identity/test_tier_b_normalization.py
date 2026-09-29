@@ -153,6 +153,55 @@ def test_exact_aliases_cover_current_unsafe_co_presentations():
     assert halloween.base_title == "Halloween III: Season of the Witch"
     assert halloween.applied_alias_id == "halloween-iii-baron-von-terror"
 
+    assert extract_match_title(
+        "Fallen Angels by Noël Coward", source="amc"
+    ).base_title == "Fallen Angels"
+    assert extract_match_title(
+        "Adore Him: He is Here", source="amc"
+    ).base_title == "Adore Him"
+    assert extract_match_title(
+        "Back to the Future Day 2026", source="amc"
+    ).base_title == "Back to the Future"
+    assert extract_match_title(
+        "Sense and Sensibility: Early Access Movie Party", source="amc"
+    ).base_title == "Sense and Sensibility"
+    assert extract_match_title(
+        "Seattle Scare Society presents: Hausu", source="central_cinema"
+    ).base_title == "Hausu"
+    assert extract_match_title(
+        "Showgirls Annual Screenings", source="nwff"
+    ).base_title == "Showgirls"
+    assert extract_match_title(
+        "KEN RUSSELL'S THE DEVILS", source="siff"
+    ).base_title == "The Devils"
+    assert extract_match_title(
+        "The Rocky Horror Picture Show Original Cast Spooktacular!", source="stg"
+    ).base_title == "The Rocky Horror Picture Show"
+    assert extract_match_title(
+        "An Evening with Peter Billingsley and a Christmas Story", source="stg"
+    ).base_title == "A Christmas Story"
+
+
+def test_remaining_recurring_presentation_suffixes_strip_cleanly():
+    restoration = extract_match_title(
+        "Don’t Play With Fire – New Restoration",
+        source="grand_illusion",
+    )
+    assert restoration.base_title == "Don’t Play With Fire"
+
+    horrorwood = extract_match_title(
+        "Pet Sematary - Welcome to Horrorwood Series",
+        source="amc",
+    )
+    assert horrorwood.base_title == "Pet Sematary"
+
+    annual = extract_match_title(
+        "MOURNING SICKNESS VOL. 5: Showgirls Annual Screenings",
+        source="nwff",
+    )
+    assert annual.base_title == "Showgirls"
+    assert annual.program_series == "MOURNING SICKNESS VOL. 5"
+
 
 def test_16mm_and_compound_format_parenthetical_strip():
     extracted = extract_match_title(

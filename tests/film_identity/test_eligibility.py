@@ -125,6 +125,33 @@ def test_multi_feature_programs_are_explicit_non_film_entities():
     assert composite.entity_kind == "composite_event"
     assert "composite_title_pair" in composite.reasons
 
+    for amc_program in (
+        "Yuri!!! on ICE 10th Anniversary",
+        "HYBE CHEERING PARTY",
+    ):
+        result = classify_eligibility(source_title=amc_program, source="amc")
+        assert result.status == NON_FILM
+        assert result.entity_kind == "unknown_program"
+        assert "source_non_film_program" in result.reasons
+
+    for source, title in (
+        ("beacon", "THE ARRIVAL: FILMS OF THE UNARIUS ACADEMY OF SCIENCE"),
+        ("siff", "Nature is a Language (16mm & 35mm)"),
+        ("siff", "Mountains on Stage - Winter Edition 2026"),
+    ):
+        result = classify_eligibility(source_title=title, source=source)
+        assert result.status == NON_FILM
+        assert result.entity_kind == "multi_feature_program"
+        assert "multi_feature_program" in result.reasons
+
+    # Source-scoped reviewed program rules must not become global title rules.
+    assert classify_eligibility(
+        source_title="HYBE CHEERING PARTY", source="central_cinema"
+    ).status == ELIGIBLE
+    assert classify_eligibility(
+        source_title="Nature is a Language (16mm & 35mm)", source="amc"
+    ).status == ELIGIBLE
+
     # Real film title, not a package.
     assert classify_eligibility(source_title="Thelma + Louise").status == ELIGIBLE
 

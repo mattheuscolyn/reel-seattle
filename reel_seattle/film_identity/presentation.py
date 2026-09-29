@@ -38,6 +38,7 @@ _PRESENTATION_ATOM = (
     r"\d+(?:st|nd|rd|th)\s+anniversary(?:\s+(?:screening|event|double\s+feature))?"
     r"|anniversary(?:\s+(?:screening|event|remastered|restored|double\s+feature))?"
     r"|newly\s+remastered"
+    r"|new\s+restoration"
     r"|remastered(?:\s*&\s*revived|\s+and\s+revived)?"
     r"|remastered\s*&\s*revived"
     r"|restored"
@@ -49,6 +50,8 @@ _PRESENTATION_ATOM = (
     r"|special\s+presentation"
     r"|fan\s+event|one\s+night\s+only|opening\s+night(?:\s+fan\s+event)?"
     r"|early\s+access|encore(?:\s+screening)?"
+    r"|annual\s+screenings?"
+    r"|welcome\s+to\s+horrorwood\s+series"
     r"|roadshow"
     r"|studio\s+ghibli\s+fest(?:ival)?(?:\s+\d{4})?"
     r"|ghibli\s+fest(?:ival)?(?:\s+\d{4})?"
@@ -140,7 +143,7 @@ _PRESENTATION_TOKEN_RE = re.compile(
     r"\b("
     r"anniversary|restoration|restored|remastered|re-?release|rerelease|"
     r"director'?s\s+cut|extended\s+edition|special\s+presentation|"
-    r"roadshow|new\s+4k(?:\s+restoration)?|4k\s+restoration|"
+    r"roadshow|new\s+restoration|new\s+4k(?:\s+restoration)?|4k\s+restoration|"
     r"studio\s+ghibli\s+fest(?:ival)?|ghibli\s+fest(?:ival)?|"
     r"film\s+festival|fest(?:ival)?|"
     r"q\s*&\s*a|talkback|panel|"
@@ -148,6 +151,7 @@ _PRESENTATION_TOKEN_RE = re.compile(
     r"dubbed|subtitled|open\s+caption(?:s|ing)?|"
     r"sensory\s+friendly(?:\s+screening)?|"
     r"early\s+access|fan\s+event|encore|one\s+night\s+only|"
+    r"annual\s+screenings?|welcome\s+to\s+horrorwood\s+series|"
     r"remastered\s*&\s*revived|revived"
     r")\b",
     re.IGNORECASE,
