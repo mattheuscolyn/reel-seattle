@@ -159,6 +159,33 @@ def test_truth_to_fiction_and_community_screening_prefixes():
     )
 
 
+def test_current_indie_series_prefixes():
+    cases = [
+        ("MOURNING SICKNESS VOL. 5: Elvira: Mistress of the Dark", "nwff", "Elvira: Mistress of the Dark", "MOURNING SICKNESS VOL. 5"),
+        ("STUFF 2026: Trans Panic!", "nwff", "Trans Panic!", "STUFF 2026"),
+        ("Staff Selects - The Daytrippers", "nwff", "The Daytrippers", "Staff Selects"),
+        ("TRAUMA BOND: Come and See", "nwff", "Come and See", "TRAUMA BOND"),
+        ("Cinemancy: The Elephant Man", "central_cinema", "The Elephant Man", "Cinemancy"),
+        ("Camp Napalm presents: Basic Instinct", "central_cinema", "Basic Instinct", "Camp Napalm presents"),
+    ]
+    for original, source, expected, series in cases:
+        extracted = extract_match_title(original, source=source)
+        assert extracted.base_title == expected
+        assert extracted.program_series == series
+
+
+def test_current_exact_event_aliases():
+    cases = [
+        ("L’AMOUR FOU W/ A.S. HAMRAH", "beacon", "L'Amour fou"),
+        ("NARROW MARGIN RELEASE PARTY: BUCHANAN RIDES ALONE", "beacon", "Buchanan Rides Alone"),
+        ("Halloween III with Baron Von Terror", "central_cinema", "Halloween III: Season of the Witch"),
+    ]
+    for original, source, expected in cases:
+        extracted = extract_match_title(original, source=source)
+        assert extracted.base_title == expected
+        assert extracted.applied_alias_id
+
+
 def test_super_troopers_event_metadata_preserved():
     extracted = extract_match_title(
         "Super Troopers 3: Special Broken Lizard Fan Event",
