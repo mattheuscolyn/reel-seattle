@@ -6,25 +6,77 @@
       "id": "michael-manns-manhunter-final-cut",
       "source_title": "Michael Mann's Manhunter: The Final Cut",
       "search_title": "Manhunter",
-      "sources": ["siff"],
+      "sources": [
+        "siff"
+      ],
       "reason": "Director-possessive + Final Cut branding; unsafe to generalize possessive or Final Cut stripping.",
-      "preserve_presentation_labels": ["final_cut", "director_possessive_branding"]
+      "preserve_presentation_labels": [
+        "final_cut",
+        "director_possessive_branding"
+      ]
     },
     {
       "id": "cabaret-with-charlies-queer-books",
       "source_title": "Cabaret with Charlie's Queer Books",
       "search_title": "Cabaret",
-      "sources": ["nwff"],
+      "sources": [
+        "nwff"
+      ],
       "reason": "Venue co-presentation after 'with'; unsafe to strip arbitrary with-clauses.",
-      "preserve_presentation_labels": ["co_presentation"]
+      "preserve_presentation_labels": [
+        "co_presentation"
+      ]
     },
     {
       "id": "urgh-with-professors-of-urgh",
       "source_title": "URGH! A MUSIC WAR W/ THE PROFESSORS OF URGH",
       "search_title": "Urgh! A Music War",
-      "sources": ["beacon"],
+      "sources": [
+        "beacon"
+      ],
       "reason": "Live host co-presentation after W/; unsafe to strip arbitrary with-clauses.",
-      "preserve_presentation_labels": ["co_presentation", "live_hosts"]
+      "preserve_presentation_labels": [
+        "co_presentation",
+        "live_hosts"
+      ]
+    },
+    {
+      "id": "beacon-lamour-fou-as-hamrah",
+      "source_title": "L’AMOUR FOU W/ A.S. HAMRAH",
+      "search_title": "L'Amour fou",
+      "sources": [
+        "beacon"
+      ],
+      "reason": "Beacon live-host co-presentation after W/; unsafe to strip arbitrary W/ clauses.",
+      "preserve_presentation_labels": [
+        "co_presentation",
+        "live_host"
+      ]
+    },
+    {
+      "id": "beacon-narrow-margin-release-party-buchanan",
+      "source_title": "NARROW MARGIN RELEASE PARTY: BUCHANAN RIDES ALONE",
+      "search_title": "Buchanan Rides Alone",
+      "sources": [
+        "beacon"
+      ],
+      "reason": "One-off release-party presentation prefix, not a recurring program series.",
+      "preserve_presentation_labels": [
+        "release_party"
+      ]
+    },
+    {
+      "id": "central-halloween-iii-baron-von-terror",
+      "source_title": "Halloween III with Baron Von Terror",
+      "search_title": "Halloween III: Season of the Witch",
+      "sources": [
+        "central_cinema"
+      ],
+      "reason": "Exact host co-presentation; arbitrary with-clauses are not safe to strip generically.",
+      "preserve_presentation_labels": [
+        "co_presentation",
+        "live_host"
+      ]
     }
   ]
 }
