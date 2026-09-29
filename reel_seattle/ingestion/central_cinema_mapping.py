@@ -18,6 +18,7 @@ from reel_seattle.adapters.scrape_log import (
     raw_showtime_to_record_dict,
     scrape_log_generated_at,
 )
+from reel_seattle.film_identity.title_rules import apply_program_series_prefix
 from reel_seattle.ingestion.independent_contract import (
     CONTRACT_VERSION,
     DEFAULT_TIMEZONE,
@@ -397,6 +398,7 @@ def map_central_cinema_contract_to_indie(
         local_time = str(showtime.get("local_time") or "").strip()
         timezone = str(showtime.get("timezone") or "").strip() or DEFAULT_TIMEZONE
         title = normalize_exact_source_title(str(showtime.get("source_title") or ""))
+        series = apply_program_series_prefix(title, source=SOURCE)
         program = programs.get(slug)
         show_raw = showtime.get("raw") if isinstance(showtime.get("raw"), Mapping) else {}
         venue_evidence = _venue_evidence_from_raw(show_raw)
@@ -552,6 +554,9 @@ def map_central_cinema_contract_to_indie(
         }
         if release_year is not None:
             attributes["release_year"] = release_year
+        if series is not None:
+            attributes["identity_title"] = series.remainder
+            attributes["program_series"] = series.prefix
         if venue_evidence:
             attributes["location_name"] = venue_evidence
 
