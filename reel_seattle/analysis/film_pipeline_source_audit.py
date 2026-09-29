@@ -38,13 +38,13 @@ SOURCES = (
 RELEASE_YEAR_STRATEGY: dict[str, str] = {
     "amc": "source_catalog_join",
     "siff": "source_page_metadata",
-    "beacon": "source_page_metadata",
-    "nwff": "source_page_metadata",
+    "beacon": "source_page_when_published",
+    "nwff": "source_page_when_published",
     "central_cinema": "source_page_when_published",
     "grand_illusion": "source_page_when_published",
-    "tasveer": "source_title_metadata",
+    "tasveer": "source_title_when_present",
     "anderson_school": "not_exposed_by_listing",
-    "stg": "source_title_or_page_metadata",
+    "stg": "source_title_or_page_when_published",
     "majestic_bay": "not_exposed_by_listing",
 }
 
@@ -329,7 +329,7 @@ def build_film_pipeline_source_audit(
         "findings": {
             "missing_logs": missing_logs,
             "sources_with_feature_runtime_gaps": runtime_gaps,
-            "sources_with_actionable_feature_year_gaps": year_gaps,
+            "sources_with_feature_year_gaps_requiring_review": year_gaps,
             "sources_where_listing_does_not_expose_release_year": source_year_limitations,
         },
     }
