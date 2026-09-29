@@ -56,6 +56,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.stdout:
         summary = {
             "total_unique_source_identities": inventory["total_unique_source_identities"],
+            "metadata_policy": inventory["metadata_policy"],
             "by_source": inventory["by_source"],
         }
         print(json.dumps(summary, indent=2, sort_keys=True))
