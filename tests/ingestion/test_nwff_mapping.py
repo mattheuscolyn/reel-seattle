@@ -95,6 +95,8 @@ def test_valid_result_maps_success():
     assert len(mapped.records) == 3
     assert all(source_film_id_from_raw(r) == "asco-without-permission" for r in mapped.records)
     assert all(r.title_raw.startswith("Staff Selects") for r in mapped.records)
+    assert all(r.attributes["identity_title"] == "ASCO: Without Permission" for r in mapped.records)
+    assert all(r.attributes["program_series"] == "Staff Selects" for r in mapped.records)
     assert all(r.theater_name_raw == "Northwest Film Forum" for r in mapped.records)
 
 

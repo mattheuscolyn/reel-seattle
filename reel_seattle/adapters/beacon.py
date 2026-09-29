@@ -20,6 +20,7 @@ from reel_seattle.adapters.indie_completeness import (
 )
 from reel_seattle.adapters.indie_legacy import session_for_context
 from reel_seattle.ingestion.independent_contract import normalize_exact_source_title
+from reel_seattle.film_identity.title_rules import apply_program_series_prefix
 from reel_seattle.normalize.dates import format_date_csv
 from reel_seattle.normalize.year_window import infer_year_for_month_day
 
@@ -77,6 +78,31 @@ _LEGACY_SHOWTIME_RE = re.compile(
 )
 
 _TITLE_SEPARATORS = (" | ", " — ", " – ", " - ")
+_MOJIBAKE_MARKERS = ("Ã", "Â", "â", "ð", "�")
+
+
+def _mojibake_score(value: str) -> int:
+    return sum(value.count(marker) for marker in _MOJIBAKE_MARKERS)
+
+
+def _repair_utf8_mojibake(value: str) -> str:
+    """Repair UTF-8 text decoded as a single-byte encoding when evidence improves."""
+    text = str(value or "")
+    score = _mojibake_score(text)
+    if score == 0:
+        return text
+    best = text
+    best_score = score
+    for encoding in ("latin-1", "cp1252"):
+        try:
+            candidate = text.encode(encoding).decode("utf-8")
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            continue
+        candidate_score = _mojibake_score(candidate)
+        if candidate_score < best_score:
+            best = candidate
+            best_score = candidate_score
+    return best
 
 
 @dataclass(frozen=True, slots=True)
@@ -155,7 +181,9 @@ def extract_beacon_movie_links(calendar_html: str) -> set[str]:
 def _extract_beacon_title(soup: BeautifulSoup) -> str:
     h1 = soup.find("h1")
     if h1 is not None:
-        text = normalize_exact_source_title(html_lib.unescape(h1.get_text(" ", strip=True)))
+        text = normalize_exact_source_title(
+            _repair_utf8_mojibake(html_lib.unescape(h1.get_text(" ", strip=True)))
+        )
         if text:
             return text
     if soup.title and soup.title.string:
@@ -165,7 +193,7 @@ def _extract_beacon_title(soup: BeautifulSoup) -> str:
                 raw = raw.split(separator)[0]
                 break
         raw = re.split(r"\s+[|\u2014\u2013\-]\s+", raw, maxsplit=1)[0]
-        text = normalize_exact_source_title(raw)
+        text = normalize_exact_source_title(_repair_utf8_mojibake(raw))
         if text:
             return text
     return "Unknown Movie"
@@ -385,6 +413,7 @@ def parse_beacon_film_page(
 
     soup = BeautifulSoup(html, "html.parser")
     movie_title = _extract_beacon_title(soup)
+    series = apply_program_series_prefix(movie_title, source="beacon")
     runtime = _extract_runtime(soup)
     release_year = _extract_release_year(soup)
     canonical_url = canonicalize_beacon_movie_url(film_url) if film_url else None
@@ -442,6 +471,9 @@ def parse_beacon_film_page(
         if release_year is not None:
             # Source-neutral key shared with NWFF / Central Cinema mapping.
             attributes["release_year"] = release_year
+        if series is not None:
+            attributes["identity_title"] = series.remainder
+            attributes["program_series"] = series.prefix
         if slug:
             attributes["source_film_id"] = slug
             attributes["source_program_id"] = slug

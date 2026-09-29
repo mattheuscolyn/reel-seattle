@@ -183,6 +183,54 @@ def test_beacon_current_markup_runtime_extraction():
     assert records[0].runtime_raw == "130"
 
 
+def test_beacon_repairs_observed_utf8_mojibake_in_titles():
+    html = _film_html(
+        title="LâAMOUR FOU W/ A.S. HAMRAH",
+        runtime="245 minutes",
+        release_year=1969,
+    )
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url="https://thebeacon.film/calendar/movie/l-amour-fou-w-a-s-hamrah",
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    assert records[0].title_raw == "L’AMOUR FOU W/ A.S. HAMRAH"
+
+    html = _film_html(
+        title="VHS ÃBER ALLES PRESENTS...",
+        runtime="75 minutes",
+        release_year=1990,
+    )
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url="https://thebeacon.film/calendar/movie/vhs-uber-alles-presents",
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    assert records[0].title_raw == "VHS ÜBER ALLES PRESENTS..."
+
+
+def test_beacon_series_prefix_promoted_to_identity_metadata():
+    html = _film_html(
+        title="SECS FEST PRESENTS DRILLER",
+        runtime="60 minutes",
+        release_year=1984,
+    )
+    records = BeaconAdapter.parse_film_page(
+        html,
+        film_url="https://thebeacon.film/calendar/movie/driller",
+        window_start=date(2026, 6, 26),
+        window_end=date(2026, 12, 31),
+        scrape_date=date(2026, 6, 26),
+    )
+    assert records[0].title_raw == "SECS FEST PRESENTS DRILLER"
+    assert records[0].attributes["identity_title"] == "DRILLER"
+    assert records[0].attributes["program_series"] == "Secs Fest Presents"
+
+
 def test_beacon_current_markup_release_year_extraction():
     html = _film_html(runtime="86 minutes", release_year=1992)
     records = BeaconAdapter.parse_film_page(
