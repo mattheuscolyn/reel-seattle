@@ -216,3 +216,18 @@ def test_write_and_cli(tmp_path: Path):
     assert out.is_file()
     payload = json.loads(out.read_text(encoding="utf-8"))
     assert payload["sources"]["beacon"]["source_identity_count"] == 1
+
+
+def test_daily_workflow_refreshes_source_metadata_audit():
+    workflow = (PROJECT_ROOT / ".github/workflows/daily_scraping.yml").read_text(
+        encoding="utf-8"
+    )
+
+    refresh_catalog = workflow.index("- name: Refresh AMC source catalog")
+    refresh_audit = workflow.index("- name: Refresh film pipeline source audit")
+    refresh_coming_soon = workflow.index("- name: Refresh Coming Soon")
+
+    assert refresh_catalog < refresh_audit < refresh_coming_soon
+    assert "python scripts/audit_film_pipeline_sources.py" in workflow
+    assert "--output data/audits/film_pipeline_source_metadata.json" in workflow
+    assert "git add data/audits/film_pipeline_source_metadata.json" in workflow
