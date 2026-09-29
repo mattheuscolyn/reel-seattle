@@ -224,6 +224,16 @@ def match_source_identity(
         identity.get("directors_raw")
     )
 
+    source_identity_title = str(identity.get("identity_title") or "").strip() or None
+    source_normalized_title = (
+        identity.get("normalized_title") if source_identity_title else None
+    )
+    normalized_match_title = (
+        source_normalized_title
+        or year_info.get("base_title")
+        or identity.get("normalized_title")
+    )
+
     base = {
         "source_identities": [
             {
@@ -241,8 +251,7 @@ def match_source_identity(
         ),
         "candidates": [],
         "signals": None,
-        "normalized_title": identity.get("normalized_title")
-        or year_info.get("base_title"),
+        "normalized_title": normalized_match_title,
         "year_hint": scoring_year,
         "runtime_min": identity.get("runtime_min"),
         "directors_raw": identity.get("directors_raw"),
@@ -372,11 +381,7 @@ def match_source_identity(
             "match_confidence": None,
         }
 
-    raw_search = (
-        identity.get("normalized_title")
-        or year_info.get("base_title")
-        or identity.get("source_title")
-    )
+    raw_search = normalized_match_title or identity.get("source_title")
     search_title, title_warnings = preferred_search_title(
         identity, fallback=str(raw_search) if raw_search else None
     )
