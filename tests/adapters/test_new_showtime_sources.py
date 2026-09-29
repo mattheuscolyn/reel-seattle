@@ -9,7 +9,7 @@ from pathlib import Path
 from daily_processor import process_indie_csv_data
 from reel_seattle.adapters.anderson_school import fetch_anderson_school
 from reel_seattle.adapters.anderson_titles import normalize_anderson_title
-from reel_seattle.adapters.majestic_bay import fetch_majestic_bay
+from reel_seattle.adapters.majestic_bay import fetch_majestic_bay, normalize_majestic_bay_title
 from reel_seattle.adapters.option_c import write_option_c_scrape_log
 from reel_seattle.adapters.scrape_log import daily_log_path
 from reel_seattle.adapters.stg import fetch_stg
@@ -250,6 +250,45 @@ def test_anderson_ocap_shares_identity_and_keeps_other_parentheticals():
     )
     assert broken.contract["status"] == "structural_failure"
     assert broken.restate_safe is False
+
+
+def test_majestic_bay_anniversary_celebration_is_event_wrapper_not_film_runtime():
+    assert normalize_majestic_bay_title(
+        "25th Anniversary Celebration: Singin' in the Rain"
+    ) == ("Singin' in the Rain", "25th Anniversary Celebration")
+
+    html = """
+    <h1>Majestic Bay Theatres</h1>
+    <div id="sessionsByDateConent">
+      <div class="film">
+        <img class="poster" alt="25th Anniversary Celebration: Singin' in the Rain"
+             src="/Media/Poster?siteToken=public&amp;code=0000001724" />
+        <h3 class="title">25th Anniversary Celebration: Singin' in the Rain</h3>
+        <ul class="session-times">
+          <li>
+            <a href="https://ticketing.useast.veezi.com/purchase/36135?siteToken=public"><time>6:30 PM</time></a>
+            <span class="screen-attribute attribute-0000000009">Retro</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script type="application/ld+json">
+    [{"@type":"VisualArtsEvent",
+      "name":"25th Anniversary Celebration: Singin' in the Rain",
+      "startDate":"2026-10-12T18:30:00-07:00",
+      "duration":"PT2H30M",
+      "url":"https://ticketing.useast.veezi.com/purchase/36135?siteToken=public"}]
+    </script>
+    """
+    result = fetch_majestic_bay(START, END, fetch=_http(html), scraped_at=SCRAPED_AT)
+    assert result.restate_safe is True
+    record = result.records[0]
+    assert record.title_raw == "25th Anniversary Celebration: Singin' in the Rain"
+    assert record.attributes["identity_title"] == "Singin' in the Rain"
+    assert record.attributes["event_runtime_minutes"] == 150
+    assert record.runtime_raw is None
+    assert "25th Anniversary Celebration" in record.attributes["presentation_labels"]
+    assert "Retro" in record.attributes["presentation_labels"]
 
 
 def test_majestic_bay_public_veezi_ids_and_retro_label():

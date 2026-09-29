@@ -36,6 +36,10 @@ SESSIONS_URL = "https://ticketing.useast.veezi.com/sessions/qnxpcc571jey8whdwrcz
 _PURCHASE_ID_RE = re.compile(r"/purchase/(\d+)")
 _CODE_RE = re.compile(r"[?&]code=(\d+)")
 _DURATION_RE = re.compile(r"^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$")
+_ANNIVERSARY_CELEBRATION_RE = re.compile(
+    r"^(?P<label>\d{1,3}(?:st|nd|rd|th)\s+Anniversary\s+Celebration)\s*:\s*(?P<title>.+)$",
+    re.IGNORECASE,
+)
 _EMPTY_RE = re.compile(r"no shows currently scheduled", re.IGNORECASE)
 
 FetchFn = Callable[..., tuple[int, bytes, dict[str, str]]]
@@ -61,6 +65,21 @@ def _duration_minutes(value: str) -> int | None:
 def _purchase_id(url: str) -> str | None:
     match = _PURCHASE_ID_RE.search(url)
     return match.group(1) if match else None
+
+
+def normalize_majestic_bay_title(source_title: str) -> tuple[str, str | None]:
+    """Separate an explicit anniversary-celebration wrapper from the film title.
+
+    The anniversary count is presentation/event metadata, not evidence for the
+    movie's original release year. Other titles remain untouched.
+    """
+    title = normalize_exact_source_title(source_title)
+    match = _ANNIVERSARY_CELEBRATION_RE.match(title)
+    if not match:
+        return title, None
+    identity = normalize_exact_source_title(match.group("title"))
+    label = normalize_exact_source_title(match.group("label"))
+    return (identity, label) if identity else (title, None)
 
 
 def _events(html: str) -> list[dict[str, Any]]:
@@ -211,16 +230,30 @@ def fetch_majestic_bay(
         film_code = detail.get("film_code")
         program_id = str(film_code) if film_code else showtime_id
         labels = list(detail.get("labels") or [])
+        identity_title, title_event_label = normalize_majestic_bay_title(name)
+        event_runtime = _duration_minutes(str(event.get("duration") or ""))
         attributes: dict[str, Any] = {"public_sessions_url": SESSIONS_URL}
         if labels:
             attributes["presentation_labels"] = labels
+        if title_event_label:
+            attributes["identity_title"] = identity_title
+            attributes["title_normalization"] = {
+                "identity_title": identity_title,
+                "presentation_label": title_event_label,
+            }
+            attributes["presentation_labels"] = [
+                *list(attributes.get("presentation_labels") or []),
+                title_event_label,
+            ]
+            if event_runtime is not None:
+                attributes["event_runtime_minutes"] = event_runtime
         if not film_code:
             attributes["program_id_source"] = "purchase_session"
         screens.append(
             Screen(
                 program_id=program_id,
                 source_title=name,
-                identity_title=name,
+                identity_title=identity_title,
                 program_url=SESSIONS_URL,
                 showtime_id=showtime_id,
                 theater_id=THEATER_ID,
@@ -228,7 +261,7 @@ def fetch_majestic_bay(
                 local_date=local_day,
                 local_time=local.strftime("%H:%M"),
                 ticket_url=url,
-                runtime_minutes=_duration_minutes(str(event.get("duration") or "")),
+                runtime_minutes=None if title_event_label else event_runtime,
                 format_raw=", ".join(labels) if labels else None,
                 attributes=attributes,
                 showtime_raw={"selling_fast": bool(detail.get("selling_fast"))},
