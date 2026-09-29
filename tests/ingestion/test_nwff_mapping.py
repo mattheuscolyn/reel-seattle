@@ -87,6 +87,14 @@ def test_main_venue_helpers():
     assert normalize_location_label("  A  B ") == "a b"
 
 
+def test_registered_series_becomes_identity_metadata():
+    mapped = map_nwff_contract_to_indie(safe_success(), theater_ids=THEATER_IDS)
+    record = mapped.records[0]
+    assert record.title_raw == "Staff Selects - ASCO: Without Permission"
+    assert record.attributes["identity_title"] == "ASCO: Without Permission"
+    assert record.attributes["program_series"] == "Staff Selects"
+
+
 def test_valid_result_maps_success():
     mapped = map_nwff_contract_to_indie(safe_success(), theater_ids=THEATER_IDS)
     assert mapped.mapping_status == MAPPING_STATUS_SUCCESS_WITH_WARNINGS or mapped.mapping_status == MAPPING_STATUS_SUCCESS
