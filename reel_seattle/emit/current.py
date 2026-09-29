@@ -116,6 +116,14 @@ def _metadata_date(value: Any) -> str | None:
     return None
 
 
+def _release_year(value: Any) -> int | None:
+    cleaned = normalize_optional_string(value)
+    if cleaned is None or not cleaned.isdigit():
+        return None
+    year = int(cleaned)
+    return year if 1888 <= year <= 2100 else None
+
+
 def _poster_url(value: Any) -> str | None:
     url = normalize_optional_string(value)
     if url is None:
@@ -282,6 +290,9 @@ def build_showtimes_current(
         seen_showtime_ids.add(showtime_id)
 
         source_title = source_title_from_history_row(row)
+        identity_title = normalize_optional_string(row.get("identity_title"))
+        release_year = _release_year(row.get("release_year"))
+        program_series = normalize_optional_string(row.get("program_series"))
         special_event = classify_special_event(
             title=film_title,
             source_title=source_title,
@@ -335,6 +346,9 @@ def build_showtimes_current(
                 "source": source,
                 "source_film_id": source_film_id,
                 "source_title": source_title,
+                "identity_title": identity_title,
+                "release_year": release_year,
+                "program_series": program_series,
                 # Keep public null: exposing source_showtime_id would change
                 # HomeData/Planner precedence ahead of performance_id for
                 # non-GI paths. GI occurrence id lives in attributes.

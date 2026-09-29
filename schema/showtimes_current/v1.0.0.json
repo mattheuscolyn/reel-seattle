@@ -503,6 +503,31 @@
           ],
           "description": "Exact source/API title before display normalization."
         },
+        "identity_title": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "description": "Source-derived film title with source-specific presentation or program decoration removed when the adapter can prove the transform."
+        },
+        "release_year": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1888,
+          "maximum": 2100,
+          "description": "Source-provided canonical/original film release year when available; screening/event years are excluded."
+        },
+        "program_series": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "description": "Source-derived programming series or collection label when separately identifiable from the film title."
+        },
         "parent_film_key": {
           "type": "string",
           "minLength": 1,
