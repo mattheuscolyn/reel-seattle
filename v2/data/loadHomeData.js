@@ -64,6 +64,17 @@ async function fetchOptionalJson(url, fetchImpl) {
 }
 
 /**
+ * Let already-queued input run before synchronous Home assembly.
+ * A macrotask boundary (not a timed delay): clicks can commit a destination
+ * change before `buildHomeData` occupies the main thread.
+ */
+function yieldToMainThread() {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 0);
+  });
+}
+
+/**
  * Load required + optional Home artifacts and build HomeData.
  *
  * @param {{
@@ -78,11 +89,29 @@ async function fetchOptionalJson(url, fetchImpl) {
 export async function loadHomeData(options = {}) {
   const fetchImpl = options.fetchImpl ?? fetch;
   const includePipelineReport = options.includePipelineReport !== false;
-  const loadErrors = [];
+
+  // None of these artifacts read each other. Start them together.
+  // showtimes_current.json stays required; a failure returns immediately and
+  // does not wait for the optional requests already in flight.
+  // pipeline_report.json is not read by the Home UI. It still feeds
+  // sourceHealth for showtimes freshness ("Some listings may be incomplete."),
+  // so it stays in this optional set rather than being dropped.
+  const showtimesPromise = fetchJson(V2_SHOWTIMES_URL, fetchImpl);
+  const theatersPromise = fetchOptionalJson(V2_THEATERS_URL, fetchImpl);
+  const newlyAddedPromise = fetchOptionalJson(V2_NEWLY_ADDED_URL, fetchImpl);
+  const openingThisWeekPromise = fetchOptionalJson(
+    V2_OPENING_THIS_WEEK_URL,
+    fetchImpl,
+  );
+  const leavingSoonPromise = fetchOptionalJson(V2_LEAVING_SOON_URL, fetchImpl);
+  const collectionsPromise = fetchOptionalJson(V2_COLLECTIONS_URL, fetchImpl);
+  const pipelinePromise = includePipelineReport
+    ? fetchOptionalJson(V2_PIPELINE_REPORT_URL, fetchImpl)
+    : null;
 
   let showtimesCurrent;
   try {
-    showtimesCurrent = await fetchJson(V2_SHOWTIMES_URL, fetchImpl);
+    showtimesCurrent = await showtimesPromise;
   } catch (error) {
     return {
       ok: false,
@@ -91,24 +120,25 @@ export async function loadHomeData(options = {}) {
     };
   }
 
-  const theatersResult = await fetchOptionalJson(V2_THEATERS_URL, fetchImpl);
-  const newlyAddedResult = await fetchOptionalJson(V2_NEWLY_ADDED_URL, fetchImpl);
-  const openingThisWeekResult = await fetchOptionalJson(
-    V2_OPENING_THIS_WEEK_URL,
-    fetchImpl,
-  );
-  const leavingSoonResult = await fetchOptionalJson(
-    V2_LEAVING_SOON_URL,
-    fetchImpl,
-  );
-  const collectionsResult = await fetchOptionalJson(
-    V2_COLLECTIONS_URL,
-    fetchImpl,
-  );
+  const [
+    theatersResult,
+    newlyAddedResult,
+    openingThisWeekResult,
+    leavingSoonResult,
+    collectionsResult,
+    pipelineResult,
+  ] = await Promise.all([
+    theatersPromise,
+    newlyAddedPromise,
+    openingThisWeekPromise,
+    leavingSoonPromise,
+    collectionsPromise,
+    pipelinePromise ?? Promise.resolve(null),
+  ]);
 
+  const loadErrors = [];
   let pipelineReport = null;
-  if (includePipelineReport) {
-    const pipelineResult = await fetchOptionalJson(V2_PIPELINE_REPORT_URL, fetchImpl);
+  if (pipelineResult) {
     if (pipelineResult.ok) {
       pipelineReport = pipelineResult.data;
     } else {
@@ -131,6 +161,8 @@ export async function loadHomeData(options = {}) {
   if (!collectionsResult.ok) {
     loadErrors.push(collectionsResult.error);
   }
+
+  await yieldToMainThread();
 
   try {
     const homeData = buildHomeData({

@@ -479,6 +479,12 @@ button {
   background: #090a0f;
 }
 
+.v2-feature-skeleton .v2-feature-media {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, #1a1d28, #2a2540);
+}
+
 .v2-stage {
   position: absolute;
   inset: 0;
@@ -800,6 +806,19 @@ button {
 .v2-shelf-card-expanded {
   border-color: var(--v2-accent);
   box-shadow: 0 0 0 1px var(--v2-accent);
+}
+
+.v2-shelf-card-skeleton {
+  cursor: default;
+}
+
+.v2-shelf-skeleton-line {
+  display: block;
+  width: 72%;
+  height: 0.55rem;
+  margin-top: 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .v2-shelf-card:focus-visible {

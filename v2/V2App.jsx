@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  startTransition,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import DestinationPlaceholder from './DestinationPlaceholder.jsx';
 import AppHeader from './home/AppHeader.jsx';
 import AppShell from './shell/AppShell.jsx';
@@ -288,6 +295,22 @@ function syncFilmIdQuery(filmId) {
   }
 }
 
+/**
+ * Collections and Coming Soon are not needed to paint Home or to switch
+ * primary destinations. Start them after the first idle period so their
+ * JSON parse does not compete with the first tap.
+ * @param {() => void} work
+ * @returns {() => void}
+ */
+function scheduleWhenIdle(work) {
+  if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
+    const id = window.requestIdleCallback(() => work(), { timeout: 2000 });
+    return () => window.cancelIdleCallback(id);
+  }
+  const id = setTimeout(() => work(), 0);
+  return () => clearTimeout(id);
+}
+
 export default function V2App() {
   const hostname = resolveHostname();
   const auth = useAuth();
@@ -489,18 +512,29 @@ export default function V2App() {
     Promise.all([loadHomeData(), loadFilmEnrichment()])
       .then(async ([homeResult, enrichmentResult]) => {
         if (cancelled) return;
-        if (!homeResult.ok) {
-          setSharedHomeData({
-            status: 'error',
-            homeData: null,
-            errorMessage: homeResult.error,
+        // Data arrival is interruptible. Primary-nav setNav stays urgent so a
+        // tap can paint the next destination before Home shelves commit.
+        startTransition(() => {
+          if (!homeResult.ok) {
+            setSharedHomeData({
+              status: 'error',
+              homeData: null,
+              errorMessage: homeResult.error,
+            });
+          } else {
+            setSharedHomeData({
+              status: 'ready',
+              homeData: homeResult.homeData,
+              errorMessage: null,
+            });
+          }
+          setEnrichmentState({
+            status: enrichmentResult.status,
+            index: enrichmentResult.index,
+            warning: enrichmentResult.warning,
           });
-        } else {
-          setSharedHomeData({
-            status: 'ready',
-            homeData: homeResult.homeData,
-            errorMessage: null,
-          });
+        });
+        if (homeResult.ok) {
           try {
             reconcileUserFilmStores(
               typeof localStorage !== 'undefined' ? localStorage : null,
@@ -510,11 +544,6 @@ export default function V2App() {
             // Store reconciliation must never block Home.
           }
         }
-        setEnrichmentState({
-          status: enrichmentResult.status,
-          index: enrichmentResult.index,
-          warning: enrichmentResult.warning,
-        });
         enrichmentIndexRef.current = enrichmentResult.index;
 
         // Central shelf hydrate: durable filmIds on shelves without static
@@ -531,11 +560,13 @@ export default function V2App() {
             if (cancelled) return;
             if (hydrated.hydratedIds.length > 0 && hydrated.index) {
               enrichmentIndexRef.current = hydrated.index;
-              setEnrichmentState((prev) => ({
-                ...prev,
-                status: hydrated.index.status ?? prev.status,
-                index: hydrated.index,
-              }));
+              startTransition(() => {
+                setEnrichmentState((prev) => ({
+                  ...prev,
+                  status: hydrated.index.status ?? prev.status,
+                  index: hydrated.index,
+                }));
+              });
             }
           } catch {
             // Hydration is best-effort; shelves keep source fallbacks.
@@ -544,15 +575,17 @@ export default function V2App() {
       })
       .catch((error) => {
         if (cancelled) return;
-        setSharedHomeData({
-          status: 'error',
-          homeData: null,
-          errorMessage: error instanceof Error ? error.message : String(error),
-        });
-        setEnrichmentState({
-          status: 'unavailable',
-          index: null,
-          warning: error instanceof Error ? error.message : String(error),
+        startTransition(() => {
+          setSharedHomeData({
+            status: 'error',
+            homeData: null,
+            errorMessage: error instanceof Error ? error.message : String(error),
+          });
+          setEnrichmentState({
+            status: 'unavailable',
+            index: null,
+            warning: error instanceof Error ? error.message : String(error),
+          });
         });
       });
     return () => {
@@ -563,49 +596,63 @@ export default function V2App() {
 
   useEffect(() => {
     let cancelled = false;
-    loadCollectionsCurrent()
-      .then((result) => {
-        if (cancelled) return;
-        setCollectionsState({
-          status: result.status,
-          artifact: result.artifact,
-          warning: result.warning,
+    const cancelIdle = scheduleWhenIdle(() => {
+      loadCollectionsCurrent()
+        .then((result) => {
+          if (cancelled) return;
+          startTransition(() => {
+            setCollectionsState({
+              status: result.status,
+              artifact: result.artifact,
+              warning: result.warning,
+            });
+          });
+        })
+        .catch((error) => {
+          if (cancelled) return;
+          startTransition(() => {
+            setCollectionsState({
+              status: 'unavailable',
+              artifact: null,
+              warning: error instanceof Error ? error.message : String(error),
+            });
+          });
         });
-      })
-      .catch((error) => {
-        if (cancelled) return;
-        setCollectionsState({
-          status: 'unavailable',
-          artifact: null,
-          warning: error instanceof Error ? error.message : String(error),
-        });
-      });
+    });
     return () => {
       cancelled = true;
+      cancelIdle();
     };
   }, []);
 
   useEffect(() => {
     let cancelled = false;
-    loadComingSoonCurrent()
-      .then((result) => {
-        if (cancelled) return;
-        setComingSoonState({
-          status: result.status,
-          artifact: result.artifact,
-          warning: result.warning,
+    const cancelIdle = scheduleWhenIdle(() => {
+      loadComingSoonCurrent()
+        .then((result) => {
+          if (cancelled) return;
+          startTransition(() => {
+            setComingSoonState({
+              status: result.status,
+              artifact: result.artifact,
+              warning: result.warning,
+            });
+          });
+        })
+        .catch((error) => {
+          if (cancelled) return;
+          startTransition(() => {
+            setComingSoonState({
+              status: 'unavailable',
+              artifact: null,
+              warning: error instanceof Error ? error.message : String(error),
+            });
+          });
         });
-      })
-      .catch((error) => {
-        if (cancelled) return;
-        setComingSoonState({
-          status: 'unavailable',
-          artifact: null,
-          warning: error instanceof Error ? error.message : String(error),
-        });
-      });
+    });
     return () => {
       cancelled = true;
+      cancelIdle();
     };
   }, []);
 
@@ -614,18 +661,22 @@ export default function V2App() {
     loadShortsProgramsCurrent()
       .then((result) => {
         if (cancelled) return;
-        setShortsProgramsState({
-          status: result.status,
-          artifact: result.artifact,
-          warning: result.warning,
+        startTransition(() => {
+          setShortsProgramsState({
+            status: result.status,
+            artifact: result.artifact,
+            warning: result.warning,
+          });
         });
       })
       .catch((error) => {
         if (cancelled) return;
-        setShortsProgramsState({
-          status: 'unavailable',
-          artifact: null,
-          warning: error instanceof Error ? error.message : String(error),
+        startTransition(() => {
+          setShortsProgramsState({
+            status: 'unavailable',
+            artifact: null,
+            warning: error instanceof Error ? error.message : String(error),
+          });
         });
       });
     return () => {
