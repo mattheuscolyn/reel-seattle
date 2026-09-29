@@ -55,6 +55,27 @@ _QUERY = """
 """.strip()
 
 _YEAR_RE = re.compile(r"\b((?:19|20)\d{2})\b")
+_TRAILING_METADATA_RE = re.compile(
+    r"^(?P<title>.+?)\s*\((?P<meta>[^()]*(?:19|20)\d{2}[^()]*)\)\s*\)?$"
+)
+_COUNTRY_LABELS = frozenset(
+    {
+        "usa",
+        "united states",
+        "india",
+        "japan",
+        "canada",
+        "uk",
+        "united kingdom",
+        "bangladesh",
+        "pakistan",
+        "nepal",
+        "sri lanka",
+        "france",
+        "germany",
+        "israel",
+    }
+)
 FetchFn = Callable[..., tuple[int, bytes, dict[str, str]]]
 
 
@@ -75,11 +96,63 @@ def _headers() -> dict[str, str]:
     }
 
 
-def _year(title: str) -> int | None:
-    found = _YEAR_RE.findall(title)
-    if not found:
-        return None
-    return int(found[-1])
+def parse_tasveer_title_metadata(title: str) -> tuple[str, int | None, dict[str, Any]]:
+    """Separate Tasveer's trailing country/language/year listing metadata.
+
+    The source title remains untouched on RawShowtime.title_raw. Cleanup is
+    deliberately source-specific: a suffix is stripped only when the final
+    parenthetical contains exactly one credible four-digit year.
+    """
+    source_title = normalize_exact_source_title(title)
+    match = _TRAILING_METADATA_RE.match(source_title)
+    if not match:
+        return source_title, None, {}
+
+    parts = [
+        normalize_exact_source_title(part)
+        for part in match.group("meta").split(",")
+        if normalize_exact_source_title(part)
+    ]
+    years = [
+        int(year)
+        for part in parts
+        for year in _YEAR_RE.findall(part)
+        if part == year
+    ]
+    if len(years) != 1:
+        return source_title, None, {}
+
+    year = years[0]
+    if not 1888 <= year <= 2100:
+        return source_title, None, {}
+
+    identity_title = normalize_exact_source_title(match.group("title"))
+    if not identity_title:
+        return source_title, None, {}
+
+    metadata: dict[str, Any] = {
+        "release_year": year,
+        "source_title_metadata": parts,
+    }
+    non_year_parts = [part for part in parts if not _YEAR_RE.fullmatch(part)]
+    alternate_titles = [
+        part for part in non_year_parts if any(ord(char) > 127 for char in part)
+    ]
+    countries = [
+        part for part in non_year_parts if part.casefold() in _COUNTRY_LABELS
+    ]
+    language_notes = [
+        part
+        for part in non_year_parts
+        if part not in alternate_titles and part not in countries
+    ]
+    if alternate_titles:
+        metadata["alternate_titles"] = alternate_titles
+    if countries:
+        metadata["country_raw"] = countries[0]
+    if language_notes:
+        metadata["language_note_raw"] = "; ".join(language_notes)
+    return identity_title, year, metadata
 
 
 def _open_caption(badges: list[dict[str, Any]]) -> bool:
@@ -226,6 +299,7 @@ def fetch_tasveer(
         duration = movie.get("duration")
         runtime = int(duration) if isinstance(duration, int) and duration > 0 else None
         rating = str(movie.get("rating") or "").strip() or None
+        identity_title, release_year, title_metadata = parse_tasveer_title_metadata(name)
         program_url = f"{ORIGIN}/movie/{slug}"
         for showing in showings:
             if not isinstance(showing, dict):
@@ -249,7 +323,7 @@ def fetch_tasveer(
             badge_titles = [str(badge.get("title") or "").strip() for badge in badge_rows]
             badge_titles = [title for title in badge_titles if title]
             format_raw = "open caption" if _open_caption(badge_rows) else None
-            attributes: dict[str, Any] = {}
+            attributes: dict[str, Any] = dict(title_metadata)
             if badge_titles:
                 attributes["showing_badges"] = badge_titles
             if rating:
@@ -258,7 +332,7 @@ def fetch_tasveer(
                 Screen(
                     program_id=movie_id,
                     source_title=name,
-                    identity_title=name,
+                    identity_title=identity_title,
                     program_url=program_url,
                     showtime_id=showing_id,
                     theater_id=THEATER_ID,
@@ -267,7 +341,7 @@ def fetch_tasveer(
                     local_time=local.strftime("%H:%M"),
                     ticket_url=f"{ORIGIN}/checkout/showing/{slug}/{showing_id}",
                     runtime_minutes=runtime,
-                    year=_year(name),
+                    year=release_year,
                     format_raw=format_raw,
                     attributes=attributes,
                     program_raw={"url_slug": slug},

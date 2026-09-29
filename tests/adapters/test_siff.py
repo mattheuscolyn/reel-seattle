@@ -21,6 +21,7 @@ from reel_seattle.adapters.siff import (
     SIFF_IN_THEATERS_URL,
     SiffAdapter,
     canonicalize_siff_program_url,
+    derive_siff_series_identity,
     extract_siff_movie_links,
     fetch_siff_showtimes,
     map_siff_venue_label,
@@ -173,6 +174,35 @@ def test_nested_event_path_intact():
     assert source_film_id_from_raw(result.records[0]) == (
         "programs-and-events/some-series/example-program"
     )
+    assert result.records[0].attributes["program_series"] == "Some Series"
+
+
+def test_structural_series_path_cleans_visible_series_prefix():
+    url = f"{SIFF_BASE_URL}/programs-and-events/andrzej-wajda/a-generation"
+    result = _parse(
+        _page(title="The Films of Andrzej Wajda: A Generation"),
+        movie_url=url,
+    )
+    record = result.records[0]
+    assert record.title_raw == "The Films of Andrzej Wajda: A Generation"
+    assert record.attributes["identity_title"] == "A Generation"
+    assert record.attributes["program_series"] == "The Films of Andrzej Wajda"
+
+
+def test_structural_series_path_keeps_clean_title_when_prefix_absent():
+    identity, series = derive_siff_series_identity(
+        "Kanał",
+        "programs-and-events/andrzej-wajda/kanal",
+    )
+    assert identity == "Kanał"
+    assert series == "The Films of Andrzej Wajda"
+
+    identity, series = derive_siff_series_identity(
+        "Deep Red",
+        "programs-and-events/scarecrowber-2026/deep-red",
+    )
+    assert identity == "Deep Red"
+    assert series == "Scarecrowber"
 
 
 def test_query_fragment_do_not_affect_identity():
@@ -305,10 +335,11 @@ def test_explicit_header_year_wins():
 
 
 def test_page_wide_release_year_ignored():
-    # Page contains 1976/1926/1999/1984; header has no year → infer from window.
+    # Dedicated metadata row says 1976; unrelated 1926/1999/1984 page years are ignored.
     result = _parse(_page(date_header="Friday, August 14"))
     assert result.records[0].date_raw == "08/14/2026"
     assert result.records[0].attributes["year_inferred"] is True
+    assert result.records[0].attributes["release_year"] == 1976
 
 
 def test_same_year_inference():

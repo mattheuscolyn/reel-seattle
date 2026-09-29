@@ -54,6 +54,16 @@ _MONTH_NAMES = {
 }
 
 _HOUSE_SUFFIX_RE = re.compile(r"\s+House\s+\d+\s*$", re.IGNORECASE)
+_RUNTIME_MINUTES_RE = re.compile(r"\b(\d{1,3})\s*(?:min\.?|minutes?)\b", re.IGNORECASE)
+_RELEASE_YEAR_RE = re.compile(r"^(?:18|19|20)\d{2}$")
+_SERIES_YEAR_SUFFIX_RE = re.compile(r"-20\d{2}$")
+_SIFF_SERIES_LABEL_OVERRIDES = {
+    "andrzej-wajda": "The Films of Andrzej Wajda",
+    "the-open-road": "The Open Road",
+    "scarecrowber": "Scarecrowber",
+    "siff-book-club": "SIFF Book Club",
+    "siff-movie-club": "SIFF Movie Club",
+}
 _EMPTY_LISTING_RE = re.compile(
     r"(no\s+(films|movies|showtimes|programs)\s+(currently|scheduled|at\s+this\s+time))"
     r"|(currently\s+no\s+(films|movies|showtimes))"
@@ -132,6 +142,51 @@ def siff_program_path_id(url: str, *, base_url: str = SIFF_BASE_URL) -> str | No
     return path or None
 
 
+def _series_slug(program_id: str) -> str | None:
+    parts = [part for part in program_id.split("/") if part]
+    if len(parts) < 3 or parts[0] != "programs-and-events":
+        return None
+    return _SERIES_YEAR_SUFFIX_RE.sub("", parts[1].casefold())
+
+
+def _humanize_series_slug(slug: str) -> str:
+    label = " ".join(part for part in slug.split("-") if part)
+    words = []
+    for word in label.split():
+        if word in {"siff", "nt"}:
+            words.append(word.upper())
+        else:
+            words.append(word.capitalize())
+    return " ".join(words)
+
+
+def _slugify_series_label(value: str) -> str:
+    normalized = re.sub(r"[^a-z0-9]+", "-", value.casefold()).strip("-")
+    return _SERIES_YEAR_SUFFIX_RE.sub("", normalized)
+
+
+def derive_siff_series_identity(source_title: str, program_id: str) -> tuple[str, str | None]:
+    """Use SIFF's nested program URL as authoritative series-membership evidence."""
+    slug = _series_slug(program_id)
+    if not slug:
+        return source_title, None
+
+    canonical_series = _SIFF_SERIES_LABEL_OVERRIDES.get(slug) or _humanize_series_slug(slug)
+    split = re.match(r"^(?P<prefix>.+?)\s*(?::|\s[-–—]\s)\s*(?P<title>.+)$", source_title)
+    if split:
+        prefix = normalize_exact_source_title(split.group("prefix"))
+        remainder = normalize_exact_source_title(split.group("title"))
+        prefix_slug = _slugify_series_label(prefix)
+        if (
+            prefix_slug == slug
+            or prefix_slug.endswith(f"-{slug}")
+            or prefix.casefold() == canonical_series.casefold()
+        ):
+            return remainder, prefix
+
+    return source_title, canonical_series
+
+
 def extract_siff_movie_links(html: str, *, base_url: str = SIFF_BASE_URL) -> set[str]:
     """Extract canonical absolute film page URLs from a SIFF listing page."""
     soup = BeautifulSoup(html, "html.parser")
@@ -173,10 +228,25 @@ def _extract_runtime(soup: BeautifulSoup) -> str:
     runtime_p = soup.find("p", class_="small")
     if runtime_p:
         for span in runtime_p.find_all("span"):
-            text = span.get_text(strip=True)
-            if "min." in text:
-                return text.replace(" min.", "")
+            text = normalize_exact_source_title(span.get_text(" ", strip=True))
+            match = _RUNTIME_MINUTES_RE.search(text)
+            if match:
+                return match.group(1)
     return "Unknown"
+
+
+def _extract_release_year(soup: BeautifulSoup) -> int | None:
+    """Read only the dedicated SIFF metadata row; ignore years elsewhere on the page."""
+    runtime_p = soup.find("p", class_="small")
+    if not runtime_p:
+        return None
+    for span in runtime_p.find_all("span"):
+        text = normalize_exact_source_title(span.get_text(" ", strip=True))
+        if _RELEASE_YEAR_RE.fullmatch(text):
+            year = int(text)
+            if 1888 <= year <= 2100:
+                return year
+    return None
 
 
 def _extract_poster(soup: BeautifulSoup, *, base_url: str) -> str | None:
@@ -303,6 +373,7 @@ def parse_siff_film_page(
         )
 
     runtime = _extract_runtime(soup)
+    release_year = _extract_release_year(soup)
     poster_image = _extract_poster(soup, base_url=base_url)
     canonical_url = canonicalize_siff_program_url(movie_url, base_url=base_url)
     program_id = siff_program_path_id(canonical_url or movie_url, base_url=base_url)
@@ -316,6 +387,7 @@ def parse_siff_film_page(
             showtimes_seen=0,
         )
 
+    identity_title, program_series = derive_siff_series_identity(movie_title, program_id)
     day_divs = soup.find_all("div", class_="day")
     path = urlparse(canonical_url or movie_url).path
     is_events_path = path.startswith("/programs-and-events/")
@@ -454,6 +526,12 @@ def parse_siff_film_page(
                     "theater_id": theater_id,
                     "exact_h1_title": movie_title,
                 }
+                if identity_title != movie_title:
+                    attributes["identity_title"] = identity_title
+                if program_series:
+                    attributes["program_series"] = program_series
+                if release_year is not None:
+                    attributes["release_year"] = release_year
                 if showtime_id:
                     attributes["source_showtime_id"] = showtime_id
                     attributes["elevent_showtime_id"] = showtime_id
