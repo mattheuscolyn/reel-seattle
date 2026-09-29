@@ -417,6 +417,74 @@ def test_committed_v1_artifact_loads_and_exposes_frozen_thresholds():
     assert last_chance > leaving
 
 
+def test_calibration_changes_only_the_7_day_bucket_path():
+    _fitted, frozen, rows = _tiny_frozen_and_sklearn()
+    from reel_seattle.analysis.leaving_soon_inference import SourceSnapshotStatus, score_observations
+
+    class _Half:
+        version = "test-calibration"
+        last_chance_threshold = 0.5
+
+        def apply_one(self, score: float) -> float:
+            return float(score) * 0.5
+
+    status = SourceSnapshotStatus(
+        path=Path("unused.json"),
+        observation_date=date(2026, 7, 1),
+        generated_at="2026-07-01T06:00:00-07:00",
+        collection_mode="all_announced_future",
+        restate_safe=True,
+        theaters_failed=0,
+        ok=True,
+        ineligibility_reason=None,
+    )
+    base = score_observations(rows[:1], model=frozen, source=status)
+    calibrated = score_observations(rows[:1], model=frozen, source=status, calibration=_Half())
+    assert base[0].scores["p_end_within_14d"] == calibrated[0].scores["p_end_within_14d"]
+    assert calibrated[0].scores["p_end_within_7d"] == pytest.approx(base[0].scores["p_end_within_7d"] * 0.5)
+    assert calibrated[0].scores["p_end_within_7d_base"] == base[0].scores["p_end_within_7d"]
+    leaving = assign_bucket(
+        {"p_end_within_7d": 0.6, "p_end_within_14d": 0.9},
+        frozen,
+    )
+    last_chance = assign_bucket(
+        {"p_end_within_7d": 0.6, "p_end_within_14d": 0.9},
+        frozen,
+        calibration=_Half(),
+    )
+    assert leaving == "leaving_soon"
+    assert last_chance == "last_chance"
+
+
+def test_publish_skips_when_calibration_fails_to_load(tmp_path, monkeypatch):
+    from reel_seattle.analysis.leaving_soon_calibration import CalibrationError
+
+    def _boom(*_args, **_kwargs):
+        raise CalibrationError("checksum mismatch")
+
+    monkeypatch.setattr(
+        "reel_seattle.analysis.leaving_soon_calibration.load_active_calibration",
+        _boom,
+    )
+    public = tmp_path / "leaving_soon_current.json"
+    public.write_text('{"schema_version":"1.2.0","kept":true}\n', encoding="utf-8")
+    result = publish_leaving_soon_current(
+        {"window": {"start_date": "2026-09-03", "end_date": "2026-09-16"}, "showtimes": []},
+        registry={"theaters": []},
+        output_path=public,
+        snapshot_dir=tmp_path / "snapshots",
+        logs_dir=tmp_path / "logs",
+        history_path=tmp_path / "missing.csv",
+        theaters_path=Path("data/theaters.json"),
+        catalog_path=tmp_path / "missing-catalog.json",
+        today=date(2026, 9, 28),
+    )
+    assert result["published"] is False
+    assert "checksum mismatch" in result["skipped_reason"]
+    assert public.read_text(encoding="utf-8") == '{"schema_version":"1.2.0","kept":true}\n'
+    assert list((tmp_path / "snapshots").glob("*.json")) == []
+
+
 def test_first_observation_and_rerelease_features_are_defined():
     first = make_observation(delta_theater_count=None, observations_since_run_start=1)
     shrinking = make_observation(delta_theater_count=-2, theater_count=2)

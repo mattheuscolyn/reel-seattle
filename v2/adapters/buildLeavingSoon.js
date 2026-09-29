@@ -227,6 +227,7 @@ export function buildLeavingSoon(artifact, options = {}) {
       reason: 'Nothing looks like it is leaving soon right now.',
       generatedAt: asTrimmedString(artifact.generated_at),
       modelVersion: asTrimmedString(artifact.model_version),
+      calibrationVersion: asTrimmedString(artifact.calibration_version),
       stats: artifact.stats && typeof artifact.stats === 'object' ? artifact.stats : null,
       entries: [],
     };
@@ -237,6 +238,7 @@ export function buildLeavingSoon(artifact, options = {}) {
     reason: null,
     generatedAt: asTrimmedString(artifact.generated_at),
     modelVersion: asTrimmedString(artifact.model_version),
+    calibrationVersion: asTrimmedString(artifact.calibration_version),
     stats: artifact.stats && typeof artifact.stats === 'object' ? artifact.stats : null,
     entries,
   };

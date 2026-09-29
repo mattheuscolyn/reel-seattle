@@ -31,6 +31,10 @@
       "type": "string",
       "minLength": 1
     },
+    "calibration_version": {
+      "type": "string",
+      "minLength": 1
+    },
     "published": {
       "type": "boolean"
     },
@@ -66,7 +70,9 @@
         "evaluation_note": { "type": "string", "minLength": 1 },
         "model_version": { "type": "string", "minLength": 1 },
         "last_chance_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
-        "leaving_soon_threshold": { "type": "number", "minimum": 0, "maximum": 1 }
+        "leaving_soon_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
+        "calibration_version": { "type": "string", "minLength": 1 },
+        "fourteen_day_calibration": { "type": "string", "minLength": 1 }
       }
     },
     "stats": {
