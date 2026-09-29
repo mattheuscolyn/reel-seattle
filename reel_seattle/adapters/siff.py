@@ -54,7 +54,18 @@ _MONTH_NAMES = {
 }
 
 _HOUSE_SUFFIX_RE = re.compile(r"\s+House\s+\d+\s*$", re.IGNORECASE)
-_RUNTIME_MINUTES_RE = re.compile(r"\b(\d{1,3})\s*(?:min\.?|minutes?)\b", re.IGNORECASE)
+_RUNTIME_MINUTES_RE = re.compile(
+    r"\b(\d{1,3})\s*(?:mins?\.?|minutes?)(?!\w)",
+    re.IGNORECASE,
+)
+_FILM_EVENT_RUNTIME_RE = re.compile(
+    r"\bfilm\s*:\s*(\d{1,3})(?:\s*(?:mins?\.?|minutes?))?",
+    re.IGNORECASE,
+)
+_LEADING_RUNTIME_RE = re.compile(
+    r"^(\d{1,3})(?:\s*(?:mins?\.?|minutes?))?(?:\s|$|\()",
+    re.IGNORECASE,
+)
 _RELEASE_YEAR_RE = re.compile(r"^(?:18|19|20)\d{2}$")
 _SERIES_YEAR_SUFFIX_RE = re.compile(r"-20\d{2}$")
 _SIFF_SERIES_LABEL_OVERRIDES = {
@@ -224,14 +235,32 @@ def _extract_siff_title(soup: BeautifulSoup) -> tuple[str | None, list[str]]:
     return None, ["SIFF page missing trustworthy title"]
 
 
+def _runtime_minutes_from_metadata_text(value: str) -> int | None:
+    """Parse SIFF runtime metadata without confusing event/intermission duration.
+
+    Current SIFF metadata uses bare minutes, "mins.", leading runtime values
+    with intermission notes, and mixed "film: ...; event: ..." values.
+    """
+    text = normalize_exact_source_title(value)
+    for pattern in (_FILM_EVENT_RUNTIME_RE, _LEADING_RUNTIME_RE, _RUNTIME_MINUTES_RE):
+        match = pattern.search(text)
+        if not match:
+            continue
+        minutes = int(match.group(1))
+        if 1 <= minutes <= 600:
+            return minutes
+    return None
+
+
 def _extract_runtime(soup: BeautifulSoup) -> str:
     runtime_p = soup.find("p", class_="small")
     if runtime_p:
         for span in runtime_p.find_all("span"):
-            text = normalize_exact_source_title(span.get_text(" ", strip=True))
-            match = _RUNTIME_MINUTES_RE.search(text)
-            if match:
-                return match.group(1)
+            minutes = _runtime_minutes_from_metadata_text(
+                span.get_text(" ", strip=True)
+            )
+            if minutes is not None:
+                return str(minutes)
     return "Unknown"
 
 
