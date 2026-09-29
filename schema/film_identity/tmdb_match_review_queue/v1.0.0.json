@@ -50,6 +50,11 @@
         "candidates": { "type": "array" },
         "film_id_fallback": { "type": "string", "minLength": 1 },
         "entity_kind": { "type": ["string", "null"] },
+        "component_titles": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
         "year_interpretation": { "type": ["object", "null"] },
         "presentation_labels": {
           "type": "array",
