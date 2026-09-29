@@ -404,6 +404,30 @@ def test_venue_rejection_affects_safety():
 # --- Titles / metadata ---
 
 
+def test_registered_series_becomes_identity_metadata():
+    result = base_result()
+    result["programs"] = [
+        program(
+            slug="basic-instinct",
+            title="Basic Instinct",
+            runtime_min=128,
+            release_year=1992,
+        )
+    ]
+    result["showtimes"] = [
+        showtime(
+            slug="basic-instinct",
+            showing_id="4001",
+            title="Camp Napalm presents: Basic Instinct",
+        )
+    ]
+    mapped = map_central_cinema_contract_to_indie(result, theater_ids=THEATER_IDS)
+    record = mapped.records[0]
+    assert record.title_raw == "Camp Napalm presents: Basic Instinct"
+    assert record.attributes["identity_title"] == "Basic Instinct"
+    assert record.attributes["program_series"] == "Camp Napalm presents"
+
+
 def test_exact_title_and_slash_punctuation_survive():
     mapped = map_central_cinema_contract_to_indie(safe_success(), theater_ids=THEATER_IDS)
     assert mapped.records[0].title_raw == "Face/Off"
