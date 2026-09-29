@@ -7,7 +7,11 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
 
-from reel_seattle.film_identity.eligibility import classify_eligibility, normalize_search_title
+from reel_seattle.film_identity.eligibility import (
+    classify_eligibility,
+    extract_component_titles,
+    normalize_search_title,
+)
 from reel_seattle.film_identity.ids import fallback_film_id
 from reel_seattle.film_identity.normalize_text import parse_person_names
 from reel_seattle.film_identity.presentation import interpret_source_years
@@ -43,6 +47,7 @@ class SourceIdentityRecord:
     year_interpretation: dict | None = None
     presentation_labels: list[str] = field(default_factory=list)
     directors_normalized: list[str] = field(default_factory=list)
+    component_titles: list[str] = field(default_factory=list)
     identity_title_candidate: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
@@ -135,6 +140,9 @@ def inventory_source_identities(
                 ),
                 source=source,
             )
+            component_titles = list(
+                extract_component_titles(source_title=source_title, source=source)
+            )
             try:
                 fallback = fallback_film_id(
                     source=source,
@@ -172,6 +180,7 @@ def inventory_source_identities(
                 year_interpretation=year_info.to_dict(),
                 presentation_labels=list(year_info.presentation_labels),
                 directors_normalized=parse_person_names(directors),
+                component_titles=component_titles,
                 identity_title_candidate=collection_titles.get(group_key),
             )
 
