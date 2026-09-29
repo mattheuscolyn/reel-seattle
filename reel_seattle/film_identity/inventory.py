@@ -35,6 +35,7 @@ class SourceIdentityRecord:
     runtime_min: int | None
     directors_raw: str | None
     release_year: int | None
+    source_release_year: int | None
     screening_variant_type: str | None
     is_special_screening: bool | None
     eligibility: str
@@ -166,6 +167,7 @@ def inventory_source_identities(
                 runtime_min=runtime,
                 directors_raw=directors,
                 release_year=release_year,
+                source_release_year=source_release_year or product_year,
                 screening_variant_type=_opt_str(
                     row.get("screening_variant_type") or film.get("screening_variant_type")
                 ),
@@ -207,27 +209,61 @@ def inventory_source_identities(
                 "eligible": 0,
                 "non_film": 0,
                 "ambiguous_program": 0,
+                "with_source_title": 0,
+                "with_identity_title": 0,
                 "with_runtime": 0,
+                "with_source_release_year": 0,
+                "with_match_year": 0,
                 "with_year": 0,
+                "with_program_series": 0,
+                "with_component_titles": 0,
                 "with_directors": 0,
+                "eligible_missing_runtime": 0,
+                "eligible_missing_source_release_year": 0,
             },
         )
         bucket["total"] += 1
         if record.source_film_id:
             bucket["with_source_film_id"] += 1
+        if record.source_title:
+            bucket["with_source_title"] += 1
+        if record.identity_title:
+            bucket["with_identity_title"] += 1
         bucket[record.eligibility] = bucket.get(record.eligibility, 0) + 1
         if record.runtime_min is not None:
             bucket["with_runtime"] += 1
+        if record.source_release_year is not None:
+            bucket["with_source_release_year"] += 1
         if record.year_hint is not None:
+            bucket["with_match_year"] += 1
             bucket["with_year"] += 1
+        if record.program_series:
+            bucket["with_program_series"] += 1
+        if record.component_titles:
+            bucket["with_component_titles"] += 1
         if record.directors_raw:
             bucket["with_directors"] += 1
+        if record.eligibility == "eligible":
+            if record.runtime_min is None:
+                bucket["eligible_missing_runtime"] += 1
+            if record.source_release_year is None:
+                bucket["eligible_missing_source_release_year"] += 1
 
     return {
         "schema_version": "1.0.0",
         "showtimes_path": str(showtimes_path.as_posix()),
         "products_path": str(products_path.as_posix()) if products_path.exists() else None,
         "total_unique_source_identities": len(identities),
+        "metadata_policy": {
+            "source_title": "required source provenance",
+            "runtime": "expected when the source exposes feature runtime",
+            "source_release_year": (
+                "preferred source-side evidence; never substitute screening, "
+                "page-created, or scrape year"
+            ),
+            "match_year": "may also come from trusted title/product interpretation",
+            "unmatched_semantics": "unmatched is not equivalent to non_film",
+        },
         "by_source": by_source,
         "identities": [r.to_dict() for r in identities],
     }
