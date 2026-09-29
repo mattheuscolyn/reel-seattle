@@ -225,8 +225,15 @@ def public_eligibility_for_row(row: SurvivalObservation) -> tuple[bool, str | No
     return True, None
 
 
-def assign_bucket(scores: Mapping[str, Any], model: FrozenHazardModel) -> str | None:
-    last_chance_thr = model.threshold(horizon=7, min_precision="min_precision_0.95")
+def assign_bucket(
+    scores: Mapping[str, Any],
+    model: FrozenHazardModel,
+    calibration: Any | None = None,
+) -> str | None:
+    if calibration is not None:
+        last_chance_thr = float(calibration.last_chance_threshold)
+    else:
+        last_chance_thr = model.threshold(horizon=7, min_precision="min_precision_0.95")
     leaving_soon_thr = model.threshold(horizon=14, min_precision="min_precision_0.90")
     p7 = float(scores["p_end_within_7d"])
     p14 = float(scores["p_end_within_14d"])
@@ -258,6 +265,7 @@ def score_observations(
     *,
     model: FrozenHazardModel,
     source: SourceSnapshotStatus,
+    calibration: Any | None = None,
 ) -> list[RankedPrediction]:
     scored: list[RankedPrediction] = []
     for row in rows:
@@ -275,8 +283,14 @@ def score_observations(
         bucket = None
         if eligible:
             scores = model.predict_calibrated(row)
+            if calibration is not None and scores.get("p_end_within_7d") is not None:
+                base_p7 = float(scores["p_end_within_7d"])
+                scores = dict(scores)
+                scores["p_end_within_7d_base"] = base_p7
+                scores["p_end_within_7d"] = float(calibration.apply_one(base_p7))
+                scores["calibration_version"] = calibration.version
             if public_ok:
-                bucket = assign_bucket(scores, model)
+                bucket = assign_bucket(scores, model, calibration)
         scored.append(
             RankedPrediction(
                 observation=row,
@@ -303,7 +317,7 @@ def prediction_record(
 ) -> dict[str, Any]:
     row = item.observation
     scores = item.scores
-    return {
+    record = {
         "source": "amc",
         "source_film_id": row.product_id if row.identity_kind == PRIMARY_IDENTITY else None,
         "run_id": row.run_id,
@@ -337,6 +351,10 @@ def prediction_record(
         "weak_segment": item.weak_segment,
         "generated_at": generated_at,
     }
+    if scores.get("calibration_version"):
+        record["calibration_version"] = scores.get("calibration_version")
+        record["p_end_within_7d_base"] = scores.get("p_end_within_7d_base")
+    return record
 
 
 def build_internal_snapshot(
@@ -361,7 +379,7 @@ def build_internal_snapshot(
         )
         for item in items
     ]
-    return {
+    snapshot = {
         "schema_version": SNAPSHOT_SCHEMA_VERSION,
         "model_version": MODEL_VERSION,
         "generated_at": generated,
@@ -381,6 +399,13 @@ def build_internal_snapshot(
         },
         "predictions": records,
     }
+    calibration_version = next(
+        (item.scores.get("calibration_version") for item in items if item.scores.get("calibration_version")),
+        None,
+    )
+    if calibration_version:
+        snapshot["calibration_version"] = calibration_version
+    return snapshot
 
 
 def write_internal_snapshot(snapshot: Mapping[str, Any], *, directory: Path | str = DEFAULT_SNAPSHOT_DIR) -> Path:
@@ -394,6 +419,7 @@ def write_internal_snapshot(snapshot: Mapping[str, Any], *, directory: Path | st
 def run_leaving_soon_inference(
     *,
     model: FrozenHazardModel | None = None,
+    calibration: Any | None = None,
     logs_dir: Path | str = DEFAULT_DAILY_LOGS_DIR,
     history_path: Path | str = DEFAULT_HISTORY_PATH,
     theaters_path: Path | str = DEFAULT_THEATERS_PATH,
@@ -401,8 +427,18 @@ def run_leaving_soon_inference(
     today: date | None = None,
     generated_at: datetime | None = None,
 ) -> tuple[dict[str, Any], list[RankedPrediction], SourceSnapshotStatus]:
-    """Score current active AMC runs. Caller decides whether to publish."""
+    """Score current active AMC runs. Caller decides whether to publish.
+
+    The production path (``model is None``) loads the active base model and the
+    active 7-day calibration together. Injected test models stay on v1 Platt
+    unless a calibration object is passed explicitly.
+    """
+    from reel_seattle.analysis.leaving_soon_calibration import load_active_calibration
+
     fitted = model or load_active_model()
+    active_calibration = calibration
+    if active_calibration is None and model is None:
+        active_calibration = load_active_calibration(base_model_checksum=fitted.payload.get("checksum_sha256"))
     latest = latest_amc_log_path(logs_dir)
     if latest is None:
         raise FrozenModelError("no AMC daily logs found")
@@ -424,6 +460,6 @@ def run_leaving_soon_inference(
         theaters_path=theaters_path,
         catalog_path=catalog_path,
     )
-    items = score_observations(rows, model=fitted, source=status)
+    items = score_observations(rows, model=fitted, source=status, calibration=active_calibration)
     snapshot = build_internal_snapshot(items, source=status, generated_at=generated_at)
     return snapshot, items, status

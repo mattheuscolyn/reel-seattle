@@ -78,6 +78,7 @@ test('Leaving Soon adapter maps buckets and preserves rank', () => {
   assert.equal(model.entries[0].bucketLabel, 'Last chance');
   assert.equal(model.entries[1].bucketLabel, 'Leaving soon');
   assert.equal(model.modelVersion, 'amc_remaining_run_survival_v1');
+  assert.equal(model.calibrationVersion, null);
 });
 
 test('Leaving Soon shelf renders bucket badges without exact-day copy', () => {

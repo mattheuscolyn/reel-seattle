@@ -50,7 +50,7 @@ def test_high_tier_exact_date():
     assert timing.scope == "amc"
 
 
-def test_moderate_tier_exact_date():
+def test_moderate_tier_uses_horizon_wording():
     timing = classify_departure_timing(
         observation_date=date(2026, 9, 19),
         leaving_soon_bucket="leaving_soon",
@@ -59,9 +59,10 @@ def test_moderate_tier_exact_date():
         today=date(2026, 9, 19),
     )
     assert timing is not None
-    assert timing.timing_confidence == "moderate"
-    assert timing.timing_mode == "could_around"
-    assert timing.predicted_end_date == date(2026, 9, 25)
+    assert timing.timing_confidence == "low"
+    assert timing.timing_mode == "horizon_only"
+    assert timing.predicted_end_date is None
+    assert timing.max_show_date == date(2026, 9, 21)
 
 
 def test_weak_rerelease_and_mid_footprint_downgrade():
@@ -104,6 +105,7 @@ def test_schema_v1_2_accepts_timing_fields():
         "generated_at": "2026-09-19T03:11:08-07:00",
         "source": "amc",
         "model_version": "amc_remaining_run_survival_v1",
+        "calibration_version": "amc_remaining_run_survival_v1_calibration_2026_09",
         "published": True,
         "skipped_reason": None,
         "window": {"start_date": "2026-09-19", "end_date": "2027-09-18"},
@@ -114,6 +116,10 @@ def test_schema_v1_2_accepts_timing_fields():
             "evaluated_recall": 0.7,
             "evaluated_coverage": 0.7,
             "evaluation_note": "test",
+            "calibration_version": "amc_remaining_run_survival_v1_calibration_2026_09",
+            "fourteen_day_calibration": "unchanged_v1_platt",
+            "last_chance_threshold": 0.829245,
+            "leaving_soon_threshold": 0.812992,
         },
         "stats": {
             "candidate_film_count": 1,

@@ -287,6 +287,7 @@ def build_model_leaving_soon_current(
     model: Any,
     generated_at: datetime | None = None,
     skipped_reason: str | None = None,
+    calibration: Any | None = None,
 ) -> dict[str, Any]:
     """Map scored runs onto the public Leaving Soon contract."""
     from reel_seattle.analysis.leaving_soon_frozen import MODEL_VERSION
@@ -365,9 +366,47 @@ def build_model_leaving_soon_current(
         public_items.append(row)
 
     window = current_artifact.get("window", {})
-    last_chance_thr = model.threshold(horizon=7, min_precision="min_precision_0.95")
+    if calibration is not None:
+        last_chance_thr = float(calibration.last_chance_threshold)
+        calibration_version = calibration.version
+    else:
+        last_chance_thr = model.threshold(horizon=7, min_precision="min_precision_0.95")
+        calibration_version = None
     leaving_soon_thr = model.threshold(horizon=14, min_precision="min_precision_0.90")
-    return {
+    description = (
+        "Frozen daily discrete-time logistic remaining-run model. "
+        "Public copy is bucketed with presentation-safe AMC departure timing; "
+        "raw probabilities and remaining-day medians stay internal."
+    )
+    evaluation_note = (
+        "Held-out backtest of amc_remaining_run_survival_v1. "
+        "The validation 95% 7-day operating point held at about 92.5% test precision; "
+        "the 90% point did not. Production use does not mean the model is final. "
+        "Ship-gate remains promising_continue. "
+        "Presentation dates use observation_date + median_remaining_days, "
+        "lower-bounded by max_show_date; weak segments stay horizon-only. "
+        "No formal percentage confidence is published."
+    )
+    if calibration_version is not None:
+        description = (
+            "Frozen daily discrete-time logistic remaining-run model. "
+            "The 7-day probability uses the September 2026 calibration layer. "
+            "Public copy is bucketed with presentation-safe AMC departure timing; "
+            "raw probabilities and remaining-day medians stay internal."
+        )
+        evaluation_note = (
+            "Held-out backtest of amc_remaining_run_survival_v1. "
+            "The validation 95% 7-day operating point held at about 92.5% test precision; "
+            "the 90% point did not. Those figures describe the original v1 backtest, "
+            "not the September 2026 7-day recalibration. "
+            "Production use does not mean the model is final. "
+            "Ship-gate remains promising_continue. "
+            "Last Chance may show an approximate date. Ordinary Leaving Soon uses a two-week horizon. "
+            "Presentation dates use observation_date + median_remaining_days, "
+            "lower-bounded by max_show_date; weak segments stay horizon-only. "
+            "No formal percentage confidence is published."
+        )
+    artifact = {
         "schema_version": MODEL_PUBLIC_SCHEMA_VERSION,
         "generated_at": generated_at.isoformat(timespec="seconds"),
         "source": "amc",
@@ -377,23 +416,11 @@ def build_model_leaving_soon_current(
         "window": window if isinstance(window, dict) else {},
         "method": {
             "name": MODEL_VERSION,
-            "description": (
-                "Frozen daily discrete-time logistic remaining-run model. "
-                "Public copy is bucketed with presentation-safe AMC departure timing; "
-                "raw probabilities and remaining-day medians stay internal."
-            ),
+            "description": description,
             "evaluated_precision": 0.925,
             "evaluated_recall": 0.715,
             "evaluated_coverage": 0.715,
-            "evaluation_note": (
-                "Held-out backtest of amc_remaining_run_survival_v1. "
-                "The validation 95% 7-day operating point held at about 92.5% test precision; "
-                "the 90% point did not. Production use does not mean the model is final. "
-                "Ship-gate remains promising_continue. "
-                "Presentation dates use observation_date + median_remaining_days, "
-                "lower-bounded by max_show_date; weak segments stay horizon-only. "
-                "No formal percentage confidence is published."
-            ),
+            "evaluation_note": evaluation_note,
             "model_version": MODEL_VERSION,
             "last_chance_threshold": last_chance_thr,
             "leaving_soon_threshold": leaving_soon_thr,
@@ -410,6 +437,11 @@ def build_model_leaving_soon_current(
         },
         "items": public_items,
     }
+    if calibration_version is not None:
+        artifact["calibration_version"] = calibration_version
+        artifact["method"]["calibration_version"] = calibration_version
+        artifact["method"]["fourteen_day_calibration"] = "unchanged_v1_platt"
+    return artifact
 
 
 def publish_leaving_soon_current(
@@ -445,9 +477,18 @@ def publish_leaving_soon_current(
     output = Path(output_path)
     snapshot_root = Path(snapshot_dir) if snapshot_dir is not None else DEFAULT_SNAPSHOT_DIR
     try:
+        use_production_calibration = model is None
         fitted = model if model is not None else load_active_model()
+        active_calibration = None
+        if use_production_calibration:
+            from reel_seattle.analysis.leaving_soon_calibration import load_active_calibration
+
+            active_calibration = load_active_calibration(
+                base_model_checksum=fitted.payload.get("checksum_sha256")
+            )
         snapshot, items, _status = run_leaving_soon_inference(
             model=fitted,
+            calibration=active_calibration,
             logs_dir=logs_dir or DEFAULT_DAILY_LOGS_DIR,
             history_path=history_path or DEFAULT_HISTORY_PATH,
             theaters_path=theaters_path or DEFAULT_THEATERS_PATH,
@@ -479,6 +520,7 @@ def publish_leaving_soon_current(
         registry=registry,
         model=fitted,
         generated_at=generated_at,
+        calibration=active_calibration,
     )
     validate_leaving_soon_current(artifact)
     output.parent.mkdir(parents=True, exist_ok=True)

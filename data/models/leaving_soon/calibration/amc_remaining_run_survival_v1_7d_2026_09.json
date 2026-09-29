@@ -1,0 +1,121 @@
+{
+  "calibration_version": "amc_remaining_run_survival_v1_calibration_2026_09",
+  "base_model_version": "amc_remaining_run_survival_v1",
+  "base_model_checksum_sha256": "8154f17e32d07cbcd1972accf074fcd188e12b90479a15e43ffd7c7ad052ba3c",
+  "target_horizon_days": 7,
+  "method": "platt",
+  "production_status": "active_7d_calibration",
+  "does_not_refit_survival": true,
+  "fourteen_day_calibration": "unchanged_v1_platt",
+  "fit_window": {
+    "start": "2026-09-03",
+    "end": "2026-09-11"
+  },
+  "threshold_window": {
+    "start": "2026-09-12",
+    "end": "2026-09-16"
+  },
+  "holdout_window": {
+    "start": "2026-09-17",
+    "end": "2026-09-21"
+  },
+  "sample_counts": {
+    "fit_rows": 257,
+    "fit_runs": 49,
+    "threshold_rows": 135,
+    "threshold_runs": 27,
+    "holdout_rows": 150,
+    "holdout_runs": 39,
+    "mature_public_rows": 542,
+    "as_of": "2026-09-28"
+  },
+  "last_chance_threshold": 0.829244726757645,
+  "last_chance_threshold_target_precision": null,
+  "last_chance_threshold_selection_rule": "rank_equivalent_current_threshold",
+  "threshold_operating_points": [
+    {
+      "target_precision": 0.85,
+      "threshold": 0.852587962797816,
+      "precision": 0.8620689655172413,
+      "recall": 0.45454545454545453,
+      "coverage": 0.21481481481481482,
+      "n_predicted_positive": 29.0
+    },
+    {
+      "target_precision": 0.9,
+      "threshold": 0.8621973072788989,
+      "precision": 0.9,
+      "recall": 0.16363636363636364,
+      "coverage": 0.07407407407407407,
+      "n_predicted_positive": 10.0
+    },
+    {
+      "target_precision": 0.95,
+      "threshold": 0.8622049794441982,
+      "precision": 1.0,
+      "recall": 0.14545454545454545,
+      "coverage": 0.05925925925925926,
+      "n_predicted_positive": 8.0
+    },
+    {
+      "target_precision": 0.975,
+      "threshold": 0.8622049794441982,
+      "precision": 1.0,
+      "recall": 0.14545454545454545,
+      "coverage": 0.05925925925925926,
+      "n_predicted_positive": 8.0
+    }
+  ],
+  "holdout_metrics": {
+    "before": {
+      "n": 150.0,
+      "brier": 0.16327301039724298,
+      "calibration_error": 0.15315889600293814,
+      "log_loss": 0.5379960873619031,
+      "pr_auc": 0.855091935371434,
+      "precision": 0.8536585365853658,
+      "recall": 0.42168674698795183,
+      "coverage": 0.2733333333333333
+    },
+    "after": {
+      "n": 150.0,
+      "brier": 0.15143385413938942,
+      "calibration_error": 0.09079475630869395,
+      "log_loss": 0.47322474785538826,
+      "pr_auc": 0.855091935371434,
+      "precision": 0.8536585365853658,
+      "recall": 0.42168674698795183,
+      "coverage": 0.2733333333333333
+    },
+    "one_row_per_run": {
+      "n": 39.0,
+      "precision": 0.95,
+      "recall": 0.7037037037037037,
+      "brier": 0.09927688788712616,
+      "calibration_error": 0.11042774732298351
+    },
+    "decision_set_disagreements_on_holdout": 0,
+    "rejected_precision_target": {
+      "threshold": 0.852587962797816,
+      "precision": 0.8,
+      "recall": 0.24096385542168675,
+      "reason": "The precision-target threshold did not keep Last Chance precision and recall on the later holdout. The production threshold is the current v1 boundary mapped through the new 7-day calibration."
+    }
+  },
+  "grouped_bootstrap": {
+    "draws": 400,
+    "runs": 39,
+    "precision_p05": 0.6666666666666666,
+    "precision_p50": 0.8571428571428571,
+    "precision_p95": 1.0,
+    "recall_p05": 0.29245283018867924,
+    "recall_p50": 0.42857142857142855,
+    "recall_p95": 0.5523809523809524
+  },
+  "notes": "Second-stage map of the stored v1 7-day probability. Survival coefficients, features, and the 14-day Platt map are unchanged.",
+  "platt": {
+    "coefficient": 3.918628723070208,
+    "intercept": -1.8641404555588685
+  },
+  "checksum_sha256": "c5cbe6aed22b15c7182fafc632dcb1cfc6ae780c62ca0633af96943e24da3ee2"
+}

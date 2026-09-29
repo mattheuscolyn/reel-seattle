@@ -141,12 +141,14 @@ def classify_departure_timing(
             max_show_date=max_show_date,
         )
 
+    # Ordinary Leaving Soon dates are too early and too wide to publish as a
+    # point estimate. Keep the observed booking date separate from this horizon.
     if exact_ok and leaving_soon_bucket == "leaving_soon":
         return DepartureTiming(
             prediction_as_of=as_of,
-            timing_confidence=TIMING_CONFIDENCE_MODERATE,
-            timing_mode=TIMING_MODE_COULD_AROUND,
-            predicted_end_date=bounded,
+            timing_confidence=TIMING_CONFIDENCE_LOW,
+            timing_mode=TIMING_MODE_HORIZON_ONLY,
+            predicted_end_date=None,
             max_show_date=max_show_date,
         )
 

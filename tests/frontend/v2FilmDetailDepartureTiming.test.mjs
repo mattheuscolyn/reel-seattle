@@ -97,6 +97,21 @@ describe('departure timing presentation', () => {
     );
     assert.equal(low.primaryLabel, 'Could leave AMC within the next week');
     assert.equal(low.predictedEndDate, null);
+
+    const leavingSoonHorizon = buildDepartureTimingPresentation(
+      {
+        bucket: 'leaving_soon',
+        timingConfidence: 'low',
+        timingMode: 'horizon_only',
+        predictedEndDate: null,
+        maxShowDate: '2026-09-23',
+        predictionAsOf: '2026-09-19',
+      },
+      { todayIso: '2026-09-19' },
+    );
+    assert.equal(leavingSoonHorizon.primaryLabel, 'Could leave AMC within the next two weeks');
+    assert.equal(leavingSoonHorizon.predictedEndDate, null);
+    assert.equal(leavingSoonHorizon.secondaryLabel, 'Currently booked through Sep 23');
   });
 
   it('does not show raw percentages', () => {

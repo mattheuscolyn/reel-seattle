@@ -97,12 +97,13 @@ Do **not** treat calibrated 3/7/14/21 scores as a CDF. Do **not** publish formal
 | Tier | Requirements | Exact date? | Primary copy pattern |
 |------|--------------|-------------|----------------------|
 | HIGH | bucket `last_chance`, no `weak_segment`, usable bounded date, fresh `prediction_as_of` | yes | `Likely leaving AMC around Sep 23` |
-| MODERATE | bucket `leaving_soon`, no weak segment, usable bounded date, fresh | yes | `Could leave AMC around Sep 25` |
-| LOW | weak segment (`rerelease` / `mid_footprint`), stale prediction, missing/beyond-horizon median, or other stability concern | no | Last Chance → `Could leave AMC within the next week`; Leaving Soon → `Could leave AMC within the next two weeks` |
+| LOW | bucket `leaving_soon`, weak segment (`rerelease` / `mid_footprint`), stale prediction, missing/beyond-horizon median, or other stability concern | no | Last Chance → `Could leave AMC within the next week`; Leaving Soon → `Could leave AMC within the next two weeks` |
 
 Optional secondary observed line: `Currently booked through Sep 23` (from `max_show_date` only).
 
-Freshness: if `prediction_as_of` is older than the inference stale window (2 days), suppress exact dates and fall back to LOW / horizon-only. A skipped publish still leaves the prior public file on disk; Film Detail must not treat a stale exact date as fresh.
+The original v1 publisher used a moderate tier, `could_around`, for ordinary Leaving Soon (`Could leave AMC around Sep 25`). September 2026 prospective timing showed that exact date is too early and too wide for that bucket, so new publishes use the horizon line instead. Readers still understand old `could_around` payloads.
+
+Freshness: if `prediction_as_of` is older than the inference stale window (2 days), suppress exact dates and fall back to horizon-only. A skipped publish still leaves the prior public file on disk; Film Detail must not treat a stale exact date as fresh.
 
 Does **not** expose feature vectors, `p_end_within_*`, raw `median_remaining_days`, or `expected_remaining_days`.
 
@@ -207,3 +208,28 @@ High-confidence production inference requires `stats.collection_mode = all_annou
 ## 17. Production use is not a final model
 
 Shipping this path means Reel Seattle can generate versioned, evaluable predictions and a conservative public shelf. It does **not** mean the remaining-run model is finished, well-calibrated in every segment, or licensed to display exact days or probabilities to users.
+
+## 18. September 2026 7-day recalibration
+
+This is a calibration-layer update. It does not replace `amc_remaining_run_survival_v1`, and it does not rewrite the original v1 backtest in sections 3 and 8.
+
+| Piece | Value |
+|-------|--------|
+| Calibration version | `amc_remaining_run_survival_v1_calibration_2026_09` |
+| Artifact | `data/models/leaving_soon/calibration/amc_remaining_run_survival_v1_7d_2026_09.json` |
+| Base model | `amc_remaining_run_survival_v1` (coefficients, scaler, features, run-gap rule, and 14-day Platt unchanged) |
+| Method | Second-stage Platt / logistic sigmoid on the stored v1 7-day probability |
+| Fit window | 2026-09-03 through 2026-09-11 (257 mature public rows, 49 runs) |
+| Threshold window | 2026-09-12 through 2026-09-16 (135 rows, 27 runs) |
+| Holdout | 2026-09-17 through 2026-09-21 (150 rows, 39 runs), labels as of 2026-09-28 |
+| Mature public rows used | 542 |
+
+Isotonic regression was fit on the same window. On the later holdout, Platt improved Brier from 0.163 to 0.151 and calibration error from 0.153 to 0.091, and PR-AUC stayed 0.855. Isotonic improved Brier further (0.120) but did not beat Platt's calibration error by a meaningful margin, and pooling changed PR-AUC. Platt is the production map.
+
+The 85%, 90%, 95%, and 97.5% precision targets were scored on the threshold window. 90% and above kept only about 0.15 recall there. The 85% point looked usable on that window (precision 0.862, recall 0.455) and then failed the holdout (precision 0.800, recall 0.241). The shipped Last Chance threshold is therefore the current v1 boundary mapped through the new sigmoid: **0.829245**. On the holdout that selects the same films as v1's 0.878987 threshold (0 disagreements). Holdout Last Chance precision stays **0.854** and recall stays **0.422**. Run-grouped bootstrap (400 draws, 39 runs): precision p05/p50/p95 = 0.667/0.857/1.000; recall p05/p50/p95 = 0.292/0.429/0.552.
+
+14-day probabilities and the 0.812992 Leaving Soon threshold are unchanged. On rows whose 14-day label had matured, public-flag precision and recall matched the pre-recalibration rule exactly.
+
+Holdout segments at the shipped threshold match the frozen v1 rule, including the weak slices: rereleases (n=7, precision 0.286), 3–4 theaters (n=28, precision 1.000, recall 0.316), and 6–20 showtimes (n=58, precision 0.625, recall 0.204). No rerelease exclusion was added.
+
+If the calibration artifact is missing, the version does not match, or the checksum does not match the frozen v1 file, the daily publish skips and leaves the previous public artifact in place.
