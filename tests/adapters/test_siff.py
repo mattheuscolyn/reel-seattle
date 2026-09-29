@@ -617,6 +617,25 @@ def test_siff_time_format_preserved_in_legacy_csv(siff_film_html):
     assert row["Time"] == "5:00 PM"
 
 
+@pytest.mark.parametrize(
+    ("runtime_text", "expected"),
+    [
+        ("102", "102"),
+        ("114 mins.", "114"),
+        ("195 (including 10 min intermission)", "195"),
+        ("film: 16 min.; event: 120 min.", "16"),
+        ("34 (105 full event)", "34"),
+    ],
+)
+def test_siff_current_runtime_metadata_shapes(runtime_text, expected):
+    html = _page().replace(
+        "<span>120 min.</span>",
+        f"<span>{runtime_text}</span>",
+    )
+    result = _parse(html)
+    assert result.records[0].runtime_raw == expected
+
+
 def test_siff_runtime_and_poster(siff_film_html):
     record = _parse(siff_film_html).records[0]
     assert record.runtime_raw == "120"
