@@ -140,6 +140,10 @@ def classify_eligibility(
         search_title=search,
         screening_variant_type=screening_variant_type,
         presentation_labels=years.presentation_labels,
+    ) or (
+        source == "nwff"
+        and years.program_series == "STUFF 2026"
+        and bool(_COMPOSITE_SPLIT_RE.search(search))
     ):
         reasons.append("composite_title_pair")
     if _LIVE_RE.search(title):
