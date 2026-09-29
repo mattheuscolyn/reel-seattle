@@ -7,6 +7,18 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
 
+from reel_seattle.film_identity.constants import (
+    ENTITY_BROADCAST_EVENT,
+    ENTITY_COMPOSITE_EVENT,
+    ENTITY_DOUBLE_FEATURE,
+    ENTITY_FEATURE_FILM,
+    ENTITY_FESTIVAL_PROGRAM,
+    ENTITY_LIVE_EVENT,
+    ENTITY_MULTI_FEATURE_PROGRAM,
+    ENTITY_MYSTERY_SCREENING,
+    ENTITY_SHORT_FILM,
+    ENTITY_SHORTS_PROGRAM,
+)
 from reel_seattle.film_identity.eligibility import classify_eligibility, normalize_search_title
 from reel_seattle.film_identity.ids import fallback_film_id
 from reel_seattle.film_identity.normalize_text import parse_person_names
@@ -40,6 +52,7 @@ class SourceIdentityRecord:
     first_start: str | None = None
     last_start: str | None = None
     entity_kind: str | None = None
+    program_kind: str | None = None
     year_interpretation: dict | None = None
     presentation_labels: list[str] = field(default_factory=list)
     directors_normalized: list[str] = field(default_factory=list)
@@ -169,6 +182,7 @@ def inventory_source_identities(
                 film_id_fallback=fallback,
                 occurrence_count=0,
                 entity_kind=eligibility.entity_kind,
+                program_kind=_program_kind_from_entity(eligibility.entity_kind),
                 year_interpretation=year_info.to_dict(),
                 presentation_labels=list(year_info.presentation_labels),
                 directors_normalized=parse_person_names(directors),
@@ -189,6 +203,7 @@ def inventory_source_identities(
         key=lambda r: (r.source, r.source_film_id or "", r.showtime_film_key or ""),
     )
     by_source: dict[str, dict[str, int]] = {}
+    program_kind_counts: dict[str, int] = {}
     for record in identities:
         bucket = by_source.setdefault(
             record.source,
@@ -213,6 +228,10 @@ def inventory_source_identities(
             bucket["with_year"] += 1
         if record.directors_raw:
             bucket["with_directors"] += 1
+        if record.program_kind:
+            program_kind_counts[record.program_kind] = (
+                program_kind_counts.get(record.program_kind, 0) + 1
+            )
 
     return {
         "schema_version": "1.0.0",
@@ -220,9 +239,36 @@ def inventory_source_identities(
         "products_path": str(products_path.as_posix()) if products_path.exists() else None,
         "total_unique_source_identities": len(identities),
         "by_source": by_source,
+        "program_kind_counts": dict(sorted(program_kind_counts.items())),
         "identities": [r.to_dict() for r in identities],
     }
 
+
+
+
+def _program_kind_from_entity(entity_kind: str | None) -> str:
+    """Collapse matcher entity kinds into the audit-facing source program taxonomy."""
+    if entity_kind == ENTITY_FEATURE_FILM:
+        return "feature_film"
+    if entity_kind == ENTITY_SHORT_FILM:
+        return "short_film"
+    if entity_kind == ENTITY_SHORTS_PROGRAM:
+        return "shorts_program"
+    if entity_kind in {
+        ENTITY_DOUBLE_FEATURE,
+        ENTITY_MULTI_FEATURE_PROGRAM,
+        ENTITY_COMPOSITE_EVENT,
+    }:
+        return "multi_feature_program"
+    if entity_kind == ENTITY_FESTIVAL_PROGRAM:
+        return "festival_program"
+    if entity_kind == ENTITY_MYSTERY_SCREENING:
+        return "mystery_screening"
+    if entity_kind == ENTITY_BROADCAST_EVENT:
+        return "broadcast_event"
+    if entity_kind == ENTITY_LIVE_EVENT:
+        return "live_event"
+    return "unknown_program"
 
 def _opt_str(value: Any) -> str | None:
     if value in (None, ""):

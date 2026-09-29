@@ -13,6 +13,7 @@ from reel_seattle.film_identity.constants import (
     ENTITY_FEATURE_FILM,
     ENTITY_FESTIVAL_PROGRAM,
     ENTITY_LIVE_EVENT,
+    ENTITY_MULTI_FEATURE_PROGRAM,
     ENTITY_MYSTERY_SCREENING,
     ENTITY_SHORTS_PROGRAM,
     ENTITY_UNKNOWN_PROGRAM,
@@ -38,6 +39,27 @@ _SHORTS_RE = re.compile(
     re.IGNORECASE,
 )
 _DOUBLE_RE = re.compile(r"\bdouble\s+feature\b", re.IGNORECASE)
+_MULTI_FEATURE_RE = re.compile(
+    r"\b(?:triple|quadruple)\s+feature\b|"
+    r"\ball[- ]nighter\b|"
+    r"\b(?:three|four|\d+)[- ]film\s+marathon\b",
+    re.IGNORECASE,
+)
+_BEACON_MYSTERY_PROGRAM_RE = re.compile(
+    r"^FIVE\s+MINUTES\s+TO\s+DIE!|"
+    r"^VHS\s+ÜBER\s+ALLES\s+PRESENTS(?:\.{3})?$",
+    re.IGNORECASE,
+)
+_BEACON_MULTI_FEATURE_RE = re.compile(r"^TV\s+PARTY\s*:", re.IGNORECASE)
+_CENTRAL_NON_FILM_PROGRAM_TITLES = frozenset(
+    {
+        "cartoon happy hour",
+        "private rental event",
+        "moviecat trivia",
+        "garfield jazz jam session",
+        "the totally halloween sing along",
+    }
+)
 _LIVE_RE = re.compile(
     r"\bnt\s*live\b|\bmet\s+opera\b|\blive\s+in\s+(concert|theater)\b|"
     r"\bfathom\b|\bufc\b|\bworld\s+cup\b|\bconcert\b|\bstand[- ]?up\b",
@@ -98,10 +120,21 @@ def classify_eligibility(
             NON_FILM, ("empty_title",), None, ENTITY_UNKNOWN_PROGRAM
         )
 
-    if _MYSTERY_RE.search(title):
+    if _MYSTERY_RE.search(title) or (
+        source == "beacon" and _BEACON_MYSTERY_PROGRAM_RE.search(title)
+    ):
         reasons.append("mystery_or_unannounced")
+    if (
+        source == "central_cinema"
+        and title.casefold() in _CENTRAL_NON_FILM_PROGRAM_TITLES
+    ):
+        reasons.append("source_non_film_program")
     if _DOUBLE_RE.search(title):
         reasons.append("double_feature")
+    if _MULTI_FEATURE_RE.search(title) or (
+        source == "beacon" and _BEACON_MULTI_FEATURE_RE.search(title)
+    ):
+        reasons.append("multi_feature_program")
     if looks_like_composite_program(
         source_title=title,
         search_title=search,
@@ -136,8 +169,10 @@ def classify_eligibility(
         hard = {
             "mystery_or_unannounced",
             "double_feature",
+            "multi_feature_program",
             "composite_title_pair",
             "live_or_broadcast_event",
+            "source_non_film_program",
         }
         if hard.intersection(reasons):
             return EligibilityResult(
@@ -167,6 +202,8 @@ def _entity_kind(title: str, reasons: list[str], feature_like: bool) -> str:
         return ENTITY_MYSTERY_SCREENING
     if "double_feature" in reasons:
         return ENTITY_DOUBLE_FEATURE
+    if "multi_feature_program" in reasons:
+        return ENTITY_MULTI_FEATURE_PROGRAM
     if "composite_title_pair" in reasons:
         return ENTITY_COMPOSITE_EVENT
     if "live_or_broadcast_event" in reasons:
@@ -179,7 +216,7 @@ def _entity_kind(title: str, reasons: list[str], feature_like: bool) -> str:
         return ENTITY_FESTIVAL_PROGRAM
     if "festival_presentation" in reasons and feature_like:
         return ENTITY_FEATURE_FILM
-    if "event_like_title" in reasons:
+    if "event_like_title" in reasons or "source_non_film_program" in reasons:
         return ENTITY_UNKNOWN_PROGRAM
     return ENTITY_FEATURE_FILM
 

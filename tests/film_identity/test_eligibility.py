@@ -39,6 +39,96 @@ def test_eligibility_feature_vs_programs():
     assert ghibli.search_title == "Only Yesterday"
 
 
+def test_multi_feature_programs_are_explicit_non_film_entities():
+    double = classify_eligibility(
+        source_title="UNIVERSAL MONSTER MASH DOUBLE FEATURE",
+        source="beacon",
+    )
+    assert double.status == NON_FILM
+    assert double.entity_kind == "double_feature"
+    assert "double_feature" in double.reasons
+
+    triple = classify_eligibility(
+        source_title="Television Terror Triple Feature Pizza Party 2",
+        source="grand_illusion",
+    )
+    assert triple.status == NON_FILM
+    assert triple.entity_kind == "multi_feature_program"
+    assert "multi_feature_program" in triple.reasons
+
+    all_nighter = classify_eligibility(
+        source_title="Children of Night All-Nighter",
+        source="beacon",
+    )
+    assert all_nighter.status == NON_FILM
+    assert all_nighter.entity_kind == "multi_feature_program"
+
+    tv_party = classify_eligibility(
+        source_title="TV PARTY: DOOMED OCCULT DETECTIVES",
+        source="beacon",
+    )
+    assert tv_party.status == NON_FILM
+    assert tv_party.entity_kind == "multi_feature_program"
+
+    five_minutes = classify_eligibility(
+        source_title="FIVE MINUTES TO DIE!",
+        source="beacon",
+    )
+    assert five_minutes.status == NON_FILM
+    assert five_minutes.entity_kind == "mystery_screening"
+
+    actual_film = classify_eligibility(
+        source_title="FIVE MINUTES TO LIVE!",
+        source="beacon",
+    )
+    assert actual_film.status == ELIGIBLE
+
+    vhs = classify_eligibility(
+        source_title="VHS ÜBER ALLES PRESENTS...",
+        source="beacon",
+    )
+    assert vhs.status == NON_FILM
+    assert vhs.entity_kind == "mystery_screening"
+
+    for central_title in (
+        "Cartoon Happy Hour",
+        "Private Rental Event",
+        "Moviecat Trivia",
+        "Garfield Jazz Jam Session",
+        "The Totally Halloween Sing Along",
+    ):
+        central = classify_eligibility(
+            source_title=central_title,
+            source="central_cinema",
+        )
+        assert central.status == NON_FILM
+        assert central.entity_kind == "unknown_program"
+        assert "source_non_film_program" in central.reasons
+
+    # Central's exact program rules are not global title rules.
+    assert classify_eligibility(
+        source_title="Moviecat Trivia",
+        source="beacon",
+    ).status == ELIGIBLE
+
+    # The same text should not become a global rule for another source.
+    assert classify_eligibility(
+        source_title="FIVE MINUTES TO DIE!",
+        source="central_cinema",
+    ).status == ELIGIBLE
+
+    composite = classify_eligibility(
+        source_title="STUFF 2026: Jucks + If I'm Here It Is By Mystery",
+        source="nwff",
+    )
+    assert composite.status == NON_FILM
+    assert composite.entity_kind == "composite_event"
+    assert "composite_title_pair" in composite.reasons
+
+    # Real film title, not a package.
+    assert classify_eligibility(source_title="Thelma + Louise").status == ELIGIBLE
+
+
 def test_screening_qualifier_normalization():
     """Test that all screening qualifiers mentioned in T-IDENTITY-SCREENING-VARIANTS-01 are stripped."""
     # Spider-Man example from the issue
