@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T14:38:15+00:00",
+  "generated_at": "2026-09-29T13:29:09+00:00",
   "items": [
     {
       "auto_confirm_blocked_reason": "same_title_remake_ambiguity",
@@ -1096,18 +1096,18 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": null,
+      "auto_confirm_blocked_reason": "below_auto_threshold",
       "candidates": [
         {
-          "director": "Javier Ambrossi",
+          "director": "Barry Jenkins",
           "original_title": null,
-          "overview_excerpt": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy.",
-          "popularity": 14.6835,
-          "poster_path": "/jT5SR5qc9KvVg7HUEmjMWEUYMce.jpg",
-          "release_year": 2026,
-          "runtime_min": 155,
-          "score": 0.9793,
-          "search_query": "La Bola Negra",
+          "overview_excerpt": "The tender, heartbreaking story of a young man’s struggle to find himself, told across three defining chapters in his life as he experiences the ecstasy, pain, and beauty of falling in love, while grappling with his own…",
+          "popularity": 19.9187,
+          "poster_path": "/qLnfEmPrDjJfPyyddLJPkXmshkp.jpg",
+          "release_year": 2016,
+          "runtime_min": 112,
+          "score": 0.8127,
+          "search_query": "Moonlight",
           "search_query_reason": "normalized_title",
           "search_year_used": null,
           "signals": {
@@ -1119,49 +1119,41 @@
                 "weight": 0.2
               },
               "runtime": {
-                "delta_minutes": 4,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.1333,
+                "kind": "miss",
+                "matched": false,
                 "weight": 0.15
               },
               "title_exact": {
                 "kind": "match",
                 "matched": true,
                 "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
               }
             },
             "director_candidate_normalized": [
-              "javier ambrossi"
+              "barry jenkins"
             ],
             "director_conflict": false,
             "director_overlap": true,
             "director_source_normalized": [
-              "javier ambrossi",
-              "javier calvo"
+              "barry jenkins"
             ],
             "director_status": "match",
             "director_weak_overlap": false,
             "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.7833,
+            "matched_weight": 0.65,
             "original_title_exact": false,
-            "popularity": 14.6835,
+            "popularity": 19.9187,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 4,
+            "runtime_delta_minutes": 17,
             "runtime_near": false,
-            "runtime_soft": true,
+            "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "soft",
-            "search_query": "La Bola Negra",
+            "runtime_status": "miss",
+            "search_query": "Moonlight",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
             "title_conflict": false,
@@ -1173,30 +1165,478 @@
             "year_near": false,
             "year_status": "unavailable"
           },
-          "title": "La bola negra",
-          "tmdb_id": 1422041,
+          "title": "Moonlight",
+          "tmdb_id": 376867,
           "warnings": [
-            "year_evidence_absent",
-            "runtime_soft_penalty",
+            "runtime_mismatch",
             "missing_year_supported_by_other_evidence"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Claire lives with her wealthy adopted parents in a luxurious and isolated house in the woods. She discovers a wounded and bleeding boy her age in her family's garden shed. The boy is a young drug courier from Afghanista…",
+          "popularity": 1.8311,
+          "poster_path": "/imawCF2pQpcy8bGG5LcwTjlu1fz.jpg",
+          "release_year": 2002,
+          "runtime_min": null,
+          "score": 0.75,
+          "search_query": "Moonlight",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "barry jenkins"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 1.8311,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Moonlight",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Moonlight",
+          "tmdb_id": 69530,
+          "warnings": [
+            "weak_title_only_match"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A fast-food delivery man for a New York Chinese restaurant gets involved with international terrorists and is recruited by undercover agents to help track down the leader in this prospective pilot.",
+          "popularity": 0.9213,
+          "poster_path": "/yLrnJgbPDYQ0HjEKgh845HrRzsn.jpg",
+          "release_year": 1982,
+          "runtime_min": null,
+          "score": 0.75,
+          "search_query": "Moonlight",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "barry jenkins"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 0.9213,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Moonlight",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Moonlight",
+          "tmdb_id": 220753,
+          "warnings": [
+            "weak_title_only_match"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A look at an all-Black cast reboot of the TV show \"Friends\".",
+          "popularity": 2.0338,
+          "poster_path": "/t1rmAK6N3z61fKneZ5DBXVtNe2G.jpg",
+          "release_year": 2017,
+          "runtime_min": null,
+          "score": 0.75,
+          "search_query": "Moonlight",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "barry jenkins"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 2.0338,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Moonlight",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Moonlight",
+          "tmdb_id": 1396421,
+          "warnings": [
+            "weak_title_only_match"
+          ]
+        },
+        {
+          "director": "Toshiya Shinohara",
+          "original_title": "劇場版 遙かなる時空の中で 舞一夜",
+          "overview_excerpt": "Akane, the White Dragon Priestess in a magical Heian-era Kyoto, struggles with her role while facing a new crisis. She meets a mysterious, amnesic young man and works to uncover his connection to a cursed, fatal dance t…",
+          "popularity": 1.4638,
+          "poster_path": "/4BRMAmdyabVK9VAKbalzCy4CCBG.jpg",
+          "release_year": 2006,
+          "runtime_min": 143,
+          "score": 0.2727,
+          "search_query": "Moonlight",
+          "search_query_reason": "normalized_title_year",
+          "search_year_used": 2006,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "toshiya shinohara"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "barry jenkins"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.3,
+            "original_title_exact": false,
+            "popularity": 1.4638,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 14,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "search_query": "Moonlight",
+            "search_query_reason": "normalized_title_year",
+            "search_year_used": 2006,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "Beyond the Stream of Time: A Dance in the Moonlight",
+          "tmdb_id": 233715,
+          "warnings": [
+            "title_conflict",
+            "runtime_mismatch",
+            "director_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Set in the 1920s French Riviera, a master magician is commissioned to try and expose a psychic as a fraud.",
+          "popularity": 9.6482,
+          "poster_path": "/mNYZUVDj4ORSPHWinmqJbXyuG6W.jpg",
+          "release_year": 2014,
+          "runtime_min": null,
+          "score": 0.0001,
+          "search_query": "Moonlight",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "barry jenkins"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 9.6482,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Moonlight",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Magic in the Moonlight",
+          "tmdb_id": 229297,
+          "warnings": [
+            "title_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "After her adulterous husband asks for a divorce, a high-powered attorney takes him captive, refusing to release him until he commits to working on their marriage together. When his impatient mistress shows up, not to me…",
+          "popularity": 2.5498,
+          "poster_path": "/qZsA9Qec44amt3jJLvvNrX4nqSc.jpg",
+          "release_year": 2009,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Moonlight",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "barry jenkins"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 2.5498,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Moonlight",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Serious Moonlight",
+          "tmdb_id": 27989,
+          "warnings": [
+            "title_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A jazz musician performs alongside a coat check girl with a beautiful voice in this musical drama from director Giancarlo Tallarico. By day Nate earns his living as a financial manager, but when night falls, he helps th…",
+          "popularity": 1.1122,
+          "poster_path": "/jQbMmZcxHqFbVXIeef7ws5kyXcn.jpg",
+          "release_year": 2009,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Moonlight",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "barry jenkins"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.1122,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Moonlight",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Moonlight Serenade",
+          "tmdb_id": 28025,
+          "warnings": [
+            "title_conflict"
           ]
         }
       ],
       "directors_normalized": [
-        "javier ambrossi",
-        "javier calvo"
+        "barry jenkins"
       ],
-      "directors_raw": "JAVIER AMBROSSI, JAVIER CALVO",
+      "directors_raw": "Barry Jenkins",
       "entity_kind": "feature_film",
-      "film_id_fallback": "source:amc:84366",
-      "match_confidence": 0.9793,
+      "film_id_fallback": "source:amc:85011",
+      "match_confidence": 0.8127,
       "match_status": "review_required",
-      "normalized_title": "La Bola Negra",
-      "presentation_labels": [],
-      "proposed_tmdb_id": 1422041,
-      "queue_id": "amc:84366",
-      "runtime_min": 159,
-      "showtime_film_key": "la-bola-negra",
+      "normalized_title": "Moonlight",
+      "presentation_labels": [
+        "anniversary",
+        "remastered",
+        "10th anniversary remastered"
+      ],
+      "proposed_tmdb_id": 376867,
+      "queue_id": "amc:85011",
+      "runtime_min": 129,
+      "showtime_film_key": "moonlight-10th-anniversary-remastered",
       "signals": {
         "available_weight": 0.8,
         "contributions": {
@@ -1206,49 +1646,41 @@
             "weight": 0.2
           },
           "runtime": {
-            "delta_minutes": 4,
-            "kind": "soft",
-            "matched": true,
-            "soft_weight": 0.1333,
+            "kind": "miss",
+            "matched": false,
             "weight": 0.15
           },
           "title_exact": {
             "kind": "match",
             "matched": true,
             "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
           }
         },
         "director_candidate_normalized": [
-          "javier ambrossi"
+          "barry jenkins"
         ],
         "director_conflict": false,
         "director_overlap": true,
         "director_source_normalized": [
-          "javier ambrossi",
-          "javier calvo"
+          "barry jenkins"
         ],
         "director_status": "match",
         "director_weak_overlap": false,
         "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.7833,
+        "matched_weight": 0.65,
         "original_title_exact": false,
-        "popularity": 14.6835,
+        "popularity": 19.9187,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 4,
+        "runtime_delta_minutes": 17,
         "runtime_near": false,
-        "runtime_soft": true,
+        "runtime_soft": false,
         "runtime_soft_max": 12,
-        "runtime_status": "soft",
-        "search_query": "La Bola Negra",
+        "runtime_status": "miss",
+        "search_query": "Moonlight",
         "search_query_reason": "normalized_title",
         "search_year_used": null,
         "title_conflict": false,
@@ -1261,12 +1693,221 @@
         "year_status": "unavailable"
       },
       "source": "amc",
-      "source_film_id": "84366",
-      "source_title": "La Bola Negra",
+      "source_film_id": "85011",
+      "source_title": "Moonlight 10th Anniversary Remastered",
+      "top_candidate_margin": 0.0627,
+      "warnings": [
+        "runtime_mismatch",
+        "missing_year_supported_by_other_evidence"
+      ],
+      "year_hint": 2006,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": true,
+        "anniversary_years": 10,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "presentation_trailing_atoms"
+        ],
+        "base_title": "Moonlight",
+        "canonical_year_candidate": 2006,
+        "event_labels": [
+          "10th Anniversary Remastered"
+        ],
+        "event_phrase": null,
+        "event_year": 2016,
+        "event_year_not_canonical": true,
+        "format_tags": [],
+        "presentation_labels": [
+          "anniversary",
+          "remastered",
+          "10th anniversary remastered"
+        ],
+        "product_year": 2016,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [
+          "10th Anniversary Remastered"
+        ],
+        "scoring_year": 2006,
+        "search_abbreviation": null,
+        "search_year": 2006,
+        "title_years": [],
+        "warnings": [
+          "event_year_not_canonical",
+          "anniversary_year_derived"
+        ],
+        "year_confidence": "derived",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": true
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Toshiya Shinohara",
+          "original_title": "不思議の国でアリスと –Dive in Wonderland–",
+          "overview_excerpt": "The main character is a modern girl named Rise. One day, she wanders into Wonderland, and when she meets Alice, the story begins to unfold.",
+          "popularity": 3.3048,
+          "poster_path": "/zrCBryoilZXicuzsABw3JUntfB4.jpg",
+          "release_year": 2025,
+          "runtime_min": 96,
+          "score": 1.0,
+          "search_query": "Dive in Wonderland",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.73,
+            "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
+              "original_title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.38
+              },
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "toshiya shinohara"
+            ],
+            "director_conflict": false,
+            "director_overlap": true,
+            "director_source_normalized": [
+              "toshiya shinohara"
+            ],
+            "director_status": "match",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.73,
+            "original_title_exact": true,
+            "popularity": 3.3048,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "Dive in Wonderland",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Alice in Wonderland –Dive in Wonderland–",
+          "tmdb_id": 1418665,
+          "warnings": [
+            "matched_original_title",
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence"
+          ]
+        }
+      ],
+      "directors_normalized": [
+        "toshiya shinohara"
+      ],
+      "directors_raw": "TOSHIYA SHINOHARA",
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:amc:85190",
+      "match_confidence": 1.0,
+      "match_status": "review_required",
+      "normalized_title": "Dive in Wonderland",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 1418665,
+      "queue_id": "amc:85190",
+      "runtime_min": 97,
+      "showtime_film_key": "dive-in-wonderland",
+      "signals": {
+        "available_weight": 0.73,
+        "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
+          "original_title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.38
+          },
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "toshiya shinohara"
+        ],
+        "director_conflict": false,
+        "director_overlap": true,
+        "director_source_normalized": [
+          "toshiya shinohara"
+        ],
+        "director_status": "match",
+        "director_weak_overlap": false,
+        "event_year_relaxed": true,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.73,
+        "original_title_exact": true,
+        "popularity": 3.3048,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 1,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "Dive in Wonderland",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": false,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "amc",
+      "source_film_id": "85190",
+      "source_title": "Dive in Wonderland",
       "top_candidate_margin": null,
       "warnings": [
+        "matched_original_title",
         "year_evidence_absent",
-        "runtime_soft_penalty",
         "missing_year_supported_by_other_evidence"
       ],
       "year_hint": 2026,
@@ -1279,7 +1920,7 @@
         "applied_rules": [
           "normalized_source_fallback"
         ],
-        "base_title": "La Bola Negra",
+        "base_title": "Dive in Wonderland",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -1304,289 +1945,18 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "auto_confirm_blocked_reason": "hard_conflict",
       "candidates": [
         {
           "director": null,
           "original_title": null,
-          "overview_excerpt": "A dystopian dark comedy about a young man returning home from work; as he is pulled over by the authorities his life will change dramatically.",
-          "popularity": 0.795,
-          "poster_path": "/c0G1Gt0IBwlEtO4H8KOhDKSxAwz.jpg",
-          "release_year": 2017,
-          "runtime_min": null,
+          "overview_excerpt": "ACT:TOMORROW is the fourth world tour by TOMORROW X TOGETHER. The tour commenced on August 22, 2025 in Seoul, South Korea.",
+          "popularity": 0.4698,
+          "poster_path": "/4ZwJBQP0dV22lh4AlPdhyQQCUIC.jpg",
+          "release_year": 2026,
+          "runtime_min": 160,
           "score": 0.75,
-          "search_query": "9 to 5",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": true,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.795,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "9 to 5",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "uncertain_rerelease_restoration",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "9 to 5",
-          "tmdb_id": 655281,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "A contemporary remake of the 1980 classic about three female office employees who decide to take revenge against their rude and sexist boss.",
-          "popularity": 0.744,
-          "poster_path": null,
-          "release_year": null,
-          "runtime_min": null,
-          "score": 0.75,
-          "search_query": "9 to 5",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": true,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.744,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "9 to 5",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "uncertain_rerelease_restoration",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "9 to 5",
-          "tmdb_id": 1280053,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "A call centre recruiter reconsiders his dull existence after receiving a call from a free-spirited customer.",
-          "popularity": 0.7758,
-          "poster_path": "/587W9NvZoeKsDNRPtSwfmHwBQP0.jpg",
-          "release_year": null,
-          "runtime_min": null,
-          "score": 0.75,
-          "search_query": "9 to 5",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": true,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.7758,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "9 to 5",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "uncertain_rerelease_restoration",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "9 to 5",
-          "tmdb_id": 1623874,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Colin Higgins",
-          "original_title": null,
-          "overview_excerpt": "Three female employees of a sexist, egotistical, lying, hypocritical bigot find a way to turn the tables on him.",
-          "popularity": 8.0337,
-          "poster_path": "/wndwKY8WnSfhCUn7iSXI37dE7yo.jpg",
-          "release_year": 1980,
-          "runtime_min": 110,
-          "score": 0.2501,
-          "search_query": "9 to 5",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "colin higgins"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": true,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.15,
-            "original_title_exact": false,
-            "popularity": 8.0337,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "9 to 5",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "uncertain_rerelease_restoration",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Nine to Five",
-          "tmdb_id": 19494,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Katsuhiko Fujii",
-          "original_title": "女新入社員 5時から9時まで",
-          "overview_excerpt": "A woman named Chieko Kuwano is hired as an assistant manager at a large corporate office in Japan. She’s smart, sexy, and willing to do almost anything for her sex-starved new boss but, since he’s married, his deviant b…",
-          "popularity": 2.9526,
-          "poster_path": "/aU163RntrteVd7K7IIZJkM5xNuW.jpg",
-          "release_year": 1982,
-          "runtime_min": 66,
-          "score": 0.0,
-          "search_query": "9 to 5",
+          "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
           "search_query_reason": "normalized_title",
           "search_year_used": null,
           "signals": {
@@ -1598,8 +1968,8 @@
                 "weight": 0.15
               },
               "title_exact": {
-                "kind": "conflict",
-                "matched": false,
+                "kind": "match",
+                "matched": true,
                 "weight": 0.45
               },
               "year": {
@@ -1608,33 +1978,33 @@
                 "weight": 0.0
               }
             },
-            "director_candidate_normalized": [
-              "katsuhiko fujii"
-            ],
+            "director_candidate_normalized": [],
             "director_conflict": false,
             "director_overlap": false,
-            "director_source_normalized": [],
+            "director_source_normalized": [
+              "taehwan yum"
+            ],
             "director_status": "unavailable",
             "director_weak_overlap": false,
             "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
-            "matched_weight": 0.0,
+            "matched_weight": 0.45,
             "original_title_exact": false,
-            "popularity": 2.9526,
+            "popularity": 0.4698,
             "runtime_compatible_max": 3,
             "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 44,
+            "runtime_delta_minutes": 63,
             "runtime_near": false,
             "runtime_soft": false,
             "runtime_soft_max": 12,
             "runtime_status": "conflict",
-            "search_query": "9 to 5",
+            "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
+            "title_conflict": false,
+            "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
             "year_evidence": "uncertain_rerelease_restoration",
@@ -1642,164 +2012,31 @@
             "year_near": false,
             "year_status": "unavailable"
           },
-          "title": "Horny Working Girl: From 5 to 9",
-          "tmdb_id": 192396,
+          "title": "TOMORROW X TOGETHER WORLD TOUR 'ACT:TOMORROW'",
+          "tmdb_id": 1688795,
           "warnings": [
-            "title_conflict",
             "year_evidence_absent",
             "runtime_conflict",
-            "director_unavailable"
+            "weak_title_only_match"
           ]
         },
         {
           "director": null,
           "original_title": null,
-          "overview_excerpt": "An omnibus film that compresses 16 hours into one, offering glimpses of what happens beyond the monotony from 9am to 5pm.",
-          "popularity": 1.1539,
-          "poster_path": "/dsOXch2YKzm0DouYAeutfAlYADt.jpg",
-          "release_year": 2015,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "9 to 5",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": true,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 1.1539,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "9 to 5",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "uncertain_rerelease_restoration",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Five to Nine",
-          "tmdb_id": 615378,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Jennifer is a tough crime beat reporter who gets the assignment of her life: to find the true meaning of Christmas. When she goes undercover in a department store as a 9 to 5 sales clerk from Black Friday to Christmas E…",
-          "popularity": 2.9749,
-          "poster_path": "/nC7f6HwLjyefYRbi6LC3O2nykxL.jpg",
-          "release_year": 2019,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "9 to 5",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": true,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 2.9749,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "9 to 5",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "uncertain_rerelease_restoration",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Christmas 9 to 5",
-          "tmdb_id": 627471,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Gary Lane",
-          "original_title": null,
-          "overview_excerpt": "Examines the 40-year evolution of gender inequality and discrimination in the workplace since the 1980 release of the comedy film “9 to 5” starring Jane Fonda, Lily Tomlin, Dolly Parton, and Dabney Coleman.",
-          "popularity": 2.5688,
-          "poster_path": "/1wHJRxSfHEBQUJyK7m7UFwEwq78.jpg",
+          "overview_excerpt": "ACT:LOVESICK is the first concert tour headlined by South Korean boy band Tomorrow X Together in support of their second full album The Chaos Chapter: Freeze and fourth extended play (EP) Minisode 2: Thursday's Child. T…",
+          "popularity": 1.9584,
+          "poster_path": "/7OlDPHlLojTnqMzAMhX47qFXN7N.jpg",
           "release_year": 2022,
-          "runtime_min": 95,
+          "runtime_min": 148,
           "score": 0.0,
-          "search_query": "9 to 5",
+          "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
           "search_query_reason": "normalized_title",
           "search_year_used": null,
           "signals": {
             "available_weight": 0.6,
             "contributions": {
               "runtime": {
-                "kind": "miss",
+                "kind": "conflict",
                 "matched": false,
                 "weight": 0.15
               },
@@ -1814,12 +2051,12 @@
                 "weight": 0.0
               }
             },
-            "director_candidate_normalized": [
-              "gary lane"
-            ],
+            "director_candidate_normalized": [],
             "director_conflict": false,
             "director_overlap": false,
-            "director_source_normalized": [],
+            "director_source_normalized": [
+              "taehwan yum"
+            ],
             "director_status": "unavailable",
             "director_weak_overlap": false,
             "event_year_relaxed": true,
@@ -1827,16 +2064,16 @@
             "hard_conflict": true,
             "matched_weight": 0.0,
             "original_title_exact": false,
-            "popularity": 2.5688,
+            "popularity": 1.9584,
             "runtime_compatible_max": 3,
-            "runtime_conflict": false,
+            "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 15,
+            "runtime_delta_minutes": 51,
             "runtime_near": false,
             "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "miss",
-            "search_query": "9 to 5",
+            "runtime_status": "conflict",
+            "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
             "title_conflict": true,
@@ -1848,31 +2085,457 @@
             "year_near": false,
             "year_status": "unavailable"
           },
-          "title": "Still Working 9 to 5",
-          "tmdb_id": 845421,
+          "title": "TOMORROW X TOGETHER WORLD TOUR  'ACT:LOVESICK'",
+          "tmdb_id": 1043660,
           "warnings": [
             "title_conflict",
             "year_evidence_absent",
-            "runtime_mismatch",
-            "director_unavailable"
+            "runtime_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "ACT:SWEET MIRAGE is the second world tour by South Korea boy band Tomorrow X Together, following their fifth extended play (EP) and start of a new chapter in the TXT discography—The Name Chapter: Temptation. The tour be…",
+          "popularity": 1.3153,
+          "poster_path": "/w2QV0m8TfgIv8I0f4bhEZq0jP9Y.jpg",
+          "release_year": 2023,
+          "runtime_min": 180,
+          "score": 0.0,
+          "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "taehwan yum"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.3153,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 83,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "TOMORROW X TOGETHER WORLD TOUR  ‘ACT : SWEET MIRAGE’",
+          "tmdb_id": 1105873,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "The finale to TOMORROW X TOGETHER's second world tour with a two-day show at the Gocheok Sky Dome in Seoul, South Korea.",
+          "popularity": 1.1666,
+          "poster_path": "/sS7K6ff5WxaGrSo8vG5RO70lnjy.jpg",
+          "release_year": 2023,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "taehwan yum"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.1666,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Tomorrow X Together World Tour 'Act: Sweet Mirage' Finale",
+          "tmdb_id": 1249283,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "South Korean boyband TXT start their world tour in Seoul, at KSPO Dome, with available online streaming three consecutive days. They promise to awe fans with never-seen-before stages and even sub-unit performances, with…",
+          "popularity": 1.4646,
+          "poster_path": "/mrV22rd4WxeZgg4Wbl8IsRRDn8X.jpg",
+          "release_year": 2024,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "taehwan yum"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.4646,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "TOMORROW X TOGETHER WORLD TOUR 'ACT:PROMISE'",
+          "tmdb_id": 1288843,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "ACT: SWEET MIRAGE has been captivating audiences with a set list telling the story of temptation leading up to personal growth, immersive videos, high production value and a more mature performance from the group. The c…",
+          "popularity": 1.3067,
+          "poster_path": "/9COvIzjoQvA6uuvieYH7mysKAZk.jpg",
+          "release_year": 2024,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "taehwan yum"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.3067,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "TOMORROW X TOGETHER WORLD TOUR [ ACT : SWEET MIRAGE ] FINALE",
+          "tmdb_id": 1360359,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "TOMORROW X TOGETHER’s brilliant march forward with MOA—TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL  Documenting the second concert at Gocheok Sky Dome, which marked the beginning of their fourth world tour.",
+          "popularity": 1.0967,
+          "poster_path": "/umCYcQUFsSZMRgBeuOTduPTJTcs.jpg",
+          "release_year": 2026,
+          "runtime_min": 160,
+          "score": 0.0,
+          "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "taehwan yum"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.0967,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 63,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW' IN SEOUL",
+          "tmdb_id": 1711650,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "ACT:LOVE SICK is the first world tour by TOMORROW X TOGETHER. The tour commenced on July 2, 2022 in Seoul, South Korea and concluded on October 28, 2022 in Pasay, Philippines. A Seoul concert DVD was released on June 9,…",
+          "popularity": 0.8811,
+          "poster_path": "/poz7NoAVOLju3D3FFrfPjfFPlkX.jpg",
+          "release_year": null,
+          "runtime_min": 191,
+          "score": 0.0,
+          "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "taehwan yum"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.8811,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 94,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "TOMORROW X TOGETHER WORLD TOUR ‘ACT: LOVE SICK’ IN SEOUL",
+          "tmdb_id": 1735188,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict"
           ]
         }
       ],
-      "directors_normalized": [],
-      "directors_raw": null,
+      "directors_normalized": [
+        "taehwan yum"
+      ],
+      "directors_raw": "TAEHWAN YUM",
       "entity_kind": "feature_film",
-      "film_id_fallback": "source:amc:85184",
+      "film_id_fallback": "source:amc:85197",
       "match_confidence": 0.75,
       "match_status": "review_required",
-      "normalized_title": "9 to 5",
+      "normalized_title": "Tomorrow X Together World Tour 'Act : Tomorrow'",
       "presentation_labels": [],
-      "proposed_tmdb_id": 655281,
-      "queue_id": "amc:85184",
-      "runtime_min": 110,
-      "showtime_film_key": "9-to-5",
+      "proposed_tmdb_id": 1688795,
+      "queue_id": "amc:85197",
+      "runtime_min": 97,
+      "showtime_film_key": "tomorrow-x-together-world-tour-act-tomorrow",
       "signals": {
-        "available_weight": 0.45,
+        "available_weight": 0.6,
         "contributions": {
+          "runtime": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.15
+          },
           "title_exact": {
             "kind": "match",
             "matched": true,
@@ -1887,24 +2550,26 @@
         "director_candidate_normalized": [],
         "director_conflict": false,
         "director_overlap": false,
-        "director_source_normalized": [],
+        "director_source_normalized": [
+          "taehwan yum"
+        ],
         "director_status": "unavailable",
         "director_weak_overlap": false,
         "event_year_relaxed": true,
         "external_id_exact": false,
-        "hard_conflict": false,
+        "hard_conflict": true,
         "matched_weight": 0.45,
         "original_title_exact": false,
-        "popularity": 0.795,
+        "popularity": 0.4698,
         "runtime_compatible_max": 3,
-        "runtime_conflict": false,
+        "runtime_conflict": true,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": null,
+        "runtime_delta_minutes": 63,
         "runtime_near": false,
         "runtime_soft": false,
         "runtime_soft_max": 12,
-        "runtime_status": "unavailable",
-        "search_query": "9 to 5",
+        "runtime_status": "conflict",
+        "search_query": "Tomorrow X Together World Tour 'Act : Tomorrow'",
         "search_query_reason": "normalized_title",
         "search_year_used": null,
         "title_conflict": false,
@@ -1917,13 +2582,13 @@
         "year_status": "unavailable"
       },
       "source": "amc",
-      "source_film_id": "85184",
-      "source_title": "9 to 5",
-      "top_candidate_margin": 0.0,
+      "source_film_id": "85197",
+      "source_title": "TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW'",
+      "top_candidate_margin": 0.75,
       "warnings": [
         "year_evidence_absent",
-        "weak_title_only_match",
-        "director_unavailable"
+        "runtime_conflict",
+        "weak_title_only_match"
       ],
       "year_hint": 2026,
       "year_interpretation": {
@@ -1935,7 +2600,7 @@
         "applied_rules": [
           "normalized_source_fallback"
         ],
-        "base_title": "9 to 5",
+        "base_title": "Tomorrow X Together World Tour 'Act : Tomorrow'",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -2192,7 +2857,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -2213,7 +2878,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -2266,7 +2931,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -2287,7 +2952,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -2340,7 +3005,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -2361,7 +3026,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -2407,7 +3072,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -2428,7 +3093,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -2480,7 +3145,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -2501,7 +3166,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -2554,7 +3219,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -2575,7 +3240,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -2621,7 +3286,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -2642,7 +3307,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -2687,7 +3352,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -2708,7 +3373,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -2736,7 +3401,7 @@
       "proposed_tmdb_id": 425882,
       "queue_id": "beacon:secs-fest-presents-driller",
       "runtime_min": 60,
-      "showtime_film_key": "secs-fest-presents-driller",
+      "showtime_film_key": "driller",
       "signals": {
         "available_weight": 0.6,
         "contributions": {
@@ -2764,7 +3429,7 @@
         "director_source_normalized": [],
         "director_status": "unavailable",
         "director_weak_overlap": false,
-        "event_year_relaxed": false,
+        "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": true,
         "matched_weight": 0.45,
@@ -2785,7 +3450,7 @@
         "title_exact": true,
         "title_prefix_equivalence": false,
         "year_conflict": false,
-        "year_evidence": "missing",
+        "year_evidence": "uncertain_rerelease_restoration",
         "year_exact": false,
         "year_near": false,
         "year_status": "unavailable"
@@ -2814,14 +3479,14 @@
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
+        "event_year": 1984,
+        "event_year_not_canonical": true,
         "format_tags": [],
         "presentation_labels": [
           "fest",
           "secs fest presents"
         ],
-        "product_year": null,
+        "product_year": 1984,
         "product_year_weak": false,
         "program_series": "Secs Fest Presents",
         "removed_phrases": [
@@ -2831,10 +3496,12 @@
         "search_abbreviation": null,
         "search_year": null,
         "title_years": [],
-        "warnings": [],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
         "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_mismatch_relaxed": true
       }
     },
     {
@@ -3556,7 +4223,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.6,
@@ -3577,7 +4244,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -3629,7 +4296,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.6,
@@ -3650,7 +4317,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -3702,7 +4369,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -3723,7 +4390,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -3776,7 +4443,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -3797,7 +4464,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -3843,7 +4510,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -3864,7 +4531,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -3916,7 +4583,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -3937,7 +4604,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -3983,7 +4650,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -4004,7 +4671,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -4049,7 +4716,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -4070,7 +4737,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -4123,7 +4790,7 @@
         "director_source_normalized": [],
         "director_status": "unavailable",
         "director_weak_overlap": false,
-        "event_year_relaxed": false,
+        "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": false,
         "matched_weight": 0.6,
@@ -4144,7 +4811,7 @@
         "title_exact": true,
         "title_prefix_equivalence": false,
         "year_conflict": false,
-        "year_evidence": "missing",
+        "year_evidence": "uncertain_rerelease_restoration",
         "year_exact": false,
         "year_near": false,
         "year_status": "unavailable"
@@ -4159,7 +4826,7 @@
         "director_unavailable",
         "same_title_remake_ambiguity"
       ],
-      "year_hint": null,
+      "year_hint": 2025,
       "year_interpretation": {
         "alternate_search_title": null,
         "anniversary_year_derived": false,
@@ -4177,43 +4844,43 @@
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
+        "product_year": 2025,
+        "product_year_weak": true,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
+        "scoring_year": 2025,
         "search_abbreviation": null,
         "search_year": null,
         "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
+        "warnings": [
+          "product_year_weak_evidence"
+        ],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": true
       }
     },
     {
       "auto_confirm_blocked_reason": "weak_title_only_match",
       "candidates": [
         {
-          "director": "Theodore Witcher",
+          "director": "Louise Weard",
           "original_title": null,
-          "overview_excerpt": "Darius Lovehall is a young black poet in Chicago who starts dating Nina Moseley, a beautiful and talented photographer. While trying to figure out if they've got a \"love thing\" or are just \"kicking it,\" they hang out wi…",
-          "popularity": 2.6883,
-          "poster_path": "/iuwimPkDm7kfptKm5zlK0pIzqXM.jpg",
-          "release_year": 1997,
-          "runtime_min": 109,
+          "overview_excerpt": "Izzy does everything in her power to stop her partner from transitioning.",
+          "popularity": 2.5656,
+          "poster_path": "/yrtTSMW3qP84MEMQiYI8GJkTOAE.jpg",
+          "release_year": 2026,
+          "runtime_min": 127,
           "score": 0.75,
-          "search_query": "Love Jones",
+          "search_query": "Castration Movie Chapter iii. Junior Ghosts—Premorphic Drift; a fragmentary passage",
           "search_query_reason": "normalized_title",
           "search_year_used": null,
           "signals": {
             "available_weight": 0.6,
             "contributions": {
               "runtime": {
-                "delta_minutes": 5,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.1167,
+                "kind": "miss",
+                "matched": false,
                 "weight": 0.15
               },
               "title_exact": {
@@ -4228,523 +4895,45 @@
               }
             },
             "director_candidate_normalized": [
-              "theodore witcher"
+              "louise weard"
             ],
             "director_conflict": false,
             "director_overlap": false,
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.5667,
+            "matched_weight": 0.45,
             "original_title_exact": false,
-            "popularity": 2.6883,
+            "popularity": 2.5656,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 5,
+            "runtime_delta_minutes": 23,
             "runtime_near": false,
-            "runtime_soft": true,
+            "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "soft",
-            "search_query": "Love Jones",
+            "runtime_status": "miss",
+            "search_query": "Castration Movie Chapter iii. Junior Ghosts—Premorphic Drift; a fragmentary passage",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
             "title_conflict": false,
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
           },
-          "title": "Love Jones",
-          "tmdb_id": 27322,
+          "title": "Castration Movie Chapter III. Junior Ghosts—Premorphic Drift; a fragmentary passage",
+          "tmdb_id": 1636410,
           "warnings": [
             "year_evidence_absent",
-            "runtime_soft_penalty",
+            "runtime_mismatch",
             "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Five years after the disappearance of high school girl Natalee Holloway in Aruba, an ambitious journalist wants to break into alleged murderer Joran van der Sloot's home to force a breakthrough in the case.",
-          "popularity": 1.1239,
-          "poster_path": "/yO6n5BgDONnm7lLijWav7V5KUOH.jpg",
-          "release_year": 2011,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Love Jones",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 1.1239,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Love Jones",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Me & Mr Jones on Natalee Island",
-          "tmdb_id": 79541,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Ireland's bloody 1916 Easter Uprising, the suffragette movement in England, a Zeppelin raid, and a meeting with a rising young British cabinet member named Winston Churchill become vivid vignettes in Indy's life. So too…",
-          "popularity": 2.7544,
-          "poster_path": "/3Xa29zhhISZtYROfSK00yGn2Yfm.jpg",
-          "release_year": 2000,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Love Jones",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 2.7544,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Love Jones",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "The Adventures of Young Indiana Jones: Love's Sweet Song",
-          "tmdb_id": 222047,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Near perfect quality Pro-shot Broadcast recording of Norah Jones, recorded live at the We Love Green Festival, in Paris, France on September, 14th, 2012.  DVD has a total running time of 62 minutes, and quality is about…",
-          "popularity": 0.4479,
-          "poster_path": "/dOz8feMCh1qUahivTfJoqL5knbS.jpg",
-          "release_year": 2012,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Love Jones",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.4479,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Love Jones",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Norah Jones - We Love Green Festival",
-          "tmdb_id": 373775,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": null,
-          "popularity": 0.4939,
-          "poster_path": "/mUAjHbdin7X8eGh26sQiOfRoH42.jpg",
-          "release_year": null,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Love Jones",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.4939,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Love Jones",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Tom Jones: Duets - Endless Love",
-          "tmdb_id": 885430,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Tom Jones Love Songs",
-          "popularity": 0.7985,
-          "poster_path": "/smDCIMfUHYsntYlqNT2ORVLwHPO.jpg",
-          "release_year": 2008,
-          "runtime_min": 44,
-          "score": 0.0,
-          "search_query": "Love Jones",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.7985,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 60,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "search_query": "Love Jones",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Tom Jones Love Songs",
-          "tmdb_id": 1170226,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Diana Khong",
-          "original_title": null,
-          "overview_excerpt": "Black lesbian love crests in a sweet spoken word performance about a couple's first meeting.",
-          "popularity": 0.5109,
-          "poster_path": "/aZEeaO7MyCv1cqEOSPOzgLlagay.jpg",
-          "release_year": 2024,
-          "runtime_min": 5,
-          "score": 0.0,
-          "search_query": "Love Jones",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "diana khong"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.5109,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 99,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "search_query": "Love Jones",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "A Poem Called Love Jones",
-          "tmdb_id": 1300696,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Linda Neveah Denson",
-          "original_title": null,
-          "overview_excerpt": null,
-          "popularity": 0.4554,
-          "poster_path": null,
-          "release_year": null,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Love Jones",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "linda neveah denson"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.4554,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Love Jones",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Um Poema Chamado Love Jones",
-          "tmdb_id": 1389145,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
             "director_unavailable"
           ]
         }
@@ -4752,23 +4941,23 @@
       "directors_normalized": [],
       "directors_raw": null,
       "entity_kind": "feature_film",
-      "film_id_fallback": "source:majestic_bay:0000001686",
+      "film_id_fallback": "source:nwff:stuff-2026-castration-movie-chapter-iii-junior-ghosts-premorphic-drift-a-fragmentary-passage",
       "match_confidence": 0.75,
       "match_status": "review_required",
-      "normalized_title": "Love Jones",
-      "presentation_labels": [],
-      "proposed_tmdb_id": 27322,
-      "queue_id": "majestic_bay:0000001686",
-      "runtime_min": 104,
-      "showtime_film_key": "love-jones",
+      "normalized_title": "Castration Movie Chapter iii. Junior Ghosts—Premorphic Drift; a fragmentary passage",
+      "presentation_labels": [
+        "stuff 2026"
+      ],
+      "proposed_tmdb_id": 1636410,
+      "queue_id": "nwff:stuff-2026-castration-movie-chapter-iii-junior-ghosts-premorphic-drift-a-fragmentary-passage",
+      "runtime_min": 150,
+      "showtime_film_key": "castration-movie-chapter-iii-junior-ghosts-premorphic-drift-a-fragmentary-passage",
       "signals": {
         "available_weight": 0.6,
         "contributions": {
           "runtime": {
-            "delta_minutes": 5,
-            "kind": "soft",
-            "matched": true,
-            "soft_weight": 0.1167,
+            "kind": "miss",
+            "matched": false,
             "weight": 0.15
           },
           "title_exact": {
@@ -4783,46 +4972,46 @@
           }
         },
         "director_candidate_normalized": [
-          "theodore witcher"
+          "louise weard"
         ],
         "director_conflict": false,
         "director_overlap": false,
         "director_source_normalized": [],
         "director_status": "unavailable",
         "director_weak_overlap": false,
-        "event_year_relaxed": false,
+        "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.5667,
+        "matched_weight": 0.45,
         "original_title_exact": false,
-        "popularity": 2.6883,
+        "popularity": 2.5656,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 5,
+        "runtime_delta_minutes": 23,
         "runtime_near": false,
-        "runtime_soft": true,
+        "runtime_soft": false,
         "runtime_soft_max": 12,
-        "runtime_status": "soft",
-        "search_query": "Love Jones",
+        "runtime_status": "miss",
+        "search_query": "Castration Movie Chapter iii. Junior Ghosts—Premorphic Drift; a fragmentary passage",
         "search_query_reason": "normalized_title",
         "search_year_used": null,
         "title_conflict": false,
         "title_exact": true,
         "title_prefix_equivalence": false,
         "year_conflict": false,
-        "year_evidence": "missing",
+        "year_evidence": "uncertain_rerelease_restoration",
         "year_exact": false,
         "year_near": false,
         "year_status": "unavailable"
       },
-      "source": "majestic_bay",
-      "source_film_id": "0000001686",
-      "source_title": "Love Jones",
-      "top_candidate_margin": 0.75,
+      "source": "nwff",
+      "source_film_id": "stuff-2026-castration-movie-chapter-iii-junior-ghosts-premorphic-drift-a-fragmentary-passage",
+      "source_title": "STUFF 2026: Castration Movie Chapter iii. Junior Ghosts—Premorphic Drift; a fragmentary passage",
+      "top_candidate_margin": null,
       "warnings": [
         "year_evidence_absent",
-        "runtime_soft_penalty",
+        "runtime_mismatch",
         "weak_title_only_match",
         "director_unavailable"
       ],
@@ -4834,28 +5023,36 @@
         "applied_alias": null,
         "applied_alias_id": null,
         "applied_rules": [
-          "normalized_source_fallback"
+          "program_series:stuff-2026"
         ],
-        "base_title": "Love Jones",
+        "base_title": "Castration Movie Chapter iii. Junior Ghosts—Premorphic Drift; a fragmentary passage",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
+        "event_year": 2026,
+        "event_year_not_canonical": true,
         "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
+        "presentation_labels": [
+          "stuff 2026"
+        ],
+        "product_year": 2026,
         "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
+        "program_series": "STUFF 2026",
+        "removed_phrases": [
+          "STUFF 2026"
+        ],
         "scoring_year": null,
         "search_abbreviation": null,
         "search_year": null,
-        "title_years": [],
-        "warnings": [],
+        "title_years": [
+          2026
+        ],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
         "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_mismatch_relaxed": true
       }
     },
     {
@@ -4893,7 +5090,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -4914,7 +5111,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -4966,7 +5163,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -4987,7 +5184,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -5033,7 +5230,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -5054,7 +5251,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -5106,7 +5303,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -5127,7 +5324,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -5175,7 +5372,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -5196,7 +5393,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -5241,7 +5438,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -5262,7 +5459,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -5314,7 +5511,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -5335,7 +5532,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -5381,7 +5578,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -5402,7 +5599,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -5429,7 +5626,7 @@
       "proposed_tmdb_id": 485985,
       "queue_id": "nwff:truth-to-fiction-seeds",
       "runtime_min": 123,
-      "showtime_film_key": "truth-to-fiction-seeds",
+      "showtime_film_key": "seeds",
       "signals": {
         "available_weight": 0.45,
         "contributions": {
@@ -5450,7 +5647,7 @@
         "director_source_normalized": [],
         "director_status": "unavailable",
         "director_weak_overlap": false,
-        "event_year_relaxed": false,
+        "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": false,
         "matched_weight": 0.45,
@@ -5471,7 +5668,7 @@
         "title_exact": true,
         "title_prefix_equivalence": false,
         "year_conflict": false,
-        "year_evidence": "missing",
+        "year_evidence": "uncertain_rerelease_restoration",
         "year_exact": false,
         "year_near": false,
         "year_status": "unavailable"
@@ -5499,13 +5696,13 @@
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
+        "event_year": 2025,
+        "event_year_not_canonical": true,
         "format_tags": [],
         "presentation_labels": [
           "truth to fiction"
         ],
-        "product_year": null,
+        "product_year": 2025,
         "product_year_weak": false,
         "program_series": "Truth To Fiction",
         "removed_phrases": [
@@ -5515,674 +5712,12 @@
         "search_abbreviation": null,
         "search_year": null,
         "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": "weak_title_only_match",
-      "candidates": [
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "A lonely, narcissistic aristocrat dupes a struggling, opportunistic director into filming her every move. Her obsession with the spotlight takes a surreal turn when she starts becoming... invisible.",
-          "popularity": 3.1063,
-          "poster_path": "/fXsTO5Wa11VtIyVMdoQOpeioSVx.jpg",
-          "release_year": 2026,
-          "runtime_min": null,
-          "score": 0.75,
-          "search_query": "Lady",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 3.1063,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Lady",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Lady",
-          "tmdb_id": 1479333,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "In the sprawling African metropolis of Lagos, a fiercely independent young cab driver meets a band of radiantly reckless sex workers whose sisterhood pulls her into danger and joy, setting her on a journey toward her ow…",
-          "popularity": 2.2515,
-          "poster_path": "/92EauLx5f1cKVSzhS6A5WBLRxfj.jpg",
-          "release_year": 2026,
-          "runtime_min": null,
-          "score": 0.75,
-          "search_query": "Lady",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 2.2515,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Lady",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Lady",
-          "tmdb_id": 1596257,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Greta Gerwig",
-          "original_title": null,
-          "overview_excerpt": "Lady Bird McPherson, a strong willed, deeply opinionated, artistic 17 year old comes of age in Sacramento. Her relationship with her mother and her upbringing are questioned and tested as she plans to head off to colleg…",
-          "popularity": 14.609,
-          "poster_path": "/gl66K7zRdtNYGrxyS2YDUP5ASZd.jpg",
-          "release_year": 2017,
-          "runtime_min": 94,
-          "score": 0.2501,
-          "search_query": "Lady",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "greta gerwig"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.15,
-            "original_title_exact": false,
-            "popularity": 14.609,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 1,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Lady",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Lady Bird",
-          "tmdb_id": 391713,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Charlie Bean",
-          "original_title": null,
-          "overview_excerpt": "The love story between a pampered Cocker Spaniel named Lady and a streetwise mongrel named Tramp. Lady finds herself out on the street after her owners have a baby and is saved from a pack by Tramp, who tries to show he…",
-          "popularity": 10.7637,
-          "poster_path": "/8wBEye516IKul9sW7JKGcFXVGfV.jpg",
-          "release_year": 2019,
-          "runtime_min": 101,
-          "score": 0.1668,
-          "search_query": "Lady",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "delta_minutes": 6,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.1,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "charlie bean"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.1,
-            "original_title_exact": false,
-            "popularity": 10.7637,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 6,
-            "runtime_near": false,
-            "runtime_soft": true,
-            "runtime_soft_max": 12,
-            "runtime_status": "soft",
-            "search_query": "Lady",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Lady and the Tramp",
-          "tmdb_id": 512895,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_soft_penalty",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Clyde Geronimi",
-          "original_title": null,
-          "overview_excerpt": "Lady, a golden cocker spaniel, meets up with a mongrel dog who calls himself the Tramp. He is obviously from the wrong side of town, but happenings at Lady's home make her decide to travel with him for a while.",
-          "popularity": 17.8392,
-          "poster_path": "/340NcWz9SQXWQyf4oicMxjbrLOb.jpg",
-          "release_year": 1955,
-          "runtime_min": 76,
-          "score": 0.0002,
-          "search_query": "Lady",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "miss",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "clyde geronimi"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 17.8392,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 19,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "miss",
-            "search_query": "Lady",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Lady and the Tramp",
-          "tmdb_id": 10340,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_mismatch",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": "친절한 금자씨",
-          "overview_excerpt": "Released after being wrongfully convicted and imprisoned for 13 years, a woman begins executing her elaborate plan of retribution.",
-          "popularity": 6.3351,
-          "poster_path": "/ifcxaKfzNQ6W8uSLpnGo7AfiSL8.jpg",
-          "release_year": 2005,
-          "runtime_min": null,
-          "score": 0.0001,
-          "search_query": "Lady",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 6.3351,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Lady",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Lady Vengeance",
-          "tmdb_id": 4550,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "George Cukor",
-          "original_title": null,
-          "overview_excerpt": "A snobbish phonetics professor agrees to a wager that he can take a flower girl and make her presentable in high society.",
-          "popularity": 8.3708,
-          "poster_path": "/bTXVc29lGSNclf94VIZ49W4gGKl.jpg",
-          "release_year": 1964,
-          "runtime_min": 173,
-          "score": 0.0001,
-          "search_query": "Lady",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "george cukor"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 8.3708,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 78,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "search_query": "Lady",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "My Fair Lady",
-          "tmdb_id": 11113,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_conflict",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "A look at the life of Margaret Thatcher, the former Prime Minister of the United Kingdom, with a focus on the price she paid for power.",
-          "popularity": 7.8899,
-          "poster_path": "/fx7wpKXOht7WOkeOslvErbrf69Q.jpg",
-          "release_year": 2011,
-          "runtime_min": null,
-          "score": 0.0001,
-          "search_query": "Lady",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 7.8899,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Lady",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "The Iron Lady",
-          "tmdb_id": 71688,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "entity_kind": "feature_film",
-      "film_id_fallback": "source:siff:cinema/in-theaters/lady",
-      "match_confidence": 0.75,
-      "match_status": "review_required",
-      "normalized_title": "Lady",
-      "presentation_labels": [],
-      "proposed_tmdb_id": 1479333,
-      "queue_id": "siff:cinema/in-theaters/lady",
-      "runtime_min": 95,
-      "showtime_film_key": "lady",
-      "signals": {
-        "available_weight": 0.45,
-        "contributions": {
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.45,
-        "original_title_exact": false,
-        "popularity": 3.1063,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": null,
-        "runtime_near": false,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "unavailable",
-        "search_query": "Lady",
-        "search_query_reason": "normalized_title",
-        "search_year_used": null,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source": "siff",
-      "source_film_id": "cinema/in-theaters/lady",
-      "source_title": "Lady",
-      "top_candidate_margin": 0.0,
-      "warnings": [
-        "year_evidence_absent",
-        "weak_title_only_match",
-        "director_unavailable"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
+        "warnings": [
+          "event_year_not_canonical"
         ],
-        "base_title": "Lady",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
         "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_mismatch_relaxed": true
       }
     },
     {
@@ -6227,7 +5762,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -6248,7 +5783,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -6303,7 +5838,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.5,
@@ -6324,7 +5859,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -6372,7 +5907,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -6393,7 +5928,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -6445,7 +5980,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.15,
@@ -6466,7 +6001,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -6511,7 +6046,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -6532,7 +6067,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -6584,7 +6119,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -6605,7 +6140,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -6651,7 +6186,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -6672,7 +6207,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -6717,7 +6252,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -6738,7 +6273,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -6791,7 +6326,7 @@
         "director_source_normalized": [],
         "director_status": "unavailable",
         "director_weak_overlap": false,
-        "event_year_relaxed": false,
+        "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": true,
         "matched_weight": 0.45,
@@ -6812,7 +6347,7 @@
         "title_exact": true,
         "title_prefix_equivalence": false,
         "year_conflict": false,
-        "year_evidence": "missing",
+        "year_evidence": "uncertain_rerelease_restoration",
         "year_exact": false,
         "year_near": false,
         "year_status": "unavailable"
@@ -6827,7 +6362,7 @@
         "weak_title_only_match",
         "director_unavailable"
       ],
-      "year_hint": null,
+      "year_hint": 2026,
       "year_interpretation": {
         "alternate_search_title": null,
         "anniversary_year_derived": false,
@@ -6845,18 +6380,20 @@
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
+        "product_year": 2026,
+        "product_year_weak": true,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
+        "scoring_year": 2026,
         "search_abbreviation": null,
         "search_year": null,
         "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
+        "warnings": [
+          "product_year_weak_evidence"
+        ],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": true
       }
     },
     {
@@ -6901,7 +6438,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.6,
@@ -6922,7 +6459,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -6974,7 +6511,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.6,
@@ -6995,7 +6532,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7049,7 +6586,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -7070,7 +6607,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7116,7 +6653,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -7137,7 +6674,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7182,7 +6719,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -7203,7 +6740,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7248,7 +6785,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -7269,7 +6806,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7314,7 +6851,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -7335,7 +6872,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7387,7 +6924,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -7408,7 +6945,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7462,7 +6999,7 @@
         "director_source_normalized": [],
         "director_status": "unavailable",
         "director_weak_overlap": false,
-        "event_year_relaxed": false,
+        "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": false,
         "matched_weight": 0.6,
@@ -7483,7 +7020,7 @@
         "title_exact": true,
         "title_prefix_equivalence": false,
         "year_conflict": false,
-        "year_evidence": "missing",
+        "year_evidence": "uncertain_rerelease_restoration",
         "year_exact": false,
         "year_near": false,
         "year_status": "unavailable"
@@ -7498,7 +7035,7 @@
         "director_unavailable",
         "same_title_remake_ambiguity"
       ],
-      "year_hint": null,
+      "year_hint": 2025,
       "year_interpretation": {
         "alternate_search_title": null,
         "anniversary_year_derived": false,
@@ -7516,18 +7053,20 @@
         "event_year_not_canonical": false,
         "format_tags": [],
         "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
+        "product_year": 2025,
+        "product_year_weak": true,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": null,
+        "scoring_year": 2025,
         "search_abbreviation": null,
         "search_year": null,
         "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
+        "warnings": [
+          "product_year_weak_evidence"
+        ],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": true
       }
     },
     {
@@ -7565,7 +7104,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -7586,7 +7125,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7640,7 +7179,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.5,
@@ -7661,7 +7200,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7714,7 +7253,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.15,
@@ -7735,7 +7274,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7787,7 +7326,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -7808,7 +7347,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7861,7 +7400,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -7882,7 +7421,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -7928,7 +7467,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -7949,7 +7488,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -8001,7 +7540,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -8022,7 +7561,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -8068,7 +7607,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.0,
@@ -8089,7 +7628,7 @@
             "title_exact": false,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -8117,7 +7656,7 @@
       "proposed_tmdb_id": 42752,
       "queue_id": "siff:programs-and-events/siff-movie-club/midnight",
       "runtime_min": 94,
-      "showtime_film_key": "siff-movie-club-midnight-35mm",
+      "showtime_film_key": "midnight-35mm",
       "signals": {
         "available_weight": 0.45,
         "contributions": {
@@ -8138,7 +7677,7 @@
         "director_source_normalized": [],
         "director_status": "unavailable",
         "director_weak_overlap": false,
-        "event_year_relaxed": false,
+        "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": false,
         "matched_weight": 0.45,
@@ -8159,7 +7698,7 @@
         "title_exact": true,
         "title_prefix_equivalence": false,
         "year_conflict": false,
-        "year_evidence": "missing",
+        "year_evidence": "uncertain_rerelease_restoration",
         "year_exact": false,
         "year_near": false,
         "year_status": "unavailable"
@@ -8188,8 +7727,8 @@
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
+        "event_year": 1939,
+        "event_year_not_canonical": true,
         "format_tags": [
           "35mm"
         ],
@@ -8197,7 +7736,7 @@
           "35mm",
           "siff movie club"
         ],
-        "product_year": null,
+        "product_year": 1939,
         "product_year_weak": false,
         "program_series": "SIFF Movie Club",
         "removed_phrases": [
@@ -8208,10 +7747,12 @@
         "search_abbreviation": null,
         "search_year": null,
         "title_years": [],
-        "warnings": [],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
         "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_mismatch_relaxed": true
       }
     },
     {
@@ -8249,7 +7790,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -8270,7 +7811,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -8315,7 +7856,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -8336,7 +7877,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -8381,7 +7922,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -8402,7 +7943,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -8454,7 +7995,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -8475,7 +8016,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -8521,7 +8062,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
             "matched_weight": 0.45,
@@ -8542,7 +8083,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -8594,7 +8135,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -8615,7 +8156,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -8668,7 +8209,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -8689,7 +8230,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -8742,7 +8283,7 @@
             "director_source_normalized": [],
             "director_status": "unavailable",
             "director_weak_overlap": false,
-            "event_year_relaxed": false,
+            "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": true,
             "matched_weight": 0.45,
@@ -8763,7 +8304,7 @@
             "title_exact": true,
             "title_prefix_equivalence": false,
             "year_conflict": false,
-            "year_evidence": "missing",
+            "year_evidence": "uncertain_rerelease_restoration",
             "year_exact": false,
             "year_near": false,
             "year_status": "unavailable"
@@ -8791,7 +8332,7 @@
       "proposed_tmdb_id": 9652,
       "queue_id": "siff:programs-and-events/the-open-road/the-passenger",
       "runtime_min": 126,
-      "showtime_film_key": "open-road-the-passenger-35mm",
+      "showtime_film_key": "passenger-35mm",
       "signals": {
         "available_weight": 0.45,
         "contributions": {
@@ -8812,7 +8353,7 @@
         "director_source_normalized": [],
         "director_status": "unavailable",
         "director_weak_overlap": false,
-        "event_year_relaxed": false,
+        "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": false,
         "matched_weight": 0.45,
@@ -8833,7 +8374,7 @@
         "title_exact": true,
         "title_prefix_equivalence": false,
         "year_conflict": false,
-        "year_evidence": "missing",
+        "year_evidence": "uncertain_rerelease_restoration",
         "year_exact": false,
         "year_near": false,
         "year_status": "unavailable"
@@ -8861,15 +8402,15 @@
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
+        "event_year": 1975,
+        "event_year_not_canonical": true,
         "format_tags": [
           "35mm"
         ],
         "presentation_labels": [
           "35mm"
         ],
-        "product_year": null,
+        "product_year": 1975,
         "product_year_weak": false,
         "program_series": null,
         "removed_phrases": [
@@ -8879,10 +8420,12 @@
         "search_abbreviation": null,
         "search_year": null,
         "title_years": [],
-        "warnings": [],
+        "warnings": [
+          "event_year_not_canonical"
+        ],
         "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_mismatch_relaxed": true
       }
     }
   ],
