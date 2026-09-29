@@ -86,6 +86,12 @@ jobs:
             --pipeline-report-path public/data/pipeline_report.json \
             --temp-dir "${{ runner.temp }}/amc-source-catalog"
 
+      - name: Refresh film identity source inventory
+        # Offline audit: current showtimes + refreshed AMC source catalog.
+        # This keeps title/runtime/year/series evidence coverage current without
+        # making any live TMDB calls or changing match decisions.
+        run: python scripts/inventory_film_identities.py
+
       - name: Refresh Coming Soon
         # Optional stage: AMC/TMDB outages must never block the showtime
         # publish above, so the script always exits 0 and keeps the previous
@@ -133,6 +139,9 @@ jobs:
           fi
           if [ -f data/audits/coming_soon_candidates_current.json ]; then
             git add data/audits/coming_soon_candidates_current.json
+          fi
+          if [ -f data/audits/film_identity_source_inventory.json ]; then
+            git add data/audits/film_identity_source_inventory.json
           fi
           git add public/data/showtimes_current.json
           if [ -f data/performance_identity/performance_identity_current.json ]; then
