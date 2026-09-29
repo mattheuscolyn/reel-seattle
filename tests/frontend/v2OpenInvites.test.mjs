@@ -337,7 +337,7 @@ test('26–28 direct invite path, detail destination, and migration contracts st
   assert.match(SHEET_SRC, /Specific friends/);
   assert.match(SHEET_SRC, /All friends/);
   assert.match(SHEET_SRC, /promoteAcceptedPlanAndInvite/);
-  assert.match(FRIENDS_SRC, /OpenInvitesSection/);
+  assert.equal(FRIENDS_SRC.includes('OpenInvitesSection'), false);
   assert.match(OPEN_SRC, /No open invites right now/);
   assert.match(OPEN_SRC, /joinOpenSharedPlanRemote/);
   assert.match(OPEN_SRC, /View plan/);

@@ -5,6 +5,25 @@
 
 export const FRIENDS_COPY = Object.freeze({
   sectionTitle: 'Friends',
+  listSubtitle: 'People you know, for moviegoing together.',
+  haveInviteCode: 'Have an invite code?',
+  emptyPoints: Object.freeze([
+    Object.freeze({
+      id: 'interest',
+      title: "See what they're interested in",
+      body: 'Find films you both want to watch.',
+    }),
+    Object.freeze({
+      id: 'plans',
+      title: 'Make plans together',
+      body: 'Compare showtimes and plan your next movie night.',
+    }),
+    Object.freeze({
+      id: 'personal',
+      title: 'A more personal experience',
+      body: 'Built for the people you already know, not random strangers.',
+    }),
+  ]),
   viewAll: 'View all',
   moreLabel: 'more',
   emptyHelper: 'Connect with friends to share movie plans.',

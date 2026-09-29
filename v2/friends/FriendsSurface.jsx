@@ -1,48 +1,91 @@
-import { useEffect, useState } from 'react';
-import { IconMore } from '../icons.jsx';
+import { useEffect, useMemo, useState } from 'react';
+import { IconPerson } from '../icons.jsx';
 import { useAuth } from '../auth/useAuth.js';
+import { subscribeFilmStoreMutations } from '../auth/filmStoreMutationBridge.js';
+import { restoreListPosition } from '../navigation/listPositionRestore.js';
+import { getSavedFilms } from '../stores/savedFilmsStore.js';
 import {
   FRIENDS_COPY,
-  friendDisplayLabel,
   removeFriendTitle,
 } from './friendsCopy.js';
+import FriendsEmptyState from './FriendsEmptyState.jsx';
+import FriendsListCard from './FriendsListCard.jsx';
+import { buildFriendsListCards } from './friendsListContextModel.js';
 import { removeFriendAndRefresh } from './friendsStore.js';
 import { useFriends } from './useFriends.js';
-import FriendAvatar from './FriendAvatar.jsx';
+import { useFriendsListContext } from './useFriendsListContext.js';
 import InviteFriendSheet from './InviteFriendSheet.jsx';
 import EnterFriendCodeSheet from './EnterFriendCodeSheet.jsx';
-import OpenInvitesSection from '../sharedPlans/OpenInvitesSection.jsx';
+
+function getStorage() {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * @param {{
  *   focusUserId?: string | null,
+ *   listRestore?: { itemKey?: string | null, scrollY?: number } | null,
+ *   homeData?: object | null,
  *   onOpenFriendDetail?: (payload: { friendUserId: string }) => void,
- *   onOpenSharedPlan?: (payload: { planId: string }) => void,
- *   onJoinedOpenInvite?: () => void,
  * }} [props]
  */
 export default function FriendsSurface({
   focusUserId = null,
+  listRestore = null,
+  homeData = null,
   onOpenFriendDetail = null,
-  onOpenSharedPlan = null,
-  onJoinedOpenInvite = null,
 }) {
   const auth = useAuth();
   const { friends, status, signedIn, refresh } = useFriends();
+  const context = useFriendsListContext(signedIn);
   const [inviteOpen, setInviteOpen] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
   const [menuUserId, setMenuUserId] = useState(null);
   const [confirmUserId, setConfirmUserId] = useState(null);
   const [removeBusy, setRemoveBusy] = useState(false);
   const [removeError, setRemoveError] = useState(null);
+  const [filmRevision, setFilmRevision] = useState(0);
 
   useEffect(() => {
-    if (!focusUserId) return;
+    return subscribeFilmStoreMutations(() => {
+      setFilmRevision((value) => value + 1);
+    });
+  }, []);
+
+  const storage = getStorage();
+  const viewerSaved = useMemo(() => {
+    void filmRevision;
+    return getSavedFilms(storage);
+  }, [storage, filmRevision]);
+
+  const cards = useMemo(
+    () =>
+      buildFriendsListCards({
+        friends,
+        contextFriends: context.status === 'ready' ? context.friends : null,
+        viewerSaved,
+        homeData,
+      }),
+    [friends, context.status, context.friends, viewerSaved, homeData],
+  );
+
+  useEffect(() => {
+    if (!listRestore) return undefined;
+    restoreListPosition(listRestore);
+    return undefined;
+  }, [listRestore, friends.length]);
+
+  useEffect(() => {
+    if (!focusUserId || listRestore) return;
     const el = document.querySelector(
       `[data-friend-row="${CSS.escape(focusUserId)}"]`,
     );
     el?.scrollIntoView({ block: 'nearest' });
-  }, [focusUserId, friends.length]);
+  }, [focusUserId, friends.length, listRestore]);
 
   const handleRemove = async (friend) => {
     if (removeBusy) return;
@@ -56,9 +99,11 @@ export default function FriendsSurface({
     }
     setConfirmUserId(null);
     setMenuUserId(null);
+    context.refresh();
   };
 
   const confirming = friends.find((friend) => friend.userId === confirmUserId);
+  const showEmpty = signedIn && status === 'ready' && friends.length === 0;
 
   return (
     <section className="v2-friends" aria-labelledby="v2-friends-title" data-friends-surface="">
@@ -67,34 +112,32 @@ export default function FriendsSurface({
           <h1 id="v2-friends-title" className="v2-friends-title">
             {FRIENDS_COPY.sectionTitle}
           </h1>
-          {signedIn ? (
+          {signedIn && !showEmpty ? (
             <button
               type="button"
-              className="v2-profile-link"
+              className="v2-profile-account-btn v2-friends-invite-pill"
               data-friends-action="invite-friend"
               onClick={() => setInviteOpen(true)}
             >
+              <IconPerson width={16} height={16} />
               {FRIENDS_COPY.inviteFriendAction}
             </button>
           ) : null}
         </div>
         {signedIn ? (
+          <p className="v2-friends-subtitle">{FRIENDS_COPY.listSubtitle}</p>
+        ) : null}
+        {signedIn && !showEmpty ? (
           <button
             type="button"
-            className="v2-profile-link v2-friends-enter-code"
+            className="v2-profile-link v2-friends-code-link"
             data-friends-action="enter-code"
             onClick={() => setCodeOpen(true)}
           >
-            {FRIENDS_COPY.enterCode}
+            {FRIENDS_COPY.haveInviteCode}
           </button>
         ) : null}
       </header>
-
-      <OpenInvitesSection
-        signedIn={signedIn}
-        onViewPlan={(planId) => onOpenSharedPlan?.({ planId, originPrimary: 'profile' })}
-        onJoined={onJoinedOpenInvite}
-      />
 
       {removeError ? (
         <p className="v2-friends-error" role="status">
@@ -113,77 +156,37 @@ export default function FriendsSurface({
         </p>
       ) : status === 'loading' && friends.length === 0 ? (
         <p className="v2-friends-preview-helper">Loading friends…</p>
-      ) : friends.length === 0 ? (
-        <div className="v2-friends-empty" data-friends-list="empty">
-          <p className="v2-friends-preview-helper">{FRIENDS_COPY.emptyHelper}</p>
-          <button
-            type="button"
-            className="v2-profile-account-btn"
-            data-friends-action="invite-from-empty"
-            onClick={() => setInviteOpen(true)}
-          >
-            {FRIENDS_COPY.inviteFriend}
-          </button>
+      ) : showEmpty ? (
+        <div data-friends-list="empty">
+          <FriendsEmptyState
+            onInvite={() => setInviteOpen(true)}
+            onEnterCode={() => setCodeOpen(true)}
+          />
         </div>
       ) : (
-        <ul className="v2-friends-list" data-friends-list="rows">
-          {friends.map((friend) => {
-            const name = friendDisplayLabel(friend.displayName);
-            const menuOpen = menuUserId === friend.userId;
-            return (
-              <li
-                key={friend.userId}
-                className="v2-friends-row"
-                data-friend-row={friend.userId}
-              >
-                <button
-                  type="button"
-                  className="v2-friends-row-main"
-                  data-friends-action="open-friend-detail"
-                  onClick={() =>
-                    onOpenFriendDetail?.({ friendUserId: friend.userId })
-                  }
-                >
-                  <FriendAvatar
-                    displayName={friend.displayName}
-                    avatarUrl={friend.avatarUrl}
-                    size="md"
-                  />
-                  <span className="v2-friends-row-name">{name}</span>
-                </button>
-                <button
-                  type="button"
-                  className="v2-friends-more"
-                  aria-label={`More options for ${name}`}
-                  aria-expanded={menuOpen}
-                  data-friends-action="row-menu"
-                  onClick={() =>
-                    setMenuUserId((current) =>
-                      current === friend.userId ? null : friend.userId,
-                    )
-                  }
-                >
-                  <IconMore width={18} height={18} />
-                </button>
-                {menuOpen ? (
-                  <div className="v2-friends-row-menu" role="menu">
-                    <button
-                      type="button"
-                      className="v2-friends-row-menu-item"
-                      role="menuitem"
-                      data-friends-action="remove-friend"
-                      onClick={() => {
-                        setConfirmUserId(friend.userId);
-                        setMenuUserId(null);
-                      }}
-                    >
-                      {FRIENDS_COPY.removeFriend}
-                    </button>
-                  </div>
-                ) : null}
-              </li>
-            );
-          })}
+        <ul
+          className="v2-friends-list v2-friend-card-list"
+          data-friends-list="rows"
+          data-friends-context={context.status}
+        >
+          {cards.map((card) => (
+            <FriendsListCard
+              key={card.userId}
+              card={card}
+              menuOpen={menuUserId === card.userId}
+              removeLabel={FRIENDS_COPY.removeFriend}
+              onOpen={() => onOpenFriendDetail?.({ friendUserId: card.userId })}
+              onMenu={() =>
+                setMenuUserId((current) =>
+                  current === card.userId ? null : card.userId,
+                )
+              }
+              onRemove={() => {
+                setConfirmUserId(card.userId);
+                setMenuUserId(null);
+              }}
+            />
+          ))}
         </ul>
       )}
 

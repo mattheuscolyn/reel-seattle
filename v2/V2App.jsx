@@ -95,6 +95,7 @@ import {
   openProfileSettings,
   openProfileFriends,
   openFriendDetail,
+  stampFriendsListReturn,
   openFriendInviteLanding,
   openSharedPlanDetail,
   startPlannerFromFilm,
@@ -954,13 +955,22 @@ export default function V2App() {
       typeof params.friendUserId === 'string' ? params.friendUserId.trim() : '';
     if (!friendUserId) return;
     setNav((current) => {
-      const returnSurface =
+      const baseReturn =
         params.returnSurface ??
         (current.surface?.type === PROFILE_FRIENDS_SURFACE_TYPE
           ? current.surface
           : openProfileFriends(current, {
               originPrimary: params.originPrimary ?? 'profile',
             }).surface);
+      const returnSurface =
+        params.returnSurface == null &&
+        current.surface?.type === PROFILE_FRIENDS_SURFACE_TYPE
+          ? stampFriendsListReturn(
+              baseReturn,
+              friendUserId,
+              captureListPosition({ itemKey: friendUserId }),
+            )
+          : baseReturn;
       return openFriendDetail(current, {
         friendUserId,
         originPrimary: params.originPrimary ?? 'profile',
@@ -2808,15 +2818,9 @@ export default function V2App() {
     mainContent = (
       <FriendsSurface
         focusUserId={nav.surface.focusUserId}
+        listRestore={nav.surface.listRestore ?? null}
+        homeData={sharedHomeData.homeData}
         onOpenFriendDetail={handleOpenFriendDetail}
-        onOpenSharedPlan={(payload) =>
-          handleOpenSharedPlanDetail({
-            planId: payload?.planId,
-            originPrimary: 'profile',
-            returnSurface: nav.surface,
-          })
-        }
-        onJoinedOpenInvite={() => setAcceptedPlansRevision((n) => n + 1)}
       />
     );
   } else if (isFriendDetail) {
