@@ -201,9 +201,13 @@ def match_source_identity(
     )
     parsed_fallback = parse_film_id(fallback)
 
+    identity_release_year = identity.get("release_year")
+    identity_year_hint = identity.get("year_hint")
+    is_amc = source == "amc"
     year_info = interpret_source_years(
         source_title=identity.get("source_title"),
-        product_year=identity.get("release_year") or identity.get("year_hint"),
+        product_year=(identity_release_year or identity_year_hint) if is_amc else None,
+        explicit_canonical_year=identity_release_year if not is_amc else None,
         source=identity.get("source"),
     ).to_dict()
     scoring_year = year_info.get("scoring_year")
@@ -237,8 +241,8 @@ def match_source_identity(
         ),
         "candidates": [],
         "signals": None,
-        "normalized_title": year_info.get("base_title")
-        or identity.get("normalized_title"),
+        "normalized_title": identity.get("normalized_title")
+        or year_info.get("base_title"),
         "year_hint": scoring_year,
         "runtime_min": identity.get("runtime_min"),
         "directors_raw": identity.get("directors_raw"),
@@ -369,8 +373,8 @@ def match_source_identity(
         }
 
     raw_search = (
-        year_info.get("base_title")
-        or identity.get("normalized_title")
+        identity.get("normalized_title")
+        or year_info.get("base_title")
         or identity.get("source_title")
     )
     search_title, title_warnings = preferred_search_title(
