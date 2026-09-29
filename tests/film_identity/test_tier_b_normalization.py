@@ -91,6 +91,13 @@ def test_program_series_prefixes_and_source_scope():
     assert secs.base_title == "The Raspberry Reich"
     assert secs.program_series == "Secs Fest Presents"
 
+    tv_party = extract_match_title(
+        "TV PARTY: DOOMED OCCULT DETECTIVES",
+        source="beacon",
+    )
+    assert tv_party.base_title == "DOOMED OCCULT DETECTIVES"
+    assert tv_party.program_series == "TV PARTY"
+
     wtf = extract_match_title("WTF with STUFF - Neptune Frost", source="nwff")
     assert wtf.base_title == "Neptune Frost"
     assert wtf.program_series == "WTF with STUFF"
