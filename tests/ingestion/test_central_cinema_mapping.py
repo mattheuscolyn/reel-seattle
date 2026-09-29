@@ -414,13 +414,13 @@ def test_registered_series_becomes_identity_metadata():
             release_year=1992,
         )
     ]
-    result["showtimes"] = [
-        showtime(
-            slug="basic-instinct",
-            showing_id="4001",
-            title="Camp Napalm presents: Basic Instinct",
-        )
-    ]
+    branded = showtime(
+        slug="basic-instinct",
+        showing_id="4001",
+        title="Camp Napalm presents: Basic Instinct",
+    )
+    branded["raw"]["title_differs_from_program"] = True
+    result["showtimes"] = [branded]
     mapped = map_central_cinema_contract_to_indie(result, theater_ids=THEATER_IDS)
     record = mapped.records[0]
     assert record.title_raw == "Camp Napalm presents: Basic Instinct"
