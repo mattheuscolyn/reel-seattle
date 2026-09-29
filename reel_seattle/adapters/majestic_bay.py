@@ -37,6 +37,10 @@ _PURCHASE_ID_RE = re.compile(r"/purchase/(\d+)")
 _CODE_RE = re.compile(r"[?&]code=(\d+)")
 _DURATION_RE = re.compile(r"^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$")
 _EMPTY_RE = re.compile(r"no shows currently scheduled", re.IGNORECASE)
+_ANNIVERSARY_PREFIX_RE = re.compile(
+    r"^(?P<label>\d{1,3}(?:st|nd|rd|th)\s+Anniversary\s+Celebration)\s*:\s*(?P<title>.+)$",
+    re.IGNORECASE,
+)
 
 FetchFn = Callable[..., tuple[int, bytes, dict[str, str]]]
 
@@ -61,6 +65,17 @@ def _duration_minutes(value: str) -> int | None:
 def _purchase_id(url: str) -> str | None:
     match = _PURCHASE_ID_RE.search(url)
     return match.group(1) if match else None
+
+
+def normalize_majestic_bay_identity_title(title: str) -> tuple[str, str | None]:
+    """Strip only the observed leading anniversary-celebration presentation."""
+    source_title = normalize_exact_source_title(title)
+    match = _ANNIVERSARY_PREFIX_RE.match(source_title)
+    if not match:
+        return source_title, None
+    identity_title = normalize_exact_source_title(match.group("title"))
+    label = normalize_exact_source_title(match.group("label"))
+    return (identity_title or source_title), (label or None)
 
 
 def _events(html: str) -> list[dict[str, Any]]:
@@ -208,11 +223,16 @@ def fetch_majestic_bay(
         if local_day < start_date or local_day > end_date:
             continue
         detail = details.get(url, {})
+        identity_title, anniversary_label = normalize_majestic_bay_identity_title(name)
         film_code = detail.get("film_code")
         program_id = str(film_code) if film_code else showtime_id
         labels = list(detail.get("labels") or [])
         attributes: dict[str, Any] = {"public_sessions_url": SESSIONS_URL}
-        if labels:
+        if identity_title != name:
+            attributes["identity_title"] = identity_title
+        if anniversary_label:
+            attributes["presentation_labels"] = [anniversary_label, *labels]
+        elif labels:
             attributes["presentation_labels"] = labels
         if not film_code:
             attributes["program_id_source"] = "purchase_session"
@@ -220,7 +240,7 @@ def fetch_majestic_bay(
             Screen(
                 program_id=program_id,
                 source_title=name,
-                identity_title=name,
+                identity_title=identity_title,
                 program_url=SESSIONS_URL,
                 showtime_id=showtime_id,
                 theater_id=THEATER_ID,
