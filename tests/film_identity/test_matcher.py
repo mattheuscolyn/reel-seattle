@@ -120,3 +120,171 @@ def test_build_artifacts_deterministic_ordering():
     assert first["catalog"] == second["catalog"]
     assert first["coverage"]["confirmed_automatic"] == 1
     assert first["coverage"]["non_film"] == 1
+
+class RecordingClient:
+    def __init__(self):
+        self.searches = []
+
+    def search_movie(self, query, *, year=None, page=1):
+        self.searches.append((query, year))
+        candidates = {
+            "Kanał": {
+                "id": 1040,
+                "title": "Kanał",
+                "original_title": "Kanał",
+                "release_date": "1957-04-20",
+                "popularity": 5,
+                "poster_path": "/kanal.jpg",
+                "overview": "Wajda film.",
+                "adult": False,
+            },
+            "Shambhala Story": {
+                "id": 190001,
+                "title": "Shambhala Story",
+                "original_title": "Shambhala Story",
+                "release_date": "2025-01-01",
+                "popularity": 5,
+                "poster_path": "/shambhala.jpg",
+                "overview": "Tasveer film.",
+                "adult": False,
+            },
+            "Wildwood": {
+                "id": 190002,
+                "title": "Wildwood",
+                "original_title": "Wildwood",
+                "release_date": "2026-01-01",
+                "popularity": 5,
+                "poster_path": "/wildwood.jpg",
+                "overview": "Anderson film.",
+                "adult": False,
+            },
+        }
+        row = candidates.get(query)
+        return {"results": [row] if row else []}
+
+    def movie_details(self, tmdb_id):
+        details = {
+            1040: {
+                "id": 1040,
+                "title": "Kanał",
+                "original_title": "Kanał",
+                "release_date": "1957-04-20",
+                "runtime": 96,
+            },
+            190001: {
+                "id": 190001,
+                "title": "Shambhala Story",
+                "original_title": "Shambhala Story",
+                "release_date": "2025-01-01",
+                "runtime": 108,
+            },
+            190002: {
+                "id": 190002,
+                "title": "Wildwood",
+                "original_title": "Wildwood",
+                "release_date": "2026-01-01",
+                "runtime": 132,
+            },
+        }
+        return {
+            **details[tmdb_id],
+            "poster_path": "/x.jpg",
+            "overview": "Film.",
+            "external_ids": {},
+            "credits": {"crew": []},
+        }
+
+
+def test_matcher_prefers_clean_source_identity_metadata_for_search():
+    decisions = empty_decisions_document(updated_at="2026-09-29T00:00:00+00:00")
+    cases = [
+        (
+            {
+                "source": "siff",
+                "source_film_id": "programs-and-events/andrzej-wajda/kanal",
+                "showtime_film_key": "kanal",
+                "source_title": "The Films of Andrzej Wajda: Kanał",
+                "identity_title": "Kanał",
+                "normalized_title": "Kanał",
+                "release_year": 1957,
+                "year_hint": 1957,
+                "runtime_min": 96,
+                "eligibility": "eligible",
+                "eligibility_reasons": [],
+                "film_id_fallback": "source:siff:programs-and-events/andrzej-wajda/kanal",
+            },
+            ("Kanał", 1957),
+        ),
+        (
+            {
+                "source": "tasveer",
+                "source_film_id": "153164",
+                "showtime_film_key": "shambhala-story",
+                "source_title": "Shambhala Story (2025, Japan, Japanese subtitled in English)",
+                "identity_title": "Shambhala Story",
+                "normalized_title": "Shambhala Story",
+                "release_year": 2025,
+                "year_hint": 2025,
+                "runtime_min": 108,
+                "eligibility": "eligible",
+                "eligibility_reasons": [],
+                "film_id_fallback": "source:tasveer:153164",
+            },
+            ("Shambhala Story", 2025),
+        ),
+        (
+            {
+                "source": "anderson_school",
+                "source_film_id": "ST00003282",
+                "showtime_film_key": "wildwood",
+                "source_title": "Wildwood (OCAP)",
+                "identity_title": "Wildwood",
+                "normalized_title": "Wildwood",
+                "release_year": None,
+                "year_hint": None,
+                "runtime_min": 132,
+                "eligibility": "eligible",
+                "eligibility_reasons": [],
+                "film_id_fallback": "source:anderson_school:ST00003282",
+            },
+            ("Wildwood", None),
+        ),
+    ]
+
+    for identity, expected_search in cases:
+        client = RecordingClient()
+        result = match_source_identity(
+            identity,
+            client=client,
+            decisions_doc=decisions,
+        )
+        assert client.searches[0] == expected_search
+        assert result["normalized_title"] == expected_search[0]
+
+
+def test_non_amc_source_release_year_remains_canonical_evidence():
+    decisions = empty_decisions_document(updated_at="2026-09-29T00:00:00+00:00")
+    client = RecordingClient()
+    result = match_source_identity(
+        {
+            "source": "siff",
+            "source_film_id": "programs-and-events/andrzej-wajda/kanal",
+            "showtime_film_key": "kanal",
+            "source_title": "The Films of Andrzej Wajda: Kanał",
+            "identity_title": "Kanał",
+            "normalized_title": "Kanał",
+            "release_year": 1957,
+            "year_hint": 1957,
+            "runtime_min": 96,
+            "eligibility": "eligible",
+            "eligibility_reasons": [],
+            "film_id_fallback": "source:siff:programs-and-events/andrzej-wajda/kanal",
+        },
+        client=client,
+        decisions_doc=decisions,
+    )
+    assert result["year_hint"] == 1957
+    assert result["year_interpretation"]["canonical_year_candidate"] == 1957
+    assert result["year_interpretation"]["year_confidence"] == "explicit"
+    assert result["year_interpretation"]["product_year_weak"] is False
+
