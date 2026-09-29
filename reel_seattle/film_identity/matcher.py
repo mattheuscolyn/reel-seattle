@@ -243,6 +243,7 @@ def match_source_identity(
         "runtime_min": identity.get("runtime_min"),
         "directors_raw": identity.get("directors_raw"),
         "directors_normalized": directors_normalized,
+        "component_titles": list(identity.get("component_titles") or []),
         "year_interpretation": year_info,
         "presentation_labels": list(
             identity.get("presentation_labels") or year_info.get("presentation_labels") or []
@@ -783,6 +784,7 @@ def _build_review_items(films: Sequence[Mapping[str, Any]]) -> list[dict[str, An
                 "candidates": candidates,
                 "film_id_fallback": film.get("film_id"),
                 "entity_kind": film.get("entity_kind"),
+                "component_titles": film.get("component_titles") or [],
                 "year_interpretation": film.get("year_interpretation"),
                 "presentation_labels": film.get("presentation_labels") or [],
                 "top_candidate_margin": film.get("top_candidate_margin"),
