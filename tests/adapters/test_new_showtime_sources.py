@@ -14,7 +14,7 @@ from reel_seattle.adapters.option_c import write_option_c_scrape_log
 from reel_seattle.adapters.scrape_log import daily_log_path
 from reel_seattle.adapters.stg import fetch_stg
 from reel_seattle.adapters.stg_qualification import qualify_stg_event, split_stg_title
-from reel_seattle.adapters.tasveer import fetch_tasveer
+from reel_seattle.adapters.tasveer import fetch_tasveer, parse_tasveer_title_metadata
 from reel_seattle.emit.current import build_showtimes_current
 from reel_seattle.history_keys import load_theater_index
 
@@ -146,10 +146,44 @@ def test_tasveer_maps_ids_timezone_and_open_captions():
     assert record.date_raw == "10/02/2026"
     assert record.time_raw == "7:00 PM"
     assert record.format_raw == "open caption"
+    assert record.attributes["identity_title"] == "Primetime"
     assert record.attributes["year_raw"] == 2026
+    assert record.attributes["release_year"] == 2026
+    assert record.attributes["country_raw"] == "USA"
     assert record.ticket_url_raw.endswith("/checkout/showing/primetime/4003596")
     assert record.source_film_url == "https://filmcenter.tasveer.org/movie/primetime"
     assert record.theater_name_raw == "Tasveer Film Center"
+
+
+def test_tasveer_title_metadata_parser_handles_current_source_shapes():
+    assert parse_tasveer_title_metadata("Primetime (USA, 2026)") == (
+        "Primetime",
+        2026,
+        {
+            "release_year": 2026,
+            "source_title_metadata": ["USA", "2026"],
+            "country_raw": "USA",
+        },
+    )
+
+    title, year, metadata = parse_tasveer_title_metadata(
+        "NAGARKIRTAN (নগরকীর্তন, Bengali, 2017))"
+    )
+    assert title == "NAGARKIRTAN"
+    assert year == 2017
+    assert metadata["alternate_titles"] == ["নগরকীর্তন"]
+    assert metadata["language_note_raw"] == "Bengali"
+
+    title, year, metadata = parse_tasveer_title_metadata(
+        "Shambhala Story (2025, Japan, Japanese subtitled in English)"
+    )
+    assert title == "Shambhala Story"
+    assert year == 2025
+    assert metadata["country_raw"] == "Japan"
+    assert metadata["language_note_raw"] == "Japanese subtitled in English"
+
+    untouched = "The Year 2000"
+    assert parse_tasveer_title_metadata(untouched) == (untouched, None, {})
 
 
 def test_tasveer_graphql_and_http_failures_are_not_empty_success():

@@ -101,6 +101,16 @@ def test_program_series_prefixes_and_source_scope():
     )
 
 
+def test_16mm_and_compound_format_parenthetical_strip():
+    extracted = extract_match_title(
+        "Nature is a Language (16mm & 35mm)",
+        source="siff",
+    )
+    assert extracted.base_title == "Nature is a Language"
+    assert "format_or_accessibility_paren" in extracted.applied_rules
+    assert extracted.format_tags == ("16mm & 35mm",)
+
+
 def test_event_parenthetical_strip_keeps_genuine_subtitles():
     matewan = extract_match_title("Matewan (Unite Here Fundraiser)", source="beacon")
     assert matewan.base_title == "Matewan"

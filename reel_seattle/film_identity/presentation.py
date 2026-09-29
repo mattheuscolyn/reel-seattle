@@ -62,7 +62,7 @@ _PRESENTATION_ATOM = (
     r"|closed\s+caption(?:ed|ing)?"
     r"|audio\s+description"
     r"|dubbed|subtitled"
-    r"|35mm|70mm|imax(?:\s*70mm)?|dolby(?:\s+cinema)?|reald\s+3d|3d"
+    r"|16mm|35mm|70mm|imax(?:\s*70mm)?|dolby(?:\s+cinema)?|reald\s+3d|3d"
     r"|revived"
     r")"
 )
@@ -75,7 +75,8 @@ _PRESENTATION_SEGMENT_RE = re.compile(
 )
 _PAREN_PRESENTATION_RE = re.compile(
     r"\s*\(\s*("
-    r"35mm|70mm|imax(?:\s*70mm)?|dolby\s+cinema|"
+    r"(?:16mm|35mm|70mm)(?:\s*(?:&|and|/|,)\s*(?:16mm|35mm|70mm))*|"
+    r"imax(?:\s*70mm)?|dolby\s+cinema|"
     r"(?:new\s+)?4k(?:\s+restoration)?|4k\s+restoration|"
     r"open\s+caption(?:s|ing)?(?:\s+in\s+english)?|"
     r"sensory\s+friendly|dubbed|subtitled|restored|remastered|"
@@ -143,7 +144,7 @@ _PRESENTATION_TOKEN_RE = re.compile(
     r"studio\s+ghibli\s+fest(?:ival)?|ghibli\s+fest(?:ival)?|"
     r"film\s+festival|fest(?:ival)?|"
     r"q\s*&\s*a|talkback|panel|"
-    r"35mm|70mm|imax|dolby(?:\s+cinema)?|"
+    r"16mm|35mm|70mm|imax|dolby(?:\s+cinema)?|"
     r"dubbed|subtitled|open\s+caption(?:s|ing)?|"
     r"sensory\s+friendly(?:\s+screening)?|"
     r"early\s+access|fan\s+event|encore|one\s+night\s+only|"
@@ -155,6 +156,7 @@ _ORPHAN_PUNCT_RE = re.compile(r"\s*[&/,|:–—-]+\s*$")
 _EMPTY_PARENS_RE = re.compile(r"\(\s*\)")
 _MULTI_SPACE_RE = re.compile(r"\s+")
 _FORMAT_LABELS = {
+    "16mm",
     "35mm",
     "70mm",
     "imax",
@@ -540,7 +542,7 @@ def extract_match_title(
             removed.append(phrase)
             label = inner.casefold()
             if label in _FORMAT_LABELS or any(
-                label.startswith(x) for x in ("35mm", "70mm", "imax", "dolby", "4k")
+                label.startswith(x) for x in ("16mm", "35mm", "70mm", "imax", "dolby", "4k")
             ):
                 format_tags.append(inner)
             else:
