@@ -6,6 +6,7 @@
 import { friendGivenName } from '../friends/friendsModel.js';
 import { formatFriendNameOverflow } from '../friends/friendFilmActivityModel.js';
 import { formatSharedPlanDateLabel } from '../sharedPlans/sharedPlanCopy.js';
+import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 
 /**
  * @param {unknown} raw
@@ -314,23 +315,43 @@ export function buildInviteSuggestions(input) {
 }
 
 /**
+ * @param {NonNullable<ReturnType<typeof normalizeFriendPlanSignal>>} row
+ */
+function participantFromSignal(row) {
+  if (!row?.friendId) return null;
+  return {
+    userId: row.friendId,
+    displayName: row.friendName ?? null,
+    avatarUrl: row.avatarUrl ?? null,
+  };
+}
+
+/**
  * Friend Detail plan cards. One row per plan, nearest screening.
+ * Scoped to friend plan signals the viewer can already see — not open invites
+ * from the Friends list and not the viewer's unrelated Planner plans.
+ *
  * @param {Array<ReturnType<typeof normalizeFriendPlanSignal>>} signals
  */
 export function buildFriendPlanCards(signals) {
-  /** @type {Map<string, { row: NonNullable<ReturnType<typeof normalizeFriendPlanSignal>>, titles: string[] }>} */
+  /** @type {Map<string, { row: NonNullable<ReturnType<typeof normalizeFriendPlanSignal>>, titles: string[], participants: Array<{ userId: string, displayName: string | null, avatarUrl: string | null }> }>} */
   const byPlan = new Map();
   for (const row of Array.isArray(signals) ? signals : []) {
     if (!row || !responseCountsAsAttendance(row.response, row.planType)) continue;
+    const person = participantFromSignal(row);
     const existing = byPlan.get(row.planId);
     if (!existing) {
       byPlan.set(row.planId, {
         row,
         titles: row.title ? [row.title] : [],
+        participants: person ? [person] : [],
       });
       continue;
     }
     if (row.title && !existing.titles.includes(row.title)) existing.titles.push(row.title);
+    if (person && !existing.participants.some((p) => p.userId === person.userId)) {
+      existing.participants.push(person);
+    }
     const existingKey = `${existing.row.localDate || ''} ${existing.row.localTime || ''}`;
     const nextKey = `${row.localDate || ''} ${row.localTime || ''}`;
     if (nextKey < existingKey) existing.row = row;
@@ -342,18 +363,31 @@ export function buildFriendPlanCards(signals) {
       ),
     )
     .slice(0, 6)
-    .map(({ row, titles }) => ({
-      planId: row.planId,
-      title: titles.length > 1 ? titles.join(' / ') : titles[0] || row.title || 'Shared plan',
-      when: [formatSharedPlanDateLabel(row.localDate), row.localTime]
-        .filter(Boolean)
-        .join(' · '),
-      responseLabel:
-        row.response === 'going'
-          ? 'Going'
-          : row.response === 'maybe'
-            ? 'Maybe'
-            : 'Interested',
-      actionLabel: row.viewerCanJoin ? 'Join plan' : 'View plan',
-    }));
+    .map(({ row, titles, participants }) => {
+      const timeLabel = row.localTime
+        ? formatDisplayClock(row.localTime, '12h')
+        : '';
+      return {
+        planId: row.planId,
+        title: titles.length > 1 ? titles.join(' / ') : titles[0] || row.title || 'Shared plan',
+        when: [formatSharedPlanDateLabel(row.localDate), timeLabel]
+          .filter(Boolean)
+          .join(' · '),
+        localDate: row.localDate,
+        localTime: row.localTime,
+        theaterName: row.theaterName,
+        filmKey: row.filmKey,
+        filmId: row.filmId,
+        response: row.response,
+        responseLabel:
+          row.response === 'going'
+            ? 'Going'
+            : row.response === 'maybe'
+              ? 'Maybe'
+              : 'Interested',
+        actionLabel: row.viewerCanJoin ? 'Join plan' : 'View plan',
+        viewerOnPlan: row.viewerCanJoin !== true,
+        participants,
+      };
+    });
 }

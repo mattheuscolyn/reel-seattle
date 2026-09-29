@@ -2841,6 +2841,16 @@ export default function V2App() {
             returnSurface: nav.surface,
           })
         }
+        onBrowseFilms={() => {
+          setNav((current) =>
+            openCollection(current, {
+              collectionId: COLLECTION_IDS.allMovies,
+              originPrimary: current.surface?.originPrimary ?? 'profile',
+              returnSurface: current.surface,
+            }),
+          );
+          window.scrollTo(0, 0);
+        }}
       />
     );
   } else if (isSharedPlanDetail) {

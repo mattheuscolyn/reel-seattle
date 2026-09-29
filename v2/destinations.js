@@ -248,6 +248,7 @@ export function resolveHeaderBackLabel(nav, options = {}) {
     return originBackLabel(surface.originPrimary, 'Home');
   }
   if (surface.type === 'shared-plan-detail') {
+    if (surface.returnSurface?.type === 'friend-detail') return 'Friend';
     if (surface.returnSurface?.type === 'profile-friends') return 'Friends';
     return originBackLabel(surface.originPrimary, 'Planner');
   }
@@ -260,6 +261,7 @@ export function resolveHeaderBackLabel(nav, options = {}) {
     return 'Explore';
   }
   if (surface.type === 'collection') {
+    if (surface.returnSurface?.type === 'friend-detail') return 'Friend';
     if (surface.collectionId === 'search-results') return 'Explore';
     return originBackLabel(surface.originPrimary);
   }

@@ -4114,41 +4114,109 @@ button.v2-fd-today-time:focus-visible {
 }
 
 .v2-friend-detail-plans {
-  margin: 0 0 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .v2-friend-detail-plan-list {
   list-style: none;
-  margin: 0.4rem 0 0;
+  margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.65rem;
 }
 
 .v2-friend-detail-plan {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.1rem;
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
   width: 100%;
-  text-align: left;
-  background: transparent;
-  border: 0;
+  padding: 0.7rem;
+  border: 1px solid var(--v2-border);
+  border-radius: var(--v2-radius-feature);
+  background: var(--v2-bg-raised);
   color: inherit;
   font: inherit;
-  padding: 0.35rem 0;
+  text-align: left;
   cursor: pointer;
 }
 
+.v2-friend-detail-plan:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-fd-plan-poster {
+  aspect-ratio: 2 / 3;
+  border-radius: var(--v2-radius-poster);
+  overflow: hidden;
+  background: var(--v2-bg-elevated);
+}
+
+.v2-fd-plan-poster img,
+.v2-fd-plan-poster .v2-shelf-poster-fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v2-fd-plan-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
 .v2-friend-detail-plan-title {
-  font-weight: 650;
+  font-family: var(--v2-font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 .v2-friend-detail-plan-when,
-.v2-friend-detail-plan-response {
-  font-size: 0.85rem;
+.v2-fd-plan-theater {
   color: var(--v2-muted);
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+.v2-friend-detail-plan-response {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.28rem;
+  padding: 0.12rem 0.5rem 0.12rem 0.4rem;
+  border-radius: 999px;
+  background: var(--v2-accent-soft);
+  color: var(--v2-focus);
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.v2-fd-plan-side {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--v2-muted);
+}
+
+.v2-fd-plan-avatars {
+  display: flex;
+}
+
+.v2-fd-plan-avatars .v2-friend-avatar {
+  margin-left: -0.45rem;
+  box-shadow: 0 0 0 2px var(--v2-bg-raised);
+}
+
+.v2-fd-plan-avatars .v2-friend-avatar:first-child {
+  margin-left: 0;
 }
 
 .v2-fd-today-time-detail {
@@ -19953,34 +20021,255 @@ a.v2-stb-time:focus-visible {
 }
 
 .v2-friend-detail {
-  padding: 0.75rem 1.1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  padding: 0.15rem 0 1.5rem;
 }
 
 .v2-friend-detail-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.85rem;
-  margin-bottom: 1.15rem;
+}
+
+.v2-fd-identity {
+  min-width: 0;
 }
 
 .v2-friend-detail-title {
   margin: 0;
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-family: var(--v2-font-display);
+  font-size: clamp(1.7rem, 6vw, 2.15rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
-.v2-friend-detail-category {
-  margin-top: 1.15rem;
+.v2-fd-since {
+  margin: 0.2rem 0 0;
+  color: var(--v2-muted);
+  font-size: 0.9rem;
 }
 
-.v2-friend-detail-cat-title {
-  margin: 0 0 0.45rem;
-  font-size: 0.82rem;
-  letter-spacing: 0.1em;
-  font-weight: 700;
+.v2-fd-menu {
+  position: relative;
+}
+
+.v2-fd-row-menu {
+  top: 2.2rem;
+}
+
+.v2-fd-summary {
+  padding: 0.85rem 0.35rem 0.8rem;
+  border: 1px solid var(--v2-border);
+  border-radius: var(--v2-radius-feature);
+  background: var(--v2-bg-raised);
+}
+
+.v2-fd-summary-label {
+  margin: 0 0 0.7rem;
+  padding: 0 0.65rem;
+  color: var(--v2-muted-soft);
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #c5cad6;
+}
+
+.v2-fd-summary-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.v2-fd-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 0;
+  padding: 0 0.25rem;
+  text-align: center;
+  border-left: 1px solid var(--v2-border);
+}
+
+.v2-fd-metric:first-child {
+  border-left: 0;
+}
+
+.v2-fd-metric-icon {
+  color: var(--v2-accent);
+  display: grid;
+  place-items: center;
+}
+
+.v2-fd-metric-value {
+  font-family: var(--v2-font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.v2-fd-metric-label {
+  color: var(--v2-muted);
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
+.v2-fd-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.v2-fd-section-title {
+  margin: 0;
+  font-family: var(--v2-font-display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.v2-fd-section-lead {
+  margin: 0 0 0.45rem;
+  color: var(--v2-muted);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.v2-fd-film-row {
+  margin: 0;
+  padding: 0.15rem 0 0.2rem;
+  list-style: none;
+}
+
+.v2-fd-film {
+  flex: 0 0 42%;
+  max-width: 11rem;
+  min-width: 7.75rem;
+  scroll-snap-align: start;
+}
+
+.v2-fd-film-card {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.v2-fd-film-card:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+  border-radius: var(--v2-radius-poster);
+}
+
+.v2-fd-empty {
+  display: grid;
+  grid-template-columns: 6.75rem minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--v2-border);
+  border-radius: var(--v2-radius-feature);
+  background: var(--v2-bg-raised);
+}
+
+.v2-fd-empty-art {
+  position: relative;
+  height: 6.4rem;
+}
+
+.v2-fd-empty-card {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 3.6rem;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--v2-radius-poster);
+  border: 1px solid var(--v2-border-strong);
+  background: linear-gradient(160deg, var(--v2-bg-elevated), #2a2140);
+  color: var(--v2-focus);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+.v2-fd-empty-card-back {
+  left: 0.15rem;
+  top: 0.85rem;
+  transform: rotate(-10deg);
+  opacity: 0.8;
+}
+
+.v2-fd-empty-card-front {
+  right: 0.2rem;
+  top: 0.25rem;
+  transform: rotate(8deg);
+  background: linear-gradient(180deg, #3a2a58, var(--v2-bg-elevated));
+}
+
+.v2-fd-empty-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.v2-fd-empty-title {
+  margin: 0;
+  font-family: var(--v2-font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.v2-fd-empty-body {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.v2-fd-empty-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.4rem;
+  margin-top: 0.15rem;
+}
+
+.v2-fd-tab-empty {
+  margin: 0.35rem 0 0;
+  color: var(--v2-muted);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+@media (min-width: 720px) {
+  .v2-friend-detail {
+    max-width: 44rem;
+  }
+
+  .v2-fd-film {
+    flex-basis: 9.25rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .v2-fd-empty {
+    grid-template-columns: 1fr;
+  }
+
+  .v2-fd-metric-label {
+    font-size: 0.62rem;
+  }
 }
 
 /* Shared plan invite / RSVP (Planner Friends coordination) */

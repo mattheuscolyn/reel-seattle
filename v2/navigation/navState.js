@@ -115,6 +115,7 @@ import {
  * @property {string | null} [query]
  * @property {ExploreRestoreState | null} [exploreRestore]
  * @property {SearchUiState | null} [searchUi]
+ * @property {object | null} [returnSurface]
  */
 
 /**
@@ -520,6 +521,7 @@ export function startPlannerFromFilm(state, seed) {
  *   originPrimary?: string,
  *   query?: string | null,
  *   exploreRestore?: ExploreRestoreState | null,
+ *   returnSurface?: object | null,
  * }} params
  */
 export function openCollection(state, params) {
@@ -542,6 +544,7 @@ export function openCollection(state, params) {
       query: params.query ?? null,
       exploreRestore: params.exploreRestore ?? null,
       searchUi: params.searchUi ?? null,
+      returnSurface: params.returnSurface ?? null,
     },
   };
 }
@@ -1295,6 +1298,14 @@ export function navigateBack(state) {
   }
 
   if (state.surface.type === 'collection') {
+    if (state.surface.returnSurface) {
+      return {
+        ...state,
+        primaryDestinationId: resolveDestinationId(state.surface.originPrimary),
+        surface: state.surface.returnSurface,
+        plannerSeed: null,
+      };
+    }
     return {
       primaryDestinationId: resolveDestinationId(state.surface.originPrimary),
       surface: null,
