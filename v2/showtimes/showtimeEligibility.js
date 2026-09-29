@@ -6,6 +6,7 @@
 import {
   addIsoDays,
   pacificDateString,
+  pacificWallClock,
 } from '../explore/exploreCatalog.js';
 
 /**
@@ -22,27 +23,10 @@ function resolveNow(now = new Date()) {
  */
 export function pacificSortableDateTime(now = new Date()) {
   const instant = resolveNow(now);
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/Los_Angeles',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hourCycle: 'h23',
-  }).formatToParts(instant);
-  const get = (type) => parts.find((p) => p.type === type)?.value;
-  const y = get('year');
-  const m = get('month');
-  const d = get('day');
-  let hour = get('hour');
-  const minute = get('minute');
-  if (!y || !m || !d || hour == null || minute == null) {
+  if (!(instant instanceof Date) || !Number.isFinite(instant.getTime())) {
     return `${pacificDateString(instant)}T00:00`;
   }
-  // Some engines emit "24" for midnight under h23 — normalize.
-  if (hour === '24') hour = '00';
-  return `${y}-${m}-${d}T${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
+  return pacificWallClock(instant).nowKey;
 }
 
 /**

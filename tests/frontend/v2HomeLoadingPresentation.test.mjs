@@ -59,6 +59,9 @@ test('Home loading shell, deferred shelves, and image loading hints', async () =
       }),
     );
     assert.match(unrevealedHtml, /v2-shelf-card-skeleton/);
+    assert.match(unrevealedHtml, /data-destination-phase="shell"/);
+    assert.match(unrevealedHtml, /data-home-content="preparing"/);
+    assert.equal(unrevealedHtml.includes('Loading current opportunities'), false);
     assert.equal(unrevealedHtml.includes('Distinctive Unrevealed Film'), false);
 
     const films = ['one', 'two', 'three', 'four', 'five'].map((id) => ({

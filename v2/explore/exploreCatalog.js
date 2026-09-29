@@ -14,17 +14,63 @@ import { resolveTheaterPresentation } from '../theaters/resolveTheaterPresentati
 import { SEARCH_EXPLORE_HONESTY_NOTE } from './searchCopy.js';
 import { enrichHomeFilm } from '../enrichment/enrichHomeFilm.js';
 
+const pacificDayFormatter = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'America/Los_Angeles',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+
+const pacificDateTimeFormatter = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'America/Los_Angeles',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+});
+
+/** One slot, keyed by the exact instant. A new millisecond recomputes. */
+let pacificWallClockCache = null;
+
+/**
+ * Pacific calendar date and minute wall-clock for one instant.
+ * Formatters are reused; the formatted pair is reused only for the same ms.
+ * @param {Date} instant
+ * @returns {{ today: string, nowKey: string }}
+ */
+export function pacificWallClock(instant) {
+  const ms = instant.getTime();
+  if (pacificWallClockCache && pacificWallClockCache.ms === ms) {
+    return pacificWallClockCache;
+  }
+  const today = pacificDayFormatter.format(instant);
+  const parts = pacificDateTimeFormatter.formatToParts(instant);
+  const get = (type) => parts.find((part) => part.type === type)?.value;
+  const year = get('year');
+  const month = get('month');
+  const day = get('day');
+  let hour = get('hour');
+  const minute = get('minute');
+  let nowKey = `${today}T00:00`;
+  if (year && month && day && hour != null && minute != null) {
+    if (hour === '24') hour = '00';
+    nowKey = `${year}-${month}-${day}T${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
+  }
+  pacificWallClockCache = { ms, today, nowKey };
+  return pacificWallClockCache;
+}
+
 /**
  * Local calendar YYYY-MM-DD in America/Los_Angeles.
  * @param {Date} [now]
  */
 export function pacificDateString(now = new Date()) {
-  return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'America/Los_Angeles',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(now);
+  if (now instanceof Date && Number.isFinite(now.getTime())) {
+    return pacificWallClock(now).today;
+  }
+  return pacificDayFormatter.format(now);
 }
 
 /**

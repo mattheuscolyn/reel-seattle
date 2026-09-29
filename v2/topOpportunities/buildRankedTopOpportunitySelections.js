@@ -8,11 +8,28 @@
  *   feature extraction → ranking → selection → presentation adaptation → UI
  */
 
+import { pacificSortableDateTime } from '../showtimes/showtimeEligibility.js';
 import { buildRankedTopOpportunityCandidates } from './opportunityRanking.js';
 import {
   presentRankedOpportunityReason,
   presentSupportingRankedReasons,
 } from './rankedOpportunityReasonLabels.js';
+
+/**
+ * Last ranked Home selection. Survives Top Opportunity remounts.
+ * Hits only when homeData, enrichment, cacheToken, weights, topN, and the
+ * Pacific minute (or an explicit `now` instant) all match. `cacheToken` is
+ * the visibility revision plus hide-seen / hide-not-interested flags.
+ * Callers that omit cacheToken always recompute. One entry only.
+ */
+let rankedSelectionCache = null;
+
+function rankedNowToken(now) {
+  if (now == null) return pacificSortableDateTime();
+  if (now instanceof Date) return String(now.getTime());
+  if (typeof now === 'string') return now;
+  return null;
+}
 
 /**
  * @param {object | null | undefined} scored
@@ -184,9 +201,29 @@ export function adaptRankedOpportunityForHome(scored, homeData, meta = {}) {
  *   weights?: object,
  *   topN?: number,
  *   isCandidateVisible?: (scored: object) => boolean,
+ *   cacheToken?: string | null,
  * }} [options]
  */
 export function buildRankedTopOpportunitySelections(homeData, options = {}) {
+  const nowToken = rankedNowToken(options.now);
+  const cacheToken = options.cacheToken ?? null;
+  const enrichmentIndex = options.enrichmentIndex ?? null;
+  const weights = options.weights ?? null;
+  const topN = options.topN ?? null;
+  if (
+    cacheToken != null &&
+    nowToken != null &&
+    rankedSelectionCache &&
+    rankedSelectionCache.homeData === homeData &&
+    rankedSelectionCache.enrichmentIndex === enrichmentIndex &&
+    rankedSelectionCache.cacheToken === cacheToken &&
+    rankedSelectionCache.nowToken === nowToken &&
+    rankedSelectionCache.weights === weights &&
+    rankedSelectionCache.topN === topN
+  ) {
+    return rankedSelectionCache.value;
+  }
+
   const rankingResult = buildRankedTopOpportunityCandidates(homeData, options);
   const reps = Array.isArray(rankingResult.filmRepresentatives)
     ? rankingResult.filmRepresentatives
@@ -210,11 +247,23 @@ export function buildRankedTopOpportunitySelections(homeData, options = {}) {
     )
     .filter(Boolean);
 
-  return {
+  const value = {
     nowSortable: rankingResult.nowSortable,
     todayIso: rankingResult.todayIso,
     counts: rankingResult.counts,
     selections,
     rankingResult,
   };
+  if (cacheToken != null && nowToken != null) {
+    rankedSelectionCache = {
+      homeData,
+      enrichmentIndex,
+      cacheToken,
+      nowToken,
+      weights,
+      topN,
+      value,
+    };
+  }
+  return value;
 }
