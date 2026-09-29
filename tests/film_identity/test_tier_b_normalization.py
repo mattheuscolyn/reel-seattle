@@ -95,10 +95,56 @@ def test_program_series_prefixes_and_source_scope():
     assert wtf.base_title == "Neptune Frost"
     assert wtf.program_series == "WTF with STUFF"
 
+    trauma = extract_match_title("TRAUMA BOND: Come and See", source="nwff")
+    assert trauma.base_title == "Come and See"
+    assert trauma.program_series == "TRAUMA BOND"
+
+    mourning = extract_match_title(
+        "MOURNING SICKNESS VOL. 5: Elvira: Mistress of the Dark",
+        source="nwff",
+    )
+    assert mourning.base_title == "Elvira: Mistress of the Dark"
+    assert mourning.program_series == "MOURNING SICKNESS VOL. 5"
+
+    stuff = extract_match_title("STUFF 2026: Trans Panic!", source="nwff")
+    assert stuff.base_title == "Trans Panic!"
+    assert stuff.program_series == "STUFF 2026"
+
+    cinemancy = extract_match_title("Cinemancy: The Elephant Man", source="central_cinema")
+    assert cinemancy.base_title == "The Elephant Man"
+    assert cinemancy.program_series == "Cinemancy"
+
+    napalm = extract_match_title(
+        "Camp Napalm presents: Basic Instinct",
+        source="central_cinema",
+    )
+    assert napalm.base_title == "Basic Instinct"
+    assert napalm.program_series == "Camp Napalm presents"
+
     assert (
         normalize_match_title("Mystery Marathon: Some Obscure Film", source="siff")
         == "Mystery Marathon: Some Obscure Film"
     )
+
+
+def test_exact_aliases_cover_current_unsafe_co_presentations():
+    lamour = extract_match_title("L’AMOUR FOU W/ A.S. HAMRAH", source="beacon")
+    assert lamour.base_title == "L'Amour fou"
+    assert lamour.applied_alias_id == "lamour-fou-with-as-hamrah"
+
+    narrow = extract_match_title(
+        "NARROW MARGIN RELEASE PARTY: BUCHANAN RIDES ALONE",
+        source="beacon",
+    )
+    assert narrow.base_title == "Buchanan Rides Alone"
+    assert narrow.applied_alias_id == "narrow-margin-release-party-buchanan"
+
+    halloween = extract_match_title(
+        "Halloween III with Baron Von Terror",
+        source="central_cinema",
+    )
+    assert halloween.base_title == "Halloween III: Season of the Witch"
+    assert halloween.applied_alias_id == "halloween-iii-baron-von-terror"
 
 
 def test_16mm_and_compound_format_parenthetical_strip():
