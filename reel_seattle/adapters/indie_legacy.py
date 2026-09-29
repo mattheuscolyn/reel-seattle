@@ -39,12 +39,12 @@ INDIE_CSV_FIELDNAMES = [
     "source",
     "source_film_id",
     "source_title",
-    "identity_title",
-    "release_year",
-    "program_series",
     "source_showtime_id",
     "ticket_url",
     "source_film_url",
+    "identity_title",
+    "release_year",
+    "program_series",
 ]
 
 SUPPORTED_SIFF_VENUES = frozenset(
