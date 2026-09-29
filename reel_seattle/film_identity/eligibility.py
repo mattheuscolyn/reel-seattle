@@ -38,6 +38,15 @@ _SHORTS_RE = re.compile(
     re.IGNORECASE,
 )
 _DOUBLE_RE = re.compile(r"\bdouble\s+feature\b", re.IGNORECASE)
+_MULTI_FEATURE_RE = re.compile(
+    r"\b(?:triple|quadruple)\s+feature\b|\bmulti[-\s]?feature\b",
+    re.IGNORECASE,
+)
+_EXPLICIT_DOUBLE_BODY_RE = re.compile(
+    r"\bdouble\s+feature\b\s*:\s*(?P<body>.+)$",
+    re.IGNORECASE,
+)
+_EXPLICIT_COMPONENT_AND_RE = re.compile(r"\s+(?:and|\+)\s+", re.IGNORECASE)
 _LIVE_RE = re.compile(
     r"\bnt\s*live\b|\bmet\s+opera\b|\blive\s+in\s+(concert|theater)\b|"
     r"\bfathom\b|\bufc\b|\bworld\s+cup\b|\bconcert\b|\bstand[- ]?up\b",
@@ -102,11 +111,14 @@ def classify_eligibility(
         reasons.append("mystery_or_unannounced")
     if _DOUBLE_RE.search(title):
         reasons.append("double_feature")
+    if _MULTI_FEATURE_RE.search(title):
+        reasons.append("multi_feature_program")
     if looks_like_composite_program(
         source_title=title,
         search_title=search,
         screening_variant_type=screening_variant_type,
         presentation_labels=years.presentation_labels,
+        program_series=years.program_series,
     ):
         reasons.append("composite_title_pair")
     if _LIVE_RE.search(title):
@@ -136,6 +148,7 @@ def classify_eligibility(
         hard = {
             "mystery_or_unannounced",
             "double_feature",
+            "multi_feature_program",
             "composite_title_pair",
             "live_or_broadcast_event",
         }
@@ -167,6 +180,8 @@ def _entity_kind(title: str, reasons: list[str], feature_like: bool) -> str:
         return ENTITY_MYSTERY_SCREENING
     if "double_feature" in reasons:
         return ENTITY_DOUBLE_FEATURE
+    if "multi_feature_program" in reasons:
+        return ENTITY_COMPOSITE_EVENT
     if "composite_title_pair" in reasons:
         return ENTITY_COMPOSITE_EVENT
     if "live_or_broadcast_event" in reasons:
@@ -190,6 +205,7 @@ def looks_like_composite_program(
     search_title: str | None = None,
     screening_variant_type: str | None = None,
     presentation_labels: tuple[str, ...] | list[str] | None = None,
+    program_series: str | None = None,
 ) -> bool:
     """True for obvious multi-title packages such as ``Title A + Title B``.
 
@@ -219,9 +235,63 @@ def looks_like_composite_program(
     has_event_context = (
         variant in _COMPOSITE_VARIANTS
         or bool(_COMPOSITE_EVENT_RE.search(raw))
+        or bool((program_series or "").strip())
         or any("anniversary" in label or "event" in label for label in labels)
     )
     return has_event_context and multi_word_sides >= 1
+
+
+def extract_component_titles(
+    *,
+    source_title: str | None,
+    source: str | None = None,
+) -> tuple[str, ...]:
+    """Return source-declared component titles for obvious multi-film programs.
+
+    This is diagnostic identity evidence only. It never invents a component
+    when the source does not name one and never assigns component TMDB IDs.
+    """
+    raw = (source_title or "").strip()
+    if not raw:
+        return ()
+
+    years = interpret_source_years(source_title=raw, source=source)
+    search = (years.base_title or normalize_search_title(raw, source=source) or raw).strip()
+
+    plus_parts = [
+        part.strip()
+        for part in _COMPOSITE_SPLIT_RE.split(search)
+        if part.strip()
+    ]
+    if len(plus_parts) >= 2 and looks_like_composite_program(
+        source_title=raw,
+        search_title=search,
+        presentation_labels=years.presentation_labels,
+        program_series=years.program_series,
+    ):
+        return tuple(
+            dict.fromkeys(_clean_component_title(part, source=source) for part in plus_parts)
+        )
+
+    explicit = _EXPLICIT_DOUBLE_BODY_RE.search(raw)
+    if explicit:
+        body = explicit.group("body").strip()
+        parts = [
+            part.strip()
+            for part in _EXPLICIT_COMPONENT_AND_RE.split(body)
+            if part.strip()
+        ]
+        if len(parts) >= 2:
+            return tuple(
+                dict.fromkeys(_clean_component_title(part, source=source) for part in parts)
+            )
+
+    return ()
+
+
+def _clean_component_title(title: str, *, source: str | None) -> str:
+    cleaned = normalize_match_title(title, source=source) or title
+    return cleaned.strip()
 
 
 def _composite_tokens(text: str) -> list[str]:
