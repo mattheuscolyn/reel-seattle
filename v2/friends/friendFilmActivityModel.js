@@ -382,6 +382,58 @@ export function resolveFriendActivityCatalogKey(filmIdOrKey) {
 }
 
 /**
+ * Friend Detail stores films from normalizeFriendSharedActivityPayload.
+ * That shape already has filmKey + states and no longer has user_id.
+ * Raw RPC rows (film_key + user_id) still normalize here.
+ *
+ * @param {unknown} raw
+ * @returns {raw is FriendActivityFilmRow}
+ */
+function isNormalizedFriendActivityFilmRow(raw) {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return false;
+  const row = /** @type {Record<string, unknown>} */ (raw);
+  if (typeof row.filmKey !== 'string' || !row.filmKey.trim()) return false;
+  if (!row.states || typeof row.states !== 'object' || Array.isArray(row.states)) {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * @param {FriendActivityFilmRow} row
+ * @returns {FriendActivityFilmRow}
+ */
+function retainNormalizedFriendActivityFilmRow(row) {
+  const states = /** @type {Record<string, unknown>} */ (row.states);
+  return {
+    filmKey: row.filmKey.trim(),
+    filmId: typeof row.filmId === 'string' && row.filmId.trim() ? row.filmId : null,
+    showtimeFilmKey:
+      typeof row.showtimeFilmKey === 'string' && row.showtimeFilmKey.trim()
+        ? row.showtimeFilmKey
+        : null,
+    updatedAt: typeof row.updatedAt === 'string' ? row.updatedAt : null,
+    states: {
+      saved: states.saved === true,
+      seen: states.seen === true,
+      not_interested:
+        states.not_interested === true || states.notInterested === true,
+    },
+  };
+}
+
+/**
+ * @param {unknown} raw
+ * @returns {FriendActivityFilmRow | null}
+ */
+function coerceFriendActivityFilmRow(raw) {
+  if (isNormalizedFriendActivityFilmRow(raw)) {
+    return retainNormalizedFriendActivityFilmRow(raw);
+  }
+  return normalizeFriendActivityFilmRow(raw);
+}
+
+/**
  * Friend Detail aggregation for one friend’s shared films.
  *
  * @param {{
@@ -425,7 +477,7 @@ export function getSharedFilmActivityForFriend(input) {
   /** @type {Map<string, FriendActivityFilmRow>} */
   const byFilm = new Map();
   for (const raw of Array.isArray(input.activityRows) ? input.activityRows : []) {
-    const row = normalizeFriendActivityFilmRow(raw);
+    const row = coerceFriendActivityFilmRow(raw);
     if (!row) continue;
     const existing = byFilm.get(row.filmKey);
     if (!existing) {
