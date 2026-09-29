@@ -145,13 +145,16 @@ Eligible for TMDB movie search when the title/context does **not** indicate:
 - mystery / unannounced screenings (e.g. Screen Unseen)  
 - shorts blocks / festivals as programs  
 - double features (as a unit)  
+- triple / quadruple / explicitly multi-feature programs  
 - obvious multi-title `A + B` composite programs (not every title containing `+`)  
 - live events / NT Live / concerts / sports  
 - clearly non-film programs  
 
 Repertory, restorations, and re-releases remain eligible (presentation layer separate).
 
-Festival-branded **feature** titles (e.g. Studio Ghibli Fest anniversary presentations) stay eligible; shorts festivals / mystery / double features / live events remain program entities with stable source fallbacks (not forced into TMDB). See [tmdb-matcher-calibration.md](./research/tmdb-matcher-calibration.md) (`T-FILMID-01E`).
+Festival-branded **feature** titles (e.g. Studio Ghibli Fest anniversary presentations) stay eligible; shorts festivals / mystery / multi-feature packages / live events remain program entities with stable source fallbacks (not forced into TMDB). See [tmdb-matcher-calibration.md](./research/tmdb-matcher-calibration.md) (`T-FILMID-01E`).
+
+When a multi-feature source title explicitly names its component films, the internal identity inventory/catalog may retain those names as `component_titles`. This is diagnostic source evidence only: it does not imply canonical component identities or component TMDB matches. When a source names only the package (for example, a branded double/triple feature), Reel Seattle must not invent the missing film titles.
 
 ---
 
