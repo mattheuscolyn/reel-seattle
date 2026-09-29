@@ -102,3 +102,6 @@ jobs:
         run: npm run smoke:v2:static
         env:
           SKIP_V2_BUILD: "1"
+
+      - name: Navigation responsiveness browser test
+        run: node --test tests/frontend/v2NavigationResponsiveness.browser.test.mjs

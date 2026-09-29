@@ -60,15 +60,18 @@ export default function TopOpportunityFeature({
     if (Array.isArray(mockSelections)) return mockSelections;
     if (status !== 'ready' || !homeData) return [];
     const films = Array.isArray(homeData.films) ? homeData.films : [];
+    const filmsByKey = new Map();
+    for (const row of films) {
+      if (row?.filmKey) filmsByKey.set(row.filmKey, row);
+    }
     const options = {
       enrichmentIndex,
       isCandidateVisible: (scored) => {
         const filmKey = rankedFilmKey(scored);
         const ids = scored?.vector?.identifiers ?? {};
         const film =
-          (filmKey && films.find((row) => row.filmKey === filmKey)) ||
-          (ids.parentFilmKey &&
-            films.find((row) => row.filmKey === ids.parentFilmKey)) ||
+          (filmKey && filmsByKey.get(filmKey)) ||
+          (ids.parentFilmKey && filmsByKey.get(ids.parentFilmKey)) ||
           (filmKey
             ? {
                 filmKey,
@@ -197,9 +200,11 @@ export default function TopOpportunityFeature({
       </div>
 
       {status === 'loading' ? (
-        <p className="v2-top-state" role="status">
-          Loading current opportunities…
-        </p>
+        <div className="v2-feature v2-feature-skeleton" role="status">
+          <div className="v2-feature-media">
+            <p className="v2-top-state">Loading current opportunities…</p>
+          </div>
+        </div>
       ) : null}
 
       {status === 'error' ? (

@@ -9,7 +9,9 @@ function collectTestFiles(dir) {
     const path = join(dir, entry.name);
     if (entry.isDirectory()) {
       files.push(...collectTestFiles(path));
-    } else if (entry.name.endsWith('.test.mjs')) {
+    } else if (entry.name.endsWith('.test.mjs') && !entry.name.endsWith('.browser.test.mjs')) {
+      // *.browser.test.mjs needs Playwright Chromium. The V2 browser smoke
+      // job installs that browser and runs those files; this generic runner does not.
       files.push(path);
     }
   }

@@ -31,6 +31,9 @@ export default function OpportunityImageStage({
               alt=""
               aria-hidden="true"
               draggable="false"
+              loading="eager"
+              decoding="async"
+              fetchPriority="low"
             />
           ) : null}
           <img
@@ -39,6 +42,9 @@ export default function OpportunityImageStage({
             alt=""
             aria-hidden="true"
             draggable="false"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
           />
           <div className="v2-stage-scrim" aria-hidden="true" />
         </>

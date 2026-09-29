@@ -52,6 +52,7 @@ function getBrowserStorage() {
  *   detailOverride?: object | null,
  *   hideStatusNotes?: boolean,
  *   hideSeeAll?: boolean,
+ *   eagerPosterCount?: number,
  * }} props
  */
 export default function FilmShelf({
@@ -67,6 +68,7 @@ export default function FilmShelf({
   detailOverride = null,
   hideStatusNotes = false,
   hideSeeAll = false,
+  eagerPosterCount = 0,
 }) {
   const headingId = `${id}-heading`;
   const panelId = useId();
@@ -194,7 +196,7 @@ export default function FilmShelf({
             role="list"
             data-shelf-visible-slots="4"
           >
-            {films.map((film) => {
+            {films.map((film, index) => {
               const isExpanded = film.filmKey === expandedFilmKey;
               return (
                 <div
@@ -210,6 +212,7 @@ export default function FilmShelf({
                     film={film}
                     expanded={isExpanded}
                     controlsId={isExpanded ? panelId : undefined}
+                    imageLoading={index < eagerPosterCount ? 'eager' : 'lazy'}
                     onToggle={() =>
                       onExpandFilm(isExpanded ? null : film.filmKey)
                     }

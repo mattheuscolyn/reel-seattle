@@ -6,6 +6,7 @@ export default function FilmShelfCard({
   expanded = false,
   controlsId,
   onToggle,
+  imageLoading = 'lazy',
 }) {
   const meta =
     film.metaLabel && film.genre && !String(film.metaLabel).includes(film.genre)
@@ -27,7 +28,13 @@ export default function FilmShelfCard({
     >
       <div className="v2-shelf-poster">
         {film.posterUrl ? (
-          <img src={film.posterUrl} alt="" draggable="false" />
+          <img
+            src={film.posterUrl}
+            alt=""
+            draggable="false"
+            loading={imageLoading}
+            decoding="async"
+          />
         ) : (
           <div className="v2-shelf-poster-fallback" aria-hidden="true" />
         )}
