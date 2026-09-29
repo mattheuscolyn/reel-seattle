@@ -85,6 +85,7 @@ function createRpcClient({ session = { user: { id: 'u-1' } }, handler }) {
 const PROFILE_SRC = read('v2/profile/ProfileDestination.jsx');
 const PREVIEW_SRC = read('v2/friends/ProfileFriendsPreview.jsx');
 const FRIENDS_SRC = read('v2/friends/FriendsSurface.jsx');
+const FRIEND_CARD_SRC = read('v2/friends/FriendsListCard.jsx');
 const INVITE_SRC = read('v2/friends/InviteFriendSheet.jsx');
 const CODE_SRC = read('v2/friends/EnterFriendCodeSheet.jsx');
 const LANDING_SRC = read('v2/friends/FriendInviteLandingSurface.jsx');
@@ -179,14 +180,15 @@ test('7-8. View all and avatars open Friends; Profile stays selected', () => {
 // ---------------------------------------------------------------------------
 
 test('9-17. Friends destination rows, invite, code, remove, empty, back', () => {
+  const friendsUi = `${FRIENDS_SRC}\n${FRIEND_CARD_SRC}`;
   assert.match(FRIENDS_SRC, /data-friends-surface=/);
   assert.match(FRIENDS_SRC, /data-friends-list="rows"/);
-  assert.match(FRIENDS_SRC, /<FriendAvatar/);
-  assert.match(FRIENDS_SRC, /v2-friends-row-name/);
+  assert.match(friendsUi, /<FriendAvatar/);
+  assert.match(friendsUi, /v2-friends-row-name/);
   assert.match(FRIENDS_SRC, /data-friends-action="invite-friend"/);
   assert.match(FRIENDS_SRC, /data-friends-action="enter-code"/);
-  assert.match(FRIENDS_SRC, /data-friends-action="row-menu"/);
-  assert.match(FRIENDS_SRC, /data-friends-action="remove-friend"/);
+  assert.match(friendsUi, /data-friends-action="row-menu"/);
+  assert.match(friendsUi, /data-friends-action="remove-friend"/);
   assert.match(FRIENDS_SRC, /data-friends-confirm="remove"/);
   assert.match(FRIENDS_SRC, /removeFriendTitle/);
   assert.match(FRIENDS_SRC, /FRIENDS_COPY\.removeConfirmBody/);

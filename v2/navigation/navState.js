@@ -186,6 +186,7 @@ import {
  * @property {'profile-friends'} type
  * @property {string} originPrimary
  * @property {string | null} [focusUserId]
+ * @property {{ itemKey?: string | null, scrollY?: number } | null} [listRestore]
  */
 
 /**
@@ -1119,6 +1120,25 @@ export function openProfileFriends(state, params = {}) {
           ? params.focusUserId
           : null,
     },
+  };
+}
+
+/**
+ * Remember which friend row opened Friend Detail so Back can restore it.
+ * @param {object | null | undefined} surface
+ * @param {string} friendUserId
+ * @param {{ itemKey?: string | null, scrollY?: number } | null} [position]
+ */
+export function stampFriendsListReturn(surface, friendUserId, position = null) {
+  if (!surface || surface.type !== PROFILE_FRIENDS_SURFACE_TYPE) {
+    return surface ?? null;
+  }
+  const id = typeof friendUserId === 'string' ? friendUserId.trim() : '';
+  if (!id) return surface;
+  return {
+    ...surface,
+    focusUserId: id,
+    listRestore: position ?? null,
   };
 }
 
