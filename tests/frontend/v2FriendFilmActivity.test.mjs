@@ -36,6 +36,7 @@ import {
   syntheticShowtimeKeyForCanonicalFilmId,
 } from '../../v2/filmState/filmUserStateModel.js';
 import { filmPreferenceKeyFromRef } from '../../v2/auth/filmPreferenceIdentity.js';
+import { buildFriendDetailModel } from '../../v2/friends/friendDetailPresentation.js';
 import {
   createInitialNavState,
   navigateBack,
@@ -816,4 +817,164 @@ test('Friend Detail privacy-hidden signal when sharing OFF', () => {
   });
   assert.equal(payload.sharesActivity, false);
   assert.deepEqual(payload.films, []);
+});
+
+test('Friend Detail keeps films after the shared-activity payload drops user_id', () => {
+  const rpc = {
+    ok: true,
+    is_friend: true,
+    shares_activity: true,
+    films: [
+      {
+        user_id: 'u-shelley',
+        film_key: 'tmdb:1465063',
+        film_id: 'tmdb:1465063',
+        showtime_film_key: 'showtime-forgotten',
+        updated_at: '2026-09-20T00:00:00.000Z',
+        states: { saved: true, seen: false, not_interested: false },
+      },
+      {
+        user_id: 'u-shelley',
+        film_key: 'tmdb:2002',
+        film_id: 'tmdb:2002',
+        showtime_film_key: 'showtime-seen',
+        updated_at: '2026-09-18T00:00:00.000Z',
+        states: { saved: false, seen: true, not_interested: false },
+      },
+      {
+        user_id: 'u-shelley',
+        film_key: 'tmdb:2003',
+        film_id: 'tmdb:2003',
+        showtime_film_key: 'showtime-ni',
+        updated_at: '2026-09-17T00:00:00.000Z',
+        states: { saved: false, seen: false, not_interested: true },
+      },
+      {
+        user_id: 'u-shelley',
+        film_key: 'showtime:local-only',
+        film_id: null,
+        showtime_film_key: 'local-only',
+        updated_at: '2026-09-16T00:00:00.000Z',
+        states: { saved: true, seen: false, not_interested: false },
+      },
+    ],
+  };
+
+  const payload = normalizeFriendSharedActivityPayload(rpc);
+  assert.equal(payload.films.length, 4);
+  assert.equal(
+    payload.films.some((film) => 'userId' in film || 'user_id' in film),
+    false,
+  );
+
+  const detail = getSharedFilmActivityForFriend({
+    friendId: 'u-shelley',
+    friends: [
+      {
+        userId: 'u-shelley',
+        friendshipId: 'fs-shelley',
+        displayName: 'Shelley!',
+        avatarUrl: null,
+        createdAt: '2026-09-02T18:00:00.000Z',
+        shareInteractionCount: 0,
+      },
+    ],
+    friendSharesActivity: payload.sharesActivity,
+    activityRows: payload.films,
+  });
+
+  assert.ok(detail);
+  assert.deepEqual(
+    detail.saved.map((film) => film.filmKey),
+    ['tmdb:1465063', 'showtime:local-only'],
+  );
+  assert.deepEqual(
+    detail.seen.map((film) => film.filmKey),
+    ['tmdb:2002'],
+  );
+  assert.deepEqual(
+    detail.notInterested.map((film) => film.filmKey),
+    ['tmdb:2003'],
+  );
+
+  const friend = {
+    displayName: 'Shelley!',
+    createdAt: '2026-09-02T18:00:00.000Z',
+  };
+  const differentState = buildFriendDetailModel({
+    friend,
+    sharesActivity: true,
+    activity: detail,
+    viewerSaved: [
+      {
+        filmRef: {
+          filmId: 'tmdb:2002',
+          showtimeFilmKey: 'showtime-seen',
+        },
+      },
+    ],
+    viewerSeen: [
+      {
+        filmRef: {
+          filmId: 'tmdb:1465063',
+          showtimeFilmKey: 'showtime-forgotten',
+        },
+      },
+    ],
+    viewerNotInterested: [],
+    planCards: [],
+  });
+
+  assert.equal(differentState.summary.savedTogether, 0);
+  assert.equal(differentState.summary.seenTogether, 0);
+  assert.equal(differentState.summary.notInterestedTogether, 0);
+  assert.equal(differentState.watchTogether.length, 0);
+  assert.ok(
+    differentState.activity.saved.some(
+      (card) => card.preferenceKey === 'tmdb:1465063',
+    ),
+  );
+  assert.equal(
+    differentState.watchTogether.some(
+      (card) => card.preferenceKey === 'tmdb:1465063',
+    ),
+    false,
+  );
+
+  const sameState = buildFriendDetailModel({
+    friend,
+    sharesActivity: true,
+    activity: detail,
+    viewerSaved: [
+      {
+        filmRef: {
+          filmId: 'tmdb:1465063',
+          showtimeFilmKey: 'showtime-forgotten',
+        },
+      },
+    ],
+    viewerSeen: [
+      {
+        filmRef: {
+          filmId: 'tmdb:2002',
+          showtimeFilmKey: 'showtime-seen',
+        },
+      },
+    ],
+    viewerNotInterested: [
+      {
+        filmRef: {
+          filmId: 'tmdb:2003',
+          showtimeFilmKey: 'showtime-ni',
+        },
+      },
+    ],
+    planCards: [],
+  });
+
+  assert.equal(sameState.summary.savedTogether, 1);
+  assert.equal(sameState.summary.seenTogether, 1);
+  assert.equal(sameState.summary.notInterestedTogether, 1);
+  assert.equal(sameState.watchTogether.length, 1);
+  assert.equal(sameState.watchTogether[0].preferenceKey, 'tmdb:1465063');
 });
