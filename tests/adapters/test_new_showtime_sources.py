@@ -9,7 +9,10 @@ from pathlib import Path
 from daily_processor import process_indie_csv_data
 from reel_seattle.adapters.anderson_school import fetch_anderson_school
 from reel_seattle.adapters.anderson_titles import normalize_anderson_title
-from reel_seattle.adapters.majestic_bay import fetch_majestic_bay
+from reel_seattle.adapters.majestic_bay import (
+    fetch_majestic_bay,
+    normalize_majestic_bay_identity_title,
+)
 from reel_seattle.adapters.option_c import write_option_c_scrape_log
 from reel_seattle.adapters.scrape_log import daily_log_path
 from reel_seattle.adapters.stg import fetch_stg
@@ -252,6 +255,13 @@ def test_anderson_ocap_shares_identity_and_keeps_other_parentheticals():
     assert broken.restate_safe is False
 
 
+def test_majestic_bay_leading_anniversary_cleanup():
+    assert normalize_majestic_bay_identity_title(
+        "25th Anniversary Celebration: Singin' in the Rain"
+    ) == ("Singin' in the Rain", "25th Anniversary Celebration")
+    assert normalize_majestic_bay_identity_title("Love Jones") == ("Love Jones", None)
+
+
 def test_majestic_bay_public_veezi_ids_and_retro_label():
     html = """
     <h1>Majestic Bay Theatres</h1>
@@ -283,6 +293,29 @@ def test_majestic_bay_public_veezi_ids_and_retro_label():
     assert "SELLING FAST" not in (record.format_raw or "")
     assert record.runtime_raw == "96"
     assert record.date_raw == "10/02/2026"
+
+    anniversary_html = """
+    <h1>Majestic Bay Theatres</h1>
+    <div id="sessionsByDateConent">
+      <div class="film">
+        <img class="poster" alt="Singin' in the Rain" src="/Media/Poster?code=0000001999" />
+        <ul><li><a href="https://ticketing.useast.veezi.com/purchase/39999?siteToken=public"><time>7:00 PM</time></a></li></ul>
+      </div>
+    </div>
+    <script type="application/ld+json">
+    [{"@type":"VisualArtsEvent","name":"25th Anniversary Celebration: Singin' in the Rain","startDate":"2026-10-03T19:00:00-07:00","duration":"PT2H30M","url":"https://ticketing.useast.veezi.com/purchase/39999?siteToken=public"}]
+    </script>
+    """
+    anniversary = fetch_majestic_bay(
+        START,
+        END,
+        fetch=_http(anniversary_html),
+        scraped_at=SCRAPED_AT,
+    ).records[0]
+    assert anniversary.title_raw == "25th Anniversary Celebration: Singin' in the Rain"
+    assert anniversary.attributes["identity_title"] == "Singin' in the Rain"
+    assert anniversary.attributes["presentation_labels"][0] == "25th Anniversary Celebration"
+
     empty = fetch_majestic_bay(
         START,
         END,
