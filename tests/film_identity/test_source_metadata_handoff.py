@@ -126,5 +126,61 @@ def test_identity_inventory_uses_source_identity_title_and_release_year(tmp_path
     assert identity["identity_title"] == "Clean Film"
     assert identity["normalized_title"] == "Clean Film"
     assert identity["release_year"] == 1998
+    assert identity["source_release_year"] == 1998
     assert identity["year_hint"] == 1998
     assert identity["program_series"] == "Unregistered Showcase"
+
+    coverage = inventory["by_source"]["beacon"]
+    assert coverage["with_source_title"] == 1
+    assert coverage["with_runtime"] == 1
+    assert coverage["with_source_release_year"] == 1
+    assert coverage["with_match_year"] == 1
+    assert coverage["with_program_series"] == 1
+    assert coverage["eligible_missing_runtime"] == 0
+    assert coverage["eligible_missing_source_release_year"] == 0
+    assert inventory["metadata_policy"]["unmatched_semantics"] == (
+        "unmatched is not equivalent to non_film"
+    )
+
+
+def test_inventory_does_not_call_title_year_source_provided(tmp_path):
+    showtimes_path = tmp_path / "showtimes.json"
+    showtimes_path.write_text(
+        json.dumps(
+            {
+                "films": [
+                    {
+                        "showtime_film_key": "classic-film",
+                        "runtime_min": 95,
+                    }
+                ],
+                "showtimes": [
+                    {
+                        "source": "beacon",
+                        "source_film_id": "classic-film",
+                        "showtime_film_key": "classic-film",
+                        "source_title": "Classic Film (1998)",
+                        "film_title": "Classic Film",
+                        "screening_variant_type": "none",
+                        "is_special_screening": False,
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    inventory = inventory_source_identities(
+        showtimes_path=showtimes_path,
+        products_path=tmp_path / "missing-products.json",
+        root=tmp_path,
+    )
+
+    identity = inventory["identities"][0]
+    assert identity["source_release_year"] is None
+    assert identity["year_hint"] == 1998
+
+    coverage = inventory["by_source"]["beacon"]
+    assert coverage["with_source_release_year"] == 0
+    assert coverage["with_match_year"] == 1
+    assert coverage["eligible_missing_source_release_year"] == 1
