@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-28T05:39:48-07:00",
+  "generated_at": "2026-09-29T05:01:50-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-09-28",
@@ -12,16 +12,16 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 43,
-    "low_confidence_count": 5,
+    "entry_count": 44,
+    "low_confidence_count": 4,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-09-28",
     "latest_opening_date": "2026-10-04",
     "opening_type_counts": {
       "event": 3,
-      "limited": 14,
-      "repertory": 11,
-      "theatrical": 15
+      "limited": 13,
+      "repertory": 12,
+      "theatrical": 16
     }
   },
   "entries": [
@@ -35,7 +35,7 @@
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "event",
@@ -66,7 +66,7 @@
         "siff-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -181,13 +181,13 @@
       "override": null
     },
     {
-      "showtime_film_key": "cinemancy-the-elephant-man",
-      "parent_film_key": "cinemancy-the-elephant-man",
-      "film_id": "tmdb:1955",
-      "film_title": "Cinemancy: The Elephant Man",
+      "showtime_film_key": "cl-o-from-5-to-7",
+      "parent_film_key": "cl-o-from-5-to-7",
+      "film_id": "tmdb:499",
+      "film_title": "Cléo from 5 to 7",
       "opening_date": "2026-09-30",
       "theaters_on_opening_date": [
-        "central-cinema"
+        "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 2,
@@ -198,15 +198,15 @@
       "evidence": {
         "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "cinemancy-the-elephant-man"
+          "cl-o-from-5-to-7"
         ],
         "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
-          "central-cinema"
+          "siff-cinema-uptown"
         ],
         "sources": [
-          "central_cinema"
+          "siff"
         ]
       },
       "override": null
@@ -276,13 +276,13 @@
       "override": null
     },
     {
-      "showtime_film_key": "nouvelles-femmes-cl-o-from-5-to-7",
-      "parent_film_key": "nouvelles-femmes-cl-o-from-5-to-7",
-      "film_id": "tmdb:499",
-      "film_title": "Nouvelles Femmes: Cléo from 5 to 7",
+      "showtime_film_key": "elephant-man",
+      "parent_film_key": "elephant-man",
+      "film_id": "tmdb:1955",
+      "film_title": "The Elephant Man",
       "opening_date": "2026-09-30",
       "theaters_on_opening_date": [
-        "siff-cinema-uptown"
+        "central-cinema"
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 2,
@@ -293,15 +293,15 @@
       "evidence": {
         "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "nouvelles-femmes-cl-o-from-5-to-7"
+          "elephant-man"
         ],
         "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
-          "siff-cinema-uptown"
+          "central-cinema"
         ],
         "sources": [
-          "siff"
+          "central_cinema"
         ]
       },
       "override": null
@@ -353,9 +353,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 544,
+      "visible_showtime_count": 664,
       "engagement_days": 16,
-      "historical_screening_count": 276,
+      "historical_screening_count": 336,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
@@ -389,12 +389,15 @@
       "opening_date": "2026-10-01",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
-        "amc-southcenter-16"
+        "amc-kent-station-14",
+        "amc-pacific-place-11",
+        "amc-southcenter-16",
+        "amc-woodinville-12"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 28,
+      "theater_count_on_opening_date": 5,
+      "visible_showtime_count": 58,
       "engagement_days": 7,
-      "historical_screening_count": 14,
+      "historical_screening_count": 29,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -406,7 +409,10 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
-          "amc-southcenter-16"
+          "amc-kent-station-14",
+          "amc-pacific-place-11",
+          "amc-southcenter-16",
+          "amc-woodinville-12"
         ],
         "sources": [
           "amc"
@@ -428,12 +434,13 @@
         "amc-pacific-place-11",
         "amc-southcenter-16",
         "amc-woodinville-12",
+        "majestic-bay",
         "siff-cinema-downtown"
       ],
-      "theater_count_on_opening_date": 8,
-      "visible_showtime_count": 836,
+      "theater_count_on_opening_date": 9,
+      "visible_showtime_count": 872,
       "engagement_days": 15,
-      "historical_screening_count": 418,
+      "historical_screening_count": 436,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -442,7 +449,9 @@
           "digger"
         ],
         "distinct_scheduled_dates": 15,
-        "bootstrap_theater_ids": [],
+        "bootstrap_theater_ids": [
+          "majestic-bay"
+        ],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-factoria-8",
@@ -455,6 +464,7 @@
         ],
         "sources": [
           "amc",
+          "majestic_bay",
           "siff"
         ]
       },
@@ -487,6 +497,37 @@
         ],
         "sources": [
           "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "moonlight-10th-anniversary-remastered",
+      "parent_film_key": "moonlight-remastered",
+      "film_id": null,
+      "film_title": "Moonlight Remastered",
+      "opening_date": "2026-10-01",
+      "theaters_on_opening_date": [
+        "amc-kent-station-14"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 7,
+      "engagement_days": 7,
+      "historical_screening_count": 7,
+      "opening_type": "repertory",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "parent_film_key",
+        "variant_showtime_film_keys": [
+          "moonlight-10th-anniversary-remastered"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-kent-station-14"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -529,12 +570,13 @@
       "film_title": "Rolling Loud: The Movie",
       "opening_date": "2026-10-01",
       "theaters_on_opening_date": [
+        "amc-kent-station-14",
         "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 16,
+      "theater_count_on_opening_date": 2,
+      "visible_showtime_count": 30,
       "engagement_days": 7,
-      "historical_screening_count": 8,
+      "historical_screening_count": 15,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -545,6 +587,7 @@
         "distinct_scheduled_dates": 7,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
+          "amc-kent-station-14",
           "amc-southcenter-16"
         ],
         "sources": [
@@ -587,6 +630,42 @@
       "override": null
     },
     {
+      "showtime_film_key": "history-of-concrete",
+      "parent_film_key": "history-of-concrete",
+      "film_id": "tmdb:1596296",
+      "film_title": "The History of Concrete",
+      "opening_date": "2026-10-01",
+      "theaters_on_opening_date": [
+        "northwest-film-forum"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 42,
+      "engagement_days": 8,
+      "historical_screening_count": 21,
+      "opening_type": "repertory",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "history-of-concrete"
+        ],
+        "distinct_scheduled_dates": 8,
+        "bootstrap_theater_ids": [
+          "tasveer-film-center"
+        ],
+        "mature_theater_ids": [
+          "northwest-film-forum",
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "nwff",
+          "siff",
+          "tasveer"
+        ]
+      },
+      "override": null
+    },
+    {
       "showtime_film_key": "incomer",
       "parent_film_key": "incomer",
       "film_id": "tmdb:1554956",
@@ -597,9 +676,9 @@
         "amc-pacific-place-11"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 40,
+      "visible_showtime_count": 42,
       "engagement_days": 7,
-      "historical_screening_count": 20,
+      "historical_screening_count": 21,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -628,12 +707,14 @@
       "opening_date": "2026-10-01",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
+        "amc-kent-station-14",
+        "amc-pacific-place-11",
         "amc-woodinville-12"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 66,
+      "theater_count_on_opening_date": 4,
+      "visible_showtime_count": 86,
       "engagement_days": 7,
-      "historical_screening_count": 33,
+      "historical_screening_count": 43,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -645,42 +726,13 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
+          "amc-kent-station-14",
+          "amc-pacific-place-11",
           "amc-southcenter-16",
           "amc-woodinville-12"
         ],
         "sources": [
           "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "truth-to-fiction-the-history-of-concrete",
-      "parent_film_key": "truth-to-fiction-the-history-of-concrete",
-      "film_id": "tmdb:1596296",
-      "film_title": "Truth To Fiction: The History of Concrete",
-      "opening_date": "2026-10-01",
-      "theaters_on_opening_date": [
-        "northwest-film-forum"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "film_id",
-        "variant_showtime_film_keys": [
-          "truth-to-fiction-the-history-of-concrete"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "northwest-film-forum"
-        ],
-        "sources": [
-          "nwff"
         ]
       },
       "override": null
@@ -712,6 +764,37 @@
         ],
         "sources": [
           "central_cinema"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "cannibal-holocaust-4k-restoration",
+      "parent_film_key": "cannibal-holocaust-4k-restoration",
+      "film_id": "tmdb:8689",
+      "film_title": "Cannibal Holocaust (4K Restoration)",
+      "opening_date": "2026-10-02",
+      "theaters_on_opening_date": [
+        "northwest-film-forum"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "cannibal-holocaust-4k-restoration"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "northwest-film-forum"
+        ],
+        "sources": [
+          "nwff"
         ]
       },
       "override": null
@@ -760,9 +843,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 12,
+      "visible_showtime_count": 15,
       "engagement_days": 3,
-      "historical_screening_count": 12,
+      "historical_screening_count": 15,
       "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
@@ -777,6 +860,37 @@
           "amc-kent-station-14",
           "amc-southcenter-16",
           "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "drishyam-the-conclusion",
+      "parent_film_key": "drishyam-the-conclusion",
+      "film_id": null,
+      "film_title": "Drishyam - The Conclusion",
+      "opening_date": "2026-10-02",
+      "theaters_on_opening_date": [
+        "amc-factoria-8"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 10,
+      "engagement_days": 5,
+      "historical_screening_count": 5,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "drishyam-the-conclusion"
+        ],
+        "distinct_scheduled_dates": 5,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-factoria-8"
         ],
         "sources": [
           "amc"
@@ -1008,40 +1122,6 @@
       "override": null
     },
     {
-      "showtime_film_key": "history-of-concrete",
-      "parent_film_key": "history-of-concrete",
-      "film_id": "tmdb:1596296",
-      "film_title": "The History of Concrete",
-      "opening_date": "2026-10-02",
-      "theaters_on_opening_date": [
-        "northwest-film-forum",
-        "siff-cinema-uptown"
-      ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 28,
-      "engagement_days": 7,
-      "historical_screening_count": 14,
-      "opening_type": "repertory",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "film_id",
-        "variant_showtime_film_keys": [
-          "history-of-concrete"
-        ],
-        "distinct_scheduled_dates": 7,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "northwest-film-forum",
-          "siff-cinema-uptown"
-        ],
-        "sources": [
-          "nwff",
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
       "showtime_film_key": "nightmare-before-christmas-re26",
       "parent_film_key": "nightmare-before-christmas-re26",
       "film_id": "tmdb:9479",
@@ -1049,12 +1129,13 @@
       "opening_date": "2026-10-02",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
+        "amc-kent-station-14",
         "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 24,
+      "theater_count_on_opening_date": 3,
+      "visible_showtime_count": 36,
       "engagement_days": 6,
-      "historical_screening_count": 12,
+      "historical_screening_count": 18,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -1066,41 +1147,11 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
+          "amc-kent-station-14",
           "amc-southcenter-16"
         ],
         "sources": [
           "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "trauma-bond-cannibal-holocaust-4k-restoration",
-      "parent_film_key": "trauma-bond-cannibal-holocaust-4k-restoration",
-      "film_id": "tmdb:8689",
-      "film_title": "TRAUMA BOND: Cannibal Holocaust (4K Restoration)",
-      "opening_date": "2026-10-02",
-      "theaters_on_opening_date": [
-        "northwest-film-forum"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "film_id",
-        "variant_showtime_film_keys": [
-          "trauma-bond-cannibal-holocaust-4k-restoration"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "northwest-film-forum"
-        ],
-        "sources": [
-          "nwff"
         ]
       },
       "override": null
@@ -1276,9 +1327,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 30,
+      "visible_showtime_count": 28,
       "engagement_days": 4,
-      "historical_screening_count": 15,
+      "historical_screening_count": 14,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -1338,12 +1389,14 @@
       "opening_date": "2026-10-04",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
-        "amc-southcenter-16"
+        "amc-kent-station-14",
+        "amc-southcenter-16",
+        "amc-woodinville-12"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 10,
+      "theater_count_on_opening_date": 4,
+      "visible_showtime_count": 16,
       "engagement_days": 3,
-      "historical_screening_count": 5,
+      "historical_screening_count": 8,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -1355,7 +1408,9 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
-          "amc-southcenter-16"
+          "amc-kent-station-14",
+          "amc-southcenter-16",
+          "amc-woodinville-12"
         ],
         "sources": [
           "amc"
@@ -1437,7 +1492,7 @@
         "paramount-theatre"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -1468,17 +1523,17 @@
         "tasveer-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 17,
-      "engagement_days": 10,
-      "historical_screening_count": 17,
-      "opening_type": "theatrical",
+      "visible_showtime_count": 0,
+      "engagement_days": 1,
+      "historical_screening_count": 2,
+      "opening_type": "limited",
       "confidence": "low",
       "evidence": {
         "identity_method": "parent_film_key",
         "variant_showtime_film_keys": [
           "primetime-usa-2026"
         ],
-        "distinct_scheduled_dates": 10,
+        "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [
           "tasveer-film-center"
         ],
@@ -1521,55 +1576,24 @@
       "override": null
     },
     {
-      "showtime_film_key": "history-of-concrete-2026-usa-2026",
-      "parent_film_key": "amc-movie-154126",
+      "showtime_film_key": "shambhala-story",
+      "parent_film_key": "shambhala-story",
       "film_id": null,
-      "film_title": "The History of Concrete (2026, USA)",
-      "opening_date": "2026-10-02",
-      "theaters_on_opening_date": [
-        "tasveer-film-center"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 6,
-      "engagement_days": 6,
-      "historical_screening_count": 6,
-      "opening_type": "theatrical",
-      "confidence": "low",
-      "evidence": {
-        "identity_method": "parent_film_key",
-        "variant_showtime_film_keys": [
-          "history-of-concrete-2026-usa-2026"
-        ],
-        "distinct_scheduled_dates": 6,
-        "bootstrap_theater_ids": [
-          "tasveer-film-center"
-        ],
-        "mature_theater_ids": [],
-        "sources": [
-          "tasveer"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "shambhala-story-2025-japan-japanese-subtitled-in-english-2025",
-      "parent_film_key": "shambhala-story-2025-japan-japanese-in-english-2025",
-      "film_id": null,
-      "film_title": "Shambhala Story (2025, Japan, Japanese in English)",
+      "film_title": "Shambhala Story",
       "opening_date": "2026-10-04",
       "theaters_on_opening_date": [
         "tasveer-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 1,
+      "visible_showtime_count": 2,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
       "confidence": "low",
       "evidence": {
-        "identity_method": "parent_film_key",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
-          "shambhala-story-2025-japan-japanese-subtitled-in-english-2025"
+          "shambhala-story"
         ],
         "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [

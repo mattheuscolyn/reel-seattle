@@ -1,30 +1,32 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-09-28T05:39:48-07:00",
+  "generated_at": "2026-09-29T05:01:50-07:00",
   "source": "amc",
   "model_version": "amc_remaining_run_survival_v1",
   "published": true,
   "skipped_reason": null,
   "window": {
-    "start_date": "2026-09-28",
-    "end_date": "2027-09-27"
+    "start_date": "2026-09-29",
+    "end_date": "2027-09-28"
   },
   "method": {
     "name": "amc_remaining_run_survival_v1",
-    "description": "Frozen daily discrete-time logistic remaining-run model. Public copy is bucketed with presentation-safe AMC departure timing; raw probabilities and remaining-day medians stay internal.",
+    "description": "Frozen daily discrete-time logistic remaining-run model. The 7-day probability uses the September 2026 calibration layer. Public copy is bucketed with presentation-safe AMC departure timing; raw probabilities and remaining-day medians stay internal.",
     "evaluated_precision": 0.925,
     "evaluated_recall": 0.715,
     "evaluated_coverage": 0.715,
-    "evaluation_note": "Held-out backtest of amc_remaining_run_survival_v1. The validation 95% 7-day operating point held at about 92.5% test precision; the 90% point did not. Production use does not mean the model is final. Ship-gate remains promising_continue. Presentation dates use observation_date + median_remaining_days, lower-bounded by max_show_date; weak segments stay horizon-only. No formal percentage confidence is published.",
+    "evaluation_note": "Held-out backtest of amc_remaining_run_survival_v1. The validation 95% 7-day operating point held at about 92.5% test precision; the 90% point did not. Those figures describe the original v1 backtest, not the September 2026 7-day recalibration. Production use does not mean the model is final. Ship-gate remains promising_continue. Last Chance may show an approximate date. Ordinary Leaving Soon uses a two-week horizon. Presentation dates use observation_date + median_remaining_days, lower-bounded by max_show_date; weak segments stay horizon-only. No formal percentage confidence is published.",
     "model_version": "amc_remaining_run_survival_v1",
-    "last_chance_threshold": 0.8789871756000429,
-    "leaving_soon_threshold": 0.8129915288528309
+    "last_chance_threshold": 0.829244726757645,
+    "leaving_soon_threshold": 0.8129915288528309,
+    "calibration_version": "amc_remaining_run_survival_v1_calibration_2026_09",
+    "fourteen_day_calibration": "unchanged_v1_platt"
   },
   "stats": {
-    "candidate_film_count": 25,
-    "flagged_film_count": 15,
-    "last_chance_count": 4,
-    "leaving_soon_count": 11
+    "candidate_film_count": 26,
+    "flagged_film_count": 16,
+    "last_chance_count": 14,
+    "leaving_soon_count": 2
   },
   "items": [
     {
@@ -38,10 +40,10 @@
       "run_id": "84779#01",
       "run_type": "rerelease_anniversary",
       "sort_rank": 1,
-      "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
+      "visible_show_date_count": 2,
+      "min_show_date": "2026-09-29",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 3,
+      "total_visible_showtimes": 2,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -50,7 +52,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
         "2026-09-30"
       ],
@@ -58,7 +59,7 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787890033/amc-cdn/content/general/kx5atycqia9dpy2ftihb.jpg",
       "runtime_min": 82,
-      "prediction_as_of": "2026-09-28",
+      "prediction_as_of": "2026-09-29",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -75,10 +76,10 @@
       "run_id": "83749#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 2,
-      "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
+      "visible_show_date_count": 2,
+      "min_show_date": "2026-09-29",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 3,
+      "total_visible_showtimes": 2,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -87,7 +88,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
         "2026-09-30"
       ],
@@ -95,8 +95,8 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1784905670/amc-cdn/content/general/sbtcudrskcz2jwx9zny4.jpg",
       "runtime_min": 95,
-      "prediction_as_of": "2026-09-28",
-      "predicted_end_date": "2026-10-02",
+      "prediction_as_of": "2026-09-29",
+      "predicted_end_date": "2026-09-30",
       "timing_confidence": "high",
       "timing_mode": "likely_around",
       "prediction_scope": "amc"
@@ -112,10 +112,10 @@
       "run_id": "82986#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 3,
-      "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
+      "visible_show_date_count": 2,
+      "min_show_date": "2026-09-29",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 7,
+      "total_visible_showtimes": 4,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -128,7 +128,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
         "2026-09-30"
       ],
@@ -136,8 +135,8 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789485029/amc-cdn/content/general/jbsj2jquamxfifmnytbu.jpg",
       "runtime_min": 80,
-      "prediction_as_of": "2026-09-28",
-      "predicted_end_date": "2026-10-02",
+      "prediction_as_of": "2026-09-29",
+      "predicted_end_date": "2026-09-30",
       "timing_confidence": "high",
       "timing_mode": "likely_around",
       "prediction_scope": "amc"
@@ -153,10 +152,10 @@
       "run_id": "84901#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 4,
-      "visible_show_date_count": 4,
-      "min_show_date": "2026-09-28",
+      "visible_show_date_count": 3,
+      "min_show_date": "2026-09-29",
       "max_show_date": "2026-10-01",
-      "total_visible_showtimes": 8,
+      "total_visible_showtimes": 6,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -169,7 +168,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
         "2026-09-30",
         "2026-10-01"
@@ -178,8 +176,8 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787841830/amc-cdn/content/general/cihn0svfbzgbjq8qfkv6.jpg",
       "runtime_min": 128,
-      "prediction_as_of": "2026-09-28",
-      "predicted_end_date": "2026-10-02",
+      "prediction_as_of": "2026-09-29",
+      "predicted_end_date": "2026-10-01",
       "timing_confidence": "high",
       "timing_mode": "likely_around",
       "prediction_scope": "amc"
@@ -187,18 +185,18 @@
     {
       "film_key": "paradise-telugu",
       "film_title": "The Paradise (Telugu)",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "83709",
       "run_id": "83709#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 5,
-      "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
+      "visible_show_date_count": 2,
+      "min_show_date": "2026-09-29",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 3,
+      "total_visible_showtimes": 2,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -207,7 +205,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
         "2026-09-30"
       ],
@@ -215,27 +212,27 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789574249/amc-cdn/content/general/arsyosm1wjbpsth4xbrl.jpg",
       "runtime_min": 180,
-      "prediction_as_of": "2026-09-28",
-      "predicted_end_date": "2026-10-03",
-      "timing_confidence": "moderate",
-      "timing_mode": "could_around",
+      "prediction_as_of": "2026-09-29",
+      "predicted_end_date": "2026-10-01",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
       "prediction_scope": "amc"
     },
     {
       "film_key": "ha-chan-shake-your-booty",
       "film_title": "Ha-Chan, Shake Your Booty!",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "84368",
       "run_id": "84368#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 6,
-      "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
+      "visible_show_date_count": 2,
+      "min_show_date": "2026-09-29",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 4,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -244,7 +241,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
         "2026-09-30"
       ],
@@ -252,27 +248,98 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1785349332/amc-cdn/content/general/ao8vl29zgx5b5a6jyqwj.jpg",
       "runtime_min": 121,
-      "prediction_as_of": "2026-09-28",
-      "predicted_end_date": "2026-10-03",
-      "timing_confidence": "moderate",
-      "timing_mode": "could_around",
+      "prediction_as_of": "2026-09-29",
+      "predicted_end_date": "2026-10-01",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "vvaan-force-of-the-forrest",
+      "film_title": "The Vvaan: Force of the Forrest",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84835",
+      "run_id": "84835#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 7,
+      "visible_show_date_count": 2,
+      "min_show_date": "2026-09-29",
+      "max_show_date": "2026-09-30",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-29",
+        "2026-09-30"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1787753317/amc-cdn/content/general/ridtkzacsxhh73x179tu.png",
+      "runtime_min": 135,
+      "prediction_as_of": "2026-09-29",
+      "predicted_end_date": "2026-10-01",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "if-i-go-will-they-miss-me",
+      "film_title": "If I Go Will They Miss Me",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84453",
+      "run_id": "84453#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 8,
+      "visible_show_date_count": 1,
+      "min_show_date": "2026-10-02",
+      "max_show_date": "2026-10-02",
+      "total_visible_showtimes": 2,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-10-02"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1787239761/amc-cdn/content/general/lrirv9tmda9sjehc673m.png",
+      "runtime_min": 95,
+      "prediction_as_of": "2026-09-29",
+      "predicted_end_date": "2026-10-02",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
       "prediction_scope": "amc"
     },
     {
       "film_key": "daniel-and-the-fiery-furnace",
       "film_title": "Daniel and the Fiery Furnace",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "84477",
       "run_id": "84477#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 7,
+      "sort_rank": 9,
       "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
-      "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 11,
+      "min_show_date": "2026-09-29",
+      "max_show_date": "2026-10-01",
+      "total_visible_showtimes": 9,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -289,72 +356,35 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
-        "2026-09-30"
+        "2026-09-30",
+        "2026-10-01"
       ],
       "has_primetime": false,
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787156895/amc-cdn/content/general/m9yntmxbkmdotpnwufl7.png",
       "runtime_min": 108,
-      "prediction_as_of": "2026-09-28",
+      "prediction_as_of": "2026-09-29",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
       "prediction_scope": "amc"
     },
     {
-      "film_key": "vvaan-force-of-the-forrest",
-      "film_title": "The Vvaan: Force of the Forrest",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84835",
-      "run_id": "84835#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 8,
-      "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
-      "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 3,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-09-28",
-        "2026-09-29",
-        "2026-09-30"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1787753317/amc-cdn/content/general/ridtkzacsxhh73x179tu.png",
-      "runtime_min": 135,
-      "prediction_as_of": "2026-09-28",
-      "predicted_end_date": "2026-10-03",
-      "timing_confidence": "moderate",
-      "timing_mode": "could_around",
-      "prediction_scope": "amc"
-    },
-    {
       "film_key": "you-had-to-be-there-how-the-toronto-godspell-ignited-the-comedy-revolution-spread-love-overalls",
       "film_title": "You Had to Be There: How the Toronto Godspell Ignited the Comedy Revolution, Spread Love & Overalls.",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "84243",
       "run_id": "84243#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 9,
-      "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
+      "sort_rank": 10,
+      "visible_show_date_count": 2,
+      "min_show_date": "2026-09-29",
       "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 11,
+      "total_visible_showtimes": 6,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -367,7 +397,6 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
         "2026-09-30"
       ],
@@ -375,27 +404,71 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789470531/amc-cdn/production/2/movies/84200/84243/Poster/396834R1.jpg",
       "runtime_min": 98,
-      "prediction_as_of": "2026-09-28",
-      "predicted_end_date": "2026-10-04",
-      "timing_confidence": "moderate",
-      "timing_mode": "could_around",
+      "prediction_as_of": "2026-09-29",
+      "predicted_end_date": "2026-10-02",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "charlie-harper",
+      "film_title": "Charlie Harper",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "81850",
+      "run_id": "81850#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 11,
+      "visible_show_date_count": 2,
+      "min_show_date": "2026-09-29",
+      "max_show_date": "2026-09-30",
+      "total_visible_showtimes": 11,
+      "total_visible_theaters": 3,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-09-29",
+        "2026-09-30"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": false,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1790008017/amc-cdn/content/general/i1zu9ekesqesoyf1xwag.jpg",
+      "runtime_min": 102,
+      "prediction_as_of": "2026-09-29",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
       "prediction_scope": "amc"
     },
     {
       "film_key": "hope",
       "film_title": "Hope",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "84082",
       "run_id": "84082#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 10,
+      "sort_rank": 12,
       "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
-      "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 16,
+      "min_show_date": "2026-09-29",
+      "max_show_date": "2026-10-01",
+      "total_visible_showtimes": 11,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -416,15 +489,15 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
-        "2026-09-30"
+        "2026-09-30",
+        "2026-10-01"
       ],
       "has_primetime": true,
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1785773003/amc-cdn/content/general/ldqsktaucqlvqqxrfgwa.jpg",
       "runtime_min": 157,
-      "prediction_as_of": "2026-09-28",
+      "prediction_as_of": "2026-09-29",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -433,18 +506,18 @@
     {
       "film_key": "runner",
       "film_title": "Runner",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "83715",
       "run_id": "83715#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 11,
+      "sort_rank": 13,
       "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
-      "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 20,
+      "min_show_date": "2026-09-29",
+      "max_show_date": "2026-10-01",
+      "total_visible_showtimes": 14,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -465,15 +538,15 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
-        "2026-09-30"
+        "2026-09-30",
+        "2026-10-01"
       ],
       "has_primetime": true,
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787606522/amc-cdn/content/general/pc3c23kwefbqqkjmfosf.jpg",
       "runtime_min": 97,
-      "prediction_as_of": "2026-09-28",
+      "prediction_as_of": "2026-09-29",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -482,18 +555,18 @@
     {
       "film_key": "stunt-driver",
       "film_title": "The Stunt Driver",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "84617",
       "run_id": "84617#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 12,
+      "sort_rank": 14,
       "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
-      "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 10,
+      "min_show_date": "2026-09-29",
+      "max_show_date": "2026-10-01",
+      "total_visible_showtimes": 7,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -510,60 +583,15 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
-        "2026-09-30"
+        "2026-09-30",
+        "2026-10-01"
       ],
       "has_primetime": true,
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789470507/amc-cdn/production/2/movies/84600/84617/Poster/380396R1.jpg",
       "runtime_min": 99,
-      "prediction_as_of": "2026-09-28",
-      "predicted_end_date": null,
-      "timing_confidence": "low",
-      "timing_mode": "horizon_only",
-      "prediction_scope": "amc"
-    },
-    {
-      "film_key": "charlie-harper",
-      "film_title": "Charlie Harper",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "81850",
-      "run_id": "81850#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 13,
-      "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
-      "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 16,
-      "total_visible_theaters": 3,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        },
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-09-28",
-        "2026-09-29",
-        "2026-09-30"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": false,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1790008017/amc-cdn/content/general/i1zu9ekesqesoyf1xwag.jpg",
-      "runtime_min": 102,
-      "prediction_as_of": "2026-09-28",
+      "prediction_as_of": "2026-09-29",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -579,11 +607,11 @@
       "source_film_id": "83100",
       "run_id": "83100#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 14,
+      "sort_rank": 15,
       "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
-      "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 18,
+      "min_show_date": "2026-09-29",
+      "max_show_date": "2026-10-01",
+      "total_visible_showtimes": 13,
       "total_visible_theaters": 5,
       "theaters": [
         {
@@ -608,18 +636,18 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
-        "2026-09-30"
+        "2026-09-30",
+        "2026-10-01"
       ],
       "has_primetime": true,
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787329481/amc-cdn/content/general/vl0decness9trww0ipiy.jpg",
       "runtime_min": 112,
-      "prediction_as_of": "2026-09-28",
-      "predicted_end_date": "2026-10-05",
-      "timing_confidence": "moderate",
-      "timing_mode": "could_around",
+      "prediction_as_of": "2026-09-29",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
       "prediction_scope": "amc"
     },
     {
@@ -632,11 +660,11 @@
       "source_film_id": "65798",
       "run_id": "65798#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 15,
-      "visible_show_date_count": 3,
-      "min_show_date": "2026-09-28",
-      "max_show_date": "2026-09-30",
-      "total_visible_showtimes": 29,
+      "sort_rank": 16,
+      "visible_show_date_count": 9,
+      "min_show_date": "2026-09-29",
+      "max_show_date": "2026-10-07",
+      "total_visible_showtimes": 36,
       "total_visible_theaters": 5,
       "theaters": [
         {
@@ -661,19 +689,26 @@
         }
       ],
       "show_dates": [
-        "2026-09-28",
         "2026-09-29",
-        "2026-09-30"
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
       ],
       "has_primetime": true,
-      "has_weekend_show": false,
+      "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1776890696/amc-cdn/content/general/drmtwg7l2qonvi011lri.jpg",
       "runtime_min": 103,
-      "prediction_as_of": "2026-09-28",
-      "predicted_end_date": "2026-10-06",
-      "timing_confidence": "moderate",
-      "timing_mode": "could_around",
+      "prediction_as_of": "2026-09-29",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
       "prediction_scope": "amc"
     }
-  ]
+  ],
+  "calibration_version": "amc_remaining_run_survival_v1_calibration_2026_09"
 }
