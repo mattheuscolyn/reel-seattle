@@ -150,7 +150,7 @@ def test_build_audit_distinguishes_source_year_limitation_from_actionable_gap(tm
         "eligible_features_missing_year"
     ] == 1
     assert report["sources"]["siff"]["cleanup"]["matcher_cleaned_identity_count"] == 1
-    assert report["findings"]["sources_with_actionable_feature_year_gaps"] == ["siff"]
+    assert report["findings"]["sources_with_feature_year_gaps_requiring_review"] == ["siff"]
     assert report["findings"]["sources_where_listing_does_not_expose_release_year"] == [
         "anderson_school"
     ]
