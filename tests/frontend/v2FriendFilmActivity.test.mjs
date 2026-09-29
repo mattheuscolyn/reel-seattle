@@ -59,6 +59,10 @@ const FRIEND_DETAIL = readFileSync(
   join(ROOT, 'v2/friends/FriendDetailSurface.jsx'),
   'utf8',
 );
+const ACTIVITY_TABS = readFileSync(
+  join(ROOT, 'v2/collections/PersonalCollectionSegmentedControl.jsx'),
+  'utf8',
+);
 const SETTINGS = readFileSync(
   join(ROOT, 'v2/profile/settings/ProfileSettingsSurface.jsx'),
   'utf8',
@@ -279,11 +283,12 @@ test('8 Friend Detail shows Saved / Seen / Not Interested sections', () => {
   assert.equal(detail.saved.length, 1);
   assert.equal(detail.seen.length, 1);
   assert.equal(detail.notInterested.length, 1);
-  assert.match(FRIEND_DETAIL, /Saved/);
-  assert.match(FRIEND_DETAIL, /Seen/);
-  assert.match(FRIEND_DETAIL, /Not Interested/);
-  assert.match(FRIEND_DETAIL, /data-friend-activity=\{stateId\}/);
-  assert.match(FRIEND_DETAIL, /stateId="saved"/);
+  assert.match(ACTIVITY_TABS, /Saved/);
+  assert.match(ACTIVITY_TABS, /Seen/);
+  assert.match(ACTIVITY_TABS, /Not Interested/);
+  assert.match(FRIEND_DETAIL, /PersonalCollectionSegmentedControl/);
+  assert.match(FRIEND_DETAIL, /data-friend-activity=\{activityTab\}/);
+  assert.match(FRIEND_DETAIL, /setActivityTab/);
 });
 
 test('9 Friend Detail film tap opens Film Detail via identity payload', () => {
@@ -299,7 +304,7 @@ test('9 Friend Detail film tap opens Film Detail via identity payload', () => {
   assert.equal(rows[0].filmId, 'tmdb:1001');
   assert.ok(rows[0].filmKey);
   assert.match(FRIEND_DETAIL, /onOpenFilm/);
-  assert.match(FRIEND_DETAIL, /PersonalCollectionFilmRow/);
+  assert.match(FRIEND_DETAIL, /data-friend-film/);
 });
 
 test('10 back navigation restores Friend Detail', () => {
@@ -413,7 +418,7 @@ test('14 empty Friend Detail categories render gracefully', () => {
   assert.deepEqual(detail.saved, []);
   assert.deepEqual(detail.seen, []);
   assert.deepEqual(detail.notInterested, []);
-  assert.match(FRIEND_DETAIL, /No shared Saved films/);
+  assert.match(FRIEND_DETAIL, /friendActivityEmptyCopy/);
   assert.match(FRIEND_DETAIL, /data-friend-activity-empty/);
 });
 

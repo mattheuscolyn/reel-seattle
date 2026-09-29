@@ -34,6 +34,7 @@ const SEGMENTS = [
 export default function PersonalCollectionSegmentedControl({
   activeSegmentId = 'saved',
   onSelectSegment,
+  ariaLabel = 'Personal film collections',
 }) {
   const tabRefs = useRef(/** @type {Record<string, HTMLButtonElement | null>} */ ({}));
 
@@ -54,7 +55,7 @@ export default function PersonalCollectionSegmentedControl({
     <div
       className="v2-pfc-segments"
       role="tablist"
-      aria-label="Personal film collections"
+      aria-label={ariaLabel}
       onKeyDown={(event) => {
         const current = SEGMENTS.findIndex((s) => s.id === activeSegmentId);
         if (current < 0) return;
