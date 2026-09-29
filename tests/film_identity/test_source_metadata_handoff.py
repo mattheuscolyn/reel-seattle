@@ -128,3 +128,60 @@ def test_identity_inventory_uses_source_identity_title_and_release_year(tmp_path
     assert identity["release_year"] == 1998
     assert identity["year_hint"] == 1998
     assert identity["program_series"] == "Unregistered Showcase"
+
+def test_identity_inventory_exposes_program_kind_for_multi_feature_programs(tmp_path):
+    showtimes_path = tmp_path / "showtimes.json"
+    rows = [
+        {
+            "source": "beacon",
+            "source_film_id": "universal-monster-mash",
+            "showtime_film_key": "universal-monster-mash-double-feature",
+            "source_title": "UNIVERSAL MONSTER MASH DOUBLE FEATURE",
+            "film_title": "UNIVERSAL MONSTER MASH DOUBLE FEATURE",
+            "screening_variant_type": "none",
+            "is_special_screening": False,
+        },
+        {
+            "source": "grand_illusion",
+            "source_film_id": "television-terror-triple-feature",
+            "showtime_film_key": "television-terror-triple-feature-pizza-party-2",
+            "source_title": "Television Terror Triple Feature Pizza Party 2",
+            "film_title": "Television Terror Triple Feature Pizza Party 2",
+            "screening_variant_type": "none",
+            "is_special_screening": False,
+        },
+        {
+            "source": "nwff",
+            "source_film_id": "stuff-jucks-mystery",
+            "showtime_film_key": "stuff-2026-jucks-if-im-here",
+            "source_title": "STUFF 2026: Jucks + If I'm Here It Is By Mystery",
+            "film_title": "STUFF 2026: Jucks + If I'm Here It Is By Mystery",
+            "screening_variant_type": "none",
+            "is_special_screening": False,
+        },
+    ]
+    showtimes_path.write_text(
+        json.dumps(
+            {
+                "films": [
+                    {"showtime_film_key": row["showtime_film_key"], "runtime_min": 180}
+                    for row in rows
+                ],
+                "showtimes": rows,
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    inventory = inventory_source_identities(
+        showtimes_path=showtimes_path,
+        products_path=tmp_path / "missing-products.json",
+        root=tmp_path,
+    )
+
+    assert inventory["program_kind_counts"] == {"multi_feature_program": 3}
+    assert {row["program_kind"] for row in inventory["identities"]} == {
+        "multi_feature_program"
+    }
+    assert {row["eligibility"] for row in inventory["identities"]} == {"non_film"}
+
