@@ -30,7 +30,7 @@ import { isAuthSensitiveSurfaceType } from '../../v2/navigation/primaryTabSessio
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const DETAIL_SRC = readFileSync(
-  join(ROOT, 'v2/sharedPlans/SharedPlanDetailSurface.jsx'),
+  join(ROOT, 'v2/planner/PlanDetailSurface.jsx'),
   'utf8',
 );
 const PLANNER_SRC = readFileSync(
@@ -160,14 +160,14 @@ test('10–12 organizer note + people section present in detail surface', () => 
   assert.match(DETAIL_SRC, /organizerNote/);
   assert.match(DETAIL_SRC, /People/);
   assert.match(DETAIL_SRC, /Itinerary/);
-  assert.match(DETAIL_SRC, /Invite more friends/);
+  assert.match(DETAIL_SRC, /Invite friends/);
 });
 
 test('13–14 Planner opens shared-plan detail (not invite sheet)', () => {
   assert.match(PLANNER_SRC, /onOpenSharedPlan/);
   assert.match(PLANNER_SRC, /openSharedPlanDetail/);
   assert.equal(PLANNER_SRC.includes('SharedPlanInviteDetailSheet'), false);
-  assert.match(APP_SRC, /SharedPlanDetailSurface/);
+  assert.match(APP_SRC, /PlanDetailSurface/);
   assert.match(APP_SRC, /openSharedPlanDetail/);
 });
 

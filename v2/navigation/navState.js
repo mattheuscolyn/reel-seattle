@@ -1198,7 +1198,8 @@ export function openFriendInviteLanding(state, params) {
 }
 
 /**
- * Shared Plan Detail — canonical destination keyed by planId.
+ * Canonical Plan Detail — one destination for accepted and shared plans.
+ * Identity is `planId` (`accepted:` or `shared:`), not the page the user came from.
  * @param {object} state
  * @param {{
  *   planId: string,
@@ -1206,7 +1207,7 @@ export function openFriendInviteLanding(state, params) {
  *   returnSurface?: object | null,
  * }} params
  */
-export function openSharedPlanDetail(state, params) {
+export function openPlanDetail(state, params) {
   const planId =
     typeof params?.planId === 'string' ? params.planId.trim() : '';
   if (!planId) return state;
@@ -1224,6 +1225,18 @@ export function openSharedPlanDetail(state, params) {
       returnSurface: params.returnSurface ?? null,
     },
   };
+}
+
+/**
+ * @param {object} state
+ * @param {{
+ *   planId: string,
+ *   originPrimary?: string,
+ *   returnSurface?: object | null,
+ * }} params
+ */
+export function openSharedPlanDetail(state, params) {
+  return openPlanDetail(state, params);
 }
 
 /**
