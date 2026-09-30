@@ -11,6 +11,7 @@ import {
   IconCalendar,
   IconChevron,
   IconConflict,
+  IconLink,
   IconMail,
   IconPeople,
   IconPerson,
@@ -45,6 +46,7 @@ import { getSharedPlanBySourceAcceptedRemote } from '../sharedPlans/sharedPlansA
 import {
   planInvitesNavigation,
   upcomingAttendance,
+  upcomingPlanPositionLabel,
   upcomingTicketLabel,
 } from './plannerUpcomingStatus.js';
 
@@ -156,6 +158,7 @@ function ScreeningStatusRow({ screening }) {
 
 function ScreeningRow({ screening, onOpen }) {
   const schedule = screening.scheduleLabel || screening.timeLabel || null;
+  const positionLabel = upcomingPlanPositionLabel(screening);
 
   return (
     <button
@@ -191,8 +194,19 @@ function ScreeningRow({ screening, onOpen }) {
         ) : null}
         <ScreeningStatusRow screening={screening} />
       </span>
-      <span className="v2-planner-screening-chevron" aria-hidden="true">
-        <IconChevron width={14} height={14} />
+      <span className="v2-planner-screening-aside">
+        {positionLabel ? (
+          <span
+            className="v2-planner-plan-position"
+            data-plan-position={positionLabel}
+          >
+            <IconLink width={13} height={13} aria-hidden="true" />
+            <span>{positionLabel}</span>
+          </span>
+        ) : null}
+        <span className="v2-planner-screening-chevron" aria-hidden="true">
+          <IconChevron width={14} height={14} />
+        </span>
       </span>
     </button>
   );
@@ -308,115 +322,6 @@ function ConflictGroupCard({ group, onOpen }) {
   );
 }
 
-function PlanGroupCard({
-  group,
-  onOpenScreening,
-  onOpenPlanDetails = null,
-  onRemovePlan = null,
-  onInviteFriends = null,
-  onOpenSharedPlan = null,
-}) {
-  const [confirmRemove, setConfirmRemove] = useState(false);
-  const members = Array.isArray(group.members) ? group.members : [];
-  const isShared = group.origin === 'shared-plan' || group.kind === 'shared-plan-group';
-
-  const openGroup = () => {
-    if (isShared) {
-      onOpenSharedPlan?.(group.sharedPlanId || group.planId);
-      return;
-    }
-    onOpenPlanDetails?.(group.planId);
-  };
-
-  return (
-    <article
-      className="v2-planner-plan-group"
-      data-plan-id={group.planId}
-      data-plan-group="true"
-      data-shared-plan={isShared ? 'true' : undefined}
-    >
-      <button type="button" className="v2-planner-plan-group-header" onClick={openGroup}>
-        <p className="v2-planner-plan-banner">
-          <IconSparkle width={12} height={12} aria-hidden="true" />
-          {group.movieCountLabel || 'Plan'}
-        </p>
-        <h4 className="v2-planner-plan-group-title">{group.title}</h4>
-        {group.metaLine ? (
-          <p className="v2-planner-plan-group-meta">{group.metaLine}</p>
-        ) : null}
-      </button>
-      <div className="v2-planner-plan-group-members">
-        {members.map((screening) => (
-          <ScreeningRow
-            key={screening.id}
-            screening={screening}
-            onOpen={onOpenScreening}
-          />
-        ))}
-      </div>
-      <div className="v2-planner-plan-group-actions">
-        {isShared && typeof onOpenSharedPlan === 'function' ? (
-          <button
-            type="button"
-            className="v2-planner-plan-group-details"
-            onClick={() => onOpenSharedPlan(group.sharedPlanId || group.planId)}
-          >
-            View shared plan
-          </button>
-        ) : typeof onOpenPlanDetails === 'function' ? (
-          <button
-            type="button"
-            className="v2-planner-plan-group-details"
-            onClick={() => onOpenPlanDetails(group.planId)}
-          >
-            {group.viewDetailsLabel || 'View plan details'}
-          </button>
-        ) : null}
-        {!isShared && typeof onInviteFriends === 'function' ? (
-          <button
-            type="button"
-            className="v2-planner-plan-group-details"
-            onClick={() => onInviteFriends(group.planId)}
-          >
-            Invite friends
-          </button>
-        ) : null}
-        {!isShared && typeof onRemovePlan === 'function' ? (
-          !confirmRemove ? (
-            <button
-              type="button"
-              className="v2-planner-plan-group-remove"
-              onClick={() => setConfirmRemove(true)}
-            >
-              {group.removePlanLabel || 'Remove entire plan'}
-            </button>
-          ) : (
-            <div className="v2-planner-plan-group-confirm">
-              <p>Remove this plan and its screenings from Planner?</p>
-              <button
-                type="button"
-                className="v2-planner-plan-group-remove"
-                onClick={() => {
-                  onRemovePlan(group.planId);
-                  setConfirmRemove(false);
-                }}
-              >
-                Remove plan
-              </button>
-              <button
-                type="button"
-                className="v2-planner-plan-group-cancel"
-                onClick={() => setConfirmRemove(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          )
-        ) : null}
-      </div>
-    </article>
-  );
-}
 
 /**
  * @param {{
@@ -472,6 +377,7 @@ export default function PlannerDestination({
   }, [mockupMode, viewerId, acceptedPlansRevision]);
   void settingsTick;
   void acceptedPlansRevision;
+  void onRemoveAcceptedPlan;
   const timeFormatId = getScheduleSettings(storage).timeFormatId;
   const basePresentation = mockupMode
     ? getPlannerLandingMockupPresentation()
@@ -619,17 +525,6 @@ export default function PlannerDestination({
       return;
     }
     announceStub('view-plan-details', 'View plan details');
-  };
-
-  const removeSavedPlan = (planId) => {
-    const id = typeof planId === 'string' ? planId.trim() : '';
-    if (!id) return;
-    if (typeof onRemoveAcceptedPlan === 'function') {
-      setSelectedScreening(null);
-      onRemoveAcceptedPlan(id);
-      return;
-    }
-    announceStub('remove-plan', 'Remove entire plan');
   };
 
   const closeConflictReview = () => {
@@ -930,24 +825,13 @@ export default function PlannerDestination({
                             group={item}
                             onOpen={openScreening}
                           />
-                        ) : item.kind === 'plan-group' ||
-                          item.kind === 'shared-plan-group' ? (
-                          <PlanGroupCard
-                            key={item.id}
-                            group={item}
-                            onOpenScreening={openScreening}
-                            onOpenPlanDetails={openSavedPlan}
-                            onRemovePlan={removeSavedPlan}
-                            onInviteFriends={openInviteFriends}
-                            onOpenSharedPlan={openSharedPlanDetail}
-                          />
-                        ) : (
+                        ) : item.kind === 'screening' ? (
                           <ScreeningRow
                             key={item.id}
                             screening={item}
                             onOpen={openScreening}
                           />
-                        ),
+                        ) : null,
                       )}
                     </div>
                   </div>

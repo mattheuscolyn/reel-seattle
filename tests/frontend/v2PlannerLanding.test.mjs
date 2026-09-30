@@ -222,10 +222,10 @@ test('Planner landing keeps interactive controls as buttons', () => {
   assert.match(PLANNER_SRC, /setTimelineExpanded\(true\)/);
   assert.match(PLANNER_SRC, /onOpenBuildPlan/);
   assert.match(PLANNER_SRC, /onOpenSavedPlan/);
-  assert.match(PLANNER_SRC, /onRemoveAcceptedPlan/);
-  assert.match(PLANNER_SRC, /PlanGroupCard/);
-  assert.match(PLANNER_SRC, /View plan details/);
-  assert.match(PLANNER_SRC, /Remove entire plan/);
+  assert.match(PLANNER_SRC, /upcomingPlanPositionLabel/);
+  assert.match(PLANNER_SRC, /IconLink/);
+  assert.equal(PLANNER_SRC.includes('PlanGroupCard'), false);
+  assert.equal(PLANNER_SRC.includes('v2-planner-plan-group'), false);
   assert.match(PLANNER_SRC, /role="tablist"/);
 });
 
@@ -235,10 +235,8 @@ test('Planner landing CSS covers tabs attention upcoming conflict', () => {
   assert.match(CSS, /\.v2-planner-attention-card\b/);
   assert.match(CSS, /\.v2-planner-screening-row\b/);
   assert.match(CSS, /\.v2-planner-conflict-group\b/);
-  assert.match(CSS, /\.v2-planner-plan-group\b/);
-  assert.match(CSS, /\.v2-planner-plan-group-title\b/);
-  assert.match(CSS, /\.v2-planner-plan-group-details\b/);
-  assert.match(CSS, /\.v2-planner-plan-group-remove\b/);
+  assert.match(CSS, /\.v2-planner-plan-position\b/);
+  assert.equal(CSS.includes('.v2-planner-plan-group'), false);
   assert.match(CSS, /overflow-wrap:\s*anywhere/);
   assert.match(CSS, /min-height:\s*2\.75rem/);
   assert.match(CSS, /\.v2-planner-build-btn\b/);
@@ -320,7 +318,7 @@ function acceptLivePlan(storage, films) {
   );
 }
 
-test('multi-film accepted plans render as grouped Upcoming cards', () => {
+test('multi-film accepted plans render as standalone Upcoming cards', () => {
   const storage = memoryStorage();
   const accepted = acceptLivePlan(storage, [
     liveFilm({
@@ -346,24 +344,26 @@ test('multi-film accepted plans render as grouped Upcoming cards', () => {
   const now = new Date('2026-08-08T18:00:00-07:00');
   const p = composePlannerLandingFromAcceptedPlans({ storage, now });
   assert.equal(p.upcoming.dateGroups.length, 1);
-  assert.equal(p.upcoming.dateGroups[0].items.length, 1);
-  const group = p.upcoming.dateGroups[0].items[0];
-  assert.equal(group.kind, 'plan-group');
-  assert.equal(group.planId, accepted.plan.planId);
-  assert.equal(group.id, `plan-group-${accepted.plan.planId}`);
-  assert.match(group.title, /Screen Unseen/);
-  assert.match(group.title, /The Uprising/);
-  assert.equal(group.movieCountLabel, '2-film plan');
-  assert.equal(group.members.length, 2);
-  assert.equal(group.members[0].kind, 'screening');
-  assert.equal(group.members[0].planId, accepted.plan.planId);
-  assert.equal(group.viewDetailsLabel, 'View plan details');
-  assert.equal(group.removePlanLabel, 'Remove entire plan');
-  assert.match(group.metaLine, /break/i);
-  assert.match(group.metaLine, /Finishes/);
+  const items = p.upcoming.dateGroups[0].items;
+  assert.equal(items.length, 2);
+  assert.equal(items.some((item) => item.kind === 'plan-group'), false);
+  assert.deepEqual(
+    items.map((item) => item.title),
+    ['Screen Unseen', 'The Uprising'],
+  );
+  assert.equal(items.every((item) => item.kind === 'screening'), true);
+  assert.equal(
+    items.every((item) => item.planId === accepted.plan.planId),
+    true,
+  );
+  assert.deepEqual(
+    items.map((item) => item.planFilmIndex),
+    [1, 2],
+  );
+  assert.equal(items.every((item) => item.planFilmCount === 2), true);
 });
 
-test('three- and four-film accepted plans stay one grouped card', () => {
+test('three- and four-film accepted plans stay standalone cards in plan order', () => {
   const storage = memoryStorage();
   const three = acceptLivePlan(storage, [
     liveFilm({
@@ -454,19 +454,29 @@ test('three- and four-film accepted plans stay one grouped card', () => {
   const now = new Date('2026-08-08T18:00:00-07:00');
   const p = composePlannerLandingFromAcceptedPlans({ storage, now });
   const groups = p.upcoming.dateGroups.flatMap((g) => g.items);
-  const threeGroup = groups.find((item) => item.planId === three.plan.planId);
-  const fourGroup = groups.find((item) => item.planId === four.plan.planId);
-  assert.equal(threeGroup.kind, 'plan-group');
-  assert.equal(threeGroup.movieCountLabel, '3-film plan');
-  assert.equal(threeGroup.members.length, 3);
-  assert.match(threeGroup.title, /Alpha Very Long Title/);
-  assert.equal(fourGroup.kind, 'plan-group');
-  assert.equal(fourGroup.movieCountLabel, '4-film plan');
-  assert.equal(fourGroup.members.length, 4);
-  assert.match(fourGroup.metaLine, /The Beacon/);
-  assert.match(fourGroup.metaLine, /NWFF/);
-  assert.match(fourGroup.metaLine, /SIFF Uptown/);
-  assert.match(fourGroup.metaLine, /breaks/i);
+  const threeItems = groups.filter((item) => item.planId === three.plan.planId);
+  const fourItems = groups.filter((item) => item.planId === four.plan.planId);
+  assert.deepEqual(
+    threeItems.map((item) => item.title),
+    ['Alpha Very Long Title About Memory And Desire', 'Beta', 'Gamma'],
+  );
+  assert.deepEqual(
+    threeItems.map((item) => item.planFilmIndex),
+    [1, 2, 3],
+  );
+  assert.equal(threeItems.every((item) => item.kind === 'screening'), true);
+  assert.equal(threeItems.every((item) => item.planFilmCount === 3), true);
+  assert.deepEqual(
+    fourItems.map((item) => [item.title, item.venueLabel, item.planFilmIndex]),
+    [
+      ['One', 'The Beacon', 1],
+      ['Two', 'The Beacon', 2],
+      ['Three', 'NWFF', 3],
+      ['Four', 'SIFF Uptown', 4],
+    ],
+  );
+  assert.equal(fourItems.every((item) => item.planFilmCount === 4), true);
+  assert.equal(groups.some((item) => item.kind === 'plan-group'), false);
 });
 
 test('single-film accepted plans remain ordinary screening rows', () => {
@@ -484,9 +494,11 @@ test('single-film accepted plans remain ordinary screening rows', () => {
   assert.equal(row.kind, 'screening');
   assert.equal(row.planId, accepted.plan.planId);
   assert.equal(row.title, 'The Conversation');
+  assert.equal(row.planFilmIndex, null);
+  assert.equal(row.planFilmCount, null);
 });
 
-test('multi-film plan stays grouped in Upcoming when it conflicts with another screening', () => {
+test('multi-film plan stays as standalone cards when it conflicts with another screening', () => {
   const storage = memoryStorage();
   const plan = acceptLivePlan(storage, [
     liveFilm({
@@ -529,11 +541,16 @@ test('multi-film plan stays grouped in Upcoming when it conflicts with another s
     items.some((item) => item.kind === 'conflict-group'),
     false,
   );
-  const grouped = items.find((item) => item.kind === 'plan-group');
-  const single = items.find((item) => item.kind === 'screening');
-  assert.equal(grouped.planId, plan.plan.planId);
-  assert.equal(grouped.members.length, 2);
-  assert.equal(single.title, 'Overlapping Film');
+  assert.equal(items.some((item) => item.kind === 'plan-group'), false);
+  const planItems = items.filter((item) => item.planId === plan.plan.planId);
+  const single = items.find((item) => item.title === 'Overlapping Film');
+  assert.equal(planItems.length, 2);
+  assert.deepEqual(
+    planItems.map((item) => item.planFilmIndex),
+    [1, 2],
+  );
+  assert.equal(single.kind, 'screening');
+  assert.equal(single.planFilmCount, null);
   assert.equal(p.needsAttention.count, 1);
   assert.match(p.needsAttention.items[0].body, /Overlapping Film/);
 });
@@ -574,6 +591,7 @@ test('partial removal keeps planId; last screening ungroups; last remove uses st
   assert.equal(remaining.kind, 'screening');
   assert.equal(remaining.planId, planId);
   assert.equal(remaining.title, 'The Uprising');
+  assert.equal(remaining.planFilmCount, null);
 
   const last = removePerformanceFromAcceptedPlan(storage, planId, secondKey);
   assert.equal(last.ok, true);

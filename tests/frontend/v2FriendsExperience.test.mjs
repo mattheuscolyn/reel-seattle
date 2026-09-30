@@ -448,11 +448,11 @@ test('63-68. Profile/Planner/Browse/Admin stay in place aside from Friends inser
   assert.match(PRIVACY_SRC, /does not offer public profile search/);
   assert.equal(SETTINGS_SRC.includes('Friends can send me plans'), false);
   assert.equal(PLANNER_SRC.includes('friendsApi'), false);
-  // Plan-outing invites ("Invite friends") are intentional; friend-graph
+  // Plan-outing invites stay on the shared-plan sheet; friend-graph
   // invite chrome (InviteFriendSheet / createFriendInvite) stays out of Planner.
   assert.equal(PLANNER_SRC.includes('InviteFriendSheet'), false);
   assert.equal(PLANNER_SRC.includes('createFriendInvite'), false);
-  assert.match(PLANNER_SRC, /Invite friends/);
+  assert.match(PLANNER_SRC, /InviteFriendsToPlanSheet/);
   assert.equal(BROWSE_SRC.includes('friendsApi'), false);
   assert.match(FILMS_SRC, /profileIsAdmin\(auth\.profile\)/);
   assert.equal(APP_SRC.includes('PlanInvitation'), false);

@@ -472,12 +472,19 @@ test('15–18 pending / positive / declined Planner projection; no clone', () =>
     })),
     viewerId: 'jamie',
   });
-  const sharedItem = landingActive.upcoming.dateGroups
+  const sharedItems = landingActive.upcoming.dateGroups
     .flatMap((g) => g.items)
-    .find((item) => item.kind === 'shared-plan-group');
-  assert.ok(sharedItem);
-  assert.equal(sharedItem.sharedPlanId, planId);
-  assert.equal(sharedItem.origin, 'shared-plan');
+    .filter((item) => item.origin === 'shared-plan');
+  assert.equal(sharedItems.length, 2);
+  assert.equal(sharedItems.every((item) => item.kind === 'screening'), true);
+  assert.equal(sharedItems.every((item) => item.sharedPlanId === planId), true);
+  assert.equal(sharedItems.every((item) => item.planId === planId), true);
+  assert.equal(sharedItems.every((item) => item.origin === 'shared-plan'), true);
+  assert.deepEqual(
+    sharedItems.map((item) => item.planFilmIndex),
+    [1, 2],
+  );
+  assert.equal(sharedItems.every((item) => item.planFilmCount === 2), true);
 
   repoRespondToPlan(repo, planId, 'jamie', 'declined');
   assert.equal(repoListActiveSharedPlansForUser(repo, 'jamie').length, 0);

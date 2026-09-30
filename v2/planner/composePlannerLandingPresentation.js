@@ -14,7 +14,10 @@ import {
   findConflictClusters,
   formatConflictBody,
 } from './plannerScreeningOverlap.js';
-import { formatUpcomingScheduleLine } from './plannerUpcomingStatus.js';
+import {
+  formatUpcomingScheduleLine,
+  upcomingPlanPositionsByScreeningId,
+} from './plannerUpcomingStatus.js';
 
 /**
  * @param {string} localTime HH:MM or display
@@ -170,92 +173,12 @@ function publicScreening(screening) {
     ticketsPurchased: screening.ticketsPurchased === true,
     attendees: Array.isArray(screening.attendees) ? screening.attendees : [],
     startsAt: screening.startsAt,
-  };
-}
-
-function formatInstantClock(iso, timeFormatId = '12h') {
-  const ms = parseMs(iso);
-  if (ms == null) return null;
-  try {
-    return new Intl.DateTimeFormat('en-US', {
-      timeZone: 'America/Los_Angeles',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: timeFormatId !== '24h',
-    }).format(new Date(ms));
-  } catch {
-    return null;
-  }
-}
-
-function formatBreakSummary(gapMin) {
-  const n = Math.max(0, Math.round(gapMin));
-  const h = Math.floor(n / 60);
-  const m = n % 60;
-  if (h > 0 && m > 0) return `${h}h ${m}m break`;
-  if (h > 0) return `${h}h break`;
-  return `${m}m break`;
-}
-
-function toPlanGroup(plan, members, timeFormatId) {
-  const ordered = [...members].sort((a, b) => {
-    const da =
-      (a.startMs ?? Number.POSITIVE_INFINITY) -
-      (b.startMs ?? Number.POSITIVE_INFINITY);
-    if (da !== 0) return da;
-    return String(a.performanceKey ?? '').localeCompare(
-      String(b.performanceKey ?? ''),
-    );
-  });
-  const publicMembers = ordered.map(publicScreening);
-  const count = publicMembers.length;
-  const theaters = [
-    ...new Set(publicMembers.map((m) => m.venueLabel).filter(Boolean)),
-  ];
-  /** @type {number[]} */
-  const breakMins = [];
-  for (let i = 0; i < ordered.length - 1; i += 1) {
-    const endMs = ordered[i].endMs;
-    const startMs = ordered[i + 1].startMs;
-    if (endMs == null || startMs == null) continue;
-    const gapMin = Math.round((startMs - endMs) / 60_000);
-    if (gapMin >= 5) breakMins.push(gapMin);
-  }
-  const last = ordered[ordered.length - 1];
-  const finishClock =
-    formatInstantClock(last?.expectedEndsAt, timeFormatId) ??
-    (last?.endMs != null
-      ? formatInstantClock(new Date(last.endMs).toISOString(), timeFormatId)
-      : null);
-  let breaksLabel = 'No breaks';
-  if (breakMins.length === 1) {
-    breaksLabel = formatBreakSummary(breakMins[0]);
-  } else if (breakMins.length > 1) {
-    breaksLabel = `${breakMins.length} breaks`;
-  }
-  const finishesLabel = finishClock ? `Finishes ${finishClock}` : null;
-  const metaParts = [
-    theaters.join(' · ') || null,
-    breaksLabel,
-    finishesLabel,
-  ].filter(Boolean);
-  return {
-    kind: 'plan-group',
-    id: `plan-group-${plan.planId}`,
-    planId: plan.planId,
-    title: publicMembers.map((m) => m.title).join(' + '),
-    movieCountLabel: count === 1 ? '1-film plan' : `${count}-film plan`,
-    theaterLabel:
-      theaters.length === 1 ? theaters[0] : theaters.join(' · ') || null,
-    breaksLabel,
-    finishesLabel,
-    metaLine: metaParts.join(' · '),
-    addedLabel: formatAddedLabel(plan.acceptedAt),
-    startsAt: publicMembers[0]?.startsAt ?? null,
-    dateKey: plan.date || ordered[0]?.dateKey || '',
-    members: publicMembers,
-    viewDetailsLabel: 'View plan details',
-    removePlanLabel: 'Remove entire plan',
+    planFilmIndex: Number.isInteger(screening.planFilmIndex)
+      ? screening.planFilmIndex
+      : null,
+    planFilmCount: Number.isInteger(screening.planFilmCount)
+      ? screening.planFilmCount
+      : null,
   };
 }
 
@@ -327,7 +250,7 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
       .filter((plan) => (plan.performances?.length ?? 0) >= 2)
       .map((plan) => plan.planId),
   );
-  const planById = new Map(upcomingPlans.map((plan) => [plan.planId, plan]));
+  const planPositions = upcomingPlanPositionsByScreeningId(screenings);
   const used = new Set();
 
   const todayIso = now.toLocaleDateString('en-CA', {
@@ -374,24 +297,17 @@ export function composePlannerLandingFromAcceptedPlans(options = {}) {
     });
   }
 
-  const emittedPlanGroups = new Set();
   for (const screening of screenings) {
     if (used.has(screening.id)) continue;
     const dateKey = screening.dateKey || 'unknown';
-    if (multiPlanIds.has(screening.planId)) {
-      if (emittedPlanGroups.has(screening.planId)) continue;
-      emittedPlanGroups.add(screening.planId);
-      const plan = planById.get(screening.planId);
-      if (!plan) continue;
-      const members = screenings.filter(
-        (row) => row.planId === screening.planId,
-      );
-      ensureDate(plan.date || dateKey).push(
-        toPlanGroup(plan, members, timeFormatId),
-      );
-      continue;
-    }
-    ensureDate(dateKey).push(publicScreening(screening));
+    const position = planPositions.get(screening.id);
+    ensureDate(dateKey).push(
+      publicScreening({
+        ...screening,
+        planFilmIndex: position?.planFilmIndex ?? null,
+        planFilmCount: position?.planFilmCount ?? null,
+      }),
+    );
   }
 
   for (const [dateKey, items] of itemsByDate) {

@@ -210,3 +210,73 @@ export function planInvitesNavigation(summary) {
   }
   return { kind: 'list', planIds: [...summary.planIds] };
 }
+
+/**
+ * Start instant used to order films inside one plan.
+ * @param {{ startMs?: number | null, startsAt?: string | null }} screening
+ */
+function planScreeningStartMs(screening) {
+  if (Number.isFinite(screening?.startMs)) return screening.startMs;
+  const ms = screening?.startsAt ? Date.parse(screening.startsAt) : NaN;
+  return Number.isFinite(ms) ? ms : Number.POSITIVE_INFINITY;
+}
+
+/**
+ * 1-based chronological position for each screening in a multi-film plan.
+ * Plans with fewer than two screenings are omitted.
+ *
+ * @param {Array<{
+ *   id?: string | null,
+ *   planId?: string | null,
+ *   startMs?: number | null,
+ *   startsAt?: string | null,
+ *   performanceKey?: string | null,
+ * }> | null | undefined} screenings
+ * @returns {Map<string, { planFilmIndex: number, planFilmCount: number }>}
+ */
+export function upcomingPlanPositionsByScreeningId(screenings) {
+  /** @type {Map<string, object[]>} */
+  const groups = new Map();
+  for (const screening of screenings ?? []) {
+    const planId = typeof screening?.planId === 'string' ? screening.planId : '';
+    const id = typeof screening?.id === 'string' ? screening.id : '';
+    if (!planId || !id) continue;
+    const list = groups.get(planId) ?? [];
+    list.push(screening);
+    groups.set(planId, list);
+  }
+
+  /** @type {Map<string, { planFilmIndex: number, planFilmCount: number }>} */
+  const positions = new Map();
+  for (const members of groups.values()) {
+    if (members.length < 2) continue;
+    const ordered = [...members].sort((a, b) => {
+      const delta = planScreeningStartMs(a) - planScreeningStartMs(b);
+      if (delta !== 0) return delta;
+      return String(a.performanceKey ?? '').localeCompare(
+        String(b.performanceKey ?? ''),
+      );
+    });
+    ordered.forEach((member, index) => {
+      positions.set(member.id, {
+        planFilmIndex: index + 1,
+        planFilmCount: ordered.length,
+      });
+    });
+  }
+  return positions;
+}
+
+/**
+ * Visible “1 of 2” label. Hidden for solo screenings and one-film plans.
+ *
+ * @param {{ planFilmIndex?: number | null, planFilmCount?: number | null } | null | undefined} screening
+ * @returns {string | null}
+ */
+export function upcomingPlanPositionLabel(screening) {
+  const count = screening?.planFilmCount;
+  const index = screening?.planFilmIndex;
+  if (!Number.isInteger(count) || count < 2) return null;
+  if (!Number.isInteger(index) || index < 1 || index > count) return null;
+  return `${index} of ${count}`;
+}
