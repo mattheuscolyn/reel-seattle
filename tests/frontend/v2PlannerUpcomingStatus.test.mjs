@@ -12,6 +12,7 @@ import {
   listUpcomingAttendees,
   planInvitesNavigation,
   upcomingAttendance,
+  upcomingPlanPositionLabel,
   upcomingTicketLabel,
 } from '../../v2/planner/plannerUpcomingStatus.js';
 import {
@@ -271,14 +272,273 @@ test('shared upcoming cards carry friend attendees and pending invites stay summ
   );
   assert.equal(landing.needsAttention.items[0].kind, 'plan-invite');
 
-  const group = landing.upcoming.dateGroups
+  const card = landing.upcoming.dateGroups
     .flatMap((day) => day.items)
-    .find((item) => item.kind === 'shared-plan-group');
-  assert.ok(group);
+    .find((item) => item.origin === 'shared-plan');
+  assert.ok(card);
+  assert.equal(card.kind, 'screening');
   assert.deepEqual(
-    group.members[0].attendees.map((person) => person.displayName),
+    card.attendees.map((person) => person.displayName),
     ['Shelley!', 'Alex'],
   );
-  assert.equal(group.members[0].ticketsPurchased, false);
-  assert.equal(group.members[0].formatLabel, 'IMAX');
+  assert.equal(card.ticketsPurchased, false);
+  assert.equal(card.formatLabel, 'IMAX');
+  assert.equal(card.planFilmCount, null);
+});
+
+function upcomingFilm(overrides) {
+  return {
+    type: 'film',
+    localDate: '2026-09-30',
+    date: '2026-09-30',
+    source: 'amc',
+    theaterId: 'amc-alderwood',
+    theaterName: 'AMC Alderwood Mall 16',
+    runtimeMin: 110,
+    runtime: 110,
+    format: 'Digital',
+    ...overrides,
+  };
+}
+
+function acceptUpcomingPlan(storage, id, films) {
+  return acceptResultsPlan(
+    {
+      id,
+      provenance: 'live',
+      source: 'live',
+      date: films[0].date,
+      items: films,
+    },
+    [],
+    { storage, provenance: 'live' },
+  );
+}
+
+test('multi-film plans flatten to standalone cards with chronological X of N', () => {
+  assert.equal(upcomingPlanPositionLabel({ planFilmCount: 1, planFilmIndex: 1 }), null);
+  assert.equal(upcomingPlanPositionLabel({ planFilmCount: null }), null);
+  assert.equal(
+    upcomingPlanPositionLabel({ planFilmCount: 3, planFilmIndex: 2 }),
+    '2 of 3',
+  );
+
+  const storage = memoryStorage();
+  const multi = acceptUpcomingPlan(storage, 'live-two', [
+    upcomingFilm({
+      title: 'Avengers: Endgame',
+      filmKey: 'src:amc:endgame',
+      sourceShowtimeId: 'endgame',
+      localTime: '22:00',
+      time: '22:00',
+      runtimeMin: 181,
+      runtime: 181,
+    }),
+    upcomingFilm({
+      title: 'Practical Magic 2',
+      filmKey: 'src:amc:practical',
+      sourceShowtimeId: 'practical',
+      localTime: '19:45',
+      time: '19:45',
+    }),
+  ]);
+  acceptUpcomingPlan(storage, 'live-three', [
+    upcomingFilm({
+      title: 'Gamma',
+      filmKey: 'src:amc:gamma',
+      sourceShowtimeId: 'gamma',
+      localTime: '16:30',
+      time: '16:30',
+      date: '2026-10-02',
+      localDate: '2026-10-02',
+    }),
+    upcomingFilm({
+      title: 'Alpha',
+      filmKey: 'src:amc:alpha',
+      sourceShowtimeId: 'alpha',
+      localTime: '12:00',
+      time: '12:00',
+      date: '2026-10-02',
+      localDate: '2026-10-02',
+    }),
+    upcomingFilm({
+      title: 'Beta',
+      filmKey: 'src:amc:beta',
+      sourceShowtimeId: 'beta',
+      localTime: '14:15',
+      time: '14:15',
+      date: '2026-10-02',
+      localDate: '2026-10-02',
+    }),
+  ]);
+  const solo = acceptUpcomingPlan(storage, 'live-solo', [
+    upcomingFilm({
+      title: 'Moonlight',
+      filmKey: 'src:nwff:moonlight',
+      source: 'nwff',
+      sourceShowtimeId: 'moon',
+      theaterId: 'nwff',
+      theaterName: 'Northwest Film Forum',
+      localTime: '18:00',
+      time: '18:00',
+    }),
+  ]);
+
+  const landing = composePlannerLandingFromAcceptedPlans({
+    storage,
+    now: new Date('2026-09-29T12:00:00-07:00'),
+  });
+  const sep30 = landing.upcoming.dateGroups.find(
+    (group) => group.dateKey === '2026-09-30',
+  );
+  const oct2 = landing.upcoming.dateGroups.find(
+    (group) => group.dateKey === '2026-10-02',
+  );
+  assert.ok(sep30);
+  assert.ok(oct2);
+
+  const sepItems = sep30.items;
+  assert.equal(sepItems.length, 3);
+  assert.equal(sepItems.some((item) => item.kind === 'plan-group'), false);
+  assert.deepEqual(
+    sepItems.map((item) => item.title),
+    ['Moonlight', 'Practical Magic 2', 'Avengers: Endgame'],
+  );
+  assert.equal(upcomingPlanPositionLabel(sepItems[0]), null);
+  assert.equal(sepItems[0].planId, solo.plan.planId);
+  assert.equal(upcomingPlanPositionLabel(sepItems[1]), '1 of 2');
+  assert.equal(upcomingPlanPositionLabel(sepItems[2]), '2 of 2');
+  assert.equal(sepItems[1].planId, multi.plan.planId);
+  assert.equal(sepItems[2].planId, multi.plan.planId);
+  assert.equal(sepItems[1].planFilmCount, 2);
+  assert.equal(sepItems[2].planFilmCount, 2);
+  assert.deepEqual(
+    sepItems.map((item) => upcomingAttendance(item.attendees).mode),
+    ['solo', 'solo', 'solo'],
+  );
+
+  assert.deepEqual(
+    oct2.items.map((item) => [
+      item.title,
+      upcomingPlanPositionLabel(item),
+      item.planFilmIndex,
+    ]),
+    [
+      ['Alpha', '1 of 3', 1],
+      ['Beta', '2 of 3', 2],
+      ['Gamma', '3 of 3', 3],
+    ],
+  );
+  assert.equal(oct2.items.every((item) => item.planFilmCount === 3), true);
+  assert.equal(oct2.items.every((item) => item.kind === 'screening'), true);
+});
+
+test('shared multi-film plans stay one planId across standalone cards', () => {
+  const plan = createSharedPlan({
+    ownerId: 'shelley',
+    type: 'decided',
+    visibility: 'invited',
+    date: '2026-09-30',
+    screenings: [
+      {
+        performanceKey: 'perf-late',
+        title: 'Avengers: Endgame',
+        theaterId: 'amc-alderwood',
+        theaterName: 'AMC Alderwood Mall 16',
+        localDate: '2026-09-30',
+        localTime: '22:00',
+        startsAt: '2026-09-30T22:00:00-07:00',
+        expectedEndsAt: '2026-10-01T01:01:00-07:00',
+        runtimeMin: 181,
+        ticketsPurchased: true,
+      },
+      {
+        performanceKey: 'perf-early',
+        title: 'Practical Magic 2',
+        theaterId: 'amc-alderwood',
+        theaterName: 'AMC Alderwood Mall 16',
+        localDate: '2026-09-30',
+        localTime: '19:45',
+        startsAt: '2026-09-30T19:45:00-07:00',
+        expectedEndsAt: '2026-09-30T21:35:00-07:00',
+        runtimeMin: 110,
+        ticketsPurchased: false,
+      },
+    ],
+    planId: 'shared:double',
+  }).plan;
+
+  const landing = mergeSharedPlansIntoPlannerLanding({
+    landing: {
+      needsAttention: { sectionTitle: 'NEEDS ATTENTION', items: [], count: 0 },
+      upcoming: { dateGroups: [], sectionTitle: 'UPCOMING' },
+      summary: {},
+    },
+    pendingInvitations: [
+      {
+        plan: { ...plan, planId: 'shared:invite' },
+        member: {},
+        owner: { userId: 'alex', displayName: 'Alex' },
+      },
+    ],
+    activeSharedPlans: [
+      {
+        plan,
+        member: { response: 'going', userId: 'you' },
+        owner: { userId: 'shelley', displayName: 'Shelley!', avatarUrl: null },
+        companions: [
+          { userId: 'alex', displayName: 'Alex', response: 'going', avatarUrl: null },
+        ],
+      },
+    ],
+    viewerId: 'you',
+  });
+
+  assert.equal(landing.planInvites.count, 1);
+  assert.equal(landing.planInvites.subtitle, 'Alex invited you to a plan.');
+  const cards = landing.upcoming.dateGroups.flatMap((day) => day.items);
+  assert.equal(cards.length, 2);
+  assert.equal(cards.some((item) => item.kind === 'shared-plan-group'), false);
+  assert.deepEqual(
+    cards.map((item) => [
+      item.title,
+      upcomingPlanPositionLabel(item),
+      item.planId,
+      item.sharedPlanId,
+      item.origin,
+      item.ticketsPurchased,
+    ]),
+    [
+      ['Practical Magic 2', '1 of 2', 'shared:double', 'shared:double', 'shared-plan', false],
+      ['Avengers: Endgame', '2 of 2', 'shared:double', 'shared:double', 'shared-plan', true],
+    ],
+  );
+  assert.deepEqual(cards[0].attendees.map((person) => person.displayName), [
+    'Shelley!',
+    'Alex',
+  ]);
+  assert.deepEqual(cards[1].attendees.map((person) => person.displayName), [
+    'Shelley!',
+    'Alex',
+  ]);
+});
+
+test('Upcoming cards keep the link indicator, status row, invites, and saved films', () => {
+  assert.match(PLANNER_SRC, /upcomingPlanPositionLabel/);
+  assert.match(PLANNER_SRC, /IconLink/);
+  assert.match(PLANNER_SRC, /data-plan-position/);
+  assert.match(PLANNER_SRC, /data-plan-id=\{screening\.planId\}/);
+  assert.match(PLANNER_SRC, /sharedPlanId: screening\.sharedPlanId/);
+  assert.match(PLANNER_SRC, /Going solo/);
+  assert.match(PLANNER_SRC, /FriendAvatar/);
+  assert.match(PLANNER_SRC, /data-planner-section="plan-invites"/);
+  assert.match(PLANNER_SRC, /PlannerSavedFilmsPanel/);
+  assert.equal(PLANNER_SRC.includes('PlanGroupCard'), false);
+  assert.equal(PLANNER_SRC.includes('v2-planner-plan-group'), false);
+  assert.match(CSS, /\.v2-planner-plan-position\b/);
+  assert.match(
+    CSS,
+    /\.v2-planner-status-row\s*\{[^}]*grid-template-columns:\s*var\(--v2-planner-attendance-width\)\s+1px\s+minmax\(0,\s*1fr\)/,
+  );
+  assert.equal(CSS.includes('.v2-planner-plan-group'), false);
 });

@@ -212,7 +212,7 @@ test('Results acceptance rejects fixture plans; accepts live rows', () => {
   assert.equal(getAcceptedPlans(storage).length, 1);
 });
 
-test('accepted grouped plan appears in Planner Upcoming', () => {
+test('accepted multi-film plan appears as standalone Upcoming cards', () => {
   const storage = memoryStorage();
   acceptPlan(storage, {
     performances: [LIVE_PERF_A, LIVE_PERF_B],
@@ -222,10 +222,15 @@ test('accepted grouped plan appears in Planner Upcoming', () => {
     storage,
     now: new Date('2026-08-01T18:00:00.000Z'),
   });
+  const items = landing.upcoming.dateGroups[0].items;
   assert.equal(landing.upcoming.dateGroups.length, 1);
-  assert.equal(landing.upcoming.dateGroups[0].items.length, 1);
-  assert.equal(landing.upcoming.dateGroups[0].items[0].kind, 'plan-group');
-  assert.equal(landing.upcoming.dateGroups[0].items[0].members.length, 2);
+  assert.equal(items.length, 2);
+  assert.equal(items.every((item) => item.kind === 'screening'), true);
+  assert.equal(items[0].planId, items[1].planId);
+  assert.deepEqual(
+    items.map((item) => item.planFilmIndex),
+    [1, 2],
+  );
 });
 
 test('accepted plan maps to calendar films; fixture Results still fail closed in UI', () => {

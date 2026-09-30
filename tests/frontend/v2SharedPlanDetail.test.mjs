@@ -223,7 +223,7 @@ test('15 With Jamie +N excludes owner, self, pending, declined', () => {
   assert.equal(fromCompanions, 'With Jamie +2');
 });
 
-test('16 merge attaches With line to shared-plan-group without cloning AcceptedPlan', () => {
+test('16 merge attaches With line to a shared screening without cloning AcceptedPlan', () => {
   const plan = createSharedPlan({
     ownerId: 'owner',
     type: 'proposal',
@@ -259,13 +259,16 @@ test('16 merge attaches With line to shared-plan-group without cloning AcceptedP
     ],
     viewerId: 'jamie',
   });
-  const group = landing.upcoming.dateGroups
+  const card = landing.upcoming.dateGroups
     .flatMap((g) => g.items)
-    .find((item) => item.kind === 'shared-plan-group');
-  assert.ok(group);
-  assert.equal(group.sharedPlanId, 'shared:with');
-  assert.equal(group.metaLine, 'With Alex');
-  assert.equal(group.origin, 'shared-plan');
+    .find((item) => item.origin === 'shared-plan');
+  assert.ok(card);
+  assert.equal(card.kind, 'screening');
+  assert.equal(card.sharedPlanId, 'shared:with');
+  assert.equal(card.planId, 'shared:with');
+  assert.equal(card.metaLine, 'With Alex');
+  assert.equal(card.origin, 'shared-plan');
+  assert.equal(card.planFilmCount, null);
 });
 
 test('17 navigateBack restores Planner from shared-plan detail', () => {

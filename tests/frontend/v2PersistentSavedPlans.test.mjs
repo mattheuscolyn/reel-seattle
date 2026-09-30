@@ -148,21 +148,18 @@ test('Planner landing upcoming list reads saved plans and excludes past plans', 
   acceptTwoFilmPlan(storage, '2026-06-01');
   const now = new Date('2026-08-08T18:00:00-07:00');
   const landing = composePlannerLandingFromAcceptedPlans({ storage, now });
+  const items = landing.upcoming.dateGroups[0].items;
   assert.equal(landing.summary.upcomingCount, 1);
   assert.equal(landing.summary.screeningCount, 2);
   assert.equal(landing.upcoming.dateGroups.length, 1);
-  assert.equal(landing.upcoming.dateGroups[0].items.length, 1);
-  assert.equal(landing.upcoming.dateGroups[0].items[0].kind, 'plan-group');
-  assert.equal(landing.upcoming.dateGroups[0].items[0].members.length, 2);
-  assert.equal(
-    landing.upcoming.dateGroups[0].items[0].planId.startsWith(
-      'accepted:2026-08-20:',
-    ),
-    true,
-  );
+  assert.equal(items.length, 2);
+  assert.equal(items.every((item) => item.kind === 'screening'), true);
+  assert.equal(items.every((item) => item.planFilmCount === 2), true);
+  assert.equal(items[0].planId, items[1].planId);
+  assert.equal(items[0].planId.startsWith('accepted:2026-08-20:'), true);
   assert.equal(landing.past.plans.length, 1);
   assert.equal(landing.past.sectionTitle, 'Past Plans');
-  assert.ok(!landing.upcoming.dateGroups[0].items[0].title.includes('Results'));
+  assert.equal(items.some((item) => item.title.includes('Results')), false);
 });
 
 test('openBuildPlanPlanDetails supports planId and returns to Planner by default', () => {

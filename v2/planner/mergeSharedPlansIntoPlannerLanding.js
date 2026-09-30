@@ -13,6 +13,7 @@ import {
   formatPlanInvitesSummary,
   formatUpcomingScheduleLine,
   listUpcomingAttendees,
+  upcomingPlanPositionsByScreeningId,
 } from './plannerUpcomingStatus.js';
 
 /**
@@ -69,9 +70,15 @@ function attendeesForPlan(plan, context = {}) {
   });
 }
 
-function toSharedPlanGroup(plan, timeFormatId, context = {}) {
+function toSharedPlanScreenings(plan, timeFormatId, context = {}) {
   const attendees = attendeesForPlan(plan, context);
-  const screenings = (plan.screenings ?? []).map((perf, index) => {
+  const withLine = formatSharedPlanWithLine({
+    ownerId: plan.ownerId,
+    viewerId: context.viewerId ?? null,
+    planType: plan.type,
+    companions: context.companions,
+  });
+  const rows = (plan.screenings ?? []).map((perf) => {
     const timeLabel = formatTimeLabel(perf.localTime, timeFormatId);
     return {
       kind: 'screening',
@@ -101,31 +108,46 @@ function toSharedPlanGroup(plan, timeFormatId, context = {}) {
       formatLabel: perf.format || null,
       ticketsPurchased: perf.ticketsPurchased === true,
       attendees,
-      index,
+      metaLine: withLine || null,
+      dateKey: perf.localDate || plan.date || '',
     };
   });
-  const withLine = formatSharedPlanWithLine({
-    ownerId: plan.ownerId,
-    viewerId: context.viewerId ?? null,
-    planType: plan.type,
-    companions: context.companions,
-  });
-  return {
-    kind: 'shared-plan-group',
-    id: `shared-${plan.planId}`,
-    planId: plan.planId,
-    sharedPlanId: plan.planId,
-    origin: 'shared-plan',
-    title: planTitle(plan),
-    date: plan.date,
-    metaLine: withLine,
-    movieCountLabel:
-      screenings.length === 1
-        ? '1-film plan'
-        : `${screenings.length}-film plan`,
-    members: screenings,
-    startsAt: screenings[0]?.startsAt ?? null,
-  };
+  const positions = upcomingPlanPositionsByScreeningId(rows);
+  return rows
+    .map((row) => {
+      const position = positions.get(row.id);
+      return {
+        ...row,
+        planFilmIndex: position?.planFilmIndex ?? null,
+        planFilmCount: position?.planFilmCount ?? null,
+      };
+    })
+    .sort((a, b) => {
+      const delta = upcomingItemStartMs(a) - upcomingItemStartMs(b);
+      if (delta !== 0) return delta;
+      return String(a.performanceKey ?? '').localeCompare(
+        String(b.performanceKey ?? ''),
+      );
+    });
+}
+
+/**
+ * @param {object} item
+ */
+function upcomingItemStartMs(item) {
+  if (item?.kind === 'conflict-group') {
+    const memberStarts = (item.members ?? [item.left, item.right])
+      .filter(Boolean)
+      .map((member) => {
+        const ms = Date.parse(member.startsAt);
+        return Number.isFinite(ms) ? ms : Number.POSITIVE_INFINITY;
+      });
+    return memberStarts.length
+      ? Math.min(...memberStarts)
+      : Number.POSITIVE_INFINITY;
+  }
+  const ms = Date.parse(item?.startsAt);
+  return Number.isFinite(ms) ? ms : Number.POSITIVE_INFINITY;
 }
 
 /**
@@ -211,13 +233,7 @@ export function mergeSharedPlansIntoPlannerLanding(options) {
   }));
   const groupByDate = new Map(dateGroups.map((g) => [g.dateKey, g]));
 
-  for (const row of active) {
-    const response = row.member?.response;
-    if (response !== 'interested' && response !== 'going') continue;
-    // Owner already sees the solo AcceptedPlan; skip duplicate upcoming card.
-    if (viewerId && row.plan.ownerId === viewerId) continue;
-    const plan = row.plan;
-    const dateKey = plan.date || plan.screenings?.[0]?.localDate || 'unknown';
+  const ensureDate = (dateKey) => {
     let group = groupByDate.get(dateKey);
     if (!group) {
       group = {
@@ -229,17 +245,34 @@ export function mergeSharedPlansIntoPlannerLanding(options) {
       groupByDate.set(dateKey, group);
       dateGroups.push(group);
     }
-    // Avoid duplicating if already present.
-    if (group.items.some((item) => item.sharedPlanId === plan.planId)) {
-      continue;
+    return group;
+  };
+
+  const placedSharedPlanIds = new Set(
+    dateGroups.flatMap((group) =>
+      (group.items ?? [])
+        .filter((item) => item.origin === 'shared-plan' && item.sharedPlanId)
+        .map((item) => item.sharedPlanId),
+    ),
+  );
+
+  for (const row of active) {
+    const response = row.member?.response;
+    if (response !== 'interested' && response !== 'going') continue;
+    // Owner already sees the solo AcceptedPlan; skip duplicate upcoming card.
+    if (viewerId && row.plan.ownerId === viewerId) continue;
+    const plan = row.plan;
+    if (placedSharedPlanIds.has(plan.planId)) continue;
+    const cards = toSharedPlanScreenings(plan, timeFormatId, {
+      viewerId,
+      companions: row.companions,
+      owner: row.owner ?? null,
+    });
+    for (const card of cards) {
+      const dateKey = card.localDate || plan.date || 'unknown';
+      ensureDate(dateKey).items.push(card);
     }
-    group.items.push(
-      toSharedPlanGroup(plan, timeFormatId, {
-        viewerId,
-        companions: row.companions,
-        owner: row.owner ?? null,
-      }),
-    );
+    placedSharedPlanIds.add(plan.planId);
   }
 
   // Owner solo plan-groups: attach "With …" when this AcceptedPlan was shared.
@@ -278,6 +311,10 @@ export function mergeSharedPlansIntoPlannerLanding(options) {
         }
       }
     }
+  }
+
+  for (const group of dateGroups) {
+    group.items.sort((a, b) => upcomingItemStartMs(a) - upcomingItemStartMs(b));
   }
 
   dateGroups.sort((a, b) => String(a.dateKey).localeCompare(String(b.dateKey)));
