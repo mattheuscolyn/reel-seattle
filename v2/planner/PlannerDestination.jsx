@@ -11,8 +11,14 @@ import {
   IconCalendar,
   IconChevron,
   IconConflict,
+  IconMail,
+  IconPeople,
+  IconPerson,
+  IconPin,
   IconSparkle,
+  IconTicket,
 } from '../icons.jsx';
+import FriendAvatar from '../friends/FriendAvatar.jsx';
 import PageHeader from '../shell/PageHeader.jsx';
 import {
   getPlannerLandingMockupPresentation,
@@ -36,6 +42,11 @@ import {
   subscribeSharedPlansPlanner,
 } from '../sharedPlans/sharedPlansPlannerStore.js';
 import { getSharedPlanBySourceAcceptedRemote } from '../sharedPlans/sharedPlansApi.js';
+import {
+  planInvitesNavigation,
+  upcomingAttendance,
+  upcomingTicketLabel,
+} from './plannerUpcomingStatus.js';
 
 function getBrowserStorage() {
   try {
@@ -87,10 +98,64 @@ function screeningSelectionFromRow(screening) {
  *   onOpen: (screening: { planId: string, performanceKey?: string | null }) => void,
  * }} props
  */
+function ScreeningStatusRow({ screening }) {
+  const attendance = upcomingAttendance(screening.attendees);
+  const purchased = screening.ticketsPurchased === true;
+  const friendNames = attendance.people.map((person) => person.displayName);
+  const attendanceLabel =
+    attendance.mode === 'friends'
+      ? `With ${friendNames.join(', ')}${
+          attendance.overflow > 0 ? ` +${attendance.overflow}` : ''
+        }`
+      : 'Going solo';
+
+  return (
+    <span className="v2-planner-status-row">
+      <span className="v2-planner-status-attendance">
+        {attendance.mode === 'friends' ? (
+          <>
+            <IconPeople width={14} height={14} aria-hidden="true" />
+            <span className="v2-planner-status-avatars">
+              {attendance.people.map((person) => (
+                <FriendAvatar
+                  key={person.userId || person.displayName}
+                  displayName={person.displayName}
+                  avatarUrl={person.avatarUrl}
+                  size="sm"
+                />
+              ))}
+              {attendance.overflow > 0 ? (
+                <span className="v2-planner-status-overflow">
+                  +{attendance.overflow}
+                </span>
+              ) : null}
+            </span>
+            <span className="v2-visually-hidden">{attendanceLabel}</span>
+          </>
+        ) : (
+          <>
+            <IconPerson width={14} height={14} aria-hidden="true" />
+            <span>Going solo</span>
+          </>
+        )}
+      </span>
+      <span className="v2-planner-status-divider" aria-hidden="true" />
+      <span
+        className={
+          purchased
+            ? 'v2-planner-status-tickets is-purchased'
+            : 'v2-planner-status-tickets is-needed'
+        }
+      >
+        <IconTicket width={14} height={14} aria-hidden="true" />
+        <span>{upcomingTicketLabel(purchased)}</span>
+      </span>
+    </span>
+  );
+}
+
 function ScreeningRow({ screening, onOpen }) {
-  const timeVenue = [screening.timeLabel, screening.venueLabel]
-    .filter(Boolean)
-    .join('  •  ');
+  const schedule = screening.scheduleLabel || screening.timeLabel || null;
 
   return (
     <button
@@ -99,6 +164,8 @@ function ScreeningRow({ screening, onOpen }) {
       data-screening-id={screening.id}
       data-plan-id={screening.planId}
       data-performance-key={screening.performanceKey ?? undefined}
+      data-attendance={upcomingAttendance(screening.attendees).mode}
+      data-tickets={screening.ticketsPurchased === true ? 'purchased' : 'needed'}
       onClick={() => onOpen(screeningSelectionFromRow(screening))}
     >
       <PosterThumb
@@ -107,32 +174,22 @@ function ScreeningRow({ screening, onOpen }) {
         className="v2-planner-poster v2-planner-poster-row"
       />
       <span className="v2-planner-screening-copy">
-        <span className="v2-planner-screening-title">{screening.title}</span>
-        {timeVenue ? (
-          <span className="v2-planner-screening-meta">{timeVenue}</span>
-        ) : null}
-        {screening.formatLabel ? (
-          <span className="v2-planner-format-pill">{screening.formatLabel}</span>
-        ) : null}
-        <span className="v2-planner-screening-status">
-          {screening.inPlanner !== false ? (
-            <span className="v2-planner-status-chip">
-              <IconBookmark
-                width={12}
-                height={12}
-                className="v2-planner-status-bookmark"
-                aria-hidden="true"
-              />
-              In Planner
-            </span>
-          ) : null}
-          {screening.addedLabel ? (
-            <span className="v2-planner-status-chip">
-              <IconCalendar width={12} height={12} aria-hidden="true" />
-              {screening.addedLabel}
-            </span>
+        <span className="v2-planner-screening-title-row">
+          <span className="v2-planner-screening-title">{screening.title}</span>
+          {screening.formatLabel ? (
+            <span className="v2-planner-format-pill">{screening.formatLabel}</span>
           ) : null}
         </span>
+        {schedule ? (
+          <span className="v2-planner-screening-meta">{schedule}</span>
+        ) : null}
+        {screening.venueLabel ? (
+          <span className="v2-planner-screening-venue">
+            <IconPin width={12} height={12} aria-hidden="true" />
+            <span>{screening.venueLabel}</span>
+          </span>
+        ) : null}
+        <ScreeningStatusRow screening={screening} />
       </span>
       <span className="v2-planner-screening-chevron" aria-hidden="true">
         <IconChevron width={14} height={14} />
@@ -404,6 +461,7 @@ export default function PlannerDestination({
   const [activeTab, setActiveTab] = useState('upcoming');
   const [timelineExpanded, setTimelineExpanded] = useState(false);
   const [invitePlanId, setInvitePlanId] = useState(/** @type {string | null} */ (null));
+  const [invitesExpanded, setInvitesExpanded] = useState(false);
   useEffect(
     () => subscribeScheduleSettings(() => setSettingsTick((n) => n + 1)),
     [],
@@ -510,6 +568,16 @@ export default function PlannerDestination({
     if (viewerId) void refreshSharedPlansForPlanner(viewerId);
   };
 
+  const openPlanInvites = (summary) => {
+    const target = planInvitesNavigation(summary);
+    if (!target) return;
+    if (target.kind === 'plan') {
+      openSharedPlanDetail(target.planId);
+      return;
+    }
+    setInvitesExpanded(true);
+  };
+
   const openReviewOptions = (item) => {
     if (item?.kind === 'plan-invite' || item?.kind === 'plan-invite-maybe') {
       openSharedPlanDetail(item.sharedPlanId || item.planId);
@@ -607,10 +675,21 @@ export default function PlannerDestination({
     );
   }
 
+  const attentionItems = Array.isArray(needsAttention?.items)
+    ? needsAttention.items
+    : [];
+  const pendingInviteItems = attentionItems.filter(
+    (item) => item.kind === 'plan-invite',
+  );
+  const otherAttentionItems = attentionItems.filter(
+    (item) => item.kind !== 'plan-invite',
+  );
+  const planInvites =
+    presentation.planInvites && presentation.planInvites.count > 0
+      ? presentation.planInvites
+      : null;
   const showNeedsAttention =
-    activeTab === 'upcoming' &&
-    Array.isArray(needsAttention?.items) &&
-    needsAttention.items.length > 0;
+    activeTab === 'upcoming' && otherAttentionItems.length > 0;
 
   return (
     <section
@@ -700,6 +779,65 @@ export default function PlannerDestination({
           role="tabpanel"
           aria-labelledby="v2-planner-tab-upcoming"
         >
+          {planInvites ? (
+            <button
+              type="button"
+              className="v2-planner-invites"
+              data-planner-section="plan-invites"
+              data-plan-invites={String(planInvites.count)}
+              aria-expanded={
+                planInvites.count > 1 ? invitesExpanded : undefined
+              }
+              onClick={() => openPlanInvites(planInvites)}
+            >
+              <span className="v2-planner-invites-icon">
+                <IconMail width={18} height={18} aria-hidden="true" />
+                <span className="v2-planner-invites-badge">
+                  {planInvites.count}
+                </span>
+              </span>
+              <span className="v2-planner-invites-copy">
+                <span className="v2-planner-invites-title">{planInvites.title}</span>
+                <span className="v2-planner-invites-subtitle">
+                  {planInvites.subtitle}
+                </span>
+              </span>
+              <span className="v2-planner-screening-chevron" aria-hidden="true">
+                <IconChevron width={16} height={16} />
+              </span>
+            </button>
+          ) : null}
+
+          {planInvites && invitesExpanded && pendingInviteItems.length > 1 ? (
+            <ul className="v2-planner-attention-list" data-plan-invites-list="">
+              {pendingInviteItems.map((item) => (
+                <li key={item.id}>
+                  <div className="v2-planner-attention-card">
+                    <span className="v2-planner-attention-icon" aria-hidden="true">
+                      <IconMail width={18} height={18} />
+                    </span>
+                    <div className="v2-planner-attention-copy">
+                      <p className="v2-planner-attention-headline">{item.headline}</p>
+                      <p className="v2-planner-attention-body">{item.body}</p>
+                      {item.inviteMessage ? (
+                        <p className="v2-planner-attention-quote">
+                          “{item.inviteMessage}”
+                        </p>
+                      ) : null}
+                      <button
+                        type="button"
+                        className="v2-planner-attention-cta"
+                        onClick={() => openReviewOptions(item)}
+                      >
+                        {item.ctaLabel} →
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
           {showNeedsAttention ? (
             <section
               className="v2-planner-attention"
@@ -714,11 +852,11 @@ export default function PlannerDestination({
                   {needsAttention.sectionTitle}
                 </h2>
                 <span className="v2-planner-count-pill">
-                  {needsAttention.count}
+                  {otherAttentionItems.length}
                 </span>
               </div>
               <ul className="v2-planner-attention-list">
-                {needsAttention.items.map((item) => (
+                {otherAttentionItems.map((item) => (
                   <li key={item.id}>
                     <div className="v2-planner-attention-card">
                       <span
@@ -771,7 +909,7 @@ export default function PlannerDestination({
             data-planner-section="upcoming"
             aria-labelledby="v2-planner-upcoming-h"
           >
-            <h2 id="v2-planner-upcoming-h" className="v2-planner-eyebrow">
+            <h2 id="v2-planner-upcoming-h" className="v2-visually-hidden">
               {upcoming.sectionTitle}
             </h2>
 

@@ -14,6 +14,7 @@ import {
   findConflictClusters,
   formatConflictBody,
 } from './plannerScreeningOverlap.js';
+import { formatUpcomingScheduleLine } from './plannerUpcomingStatus.js';
 
 /**
  * @param {string} localTime HH:MM or display
@@ -118,6 +119,14 @@ function toScreening(plan, perf, timeFormatId) {
     typeof perf.format === 'string' && perf.format.trim()
       ? perf.format.trim()
       : null;
+  const scheduleLabel = formatUpcomingScheduleLine({
+    timeLabel,
+    localTime: perf.localTime,
+    startsAt: perf.startsAt,
+    expectedEndsAt: perf.expectedEndsAt,
+    runtimeMin: perf.runtimeMin,
+    timeFormatId,
+  });
   return {
     kind: 'screening',
     id: `${plan.planId}::${perf.performanceKey || `${perf.localDate}-${perf.localTime}`}`,
@@ -125,11 +134,14 @@ function toScreening(plan, perf, timeFormatId) {
     performanceKey: perf.performanceKey ?? null,
     title: perf.title || 'Untitled',
     timeLabel,
+    scheduleLabel,
     venueLabel: perf.theaterName || null,
     formatLabel: formatRaw,
     posterUrl: perf.posterUrl ?? null,
     inPlanner: true,
     addedLabel: formatAddedLabel(plan.acceptedAt),
+    ticketsPurchased: perf.ticketsPurchased === true,
+    attendees: [],
     dateKey: plan.date || perf.localDate || '',
     startsAt: perf.startsAt ?? null,
     startMs,
@@ -149,11 +161,14 @@ function publicScreening(screening) {
     performanceKey: screening.performanceKey,
     title: screening.title,
     timeLabel: screening.timeLabel,
+    scheduleLabel: screening.scheduleLabel ?? null,
     venueLabel: screening.venueLabel,
     formatLabel: screening.formatLabel,
     posterUrl: screening.posterUrl,
     inPlanner: true,
     addedLabel: screening.addedLabel,
+    ticketsPurchased: screening.ticketsPurchased === true,
+    attendees: Array.isArray(screening.attendees) ? screening.attendees : [],
     startsAt: screening.startsAt,
   };
 }

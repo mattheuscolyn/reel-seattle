@@ -275,6 +275,15 @@ export function IconSettings(props) {
   );
 }
 
+export function IconMail(props) {
+  return (
+    <svg {...base} width={18} height={18} {...props}>
+      <rect x="3.5" y="6" width="17" height="12" rx="2" />
+      <path d="m4 7 8 6 8-6" />
+    </svg>
+  );
+}
+
 export function IconBell(props) {
   return (
     <svg {...base} width={18} height={18} {...props}>
