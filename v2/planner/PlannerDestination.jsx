@@ -66,6 +66,8 @@ function screeningSelectionFromRow(screening) {
     planId: screening.planId,
     performanceKey:
       screening.performanceKey ?? screening.id?.split('::')[1] ?? null,
+    origin: screening.origin ?? null,
+    sharedPlanId: screening.sharedPlanId ?? null,
   };
 }
 
@@ -261,6 +263,14 @@ function PlanGroupCard({
   const members = Array.isArray(group.members) ? group.members : [];
   const isShared = group.origin === 'shared-plan' || group.kind === 'shared-plan-group';
 
+  const openGroup = () => {
+    if (isShared) {
+      onOpenSharedPlan?.(group.sharedPlanId || group.planId);
+      return;
+    }
+    onOpenPlanDetails?.(group.planId);
+  };
+
   return (
     <article
       className="v2-planner-plan-group"
@@ -268,7 +278,7 @@ function PlanGroupCard({
       data-plan-group="true"
       data-shared-plan={isShared ? 'true' : undefined}
     >
-      <header className="v2-planner-plan-group-header">
+      <button type="button" className="v2-planner-plan-group-header" onClick={openGroup}>
         <p className="v2-planner-plan-banner">
           <IconSparkle width={12} height={12} aria-hidden="true" />
           {group.movieCountLabel || 'Plan'}
@@ -277,7 +287,7 @@ function PlanGroupCard({
         {group.metaLine ? (
           <p className="v2-planner-plan-group-meta">{group.metaLine}</p>
         ) : null}
-      </header>
+      </button>
       <div className="v2-planner-plan-group-members">
         {members.map((screening) => (
           <ScreeningRow
@@ -476,15 +486,11 @@ export default function PlannerDestination({
       return;
     }
     const planId = typeof target?.planId === 'string' ? target.planId.trim() : '';
-    const performanceKey =
-      typeof target?.performanceKey === 'string'
-        ? target.performanceKey.trim()
-        : '';
-    if (!planId || !performanceKey) {
+    if (!planId) {
       announceStub('screening-detail', 'Screening details');
       return;
     }
-    setSelectedScreening({ planId, performanceKey });
+    openSavedPlan(planId);
   };
 
   const closeScreening = () => {

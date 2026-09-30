@@ -2,7 +2,12 @@
  * Shared-plan copy helpers — user-facing vocabulary + companion line.
  */
 
-export const SHARED_PLAN_DETAIL_SURFACE_TYPE = 'shared-plan-detail';
+/**
+ * Canonical Plan Detail destination.
+ * Accepted plans (`accepted:`) and shared plans (`shared:`) use this same surface.
+ */
+export const PLAN_DETAIL_SURFACE_TYPE = 'shared-plan-detail';
+export const SHARED_PLAN_DETAIL_SURFACE_TYPE = PLAN_DETAIL_SURFACE_TYPE;
 
 /**
  * Owner-facing / member-facing RSVP label (base vocabulary).

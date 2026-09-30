@@ -309,7 +309,7 @@ test('existing acceptedPlans localStorage payload is preserved (no wipe)', () =>
   assert.ok(isSavedPlanDetailsPlan(acceptedPlanToPlanDetailsPlan(plans[0])));
 });
 
-test('Planner destination opens screening sheet from Upcoming rows', () => {
+test('Planner destination opens Plan Detail from Upcoming rows', () => {
   const src = readFileSync(
     join(ROOT, 'v2/planner/PlannerDestination.jsx'),
     'utf8',
@@ -318,6 +318,7 @@ test('Planner destination opens screening sheet from Upcoming rows', () => {
   assert.match(src, /openScreening/);
   assert.match(src, /v2-planner-screening-row/);
   assert.match(src, /onOpenSavedPlan/);
+  assert.match(src, /openSavedPlan\(planId\)/);
   assert.match(src, /onRemoveAcceptedPlan/);
   assert.doesNotMatch(
     src,

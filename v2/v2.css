@@ -5649,6 +5649,15 @@ a.v2-st-time:hover {
   display: flex;
   flex-direction: column;
   gap: 0.28rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 .v2-planner-plan-banner {
@@ -21152,4 +21161,442 @@ a.v2-stb-time:focus-visible {
   justify-content: center;
   gap: 0.4rem;
   width: 100%;
+}
+
+/* Canonical Plan Detail */
+.v2-plan-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding-bottom: 0.5rem;
+  min-width: 0;
+}
+
+.v2-plan-detail-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-width: 0;
+  padding: 0.75rem 0.8rem;
+  border: 1px solid var(--v2-border);
+  border-radius: 0.9rem;
+  background: var(--v2-bg-raised);
+}
+
+.v2-plan-detail-card.is-compact {
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+
+.v2-plan-detail-hero {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.v2-plan-detail-hero-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.v2-plan-detail-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0 0 0.15rem;
+}
+
+.v2-plan-detail-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.4rem;
+  border-radius: 999px;
+  background: var(--v2-accent-soft);
+  color: #ddd6fe;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.v2-plan-detail-title {
+  margin: 0;
+  font-family: var(--v2-font-display);
+  font-size: 1.28rem;
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.v2-plan-detail-date,
+.v2-plan-detail-schedule {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.v2-plan-detail-schedule {
+  color: var(--v2-fg);
+}
+
+.v2-plan-detail-theater {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.28rem;
+  margin: 0.15rem 0 0;
+  color: var(--v2-muted);
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+
+.v2-plan-detail-theater span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.v2-plan-detail-poster,
+.v2-plan-detail-row-poster {
+  width: 4.15rem;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 0.4rem;
+  background: var(--v2-bg-elevated);
+  flex: none;
+}
+
+.v2-plan-detail-poster-fallback {
+  display: block;
+  background:
+    linear-gradient(160deg, rgba(139, 92, 246, 0.28), transparent 55%),
+    var(--v2-bg-elevated);
+}
+
+.v2-plan-detail-poster-stack {
+  position: relative;
+  width: 5rem;
+  height: 6.2rem;
+  flex: none;
+}
+
+.v2-plan-detail-poster-stack .v2-plan-detail-poster {
+  position: absolute;
+  width: 3.55rem;
+}
+
+.v2-plan-detail-poster-stack .is-back {
+  right: 0;
+  top: 0;
+  opacity: 0.9;
+}
+
+.v2-plan-detail-poster-stack .is-front {
+  left: 0;
+  bottom: 0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.v2-plan-detail-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.v2-plan-detail-section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
+.v2-plan-detail-count,
+.v2-plan-detail-stats {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.v2-plan-detail-pill {
+  appearance: none;
+  margin-left: auto;
+  border: 1px solid var(--v2-accent-border);
+  background: transparent;
+  color: #ddd6fe;
+  border-radius: 999px;
+  padding: 0.28rem 0.65rem;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 650;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.v2-plan-detail-pill:focus-visible,
+.v2-plan-detail-row:focus-visible,
+.v2-plan-detail-tools button:focus-visible,
+.v2-plan-detail-tools a:focus-visible,
+.v2-plan-detail-remove:focus-visible,
+.v2-plan-detail-rsvp-btn:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 2px;
+}
+
+.v2-plan-detail-people,
+.v2-plan-detail-tickets,
+.v2-plan-detail-itinerary,
+.v2-plan-detail-tools ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.v2-plan-detail-people {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.v2-plan-detail-people li,
+.v2-plan-detail-tickets li,
+.v2-plan-detail-sharing {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.55rem;
+  min-width: 0;
+}
+
+.v2-plan-detail-person-copy,
+.v2-plan-detail-ticket-copy,
+.v2-plan-detail-row-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  flex: 1;
+}
+
+.v2-plan-detail-person-name,
+.v2-plan-detail-ticket-title,
+.v2-plan-detail-row-title {
+  overflow-wrap: anywhere;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.v2-plan-detail-person-status {
+  font-size: 0.75rem;
+  color: var(--v2-muted);
+}
+
+.v2-plan-detail-person-status.is-positive {
+  color: #86efac;
+}
+
+.v2-plan-detail-rsvp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.v2-plan-detail-rsvp-btn,
+.v2-plan-detail-join {
+  appearance: none;
+  border: 1px solid var(--v2-border-strong);
+  background: transparent;
+  color: var(--v2-fg);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.v2-plan-detail-rsvp-btn.is-selected,
+.v2-plan-detail-join {
+  border-color: var(--v2-accent-border);
+  background: var(--v2-accent-soft);
+  color: #ddd6fe;
+}
+
+.v2-plan-detail-join {
+  align-self: flex-start;
+}
+
+.v2-plan-detail-itinerary.is-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-left: 0.35rem;
+  padding-left: 0.85rem;
+  border-left: 2px solid rgba(139, 92, 246, 0.45);
+}
+
+.v2-plan-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.v2-plan-detail-row-poster {
+  width: 2.7rem;
+}
+
+.v2-plan-detail-row-time,
+.v2-plan-detail-row-meta,
+.v2-plan-detail-break-meta {
+  color: var(--v2-muted);
+  font-size: 0.72rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.v2-plan-detail-row-chevron {
+  flex: none;
+  color: var(--v2-muted);
+}
+
+.v2-plan-detail-break {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--v2-muted);
+  font-size: 0.78rem;
+}
+
+.v2-plan-detail-break-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 0.4rem;
+  background: var(--v2-accent-soft);
+  color: #ddd6fe;
+  flex: none;
+}
+
+.v2-plan-detail-break-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.v2-plan-detail-ticket-icon {
+  display: inline-flex;
+  color: var(--v2-muted);
+  flex: none;
+}
+
+.v2-plan-detail-tools ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.v2-plan-detail-tools li + li {
+  border-top: 1px solid var(--v2-border);
+}
+
+.v2-plan-detail-tools button,
+.v2-plan-detail-tools a {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  padding: 0.7rem 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.v2-plan-detail-tools span {
+  flex: 1;
+  min-width: 0;
+}
+
+.v2-plan-detail-tools svg:last-child {
+  color: var(--v2-muted);
+}
+
+.v2-plan-detail-note {
+  margin: 0;
+  padding: 0.65rem 0.8rem;
+  border-left: 2px solid var(--v2-accent-border);
+  color: var(--v2-muted);
+  font-size: 0.82rem;
+}
+
+.v2-plan-detail-remove,
+.v2-plan-detail-remove-confirm button:first-of-type {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.75rem 0.8rem;
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  border-radius: 0.85rem;
+  background: rgba(127, 29, 29, 0.18);
+  color: #fca5a5;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.v2-plan-detail-remove-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 0.2rem;
+}
+
+.v2-plan-detail-remove-confirm p {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: 0.8rem;
+}
+
+.v2-plan-detail-remove-confirm button:last-child,
+.v2-plan-detail-text-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--v2-fg);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0.2rem;
+}
+
+.v2-plan-detail-status,
+.v2-plan-detail-error {
+  margin: 0;
+  color: var(--v2-muted);
+  font-size: 0.82rem;
+}
+
+.v2-plan-detail-error {
+  color: #fca5a5;
 }

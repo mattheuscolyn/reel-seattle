@@ -54,7 +54,10 @@ test('header structure uses Plan Details chrome without wordmark', () => {
   assert.match(HEADER_SRC, /headerMode === 'plan-details'/);
   assert.match(HEADER_SRC, /Plan Details/);
   assert.match(HEADER_SRC, /v2-header-pd-share/);
-  assert.match(APP_SRC, /isBuildPlanPlanDetails\s*\?\s*'plan-details'/);
+  assert.match(
+    APP_SRC,
+    /isBuildPlanPlanDetails[\s\S]{0,80}\?\s*'plan-details'/,
+  );
   assert.doesNotMatch(
     SURFACE_SRC,
     /REEL\s*SEATTLE|v2-wordmark/,

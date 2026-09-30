@@ -97,6 +97,7 @@ import {
   openFriendDetail,
   stampFriendsListReturn,
   openFriendInviteLanding,
+  openPlanDetail,
   openSharedPlanDetail,
   startPlannerFromFilm,
   updateSearchUi,
@@ -157,7 +158,7 @@ import ProfileSettingsSurface from './profile/settings/ProfileSettingsSurface.js
 import FriendsSurface from './friends/FriendsSurface.jsx';
 import FriendDetailSurface from './friends/FriendDetailSurface.jsx';
 import FriendInviteLandingSurface from './friends/FriendInviteLandingSurface.jsx';
-import SharedPlanDetailSurface from './sharedPlans/SharedPlanDetailSurface.jsx';
+import PlanDetailSurface from './planner/PlanDetailSurface.jsx';
 import { SHARED_PLAN_DETAIL_SURFACE_TYPE } from './sharedPlans/sharedPlanCopy.js';
 import {
   FRIEND_DETAIL_SURFACE_TYPE,
@@ -759,20 +760,14 @@ export default function V2App() {
     if (!planId) return;
     setNav((current) => {
       if (
-        current.surface?.type === 'build-plan-plan-details' &&
-        (current.surface.planId === planId ||
-          current.surface.plan?.planId === planId ||
-          current.surface.plan?.id === planId)
+        current.surface?.type === SHARED_PLAN_DETAIL_SURFACE_TYPE &&
+        current.surface.planId === planId
       ) {
         return current;
       }
-      const plan = resolveSavedPlanDetailsPlan(planId, {
-        storage: getBrowserStorage(),
-      });
-      return openBuildPlanPlanDetails(current, {
-        originPrimary: 'planner',
-        plan,
+      return openPlanDetail(current, {
         planId,
+        originPrimary: 'planner',
         returnSurface: null,
       });
     });
@@ -780,6 +775,15 @@ export default function V2App() {
   }, []);
 
   useEffect(() => {
+    if (nav.surface?.type === SHARED_PLAN_DETAIL_SURFACE_TYPE) {
+      const id = nav.surface.planId;
+      if (typeof id === 'string' && id.startsWith('accepted:')) {
+        syncSavedPlanIdQuery(id);
+        return;
+      }
+      if (readSavedPlanIdQuery()) syncSavedPlanIdQuery(null);
+      return;
+    }
     if (nav.surface?.type !== 'build-plan-plan-details') {
       if (readSavedPlanIdQuery()) syncSavedPlanIdQuery(null);
       return;
@@ -1052,7 +1056,8 @@ export default function V2App() {
         current.surface?.type === 'short-detail' ||
         current.surface?.type === 'shorts-program-detail' ||
         current.surface?.type === FRIEND_DETAIL_SURFACE_TYPE ||
-        current.surface?.type === SHARED_PLAN_DETAIL_SURFACE_TYPE
+        current.surface?.type === SHARED_PLAN_DETAIL_SURFACE_TYPE ||
+        current.surface?.type === 'plan-detail'
           ? current.surface
           : null);
       const filmKey =
@@ -1526,22 +1531,18 @@ export default function V2App() {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleOpenSavedPlan = useCallback(
-    (planId) => {
-      const id = typeof planId === 'string' ? planId.trim() : '';
-      if (!id) return;
-      const plan = resolveSavedPlanDetailsPlan(id, {
-        storage: getBrowserStorage(),
-        enrichmentIndex: enrichmentState.index,
-        homeData: sharedHomeData.homeData,
-      });
-      handleOpenBuildPlanPlanDetails(plan, {
+  const handleOpenSavedPlan = useCallback((planId) => {
+    const id = typeof planId === 'string' ? planId.trim() : '';
+    if (!id) return;
+    setNav((current) =>
+      openPlanDetail(current, {
         planId: id,
+        originPrimary: 'planner',
         returnSurface: null,
-      });
-    },
-    [enrichmentState.index, sharedHomeData.homeData, handleOpenBuildPlanPlanDetails],
-  );
+      }),
+    );
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!isAllowedV2Hostname(hostname)) {
     return (
@@ -2859,16 +2860,20 @@ export default function V2App() {
     );
   } else if (isSharedPlanDetail) {
     mainContent = (
-      <SharedPlanDetailSurface
+      <PlanDetailSurface
         planId={nav.surface.planId}
+        homeData={sharedHomeData.homeData}
+        enrichmentIndex={enrichmentState.index}
         onBack={handleBack}
+        onPlansChanged={() => setAcceptedPlansRevision((n) => n + 1)}
         onResponded={() => setAcceptedPlansRevision((n) => n + 1)}
+        onShareReady={(handler) => setPlanDetailsShareHandler(() => handler)}
         onOpenFilmDetail={(payload) =>
           handleOpenFilmDetail({
             filmKey: payload.filmKey,
             filmId: payload.filmId ?? null,
             opportunityKey: payload.opportunityKey ?? null,
-            originPrimary: 'planner',
+            originPrimary: nav.surface.originPrimary || 'planner',
             returnSurface: nav.surface,
           })
         }
@@ -3057,7 +3062,7 @@ export default function V2App() {
           hasUnreadNotifications={notificationBell.hasUnread}
           onNotificationsOpen={handleOpenNotifications}
           headerMode={
-            isBuildPlanPlanDetails
+            isBuildPlanPlanDetails || isSharedPlanDetail
               ? 'plan-details'
               : isBuildPlanChrome
                 ? 'build-plan'
@@ -3065,7 +3070,9 @@ export default function V2App() {
                   ? 'profile'
                   : 'default'
           }
-          centerTitle={isBuildPlanPlanDetails ? 'Plan Details' : null}
+          centerTitle={
+            isBuildPlanPlanDetails || isSharedPlanDetail ? 'Plan Details' : null
+          }
           variant={isDetailChrome ? 'film-detail' : 'default'}
           backLabel={headerBackLabel}
           onBack={headerBackLabel ? handleBack : null}
@@ -3078,7 +3085,8 @@ export default function V2App() {
           onShare={
             isFilmDetail
               ? null
-              : isBuildPlanPlanDetails && planDetailsShareHandler
+              : (isBuildPlanPlanDetails || isSharedPlanDetail) &&
+                  planDetailsShareHandler
                 ? () => planDetailsShareHandler()
               : isBuildPlanResults && resultsShareHandler
                 ? () => resultsShareHandler()

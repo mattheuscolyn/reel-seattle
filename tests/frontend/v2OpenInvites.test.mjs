@@ -48,7 +48,7 @@ const MIGRATION = readFileSync(
 const FRIENDS_SRC = readFileSync(join(ROOT, 'v2/friends/FriendsSurface.jsx'), 'utf8');
 const OPEN_SRC = readFileSync(join(ROOT, 'v2/sharedPlans/OpenInvitesSection.jsx'), 'utf8');
 const DETAIL_SRC = readFileSync(
-  join(ROOT, 'v2/sharedPlans/SharedPlanDetailSurface.jsx'),
+  join(ROOT, 'v2/planner/PlanDetailSurface.jsx'),
   'utf8',
 );
 const SHEET_SRC = readFileSync(

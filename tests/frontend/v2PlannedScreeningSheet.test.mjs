@@ -191,14 +191,19 @@ function acceptTwoFilmPlan(storage) {
   );
 }
 
-test('Planner Upcoming screening rows open screening sheet, not plan details', () => {
-  assert.match(PLANNER_SRC, /PlannedScreeningSheet/);
+test('Planner Upcoming screening rows open Plan Detail, not the screening sheet', () => {
   assert.match(PLANNER_SRC, /openScreening/);
   assert.match(PLANNER_SRC, /data-performance-key/);
   assert.match(PLANNER_SRC, /onOpenSavedPlan/);
+  assert.match(
+    PLANNER_SRC,
+    /const openScreening = \(target\) => \{[\s\S]*?openSavedPlan\(planId\)/,
+  );
+  assert.doesNotMatch(
+    PLANNER_SRC,
+    /const openScreening = \(target\) => \{[\s\S]*?setSelectedScreening\(\{/,
+  );
   assert.match(SHEET_SRC, /data-planned-screening-sheet/);
-  assert.match(SHEET_SRC, /View plan details/);
-  assert.match(SHEET_SRC, /onOpenPlanDetails/);
 });
 
 test('resolvePlannedScreeningPresentation selects planId + performanceKey', () => {

@@ -135,6 +135,7 @@ function performanceToPlanDetailsItem(
     source_showtime_id: perf.sourceShowtimeId ?? null,
     addressLabel: perf.addressLabel ?? null,
     performanceKey: perf.performanceKey,
+    ticketsPurchased: perf.ticketsPurchased === true,
   };
 }
 
