@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-29T05:01:50-07:00",
+  "generated_at": "2026-09-30T04:48:43-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-09-28",
@@ -12,7 +12,7 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 44,
+    "entry_count": 46,
     "low_confidence_count": 4,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-09-28",
@@ -21,7 +21,7 @@
       "event": 3,
       "limited": 13,
       "repertory": 12,
-      "theatrical": 16
+      "theatrical": 18
     }
   },
   "entries": [
@@ -59,7 +59,7 @@
     {
       "showtime_film_key": "open-road-wanda",
       "parent_film_key": "open-road-wanda",
-      "film_id": "tmdb:80560",
+      "film_id": null,
       "film_title": "The Open Road: Wanda",
       "opening_date": "2026-09-28",
       "theaters_on_opening_date": [
@@ -72,7 +72,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "open-road-wanda"
         ],
@@ -97,7 +97,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -128,7 +128,7 @@
         "siff-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "theatrical",
@@ -159,7 +159,7 @@
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -353,9 +353,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 664,
+      "visible_showtime_count": 776,
       "engagement_days": 16,
-      "historical_screening_count": 336,
+      "historical_screening_count": 392,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
@@ -382,6 +382,37 @@
       "override": null
     },
     {
+      "showtime_film_key": "appofeniacs",
+      "parent_film_key": "appofeniacs",
+      "film_id": null,
+      "film_title": "Appofeniacs",
+      "opening_date": "2026-10-01",
+      "theaters_on_opening_date": [
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 52,
+      "engagement_days": 7,
+      "historical_screening_count": 26,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "appofeniacs"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
       "showtime_film_key": "beware-boiuna",
       "parent_film_key": "beware-boiuna",
       "film_id": "tmdb:1244523",
@@ -395,9 +426,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 58,
+      "visible_showtime_count": 104,
       "engagement_days": 7,
-      "historical_screening_count": 29,
+      "historical_screening_count": 52,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -438,9 +469,9 @@
         "siff-cinema-downtown"
       ],
       "theater_count_on_opening_date": 9,
-      "visible_showtime_count": 872,
+      "visible_showtime_count": 892,
       "engagement_days": 15,
-      "historical_screening_count": 436,
+      "historical_screening_count": 446,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -466,6 +497,37 @@
           "amc",
           "majestic_bay",
           "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "don-t-trouble-the-trouble",
+      "parent_film_key": "don-t-trouble-the-trouble",
+      "film_id": null,
+      "film_title": "Don't Trouble the Trouble",
+      "opening_date": "2026-10-01",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 16,
+      "engagement_days": 7,
+      "historical_screening_count": 8,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "don-t-trouble-the-trouble"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -502,18 +564,50 @@
       "override": null
     },
     {
+      "showtime_film_key": "ghost-in-the-cell",
+      "parent_film_key": "ghost-in-the-cell",
+      "film_id": "tmdb:1393326",
+      "film_title": "Ghost in the Cell",
+      "opening_date": "2026-10-01",
+      "theaters_on_opening_date": [
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 14,
+      "engagement_days": 7,
+      "historical_screening_count": 7,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "ghost-in-the-cell"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
       "showtime_film_key": "moonlight-10th-anniversary-remastered",
       "parent_film_key": "moonlight-remastered",
       "film_id": null,
       "film_title": "Moonlight Remastered",
       "opening_date": "2026-10-01",
       "theaters_on_opening_date": [
-        "amc-kent-station-14"
+        "amc-kent-station-14",
+        "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 7,
+      "theater_count_on_opening_date": 2,
+      "visible_showtime_count": 14,
       "engagement_days": 7,
-      "historical_screening_count": 7,
+      "historical_screening_count": 14,
       "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
@@ -524,7 +618,8 @@
         "distinct_scheduled_dates": 7,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
-          "amc-kent-station-14"
+          "amc-kent-station-14",
+          "amc-southcenter-16"
         ],
         "sources": [
           "amc"
@@ -570,13 +665,14 @@
       "film_title": "Rolling Loud: The Movie",
       "opening_date": "2026-10-01",
       "theaters_on_opening_date": [
+        "amc-alderwood-mall-16",
         "amc-kent-station-14",
         "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 30,
+      "theater_count_on_opening_date": 3,
+      "visible_showtime_count": 62,
       "engagement_days": 7,
-      "historical_screening_count": 15,
+      "historical_screening_count": 31,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -587,6 +683,7 @@
         "distinct_scheduled_dates": 7,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
+          "amc-alderwood-mall-16",
           "amc-kent-station-14",
           "amc-southcenter-16"
         ],
@@ -639,9 +736,9 @@
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 42,
-      "engagement_days": 8,
-      "historical_screening_count": 21,
+      "visible_showtime_count": 60,
+      "engagement_days": 15,
+      "historical_screening_count": 30,
       "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
@@ -649,7 +746,7 @@
         "variant_showtime_film_keys": [
           "history-of-concrete"
         ],
-        "distinct_scheduled_dates": 8,
+        "distinct_scheduled_dates": 15,
         "bootstrap_theater_ids": [
           "tasveer-film-center"
         ],
@@ -673,12 +770,13 @@
       "opening_date": "2026-10-01",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
-        "amc-pacific-place-11"
+        "amc-pacific-place-11",
+        "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 42,
+      "theater_count_on_opening_date": 3,
+      "visible_showtime_count": 76,
       "engagement_days": 7,
-      "historical_screening_count": 21,
+      "historical_screening_count": 38,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -709,12 +807,13 @@
         "amc-alderwood-mall-16",
         "amc-kent-station-14",
         "amc-pacific-place-11",
+        "amc-southcenter-16",
         "amc-woodinville-12"
       ],
-      "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 86,
+      "theater_count_on_opening_date": 5,
+      "visible_showtime_count": 108,
       "engagement_days": 7,
-      "historical_screening_count": 43,
+      "historical_screening_count": 54,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -870,57 +969,30 @@
     {
       "showtime_film_key": "drishyam-the-conclusion",
       "parent_film_key": "drishyam-the-conclusion",
-      "film_id": null,
+      "film_id": "tmdb:1269325",
       "film_title": "Drishyam - The Conclusion",
       "opening_date": "2026-10-02",
       "theaters_on_opening_date": [
-        "amc-factoria-8"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 10,
-      "engagement_days": 5,
-      "historical_screening_count": 5,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "drishyam-the-conclusion"
-        ],
-        "distinct_scheduled_dates": 5,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-factoria-8"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "ghost-in-the-cell",
-      "parent_film_key": "ghost-in-the-cell",
-      "film_id": "tmdb:1393326",
-      "film_title": "Ghost in the Cell",
-      "opening_date": "2026-10-02",
-      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16",
+        "amc-factoria-8",
         "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 10,
-      "engagement_days": 5,
-      "historical_screening_count": 5,
+      "theater_count_on_opening_date": 3,
+      "visible_showtime_count": 44,
+      "engagement_days": 6,
+      "historical_screening_count": 22,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "ghost-in-the-cell"
+          "drishyam-the-conclusion"
         ],
-        "distinct_scheduled_dates": 5,
+        "distinct_scheduled_dates": 6,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
+          "amc-alderwood-mall-16",
+          "amc-factoria-8",
           "amc-southcenter-16"
         ],
         "sources": [
@@ -1133,9 +1205,9 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 36,
+      "visible_showtime_count": 56,
       "engagement_days": 6,
-      "historical_screening_count": 18,
+      "historical_screening_count": 28,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -1227,12 +1299,13 @@
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
         "amc-kent-station-14",
+        "amc-oak-tree-6",
         "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 3,
+      "theater_count_on_opening_date": 4,
+      "visible_showtime_count": 4,
       "engagement_days": 1,
-      "historical_screening_count": 3,
+      "historical_screening_count": 4,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
@@ -1245,6 +1318,7 @@
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-kent-station-14",
+          "amc-oak-tree-6",
           "amc-southcenter-16"
         ],
         "sources": [
@@ -1394,9 +1468,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 16,
+      "visible_showtime_count": 18,
       "engagement_days": 3,
-      "historical_screening_count": 8,
+      "historical_screening_count": 9,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -1485,7 +1559,7 @@
     {
       "showtime_film_key": "metropolis",
       "parent_film_key": "metropolis",
-      "film_id": "tmdb:19",
+      "film_id": null,
       "film_title": "Metropolis",
       "opening_date": "2026-09-28",
       "theaters_on_opening_date": [
@@ -1498,7 +1572,7 @@
       "opening_type": "limited",
       "confidence": "low",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "metropolis"
         ],
@@ -1516,7 +1590,7 @@
     {
       "showtime_film_key": "primetime-usa-2026",
       "parent_film_key": "amc-movie-153033",
-      "film_id": null,
+      "film_id": "tmdb:1375441",
       "film_title": "Primetime (USA, 2026)",
       "opening_date": "2026-09-28",
       "theaters_on_opening_date": [
@@ -1529,7 +1603,7 @@
       "opening_type": "limited",
       "confidence": "low",
       "evidence": {
-        "identity_method": "parent_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "primetime-usa-2026"
         ],
