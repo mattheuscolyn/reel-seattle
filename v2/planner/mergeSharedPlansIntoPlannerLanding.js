@@ -9,6 +9,11 @@
 
 import { formatDisplayClock } from '../stores/scheduleSettingsStore.js';
 import { formatSharedPlanWithLine } from '../sharedPlans/sharedPlanCopy.js';
+import {
+  formatPlanInvitesSummary,
+  formatUpcomingScheduleLine,
+  listUpcomingAttendees,
+} from './plannerUpcomingStatus.js';
 
 /**
  * @param {string | null | undefined} localTime
@@ -55,27 +60,50 @@ function planBodyLine(plan, timeFormatId) {
  *   companions?: Array<{ userId: string, displayName?: string | null, response?: string | null }>,
  * }} [context]
  */
+function attendeesForPlan(plan, context = {}) {
+  return listUpcomingAttendees({
+    owner: context.owner ?? null,
+    viewerId: context.viewerId ?? null,
+    planType: plan?.type,
+    companions: context.companions,
+  });
+}
+
 function toSharedPlanGroup(plan, timeFormatId, context = {}) {
-  const screenings = (plan.screenings ?? []).map((perf, index) => ({
-    kind: 'screening',
-    id: `${plan.planId}::${perf.performanceKey}`,
-    planId: plan.planId,
-    sharedPlanId: plan.planId,
-    origin: 'shared-plan',
-    performanceKey: perf.performanceKey,
-    title: perf.title,
-    theaterName: perf.theaterName,
-    theaterId: perf.theaterId,
-    venueLabel: perf.theaterName || perf.theaterId || null,
-    localDate: perf.localDate,
-    localTime: perf.localTime,
-    timeLabel: formatTimeLabel(perf.localTime, timeFormatId),
-    startsAt: perf.startsAt,
-    posterUrl: perf.posterUrl,
-    format: perf.format,
-    formatLabel: perf.format || null,
-    index,
-  }));
+  const attendees = attendeesForPlan(plan, context);
+  const screenings = (plan.screenings ?? []).map((perf, index) => {
+    const timeLabel = formatTimeLabel(perf.localTime, timeFormatId);
+    return {
+      kind: 'screening',
+      id: `${plan.planId}::${perf.performanceKey}`,
+      planId: plan.planId,
+      sharedPlanId: plan.planId,
+      origin: 'shared-plan',
+      performanceKey: perf.performanceKey,
+      title: perf.title,
+      theaterName: perf.theaterName,
+      theaterId: perf.theaterId,
+      venueLabel: perf.theaterName || perf.theaterId || null,
+      localDate: perf.localDate,
+      localTime: perf.localTime,
+      timeLabel,
+      scheduleLabel: formatUpcomingScheduleLine({
+        timeLabel,
+        localTime: perf.localTime,
+        startsAt: perf.startsAt,
+        expectedEndsAt: perf.expectedEndsAt,
+        runtimeMin: perf.runtimeMin,
+        timeFormatId,
+      }),
+      startsAt: perf.startsAt,
+      posterUrl: perf.posterUrl,
+      format: perf.format,
+      formatLabel: perf.format || null,
+      ticketsPurchased: perf.ticketsPurchased === true,
+      attendees,
+      index,
+    };
+  });
   const withLine = formatSharedPlanWithLine({
     ownerId: plan.ownerId,
     viewerId: context.viewerId ?? null,
@@ -209,6 +237,7 @@ export function mergeSharedPlansIntoPlannerLanding(options) {
       toSharedPlanGroup(plan, timeFormatId, {
         viewerId,
         companions: row.companions,
+        owner: row.owner ?? null,
       }),
     );
   }
@@ -225,16 +254,26 @@ export function mergeSharedPlansIntoPlannerLanding(options) {
         planType: row.plan.type,
         companions: row.companions,
       });
-      if (!withLine) continue;
+      const attendees = attendeesForPlan(row.plan, {
+        viewerId,
+        companions: row.companions,
+        owner: row.owner ?? { userId: row.plan.ownerId },
+      });
       for (const group of dateGroups) {
         for (const item of group.items) {
           if (
-            (item.kind === 'plan-group' || item.kind === 'screening') &&
-            item.planId === sourceId &&
-            !item.metaLine
+            (item.kind !== 'plan-group' && item.kind !== 'screening') ||
+            item.planId !== sourceId
           ) {
-            item.metaLine = withLine;
-            item.sharedPlanId = row.plan.planId;
+            continue;
+          }
+          item.sharedPlanId = row.plan.planId;
+          if (withLine && !item.metaLine) item.metaLine = withLine;
+          if (attendees.length > 0) {
+            item.attendees = attendees;
+            if (Array.isArray(item.members)) {
+              for (const member of item.members) member.attendees = attendees;
+            }
           }
         }
       }
@@ -263,6 +302,7 @@ export function mergeSharedPlansIntoPlannerLanding(options) {
       emptyBody:
         dateGroups.length === 0 ? landing.upcoming?.emptyBody ?? null : null,
     },
+    planInvites: formatPlanInvitesSummary(pending),
     summary: {
       ...landing.summary,
       sharedInviteCount: pending.length,
