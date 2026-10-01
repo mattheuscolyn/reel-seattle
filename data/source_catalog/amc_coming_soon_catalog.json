@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-30T04:52:06-07:00",
+  "generated_at": "2026-10-01T05:23:01-07:00",
   "source": "amc",
   "fetch": {
     "endpoint": "/movies/views/coming-soon",
@@ -8,7 +8,7 @@
     "status": "success",
     "page_size": 100,
     "pages_fetched": 5,
-    "reported_total": 431,
+    "reported_total": 428,
     "exhausted": true,
     "next_link_observed": true,
     "duplicate_ids_skipped": 0,
@@ -16,15 +16,15 @@
     "errors": []
   },
   "stats": {
-    "movies": 431,
-    "with_release_date": 431,
+    "movies": 428,
+    "with_release_date": 428,
     "without_release_date": 0,
     "earliest_release_date": "2026-09-25",
     "latest_release_date": "2027-03-26",
-    "with_scheduled_showtimes": 177,
-    "without_scheduled_showtimes": 254,
+    "with_scheduled_showtimes": 173,
+    "without_scheduled_showtimes": 255,
     "scheduled_showtimes_unknown": 0,
-    "special_presentations": 126
+    "special_presentations": 124
   },
   "movies": [
     {
@@ -957,6 +957,7 @@
         "GDX",
         "GXL",
         "IMAX",
+        "NOTRAILER",
         "OPENCAPTION",
         "PRIVATE",
         "VISTVISION",
@@ -3384,12 +3385,17 @@
       "distributor_id": "2988",
       "distributor_code": "PCL",
       "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
+      "available_for_a_list": false,
       "slug": "ranabaali-telugu-83712",
       "website_url": "https://www.amctheatres.com/movies/ranabaali-telugu-83712",
       "showtimes_url": "https://www.amctheatres.com/movies/ranabaali-telugu-83712/showtimes",
       "attribute_codes": [
-        "INTFILMS"
+        "AMCPRIME",
+        "EXCLDISMAT",
+        "INTFILMS",
+        "NOALIST",
+        "NOGREENRED",
+        "XL"
       ],
       "media": {
         "poster_url": null,
@@ -3513,6 +3519,7 @@
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
         "OPENCAPTION",
+        "PRIVATE",
         "XL"
       ],
       "media": {
@@ -3632,6 +3639,7 @@
       "website_url": "https://www.amctheatres.com/movies/narnia-the-magician-s-nephew-83830",
       "showtimes_url": "https://www.amctheatres.com/movies/narnia-the-magician-s-nephew-83830/showtimes",
       "attribute_codes": [
+        "PRIVATE",
         "XL"
       ],
       "media": {
@@ -4044,7 +4052,7 @@
       "source_release_id": "400933",
       "runtime_min": 82,
       "release_date_utc": "2026-10-23T05:00:00Z",
-      "earliest_showing_utc": "2026-10-29T19:00:00Z",
+      "earliest_showing_utc": "2026-10-22T19:20:00Z",
       "online_ticket_availability_date_utc": "2026-10-23T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -4551,9 +4559,9 @@
       "source_release_id": null,
       "runtime_min": 105,
       "release_date_utc": "2026-11-13T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-11-13T19:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-13T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "DRAMA",
       "mpaa_rating": null,
       "starring_actors_raw": null,
@@ -5922,6 +5930,9 @@
       "showtimes_url": "https://www.amctheatres.com/movies/the-only-living-pickpocket-in-new-york-84370/showtimes",
       "attribute_codes": [
         "AMCARTISANFILMS",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "OPENCAPTION",
         "PRIVATE",
         "XL"
       ],
@@ -7538,9 +7549,10 @@
       "website_url": "https://www.amctheatres.com/movies/everest-the-other-side-84620",
       "showtimes_url": "https://www.amctheatres.com/movies/everest-the-other-side-84620/showtimes",
       "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
         "IMAX",
-        "PRIVATE",
-        "XL"
+        "PRIVATE"
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1788834949/amc-cdn/content/general/ezo3ytzoxecv18uzsdfx.jpg",
@@ -7750,51 +7762,6 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1789751450/amc-cdn/content/general/wezcsq5qnokykgd3nlev.png",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "84695",
-      "source_title": "Linkin Park: Unshatter",
-      "sortable_title": "Linkin Park: Unshatter",
-      "source_release_id": "422877",
-      "runtime_min": 107,
-      "release_date_utc": "2026-09-30T05:00:00Z",
-      "earliest_showing_utc": "1900-01-01T00:00:00Z",
-      "online_ticket_availability_date_utc": "2026-09-30T05:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "DOCUMENTARY",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "BRAD DELSON, COLIN BRITTAIN, EMILY ARMSTRONG",
-      "directors_raw": "JOE HAHN",
-      "synopsis": "The hardest part of ending is starting again. \n\nAfter a seven-year hiatus following the devastating loss of their beloved bandmate Chester Bennington, LINKIN PARK'S remaining members struggle to find their way forward. Their shared history and enduring friendship, combined with the fresh perspective of two new band members spark a renewed creative energy that leads them on a transformative journey of artistic reinvention. \n\nFollowing the band from intimate 2022 studio sessions through their explosive FROM ZERO album release and concert in S?o Paulo, the film UNSHATTER weaves together rare vault footage, electrifying performances from sold-out shows, and candid interviews with band members and fans--capturing the raw, honest story of what it means to start over.",
-      "distributor_id": "2712",
-      "distributor_code": "TRL",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": false,
-      "slug": "linkin-park-unshatter-84695",
-      "website_url": "https://www.amctheatres.com/movies/linkin-park-unshatter-84695",
-      "showtimes_url": "https://www.amctheatres.com/movies/linkin-park-unshatter-84695/showtimes",
-      "attribute_codes": [
-        "4DX",
-        "ALTERNATIVECONTENT",
-        "EVENT",
-        "EXCLDISMAT",
-        "NOALIST",
-        "NOGREENRED",
-        "SCREENX"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1786502329/amc-cdn/content/general/gswgms0qxqs0mgkanlly.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790421003/amc-cdn/production/2/movies/84700/84695/MovieStills/422877R4.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790421003/amc-cdn/production/2/movies/84700/84695/MovieStills/422877R4.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -8720,52 +8687,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "84777",
-      "source_title": "SPIRITED AWAY: Live on Stage - Studio Ghibli Fest 2026",
-      "sortable_title": "SPIRITED AWAY: Live on Stage - Studio Ghibli Fest 2026",
-      "source_release_id": "423711",
-      "runtime_min": 175,
-      "release_date_utc": "2026-10-01T05:00:00Z",
-      "earliest_showing_utc": "2026-10-01T12:05:00Z",
-      "online_ticket_availability_date_utc": "2026-10-01T05:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "ADVENTURE",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "KANNA HASHIMOTO, Mone Kamishiraishi",
-      "directors_raw": "JOHN CAIRD",
-      "synopsis": "Hayao Miyazaki?s Academy Award?-winning animated feature film comes to life in this first-ever stage adaptation, full of dazzling sets, captivating musical numbers, and wondrous puppets of beloved characters. Adapted and directed by Tony Award?-winner John Caird (Les Miserables), two unique casts and performances were filmed during the show?s acclaimed 2022 run at Tokyo?s historic Imperial Theatre, featuring Kanna Hashimoto and Mone Kamishiraishi as Chihiro.",
-      "distributor_id": "2449",
-      "distributor_code": "FAE",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": false,
-      "slug": "spirited-away-live-on-stage-studio-ghibli-fest-2026-84777",
-      "website_url": "https://www.amctheatres.com/movies/spirited-away-live-on-stage-studio-ghibli-fest-2026-84777",
-      "showtimes_url": "https://www.amctheatres.com/movies/spirited-away-live-on-stage-studio-ghibli-fest-2026-84777/showtimes",
-      "attribute_codes": [
-        "ALTERNATIVECONTENT",
-        "EVENT",
-        "EXCLDISMAT",
-        "Fathom",
-        "NOALIST",
-        "NOGREENRED",
-        "NOTRAILER",
-        "NOTRAILERS"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1789585733/amc-cdn/content/general/phiw6eqezlodu2of13hm.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "84784",
       "source_title": "Apnas - Our Own",
       "sortable_title": "Apnas - Our Own",
@@ -9118,45 +9039,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "84826",
-      "source_title": "Andhar",
-      "sortable_title": "Andhar",
-      "source_release_id": "424626",
-      "runtime_min": 190,
-      "release_date_utc": "2026-10-23T05:00:00Z",
-      "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-10-23T05:00:00Z",
-      "has_scheduled_showtimes": false,
-      "genre": "SUSPENSE",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "CHANCHAL CHOWDHURY, NAZIFA TUSHI, SIAM AHMED",
-      "directors_raw": "RAIHAN RAFI",
-      "synopsis": "In an isolated house where flowers wilt at a touch and time refuses to move in a straight line, a fragile young widow begins a new life, with a much older husband, she can't quite trust - haunted by warnings, watched by something patient, and carrying a secret that isn't only her own. When an impossible death draws a sharp-witted detective into the house's orbit, he finds a place that bends memory, guards an ancient purpose, and refuses to let anyone leave unchanged. What waits beneath is older than the walls, and the answer, when it comes at dawn, will reach further than anyone expects.",
-      "distributor_id": "3119",
-      "distributor_code": "SWA",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "andhar-84826",
-      "website_url": "https://www.amctheatres.com/movies/andhar-84826",
-      "showtimes_url": "https://www.amctheatres.com/movies/andhar-84826/showtimes",
-      "attribute_codes": [
-        "INTFILMS"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788606379/amc-cdn/production/2/movies/84800/84826/Poster/424626R1.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "84827",
       "source_title": "Hostel 20th Anniversary - Welcome to Horrorwood Series",
       "sortable_title": "Hostel (TC26)",
@@ -9378,7 +9260,7 @@
       "source_release_id": "392950",
       "runtime_min": 118,
       "release_date_utc": "2026-10-02T05:00:00Z",
-      "earliest_showing_utc": "2026-10-09T18:00:00Z",
+      "earliest_showing_utc": "2026-10-09T15:20:00Z",
       "online_ticket_availability_date_utc": "2026-10-02T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -9397,7 +9279,7 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790777236/amc-cdn/content/general/y1zpkj6uyy3sx24hoyrp.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -9533,43 +9415,6 @@
       "presentation": {
         "category": "anniversary_or_rerelease",
         "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "84855",
-      "source_title": "Spicy Will",
-      "sortable_title": "Spicy Will",
-      "source_release_id": null,
-      "runtime_min": 90,
-      "release_date_utc": "2026-10-01T05:00:00Z",
-      "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-10-01T05:00:00Z",
-      "has_scheduled_showtimes": false,
-      "genre": "COMEDY",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "CHRIS GEERE, HARVEY GUILLEN, ROSELYN SANCHEZ",
-      "directors_raw": "CHRISTOPHER HOOL",
-      "synopsis": "A wild party animal inherits an old Mexican salsa recipe after his father's death. Broke, he teams up with his former chef and cousin to start a business, facing the Mexican Hot Sauce Mafia while finding himself on a delirious adventure.",
-      "distributor_id": null,
-      "distributor_code": null,
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "spicy-will-84855",
-      "website_url": "https://www.amctheatres.com/movies/spicy-will-84855",
-      "showtimes_url": "https://www.amctheatres.com/movies/spicy-will-84855/showtimes",
-      "attribute_codes": [],
-      "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
         "classifier_version": "1.0.0"
       }
     },
@@ -9723,53 +9568,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "84875",
-      "source_title": "Verity Early Access",
-      "sortable_title": "Verity Early Access",
-      "source_release_id": "423982",
-      "runtime_min": 115,
-      "release_date_utc": "2026-09-30T05:00:00Z",
-      "earliest_showing_utc": "1900-01-01T00:00:00Z",
-      "online_ticket_availability_date_utc": "2026-09-30T05:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "Suspense",
-      "mpaa_rating": "R",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "Struggling writer Lowen Ashleigh is hired as a ghostwriter for renowned author Verity Crawford under mysterious circumstances, but her assignment takes a dark turn after discovering chilling autobiographical notes. Faced with a series of deadly family secrets, Lowen struggles to separate fiction from reality, while also blurring the lines with Verity's husband, Jeremy.",
-      "distributor_id": "2895",
-      "distributor_code": "OCL",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "verity-early-access-84875",
-      "website_url": "https://www.amctheatres.com/movies/verity-early-access-84875",
-      "showtimes_url": "https://www.amctheatres.com/movies/verity-early-access-84875/showtimes",
-      "attribute_codes": [
-        "AMCPRIME",
-        "BIGD",
-        "CLOSEDCAPTION",
-        "DESCRIPTIVEVIDEO",
-        "DOLBYCINEMAATAMCPRIME",
-        "EVENT",
-        "GDX",
-        "GXL",
-        "XL"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788260855/amc-cdn/production/2/movies/84900/84875/Poster/423982R1.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788878860/amc-cdn/content/general/oq0jdxrfqsaarix5lxjw.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788878860/amc-cdn/content/general/oq0jdxrfqsaarix5lxjw.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404766199112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404766199112.mp4"
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "84880",
       "source_title": "Josephine",
       "sortable_title": "Josephine",
@@ -9798,47 +9596,6 @@
         "hero_mobile_url": null,
         "trailer_hd_url": null,
         "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "84881",
-      "source_title": "The Incomer",
-      "sortable_title": "Incomer, The",
-      "source_release_id": "407979",
-      "runtime_min": 102,
-      "release_date_utc": "2026-09-25T05:00:00Z",
-      "earliest_showing_utc": "1900-01-01T00:00:00Z",
-      "online_ticket_availability_date_utc": "2026-09-25T05:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "Comedy",
-      "mpaa_rating": "R",
-      "starring_actors_raw": "Domhnall Gleeson, JOHN HANNAH, MICHELLE GOMEZ",
-      "directors_raw": "LOUIS PAXTON",
-      "synopsis": "On a remote Scottish isle, siblings Isla and Sandy hunt birds and talk to mythical beings while fighting off outsiders. Their lives change when Daniel, an awkward official, arrives to relocate them.",
-      "distributor_id": "2229",
-      "distributor_code": "VAR",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "the-incomer-84881",
-      "website_url": "https://www.amctheatres.com/movies/the-incomer-84881",
-      "showtimes_url": "https://www.amctheatres.com/movies/the-incomer-84881/showtimes",
-      "attribute_codes": [
-        "AMCARTISANFILMS",
-        "CLOSEDCAPTION",
-        "XL"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790268746/amc-cdn/content/general/poyslumzqrsepjqjjiz4.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788001500/amc-cdn/production/2/movies/84900/84881/MovieStills/407979R3.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788001500/amc-cdn/production/2/movies/84900/84881/MovieStills/407979R3.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404254819112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404254819112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -10427,43 +10184,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "84928",
-      "source_title": "Impure",
-      "sortable_title": "Impure",
-      "source_release_id": null,
-      "runtime_min": 120,
-      "release_date_utc": "2026-10-02T05:00:00Z",
-      "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-10-02T05:00:00Z",
-      "has_scheduled_showtimes": false,
-      "genre": "COMEDY",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "VARAHI POOJA MALLIPAMULA, YASHNA MUTHULURI",
-      "directors_raw": "NISHANTI EVANI",
-      "synopsis": "Impure, a funny and socially engaging dramedy, tells the gripping tale of Sandhya, whose life is shattered when her ex-boyfriend exposes her non-virgin status at her Sangeet. Sandhya, along with her cousin and neighbor, embarks on a tumultuous journey where their secrets are revealed. Instead of succumbing to shame, they find strength in each other.",
-      "distributor_id": null,
-      "distributor_code": null,
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "impure-84928",
-      "website_url": "https://www.amctheatres.com/movies/impure-84928",
-      "showtimes_url": "https://www.amctheatres.com/movies/impure-84928/showtimes",
-      "attribute_codes": [],
-      "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "84930",
       "source_title": "Autre, L'",
       "sortable_title": "Autre, L'",
@@ -10492,47 +10212,6 @@
         "hero_mobile_url": null,
         "trailer_hd_url": null,
         "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "84935",
-      "source_title": "Get Out",
-      "sortable_title": "Get Out (TTNUC26)",
-      "source_release_id": "239552",
-      "runtime_min": 104,
-      "release_date_utc": "2026-10-01T05:00:00Z",
-      "earliest_showing_utc": "2026-10-01T22:10:00Z",
-      "online_ticket_availability_date_utc": "2026-10-01T05:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "R",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "When Chris (Daniel Kaluuya), a young African-American man, visits his white girlfriend's (Allison Williams) family estate, he becomes ensnared in the more sinister, real reason for the invitation. At first, Chris reads the family's overly accommodating behavior as nervous attempts to deal with their daughter's interracial relationship, but as the weekend progresses, a series of increasingly disturbing discoveries lead him to a truth that he could have never imagined. This speculative thriller from Blumhouse (producers of The Visit, Insidious series and The Gift) and the mind of Jordan Peele (Key & Peele) is equal parts gripping thriller and provocative commentary.",
-      "distributor_id": "2284",
-      "distributor_code": "UI",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "get-out-84935",
-      "website_url": "https://www.amctheatres.com/movies/get-out-84935",
-      "showtimes_url": "https://www.amctheatres.com/movies/get-out-84935/showtimes",
-      "attribute_codes": [
-        "CLOSEDCAPTION",
-        "DESCRIPTIVEVIDEO",
-        "FANFAVES"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788260863/amc-cdn/production/2/movies/84900/84935/Poster/239552R1.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788260862/amc-cdn/production/2/movies/84900/84935/MovieStills/239552R9.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788260862/amc-cdn/production/2/movies/84900/84935/MovieStills/239552R9.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404415936112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404415936112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -10972,7 +10651,8 @@
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
         "OPENCAPTION",
-        "PRIVATE"
+        "PRIVATE",
+        "XL"
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1788887932/amc-cdn/content/general/bsa22crggqpntcnubhla.jpg",
@@ -11172,6 +10852,7 @@
       "attribute_codes": [
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
+        "PRIVATE",
         "SENSORYFRIENDLY"
       ],
       "media": {
@@ -11798,6 +11479,7 @@
       "showtimes_url": "https://www.amctheatres.com/movies/artificial-85018/showtimes",
       "attribute_codes": [
         "AMCARTISANFILMS",
+        "PRIVATE",
         "XL"
       ],
       "media": {
@@ -11829,8 +11511,8 @@
       "starring_actors_raw": "Arcelia Ramirez, MEAGHAN MARTIN, RAFAEL CEBRIAN",
       "directors_raw": "CRISTOPHER RODRIGUEZ",
       "synopsis": "After Roberto is deported to Mexico, he's forced into a desperate journey back to the United States before his first child is born. With no legal path home, he must navigate an unforgiving landscape where every mile brings new dangers, unexpected allies, and impossible choices. As the distance between him and his family grows, Robert risks everything to make it back home.",
-      "distributor_id": null,
-      "distributor_code": null,
+      "distributor_id": "3475",
+      "distributor_code": "JBB",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
       "slug": "journey-85020",
@@ -11841,45 +11523,6 @@
         "poster_url": null,
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85023",
-      "source_title": "Baththa",
-      "sortable_title": "Baththa",
-      "source_release_id": "423869",
-      "runtime_min": 160,
-      "release_date_utc": "2026-10-01T05:00:00Z",
-      "earliest_showing_utc": "2026-10-01T10:30:00Z",
-      "online_ticket_availability_date_utc": "2026-10-01T05:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "DRAMA",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "LIJOMOL JOSE, VIJAY SETHUPATHY",
-      "directors_raw": "BALAJI THARANEETHARAN",
-      "synopsis": "In 1986 Madras, a timid eight-year-old boy accidentally traps a feared gangster inside a deserted school toilet. As the gangster is forced to confront hunger, loneliness and his own vulnerability, an unlikely bond begins to grow between the two, changing their lives forever.",
-      "distributor_id": "2654",
-      "distributor_code": "ATU",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "baththa-85023",
-      "website_url": "https://www.amctheatres.com/movies/baththa-85023",
-      "showtimes_url": "https://www.amctheatres.com/movies/baththa-85023/showtimes",
-      "attribute_codes": [
-        "INTFILMS"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1789593956/amc-cdn/content/general/vtwgbdrqn5qnkl6jwh5i.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789594137/amc-cdn/content/general/ujmzggxxmqzwnzwaw5w1.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789594137/amc-cdn/content/general/ujmzggxxmqzwnzwaw5w1.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -12290,45 +11933,6 @@
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789762024/amc-cdn/content/general/anm1ddnviqlhtlrjokth.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405206904112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405206904112.mp4"
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85043",
-      "source_title": "Acharya",
-      "sortable_title": "Acharya",
-      "source_release_id": "307668",
-      "runtime_min": 178,
-      "release_date_utc": "2026-10-01T05:00:00Z",
-      "earliest_showing_utc": "2026-10-01T13:15:00Z",
-      "online_ticket_availability_date_utc": "2026-10-01T05:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "DRAMA",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "NIKHIL UPRETI, PRAMOD AGNIHARI, PURNIKA SIJAPATI",
-      "directors_raw": "NIKHIL UPRETI",
-      "synopsis": "This is the story of Acharya, an ex-Army man who takes on a contract to rescue a young woman stranded in Mumbai and bring her safely back to Nepal. What begins as a straightforward rescue mission soon turns into a dangerous and unexpected journey. As Acharya travels with the young woman from Mumbai to Nepal, new twists, secrets, and turns begin to unfold, forcing him to confront challenges far beyond what he had anticipated.",
-      "distributor_id": "3406",
-      "distributor_code": "SVN",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "acharya-85043",
-      "website_url": "https://www.amctheatres.com/movies/acharya-85043",
-      "showtimes_url": "https://www.amctheatres.com/movies/acharya-85043/showtimes",
-      "attribute_codes": [
-        "INTFILMS"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1789643164/amc-cdn/production/2/movies/85000/85043/Poster/307668R1.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405186504112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405186504112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -12770,6 +12374,9 @@
       "website_url": "https://www.amctheatres.com/movies/breeder-85066",
       "showtimes_url": "https://www.amctheatres.com/movies/breeder-85066/showtimes",
       "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "OPENCAPTION",
         "XL"
       ],
       "media": {
@@ -13327,12 +12934,15 @@
       "distributor_id": "3079",
       "distributor_code": "SHL",
       "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
+      "available_for_a_list": false,
       "slug": "aadarsha-kutumbam-house-no-47-85090",
       "website_url": "https://www.amctheatres.com/movies/aadarsha-kutumbam-house-no-47-85090",
       "showtimes_url": "https://www.amctheatres.com/movies/aadarsha-kutumbam-house-no-47-85090/showtimes",
       "attribute_codes": [
+        "EXCLDISMAT",
         "INTFILMS",
+        "NOALIST",
+        "NOGREENRED",
         "XL"
       ],
       "media": {
@@ -13371,43 +12981,6 @@
       "slug": "nightmare-before-christmas-1993-re-85092",
       "website_url": "https://www.amctheatres.com/movies/nightmare-before-christmas-1993-re-85092",
       "showtimes_url": "https://www.amctheatres.com/movies/nightmare-before-christmas-1993-re-85092/showtimes",
-      "attribute_codes": [],
-      "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85095",
-      "source_title": "The Trial of Alec Baldwin",
-      "sortable_title": "Trial of Alec Baldwin, The",
-      "source_release_id": null,
-      "runtime_min": 111,
-      "release_date_utc": "2026-10-01T05:00:00Z",
-      "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-10-01T05:00:00Z",
-      "has_scheduled_showtimes": false,
-      "genre": "DOCUMENTARY",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "Alec Baldwin",
-      "directors_raw": "RORY KENNEDY",
-      "synopsis": "In the wake of a fatal on-set shooting, actor Alec Baldwin faces trial for involuntary manslaughter. But as headlines feed on his fame and reputation, a question looms: is Baldwin being judged by the law -- or by the court of public opinion?",
-      "distributor_id": null,
-      "distributor_code": null,
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "the-trial-of-alec-baldwin-85095",
-      "website_url": "https://www.amctheatres.com/movies/the-trial-of-alec-baldwin-85095",
-      "showtimes_url": "https://www.amctheatres.com/movies/the-trial-of-alec-baldwin-85095/showtimes",
       "attribute_codes": [],
       "media": {
         "poster_url": null,
@@ -13910,7 +13483,9 @@
       "slug": "rise-and-shine-85132",
       "website_url": "https://www.amctheatres.com/movies/rise-and-shine-85132",
       "showtimes_url": "https://www.amctheatres.com/movies/rise-and-shine-85132/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "CLOSEDCAPTION"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -15230,7 +14805,7 @@
       "source_release_id": "32309",
       "runtime_min": 110,
       "release_date_utc": "2026-10-09T05:00:00Z",
-      "earliest_showing_utc": "2026-10-08T14:00:00Z",
+      "earliest_showing_utc": "2026-10-08T13:30:00Z",
       "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "Comedy",
@@ -15559,14 +15134,16 @@
       "starring_actors_raw": "AYAKA MIYOSHI, BYUN YO-HAN, ROH JAE-WON",
       "directors_raw": "CHOI KOOK-HEE",
       "synopsis": "In the final Tazza installment, best friends Jang Taeyoung and Park Taeyoung build a massive online casino empire. Driven by jealousy, Park betrays Jang and brings him to rock bottom. Surviving the betrayal, Jang trains under a legendary poker master to sharpen his skills. Years later, the former partners reunite at a high-stakes global poker table backed by the yakuza, where they go head-to-head in an all-or-nothing game of revenge.",
-      "distributor_id": null,
-      "distributor_code": null,
+      "distributor_id": "2237",
+      "distributor_code": "WGU",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
       "slug": "tazza-the-song-of-beelzebub-85196",
       "website_url": "https://www.amctheatres.com/movies/tazza-the-song-of-beelzebub-85196",
       "showtimes_url": "https://www.amctheatres.com/movies/tazza-the-song-of-beelzebub-85196/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "INTFILMS"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -16299,8 +15876,8 @@
       "source_film_id": "85223",
       "source_title": "#VYMARA",
       "sortable_title": "#VYMARA",
-      "source_release_id": null,
-      "runtime_min": null,
+      "source_release_id": "426626",
+      "runtime_min": 82,
       "release_date_utc": "2026-10-19T05:00:00Z",
       "earliest_showing_utc": "2026-10-19T21:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-19T05:00:00Z",
@@ -16491,9 +16068,9 @@
       "source_release_id": null,
       "runtime_min": 95,
       "release_date_utc": "2026-10-19T05:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-10-19T19:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-19T05:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": null,
       "mpaa_rating": "R",
       "starring_actors_raw": null,
@@ -16529,13 +16106,13 @@
       "source_title": "AMC Screen Unseen: October 26",
       "sortable_title": "AMC Screen Unseen: October 26",
       "source_release_id": null,
-      "runtime_min": null,
+      "runtime_min": 100,
       "release_date_utc": "2026-10-26T05:00:00Z",
       "earliest_showing_utc": null,
       "online_ticket_availability_date_utc": "2026-10-26T05:00:00Z",
       "has_scheduled_showtimes": false,
       "genre": null,
-      "mpaa_rating": null,
+      "mpaa_rating": "R",
       "starring_actors_raw": null,
       "directors_raw": null,
       "synopsis": "AMC Screen Unseen, where guests can watch a never-before-seen film. We will share the movie’s MPA rating ahead of time, but the feature presentation will remain a mystery until showtime. Share your reaction after the movie with #AMCScreenUnseen on Instagram, Facebook, TikTok, Threads and X.",
@@ -16606,7 +16183,7 @@
     {
       "source": "amc",
       "source_film_id": "85234",
-      "source_title": "Buddy Sing-Along",
+      "source_title": "Buddy The Sing-Along Version",
       "sortable_title": "Buddy Sing-Along",
       "source_release_id": "426429",
       "runtime_min": 95,
@@ -16734,7 +16311,7 @@
       "source_film_id": "85237",
       "source_title": "California Schemin' Intro with Director/Actor James McAvoy",
       "sortable_title": "California Schemin' Intro with Director/Actor James McAvoy",
-      "source_release_id": null,
+      "source_release_id": "366922",
       "runtime_min": 101,
       "release_date_utc": "2026-10-09T05:00:00Z",
       "earliest_showing_utc": "2026-10-09T21:30:00Z",
@@ -16761,8 +16338,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1790368354/amc-cdn/content/general/qvmfygotxymcdwgq4ymy.avif",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406015489112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406015489112.mp4"
       },
       "presentation": {
         "category": "special_introduction",
@@ -17004,13 +16581,13 @@
       "source_title": "AMC Scream Unseen: October 26",
       "sortable_title": "AMC Scream Unseen: October 26",
       "source_release_id": null,
-      "runtime_min": null,
+      "runtime_min": 100,
       "release_date_utc": "2026-10-26T05:00:00Z",
       "earliest_showing_utc": null,
       "online_ticket_availability_date_utc": "2026-10-26T05:00:00Z",
       "has_scheduled_showtimes": false,
       "genre": null,
-      "mpaa_rating": null,
+      "mpaa_rating": "R",
       "starring_actors_raw": null,
       "directors_raw": null,
       "synopsis": "Be first to see a new scare with AMC Scream Unseen! We will share the movie’s MPA rating ahead of time, but the feature presentation will remain a mystery until showtime. Share your reaction after the movie with #AMCScreenUnseen on Instagram, Facebook, TikTok, Threads and X.",
@@ -17196,7 +16773,7 @@
       "source_title": "Jailer 2",
       "sortable_title": "Jailer 2",
       "source_release_id": null,
-      "runtime_min": 175,
+      "runtime_min": 185,
       "release_date_utc": "2026-10-15T05:00:00Z",
       "earliest_showing_utc": null,
       "online_ticket_availability_date_utc": "2026-10-15T05:00:00Z",
@@ -17209,12 +16786,15 @@
       "distributor_id": "3079",
       "distributor_code": "SHL",
       "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
+      "available_for_a_list": false,
       "slug": "jailer-2-85262",
       "website_url": "https://www.amctheatres.com/movies/jailer-2-85262",
       "showtimes_url": "https://www.amctheatres.com/movies/jailer-2-85262/showtimes",
       "attribute_codes": [
+        "EXCLDISMAT",
         "INTFILMS",
+        "NOALIST",
+        "NOGREENRED",
         "XL"
       ],
       "media": {
@@ -17347,7 +16927,7 @@
       "source_title": "Jailer 2 (Hindi)",
       "sortable_title": "Jailer 2",
       "source_release_id": null,
-      "runtime_min": 175,
+      "runtime_min": 185,
       "release_date_utc": "2026-10-16T05:00:00Z",
       "earliest_showing_utc": null,
       "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
@@ -17458,6 +17038,307 @@
       },
       "presentation": {
         "category": "special_introduction",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85274",
+      "source_title": "January 12 Vidudala",
+      "sortable_title": "January 12 Vidudala",
+      "source_release_id": null,
+      "runtime_min": 150,
+      "release_date_utc": "2027-01-12T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2027-01-12T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "COMEDY",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "KEERTHY SURESH, NANDAMURI KALYAN RAM, VENKATESH DAGGUBATI",
+      "directors_raw": "ANIL RAVIPUDI",
+      "synopsis": "Two Army officers and best friends, Venkat Reddy and Bal Reddy are very efficient in handling crises situation regarding national defense. when Bal Reddy returns to his native village, he encounters unexpected rift in within a family divided by tradition, identity, and pride. Venkat reddy steps in to heal the growing rift, but faces unimaginable difficulties in process.\nThis setup against the vibrant backdrop of Rayalaseema, the story blends action, romance, humor, and family drama sacrifice, and the enduring power of love, friendship,",
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "january-12-vidudala-85274",
+      "website_url": "https://www.amctheatres.com/movies/january-12-vidudala-85274",
+      "showtimes_url": "https://www.amctheatres.com/movies/january-12-vidudala-85274/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85276",
+      "source_title": "UFC 334: Gane vs. Hokit",
+      "sortable_title": "UFC 334: Gane vs. Hokit",
+      "source_release_id": null,
+      "runtime_min": null,
+      "release_date_utc": "2026-11-14T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": null,
+      "mpaa_rating": null,
+      "starring_actors_raw": null,
+      "directors_raw": "Event Director",
+      "synopsis": null,
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "ufc-334-gane-vs-hokit-85276",
+      "website_url": "https://www.amctheatres.com/movies/ufc-334-gane-vs-hokit-85276",
+      "showtimes_url": "https://www.amctheatres.com/movies/ufc-334-gane-vs-hokit-85276/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85277",
+      "source_title": "Comrade Kalyan",
+      "sortable_title": "Comrade Kalyan",
+      "source_release_id": null,
+      "runtime_min": 147,
+      "release_date_utc": "2026-10-09T05:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "COMEDY",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "MAHIMA NAMBIAR, RADHIKA SARATHKUMAR, Sree Vishnu",
+      "directors_raw": "JANAKIRAM MARELLA",
+      "synopsis": "In the early 90s in Andhra Pradesh, a young man's desperate plan to fake himself as a Naxalite to earn money through the government's scheme offered to real Naxals goes haywire. Now he's on the run from both the cops and Naxals to save himself. What follows is hilarious and a journey of mistaken identities, action, and unexpected courage to prove his identity.",
+      "distributor_id": "3358",
+      "distributor_code": "VCL",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "comrade-kalyan-85277",
+      "website_url": "https://www.amctheatres.com/movies/comrade-kalyan-85277",
+      "showtimes_url": "https://www.amctheatres.com/movies/comrade-kalyan-85277/showtimes",
+      "attribute_codes": [
+        "INTFILMS",
+        "XL"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85278",
+      "source_title": "UFC 335: TBD vs. TBD",
+      "sortable_title": "UFC 335: TBD vs. TBD",
+      "source_release_id": null,
+      "runtime_min": null,
+      "release_date_utc": "2026-12-12T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-12-12T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": null,
+      "mpaa_rating": null,
+      "starring_actors_raw": null,
+      "directors_raw": "Event Director",
+      "synopsis": null,
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "ufc-335-tbd-vs-tbd-85278",
+      "website_url": "https://www.amctheatres.com/movies/ufc-335-tbd-vs-tbd-85278",
+      "showtimes_url": "https://www.amctheatres.com/movies/ufc-335-tbd-vs-tbd-85278/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85282",
+      "source_title": "Hantee",
+      "sortable_title": "Hantee",
+      "source_release_id": null,
+      "runtime_min": null,
+      "release_date_utc": "2026-10-09T05:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "FANTASY",
+      "mpaa_rating": null,
+      "starring_actors_raw": "COCO BELLIVEAU, EMMA BAO LINH TOURNE, MATHILDE BOUCHER",
+      "directors_raw": "RAFAEL OUELLET",
+      "synopsis": "Mathilde, a teenager forced to move to a rural area with her family for mysterious reasons, discovers that her new house is haunted by Isabeau, a 19th-century woman who has surprisingly adapted well to the modern world, but remembers nothing about her past life. As they investigate the ghost?s history, this unlikely duo embarks on an adventure that gradually forges a deep friendship between them.",
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "hantee-85282",
+      "website_url": "https://www.amctheatres.com/movies/hantee-85282",
+      "showtimes_url": "https://www.amctheatres.com/movies/hantee-85282/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85285",
+      "source_title": "The Canvas",
+      "sortable_title": "Canvas, The",
+      "source_release_id": null,
+      "runtime_min": 80,
+      "release_date_utc": "2026-10-30T05:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-10-30T05:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "HORROR",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "Angus MacFadyen, JOHN REAL, NICOLETTE MCKEOWN",
+      "directors_raw": "JOHN REAL",
+      "synopsis": "In an isolated house, a father and his son discover a painting that seems disturbingly alive. When their darkest nightmares begin bleeding into reality, a sinister presence emerges from the canvas, feeding on buried trauma and forgotten memories.",
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "the-canvas-85285",
+      "website_url": "https://www.amctheatres.com/movies/the-canvas-85285",
+      "showtimes_url": "https://www.amctheatres.com/movies/the-canvas-85285/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85286",
+      "source_title": "Love Language",
+      "sortable_title": "Love Language",
+      "source_release_id": null,
+      "runtime_min": 104,
+      "release_date_utc": "2026-10-23T05:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-10-23T05:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "ROMANCE",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "CHLOE GRACE MORETZ, ISABEL MAY, MANNY JACINTO",
+      "directors_raw": "JOEY POWER",
+      "synopsis": "Aspiring author Louisa (Chloe Grace Moretz) falls into a side hustle writing wedding vows for other people. Just as the charming Dash (Anthony Ramos) starts to show interest in her, she reconnects with her college crush Warren (Manny Jacinto).",
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "love-language-85286",
+      "website_url": "https://www.amctheatres.com/movies/love-language-85286",
+      "showtimes_url": "https://www.amctheatres.com/movies/love-language-85286/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85287",
+      "source_title": "Vampire Carnival with Directors Q&A",
+      "sortable_title": "Vampire Carnival with Directors Q&A",
+      "source_release_id": null,
+      "runtime_min": 129,
+      "release_date_utc": "2026-10-07T05:00:00Z",
+      "earliest_showing_utc": "2026-10-07T20:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-07T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Vampire Carnival with Directors Q&A.",
+      "distributor_id": "3073",
+      "distributor_code": "FFF",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "vampire-carnival-with-directors-q-a-85287",
+      "website_url": "https://www.amctheatres.com/movies/vampire-carnival-with-directors-q-a-85287",
+      "showtimes_url": "https://www.amctheatres.com/movies/vampire-carnival-with-directors-q-a-85287/showtimes",
+      "attribute_codes": [
+        "INPERSNQA"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790797447/amc-cdn/content/general/t8y3h3dqgpnmdffcmp6n.avif",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "q_and_a",
         "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }

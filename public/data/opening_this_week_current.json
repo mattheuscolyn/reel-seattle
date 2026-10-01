@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-30T04:48:43-07:00",
+  "generated_at": "2026-10-01T05:18:54-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-09-28",
@@ -12,16 +12,16 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 46,
+    "entry_count": 47,
     "low_confidence_count": 4,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-09-28",
     "latest_opening_date": "2026-10-04",
     "opening_type_counts": {
       "event": 3,
-      "limited": 13,
-      "repertory": 12,
-      "theatrical": 18
+      "limited": 12,
+      "repertory": 13,
+      "theatrical": 19
     }
   },
   "entries": [
@@ -97,7 +97,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -128,7 +128,7 @@
         "siff-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "theatrical",
@@ -152,7 +152,7 @@
     {
       "showtime_film_key": "incredibly-true-adventure-of-two-girls-in-love",
       "parent_film_key": "incredibly-true-adventure-of-two-girls-in-love",
-      "film_id": "tmdb:29371",
+      "film_id": null,
       "film_title": "The Incredibly True Adventure of Two Girls in Love",
       "opening_date": "2026-09-29",
       "theaters_on_opening_date": [
@@ -165,7 +165,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "incredibly-true-adventure-of-two-girls-in-love"
         ],
@@ -190,7 +190,7 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -221,7 +221,7 @@
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -253,7 +253,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 8,
+      "visible_showtime_count": 4,
       "engagement_days": 2,
       "historical_screening_count": 4,
       "opening_type": "theatrical",
@@ -286,16 +286,16 @@
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 2,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
+      "engagement_days": 2,
+      "historical_screening_count": 2,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "elephant-man"
         ],
-        "distinct_scheduled_dates": 1,
+        "distinct_scheduled_dates": 2,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "central-cinema"
@@ -316,7 +316,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -353,7 +353,7 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 776,
+      "visible_showtime_count": 768,
       "engagement_days": 16,
       "historical_screening_count": 392,
       "opening_type": "event",
@@ -384,7 +384,7 @@
     {
       "showtime_film_key": "appofeniacs",
       "parent_film_key": "appofeniacs",
-      "film_id": null,
+      "film_id": "tmdb:1401433",
       "film_title": "Appofeniacs",
       "opening_date": "2026-10-01",
       "theaters_on_opening_date": [
@@ -397,7 +397,7 @@
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "appofeniacs"
         ],
@@ -504,7 +504,7 @@
     {
       "showtime_film_key": "don-t-trouble-the-trouble",
       "parent_film_key": "don-t-trouble-the-trouble",
-      "film_id": null,
+      "film_id": "tmdb:1261763",
       "film_title": "Don't Trouble the Trouble",
       "opening_date": "2026-10-01",
       "theaters_on_opening_date": [
@@ -517,7 +517,7 @@
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "don-t-trouble-the-trouble"
         ],
@@ -863,6 +863,37 @@
         ],
         "sources": [
           "central_cinema"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "buddy-the-sing-along-version",
+      "parent_film_key": "buddy-the-version",
+      "film_id": null,
+      "film_title": "Buddy The Version",
+      "opening_date": "2026-10-02",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 6,
+      "engagement_days": 6,
+      "historical_screening_count": 6,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "parent_film_key",
+        "variant_showtime_film_keys": [
+          "buddy-the-sing-along-version"
+        ],
+        "distinct_scheduled_dates": 6,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -1628,7 +1659,7 @@
         "majestic-bay"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -1652,7 +1683,7 @@
     {
       "showtime_film_key": "shambhala-story",
       "parent_film_key": "shambhala-story",
-      "film_id": null,
+      "film_id": "tmdb:1531435",
       "film_title": "Shambhala Story",
       "opening_date": "2026-10-04",
       "theaters_on_opening_date": [
@@ -1665,7 +1696,7 @@
       "opening_type": "limited",
       "confidence": "low",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "shambhala-story"
         ],
