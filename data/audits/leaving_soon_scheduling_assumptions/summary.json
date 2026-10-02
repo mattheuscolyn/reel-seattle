@@ -3545,5 +3545,314 @@
       "status": "candidate_for_human_review"
     }
   ],
-  "base_commit": "1198f18bff4a45724fd3a9ab7d1f2032c6c89ca4"
+  "base_commit": "73a858df4b610bc1ced5c54c26cf6caa16e27634",
+  "announcement_validation": {
+    "population": "Film\u00d7theater engagements with a pre-opening announcement and a confirmed end. Exact-first numbers repeat the original definition. Later lags ask what was known by first_observation plus N snapshot days. Post-opening and late extension ask when the eventual final date was first listed, not merely whether day 0 was short.",
+    "by_segment": {
+      "rerelease": {
+        "n": 63,
+        "lags": {
+          "exact_first": {
+            "n": 63,
+            "median_share_screenings": 0.34210526315789475,
+            "median_share_dates": 0.4666666666666667,
+            "final_date_known": {
+              "n": 63,
+              "share": 0.19047619047619047
+            }
+          },
+          "plus_1_day": {
+            "n": 63,
+            "median_share_screenings": 0.5,
+            "median_share_dates": 0.4666666666666667,
+            "final_date_known": {
+              "n": 63,
+              "share": 0.23809523809523808
+            }
+          },
+          "plus_2_days": {
+            "n": 63,
+            "median_share_screenings": 0.5714285714285714,
+            "median_share_dates": 0.6,
+            "final_date_known": {
+              "n": 63,
+              "share": 0.36507936507936506
+            }
+          },
+          "plus_3_days": {
+            "n": 63,
+            "median_share_screenings": 0.6666666666666666,
+            "median_share_dates": 0.8,
+            "final_date_known": {
+              "n": 63,
+              "share": 0.42857142857142855
+            }
+          }
+        },
+        "opening_relative": {
+          "by_7_days_before_opening": {
+            "n": 57,
+            "median_share_screenings": 1.0,
+            "final_date_known": {
+              "n": 57,
+              "share": 0.7719298245614035
+            }
+          },
+          "by_3_days_before_opening": {
+            "n": 58,
+            "median_share_screenings": 1.0,
+            "final_date_known": {
+              "n": 58,
+              "share": 0.7758620689655172
+            }
+          }
+        },
+        "extensions": {
+          "exact_first": {
+            "n": 63,
+            "rate": 0.8095238095238095
+          },
+          "within_48h": {
+            "n": 63,
+            "rate": 0.6349206349206349
+          },
+          "within_72h": {
+            "n": 63,
+            "rate": 0.5714285714285714
+          },
+          "post_opening": {
+            "n": 63,
+            "rate": 0.25396825396825395
+          },
+          "late": {
+            "n": 63,
+            "rate": 0.25396825396825395
+          }
+        },
+        "exact_extension_class_counts": {
+          "not_extended_on_first_snapshot": 12,
+          "late_in_run_extension": 16,
+          "pre_opening_rollout_after_48h": 24,
+          "immediate_rollout_within_48h": 11
+        },
+        "rollout_days_median": {
+          "days_to_50pct": 1.0,
+          "days_to_80pct": 4.0,
+          "days_to_90pct": 5.0,
+          "days_to_100pct": 5.0,
+          "days_to_final_date_known": 4.0
+        },
+        "final_date_known_before_opening": {
+          "n": 63,
+          "share": 0.746031746031746
+        }
+      },
+      "ordinary": {
+        "n": 315,
+        "lags": {
+          "exact_first": {
+            "n": 315,
+            "median_share_screenings": 0.25,
+            "median_share_dates": 0.2857142857142857,
+            "final_date_known": {
+              "n": 315,
+              "share": 0.25396825396825395
+            }
+          },
+          "plus_1_day": {
+            "n": 315,
+            "median_share_screenings": 0.5,
+            "median_share_dates": 0.5,
+            "final_date_known": {
+              "n": 315,
+              "share": 0.31746031746031744
+            }
+          },
+          "plus_2_days": {
+            "n": 315,
+            "median_share_screenings": 0.5588235294117647,
+            "median_share_dates": 0.5,
+            "final_date_known": {
+              "n": 315,
+              "share": 0.3619047619047619
+            }
+          },
+          "plus_3_days": {
+            "n": 315,
+            "median_share_screenings": 0.5892857142857143,
+            "median_share_dates": 0.5714285714285714,
+            "final_date_known": {
+              "n": 315,
+              "share": 0.36507936507936506
+            }
+          }
+        },
+        "opening_relative": {
+          "by_7_days_before_opening": {
+            "n": 191,
+            "median_share_screenings": 0.55,
+            "final_date_known": {
+              "n": 191,
+              "share": 0.3612565445026178
+            }
+          },
+          "by_3_days_before_opening": {
+            "n": 216,
+            "median_share_screenings": 0.6,
+            "final_date_known": {
+              "n": 216,
+              "share": 0.35185185185185186
+            }
+          }
+        },
+        "extensions": {
+          "exact_first": {
+            "n": 315,
+            "rate": 0.746031746031746
+          },
+          "within_48h": {
+            "n": 315,
+            "rate": 0.638095238095238
+          },
+          "within_72h": {
+            "n": 315,
+            "rate": 0.6349206349206349
+          },
+          "post_opening": {
+            "n": 315,
+            "rate": 0.5587301587301587
+          },
+          "late": {
+            "n": 315,
+            "rate": 0.5555555555555556
+          }
+        },
+        "exact_extension_class_counts": {
+          "late_in_run_extension": 175,
+          "not_extended_on_first_snapshot": 80,
+          "immediate_rollout_within_48h": 34,
+          "pre_opening_rollout_after_48h": 25,
+          "post_opening_before_two_play_days": 1
+        },
+        "rollout_days_median": {
+          "days_to_50pct": 1.0,
+          "days_to_80pct": 7.0,
+          "days_to_90pct": 8.0,
+          "days_to_100pct": 12.0,
+          "days_to_final_date_known": 7.0
+        },
+        "final_date_known_before_opening": {
+          "n": 315,
+          "share": 0.43492063492063493
+        }
+      },
+      "special": {
+        "n": 282,
+        "lags": {
+          "exact_first": {
+            "n": 282,
+            "median_share_screenings": 1.0,
+            "median_share_dates": 1.0,
+            "final_date_known": {
+              "n": 282,
+              "share": 0.7978723404255319
+            }
+          },
+          "plus_1_day": {
+            "n": 282,
+            "median_share_screenings": 1.0,
+            "median_share_dates": 1.0,
+            "final_date_known": {
+              "n": 282,
+              "share": 0.8226950354609929
+            }
+          },
+          "plus_2_days": {
+            "n": 282,
+            "median_share_screenings": 1.0,
+            "median_share_dates": 1.0,
+            "final_date_known": {
+              "n": 282,
+              "share": 0.8581560283687943
+            }
+          },
+          "plus_3_days": {
+            "n": 282,
+            "median_share_screenings": 1.0,
+            "median_share_dates": 1.0,
+            "final_date_known": {
+              "n": 282,
+              "share": 0.9113475177304965
+            }
+          }
+        },
+        "opening_relative": {
+          "by_7_days_before_opening": {
+            "n": 270,
+            "median_share_screenings": 1.0,
+            "final_date_known": {
+              "n": 270,
+              "share": 0.9481481481481482
+            }
+          },
+          "by_3_days_before_opening": {
+            "n": 282,
+            "median_share_screenings": 1.0,
+            "final_date_known": {
+              "n": 282,
+              "share": 0.9574468085106383
+            }
+          }
+        },
+        "extensions": {
+          "exact_first": {
+            "n": 282,
+            "rate": 0.20212765957446807
+          },
+          "within_48h": {
+            "n": 282,
+            "rate": 0.14184397163120568
+          },
+          "within_72h": {
+            "n": 282,
+            "rate": 0.08865248226950355
+          },
+          "post_opening": {
+            "n": 282,
+            "rate": 0.024822695035460994
+          },
+          "late": {
+            "n": 282,
+            "rate": 0.024822695035460994
+          }
+        },
+        "exact_extension_class_counts": {
+          "not_extended_on_first_snapshot": 225,
+          "immediate_rollout_within_48h": 17,
+          "pre_opening_rollout_after_48h": 33,
+          "late_in_run_extension": 7
+        },
+        "rollout_days_median": {
+          "days_to_50pct": 0.0,
+          "days_to_80pct": 0.0,
+          "days_to_90pct": 0.0,
+          "days_to_100pct": 0.0,
+          "days_to_final_date_known": 0.0
+        },
+        "final_date_known_before_opening": {
+          "n": 282,
+          "share": 0.9716312056737588
+        }
+      }
+    },
+    "focus_film_ids": {
+      "84149": "Cars: 20th Anniversary",
+      "84081": "The Fast and the Furious 25th Anniversary",
+      "83589": "Castle in the Sky 40th Anniversary - Studio Ghibli Fest 2026",
+      "84779": "Ghost in the Shell 30th Anniversary",
+      "84559": "Batman (1989)",
+      "84715": "Amok Time + Star Trek III: The Search for Spock 60th Anniversary Event"
+    },
+    "focus_engagement_count": 20
+  }
 }

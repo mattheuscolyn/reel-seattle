@@ -128,6 +128,8 @@ class Screening:
     segment_source: str
     segment_confidence: str
     identity_kind: str
+    # Set only when the ledger recorded a removal from a complete snapshot.
+    removed_at: date | None = None
 
 
 @dataclass(frozen=True)
@@ -1345,6 +1347,7 @@ def load_screenings(
                 last_snapshot=last_snapshot,
                 current_status=str(payload.get("current_status") or ""),
             )
+            removed_at = _parse_iso_date(payload.get("removed_at")) if removed else None
             screenings.append(
                 Screening(
                     screening_id=str(payload.get("screening_id") or ""),
@@ -1363,6 +1366,7 @@ def load_screenings(
                     segment_source=source,
                     segment_confidence=confidence,
                     identity_kind="source_film_id" if source_film_id else "title_fallback",
+                    removed_at=removed_at,
                 )
             )
     return screenings, as_of
