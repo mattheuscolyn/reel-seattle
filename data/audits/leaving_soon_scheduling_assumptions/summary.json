@@ -1,0 +1,3549 @@
+{
+  "schema_version": "1.0.0",
+  "question": "scheduling assumptions audit \u2014 descriptive, not a production model change",
+  "window": {
+    "dataset_start": "2026-06-29",
+    "dataset_end": "2026-10-01",
+    "as_of": "2026-10-01",
+    "snapshot_days": 95,
+    "complete_snapshot_days": 29,
+    "unknown_snapshot_days": 66,
+    "partial_or_failed_snapshot_days": 0,
+    "first_complete_snapshot": "2026-09-03",
+    "missing_calendar_days": [],
+    "removal_inference": "no_longer_observed is inferred only on complete snapshots. Earlier unknown snapshots still record showtimes that were present.",
+    "history_occurred_showtime_rows": 34634,
+    "lifecycle_occurred_screenings": 36801,
+    "dense_horizons": {
+      "amc-pacific-place-11": "2026-10-07",
+      "amc-oak-tree-6": "2026-10-10",
+      "amc-factoria-8": "2026-10-07",
+      "amc-alderwood-mall-16": "2026-10-07",
+      "amc-southcenter-16": "2026-10-07",
+      "amc-kent-station-14": "2026-10-07",
+      "amc-woodinville-12": "2026-10-07"
+    }
+  },
+  "counts": {
+    "screenings": 44320,
+    "film_theater_engagements": 1372,
+    "market_engagements": 409,
+    "confirmed_film_theater": 956,
+    "confirmed_market": 290,
+    "confirmed_ordinary_week_plus_film_theater": 336,
+    "confirmed_rerelease_film_theater": 63,
+    "confirmed_special_film_theater": 287,
+    "segment_counts_film_theater": {
+      "special_event": 467,
+      "ordinary": 603,
+      "special_event_title_only": 46,
+      "ordinary_title_only": 122,
+      "rerelease": 81,
+      "ambiguous_special": 25,
+      "rerelease_title_only": 7,
+      "accessibility_presentation": 13,
+      "other": 3,
+      "ambiguous_limited": 5
+    },
+    "confirmed_segment_counts_film_theater": {
+      "special_event": 287,
+      "ordinary": 401,
+      "special_event_title_only": 46,
+      "ordinary_title_only": 122,
+      "rerelease": 63,
+      "rerelease_title_only": 7,
+      "ambiguous_special": 10,
+      "other": 3,
+      "accessibility_presentation": 12,
+      "ambiguous_limited": 5
+    },
+    "confident_rerelease_engagements": 81,
+    "confident_special_engagements": 467
+  },
+  "questions": {
+    "end_weekday": {
+      "population": "Confirmed ends only: last occurred show is strictly before the theater dense horizon, and no later showtime remains on the schedule. Ordinary primary population also requires catalog segment=ordinary and span>=7 days. Rereleases and specials use catalog categories only; title disagreements are separate.",
+      "film_theater_ordinary_week_plus": {
+        "n": 336,
+        "thursday_count": 148,
+        "thursday_share": 0.44047619047619047,
+        "friday_share": 0.0,
+        "saturday_share": 0.0,
+        "sunday_share": 0.0,
+        "by_weekday": [
+          {
+            "weekday": "Monday",
+            "count": 0,
+            "share": 0.0,
+            "wilson_low": 0.0,
+            "wilson_high": 0.011304089905414755
+          },
+          {
+            "weekday": "Tuesday",
+            "count": 8,
+            "share": 0.023809523809523808,
+            "wilson_low": 0.012112833738929966,
+            "wilson_high": 0.046272013790036454
+          },
+          {
+            "weekday": "Wednesday",
+            "count": 180,
+            "share": 0.5357142857142857,
+            "wilson_low": 0.4822844710376095,
+            "wilson_high": 0.588336665397718
+          },
+          {
+            "weekday": "Thursday",
+            "count": 148,
+            "share": 0.44047619047619047,
+            "wilson_low": 0.38836246488855386,
+            "wilson_high": 0.4939356410525668
+          },
+          {
+            "weekday": "Friday",
+            "count": 0,
+            "share": 0.0,
+            "wilson_low": 0.0,
+            "wilson_high": 0.011304089905414755
+          },
+          {
+            "weekday": "Saturday",
+            "count": 0,
+            "share": 0.0,
+            "wilson_low": 0.0,
+            "wilson_high": 0.011304089905414755
+          },
+          {
+            "weekday": "Sunday",
+            "count": 0,
+            "share": 0.0,
+            "wilson_low": 0.0,
+            "wilson_high": 0.011304089905414755
+          }
+        ],
+        "thursday_wilson_low": 0.38836246488855386,
+        "thursday_wilson_high": 0.4939356410525668,
+        "next_friday_published_n": 336,
+        "next_friday_published_share": 1.0
+      },
+      "film_theater_ordinary_all_lengths": {
+        "n": 401,
+        "thursday_count": 150,
+        "thursday_share": 0.3740648379052369,
+        "friday_share": 0.004987531172069825,
+        "saturday_share": 0.02743142144638404,
+        "sunday_share": 0.00997506234413965,
+        "by_weekday": [
+          {
+            "weekday": "Monday",
+            "count": 4,
+            "share": 0.00997506234413965,
+            "wilson_low": 0.0038856898505804285,
+            "wilson_high": 0.02536426865170787
+          },
+          {
+            "weekday": "Tuesday",
+            "count": 13,
+            "share": 0.032418952618453865,
+            "wilson_low": 0.019041812514951725,
+            "wilson_high": 0.05466997994906382
+          },
+          {
+            "weekday": "Wednesday",
+            "count": 217,
+            "share": 0.5411471321695761,
+            "wilson_low": 0.492214201141436,
+            "wilson_high": 0.5892991611217308
+          },
+          {
+            "weekday": "Thursday",
+            "count": 150,
+            "share": 0.3740648379052369,
+            "wilson_low": 0.32810882841843636,
+            "wilson_high": 0.4224108810185384
+          },
+          {
+            "weekday": "Friday",
+            "count": 2,
+            "share": 0.004987531172069825,
+            "wilson_low": 0.0013687995436076524,
+            "wilson_high": 0.018000751411630145
+          },
+          {
+            "weekday": "Saturday",
+            "count": 11,
+            "share": 0.02743142144638404,
+            "wilson_low": 0.01538484370470691,
+            "wilson_high": 0.04844654121225814
+          },
+          {
+            "weekday": "Sunday",
+            "count": 4,
+            "share": 0.00997506234413965,
+            "wilson_low": 0.0038856898505804285,
+            "wilson_high": 0.02536426865170787
+          }
+        ],
+        "thursday_wilson_low": 0.32810882841843636,
+        "thursday_wilson_high": 0.4224108810185384,
+        "next_friday_published_n": 401,
+        "next_friday_published_share": 1.0
+      },
+      "market_ordinary_week_plus": {
+        "n": 86,
+        "thursday_count": 45,
+        "thursday_share": 0.5232558139534884,
+        "friday_share": 0.0,
+        "saturday_share": 0.0,
+        "sunday_share": 0.0,
+        "by_weekday": [
+          {
+            "weekday": "Monday",
+            "count": 0,
+            "share": 0.0,
+            "wilson_low": 0.0,
+            "wilson_high": 0.042759701519118086
+          },
+          {
+            "weekday": "Tuesday",
+            "count": 2,
+            "share": 0.023255813953488372,
+            "wilson_low": 0.006400792019477797,
+            "wilson_high": 0.08088171408014642
+          },
+          {
+            "weekday": "Wednesday",
+            "count": 39,
+            "share": 0.45348837209302323,
+            "wilson_low": 0.3525142050420289,
+            "wilson_high": 0.5584401857969586
+          },
+          {
+            "weekday": "Thursday",
+            "count": 45,
+            "share": 0.5232558139534884,
+            "wilson_low": 0.41897641605458513,
+            "wilson_high": 0.625546388525921
+          },
+          {
+            "weekday": "Friday",
+            "count": 0,
+            "share": 0.0,
+            "wilson_low": 0.0,
+            "wilson_high": 0.042759701519118086
+          },
+          {
+            "weekday": "Saturday",
+            "count": 0,
+            "share": 0.0,
+            "wilson_low": 0.0,
+            "wilson_high": 0.042759701519118086
+          },
+          {
+            "weekday": "Sunday",
+            "count": 0,
+            "share": 0.0,
+            "wilson_low": 0.0,
+            "wilson_high": 0.042759701519118086
+          }
+        ],
+        "thursday_wilson_low": 0.41897641605458513,
+        "thursday_wilson_high": 0.625546388525921,
+        "next_friday_published_n": 86,
+        "next_friday_published_share": 1.0
+      },
+      "film_theater_rerelease": {
+        "n": 63,
+        "thursday_count": 10,
+        "thursday_share": 0.15873015873015872,
+        "friday_share": 0.031746031746031744,
+        "saturday_share": 0.06349206349206349,
+        "sunday_share": 0.031746031746031744,
+        "by_weekday": [
+          {
+            "weekday": "Monday",
+            "count": 7,
+            "share": 0.1111111111111111,
+            "wilson_low": 0.05487478965589834,
+            "wilson_high": 0.21204880283739927
+          },
+          {
+            "weekday": "Tuesday",
+            "count": 13,
+            "share": 0.20634920634920634,
+            "wilson_low": 0.1247520251562291,
+            "wilson_high": 0.32170048346115887
+          },
+          {
+            "weekday": "Wednesday",
+            "count": 25,
+            "share": 0.3968253968253968,
+            "wilson_low": 0.28531728147309304,
+            "wilson_high": 0.5201930593924757
+          },
+          {
+            "weekday": "Thursday",
+            "count": 10,
+            "share": 0.15873015873015872,
+            "wilson_low": 0.0885699743235259,
+            "wilson_high": 0.2681180762318168
+          },
+          {
+            "weekday": "Friday",
+            "count": 2,
+            "share": 0.031746031746031744,
+            "wilson_low": 0.00874934404029698,
+            "wilson_high": 0.10856681834959193
+          },
+          {
+            "weekday": "Saturday",
+            "count": 4,
+            "share": 0.06349206349206349,
+            "wilson_low": 0.024965213900485034,
+            "wilson_high": 0.15219392053076733
+          },
+          {
+            "weekday": "Sunday",
+            "count": 2,
+            "share": 0.031746031746031744,
+            "wilson_low": 0.00874934404029698,
+            "wilson_high": 0.10856681834959193
+          }
+        ],
+        "thursday_wilson_low": 0.0885699743235259,
+        "thursday_wilson_high": 0.2681180762318168,
+        "next_friday_published_n": 63,
+        "next_friday_published_share": 1.0
+      },
+      "film_theater_special": {
+        "n": 287,
+        "thursday_count": 44,
+        "thursday_share": 0.15331010452961671,
+        "friday_share": 0.013937282229965157,
+        "saturday_share": 0.059233449477351915,
+        "sunday_share": 0.13937282229965156,
+        "by_weekday": [
+          {
+            "weekday": "Monday",
+            "count": 96,
+            "share": 0.3344947735191638,
+            "wilson_low": 0.2824119799338199,
+            "wilson_high": 0.3909497399852015
+          },
+          {
+            "weekday": "Tuesday",
+            "count": 24,
+            "share": 0.08362369337979095,
+            "wilson_low": 0.05683674915926201,
+            "wilson_high": 0.12141010411069666
+          },
+          {
+            "weekday": "Wednesday",
+            "count": 62,
+            "share": 0.21602787456445993,
+            "wilson_low": 0.17233330446417833,
+            "wilson_high": 0.2672241728705633
+          },
+          {
+            "weekday": "Thursday",
+            "count": 44,
+            "share": 0.15331010452961671,
+            "wilson_low": 0.11622978104723905,
+            "wilson_high": 0.19954897962523696
+          },
+          {
+            "weekday": "Friday",
+            "count": 4,
+            "share": 0.013937282229965157,
+            "wilson_low": 0.005432842173204775,
+            "wilson_high": 0.03528210369423647
+          },
+          {
+            "weekday": "Saturday",
+            "count": 17,
+            "share": 0.059233449477351915,
+            "wilson_low": 0.03730755582339431,
+            "wilson_high": 0.09280312985568323
+          },
+          {
+            "weekday": "Sunday",
+            "count": 40,
+            "share": 0.13937282229965156,
+            "wilson_low": 0.10404839768489554,
+            "wilson_high": 0.18422398150707697
+          }
+        ],
+        "thursday_wilson_low": 0.11622978104723905,
+        "thursday_wilson_high": 0.19954897962523696,
+        "next_friday_published_n": 287,
+        "next_friday_published_share": 1.0
+      },
+      "film_theater_ambiguous_rerelease": {
+        "n": 0,
+        "thursday_count": 0,
+        "thursday_share": null,
+        "friday_share": null,
+        "saturday_share": null,
+        "sunday_share": null,
+        "by_weekday": [
+          {
+            "weekday": "Monday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Tuesday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Wednesday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Thursday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Friday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Saturday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Sunday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          }
+        ],
+        "thursday_wilson_low": null,
+        "thursday_wilson_high": null,
+        "next_friday_published_n": 0,
+        "next_friday_published_share": null
+      },
+      "thursday_among_publication_frontier": {
+        "n": 0,
+        "thursday_count": 0,
+        "thursday_share": null,
+        "friday_share": null,
+        "saturday_share": null,
+        "sunday_share": null,
+        "by_weekday": [
+          {
+            "weekday": "Monday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Tuesday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Wednesday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Thursday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Friday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Saturday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          },
+          {
+            "weekday": "Sunday",
+            "count": 0,
+            "share": null,
+            "wilson_low": null,
+            "wilson_high": null
+          }
+        ],
+        "thursday_wilson_low": null,
+        "thursday_wilson_high": null,
+        "next_friday_published_n": 0,
+        "next_friday_published_share": null
+      },
+      "weekday_among_still_scheduled": {
+        "n": 80,
+        "thursday_count": 26,
+        "thursday_share": 0.325,
+        "friday_share": 0.0,
+        "saturday_share": 0.025,
+        "sunday_share": 0.0125,
+        "by_weekday": [
+          {
+            "weekday": "Monday",
+            "count": 0,
+            "share": 0.0,
+            "wilson_low": 0.0,
+            "wilson_high": 0.0458197362645751
+          },
+          {
+            "weekday": "Tuesday",
+            "count": 0,
+            "share": 0.0,
+            "wilson_low": 0.0,
+            "wilson_high": 0.0458197362645751
+          },
+          {
+            "weekday": "Wednesday",
+            "count": 51,
+            "share": 0.6375,
+            "wilson_low": 0.5281059097698362,
+            "wilson_high": 0.7342936627574055
+          },
+          {
+            "weekday": "Thursday",
+            "count": 26,
+            "share": 0.325,
+            "wilson_low": 0.2324401249422747,
+            "wilson_high": 0.43359678275032654
+          },
+          {
+            "weekday": "Friday",
+            "count": 0,
+            "share": 0.0,
+            "wilson_low": 0.0,
+            "wilson_high": 0.0458197362645751
+          },
+          {
+            "weekday": "Saturday",
+            "count": 2,
+            "share": 0.025,
+            "wilson_low": 0.006882748898125228,
+            "wilson_high": 0.08664600055322111
+          },
+          {
+            "weekday": "Sunday",
+            "count": 1,
+            "share": 0.0125,
+            "wilson_low": 0.002209918618306224,
+            "wilson_high": 0.06746432423965451
+          }
+        ],
+        "thursday_wilson_low": 0.2324401249422747,
+        "thursday_wilson_high": 0.43359678275032654,
+        "next_friday_published_n": 25,
+        "next_friday_published_share": 0.3125
+      },
+      "by_theater": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "n": 72,
+          "thursday_count": 17,
+          "thursday_share": 0.2361111111111111,
+          "thursday_wilson_low": 0.15296584625945536,
+          "thursday_wilson_high": 0.34598987197433717
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "n": 26,
+          "thursday_count": 22,
+          "thursday_share": 0.8461538461538461,
+          "thursday_wilson_low": 0.6646841558168644,
+          "thursday_wilson_high": 0.9385006600107053
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "n": 48,
+          "thursday_count": 35,
+          "thursday_share": 0.7291666666666666,
+          "thursday_wilson_low": 0.5900276538379887,
+          "thursday_wilson_high": 0.8343419643836709
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "n": 24,
+          "thursday_count": 4,
+          "thursday_share": 0.16666666666666666,
+          "thursday_wilson_low": 0.06678568000728924,
+          "thursday_wilson_high": 0.3585347038786943
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "n": 56,
+          "thursday_count": 37,
+          "thursday_share": 0.6607142857142857,
+          "thursday_wilson_low": 0.5299920896078809,
+          "thursday_wilson_high": 0.7708020068066535
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "n": 71,
+          "thursday_count": 15,
+          "thursday_share": 0.2112676056338028,
+          "thursday_wilson_low": 0.13242435724642304,
+          "thursday_wilson_high": 0.3197519724953249
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "n": 39,
+          "thursday_count": 18,
+          "thursday_share": 0.46153846153846156,
+          "thursday_wilson_low": 0.3156664723404835,
+          "thursday_wilson_high": 0.6143081317826119
+        }
+      ],
+      "confirmed_film_theater_n": 956,
+      "confirmed_market_n": 290
+    },
+    "predetermined_engagements": {
+      "population": "Film\u00d7theater engagements whose first snapshot is after collection started, whose first showtime is after that snapshot, and whose end is confirmed. Share visible uses scheduled screenings that were already present on the first snapshot divided by scheduled screenings that remained (removals excluded from the denominator). Removal counts are a lower bound: the ledger only infers absence from complete snapshots.",
+      "rerelease": {
+        "n": 63,
+        "median_share_visible": 0.34210526315789475,
+        "mean_share_visible": 0.44559528292914885,
+        "extension_rate": 0.8095238095238095,
+        "extension_count": 51,
+        "median_days_added": 4.0,
+        "p90_days_added": 10.800000000000004
+      },
+      "ordinary": {
+        "n": 315,
+        "median_share_visible": 0.25,
+        "mean_share_visible": 0.41204613913678545,
+        "extension_rate": 0.746031746031746,
+        "extension_count": 235,
+        "median_days_added": 6.0,
+        "p90_days_added": 21.0
+      },
+      "special_event": {
+        "n": 282,
+        "median_share_visible": 1.0,
+        "mean_share_visible": 0.8615887801055856,
+        "extension_rate": 0.20212765957446807,
+        "extension_count": 57,
+        "median_days_added": 0.0,
+        "p90_days_added": 3.0
+      },
+      "ambiguous_rerelease": {
+        "n": 0,
+        "median_share_visible": null,
+        "mean_share_visible": null,
+        "extension_rate": null,
+        "extension_count": 0,
+        "median_days_added": null,
+        "p90_days_added": null
+      },
+      "ambiguous_rerelease_n": 0,
+      "examples": []
+    },
+    "capacity": {
+      "population": "Daily scheduled screenings that were not canceled and not removed before the show. Distribution stats use the continuous dense horizon only, so the unpublished tail does not look like a collapse in programming. Auditorium counts are parsed from the theater id.",
+      "horizons": {
+        "amc-alderwood-mall-16": "2026-10-07",
+        "amc-factoria-8": "2026-10-07",
+        "amc-kent-station-14": "2026-10-07",
+        "amc-oak-tree-6": "2026-10-10",
+        "amc-pacific-place-11": "2026-10-07",
+        "amc-southcenter-16": "2026-10-07",
+        "amc-woodinville-12": "2026-10-07"
+      },
+      "weekday_summary": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Monday",
+          "n": 15,
+          "median": 80.0,
+          "mean": 76.0667,
+          "p10": 62.0,
+          "p90": 85.6,
+          "stdev": 9.4979,
+          "cv": 0.1249,
+          "films_median": 22.0,
+          "films_p10": 16.0,
+          "films_p90": 25.0
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Tuesday",
+          "n": 15,
+          "median": 77.0,
+          "mean": 75.3333,
+          "p10": 63.4,
+          "p90": 85.6,
+          "stdev": 8.7723,
+          "cv": 0.1164,
+          "films_median": 22.0,
+          "films_p10": 14.8,
+          "films_p90": 24.0
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Wednesday",
+          "n": 15,
+          "median": 74.0,
+          "mean": 75.6667,
+          "p10": 64.0,
+          "p90": 85.6,
+          "stdev": 8.8048,
+          "cv": 0.1164,
+          "films_median": 23.0,
+          "films_p10": 15.4,
+          "films_p90": 25.0
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Thursday",
+          "n": 14,
+          "median": 78.0,
+          "mean": 76.6429,
+          "p10": 64.0,
+          "p90": 87.1,
+          "stdev": 9.5885,
+          "cv": 0.1251,
+          "films_median": 21.0,
+          "films_p10": 14.2,
+          "films_p90": 24.4
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Friday",
+          "n": 14,
+          "median": 79.0,
+          "mean": 77.2143,
+          "p10": 66.3,
+          "p90": 85.7,
+          "stdev": 8.1635,
+          "cv": 0.1057,
+          "films_median": 21.5,
+          "films_p10": 13.0,
+          "films_p90": 24.0
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Saturday",
+          "n": 14,
+          "median": 78.5,
+          "mean": 79.7143,
+          "p10": 71.6,
+          "p90": 88.0,
+          "stdev": 7.0648,
+          "cv": 0.0886,
+          "films_median": 21.5,
+          "films_p10": 14.6,
+          "films_p90": 24.7
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Sunday",
+          "n": 14,
+          "median": 80.5,
+          "mean": 80.5,
+          "p10": 72.3,
+          "p90": 90.4,
+          "stdev": 7.4084,
+          "cv": 0.092,
+          "films_median": 23.0,
+          "films_p10": 14.0,
+          "films_p90": 25.0
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Monday",
+          "n": 15,
+          "median": 37.0,
+          "mean": 34.6,
+          "p10": 26.0,
+          "p90": 41.0,
+          "stdev": 6.7061,
+          "cv": 0.1938,
+          "films_median": 8.0,
+          "films_p10": 6.4,
+          "films_p90": 10.0
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Tuesday",
+          "n": 15,
+          "median": 35.0,
+          "mean": 34.6667,
+          "p10": 26.0,
+          "p90": 41.6,
+          "stdev": 6.6297,
+          "cv": 0.1912,
+          "films_median": 8.0,
+          "films_p10": 5.4,
+          "films_p90": 9.0
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Wednesday",
+          "n": 15,
+          "median": 36.0,
+          "mean": 34.5333,
+          "p10": 25.4,
+          "p90": 42.8,
+          "stdev": 6.9986,
+          "cv": 0.2027,
+          "films_median": 8.0,
+          "films_p10": 5.4,
+          "films_p90": 9.6
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Thursday",
+          "n": 14,
+          "median": 35.5,
+          "mean": 36.4286,
+          "p10": 29.3,
+          "p90": 42.0,
+          "stdev": 5.2288,
+          "cv": 0.1435,
+          "films_median": 9.5,
+          "films_p10": 7.0,
+          "films_p90": 12.0
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Friday",
+          "n": 14,
+          "median": 38.0,
+          "mean": 38.6429,
+          "p10": 34.3,
+          "p90": 41.7,
+          "stdev": 4.3784,
+          "cv": 0.1133,
+          "films_median": 8.0,
+          "films_p10": 5.3,
+          "films_p90": 9.0
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Saturday",
+          "n": 14,
+          "median": 38.0,
+          "mean": 38.6429,
+          "p10": 35.0,
+          "p90": 41.7,
+          "stdev": 3.9146,
+          "cv": 0.1013,
+          "films_median": 8.0,
+          "films_p10": 5.3,
+          "films_p90": 9.0
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Sunday",
+          "n": 14,
+          "median": 38.0,
+          "mean": 38.6429,
+          "p10": 35.0,
+          "p90": 41.7,
+          "stdev": 4.4481,
+          "cv": 0.1151,
+          "films_median": 8.0,
+          "films_p10": 5.3,
+          "films_p90": 9.0
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Monday",
+          "n": 15,
+          "median": 70.0,
+          "mean": 67.9333,
+          "p10": 55.2,
+          "p90": 81.2,
+          "stdev": 10.0603,
+          "cv": 0.1481,
+          "films_median": 15.0,
+          "films_p10": 12.0,
+          "films_p90": 18.6
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Tuesday",
+          "n": 15,
+          "median": 68.0,
+          "mean": 67.9333,
+          "p10": 57.8,
+          "p90": 77.8,
+          "stdev": 9.0196,
+          "cv": 0.1328,
+          "films_median": 14.0,
+          "films_p10": 11.0,
+          "films_p90": 18.0
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Wednesday",
+          "n": 15,
+          "median": 68.0,
+          "mean": 69.7333,
+          "p10": 57.0,
+          "p90": 83.0,
+          "stdev": 11.1513,
+          "cv": 0.1599,
+          "films_median": 15.0,
+          "films_p10": 11.0,
+          "films_p90": 18.6
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Thursday",
+          "n": 14,
+          "median": 65.0,
+          "mean": 67.9286,
+          "p10": 59.3,
+          "p90": 79.9,
+          "stdev": 7.9756,
+          "cv": 0.1174,
+          "films_median": 18.0,
+          "films_p10": 11.6,
+          "films_p90": 21.7
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Friday",
+          "n": 14,
+          "median": 73.0,
+          "mean": 73.7857,
+          "p10": 60.3,
+          "p90": 84.1,
+          "stdev": 13.8407,
+          "cv": 0.1876,
+          "films_median": 14.5,
+          "films_p10": 8.6,
+          "films_p90": 18.0
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Saturday",
+          "n": 14,
+          "median": 77.0,
+          "mean": 78.2857,
+          "p10": 66.6,
+          "p90": 90.3,
+          "stdev": 10.3212,
+          "cv": 0.1318,
+          "films_median": 15.5,
+          "films_p10": 10.3,
+          "films_p90": 18.7
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Sunday",
+          "n": 14,
+          "median": 76.5,
+          "mean": 78.0714,
+          "p10": 61.9,
+          "p90": 91.5,
+          "stdev": 12.6762,
+          "cv": 0.1624,
+          "films_median": 16.0,
+          "films_p10": 9.3,
+          "films_p90": 18.7
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Monday",
+          "n": 15,
+          "median": 26.0,
+          "mean": 24.4667,
+          "p10": 16.4,
+          "p90": 31.6,
+          "stdev": 6.3004,
+          "cv": 0.2575,
+          "films_median": 7.0,
+          "films_p10": 5.4,
+          "films_p90": 8.0
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Tuesday",
+          "n": 15,
+          "median": 25.0,
+          "mean": 24.4667,
+          "p10": 18.4,
+          "p90": 31.4,
+          "stdev": 5.1529,
+          "cv": 0.2106,
+          "films_median": 6.0,
+          "films_p10": 4.4,
+          "films_p90": 7.6
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Wednesday",
+          "n": 15,
+          "median": 24.0,
+          "mean": 25.0667,
+          "p10": 18.4,
+          "p90": 32.8,
+          "stdev": 6.1117,
+          "cv": 0.2438,
+          "films_median": 6.0,
+          "films_p10": 5.0,
+          "films_p90": 7.6
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Thursday",
+          "n": 15,
+          "median": 22.0,
+          "mean": 22.3333,
+          "p10": 16.8,
+          "p90": 28.0,
+          "stdev": 6.0671,
+          "cv": 0.2717,
+          "films_median": 6.0,
+          "films_p10": 5.0,
+          "films_p90": 8.6
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Friday",
+          "n": 15,
+          "median": 24.0,
+          "mean": 24.7333,
+          "p10": 18.8,
+          "p90": 31.6,
+          "stdev": 6.386,
+          "cv": 0.2582,
+          "films_median": 6.0,
+          "films_p10": 4.0,
+          "films_p90": 7.6
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Saturday",
+          "n": 15,
+          "median": 27.0,
+          "mean": 28.2,
+          "p10": 23.4,
+          "p90": 37.6,
+          "stdev": 7.2329,
+          "cv": 0.2565,
+          "films_median": 6.0,
+          "films_p10": 4.0,
+          "films_p90": 7.6
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Sunday",
+          "n": 14,
+          "median": 28.0,
+          "mean": 29.5714,
+          "p10": 24.0,
+          "p90": 37.7,
+          "stdev": 6.3575,
+          "cv": 0.215,
+          "films_median": 6.0,
+          "films_p10": 4.6,
+          "films_p90": 7.7
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Monday",
+          "n": 15,
+          "median": 40.0,
+          "mean": 38.4,
+          "p10": 28.0,
+          "p90": 47.2,
+          "stdev": 7.4431,
+          "cv": 0.1938,
+          "films_median": 14.0,
+          "films_p10": 11.4,
+          "films_p90": 16.0
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Tuesday",
+          "n": 15,
+          "median": 42.0,
+          "mean": 41.4667,
+          "p10": 35.4,
+          "p90": 47.2,
+          "stdev": 6.2435,
+          "cv": 0.1506,
+          "films_median": 13.0,
+          "films_p10": 9.8,
+          "films_p90": 15.0
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Wednesday",
+          "n": 15,
+          "median": 41.0,
+          "mean": 39.7333,
+          "p10": 27.4,
+          "p90": 49.0,
+          "stdev": 8.3192,
+          "cv": 0.2094,
+          "films_median": 14.0,
+          "films_p10": 9.4,
+          "films_p90": 15.6
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Thursday",
+          "n": 14,
+          "median": 42.0,
+          "mean": 40.8571,
+          "p10": 32.3,
+          "p90": 46.1,
+          "stdev": 5.8422,
+          "cv": 0.143,
+          "films_median": 16.0,
+          "films_p10": 12.3,
+          "films_p90": 18.7
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Friday",
+          "n": 14,
+          "median": 46.0,
+          "mean": 45.1429,
+          "p10": 41.3,
+          "p90": 51.1,
+          "stdev": 5.4893,
+          "cv": 0.1216,
+          "films_median": 13.5,
+          "films_p10": 9.3,
+          "films_p90": 15.0
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Saturday",
+          "n": 14,
+          "median": 47.5,
+          "mean": 46.8571,
+          "p10": 42.0,
+          "p90": 51.7,
+          "stdev": 4.312,
+          "cv": 0.092,
+          "films_median": 13.5,
+          "films_p10": 9.6,
+          "films_p90": 15.0
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Sunday",
+          "n": 14,
+          "median": 46.0,
+          "mean": 46.8571,
+          "p10": 41.0,
+          "p90": 54.1,
+          "stdev": 5.1119,
+          "cv": 0.1091,
+          "films_median": 13.5,
+          "films_p10": 9.3,
+          "films_p90": 15.7
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Monday",
+          "n": 15,
+          "median": 75.0,
+          "mean": 75.8667,
+          "p10": 62.4,
+          "p90": 91.2,
+          "stdev": 11.6427,
+          "cv": 0.1535,
+          "films_median": 19.0,
+          "films_p10": 14.8,
+          "films_p90": 26.2
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Tuesday",
+          "n": 15,
+          "median": 77.0,
+          "mean": 77.0667,
+          "p10": 63.8,
+          "p90": 89.6,
+          "stdev": 10.5524,
+          "cv": 0.1369,
+          "films_median": 19.0,
+          "films_p10": 13.2,
+          "films_p90": 24.6
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Wednesday",
+          "n": 15,
+          "median": 74.0,
+          "mean": 75.6667,
+          "p10": 60.4,
+          "p90": 94.8,
+          "stdev": 13.7044,
+          "cv": 0.1811,
+          "films_median": 21.0,
+          "films_p10": 13.4,
+          "films_p90": 24.6
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Thursday",
+          "n": 14,
+          "median": 76.5,
+          "mean": 72.9286,
+          "p10": 60.3,
+          "p90": 87.0,
+          "stdev": 11.187,
+          "cv": 0.1534,
+          "films_median": 20.0,
+          "films_p10": 13.6,
+          "films_p90": 25.4
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Friday",
+          "n": 14,
+          "median": 75.0,
+          "mean": 78.4286,
+          "p10": 66.6,
+          "p90": 95.4,
+          "stdev": 11.9853,
+          "cv": 0.1528,
+          "films_median": 18.5,
+          "films_p10": 11.3,
+          "films_p90": 24.4
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Saturday",
+          "n": 14,
+          "median": 80.0,
+          "mean": 84.9286,
+          "p10": 75.0,
+          "p90": 102.1,
+          "stdev": 12.2942,
+          "cv": 0.1448,
+          "films_median": 19.0,
+          "films_p10": 13.2,
+          "films_p90": 25.7
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Sunday",
+          "n": 14,
+          "median": 82.5,
+          "mean": 83.0,
+          "p10": 66.3,
+          "p90": 95.4,
+          "stdev": 11.6751,
+          "cv": 0.1407,
+          "films_median": 21.0,
+          "films_p10": 12.3,
+          "films_p90": 26.0
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Monday",
+          "n": 15,
+          "median": 54.0,
+          "mean": 53.5333,
+          "p10": 43.0,
+          "p90": 61.4,
+          "stdev": 7.3666,
+          "cv": 0.1376,
+          "films_median": 13.0,
+          "films_p10": 10.8,
+          "films_p90": 16.0
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Tuesday",
+          "n": 15,
+          "median": 53.0,
+          "mean": 51.7333,
+          "p10": 44.4,
+          "p90": 58.2,
+          "stdev": 6.1698,
+          "cv": 0.1193,
+          "films_median": 12.0,
+          "films_p10": 9.4,
+          "films_p90": 15.0
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Wednesday",
+          "n": 15,
+          "median": 55.0,
+          "mean": 52.6667,
+          "p10": 44.0,
+          "p90": 61.2,
+          "stdev": 6.7893,
+          "cv": 0.1289,
+          "films_median": 13.0,
+          "films_p10": 8.0,
+          "films_p90": 16.0
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Thursday",
+          "n": 14,
+          "median": 50.5,
+          "mean": 51.7143,
+          "p10": 43.6,
+          "p90": 58.7,
+          "stdev": 6.2564,
+          "cv": 0.121,
+          "films_median": 13.5,
+          "films_p10": 9.6,
+          "films_p90": 18.7
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Friday",
+          "n": 14,
+          "median": 54.0,
+          "mean": 53.7143,
+          "p10": 45.2,
+          "p90": 62.7,
+          "stdev": 6.5331,
+          "cv": 0.1216,
+          "films_median": 11.5,
+          "films_p10": 7.6,
+          "films_p90": 15.7
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Saturday",
+          "n": 14,
+          "median": 58.0,
+          "mean": 57.9286,
+          "p10": 51.6,
+          "p90": 64.7,
+          "stdev": 5.5396,
+          "cv": 0.0956,
+          "films_median": 13.0,
+          "films_p10": 9.3,
+          "films_p90": 15.7
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Sunday",
+          "n": 14,
+          "median": 59.0,
+          "mean": 58.4286,
+          "p10": 51.3,
+          "p90": 65.0,
+          "stdev": 5.8007,
+          "cv": 0.0993,
+          "films_median": 12.5,
+          "films_p10": 8.6,
+          "films_p90": 17.4
+        }
+      ],
+      "theater_overall": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "n": 101,
+          "median": 79.0,
+          "mean": 77.25742574257426,
+          "p10": 64.0,
+          "p90": 88.0,
+          "stdev": 8.486051455590562,
+          "cv": 0.10984124016591655
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "n": 101,
+          "median": 38.0,
+          "mean": 36.53465346534654,
+          "p10": 29.0,
+          "p90": 42.0,
+          "stdev": 5.78543750538478,
+          "cv": 0.1583547935078219
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "n": 101,
+          "median": 72.0,
+          "mean": 71.85148514851485,
+          "p10": 59.0,
+          "p90": 84.0,
+          "stdev": 11.403846840968939,
+          "cv": 0.15871414233675937
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "n": 104,
+          "median": 26.0,
+          "mean": 25.509615384615383,
+          "p10": 18.0,
+          "p90": 33.7,
+          "stdev": 6.483728988645933,
+          "cv": 0.25416804177126917
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "n": 101,
+          "median": 43.0,
+          "mean": 42.67326732673267,
+          "p10": 29.0,
+          "p90": 51.0,
+          "stdev": 6.895083626601043,
+          "cv": 0.1615785258205813
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "n": 101,
+          "median": 77.0,
+          "mean": 78.20792079207921,
+          "p10": 63.0,
+          "p90": 96.0,
+          "stdev": 12.190419871098097,
+          "cv": 0.1558719340398668
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "n": 101,
+          "median": 54.0,
+          "mean": 54.198019801980195,
+          "p10": 44.0,
+          "p90": 63.0,
+          "stdev": 6.712704078060045,
+          "cv": 0.12385515379686968
+        }
+      ],
+      "outlier_count": 172
+    },
+    "displacement": {
+      "population": "Occurred Thursday\u2192Friday pairs inside each theater's dense horizon. Incoming screenings are Friday screenings of films absent on Thursday. Incumbent screenings lost are Thursday screenings of films absent on Friday plus Thursday screenings dropped by films that continued with fewer shows.",
+      "n_weeks": 91,
+      "spearman_incoming_vs_incumbent_lost": 0.4653,
+      "spearman_incoming_films_vs_departing_films": 0.4196,
+      "median_net_change": 2.0,
+      "mean_incoming": 1.4065934065934067,
+      "mean_incumbent_lost": 6.472527472527473
+    },
+    "contraction": {
+      "population": "Retrospective. Confirmed film\u00d7theater exits aligned on the last occurred show date. Days before the engagement started are omitted rather than treated as zero. Theater-count path is market-level ordinary week-plus exits.",
+      "ordinary_week_plus": {
+        "n": 336,
+        "median_by_offset": {
+          "D0": 1.0,
+          "D-1": 2.0,
+          "D-2": 2.0,
+          "D-3": 2.0,
+          "D-4": 2.0,
+          "D-5": 2.0,
+          "D-6": 2.0,
+          "D-7": 3.0,
+          "D-8": 4.0,
+          "D-9": 4.0,
+          "D-10": 4.0,
+          "D-11": 4.0,
+          "D-12": 4.0,
+          "D-13": 4.0,
+          "D-14": 4.0
+        },
+        "mean_by_offset": {
+          "D0": 1.6398809523809523,
+          "D-1": 2.1577380952380953,
+          "D-2": 2.199404761904762,
+          "D-3": 2.2857142857142856,
+          "D-4": 2.392857142857143,
+          "D-5": 2.3392857142857144,
+          "D-6": 2.3422619047619047,
+          "D-7": 2.97265625,
+          "D-8": 3.8981481481481484,
+          "D-9": 3.829383886255924,
+          "D-10": 4.052132701421801,
+          "D-11": 4.203791469194313,
+          "D-12": 4.0947867298578196,
+          "D-13": 3.896551724137931,
+          "D-14": 3.8846153846153846
+        },
+        "n_by_offset": {
+          "D0": 336,
+          "D-1": 336,
+          "D-2": 336,
+          "D-3": 336,
+          "D-4": 336,
+          "D-5": 336,
+          "D-6": 336,
+          "D-7": 256,
+          "D-8": 216,
+          "D-9": 211,
+          "D-10": 211,
+          "D-11": 211,
+          "D-12": 211,
+          "D-13": 203,
+          "D-14": 156
+        },
+        "median_d14": 4.0,
+        "median_d7": 3.0,
+        "median_d3": 2.0,
+        "median_d1": 2.0,
+        "median_d0": 1.0,
+        "share_d0_at_most_one": 0.6369047619047619,
+        "share_last_three_days_at_most_one": 0.34226190476190477,
+        "share_weekend_only_final_week": 0.0,
+        "distribution": {
+          "D-14": {
+            "n": 156,
+            "median": 4.0,
+            "mean": 3.8846153846153846,
+            "p10": 2.0,
+            "p90": 5.0,
+            "stdev": 1.569719672781298,
+            "cv": 0.40408625239914603
+          },
+          "D-7": {
+            "n": 256,
+            "median": 3.0,
+            "mean": 2.97265625,
+            "p10": 1.0,
+            "p90": 5.0,
+            "stdev": 1.7090400857516135,
+            "cv": 0.5749201865340513
+          },
+          "D-3": {
+            "n": 336,
+            "median": 2.0,
+            "mean": 2.2857142857142856,
+            "p10": 1.0,
+            "p90": 4.0,
+            "stdev": 1.634124375115783,
+            "cv": 0.7149294141131551
+          },
+          "D-1": {
+            "n": 336,
+            "median": 2.0,
+            "mean": 2.1577380952380953,
+            "p10": 1.0,
+            "p90": 4.0,
+            "stdev": 1.3523223595123162,
+            "cv": 0.6267314659257078
+          },
+          "D0": {
+            "n": 336,
+            "median": 1.0,
+            "mean": 1.6398809523809523,
+            "p10": 1.0,
+            "p90": 3.0,
+            "stdev": 1.06704445379861,
+            "cv": 0.6506840952383538
+          }
+        }
+      },
+      "groups": {
+        "ordinary_week_plus": {
+          "n": 336,
+          "median_by_offset": {
+            "D0": 1.0,
+            "D-1": 2.0,
+            "D-2": 2.0,
+            "D-3": 2.0,
+            "D-4": 2.0,
+            "D-5": 2.0,
+            "D-6": 2.0,
+            "D-7": 3.0,
+            "D-8": 4.0,
+            "D-9": 4.0,
+            "D-10": 4.0,
+            "D-11": 4.0,
+            "D-12": 4.0,
+            "D-13": 4.0,
+            "D-14": 4.0
+          },
+          "mean_by_offset": {
+            "D0": 1.6398809523809523,
+            "D-1": 2.1577380952380953,
+            "D-2": 2.199404761904762,
+            "D-3": 2.2857142857142856,
+            "D-4": 2.392857142857143,
+            "D-5": 2.3392857142857144,
+            "D-6": 2.3422619047619047,
+            "D-7": 2.97265625,
+            "D-8": 3.8981481481481484,
+            "D-9": 3.829383886255924,
+            "D-10": 4.052132701421801,
+            "D-11": 4.203791469194313,
+            "D-12": 4.0947867298578196,
+            "D-13": 3.896551724137931,
+            "D-14": 3.8846153846153846
+          },
+          "n_by_offset": {
+            "D0": 336,
+            "D-1": 336,
+            "D-2": 336,
+            "D-3": 336,
+            "D-4": 336,
+            "D-5": 336,
+            "D-6": 336,
+            "D-7": 256,
+            "D-8": 216,
+            "D-9": 211,
+            "D-10": 211,
+            "D-11": 211,
+            "D-12": 211,
+            "D-13": 203,
+            "D-14": 156
+          },
+          "median_d14": 4.0,
+          "median_d7": 3.0,
+          "median_d3": 2.0,
+          "median_d1": 2.0,
+          "median_d0": 1.0,
+          "share_d0_at_most_one": 0.6369047619047619,
+          "share_last_three_days_at_most_one": 0.34226190476190477,
+          "share_weekend_only_final_week": 0.0,
+          "distribution": {
+            "D-14": {
+              "n": 156,
+              "median": 4.0,
+              "mean": 3.8846153846153846,
+              "p10": 2.0,
+              "p90": 5.0,
+              "stdev": 1.569719672781298,
+              "cv": 0.40408625239914603
+            },
+            "D-7": {
+              "n": 256,
+              "median": 3.0,
+              "mean": 2.97265625,
+              "p10": 1.0,
+              "p90": 5.0,
+              "stdev": 1.7090400857516135,
+              "cv": 0.5749201865340513
+            },
+            "D-3": {
+              "n": 336,
+              "median": 2.0,
+              "mean": 2.2857142857142856,
+              "p10": 1.0,
+              "p90": 4.0,
+              "stdev": 1.634124375115783,
+              "cv": 0.7149294141131551
+            },
+            "D-1": {
+              "n": 336,
+              "median": 2.0,
+              "mean": 2.1577380952380953,
+              "p10": 1.0,
+              "p90": 4.0,
+              "stdev": 1.3523223595123162,
+              "cv": 0.6267314659257078
+            },
+            "D0": {
+              "n": 336,
+              "median": 1.0,
+              "mean": 1.6398809523809523,
+              "p10": 1.0,
+              "p90": 3.0,
+              "stdev": 1.06704445379861,
+              "cv": 0.6506840952383538
+            }
+          }
+        },
+        "ordinary_all_lengths": {
+          "n": 401,
+          "median_by_offset": {
+            "D0": 1.0,
+            "D-1": 2.0,
+            "D-2": 2.0,
+            "D-3": 2.0,
+            "D-4": 2.0,
+            "D-5": 2.0,
+            "D-6": 2.0,
+            "D-7": 3.0,
+            "D-8": 4.0,
+            "D-9": 4.0,
+            "D-10": 4.0,
+            "D-11": 4.0,
+            "D-12": 4.0,
+            "D-13": 4.0,
+            "D-14": 4.0
+          },
+          "mean_by_offset": {
+            "D0": 1.5935162094763091,
+            "D-1": 1.9818652849740932,
+            "D-2": 2.1246684350132625,
+            "D-3": 2.21606648199446,
+            "D-4": 2.3240997229916895,
+            "D-5": 2.2709497206703912,
+            "D-6": 2.3422619047619047,
+            "D-7": 2.97265625,
+            "D-8": 3.8981481481481484,
+            "D-9": 3.829383886255924,
+            "D-10": 4.052132701421801,
+            "D-11": 4.203791469194313,
+            "D-12": 4.0947867298578196,
+            "D-13": 3.896551724137931,
+            "D-14": 3.8846153846153846
+          },
+          "n_by_offset": {
+            "D0": 401,
+            "D-1": 386,
+            "D-2": 377,
+            "D-3": 361,
+            "D-4": 361,
+            "D-5": 358,
+            "D-6": 336,
+            "D-7": 256,
+            "D-8": 216,
+            "D-9": 211,
+            "D-10": 211,
+            "D-11": 211,
+            "D-12": 211,
+            "D-13": 203,
+            "D-14": 156
+          },
+          "median_d14": 4.0,
+          "median_d7": 3.0,
+          "median_d3": 2.0,
+          "median_d1": 2.0,
+          "median_d0": 1.0,
+          "share_d0_at_most_one": 0.6384039900249376,
+          "share_last_three_days_at_most_one": 0.3316708229426434,
+          "share_weekend_only_final_week": 0.04239401496259352,
+          "distribution": {
+            "D-14": {
+              "n": 156,
+              "median": 4.0,
+              "mean": 3.8846153846153846,
+              "p10": 2.0,
+              "p90": 5.0,
+              "stdev": 1.569719672781298,
+              "cv": 0.40408625239914603
+            },
+            "D-7": {
+              "n": 256,
+              "median": 3.0,
+              "mean": 2.97265625,
+              "p10": 1.0,
+              "p90": 5.0,
+              "stdev": 1.7090400857516135,
+              "cv": 0.5749201865340513
+            },
+            "D-3": {
+              "n": 361,
+              "median": 2.0,
+              "mean": 2.21606648199446,
+              "p10": 1.0,
+              "p90": 4.0,
+              "stdev": 1.6048077198811355,
+              "cv": 0.7241694835963624
+            },
+            "D-1": {
+              "n": 386,
+              "median": 2.0,
+              "mean": 1.9818652849740932,
+              "p10": 1.0,
+              "p90": 4.0,
+              "stdev": 1.3721469167058982,
+              "cv": 0.6923512547038911
+            },
+            "D0": {
+              "n": 401,
+              "median": 1.0,
+              "mean": 1.5935162094763091,
+              "p10": 1.0,
+              "p90": 3.0,
+              "stdev": 1.000928496627804,
+              "cv": 0.6281257075864624
+            }
+          }
+        },
+        "ordinary_short_under_14": {
+          "n": 198,
+          "median_by_offset": {
+            "D0": 1.0,
+            "D-1": 2.0,
+            "D-2": 2.0,
+            "D-3": 2.0,
+            "D-4": 2.0,
+            "D-5": 2.0,
+            "D-6": 2.0,
+            "D-7": 2.0,
+            "D-8": 5.0,
+            "D-9": 2.0,
+            "D-10": 3.0,
+            "D-11": 3.0,
+            "D-12": 2.5,
+            "D-13": null,
+            "D-14": null
+          },
+          "mean_by_offset": {
+            "D0": 1.6464646464646464,
+            "D-1": 1.9344262295081966,
+            "D-2": 2.2011494252873565,
+            "D-3": 2.310126582278481,
+            "D-4": 2.392405063291139,
+            "D-5": 2.3419354838709676,
+            "D-6": 2.300751879699248,
+            "D-7": 2.4716981132075473,
+            "D-8": 4.538461538461538,
+            "D-9": 2.5,
+            "D-10": 3.125,
+            "D-11": 3.125,
+            "D-12": 2.625,
+            "D-13": null,
+            "D-14": null
+          },
+          "n_by_offset": {
+            "D0": 198,
+            "D-1": 183,
+            "D-2": 174,
+            "D-3": 158,
+            "D-4": 158,
+            "D-5": 155,
+            "D-6": 133,
+            "D-7": 53,
+            "D-8": 13,
+            "D-9": 8,
+            "D-10": 8,
+            "D-11": 8,
+            "D-12": 8,
+            "D-13": 0,
+            "D-14": 0
+          },
+          "median_d14": null,
+          "median_d7": 2.0,
+          "median_d3": 2.0,
+          "median_d1": 2.0,
+          "median_d0": 1.0,
+          "share_d0_at_most_one": 0.6060606060606061,
+          "share_last_three_days_at_most_one": 0.2878787878787879,
+          "share_weekend_only_final_week": 0.08585858585858586,
+          "distribution": {
+            "D-14": {
+              "n": 0,
+              "median": null,
+              "mean": null,
+              "p10": null,
+              "p90": null,
+              "stdev": null,
+              "cv": null
+            },
+            "D-7": {
+              "n": 53,
+              "median": 2.0,
+              "mean": 2.4716981132075473,
+              "p10": 1.0,
+              "p90": 5.0,
+              "stdev": 1.5517208014244361,
+              "cv": 0.6277954387442375
+            },
+            "D-3": {
+              "n": 158,
+              "median": 2.0,
+              "mean": 2.310126582278481,
+              "p10": 1.0,
+              "p90": 4.300000000000011,
+              "stdev": 1.5957822542512337,
+              "cv": 0.6907769758128628
+            },
+            "D-1": {
+              "n": 183,
+              "median": 2.0,
+              "mean": 1.9344262295081966,
+              "p10": 0.0,
+              "p90": 4.0,
+              "stdev": 1.48844102149634,
+              "cv": 0.7694483246718368
+            },
+            "D0": {
+              "n": 198,
+              "median": 1.0,
+              "mean": 1.6464646464646464,
+              "p10": 1.0,
+              "p90": 3.0,
+              "stdev": 1.025691608327537,
+              "cv": 0.6229660688615102
+            }
+          }
+        },
+        "ordinary_long_at_least_28": {
+          "n": 56,
+          "median_by_offset": {
+            "D0": 1.0,
+            "D-1": 2.0,
+            "D-2": 2.0,
+            "D-3": 2.0,
+            "D-4": 2.0,
+            "D-5": 2.0,
+            "D-6": 2.0,
+            "D-7": 2.0,
+            "D-8": 3.0,
+            "D-9": 3.0,
+            "D-10": 4.0,
+            "D-11": 4.0,
+            "D-12": 4.0,
+            "D-13": 3.0,
+            "D-14": 4.0
+          },
+          "mean_by_offset": {
+            "D0": 1.5535714285714286,
+            "D-1": 2.017857142857143,
+            "D-2": 1.8392857142857142,
+            "D-3": 2.0535714285714284,
+            "D-4": 2.0892857142857144,
+            "D-5": 2.107142857142857,
+            "D-6": 1.9285714285714286,
+            "D-7": 2.517857142857143,
+            "D-8": 3.4642857142857144,
+            "D-9": 3.482142857142857,
+            "D-10": 3.625,
+            "D-11": 3.6607142857142856,
+            "D-12": 3.7142857142857144,
+            "D-13": 3.5357142857142856,
+            "D-14": 3.5892857142857144
+          },
+          "n_by_offset": {
+            "D0": 56,
+            "D-1": 56,
+            "D-2": 56,
+            "D-3": 56,
+            "D-4": 56,
+            "D-5": 56,
+            "D-6": 56,
+            "D-7": 56,
+            "D-8": 56,
+            "D-9": 56,
+            "D-10": 56,
+            "D-11": 56,
+            "D-12": 56,
+            "D-13": 56,
+            "D-14": 56
+          },
+          "median_d14": 4.0,
+          "median_d7": 2.0,
+          "median_d3": 2.0,
+          "median_d1": 2.0,
+          "median_d0": 1.0,
+          "share_d0_at_most_one": 0.5535714285714286,
+          "share_last_three_days_at_most_one": 0.2857142857142857,
+          "share_weekend_only_final_week": 0.0,
+          "distribution": {
+            "D-14": {
+              "n": 56,
+              "median": 4.0,
+              "mean": 3.5892857142857144,
+              "p10": 2.0,
+              "p90": 5.0,
+              "stdev": 1.4368752171327857,
+              "cv": 0.40032344357928357
+            },
+            "D-7": {
+              "n": 56,
+              "median": 2.0,
+              "mean": 2.517857142857143,
+              "p10": 1.0,
+              "p90": 4.0,
+              "stdev": 1.2356973949750205,
+              "cv": 0.49077343346525637
+            },
+            "D-3": {
+              "n": 56,
+              "median": 2.0,
+              "mean": 2.0535714285714284,
+              "p10": 1.0,
+              "p90": 4.0,
+              "stdev": 1.0857698208626467,
+              "cv": 0.5287226953765932
+            },
+            "D-1": {
+              "n": 56,
+              "median": 2.0,
+              "mean": 2.017857142857143,
+              "p10": 1.0,
+              "p90": 3.0,
+              "stdev": 1.0529796929505497,
+              "cv": 0.5218306442940778
+            },
+            "D0": {
+              "n": 56,
+              "median": 1.0,
+              "mean": 1.5535714285714286,
+              "p10": 1.0,
+              "p90": 2.5,
+              "stdev": 0.685423369024718,
+              "cv": 0.44119205362510583
+            }
+          }
+        },
+        "rerelease": {
+          "n": 63,
+          "median_by_offset": {
+            "D0": 1.0,
+            "D-1": 1.0,
+            "D-2": 1.0,
+            "D-3": 1.0,
+            "D-4": 1.0,
+            "D-5": 2.0,
+            "D-6": 1.0,
+            "D-7": 2.0,
+            "D-8": 2.5,
+            "D-9": 3.0,
+            "D-10": 3.0,
+            "D-11": 3.0,
+            "D-12": 3.0,
+            "D-13": 3.0,
+            "D-14": 3.0
+          },
+          "mean_by_offset": {
+            "D0": 1.2698412698412698,
+            "D-1": 1.0769230769230769,
+            "D-2": 1.4489795918367347,
+            "D-3": 1.4146341463414633,
+            "D-4": 1.5135135135135136,
+            "D-5": 1.6551724137931034,
+            "D-6": 1.6956521739130435,
+            "D-7": 2.0588235294117645,
+            "D-8": 2.0714285714285716,
+            "D-9": 2.5,
+            "D-10": 2.7857142857142856,
+            "D-11": 3.0833333333333335,
+            "D-12": 2.6363636363636362,
+            "D-13": 2.6363636363636362,
+            "D-14": 2.6
+          },
+          "n_by_offset": {
+            "D0": 63,
+            "D-1": 52,
+            "D-2": 49,
+            "D-3": 41,
+            "D-4": 37,
+            "D-5": 29,
+            "D-6": 23,
+            "D-7": 17,
+            "D-8": 14,
+            "D-9": 14,
+            "D-10": 14,
+            "D-11": 12,
+            "D-12": 11,
+            "D-13": 11,
+            "D-14": 5
+          },
+          "median_d14": 3.0,
+          "median_d7": 2.0,
+          "median_d3": 1.0,
+          "median_d1": 1.0,
+          "median_d0": 1.0,
+          "share_d0_at_most_one": 0.7619047619047619,
+          "share_last_three_days_at_most_one": 0.38095238095238093,
+          "share_weekend_only_final_week": 0.12698412698412698,
+          "distribution": {
+            "D-14": {
+              "n": 5,
+              "median": 3.0,
+              "mean": 2.6,
+              "p10": 1.4,
+              "p90": 3.6,
+              "stdev": 1.140175425099138,
+              "cv": 0.4385290096535146
+            },
+            "D-7": {
+              "n": 17,
+              "median": 2.0,
+              "mean": 2.0588235294117645,
+              "p10": 1.0,
+              "p90": 3.4000000000000004,
+              "stdev": 1.1440382552221602,
+              "cv": 0.5556757239650493
+            },
+            "D-3": {
+              "n": 41,
+              "median": 1.0,
+              "mean": 1.4146341463414633,
+              "p10": 0.0,
+              "p90": 2.0,
+              "stdev": 1.024099842693513,
+              "cv": 0.7239326474212765
+            },
+            "D-1": {
+              "n": 52,
+              "median": 1.0,
+              "mean": 1.0769230769230769,
+              "p10": 0.0,
+              "p90": 2.0,
+              "stdev": 1.0635890745287926,
+              "cv": 0.9876184263481645
+            },
+            "D0": {
+              "n": 63,
+              "median": 1.0,
+              "mean": 1.2698412698412698,
+              "p10": 1.0,
+              "p90": 2.0,
+              "stdev": 0.514510390701973,
+              "cv": 0.4051769326778038
+            }
+          }
+        },
+        "special_event": {
+          "n": 287,
+          "median_by_offset": {
+            "D0": 1.0,
+            "D-1": 1.0,
+            "D-2": 1.0,
+            "D-3": 1.0,
+            "D-4": 1.0,
+            "D-5": 1.0,
+            "D-6": 1.0,
+            "D-7": 2.0,
+            "D-8": 3.0,
+            "D-9": 2.0,
+            "D-10": 2.0,
+            "D-11": 3.0,
+            "D-12": 2.0,
+            "D-13": 2.0,
+            "D-14": 1.5
+          },
+          "mean_by_offset": {
+            "D0": 1.1114982578397212,
+            "D-1": 0.726027397260274,
+            "D-2": 0.6610169491525424,
+            "D-3": 1.183673469387755,
+            "D-4": 1.0714285714285714,
+            "D-5": 0.8888888888888888,
+            "D-6": 1.375,
+            "D-7": 1.8571428571428572,
+            "D-8": 2.4285714285714284,
+            "D-9": 1.7142857142857142,
+            "D-10": 2.2857142857142856,
+            "D-11": 2.5714285714285716,
+            "D-12": 2.1666666666666665,
+            "D-13": 2.0,
+            "D-14": 1.5
+          },
+          "n_by_offset": {
+            "D0": 287,
+            "D-1": 73,
+            "D-2": 59,
+            "D-3": 49,
+            "D-4": 28,
+            "D-5": 9,
+            "D-6": 8,
+            "D-7": 7,
+            "D-8": 7,
+            "D-9": 7,
+            "D-10": 7,
+            "D-11": 7,
+            "D-12": 6,
+            "D-13": 5,
+            "D-14": 2
+          },
+          "median_d14": 1.5,
+          "median_d7": 2.0,
+          "median_d3": 1.0,
+          "median_d1": 1.0,
+          "median_d0": 1.0,
+          "share_d0_at_most_one": 0.89198606271777,
+          "share_last_three_days_at_most_one": 0.1672473867595819,
+          "share_weekend_only_final_week": 0.1602787456445993,
+          "distribution": {
+            "D-14": {
+              "n": 2,
+              "median": 1.5,
+              "mean": 1.5,
+              "p10": 1.1,
+              "p90": 1.9,
+              "stdev": 0.7071067811865476,
+              "cv": 0.47140452079103173
+            },
+            "D-7": {
+              "n": 7,
+              "median": 2.0,
+              "mean": 1.8571428571428572,
+              "p10": 1.0,
+              "p90": 3.0,
+              "stdev": 0.8997354108424374,
+              "cv": 0.48447291353054317
+            },
+            "D-3": {
+              "n": 49,
+              "median": 1.0,
+              "mean": 1.183673469387755,
+              "p10": 0.8000000000000007,
+              "p90": 2.0,
+              "stdev": 0.601161008235838,
+              "cv": 0.5078774035095872
+            },
+            "D-1": {
+              "n": 73,
+              "median": 1.0,
+              "mean": 0.726027397260274,
+              "p10": 0.0,
+              "p90": 1.7999999999999972,
+              "stdev": 0.7314421442261009,
+              "cv": 1.0074580477076485
+            },
+            "D0": {
+              "n": 287,
+              "median": 1.0,
+              "mean": 1.1114982578397212,
+              "p10": 1.0,
+              "p90": 2.0,
+              "stdev": 0.3261990026542365,
+              "cv": 0.2934768456481689
+            }
+          }
+        }
+      },
+      "market_theater_count": {
+        "n": 86,
+        "median_by_offset": {
+          "D0": 1.0,
+          "D-1": 2.0,
+          "D-2": 2.0,
+          "D-3": 2.0,
+          "D-4": 2.0,
+          "D-5": 2.0,
+          "D-6": 2.0,
+          "D-7": 3.0,
+          "D-8": 4.0,
+          "D-9": 4.0,
+          "D-10": 4.0,
+          "D-11": 4.0,
+          "D-12": 4.0,
+          "D-13": 4.0,
+          "D-14": 5.0
+        },
+        "mean_by_offset": {
+          "D0": 1.4767441860465116,
+          "D-1": 2.116279069767442,
+          "D-2": 2.1627906976744184,
+          "D-3": 2.1511627906976742,
+          "D-4": 2.1627906976744184,
+          "D-5": 2.197674418604651,
+          "D-6": 2.383720930232558,
+          "D-7": 3.1875,
+          "D-8": 3.48,
+          "D-9": 3.52,
+          "D-10": 3.52,
+          "D-11": 3.52,
+          "D-12": 3.58,
+          "D-13": 4.022222222222222,
+          "D-14": 4.526315789473684
+        }
+      },
+      "premium_screenings": 7383,
+      "premium_share_of_screenings": 0.16713797035347777
+    },
+    "completeness": {
+      "population": "For each observation date, upcoming Friday is the Friday on or after that date. The denominator is screenings on that Friday that were not removed before showtime and whose Friday is already in the past (as-of), so the set is closed. New vs continuing uses the market engagement's first Fri\u2013Thu week. Retrospective.",
+      "by_observation_weekday": [
+        {
+          "weekday": "Monday",
+          "known": 1945,
+          "n_screenings": 5157,
+          "completeness": 0.3771572619740159,
+          "wilson_low": 0.364024892122948,
+          "wilson_high": 0.3904725138815299
+        },
+        {
+          "weekday": "Tuesday",
+          "known": 3564,
+          "n_screenings": 5157,
+          "completeness": 0.6910994764397905,
+          "wilson_low": 0.6783504791708915,
+          "wilson_high": 0.703563974471708
+        },
+        {
+          "weekday": "Wednesday",
+          "known": 5090,
+          "n_screenings": 5157,
+          "completeness": 0.9870079503587357,
+          "wilson_low": 0.9835346903291047,
+          "wilson_high": 0.9897561775789512
+        },
+        {
+          "weekday": "Thursday",
+          "known": 5100,
+          "n_screenings": 5157,
+          "completeness": 0.9889470622454916,
+          "wilson_low": 0.9857075058139874,
+          "wilson_high": 0.9914586990158604
+        },
+        {
+          "weekday": "Friday",
+          "known": 5157,
+          "n_screenings": 5157,
+          "completeness": 1.0,
+          "wilson_low": 0.999255625284062,
+          "wilson_high": 0.9999999999999999
+        },
+        {
+          "weekday": "Saturday",
+          "known": 1756,
+          "n_screenings": 4706,
+          "completeness": 0.3731406714832129,
+          "wilson_low": 0.35943119453061734,
+          "wilson_high": 0.38705709501185903
+        },
+        {
+          "weekday": "Sunday",
+          "known": 1769,
+          "n_screenings": 4706,
+          "completeness": 0.37590310242243946,
+          "wilson_low": 0.36217093593547733,
+          "wilson_high": 0.3898377091110993
+        }
+      ],
+      "new_ordinary_by_weekday": [
+        {
+          "weekday": "Monday",
+          "known": 17,
+          "n_screenings": 81,
+          "completeness": 0.20987654320987653,
+          "wilson_low": 0.1353706249001661,
+          "wilson_high": 0.3106558526768715
+        },
+        {
+          "weekday": "Tuesday",
+          "known": 43,
+          "n_screenings": 81,
+          "completeness": 0.5308641975308642,
+          "wilson_low": 0.42326527260622987,
+          "wilson_high": 0.6356680808430215
+        },
+        {
+          "weekday": "Wednesday",
+          "known": 72,
+          "n_screenings": 81,
+          "completeness": 0.8888888888888888,
+          "wilson_low": 0.8021271435356178,
+          "wilson_high": 0.9404331099249487
+        },
+        {
+          "weekday": "Thursday",
+          "known": 74,
+          "n_screenings": 81,
+          "completeness": 0.9135802469135802,
+          "wilson_low": 0.8321989792572,
+          "wilson_high": 0.9575079569627674
+        },
+        {
+          "weekday": "Friday",
+          "known": 81,
+          "n_screenings": 81,
+          "completeness": 1.0,
+          "wilson_low": 0.954720325877871,
+          "wilson_high": 0.9999999999999999
+        },
+        {
+          "weekday": "Saturday",
+          "known": 17,
+          "n_screenings": 57,
+          "completeness": 0.2982456140350877,
+          "wilson_low": 0.1953239240924326,
+          "wilson_high": 0.42664525489036853
+        },
+        {
+          "weekday": "Sunday",
+          "known": 17,
+          "n_screenings": 57,
+          "completeness": 0.2982456140350877,
+          "wilson_low": 0.1953239240924326,
+          "wilson_high": 0.42664525489036853
+        }
+      ],
+      "continuing_ordinary_by_weekday": [
+        {
+          "weekday": "Monday",
+          "known": 1755,
+          "n_screenings": 4640,
+          "completeness": 0.37823275862068967,
+          "wilson_low": 0.36438516097441537,
+          "wilson_high": 0.3922818192257706
+        },
+        {
+          "weekday": "Tuesday",
+          "known": 3230,
+          "n_screenings": 4640,
+          "completeness": 0.6961206896551724,
+          "wilson_low": 0.6827289666645774,
+          "wilson_high": 0.7091879324820257
+        },
+        {
+          "weekday": "Wednesday",
+          "known": 4583,
+          "n_screenings": 4640,
+          "completeness": 0.9877155172413793,
+          "wilson_low": 0.9841182761118512,
+          "wilson_high": 0.9905058368208552
+        },
+        {
+          "weekday": "Thursday",
+          "known": 4591,
+          "n_screenings": 4640,
+          "completeness": 0.9894396551724138,
+          "wilson_low": 0.9860669940760918,
+          "wilson_high": 0.9920025421458156
+        },
+        {
+          "weekday": "Friday",
+          "known": 4640,
+          "n_screenings": 4640,
+          "completeness": 1.0,
+          "wilson_low": 0.999172753868263,
+          "wilson_high": 1.0
+        },
+        {
+          "weekday": "Saturday",
+          "known": 1580,
+          "n_screenings": 4253,
+          "completeness": 0.3715024688455208,
+          "wilson_low": 0.3571020352731845,
+          "wilson_high": 0.3861348284146726
+        },
+        {
+          "weekday": "Sunday",
+          "known": 1593,
+          "n_screenings": 4253,
+          "completeness": 0.374559134728427,
+          "wilson_low": 0.36013185692226274,
+          "wilson_high": 0.38921282153605713
+        }
+      ],
+      "rerelease_by_weekday": [
+        {
+          "weekday": "Monday",
+          "known": 38,
+          "n_screenings": 82,
+          "completeness": 0.4634146341463415,
+          "wilson_low": 0.35954916535448855,
+          "wilson_high": 0.5705546537728343
+        },
+        {
+          "weekday": "Tuesday",
+          "known": 57,
+          "n_screenings": 82,
+          "completeness": 0.6951219512195121,
+          "wilson_low": 0.5886121722656341,
+          "wilson_high": 0.7841674590553105
+        },
+        {
+          "weekday": "Wednesday",
+          "known": 82,
+          "n_screenings": 82,
+          "completeness": 1.0,
+          "wilson_low": 0.9552478052599207,
+          "wilson_high": 1.0
+        },
+        {
+          "weekday": "Thursday",
+          "known": 82,
+          "n_screenings": 82,
+          "completeness": 1.0,
+          "wilson_low": 0.9552478052599207,
+          "wilson_high": 1.0
+        },
+        {
+          "weekday": "Friday",
+          "known": 82,
+          "n_screenings": 82,
+          "completeness": 1.0,
+          "wilson_low": 0.9552478052599207,
+          "wilson_high": 1.0
+        },
+        {
+          "weekday": "Saturday",
+          "known": 38,
+          "n_screenings": 82,
+          "completeness": 0.4634146341463415,
+          "wilson_low": 0.35954916535448855,
+          "wilson_high": 0.5705546537728343
+        },
+        {
+          "weekday": "Sunday",
+          "known": 38,
+          "n_screenings": 82,
+          "completeness": 0.4634146341463415,
+          "wilson_low": 0.35954916535448855,
+          "wilson_high": 0.5705546537728343
+        }
+      ],
+      "by_days_before": [
+        {
+          "days_before_showtime": 0,
+          "n": 36801,
+          "known": 36801,
+          "completeness": 1.0
+        },
+        {
+          "days_before_showtime": 1,
+          "n": 36405,
+          "known": 36165,
+          "completeness": 0.9934074989699218
+        },
+        {
+          "days_before_showtime": 2,
+          "n": 35990,
+          "known": 34390,
+          "completeness": 0.955543206446235
+        },
+        {
+          "days_before_showtime": 3,
+          "n": 35538,
+          "known": 30835,
+          "completeness": 0.8676627834993528
+        },
+        {
+          "days_before_showtime": 4,
+          "n": 35102,
+          "known": 27113,
+          "completeness": 0.7724061307048031
+        },
+        {
+          "days_before_showtime": 5,
+          "n": 34651,
+          "known": 23552,
+          "completeness": 0.6796917837869036
+        },
+        {
+          "days_before_showtime": 6,
+          "n": 34189,
+          "known": 20210,
+          "completeness": 0.5911258006961303
+        },
+        {
+          "days_before_showtime": 7,
+          "n": 33726,
+          "known": 16904,
+          "completeness": 0.501215679297871
+        },
+        {
+          "days_before_showtime": 8,
+          "n": 33302,
+          "known": 13613,
+          "completeness": 0.40877424779292537
+        },
+        {
+          "days_before_showtime": 9,
+          "n": 32870,
+          "known": 12139,
+          "completeness": 0.3693033160937025
+        },
+        {
+          "days_before_showtime": 10,
+          "n": 32448,
+          "known": 11784,
+          "completeness": 0.3631656804733728
+        },
+        {
+          "days_before_showtime": 11,
+          "n": 32050,
+          "known": 11372,
+          "completeness": 0.3548205928237129
+        },
+        {
+          "days_before_showtime": 12,
+          "n": 31619,
+          "known": 10934,
+          "completeness": 0.34580473765773745
+        },
+        {
+          "days_before_showtime": 13,
+          "n": 31151,
+          "known": 10433,
+          "completeness": 0.3349170171102051
+        },
+        {
+          "days_before_showtime": 14,
+          "n": 30702,
+          "known": 9982,
+          "completeness": 0.32512539899680803
+        },
+        {
+          "days_before_showtime": 15,
+          "n": 30288,
+          "known": 1370,
+          "completeness": 0.0452324352879028
+        },
+        {
+          "days_before_showtime": 16,
+          "n": 29872,
+          "known": 1208,
+          "completeness": 0.0404392072844135
+        },
+        {
+          "days_before_showtime": 17,
+          "n": 29457,
+          "known": 1040,
+          "completeness": 0.035305699833655835
+        },
+        {
+          "days_before_showtime": 18,
+          "n": 29065,
+          "known": 874,
+          "completeness": 0.030070531567177018
+        },
+        {
+          "days_before_showtime": 19,
+          "n": 28652,
+          "known": 733,
+          "completeness": 0.0255828563451068
+        },
+        {
+          "days_before_showtime": 20,
+          "n": 28225,
+          "known": 635,
+          "completeness": 0.0224977856510186
+        },
+        {
+          "days_before_showtime": 21,
+          "n": 27785,
+          "known": 565,
+          "completeness": 0.020334712974626596
+        }
+      ],
+      "ordinary_new_by_days_before": [
+        {
+          "days_before_showtime": 0,
+          "n": 2630,
+          "known": 2630,
+          "completeness": 1.0
+        },
+        {
+          "days_before_showtime": 1,
+          "n": 2630,
+          "known": 2606,
+          "completeness": 0.990874524714829
+        },
+        {
+          "days_before_showtime": 2,
+          "n": 2630,
+          "known": 2311,
+          "completeness": 0.8787072243346008
+        },
+        {
+          "days_before_showtime": 3,
+          "n": 2250,
+          "known": 1596,
+          "completeness": 0.7093333333333334
+        },
+        {
+          "days_before_showtime": 4,
+          "n": 1874,
+          "known": 1338,
+          "completeness": 0.7139807897545357
+        },
+        {
+          "days_before_showtime": 5,
+          "n": 1850,
+          "known": 1268,
+          "completeness": 0.6854054054054054
+        },
+        {
+          "days_before_showtime": 6,
+          "n": 1830,
+          "known": 1208,
+          "completeness": 0.6601092896174864
+        },
+        {
+          "days_before_showtime": 7,
+          "n": 1810,
+          "known": 1143,
+          "completeness": 0.6314917127071823
+        },
+        {
+          "days_before_showtime": 8,
+          "n": 1792,
+          "known": 1062,
+          "completeness": 0.5926339285714286
+        },
+        {
+          "days_before_showtime": 9,
+          "n": 1773,
+          "known": 1010,
+          "completeness": 0.5696559503666103
+        },
+        {
+          "days_before_showtime": 10,
+          "n": 1756,
+          "known": 1000,
+          "completeness": 0.5694760820045558
+        },
+        {
+          "days_before_showtime": 11,
+          "n": 1600,
+          "known": 879,
+          "completeness": 0.549375
+        },
+        {
+          "days_before_showtime": 12,
+          "n": 1592,
+          "known": 869,
+          "completeness": 0.5458542713567839
+        },
+        {
+          "days_before_showtime": 13,
+          "n": 1581,
+          "known": 860,
+          "completeness": 0.5439595192915876
+        },
+        {
+          "days_before_showtime": 14,
+          "n": 1571,
+          "known": 822,
+          "completeness": 0.5232336091661363
+        },
+        {
+          "days_before_showtime": 15,
+          "n": 1554,
+          "known": 92,
+          "completeness": 0.059202059202059204
+        },
+        {
+          "days_before_showtime": 16,
+          "n": 1543,
+          "known": 63,
+          "completeness": 0.04082955281918341
+        },
+        {
+          "days_before_showtime": 17,
+          "n": 1528,
+          "known": 49,
+          "completeness": 0.03206806282722513
+        },
+        {
+          "days_before_showtime": 18,
+          "n": 1447,
+          "known": 43,
+          "completeness": 0.029716655148583276
+        },
+        {
+          "days_before_showtime": 19,
+          "n": 1447,
+          "known": 40,
+          "completeness": 0.027643400138217002
+        },
+        {
+          "days_before_showtime": 20,
+          "n": 1447,
+          "known": 39,
+          "completeness": 0.026952315134761574
+        },
+        {
+          "days_before_showtime": 21,
+          "n": 1447,
+          "known": 39,
+          "completeness": 0.026952315134761574
+        }
+      ],
+      "ordinary_continuing_by_days_before": [
+        {
+          "days_before_showtime": 0,
+          "n": 29675,
+          "known": 29675,
+          "completeness": 1.0
+        },
+        {
+          "days_before_showtime": 1,
+          "n": 29675,
+          "known": 29499,
+          "completeness": 0.9940690817186184
+        },
+        {
+          "days_before_showtime": 2,
+          "n": 29675,
+          "known": 28569,
+          "completeness": 0.9627295703454086
+        },
+        {
+          "days_before_showtime": 3,
+          "n": 29675,
+          "known": 26094,
+          "completeness": 0.8793260320134794
+        },
+        {
+          "days_before_showtime": 4,
+          "n": 29675,
+          "known": 22944,
+          "completeness": 0.7731760741364785
+        },
+        {
+          "days_before_showtime": 5,
+          "n": 29288,
+          "known": 19774,
+          "completeness": 0.6751570609123191
+        },
+        {
+          "days_before_showtime": 6,
+          "n": 28893,
+          "known": 16767,
+          "completeness": 0.580313570761084
+        },
+        {
+          "days_before_showtime": 7,
+          "n": 28498,
+          "known": 13819,
+          "completeness": 0.48491122184012914
+        },
+        {
+          "days_before_showtime": 8,
+          "n": 28141,
+          "known": 10900,
+          "completeness": 0.3873352048612345
+        },
+        {
+          "days_before_showtime": 9,
+          "n": 27773,
+          "known": 9631,
+          "completeness": 0.3467756454110107
+        },
+        {
+          "days_before_showtime": 10,
+          "n": 27421,
+          "known": 9368,
+          "completeness": 0.3416359724298895
+        },
+        {
+          "days_before_showtime": 11,
+          "n": 27197,
+          "known": 9137,
+          "completeness": 0.33595617163657754
+        },
+        {
+          "days_before_showtime": 12,
+          "n": 26776,
+          "known": 8773,
+          "completeness": 0.32764415894831195
+        },
+        {
+          "days_before_showtime": 13,
+          "n": 26330,
+          "known": 8424,
+          "completeness": 0.31993923281428027
+        },
+        {
+          "days_before_showtime": 14,
+          "n": 25899,
+          "known": 8077,
+          "completeness": 0.31186532298544345
+        },
+        {
+          "days_before_showtime": 15,
+          "n": 25506,
+          "known": 989,
+          "completeness": 0.03877519015133694
+        },
+        {
+          "days_before_showtime": 16,
+          "n": 25107,
+          "known": 879,
+          "completeness": 0.03501015653005138
+        },
+        {
+          "days_before_showtime": 17,
+          "n": 24713,
+          "known": 742,
+          "completeness": 0.03002468336503055
+        },
+        {
+          "days_before_showtime": 18,
+          "n": 24402,
+          "known": 601,
+          "completeness": 0.02462912875993771
+        },
+        {
+          "days_before_showtime": 19,
+          "n": 23989,
+          "known": 481,
+          "completeness": 0.02005085664262787
+        },
+        {
+          "days_before_showtime": 20,
+          "n": 23564,
+          "known": 386,
+          "completeness": 0.01638092004753013
+        },
+        {
+          "days_before_showtime": 21,
+          "n": 23126,
+          "known": 325,
+          "completeness": 0.014053446337455677
+        }
+      ],
+      "rerelease_by_days_before": [
+        {
+          "days_before_showtime": 0,
+          "n": 654,
+          "known": 654,
+          "completeness": 1.0
+        },
+        {
+          "days_before_showtime": 1,
+          "n": 654,
+          "known": 647,
+          "completeness": 0.9892966360856269
+        },
+        {
+          "days_before_showtime": 2,
+          "n": 654,
+          "known": 615,
+          "completeness": 0.9403669724770642
+        },
+        {
+          "days_before_showtime": 3,
+          "n": 654,
+          "known": 565,
+          "completeness": 0.863914373088685
+        },
+        {
+          "days_before_showtime": 4,
+          "n": 654,
+          "known": 517,
+          "completeness": 0.790519877675841
+        },
+        {
+          "days_before_showtime": 5,
+          "n": 654,
+          "known": 469,
+          "completeness": 0.7171253822629969
+        },
+        {
+          "days_before_showtime": 6,
+          "n": 654,
+          "known": 423,
+          "completeness": 0.6467889908256881
+        },
+        {
+          "days_before_showtime": 7,
+          "n": 654,
+          "known": 380,
+          "completeness": 0.581039755351682
+        },
+        {
+          "days_before_showtime": 8,
+          "n": 654,
+          "known": 337,
+          "completeness": 0.5152905198776758
+        },
+        {
+          "days_before_showtime": 9,
+          "n": 654,
+          "known": 323,
+          "completeness": 0.4938837920489297
+        },
+        {
+          "days_before_showtime": 10,
+          "n": 654,
+          "known": 316,
+          "completeness": 0.4831804281345566
+        },
+        {
+          "days_before_showtime": 11,
+          "n": 654,
+          "known": 312,
+          "completeness": 0.47706422018348627
+        },
+        {
+          "days_before_showtime": 12,
+          "n": 654,
+          "known": 307,
+          "completeness": 0.4694189602446483
+        },
+        {
+          "days_before_showtime": 13,
+          "n": 654,
+          "known": 301,
+          "completeness": 0.4602446483180428
+        },
+        {
+          "days_before_showtime": 14,
+          "n": 654,
+          "known": 295,
+          "completeness": 0.4510703363914373
+        },
+        {
+          "days_before_showtime": 15,
+          "n": 654,
+          "known": 15,
+          "completeness": 0.022935779816513763
+        },
+        {
+          "days_before_showtime": 16,
+          "n": 654,
+          "known": 13,
+          "completeness": 0.019877675840978593
+        },
+        {
+          "days_before_showtime": 17,
+          "n": 654,
+          "known": 8,
+          "completeness": 0.012232415902140673
+        },
+        {
+          "days_before_showtime": 18,
+          "n": 654,
+          "known": 6,
+          "completeness": 0.009174311926605505
+        },
+        {
+          "days_before_showtime": 19,
+          "n": 654,
+          "known": 4,
+          "completeness": 0.0061162079510703364
+        },
+        {
+          "days_before_showtime": 20,
+          "n": 654,
+          "known": 2,
+          "completeness": 0.0030581039755351682
+        },
+        {
+          "days_before_showtime": 21,
+          "n": 654,
+          "known": 0,
+          "completeness": 0.0
+        }
+      ],
+      "by_theater_weekday": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Monday",
+          "known": 375,
+          "n_screenings": 1009,
+          "completeness": 0.37165510406342916
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Tuesday",
+          "known": 384,
+          "n_screenings": 1009,
+          "completeness": 0.38057482656095143
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Wednesday",
+          "known": 1001,
+          "n_screenings": 1009,
+          "completeness": 0.9920713577799801
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Thursday",
+          "known": 1003,
+          "n_screenings": 1009,
+          "completeness": 0.9940535183349851
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Friday",
+          "known": 1009,
+          "n_screenings": 1009,
+          "completeness": 1.0
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Saturday",
+          "known": 345,
+          "n_screenings": 923,
+          "completeness": 0.37378114842903576
+        },
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16",
+          "weekday": "Sunday",
+          "known": 345,
+          "n_screenings": 923,
+          "completeness": 0.37378114842903576
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Monday",
+          "known": 180,
+          "n_screenings": 508,
+          "completeness": 0.3543307086614173
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Tuesday",
+          "known": 464,
+          "n_screenings": 508,
+          "completeness": 0.9133858267716536
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Wednesday",
+          "known": 487,
+          "n_screenings": 508,
+          "completeness": 0.9586614173228346
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Thursday",
+          "known": 490,
+          "n_screenings": 508,
+          "completeness": 0.9645669291338582
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Friday",
+          "known": 508,
+          "n_screenings": 508,
+          "completeness": 1.0
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Saturday",
+          "known": 160,
+          "n_screenings": 467,
+          "completeness": 0.3426124197002141
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8",
+          "weekday": "Sunday",
+          "known": 164,
+          "n_screenings": 467,
+          "completeness": 0.3511777301927195
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Monday",
+          "known": 344,
+          "n_screenings": 973,
+          "completeness": 0.35354573484069884
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Tuesday",
+          "known": 928,
+          "n_screenings": 973,
+          "completeness": 0.9537512846865365
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Wednesday",
+          "known": 965,
+          "n_screenings": 973,
+          "completeness": 0.9917780061664954
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Thursday",
+          "known": 966,
+          "n_screenings": 973,
+          "completeness": 0.9928057553956835
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Friday",
+          "known": 973,
+          "n_screenings": 973,
+          "completeness": 1.0
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Saturday",
+          "known": 310,
+          "n_screenings": 888,
+          "completeness": 0.3490990990990991
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14",
+          "weekday": "Sunday",
+          "known": 311,
+          "n_screenings": 888,
+          "completeness": 0.3502252252252252
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Monday",
+          "known": 106,
+          "n_screenings": 338,
+          "completeness": 0.3136094674556213
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Tuesday",
+          "known": 138,
+          "n_screenings": 338,
+          "completeness": 0.40828402366863903
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Wednesday",
+          "known": 336,
+          "n_screenings": 338,
+          "completeness": 0.9940828402366864
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Thursday",
+          "known": 336,
+          "n_screenings": 338,
+          "completeness": 0.9940828402366864
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Friday",
+          "known": 338,
+          "n_screenings": 338,
+          "completeness": 1.0
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Saturday",
+          "known": 87,
+          "n_screenings": 301,
+          "completeness": 0.28903654485049834
+        },
+        {
+          "theater_id": "amc-oak-tree-6",
+          "theater_name": "AMC Oak Tree 6",
+          "weekday": "Sunday",
+          "known": 90,
+          "n_screenings": 301,
+          "completeness": 0.29900332225913623
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Monday",
+          "known": 234,
+          "n_screenings": 591,
+          "completeness": 0.39593908629441626
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Tuesday",
+          "known": 466,
+          "n_screenings": 591,
+          "completeness": 0.7884940778341794
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Wednesday",
+          "known": 580,
+          "n_screenings": 591,
+          "completeness": 0.9813874788494078
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Thursday",
+          "known": 580,
+          "n_screenings": 591,
+          "completeness": 0.9813874788494078
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Friday",
+          "known": 591,
+          "n_screenings": 591,
+          "completeness": 1.0
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Saturday",
+          "known": 219,
+          "n_screenings": 548,
+          "completeness": 0.39963503649635035
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11",
+          "weekday": "Sunday",
+          "known": 219,
+          "n_screenings": 548,
+          "completeness": 0.39963503649635035
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Monday",
+          "known": 415,
+          "n_screenings": 1030,
+          "completeness": 0.4029126213592233
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Tuesday",
+          "known": 570,
+          "n_screenings": 1030,
+          "completeness": 0.5533980582524272
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Wednesday",
+          "known": 1013,
+          "n_screenings": 1030,
+          "completeness": 0.983495145631068
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Thursday",
+          "known": 1017,
+          "n_screenings": 1030,
+          "completeness": 0.987378640776699
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Friday",
+          "known": 1030,
+          "n_screenings": 1030,
+          "completeness": 1.0
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Saturday",
+          "known": 378,
+          "n_screenings": 934,
+          "completeness": 0.40471092077087795
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16",
+          "weekday": "Sunday",
+          "known": 379,
+          "n_screenings": 934,
+          "completeness": 0.4057815845824411
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Monday",
+          "known": 291,
+          "n_screenings": 708,
+          "completeness": 0.4110169491525424
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Tuesday",
+          "known": 614,
+          "n_screenings": 708,
+          "completeness": 0.867231638418079
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Wednesday",
+          "known": 708,
+          "n_screenings": 708,
+          "completeness": 1.0
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Thursday",
+          "known": 708,
+          "n_screenings": 708,
+          "completeness": 1.0
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Friday",
+          "known": 708,
+          "n_screenings": 708,
+          "completeness": 1.0
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Saturday",
+          "known": 257,
+          "n_screenings": 645,
+          "completeness": 0.3984496124031008
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12",
+          "weekday": "Sunday",
+          "known": 261,
+          "n_screenings": 645,
+          "completeness": 0.4046511627906977
+        }
+      ]
+    }
+  },
+  "candidate_implications": [
+    {
+      "pattern": "Ordinary film\u00d7theater runs end on Thursday",
+      "provisional_label": "possible model feature",
+      "evidence": "Confirmed Thursday share=44.0% (n=336, Wilson low=38.8%). Wednesday share=53.6% (n=180). Publication-frontier n=0. Among theaters with n\u226520, Thursday share ranges from 16.7% at AMC Oak Tree 6 (n=24) to 84.6% at AMC Factoria 8 (n=26).",
+      "n": 336,
+      "status": "candidate_for_human_review"
+    },
+    {
+      "pattern": "Ordinary week-plus film\u00d7theater runs end on Wednesday or Thursday",
+      "provisional_label": "possible hard rule",
+      "evidence": "Wednesday 53.6% (180) plus Thursday 44.0% (148) = 97.6% of n=336. Friday share=0.0%, Saturday=0.0%, Sunday=0.0%, Tuesday count=8.",
+      "n": 336,
+      "status": "candidate_for_human_review"
+    },
+    {
+      "pattern": "Rerelease schedules are fixed at announcement, unlike ordinary releases",
+      "provisional_label": "likely not useful",
+      "evidence": "Catalog rereleases: median share visible at first observation=34.2%, extension rate=81.0%, n=63. Ordinary comparison median share=25.0%, n=315. Catalog specials, separately: median share visible=100.0%, extension rate=20.2%, n=282.",
+      "n": 63,
+      "status": "candidate_for_human_review"
+    },
+    {
+      "pattern": "Catalog special events are published in full when first observed",
+      "provisional_label": "possible separate segment",
+      "evidence": "Median share of eventual screenings visible at first observation=100.0%, extension rate=20.2%, n=282. Ordinary releases in the same filter: median share=25.0%, extension rate=74.6%, n=315.",
+      "n": 282,
+      "status": "candidate_for_human_review"
+    },
+    {
+      "pattern": "Within a weekday, theater screening volume is tight",
+      "provisional_label": "possible model feature",
+      "evidence": "Median within-weekday coefficient of variation across theater\u00d7weekday cells=0.14 (cells=49).",
+      "n": 49,
+      "status": "candidate_for_human_review"
+    },
+    {
+      "pattern": "Incoming Friday screenings move with incumbent screenings lost",
+      "provisional_label": "possible model feature",
+      "evidence": "Spearman r=0.47 across 91 theater-weeks. Association only.",
+      "n": 91,
+      "status": "candidate_for_human_review"
+    },
+    {
+      "pattern": "Screenings decline over the final week before a confirmed exit",
+      "provisional_label": "possible model feature",
+      "evidence": "Median screenings D-7=3.0, D0=1.0, n=336. Retrospective alignment on the eventual end date.",
+      "n": 336,
+      "status": "candidate_for_human_review"
+    },
+    {
+      "pattern": "Missing next-week showtimes before Thursday can be unpublished schedule rather than an exit",
+      "provisional_label": "possible hard rule",
+      "evidence": "Pooled share of eventual upcoming-Friday screenings already known: Monday=37.7% (n=5157), Thursday=98.9% (n=5157). This describes publication cadence, not a film's remaining run.",
+      "n": 5157,
+      "status": "candidate_for_human_review"
+    }
+  ],
+  "base_commit": "1198f18bff4a45724fd3a9ab7d1f2032c6c89ca4"
+}
