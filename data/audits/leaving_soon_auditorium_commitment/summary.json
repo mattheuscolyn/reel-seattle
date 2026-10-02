@@ -1,0 +1,441 @@
+{
+  "first_auditorium_log": "2026-07-17",
+  "stable_auditoriums": 83,
+  "mixed_auditoriums": 0,
+  "hierarchy_as_of": "2026-09-06",
+  "baseline": {
+    "n": 405,
+    "bucket_counts": {
+      "final_week": 246,
+      "plus_1": 75,
+      "plus_2": 28,
+      "plus_3": 56
+    },
+    "log_loss": 0.7273115637950004,
+    "brier": 0.3537960657253071,
+    "accuracy": 0.7506172839506173,
+    "median_abs_error_capped": 0.20659650923107392,
+    "pr_auc_final_week": 0.9095179805895279,
+    "pr_auc_exactly_1": 0.45369365392339034,
+    "pr_auc_exactly_2": 0.24539076741720792,
+    "pr_auc_3_plus": 0.796162092634904,
+    "pr_auc_gone_within_2_weeks": 0.9772790808071061,
+    "calibration": [
+      {
+        "bucket": "final_week",
+        "n": 246,
+        "observed_share": 0.6074074074074074,
+        "mean_predicted": 0.5908405600458855
+      },
+      {
+        "bucket": "plus_1",
+        "n": 75,
+        "observed_share": 0.18518518518518517,
+        "mean_predicted": 0.19023319603908065
+      },
+      {
+        "bucket": "plus_2",
+        "n": 28,
+        "observed_share": 0.0691358024691358,
+        "mean_predicted": 0.07547335324190281
+      },
+      {
+        "bucket": "plus_3",
+        "n": 56,
+        "observed_share": 0.1382716049382716,
+        "mean_predicted": 0.14345289067313108
+      }
+    ],
+    "confusion": [
+      [
+        223,
+        17,
+        4,
+        2
+      ],
+      [
+        35,
+        33,
+        2,
+        5
+      ],
+      [
+        4,
+        8,
+        2,
+        14
+      ],
+      [
+        8,
+        1,
+        1,
+        46
+      ]
+    ],
+    "ranking_pairwise": 0.8770447921004104,
+    "ranking_n": 16811
+  },
+  "best_model": "raw_auditorium_count",
+  "results": [
+    {
+      "model": "pr141_opening",
+      "n": 405,
+      "log_loss": 0.7273115637950004,
+      "brier": 0.3537960657253071,
+      "pr_auc_final_week": 0.9095179805895279,
+      "pr_auc_exactly_1": 0.45369365392339034,
+      "pr_auc_exactly_2": 0.24539076741720792,
+      "pr_auc_3_plus": 0.796162092634904,
+      "median_abs_error_capped": 0.20659650923107392,
+      "ranking_pairwise": 0.8770447921004104
+    },
+    {
+      "model": "raw_auditorium_count",
+      "mode": "cumulative",
+      "n": 405,
+      "log_loss": 0.7269959862753209,
+      "brier": 0.35410893754191886,
+      "pr_auc_final_week": 0.9091782388185832,
+      "pr_auc_exactly_1": 0.446769639275757,
+      "pr_auc_exactly_2": 0.24413999128585973,
+      "pr_auc_3_plus": 0.7987081488606919,
+      "median_abs_error_capped": 0.21010433239382212,
+      "ranking_pairwise": 0.8781155196002617
+    },
+    {
+      "model": "raw_auditorium_count",
+      "mode": "added_alone",
+      "n": 405,
+      "log_loss": 0.7269959862753209,
+      "brier": 0.35410893754191886,
+      "pr_auc_final_week": 0.9091782388185832,
+      "pr_auc_exactly_1": 0.446769639275757,
+      "pr_auc_exactly_2": 0.24413999128585973,
+      "pr_auc_3_plus": 0.7987081488606919,
+      "median_abs_error_capped": 0.21010433239382212,
+      "ranking_pairwise": 0.8781155196002617
+    },
+    {
+      "model": "hierarchy_score",
+      "mode": "cumulative",
+      "n": 405,
+      "log_loss": 0.766393401544381,
+      "brier": 0.3826663229952182,
+      "pr_auc_final_week": 0.9015850832491683,
+      "pr_auc_exactly_1": 0.3656421401709299,
+      "pr_auc_exactly_2": 0.25989596152284605,
+      "pr_auc_3_plus": 0.799051443308773,
+      "median_abs_error_capped": 0.26129158766876737,
+      "ranking_pairwise": 0.8677651537683659
+    },
+    {
+      "model": "hierarchy_score",
+      "mode": "added_alone",
+      "n": 405,
+      "log_loss": 0.7574153922279212,
+      "brier": 0.3747465315035972,
+      "pr_auc_final_week": 0.9031764184522058,
+      "pr_auc_exactly_1": 0.3919608930647192,
+      "pr_auc_exactly_2": 0.2706495295531608,
+      "pr_auc_3_plus": 0.7959642448518217,
+      "median_abs_error_capped": 0.23734640564362508,
+      "ranking_pairwise": 0.8691927904348343
+    },
+    {
+      "model": "movement",
+      "mode": "cumulative",
+      "n": 405,
+      "log_loss": 0.9742194527535034,
+      "brier": 0.43621862613428175,
+      "pr_auc_final_week": 0.8578258626197314,
+      "pr_auc_exactly_1": 0.36229963760070005,
+      "pr_auc_exactly_2": 0.17691606597317489,
+      "pr_auc_3_plus": 0.7554384266216111,
+      "median_abs_error_capped": 0.2863074389494358,
+      "ranking_pairwise": 0.827077508774017
+    },
+    {
+      "model": "movement",
+      "mode": "added_alone",
+      "n": 405,
+      "log_loss": 0.9160862491645174,
+      "brier": 0.4010413045137929,
+      "pr_auc_final_week": 0.8638129588359166,
+      "pr_auc_exactly_1": 0.4036969634234857,
+      "pr_auc_exactly_2": 0.2004716999267001,
+      "pr_auc_3_plus": 0.760875946947835,
+      "median_abs_error_capped": 0.21899639693844583,
+      "ranking_pairwise": 0.8394503598834097
+    },
+    {
+      "model": "relative_price",
+      "mode": "cumulative",
+      "n": 405,
+      "log_loss": 0.9899286609579514,
+      "brier": 0.43745858589601017,
+      "pr_auc_final_week": 0.863230074526238,
+      "pr_auc_exactly_1": 0.3505590564257287,
+      "pr_auc_exactly_2": 0.21307568610066435,
+      "pr_auc_3_plus": 0.7423965585955288,
+      "median_abs_error_capped": 0.2837377113660502,
+      "ranking_pairwise": 0.8244006900243888
+    },
+    {
+      "model": "relative_price",
+      "mode": "added_alone",
+      "n": 405,
+      "log_loss": 0.7344719025655961,
+      "brier": 0.35879032078299655,
+      "pr_auc_final_week": 0.9122701468968654,
+      "pr_auc_exactly_1": 0.444569845059549,
+      "pr_auc_exactly_2": 0.2540336712646644,
+      "pr_auc_3_plus": 0.7941442499806414,
+      "median_abs_error_capped": 0.1913788207471853,
+      "ranking_pairwise": 0.8740110641841651
+    },
+    {
+      "model": "premium_retention",
+      "mode": "cumulative",
+      "n": 405,
+      "log_loss": 1.0084586960081419,
+      "brier": 0.44372106919207827,
+      "pr_auc_final_week": 0.8557048741515583,
+      "pr_auc_exactly_1": 0.3649522379027471,
+      "pr_auc_exactly_2": 0.1989394993609502,
+      "pr_auc_3_plus": 0.7326777987101079,
+      "median_abs_error_capped": 0.28689121819969493,
+      "ranking_pairwise": 0.8211290226637321
+    },
+    {
+      "model": "premium_retention",
+      "mode": "added_alone",
+      "n": 405,
+      "log_loss": 0.7482148470840214,
+      "brier": 0.3561313596184812,
+      "pr_auc_final_week": 0.9024977933775085,
+      "pr_auc_exactly_1": 0.47608574820630706,
+      "pr_auc_exactly_2": 0.26395626848286263,
+      "pr_auc_3_plus": 0.7827656350591845,
+      "median_abs_error_capped": 0.21853003554902375,
+      "ranking_pairwise": 0.8743084884896793
+    },
+    {
+      "model": "all_auditorium",
+      "mode": "cumulative",
+      "n": 405,
+      "log_loss": 1.0084586960081419,
+      "brier": 0.44372106919207827,
+      "pr_auc_final_week": 0.8557048741515583,
+      "pr_auc_exactly_1": 0.3649522379027471,
+      "pr_auc_exactly_2": 0.1989394993609502,
+      "pr_auc_3_plus": 0.7326777987101079,
+      "median_abs_error_capped": 0.28689121819969493,
+      "ranking_pairwise": 0.8211290226637321
+    }
+  ],
+  "assignment_changes": {
+    "showtime_keys": 38973,
+    "auditorium_changed_across_logs": 914,
+    "layout_changed_across_logs": 906
+  },
+  "bootstrap_hierarchy": {
+    "n": 405,
+    "draws": 400,
+    "log_loss": {
+      "mean_delta": 0.030065014618318484,
+      "low": 0.014264425228399697,
+      "high": 0.04675108758677744
+    },
+    "pr_auc_exactly_1": {
+      "mean_delta": -0.0634594627806944,
+      "low": -0.1299451486156889,
+      "high": -0.0052431044277612285
+    },
+    "pr_auc_exactly_2": {
+      "mean_delta": 0.031472947025192675,
+      "low": -0.04050493905500958,
+      "high": 0.1267369081629462
+    },
+    "pr_auc_final_week": {
+      "mean_delta": -0.006932037950862007,
+      "low": -0.016536949697771006,
+      "high": 0.002414588142551389
+    }
+  },
+  "bootstrap_price": {
+    "n": 405,
+    "draws": 400,
+    "log_loss": {
+      "mean_delta": 0.008108165279253397,
+      "low": -0.015546048098132674,
+      "high": 0.04023445905796286
+    },
+    "pr_auc_exactly_1": {
+      "mean_delta": -0.01392284673186042,
+      "low": -0.07516410256230943,
+      "high": 0.04696840573138771
+    },
+    "pr_auc_exactly_2": {
+      "mean_delta": 0.01229900235208118,
+      "low": -0.029690383613089788,
+      "high": 0.06522307789467713
+    },
+    "pr_auc_final_week": {
+      "mean_delta": 0.0022549233856437143,
+      "low": -0.0047338463867289265,
+      "high": 0.010194623519792235
+    }
+  },
+  "bootstrap_raw": {
+    "n": 405,
+    "draws": 400,
+    "log_loss": {
+      "mean_delta": -0.00022028690705809846,
+      "low": -0.0031893895842821153,
+      "high": 0.0025706578100432504
+    },
+    "pr_auc_exactly_1": {
+      "mean_delta": -0.0037335067854087577,
+      "low": -0.033104496030083315,
+      "high": 0.02526518771031856
+    },
+    "pr_auc_exactly_2": {
+      "mean_delta": -0.0012056706374332553,
+      "low": -0.018301030732785446,
+      "high": 0.02011375786895999
+    },
+    "pr_auc_final_week": {
+      "mean_delta": -0.0003022866377338601,
+      "low": -0.0018882684287828161,
+      "high": 0.001084379398344243
+    }
+  },
+  "bootstrap_all": {
+    "n": 405,
+    "draws": 400,
+    "log_loss": {
+      "mean_delta": 0.2814719745232185,
+      "low": 0.19373782938171155,
+      "high": 0.38436802892139293
+    },
+    "pr_auc_exactly_1": {
+      "mean_delta": -0.09177163112658172,
+      "low": -0.21865890367067778,
+      "high": 0.01716967967648979
+    },
+    "pr_auc_exactly_2": {
+      "mean_delta": -0.04208982465587321,
+      "low": -0.1518398514041701,
+      "high": 0.06146021609487468
+    },
+    "pr_auc_final_week": {
+      "mean_delta": -0.05448014767173646,
+      "low": -0.08617908565825778,
+      "high": -0.026489326671793188
+    }
+  },
+  "survival_tier": [
+    {
+      "tier": "lower-middle",
+      "n": 125,
+      "survive_at_least_1": 0.704,
+      "n_1": 125,
+      "survive_at_least_2": 0.4594594594594595,
+      "n_2": 111,
+      "survive_at_least_3": 0.2159090909090909,
+      "n_3": 88,
+      "survive_at_least_4": 0.056818181818181816,
+      "n_4": 88
+    },
+    {
+      "tier": "low",
+      "n": 66,
+      "survive_at_least_1": 0.5757575757575758,
+      "n_1": 66,
+      "survive_at_least_2": 0.5454545454545454,
+      "n_2": 66,
+      "survive_at_least_3": 0.4074074074074074,
+      "n_3": 54,
+      "survive_at_least_4": 0.18518518518518517,
+      "n_4": 54
+    },
+    {
+      "tier": "top",
+      "n": 121,
+      "survive_at_least_1": 0.4166666666666667,
+      "n_1": 120,
+      "survive_at_least_2": 0.2543859649122807,
+      "n_2": 114,
+      "survive_at_least_3": 0.0625,
+      "n_3": 96,
+      "survive_at_least_4": 0.0,
+      "n_4": 96
+    },
+    {
+      "tier": "upper-middle",
+      "n": 208,
+      "survive_at_least_1": 0.46859903381642515,
+      "n_1": 207,
+      "survive_at_least_2": 0.24083769633507854,
+      "n_2": 191,
+      "survive_at_least_3": 0.05421686746987952,
+      "n_3": 166,
+      "survive_at_least_4": 0.006024096385542169,
+      "n_4": 166
+    },
+    {
+      "tier": "unknown",
+      "n": 1,
+      "survive_at_least_1": 0.0,
+      "n_1": 1,
+      "survive_at_least_2": 0.0,
+      "n_2": 1,
+      "survive_at_least_3": 0.0,
+      "n_3": 1,
+      "survive_at_least_4": 0.0,
+      "n_4": 1
+    }
+  ],
+  "movement": {
+    "final_week": {
+      "n": 129,
+      "share_moved_weaker": 0.13953488372093023,
+      "share_moved_stronger": 0.23255813953488372
+    },
+    "plus_1": {
+      "n": 59,
+      "share_moved_weaker": 0.2542372881355932,
+      "share_moved_stronger": 0.22033898305084745
+    },
+    "plus_3": {
+      "n": 33,
+      "share_moved_weaker": 0.12121212121212122,
+      "share_moved_stronger": 0.18181818181818182
+    }
+  },
+  "coverage": {
+    "prepublication_rows": 1907,
+    "rows_with_auditorium": 1457,
+    "holdout_with_score": 520
+  },
+  "sold_out": {
+    "field": "isSoldOut",
+    "true_showtimes": 462,
+    "films": 40,
+    "theaters": 7,
+    "true_on_show_date": 42,
+    "true_before_show_date": 420
+  },
+  "almost_sold_out": {
+    "field": "isAlmostSoldOut",
+    "true_showtimes": 1199,
+    "films": 13,
+    "theaters": 7,
+    "true_on_show_date": 236,
+    "true_before_show_date": 963
+  },
+  "capacity_note": "Exact auditorium capacity is not available from the currently accessible public/catalog API. maximumIntendedAttendance is present on the showtimes payload and empty in the daily logs. No seat-count field is documented on the showtimes or movies catalog records used here.",
+  "segment_lookup_size": 384,
+  "facts_n": 354375,
+  "recommendation": "Adding the auditorium hierarchy made holdout log loss worse, and the bootstrap interval stays above zero. Leave it out."
+}
