@@ -1,0 +1,43 @@
+name: Remaining-run shadow forecast
+
+# Research only. Does not publish public/data or change Leaving Soon.
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: remaining-run-shadow
+  cancel-in-progress: false
+
+jobs:
+  shadow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+      - name: Fit shadow model and append forecasts
+        env:
+          TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: python scripts/run_remaining_run_shadow.py --with-tmdb
+      - name: Commit research artifacts only
+        run: |
+          git add data/model_predictions/remaining_run_shadow data/models/remaining_run_shadow data/history/remaining_run_forecasts.jsonl.gz data/history/remaining_run_forecast_evaluation.jsonl.gz data/history/tmdb_dynamic_snapshots.jsonl.gz data/history/tmdb_stable_enrichment.jsonl.gz data/audits/remaining_run_shadow
+          if git diff --cached --quiet; then
+            echo "No shadow changes."
+            exit 0
+          fi
+          git -c user.name="reel-seattle-shadow" -c user.email="shadow@users.noreply.github.com" commit -m "Record the daily remaining-run shadow forecast."
+          git push
