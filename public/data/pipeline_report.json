@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-01T05:14:43-07:00",
+  "generated_at": "2026-10-02T04:44:53-07:00",
   "status": "success",
   "window": {
-    "start_date": "2026-10-01",
-    "end_date": "2027-09-30"
+    "start_date": "2026-10-02",
+    "end_date": "2027-10-01"
   },
   "sources": {
     "amc": {
       "status": "success",
-      "showtime_count": 7046,
-      "film_count": 119,
+      "showtime_count": 6750,
+      "film_count": 111,
       "theater_count": 7,
-      "last_successful_run": "2026-10-01",
+      "last_successful_run": "2026-10-02",
       "warnings": [
         "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
       ],
@@ -20,10 +20,10 @@
     },
     "siff": {
       "status": "success",
-      "showtime_count": 306,
-      "film_count": 72,
+      "showtime_count": 269,
+      "film_count": 67,
       "theater_count": 3,
-      "last_successful_run": "2026-10-01",
+      "last_successful_run": "2026-10-02",
       "warnings": [
         "SIFF parent/series page with no direct showtimes: programs-and-events/andrzej-wajda",
         "SIFF parent/series page with no direct showtimes: programs-and-events/celluloid-screenings",
@@ -38,28 +38,30 @@
     },
     "beacon": {
       "status": "success",
-      "showtime_count": 44,
-      "film_count": 27,
+      "showtime_count": 43,
+      "film_count": 26,
       "theater_count": 1,
-      "last_successful_run": "2026-10-01",
+      "last_successful_run": "2026-10-02",
       "warnings": [],
       "errors": []
     },
     "nwff": {
       "status": "success",
-      "showtime_count": 90,
-      "film_count": 44,
+      "showtime_count": 88,
+      "film_count": 43,
       "theater_count": 1,
       "last_successful_run": "2026-10-01",
-      "warnings": [],
+      "warnings": [
+        "NWFF scrape incomplete or unsafe (scrape_status=partial_failure); retained prior future rows."
+      ],
       "errors": []
     },
     "central_cinema": {
       "status": "success",
-      "showtime_count": 85,
-      "film_count": 21,
+      "showtime_count": 84,
+      "film_count": 20,
       "theater_count": 1,
-      "last_successful_run": "2026-10-01",
+      "last_successful_run": "2026-10-02",
       "warnings": [],
       "errors": []
     },
@@ -68,25 +70,25 @@
       "showtime_count": 12,
       "film_count": 12,
       "theater_count": 1,
-      "last_successful_run": "2026-10-01",
+      "last_successful_run": "2026-10-02",
       "warnings": [],
       "errors": []
     },
     "tasveer": {
       "status": "success",
-      "showtime_count": 46,
+      "showtime_count": 44,
       "film_count": 8,
       "theater_count": 1,
-      "last_successful_run": "2026-10-01",
+      "last_successful_run": "2026-10-02",
       "warnings": [],
       "errors": []
     },
     "anderson_school": {
       "status": "success",
-      "showtime_count": 51,
+      "showtime_count": 49,
       "film_count": 2,
       "theater_count": 1,
-      "last_successful_run": "2026-10-01",
+      "last_successful_run": "2026-10-02",
       "warnings": [],
       "errors": []
     },
@@ -95,8 +97,14 @@
       "showtime_count": 9,
       "film_count": 9,
       "theater_count": 3,
-      "last_successful_run": "2026-10-01",
+      "last_successful_run": "2026-10-02",
       "warnings": [
+        "ambiguous_film_event: STG event 77416 (Bayanihan Fest: Filipino Story Time Seattle) ambiguous: insufficient_screening_evidence",
+        "non_film_event: STG event 77395 (Bayanihan Fest: Parol Making Workshop) deny: non_screening_event",
+        "non_film_event: STG event 77379 (Resonate #11 – Musical Money) deny: non_screening_event",
+        "ambiguous_film_event: STG event 77372 (Resonate #10 – Merch It) ambiguous: insufficient_screening_evidence",
+        "ambiguous_film_event: STG event 77361 (Resonate #9 – Sound Mind) ambiguous: insufficient_screening_evidence",
+        "ambiguous_film_event: STG event 77348 (Resonate #8 – Artists Online) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 75141 (Hazlett) ambiguous: insufficient_screening_evidence",
         "non_film_event: STG event 77126 (Mei Semones) deny: non_screening_event",
         "non_film_event: STG event 77098 (Sona Jobarteh) deny: non_screening_event",
@@ -280,7 +288,6 @@
         "ambiguous_film_event: STG event 71336 (Cameron Whitcomb) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 71328 (Choir! Choir! Choir!) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 71227 (Bill Nye) ambiguous: insufficient_screening_evidence",
-        "ambiguous_film_event: STG event 71153 (Punch Brothers) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 71235 (Ray Lau) ambiguous: insufficient_screening_evidence",
         "non_film_event: STG event 71161 (The Buena Vista Orchestra) deny: non_screening_event",
         "non_film_event: STG event 71202 (The Menzingers) deny: non_screening_event",
@@ -351,17 +358,17 @@
     },
     "majestic_bay": {
       "status": "success",
-      "showtime_count": 60,
+      "showtime_count": 54,
       "film_count": 8,
       "theater_count": 1,
-      "last_successful_run": "2026-10-01",
+      "last_successful_run": "2026-10-02",
       "warnings": [],
       "errors": []
     }
   },
   "totals": {
-    "showtime_count": 7749,
-    "film_count": 301,
+    "showtime_count": 7402,
+    "film_count": 287,
     "theater_count": 19
   },
   "messages": [],
@@ -374,15 +381,15 @@
     "outcome": "promoted",
     "artifacts_written_this_run": true,
     "artifacts_retained_from_prior": false,
-    "reported_at": "2026-10-01T05:23:00-07:00",
-    "last_successful_build_at": "2026-10-01T05:20:56-07:00",
+    "reported_at": "2026-10-02T04:53:02-07:00",
+    "last_successful_build_at": "2026-10-02T04:51:06-07:00",
     "message": "AMC source catalog: promoted",
     "warnings": [],
     "errors": [],
     "refresh": {
-      "active_ids": 119,
-      "selected": 119,
-      "success": 119,
+      "active_ids": 111,
+      "selected": 111,
+      "success": 111,
       "failed": 0,
       "invalid": 0
     },
@@ -393,8 +400,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-10-01T05:20:56-07:00",
-        "record_count": 337,
+        "generated_at": "2026-10-02T04:51:06-07:00",
+        "record_count": 339,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -406,8 +413,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-10-01T05:20:56-07:00",
-        "record_count": 304,
+        "generated_at": "2026-10-02T04:51:06-07:00",
+        "record_count": 305,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -415,41 +422,41 @@
       }
     },
     "products_summary": {
-      "total": 337,
-      "active": 119,
-      "inactive": 218,
-      "with_release_id": 330,
+      "total": 339,
+      "active": 111,
+      "inactive": 228,
+      "with_release_id": 332,
       "without_release_id": 7,
       "refresh_pending": 0,
-      "refresh_success": 337,
+      "refresh_success": 339,
       "refresh_stale": 0,
       "refresh_failed": 0,
       "refresh_invalid": 0,
       "refresh_status_missing": 0,
       "stored_stats": {
-        "products": 337,
-        "active_products": 119,
-        "inactive_products": 218,
-        "with_release_id": 330,
+        "products": 339,
+        "active_products": 111,
+        "inactive_products": 228,
+        "with_release_id": 332,
         "without_release_id": 7,
         "refresh_pending": 0,
-        "refresh_success": 337,
+        "refresh_success": 339,
         "refresh_stale": 0,
         "refresh_failed": 0,
         "refresh_invalid": 0,
-        "special_presentations": 164
+        "special_presentations": 165
       }
     },
     "releases_summary": {
-      "total": 304,
+      "total": 305,
       "singleton_groups": 292,
-      "multi_product_groups": 12,
-      "membership_references": 330,
+      "multi_product_groups": 13,
+      "membership_references": 332,
       "unresolved_member_references": 0,
       "stored_stats": {
-        "release_observations": 304,
+        "release_observations": 305,
         "singleton_groups": 292,
-        "multi_product_groups": 12,
+        "multi_product_groups": 13,
         "largest_group": 14
       }
     }
