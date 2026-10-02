@@ -1133,6 +1133,8 @@ def render_html(result: Mapping[str, Any], out_dir: Path) -> None:
       ),
   )}
 
+  {result.get("validation_html", "")}
+
   {section(
       "3",
       "How fixed is each theater's programming capacity?",
@@ -1257,10 +1259,13 @@ def render_html(result: Mapping[str, Any], out_dir: Path) -> None:
 
 
 def write_outputs(result: dict[str, Any], out_dir: Path) -> None:
+    from reel_seattle.analysis.leaving_soon_announcement_validation import attach_validation
+
     out_dir.mkdir(parents=True, exist_ok=True)
     for name, rows in result["tables"].items():
         write_csv(out_dir / f"{name}.csv", rows)
     render_charts(result, out_dir)
+    attach_validation(result, out_dir)
     summary_path = out_dir / "summary.json"
     summary_path.write_text(json.dumps(json_ready(result["summary"]), indent=2), encoding="utf-8")
     render_html(result, out_dir)
