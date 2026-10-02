@@ -1,0 +1,22 @@
+feature,family,historical,included
+opening_week_screenings,opening,"yes, from played weeks before the snapshot",yes
+current_over_opening,opening,yes; blank when the run is left-truncated,yes
+current_over_peak,opening,"yes, observed weeks only",yes
+friday_saturday_evening_share,schedule quality,"yes, show times on the snapshot",yes
+matinee_share,schedule quality,yes,yes
+late_share,schedule quality,yes,yes
+theaters_with_10plus,market shape,yes,yes
+screening_concentration,market shape,yes,yes
+runtime_minutes,metadata,stable AMC or TMDB value,yes
+days_since_release,metadata,release date on or before the snapshot,yes
+language_* and genre_*,metadata,stable TMDB or AMC genre,yes
+arch_*,archetype,derived from those stable fields and opening theater count,yes
+known_national_openings,competition,catalog first_seen on or before the snapshot and release date in the next week,yes
+advance_screening_count,competition,showtimes already listed at the snapshot for titles that have not played,yes
+mean_adult_price,auditorium/price,daily log from 2026-07-19; blank before that,yes
+distinct_auditoriums,auditorium/price,same window; number is not capacity,yes
+screenings_x_week and related products,interactions,products of pre-publication features,yes
+incumbent_beyond_next_week,known future commitment,"yes, but it is a listing beyond next week, so it is scored separately",separate run only
+"tmdb popularity, votes, revenue",rejected,no,no
+"seat map, seats remaining, auditorium capacity",prospective,no,no
+movies catalog attribute_codes,rejected,current union of formats,no

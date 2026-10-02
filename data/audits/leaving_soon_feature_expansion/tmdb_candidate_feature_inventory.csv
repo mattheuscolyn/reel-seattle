@@ -1,0 +1,15 @@
+field,class,reason
+original_language,safe,Stable. Stored on matched films in film_enrichment_current.json.
+genres,safe,Stable list. Stored on matched films.
+runtime,safe,Stable. AMC runtime is preferred; TMDB fills gaps.
+release_date,safe,Stable. Used only when the date is on or before the snapshot.
+us_certification,safe,"Stored, but AMC MPAA rating is the field actually modeled."
+original_title vs display_title,safe,Stable identity. Not separately modeled.
+belongs_to_collection,uncertain,"Stable enough to reconstruct, but this repo does not store it. Not fetched live for this audit."
+production_companies,uncertain,"Usually stable, not stored. AMC distributor code is the stored studio-like field and was left out for cardinality."
+popularity,unsafe,Changes daily. A current value cannot score a past week.
+vote_count,unsafe,Grows after release. Needs a historical snapshot.
+vote_average,unsafe,Moves as votes arrive.
+revenue,unsafe,Updated after the theatrical run. Hindsight.
+budget,unsafe,Often filled in or revised after release.
+person popularity,unsafe,Current person popularity is not the value at prediction time.

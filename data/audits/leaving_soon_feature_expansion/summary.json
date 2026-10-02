@@ -1,0 +1,1496 @@
+{
+  "as_of": "2026-10-01",
+  "train_end": "2026-08-16",
+  "validation_end": "2026-09-06",
+  "baseline": {
+    "n": 405,
+    "bucket_counts": {
+      "final_week": 246,
+      "plus_1": 75,
+      "plus_2": 28,
+      "plus_3": 56
+    },
+    "log_loss": 0.7922661143739411,
+    "brier": 0.3994090608184445,
+    "accuracy": 0.6962962962962963,
+    "median_abs_error_capped": 0.3084887561274101,
+    "pr_auc_final_week": 0.8913085697925266,
+    "pr_auc_exactly_1": 0.3913057677024216,
+    "pr_auc_exactly_2": 0.21342811643723217,
+    "pr_auc_3_plus": 0.6774772851518515,
+    "pr_auc_gone_within_2_weeks": 0.9746446995510807,
+    "calibration": [
+      {
+        "bucket": "final_week",
+        "n": 246,
+        "observed_share": 0.6074074074074074,
+        "mean_predicted": 0.5721031805781419
+      },
+      {
+        "bucket": "plus_1",
+        "n": 75,
+        "observed_share": 0.18518518518518517,
+        "mean_predicted": 0.22027899032389486
+      },
+      {
+        "bucket": "plus_2",
+        "n": 28,
+        "observed_share": 0.0691358024691358,
+        "mean_predicted": 0.09534629996127147
+      },
+      {
+        "bucket": "plus_3",
+        "n": 56,
+        "observed_share": 0.1382716049382716,
+        "mean_predicted": 0.11227152913669172
+      }
+    ],
+    "confusion": [
+      [
+        213,
+        28,
+        4,
+        1
+      ],
+      [
+        42,
+        27,
+        3,
+        3
+      ],
+      [
+        5,
+        7,
+        4,
+        12
+      ],
+      [
+        8,
+        6,
+        4,
+        38
+      ]
+    ],
+    "ranking_pairwise": 0.8531913627981679,
+    "ranking_n": 16811
+  },
+  "best_model": "opening_footprint",
+  "best_metrics": {
+    "n": 405,
+    "bucket_counts": {
+      "final_week": 246,
+      "plus_1": 75,
+      "plus_2": 28,
+      "plus_3": 56
+    },
+    "log_loss": 0.7273115637950004,
+    "brier": 0.3537960657253071,
+    "accuracy": 0.7506172839506173,
+    "median_abs_error_capped": 0.20659650923107392,
+    "pr_auc_final_week": 0.9095179805895279,
+    "pr_auc_exactly_1": 0.45369365392339034,
+    "pr_auc_exactly_2": 0.24539076741720792,
+    "pr_auc_3_plus": 0.796162092634904,
+    "pr_auc_gone_within_2_weeks": 0.9772790808071061,
+    "calibration": [
+      {
+        "bucket": "final_week",
+        "n": 246,
+        "observed_share": 0.6074074074074074,
+        "mean_predicted": 0.5908405600458855
+      },
+      {
+        "bucket": "plus_1",
+        "n": 75,
+        "observed_share": 0.18518518518518517,
+        "mean_predicted": 0.19023319603908065
+      },
+      {
+        "bucket": "plus_2",
+        "n": 28,
+        "observed_share": 0.0691358024691358,
+        "mean_predicted": 0.07547335324190281
+      },
+      {
+        "bucket": "plus_3",
+        "n": 56,
+        "observed_share": 0.1382716049382716,
+        "mean_predicted": 0.14345289067313108
+      }
+    ],
+    "confusion": [
+      [
+        223,
+        17,
+        4,
+        2
+      ],
+      [
+        35,
+        33,
+        2,
+        5
+      ],
+      [
+        4,
+        8,
+        2,
+        14
+      ],
+      [
+        8,
+        1,
+        1,
+        46
+      ]
+    ],
+    "ranking_pairwise": 0.8770447921004104
+  },
+  "results": [
+    {
+      "model": "pr140_baseline",
+      "mode": "baseline",
+      "features": 39,
+      "n": 405,
+      "log_loss": 0.7922661143739411,
+      "brier": 0.3994090608184445,
+      "pr_auc_final_week": 0.8913085697925266,
+      "pr_auc_exactly_1": 0.3913057677024216,
+      "pr_auc_exactly_2": 0.21342811643723217,
+      "pr_auc_3_plus": 0.6774772851518515,
+      "pr_auc_gone_within_2_weeks": 0.9746446995510807,
+      "median_abs_error_capped": 0.3084887561274101,
+      "accuracy": 0.6962962962962963,
+      "ranking_pairwise": 0.8531913627981679
+    },
+    {
+      "model": "opening_footprint",
+      "mode": "cumulative",
+      "features": 50,
+      "n": 405,
+      "log_loss": 0.7273115637950004,
+      "brier": 0.3537960657253071,
+      "pr_auc_final_week": 0.9095179805895279,
+      "pr_auc_exactly_1": 0.45369365392339034,
+      "pr_auc_exactly_2": 0.24539076741720792,
+      "pr_auc_3_plus": 0.796162092634904,
+      "pr_auc_gone_within_2_weeks": 0.9772790808071061,
+      "median_abs_error_capped": 0.20659650923107392,
+      "accuracy": 0.7506172839506173,
+      "ranking_pairwise": 0.8770447921004104
+    },
+    {
+      "model": "opening_footprint",
+      "mode": "added_alone",
+      "features": 50,
+      "n": 405,
+      "log_loss": 0.7273115637950004,
+      "brier": 0.3537960657253071,
+      "pr_auc_final_week": 0.9095179805895279,
+      "pr_auc_exactly_1": 0.45369365392339034,
+      "pr_auc_exactly_2": 0.24539076741720792,
+      "pr_auc_3_plus": 0.796162092634904,
+      "pr_auc_gone_within_2_weeks": 0.9772790808071061,
+      "median_abs_error_capped": 0.20659650923107392,
+      "accuracy": 0.7506172839506173,
+      "ranking_pairwise": 0.8770447921004104
+    },
+    {
+      "model": "schedule_quality",
+      "mode": "cumulative",
+      "features": 55,
+      "n": 405,
+      "log_loss": 0.7302621097081881,
+      "brier": 0.357345254875904,
+      "pr_auc_final_week": 0.917135448279478,
+      "pr_auc_exactly_1": 0.4345275960817816,
+      "pr_auc_exactly_2": 0.2216525002686923,
+      "pr_auc_3_plus": 0.7939989128899421,
+      "pr_auc_gone_within_2_weeks": 0.9772024863659411,
+      "median_abs_error_capped": 0.20804625219534667,
+      "accuracy": 0.7382716049382716,
+      "ranking_pairwise": 0.8774611861281304
+    },
+    {
+      "model": "schedule_quality",
+      "mode": "added_alone",
+      "features": 44,
+      "n": 405,
+      "log_loss": 0.7930880125706883,
+      "brier": 0.4016841625230211,
+      "pr_auc_final_week": 0.8933580502953928,
+      "pr_auc_exactly_1": 0.3974930465692561,
+      "pr_auc_exactly_2": 0.19439739026917577,
+      "pr_auc_3_plus": 0.6816969782674012,
+      "pr_auc_gone_within_2_weeks": 0.9742499184710844,
+      "median_abs_error_capped": 0.30122379996031673,
+      "accuracy": 0.7061728395061728,
+      "ranking_pairwise": 0.8511093926595681
+    },
+    {
+      "model": "market_shape",
+      "mode": "cumulative",
+      "features": 60,
+      "n": 405,
+      "log_loss": 0.7654162113484306,
+      "brier": 0.37894417202008696,
+      "pr_auc_final_week": 0.9066847839880597,
+      "pr_auc_exactly_1": 0.37704193661530716,
+      "pr_auc_exactly_2": 0.18310364996970874,
+      "pr_auc_3_plus": 0.7931948396593742,
+      "pr_auc_gone_within_2_weeks": 0.9768053115024192,
+      "median_abs_error_capped": 0.24974950951036323,
+      "accuracy": 0.7160493827160493,
+      "ranking_pairwise": 0.8766283980726906
+    },
+    {
+      "model": "market_shape",
+      "mode": "added_alone",
+      "features": 44,
+      "n": 405,
+      "log_loss": 0.8173109660849757,
+      "brier": 0.41267731979289946,
+      "pr_auc_final_week": 0.8769044330867342,
+      "pr_auc_exactly_1": 0.35920217748776206,
+      "pr_auc_exactly_2": 0.17763866157613012,
+      "pr_auc_3_plus": 0.7090736309740715,
+      "pr_auc_gone_within_2_weeks": 0.9725503561120035,
+      "median_abs_error_capped": 0.3105150036327778,
+      "accuracy": 0.6839506172839506,
+      "ranking_pairwise": 0.8461126643269288
+    },
+    {
+      "model": "safe_metadata",
+      "mode": "cumulative",
+      "features": 71,
+      "n": 405,
+      "log_loss": 0.9064095415507734,
+      "brier": 0.39615001295503716,
+      "pr_auc_final_week": 0.8809435136051967,
+      "pr_auc_exactly_1": 0.43462855591320404,
+      "pr_auc_exactly_2": 0.2625501267267014,
+      "pr_auc_3_plus": 0.7428267842067157,
+      "pr_auc_gone_within_2_weeks": 0.95621078734546,
+      "median_abs_error_capped": 0.24719836087622518,
+      "accuracy": 0.7283950617283951,
+      "ranking_pairwise": 0.8448039973826661
+    },
+    {
+      "model": "safe_metadata",
+      "mode": "added_alone",
+      "features": 50,
+      "n": 405,
+      "log_loss": 1.035470563125487,
+      "brier": 0.4533448673804214,
+      "pr_auc_final_week": 0.8699701924353365,
+      "pr_auc_exactly_1": 0.33659173382818136,
+      "pr_auc_exactly_2": 0.19577344496519267,
+      "pr_auc_3_plus": 0.550941439690343,
+      "pr_auc_gone_within_2_weeks": 0.9453923076713491,
+      "median_abs_error_capped": 0.33448948476801454,
+      "accuracy": 0.6691358024691358,
+      "ranking_pairwise": 0.7982273511391351
+    },
+    {
+      "model": "archetype",
+      "mode": "cumulative",
+      "features": 81,
+      "n": 405,
+      "log_loss": 0.8961957392540387,
+      "brier": 0.3956650515013343,
+      "pr_auc_final_week": 0.8820005466459564,
+      "pr_auc_exactly_1": 0.4316625872174714,
+      "pr_auc_exactly_2": 0.23419627351438965,
+      "pr_auc_3_plus": 0.7497270293839688,
+      "pr_auc_gone_within_2_weeks": 0.9583352941166026,
+      "median_abs_error_capped": 0.25292047191923483,
+      "accuracy": 0.7185185185185186,
+      "ranking_pairwise": 0.842484087799655
+    },
+    {
+      "model": "archetype",
+      "mode": "added_alone",
+      "features": 49,
+      "n": 405,
+      "log_loss": 0.8804565265955292,
+      "brier": 0.4318253625036913,
+      "pr_auc_final_week": 0.8758101677652402,
+      "pr_auc_exactly_1": 0.36934156994040684,
+      "pr_auc_exactly_2": 0.2464194301337976,
+      "pr_auc_3_plus": 0.6185677376888182,
+      "pr_auc_gone_within_2_weeks": 0.9678183408687799,
+      "median_abs_error_capped": 0.314754221366103,
+      "accuracy": 0.6765432098765433,
+      "ranking_pairwise": 0.8258283266908572
+    },
+    {
+      "model": "competition",
+      "mode": "cumulative",
+      "features": 85,
+      "n": 405,
+      "log_loss": 1.028548393546991,
+      "brier": 0.4091307194503867,
+      "pr_auc_final_week": 0.8860564198419992,
+      "pr_auc_exactly_1": 0.3956680442993707,
+      "pr_auc_exactly_2": 0.24312098363213985,
+      "pr_auc_3_plus": 0.7418032175371494,
+      "pr_auc_gone_within_2_weeks": 0.9595328776741776,
+      "median_abs_error_capped": 0.11654822904371569,
+      "accuracy": 0.7135802469135802,
+      "ranking_pairwise": 0.8422461483552436
+    },
+    {
+      "model": "competition",
+      "mode": "added_alone",
+      "features": 43,
+      "n": 405,
+      "log_loss": 0.8191376969681112,
+      "brier": 0.402792682502483,
+      "pr_auc_final_week": 0.886404622066248,
+      "pr_auc_exactly_1": 0.41478779499581003,
+      "pr_auc_exactly_2": 0.26181344848273286,
+      "pr_auc_3_plus": 0.7349328998888095,
+      "pr_auc_gone_within_2_weeks": 0.9779938396721767,
+      "median_abs_error_capped": 0.2086380774836529,
+      "accuracy": 0.6987654320987654,
+      "ranking_pairwise": 0.8579501516863958
+    },
+    {
+      "model": "auditorium_price",
+      "mode": "cumulative",
+      "features": 88,
+      "n": 405,
+      "log_loss": 1.0155543841074464,
+      "brier": 0.4046451510928525,
+      "pr_auc_final_week": 0.9021717504675548,
+      "pr_auc_exactly_1": 0.3981337091377327,
+      "pr_auc_exactly_2": 0.2760835030030205,
+      "pr_auc_3_plus": 0.758322339465964,
+      "pr_auc_gone_within_2_weeks": 0.9648596710143513,
+      "median_abs_error_capped": 0.1211825431565345,
+      "accuracy": 0.7185185185185186,
+      "ranking_pairwise": 0.8496817559930998
+    },
+    {
+      "model": "auditorium_price",
+      "mode": "added_alone",
+      "features": 42,
+      "n": 405,
+      "log_loss": 0.7558852124106046,
+      "brier": 0.3847677756986338,
+      "pr_auc_final_week": 0.9031325217604358,
+      "pr_auc_exactly_1": 0.42130708891231566,
+      "pr_auc_exactly_2": 0.287488947472293,
+      "pr_auc_3_plus": 0.7383753218872641,
+      "pr_auc_gone_within_2_weeks": 0.9778254326930731,
+      "median_abs_error_capped": 0.2781988527285607,
+      "accuracy": 0.725925925925926,
+      "ranking_pairwise": 0.8680625780738802
+    },
+    {
+      "model": "interactions",
+      "mode": "cumulative",
+      "features": 93,
+      "n": 405,
+      "log_loss": 1.062902507321477,
+      "brier": 0.41080749025208857,
+      "pr_auc_final_week": 0.8916849780608487,
+      "pr_auc_exactly_1": 0.4353216067917572,
+      "pr_auc_exactly_2": 0.3221850479747895,
+      "pr_auc_3_plus": 0.7589190279956375,
+      "pr_auc_gone_within_2_weeks": 0.9605015741492882,
+      "median_abs_error_capped": 0.1069848985403147,
+      "accuracy": 0.7234567901234568,
+      "ranking_pairwise": 0.8424246029385521
+    },
+    {
+      "model": "interactions",
+      "mode": "added_alone",
+      "features": 44,
+      "n": 405,
+      "log_loss": 0.7755514843970093,
+      "brier": 0.3859980989636158,
+      "pr_auc_final_week": 0.8932357886474921,
+      "pr_auc_exactly_1": 0.3925593384290441,
+      "pr_auc_exactly_2": 0.2291164281521197,
+      "pr_auc_3_plus": 0.7192785985744109,
+      "pr_auc_gone_within_2_weeks": 0.9744432433436472,
+      "median_abs_error_capped": 0.28272841529998016,
+      "accuracy": 0.7135802469135802,
+      "ranking_pairwise": 0.8603295461305098
+    },
+    {
+      "model": "known_future_commitment",
+      "mode": "added_alone_to_full",
+      "features": 94,
+      "n": 405,
+      "log_loss": 1.0670561694446261,
+      "brier": 0.4115381664791054,
+      "pr_auc_final_week": 0.8914875675478265,
+      "pr_auc_exactly_1": 0.42515098915278016,
+      "pr_auc_exactly_2": 0.31985977739440696,
+      "pr_auc_3_plus": 0.7576908208836222,
+      "median_abs_error_capped": 0.10458912373499307,
+      "accuracy": 0.725925925925926,
+      "ranking_pairwise": 0.8423651180774493
+    }
+  ],
+  "two_stage": {
+    "n": 405,
+    "bucket_counts": {
+      "final_week": 246,
+      "plus_1": 75,
+      "plus_2": 28,
+      "plus_3": 56
+    },
+    "log_loss": 1.1681863127271888,
+    "brier": 0.4299227844517273,
+    "accuracy": 0.7333333333333333,
+    "median_abs_error_capped": 0.057980683572026584,
+    "pr_auc_final_week": 0.8938547959160776,
+    "pr_auc_exactly_1": 0.46907312344659907,
+    "pr_auc_exactly_2": 0.2859890191740507,
+    "pr_auc_3_plus": 0.7721349965845778,
+    "pr_auc_gone_within_2_weeks": 0.9500132678600373,
+    "calibration": [
+      {
+        "bucket": "final_week",
+        "n": 246,
+        "observed_share": 0.6074074074074074,
+        "mean_predicted": 0.736289929408676
+      },
+      {
+        "bucket": "plus_1",
+        "n": 75,
+        "observed_share": 0.18518518518518517,
+        "mean_predicted": 0.15219205546205813
+      },
+      {
+        "bucket": "plus_2",
+        "n": 28,
+        "observed_share": 0.0691358024691358,
+        "mean_predicted": 0.0142653089217404
+      },
+      {
+        "bucket": "plus_3",
+        "n": 56,
+        "observed_share": 0.1382716049382716,
+        "mean_predicted": 0.0972527062075256
+      }
+    ],
+    "confusion": [
+      [
+        240,
+        5,
+        0,
+        1
+      ],
+      [
+        52,
+        23,
+        0,
+        0
+      ],
+      [
+        9,
+        11,
+        1,
+        7
+      ],
+      [
+        15,
+        8,
+        0,
+        33
+      ]
+    ],
+    "ranking_pairwise": 0.8452798762714889
+  },
+  "multiclass_expanded": {
+    "n": 405,
+    "log_loss": 1.0525386956698184,
+    "brier": 0.4030262293994077,
+    "pr_auc_final_week": 0.8948228824707538,
+    "pr_auc_exactly_1": 0.44293264690251,
+    "pr_auc_exactly_2": 0.24404199865510023,
+    "pr_auc_3_plus": 0.7889507051026519,
+    "median_abs_error_capped": 0.06833751797038086
+  },
+  "future_commitment": {
+    "n": 405,
+    "bucket_counts": {
+      "final_week": 246,
+      "plus_1": 75,
+      "plus_2": 28,
+      "plus_3": 56
+    },
+    "log_loss": 1.0670561694446261,
+    "brier": 0.4115381664791054,
+    "accuracy": 0.725925925925926,
+    "median_abs_error_capped": 0.10458912373499307,
+    "pr_auc_final_week": 0.8914875675478265,
+    "pr_auc_exactly_1": 0.42515098915278016,
+    "pr_auc_exactly_2": 0.31985977739440696,
+    "pr_auc_3_plus": 0.7576908208836222,
+    "pr_auc_gone_within_2_weeks": 0.960248575057171,
+    "calibration": [
+      {
+        "bucket": "final_week",
+        "n": 246,
+        "observed_share": 0.6074074074074074,
+        "mean_predicted": 0.7281078619338459
+      },
+      {
+        "bucket": "plus_1",
+        "n": 75,
+        "observed_share": 0.18518518518518517,
+        "mean_predicted": 0.13938327456356983
+      },
+      {
+        "bucket": "plus_2",
+        "n": 28,
+        "observed_share": 0.0691358024691358,
+        "mean_predicted": 0.04731376568999512
+      },
+      {
+        "bucket": "plus_3",
+        "n": 56,
+        "observed_share": 0.1382716049382716,
+        "mean_predicted": 0.08519509781258917
+      }
+    ],
+    "confusion": [
+      [
+        237,
+        8,
+        0,
+        1
+      ],
+      [
+        55,
+        19,
+        0,
+        1
+      ],
+      [
+        11,
+        7,
+        5,
+        5
+      ],
+      [
+        14,
+        4,
+        5,
+        33
+      ]
+    ],
+    "ranking_pairwise": 0.8423651180774493,
+    "ranking_n": 16811
+  },
+  "future_scored_note": 521,
+  "bootstrap_best_minus_baseline": {
+    "n": 405,
+    "draws": 400,
+    "log_loss": {
+      "mean_delta": -0.06512856308376355,
+      "low": -0.10569257621222262,
+      "high": -0.02556424671945279
+    },
+    "pr_auc_exactly_1": {
+      "mean_delta": 0.0646609542955145,
+      "low": -0.018196842402125733,
+      "high": 0.14154062124293473
+    },
+    "pr_auc_exactly_2": {
+      "mean_delta": 0.028637572386966688,
+      "low": -0.06646852619390707,
+      "high": 0.12095918962655139
+    },
+    "pr_auc_final_week": {
+      "mean_delta": 0.017662113512450374,
+      "low": 0.002075751623771646,
+      "high": 0.035890035169641926
+    }
+  },
+  "opening_week": {
+    "general": {
+      "n": 168,
+      "bucket_counts": {
+        "final_week": 116,
+        "plus_1": 16,
+        "plus_2": 13,
+        "plus_3": 23
+      },
+      "log_loss": 0.47465547493668747,
+      "brier": 0.2724813102193163,
+      "accuracy": 0.8035714285714286,
+      "median_abs_error_capped": 0.2184488692970109,
+      "pr_auc_final_week": 0.9663652723683651,
+      "pr_auc_exactly_1": 0.2715606703162629,
+      "pr_auc_exactly_2": 0.3540172388350693,
+      "pr_auc_3_plus": 0.7751770323031306,
+      "pr_auc_gone_within_2_weeks": 0.9995955192108095,
+      "calibration": [
+        {
+          "bucket": "final_week",
+          "n": 116,
+          "observed_share": 0.6904761904761905,
+          "mean_predicted": 0.6334728662861121
+        },
+        {
+          "bucket": "plus_1",
+          "n": 16,
+          "observed_share": 0.09523809523809523,
+          "mean_predicted": 0.16114836396117352
+        },
+        {
+          "bucket": "plus_2",
+          "n": 13,
+          "observed_share": 0.07738095238095238,
+          "mean_predicted": 0.05499712717764103
+        },
+        {
+          "bucket": "plus_3",
+          "n": 23,
+          "observed_share": 0.13690476190476192,
+          "mean_predicted": 0.15038164257507333
+        }
+      ],
+      "confusion": [
+        [
+          113,
+          3,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          12
+        ],
+        [
+          0,
+          1,
+          0,
+          22
+        ]
+      ],
+      "ranking_pairwise": 0.9315015479876161,
+      "ranking_n": 2584
+    },
+    "separate": {
+      "n": 168,
+      "bucket_counts": {
+        "final_week": 116,
+        "plus_1": 16,
+        "plus_2": 13,
+        "plus_3": 23
+      },
+      "log_loss": 0.5476120834189784,
+      "brier": 0.30969541403544515,
+      "accuracy": 0.7440476190476191,
+      "median_abs_error_capped": 0.14701014244942337,
+      "pr_auc_final_week": 0.9783421381066643,
+      "pr_auc_exactly_1": 0.26907364713964627,
+      "pr_auc_exactly_2": 0.39078900947783785,
+      "pr_auc_3_plus": 0.8404385073594605,
+      "pr_auc_gone_within_2_weeks": 0.9985490166422818,
+      "calibration": [
+        {
+          "bucket": "final_week",
+          "n": 116,
+          "observed_share": 0.6904761904761905,
+          "mean_predicted": 0.5776096505856174
+        },
+        {
+          "bucket": "plus_1",
+          "n": 16,
+          "observed_share": 0.09523809523809523,
+          "mean_predicted": 0.17064084477953173
+        },
+        {
+          "bucket": "plus_2",
+          "n": 13,
+          "observed_share": 0.07738095238095238,
+          "mean_predicted": 0.06787428780707104
+        },
+        {
+          "bucket": "plus_3",
+          "n": 23,
+          "observed_share": 0.13690476190476192,
+          "mean_predicted": 0.1838752168277798
+        }
+      ],
+      "confusion": [
+        [
+          93,
+          22,
+          0,
+          1
+        ],
+        [
+          4,
+          8,
+          3,
+          1
+        ],
+        [
+          0,
+          1,
+          1,
+          11
+        ],
+        [
+          0,
+          0,
+          0,
+          23
+        ]
+      ],
+      "ranking_pairwise": 0.9388544891640866,
+      "ranking_n": 2584
+    },
+    "holdout_n": 211
+  },
+  "market_baseline": {
+    "n": 112,
+    "bucket_counts": {
+      "final_week": 72,
+      "plus_1": 20,
+      "plus_2": 7,
+      "plus_3": 13
+    },
+    "log_loss": 0.7626243005436386,
+    "brier": 0.37358501773503777,
+    "accuracy": 0.7232142857142857,
+    "median_abs_error_capped": 0.20935400040277502,
+    "pr_auc_final_week": 0.8990909075134088,
+    "pr_auc_exactly_1": 0.3841992352380741,
+    "pr_auc_exactly_2": 0.18675483144229013,
+    "pr_auc_3_plus": 0.7669726614848567,
+    "pr_auc_gone_within_2_weeks": 0.9722845413328436,
+    "calibration": [
+      {
+        "bucket": "final_week",
+        "n": 72,
+        "observed_share": 0.6428571428571429,
+        "mean_predicted": 0.657240313568618
+      },
+      {
+        "bucket": "plus_1",
+        "n": 20,
+        "observed_share": 0.17857142857142858,
+        "mean_predicted": 0.1792525364380765
+      },
+      {
+        "bucket": "plus_2",
+        "n": 7,
+        "observed_share": 0.0625,
+        "mean_predicted": 0.06914360899232942
+      },
+      {
+        "bucket": "plus_3",
+        "n": 13,
+        "observed_share": 0.11607142857142858,
+        "mean_predicted": 0.09436354100097609
+      }
+    ],
+    "confusion": [
+      [
+        67,
+        4,
+        1,
+        0
+      ],
+      [
+        11,
+        6,
+        2,
+        1
+      ],
+      [
+        2,
+        2,
+        0,
+        3
+      ],
+      [
+        1,
+        2,
+        2,
+        8
+      ]
+    ],
+    "ranking_pairwise": 0.8448844884488449,
+    "ranking_n": 1212
+  },
+  "market_expanded": {
+    "n": 112,
+    "bucket_counts": {
+      "final_week": 72,
+      "plus_1": 20,
+      "plus_2": 7,
+      "plus_3": 13
+    },
+    "log_loss": 0.8840231027047212,
+    "brier": 0.3694519907691976,
+    "accuracy": 0.7589285714285714,
+    "median_abs_error_capped": 0.1840194985079714,
+    "pr_auc_final_week": 0.9094725691626628,
+    "pr_auc_exactly_1": 0.4858273164596043,
+    "pr_auc_exactly_2": 0.2243202810935928,
+    "pr_auc_3_plus": 0.7224211590878258,
+    "pr_auc_gone_within_2_weeks": 0.9677068524556076,
+    "calibration": [
+      {
+        "bucket": "final_week",
+        "n": 72,
+        "observed_share": 0.6428571428571429,
+        "mean_predicted": 0.686153832184367
+      },
+      {
+        "bucket": "plus_1",
+        "n": 20,
+        "observed_share": 0.17857142857142858,
+        "mean_predicted": 0.17520297651491143
+      },
+      {
+        "bucket": "plus_2",
+        "n": 7,
+        "observed_share": 0.0625,
+        "mean_predicted": 0.05739158400760362
+      },
+      {
+        "bucket": "plus_3",
+        "n": 13,
+        "observed_share": 0.11607142857142858,
+        "mean_predicted": 0.081251607293118
+      }
+    ],
+    "confusion": [
+      [
+        68,
+        3,
+        1,
+        0
+      ],
+      [
+        12,
+        7,
+        1,
+        0
+      ],
+      [
+        2,
+        2,
+        1,
+        2
+      ],
+      [
+        2,
+        2,
+        0,
+        9
+      ]
+    ],
+    "ranking_pairwise": 0.8366336633663366,
+    "ranking_n": 1212
+  },
+  "survival": {
+    "opening": [
+      {
+        "opening": "truncated",
+        "n": 518,
+        "survive_at_least_1": 0.5231660231660231,
+        "n_1": 518,
+        "survive_at_least_2": 0.3532818532818533,
+        "n_2": 518,
+        "survive_at_least_3": 0.23166023166023167,
+        "n_3": 518,
+        "survive_at_least_4": 0.14285714285714285,
+        "n_4": 518
+      },
+      {
+        "opening": "1-8",
+        "n": 1206,
+        "survive_at_least_1": 0.46511627906976744,
+        "n_1": 1204,
+        "survive_at_least_2": 0.26518391787852863,
+        "n_2": 1169,
+        "survive_at_least_3": 0.11131221719457013,
+        "n_3": 1105,
+        "survive_at_least_4": 0.05067873303167421,
+        "n_4": 1105
+      },
+      {
+        "opening": "21+",
+        "n": 59,
+        "survive_at_least_1": 0.8813559322033898,
+        "n_1": 59,
+        "survive_at_least_2": 0.8305084745762712,
+        "n_2": 59,
+        "survive_at_least_3": 0.7592592592592593,
+        "n_3": 54,
+        "survive_at_least_4": 0.6296296296296297,
+        "n_4": 54
+      },
+      {
+        "opening": "9-20",
+        "n": 124,
+        "survive_at_least_1": 0.782258064516129,
+        "n_1": 124,
+        "survive_at_least_2": 0.6585365853658537,
+        "n_2": 123,
+        "survive_at_least_3": 0.5789473684210527,
+        "n_3": 114,
+        "survive_at_least_4": 0.47368421052631576,
+        "n_4": 114
+      }
+    ],
+    "retention": [
+      {
+        "retention": "at least 90% of peak",
+        "n": 1358,
+        "survive_at_least_1": 0.4896755162241888,
+        "n_1": 1356,
+        "survive_at_least_2": 0.30711610486891383,
+        "n_2": 1335,
+        "survive_at_least_3": 0.16666666666666666,
+        "n_3": 1278,
+        "survive_at_least_4": 0.09624413145539906,
+        "n_4": 1278
+      },
+      {
+        "retention": "under 40% of peak",
+        "n": 261,
+        "survive_at_least_1": 0.47126436781609193,
+        "n_1": 261,
+        "survive_at_least_2": 0.3590733590733591,
+        "n_2": 259,
+        "survive_at_least_3": 0.2661290322580645,
+        "n_3": 248,
+        "survive_at_least_4": 0.1935483870967742,
+        "n_4": 248
+      },
+      {
+        "retention": "70-90% of peak",
+        "n": 101,
+        "survive_at_least_1": 0.7029702970297029,
+        "n_1": 101,
+        "survive_at_least_2": 0.4782608695652174,
+        "n_2": 92,
+        "survive_at_least_3": 0.25555555555555554,
+        "n_3": 90,
+        "survive_at_least_4": 0.17777777777777778,
+        "n_4": 90
+      },
+      {
+        "retention": "40-70% of peak",
+        "n": 187,
+        "survive_at_least_1": 0.6524064171122995,
+        "n_1": 187,
+        "survive_at_least_2": 0.41530054644808745,
+        "n_2": 183,
+        "survive_at_least_3": 0.2742857142857143,
+        "n_3": 175,
+        "survive_at_least_4": 0.17714285714285713,
+        "n_4": 175
+      }
+    ],
+    "prime": [
+      {
+        "prime": "prime under 20%",
+        "n": 396,
+        "survive_at_least_1": 0.1388888888888889,
+        "n_1": 396,
+        "survive_at_least_2": 0.03316326530612245,
+        "n_2": 392,
+        "survive_at_least_3": 0.01278772378516624,
+        "n_3": 391,
+        "survive_at_least_4": 0.005115089514066497,
+        "n_4": 391
+      },
+      {
+        "prime": "prime 20-50%",
+        "n": 868,
+        "survive_at_least_1": 0.7799539170506913,
+        "n_1": 868,
+        "survive_at_least_2": 0.5479289940828402,
+        "n_2": 845,
+        "survive_at_least_3": 0.3592964824120603,
+        "n_3": 796,
+        "survive_at_least_4": 0.24120603015075376,
+        "n_4": 796
+      },
+      {
+        "prime": "prime at least 50%",
+        "n": 643,
+        "survive_at_least_1": 0.3868954758190328,
+        "n_1": 641,
+        "survive_at_least_2": 0.23259493670886075,
+        "n_2": 632,
+        "survive_at_least_3": 0.09768211920529801,
+        "n_3": 604,
+        "survive_at_least_4": 0.039735099337748346,
+        "n_4": 604
+      }
+    ],
+    "friday_evening": [
+      {
+        "friday_evening": "no friday/saturday evening",
+        "n": 1047,
+        "survive_at_least_1": 0.36962750716332377,
+        "n_1": 1047,
+        "survive_at_least_2": 0.25722543352601157,
+        "n_2": 1038,
+        "survive_at_least_3": 0.12612612612612611,
+        "n_3": 999,
+        "survive_at_least_4": 0.07407407407407407,
+        "n_4": 999
+      },
+      {
+        "friday_evening": "some friday/saturday evening",
+        "n": 860,
+        "survive_at_least_1": 0.6911421911421911,
+        "n_1": 858,
+        "survive_at_least_2": 0.42839951865222625,
+        "n_2": 831,
+        "survive_at_least_3": 0.2828282828282828,
+        "n_3": 792,
+        "survive_at_least_4": 0.18181818181818182,
+        "n_4": 792
+      }
+    ],
+    "shape": [
+      {
+        "shape": "one strong theater",
+        "n": 650,
+        "survive_at_least_1": 0.3769230769230769,
+        "n_1": 650,
+        "survive_at_least_2": 0.2993827160493827,
+        "n_2": 648,
+        "survive_at_least_3": 0.1254071661237785,
+        "n_3": 614,
+        "survive_at_least_4": 0.06677524429967427,
+        "n_4": 614
+      },
+      {
+        "shape": "two or more strong theaters",
+        "n": 944,
+        "survive_at_least_1": 0.7059447983014862,
+        "n_1": 942,
+        "survive_at_least_2": 0.4506578947368421,
+        "n_2": 912,
+        "survive_at_least_3": 0.3084862385321101,
+        "n_3": 872,
+        "survive_at_least_4": 0.2029816513761468,
+        "n_4": 872
+      },
+      {
+        "shape": "no theater at 10+",
+        "n": 313,
+        "survive_at_least_1": 0.22364217252396165,
+        "n_1": 313,
+        "survive_at_least_2": 0.05825242718446602,
+        "n_2": 309,
+        "survive_at_least_3": 0.013114754098360656,
+        "n_3": 305,
+        "survive_at_least_4": 0.0,
+        "n_4": 305
+      }
+    ],
+    "archetype": [
+      {
+        "archetype": "unclassified",
+        "n": 508,
+        "survive_at_least_1": 0.34782608695652173,
+        "n_1": 506,
+        "survive_at_least_2": 0.17892644135188868,
+        "n_2": 503,
+        "survive_at_least_3": 0.0874751491053678,
+        "n_3": 503,
+        "survive_at_least_4": 0.041749502982107355,
+        "n_4": 503
+      },
+      {
+        "archetype": "family",
+        "n": 248,
+        "survive_at_least_1": 0.6532258064516129,
+        "n_1": 248,
+        "survive_at_least_2": 0.4854771784232365,
+        "n_2": 241,
+        "survive_at_least_3": 0.32894736842105265,
+        "n_3": 228,
+        "survive_at_least_4": 0.23684210526315788,
+        "n_4": 228
+      },
+      {
+        "archetype": "horror",
+        "n": 162,
+        "survive_at_least_1": 0.654320987654321,
+        "n_1": 162,
+        "survive_at_least_2": 0.39751552795031053,
+        "n_2": 161,
+        "survive_at_least_3": 0.2125,
+        "n_3": 160,
+        "survive_at_least_4": 0.09375,
+        "n_4": 160
+      },
+      {
+        "archetype": "wide",
+        "n": 855,
+        "survive_at_least_1": 0.5730994152046783,
+        "n_1": 855,
+        "survive_at_least_2": 0.40936374549819926,
+        "n_2": 833,
+        "survive_at_least_3": 0.2529182879377432,
+        "n_3": 771,
+        "survive_at_least_4": 0.16601815823605706,
+        "n_4": 771
+      },
+      {
+        "archetype": "specialty/limited",
+        "n": 90,
+        "survive_at_least_1": 0.35555555555555557,
+        "n_1": 90,
+        "survive_at_least_2": 0.06896551724137931,
+        "n_2": 87,
+        "survive_at_least_3": 0.023529411764705882,
+        "n_3": 85,
+        "survive_at_least_4": 0.0,
+        "n_4": 85
+      },
+      {
+        "archetype": "concert/event",
+        "n": 8,
+        "survive_at_least_1": 0.0,
+        "n_1": 8,
+        "survive_at_least_2": 0.0,
+        "n_2": 8,
+        "survive_at_least_3": 0.0,
+        "n_3": 8,
+        "survive_at_least_4": 0.0,
+        "n_4": 8
+      },
+      {
+        "archetype": "documentary",
+        "n": 36,
+        "survive_at_least_1": 0.3888888888888889,
+        "n_1": 36,
+        "survive_at_least_2": 0.1388888888888889,
+        "n_2": 36,
+        "survive_at_least_3": 0.0,
+        "n_3": 36,
+        "survive_at_least_4": 0.0,
+        "n_4": 36
+      }
+    ]
+  },
+  "coverage": {
+    "rows": 1907,
+    "priced_rows": 1284,
+    "language_known_rows": 2,
+    "tmdb_matches": 4,
+    "catalog_films": 386
+  },
+  "middle_n": 335,
+  "error_counts": {
+    "called final, played one more week": 42,
+    "called final, played two or more": 13,
+    "called a long run, stopped after one more week": 3,
+    "called one more week, ran much longer": 6
+  },
+  "probe": [
+    {
+      "snapshot": "2026-06-29",
+      "showtimes": 3517,
+      "almost_sold_out_true": 0,
+      "is_sold_out_true": 0,
+      "maximum_intended_attendance_filled": 0,
+      "auditorium_captured": false,
+      "ticket_prices_captured": false,
+      "genre_on_showtime": false,
+      "languages_nonempty": 0
+    },
+    {
+      "snapshot": "2026-08-01",
+      "showtimes": 3768,
+      "almost_sold_out_true": 41,
+      "is_sold_out_true": 4,
+      "maximum_intended_attendance_filled": 0,
+      "auditorium_captured": true,
+      "ticket_prices_captured": true,
+      "genre_on_showtime": true,
+      "languages_nonempty": 0
+    },
+    {
+      "snapshot": "2026-09-03",
+      "showtimes": 6831,
+      "almost_sold_out_true": 17,
+      "is_sold_out_true": 6,
+      "maximum_intended_attendance_filled": 0,
+      "auditorium_captured": true,
+      "ticket_prices_captured": true,
+      "genre_on_showtime": true,
+      "languages_nonempty": 0
+    },
+    {
+      "snapshot": "2026-10-01",
+      "showtimes": 7049,
+      "almost_sold_out_true": 21,
+      "is_sold_out_true": 5,
+      "maximum_intended_attendance_filled": 0,
+      "auditorium_captured": true,
+      "ticket_prices_captured": true,
+      "genre_on_showtime": true,
+      "languages_nonempty": 0
+    }
+  ],
+  "amc_inventory": [
+    {
+      "field": "runTime",
+      "source": "showtimes + movies catalog",
+      "example": "103",
+      "persisted": "yes",
+      "historical": "yes",
+      "stability": "stable",
+      "relevance": "runtime of the booking",
+      "leakage": "low",
+      "modeled": "yes"
+    },
+    {
+      "field": "genre",
+      "source": "movies catalog; showtimes attributes after early July",
+      "example": "HORROR",
+      "persisted": "catalog yes, early showtimes no",
+      "historical": "catalog current refresh of a stable field",
+      "stability": "stable",
+      "relevance": "release pattern",
+      "leakage": "low if the genre does not get rewritten",
+      "modeled": "yes"
+    },
+    {
+      "field": "mpaaRating",
+      "source": "movies catalog",
+      "example": "PG-13",
+      "persisted": "yes",
+      "historical": "catalog refresh",
+      "stability": "stable",
+      "relevance": "audience",
+      "leakage": "low",
+      "modeled": "yes"
+    },
+    {
+      "field": "releaseDateUtc",
+      "source": "movies catalog",
+      "example": "2026-08-28",
+      "persisted": "yes",
+      "historical": "catalog refresh",
+      "stability": "stable for this booking",
+      "relevance": "days since opening",
+      "leakage": "low",
+      "modeled": "yes"
+    },
+    {
+      "field": "distributorCode",
+      "source": "movies catalog",
+      "example": "FFF",
+      "persisted": "yes",
+      "historical": "catalog refresh",
+      "stability": "usually stable",
+      "relevance": "studio",
+      "leakage": "low",
+      "modeled": "no, high cardinality"
+    },
+    {
+      "field": "premiumFormat",
+      "source": "showtimes format_raw",
+      "example": "IMAX at AMC",
+      "persisted": "yes",
+      "historical": "yes",
+      "stability": "time-varying",
+      "relevance": "premium commitment",
+      "leakage": "none at the snapshot",
+      "modeled": "already in PR #140"
+    },
+    {
+      "field": "isAlmostSoldOut",
+      "source": "showtimes",
+      "example": "false",
+      "persisted": "yes",
+      "historical": "yes",
+      "stability": "time-varying",
+      "relevance": "demand",
+      "leakage": "none",
+      "modeled": "no, true on well under 2% of showtimes"
+    },
+    {
+      "field": "isSoldOut",
+      "source": "showtimes attributes",
+      "example": "false",
+      "persisted": "yes after capture expansion",
+      "historical": "yes from 2026-07-19",
+      "stability": "time-varying",
+      "relevance": "demand",
+      "leakage": "none",
+      "modeled": "no, a handful of true values per day"
+    },
+    {
+      "field": "auditorium",
+      "source": "showtimes attributes",
+      "example": "7",
+      "persisted": "daily logs only",
+      "historical": "yes from 2026-07-19",
+      "stability": "time-varying",
+      "relevance": "screen identity, not size",
+      "leakage": "none",
+      "modeled": "distinct count only, from 2026-07-19"
+    },
+    {
+      "field": "layoutId",
+      "source": "showtimes attributes",
+      "example": "111",
+      "persisted": "daily logs only",
+      "historical": "yes from 2026-07-19",
+      "stability": "time-varying",
+      "relevance": "seat map id, no geometry stored",
+      "leakage": "none",
+      "modeled": "no"
+    },
+    {
+      "field": "maximumIntendedAttendance",
+      "source": "showtimes attributes",
+      "example": "null",
+      "persisted": "key only",
+      "historical": "always empty in probed logs",
+      "stability": "unknown",
+      "relevance": "auditorium capacity",
+      "leakage": "n/a",
+      "modeled": "no"
+    },
+    {
+      "field": "ticketPrices",
+      "source": "showtimes attributes",
+      "example": "ADULT 20.04",
+      "persisted": "daily logs only",
+      "historical": "yes from 2026-07-19",
+      "stability": "time-varying",
+      "relevance": "slot quality proxy",
+      "leakage": "none",
+      "modeled": "mean adult price from 2026-07-19"
+    },
+    {
+      "field": "languages",
+      "source": "showtimes attributes",
+      "example": "empty object",
+      "persisted": "key only",
+      "historical": "present and empty",
+      "stability": "unknown",
+      "relevance": "spoken language",
+      "leakage": "n/a",
+      "modeled": "no; language comes from TMDB"
+    },
+    {
+      "field": "attribute_codes",
+      "source": "movies catalog",
+      "example": "IMAX, DOLBY",
+      "persisted": "yes",
+      "historical": "current union of formats",
+      "stability": "time-varying",
+      "relevance": "premium capability",
+      "leakage": "high if used on earlier weeks",
+      "modeled": "no"
+    },
+    {
+      "field": "seat map / seats remaining",
+      "source": "not in showtimes payload",
+      "example": "",
+      "persisted": "no",
+      "historical": "no",
+      "stability": "time-varying",
+      "relevance": "demand versus a thin schedule",
+      "leakage": "would be severe if scraped today onto old weeks",
+      "modeled": "no"
+    }
+  ],
+  "tmdb_inventory": [
+    {
+      "field": "original_language",
+      "class": "safe",
+      "reason": "Stable. Stored on matched films in film_enrichment_current.json."
+    },
+    {
+      "field": "genres",
+      "class": "safe",
+      "reason": "Stable list. Stored on matched films."
+    },
+    {
+      "field": "runtime",
+      "class": "safe",
+      "reason": "Stable. AMC runtime is preferred; TMDB fills gaps."
+    },
+    {
+      "field": "release_date",
+      "class": "safe",
+      "reason": "Stable. Used only when the date is on or before the snapshot."
+    },
+    {
+      "field": "us_certification",
+      "class": "safe",
+      "reason": "Stored, but AMC MPAA rating is the field actually modeled."
+    },
+    {
+      "field": "original_title vs display_title",
+      "class": "safe",
+      "reason": "Stable identity. Not separately modeled."
+    },
+    {
+      "field": "belongs_to_collection",
+      "class": "uncertain",
+      "reason": "Stable enough to reconstruct, but this repo does not store it. Not fetched live for this audit."
+    },
+    {
+      "field": "production_companies",
+      "class": "uncertain",
+      "reason": "Usually stable, not stored. AMC distributor code is the stored studio-like field and was left out for cardinality."
+    },
+    {
+      "field": "popularity",
+      "class": "unsafe",
+      "reason": "Changes daily. A current value cannot score a past week."
+    },
+    {
+      "field": "vote_count",
+      "class": "unsafe",
+      "reason": "Grows after release. Needs a historical snapshot."
+    },
+    {
+      "field": "vote_average",
+      "class": "unsafe",
+      "reason": "Moves as votes arrive."
+    },
+    {
+      "field": "revenue",
+      "class": "unsafe",
+      "reason": "Updated after the theatrical run. Hindsight."
+    },
+    {
+      "field": "budget",
+      "class": "unsafe",
+      "reason": "Often filled in or revised after release."
+    },
+    {
+      "field": "person popularity",
+      "class": "unsafe",
+      "reason": "Current person popularity is not the value at prediction time."
+    }
+  ]
+}

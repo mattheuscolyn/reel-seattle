@@ -1,0 +1,16 @@
+field,source,example,persisted,historical,stability,relevance,leakage,modeled
+runTime,showtimes + movies catalog,103,yes,yes,stable,runtime of the booking,low,yes
+genre,movies catalog; showtimes attributes after early July,HORROR,"catalog yes, early showtimes no",catalog current refresh of a stable field,stable,release pattern,low if the genre does not get rewritten,yes
+mpaaRating,movies catalog,PG-13,yes,catalog refresh,stable,audience,low,yes
+releaseDateUtc,movies catalog,2026-08-28,yes,catalog refresh,stable for this booking,days since opening,low,yes
+distributorCode,movies catalog,FFF,yes,catalog refresh,usually stable,studio,low,"no, high cardinality"
+premiumFormat,showtimes format_raw,IMAX at AMC,yes,yes,time-varying,premium commitment,none at the snapshot,already in PR #140
+isAlmostSoldOut,showtimes,false,yes,yes,time-varying,demand,none,"no, true on well under 2% of showtimes"
+isSoldOut,showtimes attributes,false,yes after capture expansion,yes from 2026-07-19,time-varying,demand,none,"no, a handful of true values per day"
+auditorium,showtimes attributes,7,daily logs only,yes from 2026-07-19,time-varying,"screen identity, not size",none,"distinct count only, from 2026-07-19"
+layoutId,showtimes attributes,111,daily logs only,yes from 2026-07-19,time-varying,"seat map id, no geometry stored",none,no
+maximumIntendedAttendance,showtimes attributes,null,key only,always empty in probed logs,unknown,auditorium capacity,n/a,no
+ticketPrices,showtimes attributes,ADULT 20.04,daily logs only,yes from 2026-07-19,time-varying,slot quality proxy,none,mean adult price from 2026-07-19
+languages,showtimes attributes,empty object,key only,present and empty,unknown,spoken language,n/a,no; language comes from TMDB
+attribute_codes,movies catalog,"IMAX, DOLBY",yes,current union of formats,time-varying,premium capability,high if used on earlier weeks,no
+seat map / seats remaining,not in showtimes payload,,no,no,time-varying,demand versus a thin schedule,would be severe if scraped today onto old weeks,no
