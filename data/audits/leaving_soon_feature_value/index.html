@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Leaving Soon point-in-time feature value</title>
+<style>
+body { font-family: Georgia, serif; margin: 2rem auto; max-width: 980px; color: #243040; line-height: 1.45; }
+img { max-width: 100%; height: auto; }
+table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+th, td { border-bottom: 1px solid #d9e0ea; text-align: left; padding: 0.35rem 0.4rem; vertical-align: top; font-size: 0.92rem; }
+code { font-family: ui-monospace, monospace; font-size: 0.9em; }
+</style></head><body>
+<h1>Leaving Soon point-in-time feature value</h1>
+<p>Train through 2026-08-16. Validation 2026-08-16 through 2026-09-06. Holdout is every later snapshot, one row per film×theater engagement. As-of 2026-10-01. A positive 7-day label means the confirmed end is fewer than 7 days away, matching the production survival horizon.</p>
+<h2>1. What does the current model do?</h2>
+<p>Production scores a film's market-wide run with the frozen discrete-time hazard model. On this film×theater holdout, that probability is a baseline, not a retrained model. 74.1% precision, 65.2% recall, F1 0.694, PR-AUC 0.780, n=575.</p>
+<h2>2. Which feature families add value?</h2>
+<p>Each row is a logistic regression trained on dates through the train cutoff. The threshold is chosen on validation for precision of at least 75% when that is attainable, otherwise for F1. The evidence label is the holdout PR-AUC change versus the existing-feature model.</p>
+<table><thead><tr><th>Model</th><th>Holdout</th><th>PR-AUC minus existing</th><th>Evidence</th></tr></thead><tbody><tr><td>existing</td><td>97.6% precision, 44.6% recall, F1 0.612, PR-AUC 0.880, n=575</td><td>0.000</td><td>no measurable gain</td></tr><tr><td>existing_publication</td><td>100.0% precision, 45.7% recall, F1 0.627, PR-AUC 0.893, n=575</td><td>0.013</td><td>moderate evidence</td></tr><tr><td>existing_contraction</td><td>97.6% precision, 44.6% recall, F1 0.612, PR-AUC 0.882, n=575</td><td>0.002</td><td>weak evidence</td></tr><tr><td>existing_market</td><td>100.0% precision, 40.2% recall, F1 0.574, PR-AUC 0.871, n=575</td><td>-0.010</td><td>no measurable gain</td></tr><tr><td>existing_segment</td><td>100.0% precision, 44.6% recall, F1 0.617, PR-AUC 0.882, n=575</td><td>0.002</td><td>weak evidence</td></tr><tr><td>existing_theater</td><td>97.6% precision, 44.6% recall, F1 0.612, PR-AUC 0.883, n=575</td><td>0.003</td><td>weak evidence</td></tr><tr><td>all_new</td><td>82.1% precision, 69.6% recall, F1 0.753, PR-AUC 0.875, n=575</td><td>-0.006</td><td>no measurable gain</td></tr></tbody></table>
+<h2>3. Does publication-cycle awareness help?</h2>
+<p>Friday completeness is listed Friday showtimes divided by that theater's median Friday volume on dates already played. It does not use the eventual Friday total.</p>
+<p>Ordinary, absent from Friday, Wednesday–Thursday, completeness under 80%: n=0 and 0.0% (n=15, Wed–Thu pooled). Completeness at least 95%: 0.0% (n=3, Wed–Thu pooled).</p>
+<p>Rerelease, same Wednesday–Thursday cut: under 50% n=0; at least 95% n=0. Specials: under 50% n=0; at least 95% 25.0% (n=4, Wed–Thu pooled).</p>
+<h2>4. Does contraction help?</h2>
+<p>The contraction chart is the holdout departure rate when the next 7 listed showtimes are sparse, when the played schedule has fallen at least halfway from its peak, and when both are true.</p>
+<h2>5. Does market-level decline help?</h2>
+<p>The market chart splits the same holdout by how many theaters the film lost or gained over about 7 days, using only earlier snapshots.</p>
+<h2>6. Are rereleases and specials better handled separately?</h2>
+<p>Shared all-feature model: 82.1% precision, 69.6% recall, F1 0.753, PR-AUC 0.875, n=575.</p>
+<p>Separate ordinary: 69.6% precision, 84.8% recall, F1 0.765, PR-AUC 0.817, n=302. Separate rerelease: 77.8% precision, 100.0% recall, F1 0.875, PR-AUC 0.982, n=28. Separate specials: 94.6% precision, 100.0% recall, F1 0.972, PR-AUC 0.997, n=224. Specials last-date rule: 94.6% precision, 100.0% recall, F1 0.972, PR-AUC 0.946, n=224.</p>
+<h2>7. Does Wednesday/Thursday structure help prediction?</h2>
+<p>Known-last-date only: 57.6% precision, 73.9% recall, F1 0.648, PR-AUC 0.694, n=575. Plus weekday, Thursday/Wednesday flags, Friday absence, and Friday completeness: 54.4% precision, 100.0% recall, F1 0.705, PR-AUC 0.700, n=575.</p>
+<h2>8. Does known-final-date stability help?</h2>
+<p>All segments, known last date only: 57.6% precision, 73.9% recall, F1 0.648, PR-AUC 0.694, n=575. Plus stability: 70.7% precision, 31.5% recall, F1 0.436, PR-AUC 0.690, n=575.</p>
+<p>Rerelease known-last only: 63.6% precision, 100.0% recall, F1 0.778, PR-AUC 0.834, n=28. Rerelease plus stability: 60.0% precision, 85.7% recall, F1 0.706, PR-AUC 0.948, n=28.</p>
+<h2>9. What kinds of errors remain?</h2>
+<p>The false-positive and false-negative CSVs are the highest-scoring misses of the validation-selected model. Read them beside the production probability on the same row.</p>
+<h2>10. Candidate production changes for review</h2>
+<p>Nothing here is wired into scoring. The evidence column in the ablation table is the classification: strong, moderate, weak, or no measurable gain. A near-rule is worth a separate gate only when the high-completeness absence rate stays high on this holdout and the low-completeness rate does not.</p>
+<h2>Baselines on the same holdout</h2>
+<table><thead><tr><th>Baseline</th><th>Holdout</th></tr></thead><tbody><tr><td>production</td><td>74.1% precision, 65.2% recall, F1 0.694, PR-AUC 0.780, n=575</td></tr><tr><td>known_last_7</td><td>58.2% precision, 100.0% recall, F1 0.736, PR-AUC 0.582, n=575</td></tr><tr><td>publication</td><td>22.2% precision, 2.2% recall, F1 0.040, PR-AUC 0.161, n=575</td></tr><tr><td>contraction</td><td>100.0% precision, 15.2% recall, F1 0.264, PR-AUC 0.288, n=575</td></tr></tbody></table>
+<p>Rows built 23716. Labeled 7-day observations 21057 (5902 positive). Holdout engagements 575 (92 positive).</p>
+<figure><img src="feature_family_ablation.png" alt="feature_family_ablation.png"><figcaption>feature_family_ablation.png</figcaption></figure><figure><img src="precision_recall_comparison.png" alt="precision_recall_comparison.png"><figcaption>precision_recall_comparison.png</figcaption></figure><figure><img src="calibration_comparison.png" alt="calibration_comparison.png"><figcaption>calibration_comparison.png</figcaption></figure><figure><img src="publication_absence_precision_heatmap.png" alt="publication_absence_precision_heatmap.png"><figcaption>publication_absence_precision_heatmap.png</figcaption></figure><figure><img src="publication_absence_by_weekday.png" alt="publication_absence_by_weekday.png"><figcaption>publication_absence_by_weekday.png</figcaption></figure><figure><img src="contraction_signal_lift.png" alt="contraction_signal_lift.png"><figcaption>contraction_signal_lift.png</figcaption></figure><figure><img src="market_theater_count_signal.png" alt="market_theater_count_signal.png"><figcaption>market_theater_count_signal.png</figcaption></figure><figure><img src="weekday_prior_by_theater.png" alt="weekday_prior_by_theater.png"><figcaption>weekday_prior_by_theater.png</figcaption></figure><figure><img src="segment_model_comparison.png" alt="segment_model_comparison.png"><figcaption>segment_model_comparison.png</figcaption></figure><figure><img src="known_final_date_stability.png" alt="known_final_date_stability.png"><figcaption>known_final_date_stability.png</figcaption></figure>
+</body></html>
