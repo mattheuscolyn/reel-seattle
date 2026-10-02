@@ -1,0 +1,90 @@
+feature,family,definition,available_at_prediction_time,source,leakage_risk
+days_since_run_start,existing,Days from the point-in-time run cluster start to the observation. Cluster uses only dates known that day.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+observations_since_run_start,existing,Days since the first snapshot that listed this film at this theater.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+showtime_count,existing,Showtimes with show date on or after the observation and first snapshot on or before it.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+days_with_announced_showtimes,existing,Distinct future show dates on the current listing.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+announced_horizon_days,existing,Days from the observation to the latest show date on the current listing.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+showtimes_per_active_day,existing,Current listed showtimes divided by distinct listed dates.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+weekend_showtime_count,existing,"Listed showtimes on Friday, Saturday, or Sunday.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+prime_time_showtime_count,existing,Listed showtimes from 5pm to 10pm.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+premium_format_count,existing,Listed premium-format showtimes.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+premium_format_share,existing,Premium showtimes divided by listed showtimes.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+weekend_share,existing,Weekend showtimes divided by listed showtimes.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+prime_share,existing,Prime showtimes divided by listed showtimes.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+delta_showtime_count,existing,Change in listed showtimes versus the previous snapshot.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+farthest_show_date_delta,existing,Change in days of the latest listed date versus the previous snapshot.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+days_to_wednesday,existing,"Days until Wednesday, 0 on Wednesday.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+weekday,existing,Monday=0 through Sunday=6.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+left_truncated,existing,1 when the point-in-time cluster reaches the first day of the dataset.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+lost_prime_time_coverage,existing,1 when the current listing has showtimes and none are prime.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+horizon_at_ceiling,existing,1 when the listed horizon is at least 13 days.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+has_weekend,existing,1 when any listed show falls on Friday–Sunday.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+is_first_week,existing,1 when run age is under 7 days.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+is_special,existing,"1 when the catalog segment is not ordinary. This matches the production special flag closely, not a future label.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+days_until_friday,publication,Days until the Friday on or after the observation.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+friday_published_any,publication,1 when this theater has any film's showtimes on that Friday already listed.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+friday_completeness,publication,This theater's listed Friday showtimes divided by its median past Friday volume. Past days only. Capped at 1.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+week_completeness,publication,Listed Fri–Thu showtimes divided by the sum of past weekday baselines.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+friday_substantially_published,publication,1 when the Friday estimate is at least 0.80.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+week_substantially_published,publication,1 when the week estimate is at least 0.80.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+friday_highly_complete,publication,1 when the Friday estimate is at least 0.95.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+film_has_friday,publication,1 when this film has a listed show at this theater on the upcoming Friday.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+film_has_weekend,publication,1 when this film has a listed Fri–Sun show.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+film_has_programming_week,publication,1 when this film has a listed show in the upcoming Fri–Thu week.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+days_to_known_last,publication,Days from the observation to the latest show date listed that day.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+screenings_today,contraction,Listed showtimes on the observation date.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+screenings_tomorrow,contraction,Listed showtimes on the next date.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+screenings_next_3,contraction,"Listed showtimes in the next 3 dates, including today.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+screenings_next_7,contraction,"Listed showtimes in the next 7 dates, including today.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+avg_screenings_prior_3_play_days,contraction,Mean showtimes on the last 3 dates that had already played.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+avg_screenings_prior_7_play_days,contraction,Mean showtimes on the last 7 dates that had already played.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+delta_vs_prior_programming_week,contraction,"Showtimes in the current Fri–Thu week minus the previous week, using played dates and the current listing.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+delta_3day_avg,contraction,Last 3 play-day average minus the 3 play days before that.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+delta_7day_avg,contraction,Last 7 play-day average minus the 7 before that.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+percent_decline_from_peak,contraction,"Drop from the highest played day so far to the most recent played day, divided by the peak.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+consecutive_days_at_most_1,contraction,"Trailing played days, walking backward, with at most 1 screening.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+consecutive_days_at_most_2,contraction,Trailing played days with at most 2 screenings.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+premium_disappeared,contraction,1 when this snapshot lists no premium show and the previous snapshot did.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+market_theater_count,market,Enabled theaters where this film has a listed future show today.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+market_theater_count_3d_ago,market,Same count on the snapshot about 3 days earlier.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+market_theater_count_7d_ago,market,Same count on the snapshot about 7 days earlier.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+delta_market_theater_count_7d,market,Today's theater count minus the count 7 days earlier.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+market_screenings_today,market,This film's listed showtimes today across theaters.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+market_screenings_next_7,market,This film's listed showtimes over the next 7 dates across theaters.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+market_theaters_with_friday,market,Theaters in today's active set that list this film on Friday.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+market_theaters_absent_friday,market,Active theaters that do not list this film on Friday.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+market_share_absent_friday,market,Absent Friday theaters divided by active theaters.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+segment_ordinary,segment,1 for catalog ordinary.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+segment_rerelease,segment,1 for catalog anniversary/rerelease.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+segment_special,segment,1 for catalog special.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+segment_other,segment,"1 for accessibility, ambiguous, or title-only segments.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+segment_from_catalog,segment,1 when the segment came from the catalog rather than the title.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+segment_confidence_high,segment,1 when catalog and title agree.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+pre_opening,segment,1 when the observation is before the engagement's first show.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+known_span_at_least_7,segment,1 when dates known today already span 7 days.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+second_week_visible,segment,1 when dates known today span 8 or more days.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+theater_weekday_baseline,theater,"Median showtimes at this theater on this weekday, using dates before today.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+theater_screenings_today,theater,All films' listed showtimes at this theater today.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+theater_today_vs_baseline,theater,Today's theater volume divided by the weekday baseline.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+friday_volume_vs_baseline,theater,Same as the Friday completeness estimate.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+distinct_films_upcoming_week,theater,Distinct films with a listed show in the upcoming Fri–Thu week at this theater.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+incoming_friday_screenings,theater,Friday showtimes for films that have not yet played at this theater.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+new_films_on_friday,theater,Count of those not-yet-played films listed on Friday.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+incumbent_absent_friday_screenings,theater,Showtimes in the last 7 played days for films that have no Friday listing.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+final_date_stable_snapshots,stability,"Consecutive snapshots, ending today, with the same latest listed date.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+final_date_moved_last_1,stability,1 when the latest date changed on this snapshot.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+final_date_moved_last_2,stability,1 when it changed on this snapshot or the one before.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+final_date_moved_last_3,stability,1 when it changed within the last three snapshots.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+extension_count_so_far,stability,"Times the latest listed date moved later, up to today.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+days_since_last_extension,stability,"Days since the latest date last moved later. If it never has, days since the first listing.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+last_extension_days,stability,How many days the latest extension added. 0 if none yet.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+days_since_first_screening,maturity,Days since the first show that had already played.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+theatrical_week_number,maturity,"0 before the first played show, then 1, 2, 3…",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+in_first_week,maturity,1 in theatrical week 1.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+in_second_week,maturity,1 in theatrical week 2.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+in_later_week,maturity,1 in theatrical week 3 or later.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+known_span_days,maturity,"Span of dates known today, played or listed.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+longest_continuous_run_so_far,maturity,Longest streak of consecutive played dates before today.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+days_to_thursday,calendar_extra,"Days until Thursday, 0 on Thursday.",yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+known_last_is_wednesday,calendar_extra,1 when the latest listed date is a Wednesday.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
+known_last_is_thursday,calendar_extra,1 when the latest listed date is a Thursday.,yes,"screening lifecycle first_snapshot / removed_at, past dates only for baselines",low
