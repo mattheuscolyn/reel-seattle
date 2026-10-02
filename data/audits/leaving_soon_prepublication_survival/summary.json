@@ -1,0 +1,2477 @@
+{
+  "as_of": "2026-10-01",
+  "dataset_start": "2026-06-29",
+  "train_end": "2026-08-16",
+  "validation_end": "2026-09-06",
+  "substantial_threshold": 0.8,
+  "booking": {
+    "theater_weeks": 91,
+    "reached_80": 87,
+    "weekday_80_counts": {
+      "Wednesday": 41,
+      "Tuesday": 46
+    },
+    "weekday_80_share": {
+      "Wednesday": 0.47126436781609193,
+      "Tuesday": 0.5287356321839081
+    },
+    "dominant_weekday": "Tuesday",
+    "full_week_same_snapshot_share": 1.0,
+    "incremental_share": 1.0,
+    "friday_50_and_80_same_day": 64,
+    "friday_50_and_80_same_day_share": 0.735632183908046,
+    "never_reached_95": 30,
+    "by_theater": {
+      "AMC Alderwood Mall 16": {
+        "Wednesday": 13
+      },
+      "AMC Factoria 8": {
+        "Tuesday": 12,
+        "Wednesday": 1
+      },
+      "AMC Kent Station 14": {
+        "Tuesday": 11,
+        "Wednesday": 1
+      },
+      "AMC Oak Tree 6": {
+        "Wednesday": 9,
+        "Tuesday": 2
+      },
+      "AMC Pacific Place 11": {
+        "Wednesday": 4,
+        "Tuesday": 8
+      },
+      "AMC Southcenter 16": {
+        "Wednesday": 10,
+        "Tuesday": 3
+      },
+      "AMC Woodinville 12": {
+        "Tuesday": 10,
+        "Wednesday": 3
+      }
+    }
+  },
+  "incoming_included": true,
+  "incoming_share_of_rows_with_any_next_week_title": 1.0,
+  "primary_reason": "The forecast snapshot is the last daily snapshot before that theater's upcoming Friday listings reach 80% of the theater's other Friday volumes. Monday and Tuesday are scored separately when they are still before that publication snapshot.",
+  "counts": {
+    "film_theater": {
+      "n": 1907,
+      "engagements": 1907,
+      "censored": 116,
+      "uncensored": 1791,
+      "buckets": {
+        "final_week": 925,
+        "plus_1": 321,
+        "plus_2": 195,
+        "plus_3": 350
+      }
+    },
+    "market": {
+      "n": 530,
+      "engagements": 530,
+      "censored": 28,
+      "uncensored": 502,
+      "buckets": {
+        "final_week": 283,
+        "plus_1": 91,
+        "plus_2": 45,
+        "plus_3": 83
+      }
+    },
+    "train": {
+      "n": 899,
+      "engagements": 899,
+      "censored": 0,
+      "uncensored": 899,
+      "buckets": {
+        "final_week": 451,
+        "plus_1": 153,
+        "plus_2": 100,
+        "plus_3": 195
+      }
+    },
+    "validation": {
+      "n": 487,
+      "engagements": 487,
+      "censored": 0,
+      "uncensored": 487,
+      "buckets": {
+        "final_week": 228,
+        "plus_1": 93,
+        "plus_2": 67,
+        "plus_3": 99
+      }
+    },
+    "holdout": {
+      "n": 521,
+      "engagements": 521,
+      "censored": 116,
+      "uncensored": 405,
+      "buckets": {
+        "final_week": 246,
+        "plus_1": 75,
+        "plus_2": 28,
+        "plus_3": 56
+      }
+    },
+    "monday": {
+      "n": 1898,
+      "engagements": 1898,
+      "censored": 116,
+      "uncensored": 1782,
+      "buckets": {
+        "final_week": 925,
+        "plus_1": 316,
+        "plus_2": 192,
+        "plus_3": 349
+      }
+    },
+    "tuesday": {
+      "n": 1073,
+      "engagements": 1073,
+      "censored": 61,
+      "uncensored": 1012,
+      "buckets": {
+        "final_week": 539,
+        "plus_1": 182,
+        "plus_2": 112,
+        "plus_3": 179
+      }
+    }
+  },
+  "survival": {
+    "by_week": [
+      {
+        "theatrical_week": "week 1",
+        "n": 904,
+        "survive_at_least_1": 0.41261061946902655,
+        "n_1": 904,
+        "survive_at_least_2": 0.29477196885428253,
+        "n_2": 899,
+        "survive_at_least_3": 0.14634146341463414,
+        "n_3": 861,
+        "survive_at_least_4": 0.0859465737514518,
+        "n_4": 861
+      },
+      {
+        "theatrical_week": "week 2",
+        "n": 450,
+        "survive_at_least_1": 0.609375,
+        "n_1": 448,
+        "survive_at_least_2": 0.3094688221709007,
+        "n_2": 433,
+        "survive_at_least_3": 0.1932367149758454,
+        "n_3": 414,
+        "survive_at_least_4": 0.10869565217391304,
+        "n_4": 414
+      },
+      {
+        "theatrical_week": "week 3",
+        "n": 250,
+        "survive_at_least_1": 0.504,
+        "n_1": 250,
+        "survive_at_least_2": 0.33472803347280333,
+        "n_2": 239,
+        "survive_at_least_3": 0.19148936170212766,
+        "n_3": 235,
+        "survive_at_least_4": 0.11063829787234042,
+        "n_4": 235
+      },
+      {
+        "theatrical_week": "week 4+",
+        "n": 303,
+        "survive_at_least_1": 0.6864686468646864,
+        "n_1": 303,
+        "survive_at_least_2": 0.48322147651006714,
+        "n_2": 298,
+        "survive_at_least_3": 0.35231316725978645,
+        "n_3": 281,
+        "survive_at_least_4": 0.2597864768683274,
+        "n_4": 281
+      }
+    ],
+    "by_screenings": [
+      {
+        "screenings": "1-4",
+        "n": 725,
+        "survive_at_least_1": 0.3586206896551724,
+        "n_1": 725,
+        "survive_at_least_2": 0.24861111111111112,
+        "n_2": 720,
+        "survive_at_least_3": 0.09302325581395349,
+        "n_3": 688,
+        "survive_at_least_4": 0.04215116279069767,
+        "n_4": 688
+      },
+      {
+        "screenings": "25+",
+        "n": 487,
+        "survive_at_least_1": 0.8829568788501027,
+        "n_1": 487,
+        "survive_at_least_2": 0.6395833333333333,
+        "n_2": 480,
+        "survive_at_least_3": 0.4606986899563319,
+        "n_3": 458,
+        "survive_at_least_4": 0.3165938864628821,
+        "n_4": 458
+      },
+      {
+        "screenings": "13-24",
+        "n": 286,
+        "survive_at_least_1": 0.6398601398601399,
+        "n_1": 286,
+        "survive_at_least_2": 0.27340823970037453,
+        "n_2": 267,
+        "survive_at_least_3": 0.14859437751004015,
+        "n_3": 249,
+        "survive_at_least_4": 0.08032128514056225,
+        "n_4": 249
+      },
+      {
+        "screenings": "5-12",
+        "n": 409,
+        "survive_at_least_1": 0.2628992628992629,
+        "n_1": 407,
+        "survive_at_least_2": 0.15920398009950248,
+        "n_2": 402,
+        "survive_at_least_3": 0.09595959595959595,
+        "n_3": 396,
+        "survive_at_least_4": 0.06060606060606061,
+        "n_4": 396
+      }
+    ],
+    "by_wow": [
+      {
+        "wow": "no prior week",
+        "n": 905,
+        "survive_at_least_1": 0.4121546961325967,
+        "n_1": 905,
+        "survive_at_least_2": 0.29444444444444445,
+        "n_2": 900,
+        "survive_at_least_3": 0.14617169373549885,
+        "n_3": 862,
+        "survive_at_least_4": 0.08584686774941995,
+        "n_4": 862
+      },
+      {
+        "wow": "flat or up",
+        "n": 466,
+        "survive_at_least_1": 0.6443965517241379,
+        "n_1": 464,
+        "survive_at_least_2": 0.3392857142857143,
+        "n_2": 448,
+        "survive_at_least_3": 0.22377622377622378,
+        "n_3": 429,
+        "survive_at_least_4": 0.13053613053613053,
+        "n_4": 429
+      },
+      {
+        "wow": "down >60%",
+        "n": 109,
+        "survive_at_least_1": 0.09174311926605505,
+        "n_1": 109,
+        "survive_at_least_2": 0.045871559633027525,
+        "n_2": 109,
+        "survive_at_least_3": 0.01834862385321101,
+        "n_3": 109,
+        "survive_at_least_4": 0.01834862385321101,
+        "n_4": 109
+      },
+      {
+        "wow": "down 5-30%",
+        "n": 214,
+        "survive_at_least_1": 0.7897196261682243,
+        "n_1": 214,
+        "survive_at_least_2": 0.5643564356435643,
+        "n_2": 202,
+        "survive_at_least_3": 0.32972972972972975,
+        "n_3": 185,
+        "survive_at_least_4": 0.23243243243243245,
+        "n_4": 185
+      },
+      {
+        "wow": "down 30-60%",
+        "n": 213,
+        "survive_at_least_1": 0.6056338028169014,
+        "n_1": 213,
+        "survive_at_least_2": 0.4142857142857143,
+        "n_2": 210,
+        "survive_at_least_3": 0.3155339805825243,
+        "n_3": 206,
+        "survive_at_least_4": 0.2087378640776699,
+        "n_4": 206
+      }
+    ],
+    "by_theaters": [
+      {
+        "theaters": "4+",
+        "n": 1411,
+        "survive_at_least_1": 0.6066619418851878,
+        "n_1": 1411,
+        "survive_at_least_2": 0.42257597684515197,
+        "n_2": 1382,
+        "survive_at_least_3": 0.26376146788990823,
+        "n_3": 1308,
+        "survive_at_least_4": 0.16666666666666666,
+        "n_4": 1308
+      },
+      {
+        "theaters": "3",
+        "n": 171,
+        "survive_at_least_1": 0.30177514792899407,
+        "n_1": 169,
+        "survive_at_least_2": 0.12048192771084337,
+        "n_2": 166,
+        "survive_at_least_3": 0.006024096385542169,
+        "n_3": 166,
+        "survive_at_least_4": 0.0,
+        "n_4": 166
+      },
+      {
+        "theaters": "2",
+        "n": 204,
+        "survive_at_least_1": 0.2107843137254902,
+        "n_1": 204,
+        "survive_at_least_2": 0.06965174129353234,
+        "n_2": 201,
+        "survive_at_least_3": 0.01015228426395939,
+        "n_3": 197,
+        "survive_at_least_4": 0.0,
+        "n_4": 197
+      },
+      {
+        "theaters": "1",
+        "n": 121,
+        "survive_at_least_1": 0.24793388429752067,
+        "n_1": 121,
+        "survive_at_least_2": 0.041666666666666664,
+        "n_2": 120,
+        "survive_at_least_3": 0.016666666666666666,
+        "n_3": 120,
+        "survive_at_least_4": 0.0,
+        "n_4": 120
+      }
+    ],
+    "by_segment": [
+      {
+        "segment": "ordinary_title_only",
+        "n": 136,
+        "survive_at_least_1": 0.10294117647058823,
+        "n_1": 136,
+        "survive_at_least_2": 0.0,
+        "n_2": 136,
+        "survive_at_least_3": 0.0,
+        "n_3": 136,
+        "survive_at_least_4": 0.0,
+        "n_4": 136
+      },
+      {
+        "segment": "ordinary",
+        "n": 1235,
+        "survive_at_least_1": 0.6877534468775345,
+        "n_1": 1233,
+        "survive_at_least_2": 0.47058823529411764,
+        "n_2": 1207,
+        "survive_at_least_3": 0.2862129144851658,
+        "n_3": 1146,
+        "survive_at_least_4": 0.17888307155322863,
+        "n_4": 1146
+      },
+      {
+        "segment": "rerelease_title_only",
+        "n": 7,
+        "survive_at_least_1": 0.0,
+        "n_1": 7,
+        "survive_at_least_2": 0.0,
+        "n_2": 7,
+        "survive_at_least_3": 0.0,
+        "n_3": 7,
+        "survive_at_least_4": 0.0,
+        "n_4": 7
+      },
+      {
+        "segment": "special_event_title_only",
+        "n": 46,
+        "survive_at_least_1": 0.0,
+        "n_1": 46,
+        "survive_at_least_2": 0.0,
+        "n_2": 46,
+        "survive_at_least_3": 0.0,
+        "n_3": 46,
+        "survive_at_least_4": 0.0,
+        "n_4": 46
+      },
+      {
+        "segment": "special_event",
+        "n": 310,
+        "survive_at_least_1": 0.11612903225806452,
+        "n_1": 310,
+        "survive_at_least_2": 0.01639344262295082,
+        "n_2": 305,
+        "survive_at_least_3": 0.0,
+        "n_3": 301,
+        "survive_at_least_4": 0.0,
+        "n_4": 301
+      },
+      {
+        "segment": "accessibility_presentation",
+        "n": 12,
+        "survive_at_least_1": 0.0,
+        "n_1": 12,
+        "survive_at_least_2": 0.0,
+        "n_2": 12,
+        "survive_at_least_3": 0.0,
+        "n_3": 12,
+        "survive_at_least_4": 0.0,
+        "n_4": 12
+      },
+      {
+        "segment": "rerelease",
+        "n": 88,
+        "survive_at_least_1": 0.29545454545454547,
+        "n_1": 88,
+        "survive_at_least_2": 0.08045977011494253,
+        "n_2": 87,
+        "survive_at_least_3": 0.0,
+        "n_3": 86,
+        "survive_at_least_4": 0.0,
+        "n_4": 86
+      },
+      {
+        "segment": "ambiguous_special",
+        "n": 65,
+        "survive_at_least_1": 0.8461538461538461,
+        "n_1": 65,
+        "survive_at_least_2": 0.6935483870967742,
+        "n_2": 62,
+        "survive_at_least_3": 0.44,
+        "n_3": 50,
+        "survive_at_least_4": 0.26,
+        "n_4": 50
+      },
+      {
+        "segment": "ambiguous_limited",
+        "n": 5,
+        "survive_at_least_1": 0.2,
+        "n_1": 5,
+        "survive_at_least_2": 0.0,
+        "n_2": 4,
+        "survive_at_least_3": 0.0,
+        "n_3": 4,
+        "survive_at_least_4": 0.0,
+        "n_4": 4
+      },
+      {
+        "segment": "other",
+        "n": 3,
+        "survive_at_least_1": 0.0,
+        "n_1": 3,
+        "survive_at_least_2": 0.0,
+        "n_2": 3,
+        "survive_at_least_3": 0.0,
+        "n_3": 3,
+        "survive_at_least_4": 0.0,
+        "n_4": 3
+      }
+    ],
+    "by_theater": [
+      {
+        "theater": "AMC Alderwood Mall 16",
+        "n": 433,
+        "survive_at_least_1": 0.47344110854503463,
+        "n_1": 433,
+        "survive_at_least_2": 0.2971698113207547,
+        "n_2": 424,
+        "survive_at_least_3": 0.17444717444717445,
+        "n_3": 407,
+        "survive_at_least_4": 0.11056511056511056,
+        "n_4": 407
+      },
+      {
+        "theater": "AMC Factoria 8",
+        "n": 140,
+        "survive_at_least_1": 0.6285714285714286,
+        "n_1": 140,
+        "survive_at_least_2": 0.4411764705882353,
+        "n_2": 136,
+        "survive_at_least_3": 0.2578125,
+        "n_3": 128,
+        "survive_at_least_4": 0.1640625,
+        "n_4": 128
+      },
+      {
+        "theater": "AMC Kent Station 14",
+        "n": 302,
+        "survive_at_least_1": 0.5066225165562914,
+        "n_1": 302,
+        "survive_at_least_2": 0.3422818791946309,
+        "n_2": 298,
+        "survive_at_least_3": 0.21052631578947367,
+        "n_3": 285,
+        "survive_at_least_4": 0.13333333333333333,
+        "n_4": 285
+      },
+      {
+        "theater": "AMC Oak Tree 6",
+        "n": 123,
+        "survive_at_least_1": 0.6097560975609756,
+        "n_1": 123,
+        "survive_at_least_2": 0.39669421487603307,
+        "n_2": 121,
+        "survive_at_least_3": 0.21551724137931033,
+        "n_3": 116,
+        "survive_at_least_4": 0.13793103448275862,
+        "n_4": 116
+      },
+      {
+        "theater": "AMC Pacific Place 11",
+        "n": 232,
+        "survive_at_least_1": 0.5627705627705628,
+        "n_1": 231,
+        "survive_at_least_2": 0.36123348017621143,
+        "n_2": 227,
+        "survive_at_least_3": 0.19907407407407407,
+        "n_3": 216,
+        "survive_at_least_4": 0.12037037037037036,
+        "n_4": 216
+      },
+      {
+        "theater": "AMC Southcenter 16",
+        "n": 425,
+        "survive_at_least_1": 0.45990566037735847,
+        "n_1": 424,
+        "survive_at_least_2": 0.2746987951807229,
+        "n_2": 415,
+        "survive_at_least_3": 0.16209476309226933,
+        "n_3": 401,
+        "survive_at_least_4": 0.10224438902743142,
+        "n_4": 401
+      },
+      {
+        "theater": "AMC Woodinville 12",
+        "n": 252,
+        "survive_at_least_1": 0.5317460317460317,
+        "n_1": 252,
+        "survive_at_least_2": 0.36693548387096775,
+        "n_2": 248,
+        "survive_at_least_3": 0.22268907563025211,
+        "n_3": 238,
+        "survive_at_least_4": 0.13025210084033614,
+        "n_4": 238
+      }
+    ]
+  },
+  "models": {
+    "hazard": {
+      "n": 405,
+      "bucket_counts": {
+        "final_week": 246,
+        "plus_1": 75,
+        "plus_2": 28,
+        "plus_3": 56
+      },
+      "log_loss": 0.7922661143739411,
+      "brier": 0.3994090608184445,
+      "accuracy": 0.6962962962962963,
+      "median_abs_error_capped": 0.3084887561274101,
+      "pr_auc_final_week": 0.8913085697925266,
+      "pr_auc_exactly_1": 0.3913057677024216,
+      "pr_auc_exactly_2": 0.21342811643723217,
+      "pr_auc_3_plus": 0.6774772851518515,
+      "pr_auc_gone_within_2_weeks": 0.9746446995510807,
+      "calibration": [
+        {
+          "bucket": "final_week",
+          "n": 246,
+          "observed_share": 0.6074074074074074,
+          "mean_predicted": 0.5721031805781419
+        },
+        {
+          "bucket": "plus_1",
+          "n": 75,
+          "observed_share": 0.18518518518518517,
+          "mean_predicted": 0.22027899032389486
+        },
+        {
+          "bucket": "plus_2",
+          "n": 28,
+          "observed_share": 0.0691358024691358,
+          "mean_predicted": 0.09534629996127147
+        },
+        {
+          "bucket": "plus_3",
+          "n": 56,
+          "observed_share": 0.1382716049382716,
+          "mean_predicted": 0.11227152913669172
+        }
+      ],
+      "confusion": [
+        [
+          213,
+          28,
+          4,
+          1
+        ],
+        [
+          42,
+          27,
+          3,
+          3
+        ],
+        [
+          5,
+          7,
+          4,
+          12
+        ],
+        [
+          8,
+          6,
+          4,
+          38
+        ]
+      ]
+    },
+    "hazard_validation": {
+      "n": 487,
+      "bucket_counts": {
+        "final_week": 228,
+        "plus_1": 93,
+        "plus_2": 67,
+        "plus_3": 99
+      },
+      "log_loss": 0.9555153132500124,
+      "brier": 0.47955262740641064,
+      "accuracy": 0.648870636550308,
+      "median_abs_error_capped": 0.3430258182792132,
+      "pr_auc_final_week": 0.8606629551612578,
+      "pr_auc_exactly_1": 0.3865051462281443,
+      "pr_auc_exactly_2": 0.330565175898745,
+      "pr_auc_3_plus": 0.6710523839082384,
+      "pr_auc_gone_within_2_weeks": 0.9598448347603612,
+      "calibration": [
+        {
+          "bucket": "final_week",
+          "n": 228,
+          "observed_share": 0.4681724845995893,
+          "mean_predicted": 0.5081119531046621
+        },
+        {
+          "bucket": "plus_1",
+          "n": 93,
+          "observed_share": 0.19096509240246407,
+          "mean_predicted": 0.20152601011271493
+        },
+        {
+          "bucket": "plus_2",
+          "n": 67,
+          "observed_share": 0.1375770020533881,
+          "mean_predicted": 0.11543232891609326
+        },
+        {
+          "bucket": "plus_3",
+          "n": 99,
+          "observed_share": 0.2032854209445585,
+          "mean_predicted": 0.17492970786652975
+        }
+      ],
+      "confusion": [
+        [
+          208,
+          18,
+          1,
+          1
+        ],
+        [
+          45,
+          33,
+          7,
+          8
+        ],
+        [
+          10,
+          14,
+          9,
+          34
+        ],
+        [
+          11,
+          10,
+          12,
+          66
+        ]
+      ]
+    },
+    "empirical": {
+      "n": 405,
+      "bucket_counts": {
+        "final_week": 246,
+        "plus_1": 75,
+        "plus_2": 28,
+        "plus_3": 56
+      },
+      "log_loss": 0.9617908705060214,
+      "brier": 0.48617450899703873,
+      "accuracy": 0.6345679012345679,
+      "median_abs_error_capped": 0.5889212827988338,
+      "pr_auc_final_week": 0.8079043879063852,
+      "pr_auc_exactly_1": 0.4352535463628677,
+      "pr_auc_exactly_2": 0.10312641844516954,
+      "pr_auc_3_plus": 0.3484555719598215,
+      "pr_auc_gone_within_2_weeks": 0.9117295169376011,
+      "calibration": [
+        {
+          "bucket": "final_week",
+          "n": 246,
+          "observed_share": 0.6074074074074074,
+          "mean_predicted": 0.6049812100281307
+        },
+        {
+          "bucket": "plus_1",
+          "n": 75,
+          "observed_share": 0.18518518518518517,
+          "mean_predicted": 0.16779485343048722
+        },
+        {
+          "bucket": "plus_2",
+          "n": 28,
+          "observed_share": 0.0691358024691358,
+          "mean_predicted": 0.09620776420216268
+        },
+        {
+          "bucket": "plus_3",
+          "n": 56,
+          "observed_share": 0.1382716049382716,
+          "mean_predicted": 0.13101617233921958
+        }
+      ],
+      "confusion": [
+        [
+          227,
+          8,
+          0,
+          11
+        ],
+        [
+          46,
+          4,
+          0,
+          25
+        ],
+        [
+          18,
+          2,
+          0,
+          8
+        ],
+        [
+          29,
+          1,
+          0,
+          26
+        ]
+      ]
+    },
+    "multiclass": {
+      "n": 405,
+      "bucket_counts": {
+        "final_week": 246,
+        "plus_1": 75,
+        "plus_2": 28,
+        "plus_3": 56
+      },
+      "log_loss": 0.7913515343328499,
+      "brier": 0.38665130242856544,
+      "accuracy": 0.7283950617283951,
+      "median_abs_error_capped": 0.29044620590129094,
+      "pr_auc_final_week": 0.874203609442646,
+      "pr_auc_exactly_1": 0.5564940477607578,
+      "pr_auc_exactly_2": 0.19807432870815914,
+      "pr_auc_3_plus": 0.7065642888472744,
+      "pr_auc_gone_within_2_weeks": 0.9732016031734287,
+      "calibration": [
+        {
+          "bucket": "final_week",
+          "n": 246,
+          "observed_share": 0.6074074074074074,
+          "mean_predicted": 0.5790859205595655
+        },
+        {
+          "bucket": "plus_1",
+          "n": 75,
+          "observed_share": 0.18518518518518517,
+          "mean_predicted": 0.2004607977728615
+        },
+        {
+          "bucket": "plus_2",
+          "n": 28,
+          "observed_share": 0.0691358024691358,
+          "mean_predicted": 0.06974125907907702
+        },
+        {
+          "bucket": "plus_3",
+          "n": 56,
+          "observed_share": 0.1382716049382716,
+          "mean_predicted": 0.15071202258849598
+        }
+      ],
+      "confusion": [
+        [
+          217,
+          18,
+          5,
+          6
+        ],
+        [
+          34,
+          33,
+          2,
+          6
+        ],
+        [
+          6,
+          6,
+          2,
+          14
+        ],
+        [
+          11,
+          2,
+          0,
+          43
+        ]
+      ]
+    },
+    "monday": {
+      "n": 405,
+      "bucket_counts": {
+        "final_week": 246,
+        "plus_1": 75,
+        "plus_2": 28,
+        "plus_3": 56
+      },
+      "log_loss": 0.7830137287467402,
+      "brier": 0.3948517905161925,
+      "accuracy": 0.6987654320987654,
+      "median_abs_error_capped": 0.24748169792490424,
+      "pr_auc_final_week": 0.901793950796117,
+      "pr_auc_exactly_1": 0.3923648380008591,
+      "pr_auc_exactly_2": 0.18377526136704886,
+      "pr_auc_3_plus": 0.6683821624753261,
+      "pr_auc_gone_within_2_weeks": 0.980396550464242,
+      "calibration": [
+        {
+          "bucket": "final_week",
+          "n": 246,
+          "observed_share": 0.6074074074074074,
+          "mean_predicted": 0.6252488989786319
+        },
+        {
+          "bucket": "plus_1",
+          "n": 75,
+          "observed_share": 0.18518518518518517,
+          "mean_predicted": 0.19249276709909363
+        },
+        {
+          "bucket": "plus_2",
+          "n": 28,
+          "observed_share": 0.0691358024691358,
+          "mean_predicted": 0.08299794752936653
+        },
+        {
+          "bucket": "plus_3",
+          "n": 56,
+          "observed_share": 0.1382716049382716,
+          "mean_predicted": 0.09926038639290802
+        }
+      ],
+      "confusion": [
+        [
+          223,
+          22,
+          0,
+          1
+        ],
+        [
+          46,
+          25,
+          3,
+          1
+        ],
+        [
+          5,
+          10,
+          0,
+          13
+        ],
+        [
+          8,
+          8,
+          5,
+          35
+        ]
+      ]
+    },
+    "tuesday": {
+      "n": 311,
+      "bucket_counts": {
+        "final_week": 176,
+        "plus_1": 61,
+        "plus_2": 28,
+        "plus_3": 46
+      },
+      "log_loss": 0.9238469802623459,
+      "brier": 0.43959275114274765,
+      "accuracy": 0.6913183279742765,
+      "median_abs_error_capped": 0.2416622352086611,
+      "pr_auc_final_week": 0.8741817319613487,
+      "pr_auc_exactly_1": 0.4178036232204424,
+      "pr_auc_exactly_2": 0.16152368540473072,
+      "pr_auc_3_plus": 0.7196686246595351,
+      "pr_auc_gone_within_2_weeks": 0.9551843582498682,
+      "calibration": [
+        {
+          "bucket": "final_week",
+          "n": 176,
+          "observed_share": 0.5659163987138264,
+          "mean_predicted": 0.5532292601660403
+        },
+        {
+          "bucket": "plus_1",
+          "n": 61,
+          "observed_share": 0.19614147909967847,
+          "mean_predicted": 0.19076596967678258
+        },
+        {
+          "bucket": "plus_2",
+          "n": 28,
+          "observed_share": 0.09003215434083602,
+          "mean_predicted": 0.08342911217898881
+        },
+        {
+          "bucket": "plus_3",
+          "n": 46,
+          "observed_share": 0.14790996784565916,
+          "mean_predicted": 0.17257565797818825
+        }
+      ],
+      "confusion": [
+        [
+          154,
+          14,
+          1,
+          7
+        ],
+        [
+          28,
+          24,
+          4,
+          5
+        ],
+        [
+          6,
+          8,
+          1,
+          13
+        ],
+        [
+          5,
+          3,
+          2,
+          36
+        ]
+      ]
+    },
+    "ordinary_hazard": {
+      "n": 275,
+      "bucket_counts": {
+        "final_week": 139,
+        "plus_1": 61,
+        "plus_2": 26,
+        "plus_3": 49
+      },
+      "log_loss": 0.803657026655644,
+      "brier": 0.44677561189969983,
+      "accuracy": 0.6363636363636364,
+      "median_abs_error_capped": 0.3722314834158833,
+      "pr_auc_final_week": 0.8861909748594653,
+      "pr_auc_exactly_1": 0.4215371677765567,
+      "pr_auc_exactly_2": 0.22356361339840763,
+      "pr_auc_3_plus": 0.7334822207084152,
+      "pr_auc_gone_within_2_weeks": 0.975165745733257,
+      "calibration": [
+        {
+          "bucket": "final_week",
+          "n": 139,
+          "observed_share": 0.5054545454545455,
+          "mean_predicted": 0.4537765903244926
+        },
+        {
+          "bucket": "plus_1",
+          "n": 61,
+          "observed_share": 0.22181818181818183,
+          "mean_predicted": 0.24858529989703634
+        },
+        {
+          "bucket": "plus_2",
+          "n": 26,
+          "observed_share": 0.09454545454545454,
+          "mean_predicted": 0.13272010804917891
+        },
+        {
+          "bucket": "plus_3",
+          "n": 49,
+          "observed_share": 0.1781818181818182,
+          "mean_predicted": 0.1649180017292922
+        }
+      ],
+      "confusion": [
+        [
+          106,
+          28,
+          4,
+          1
+        ],
+        [
+          28,
+          27,
+          3,
+          3
+        ],
+        [
+          3,
+          7,
+          4,
+          12
+        ],
+        [
+          1,
+          6,
+          4,
+          38
+        ]
+      ]
+    },
+    "market_hazard": {
+      "n": 112,
+      "bucket_counts": {
+        "final_week": 72,
+        "plus_1": 20,
+        "plus_2": 7,
+        "plus_3": 13
+      },
+      "log_loss": 0.7626243005436386,
+      "brier": 0.37358501773503777,
+      "accuracy": 0.7232142857142857,
+      "median_abs_error_capped": 0.20935400040277502,
+      "pr_auc_final_week": 0.8990909075134088,
+      "pr_auc_exactly_1": 0.3841992352380741,
+      "pr_auc_exactly_2": 0.18675483144229013,
+      "pr_auc_3_plus": 0.7669726614848567,
+      "pr_auc_gone_within_2_weeks": 0.9722845413328436,
+      "calibration": [
+        {
+          "bucket": "final_week",
+          "n": 72,
+          "observed_share": 0.6428571428571429,
+          "mean_predicted": 0.657240313568618
+        },
+        {
+          "bucket": "plus_1",
+          "n": 20,
+          "observed_share": 0.17857142857142858,
+          "mean_predicted": 0.1792525364380765
+        },
+        {
+          "bucket": "plus_2",
+          "n": 7,
+          "observed_share": 0.0625,
+          "mean_predicted": 0.06914360899232942
+        },
+        {
+          "bucket": "plus_3",
+          "n": 13,
+          "observed_share": 0.11607142857142858,
+          "mean_predicted": 0.09436354100097609
+        }
+      ],
+      "confusion": [
+        [
+          67,
+          4,
+          1,
+          0
+        ],
+        [
+          11,
+          6,
+          2,
+          1
+        ],
+        [
+          2,
+          2,
+          0,
+          3
+        ],
+        [
+          1,
+          2,
+          2,
+          8
+        ]
+      ]
+    },
+    "independence_combination": {
+      "n": 81,
+      "bucket_counts": {
+        "final_week": 48,
+        "plus_1": 14,
+        "plus_2": 6,
+        "plus_3": 13
+      },
+      "log_loss": 1.202410600384336,
+      "brier": 0.5848371772710088,
+      "accuracy": 0.5308641975308642,
+      "median_abs_error_capped": 0.47051589407085237,
+      "pr_auc_final_week": 0.9473248879982837,
+      "pr_auc_exactly_1": 0.21323334083827344,
+      "pr_auc_exactly_2": 0.1356371550511664,
+      "pr_auc_3_plus": 0.7120343708579002,
+      "pr_auc_gone_within_2_weeks": 0.9839986166964301,
+      "calibration": [
+        {
+          "bucket": "final_week",
+          "n": 48,
+          "observed_share": 0.5925925925925926,
+          "mean_predicted": 0.33843850068749226
+        },
+        {
+          "bucket": "plus_1",
+          "n": 14,
+          "observed_share": 0.1728395061728395,
+          "mean_predicted": 0.31745417483915567
+        },
+        {
+          "bucket": "plus_2",
+          "n": 6,
+          "observed_share": 0.07407407407407407,
+          "mean_predicted": 0.1351742699678727
+        },
+        {
+          "bucket": "plus_3",
+          "n": 13,
+          "observed_share": 0.16049382716049382,
+          "mean_predicted": 0.20893305450547936
+        }
+      ],
+      "confusion": [
+        [
+          27,
+          19,
+          2,
+          0
+        ],
+        [
+          1,
+          6,
+          4,
+          3
+        ],
+        [
+          0,
+          1,
+          1,
+          4
+        ],
+        [
+          0,
+          2,
+          2,
+          9
+        ]
+      ],
+      "films": 81
+    }
+  },
+  "ranking": {
+    "market": {
+      "forecast_dates": 3,
+      "pairwise_accuracy": 0.8448844884488449,
+      "pairwise_n": 1212,
+      "top3_share_in_soonest_group": 1.0,
+      "mean_ndcg": 0.9879649191860246
+    },
+    "market_ordinary": {
+      "forecast_dates": 3,
+      "pairwise_accuracy": 0.841079460269865,
+      "pairwise_n": 667,
+      "top3_share_in_soonest_group": 0.6666666666666666,
+      "mean_ndcg": 0.9753320992062422
+    },
+    "film_theater": {
+      "forecast_dates": 3,
+      "pairwise_accuracy": 0.8531913627981679,
+      "pairwise_n": 16811,
+      "top3_share_in_soonest_group": 0.8888888888888888,
+      "mean_ndcg": 0.9899450584153481
+    }
+  },
+  "confirmation": {
+    "status": "ok",
+    "n": 405,
+    "listed_end_after_publication_pr_auc": 0.998764563912189,
+    "naive_no_next_friday_at_prepublication_pr_auc": 0.7008547008547008,
+    "naive_no_next_friday_after_publication_pr_auc": 0.9959514170040485,
+    "share_prepublication_already_lists_next_week": 0.19961612284069097,
+    "share_publication_lists_next_week": 0.5220729366602687
+  },
+  "production": {
+    "status": "ok",
+    "n": 405,
+    "pr_auc_final_week": 0.8840869707012171,
+    "note": "Production P(end within 7 days), scored at the pre-publication snapshot. It still sees days_to_known_last."
+  },
+  "ablation": [
+    {
+      "model": "maturity",
+      "features": 6,
+      "holdout": {
+        "n": 405,
+        "bucket_counts": {
+          "final_week": 246,
+          "plus_1": 75,
+          "plus_2": 28,
+          "plus_3": 56
+        },
+        "log_loss": 1.1721093930839859,
+        "brier": 0.5859711724584442,
+        "accuracy": 0.5604938271604938,
+        "median_abs_error_capped": 0.8962854931786673,
+        "pr_auc_final_week": 0.6939496642561308,
+        "pr_auc_exactly_1": 0.27562835275206127,
+        "pr_auc_exactly_2": 0.09579623654010741,
+        "pr_auc_3_plus": 0.12774239598799703,
+        "pr_auc_gone_within_2_weeks": 0.8151686393704306,
+        "calibration": [
+          {
+            "bucket": "final_week",
+            "n": 246,
+            "observed_share": 0.6074074074074074,
+            "mean_predicted": 0.5555477026929259
+          },
+          {
+            "bucket": "plus_1",
+            "n": 75,
+            "observed_share": 0.18518518518518517,
+            "mean_predicted": 0.17299892860095445
+          },
+          {
+            "bucket": "plus_2",
+            "n": 28,
+            "observed_share": 0.0691358024691358,
+            "mean_predicted": 0.0983184478053214
+          },
+          {
+            "bucket": "plus_3",
+            "n": 56,
+            "observed_share": 0.1382716049382716,
+            "mean_predicted": 0.17313492090079835
+          }
+        ],
+        "confusion": [
+          [
+            226,
+            0,
+            0,
+            20
+          ],
+          [
+            70,
+            0,
+            0,
+            5
+          ],
+          [
+            28,
+            0,
+            0,
+            0
+          ],
+          [
+            55,
+            0,
+            0,
+            1
+          ]
+        ]
+      },
+      "validation_log_loss": 1.1762815991644204
+    },
+    {
+      "model": "current_week",
+      "features": 15,
+      "holdout": {
+        "n": 405,
+        "bucket_counts": {
+          "final_week": 246,
+          "plus_1": 75,
+          "plus_2": 28,
+          "plus_3": 56
+        },
+        "log_loss": 0.7739090492223816,
+        "brier": 0.40939554928776023,
+        "accuracy": 0.6666666666666666,
+        "median_abs_error_capped": 0.2343773750665364,
+        "pr_auc_final_week": 0.9227093529657326,
+        "pr_auc_exactly_1": 0.34606631610736077,
+        "pr_auc_exactly_2": 0.20934089246551457,
+        "pr_auc_3_plus": 0.6475569051456802,
+        "pr_auc_gone_within_2_weeks": 0.9800243718673313,
+        "calibration": [
+          {
+            "bucket": "final_week",
+            "n": 246,
+            "observed_share": 0.6074074074074074,
+            "mean_predicted": 0.6756893667053285
+          },
+          {
+            "bucket": "plus_1",
+            "n": 75,
+            "observed_share": 0.18518518518518517,
+            "mean_predicted": 0.1761778526345019
+          },
+          {
+            "bucket": "plus_2",
+            "n": 28,
+            "observed_share": 0.0691358024691358,
+            "mean_predicted": 0.07466653043372656
+          },
+          {
+            "bucket": "plus_3",
+            "n": 56,
+            "observed_share": 0.1382716049382716,
+            "mean_predicted": 0.07346625022644299
+          }
+        ],
+        "confusion": [
+          [
+            245,
+            0,
+            0,
+            1
+          ],
+          [
+            65,
+            2,
+            0,
+            8
+          ],
+          [
+            20,
+            4,
+            0,
+            4
+          ],
+          [
+            26,
+            7,
+            0,
+            23
+          ]
+        ]
+      },
+      "validation_log_loss": 0.8849883404258999
+    },
+    {
+      "model": "trajectory",
+      "features": 21,
+      "holdout": {
+        "n": 405,
+        "bucket_counts": {
+          "final_week": 246,
+          "plus_1": 75,
+          "plus_2": 28,
+          "plus_3": 56
+        },
+        "log_loss": 0.8646310622959728,
+        "brier": 0.42235251419043374,
+        "accuracy": 0.6641975308641975,
+        "median_abs_error_capped": 0.20146088920262217,
+        "pr_auc_final_week": 0.9021963902308264,
+        "pr_auc_exactly_1": 0.33174966273818146,
+        "pr_auc_exactly_2": 0.2482015220468027,
+        "pr_auc_3_plus": 0.5960819213404255,
+        "pr_auc_gone_within_2_weeks": 0.9649777282566507,
+        "calibration": [
+          {
+            "bucket": "final_week",
+            "n": 246,
+            "observed_share": 0.6074074074074074,
+            "mean_predicted": 0.6899376744699537
+          },
+          {
+            "bucket": "plus_1",
+            "n": 75,
+            "observed_share": 0.18518518518518517,
+            "mean_predicted": 0.16743406269984076
+          },
+          {
+            "bucket": "plus_2",
+            "n": 28,
+            "observed_share": 0.0691358024691358,
+            "mean_predicted": 0.07256905359627497
+          },
+          {
+            "bucket": "plus_3",
+            "n": 56,
+            "observed_share": 0.1382716049382716,
+            "mean_predicted": 0.07005920923393051
+          }
+        ],
+        "confusion": [
+          [
+            240,
+            4,
+            0,
+            2
+          ],
+          [
+            61,
+            7,
+            0,
+            7
+          ],
+          [
+            13,
+            10,
+            0,
+            5
+          ],
+          [
+            20,
+            14,
+            0,
+            22
+          ]
+        ]
+      },
+      "validation_log_loss": 0.9426127977672201
+    },
+    {
+      "model": "market",
+      "features": 29,
+      "holdout": {
+        "n": 405,
+        "bucket_counts": {
+          "final_week": 246,
+          "plus_1": 75,
+          "plus_2": 28,
+          "plus_3": 56
+        },
+        "log_loss": 0.7718053353861363,
+        "brier": 0.40030896570024016,
+        "accuracy": 0.6666666666666666,
+        "median_abs_error_capped": 0.17743922741151774,
+        "pr_auc_final_week": 0.9177083304444756,
+        "pr_auc_exactly_1": 0.3503618146105579,
+        "pr_auc_exactly_2": 0.17287008877442547,
+        "pr_auc_3_plus": 0.7138108544665587,
+        "pr_auc_gone_within_2_weeks": 0.9797482797514102,
+        "calibration": [
+          {
+            "bucket": "final_week",
+            "n": 246,
+            "observed_share": 0.6074074074074074,
+            "mean_predicted": 0.6636325811234965
+          },
+          {
+            "bucket": "plus_1",
+            "n": 75,
+            "observed_share": 0.18518518518518517,
+            "mean_predicted": 0.1624635414112391
+          },
+          {
+            "bucket": "plus_2",
+            "n": 28,
+            "observed_share": 0.0691358024691358,
+            "mean_predicted": 0.08472082206690221
+          },
+          {
+            "bucket": "plus_3",
+            "n": 56,
+            "observed_share": 0.1382716049382716,
+            "mean_predicted": 0.08918305539836212
+          }
+        ],
+        "confusion": [
+          [
+            227,
+            15,
+            2,
+            2
+          ],
+          [
+            57,
+            11,
+            2,
+            5
+          ],
+          [
+            6,
+            13,
+            0,
+            9
+          ],
+          [
+            8,
+            13,
+            3,
+            32
+          ]
+        ]
+      },
+      "validation_log_loss": 0.8922065679354401
+    },
+    {
+      "model": "commitment",
+      "features": 34,
+      "holdout": {
+        "n": 405,
+        "bucket_counts": {
+          "final_week": 246,
+          "plus_1": 75,
+          "plus_2": 28,
+          "plus_3": 56
+        },
+        "log_loss": 0.7294416461445614,
+        "brier": 0.39190303245164265,
+        "accuracy": 0.7012345679012346,
+        "median_abs_error_capped": 0.18482015353518635,
+        "pr_auc_final_week": 0.9096998808532125,
+        "pr_auc_exactly_1": 0.32320245326234337,
+        "pr_auc_exactly_2": 0.26425477692456667,
+        "pr_auc_3_plus": 0.7577557113077839,
+        "pr_auc_gone_within_2_weeks": 0.9858278855887592,
+        "calibration": [
+          {
+            "bucket": "final_week",
+            "n": 246,
+            "observed_share": 0.6074074074074074,
+            "mean_predicted": 0.6679116862617183
+          },
+          {
+            "bucket": "plus_1",
+            "n": 75,
+            "observed_share": 0.18518518518518517,
+            "mean_predicted": 0.1649022261268654
+          },
+          {
+            "bucket": "plus_2",
+            "n": 28,
+            "observed_share": 0.0691358024691358,
+            "mean_predicted": 0.08259385752894029
+          },
+          {
+            "bucket": "plus_3",
+            "n": 56,
+            "observed_share": 0.1382716049382716,
+            "mean_predicted": 0.08459223008247621
+          }
+        ],
+        "confusion": [
+          [
+            233,
+            10,
+            2,
+            1
+          ],
+          [
+            58,
+            13,
+            1,
+            3
+          ],
+          [
+            7,
+            8,
+            4,
+            9
+          ],
+          [
+            6,
+            12,
+            4,
+            34
+          ]
+        ]
+      },
+      "validation_log_loss": 0.8713366164504818
+    },
+    {
+      "model": "segment",
+      "features": 38,
+      "holdout": {
+        "n": 405,
+        "bucket_counts": {
+          "final_week": 246,
+          "plus_1": 75,
+          "plus_2": 28,
+          "plus_3": 56
+        },
+        "log_loss": 0.7992363193248462,
+        "brier": 0.3936265800457384,
+        "accuracy": 0.6962962962962963,
+        "median_abs_error_capped": 0.24994128095485868,
+        "pr_auc_final_week": 0.8970118285997,
+        "pr_auc_exactly_1": 0.4189742110459536,
+        "pr_auc_exactly_2": 0.18641327780755035,
+        "pr_auc_3_plus": 0.6848854327948717,
+        "pr_auc_gone_within_2_weeks": 0.9769752533963092,
+        "calibration": [
+          {
+            "bucket": "final_week",
+            "n": 246,
+            "observed_share": 0.6074074074074074,
+            "mean_predicted": 0.6329976885213914
+          },
+          {
+            "bucket": "plus_1",
+            "n": 75,
+            "observed_share": 0.18518518518518517,
+            "mean_predicted": 0.19783043217108945
+          },
+          {
+            "bucket": "plus_2",
+            "n": 28,
+            "observed_share": 0.0691358024691358,
+            "mean_predicted": 0.07986187870143517
+          },
+          {
+            "bucket": "plus_3",
+            "n": 56,
+            "observed_share": 0.1382716049382716,
+            "mean_predicted": 0.08931000060608406
+          }
+        ],
+        "confusion": [
+          [
+            226,
+            19,
+            1,
+            0
+          ],
+          [
+            50,
+            22,
+            3,
+            0
+          ],
+          [
+            5,
+            10,
+            1,
+            12
+          ],
+          [
+            7,
+            9,
+            7,
+            33
+          ]
+        ]
+      },
+      "validation_log_loss": 0.9628009110829945
+    },
+    {
+      "model": "incoming",
+      "features": 39,
+      "holdout": {
+        "n": 405,
+        "bucket_counts": {
+          "final_week": 246,
+          "plus_1": 75,
+          "plus_2": 28,
+          "plus_3": 56
+        },
+        "log_loss": 0.7922661143739411,
+        "brier": 0.3994090608184445,
+        "accuracy": 0.6962962962962963,
+        "median_abs_error_capped": 0.3084887561274101,
+        "pr_auc_final_week": 0.8913085697925266,
+        "pr_auc_exactly_1": 0.3913057677024216,
+        "pr_auc_exactly_2": 0.21342811643723217,
+        "pr_auc_3_plus": 0.6774772851518515,
+        "pr_auc_gone_within_2_weeks": 0.9746446995510807,
+        "calibration": [
+          {
+            "bucket": "final_week",
+            "n": 246,
+            "observed_share": 0.6074074074074074,
+            "mean_predicted": 0.5721031805781419
+          },
+          {
+            "bucket": "plus_1",
+            "n": 75,
+            "observed_share": 0.18518518518518517,
+            "mean_predicted": 0.22027899032389486
+          },
+          {
+            "bucket": "plus_2",
+            "n": 28,
+            "observed_share": 0.0691358024691358,
+            "mean_predicted": 0.09534629996127147
+          },
+          {
+            "bucket": "plus_3",
+            "n": 56,
+            "observed_share": 0.1382716049382716,
+            "mean_predicted": 0.11227152913669172
+          }
+        ],
+        "confusion": [
+          [
+            213,
+            28,
+            4,
+            1
+          ],
+          [
+            42,
+            27,
+            3,
+            3
+          ],
+          [
+            5,
+            7,
+            4,
+            12
+          ],
+          [
+            8,
+            6,
+            4,
+            38
+          ]
+        ]
+      },
+      "validation_log_loss": 0.9555153132500124
+    },
+    {
+      "model": "all_valid",
+      "features": 39,
+      "holdout": {
+        "n": 405,
+        "bucket_counts": {
+          "final_week": 246,
+          "plus_1": 75,
+          "plus_2": 28,
+          "plus_3": 56
+        },
+        "log_loss": 0.7922661143739411,
+        "brier": 0.3994090608184445,
+        "accuracy": 0.6962962962962963,
+        "median_abs_error_capped": 0.3084887561274101,
+        "pr_auc_final_week": 0.8913085697925266,
+        "pr_auc_exactly_1": 0.3913057677024216,
+        "pr_auc_exactly_2": 0.21342811643723217,
+        "pr_auc_3_plus": 0.6774772851518515,
+        "pr_auc_gone_within_2_weeks": 0.9746446995510807,
+        "calibration": [
+          {
+            "bucket": "final_week",
+            "n": 246,
+            "observed_share": 0.6074074074074074,
+            "mean_predicted": 0.5721031805781419
+          },
+          {
+            "bucket": "plus_1",
+            "n": 75,
+            "observed_share": 0.18518518518518517,
+            "mean_predicted": 0.22027899032389486
+          },
+          {
+            "bucket": "plus_2",
+            "n": 28,
+            "observed_share": 0.0691358024691358,
+            "mean_predicted": 0.09534629996127147
+          },
+          {
+            "bucket": "plus_3",
+            "n": 56,
+            "observed_share": 0.1382716049382716,
+            "mean_predicted": 0.11227152913669172
+          }
+        ],
+        "confusion": [
+          [
+            213,
+            28,
+            4,
+            1
+          ],
+          [
+            42,
+            27,
+            3,
+            3
+          ],
+          [
+            5,
+            7,
+            4,
+            12
+          ],
+          [
+            8,
+            6,
+            4,
+            38
+          ]
+        ]
+      },
+      "coefficients": [
+        {
+          "feature": "current_week_screenings",
+          "coefficient": -2.244194059973004
+        },
+        {
+          "feature": "days_since_first_show",
+          "coefficient": 1.515341182564241
+        },
+        {
+          "feature": "thursday_screenings",
+          "coefficient": -1.2776276207076505
+        },
+        {
+          "feature": "market_screenings",
+          "coefficient": -1.2668057296956166
+        },
+        {
+          "feature": "distinct_show_dates",
+          "coefficient": 1.0100949433615973
+        },
+        {
+          "feature": "segment_other",
+          "coefficient": 0.9538743503998387
+        },
+        {
+          "feature": "period_2",
+          "coefficient": 0.8988521942649351
+        },
+        {
+          "feature": "theatrical_week_number",
+          "coefficient": -0.8571736183382996
+        },
+        {
+          "feature": "continuous_weeks",
+          "coefficient": -0.8571736183382996
+        },
+        {
+          "feature": "in_first_week",
+          "coefficient": -0.8435897166164061
+        },
+        {
+          "feature": "share_of_theater",
+          "coefficient": 0.7767441492390821
+        },
+        {
+          "feature": "market_theater_count",
+          "coefficient": -0.6650641045493418
+        },
+        {
+          "feature": "period_1",
+          "coefficient": 0.6088359005729346
+        },
+        {
+          "feature": "theaters_at_minimal",
+          "coefficient": 0.6060630485804467
+        },
+        {
+          "feature": "segment_special",
+          "coefficient": 0.5481767955733643
+        },
+        {
+          "feature": "weakest_theater_screenings",
+          "coefficient": 0.4903855351911199
+        },
+        {
+          "feature": "in_second_week",
+          "coefficient": -0.4888241794159008
+        },
+        {
+          "feature": "has_prime",
+          "coefficient": -0.426841755075023
+        },
+        {
+          "feature": "rank_in_theater",
+          "coefficient": -0.36696474830943976
+        },
+        {
+          "feature": "segment_access",
+          "coefficient": 0.3641478766626269
+        },
+        {
+          "feature": "screenings_per_show_date",
+          "coefficient": -0.34936958770360077
+        },
+        {
+          "feature": "wow_pct_change",
+          "coefficient": 0.34446567109992865
+        },
+        {
+          "feature": "strongest_theater_screenings",
+          "coefficient": -0.32066489489044625
+        },
+        {
+          "feature": "days_with_3plus",
+          "coefficient": -0.2666724639654882
+        },
+        {
+          "feature": "premium_share",
+          "coefficient": 0.24932792673476495
+        },
+        {
+          "feature": "consecutive_decline_weeks",
+          "coefficient": -0.2107106600285188
+        },
+        {
+          "feature": "segment_rerelease",
+          "coefficient": 0.20756727287986626
+        },
+        {
+          "feature": "market_screenings_wow",
+          "coefficient": 0.19369473986726082
+        },
+        {
+          "feature": "weekend_share",
+          "coefficient": -0.18774377341100776
+        },
+        {
+          "feature": "days_with_1",
+          "coefficient": 0.16323743304085572
+        },
+        {
+          "feature": "share_theaters_declining",
+          "coefficient": -0.15417236649553587
+        },
+        {
+          "feature": "theater_week_vs_baseline",
+          "coefficient": -0.1455090449628357
+        },
+        {
+          "feature": "next_week_titles_already_listed",
+          "coefficient": -0.14224942583124156
+        },
+        {
+          "feature": "theater_count_wow",
+          "coefficient": 0.12041942240680859
+        },
+        {
+          "feature": "has_premium",
+          "coefficient": -0.11332469068233253
+        },
+        {
+          "feature": "prime_share_change",
+          "coefficient": -0.1017923911054816
+        },
+        {
+          "feature": "prime_share",
+          "coefficient": -0.0859726275920405
+        },
+        {
+          "feature": "premium_lost",
+          "coefficient": 0.03824437302059717
+        },
+        {
+          "feature": "left_truncated",
+          "coefficient": 0.035287849740420964
+        },
+        {
+          "feature": "decline_from_peak",
+          "coefficient": 0.016614186166781786
+        },
+        {
+          "feature": "is_weakest_week",
+          "coefficient": 0.0
+        }
+      ]
+    }
+  ],
+  "coefficients": [
+    {
+      "feature": "current_week_screenings",
+      "coefficient": -2.244194059973004
+    },
+    {
+      "feature": "days_since_first_show",
+      "coefficient": 1.515341182564241
+    },
+    {
+      "feature": "thursday_screenings",
+      "coefficient": -1.2776276207076505
+    },
+    {
+      "feature": "market_screenings",
+      "coefficient": -1.2668057296956166
+    },
+    {
+      "feature": "distinct_show_dates",
+      "coefficient": 1.0100949433615973
+    },
+    {
+      "feature": "segment_other",
+      "coefficient": 0.9538743503998387
+    },
+    {
+      "feature": "period_2",
+      "coefficient": 0.8988521942649351
+    },
+    {
+      "feature": "theatrical_week_number",
+      "coefficient": -0.8571736183382996
+    },
+    {
+      "feature": "continuous_weeks",
+      "coefficient": -0.8571736183382996
+    },
+    {
+      "feature": "in_first_week",
+      "coefficient": -0.8435897166164061
+    },
+    {
+      "feature": "share_of_theater",
+      "coefficient": 0.7767441492390821
+    },
+    {
+      "feature": "market_theater_count",
+      "coefficient": -0.6650641045493418
+    },
+    {
+      "feature": "period_1",
+      "coefficient": 0.6088359005729346
+    },
+    {
+      "feature": "theaters_at_minimal",
+      "coefficient": 0.6060630485804467
+    },
+    {
+      "feature": "segment_special",
+      "coefficient": 0.5481767955733643
+    },
+    {
+      "feature": "weakest_theater_screenings",
+      "coefficient": 0.4903855351911199
+    },
+    {
+      "feature": "in_second_week",
+      "coefficient": -0.4888241794159008
+    },
+    {
+      "feature": "has_prime",
+      "coefficient": -0.426841755075023
+    },
+    {
+      "feature": "rank_in_theater",
+      "coefficient": -0.36696474830943976
+    },
+    {
+      "feature": "segment_access",
+      "coefficient": 0.3641478766626269
+    },
+    {
+      "feature": "screenings_per_show_date",
+      "coefficient": -0.34936958770360077
+    },
+    {
+      "feature": "wow_pct_change",
+      "coefficient": 0.34446567109992865
+    },
+    {
+      "feature": "strongest_theater_screenings",
+      "coefficient": -0.32066489489044625
+    },
+    {
+      "feature": "days_with_3plus",
+      "coefficient": -0.2666724639654882
+    },
+    {
+      "feature": "premium_share",
+      "coefficient": 0.24932792673476495
+    },
+    {
+      "feature": "consecutive_decline_weeks",
+      "coefficient": -0.2107106600285188
+    },
+    {
+      "feature": "segment_rerelease",
+      "coefficient": 0.20756727287986626
+    },
+    {
+      "feature": "market_screenings_wow",
+      "coefficient": 0.19369473986726082
+    },
+    {
+      "feature": "weekend_share",
+      "coefficient": -0.18774377341100776
+    },
+    {
+      "feature": "days_with_1",
+      "coefficient": 0.16323743304085572
+    },
+    {
+      "feature": "share_theaters_declining",
+      "coefficient": -0.15417236649553587
+    },
+    {
+      "feature": "theater_week_vs_baseline",
+      "coefficient": -0.1455090449628357
+    },
+    {
+      "feature": "next_week_titles_already_listed",
+      "coefficient": -0.14224942583124156
+    },
+    {
+      "feature": "theater_count_wow",
+      "coefficient": 0.12041942240680859
+    },
+    {
+      "feature": "has_premium",
+      "coefficient": -0.11332469068233253
+    },
+    {
+      "feature": "prime_share_change",
+      "coefficient": -0.1017923911054816
+    },
+    {
+      "feature": "prime_share",
+      "coefficient": -0.0859726275920405
+    },
+    {
+      "feature": "premium_lost",
+      "coefficient": 0.03824437302059717
+    },
+    {
+      "feature": "left_truncated",
+      "coefficient": 0.035287849740420964
+    },
+    {
+      "feature": "decline_from_peak",
+      "coefficient": 0.016614186166781786
+    },
+    {
+      "feature": "is_weakest_week",
+      "coefficient": 0.0
+    }
+  ],
+  "thursday_examples": [
+    {
+      "thursday": "2026-09-10",
+      "forecast_snapshot": "2026-09-08",
+      "title": "The Sun Never Sets",
+      "segment": "ordinary",
+      "final_week": "97%",
+      "plus_1": "3%",
+      "plus_2": "0%",
+      "plus_3": "0%",
+      "expected_weeks": 0.03,
+      "urgency_rank": 6,
+      "urgency_percentile": 90.6,
+      "actual": "Final",
+      "theatrical_week": 2.0,
+      "current_week_screenings": 37.0,
+      "market_theater_count": 3.0
+    },
+    {
+      "thursday": "2026-09-10",
+      "forecast_snapshot": "2026-09-08",
+      "title": "Sahaa",
+      "segment": "ordinary",
+      "final_week": "95%",
+      "plus_1": "5%",
+      "plus_2": "0%",
+      "plus_3": "0%",
+      "expected_weeks": 0.05,
+      "urgency_rank": 8,
+      "urgency_percentile": 86.8,
+      "actual": "Final",
+      "theatrical_week": 1.0,
+      "current_week_screenings": 6.0,
+      "market_theater_count": 1.0
+    },
+    {
+      "thursday": "2026-09-10",
+      "forecast_snapshot": "2026-09-08",
+      "title": "Teenage Sex and Death at Camp Miasma",
+      "segment": "ordinary",
+      "final_week": "62%",
+      "plus_1": "34%",
+      "plus_2": "4%",
+      "plus_3": "0%",
+      "expected_weeks": 0.42,
+      "urgency_rank": 33,
+      "urgency_percentile": 39.6,
+      "actual": "+1",
+      "theatrical_week": 4.0,
+      "current_week_screenings": 11.0,
+      "market_theater_count": 1.0
+    },
+    {
+      "thursday": "2026-09-10",
+      "forecast_snapshot": "2026-09-08",
+      "title": "Onslaught",
+      "segment": "ordinary",
+      "final_week": "51%",
+      "plus_1": "41%",
+      "plus_2": "8%",
+      "plus_3": "0%",
+      "expected_weeks": 0.58,
+      "urgency_rank": 34,
+      "urgency_percentile": 37.7,
+      "actual": "+1",
+      "theatrical_week": 2.0,
+      "current_week_screenings": 155.0,
+      "market_theater_count": 5.0
+    },
+    {
+      "thursday": "2026-09-10",
+      "forecast_snapshot": "2026-09-08",
+      "title": "Practical Magic 2",
+      "segment": "ordinary",
+      "final_week": "0%",
+      "plus_1": "2%",
+      "plus_2": "7%",
+      "plus_3": "90%",
+      "expected_weeks": 2.87,
+      "urgency_rank": 52,
+      "urgency_percentile": 3.8,
+      "actual": "3+",
+      "theatrical_week": 1.0,
+      "current_week_screenings": 30.0,
+      "market_theater_count": 7.0
+    },
+    {
+      "thursday": "2026-09-10",
+      "forecast_snapshot": "2026-09-08",
+      "title": "The Odyssey",
+      "segment": "ordinary",
+      "final_week": "0%",
+      "plus_1": "1%",
+      "plus_2": "3%",
+      "plus_3": "96%",
+      "expected_weeks": 2.95,
+      "urgency_rank": 53,
+      "urgency_percentile": 1.9,
+      "actual": "3+",
+      "theatrical_week": 9.0,
+      "current_week_screenings": 166.0,
+      "market_theater_count": 7.0
+    },
+    {
+      "thursday": "2026-09-17",
+      "forecast_snapshot": "2026-09-15",
+      "title": "Sardar 2",
+      "segment": "ordinary",
+      "final_week": "95%",
+      "plus_1": "5%",
+      "plus_2": "0%",
+      "plus_3": "0%",
+      "expected_weeks": 0.06,
+      "urgency_rank": 3,
+      "urgency_percentile": 95.0,
+      "actual": "Final",
+      "theatrical_week": 2.0,
+      "current_week_screenings": 6.0,
+      "market_theater_count": 1.0
+    },
+    {
+      "thursday": "2026-09-17",
+      "forecast_snapshot": "2026-09-15",
+      "title": "Mighty Mary",
+      "segment": "ordinary",
+      "final_week": "94%",
+      "plus_1": "6%",
+      "plus_2": "0%",
+      "plus_3": "0%",
+      "expected_weeks": 0.06,
+      "urgency_rank": 4,
+      "urgency_percentile": 92.5,
+      "actual": "+1",
+      "theatrical_week": 1.0,
+      "current_week_screenings": 14.0,
+      "market_theater_count": 1.0
+    },
+    {
+      "thursday": "2026-09-17",
+      "forecast_snapshot": "2026-09-15",
+      "title": "If I Go Will They Miss Me",
+      "segment": "ordinary",
+      "final_week": "43%",
+      "plus_1": "45%",
+      "plus_2": "11%",
+      "plus_3": "1%",
+      "expected_weeks": 0.69,
+      "urgency_rank": 24,
+      "urgency_percentile": 42.5,
+      "actual": "censored",
+      "theatrical_week": 1.0,
+      "current_week_screenings": 1.0,
+      "market_theater_count": 1.0
+    },
+    {
+      "thursday": "2026-09-17",
+      "forecast_snapshot": "2026-09-14",
+      "title": "The Fix",
+      "segment": "ordinary",
+      "final_week": "40%",
+      "plus_1": "46%",
+      "plus_2": "13%",
+      "plus_3": "1%",
+      "expected_weeks": 0.75,
+      "urgency_rank": 25,
+      "urgency_percentile": 40.0,
+      "actual": "+1",
+      "theatrical_week": 2.0,
+      "current_week_screenings": 44.0,
+      "market_theater_count": 4.0
+    },
+    {
+      "thursday": "2026-09-17",
+      "forecast_snapshot": "2026-09-14",
+      "title": "The Odyssey",
+      "segment": "ordinary",
+      "final_week": "1%",
+      "plus_1": "4%",
+      "plus_2": "13%",
+      "plus_3": "83%",
+      "expected_weeks": 2.77,
+      "urgency_rank": 39,
+      "urgency_percentile": 5.0,
+      "actual": "3+",
+      "theatrical_week": 10.0,
+      "current_week_screenings": 149.0,
+      "market_theater_count": 7.0
+    },
+    {
+      "thursday": "2026-09-17",
+      "forecast_snapshot": "2026-09-14",
+      "title": "Resident Evil",
+      "segment": "ordinary",
+      "final_week": "0%",
+      "plus_1": "1%",
+      "plus_2": "4%",
+      "plus_3": "95%",
+      "expected_weeks": 2.93,
+      "urgency_rank": 40,
+      "urgency_percentile": 2.5,
+      "actual": "3+",
+      "theatrical_week": 1.0,
+      "current_week_screenings": 53.0,
+      "market_theater_count": 7.0
+    },
+    {
+      "thursday": "2026-09-24",
+      "forecast_snapshot": "2026-09-22",
+      "title": "Without Blood",
+      "segment": "ordinary",
+      "final_week": "98%",
+      "plus_1": "2%",
+      "plus_2": "0%",
+      "plus_3": "0%",
+      "expected_weeks": 0.02,
+      "urgency_rank": 6,
+      "urgency_percentile": 89.4,
+      "actual": "Final",
+      "theatrical_week": 2.0,
+      "current_week_screenings": 11.0,
+      "market_theater_count": 1.0
+    },
+    {
+      "thursday": "2026-09-24",
+      "forecast_snapshot": "2026-09-21",
+      "title": "The Lego Batman Movie",
+      "segment": "ordinary",
+      "final_week": "97%",
+      "plus_1": "3%",
+      "plus_2": "0%",
+      "plus_3": "0%",
+      "expected_weeks": 0.03,
+      "urgency_rank": 7,
+      "urgency_percentile": 87.2,
+      "actual": "Final",
+      "theatrical_week": 1.0,
+      "current_week_screenings": 9.0,
+      "market_theater_count": 4.0
+    },
+    {
+      "thursday": "2026-09-24",
+      "forecast_snapshot": "2026-09-21",
+      "title": "Insidious: Out of the Further",
+      "segment": "ordinary",
+      "final_week": "66%",
+      "plus_1": "31%",
+      "plus_2": "3%",
+      "plus_3": "0%",
+      "expected_weeks": 0.38,
+      "urgency_rank": 28,
+      "urgency_percentile": 42.6,
+      "actual": "Final",
+      "theatrical_week": 6.0,
+      "current_week_screenings": 19.0,
+      "market_theater_count": 3.0
+    },
+    {
+      "thursday": "2026-09-24",
+      "forecast_snapshot": "2026-09-21",
+      "title": "The Musical",
+      "segment": "ordinary",
+      "final_week": "62%",
+      "plus_1": "34%",
+      "plus_2": "4%",
+      "plus_3": "0%",
+      "expected_weeks": 0.42,
+      "urgency_rank": 29,
+      "urgency_percentile": 40.4,
+      "actual": "Final",
+      "theatrical_week": 2.0,
+      "current_week_screenings": 18.0,
+      "market_theater_count": 2.0
+    },
+    {
+      "thursday": "2026-09-24",
+      "forecast_snapshot": "2026-09-21",
+      "title": "The Odyssey",
+      "segment": "ordinary",
+      "final_week": "0%",
+      "plus_1": "1%",
+      "plus_2": "5%",
+      "plus_3": "93%",
+      "expected_weeks": 2.91,
+      "urgency_rank": 46,
+      "urgency_percentile": 4.3,
+      "actual": "censored",
+      "theatrical_week": 11.0,
+      "current_week_screenings": 116.0,
+      "market_theater_count": 6.0
+    },
+    {
+      "thursday": "2026-09-24",
+      "forecast_snapshot": "2026-09-21",
+      "title": "Resident Evil",
+      "segment": "ordinary",
+      "final_week": "0%",
+      "plus_1": "1%",
+      "plus_2": "4%",
+      "plus_3": "95%",
+      "expected_weeks": 2.94,
+      "urgency_rank": 47,
+      "urgency_percentile": 2.1,
+      "actual": "censored",
+      "theatrical_week": 2.0,
+      "current_week_screenings": 477.0,
+      "market_theater_count": 7.0
+    }
+  ]
+}

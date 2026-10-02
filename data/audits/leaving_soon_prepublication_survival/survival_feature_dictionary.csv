@@ -1,0 +1,43 @@
+feature,definition,available_pre_publication,source,leakage_risk,included
+theatrical_week_number,"Programming weeks since this engagement's first show, as of the visible week.",yes,screening lifecycle listings on or before the snapshot,low,included
+days_since_first_show,Days from the snapshot back to the engagement's first show.,yes,screening lifecycle listings on or before the snapshot,low,included
+left_truncated,1 when the run was already underway on the first day of the dataset.,yes,screening lifecycle listings on or before the snapshot,low,included
+in_first_week,1 in theatrical week 1.,yes,screening lifecycle listings on or before the snapshot,low,included
+in_second_week,1 in theatrical week 2.,yes,screening lifecycle listings on or before the snapshot,low,included
+continuous_weeks,"Consecutive weeks with at least one listed show, ending at the visible week.",yes,screening lifecycle listings on or before the snapshot,low,included
+current_week_screenings,Showtimes listed in the visible Fri–Thu week.,yes,screening lifecycle listings on or before the snapshot,low,included
+screenings_per_show_date,Those showtimes divided by distinct show dates.,yes,screening lifecycle listings on or before the snapshot,low,included
+distinct_show_dates,Distinct dates with a listing in the visible week.,yes,screening lifecycle listings on or before the snapshot,low,included
+thursday_screenings,Showtimes on the Thursday that closes the visible week.,yes,screening lifecycle listings on or before the snapshot,low,included
+weekend_share,"Share of visible-week showtimes on Friday, Saturday, or Sunday.",yes,screening lifecycle listings on or before the snapshot,low,included
+prime_share,Share of visible-week showtimes in prime time.,yes,screening lifecycle listings on or before the snapshot,low,included
+premium_share,Share of visible-week showtimes in a premium format.,yes,screening lifecycle listings on or before the snapshot,low,included
+days_with_1,Visible-week dates with exactly one screening.,yes,screening lifecycle listings on or before the snapshot,low,included
+days_with_3plus,Visible-week dates with three or more screenings.,yes,screening lifecycle listings on or before the snapshot,low,included
+wow_pct_change,"Change from the prior programming week's showtimes, divided by that week.",yes,screening lifecycle listings on or before the snapshot,low,included
+decline_from_peak,"Drop from the busiest observed week so far to this week, divided by the peak.",yes,screening lifecycle listings on or before the snapshot,low,included
+consecutive_decline_weeks,How many steps back the weekly count keeps falling.,yes,screening lifecycle listings on or before the snapshot,low,included
+is_weakest_week,1 when this week is at or below every prior observed week.,yes,screening lifecycle listings on or before the snapshot,low,included
+premium_lost,1 when the prior week had a premium show and this week does not.,yes,screening lifecycle listings on or before the snapshot,low,included
+prime_share_change,Change in prime-time share from the prior week.,yes,screening lifecycle listings on or before the snapshot,low,included
+market_theater_count,Seattle AMC theaters listing the film in the visible week.,yes,screening lifecycle listings on or before the snapshot,low,included
+theater_count_wow,Change in that theater count from the prior week.,yes,screening lifecycle listings on or before the snapshot,low,included
+market_screenings,Visible-week showtimes across those theaters.,yes,screening lifecycle listings on or before the snapshot,low,included
+market_screenings_wow,Change in market showtimes from the prior week.,yes,screening lifecycle listings on or before the snapshot,low,included
+share_theaters_declining,Share of theaters whose own week is down from the prior week.,yes,screening lifecycle listings on or before the snapshot,low,included
+strongest_theater_screenings,Highest single-theater visible-week count.,yes,screening lifecycle listings on or before the snapshot,low,included
+weakest_theater_screenings,Lowest single-theater visible-week count.,yes,screening lifecycle listings on or before the snapshot,low,included
+theaters_at_minimal,Theaters with two or fewer visible-week showtimes.,yes,screening lifecycle listings on or before the snapshot,low,included
+share_of_theater,This film's share of the theater's visible-week showtimes.,yes,screening lifecycle listings on or before the snapshot,low,included
+rank_in_theater,Rank of this film by visible-week showtimes at the theater. 1 is the fullest.,yes,screening lifecycle listings on or before the snapshot,low,included
+theater_week_vs_baseline,The theater's visible-week volume divided by its earlier weekly median.,yes,screening lifecycle listings on or before the snapshot,low,included
+has_premium,1 when the visible week includes a premium-format show.,yes,screening lifecycle listings on or before the snapshot,low,included
+has_prime,1 when the visible week includes a prime-time show.,yes,screening lifecycle listings on or before the snapshot,low,included
+next_week_titles_already_listed,"Titles at this theater that have not played yet and already list a show on or after the upcoming Friday. This is an advance listing, not the published Friday allocation.",yes,screening lifecycle listings on or before the snapshot,low,included
+days_to_known_last,Days from the snapshot to the latest listed show. Excluded: at this snapshot it is usually just the edge of the visible week.,yes,screening lifecycle listings on or before the snapshot,answer-revealing once the next week is published,excluded
+has_next_friday,1 when a show on or after the upcoming Friday is already listed. Excluded from the forecast model.,yes,screening lifecycle listings on or before the snapshot,answer-revealing once the next week is published,excluded
+pub_has_next_friday,Same flag measured on the publication snapshot. Confirmation only.,no,screening lifecycle listings on or before the snapshot,answer-revealing once the next week is published,excluded
+pub_next_week_screenings,Showtimes in the new week on the publication snapshot. Confirmation only.,no,screening lifecycle listings on or before the snapshot,answer-revealing once the next week is published,excluded
+pub_days_to_known_last,Days to the latest listed show after publication. Confirmation only.,no,screening lifecycle listings on or before the snapshot,answer-revealing once the next week is published,excluded
+tmdb_popularity,Current TMDB popularity is not a historical point-in-time series.,no,screening lifecycle listings on or before the snapshot,hindsight if joined from a current extract,excluded
+box_office,No historical point-in-time box office series is in this dataset.,no,screening lifecycle listings on or before the snapshot,hindsight if joined from a current extract,excluded
