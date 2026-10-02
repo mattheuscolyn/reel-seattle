@@ -1,0 +1,30 @@
+feature,definition,available_at_prediction_time,source,leakage_risk
+days_to_known_last,Days from the observation to the latest show date listed that day.,yes,screening lifecycle listings on or before the observation date,low
+listed_end_wednesday,1 when that listed final date is a Wednesday.,yes,screening lifecycle listings on or before the observation date,low
+listed_end_thursday,1 when that listed final date is a Thursday.,yes,screening lifecycle listings on or before the observation date,low
+listed_end_before_friday,1 when the listed final date falls before the Friday on or after the observation.,yes,screening lifecycle listings on or before the observation date,low
+screenings_on_final_day,Showtimes listed on the current final date.,yes,screening lifecycle listings on or before the observation date,low
+screenings_final_3_days,Showtimes listed on the final date and the two dates before it.,yes,screening lifecycle listings on or before the observation date,low
+snapshots_on_this_final,"Consecutive snapshots, ending today, that have shown this same final date.",yes,screening lifecycle listings on or before the observation date,low
+days_on_this_final,Calendar days since this final date first appeared.,yes,screening lifecycle listings on or before the observation date,low
+prior_extension_count,How many times the listed final date had already moved later before today.,yes,screening lifecycle listings on or before the observation date,low
+days_since_last_extension,Days since the listed final last moved later.,yes,screening lifecycle listings on or before the observation date,low
+moved_within_3_snapshots,1 when the listed final changed within the last three snapshots.,yes,screening lifecycle listings on or before the observation date,low
+distinct_final_dates,How many different listed finals this engagement has shown up to today.,yes,screening lifecycle listings on or before the observation date,low
+final_vs_recent_average,Final-day showtimes divided by the recent played-day average.,yes,screening lifecycle listings on or before the observation date,low
+percent_decline_from_peak,Drop from the busiest played day so far to the latest played day.,yes,screening lifecycle listings on or before the observation date,low
+prime_share_final_3,Share of listed final-three-day showtimes that fall in prime time.,yes,screening lifecycle listings on or before the observation date,low
+premium_in_final_3,1 when any premium-format show is listed in those three days.,yes,screening lifecycle listings on or before the observation date,low
+market_theater_count,Seattle AMC theaters listing this film with a future show today.,yes,screening lifecycle listings on or before the observation date,low
+other_theaters_beyond_listed_end,Other theaters whose own listed final is after this theater's date.,yes,screening lifecycle listings on or before the observation date,low
+share_other_theaters_on_same_end,Share of other active theaters whose listed final equals this date.,yes,screening lifecycle listings on or before the observation date,low
+this_theater_is_earliest_exit,1 when no other theater lists an earlier final.,yes,screening lifecycle listings on or before the observation date,low
+all_theaters_share_listed_end,1 when every other active theater lists this same final date.,yes,screening lifecycle listings on or before the observation date,low
+incoming_friday_screenings,Friday showtimes for films that have not yet played at this theater.,yes,screening lifecycle listings on or before the observation date,low
+new_films_on_friday,Count of those not-yet-played films.,yes,screening lifecycle listings on or before the observation date,low
+theater_today_vs_baseline,This theater's listed volume today divided by its past weekday baseline.,yes,screening lifecycle listings on or before the observation date,low
+segment_rerelease,1 for a catalog rerelease.,yes,screening lifecycle listings on or before the observation date,low
+segment_special,1 for a catalog special.,yes,screening lifecycle listings on or before the observation date,low
+days_since_opening,Days since this engagement's first show. Negative before opening.,yes,screening lifecycle listings on or before the observation date,low
+theatrical_week_number,"0 before the first played show, then 1, 2, 3…",yes,screening lifecycle listings on or before the observation date,low
+left_truncated,1 when the run was already underway on the first day of the dataset.,yes,screening lifecycle listings on or before the observation date,low
