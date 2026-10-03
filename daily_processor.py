@@ -56,6 +56,7 @@ HISTORY_FIELDNAMES = [
     "premiumFormat",
     "hasTrailers",
     "maximumIntendedAttendance",
+    "auditorium",
     "first_seen_date",
     "last_updated",
     "source",
