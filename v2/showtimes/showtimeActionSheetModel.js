@@ -107,6 +107,12 @@ export function resolveShowtimeActionSheetState({
   const ticketUrl = normalizeExternalTicketUrl(
     opportunity.ticketUrl ?? row?.ticketUrl ?? null,
   );
+  const auditorium =
+    typeof opportunity.auditorium === 'string' && opportunity.auditorium.trim()
+      ? opportunity.auditorium.trim()
+      : typeof row?.auditorium === 'string' && row.auditorium.trim()
+        ? row.auditorium.trim()
+        : null;
 
   return {
     ok: true,
@@ -130,6 +136,11 @@ export function resolveShowtimeActionSheetState({
         row?.theaterName ??
         opportunity.theaterId ??
         'Theater',
+      auditoriumLabel: auditorium
+        ? /^auditorium\b/i.test(auditorium)
+          ? auditorium
+          : `Auditorium ${auditorium}`
+        : null,
       formatLabel,
       posterUrl: enriched.posterUrl ?? film.posterUrl ?? null,
     },
