@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-10-03T03:57:09-07:00",
+  "source": "stg",
+  "records": [],
+  "stats": {
+    "scrape_status": "request_failure",
+    "restate_safe": false,
+    "expected_structure_present": false,
+    "discovery_ok": false,
+    "discovered_programs": 0,
+    "program_pages_attempted": 1,
+    "program_pages_succeeded": 0,
+    "program_pages_failed": 1,
+    "failed_program_urls": [
+      "https://www.stgpresents.org/wp-json/wp/v2/mec-events?per_page=100&page=1&_fields=id,slug,link,title,excerpt,content"
+    ],
+    "valid_empty_proof": false,
+    "stale_retention_recommended": true,
+    "inspected_scope_complete": false,
+    "requested_window_start": "2026-10-03",
+    "requested_window_end": "2027-10-03",
+    "record_count": 0,
+    "warning_count": 1,
+    "error_count": 1
+  },
+  "warnings": [
+    "request_failure: STG events HTTP 202"
+  ],
+  "errors": [
+    "STG events HTTP 202"
+  ],
+  "mapping": {
+    "status": "request_failure",
+    "restate_safe": false,
+    "accepted_records": 0,
+    "rejected_records": 0
+  },
+  "independent_source_result": {
+    "contract_version": "1.0.0",
+    "source": "stg",
+    "scraped_at": "2026-10-03T03:57:09-07:00",
+    "requested_window": {
+      "start": "2026-10-03",
+      "end": "2027-10-03"
+    },
+    "inspected_window": {
+      "start": "2026-10-03",
+      "end": "2027-10-03",
+      "complete": false
+    },
+    "status": "request_failure",
+    "restate_safe": false,
+    "identity": {
+      "program_strategy": "source_numeric_id",
+      "showtime_strategy": "source_showing_id"
+    },
+    "structural_validation": {
+      "passed": false,
+      "checks": [
+        {
+          "code": "expected_structure",
+          "passed": false,
+          "severity": "error",
+          "message": "STG events HTTP 202"
+        }
+      ]
+    },
+    "stats": {
+      "accepted_showtimes": 0,
+      "rejected_observations": 0
+    },
+    "warnings": [
+      {
+        "code": "request_failure",
+        "message": "STG events HTTP 202"
+      }
+    ],
+    "rejected_observations": [],
+    "programs": [],
+    "showtimes": []
+  }
+}
