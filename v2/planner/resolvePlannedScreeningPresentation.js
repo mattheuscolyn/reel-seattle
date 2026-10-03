@@ -99,6 +99,10 @@ export function resolvePlannedScreeningPresentation(options) {
   const timeLabel =
     formatDisplayClock(perf.localTime, timeFormatId) ?? perf.localTime ?? null;
   const formatLabel = formatUserFacingFormatLabel(perf.format);
+  const auditorium =
+    typeof perf.auditorium === 'string' && perf.auditorium.trim()
+      ? perf.auditorium.trim()
+      : null;
   const posterUrl = resolvePosterUrl(perf, homeData, enrichmentIndex);
   const otherShowtimes = deriveOtherShowtimesAtTheater(homeData, {
     filmKey: perf.filmKey,
@@ -126,6 +130,11 @@ export function resolvePlannedScreeningPresentation(options) {
       localTime: perf.localTime,
       theaterName: perf.theaterName || perf.theaterId,
       theaterId: perf.theaterId,
+      auditoriumLabel: auditorium
+        ? /^auditorium\b/i.test(auditorium)
+          ? auditorium
+          : `Auditorium ${auditorium}`
+        : null,
       formatLabel: formatLabel || null,
       ticketUrl: normalizeExternalTicketUrl(perf.ticketUrl),
       filmId: perf.filmId ?? null,
