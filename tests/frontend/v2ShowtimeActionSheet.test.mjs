@@ -92,6 +92,7 @@ function sampleHome() {
         ticketUrl: 'https://tickets.example/a',
         source: 'amc',
         sourceShowtimeId: 'src-a-1900',
+        auditorium: '7',
         runtimeMin: 100,
       },
       {
@@ -190,7 +191,9 @@ test('action sheet shows correct screening context', () => {
   assert.equal(state.ok, true);
   assert.equal(state.context.filmTitle, 'Alpha');
   assert.equal(state.context.theaterName, 'Theater One');
+  assert.equal(state.context.auditoriumLabel, 'Auditorium 7');
   assert.equal(state.context.formatLabel, 'Digital');
+  assert.match(SHEET_SRC, /context\.auditoriumLabel/);
   assert.match(state.context.timeLabel, /7:00|19:00/);
 });
 
@@ -254,6 +257,7 @@ test('performance shape matches acceptedPlans expectations', () => {
   assert.equal(perf.performanceKey, result.performanceKey);
   assert.equal(perf.source, 'amc');
   assert.equal(perf.sourceShowtimeId, 'src-a-1900');
+  assert.equal(perf.auditorium, '7');
   assert.equal(perf.localDate, '2026-08-01');
   assert.equal(perf.localTime, '19:00');
   assert.ok(perf.expectedEndsAt);
