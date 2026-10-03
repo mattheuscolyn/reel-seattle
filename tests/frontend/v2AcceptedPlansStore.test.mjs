@@ -60,6 +60,7 @@ const LIVE_PERF_A = Object.freeze({
   format: '35mm',
   ticketUrl: 'https://example.com/t/1',
   addressLabel: '4405 Rainier Ave S, Seattle, WA 98118',
+  auditorium: '7',
 });
 
 const LIVE_PERF_B = Object.freeze({
@@ -96,6 +97,7 @@ test('live itinerary persists; fixture and incomplete rows fail closed', () => {
   assert.equal(ok.ok, true);
   assert.equal(ok.changed, true);
   assert.equal(ok.plan.performances.length, 2);
+  assert.equal(ok.plan.performances[0].auditorium, '7');
   assert.equal(ok.plan.provenance, 'live');
   assert.equal(getAcceptedPlans(storage).length, 1);
 
