@@ -51,6 +51,7 @@ export const ACCEPTED_PLANS_TIMEZONE = 'America/Los_Angeles';
  *   format: string | null,
  *   ticketUrl: string | null,
  *   addressLabel: string | null,
+ *   auditorium: string | null,
  *   posterUrl: string | null,
  *   ticketsPurchased?: boolean,
  * }} AcceptedPlanPerformance
@@ -308,6 +309,7 @@ export function normalizeAcceptedPerformance(input) {
       asOptionalString(record.formatBadge),
     ticketUrl: asAbsoluteHttpUrl(record.ticketUrl ?? record.ticket_url),
     addressLabel: asOptionalString(record.addressLabel),
+    auditorium: asOptionalString(record.auditorium),
     posterUrl: asAbsoluteHttpUrl(record.posterUrl ?? record.imageUrl),
   };
 
