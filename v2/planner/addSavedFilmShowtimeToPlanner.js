@@ -121,6 +121,7 @@ export function opportunityToAcceptedPerformanceInput(
       opportunity.sourceShowtimeId ?? opportunity.source_showtime_id ?? null,
     opportunityKey: opportunity.opportunityKey ?? null,
     addressLabel: opportunity.addressLabel ?? null,
+    auditorium: opportunity.auditorium ?? null,
     provenance: 'live',
   };
 }
