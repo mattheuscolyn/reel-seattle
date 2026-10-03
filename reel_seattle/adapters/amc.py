@@ -59,6 +59,7 @@ AMC_CSV_FIELDNAMES = [
     "premiumFormat",
     "hasTrailers",
     "maximumIntendedAttendance",
+    "auditorium",
     "first_seen_date",
     "last_updated",
     "source",
@@ -258,6 +259,7 @@ def raw_showtime_to_legacy_row(raw: RawShowtime) -> dict[str, str]:
             "maximumIntendedAttendance": format_optional_number(
                 attrs.get("maximum_intended_attendance")
             ),
+            "auditorium": format_optional_number(attrs.get("auditorium")),
             "first_seen_date": "",
             "last_updated": "",
             "source": "",
