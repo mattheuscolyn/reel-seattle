@@ -248,6 +248,7 @@ function movieToLiveResultsFilm(
     ticketUrl: matchedRow?.ticket_url ?? null,
     ticket_url: matchedRow?.ticket_url ?? null,
     addressLabel: formatTheaterAddressLabel(theaterMeta),
+    auditorium: asTrimmed(matchedRow?.auditorium),
     format,
     formatLabel: format,
   };
