@@ -172,6 +172,7 @@ def test_resolve_amc_scrape_rows_prefers_json(tmp_path):
         time_raw="8:00PM",
         title_raw="JSON AMC Film",
         runtime_raw="120",
+        attributes={"auditorium": 7},
     )
     write_scrape_daily_log(
         daily_log_path(REFERENCE_TODAY, "amc", logs_dir=logs_dir),
@@ -187,6 +188,7 @@ def test_resolve_amc_scrape_rows_prefers_json(tmp_path):
     assert kind == "json"
     assert label.endswith("_amc.json")
     assert rows[0]["Film"] == "JSON AMC Film"
+    assert rows[0]["auditorium"] == "7"
     assert isinstance(stats, dict)
 
 
