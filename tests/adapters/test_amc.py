@@ -99,6 +99,7 @@ def test_raw_showtime_to_legacy_row_maps_source_identity():
     row = raw_showtime_to_legacy_row(raw)
     assert row["source_film_id"] == "movie-abc123"
     assert row["source_title"] == "New Future AMC"
+    assert row["auditorium"] == "7"
 
 
 def test_raw_showtime_to_legacy_row_blank_source_film_id_without_movie_id(api_showtime):
