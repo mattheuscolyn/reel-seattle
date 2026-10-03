@@ -18,7 +18,6 @@ HISTORY_OPTIONAL_CSV_FIELDS = (
     "identity_title",
     "release_year",
     "program_series",
-    "auditorium",
 )
 
 
