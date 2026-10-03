@@ -50,6 +50,7 @@ function screening(overrides = {}) {
     format: overrides.format ?? null,
     ticketUrl: overrides.ticketUrl ?? null,
     addressLabel: null,
+    auditorium: overrides.auditorium ?? null,
     posterUrl: overrides.posterUrl ?? null,
     ticketsPurchased: overrides.ticketsPurchased === true,
   };
@@ -92,6 +93,15 @@ test('single private plan stays compact and uses the film title', () => {
   assert.match(DETAIL_SRC, /view\.showMovieDay/);
   assert.doesNotMatch(DETAIL_SRC, /Add another movie/);
   assert.doesNotMatch(DETAIL_SRC, /1-film plan/);
+});
+
+test('Plan Detail shows auditorium on the exact screening row', () => {
+  const view = detail({
+    screenings: [screening({ auditorium: '7', format: 'Dolby Cinema' })],
+  });
+  const row = view.itinerary.find((item) => item.kind === 'film');
+  assert.equal(row.auditoriumLabel, 'Auditorium 7');
+  assert.match(DETAIL_SRC, /row\.auditoriumLabel/);
 });
 
 test('single shared plan shows participants and sharing without a second response card', () => {
