@@ -54,7 +54,7 @@ test('showtime auditorium attributes reach canonical opportunities', () => {
   target.attributes = { ...(target.attributes ?? {}), auditorium: '7' };
   const home = buildHomeData(baseInput({ showtimesCurrent: showtimes }));
   const opportunity = home.opportunities.find(
-    (item) => item.opportunityKey === `artifact:${target.id}`,
+    (item) => item.sourceShowtimeId === target.source_showtime_id,
   );
   assert.ok(opportunity);
   assert.equal(opportunity.auditorium, '7');
