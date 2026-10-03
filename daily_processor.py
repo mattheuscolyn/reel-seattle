@@ -70,7 +70,6 @@ HISTORY_FIELDNAMES = [
     "identity_title",
     "release_year",
     "program_series",
-    "auditorium",
 ]
 
 HISTORY_PATH = Path("data/history/showtimes_history.csv")
@@ -193,8 +192,16 @@ def save_csv(filename, data, fieldnames=None):
 
 
 def add_new_showtime(showtime, history_data, today, source, theater_index):
-    """Add new showtime with first_seen_date"""
+    """Add new showtime with first_seen_date.
+
+    Preserve current-run auditorium metadata in memory without widening the
+    196 MB canonical history CSV. AMC today+future rows are restated from the
+    raw daily log on every successful run before current JSON is emitted.
+    """
     new_showtime = normalize_history_row(showtime)
+    auditorium = str(showtime.get("auditorium", "")).strip()
+    if auditorium:
+        new_showtime["auditorium"] = auditorium
     new_showtime["first_seen_date"] = today
     new_showtime["last_updated"] = today
     new_showtime["source"] = source
