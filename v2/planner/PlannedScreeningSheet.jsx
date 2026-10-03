@@ -313,6 +313,9 @@ export default function PlannedScreeningSheet({
             {screening.theaterName ? (
               <p className="v2-pss-theater">{screening.theaterName}</p>
             ) : null}
+            {screening.auditoriumLabel ? (
+              <p className="v2-pss-theater">{screening.auditoriumLabel}</p>
+            ) : null}
             {screening.formatLabel ? (
               <span className="v2-pss-format">{screening.formatLabel}</span>
             ) : null}
