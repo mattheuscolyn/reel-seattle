@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reel Seattle</title>
+    <script>
+      /**
+       * GitHub Pages SPA fallback (see src/spaRedirect.js).
+       *
+       * GH Pages serves this file for missing routes (e.g. /double-feature). We store
+       * the requested path and redirect to the app shell at /. restoreSpaRedirectPath()
+       * in main.jsx restores the route before React Router renders.
+       *
+       * Deployed at www.reelseattle.com (public/CNAME) with Vite base '/'.
+       */
+      (function () {
+        var key = 'reel-seattle-spa-redirect';
+        var requested =
+          window.location.pathname + window.location.search + window.location.hash;
+        try {
+          sessionStorage.setItem(key, requested);
+        } catch (e) {
+          /* sessionStorage blocked — fall back to home only */
+        }
+        window.location.replace(window.location.origin + '/');
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

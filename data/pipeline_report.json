@@ -1,0 +1,213 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-10-03T03:58:08-07:00",
+  "status": "success",
+  "window": {
+    "start_date": "2026-10-03",
+    "end_date": "2027-10-02"
+  },
+  "sources": {
+    "amc": {
+      "status": "success",
+      "showtime_count": 6417,
+      "film_count": 112,
+      "theater_count": 7,
+      "last_successful_run": "2026-10-03",
+      "warnings": [
+        "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
+      ],
+      "errors": []
+    },
+    "siff": {
+      "status": "success",
+      "showtime_count": 260,
+      "film_count": 66,
+      "theater_count": 3,
+      "last_successful_run": "2026-10-03",
+      "warnings": [
+        "SIFF parent/series page with no direct showtimes: programs-and-events/andrzej-wajda",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/celluloid-screenings",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/community-screenings",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/courageous-documentary-filmmaking-grant",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/scarecrowber-2026",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/siff-book-club",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/siff-movie-club",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/stage-to-screen",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/the-open-road"
+      ],
+      "errors": []
+    },
+    "beacon": {
+      "status": "success",
+      "showtime_count": 41,
+      "film_count": 25,
+      "theater_count": 1,
+      "last_successful_run": "2026-10-03",
+      "warnings": [],
+      "errors": []
+    },
+    "nwff": {
+      "status": "success",
+      "showtime_count": 91,
+      "film_count": 42,
+      "theater_count": 1,
+      "last_successful_run": "2026-10-03",
+      "warnings": [],
+      "errors": []
+    },
+    "central_cinema": {
+      "status": "success",
+      "showtime_count": 81,
+      "film_count": 19,
+      "theater_count": 1,
+      "last_successful_run": "2026-10-03",
+      "warnings": [],
+      "errors": []
+    },
+    "grand_illusion": {
+      "status": "success",
+      "showtime_count": 12,
+      "film_count": 12,
+      "theater_count": 1,
+      "last_successful_run": "2026-10-03",
+      "warnings": [],
+      "errors": []
+    },
+    "tasveer": {
+      "status": "success",
+      "showtime_count": 41,
+      "film_count": 8,
+      "theater_count": 1,
+      "last_successful_run": "2026-10-03",
+      "warnings": [],
+      "errors": []
+    },
+    "anderson_school": {
+      "status": "success",
+      "showtime_count": 47,
+      "film_count": 2,
+      "theater_count": 1,
+      "last_successful_run": "2026-10-03",
+      "warnings": [],
+      "errors": []
+    },
+    "stg": {
+      "status": "success",
+      "showtime_count": 9,
+      "film_count": 9,
+      "theater_count": 3,
+      "last_successful_run": "2026-10-02",
+      "warnings": [
+        "request_failure: STG events HTTP 202",
+        "STG scrape incomplete or structurally empty; retained prior future rows."
+      ],
+      "errors": [
+        "STG events HTTP 202"
+      ]
+    },
+    "majestic_bay": {
+      "status": "success",
+      "showtime_count": 48,
+      "film_count": 8,
+      "theater_count": 1,
+      "last_successful_run": "2026-10-03",
+      "warnings": [],
+      "errors": []
+    }
+  },
+  "totals": {
+    "showtime_count": 7047,
+    "film_count": 284,
+    "theater_count": 19
+  },
+  "messages": [],
+  "amc_source_catalog": {
+    "id": "amc_source_catalog",
+    "status": "success",
+    "build_attempted": true,
+    "build_succeeded": true,
+    "soft_failure": false,
+    "outcome": "promoted",
+    "artifacts_written_this_run": true,
+    "artifacts_retained_from_prior": false,
+    "reported_at": "2026-10-03T04:05:44-07:00",
+    "last_successful_build_at": "2026-10-03T04:03:49-07:00",
+    "message": "AMC source catalog: promoted",
+    "warnings": [],
+    "errors": [],
+    "refresh": {
+      "active_ids": 112,
+      "selected": 112,
+      "success": 112,
+      "failed": 0,
+      "invalid": 0
+    },
+    "artifacts": {
+      "amc_movie_products": {
+        "id": "amc_movie_products",
+        "path": "data/source_catalog/amc_movie_products.json",
+        "exists": true,
+        "valid": true,
+        "schema_version": "1.0.0",
+        "generated_at": "2026-10-03T04:03:49-07:00",
+        "record_count": 340,
+        "written_this_run": true,
+        "retained_from_prior": false,
+        "warnings": [],
+        "errors": []
+      },
+      "amc_release_observations": {
+        "id": "amc_release_observations",
+        "path": "data/source_catalog/amc_release_observations.json",
+        "exists": true,
+        "valid": true,
+        "schema_version": "1.0.0",
+        "generated_at": "2026-10-03T04:03:49-07:00",
+        "record_count": 305,
+        "written_this_run": true,
+        "retained_from_prior": false,
+        "warnings": [],
+        "errors": []
+      }
+    },
+    "products_summary": {
+      "total": 340,
+      "active": 112,
+      "inactive": 228,
+      "with_release_id": 332,
+      "without_release_id": 8,
+      "refresh_pending": 0,
+      "refresh_success": 340,
+      "refresh_stale": 0,
+      "refresh_failed": 0,
+      "refresh_invalid": 0,
+      "refresh_status_missing": 0,
+      "stored_stats": {
+        "products": 340,
+        "active_products": 112,
+        "inactive_products": 228,
+        "with_release_id": 332,
+        "without_release_id": 8,
+        "refresh_pending": 0,
+        "refresh_success": 340,
+        "refresh_stale": 0,
+        "refresh_failed": 0,
+        "refresh_invalid": 0,
+        "special_presentations": 166
+      }
+    },
+    "releases_summary": {
+      "total": 305,
+      "singleton_groups": 292,
+      "multi_product_groups": 13,
+      "membership_references": 332,
+      "unresolved_member_references": 0,
+      "stored_stats": {
+        "release_observations": 305,
+        "singleton_groups": 292,
+        "multi_product_groups": 13,
+        "largest_group": 14
+      }
+    }
+  }
+}
