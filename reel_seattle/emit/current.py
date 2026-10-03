@@ -303,6 +303,10 @@ def build_showtimes_current(
         history_ticket_url = ticket_url_from_history_row(row)
         history_source_film_url = source_film_url_from_history_row(row)
         history_source_showtime_id = source_showtime_id_from_history_row(row)
+        if source == "amc":
+            auditorium = normalize_optional_string(row.get("auditorium"))
+            if auditorium is not None:
+                attributes["auditorium"] = auditorium
         if source == "grand_illusion":
             program_url = (
                 history_source_film_url
