@@ -56,7 +56,6 @@ HISTORY_FIELDNAMES = [
     "premiumFormat",
     "hasTrailers",
     "maximumIntendedAttendance",
-    "auditorium",
     "first_seen_date",
     "last_updated",
     "source",
@@ -71,6 +70,7 @@ HISTORY_FIELDNAMES = [
     "identity_title",
     "release_year",
     "program_series",
+    "auditorium",
 ]
 
 HISTORY_PATH = Path("data/history/showtimes_history.csv")
