@@ -47,6 +47,19 @@ test('valid showtimes transform into films and opportunities', () => {
   assert.equal(indie.filmId, null);
 });
 
+test('showtime auditorium attributes reach canonical opportunities', () => {
+  const showtimes = loadFixture('v2_showtimes_home_mini.json');
+  const target = showtimes.showtimes.find((row) => row.source === 'amc');
+  assert.ok(target);
+  target.attributes = { ...(target.attributes ?? {}), auditorium: '7' };
+  const home = buildHomeData(baseInput({ showtimesCurrent: showtimes }));
+  const opportunity = home.opportunities.find(
+    (item) => item.opportunityKey === `artifact:${target.id}`,
+  );
+  assert.ok(opportunity);
+  assert.equal(opportunity.auditorium, '7');
+});
+
 test('canonical filmId ignores raw source ids and titles', () => {
   const showtimes = loadFixture('v2_showtimes_home_mini.json');
   showtimes.films = showtimes.films.map((film) => ({
