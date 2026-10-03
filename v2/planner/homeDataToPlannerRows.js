@@ -112,6 +112,7 @@ export function homeDataToPlannerRows(homeData, options = {}) {
       screeningId: asTrimmed(opp.screeningId) ?? asTrimmed(opp.opportunityKey),
       startsAt: asTrimmed(opp.startsAt),
       ticket_url: opp.ticketUrl ?? null,
+      auditorium: asTrimmed(opp.auditorium),
       formatLabels,
     });
   }

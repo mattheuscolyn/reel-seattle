@@ -65,6 +65,7 @@ function liveFilm(overrides = {}) {
     sourceShowtimeId: 'oa1',
     opportunityKey: 'oa1',
     ticketUrl: 'https://example.com/t/oa1',
+    auditorium: '7',
     posterUrl: 'https://example.com/a.jpg',
     provenance: 'live',
     ...overrides,
@@ -223,7 +224,9 @@ test('resolvePlannedScreeningPresentation selects planId + performanceKey', () =
   assert.equal(resolved.screening.performanceKey, perfKey);
   assert.equal(resolved.screening.title, 'Alpha');
   assert.equal(resolved.screening.theaterId, 'theater-a');
+  assert.equal(resolved.screening.auditoriumLabel, 'Auditorium 7');
   assert.equal(resolved.screening.filmKey, 'alpha');
+  assert.match(SHEET_SRC, /screening\.auditoriumLabel/);
 });
 
 test('multi-film plan resolves each screening independently', () => {

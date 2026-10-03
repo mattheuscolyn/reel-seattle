@@ -461,7 +461,7 @@ function ItineraryFilm({ row, onOpenFilm }) {
         ) : null}
         <span className="v2-plan-detail-row-title">{row.title}</span>
         <span className="v2-plan-detail-row-meta">
-          {[row.theater, row.formatBadge].filter(Boolean).join(' · ')}
+          {[row.theater, row.auditoriumLabel, row.formatBadge].filter(Boolean).join(' · ')}
         </span>
       </span>
       {canOpen ? (

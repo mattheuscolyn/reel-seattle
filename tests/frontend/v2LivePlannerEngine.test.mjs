@@ -122,6 +122,7 @@ function makeHomeData() {
         runtimeMin: 90,
         source: 'fixture-test',
         sourceShowtimeId: 'oa1',
+        auditorium: '7',
         formatLabels: ['Digital'],
         ticketUrl: 'https://example.com/t/oa1',
       },
@@ -208,6 +209,7 @@ test('homeDataToPlannerRows maps HH:MM + live accept fields', () => {
   assert.equal(alpha.localTime, '14:00');
   assert.equal(alpha.source, 'fixture-test');
   assert.equal(alpha.source_showtime_id, 'oa1');
+  assert.equal(alpha.auditorium, '7');
   assert.equal(alpha.Runtime, 90);
 });
 
@@ -369,6 +371,10 @@ test('live plan accept + calendar ICS contract', () => {
   });
   assert.equal(accepted.ok, true);
   assert.equal(getAcceptedPlans(storage).length, 1);
+  const savedAlpha = getAcceptedPlans(storage)[0].performances.find(
+    (perf) => perf.filmKey === 'alpha',
+  );
+  assert.equal(savedAlpha?.auditorium, '7');
 
   const exportFilms = plan.items
     .filter((i) => i.type !== 'break')

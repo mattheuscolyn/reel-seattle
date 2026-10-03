@@ -271,6 +271,9 @@ export default function ShowtimeActionSheet({
               {[context.dateLabel, context.timeLabel].filter(Boolean).join(' · ')}
             </p>
             <p className="v2-stas-meta">{context.theaterName}</p>
+            {context.auditoriumLabel ? (
+              <p className="v2-stas-meta">{context.auditoriumLabel}</p>
+            ) : null}
             {context.formatLabel ? (
               <span className="v2-stas-format">{context.formatLabel}</span>
             ) : null}

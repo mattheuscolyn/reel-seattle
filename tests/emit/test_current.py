@@ -34,6 +34,7 @@ def _history_row(
     canceled: bool = False,
     sold_out: bool = False,
     source: str = "amc",
+    auditorium: str = "",
 ) -> dict[str, str]:
     return {
         "Date": format_date_csv(show_date),
@@ -47,6 +48,7 @@ def _history_row(
         "premiumFormat": premium_format,
         "hasTrailers": "",
         "maximumIntendedAttendance": "",
+        "auditorium": auditorium,
         "first_seen_date": "2026-06-20",
         "last_updated": "2026-06-26",
         "source": source,
@@ -206,6 +208,34 @@ def test_showtime_emits_source_identity_from_history(theaters_registry):
     assert showtime["source_film_id"] == "movie-abc123"
     assert showtime["source_title"] == "SINNERS"
     assert showtime["film_title"] == "Sinners"
+
+
+def test_amc_auditorium_emits_as_showtime_attribute(theaters_registry):
+    artifact = build_showtimes_current(
+        [_history_row(REFERENCE, auditorium="7")],
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    assert artifact["showtimes"][0]["attributes"]["auditorium"] == "7"
+
+
+def test_non_amc_auditorium_is_not_inferred(theaters_registry):
+    artifact = build_showtimes_current(
+        [
+            _history_row(
+                REFERENCE,
+                film="Beacon Film",
+                theater="The Beacon",
+                source="beacon",
+                auditorium="2",
+            )
+        ],
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    assert "auditorium" not in artifact["showtimes"][0]["attributes"]
 
 
 def test_showtime_source_identity_null_when_missing_id(theaters_registry):

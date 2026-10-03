@@ -214,6 +214,11 @@ export function buildPlanDetailsItinerary(plan, timeFormatId = '12h') {
       kind: 'film',
       title: asText(item.title) || 'Untitled',
       theater: asText(item.theater),
+      auditoriumLabel: asText(item.auditorium)
+        ? /^auditorium\b/i.test(asText(item.auditorium))
+          ? asText(item.auditorium)
+          : `Auditorium ${asText(item.auditorium)}`
+        : null,
       formatBadge: asText(item.formatBadge) || null,
       imageUrl: asText(item.imageUrl) || null,
       filmKey: asText(item.filmKey) || null,
