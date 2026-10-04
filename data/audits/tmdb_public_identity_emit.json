@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.7323943661971831,
-  "generated_at": "2026-10-03T12:08:34+00:00",
+  "coverage_rate": 0.7321428571428571,
+  "generated_at": "2026-10-04T11:39:57+00:00",
   "index_size": 227,
   "invalid_identities": 0,
-  "mapping_misses": 76,
-  "non_null_film_id": 208,
+  "mapping_misses": 75,
+  "non_null_film_id": 205,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,12 +14,12 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 76,
+  "null_film_id": 75,
   "per_source": {
     "amc": {
-      "films": 112,
-      "null_film_id": 34,
-      "with_film_id": 78
+      "films": 110,
+      "null_film_id": 33,
+      "with_film_id": 77
     },
     "anderson_school": {
       "films": 2,
@@ -37,9 +37,9 @@
       "with_film_id": 12
     },
     "grand_illusion": {
-      "films": 12,
+      "films": 10,
       "null_film_id": 1,
-      "with_film_id": 11
+      "with_film_id": 9
     },
     "majestic_bay": {
       "films": 8,
@@ -67,12 +67,21 @@
       "with_film_id": 7
     }
   },
+  "performance_identity": {
+    "ambiguous": 0,
+    "inherited_from_registry": 11,
+    "matched": 0,
+    "registry_path": "data/performance_identity/performance_identity_current.json",
+    "registry_persisted": false,
+    "registry_upserts": 0,
+    "unmatched_gi": 10
+  },
   "repeated_canonical_across_films": 8,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
-  "total_public_films": 284,
-  "unique_tmdb_ids": 200,
+  "total_public_films": 280,
+  "unique_tmdb_ids": 197,
   "warning_count": 0,
   "warnings": []
 }

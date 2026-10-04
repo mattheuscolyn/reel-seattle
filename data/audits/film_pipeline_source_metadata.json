@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-03T04:05:45-07:00",
+  "generated_at": "2026-10-04T04:46:22-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-03_amc.json",
-      "generated_at": "2026-10-03T03:57:35-07:00",
-      "record_count": 6420,
+      "latest_log": "data/daily_logs/2026-10-04_amc.json",
+      "generated_at": "2026-10-04T04:39:28-07:00",
+      "record_count": 6044,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 112,
-      "eligible_feature_count": 95,
+      "source_identity_count": 110,
+      "eligible_feature_count": 94,
       "title": {
-        "with_title": 112,
+        "with_title": 110,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 95,
+        "eligible_features_with_runtime": 94,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 95,
+        "eligible_features_missing_year": 94,
         "missing_feature_samples": [
           "Coyote vs. Acme",
           "Avengers: Doomsday",
@@ -42,7 +42,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 37,
+        "matcher_cleaned_identity_count": 36,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -123,8 +123,8 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "broadcast_event": 11,
-        "feature_film": 95,
+        "broadcast_event": 10,
+        "feature_film": 94,
         "live_event": 1,
         "mystery_screening": 3,
         "unknown_program": 2
@@ -740,22 +740,6 @@
           ]
         },
         {
-          "source_identity_key": "id:84277",
-          "source_title": "MET Opera: Cosi Fan Tutte (2026)",
-          "adapter_identity_title": null,
-          "matcher_title": "MET Opera: Cosi Fan Tutte",
-          "program_series": null,
-          "runtime_min": 240,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "broadcast_event",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "film_year_paren"
-          ]
-        },
-        {
           "source_identity_key": "id:84278",
           "source_title": "MET Opera: La Fanciulla del West (2027)",
           "adapter_identity_title": null,
@@ -1025,22 +1009,6 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "presentation_trailing_atoms"
-          ]
-        },
-        {
-          "source_identity_key": "id:84695",
-          "source_title": "Linkin Park: Unshatter",
-          "adapter_identity_title": null,
-          "matcher_title": "Linkin Park: Unshatter",
-          "program_series": null,
-          "runtime_min": 107,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
           ]
         },
         {
@@ -1929,9 +1897,9 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-03_siff.json",
-      "generated_at": "2026-10-03T03:57:09-07:00",
-      "record_count": 260,
+      "latest_log": "data/daily_logs/2026-10-04_siff.json",
+      "generated_at": "2026-10-04T04:39:09-07:00",
+      "record_count": 250,
       "malformed_record_count": 0,
       "warning_count": 9,
       "error_count": 0,
@@ -3190,9 +3158,9 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-03_beacon.json",
-      "generated_at": "2026-10-03T03:57:09-07:00",
-      "record_count": 41,
+      "latest_log": "data/daily_logs/2026-10-04_beacon.json",
+      "generated_at": "2026-10-04T04:39:09-07:00",
+      "record_count": 40,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -3681,9 +3649,9 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-03_nwff.json",
-      "generated_at": "2026-10-03T03:56:01-07:00",
-      "record_count": 91,
+      "latest_log": "data/daily_logs/2026-10-04_nwff.json",
+      "generated_at": "2026-10-04T04:37:56-07:00",
+      "record_count": 87,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4553,9 +4521,9 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-03_central_cinema.json",
-      "generated_at": "2026-10-03T03:56:16-07:00",
-      "record_count": 81,
+      "latest_log": "data/daily_logs/2026-10-04_central_cinema.json",
+      "generated_at": "2026-10-04T04:38:13-07:00",
+      "record_count": 78,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4971,26 +4939,26 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-03_grand_illusion.json",
-      "generated_at": "2026-10-03T03:57:07-07:00",
-      "record_count": 13,
+      "latest_log": "data/daily_logs/2026-10-04_grand_illusion.json",
+      "generated_at": "2026-10-04T04:38:59-07:00",
+      "record_count": 11,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 13,
-      "eligible_feature_count": 11,
+      "source_identity_count": 11,
+      "eligible_feature_count": 9,
       "title": {
-        "with_title": 13,
+        "with_title": 11,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 11,
+        "eligible_features_with_runtime": 9,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 11,
+        "eligible_features_with_year": 9,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -5027,7 +4995,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 11,
+        "feature_film": 9,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -5097,22 +5065,6 @@
           ]
         },
         {
-          "source_identity_key": "id:from-beyond",
-          "source_title": "From Beyond",
-          "adapter_identity_title": null,
-          "matcher_title": "From Beyond",
-          "program_series": null,
-          "runtime_min": 85,
-          "release_year": 1986,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:i-walked-with-a-zombie",
           "source_title": "I Walked with a Zombie",
           "adapter_identity_title": null,
@@ -5152,22 +5104,6 @@
           "program_series": null,
           "runtime_min": 100,
           "release_year": 2001,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:society",
-          "source_title": "Society",
-          "adapter_identity_title": null,
-          "matcher_title": "Society",
-          "program_series": null,
-          "runtime_min": 100,
-          "release_year": 1989,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -5244,9 +5180,9 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-03_tasveer.json",
-      "generated_at": "2026-10-03T03:57:07-07:00",
-      "record_count": 41,
+      "latest_log": "data/daily_logs/2026-10-04_tasveer.json",
+      "generated_at": "2026-10-04T04:39:00-07:00",
+      "record_count": 38,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5441,9 +5377,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-03_anderson_school.json",
-      "generated_at": "2026-10-03T03:57:09-07:00",
-      "record_count": 47,
+      "latest_log": "data/daily_logs/2026-10-04_anderson_school.json",
+      "generated_at": "2026-10-04T04:39:02-07:00",
+      "record_count": 44,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5560,47 +5496,272 @@
     },
     "stg": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-03_stg.json",
-      "generated_at": "2026-10-03T03:57:09-07:00",
-      "record_count": 0,
+      "latest_log": "data/daily_logs/2026-10-04_stg.json",
+      "generated_at": "2026-10-04T04:39:09-07:00",
+      "record_count": 9,
       "malformed_record_count": 0,
-      "warning_count": 1,
-      "error_count": 1,
-      "source_identity_count": 0,
-      "eligible_feature_count": 0,
+      "warning_count": 249,
+      "error_count": 0,
+      "source_identity_count": 9,
+      "eligible_feature_count": 6,
       "title": {
-        "with_title": 0,
+        "with_title": 9,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 0,
-        "eligible_features_missing_runtime": 0,
-        "missing_feature_samples": []
+        "eligible_features_with_runtime": 3,
+        "eligible_features_missing_runtime": 3,
+        "missing_feature_samples": [
+          "The Rocky Horror Picture Show Original Cast Spooktacular!",
+          "The Blair Witch Project: Film Screening and QA",
+          "An Evening with Peter Billingsley and a Christmas Story"
+        ]
       },
       "release_year": {
         "strategy": "source_title_or_page_when_published",
-        "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 0,
-        "missing_feature_samples": []
+        "eligible_features_with_year": 3,
+        "eligible_features_missing_year": 3,
+        "missing_feature_samples": [
+          "The Rocky Horror Picture Show Original Cast Spooktacular!",
+          "The Blair Witch Project: Film Screening and QA",
+          "An Evening with Peter Billingsley and a Christmas Story"
+        ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 0,
-        "adapter_cleanup_samples": [],
-        "matcher_cleanup_samples": []
+        "adapter_cleaned_identity_count": 3,
+        "matcher_cleaned_identity_count": 5,
+        "adapter_cleanup_samples": [
+          {
+            "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
+            "identity_title": "The Kid Brother"
+          },
+          {
+            "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
+            "identity_title": "Sunrise: A Song of Two Humans"
+          },
+          {
+            "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
+            "identity_title": "The Adventures of Prince Achmed"
+          }
+        ],
+        "matcher_cleanup_samples": [
+          {
+            "source_title": "The Rocky Horror Picture Show Original Cast Spooktacular!",
+            "matcher_title": "The Rocky Horror Picture Show",
+            "rules": [
+              "exact_alias:rocky-horror-original-cast-spooktacular"
+            ]
+          },
+          {
+            "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
+            "matcher_title": "The Kid Brother",
+            "rules": [
+              "program_series:silent-movie-mondays",
+              "film_year_paren"
+            ]
+          },
+          {
+            "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
+            "matcher_title": "Sunrise: A Song of Two Humans",
+            "rules": [
+              "program_series:silent-movie-mondays",
+              "film_year_paren"
+            ]
+          },
+          {
+            "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
+            "matcher_title": "The Adventures of Prince Achmed",
+            "rules": [
+              "program_series:silent-movie-mondays",
+              "film_year_paren"
+            ]
+          },
+          {
+            "source_title": "An Evening with Peter Billingsley and a Christmas Story",
+            "matcher_title": "A Christmas Story",
+            "rules": [
+              "exact_alias:peter-billingsley-christmas-story"
+            ]
+          }
+        ]
       },
       "series": {
-        "identity_count": 0,
-        "samples": []
+        "identity_count": 3,
+        "samples": [
+          {
+            "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
+            "program_series": "Silent Movie Mondays"
+          },
+          {
+            "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
+            "program_series": "Silent Movie Mondays"
+          },
+          {
+            "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
+            "program_series": "Silent Movie Mondays"
+          }
+        ]
       },
-      "entity_kind_counts": {},
-      "identities": []
+      "entity_kind_counts": {
+        "composite_event": 1,
+        "feature_film": 6,
+        "live_event": 2
+      },
+      "identities": [
+        {
+          "source_identity_key": "id:70285",
+          "source_title": "The Rocky Horror Picture Show Original Cast Spooktacular!",
+          "adapter_identity_title": null,
+          "matcher_title": "The Rocky Horror Picture Show",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "exact_alias:rocky-horror-original-cast-spooktacular"
+          ]
+        },
+        {
+          "source_identity_key": "id:74038",
+          "source_title": "The Legend of Korra in Concert",
+          "adapter_identity_title": null,
+          "matcher_title": "The Legend of Korra in Concert",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "live_event",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:74299",
+          "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
+          "adapter_identity_title": "The Kid Brother",
+          "matcher_title": "The Kid Brother",
+          "program_series": "Silent Movie Mondays",
+          "runtime_min": 84,
+          "release_year": 1927,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "program_series:silent-movie-mondays",
+            "film_year_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:74305",
+          "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
+          "adapter_identity_title": "Sunrise: A Song of Two Humans",
+          "matcher_title": "Sunrise: A Song of Two Humans",
+          "program_series": "Silent Movie Mondays",
+          "runtime_min": 95,
+          "release_year": 1927,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "program_series:silent-movie-mondays",
+            "film_year_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:74314",
+          "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
+          "adapter_identity_title": "The Adventures of Prince Achmed",
+          "matcher_title": "The Adventures of Prince Achmed",
+          "program_series": "Silent Movie Mondays",
+          "runtime_min": 65,
+          "release_year": 1926,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "program_series:silent-movie-mondays",
+            "film_year_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:74971",
+          "source_title": "The Blair Witch Project: Film Screening and QA",
+          "adapter_identity_title": null,
+          "matcher_title": "The Blair Witch Project: Film Screening and QA",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:75233",
+          "source_title": "An Evening with Peter Billingsley and a Christmas Story",
+          "adapter_identity_title": null,
+          "matcher_title": "A Christmas Story",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "exact_alias:peter-billingsley-christmas-story"
+          ]
+        },
+        {
+          "source_identity_key": "id:75719",
+          "source_title": "Twilight in Concert",
+          "adapter_identity_title": null,
+          "matcher_title": "Twilight in Concert",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "live_event",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:76069",
+          "source_title": "William Shakepeare’s Romeo + Juliet in Concert",
+          "adapter_identity_title": null,
+          "matcher_title": "William Shakepeare’s Romeo + Juliet in Concert",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "composite_event",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        }
+      ]
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-03_majestic_bay.json",
-      "generated_at": "2026-10-03T03:57:09-07:00",
-      "record_count": 48,
+      "latest_log": "data/daily_logs/2026-10-04_majestic_bay.json",
+      "generated_at": "2026-10-04T04:39:09-07:00",
+      "record_count": 39,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5786,12 +5947,14 @@
     "missing_logs": [],
     "sources_with_feature_runtime_gaps": [
       "siff",
+      "stg",
       "majestic_bay"
     ],
     "sources_with_feature_year_gaps_requiring_review": [
       "nwff",
       "central_cinema",
-      "tasveer"
+      "tasveer",
+      "stg"
     ],
     "sources_where_listing_does_not_expose_release_year": [
       "anderson_school",
