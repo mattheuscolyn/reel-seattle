@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-04T04:46:22-07:00",
+  "generated_at": "2026-10-05T06:23:47-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-04_amc.json",
-      "generated_at": "2026-10-04T04:39:28-07:00",
-      "record_count": 6044,
+      "latest_log": "data/daily_logs/2026-10-05_amc.json",
+      "generated_at": "2026-10-05T06:15:38-07:00",
+      "record_count": 5720,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 110,
-      "eligible_feature_count": 94,
+      "source_identity_count": 109,
+      "eligible_feature_count": 93,
       "title": {
-        "with_title": 110,
+        "with_title": 109,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 94,
+        "eligible_features_with_runtime": 93,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 94,
+        "eligible_features_missing_year": 93,
         "missing_feature_samples": [
           "Coyote vs. Acme",
           "Avengers: Doomsday",
@@ -42,7 +42,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 36,
+        "matcher_cleaned_identity_count": 35,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -124,7 +124,7 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 10,
-        "feature_film": 94,
+        "feature_film": 93,
         "live_event": 1,
         "mystery_screening": 3,
         "unknown_program": 2
@@ -515,22 +515,6 @@
           ]
         },
         {
-          "source_identity_key": "id:82986",
-          "source_title": "Shaun the Sheep: The Beast of Mossy Bottom",
-          "adapter_identity_title": null,
-          "matcher_title": "Shaun the Sheep: The Beast of Mossy Bottom",
-          "program_series": null,
-          "runtime_min": 80,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:83023",
           "source_title": "JIMMY",
           "adapter_identity_title": null,
@@ -698,6 +682,22 @@
           "matcher_title": "Misty Green",
           "program_series": null,
           "runtime_min": 103,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:84240",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -993,22 +993,6 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "exact_alias:adore-him-he-is-here"
-          ]
-        },
-        {
-          "source_identity_key": "id:84684",
-          "source_title": "Donnie Darko 25th Anniversary",
-          "adapter_identity_title": null,
-          "matcher_title": "Donnie Darko",
-          "program_series": null,
-          "runtime_min": 120,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_trailing_atoms"
           ]
         },
         {
@@ -1897,9 +1881,9 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-04_siff.json",
-      "generated_at": "2026-10-04T04:39:09-07:00",
-      "record_count": 250,
+      "latest_log": "data/daily_logs/2026-10-05_siff.json",
+      "generated_at": "2026-10-05T06:15:02-07:00",
+      "record_count": 237,
       "malformed_record_count": 0,
       "warning_count": 9,
       "error_count": 0,
@@ -3158,9 +3142,9 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-04_beacon.json",
-      "generated_at": "2026-10-04T04:39:09-07:00",
-      "record_count": 40,
+      "latest_log": "data/daily_logs/2026-10-05_beacon.json",
+      "generated_at": "2026-10-05T06:15:02-07:00",
+      "record_count": 39,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -3649,9 +3633,9 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-04_nwff.json",
-      "generated_at": "2026-10-04T04:37:56-07:00",
-      "record_count": 87,
+      "latest_log": "data/daily_logs/2026-10-05_nwff.json",
+      "generated_at": "2026-10-05T06:13:50-07:00",
+      "record_count": 83,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4521,9 +4505,9 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-04_central_cinema.json",
-      "generated_at": "2026-10-04T04:38:13-07:00",
-      "record_count": 78,
+      "latest_log": "data/daily_logs/2026-10-05_central_cinema.json",
+      "generated_at": "2026-10-05T06:14:05-07:00",
+      "record_count": 75,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4939,32 +4923,32 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-04_grand_illusion.json",
-      "generated_at": "2026-10-04T04:38:59-07:00",
-      "record_count": 11,
+      "latest_log": "data/daily_logs/2026-10-05_grand_illusion.json",
+      "generated_at": "2026-10-05T06:14:51-07:00",
+      "record_count": 10,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 11,
-      "eligible_feature_count": 9,
+      "source_identity_count": 10,
+      "eligible_feature_count": 8,
       "title": {
-        "with_title": 11,
+        "with_title": 10,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 9,
+        "eligible_features_with_runtime": 8,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 9,
+        "eligible_features_with_year": 8,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 3,
+        "matcher_cleaned_identity_count": 4,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -4977,6 +4961,13 @@
           {
             "source_title": "An Aria on Gazes – New Restoration",
             "matcher_title": "An Aria on Gazes",
+            "rules": [
+              "presentation_segment"
+            ]
+          },
+          {
+            "source_title": "Marie Antoinette – New 4K Restoration",
+            "matcher_title": "Marie Antoinette",
             "rules": [
               "presentation_segment"
             ]
@@ -4995,7 +4986,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 9,
+        "feature_film": 8,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -5049,22 +5040,6 @@
           ]
         },
         {
-          "source_identity_key": "id:egg",
-          "source_title": "EGG",
-          "adapter_identity_title": null,
-          "matcher_title": "EGG",
-          "program_series": null,
-          "runtime_min": 73,
-          "release_year": 2005,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:i-walked-with-a-zombie",
           "source_title": "I Walked with a Zombie",
           "adapter_identity_title": null,
@@ -5081,6 +5056,22 @@
           ]
         },
         {
+          "source_identity_key": "id:marie-antoinette-new-4k-restoration",
+          "source_title": "Marie Antoinette – New 4K Restoration",
+          "adapter_identity_title": null,
+          "matcher_title": "Marie Antoinette",
+          "program_series": null,
+          "runtime_min": 123,
+          "release_year": 2006,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_segment"
+          ]
+        },
+        {
           "source_identity_key": "id:night-of-the-vamp-friars",
           "source_title": "Night of the Vamp-Friars",
           "adapter_identity_title": null,
@@ -5088,22 +5079,6 @@
           "program_series": null,
           "runtime_min": 78,
           "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:session-9-with-climax-golden-twins",
-          "source_title": "Session 9 (with Climax Golden Twins!)",
-          "adapter_identity_title": null,
-          "matcher_title": "Session 9 (with Climax Golden Twins!)",
-          "program_series": null,
-          "runtime_min": 100,
-          "release_year": 2001,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -5180,26 +5155,26 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-04_tasveer.json",
-      "generated_at": "2026-10-04T04:39:00-07:00",
-      "record_count": 38,
+      "latest_log": "data/daily_logs/2026-10-05_tasveer.json",
+      "generated_at": "2026-10-05T06:14:51-07:00",
+      "record_count": 34,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 8,
-      "eligible_feature_count": 8,
+      "source_identity_count": 7,
+      "eligible_feature_count": 7,
       "title": {
-        "with_title": 8,
+        "with_title": 7,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 8,
+        "eligible_features_with_runtime": 7,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_when_present",
-        "eligible_features_with_year": 6,
+        "eligible_features_with_year": 5,
         "eligible_features_missing_year": 2,
         "missing_feature_samples": [
           "Tenzing",
@@ -5207,16 +5182,12 @@
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 6,
+        "adapter_cleaned_identity_count": 5,
         "matcher_cleaned_identity_count": 0,
         "adapter_cleanup_samples": [
           {
             "source_title": "Primetime (USA, 2026)",
             "identity_title": "Primetime"
-          },
-          {
-            "source_title": "Shambhala Story (2025, Japan, Japanese subtitled in English)",
-            "identity_title": "Shambhala Story"
           },
           {
             "source_title": "The History of Concrete (2026, USA)",
@@ -5242,7 +5213,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 8
+        "feature_film": 7
       },
       "identities": [
         {
@@ -5253,22 +5224,6 @@
           "program_series": null,
           "runtime_min": 110,
           "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:153164",
-          "source_title": "Shambhala Story (2025, Japan, Japanese subtitled in English)",
-          "adapter_identity_title": "Shambhala Story",
-          "matcher_title": "Shambhala Story (2025, Japan, Japanese subtitled in English)",
-          "program_series": null,
-          "runtime_min": 108,
-          "release_year": 2025,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": true,
@@ -5377,9 +5332,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-04_anderson_school.json",
-      "generated_at": "2026-10-04T04:39:02-07:00",
-      "record_count": 44,
+      "latest_log": "data/daily_logs/2026-10-05_anderson_school.json",
+      "generated_at": "2026-10-05T06:14:52-07:00",
+      "record_count": 41,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5496,11 +5451,11 @@
     },
     "stg": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-04_stg.json",
-      "generated_at": "2026-10-04T04:39:09-07:00",
+      "latest_log": "data/daily_logs/2026-10-05_stg.json",
+      "generated_at": "2026-10-05T06:15:01-07:00",
       "record_count": 9,
       "malformed_record_count": 0,
-      "warning_count": 249,
+      "warning_count": 246,
       "error_count": 0,
       "source_identity_count": 9,
       "eligible_feature_count": 6,
@@ -5759,9 +5714,9 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-04_majestic_bay.json",
-      "generated_at": "2026-10-04T04:39:09-07:00",
-      "record_count": 39,
+      "latest_log": "data/daily_logs/2026-10-05_majestic_bay.json",
+      "generated_at": "2026-10-05T06:15:02-07:00",
+      "record_count": 30,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,

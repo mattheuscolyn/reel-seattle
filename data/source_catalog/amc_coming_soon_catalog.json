@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-04T04:46:22-07:00",
+  "generated_at": "2026-10-05T06:23:47-07:00",
   "source": "amc",
   "fetch": {
     "endpoint": "/movies/views/coming-soon",
@@ -8,7 +8,7 @@
     "status": "success",
     "page_size": 100,
     "pages_fetched": 5,
-    "reported_total": 411,
+    "reported_total": 409,
     "exhausted": true,
     "next_link_observed": true,
     "duplicate_ids_skipped": 0,
@@ -16,15 +16,15 @@
     "errors": []
   },
   "stats": {
-    "movies": 411,
-    "with_release_date": 411,
+    "movies": 409,
+    "with_release_date": 409,
     "without_release_date": 0,
     "earliest_release_date": "2026-09-25",
     "latest_release_date": "2027-04-04",
     "with_scheduled_showtimes": 155,
-    "without_scheduled_showtimes": 256,
+    "without_scheduled_showtimes": 254,
     "scheduled_showtimes_unknown": 0,
-    "special_presentations": 123
+    "special_presentations": 121
   },
   "movies": [
     {
@@ -5601,9 +5601,9 @@
       "source_release_id": "390434",
       "runtime_min": 88,
       "release_date_utc": "2026-10-23T05:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-10-29T15:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-23T05:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "DRAMA",
       "mpaa_rating": "R",
       "starring_actors_raw": "Giancarlo Esposito, John Turturro, WILL PRICE",
@@ -8282,7 +8282,7 @@
       "source_release_id": "353146",
       "runtime_min": 136,
       "release_date_utc": "2026-10-05T05:00:00Z",
-      "earliest_showing_utc": "2026-10-05T19:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-05T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -9707,7 +9707,7 @@
       "source_release_id": "422068",
       "runtime_min": 156,
       "release_date_utc": "2026-10-09T05:00:00Z",
-      "earliest_showing_utc": "2026-10-04T11:15:00Z",
+      "earliest_showing_utc": "2026-10-05T12:30:00Z",
       "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -11209,9 +11209,9 @@
       "source_release_id": "419564",
       "runtime_min": 97,
       "release_date_utc": "2026-10-28T05:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-10-27T16:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-28T05:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "HORROR",
       "mpaa_rating": "R",
       "starring_actors_raw": "DANIEL DOHENY, DOT-MARIE JONES, MADDIE PHILIPS",
@@ -11806,47 +11806,6 @@
       "presentation": {
         "category": "standard",
         "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85103",
-      "source_title": "The North: Early Access",
-      "sortable_title": "North: Early Access, The",
-      "source_release_id": "394479",
-      "runtime_min": 130,
-      "release_date_utc": "2026-10-05T05:00:00Z",
-      "earliest_showing_utc": "2026-10-05T18:45:00Z",
-      "online_ticket_availability_date_utc": "2026-10-05T05:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "PG13",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "Two male friends in their early thirties reunite after a decade apart to hike Scotland's grueling 330-mile West Highland Way and Cape Wrath Trail on a journey filled with overwhelming natural beauty, unexpected epiphanies and life-changing self-discovery.",
-      "distributor_id": "2411",
-      "distributor_code": "PIC",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "the-north-early-access-85103",
-      "website_url": "https://www.amctheatres.com/movies/the-north-early-access-85103",
-      "showtimes_url": "https://www.amctheatres.com/movies/the-north-early-access-85103/showtimes",
-      "attribute_codes": [
-        "ALTERNATIVECONTENT",
-        "DOLBYCINEMAATAMCPRIME",
-        "EVENT"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1789594337/amc-cdn/content/general/wb9adejf17juy46dzoaj.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789745495/amc-cdn/content/general/o4dzezpoe3mkdidz0jly.tiff",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789745495/amc-cdn/content/general/o4dzezpoe3mkdidz0jly.tiff",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405207101112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405207101112.mp4"
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
     },
@@ -14603,48 +14562,6 @@
       },
       "presentation": {
         "category": "mystery_screening",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85235",
-      "source_title": "The North: Early Access (with Intro)",
-      "sortable_title": "The North: Early Access (with Intro)",
-      "source_release_id": "394479",
-      "runtime_min": 130,
-      "release_date_utc": "2026-10-05T05:00:00Z",
-      "earliest_showing_utc": "2026-10-05T19:00:00Z",
-      "online_ticket_availability_date_utc": "2026-10-05T05:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "PG13",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "The North: Early Access (with Intro).\nTwo male friends in their early thirties reunite after a decade apart to hike Scotland's grueling 330-mile West Highland Way and Cape Wrath Trail on a journey filled with overwhelming natural beauty, unexpected epiphanies and life-changing self-discovery.",
-      "distributor_id": "2411",
-      "distributor_code": "PIC",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "the-north-early-access-with-intro-85235",
-      "website_url": "https://www.amctheatres.com/movies/the-north-early-access-with-intro-85235",
-      "showtimes_url": "https://www.amctheatres.com/movies/the-north-early-access-with-intro-85235/showtimes",
-      "attribute_codes": [
-        "ALTERNATIVECONTENT",
-        "DOLBYCINEMAATAMCPRIME",
-        "EVENT",
-        "INPERSNINT"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790370108/amc-cdn/content/general/fovswqysj7uxg7z3t2de.avif",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405873005112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405873005112.mp4"
-      },
-      "presentation": {
-        "category": "concert_or_event",
         "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
