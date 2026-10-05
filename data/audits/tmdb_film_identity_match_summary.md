@@ -1,10 +1,10 @@
 # Film identity live match summary
 
 - schema_version: `1.0.0`
-- generated_at: `2026-10-04T12:54:46+00:00`
-- total_unique_source_identities: **301**
-- confirmed_automatic: **143**
-- confirmed_manual: **81**
+- generated_at: `2026-10-05T15:22:04+00:00`
+- total_unique_source_identities: **298**
+- confirmed_automatic: **142**
+- confirmed_manual: **79**
 - review_required: **25**
 - unmatched: **15**
 - non_film: **37**
@@ -19,16 +19,16 @@
 
 | source | total | auto | manual | review | unmatched | non_film | errors |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| amc | 110 | 37 | 38 | 15 | 5 | 15 | 0 |
+| amc | 109 | 37 | 37 | 15 | 5 | 15 | 0 |
 | anderson_school | 4 | 4 | 0 | 0 | 0 | 0 | 0 |
 | beacon | 25 | 12 | 7 | 1 | 1 | 4 | 0 |
 | central_cinema | 19 | 10 | 2 | 1 | 1 | 5 | 0 |
-| grand_illusion | 10 | 5 | 4 | 0 | 0 | 1 | 0 |
+| grand_illusion | 9 | 5 | 3 | 0 | 0 | 1 | 0 |
 | majestic_bay | 8 | 6 | 2 | 0 | 0 | 0 | 0 |
 | nwff | 42 | 22 | 6 | 3 | 2 | 9 | 0 |
 | siff | 66 | 39 | 17 | 3 | 5 | 2 | 0 |
 | stg | 9 | 3 | 3 | 2 | 0 | 1 | 0 |
-| tasveer | 8 | 5 | 2 | 0 | 1 | 0 | 0 |
+| tasveer | 7 | 4 | 2 | 0 | 1 | 0 | 0 |
 
 ## Generated path changes
 
