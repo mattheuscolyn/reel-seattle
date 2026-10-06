@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-10-05T06:19:50-07:00",
+  "generated_at": "2026-10-06T05:39:11-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-10-05",
@@ -12,13 +12,13 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 42,
+    "entry_count": 43,
     "low_confidence_count": 2,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-10-05",
     "latest_opening_date": "2026-10-11",
     "opening_type_counts": {
-      "theatrical": 15,
+      "theatrical": 16,
       "repertory": 8,
       "event": 6,
       "limited": 13
@@ -35,7 +35,7 @@
         "siff-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "theatrical",
@@ -66,7 +66,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -100,7 +100,7 @@
       "theater_count_on_opening_date": 2,
       "visible_showtime_count": 14,
       "engagement_days": 7,
-      "historical_screening_count": 8,
+      "historical_screening_count": 9,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
@@ -427,9 +427,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 156,
+      "visible_showtime_count": 198,
       "engagement_days": 8,
-      "historical_screening_count": 78,
+      "historical_screening_count": 99,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -503,12 +503,13 @@
       "opening_date": "2026-10-08",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
+        "amc-kent-station-14",
         "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 37,
+      "theater_count_on_opening_date": 3,
+      "visible_showtime_count": 51,
       "engagement_days": 7,
-      "historical_screening_count": 37,
+      "historical_screening_count": 51,
       "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
@@ -520,7 +521,72 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
+          "amc-kent-station-14",
           "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "never-after-dark",
+      "parent_film_key": "never-after-dark",
+      "film_id": null,
+      "film_title": "Never After Dark",
+      "opening_date": "2026-10-08",
+      "theaters_on_opening_date": [
+        "amc-kent-station-14",
+        "amc-pacific-place-11"
+      ],
+      "theater_count_on_opening_date": 2,
+      "visible_showtime_count": 20,
+      "engagement_days": 7,
+      "historical_screening_count": 10,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "never-after-dark"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-kent-station-14",
+          "amc-pacific-place-11"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "once-upon-a-time-in-the-middle-east",
+      "parent_film_key": "once-upon-a-time-in-the-middle-east",
+      "film_id": "tmdb:1391021",
+      "film_title": "Once Upon A Time in the Middle East",
+      "opening_date": "2026-10-08",
+      "theaters_on_opening_date": [
+        "amc-pacific-place-11"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 16,
+      "engagement_days": 7,
+      "historical_screening_count": 8,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "once-upon-a-time-in-the-middle-east"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-pacific-place-11"
         ],
         "sources": [
           "amc"
@@ -544,9 +610,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 404,
+      "visible_showtime_count": 472,
       "engagement_days": 8,
-      "historical_screening_count": 202,
+      "historical_screening_count": 236,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -682,12 +748,13 @@
         "amc-kent-station-14",
         "amc-oak-tree-6",
         "amc-pacific-place-11",
-        "amc-woodinville-12"
+        "amc-woodinville-12",
+        "majestic-bay"
       ],
-      "theater_count_on_opening_date": 6,
-      "visible_showtime_count": 432,
+      "theater_count_on_opening_date": 7,
+      "visible_showtime_count": 478,
       "engagement_days": 15,
-      "historical_screening_count": 216,
+      "historical_screening_count": 239,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -696,7 +763,9 @@
           "social-reckoning"
         ],
         "distinct_scheduled_dates": 15,
-        "bootstrap_theater_ids": [],
+        "bootstrap_theater_ids": [
+          "majestic-bay"
+        ],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-factoria-8",
@@ -707,7 +776,8 @@
           "amc-woodinville-12"
         ],
         "sources": [
-          "amc"
+          "amc",
+          "majestic_bay"
         ]
       },
       "override": null
@@ -883,9 +953,9 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 26,
+      "visible_showtime_count": 30,
       "engagement_days": 7,
-      "historical_screening_count": 13,
+      "historical_screening_count": 15,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -966,37 +1036,6 @@
         "sources": [
           "siff",
           "tasveer"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "once-upon-a-time-in-the-middle-east",
-      "parent_film_key": "once-upon-a-time-in-the-middle-east",
-      "film_id": "tmdb:1391021",
-      "film_title": "Once Upon A Time in the Middle East",
-      "opening_date": "2026-10-09",
-      "theaters_on_opening_date": [
-        "amc-pacific-place-11"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 12,
-      "engagement_days": 6,
-      "historical_screening_count": 6,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "film_id",
-        "variant_showtime_film_keys": [
-          "once-upon-a-time-in-the-middle-east"
-        ],
-        "distinct_scheduled_dates": 6,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-pacific-place-11"
-        ],
-        "sources": [
-          "amc"
         ]
       },
       "override": null
