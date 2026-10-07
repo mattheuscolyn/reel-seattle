@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-06T05:43:04-07:00",
+  "generated_at": "2026-10-07T05:36:43-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-06_amc.json",
-      "generated_at": "2026-10-06T05:34:55-07:00",
-      "record_count": 5884,
+      "latest_log": "data/daily_logs/2026-10-07_amc.json",
+      "generated_at": "2026-10-07T05:28:23-07:00",
+      "record_count": 6981,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 110,
-      "eligible_feature_count": 95,
+      "source_identity_count": 120,
+      "eligible_feature_count": 104,
       "title": {
-        "with_title": 110,
+        "with_title": 120,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 95,
+        "eligible_features_with_runtime": 104,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 95,
+        "eligible_features_missing_year": 104,
         "missing_feature_samples": [
           "Coyote vs. Acme",
           "Avengers: Doomsday",
@@ -42,7 +42,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 35,
+        "matcher_cleaned_identity_count": 37,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -124,9 +124,9 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 10,
-        "feature_film": 95,
+        "feature_film": 104,
         "live_event": 1,
-        "mystery_screening": 2,
+        "mystery_screening": 3,
         "unknown_program": 2
       },
       "identities": [
@@ -403,6 +403,22 @@
           ]
         },
         {
+          "source_identity_key": "id:82570",
+          "source_title": "Godzilla Minus Zero",
+          "adapter_identity_title": null,
+          "matcher_title": "Godzilla Minus Zero",
+          "program_series": null,
+          "runtime_min": 135,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:82629",
           "source_title": "Wildwood",
           "adapter_identity_title": null,
@@ -628,6 +644,22 @@
           ]
         },
         {
+          "source_identity_key": "id:83864",
+          "source_title": "Crawlers",
+          "adapter_identity_title": null,
+          "matcher_title": "Crawlers",
+          "program_series": null,
+          "runtime_min": 86,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:83930",
           "source_title": "MET Opera: Samson et Dalila (2026)",
           "adapter_identity_title": null,
@@ -682,6 +714,22 @@
           "matcher_title": "Beware Boiuna",
           "program_series": null,
           "runtime_min": 104,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:84185",
+          "source_title": "God with Us",
+          "adapter_identity_title": null,
+          "matcher_title": "God with Us",
+          "program_series": null,
+          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -868,6 +916,22 @@
           ]
         },
         {
+          "source_identity_key": "id:84326",
+          "source_title": "Sight & Sound Presents: Joshua Live!",
+          "adapter_identity_title": null,
+          "matcher_title": "Sight & Sound Presents: Joshua Live!",
+          "program_series": null,
+          "runtime_min": 135,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:84343",
           "source_title": "Appofeniacs",
           "adapter_identity_title": null,
@@ -932,6 +996,22 @@
           ]
         },
         {
+          "source_identity_key": "id:84430",
+          "source_title": "Festive Fun with Peppa Cinema Experience",
+          "adapter_identity_title": null,
+          "matcher_title": "Festive Fun with Peppa Cinema Experience",
+          "program_series": null,
+          "runtime_min": 60,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:84437",
           "source_title": "BTS WORLD TOUR 'ARIRANG' IN SAO PAULO: LIVE VIEWING",
           "adapter_identity_title": null,
@@ -980,6 +1060,22 @@
           ]
         },
         {
+          "source_identity_key": "id:84602",
+          "source_title": "George Michael: The Faith Tour",
+          "adapter_identity_title": null,
+          "matcher_title": "George Michael: The Faith Tour",
+          "program_series": null,
+          "runtime_min": 113,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:84605",
           "source_title": "Primetime",
           "adapter_identity_title": null,
@@ -996,44 +1092,12 @@
           ]
         },
         {
-          "source_identity_key": "id:84607",
-          "source_title": "Adore Him: He is Here",
-          "adapter_identity_title": null,
-          "matcher_title": "Adore Him",
-          "program_series": null,
-          "runtime_min": 118,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "exact_alias:adore-him-he-is-here"
-          ]
-        },
-        {
           "source_identity_key": "id:84709",
           "source_title": "Fresh Meat",
           "adapter_identity_title": null,
           "matcher_title": "Fresh Meat",
           "program_series": null,
           "runtime_min": 116,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:84717",
-          "source_title": "April X",
-          "adapter_identity_title": null,
-          "matcher_title": "April X",
-          "program_series": null,
-          "runtime_min": 92,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1221,23 +1285,6 @@
           ]
         },
         {
-          "source_identity_key": "id:84827",
-          "source_title": "Hostel 20th Anniversary - Welcome to Horrorwood Series",
-          "adapter_identity_title": null,
-          "matcher_title": "Hostel",
-          "program_series": null,
-          "runtime_min": 100,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_segment",
-            "presentation_trailing_atoms"
-          ]
-        },
-        {
           "source_identity_key": "id:84828",
           "source_title": "Friday The 13th - Welcome to Horrorwood Series",
           "adapter_identity_title": null,
@@ -1414,6 +1461,22 @@
           ]
         },
         {
+          "source_identity_key": "id:84956",
+          "source_title": "Hanuman Ansh",
+          "adapter_identity_title": null,
+          "matcher_title": "Hanuman Ansh",
+          "program_series": null,
+          "runtime_min": 156,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:84958",
           "source_title": "SB19 Wakas at Simula: The Trilogy Concert Finale in Cinemas",
           "adapter_identity_title": null,
@@ -1423,6 +1486,22 @@
           "release_year": null,
           "eligibility": "non_film",
           "entity_kind": "live_event",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:84967",
+          "source_title": "The Beast",
+          "adapter_identity_title": null,
+          "matcher_title": "The Beast",
+          "program_series": null,
+          "runtime_min": 99,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
           "adapter_cleanup": false,
           "matcher_cleanup": false,
           "normalization_rules": [
@@ -1459,6 +1538,22 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "presentation_segment"
+          ]
+        },
+        {
+          "source_identity_key": "id:84988",
+          "source_title": "Marie Antoinette (20th Anniversary)",
+          "adapter_identity_title": null,
+          "matcher_title": "Marie Antoinette",
+          "program_series": null,
+          "runtime_min": 123,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "format_or_accessibility_paren"
           ]
         },
         {
@@ -1718,6 +1813,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85174",
+          "source_title": "Godzilla Minus Zero: Sensory Friendly Screening",
+          "adapter_identity_title": null,
+          "matcher_title": "Godzilla Minus Zero",
+          "program_series": null,
+          "runtime_min": 135,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_segment"
+          ]
+        },
+        {
           "source_identity_key": "id:85184",
           "source_title": "9 to 5",
           "adapter_identity_title": null,
@@ -1814,6 +1925,23 @@
           ]
         },
         {
+          "source_identity_key": "id:85219",
+          "source_title": "Godzilla Minus Zero - Godzilla Day IMAX Early Access",
+          "adapter_identity_title": null,
+          "matcher_title": "Godzilla Minus Zero - Godzilla Day",
+          "program_series": null,
+          "runtime_min": 135,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "event_suffix",
+            "presentation_trailing_atoms"
+          ]
+        },
+        {
           "source_identity_key": "id:85223",
           "source_title": "#VYMARA",
           "adapter_identity_title": null,
@@ -1839,6 +1967,22 @@
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:85231",
+          "source_title": "AMC Screen Unseen: October 19",
+          "adapter_identity_title": null,
+          "matcher_title": "AMC Screen Unseen: October 19",
+          "program_series": null,
+          "runtime_min": 95,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "mystery_screening",
           "adapter_cleanup": false,
           "matcher_cleanup": false,
           "normalization_rules": [
@@ -1892,14 +2036,31 @@
           "normalization_rules": [
             "event_suffix"
           ]
+        },
+        {
+          "source_identity_key": "id:85337",
+          "source_title": "Gotta Have Faith: George Michael IMAX Early Access",
+          "adapter_identity_title": null,
+          "matcher_title": "Gotta Have Faith: George Michael",
+          "program_series": null,
+          "runtime_min": 114,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "event_suffix",
+            "presentation_trailing_atoms"
+          ]
         }
       ]
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-06_siff.json",
-      "generated_at": "2026-10-06T05:34:20-07:00",
-      "record_count": 265,
+      "latest_log": "data/daily_logs/2026-10-07_siff.json",
+      "generated_at": "2026-10-07T05:27:45-07:00",
+      "record_count": 269,
       "malformed_record_count": 0,
       "warning_count": 9,
       "error_count": 0,
@@ -2172,22 +2333,6 @@
           ]
         },
         {
-          "source_identity_key": "id:cinema/in-theaters/christmas-pop-up",
-          "source_title": "Christmas Pop-Up",
-          "adapter_identity_title": null,
-          "matcher_title": "Christmas Pop-Up",
-          "program_series": null,
-          "runtime_min": 93,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:cinema/in-theaters/digger",
           "source_title": "Digger",
           "adapter_identity_title": null,
@@ -2281,6 +2426,22 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "exact_alias:ken-russells-the-devils"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/la-bola-negra",
+          "source_title": "La bola negra",
+          "adapter_identity_title": null,
+          "matcher_title": "La bola negra",
+          "program_series": null,
+          "runtime_min": 159,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
           ]
         },
         {
@@ -3157,32 +3318,32 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-06_beacon.json",
-      "generated_at": "2026-10-06T05:34:20-07:00",
-      "record_count": 37,
+      "latest_log": "data/daily_logs/2026-10-07_beacon.json",
+      "generated_at": "2026-10-07T05:27:45-07:00",
+      "record_count": 35,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 25,
-      "eligible_feature_count": 21,
+      "source_identity_count": 23,
+      "eligible_feature_count": 19,
       "title": {
-        "with_title": 25,
+        "with_title": 23,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 21,
+        "eligible_features_with_runtime": 19,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 21,
+        "eligible_features_with_year": 19,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 2,
-        "matcher_cleaned_identity_count": 4,
+        "matcher_cleaned_identity_count": 3,
         "adapter_cleanup_samples": [
           {
             "source_title": "SECS FEST PRESENTS DRILLER",
@@ -3199,13 +3360,6 @@
             "matcher_title": "L'Amour fou",
             "rules": [
               "exact_alias:lamour-fou-with-as-hamrah"
-            ]
-          },
-          {
-            "source_title": "NARROW MARGIN RELEASE PARTY: BUCHANAN RIDES ALONE",
-            "matcher_title": "Buchanan Rides Alone",
-            "rules": [
-              "exact_alias:narrow-margin-release-party-buchanan"
             ]
           },
           {
@@ -3239,7 +3393,7 @@
       },
       "entity_kind_counts": {
         "double_feature": 1,
-        "feature_film": 21,
+        "feature_film": 19,
         "multi_feature_program": 1,
         "mystery_screening": 2
       },
@@ -3421,22 +3575,6 @@
           ]
         },
         {
-          "source_identity_key": "id:master-of-the-flying-guillotine",
-          "source_title": "MASTER OF THE FLYING GUILLOTINE",
-          "adapter_identity_title": null,
-          "matcher_title": "Master Of The Flying Guillotine",
-          "program_series": null,
-          "runtime_min": 93,
-          "release_year": 1976,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:motel-hell",
           "source_title": "MOTEL HELL",
           "adapter_identity_title": null,
@@ -3450,22 +3588,6 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:narrow-margin-release-party-buchanan-rides-alone",
-          "source_title": "NARROW MARGIN RELEASE PARTY: BUCHANAN RIDES ALONE",
-          "adapter_identity_title": null,
-          "matcher_title": "Buchanan Rides Alone",
-          "program_series": null,
-          "runtime_min": 80,
-          "release_year": 1958,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "exact_alias:narrow-margin-release-party-buchanan"
           ]
         },
         {
@@ -3648,34 +3770,35 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-06_nwff.json",
-      "generated_at": "2026-10-06T05:33:16-07:00",
-      "record_count": 83,
+      "latest_log": "data/daily_logs/2026-10-07_nwff.json",
+      "generated_at": "2026-10-07T05:26:27-07:00",
+      "record_count": 90,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 43,
-      "eligible_feature_count": 34,
+      "source_identity_count": 45,
+      "eligible_feature_count": 36,
       "title": {
-        "with_title": 43,
+        "with_title": 45,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 34,
+        "eligible_features_with_runtime": 36,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 33,
-        "eligible_features_missing_year": 1,
+        "eligible_features_with_year": 34,
+        "eligible_features_missing_year": 2,
         "missing_feature_samples": [
+          "Seattle Film Society Presents Locals Only: October 2026",
           "STUFF 2026: Castration Movie Chapter iii. Junior Ghosts—Premorphic Drift; a fragmentary passage"
         ]
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 29,
-        "matcher_cleaned_identity_count": 31,
+        "matcher_cleaned_identity_count": 32,
         "adapter_cleanup_samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Elvira: Mistress of the Dark",
@@ -3742,6 +3865,13 @@
             ]
           },
           {
+            "source_title": "My Brother's Wedding (4K Restoration)",
+            "matcher_title": "My Brother's Wedding",
+            "rules": [
+              "format_or_accessibility_paren"
+            ]
+          },
+          {
             "source_title": "Screamplay (4K Restoration)",
             "matcher_title": "Screamplay",
             "rules": [
@@ -3779,13 +3909,6 @@
           {
             "source_title": "STUFF 2026: Castration Movie Chapter iii. Junior Ghosts—Premorphic Drift; a fragmentary passage",
             "matcher_title": "Castration Movie Chapter iii. Junior Ghosts—Premorphic Drift; a fragmentary passage",
-            "rules": [
-              "program_series:stuff-2026"
-            ]
-          },
-          {
-            "source_title": "STUFF 2026: Drawn to Life (Shorts)",
-            "matcher_title": "Drawn to Life (Shorts)",
             "rules": [
               "program_series:stuff-2026"
             ]
@@ -3839,7 +3962,7 @@
       },
       "entity_kind_counts": {
         "composite_event": 2,
-        "feature_film": 34,
+        "feature_film": 36,
         "shorts_program": 7
       },
       "identities": [
@@ -3892,13 +4015,13 @@
           ]
         },
         {
-          "source_identity_key": "id:chronovisor",
-          "source_title": "Chronovisor",
+          "source_identity_key": "id:jennifers-body",
+          "source_title": "Jennifer's Body",
           "adapter_identity_title": null,
-          "matcher_title": "Chronovisor",
+          "matcher_title": "Jennifer's Body",
           "program_series": null,
-          "runtime_min": 100,
-          "release_year": 2026,
+          "runtime_min": 107,
+          "release_year": 2009,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3957,6 +4080,22 @@
           ]
         },
         {
+          "source_identity_key": "id:my-brothers-wedding-4k-restoration",
+          "source_title": "My Brother's Wedding (4K Restoration)",
+          "adapter_identity_title": null,
+          "matcher_title": "My Brother's Wedding",
+          "program_series": null,
+          "runtime_min": 81,
+          "release_year": 1983,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "format_or_accessibility_paren"
+          ]
+        },
+        {
           "source_identity_key": "id:once-upon-time-seattle",
           "source_title": "Once Upon a Time In Seattle",
           "adapter_identity_title": null,
@@ -3996,6 +4135,22 @@
           "program_series": null,
           "runtime_min": 120,
           "release_year": 2022,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:seattle-film-society-presents-locals-only-october-2026",
+          "source_title": "Seattle Film Society Presents Locals Only: October 2026",
+          "adapter_identity_title": null,
+          "matcher_title": "Seattle Film Society Presents Locals Only: October 2026",
+          "program_series": null,
+          "runtime_min": 50,
+          "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -4536,28 +4691,29 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-06_central_cinema.json",
-      "generated_at": "2026-10-06T05:33:33-07:00",
-      "record_count": 72,
+      "latest_log": "data/daily_logs/2026-10-07_central_cinema.json",
+      "generated_at": "2026-10-07T05:26:47-07:00",
+      "record_count": 88,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 19,
-      "eligible_feature_count": 14,
+      "source_identity_count": 22,
+      "eligible_feature_count": 17,
       "title": {
-        "with_title": 19,
+        "with_title": 22,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 14,
+        "eligible_features_with_runtime": 17,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 14,
+        "eligible_features_missing_year": 17,
         "missing_feature_samples": [
+          "A Nightmare on Elm Street",
           "Beetlejuice",
           "Blade",
           "Camp Napalm presents: Basic Instinct",
@@ -4566,8 +4722,7 @@
           "Fright Night",
           "Grosse Pointe Blank",
           "Halloween III with Baron Von Terror",
-          "Hausu (House)",
-          "Ju-on: The Grudge"
+          "Hausu (House)"
         ]
       },
       "cleanup": {
@@ -4642,10 +4797,26 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 14,
+        "feature_film": 17,
         "unknown_program": 5
       },
       "identities": [
+        {
+          "source_identity_key": "id:a-nightmare-on-elm-street",
+          "source_title": "A Nightmare on Elm Street",
+          "adapter_identity_title": null,
+          "matcher_title": "A Nightmare on Elm Street",
+          "program_series": null,
+          "runtime_min": 91,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
         {
           "source_identity_key": "id:beetlejuice",
           "source_title": "Beetlejuice",
@@ -4823,6 +4994,22 @@
           ]
         },
         {
+          "source_identity_key": "id:hocus-pocus",
+          "source_title": "Hocus Pocus",
+          "adapter_identity_title": null,
+          "matcher_title": "Hocus Pocus",
+          "program_series": null,
+          "runtime_min": 96,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:ju-on-the-grudge",
           "source_title": "Ju-on: The Grudge",
           "adapter_identity_title": null,
@@ -4919,6 +5106,22 @@
           ]
         },
         {
+          "source_identity_key": "id:the-room",
+          "source_title": "The Room",
+          "adapter_identity_title": null,
+          "matcher_title": "The Room",
+          "program_series": null,
+          "runtime_min": 100,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:the-totally-halloween-sing-along",
           "source_title": "The Totally Halloween Sing Along",
           "adapter_identity_title": null,
@@ -4954,44 +5157,37 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-06_grand_illusion.json",
-      "generated_at": "2026-10-06T05:34:17-07:00",
-      "record_count": 10,
+      "latest_log": "data/daily_logs/2026-10-07_grand_illusion.json",
+      "generated_at": "2026-10-07T05:27:34-07:00",
+      "record_count": 9,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 10,
-      "eligible_feature_count": 8,
+      "source_identity_count": 9,
+      "eligible_feature_count": 7,
       "title": {
-        "with_title": 10,
+        "with_title": 9,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 8,
+        "eligible_features_with_runtime": 7,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 8,
+        "eligible_features_with_year": 7,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 4,
+        "matcher_cleaned_identity_count": 3,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
             "source_title": "A Chinese Ghost Story – New 4K Restoration",
             "matcher_title": "A Chinese Ghost Story",
-            "rules": [
-              "presentation_segment"
-            ]
-          },
-          {
-            "source_title": "An Aria on Gazes – New Restoration",
-            "matcher_title": "An Aria on Gazes",
             "rules": [
               "presentation_segment"
             ]
@@ -5017,7 +5213,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 8,
+        "feature_film": 7,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -5030,22 +5226,6 @@
           "program_series": null,
           "runtime_min": 96,
           "release_year": 1987,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_segment"
-          ]
-        },
-        {
-          "source_identity_key": "id:an-aria-on-gazes-new-restoration",
-          "source_title": "An Aria on Gazes – New Restoration",
-          "adapter_identity_title": null,
-          "matcher_title": "An Aria on Gazes",
-          "program_series": null,
-          "runtime_min": 65,
-          "release_year": 1992,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -5087,7 +5267,23 @@
           ]
         },
         {
-          "source_identity_key": "id:marie-antoinette-new-4k-restoration",
+          "source_identity_key": "id:making-marie-antoinette",
+          "source_title": "Making Marie Antoinette",
+          "adapter_identity_title": null,
+          "matcher_title": "Making Marie Antoinette",
+          "program_series": null,
+          "runtime_min": 86,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:marie-antoinette",
           "source_title": "Marie Antoinette – New 4K Restoration",
           "adapter_identity_title": null,
           "matcher_title": "Marie Antoinette",
@@ -5151,22 +5347,6 @@
           ]
         },
         {
-          "source_identity_key": "id:videodrome-the-directors-cut",
-          "source_title": "Videodrome: The Director’s Cut",
-          "adapter_identity_title": null,
-          "matcher_title": "Videodrome: The Director’s Cut",
-          "program_series": null,
-          "runtime_min": 89,
-          "release_year": 1983,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:withdrawal",
           "source_title": "Withdrawal",
           "adapter_identity_title": null,
@@ -5186,9 +5366,9 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-06_tasveer.json",
-      "generated_at": "2026-10-06T05:34:17-07:00",
-      "record_count": 34,
+      "latest_log": "data/daily_logs/2026-10-07_tasveer.json",
+      "generated_at": "2026-10-07T05:27:35-07:00",
+      "record_count": 32,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5363,32 +5543,33 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-06_anderson_school.json",
-      "generated_at": "2026-10-06T05:34:19-07:00",
-      "record_count": 39,
+      "latest_log": "data/daily_logs/2026-10-07_anderson_school.json",
+      "generated_at": "2026-10-07T05:27:36-07:00",
+      "record_count": 67,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 4,
-      "eligible_feature_count": 4,
+      "source_identity_count": 5,
+      "eligible_feature_count": 5,
       "title": {
-        "with_title": 4,
+        "with_title": 5,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 4,
+        "eligible_features_with_runtime": 5,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 4,
+        "eligible_features_missing_year": 5,
         "missing_feature_samples": [
           "Forgotten Island",
           "Wildwood",
           "Wildwood (OCAP)",
-          "Forgotten Island OCAP"
+          "The Social Reckoning",
+          "The Social Reckoning OCAP"
         ]
       },
       "cleanup": {
@@ -5400,8 +5581,8 @@
             "identity_title": "Wildwood"
           },
           {
-            "source_title": "Forgotten Island OCAP",
-            "identity_title": "Forgotten Island"
+            "source_title": "The Social Reckoning OCAP",
+            "identity_title": "The Social Reckoning"
           }
         ],
         "matcher_cleanup_samples": []
@@ -5411,7 +5592,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 4
+        "feature_film": 5
       },
       "identities": [
         {
@@ -5463,12 +5644,28 @@
           ]
         },
         {
-          "source_identity_key": "id:ST00003286",
-          "source_title": "Forgotten Island OCAP",
-          "adapter_identity_title": "Forgotten Island",
-          "matcher_title": "Forgotten Island OCAP",
+          "source_identity_key": "id:ST00003302",
+          "source_title": "The Social Reckoning",
+          "adapter_identity_title": null,
+          "matcher_title": "The Social Reckoning",
           "program_series": null,
-          "runtime_min": 109,
+          "runtime_min": 112,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:ST00003308",
+          "source_title": "The Social Reckoning OCAP",
+          "adapter_identity_title": "The Social Reckoning",
+          "matcher_title": "The Social Reckoning OCAP",
+          "program_series": null,
+          "runtime_min": 112,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -5482,47 +5679,272 @@
     },
     "stg": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-06_stg.json",
-      "generated_at": "2026-10-06T05:34:19-07:00",
-      "record_count": 0,
+      "latest_log": "data/daily_logs/2026-10-07_stg.json",
+      "generated_at": "2026-10-07T05:27:44-07:00",
+      "record_count": 9,
       "malformed_record_count": 0,
-      "warning_count": 1,
-      "error_count": 1,
-      "source_identity_count": 0,
-      "eligible_feature_count": 0,
+      "warning_count": 247,
+      "error_count": 0,
+      "source_identity_count": 9,
+      "eligible_feature_count": 6,
       "title": {
-        "with_title": 0,
+        "with_title": 9,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 0,
-        "eligible_features_missing_runtime": 0,
-        "missing_feature_samples": []
+        "eligible_features_with_runtime": 3,
+        "eligible_features_missing_runtime": 3,
+        "missing_feature_samples": [
+          "The Rocky Horror Picture Show Original Cast Spooktacular!",
+          "The Blair Witch Project: Film Screening and QA",
+          "An Evening with Peter Billingsley and a Christmas Story"
+        ]
       },
       "release_year": {
         "strategy": "source_title_or_page_when_published",
-        "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 0,
-        "missing_feature_samples": []
+        "eligible_features_with_year": 3,
+        "eligible_features_missing_year": 3,
+        "missing_feature_samples": [
+          "The Rocky Horror Picture Show Original Cast Spooktacular!",
+          "The Blair Witch Project: Film Screening and QA",
+          "An Evening with Peter Billingsley and a Christmas Story"
+        ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 0,
-        "adapter_cleanup_samples": [],
-        "matcher_cleanup_samples": []
+        "adapter_cleaned_identity_count": 3,
+        "matcher_cleaned_identity_count": 5,
+        "adapter_cleanup_samples": [
+          {
+            "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
+            "identity_title": "The Kid Brother"
+          },
+          {
+            "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
+            "identity_title": "Sunrise: A Song of Two Humans"
+          },
+          {
+            "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
+            "identity_title": "The Adventures of Prince Achmed"
+          }
+        ],
+        "matcher_cleanup_samples": [
+          {
+            "source_title": "The Rocky Horror Picture Show Original Cast Spooktacular!",
+            "matcher_title": "The Rocky Horror Picture Show",
+            "rules": [
+              "exact_alias:rocky-horror-original-cast-spooktacular"
+            ]
+          },
+          {
+            "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
+            "matcher_title": "The Kid Brother",
+            "rules": [
+              "program_series:silent-movie-mondays",
+              "film_year_paren"
+            ]
+          },
+          {
+            "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
+            "matcher_title": "Sunrise: A Song of Two Humans",
+            "rules": [
+              "program_series:silent-movie-mondays",
+              "film_year_paren"
+            ]
+          },
+          {
+            "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
+            "matcher_title": "The Adventures of Prince Achmed",
+            "rules": [
+              "program_series:silent-movie-mondays",
+              "film_year_paren"
+            ]
+          },
+          {
+            "source_title": "An Evening with Peter Billingsley and a Christmas Story",
+            "matcher_title": "A Christmas Story",
+            "rules": [
+              "exact_alias:peter-billingsley-christmas-story"
+            ]
+          }
+        ]
       },
       "series": {
-        "identity_count": 0,
-        "samples": []
+        "identity_count": 3,
+        "samples": [
+          {
+            "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
+            "program_series": "Silent Movie Mondays"
+          },
+          {
+            "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
+            "program_series": "Silent Movie Mondays"
+          },
+          {
+            "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
+            "program_series": "Silent Movie Mondays"
+          }
+        ]
       },
-      "entity_kind_counts": {},
-      "identities": []
+      "entity_kind_counts": {
+        "composite_event": 1,
+        "feature_film": 6,
+        "live_event": 2
+      },
+      "identities": [
+        {
+          "source_identity_key": "id:70285",
+          "source_title": "The Rocky Horror Picture Show Original Cast Spooktacular!",
+          "adapter_identity_title": null,
+          "matcher_title": "The Rocky Horror Picture Show",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "exact_alias:rocky-horror-original-cast-spooktacular"
+          ]
+        },
+        {
+          "source_identity_key": "id:74038",
+          "source_title": "The Legend of Korra in Concert",
+          "adapter_identity_title": null,
+          "matcher_title": "The Legend of Korra in Concert",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "live_event",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:74299",
+          "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
+          "adapter_identity_title": "The Kid Brother",
+          "matcher_title": "The Kid Brother",
+          "program_series": "Silent Movie Mondays",
+          "runtime_min": 84,
+          "release_year": 1927,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "program_series:silent-movie-mondays",
+            "film_year_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:74305",
+          "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
+          "adapter_identity_title": "Sunrise: A Song of Two Humans",
+          "matcher_title": "Sunrise: A Song of Two Humans",
+          "program_series": "Silent Movie Mondays",
+          "runtime_min": 95,
+          "release_year": 1927,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "program_series:silent-movie-mondays",
+            "film_year_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:74314",
+          "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
+          "adapter_identity_title": "The Adventures of Prince Achmed",
+          "matcher_title": "The Adventures of Prince Achmed",
+          "program_series": "Silent Movie Mondays",
+          "runtime_min": 65,
+          "release_year": 1926,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "program_series:silent-movie-mondays",
+            "film_year_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:74971",
+          "source_title": "The Blair Witch Project: Film Screening and QA",
+          "adapter_identity_title": null,
+          "matcher_title": "The Blair Witch Project: Film Screening and QA",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:75233",
+          "source_title": "An Evening with Peter Billingsley and a Christmas Story",
+          "adapter_identity_title": null,
+          "matcher_title": "A Christmas Story",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "exact_alias:peter-billingsley-christmas-story"
+          ]
+        },
+        {
+          "source_identity_key": "id:75719",
+          "source_title": "Twilight in Concert",
+          "adapter_identity_title": null,
+          "matcher_title": "Twilight in Concert",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "live_event",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:76069",
+          "source_title": "William Shakepeare’s Romeo + Juliet in Concert",
+          "adapter_identity_title": null,
+          "matcher_title": "William Shakepeare’s Romeo + Juliet in Concert",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "composite_event",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        }
+      ]
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-06_majestic_bay.json",
-      "generated_at": "2026-10-06T05:34:20-07:00",
-      "record_count": 80,
+      "latest_log": "data/daily_logs/2026-10-07_majestic_bay.json",
+      "generated_at": "2026-10-07T05:27:45-07:00",
+      "record_count": 76,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5822,12 +6244,14 @@
     "missing_logs": [],
     "sources_with_feature_runtime_gaps": [
       "siff",
+      "stg",
       "majestic_bay"
     ],
     "sources_with_feature_year_gaps_requiring_review": [
       "nwff",
       "central_cinema",
-      "tasveer"
+      "tasveer",
+      "stg"
     ],
     "sources_where_listing_does_not_expose_release_year": [
       "anderson_school",
