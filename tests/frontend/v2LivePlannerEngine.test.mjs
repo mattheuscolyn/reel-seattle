@@ -11,6 +11,7 @@ import {
 import {
   generateLivePlannerResults,
   mapEngineScheduleToResultsPlan,
+  mapResultsSortToEngineSort,
 } from '../../v2/planner/generateLivePlannerResults.js';
 import { createLiveBuildPlanFormState } from '../../v2/planner/createLiveBuildPlanFormState.js';
 import {
@@ -330,6 +331,50 @@ test('no overlap and deterministic ordering', () => {
       assert.ok(films[i + 1].localTime);
     }
   }
+});
+
+test('earliest-finish results are chronological, even when later plans are shorter or preferred', () => {
+  assert.equal(mapResultsSortToEngineSort('earliest-finish'), 'earliest_finish');
+  assert.equal(mapResultsSortToEngineSort('shortest-runtime'), 'shortest_span');
+  const homeData = makeHomeData();
+  const alpha = homeData.opportunities.find((o) => o.filmKey === 'alpha');
+  const beta = homeData.opportunities.find((o) => o.filmKey === 'beta');
+  const gamma = homeData.opportunities.find((o) => o.filmKey === 'gamma');
+  homeData.opportunities = [
+    { ...alpha, localTime: '12:30', opportunityKey: 'early-alpha', sourceShowtimeId: 'early-alpha' },
+    { ...beta, localTime: '14:30', opportunityKey: 'early-beta', sourceShowtimeId: 'early-beta' },
+    { ...gamma, localTime: '17:00', opportunityKey: 'late-gamma', sourceShowtimeId: 'late-gamma' },
+    { ...alpha, localTime: '19:00', opportunityKey: 'late-alpha', sourceShowtimeId: 'late-alpha' },
+  ];
+  const form = liveForm({
+    planSize: '2 movies',
+    wouldLove: [{ id: 'gamma', title: 'Gamma', filmId: 'tmdb:3' }],
+  });
+  const result = generateLivePlannerResults({
+    homeData,
+    now: PLAN_NOW,
+    form,
+    sortId: 'earliest-finish',
+  });
+  assert.equal(result.ok, true);
+  assert.ok(result.plans.length > 1);
+  assert.deepEqual(
+    result.plans[0].items.filter((item) => item.type !== 'break').map((item) => item.title),
+    ['Alpha', 'Beta'],
+  );
+  assert.match(result.plans[0].finishesLabel, /4:10 PM/);
+
+  // The result limit is applied after sorting, so the earliest finisher must
+  // still be returned if the caller only asks for one plan.
+  const limited = generateLivePlannerResults({
+    homeData,
+    now: PLAN_NOW,
+    form,
+    sortId: 'earliest-finish',
+    maxResults: 1,
+  });
+  assert.equal(limited.plans.length, 1);
+  assert.match(limited.plans[0].finishesLabel, /4:10 PM/);
 });
 
 test('empty results when must-include cannot fit', () => {

@@ -47,8 +47,9 @@ export function mapResultsSortToEngineSort(sortId) {
     case 'smallest-gaps':
       return 'smallest_gaps';
     case 'shortest-runtime':
-    case 'earliest-finish':
       return 'shortest_span';
+    case 'earliest-finish':
+      return 'earliest_finish';
     case 'leaves-soonest':
     case 'best-match':
     default:
@@ -500,6 +501,17 @@ function buildSingleFilmSchedules(rows, filters) {
  */
 function sortMergedSchedules(schedules, engineSort, preferred) {
   return [...schedules].sort((a, b) => {
+    if (engineSort === 'earliest_finish') {
+      // Extended endMin values keep post-midnight finishes after the previous evening.
+      const finishDiff = a.endMin - b.endMin;
+      if (finishDiff) return finishDiff;
+      if (preferred.length > 0) {
+        const preferredDiff = (b.preferredMatchCount ?? 0) - (a.preferredMatchCount ?? 0);
+        if (preferredDiff) return preferredDiff;
+      }
+      return (a.startMin ?? 0) - (b.startMin ?? 0) ||
+        (a.totalSpanMin ?? 0) - (b.totalSpanMin ?? 0);
+    }
     if (preferred.length > 0) {
       const d = (b.preferredMatchCount ?? 0) - (a.preferredMatchCount ?? 0);
       if (d) return d;
