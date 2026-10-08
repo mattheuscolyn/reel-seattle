@@ -9,8 +9,9 @@ name: Daily Showtime Scraping
 #   5. frozen Leaving Soon inference against the new AMC all-announced log
 #      (inside daily_processor; skipped if restate_safe=false / stale / incomplete)
 #   6. emit opening_this_week_current.json (Pacific Monday–Sunday week)
-#   7. validate public artifacts (includes film_id attach regression gate)
-#   8. commit/publish showtimes + derived public artifacts
+#   7. refresh curated Collections + stamp source collection IDs onto showtimes
+#   8. validate public artifacts (includes film_id attach regression gate)
+#   9. commit/publish showtimes + derived public artifacts
 #
 # Downstream automated workflows (intentionally separate so failures never block showtimes):
 #   - 07:00 UTC: Film identity matching (film_identity_match.yml) - matches new films
@@ -67,6 +68,13 @@ jobs:
         # data/daily_logs/. No private Veezi API token is required.
         # daily_processor → write_showtimes_current → attach_public_film_ids.
         run: python run_daily_scraping.py
+
+      - name: Refresh Collections
+        # Optional stage: preserve the prior artifact if a provider is unavailable.
+        # A collection discovery outage must not block the daily showtime publish.
+        continue-on-error: true
+        timeout-minutes: 10
+        run: python scripts/build_collections_current.py
 
       - name: Validate public data artifacts
         run: python scripts/validate_public_data_artifacts.py
@@ -138,6 +146,9 @@ jobs:
           fi
           if [ -f public/data/coming_soon_current.json ]; then
             git add public/data/coming_soon_current.json
+          fi
+          if [ -f public/data/collections_current.json ]; then
+            git add public/data/collections_current.json
           fi
           if [ -f data/audits/coming_soon_candidates_current.json ]; then
             git add data/audits/coming_soon_candidates_current.json
