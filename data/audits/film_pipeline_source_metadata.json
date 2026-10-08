@@ -1,48 +1,48 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-07T05:36:43-07:00",
+  "generated_at": "2026-10-08T05:47:08-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-07_amc.json",
-      "generated_at": "2026-10-07T05:28:23-07:00",
-      "record_count": 6981,
+      "latest_log": "data/daily_logs/2026-10-08_amc.json",
+      "generated_at": "2026-10-08T05:37:48-07:00",
+      "record_count": 6987,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 120,
-      "eligible_feature_count": 104,
+      "source_identity_count": 119,
+      "eligible_feature_count": 103,
       "title": {
-        "with_title": 120,
+        "with_title": 119,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 104,
+        "eligible_features_with_runtime": 103,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 104,
+        "eligible_features_missing_year": 103,
         "missing_feature_samples": [
           "Coyote vs. Acme",
           "Avengers: Doomsday",
+          "Clayface",
           "Forgotten Island",
           "The Odyssey",
           "Dune: Part Three",
           "Practical Magic 2",
           "Street Fighter",
           "Spider-Man: Brand New Day",
-          "Digger",
-          "Resident Evil"
+          "Digger"
         ]
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 37,
+        "matcher_cleaned_identity_count": 38,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -124,7 +124,7 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 10,
-        "feature_film": 104,
+        "feature_film": 103,
         "live_event": 1,
         "mystery_screening": 3,
         "unknown_program": 2
@@ -153,6 +153,22 @@
           "matcher_title": "Avengers: Doomsday",
           "program_series": null,
           "runtime_min": 165,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:71218",
+          "source_title": "Clayface",
+          "adapter_identity_title": null,
+          "matcher_title": "Clayface",
+          "program_series": null,
+          "runtime_min": 108,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -560,22 +576,6 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "presentation_trailing_atoms"
-          ]
-        },
-        {
-          "source_identity_key": "id:83499",
-          "source_title": "Ninja Scroll",
-          "adapter_identity_title": null,
-          "matcher_title": "Ninja Scroll",
-          "program_series": null,
-          "runtime_min": 94,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
           ]
         },
         {
@@ -1044,12 +1044,12 @@
           ]
         },
         {
-          "source_identity_key": "id:84453",
-          "source_title": "If I Go Will They Miss Me",
+          "source_identity_key": "id:84492",
+          "source_title": "A Talent for Murder",
           "adapter_identity_title": null,
-          "matcher_title": "If I Go Will They Miss Me",
+          "matcher_title": "A Talent for Murder",
           "program_series": null,
-          "runtime_min": 95,
+          "runtime_min": 106,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1253,22 +1253,6 @@
           ]
         },
         {
-          "source_identity_key": "id:84795",
-          "source_title": "Ghost in the Cell",
-          "adapter_identity_title": null,
-          "matcher_title": "Ghost in the Cell",
-          "program_series": null,
-          "runtime_min": 106,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:84817",
           "source_title": "WWE Money in the Bank",
           "adapter_identity_title": null,
@@ -1378,22 +1362,6 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "presentation_trailing_atoms"
-          ]
-        },
-        {
-          "source_identity_key": "id:84881",
-          "source_title": "The Incomer",
-          "adapter_identity_title": null,
-          "matcher_title": "The Incomer",
-          "program_series": null,
-          "runtime_min": 102,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
           ]
         },
         {
@@ -1554,6 +1522,22 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "format_or_accessibility_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:84993",
+          "source_title": "Hell House LLC 10th Anniversary",
+          "adapter_identity_title": null,
+          "matcher_title": "Hell House LLC",
+          "program_series": null,
+          "runtime_min": 96,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_trailing_atoms"
           ]
         },
         {
@@ -1723,6 +1707,22 @@
           "matcher_title": "Don't Trouble the Trouble",
           "program_series": null,
           "runtime_min": 157,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:85133",
+          "source_title": "Soul Patrol",
+          "adapter_identity_title": null,
+          "matcher_title": "Soul Patrol",
+          "program_series": null,
+          "runtime_min": 100,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1990,22 +1990,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85234",
-          "source_title": "Buddy The Sing-Along Version",
-          "adapter_identity_title": null,
-          "matcher_title": "Buddy The Sing-Along Version",
-          "program_series": null,
-          "runtime_min": 95,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85262",
           "source_title": "Jailer 2",
           "adapter_identity_title": null,
@@ -2058,20 +2042,20 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-07_siff.json",
-      "generated_at": "2026-10-07T05:27:45-07:00",
-      "record_count": 269,
+      "latest_log": "data/daily_logs/2026-10-08_siff.json",
+      "generated_at": "2026-10-08T05:37:24-07:00",
+      "record_count": 259,
       "malformed_record_count": 0,
-      "warning_count": 9,
+      "warning_count": 8,
       "error_count": 0,
-      "source_identity_count": 66,
-      "eligible_feature_count": 65,
+      "source_identity_count": 65,
+      "eligible_feature_count": 64,
       "title": {
-        "with_title": 66,
+        "with_title": 65,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 64,
+        "eligible_features_with_runtime": 63,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "Joybubbles"
@@ -2079,13 +2063,13 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 65,
+        "eligible_features_with_year": 64,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 37,
-        "matcher_cleaned_identity_count": 30,
+        "adapter_cleaned_identity_count": 36,
+        "matcher_cleaned_identity_count": 29,
         "adapter_cleanup_samples": [
           {
             "source_title": "The Films of Andrzej Wajda: A Generation",
@@ -2187,15 +2171,15 @@
             ]
           },
           {
-            "source_title": "Nouvelles Femmes: Contempt",
-            "matcher_title": "Contempt",
+            "source_title": "Nouvelles Femmes: Le Bonheur (Happiness)",
+            "matcher_title": "Le Bonheur (Happiness)",
             "rules": [
               "program_series:nouvelles-femmes"
             ]
           },
           {
-            "source_title": "Nouvelles Femmes: Le Bonheur (Happiness)",
-            "matcher_title": "Le Bonheur (Happiness)",
+            "source_title": "Nouvelles Femmes: My Night at Maud’s",
+            "matcher_title": "My Night at Maud’s",
             "rules": [
               "program_series:nouvelles-femmes"
             ]
@@ -2203,7 +2187,7 @@
         ]
       },
       "series": {
-        "identity_count": 40,
+        "identity_count": 39,
         "samples": [
           {
             "source_title": "The Films of Andrzej Wajda: A Generation",
@@ -2248,7 +2232,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 65,
+        "feature_film": 64,
         "multi_feature_program": 1
       },
       "identities": [
@@ -2878,22 +2862,6 @@
           ]
         },
         {
-          "source_identity_key": "id:programs-and-events/nouvelles-femmes/contempt",
-          "source_title": "Nouvelles Femmes: Contempt",
-          "adapter_identity_title": "Contempt",
-          "matcher_title": "Contempt",
-          "program_series": "Nouvelles Femmes",
-          "runtime_min": 102,
-          "release_year": 1963,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:nouvelles-femmes"
-          ]
-        },
-        {
           "source_identity_key": "id:programs-and-events/nouvelles-femmes/le-bonheur-(happiness)",
           "source_title": "Nouvelles Femmes: Le Bonheur (Happiness)",
           "adapter_identity_title": "Le Bonheur (Happiness)",
@@ -3318,26 +3286,26 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-07_beacon.json",
-      "generated_at": "2026-10-07T05:27:45-07:00",
-      "record_count": 35,
+      "latest_log": "data/daily_logs/2026-10-08_beacon.json",
+      "generated_at": "2026-10-08T05:37:24-07:00",
+      "record_count": 34,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 23,
-      "eligible_feature_count": 19,
+      "source_identity_count": 22,
+      "eligible_feature_count": 18,
       "title": {
-        "with_title": 23,
+        "with_title": 22,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 19,
+        "eligible_features_with_runtime": 18,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 19,
+        "eligible_features_with_year": 18,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -3393,7 +3361,7 @@
       },
       "entity_kind_counts": {
         "double_feature": 1,
-        "feature_film": 19,
+        "feature_film": 18,
         "multi_feature_program": 1,
         "mystery_screening": 2
       },
@@ -3575,13 +3543,13 @@
           ]
         },
         {
-          "source_identity_key": "id:motel-hell",
-          "source_title": "MOTEL HELL",
+          "source_identity_key": "id:necropolis",
+          "source_title": "NECROPOLIS",
           "adapter_identity_title": null,
-          "matcher_title": "Motel Hell",
+          "matcher_title": "Necropolis",
           "program_series": null,
-          "runtime_min": 101,
-          "release_year": 1980,
+          "runtime_min": 124,
+          "release_year": 1970,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3591,13 +3559,13 @@
           ]
         },
         {
-          "source_identity_key": "id:necropolis",
-          "source_title": "NECROPOLIS",
+          "source_identity_key": "id:next-of-kin",
+          "source_title": "NEXT OF KIN",
           "adapter_identity_title": null,
-          "matcher_title": "Necropolis",
+          "matcher_title": "Next Of Kin",
           "program_series": null,
-          "runtime_min": 124,
-          "release_year": 1970,
+          "runtime_min": 89,
+          "release_year": 1982,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3662,22 +3630,6 @@
           "program_series": null,
           "runtime_min": 94,
           "release_year": 1971,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:the-body-snatcher",
-          "source_title": "THE BODY SNATCHER",
-          "adapter_identity_title": null,
-          "matcher_title": "The Body Snatcher",
-          "program_series": null,
-          "runtime_min": 78,
-          "release_year": 1945,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3770,26 +3722,26 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-07_nwff.json",
-      "generated_at": "2026-10-07T05:26:27-07:00",
-      "record_count": 90,
+      "latest_log": "data/daily_logs/2026-10-08_nwff.json",
+      "generated_at": "2026-10-08T05:36:16-07:00",
+      "record_count": 94,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 45,
-      "eligible_feature_count": 36,
+      "source_identity_count": 47,
+      "eligible_feature_count": 38,
       "title": {
-        "with_title": 45,
+        "with_title": 47,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 36,
+        "eligible_features_with_runtime": 38,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 34,
+        "eligible_features_with_year": 36,
         "eligible_features_missing_year": 2,
         "missing_feature_samples": [
           "Seattle Film Society Presents Locals Only: October 2026",
@@ -3962,7 +3914,7 @@
       },
       "entity_kind_counts": {
         "composite_event": 2,
-        "feature_film": 36,
+        "feature_film": 38,
         "shorts_program": 7
       },
       "identities": [
@@ -4012,6 +3964,22 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "format_or_accessibility_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:chronovisor",
+          "source_title": "Chronovisor",
+          "adapter_identity_title": null,
+          "matcher_title": "Chronovisor",
+          "program_series": null,
+          "runtime_min": 100,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
           ]
         },
         {
@@ -4672,6 +4640,22 @@
           ]
         },
         {
+          "source_identity_key": "id:you-sorta-know-its-gonna-end",
+          "source_title": "You Sorta Know It's Gonna End",
+          "adapter_identity_title": null,
+          "matcher_title": "You Sorta Know It's Gonna End",
+          "program_series": null,
+          "runtime_min": 62,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:zi",
           "source_title": "Zi",
           "adapter_identity_title": null,
@@ -4691,9 +4675,9 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-07_central_cinema.json",
-      "generated_at": "2026-10-07T05:26:47-07:00",
-      "record_count": 88,
+      "latest_log": "data/daily_logs/2026-10-08_central_cinema.json",
+      "generated_at": "2026-10-08T05:36:35-07:00",
+      "record_count": 85,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5157,8 +5141,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-07_grand_illusion.json",
-      "generated_at": "2026-10-07T05:27:34-07:00",
+      "latest_log": "data/daily_logs/2026-10-08_grand_illusion.json",
+      "generated_at": "2026-10-08T05:37:13-07:00",
       "record_count": 9,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -5366,9 +5350,9 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-07_tasveer.json",
-      "generated_at": "2026-10-07T05:27:35-07:00",
-      "record_count": 32,
+      "latest_log": "data/daily_logs/2026-10-08_tasveer.json",
+      "generated_at": "2026-10-08T05:37:14-07:00",
+      "record_count": 36,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5543,29 +5527,28 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-07_anderson_school.json",
-      "generated_at": "2026-10-07T05:27:36-07:00",
-      "record_count": 67,
+      "latest_log": "data/daily_logs/2026-10-08_anderson_school.json",
+      "generated_at": "2026-10-08T05:37:16-07:00",
+      "record_count": 65,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 5,
-      "eligible_feature_count": 5,
+      "source_identity_count": 4,
+      "eligible_feature_count": 4,
       "title": {
-        "with_title": 5,
+        "with_title": 4,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 5,
+        "eligible_features_with_runtime": 4,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 5,
+        "eligible_features_missing_year": 4,
         "missing_feature_samples": [
-          "Forgotten Island",
           "Wildwood",
           "Wildwood (OCAP)",
           "The Social Reckoning",
@@ -5592,25 +5575,9 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 5
+        "feature_film": 4
       },
       "identities": [
-        {
-          "source_identity_key": "id:ST00003278",
-          "source_title": "Forgotten Island",
-          "adapter_identity_title": null,
-          "matcher_title": "Forgotten Island",
-          "program_series": null,
-          "runtime_min": 109,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
         {
           "source_identity_key": "id:ST00003280",
           "source_title": "Wildwood",
@@ -5679,11 +5646,11 @@
     },
     "stg": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-07_stg.json",
-      "generated_at": "2026-10-07T05:27:44-07:00",
+      "latest_log": "data/daily_logs/2026-10-08_stg.json",
+      "generated_at": "2026-10-08T05:37:23-07:00",
       "record_count": 9,
       "malformed_record_count": 0,
-      "warning_count": 247,
+      "warning_count": 246,
       "error_count": 0,
       "source_identity_count": 9,
       "eligible_feature_count": 6,
@@ -5942,20 +5909,20 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-07_majestic_bay.json",
-      "generated_at": "2026-10-07T05:27:45-07:00",
-      "record_count": 76,
+      "latest_log": "data/daily_logs/2026-10-08_majestic_bay.json",
+      "generated_at": "2026-10-08T05:37:24-07:00",
+      "record_count": 69,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 15,
-      "eligible_feature_count": 15,
+      "source_identity_count": 12,
+      "eligible_feature_count": 12,
       "title": {
-        "with_title": 15,
+        "with_title": 12,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 14,
+        "eligible_features_with_runtime": 11,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "25th Anniversary Celebration: Singin' in the Rain"
@@ -5964,18 +5931,18 @@
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 15,
+        "eligible_features_missing_year": 12,
         "missing_feature_samples": [
-          "Love Jones",
-          "Heart of the Beast",
-          "Coyote vs. Acme",
           "Forgotten Island",
           "25th Anniversary Celebration: Singin' in the Rain",
           "Night of the Living Dead",
           "Digger",
           "Wildwood",
           "The Ring",
-          "Star Trek IV: The Voyage Home"
+          "Star Trek IV: The Voyage Home",
+          "Star Trek III: The Search for Spock",
+          "Star Trek II: The Wrath of Khan",
+          "Star Trek: The Motion Picture"
         ]
       },
       "cleanup": {
@@ -5994,57 +5961,9 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 15
+        "feature_film": 12
       },
       "identities": [
-        {
-          "source_identity_key": "id:0000001686",
-          "source_title": "Love Jones",
-          "adapter_identity_title": null,
-          "matcher_title": "Love Jones",
-          "program_series": null,
-          "runtime_min": 104,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:0000001692",
-          "source_title": "Heart of the Beast",
-          "adapter_identity_title": null,
-          "matcher_title": "Heart of the Beast",
-          "program_series": null,
-          "runtime_min": 101,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:0000001698",
-          "source_title": "Coyote vs. Acme",
-          "adapter_identity_title": null,
-          "matcher_title": "Coyote vs. Acme",
-          "program_series": null,
-          "runtime_min": 103,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
         {
           "source_identity_key": "id:0000001722",
           "source_title": "Forgotten Island",
