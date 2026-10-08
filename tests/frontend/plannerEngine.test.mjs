@@ -317,6 +317,64 @@ test('sorts by shortest span when requested', () => {
   assert.ok(result.schedules[0].totalSpanMin <= result.schedules[1].totalSpanMin);
 });
 
+test('earliest finish prioritizes completion time over a shorter plan span', () => {
+  const rows = [
+    row({ film: 'Alpha', time: '11:00AM', runtime: '90' }),
+    row({ film: 'Beta', time: '1:00PM', runtime: '120' }),
+    row({ film: 'Alpha', time: '1:30PM', runtime: '90' }),
+    row({ film: 'Beta', time: '3:20PM', runtime: '120' }),
+  ];
+  const filters = baseFilters({ filmCount: 2 });
+  const earliest = findSchedules({ rows, filters, sort: 'earliest_finish' });
+  // Only one copy of a film lineup survives deduplication, and the earliest
+  // *finish* wins even when the later combination has a shorter total span.
+  assert.equal(earliest.schedules.length, 1);
+  assert.equal(earliest.schedules[0].startMin, 11 * 60);
+  assert.equal(earliest.schedules[0].endMin, 15 * 60);
+
+  const shortest = findSchedules({ rows, filters, sort: 'shortest_span' });
+  assert.equal(shortest.schedules[0].startMin, 13 * 60 + 30);
+  assert.equal(shortest.schedules[0].endMin, 17 * 60 + 20);
+});
+
+test('earliest finish keeps chronological priority above preferred-film matches', () => {
+  const rows = [
+    row({ film: 'Alpha', time: '11:00AM', runtime: '60' }),
+    row({ film: 'Beta', time: '12:30PM', runtime: '60' }),
+    row({ film: 'Gamma', time: '2:00PM', runtime: '60' }),
+  ];
+  const result = findSchedules({
+    rows,
+    filters: baseFilters({ filmCount: 2, preferredFilms: ['Gamma'] }),
+    sort: 'earliest_finish',
+  });
+  assert.ok(result.schedules.length >= 2);
+  assert.deepEqual(result.schedules[0].films, ['Alpha', 'Beta']);
+  assert.ok(result.schedules.every((s, i, all) =>
+    i === 0 || all[i - 1].endMin <= s.endMin,
+  ));
+});
+
+test('earliest finish sorts after-midnight endings after the prior evening', () => {
+  const rows = [
+    row({ film: 'Alpha', time: '8:00PM', runtime: '60' }),
+    row({ film: 'Beta', time: '9:15PM', runtime: '60' }),
+    row({ film: 'Gamma', time: '10:30PM', runtime: '60' }),
+    row({ film: 'Delta', time: '11:45PM', runtime: '90' }),
+  ];
+  const result = findSchedules({
+    rows,
+    filters: baseFilters({ filmCount: 2 }),
+    sort: 'earliest_finish',
+  });
+  assert.ok(result.schedules.length >= 3);
+  assert.equal(result.schedules[0].endMin, 22 * 60 + 15);
+  assert.ok(result.schedules.some((s) => s.endMin > 1440));
+  assert.ok(result.schedules.every((s, i, all) =>
+    i === 0 || all[i - 1].endMin <= s.endMin,
+  ));
+});
+
 test('sorts by most films in max mode', () => {
   const rows = [
     row({ film: 'A', time: '12:00PM', runtime: '60' }),
