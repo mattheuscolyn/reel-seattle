@@ -29,6 +29,7 @@ export const PLANNER_SORT_MODES = [
   'longest_span',
   'most_films',
   'smallest_gaps',
+  'earliest_finish',
   'latest_finish',
 ];
 
@@ -404,12 +405,18 @@ function filterByFilmCount(schedules, filmCount) {
   return schedules.filter((s) => s.filmCount === filmCount);
 }
 
-function dedupeByFilmLineup(schedules) {
+function dedupeByFilmLineup(schedules, sort) {
   const best = new Map();
   for (const schedule of schedules) {
     const key = schedule.movies.map((m) => m.showtime_film_key).join('\0');
     const prev = best.get(key);
-    if (!prev || schedule.totalSpanMin < prev.totalSpanMin) {
+    // When sorting by finish time, retain the earliest-finishing showing of
+    // each lineup rather than the shortest-duration showing.
+    const isBetter = sort === 'earliest_finish'
+      ? schedule.endMin < prev?.endMin ||
+        (schedule.endMin === prev?.endMin && schedule.totalSpanMin < prev.totalSpanMin)
+      : schedule.totalSpanMin < prev?.totalSpanMin;
+    if (!prev || isBetter) {
       best.set(key, schedule);
     }
   }
@@ -421,13 +428,21 @@ function resolveDefaultSort(filmCount) {
 }
 
 function compareSchedules(a, b, sort, filters) {
-  if (filters.preferredFilms.length > 0) {
+  // Explicit earliest-finish ordering must not be overridden by soft preferences.
+  if (sort !== 'earliest_finish' && filters.preferredFilms.length > 0) {
     if (b.preferredMatchCount !== a.preferredMatchCount) {
       return b.preferredMatchCount - a.preferredMatchCount;
     }
   }
 
   switch (sort) {
+    case 'earliest_finish':
+      if (a.endMin !== b.endMin) return a.endMin - b.endMin;
+      if (filters.preferredFilms.length > 0 &&
+          b.preferredMatchCount !== a.preferredMatchCount) {
+        return b.preferredMatchCount - a.preferredMatchCount;
+      }
+      return a.startMin - b.startMin || a.totalSpanMin - b.totalSpanMin;
     case 'shortest_span':
       if (a.totalSpanMin !== b.totalSpanMin) return a.totalSpanMin - b.totalSpanMin;
       return a.startMin - b.startMin;
@@ -779,7 +794,7 @@ export function findSchedules({
   }
 
   allSchedules = filterByFilmCount(allSchedules, filters.filmCount);
-  allSchedules = dedupeByFilmLineup(allSchedules);
+  allSchedules = dedupeByFilmLineup(allSchedules, sort);
   allSchedules = sortSchedules(allSchedules, sort, filters, filters.filmCount);
 
   const truncated = allSchedules.length > limits.maxResults;
