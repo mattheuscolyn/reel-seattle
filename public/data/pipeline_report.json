@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-08T05:38:31-07:00",
+  "generated_at": "2026-10-09T05:25:54-07:00",
   "status": "success",
   "window": {
-    "start_date": "2026-10-08",
-    "end_date": "2027-10-07"
+    "start_date": "2026-10-09",
+    "end_date": "2027-10-08"
   },
   "sources": {
     "amc": {
       "status": "success",
-      "showtime_count": 6983,
-      "film_count": 119,
+      "showtime_count": 6699,
+      "film_count": 112,
       "theater_count": 7,
-      "last_successful_run": "2026-10-08",
+      "last_successful_run": "2026-10-09",
       "warnings": [
         "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
       ],
@@ -20,10 +20,10 @@
     },
     "siff": {
       "status": "success",
-      "showtime_count": 259,
-      "film_count": 65,
+      "showtime_count": 260,
+      "film_count": 72,
       "theater_count": 3,
-      "last_successful_run": "2026-10-08",
+      "last_successful_run": "2026-10-09",
       "warnings": [
         "SIFF parent/series page with no direct showtimes: programs-and-events/andrzej-wajda",
         "SIFF parent/series page with no direct showtimes: programs-and-events/celluloid-screenings",
@@ -38,28 +38,30 @@
     },
     "beacon": {
       "status": "success",
-      "showtime_count": 34,
-      "film_count": 22,
+      "showtime_count": 33,
+      "film_count": 21,
       "theater_count": 1,
-      "last_successful_run": "2026-10-08",
+      "last_successful_run": "2026-10-09",
       "warnings": [],
       "errors": []
     },
     "nwff": {
       "status": "success",
-      "showtime_count": 94,
-      "film_count": 47,
+      "showtime_count": 93,
+      "film_count": 46,
       "theater_count": 1,
       "last_successful_run": "2026-10-08",
-      "warnings": [],
+      "warnings": [
+        "NWFF scrape incomplete or unsafe (scrape_status=partial_failure); retained prior future rows."
+      ],
       "errors": []
     },
     "central_cinema": {
       "status": "success",
-      "showtime_count": 85,
-      "film_count": 22,
+      "showtime_count": 83,
+      "film_count": 20,
       "theater_count": 1,
-      "last_successful_run": "2026-10-08",
+      "last_successful_run": "2026-10-09",
       "warnings": [],
       "errors": []
     },
@@ -68,25 +70,25 @@
       "showtime_count": 8,
       "film_count": 8,
       "theater_count": 1,
-      "last_successful_run": "2026-10-08",
+      "last_successful_run": "2026-10-09",
       "warnings": [],
       "errors": []
     },
     "tasveer": {
       "status": "success",
-      "showtime_count": 36,
+      "showtime_count": 34,
       "film_count": 7,
       "theater_count": 1,
-      "last_successful_run": "2026-10-08",
+      "last_successful_run": "2026-10-09",
       "warnings": [],
       "errors": []
     },
     "anderson_school": {
       "status": "success",
-      "showtime_count": 65,
+      "showtime_count": 64,
       "film_count": 2,
       "theater_count": 1,
-      "last_successful_run": "2026-10-08",
+      "last_successful_run": "2026-10-09",
       "warnings": [],
       "errors": []
     },
@@ -97,6 +99,8 @@
       "theater_count": 3,
       "last_successful_run": "2026-10-07",
       "warnings": [
+        "unparsed_schedule: STG event 77622 (WATER FOR ELEPHANTS Vocal Performance Workshop Series) has no parsable excerpt date or time",
+        "ambiguous_film_event: STG event 77591 (Steve Hofstetter) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 77459 (Vacations) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 77483 (Rising Appalachia) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 77495 (Bianca Del Rio) ambiguous: insufficient_screening_evidence",
@@ -264,7 +268,6 @@
         "non_film_event: STG event 72297 (Dweezil Zappa) deny: non_screening_event",
         "ambiguous_film_event: STG event 72289 (Neil deGrasse Tyson) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 72329 (Denny Love) ambiguous: insufficient_screening_evidence",
-        "non_film_event: STG event 72210 (The Best Friends Podcast) deny: non_screening_event",
         "ambiguous_film_event: STG event 72235 (Julia Jacklin) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 72221 (Gary Clark Jr.) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 71574 (The Best One Yet) ambiguous: insufficient_screening_evidence",
@@ -310,7 +313,6 @@
         "ambiguous_film_event: STG event 69602 (Gianmarco Soresi) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 69433 (Laura Ramoso) ambiguous: insufficient_screening_evidence",
         "ambiguous_film_event: STG event 69230 (Valery Meladze) ambiguous: insufficient_screening_evidence",
-        "ambiguous_film_event: STG event 69208 (Jacob Collier) ambiguous: insufficient_screening_evidence",
         "unparsed_schedule: STG event 68825 (Josh Johnson’s Comedy Band Camp) has no parsable excerpt date or time",
         "ambiguous_film_event: STG event 68599 (World Ballet Company – Swan Lake) ambiguous: insufficient_screening_evidence",
         "unparsed_schedule: STG event 68304 (Oh, Mary!) has no parsable excerpt date or time",
@@ -343,23 +345,23 @@
         "unparsed_schedule: STG event 6390 (Free Moore Tour) has no parsable excerpt date or time",
         "unparsed_schedule: STG event 6373 (Free Paramount Tour) has no parsable excerpt date or time",
         "unparsed_schedule: STG event 6280 (Seattle Theatre Group Archive) has no parsable excerpt date or time",
-        "STG scrape partial: 4 of 321 program pages parsed; retained prior future rows."
+        "STG scrape partial: 4 of 323 program pages parsed; retained prior future rows."
       ],
       "errors": []
     },
     "majestic_bay": {
       "status": "success",
-      "showtime_count": 69,
-      "film_count": 12,
+      "showtime_count": 114,
+      "film_count": 14,
       "theater_count": 1,
-      "last_successful_run": "2026-10-08",
+      "last_successful_run": "2026-10-09",
       "warnings": [],
       "errors": []
     }
   },
   "totals": {
-    "showtime_count": 7642,
-    "film_count": 291,
+    "showtime_count": 7397,
+    "film_count": 287,
     "theater_count": 19
   },
   "messages": [],
@@ -372,15 +374,15 @@
     "outcome": "promoted",
     "artifacts_written_this_run": true,
     "artifacts_retained_from_prior": false,
-    "reported_at": "2026-10-08T05:47:07-07:00",
-    "last_successful_build_at": "2026-10-08T05:45:06-07:00",
+    "reported_at": "2026-10-09T05:35:17-07:00",
+    "last_successful_build_at": "2026-10-09T05:33:20-07:00",
     "message": "AMC source catalog: promoted",
     "warnings": [],
     "errors": [],
     "refresh": {
-      "active_ids": 119,
-      "selected": 119,
-      "success": 119,
+      "active_ids": 112,
+      "selected": 112,
+      "success": 112,
       "failed": 0,
       "invalid": 0
     },
@@ -391,8 +393,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-10-08T05:45:06-07:00",
-        "record_count": 360,
+        "generated_at": "2026-10-09T05:33:20-07:00",
+        "record_count": 361,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -404,8 +406,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-10-08T05:45:06-07:00",
-        "record_count": 321,
+        "generated_at": "2026-10-09T05:33:20-07:00",
+        "record_count": 323,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -413,25 +415,25 @@
       }
     },
     "products_summary": {
-      "total": 360,
-      "active": 119,
-      "inactive": 241,
-      "with_release_id": 351,
-      "without_release_id": 9,
+      "total": 361,
+      "active": 112,
+      "inactive": 249,
+      "with_release_id": 353,
+      "without_release_id": 8,
       "refresh_pending": 0,
-      "refresh_success": 360,
+      "refresh_success": 361,
       "refresh_stale": 0,
       "refresh_failed": 0,
       "refresh_invalid": 0,
       "refresh_status_missing": 0,
       "stored_stats": {
-        "products": 360,
-        "active_products": 119,
-        "inactive_products": 241,
-        "with_release_id": 351,
-        "without_release_id": 9,
+        "products": 361,
+        "active_products": 112,
+        "inactive_products": 249,
+        "with_release_id": 353,
+        "without_release_id": 8,
         "refresh_pending": 0,
-        "refresh_success": 360,
+        "refresh_success": 361,
         "refresh_stale": 0,
         "refresh_failed": 0,
         "refresh_invalid": 0,
@@ -439,14 +441,14 @@
       }
     },
     "releases_summary": {
-      "total": 321,
-      "singleton_groups": 307,
+      "total": 323,
+      "singleton_groups": 309,
       "multi_product_groups": 14,
-      "membership_references": 351,
+      "membership_references": 353,
       "unresolved_member_references": 0,
       "stored_stats": {
-        "release_observations": 321,
-        "singleton_groups": 307,
+        "release_observations": 323,
+        "singleton_groups": 309,
         "multi_product_groups": 14,
         "largest_group": 15
       }
