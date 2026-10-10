@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-09T05:35:17-07:00",
+  "generated_at": "2026-10-10T04:56:09-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-09_amc.json",
-      "generated_at": "2026-10-09T05:25:28-07:00",
-      "record_count": 6703,
+      "latest_log": "data/daily_logs/2026-10-10_amc.json",
+      "generated_at": "2026-10-10T04:44:38-07:00",
+      "record_count": 6522,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 112,
-      "eligible_feature_count": 96,
+      "source_identity_count": 114,
+      "eligible_feature_count": 98,
       "title": {
-        "with_title": 112,
+        "with_title": 114,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 96,
+        "eligible_features_with_runtime": 98,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 96,
+        "eligible_features_missing_year": 98,
         "missing_feature_samples": [
           "Coyote vs. Acme",
           "Avengers: Doomsday",
@@ -124,7 +124,7 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 10,
-        "feature_film": 96,
+        "feature_film": 98,
         "live_event": 1,
         "mystery_screening": 3,
         "unknown_program": 2
@@ -345,6 +345,22 @@
           "matcher_title": "Whalefall",
           "program_series": null,
           "runtime_min": 106,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:80621",
+          "source_title": "Ali G: Who Iz I?",
+          "adapter_identity_title": null,
+          "matcher_title": "Ali G: Who Iz I?",
+          "program_series": null,
+          "runtime_min": 89,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -576,6 +592,22 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "presentation_trailing_atoms"
+          ]
+        },
+        {
+          "source_identity_key": "id:83553",
+          "source_title": "Klara and the Sun",
+          "adapter_identity_title": null,
+          "matcher_title": "Klara and the Sun",
+          "program_series": null,
+          "runtime_min": 117,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
           ]
         },
         {
@@ -1930,20 +1962,20 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-09_siff.json",
-      "generated_at": "2026-10-09T05:25:04-07:00",
-      "record_count": 260,
+      "latest_log": "data/daily_logs/2026-10-10_siff.json",
+      "generated_at": "2026-10-10T04:44:14-07:00",
+      "record_count": 258,
       "malformed_record_count": 0,
       "warning_count": 8,
       "error_count": 0,
-      "source_identity_count": 72,
-      "eligible_feature_count": 70,
+      "source_identity_count": 79,
+      "eligible_feature_count": 77,
       "title": {
-        "with_title": 72,
+        "with_title": 79,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 69,
+        "eligible_features_with_runtime": 76,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "Joybubbles"
@@ -1951,13 +1983,13 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 70,
+        "eligible_features_with_year": 77,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 35,
-        "matcher_cleaned_identity_count": 28,
+        "adapter_cleaned_identity_count": 36,
+        "matcher_cleaned_identity_count": 29,
         "adapter_cleanup_samples": [
           {
             "source_title": "The Films of Andrzej Wajda: A Generation",
@@ -2075,7 +2107,7 @@
         ]
       },
       "series": {
-        "identity_count": 38,
+        "identity_count": 44,
         "samples": [
           {
             "source_title": "The Films of Andrzej Wajda: A Generation",
@@ -2120,7 +2152,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 70,
+        "feature_film": 77,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2197,6 +2229,22 @@
           "program_series": null,
           "runtime_min": 70,
           "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/christmas-pop-up",
+          "source_title": "Christmas Pop-Up",
+          "adapter_identity_title": null,
+          "matcher_title": "Christmas Pop-Up",
+          "program_series": null,
+          "runtime_min": 93,
+          "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -2993,6 +3041,86 @@
           ]
         },
         {
+          "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/a-simple-machine",
+          "source_title": "PNW Awards: A Simple Machine",
+          "adapter_identity_title": null,
+          "matcher_title": "PNW Awards: A Simple Machine",
+          "program_series": "Seattle Film Critics Society Pnw Awards",
+          "runtime_min": 100,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/again-again",
+          "source_title": "PNW Awards: Again Again",
+          "adapter_identity_title": null,
+          "matcher_title": "PNW Awards: Again Again",
+          "program_series": "Seattle Film Critics Society Pnw Awards",
+          "runtime_min": 99,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/powwow-people",
+          "source_title": "PNW Awards: Powwow People",
+          "adapter_identity_title": null,
+          "matcher_title": "PNW Awards: Powwow People",
+          "program_series": "Seattle Film Critics Society Pnw Awards",
+          "runtime_min": 88,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/the-joyless-economy",
+          "source_title": "PNW Awards: The Joyless Economy",
+          "adapter_identity_title": null,
+          "matcher_title": "PNW Awards: The Joyless Economy",
+          "program_series": "Seattle Film Critics Society Pnw Awards",
+          "runtime_min": 58,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/the-life-we-leave",
+          "source_title": "PNW Awards: The Life We Leave",
+          "adapter_identity_title": null,
+          "matcher_title": "PNW Awards: The Life We Leave",
+          "program_series": "Seattle Film Critics Society Pnw Awards",
+          "runtime_min": 87,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:programs-and-events/siff-book-club/carrie",
           "source_title": "SIFF Book Club: Carrie (50th Anniversary)",
           "adapter_identity_title": "Carrie (50th Anniversary)",
@@ -3000,6 +3128,22 @@
           "program_series": "SIFF Book Club",
           "runtime_min": 98,
           "release_year": 1976,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "format_or_accessibility_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/siff-book-club/twilight",
+          "source_title": "SIFF Book Club: Twilight (35mm)",
+          "adapter_identity_title": "Twilight (35mm)",
+          "matcher_title": "SIFF Book Club: Twilight",
+          "program_series": "SIFF Book Club",
+          "runtime_min": 127,
+          "release_year": 2008,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": true,
@@ -3287,32 +3431,32 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-09_beacon.json",
-      "generated_at": "2026-10-09T05:25:04-07:00",
-      "record_count": 33,
+      "latest_log": "data/daily_logs/2026-10-10_beacon.json",
+      "generated_at": "2026-10-10T04:44:14-07:00",
+      "record_count": 32,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 21,
-      "eligible_feature_count": 17,
+      "source_identity_count": 20,
+      "eligible_feature_count": 16,
       "title": {
-        "with_title": 21,
+        "with_title": 20,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 17,
+        "eligible_features_with_runtime": 16,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 17,
+        "eligible_features_with_year": 16,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 2,
-        "matcher_cleaned_identity_count": 3,
+        "matcher_cleaned_identity_count": 2,
         "adapter_cleanup_samples": [
           {
             "source_title": "SECS FEST PRESENTS DRILLER",
@@ -3324,13 +3468,6 @@
           }
         ],
         "matcher_cleanup_samples": [
-          {
-            "source_title": "L’AMOUR FOU W/ A.S. HAMRAH",
-            "matcher_title": "L'Amour fou",
-            "rules": [
-              "exact_alias:lamour-fou-with-as-hamrah"
-            ]
-          },
           {
             "source_title": "SECS FEST PRESENTS DRILLER",
             "matcher_title": "Driller",
@@ -3362,7 +3499,7 @@
       },
       "entity_kind_counts": {
         "double_feature": 1,
-        "feature_film": 17,
+        "feature_film": 16,
         "multi_feature_program": 1,
         "mystery_screening": 2
       },
@@ -3493,22 +3630,6 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:l-amour-fou-w-a-s-hamrah",
-          "source_title": "L’AMOUR FOU W/ A.S. HAMRAH",
-          "adapter_identity_title": null,
-          "matcher_title": "L'Amour fou",
-          "program_series": null,
-          "runtime_min": 245,
-          "release_year": 1969,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "exact_alias:lamour-fou-with-as-hamrah"
           ]
         },
         {
@@ -3707,20 +3828,20 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-09_nwff.json",
-      "generated_at": "2026-10-09T05:23:55-07:00",
-      "record_count": 95,
+      "latest_log": "data/daily_logs/2026-10-10_nwff.json",
+      "generated_at": "2026-10-10T04:43:07-07:00",
+      "record_count": 100,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 48,
-      "eligible_feature_count": 39,
+      "source_identity_count": 54,
+      "eligible_feature_count": 45,
       "title": {
-        "with_title": 48,
+        "with_title": 54,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 38,
+        "eligible_features_with_runtime": 44,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "Members Only Mystery Preview - November 2026"
@@ -3728,17 +3849,24 @@
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 36,
-        "eligible_features_missing_year": 3,
+        "eligible_features_with_year": 35,
+        "eligible_features_missing_year": 10,
         "missing_feature_samples": [
+          "Engauge 2026 – Beyond Borders",
+          "Engauge 2026 – Expanded Cinema Performance and Film",
+          "Engauge 2026 – Pattern and Place",
+          "Engauge 2026 – Rankin Renwick Solo Show",
+          "Engauge 2026 – Tactility and Memory",
+          "Engauge 2026 – Tainted",
+          "Engauge 2026 – We Are All Together",
           "Members Only Mystery Preview - November 2026",
           "Seattle Film Society Presents Locals Only: October 2026",
           "STUFF 2026: Castration Movie Chapter iii. Junior Ghosts—Premorphic Drift; a fragmentary passage"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 29,
-        "matcher_cleaned_identity_count": 32,
+        "adapter_cleaned_identity_count": 28,
+        "matcher_cleaned_identity_count": 31,
         "adapter_cleanup_samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Elvira: Mistress of the Dark",
@@ -3856,7 +3984,7 @@
         ]
       },
       "series": {
-        "identity_count": 29,
+        "identity_count": 28,
         "samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Elvira: Mistress of the Dark",
@@ -3902,7 +4030,7 @@
       },
       "entity_kind_counts": {
         "composite_event": 2,
-        "feature_film": 39,
+        "feature_film": 45,
         "shorts_program": 7
       },
       "identities": [
@@ -3962,6 +4090,118 @@
           "program_series": null,
           "runtime_min": 100,
           "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:engauge-2026-beyond-borders",
+          "source_title": "Engauge 2026 – Beyond Borders",
+          "adapter_identity_title": null,
+          "matcher_title": "Engauge 2026 – Beyond Borders",
+          "program_series": null,
+          "runtime_min": 86,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:engauge-2026-expanded-cinema-performance-and-film",
+          "source_title": "Engauge 2026 – Expanded Cinema Performance and Film",
+          "adapter_identity_title": null,
+          "matcher_title": "Engauge 2026 – Expanded Cinema Performance and Film",
+          "program_series": null,
+          "runtime_min": 60,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:engauge-2026-pattern-place",
+          "source_title": "Engauge 2026 – Pattern and Place",
+          "adapter_identity_title": null,
+          "matcher_title": "Engauge 2026 – Pattern and Place",
+          "program_series": null,
+          "runtime_min": 86,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:engauge-2026-rankin-renwick-solo-show",
+          "source_title": "Engauge 2026 – Rankin Renwick Solo Show",
+          "adapter_identity_title": null,
+          "matcher_title": "Engauge 2026 – Rankin Renwick Solo Show",
+          "program_series": null,
+          "runtime_min": 60,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:engauge-2026-tactility-and-memory",
+          "source_title": "Engauge 2026 – Tactility and Memory",
+          "adapter_identity_title": null,
+          "matcher_title": "Engauge 2026 – Tactility and Memory",
+          "program_series": null,
+          "runtime_min": 85,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:engauge-2026-tainted",
+          "source_title": "Engauge 2026 – Tainted",
+          "adapter_identity_title": null,
+          "matcher_title": "Engauge 2026 – Tainted",
+          "program_series": null,
+          "runtime_min": 79,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:engauge-2026-we-are-all-together",
+          "source_title": "Engauge 2026 – We Are All Together",
+          "adapter_identity_title": null,
+          "matcher_title": "Engauge 2026 – We Are All Together",
+          "program_series": null,
+          "runtime_min": 81,
+          "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -4436,22 +4676,6 @@
           ]
         },
         {
-          "source_identity_key": "id:trauma-bond-come-and-see",
-          "source_title": "TRAUMA BOND: Come and See",
-          "adapter_identity_title": "Come and See",
-          "matcher_title": "Come and See",
-          "program_series": "TRAUMA BOND",
-          "runtime_min": 142,
-          "release_year": 1985,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:trauma-bond"
-          ]
-        },
-        {
           "source_identity_key": "id:trauma-bond-irreversible",
           "source_title": "TRAUMA BOND: Irreversible",
           "adapter_identity_title": "Irreversible",
@@ -4679,27 +4903,27 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-09_central_cinema.json",
-      "generated_at": "2026-10-09T05:24:13-07:00",
-      "record_count": 83,
+      "latest_log": "data/daily_logs/2026-10-10_central_cinema.json",
+      "generated_at": "2026-10-10T04:43:25-07:00",
+      "record_count": 80,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 20,
-      "eligible_feature_count": 15,
+      "source_identity_count": 19,
+      "eligible_feature_count": 14,
       "title": {
-        "with_title": 20,
+        "with_title": 19,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 15,
+        "eligible_features_with_runtime": 14,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 15,
+        "eligible_features_missing_year": 14,
         "missing_feature_samples": [
           "A Nightmare on Elm Street",
           "Blade",
@@ -4785,7 +5009,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 15,
+        "feature_film": 14,
         "unknown_program": 5
       },
       "identities": [
@@ -5030,22 +5254,6 @@
           ]
         },
         {
-          "source_identity_key": "id:rrr-2",
-          "source_title": "RRR",
-          "adapter_identity_title": null,
-          "matcher_title": "RRR",
-          "program_series": null,
-          "runtime_min": 187,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:seattle-scare-society-presents-hausu",
           "source_title": "Seattle Scare Society presents: Hausu",
           "adapter_identity_title": null,
@@ -5113,8 +5321,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-09_grand_illusion.json",
-      "generated_at": "2026-10-09T05:24:54-07:00",
+      "latest_log": "data/daily_logs/2026-10-10_grand_illusion.json",
+      "generated_at": "2026-10-10T04:44:03-07:00",
       "record_count": 9,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -5322,9 +5530,9 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-09_tasveer.json",
-      "generated_at": "2026-10-09T05:24:55-07:00",
-      "record_count": 34,
+      "latest_log": "data/daily_logs/2026-10-10_tasveer.json",
+      "generated_at": "2026-10-10T04:44:03-07:00",
+      "record_count": 30,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5499,9 +5707,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-09_anderson_school.json",
-      "generated_at": "2026-10-09T05:24:56-07:00",
-      "record_count": 64,
+      "latest_log": "data/daily_logs/2026-10-10_anderson_school.json",
+      "generated_at": "2026-10-10T04:44:06-07:00",
+      "record_count": 62,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5618,8 +5826,8 @@
     },
     "stg": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-09_stg.json",
-      "generated_at": "2026-10-09T05:25:04-07:00",
+      "latest_log": "data/daily_logs/2026-10-10_stg.json",
+      "generated_at": "2026-10-10T04:44:13-07:00",
       "record_count": 9,
       "malformed_record_count": 0,
       "warning_count": 246,
@@ -5881,51 +6089,44 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-09_majestic_bay.json",
-      "generated_at": "2026-10-09T05:25:04-07:00",
-      "record_count": 114,
+      "latest_log": "data/daily_logs/2026-10-10_majestic_bay.json",
+      "generated_at": "2026-10-10T04:44:14-07:00",
+      "record_count": 110,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 29,
-      "eligible_feature_count": 29,
+      "source_identity_count": 28,
+      "eligible_feature_count": 28,
       "title": {
-        "with_title": 29,
+        "with_title": 28,
         "missing": 0
       },
       "runtime": {
         "eligible_features_with_runtime": 28,
-        "eligible_features_missing_runtime": 1,
-        "missing_feature_samples": [
-          "25th Anniversary Celebration: Singin' in the Rain"
-        ]
+        "eligible_features_missing_runtime": 0,
+        "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 29,
+        "eligible_features_missing_year": 28,
         "missing_feature_samples": [
           "Forgotten Island",
-          "25th Anniversary Celebration: Singin' in the Rain",
-          "Singin' in the Rain",
+          "DoubleFeature: Singin in the Rain/Majestic Bay Doc",
           "Night of the Living Dead",
           "Digger",
           "Wildwood",
           "The Ring",
           "Star Trek IV: The Voyage Home",
           "Star Trek III: The Search for Spock",
-          "Star Trek II: The Wrath of Khan"
+          "Star Trek II: The Wrath of Khan",
+          "Star Trek: The Motion Picture"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 1,
+        "adapter_cleaned_identity_count": 0,
         "matcher_cleaned_identity_count": 0,
-        "adapter_cleanup_samples": [
-          {
-            "source_title": "25th Anniversary Celebration: Singin' in the Rain",
-            "identity_title": "Singin' in the Rain"
-          }
-        ],
+        "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": []
       },
       "series": {
@@ -5933,7 +6134,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 29
+        "feature_film": 28
       },
       "identities": [
         {
@@ -5954,27 +6155,11 @@
         },
         {
           "source_identity_key": "id:0000001724",
-          "source_title": "25th Anniversary Celebration: Singin' in the Rain",
-          "adapter_identity_title": "Singin' in the Rain",
-          "matcher_title": "25th Anniversary Celebration: Singin' in the Rain",
-          "program_series": null,
-          "runtime_min": null,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:0000001726",
-          "source_title": "Singin' in the Rain",
+          "source_title": "DoubleFeature: Singin in the Rain/Majestic Bay Doc",
           "adapter_identity_title": null,
-          "matcher_title": "Singin' in the Rain",
+          "matcher_title": "DoubleFeature: Singin in the Rain/Majestic Bay Doc",
           "program_series": null,
-          "runtime_min": 103,
+          "runtime_min": 134,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -6145,7 +6330,7 @@
           ]
         },
         {
-          "source_identity_key": "id:0000001764",
+          "source_identity_key": "id:0000001781",
           "source_title": "You Can See Everything",
           "adapter_identity_title": null,
           "matcher_title": "You Can See Everything",
@@ -6408,8 +6593,7 @@
     "sources_with_feature_runtime_gaps": [
       "siff",
       "nwff",
-      "stg",
-      "majestic_bay"
+      "stg"
     ],
     "sources_with_feature_year_gaps_requiring_review": [
       "nwff",
