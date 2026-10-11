@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-10-10T04:49:47-07:00",
+  "generated_at": "2026-10-11T05:02:53-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-10-05",
@@ -12,7 +12,7 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 43,
+    "entry_count": 44,
     "low_confidence_count": 2,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-10-05",
@@ -21,7 +21,7 @@
       "theatrical": 16,
       "repertory": 8,
       "event": 6,
-      "limited": 13
+      "limited": 14
     }
   },
   "entries": [
@@ -98,7 +98,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 16,
+      "visible_showtime_count": 12,
       "engagement_days": 7,
       "historical_screening_count": 12,
       "opening_type": "event",
@@ -326,7 +326,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 6,
+      "visible_showtime_count": 0,
       "engagement_days": 2,
       "historical_screening_count": 6,
       "opening_type": "theatrical",
@@ -392,7 +392,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 32,
+      "visible_showtime_count": 26,
       "engagement_days": 8,
       "historical_screening_count": 22,
       "opening_type": "theatrical",
@@ -429,7 +429,7 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 196,
+      "visible_showtime_count": 152,
       "engagement_days": 8,
       "historical_screening_count": 135,
       "opening_type": "theatrical",
@@ -510,7 +510,7 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 48,
+      "visible_showtime_count": 38,
       "engagement_days": 7,
       "historical_screening_count": 66,
       "opening_type": "repertory",
@@ -548,7 +548,7 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 56,
+      "visible_showtime_count": 44,
       "engagement_days": 7,
       "historical_screening_count": 40,
       "opening_type": "theatrical",
@@ -583,7 +583,7 @@
         "amc-pacific-place-11"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 16,
+      "visible_showtime_count": 12,
       "engagement_days": 7,
       "historical_screening_count": 11,
       "opening_type": "theatrical",
@@ -620,7 +620,7 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 494,
+      "visible_showtime_count": 376,
       "engagement_days": 8,
       "historical_screening_count": 337,
       "opening_type": "theatrical",
@@ -659,7 +659,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 36,
+      "visible_showtime_count": 28,
       "engagement_days": 8,
       "historical_screening_count": 25,
       "opening_type": "theatrical",
@@ -685,7 +685,7 @@
     {
       "showtime_film_key": "rrr",
       "parent_film_key": "rrr",
-      "film_id": "tmdb:579974",
+      "film_id": null,
       "film_title": "RRR",
       "opening_date": "2026-10-08",
       "theaters_on_opening_date": [
@@ -698,7 +698,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "rrr"
         ],
@@ -764,7 +764,7 @@
         "majestic-bay"
       ],
       "theater_count_on_opening_date": 9,
-      "visible_showtime_count": 486,
+      "visible_showtime_count": 398,
       "engagement_days": 15,
       "historical_screening_count": 305,
       "opening_type": "theatrical",
@@ -806,7 +806,7 @@
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 12,
+      "visible_showtime_count": 8,
       "engagement_days": 5,
       "historical_screening_count": 7,
       "opening_type": "repertory",
@@ -837,7 +837,7 @@
         "central-cinema"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 12,
+      "visible_showtime_count": 10,
       "engagement_days": 7,
       "historical_screening_count": 7,
       "opening_type": "repertory",
@@ -861,7 +861,7 @@
     {
       "showtime_film_key": "come-and-see",
       "parent_film_key": "come-and-see",
-      "film_id": "tmdb:25237",
+      "film_id": null,
       "film_title": "Come and See",
       "opening_date": "2026-10-09",
       "theaters_on_opening_date": [
@@ -874,7 +874,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "come-and-see"
         ],
@@ -935,7 +935,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 24,
+      "visible_showtime_count": 20,
       "engagement_days": 7,
       "historical_screening_count": 14,
       "opening_type": "theatrical",
@@ -967,7 +967,7 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 26,
+      "visible_showtime_count": 22,
       "engagement_days": 7,
       "historical_screening_count": 15,
       "opening_type": "theatrical",
@@ -991,7 +991,7 @@
     {
       "showtime_film_key": "l-amour-fou-w-a-s-hamrah",
       "parent_film_key": "l-amour-fou-w-a-s-hamrah",
-      "film_id": "tmdb:63401",
+      "film_id": null,
       "film_title": "L’Amour Fou W/ A.S. Hamrah",
       "opening_date": "2026-10-09",
       "theaters_on_opening_date": [
@@ -1004,7 +1004,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "l-amour-fou-w-a-s-hamrah"
         ],
@@ -1030,7 +1030,7 @@
         "tasveer-film-center"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 42,
+      "visible_showtime_count": 28,
       "engagement_days": 7,
       "historical_screening_count": 25,
       "opening_type": "theatrical",
@@ -1064,7 +1064,7 @@
         "siff-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 8,
+      "visible_showtime_count": 4,
       "engagement_days": 3,
       "historical_screening_count": 5,
       "opening_type": "theatrical",
@@ -1095,7 +1095,7 @@
         "amc-pacific-place-11"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 12,
+      "visible_showtime_count": 10,
       "engagement_days": 6,
       "historical_screening_count": 7,
       "opening_type": "theatrical",
@@ -1126,7 +1126,7 @@
         "central-cinema"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 20,
+      "visible_showtime_count": 16,
       "engagement_days": 7,
       "historical_screening_count": 12,
       "opening_type": "repertory",
@@ -1157,7 +1157,7 @@
         "siff-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -1188,7 +1188,7 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -1219,7 +1219,7 @@
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 8,
+      "visible_showtime_count": 4,
       "engagement_days": 2,
       "historical_screening_count": 4,
       "opening_type": "repertory",
@@ -1250,7 +1250,7 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -1282,7 +1282,7 @@
         "amc-pacific-place-11"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 2,
       "opening_type": "event",
@@ -1314,7 +1314,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "event",
@@ -1331,6 +1331,37 @@
         ],
         "sources": [
           "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "storm-is-coming-dance-of-the-living",
+      "parent_film_key": "storm-is-coming-dance-of-the-living",
+      "film_id": null,
+      "film_title": "A Storm Is Coming / Dance of the Living",
+      "opening_date": "2026-10-11",
+      "theaters_on_opening_date": [
+        "the-beacon"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "storm-is-coming-dance-of-the-living"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "the-beacon"
+        ],
+        "sources": [
+          "beacon"
         ]
       },
       "override": null

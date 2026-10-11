@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-10T04:56:09-07:00",
+  "generated_at": "2026-10-11T05:09:34-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-10_amc.json",
-      "generated_at": "2026-10-10T04:44:38-07:00",
-      "record_count": 6522,
+      "latest_log": "data/daily_logs/2026-10-11_amc.json",
+      "generated_at": "2026-10-11T04:57:21-07:00",
+      "record_count": 6154,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 114,
-      "eligible_feature_count": 98,
+      "source_identity_count": 112,
+      "eligible_feature_count": 94,
       "title": {
-        "with_title": 114,
+        "with_title": 112,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 98,
+        "eligible_features_with_runtime": 94,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 98,
+        "eligible_features_missing_year": 94,
         "missing_feature_samples": [
           "Coyote vs. Acme",
           "Avengers: Doomsday",
@@ -123,8 +123,8 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "broadcast_event": 10,
-        "feature_film": 98,
+        "broadcast_event": 12,
+        "feature_film": 94,
         "live_event": 1,
         "mystery_screening": 3,
         "unknown_program": 2
@@ -948,6 +948,38 @@
           ]
         },
         {
+          "source_identity_key": "id:84301",
+          "source_title": "MET Opera: Manon Encore (2027)",
+          "adapter_identity_title": null,
+          "matcher_title": "MET Opera: Manon Encore",
+          "program_series": null,
+          "runtime_min": 264,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "broadcast_event",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "film_year_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:84303",
+          "source_title": "MET Opera: Parsifal Encore (2027)",
+          "adapter_identity_title": null,
+          "matcher_title": "MET Opera: Parsifal Encore",
+          "program_series": null,
+          "runtime_min": 365,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "broadcast_event",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "film_year_paren"
+          ]
+        },
+        {
           "source_identity_key": "id:84326",
           "source_title": "Sight & Sound Presents: Joshua Live!",
           "adapter_identity_title": null,
@@ -986,22 +1018,6 @@
           "matcher_title": "The Only Living Pickpocket In New York",
           "program_series": null,
           "runtime_min": 88,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:84426",
-          "source_title": "Queen Budapest",
-          "adapter_identity_title": null,
-          "matcher_title": "Queen Budapest",
-          "program_series": null,
-          "runtime_min": 97,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1253,22 +1269,6 @@
           ]
         },
         {
-          "source_identity_key": "id:84817",
-          "source_title": "WWE Money in the Bank",
-          "adapter_identity_title": null,
-          "matcher_title": "WWE Money in the Bank",
-          "program_series": null,
-          "runtime_min": 240,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:84828",
           "source_title": "Friday The 13th - Welcome to Horrorwood Series",
           "adapter_identity_title": null,
@@ -1458,22 +1458,6 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "exact_alias:back-to-the-future-day-2026"
-          ]
-        },
-        {
-          "source_identity_key": "id:84985",
-          "source_title": "Forgotten Island: Sensory Friendly Screening",
-          "adapter_identity_title": null,
-          "matcher_title": "Forgotten Island",
-          "program_series": null,
-          "runtime_min": 109,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_segment"
           ]
         },
         {
@@ -1926,22 +1910,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85299",
-          "source_title": "Trust Me, I’m A Doctor: Exclusive Early Access",
-          "adapter_identity_title": null,
-          "matcher_title": "Trust Me, I’m A Doctor: Exclusive",
-          "program_series": null,
-          "runtime_min": 111,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "event_suffix"
-          ]
-        },
-        {
           "source_identity_key": "id:85337",
           "source_title": "Gotta Have Faith: George Michael IMAX Early Access",
           "adapter_identity_title": null,
@@ -1962,20 +1930,20 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-10_siff.json",
-      "generated_at": "2026-10-10T04:44:14-07:00",
-      "record_count": 258,
+      "latest_log": "data/daily_logs/2026-10-11_siff.json",
+      "generated_at": "2026-10-11T04:57:00-07:00",
+      "record_count": 242,
       "malformed_record_count": 0,
       "warning_count": 8,
       "error_count": 0,
-      "source_identity_count": 79,
-      "eligible_feature_count": 77,
+      "source_identity_count": 76,
+      "eligible_feature_count": 74,
       "title": {
-        "with_title": 79,
+        "with_title": 76,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 76,
+        "eligible_features_with_runtime": 73,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "Joybubbles"
@@ -1983,18 +1951,14 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 77,
+        "eligible_features_with_year": 74,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 36,
+        "adapter_cleaned_identity_count": 35,
         "matcher_cleaned_identity_count": 29,
         "adapter_cleanup_samples": [
-          {
-            "source_title": "The Films of Andrzej Wajda: A Generation",
-            "identity_title": "A Generation"
-          },
           {
             "source_title": "The Films of Andrzej Wajda: Ashes and Diamonds",
             "identity_title": "Ashes and Diamonds"
@@ -2030,6 +1994,10 @@
           {
             "source_title": "Nouvelles Femmes: Band of Outsiders",
             "identity_title": "Band of Outsiders"
+          },
+          {
+            "source_title": "Nouvelles Femmes: Le Bonheur (Happiness)",
+            "identity_title": "Le Bonheur (Happiness)"
           }
         ],
         "matcher_cleanup_samples": [
@@ -2107,12 +2075,8 @@
         ]
       },
       "series": {
-        "identity_count": 44,
+        "identity_count": 43,
         "samples": [
-          {
-            "source_title": "The Films of Andrzej Wajda: A Generation",
-            "program_series": "The Films of Andrzej Wajda"
-          },
           {
             "source_title": "The Films of Andrzej Wajda: Ashes and Diamonds",
             "program_series": "The Films of Andrzej Wajda"
@@ -2148,11 +2112,15 @@
           {
             "source_title": "Community Screening: Casablanca",
             "program_series": "Community Screenings"
+          },
+          {
+            "source_title": "Community Screening: Singin’ In the Rain",
+            "program_series": "Community Screenings"
           }
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 77,
+        "feature_film": 74,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2446,22 +2414,6 @@
           ]
         },
         {
-          "source_identity_key": "id:cinema/in-theaters/salomes-last-dance",
-          "source_title": "Salome's Last Dance",
-          "adapter_identity_title": null,
-          "matcher_title": "Salome's Last Dance",
-          "program_series": null,
-          "runtime_min": 89,
-          "release_year": 1988,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:cinema/in-theaters/seattle-polish-film-festival-2026/brother",
           "source_title": "Seattle Polish Film Festival: Brother",
           "adapter_identity_title": null,
@@ -2622,22 +2574,6 @@
           ]
         },
         {
-          "source_identity_key": "id:cinema/in-theaters/the-blue-rose-part-ii",
-          "source_title": "The Blue Rose: Part II",
-          "adapter_identity_title": null,
-          "matcher_title": "The Blue Rose: Part II",
-          "program_series": null,
-          "runtime_min": 60,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:cinema/in-theaters/the-history-of-concrete",
           "source_title": "The History of Concrete",
           "adapter_identity_title": null,
@@ -2712,22 +2648,6 @@
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:programs-and-events/andrzej-wajda/a-generation",
-          "source_title": "The Films of Andrzej Wajda: A Generation",
-          "adapter_identity_title": "A Generation",
-          "matcher_title": "The Films of Andrzej Wajda: A Generation",
-          "program_series": "The Films of Andrzej Wajda",
-          "runtime_min": 87,
-          "release_year": 1954,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
@@ -3431,26 +3351,26 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-10_beacon.json",
-      "generated_at": "2026-10-10T04:44:14-07:00",
-      "record_count": 32,
+      "latest_log": "data/daily_logs/2026-10-11_beacon.json",
+      "generated_at": "2026-10-11T04:57:00-07:00",
+      "record_count": 33,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 20,
-      "eligible_feature_count": 16,
+      "source_identity_count": 21,
+      "eligible_feature_count": 17,
       "title": {
-        "with_title": 20,
+        "with_title": 21,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 16,
+        "eligible_features_with_runtime": 17,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 16,
+        "eligible_features_with_year": 17,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -3499,11 +3419,27 @@
       },
       "entity_kind_counts": {
         "double_feature": 1,
-        "feature_film": 16,
+        "feature_film": 17,
         "multi_feature_program": 1,
         "mystery_screening": 2
       },
       "identities": [
+        {
+          "source_identity_key": "id:a-storm-is-coming-dance-of-the-living",
+          "source_title": "A Storm Is Coming / Dance of the Living",
+          "adapter_identity_title": null,
+          "matcher_title": "A Storm Is Coming / Dance of the Living",
+          "program_series": null,
+          "runtime_min": 98,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
         {
           "source_identity_key": "id:begotten",
           "source_title": "BEGOTTEN",
@@ -3828,9 +3764,9 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-10_nwff.json",
-      "generated_at": "2026-10-10T04:43:07-07:00",
-      "record_count": 100,
+      "latest_log": "data/daily_logs/2026-10-11_nwff.json",
+      "generated_at": "2026-10-11T04:56:06-07:00",
+      "record_count": 96,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4903,9 +4839,9 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-10_central_cinema.json",
-      "generated_at": "2026-10-10T04:43:25-07:00",
-      "record_count": 80,
+      "latest_log": "data/daily_logs/2026-10-11_central_cinema.json",
+      "generated_at": "2026-10-11T04:56:22-07:00",
+      "record_count": 77,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5321,8 +5257,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-10_grand_illusion.json",
-      "generated_at": "2026-10-10T04:44:03-07:00",
+      "latest_log": "data/daily_logs/2026-10-11_grand_illusion.json",
+      "generated_at": "2026-10-11T04:56:57-07:00",
       "record_count": 9,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -5530,9 +5466,9 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-10_tasveer.json",
-      "generated_at": "2026-10-10T04:44:03-07:00",
-      "record_count": 30,
+      "latest_log": "data/daily_logs/2026-10-11_tasveer.json",
+      "generated_at": "2026-10-11T04:56:57-07:00",
+      "record_count": 25,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5707,9 +5643,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-10_anderson_school.json",
-      "generated_at": "2026-10-10T04:44:06-07:00",
-      "record_count": 62,
+      "latest_log": "data/daily_logs/2026-10-11_anderson_school.json",
+      "generated_at": "2026-10-11T04:56:59-07:00",
+      "record_count": 59,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5826,272 +5762,47 @@
     },
     "stg": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-10_stg.json",
-      "generated_at": "2026-10-10T04:44:13-07:00",
-      "record_count": 9,
+      "latest_log": "data/daily_logs/2026-10-11_stg.json",
+      "generated_at": "2026-10-11T04:57:00-07:00",
+      "record_count": 0,
       "malformed_record_count": 0,
-      "warning_count": 246,
-      "error_count": 0,
-      "source_identity_count": 9,
-      "eligible_feature_count": 6,
+      "warning_count": 1,
+      "error_count": 1,
+      "source_identity_count": 0,
+      "eligible_feature_count": 0,
       "title": {
-        "with_title": 9,
+        "with_title": 0,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 3,
-        "eligible_features_missing_runtime": 3,
-        "missing_feature_samples": [
-          "The Rocky Horror Picture Show Original Cast Spooktacular!",
-          "The Blair Witch Project: Film Screening and QA",
-          "An Evening with Peter Billingsley and a Christmas Story"
-        ]
+        "eligible_features_with_runtime": 0,
+        "eligible_features_missing_runtime": 0,
+        "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_or_page_when_published",
-        "eligible_features_with_year": 3,
-        "eligible_features_missing_year": 3,
-        "missing_feature_samples": [
-          "The Rocky Horror Picture Show Original Cast Spooktacular!",
-          "The Blair Witch Project: Film Screening and QA",
-          "An Evening with Peter Billingsley and a Christmas Story"
-        ]
+        "eligible_features_with_year": 0,
+        "eligible_features_missing_year": 0,
+        "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 3,
-        "matcher_cleaned_identity_count": 5,
-        "adapter_cleanup_samples": [
-          {
-            "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
-            "identity_title": "The Kid Brother"
-          },
-          {
-            "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
-            "identity_title": "Sunrise: A Song of Two Humans"
-          },
-          {
-            "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
-            "identity_title": "The Adventures of Prince Achmed"
-          }
-        ],
-        "matcher_cleanup_samples": [
-          {
-            "source_title": "The Rocky Horror Picture Show Original Cast Spooktacular!",
-            "matcher_title": "The Rocky Horror Picture Show",
-            "rules": [
-              "exact_alias:rocky-horror-original-cast-spooktacular"
-            ]
-          },
-          {
-            "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
-            "matcher_title": "The Kid Brother",
-            "rules": [
-              "program_series:silent-movie-mondays",
-              "film_year_paren"
-            ]
-          },
-          {
-            "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
-            "matcher_title": "Sunrise: A Song of Two Humans",
-            "rules": [
-              "program_series:silent-movie-mondays",
-              "film_year_paren"
-            ]
-          },
-          {
-            "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
-            "matcher_title": "The Adventures of Prince Achmed",
-            "rules": [
-              "program_series:silent-movie-mondays",
-              "film_year_paren"
-            ]
-          },
-          {
-            "source_title": "An Evening with Peter Billingsley and a Christmas Story",
-            "matcher_title": "A Christmas Story",
-            "rules": [
-              "exact_alias:peter-billingsley-christmas-story"
-            ]
-          }
-        ]
+        "adapter_cleaned_identity_count": 0,
+        "matcher_cleaned_identity_count": 0,
+        "adapter_cleanup_samples": [],
+        "matcher_cleanup_samples": []
       },
       "series": {
-        "identity_count": 3,
-        "samples": [
-          {
-            "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
-            "program_series": "Silent Movie Mondays"
-          },
-          {
-            "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
-            "program_series": "Silent Movie Mondays"
-          },
-          {
-            "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
-            "program_series": "Silent Movie Mondays"
-          }
-        ]
+        "identity_count": 0,
+        "samples": []
       },
-      "entity_kind_counts": {
-        "composite_event": 1,
-        "feature_film": 6,
-        "live_event": 2
-      },
-      "identities": [
-        {
-          "source_identity_key": "id:70285",
-          "source_title": "The Rocky Horror Picture Show Original Cast Spooktacular!",
-          "adapter_identity_title": null,
-          "matcher_title": "The Rocky Horror Picture Show",
-          "program_series": null,
-          "runtime_min": null,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "exact_alias:rocky-horror-original-cast-spooktacular"
-          ]
-        },
-        {
-          "source_identity_key": "id:74038",
-          "source_title": "The Legend of Korra in Concert",
-          "adapter_identity_title": null,
-          "matcher_title": "The Legend of Korra in Concert",
-          "program_series": null,
-          "runtime_min": null,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "live_event",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:74299",
-          "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
-          "adapter_identity_title": "The Kid Brother",
-          "matcher_title": "The Kid Brother",
-          "program_series": "Silent Movie Mondays",
-          "runtime_min": 84,
-          "release_year": 1927,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:silent-movie-mondays",
-            "film_year_paren"
-          ]
-        },
-        {
-          "source_identity_key": "id:74305",
-          "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
-          "adapter_identity_title": "Sunrise: A Song of Two Humans",
-          "matcher_title": "Sunrise: A Song of Two Humans",
-          "program_series": "Silent Movie Mondays",
-          "runtime_min": 95,
-          "release_year": 1927,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:silent-movie-mondays",
-            "film_year_paren"
-          ]
-        },
-        {
-          "source_identity_key": "id:74314",
-          "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
-          "adapter_identity_title": "The Adventures of Prince Achmed",
-          "matcher_title": "The Adventures of Prince Achmed",
-          "program_series": "Silent Movie Mondays",
-          "runtime_min": 65,
-          "release_year": 1926,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:silent-movie-mondays",
-            "film_year_paren"
-          ]
-        },
-        {
-          "source_identity_key": "id:74971",
-          "source_title": "The Blair Witch Project: Film Screening and QA",
-          "adapter_identity_title": null,
-          "matcher_title": "The Blair Witch Project: Film Screening and QA",
-          "program_series": null,
-          "runtime_min": null,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:75233",
-          "source_title": "An Evening with Peter Billingsley and a Christmas Story",
-          "adapter_identity_title": null,
-          "matcher_title": "A Christmas Story",
-          "program_series": null,
-          "runtime_min": null,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "exact_alias:peter-billingsley-christmas-story"
-          ]
-        },
-        {
-          "source_identity_key": "id:75719",
-          "source_title": "Twilight in Concert",
-          "adapter_identity_title": null,
-          "matcher_title": "Twilight in Concert",
-          "program_series": null,
-          "runtime_min": null,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "live_event",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:76069",
-          "source_title": "William Shakepeare’s Romeo + Juliet in Concert",
-          "adapter_identity_title": null,
-          "matcher_title": "William Shakepeare’s Romeo + Juliet in Concert",
-          "program_series": null,
-          "runtime_min": null,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "composite_event",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        }
-      ]
+      "entity_kind_counts": {},
+      "identities": []
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-10_majestic_bay.json",
-      "generated_at": "2026-10-10T04:44:14-07:00",
-      "record_count": 110,
+      "latest_log": "data/daily_logs/2026-10-11_majestic_bay.json",
+      "generated_at": "2026-10-11T04:57:00-07:00",
+      "record_count": 99,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -6592,14 +6303,12 @@
     "missing_logs": [],
     "sources_with_feature_runtime_gaps": [
       "siff",
-      "nwff",
-      "stg"
+      "nwff"
     ],
     "sources_with_feature_year_gaps_requiring_review": [
       "nwff",
       "central_cinema",
-      "tasveer",
-      "stg"
+      "tasveer"
     ],
     "sources_where_listing_does_not_expose_release_year": [
       "anderson_school",
