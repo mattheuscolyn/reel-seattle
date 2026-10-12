@@ -97,6 +97,7 @@ function sortByScarcity(a, b) {
  *   storage?: Storage | null,
  *   now?: Date,
  *   creditsUsed?: number,
+ *   priorityIds?: string[],
  * }} options
  */
 export function buildAListWeeklyReport({
@@ -104,12 +105,14 @@ export function buildAListWeeklyReport({
   storage = null,
   now = new Date(),
   creditsUsed = 0,
+  priorityIds = [],
 } = {}) {
   const week = resolveAListCreditWeek(now);
   const used = clampAListUsed(creditsUsed);
   const creditsRemaining = A_LIST_WEEKLY_ALLOWANCE - used;
   const filmsByKey = filmsByKeyFromHomeData(homeData);
   const groups = new Map();
+  const priority = new Set(Array.isArray(priorityIds) ? priorityIds : []);
   const saved = getSavedFilms(storage);
   const seen = getSeenFilms(storage);
   const rejected = getNotInterestedFilms(storage);
@@ -159,6 +162,7 @@ export function buildAListWeeklyReport({
     if (matchesPreference(group.refs, seen) ||
         matchesPreference(group.refs, rejected)) continue;
     const isSaved = matchesPreference(group.refs, saved);
+    const mustSee = priority.has(group.identity);
     const sorted = group.thisWeek.sort((a, b) =>
       opportunitySortableKey(a).localeCompare(opportunitySortableKey(b)));
     const sortedNext = group.nextWeek.sort((a, b) =>
@@ -172,6 +176,7 @@ export function buildAListWeeklyReport({
       title: group.title,
       posterUrl: group.posterUrl,
       saved: isSaved,
+      mustSee,
       thisWeekShowtimes: sorted.length,
       nextWeekShowtimes: sortedNext.length,
       theaterCount: theaters.length,
@@ -186,13 +191,19 @@ export function buildAListWeeklyReport({
           : 'No AMC screenings are listed for the next credit week yet. The schedule may be incomplete.',
     });
   }
-  const savedNeedReview = rows.filter((r) => r.saved && !r.nextConfirmed)
-    .sort(sortByScarcity);
-  const savedCanWait = rows.filter((r) => r.saved && r.nextConfirmed)
-    .sort(sortByScarcity);
-  const discover = rows.filter((r) => !r.saved).sort(sortByScarcity);
-  const prioritize = savedNeedReview.slice(0, creditsRemaining);
+  // The user's explicit interest is the primary signal. When an unsaved film
+  // is flagged must-see, treat it as a candidate. No speculative end dates.
+  const candidates = rows.filter((r) => r.saved || r.mustSee);
+  const atRisk = candidates.filter((r) => !r.nextConfirmed).sort((a, b) =>
+    Number(b.mustSee) - Number(a.mustSee) || sortByScarcity(a, b));
+  const confirmedNext = candidates.filter((r) => r.nextConfirmed).sort((a, b) =>
+    Number(b.mustSee) - Number(a.mustSee) || sortByScarcity(a, b));
+  const prioritize = atRisk.slice(0, creditsRemaining);
   const remainingToChoose = creditsRemaining - prioritize.length;
+  const canWait = confirmedNext;
+  const otherSaved = atRisk.slice(creditsRemaining);
+  const discover = rows.filter((r) => !r.saved && !r.mustSee)
+    .sort(sortByScarcity);
 
   return {
     week,
@@ -200,8 +211,8 @@ export function buildAListWeeklyReport({
     creditsRemaining,
     remainingToChoose,
     prioritize,
-    canWait: savedCanWait,
-    otherSaved: savedNeedReview.slice(creditsRemaining),
+    canWait,
+    otherSaved,
     discover,
     eligibleAMCCount: rows.length,
     hasData: Boolean(homeData && Array.isArray(homeData.opportunities)),
