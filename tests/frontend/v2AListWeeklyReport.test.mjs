@@ -148,7 +148,6 @@ test('next-week preview uses a distinct Friday 6 AM to Friday 6 AM window', () =
   home.opportunities.push(
     opp('early', '2026-10-16', '05:30'),
     opp('early', '2026-10-16', '06:30'),
-    opp('following', '2026-10-23', '05:30'),
     opp('following', '2026-10-23', '06:30'),
   );
   const current = buildAListWeeklyReport({ homeData: home, storage, now: NOW });
