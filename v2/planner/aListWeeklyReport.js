@@ -27,7 +27,7 @@ function offsetIso(iso, days) {
   return addIsoDays(iso, days);
 }
 
-export function resolveAListCreditWeek(now = new Date()) {
+export function resolveAListCreditWeek(now = new Date(), weekOffset = 0) {
   const today = pacificDateString(now);
   const date = new Date(today + 'T12:00:00Z');
   const sinceFriday = (date.getUTCDay() + 2) % 7;
@@ -36,6 +36,9 @@ export function resolveAListCreditWeek(now = new Date()) {
   if (nowKey < startDate + 'T06:00') {
     startDate = offsetIso(startDate, -7);
   }
+  // Preview only the current cycle or its immediate successor. A future
+  // cycle is bounded by its own Friday 06:00 start, never by today's clock.
+  if (weekOffset === 1) startDate = offsetIso(startDate, 7);
   const endDate = offsetIso(startDate, 7);
   return {
     startDate,
@@ -98,6 +101,7 @@ function sortByScarcity(a, b) {
  *   now?: Date,
  *   creditsUsed?: number,
  *   priorityIds?: string[],
+ *   weekOffset?: 0 | 1,
  * }} options
  */
 export function buildAListWeeklyReport({
@@ -106,8 +110,10 @@ export function buildAListWeeklyReport({
   now = new Date(),
   creditsUsed = 0,
   priorityIds = [],
+  weekOffset = 0,
 } = {}) {
-  const week = resolveAListCreditWeek(now);
+  const selectedOffset = weekOffset === 1 ? 1 : 0;
+  const week = resolveAListCreditWeek(now, selectedOffset);
   const used = clampAListUsed(creditsUsed);
   const creditsRemaining = A_LIST_WEEKLY_ALLOWANCE - used;
   const filmsByKey = filmsByKeyFromHomeData(homeData);
@@ -149,7 +155,7 @@ export function buildAListWeeklyReport({
     const dedupe = opportunityDedupeKey(opp);
     if (group.dedupe.has(dedupe)) continue;
     group.dedupe.add(dedupe);
-    if (key >= week.nowKey && key < week.endKey) {
+    if (key >= (selectedOffset ? week.startKey : week.nowKey) && key < week.endKey) {
       group.thisWeek.push(opp);
     } else if (key >= week.endKey && key < week.afterNextKey) {
       group.nextWeek.push(opp);
@@ -185,10 +191,10 @@ export function buildAListWeeklyReport({
       nextWeekFirst: sortedNext[0] ? opportunitySortableKey(sortedNext[0]) : null,
       nextConfirmed,
       reason: nextConfirmed
-        ? 'AMC already lists screenings in the next credit week.'
+        ? 'Also listed in the following credit week'
         : sorted.length <= 2
-          ? 'Only a few AMC screenings are listed before Friday. This does not confirm the run is ending.'
-          : 'No AMC screenings are listed for the next credit week yet. The schedule may be incomplete.',
+          ? 'Few remaining AMC showtimes listed'
+          : 'No later AMC showtimes posted yet',
     });
   }
   // The user's explicit interest is the primary signal. When an unsaved film
@@ -207,6 +213,7 @@ export function buildAListWeeklyReport({
 
   return {
     week,
+    weekOffset: selectedOffset,
     creditsUsed: used,
     creditsRemaining,
     remainingToChoose,
