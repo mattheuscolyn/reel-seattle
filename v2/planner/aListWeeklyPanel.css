@@ -1,0 +1,169 @@
+/* Experimental A-List week: flat surfaces, Reel Seattle palette. */
+.v2-alist {
+  border: 1px solid var(--v2-border-strong);
+  background: var(--v2-bg-raised);
+  border-radius: var(--v2-radius-feature);
+  overflow: hidden;
+}
+.v2-alist-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 1rem;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.v2-alist-teaser { display: grid; gap: 0.18rem; min-width: 0; }
+.v2-alist-eyebrow {
+  color: var(--v2-accent);
+  font-size: 0.66rem;
+  letter-spacing: 0.09em;
+  font-weight: 700;
+}
+.v2-alist-teaser strong {
+  font: 500 1.3rem/1.2 var(--v2-font-display);
+}
+.v2-alist-teaser-caption, .v2-alist-film-meta,
+.v2-alist-reason, .v2-alist-section-detail,
+.v2-alist-empty, .v2-alist-disclaimer, .v2-alist-footnote {
+  font-size: 0.79rem;
+  color: var(--v2-muted);
+}
+.v2-alist-count {
+  flex-shrink: 0;
+  font-size: 0.79rem;
+  color: var(--v2-fg);
+  font-variant-numeric: tabular-nums;
+}
+.v2-alist-count span { color: var(--v2-accent); padding-left: 0.35rem; }
+.v2-alist-content { padding: 0 1rem 1rem; }
+.v2-alist-week {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.8rem;
+  justify-content: space-between;
+  color: var(--v2-muted);
+  font-size: 0.75rem;
+  border-top: 1px solid var(--v2-border);
+  padding: 0.75rem 0;
+}
+.v2-alist-credits {
+  display: flex;
+  gap: 0.7rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--v2-border);
+}
+.v2-alist-credits strong { font-size: 0.88rem; }
+.v2-alist-credits p {
+  color: var(--v2-muted);
+  font-size: 0.73rem;
+  margin: 0.3rem 0 0;
+}
+.v2-alist-stepper {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+}
+.v2-alist-stepper button {
+  width: 2rem;
+  height: 2rem;
+  background: var(--v2-bg-elevated);
+  border: 1px solid var(--v2-border-strong);
+  border-radius: var(--v2-radius-sm);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.v2-alist-stepper button:disabled { opacity: 0.35; cursor: default; }
+.v2-alist-section {
+  border-top: 1px solid var(--v2-border);
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+}
+.v2-alist-section h3 {
+  font: 500 1.16rem/1.25 var(--v2-font-display);
+  margin: 0 0 0.65rem;
+}
+.v2-alist-section-detail { margin: -0.3rem 0 0.8rem; }
+.v2-alist-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.v2-alist-film {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--v2-border);
+}
+.v2-alist-film:first-child { border-top: 0; padding-top: 0.1rem; }
+.v2-alist-poster {
+  flex-shrink: 0;
+  width: 3.1rem;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: var(--v2-radius-poster);
+  background: var(--v2-bg-elevated);
+}
+.v2-alist-film-body { min-width: 0; flex: 1; }
+.v2-alist-film-topline {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+.v2-alist-rank { font-size: 0.75rem; color: var(--v2-accent); }
+.v2-alist-film-title {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+}
+.v2-alist-film-meta {
+  display: block;
+  margin-top: 0.15rem;
+  font-variant-numeric: tabular-nums;
+}
+.v2-alist-reason { margin: 0.35rem 0; }
+.v2-alist-priority {
+  border: 1px solid var(--v2-border-strong);
+  background: transparent;
+  color: var(--v2-muted);
+  border-radius: var(--v2-radius-sm);
+  padding: 0.22rem 0.45rem;
+  font-size: 0.73rem;
+  cursor: pointer;
+}
+.v2-alist-priority[aria-pressed='true'] {
+  color: var(--v2-accent);
+  border-color: var(--v2-accent-border);
+}
+.v2-alist-more { border-top: 1px solid var(--v2-border); padding-top: 0.8rem; margin-top: 1rem; }
+.v2-alist-more summary { cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+.v2-alist-more .v2-alist-section-detail { margin: 0.6rem 0; }
+.v2-alist-empty, .v2-alist-footnote { margin: 0.7rem 0; }
+.v2-alist-error { color: #ed9393; font-size: 0.75rem; }
+.v2-alist-disclaimer {
+  border-top: 1px solid var(--v2-border);
+  padding-top: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+.v2-alist button:focus-visible, .v2-alist summary:focus-visible {
+  outline: 2px solid var(--v2-focus);
+  outline-offset: 3px;
+}
+@media (max-width: 22rem) {
+  .v2-alist-credits { align-items: flex-start; flex-direction: column; }
+}
