@@ -167,3 +167,67 @@
 @media (max-width: 22rem) {
   .v2-alist-credits { align-items: flex-start; flex-direction: column; }
 }
+
+
+/* A two-week switch shares the same Planner chrome without introducing a new tab. */
+.v2-alist-week-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.2rem;
+  gap: 0.2rem;
+  margin-bottom: 0.7rem;
+  border: 1px solid var(--v2-border-strong);
+  border-radius: var(--v2-radius-sm);
+  background: var(--v2-bg);
+}
+.v2-alist-week-switch button {
+  min-height: 2.5rem;
+  border: 0;
+  border-radius: var(--v2-radius-sm);
+  background: transparent;
+  color: var(--v2-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.v2-alist-week-switch button[aria-pressed='true'] {
+  background: var(--v2-bg-elevated);
+  color: var(--v2-fg);
+  box-shadow: inset 0 -2px var(--v2-accent);
+}
+.v2-alist-week { align-items: baseline; }
+.v2-alist-week strong {
+  color: var(--v2-fg);
+  font-weight: 550;
+  font-variant-numeric: tabular-nums;
+}
+.v2-alist-preview-note {
+  margin: 0.85rem 0 0;
+  color: var(--v2-muted);
+  font-size: 0.77rem;
+  line-height: 1.45;
+}
+.v2-alist-section { margin-top: 0.8rem; padding-top: 0.75rem; }
+.v2-alist-section h3 { margin-bottom: 0.4rem; }
+.v2-alist-section-detail { line-height: 1.4; margin: 0 0 0.65rem; }
+.v2-alist-film { padding: 0.55rem 0; }
+.v2-alist-poster { width: 2.65rem; }
+.v2-alist-film-meta {
+  margin: 0.1rem 0;
+  line-height: 1.3;
+}
+.v2-alist-reason {
+  margin: 0.2rem 0;
+  line-height: 1.4;
+}
+.v2-alist-priority { margin-top: 0.3rem; }
+.v2-alist-show-all {
+  margin-top: 0.4rem;
+  padding: 0.5rem 0.65rem;
+  background: transparent;
+  border: 1px solid var(--v2-border-strong);
+  border-radius: var(--v2-radius-sm);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.v2-alist-disclaimer { font-size: 0.73rem; }
