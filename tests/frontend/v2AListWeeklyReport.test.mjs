@@ -95,7 +95,7 @@ test('Saved at-risk prioritized, Saved confirmed next can wait, unknown not inte
   assert.equal(r.prioritize[0].thisWeekShowtimes, 2);
   assert.equal(r.prioritize[0].lastThisWeek, '2026-10-15T20:00');
   assert.equal(r.canWait[0].nextWeekFirst, '2026-10-16T20:00');
-  assert.match(r.prioritize[0].reason, /may be incomplete/);
+  assert.match(r.prioritize[0].reason, /does not confirm/);
   assert.equal(r.discover.some((x) => x.title === 'siff-only'), false);
 });
 
