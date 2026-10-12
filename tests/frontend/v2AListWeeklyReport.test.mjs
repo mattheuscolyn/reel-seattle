@@ -95,7 +95,7 @@ test('Saved at-risk prioritized, Saved confirmed next can wait, unknown not inte
   assert.equal(r.prioritize[0].thisWeekShowtimes, 2);
   assert.equal(r.prioritize[0].lastThisWeek, '2026-10-15T20:00');
   assert.equal(r.canWait[0].nextWeekFirst, '2026-10-16T20:00');
-  assert.match(r.prioritize[0].reason, /does not confirm/);
+  assert.match(r.prioritize[0].reason, /Few remaining AMC showtimes/);
   assert.equal(r.discover.some((x) => x.title === 'siff-only'), false);
 });
 
@@ -131,9 +131,75 @@ test('Planner has an entry point and the weekly model does not claim shadow fore
   const src = readFileSync(join(ROOT, 'v2/planner/PlannerDestination.jsx'), 'utf8');
   const panel = readFileSync(join(ROOT, 'v2/planner/AListWeeklyPanel.jsx'), 'utf8');
   assert.match(src, /<AListWeeklyPanel/);
-  assert.match(panel, /missing next-week showtimes/i);
+  assert.match(panel, /Missing future showtimes/i);
   assert.match(panel, /Experimental/i);
   const empty = buildAListWeeklyReport({ now: NOW });
   assert.equal(empty.hasData, false);
   assert.deepEqual(empty.prioritize, []);
+});
+
+
+test('next-week preview uses a distinct Friday 6 AM to Friday 6 AM window', () => {
+  const storage = memoryStorage();
+  saveFilm(storage, ref('wide', 2), { now: () => NOW });
+  saveFilm(storage, ref('limited', 1), { now: () => NOW });
+  const home = makeHome();
+  home.films.push(film('early', 7), film('following', 8));
+  home.opportunities.push(
+    opp('early', '2026-10-16', '05:30'),
+    opp('early', '2026-10-16', '06:30'),
+    opp('following', '2026-10-23', '05:30'),
+    opp('following', '2026-10-23', '06:30'),
+  );
+  const current = buildAListWeeklyReport({ homeData: home, storage, now: NOW });
+  const next = buildAListWeeklyReport({
+    homeData: home, storage, now: NOW, weekOffset: 1,
+  });
+  assert.equal(current.week.startDate, '2026-10-09');
+  assert.equal(next.week.startDate, '2026-10-16');
+  assert.equal(next.week.endDate, '2026-10-23');
+  assert.deepEqual(next.prioritize.map((x) => x.title), ['wide']);
+  assert.equal(next.prioritize[0].thisWeekShowtimes, 1);
+  assert.equal(next.discover.find((x) => x.title === 'early').thisWeekShowtimes, 1);
+  assert.equal(next.discover.find((x) => x.title === 'following'), undefined);
+  assert.equal(current.discover.find((x) => x.title === 'early').thisWeekShowtimes, 1);
+  assert.equal(next.prioritize.some((x) => x.title === 'limited'), false);
+});
+
+test('next-week preview can show confirmed follow-on week and uses its own credit count', () => {
+  const storage = memoryStorage();
+  saveFilm(storage, ref('wide', 2), { now: () => NOW });
+  const home = makeHome();
+  home.opportunities.push(opp('wide', '2026-10-23', '06:30'));
+  writeAListUsed(storage, '2026-10-09', 3);
+  writeAListUsed(storage, '2026-10-16', 1);
+  const report = buildAListWeeklyReport({
+    homeData: home, storage, now: NOW, weekOffset: 1,
+    creditsUsed: readAListUsed(storage, '2026-10-16'),
+  });
+  assert.equal(report.creditsRemaining, 3);
+  assert.deepEqual(report.canWait.map((x) => x.title), ['wide']);
+  assert.equal(report.canWait[0].nextWeekFirst, '2026-10-23T06:30');
+  assert.equal(readAListUsed(storage, '2026-10-09'), 3);
+});
+
+test('next-week view does not borrow this-week films when nothing is announced', () => {
+  const home = {
+    films: [film('this-week-only', 99)],
+    opportunities: [opp('this-week-only', '2026-10-14', '18:00')],
+  };
+  const next = buildAListWeeklyReport({ homeData: home, now: NOW, weekOffset: 1 });
+  assert.equal(next.hasData, true);
+  assert.equal(next.eligibleAMCCount, 0);
+  assert.deepEqual(next.prioritize, []);
+});
+
+test('next-week control is visible, accessible, and future credits do not replace the collapsed current count', () => {
+  const panel = readFileSync(join(ROOT, 'v2/planner/AListWeeklyPanel.jsx'), 'utf8');
+  assert.match(panel, /Select A-List credit week/);
+  assert.match(panel, /This week/);
+  assert.match(panel, /Next week/);
+  assert.match(panel, /aria-pressed=\{weekOffset === 1\}/);
+  assert.match(panel, /currentUsed/);
+  assert.match(panel, /INITIAL_OTHER_LIMIT = 8/);
 });
