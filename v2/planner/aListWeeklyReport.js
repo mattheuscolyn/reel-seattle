@@ -133,7 +133,7 @@ export function buildAListWeeklyReport({
     if (!group) {
       group = {
         identity,
-        filmKey: film.parentFilmKey || film.filmKey,
+        filmKey: film.filmKey,
         filmId: film.filmId ?? null,
         title: film.parentDisplayTitle || film.title || opp.title || 'Untitled',
         posterUrl: film.posterUrl ?? null,
