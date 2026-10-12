@@ -31,6 +31,7 @@ import { PLANNER_UPCOMING_COMPACT_DATE_GROUP_LIMIT } from './plannerLandingConfi
 import PlannedScreeningSheet from './PlannedScreeningSheet.jsx';
 import PlannerConflictReviewSurface from './PlannerConflictReviewSurface.jsx';
 import PlannerSavedFilmsPanel from './PlannerSavedFilmsPanel.jsx';
+import AListWeeklyPanel from './AListWeeklyPanel.jsx';
 import {
   getScheduleSettings,
   subscribeScheduleSettings,
@@ -613,6 +614,10 @@ export default function PlannerDestination({
           </button>
         }
       />
+
+      {!mockupMode ? (
+        <AListWeeklyPanel homeData={homeData} onOpenFilmDetail={onOpenFilmDetail} />
+      ) : null}
 
       {plannerSeed ? (
         <div className="v2-planner-seed-note" role="status">
