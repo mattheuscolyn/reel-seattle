@@ -121,7 +121,7 @@ export default function AListWeeklyPanel({homeData,enrichmentIndex,onOpenFilmDet
       setPriorityIds(next);setError('');
     }catch{setError('Could not store your must-see selection on this device.');}
   }
-  const window=report.week;
+  const selectedWindow=report.week;
   const top=report.top||[];
   const spare=report.alternatives||[];
   const premieres=report.thursdayPremieres||[];
@@ -145,7 +145,7 @@ export default function AListWeeklyPanel({homeData,enrichmentIndex,onOpenFilmDet
             <button type="button" aria-pressed={weekOffset===1} onClick={()=>setWeekOffset(1)}>Next week</button>
           </div>
           <div className="v2-alist-week">
-            <strong>Fri {dateLabel(window.startDate)} – Thu {dateLabel(window.lastDate)}</strong>
+            <strong>Fri {dateLabel(selectedWindow.startDate)} – Thu {dateLabel(selectedWindow.lastDate)}</strong>
             <span>Resets Friday at 6 AM PT</span>
           </div>
           <div className="v2-alist-credits">
