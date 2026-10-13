@@ -50,19 +50,34 @@ OBSOLETE_PATHS: tuple[str, ...] = (
 )
 
 def validate_a_list_catalog(document: dict[str, Any]) -> None:
-        if (document.get("schema_version") != 1 or not isinstance(document.get("products"), list):
-            raise ValueError("invalid A-List eligibility snapshot")
-        if not document.get("generated_at") or not document["products"]:
-            raise ValueError("empty or undated A-List eligibility snapshot")
-        ids = set()
-        for product in document["products"]:
-            pid = product.get("amc_movie_id")
-            if not isinstance(pid, str) or not pid.isdecimal() or pid in ids:
-                raise ValueError("invalid or duplicate A-List product id")
-            if type(product.get("a_list_eligible")) is not bool:
-                raise ValueError("missing explicit A-List eligibility")
-            ids.add(pid)
-        return
+    if document.get("schema_version") != 1 or not isinstance(document.get("products"), list):
+        raise ValueError("invalid A-List eligibility snapshot")
+    if not document.get("generated_at") or not document["products"]:
+        raise ValueError("empty or undated A-List eligibility snapshot")
+    ids = set()
+    for product in document["products"]:
+        pid = product.get("amc_movie_id")
+        if not isinstance(pid, str) or not pid.isdecimal() or pid in ids:
+            raise ValueError("invalid or duplicate A-List product id")
+        if type(product.get("a_list_eligible")) is not bool:
+            raise ValueError("missing explicit A-List eligibility")
+        ids.add(pid)
+
+
+def validate_a_list_forecast(document: dict[str, Any]) -> None:
+    if document.get("schema_version") != 1 or document.get("modelVersion") != "remaining_run_shadow_v1":
+        raise ValueError("invalid A-List shadow model version")
+    if not isinstance(document.get("asOf"), str) or not isinstance(document.get("market"), list):
+        raise ValueError("invalid A-List forecast envelope")
+    for row in document["market"]:
+        if not str(row.get("sourceFilmId") or "").isdecimal():
+            raise ValueError("invalid A-List forecast product id")
+        probs = [row.get(key) for key in ("pFinalWeek", "pPlus1Week", "pPlus2Weeks", "pPlus3PlusWeeks")]
+        if not all(type(value) in (int, float) and 0 <= value <= 1 for value in probs):
+            raise ValueError("invalid A-List forecast probabilities")
+        if abs(sum(probs)-1) > 0.02:
+            raise ValueError("A-List forecast probabilities do not sum to one")
+
 
 VALIDATORS: dict[str, Callable[[dict[str, Any]], None]] = {
     "public/data/showtimes_current.json": validate_showtimes_current,
@@ -75,6 +90,7 @@ VALIDATORS: dict[str, Callable[[dict[str, Any]], None]] = {
     "public/data/collections_current.json": validate_collections_current,
     "public/data/coming_soon_current.json": validate_coming_soon_current,
     "public/data/a_list_catalog_current.json": validate_a_list_catalog,
+    "public/data/a_list_run_forecast_current.json": validate_a_list_forecast,
 }
 
 # Validated when present. Coming Soon depends on optional AMC/TMDB sources, so
@@ -83,6 +99,7 @@ OPTIONAL_ARTIFACTS: tuple[str, ...] = (
     "public/data/collections_current.json",
     "public/data/coming_soon_current.json",
     "public/data/a_list_catalog_current.json",
+    "public/data/a_list_run_forecast_current.json",
 )
 
 
