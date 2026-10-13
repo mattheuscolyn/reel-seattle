@@ -227,9 +227,12 @@ export function buildAListRecommendations({
     g.hasLaterRegular=g.windows.some(w=>w.some(x=>x.product.presentation_kind==='standard'&&
       (!g.releaseDate||x.opp.localDate>=g.releaseDate)));
     g.thursdayWindows=weeks.map((w,ix)=>Boolean(g.releaseDate&&g.releaseDate>=w.endDate&&
-      g.windows[ix].length &&g.windows[ix].every(x=>x.opp.localDate===w.lastDate) &&
-      g.windows[ix].every(x=>x.product.presentation_kind==='standard')));
+      g.windows[ix].some(x=>x.opp.localDate===w.lastDate&&x.product.presentation_kind==='standard') &&
+      // A Monday fan-first event doesn't make the Thursday regular opening urgent.
+      !g.windows[ix].some(x=>x.product.presentation_kind==='standard'&&x.opp.localDate!==w.lastDate)));
     g.thursdayOpening=g.thursdayWindows[selectedIndex];
+    g.advanceScreeningsThisWeek=g.windows[selectedIndex].filter(x=>
+      g.releaseDate && x.opp.localDate<g.releaseDate && x.product.presentation_kind!=='standard').length;
     g.oneDayEngagement=g.days[selectedIndex].size===1 &&
       g.kind!=='standard' && !g.earlyAccess;
     g.recentRelease=g.releaseDate &&g.releaseDate>=addIsoDays(base.startDate,-14);
