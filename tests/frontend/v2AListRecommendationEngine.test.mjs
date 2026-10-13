@@ -45,13 +45,13 @@ function home(){
     ]};
 }
 test('explicit eligibility is required and film list excludes ineligible, unknown, mystery titles',()=>{
-  const r=buildAListRecommendations({homeData:home(),catalog,now});
+  const r=buildAListRecommendations({homeData:home(),catalog,now,weekOffset:1});
   const ids=[...r.top,...r.alternatives,...r.thursdayPremieres].map(x=>x.filmId);
   assert.equal(r.status,'ready');
   assert.equal(ids.includes('tmdb:1003'),false);
   assert.equal(ids.includes('tmdb:1007'),false);
-  // Both October 14 and 17 ineligible opportunities must be excluded.
-  assert.equal(r.coverage.excluded,2);
+  // Selected Oct 16–22 contains one ineligible Oct 17 screening.
+  assert.equal(r.coverage.excluded,1);
   assert.equal(r.thursdayPremieres.length,1);
   assert.equal(r.thursdayPremieres[0].title,'Wildwood');
   const missing=buildAListRecommendations({homeData:home(),now});
