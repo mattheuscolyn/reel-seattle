@@ -50,7 +50,8 @@ test('explicit eligibility is required and film list excludes ineligible, unknow
   assert.equal(r.status,'ready');
   assert.equal(ids.includes('tmdb:1003'),false);
   assert.equal(ids.includes('tmdb:1007'),false);
-  assert.equal(r.coverage.excluded,1);
+  // Both October 14 and 17 ineligible opportunities must be excluded.
+  assert.equal(r.coverage.excluded,2);
   assert.equal(r.thursdayPremieres.length,1);
   assert.equal(r.thursdayPremieres[0].title,'Wildwood');
   const missing=buildAListRecommendations({homeData:home(),now});
