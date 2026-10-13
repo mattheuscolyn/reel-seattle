@@ -49,6 +49,21 @@ OBSOLETE_PATHS: tuple[str, ...] = (
     "public/data/daily_logs",
 )
 
+def validate_a_list_catalog(document: dict[str, Any]) -> None:
+        if (document.get("schema_version") != 1 or not isinstance(document.get("products"), list):
+            raise ValueError("invalid A-List eligibility snapshot")
+        if not document.get("generated_at") or not document["products"]:
+            raise ValueError("empty or undated A-List eligibility snapshot")
+        ids = set()
+        for product in document["products"]:
+            pid = product.get("amc_movie_id")
+            if not isinstance(pid, str) or not pid.isdecimal() or pid in ids:
+                raise ValueError("invalid or duplicate A-List product id")
+            if type(product.get("a_list_eligible")) is not bool:
+                raise ValueError("missing explicit A-List eligibility")
+            ids.add(pid)
+        return
+
 VALIDATORS: dict[str, Callable[[dict[str, Any]], None]] = {
     "public/data/showtimes_current.json": validate_showtimes_current,
     "public/data/pipeline_report.json": validate_pipeline_report,
@@ -59,6 +74,7 @@ VALIDATORS: dict[str, Callable[[dict[str, Any]], None]] = {
     "public/data/film_enrichment_current.json": validate_film_enrichment_document,
     "public/data/collections_current.json": validate_collections_current,
     "public/data/coming_soon_current.json": validate_coming_soon_current,
+    "public/data/a_list_catalog_current.json": validate_a_list_catalog,
 }
 
 # Validated when present. Coming Soon depends on optional AMC/TMDB sources, so
@@ -66,6 +82,7 @@ VALIDATORS: dict[str, Callable[[dict[str, Any]], None]] = {
 OPTIONAL_ARTIFACTS: tuple[str, ...] = (
     "public/data/collections_current.json",
     "public/data/coming_soon_current.json",
+    "public/data/a_list_catalog_current.json",
 )
 
 
