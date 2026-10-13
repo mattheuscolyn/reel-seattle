@@ -45,12 +45,14 @@ function home(){
     ]};
 }
 test('explicit eligibility is required and film list excludes ineligible, unknown, mystery titles',()=>{
-  const r=buildAListRecommendations({homeData:home(),catalog,now});
+  const r=buildAListRecommendations({homeData:home(),catalog,now,weekOffset:1});
   const ids=[...r.top,...r.alternatives,...r.thursdayPremieres].map(x=>x.filmId);
   assert.equal(r.status,'ready');
   assert.equal(ids.includes('tmdb:1003'),false);
   assert.equal(ids.includes('tmdb:1007'),false);
-  assert.equal(r.coverage.excluded,1);
+  // Coverage counts both Oct 14 and Oct 17 ineligible opportunities
+  // across the entire three-week planning horizon, not only selected week.
+  assert.equal(r.coverage.excluded,2);
   assert.equal(r.thursdayPremieres.length,1);
   assert.equal(r.thursdayPremieres[0].title,'Wildwood');
   const missing=buildAListRecommendations({homeData:home(),now});
