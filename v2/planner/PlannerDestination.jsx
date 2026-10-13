@@ -616,7 +616,7 @@ export default function PlannerDestination({
       />
 
       {!mockupMode ? (
-        <AListWeeklyPanel homeData={homeData} onOpenFilmDetail={onOpenFilmDetail} />
+        <AListWeeklyPanel homeData={homeData} enrichmentIndex={enrichmentIndex} onOpenFilmDetail={onOpenFilmDetail} />
       ) : null}
 
       {plannerSeed ? (
