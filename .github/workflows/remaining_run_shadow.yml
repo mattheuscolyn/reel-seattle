@@ -1,6 +1,6 @@
 name: Remaining-run shadow forecast
 
-# Research only. Does not publish public/data or change Leaving Soon.
+# Research shadow model. Public subset remains explicitly experimental and\n# freshness-gated; never changes production Leaving Soon scoring.
 on:
   schedule:
     - cron: "0 9 * * *"
@@ -32,9 +32,9 @@ jobs:
           TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: python scripts/run_remaining_run_shadow.py --with-tmdb
-      - name: Commit research artifacts only
+      - name: Export redacted experimental A-List forecast\n        run: python scripts/build_a_list_forecast.py\n      - name: Commit research and redacted A-List artifact
         run: |
-          git add data/model_predictions/remaining_run_shadow data/models/remaining_run_shadow data/history/remaining_run_forecasts.jsonl.gz data/history/remaining_run_forecast_evaluation.jsonl.gz data/history/tmdb_dynamic_snapshots.jsonl.gz data/history/tmdb_stable_enrichment.jsonl.gz data/audits/remaining_run_shadow
+          git add data/model_predictions/remaining_run_shadow data/models/remaining_run_shadow data/history/remaining_run_forecasts.jsonl.gz data/history/remaining_run_forecast_evaluation.jsonl.gz data/history/tmdb_dynamic_snapshots.jsonl.gz data/history/tmdb_stable_enrichment.jsonl.gz data/audits/remaining_run_shadow public/data/a_list_run_forecast_current.json
           if git diff --cached --quiet; then
             echo "No shadow changes."
             exit 0
