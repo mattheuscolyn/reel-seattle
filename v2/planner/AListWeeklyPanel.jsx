@@ -33,7 +33,7 @@ function FilmRow({row,number,onOpenFilmDetail,onToggleMustSee,condensed=false}) 
   const bucket=row.forecast?.buckets;
   const leaving=row.predictedLeaving;
   const forecastLabel=leaving
-    ? `Predicted final week: ${dateLabel(leaving.startDate)}–${dateLabel(leaving.endDate)} (${Math.round(bucket[Math.round((Date.parse(leaving.startDate)-Date.parse(row.forecastWeekStart||leaving.startDate))/604800000)]*100)||''}%)`
+    ? `Predicted final week: ${dateLabel(leaving.startDate)}–${dateLabel(leaving.endDate)} (${Math.round(Math.max(...bucket)*100)}% for most likely range)`
     : null;
   return (
     <li className="v2-alist-film">
