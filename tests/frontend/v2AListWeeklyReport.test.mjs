@@ -200,5 +200,5 @@ test('next-week control is visible, accessible, and future credits do not replac
   assert.match(panel, /Next week/);
   assert.match(panel, /aria-pressed=\{weekOffset === 1\}/);
   assert.match(panel, /currentUsed/);
-  assert.match(panel, /INITIAL_OTHER_LIMIT = 8/);
+  assert.match(panel, /Top .* to consider/);
 });
