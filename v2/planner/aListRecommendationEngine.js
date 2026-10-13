@@ -65,6 +65,10 @@ function importance(row) {
   if (row.kind === 'concert_or_event') score -= 0.5;
   if (row.isMystery) score -= 4;
   if (row.recentRelease) score += 0.6;
+  // Repertory restorations may be listed by AMC as ordinary products.
+  // TMDB's original release year distinguishes them from new wide releases.
+  if (row.classicRevival) score += 1.9;
+  if (row.popularitySignal) score += row.popularitySignal;
   if (row.theaters >= 3) score += 0.5;
   if (row.theaters === 1 && row.kind === 'standard') score += 0.2;
   return score;
@@ -166,7 +170,7 @@ function assignThreeWeeks(rows, weeks, credits, demands) {
  * and a 3-week tentative allocation (not a promise of seats/showtimes).
  */
 export function buildAListRecommendations({
-  homeData=null, catalog=null, comingSoon=null, shadow=null,
+  homeData=null, catalog=null, comingSoon=null, shadow=null, enrichmentIndex=null,
   storage=null, now=new Date(), weekOffset=0, creditsByWeek=[4,4,4], priorityIds=[],
 }={}) {
   const eligible=buildEligibilityIndex(catalog);
@@ -229,6 +233,17 @@ export function buildAListRecommendations({
     g.oneDayEngagement=g.days[selectedIndex].size===1 &&
       g.kind!=='standard' && !g.earlyAccess;
     g.recentRelease=g.releaseDate &&g.releaseDate>=addIsoDays(base.startDate,-14);
+    const year=enrichmentIndex?.byFilmId?.get(g.filmId)?.release_year;
+    g.classicRevival=Number.isInteger(year)&&
+      year<Number(base.startDate.slice(0,4))-9 &&
+      g.releaseDate && Number(g.releaseDate.slice(0,4))>year+9;
+    const upcoming=Array.isArray(comingSoon?.entries)
+      ? comingSoon.entries.find(e => (Array.isArray(e.amc_movie_ids)
+          ? e.amc_movie_ids : [e.amc_movie_id]).some(id=>g.sourceIds.has(String(id))))
+      : null;
+    g.popularitySignal=typeof upcoming?.tmdb_popularity==='number' &&
+      Number.isFinite(upcoming.tmdb_popularity)
+      ? Math.min(2.0,Math.log2(1+Math.max(0,upcoming.tmdb_popularity))*0.32):0;
     g.importance=importance(g);
     g.nextConfirmed=Boolean(g.windows[selectedIndex+1]?.length);
     rows.push(g);
