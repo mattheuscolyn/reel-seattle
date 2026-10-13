@@ -81,16 +81,22 @@ export default function AListWeeklyPanel({homeData,enrichmentIndex,onOpenFilmDet
     return ()=>window.removeEventListener('focus',focus);
   },[]);
   useEffect(()=>{
-    if(!expanded || loadStatus!=='idle')return;
-    let active=true;
+    if (!expanded) return undefined;
+    // Loading status is OUTPUT of this effect, not an input. Watching it
+    // caused every 'loading' transition to cancel its own request, reset to
+    // idle in cleanup, then start again indefinitely.
+    let cancelled=false;
     setLoadStatus('loading');
     loadAListSignals().then(data=>{
-      if(!active)return;
+      if(cancelled)return;
       setSignals(data);
       setLoadStatus(data.catalog?'ready':'unavailable');
-    }).catch(()=>{if(active)setLoadStatus('unavailable');});
-    return ()=>{active=false;setLoadStatus('idle');};
-  },[expanded,loadStatus]);
+    }).catch(()=>{
+      if(!cancelled)setLoadStatus('unavailable');
+    });
+    // Only cancel the in-flight request. Never reset loading state here.
+    return ()=>{cancelled=true;};
+  },[expanded]);
   const todayWeek=resolveAListCreditWeek(now);
   const selectedWeek=resolveAListCreditWeek(now,weekOffset);
   const selectedUsed=usedByWeek[selectedWeek.startDate]??readAListUsed(storage,selectedWeek.startDate);
