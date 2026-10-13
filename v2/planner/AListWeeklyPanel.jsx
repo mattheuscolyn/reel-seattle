@@ -63,7 +63,7 @@ function FilmRow({row,number,onOpenFilmDetail,onToggleMustSee,condensed=false}) 
 
 /** Experimental planning guidance; all recommendation candidates have positive
  * product-level eligibility from the AMC source catalog. */
-export default function AListWeeklyPanel({homeData,onOpenFilmDetail}) {
+export default function AListWeeklyPanel({homeData,enrichmentIndex,onOpenFilmDetail}) {
   const storage=browserStorage();
   const [expanded,setExpanded]=useState(false);
   const [weekOffset,setWeekOffset]=useState(0);
@@ -101,10 +101,10 @@ export default function AListWeeklyPanel({homeData,onOpenFilmDetail}) {
     return A_LIST_WEEKLY_ALLOWANCE-(usedByWeek[start]??readAListUsed(storage,start));
   });
   const report=useMemo(()=>buildAListRecommendations({
-    homeData,catalog:signals?.catalog,comingSoon:signals?.comingSoon,shadow:signals?.shadow,
+    homeData,catalog:signals?.catalog,comingSoon:signals?.comingSoon,shadow:signals?.shadow,enrichmentIndex,
     storage,now,weekOffset,creditsByWeek:counts,priorityIds,
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }),[homeData,signals,storage,now,weekOffset,priorityIds,revision,...counts]);
+  }),[homeData,signals,enrichmentIndex,storage,now,weekOffset,priorityIds,revision,...counts]);
   function changeUsed(n){
     const val=Math.max(0,Math.min(4,n));
     if(!writeAListUsed(storage,selectedWeek.startDate,val)){
