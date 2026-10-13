@@ -5,7 +5,7 @@
  * when a shadow artifact is fresh and aligned to the applicable week.
  */
 import { resolveAListCreditWeek, A_LIST_WEEKLY_ALLOWANCE } from './aListWeeklyReport.js';
-import { addIsoDays } from '../explore/exploreCatalog.js';
+import { addIsoDays, pacificDateString } from '../explore/exploreCatalog.js';
 import { opportunitySortableKey } from '../showtimes/showtimeEligibility.js';
 import { filmsByKeyFromHomeData, isQualifyingFutureOpportunity } from '../showtimes/qualifyingShowtimes.js';
 import { filmRefFromHomeFilm } from '../save/filmRefFromFilm.js';
@@ -73,7 +73,7 @@ function importance(row) {
 function readyForecast(forecasts, row, week, now) {
   if (!forecasts || forecasts.modelVersion !== 'remaining_run_shadow_v1') return null;
   const asOfMs = isoTimeMs(forecasts.asOf + 'T12:00:00Z');
-  const today = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
+  const today = new Date(pacificDateString(now) + 'T12:00:00Z');
   if (asOfMs == null || (today.getTime() - asOfMs) / MS_DAY > MAX_FRESH_DAYS || asOfMs > today.getTime() + MS_DAY) return null;
   const list = Array.isArray(forecasts.market) ? forecasts.market : [];
   const prediction = list.find((r) => row.sourceIds.has(String(r.sourceFilmId ?? r.filmId)) &&
