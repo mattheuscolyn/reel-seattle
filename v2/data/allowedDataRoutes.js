@@ -80,6 +80,11 @@ export const V2_DATA_ARTIFACTS = Object.freeze([
     required: false,
   }),
   Object.freeze({
+    route: '/data/a_list_run_forecast_current.json',
+    sourceRelative: 'public/data/a_list_run_forecast_current.json',
+    required: false,
+  }),
+  Object.freeze({
     route: '/data/a_list_catalog_current.json',
     sourceRelative: 'public/data/a_list_catalog_current.json',
     required: false,
