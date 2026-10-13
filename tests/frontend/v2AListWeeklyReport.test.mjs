@@ -202,3 +202,18 @@ test('next-week control is visible, accessible, and future credits do not replac
   assert.match(panel, /currentUsed/);
   assert.match(panel, /Top .* to consider/);
 });
+
+test('A-List loading effect cannot cancel and restart itself on status changes', () => {
+  const panel = readFileSync(join(ROOT, 'v2/planner/AListWeeklyPanel.jsx'), 'utf8');
+  const effectStart = panel.indexOf('loadAListSignals().then(');
+  assert.ok(effectStart > 0, 'expect an async A-List data loader');
+  const effectEnd = panel.indexOf('},[expanded]);', effectStart);
+  assert.ok(effectEnd > effectStart, 'loading effect must only depend on expansion');
+  const effect = panel.slice(effectStart, effectEnd + 13);
+  assert.doesNotMatch(effect, /setLoadStatus\('idle'\)/,
+    'cleanup must not trigger a new request by setting status to idle');
+  assert.doesNotMatch(effect, /\[expanded,\s*loadStatus\]/,
+    'loading status changes must not retrigger the loader');
+  assert.match(effect, /cancelled=true/,
+    'cleanup must ignore late responses after closing');
+});
