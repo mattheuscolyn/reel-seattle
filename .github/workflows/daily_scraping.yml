@@ -23,6 +23,10 @@ name: Daily Showtime Scraping
 #     two jobs cannot push at the same time.
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/daily_scraping.yml'
   schedule:
     # Run daily at 6 AM UTC (10 PM PST)
     - cron: '0 6 * * *'
@@ -96,7 +100,8 @@ jobs:
 
       - name: Publish minimal A-List eligibility catalog
         # Fail closed if source catalog data cannot be validated; never expose raw AMC records.
-        run: |\n          python scripts/build_a_list_catalog.py || echo 'A-List catalog export unavailable; keeping previous validated snapshot.'
+        run: |
+          python scripts/build_a_list_catalog.py || echo 'A-List catalog export unavailable; keeping previous validated snapshot.'
 
       - name: Refresh film pipeline source audit
         # Offline audit of the latest normalized source logs. This tracks title,
