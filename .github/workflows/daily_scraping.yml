@@ -187,6 +187,17 @@ jobs:
           git add public/indieshowtimes.csv
           git add public/marathon/
           git commit -m "Daily showtime data update $(date +%Y-%m-%d)" || exit 0
+          # Some generated scratch files are intentionally not staged above.
+          # Preserve them in the runner's local stash so they cannot prevent
+          # rebasing the already-validated, selectively committed artifacts.
+          # The runner is ephemeral; do not put these scratch files in the commit.
+          if [ -n "$(git status --porcelain --untracked-files=normal)" ]; then
+            git stash push --include-untracked -m "daily scrape non-published worktree"
+          fi
+          if [ -n "$(git status --porcelain --untracked-files=normal)" ]; then
+            echo "::error::Working tree is dirty after stashing non-published files"
+            exit 1
+          fi
           # Other daily jobs can commit to main while scraping is in progress.
           # Replay this data commit on the latest main rather than losing a
           # validated snapshot to a non-fast-forward push. Conflicts fail closed.
