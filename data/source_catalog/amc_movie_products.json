@@ -1,19 +1,19 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-12T07:14:22-07:00",
+  "generated_at": "2026-10-19T15:44:42-07:00",
   "source": "amc",
   "stats": {
-    "products": 368,
-    "active_products": 114,
-    "inactive_products": 254,
-    "with_release_id": 360,
-    "without_release_id": 8,
+    "products": 388,
+    "active_products": 107,
+    "inactive_products": 281,
+    "with_release_id": 379,
+    "without_release_id": 9,
     "refresh_pending": 0,
-    "refresh_success": 368,
+    "refresh_success": 388,
     "refresh_stale": 0,
     "refresh_failed": 0,
     "refresh_invalid": 0,
-    "special_presentations": 179
+    "special_presentations": 188
   },
   "products": [
     {
@@ -70,7 +70,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -141,9 +141,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -209,9 +209,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-08T05:37:48-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -347,9 +347,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-09T03:32:45-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -634,9 +634,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-07-15T00:55:22-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -698,6 +698,75 @@
         "last_refreshed_at": "2026-09-24T04:02:29-07:00",
         "last_successful_refresh_at": "2026-09-24T04:02:29-07:00",
         "inactive_since": "2026-09-25T04:03:23-07:00",
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "76536",
+      "source_release_id": "358485",
+      "source_title": "The Cat in the Hat",
+      "sortable_title": "Cat in the Hat, The",
+      "runtime_min": 114,
+      "release_date_utc": "2026-11-06T06:00:00Z",
+      "earliest_showing_utc": "2026-11-05T14:00:00Z",
+      "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "ANIMATION",
+      "mpaa_rating": "PG",
+      "starring_actors_raw": "Bill Hader, PAULA PELL, QUINTA BRUNSON, XOCHITL GOMEZ",
+      "directors_raw": "Alessandro Carloni, ERICA RIVINOJA",
+      "synopsis": "Meet the Cat in the Hat you don't know! In the wonderfully whimsical tradition of Dr. Seuss, THE CAT IN THE HAT, voiced by Bill Hader, comes to the big screen in his animated theatrical feature film debut, an all-new, epic adventure where mischief, magic and mayhem reign supreme.",
+      "distributor_id": "2429",
+      "distributor_code": "WB",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "the-cat-in-the-hat-76536",
+      "website_url": "https://www.amctheatres.com/movies/the-cat-in-the-hat-76536",
+      "showtimes_url": "https://www.amctheatres.com/movies/the-cat-in-the-hat-76536/showtimes",
+      "attribute_codes": [
+        "4DX",
+        "AMCPRIME",
+        "BIGD",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBY3D",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
+        "OPENCAPTION",
+        "PRIME3D",
+        "PRIVATE",
+        "REALD3D",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1780943194/amc-cdn/content/general/ovgupups5nyy7iotypqz.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789470295/amc-cdn/production/2/movies/76500/76536/MovieStills/409517R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789470295/amc-cdn/production/2/movies/76500/76536/MovieStills/409517R9.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405098817112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405098817112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
         "refresh_status": "success"
       },
       "provenance": {
@@ -788,13 +857,13 @@
       "source_release_id": "359230",
       "source_title": "Dune: Part Three",
       "sortable_title": "Dune: Part Three",
-      "runtime_min": 140,
+      "runtime_min": 150,
       "release_date_utc": "2026-12-18T06:00:00Z",
       "earliest_showing_utc": "2026-12-17T14:00:00Z",
       "online_ticket_availability_date_utc": "2026-12-18T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ACTION",
-      "mpaa_rating": "PG13",
+      "mpaa_rating": null,
       "starring_actors_raw": "TIMOTHEE CHALAMET",
       "directors_raw": "Denis Villeneuve",
       "synopsis": "From Warner Bros. Pictures and Legendary Pictures comes Dune: Part Three, bringing Academy Award-nominated filmmaker Denis Villeneuve’s epic trilogy to a breathtaking conclusion. \n\nDune: Part Three is set nearly two decades after Paul Atreides seized control of the Imperium. Now a ruthless Emperor, Paul must face the consequences of his reign as old allies return, terrifying new threats emerge, and betrayal lurks in every shadow. Haunted by visions of Imperial collapse and the reappearance of his long-lost love, Paul is drawn into a sweeping conspiracy, with Chani at the heart of its unfolding mystery. As rebellion brews and enemies close in, Paul must confront the true cost of power and the fate of those he loves the most.",
@@ -834,9 +903,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -1037,7 +1106,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -1058,7 +1127,7 @@
       "sortable_title": "Street Fighter",
       "runtime_min": 119,
       "release_date_utc": "2026-10-16T05:00:00Z",
-      "earliest_showing_utc": "2026-10-15T14:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ACTION",
@@ -1102,9 +1171,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-21T04:40:36-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -1307,9 +1376,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-07-16T01:01:02-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -1376,9 +1445,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-23T03:37:19-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -1572,9 +1641,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -1639,9 +1708,69 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-05T02:46:04-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "79935",
+      "source_release_id": "380002",
+      "source_title": "ZERO A.D.: The Birth of Christ",
+      "sortable_title": "ZERO A.D.: The Birth of Christ",
+      "runtime_min": 115,
+      "release_date_utc": "2026-12-11T06:00:00Z",
+      "earliest_showing_utc": "2026-12-10T12:00:00Z",
+      "online_ticket_availability_date_utc": "2026-12-11T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "DRAMA",
+      "mpaa_rating": "PG13",
+      "starring_actors_raw": "Ben Mendelsohn, DEVA CASSEL, Gael Garcia Bernal, Sam Worthington",
+      "directors_raw": "ALEJANDRO MONTEVERDE",
+      "synopsis": "A brutal ruler fears a prophecy and orders the death of a child - one who will change history.",
+      "distributor_id": "3136",
+      "distributor_code": "ASN",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "zero-a-d-the-birth-of-christ-79935",
+      "website_url": "https://www.amctheatres.com/movies/zero-a-d-the-birth-of-christ-79935",
+      "showtimes_url": "https://www.amctheatres.com/movies/zero-a-d-the-birth-of-christ-79935/showtimes",
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "OPENCAPTION",
+        "PRIVATE",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1746666970/amc-cdn/production/2/movies/79900/79935/PosterDynamic/171288.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6376459325112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6376459325112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -1760,9 +1889,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-16T03:36:34-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -1851,7 +1980,7 @@
       "sortable_title": "Whalefall",
       "runtime_min": 106,
       "release_date_utc": "2026-10-16T05:00:00Z",
-      "earliest_showing_utc": "2026-10-15T14:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "Suspense",
@@ -1895,9 +2024,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-01T05:13:58-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2016,9 +2145,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-10T04:44:38-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2076,9 +2205,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-25T03:58:12-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2183,6 +2312,7 @@
         "DOLBYCINEMAATAMCPRIME",
         "GDX",
         "GXL",
+        "MOMMYME",
         "OPENCAPTION",
         "PRIVATE",
         "XL"
@@ -2201,9 +2331,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-22T03:46:05-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2411,7 +2541,7 @@
       "sortable_title": "Sense and Sensibility",
       "runtime_min": 131,
       "release_date_utc": "2026-10-16T05:00:00Z",
-      "earliest_showing_utc": "2026-10-15T13:15:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -2435,6 +2565,7 @@
         "DOLBYCINEMAATAMCPRIME",
         "GDX",
         "GXL",
+        "MOMMYME",
         "OPENCAPTION",
         "PRIVATE",
         "XL"
@@ -2443,8 +2574,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1790953648/amc-cdn/content/general/wuxta5xd1ybvsuj8rhap.jpg",
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791716735/amc-cdn/production/2/movies/82200/82178/MovieStills/395156R9.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791716735/amc-cdn/production/2/movies/82200/82178/MovieStills/395156R9.jpg",
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406709012112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406709012112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -2453,9 +2584,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-30T04:44:54-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -2654,7 +2785,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -2835,9 +2966,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-07T05:28:23-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -3022,9 +3153,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-17T03:46:07-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -3088,9 +3219,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -3348,7 +3479,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -3409,9 +3540,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -3473,9 +3604,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -3537,9 +3668,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -3598,7 +3729,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -3782,9 +3913,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -4085,9 +4216,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-11T03:22:19-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -4922,9 +5053,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -5107,9 +5238,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-10T04:44:38-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -5377,7 +5508,7 @@
       "sortable_title": "Spirited Away 25th Anniversary - Studio Ghibli Fest 2026",
       "runtime_min": 132,
       "release_date_utc": "2026-10-17T05:00:00Z",
-      "earliest_showing_utc": "2026-10-17T13:15:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-17T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ADVENTURE",
@@ -5415,9 +5546,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -5673,6 +5804,64 @@
     },
     {
       "source": "amc",
+      "source_film_id": "83712",
+      "source_release_id": "410533",
+      "source_title": "Ranabaali (Telugu)",
+      "sortable_title": "Ranabaali",
+      "runtime_min": 185,
+      "release_date_utc": "2026-10-16T05:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "ACTION",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "ARNOLD VOSLOO, Rashmika Mandanna, VIJAY DEVERAKONDA",
+      "directors_raw": "RAHUL SANKRITYAN",
+      "synopsis": "Set in 19th-century British India, a fierce leader rises from a drought-stricken land to fight colonial oppression and atrocities. Inspired by real incidents, his journey is one of rebellion, sacrifice, and legacy.",
+      "distributor_id": "2988",
+      "distributor_code": "PCL",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "ranabaali-telugu-83712",
+      "website_url": "https://www.amctheatres.com/movies/ranabaali-telugu-83712",
+      "showtimes_url": "https://www.amctheatres.com/movies/ranabaali-telugu-83712/showtimes",
+      "attribute_codes": [
+        "AMCPRIME",
+        "INTFILMS",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791025596/amc-cdn/production/2/movies/83700/83712/Poster/410533R1.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
       "source_film_id": "83714",
       "source_release_id": "415951",
       "source_title": "Angel and the Badman",
@@ -5717,7 +5906,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -5955,9 +6144,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-10T03:22:02-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -5986,7 +6175,7 @@
       "mpaa_rating": "PG",
       "starring_actors_raw": "ALEXANDRIA DADDARIO, Finn Wittrock",
       "directors_raw": "Mark Waters",
-      "synopsis": "Based on the life of Milton Hershey, founder of the iconic Hershey chocolate company. \n\nMilton's grit and determination to conquer the world of candy-making propel him from bankruptcy to monumental success, and the love of his life, Kitty, helps him build a legacy sweeter than any candy bar. But when Kitty falls ill, Milton's wild optimism teeters on the edge of destruction, and she sparks an even bolder dream: to leave their fortune in the hands of America's orphans.",
+      "synopsis": "Based on the life of Milton Hershey, founder of the iconic Hershey chocolate company. \n\nMilton's grit and determination to conquer the world of candy-making propel him from bankruptcy to monumental success, and the love of his life, Kitty, helps him build a legacy sweeter than any candy bar. But when Kitty falls ill, Milton's wild optimism teeters on the edge of destruction, and she sparks an even bolder dream: to leave their fortune in the hands of America's children in need.",
       "distributor_id": "3136",
       "distributor_code": "ASN",
       "preferred_media_type": "Theatrical",
@@ -6003,8 +6192,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1784258201/amc-cdn/content/general/h84y2bonfryzgobvwmcu.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1792093895/amc-cdn/content/general/amwoob3110mpkqd8ugee.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1792093895/amc-cdn/content/general/amwoob3110mpkqd8ugee.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405076956112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405076956112.mp4"
       },
@@ -6015,9 +6204,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-01T05:13:58-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -7067,7 +7256,7 @@
       "sortable_title": "Crawlers",
       "runtime_min": 86,
       "release_date_utc": "2026-10-16T05:00:00Z",
-      "earliest_showing_utc": "2026-10-15T16:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "HORROR",
@@ -7104,9 +7293,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-07T05:28:23-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -7759,9 +7948,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -8599,9 +8788,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-22T03:46:05-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -9529,6 +9718,62 @@
     },
     {
       "source": "amc",
+      "source_film_id": "84174",
+      "source_release_id": "408194",
+      "source_title": "The History of Concrete",
+      "sortable_title": "History of Concrete, The",
+      "runtime_min": 100,
+      "release_date_utc": "2026-09-18T05:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
+      "online_ticket_availability_date_utc": "2026-09-18T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "DOCUMENTARY",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": null,
+      "directors_raw": "JOHN WILSON",
+      "synopsis": "A filmmaker applies lessons from a Hallmark movie writing workshop to pitch a documentary about concrete.",
+      "distributor_id": "3017",
+      "distributor_code": "MGP",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "the-history-of-concrete-84174",
+      "website_url": "https://www.amctheatres.com/movies/the-history-of-concrete-84174",
+      "showtimes_url": "https://www.amctheatres.com/movies/the-history-of-concrete-84174/showtimes",
+      "attribute_codes": [
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788001556/amc-cdn/production/2/movies/84200/84174/Poster/408194R1.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788260744/amc-cdn/production/2/movies/84200/84174/MovieStills/408194R6.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788260744/amc-cdn/production/2/movies/84200/84174/MovieStills/408194R6.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6403639422112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6403639422112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
       "source_film_id": "84175",
       "source_release_id": "393166",
       "source_title": "Never After Dark",
@@ -9572,7 +9817,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -9633,7 +9878,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -9688,9 +9933,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-07T05:28:23-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -9804,9 +10049,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-30T04:44:54-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -10063,7 +10308,7 @@
       "sortable_title": "Wicker",
       "runtime_min": 105,
       "release_date_utc": "2026-10-23T05:00:00Z",
-      "earliest_showing_utc": "2026-10-22T18:30:00Z",
+      "earliest_showing_utc": "2026-10-22T16:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-23T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "COMEDY",
@@ -10081,9 +10326,11 @@
       "attribute_codes": [
         "4DX",
         "AMCARTISANFILMS",
+        "AMCPRIME",
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
         "DOLBYCINEMAATAMCPRIME",
+        "GXL",
         "OPENCAPTION",
         "PRIVATE",
         "XL"
@@ -10102,9 +10349,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-05T06:15:38-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -10402,9 +10649,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -10470,7 +10717,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -10598,9 +10845,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -10664,9 +10911,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -10786,9 +11033,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -10852,9 +11099,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -10915,9 +11162,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -11104,9 +11351,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -11167,9 +11414,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -11350,9 +11597,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-11T04:57:21-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -11414,9 +11661,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-11T04:57:21-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -11577,6 +11824,7 @@
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
         "OPENCAPTION",
+        "PRIVATE",
         "XL"
       ],
       "media": {
@@ -11593,9 +11841,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-07T05:28:23-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -12205,7 +12453,7 @@
       "sortable_title": "Bola negra, La",
       "runtime_min": 159,
       "release_date_utc": "2026-10-16T05:00:00Z",
-      "earliest_showing_utc": "2026-10-15T14:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -12222,6 +12470,8 @@
       "showtimes_url": "https://www.amctheatres.com/movies/la-bola-negra-84366/showtimes",
       "attribute_codes": [
         "AMCPRIME",
+        "CLOSEDCAPTION",
+        "OPENCAPTION",
         "PRIVATE",
         "XL"
       ],
@@ -12239,9 +12489,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-27T04:11:27-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -12417,9 +12667,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-09T05:25:28-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -13129,7 +13379,7 @@
       "online_ticket_availability_date_utc": "2026-10-22T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "THEATRE",
-      "mpaa_rating": null,
+      "mpaa_rating": "NR",
       "starring_actors_raw": "KELLI O?HARA, Rose Byrne",
       "directors_raw": "Scott Ellis",
       "synopsis": "Sparkling, dizzying, and deliciously potent, FALLEN ANGELS, Noel Coward's champagne-fresh comedy of bad manners, shocked and delighted audiences at its 1925 premiere. Two upper-class wives, their husbands away for the day, share a few toasts to their pre-marital dalliances--with the same man, who just may be en route from France to visit. Old rivalries and past scandals bubble to the surface in this intoxicating romp from one of theatre's comedy masters.\n\nStarring Golden Globe-winner Rose Byrne (If I Had Legs I'd Kick You) and Tony Award winner Kelli O'Hara (The King and I), with Tracee Chimo, Mark Consuelos (making his Broadway debut), Christopher Fitzgerald and Aasif Mandvi, this new Roundabout Theatre and Tony Award-winning production of 'pure escapist fun' (The New York Times) was filmed live on stage at Broadway's Todd Haimes Theatre and now comes to the big screen.",
@@ -13148,8 +13398,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1784902738/amc-cdn/content/general/dvmtoenuyxjvam0n9rln.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1784902717/amc-cdn/content/general/eqgyxoh58kle2imbscgr.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1784902717/amc-cdn/content/general/eqgyxoh58kle2imbscgr.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791889855/amc-cdn/production/2/movies/84400/84428/MovieStills/421705R3.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791889855/amc-cdn/production/2/movies/84400/84428/MovieStills/421705R3.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -13160,9 +13410,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -13220,9 +13470,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-07T05:28:23-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -13284,9 +13534,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-17T03:46:07-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -13409,9 +13659,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-17T03:46:07-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14002,9 +14252,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-08T05:37:48-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -14122,6 +14372,65 @@
         "last_refreshed_at": "2026-09-17T03:51:14-07:00",
         "last_successful_refresh_at": "2026-09-17T03:51:14-07:00",
         "inactive_since": "2026-09-18T03:26:40-07:00",
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "84502",
+      "source_release_id": "386969",
+      "source_title": "Musk",
+      "sortable_title": "Musk",
+      "runtime_min": 235,
+      "release_date_utc": "2026-10-09T05:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-09T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "DOCUMENTARY",
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": "ALEX GIBNEY",
+      "synopsis": "An incisive look behind the legend of Elon Musk, the world's most heralded 'inventor-entrepreneur' who has enormous influence on the world in which we all live.",
+      "distributor_id": "2465",
+      "distributor_code": "BSM",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "musk-84502",
+      "website_url": "https://www.amctheatres.com/movies/musk-84502",
+      "showtimes_url": "https://www.amctheatres.com/movies/musk-84502/showtimes",
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "INCLINTER",
+        "OPENCAPTION",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1789741418/amc-cdn/content/general/md14u64mjhkolomu1dsv.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404809919112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404809919112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
         "refresh_status": "success"
       },
       "provenance": {
@@ -15706,7 +16015,7 @@
       "sortable_title": "George Michael: The Faith Tour",
       "runtime_min": 113,
       "release_date_utc": "2026-12-11T06:00:00Z",
-      "earliest_showing_utc": "2026-12-11T18:00:00Z",
+      "earliest_showing_utc": "2026-12-11T12:00:00Z",
       "online_ticket_availability_date_utc": "2026-12-11T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ROCK/POP CONCERT",
@@ -15744,9 +16053,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-07T05:28:23-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -15809,9 +16118,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -15937,6 +16246,67 @@
         "last_refreshed_at": "2026-10-01T05:20:56-07:00",
         "last_successful_refresh_at": "2026-10-01T05:20:56-07:00",
         "inactive_since": "2026-10-02T04:51:06-07:00",
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "84620",
+      "source_release_id": "422457",
+      "source_title": "Everest: The Other Side",
+      "sortable_title": "Everest: The Other Side",
+      "runtime_min": 115,
+      "release_date_utc": "2026-10-30T05:00:00Z",
+      "earliest_showing_utc": "2026-10-29T14:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-30T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "DOCUMENTARY",
+      "mpaa_rating": "PG13",
+      "starring_actors_raw": null,
+      "directors_raw": "ELIZABETH CHAI VASARHELYI, JIMMY CHIN",
+      "synopsis": "Elite ski mountaineers Jim Morrison and Hilaree Nelson share an audacious dream: to climb up and ski down the direct North Face of Everest, taking on one of the most dangerous routes on the world’s tallest mountain. Blending breathtaking spectacle and romance, this is an epic story of resilience and transcendence.",
+      "distributor_id": "2369",
+      "distributor_code": "BVD",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "everest-the-other-side-84620",
+      "website_url": "https://www.amctheatres.com/movies/everest-the-other-side-84620",
+      "showtimes_url": "https://www.amctheatres.com/movies/everest-the-other-side-84620/showtimes",
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "IMAX",
+        "OPENCAPTION",
+        "PRIVATE",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788834949/amc-cdn/content/general/ezo3ytzoxecv18uzsdfx.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1792149009/amc-cdn/production/2/movies/84600/84620/MovieStills/422457R2.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1792149009/amc-cdn/production/2/movies/84600/84620/MovieStills/422457R2.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405077452112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405077452112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
         "refresh_status": "success"
       },
       "provenance": {
@@ -16580,7 +16950,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -16977,9 +17347,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -17036,9 +17406,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-23T03:37:19-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -17096,9 +17466,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-23T03:37:19-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -17236,13 +17606,77 @@
     },
     {
       "source": "amc",
+      "source_film_id": "84732",
+      "source_release_id": "427240",
+      "source_title": "Stray Kids World Tour 'RUN IT' LIVE VIEWING",
+      "sortable_title": "Stray Kids World Tour 'RUN IT' LIVE VIEWING",
+      "runtime_min": 195,
+      "release_date_utc": "2026-11-07T06:00:00Z",
+      "earliest_showing_utc": "2026-11-07T12:00:00Z",
+      "online_ticket_availability_date_utc": "2026-11-07T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "ROCK/POP CONCERT",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "STRAY KIDS",
+      "directors_raw": "Event Director",
+      "synopsis": "For the first time, Stray Kids presents a special live broadcast of STRAY KIDS WORLD TOUR 'RUN IT' LIVE VIEWING from Tokyo Dome in movie theaters around the globe.\n \nTrue to the tour's title, 'RUN IT' captures the group's drive to push into bigger worlds and bolder stages. The eight members (Bang Chan, Lee Know, Changbin, Hyunjin, HAN, Felix, Seungmin, and I.N) pour out unrelenting energy through explosive choreography and powerhouse vocals, elevating the live experience to its peak. Their stage begins with \"Hall of Fame,\" a track that expresses Stray Kids' ambition to write their own history, tracing their musical growth from the very beginning to where they are now. The production is enriched further by dynamic stage setups, traditional Korean performance touches, and spectacular laser lighting, designed to bring the crowd -- in the dome and at the cinema -- to their feet, singing, dancing and celebrating together.\n \nCaptured live from Tokyo and broadcast into cinemas worldwide, this live viewing event lets STAY everywhere share in the scale, spectacle, and raw energy of Stray Kids' live performance -- together, on the big screen.",
+      "distributor_id": "2712",
+      "distributor_code": "TRL",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": false,
+      "slug": "stray-kids-world-tour-run-it-live-viewing-84732",
+      "website_url": "https://www.amctheatres.com/movies/stray-kids-world-tour-run-it-live-viewing-84732",
+      "showtimes_url": "https://www.amctheatres.com/movies/stray-kids-world-tour-run-it-live-viewing-84732/showtimes",
+      "attribute_codes": [
+        "ALTERNATIVECONTENT",
+        "DCDCLIVE",
+        "EVENT",
+        "EXCLDISMAT",
+        "NOALIST",
+        "NOGREENRED",
+        "NOTRAILER",
+        "NOTRAILERS",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791473311/amc-cdn/content/general/flpi5bqddxliavnbwmui.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1792149085/amc-cdn/production/2/movies/84700/84732/MovieStills/427240R7.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1792149085/amc-cdn/production/2/movies/84700/84732/MovieStills/427240R7.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406957073112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406957073112.mp4"
+      },
+      "presentation": {
+        "category": "concert_or_event",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
       "source_film_id": "84735",
       "source_release_id": "425122",
       "source_title": "Yuri!!! on ICE 10th Anniversary",
       "sortable_title": "Yuri!!! On Ice",
       "runtime_min": 119,
       "release_date_utc": "2026-10-19T05:00:00Z",
-      "earliest_showing_utc": "2026-10-19T19:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-19T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ANIMATION",
@@ -17272,9 +17706,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-17T03:46:07-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -17353,7 +17787,7 @@
       "sortable_title": "Ken Russell's The Devils (RE26)",
       "runtime_min": 114,
       "release_date_utc": "2026-10-16T05:00:00Z",
-      "earliest_showing_utc": "2026-10-15T19:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "Drama",
@@ -17386,9 +17820,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-18T03:21:43-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -17466,13 +17900,13 @@
       "source_release_id": "423734",
       "source_title": "Dune: Part Three Insider Screenings",
       "sortable_title": "Dune: Part Three Insider Screenings",
-      "runtime_min": 140,
+      "runtime_min": 150,
       "release_date_utc": "2026-12-15T06:00:00Z",
       "earliest_showing_utc": "2026-12-15T18:00:00Z",
       "online_ticket_availability_date_utc": "2026-12-15T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
-      "mpaa_rating": "PG13",
+      "mpaa_rating": null,
       "starring_actors_raw": null,
       "directors_raw": null,
       "synopsis": "THE JOURNEY TO ARRAKIS BEGINS. This early showing is intended for Dune Insiders—fans who have opted into the film’s official Insider program for a direct connection to the campaign, including updates, special content and more.",
@@ -17510,9 +17944,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-03T03:30:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -17630,9 +18064,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-17T03:46:07-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -18342,7 +18776,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -18363,7 +18797,7 @@
       "sortable_title": "American Psycho (TC26)",
       "runtime_min": 106,
       "release_date_utc": "2026-10-16T05:00:00Z",
-      "earliest_showing_utc": "2026-10-16T19:30:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "Suspense",
@@ -18382,6 +18816,7 @@
         "EVENT",
         "EXCLDISMAT",
         "FANFAVES",
+        "PRIVATE",
         "THRLSCHLS",
         "XL"
       ],
@@ -18399,9 +18834,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-17T03:46:07-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -18459,9 +18894,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-17T03:46:07-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -18519,9 +18954,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-17T03:46:07-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -18640,7 +19075,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -18700,9 +19135,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-12T02:53:47-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -19464,7 +19899,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -19579,7 +20014,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -19638,7 +20073,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -19758,7 +20193,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -19805,8 +20240,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1788887932/amc-cdn/content/general/bsa22crggqpntcnubhla.jpg",
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791716856/amc-cdn/production/2/movies/85000/84970/MovieStills/389884R9.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791716856/amc-cdn/production/2/movies/85000/84970/MovieStills/389884R9.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404825913112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404825913112.mp4"
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406856724112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406856724112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -19815,9 +20250,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -19880,9 +20315,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-22T03:46:05-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -20059,9 +20494,73 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-07T05:28:23-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "84991",
+      "source_release_id": "427647",
+      "source_title": "Ramayana",
+      "sortable_title": "Ramayana",
+      "runtime_min": 195,
+      "release_date_utc": "2026-11-05T06:00:00Z",
+      "earliest_showing_utc": "2026-11-04T15:00:00Z",
+      "online_ticket_availability_date_utc": "2026-11-05T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "ACTION",
+      "mpaa_rating": "PG13",
+      "starring_actors_raw": "Ranbir Kapoor, SAI PALLAVI, YASH",
+      "directors_raw": "Nitesh Tiwari",
+      "synopsis": "Hindi with English Subtitles. RAMAYANA is based on an ancient Epic still celebrated by billions across the globe. RAMA, a prince bound by duty and sacrifice, must confront RAVANA, an immortal ruler driven by pride and vengeance. Directed by Nitesh Tiwari, with music and score by Hans Zimmer and A.R. Rahman.",
+      "distributor_id": "2420",
+      "distributor_code": "SON",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "ramayana-84991",
+      "website_url": "https://www.amctheatres.com/movies/ramayana-84991",
+      "showtimes_url": "https://www.amctheatres.com/movies/ramayana-84991/showtimes",
+      "attribute_codes": [
+        "4DX",
+        "AMCPRIME",
+        "IMAX",
+        "IMAX3D",
+        "PRIME3D",
+        "PRIVATE",
+        "REALD3D",
+        "SCREENX",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790607757/amc-cdn/content/general/vbsgtuccm7xbb4zr85sp.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791889826/amc-cdn/production/2/movies/85000/84991/MovieStills/395593R5.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791889826/amc-cdn/production/2/movies/85000/84991/MovieStills/395593R5.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406741818112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406741818112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -20103,7 +20602,7 @@
         "THRLSCHLS"
       ],
       "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790874710/amc-cdn/content/general/yljy5cqya37mxcjskozd.jpg",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792078371/amc-cdn/content/general/j12ijfzcnc0hivfwdnkr.jpg",
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791457697/amc-cdn/production/2/movies/85000/84993/MovieStills/425040R9.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791457697/amc-cdn/production/2/movies/85000/84993/MovieStills/425040R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406431390112.mp4",
@@ -20116,9 +20615,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-08T05:37:48-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -20200,6 +20699,62 @@
     },
     {
       "source": "amc",
+      "source_film_id": "84999",
+      "source_release_id": "35779",
+      "source_title": "Kung Fu Soccer",
+      "sortable_title": "Kung Fu Soccer",
+      "runtime_min": 106,
+      "release_date_utc": "2026-10-23T05:00:00Z",
+      "earliest_showing_utc": "2026-10-23T13:25:00Z",
+      "online_ticket_availability_date_utc": "2026-10-23T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "COMEDY",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "DILRABA DILMURAT, XIAOFEI ZHANG, YIXING ZHANG",
+      "directors_raw": "Stephen Chow",
+      "synopsis": "An unlikely women's football team from Mount Emei is written off from the start -- dismissed for their age, lack of experience, and slim chances of success. Everything changes when they unlock extraordinary martial arts-inspired abilities that transform their game, propelling them from underdogs to championship contenders. But as victories mount and their dream of glory comes within reach, an unexpected betrayal threatens to tear the team apart. Forced to regroup after a crushing setback, they must rethink their strategy, overcome their differences, and rediscover the power of teamwork. Facing an undefeated reigning champion in the ultimate showdown, they will need more than extraordinary skills -- they must outthink, outplay, and outmanoeuvre their opponents. Can this unlikely team overcome the odds and achieve the impossible? From visionary filmmaker Stephen Chow, Kung Fu Soccer delivers a crowd-pleasing blend of spectacular football action, martial arts fantasy, comedy, and heart -- an uplifting story about friendship, perseverance, and the pursuit of the impossible.",
+      "distributor_id": "3476",
+      "distributor_code": "EFU",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "kung-fu-soccer-84999",
+      "website_url": "https://www.amctheatres.com/movies/kung-fu-soccer-84999",
+      "showtimes_url": "https://www.amctheatres.com/movies/kung-fu-soccer-84999/showtimes",
+      "attribute_codes": [
+        "INTFILMS"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792148935/amc-cdn/production/2/movies/85000/84999/Poster/035779R1.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
       "source_film_id": "85010",
       "source_release_id": "423098",
       "source_title": "Rocky 50th Anniversary",
@@ -20230,7 +20785,8 @@
         "NOALIST",
         "NOGREENRED",
         "NOTRAILER",
-        "NOTRAILERS"
+        "NOTRAILERS",
+        "PRIVATE"
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1790876718/amc-cdn/content/general/xqcouzwzkhlodauwqk3j.jpg",
@@ -20246,9 +20802,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-19T03:06:12-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -20363,7 +20919,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -20420,7 +20976,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -20477,7 +21033,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -20534,7 +21090,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -20600,7 +21156,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -20621,7 +21177,7 @@
       "sortable_title": "WILDWOOD Fan First Screening",
       "runtime_min": 135,
       "release_date_utc": "2026-10-19T05:00:00Z",
-      "earliest_showing_utc": "2026-10-19T19:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-19T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -20659,9 +21215,69 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-15T03:47:24-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85066",
+      "source_release_id": "419564",
+      "source_title": "Breeder",
+      "sortable_title": "Breeder",
+      "runtime_min": 97,
+      "release_date_utc": "2026-10-28T05:00:00Z",
+      "earliest_showing_utc": "2026-10-27T16:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-28T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "HORROR",
+      "mpaa_rating": "R",
+      "starring_actors_raw": "DANIEL DOHENY, DOT-MARIE JONES, MADDIE PHILIPS",
+      "directors_raw": "ALEX GOYETTE",
+      "synopsis": "An eccentric poodle breeder lures a broke college student to her remote ranch with a promise of research funding. But, as he soon learns, there's a catch.",
+      "distributor_id": "2184",
+      "distributor_code": "IFC",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "breeder-85066",
+      "website_url": "https://www.amctheatres.com/movies/breeder-85066",
+      "showtimes_url": "https://www.amctheatres.com/movies/breeder-85066/showtimes",
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "OPENCAPTION",
+        "PRIVATE",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791025537/amc-cdn/production/2/movies/85100/85066/Poster/419564R1.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791025536/amc-cdn/production/2/movies/85100/85066/MovieStills/419564R3.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791025536/amc-cdn/production/2/movies/85100/85066/MovieStills/419564R3.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406162708112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406162708112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -20719,7 +21335,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -20973,7 +21589,7 @@
       "sortable_title": "Soul Patrol",
       "runtime_min": 100,
       "release_date_utc": "2026-11-11T06:00:00Z",
-      "earliest_showing_utc": "2026-11-11T19:00:00Z",
+      "earliest_showing_utc": "2026-11-11T18:45:00Z",
       "online_ticket_availability_date_utc": "2026-11-11T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DOCUMENTARY",
@@ -21006,9 +21622,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-08T05:37:48-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -21066,7 +21682,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -21087,7 +21703,7 @@
       "sortable_title": "You Can See Everything",
       "runtime_min": 174,
       "release_date_utc": "2026-10-16T05:00:00Z",
-      "earliest_showing_utc": "2026-10-15T13:30:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DOCUMENTARY",
@@ -21103,9 +21719,11 @@
       "website_url": "https://www.amctheatres.com/movies/you-can-see-everything-85142",
       "showtimes_url": "https://www.amctheatres.com/movies/you-can-see-everything-85142/showtimes",
       "attribute_codes": [
+        "AMCARTISANFILMS",
         "AMCPRIME",
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
+        "GXL",
         "OPENCAPTION",
         "PRIVATE",
         "XL"
@@ -21124,9 +21742,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-23T03:37:19-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -21183,7 +21801,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -21241,7 +21859,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -21299,7 +21917,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -21353,9 +21971,68 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-07T05:28:23-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85175",
+      "source_release_id": "358485",
+      "source_title": "The Cat in the Hat: Sensory Friendly Screening",
+      "sortable_title": "Cat in the Hat, The: Sensory Friendly Screening",
+      "runtime_min": 114,
+      "release_date_utc": "2026-11-14T06:00:00Z",
+      "earliest_showing_utc": "2026-11-14T10:00:00Z",
+      "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "PG",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Meet the Cat in the Hat you don't know! In the wonderfully whimsical tradition of Dr. Seuss, THE CAT IN THE HAT, voiced by Bill Hader, comes to the big screen in his animated theatrical feature film debut, an all-new, epic adventure where mischief, magic and mayhem reign supreme.",
+      "distributor_id": "2429",
+      "distributor_code": "WB",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "the-cat-in-the-hat-sensory-friendly-screening-85175",
+      "website_url": "https://www.amctheatres.com/movies/the-cat-in-the-hat-sensory-friendly-screening-85175",
+      "showtimes_url": "https://www.amctheatres.com/movies/the-cat-in-the-hat-sensory-friendly-screening-85175/showtimes",
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "PRIVATE",
+        "SENSORYFRIENDLY"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790334285/amc-cdn/production/2/movies/85200/85175/Poster/358485R1.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405615883112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405615883112.mp4"
+      },
+      "presentation": {
+        "category": "sensory_friendly",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -21416,7 +22093,7 @@
         "last_seen_at": "2026-10-12T07:06:31-07:00",
         "last_refreshed_at": "2026-10-12T07:14:22-07:00",
         "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
-        "inactive_since": null,
+        "inactive_since": "2026-10-19T15:44:42-07:00",
         "refresh_status": "success"
       },
       "provenance": {
@@ -21467,9 +22144,121 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-29T04:57:28-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85192",
+      "source_release_id": "416836",
+      "source_title": "The Irregular at Magic High School The Movie -Yotsuba Succession Arc-",
+      "sortable_title": "Irregular at Magic High School The Movie -Yotsuba Succession Arc-, The",
+      "runtime_min": 104,
+      "release_date_utc": "2026-11-01T05:00:00Z",
+      "earliest_showing_utc": "2026-11-01T16:45:00Z",
+      "online_ticket_availability_date_utc": "2026-11-01T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "ANIMATION",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "CHIWA SAITO, SAORI HAYAMI, YUICHI NAKAMURA",
+      "directors_raw": "JIMMY STONE",
+      "synopsis": "It is  2096, about a century after magic was established as a real technology. Tatsuya Shiba, born into the prestigious Yotsuba family of magicians but with a fatal flaw as a magician, and his perfect younger sister Miyuki, who possesses extraordinary talent as a magician, are about to enter the winter of their second year of high school. The siblings, who are complete opposites as an underachiever and an overachiever, spend their days together in harmony until one day a letter arrives. It is an invitation to the \"Keishunkai\" to be held at the main Yotsuba house on New Year's Day. At this gathering, where the head of the Yotsuba family, Maya, and the heads of the branch families will come together, the next head of the Yotsuba family will be nominated, but a shocking truth will be revealed there.",
+      "distributor_id": "2420",
+      "distributor_code": "SON",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "the-irregular-at-magic-high-school-the-movie-yotsuba-succession-arc-85192",
+      "website_url": "https://www.amctheatres.com/movies/the-irregular-at-magic-high-school-the-movie-yotsuba-succession-arc-85192",
+      "showtimes_url": "https://www.amctheatres.com/movies/the-irregular-at-magic-high-school-the-movie-yotsuba-succession-arc-85192/showtimes",
+      "attribute_codes": [
+        "EVENT"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "concert_or_event",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85194",
+      "source_release_id": "421155",
+      "source_title": "Prahaar: The Untold Story of Ujjwal Nikam",
+      "sortable_title": "Prahaar: The Untold Story of Ujjwal Nikam",
+      "runtime_min": 140,
+      "release_date_utc": "2026-10-16T05:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-16T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "DRAMA",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "JAIDEEP AHLAWAT, Rajkummar Rao, WAMIQA GABBI",
+      "directors_raw": "AVINASH ARUN",
+      "synopsis": "Inspired by the life of India’s most celebrated public prosecutor, Ujjwal Nikam, the film captures the monumental courtroom battle that followed the 26/11 Mumbai attacks, where one man’s unwavering pursuit of justice led, against all odds, to the conviction of Ajmal Kasab.",
+      "distributor_id": "3188",
+      "distributor_code": "ASE",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "prahaar-the-untold-story-of-ujjwal-nikam-85194",
+      "website_url": "https://www.amctheatres.com/movies/prahaar-the-untold-story-of-ujjwal-nikam-85194",
+      "showtimes_url": "https://www.amctheatres.com/movies/prahaar-the-untold-story-of-ujjwal-nikam-85194/showtimes",
+      "attribute_codes": [
+        "INTFILMS"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791835759/amc-cdn/content/general/db7yo0dtjishzbw3wwg9.png",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791835820/amc-cdn/content/general/bicmpee31zs0yxizlbyh.png",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791835820/amc-cdn/content/general/bicmpee31zs0yxizlbyh.png",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406865144112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406865144112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -21491,7 +22280,7 @@
       "sortable_title": "TOMORROW X TOGETHER WORLD TOUR 'ACT : TOMORROW'",
       "runtime_min": 97,
       "release_date_utc": "2026-10-24T05:00:00Z",
-      "earliest_showing_utc": "2026-10-24T14:00:00Z",
+      "earliest_showing_utc": "2026-10-24T12:30:00Z",
       "online_ticket_availability_date_utc": "2026-10-24T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ROCK/POP CONCERT",
@@ -21528,9 +22317,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-29T04:57:28-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -21589,9 +22378,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-29T04:57:28-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -21649,9 +22438,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-29T04:57:28-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -21698,8 +22487,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1790371777/amc-cdn/content/general/nhbjh77dubf52fvjv3ta.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791716790/amc-cdn/production/2/movies/85200/85200/MovieStills/425680R5.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791716790/amc-cdn/production/2/movies/85200/85200/MovieStills/425680R5.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791889912/amc-cdn/production/2/movies/85200/85200/MovieStills/425680R4.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791889912/amc-cdn/production/2/movies/85200/85200/MovieStills/425680R4.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -21710,9 +22499,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-29T04:57:28-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -21818,9 +22607,9 @@
         "IMAX"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791948266/amc-cdn/content/general/layxmyj22gojzgwtlzs7.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791902433/amc-cdn/content/general/xkkmgjquy9zlr9dk3ert.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791902433/amc-cdn/content/general/xkkmgjquy9zlr9dk3ert.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405872335112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405872335112.mp4"
       },
@@ -21831,9 +22620,68 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-07T05:28:23-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85220",
+      "source_release_id": "7281",
+      "source_title": "Scream 30th Anniversary",
+      "sortable_title": "Scream 30th Anniversary",
+      "runtime_min": 111,
+      "release_date_utc": "2026-10-30T05:00:00Z",
+      "earliest_showing_utc": "2026-10-30T18:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-30T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "Horror",
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": null,
+      "distributor_id": "2337",
+      "distributor_code": "PAR",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "scream-30th-anniversary-85220",
+      "website_url": "https://www.amctheatres.com/movies/scream-30th-anniversary-85220",
+      "showtimes_url": "https://www.amctheatres.com/movies/scream-30th-anniversary-85220/showtimes",
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "EXCLDISMAT",
+        "FANFAVES",
+        "XL"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405872807112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405872807112.mp4"
+      },
+      "presentation": {
+        "category": "anniversary_or_rerelease",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -21855,7 +22703,7 @@
       "sortable_title": "#VYMARA",
       "runtime_min": 82,
       "release_date_utc": "2026-10-19T05:00:00Z",
-      "earliest_showing_utc": "2026-10-19T21:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-19T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "Horror",
@@ -21889,9 +22737,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-09-26T03:38:47-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -21913,7 +22761,7 @@
       "sortable_title": "Doctor Who: The Satan Pit",
       "runtime_min": 115,
       "release_date_utc": "2026-11-23T06:00:00Z",
-      "earliest_showing_utc": "2026-11-23T18:00:00Z",
+      "earliest_showing_utc": "2026-11-23T16:30:00Z",
       "online_ticket_availability_date_utc": "2026-11-23T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "SCIENCE FICTION",
@@ -21953,9 +22801,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-02T04:44:11-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -21977,7 +22825,7 @@
       "sortable_title": "AMC Screen Unseen: October 19",
       "runtime_min": 95,
       "release_date_utc": "2026-10-19T05:00:00Z",
-      "earliest_showing_utc": "2026-10-19T19:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-19T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -22010,9 +22858,66 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-07T05:28:23-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85232",
+      "source_release_id": null,
+      "source_title": "AMC Screen Unseen: October 26",
+      "sortable_title": "AMC Screen Unseen: October 26",
+      "runtime_min": 100,
+      "release_date_utc": "2026-10-26T05:00:00Z",
+      "earliest_showing_utc": "2026-10-26T19:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-26T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "AMC Screen Unseen, where guests can watch a never-before-seen film. We will share the movie’s MPA rating ahead of time, but the feature presentation will remain a mystery until showtime. Share your reaction after the movie with #AMCScreenUnseen on Instagram, Facebook, TikTok, Threads and X.",
+      "distributor_id": "2717",
+      "distributor_code": "DIS",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "amc-screen-unseen-october-26-85232",
+      "website_url": "https://www.amctheatres.com/movies/amc-screen-unseen-october-26-85232",
+      "showtimes_url": "https://www.amctheatres.com/movies/amc-screen-unseen-october-26-85232/showtimes",
+      "attribute_codes": [
+        "EVENT",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790620567/amc-cdn/content/general/wt6rzhhbzs1dn8ruur8i.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790620548/amc-cdn/content/general/qupspihdmlnllxgkecyb.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790620548/amc-cdn/content/general/qupspihdmlnllxgkecyb.jpg",
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "mystery_screening",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -22089,13 +22994,70 @@
     },
     {
       "source": "amc",
+      "source_film_id": "85254",
+      "source_release_id": null,
+      "source_title": "AMC Scream Unseen: October 26",
+      "sortable_title": "AMC Scream Unseen: October 26",
+      "runtime_min": 100,
+      "release_date_utc": "2026-10-26T05:00:00Z",
+      "earliest_showing_utc": "2026-10-26T21:30:00Z",
+      "online_ticket_availability_date_utc": "2026-10-26T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Be first to see a new scare with AMC Scream Unseen! We will share the movie’s MPA rating ahead of time, but the feature presentation will remain a mystery until showtime. Share your reaction after the movie with #AMCScreenUnseen on Instagram, Facebook, TikTok, Threads and X.",
+      "distributor_id": "2717",
+      "distributor_code": "DIS",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "amc-scream-unseen-october-26-85254",
+      "website_url": "https://www.amctheatres.com/movies/amc-scream-unseen-october-26-85254",
+      "showtimes_url": "https://www.amctheatres.com/movies/amc-scream-unseen-october-26-85254/showtimes",
+      "attribute_codes": [
+        "EVENT",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790620613/amc-cdn/content/general/v9j9vq50mypjpab9ljrq.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790620636/amc-cdn/content/general/fpgefd7ffznjubfqah4q.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790620636/amc-cdn/content/general/fpgefd7ffznjubfqah4q.jpg",
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "mystery_screening",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
       "source_film_id": "85262",
       "source_release_id": "384569",
       "source_title": "Jailer 2",
       "sortable_title": "Jailer 2",
       "runtime_min": 185,
       "release_date_utc": "2026-10-15T05:00:00Z",
-      "earliest_showing_utc": "2026-10-14T16:30:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-10-15T05:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ACTION",
@@ -22131,9 +23093,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-06T05:34:55-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -22247,9 +23209,251 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-07T05:28:23-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85339",
+      "source_release_id": "371059",
+      "source_title": "Wildwood: Sensory Friendly Screening",
+      "sortable_title": "Wildwood: Sensory Friendly Screening",
+      "runtime_min": 132,
+      "release_date_utc": "2026-10-24T05:00:00Z",
+      "earliest_showing_utc": "2026-10-24T10:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-24T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "NR",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "It follows a girl's desperate quest to save her baby brother, which becomes a high-stakes journey into a forbidden forest filled with enchanted creatures, unlikely allies, and formidable adversaries, where an entire hidden realm hangs in the balance.",
+      "distributor_id": "2449",
+      "distributor_code": "FAE",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "wildwood-sensory-friendly-screening-85339",
+      "website_url": "https://www.amctheatres.com/movies/wildwood-sensory-friendly-screening-85339",
+      "showtimes_url": "https://www.amctheatres.com/movies/wildwood-sensory-friendly-screening-85339/showtimes",
+      "attribute_codes": [
+        "AMCARTISANFILMS",
+        "NOTRAILER",
+        "SENSORYFRIENDLY"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791225807/amc-cdn/content/general/g3wnnddcv4pyo3den8j5.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406741432112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406741432112.mp4"
+      },
+      "presentation": {
+        "category": "sensory_friendly",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85359",
+      "source_release_id": "425480",
+      "source_title": "Wild Horse Nine: Early Access Screening",
+      "sortable_title": "Wild Horse Nine: Early Access Screening",
+      "runtime_min": 116,
+      "release_date_utc": "2026-10-30T05:00:00Z",
+      "earliest_showing_utc": "2026-10-30T19:00:00Z",
+      "online_ticket_availability_date_utc": "2026-10-30T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Be among the first to see Martin McDonagh’s WILD HORSE NINE when you attend the Wild Horse Nine: Early Access Screening on October 30. “John Malkovich and Sam Rockwell are simply superb” (Deadline) as CIA agents facing a trust-testing mission from Santiago to Easter Island ahead of the 1973 coup in Chile. “See it with an audience… Wild Horse Nine is laugh out loud funny, brilliant and moving” (Variety).",
+      "distributor_id": "2980",
+      "distributor_code": "FSD",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "wild-horse-nine-early-access-screening-85359",
+      "website_url": "https://www.amctheatres.com/movies/wild-horse-nine-early-access-screening-85359",
+      "showtimes_url": "https://www.amctheatres.com/movies/wild-horse-nine-early-access-screening-85359/showtimes",
+      "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "EVENT",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791838173/amc-cdn/content/general/x7ccxncqf4tkwqiwuogy.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791822387/amc-cdn/content/general/bxvjeprl62m2ulmrvndz.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791822387/amc-cdn/content/general/bxvjeprl62m2ulmrvndz.jpg",
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "concert_or_event",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85372",
+      "source_release_id": "427394",
+      "source_title": "Once Upon a Time… in Hollywood",
+      "sortable_title": "Once Upon a Time… in Hollywood (RE26)",
+      "runtime_min": 162,
+      "release_date_utc": "2026-10-30T05:00:00Z",
+      "earliest_showing_utc": "2026-10-30T11:15:00Z",
+      "online_ticket_availability_date_utc": "2026-10-30T05:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "In 1969, aging TV star Rick Dalton (Leonardo DiCaprio) and his longtime stunt double Cliff Booth (Brad Pitt) struggle to hold on to their footing and friendship in a Hollywood that seems dead set on leaving them behind.",
+      "distributor_id": "2420",
+      "distributor_code": "SON",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "once-upon-a-time-in-hollywood-85372",
+      "website_url": "https://www.amctheatres.com/movies/once-upon-a-time-in-hollywood-85372",
+      "showtimes_url": "https://www.amctheatres.com/movies/once-upon-a-time-in-hollywood-85372/showtimes",
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "IMAX"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792165070/amc-cdn/content/general/ciuwtowzndgp8tltk8p4.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
+        "inactive_since": null,
+        "refresh_status": "success"
+      },
+      "provenance": {
+        "metadata_source": "amc_movies_api",
+        "observation_source": "amc_showtimes",
+        "last_input_kind": "sanitized_movies_observation",
+        "derived_fields": [
+          "presentation.category",
+          "presentation.is_special_presentation"
+        ]
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85376",
+      "source_release_id": "380002",
+      "source_title": "ZERO A.D.: The Birth of Christ Early Access Event",
+      "sortable_title": "ZERO A.D.: The Birth of Christ Early Access Event",
+      "runtime_min": 115,
+      "release_date_utc": "2026-12-06T06:00:00Z",
+      "earliest_showing_utc": "2026-12-06T15:00:00Z",
+      "online_ticket_availability_date_utc": "2026-12-06T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "PG13",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "A brutal ruler fears a prophecy and orders the death of a child - one who will change history.",
+      "distributor_id": "3136",
+      "distributor_code": "ASN",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "zero-a-d-the-birth-of-christ-early-access-event-85376",
+      "website_url": "https://www.amctheatres.com/movies/zero-a-d-the-birth-of-christ-early-access-event-85376",
+      "showtimes_url": "https://www.amctheatres.com/movies/zero-a-d-the-birth-of-christ-early-access-event-85376/showtimes",
+      "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "EVENT",
+        "GDX",
+        "GXL",
+        "XL"
+      ],
+      "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791889623/amc-cdn/production/2/movies/85400/85376/Poster/380002R1.jpg",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406741816112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406741816112.mp4"
+      },
+      "presentation": {
+        "category": "concert_or_event",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      },
+      "lifecycle": {
+        "first_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },
@@ -22266,7 +23470,7 @@
     {
       "source": "amc",
       "source_film_id": "85377",
-      "source_release_id": null,
+      "source_release_id": "389884",
       "source_title": "The Mosquito Bowl: Fan Event Livestream Q&A with Director Peter Berg",
       "sortable_title": "Mosquito Bowl, The: Fan Event Livestream Q&A with Director Peter Berg",
       "runtime_min": 200,
@@ -22301,8 +23505,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1791774553/amc-cdn/content/general/gd3uiq6ddizlkclco3er.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406741921112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406741921112.mp4"
       },
       "presentation": {
         "category": "q_and_a",
@@ -22311,9 +23515,9 @@
       },
       "lifecycle": {
         "first_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_seen_at": "2026-10-12T07:06:31-07:00",
-        "last_refreshed_at": "2026-10-12T07:14:22-07:00",
-        "last_successful_refresh_at": "2026-10-12T07:14:22-07:00",
+        "last_seen_at": "2026-10-19T15:33:45-07:00",
+        "last_refreshed_at": "2026-10-19T15:44:42-07:00",
+        "last_successful_refresh_at": "2026-10-19T15:44:42-07:00",
         "inactive_since": null,
         "refresh_status": "success"
       },

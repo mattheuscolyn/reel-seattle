@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-10-19T08:42:51-07:00",
+  "generated_at": "2026-10-19T15:39:10-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-10-19",
@@ -12,14 +12,14 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 54,
+    "entry_count": 58,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-10-19",
     "latest_opening_date": "2026-10-25",
     "opening_type_counts": {
-      "limited": 28,
-      "theatrical": 12,
+      "limited": 29,
+      "theatrical": 15,
       "repertory": 9,
       "event": 5
     }
@@ -46,6 +46,99 @@
           "vymara"
         ],
         "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "musk",
+      "parent_film_key": "musk",
+      "film_id": null,
+      "film_title": "Musk",
+      "opening_date": "2026-10-19",
+      "theaters_on_opening_date": [
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 6,
+      "engagement_days": 3,
+      "historical_screening_count": 3,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "musk"
+        ],
+        "distinct_scheduled_dates": 3,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "prahaar-the-untold-story-of-ujjwal-nikam",
+      "parent_film_key": "prahaar-the-untold-story-of-ujjwal-nikam",
+      "film_id": null,
+      "film_title": "Prahaar: The Untold Story of Ujjwal Nikam",
+      "opening_date": "2026-10-19",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 6,
+      "engagement_days": 3,
+      "historical_screening_count": 3,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "prahaar-the-untold-story-of-ujjwal-nikam"
+        ],
+        "distinct_scheduled_dates": 3,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "ranabaali-telugu",
+      "parent_film_key": "ranabaali-telugu",
+      "film_id": null,
+      "film_title": "Ranabaali (Telugu)",
+      "opening_date": "2026-10-19",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 6,
+      "engagement_days": 3,
+      "historical_screening_count": 3,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "ranabaali-telugu"
+        ],
+        "distinct_scheduled_dates": 3,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16"
@@ -131,22 +224,25 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 278,
+      "visible_showtime_count": 432,
       "engagement_days": 15,
-      "historical_screening_count": 142,
+      "historical_screening_count": 220,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "wildwood",
-          "wildwood-fan-first-screening"
+          "wildwood-fan-first-screening",
+          "wildwood-sensory-friendly-screening"
         ],
         "distinct_scheduled_dates": 15,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
+          "amc-factoria-8",
           "amc-kent-station-14",
+          "amc-pacific-place-11",
           "amc-southcenter-16",
           "amc-woodinville-12",
           "anderson-school-theater",
@@ -591,9 +687,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 528,
+      "visible_showtime_count": 530,
       "engagement_days": 15,
-      "historical_screening_count": 264,
+      "historical_screening_count": 265,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -701,9 +797,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 6,
-      "visible_showtime_count": 328,
+      "visible_showtime_count": 330,
       "engagement_days": 8,
-      "historical_screening_count": 164,
+      "historical_screening_count": 165,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -803,9 +899,9 @@
         "majestic-bay"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 126,
+      "visible_showtime_count": 276,
       "engagement_days": 8,
-      "historical_screening_count": 63,
+      "historical_screening_count": 138,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -1049,6 +1145,37 @@
       "override": null
     },
     {
+      "showtime_film_key": "kung-fu-soccer",
+      "parent_film_key": "kung-fu-soccer",
+      "film_id": null,
+      "film_title": "Kung Fu Soccer",
+      "opening_date": "2026-10-23",
+      "theaters_on_opening_date": [
+        "amc-pacific-place-11"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 4,
+      "engagement_days": 1,
+      "historical_screening_count": 2,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "kung-fu-soccer"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-pacific-place-11"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
       "showtime_film_key": "pet-sematary-welcome-to-horrorwood-series",
       "parent_film_key": "pet-sematary-welcome-to-horrorwood-series",
       "film_id": null,
@@ -1186,9 +1313,9 @@
         "tasveer-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 14,
-      "engagement_days": 7,
-      "historical_screening_count": 7,
+      "visible_showtime_count": 12,
+      "engagement_days": 6,
+      "historical_screening_count": 6,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -1196,7 +1323,7 @@
         "variant_showtime_film_keys": [
           "tenzing"
         ],
-        "distinct_scheduled_dates": 7,
+        "distinct_scheduled_dates": 6,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "tasveer-film-center"
