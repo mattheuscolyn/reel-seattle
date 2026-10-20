@@ -412,10 +412,18 @@ def _validate_coming_soon_invariants(
                     f"{label}: {title!r} strongly_expected without TMDB theatrical evidence"
                 )
         if classification == "tmdb_only":
+            # AMC catalog membership alone is not an in-window announcement.
+            # The emitter deliberately keeps candidates TMDB-only when AMC's
+            # release date is absent or outside this publication window.
             if evidence.get("amc_coming_soon_catalog"):
-                raise ValueError(
-                    f"{label}: {title!r} is tmdb_only but has AMC catalog evidence"
-                )
+                amc_release_raw = entry.get("amc_catalog_release_date")
+                if amc_release_raw is not None:
+                    amc_release = date.fromisoformat(str(amc_release_raw))
+                    if start_date <= amc_release <= end_date:
+                        raise ValueError(
+                            f"{label}: {title!r} is tmdb_only despite "
+                            "in-window AMC catalog release evidence"
+                        )
             if not evidence.get("tmdb_us_theatrical"):
                 raise ValueError(
                     f"{label}: {title!r} is tmdb_only without TMDB evidence"
