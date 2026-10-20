@@ -1,8 +1,33 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-20T03:45:50-07:00",
+  "generated_at": "2026-10-20T15:20:14-07:00",
   "source": "stg",
   "records": [
+    {
+      "theater_name_raw": "The Moore Theatre",
+      "date_raw": "05/21/2027",
+      "time_raw": "8:00 PM",
+      "title_raw": "Eric Andre",
+      "runtime_raw": null,
+      "poster_url_raw": null,
+      "ticket_url_raw": "https://www.ticketmaster.com/event/0F006550FBECF0F6?brand=mooreseattle",
+      "canceled": null,
+      "almost_sold_out": null,
+      "format_raw": null,
+      "source_showtime_id": "78223",
+      "source_film_url": "https://www.stgpresents.org/events/eric-andre/",
+      "attributes": {
+        "source_film_id": "78223",
+        "source_program_id": "78223",
+        "source_showtime_id": "78223",
+        "theater_id": "the-moore-theatre",
+        "local_date": "2027-05-21",
+        "local_time": "20:00",
+        "timezone": "America/Los_Angeles",
+        "qualification": "explicit_screening",
+        "venue_raw": "The Moore Theatre"
+      }
+    },
     {
       "theater_name_raw": "Paramount Theatre",
       "date_raw": "02/13/2027",
@@ -208,7 +233,7 @@
     "restate_safe": false,
     "expected_structure_present": true,
     "discovery_ok": true,
-    "discovered_programs": 349,
+    "discovered_programs": 353,
     "program_pages_attempted": 4,
     "program_pages_succeeded": 4,
     "program_pages_failed": 0,
@@ -218,11 +243,14 @@
     "inspected_scope_complete": true,
     "requested_window_start": "2026-10-20",
     "requested_window_end": "2027-10-20",
-    "record_count": 7,
-    "warning_count": 240,
+    "record_count": 8,
+    "warning_count": 243,
     "error_count": 0
   },
   "warnings": [
+    "non_film_event: STG event 78215 (Daniel Donato) deny: non_screening_event",
+    "non_film_event: STG event 78204 (Bruce Cockburn) deny: non_screening_event",
+    "ambiguous_film_event: STG event 78231 (Faun) ambiguous: insufficient_screening_evidence",
     "unparsed_schedule: STG event 78310 (Youth Musical Theatre with Katy Tabb) has no parsable excerpt date or time",
     "non_film_event: STG event 78301 (Broadway Inclusion Program @ Kerry Hall – The Sound of Music) deny: non_screening_event",
     "non_film_event: STG event 78292 (Broadway Inclusion Program @ Northshore – The Sound of Music) deny: non_screening_event",
@@ -468,13 +496,13 @@
   "mapping": {
     "status": "partial_failure",
     "restate_safe": false,
-    "accepted_records": 7,
-    "rejected_records": 240
+    "accepted_records": 8,
+    "rejected_records": 243
   },
   "independent_source_result": {
     "contract_version": "1.0.0",
     "source": "stg",
-    "scraped_at": "2026-10-20T03:45:50-07:00",
+    "scraped_at": "2026-10-20T15:20:14-07:00",
     "requested_window": {
       "start": "2026-10-20",
       "end": "2027-10-20"
@@ -502,10 +530,22 @@
       ]
     },
     "stats": {
-      "accepted_showtimes": 7,
-      "rejected_observations": 240
+      "accepted_showtimes": 8,
+      "rejected_observations": 243
     },
     "warnings": [
+      {
+        "code": "non_film_event",
+        "message": "STG event 78215 (Daniel Donato) deny: non_screening_event"
+      },
+      {
+        "code": "non_film_event",
+        "message": "STG event 78204 (Bruce Cockburn) deny: non_screening_event"
+      },
+      {
+        "code": "ambiguous_film_event",
+        "message": "STG event 78231 (Faun) ambiguous: insufficient_screening_evidence"
+      },
       {
         "code": "unparsed_schedule",
         "message": "STG event 78310 (Youth Musical Theatre with Katy Tabb) has no parsable excerpt date or time"
@@ -1468,6 +1508,21 @@
       }
     ],
     "rejected_observations": [
+      {
+        "code": "non_film_event",
+        "message": "STG event 78215 (Daniel Donato) deny: non_screening_event",
+        "affects_completeness": false
+      },
+      {
+        "code": "non_film_event",
+        "message": "STG event 78204 (Bruce Cockburn) deny: non_screening_event",
+        "affects_completeness": false
+      },
+      {
+        "code": "ambiguous_film_event",
+        "message": "STG event 78231 (Faun) ambiguous: insufficient_screening_evidence",
+        "affects_completeness": false
+      },
       {
         "code": "unparsed_schedule",
         "message": "STG event 78310 (Youth Musical Theatre with Katy Tabb) has no parsable excerpt date or time",
@@ -2673,10 +2728,24 @@
       {
         "contract_version": "1.0.0",
         "source": "stg",
+        "source_program_id": "78223",
+        "source_title": "Eric Andre",
+        "source_program_url": "https://www.stgpresents.org/events/eric-andre/",
+        "observed_at": "2026-10-20T15:20:14-07:00",
+        "program_kind": "film",
+        "raw": {
+          "source_title": "Eric Andre",
+          "identity_title": "Eric Andre",
+          "evidence_excerpt": "STG Presents & Showbox Welcomes\nEric Andre\nFriday, May 21, 2027\nThe Moore Theatre\nDoors at 7pm\nShow at 8pm\nReserved seated, general admission 2nd balcony, all ages\nTickets on sale Friday 10/23 at 10am. Join\nSTG eNews\nto see presale offers a"
+        }
+      },
+      {
+        "contract_version": "1.0.0",
+        "source": "stg",
         "source_program_id": "76069",
         "source_title": "William Shakepeare’s Romeo + Juliet in Concert",
         "source_program_url": "https://www.stgpresents.org/events/william-shakepeares-romeo-juliet-in-concert/",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "program_kind": "film",
         "raw": {
           "source_title": "William Shakepeare’s Romeo + Juliet in Concert",
@@ -2690,7 +2759,7 @@
         "source_program_id": "75719",
         "source_title": "Twilight in Concert",
         "source_program_url": "https://www.stgpresents.org/events/twilight-in-concert/",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "program_kind": "film",
         "raw": {
           "source_title": "Twilight in Concert",
@@ -2704,7 +2773,7 @@
         "source_program_id": "75233",
         "source_title": "An Evening with Peter Billingsley and a Christmas Story",
         "source_program_url": "https://www.stgpresents.org/events/an-evening-with-peter-billingsley-and-a-christmas-story/",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "program_kind": "film",
         "raw": {
           "source_title": "An Evening with Peter Billingsley and a Christmas Story",
@@ -2718,7 +2787,7 @@
         "source_program_id": "74299",
         "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
         "source_program_url": "https://www.stgpresents.org/events/silent-movie-mondays-the-kid-brother/",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "program_kind": "film",
         "raw": {
           "source_title": "Silent Movie Mondays – The Kid Brother (1927)",
@@ -2734,7 +2803,7 @@
         "source_program_id": "74305",
         "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
         "source_program_url": "https://www.stgpresents.org/events/silent-movie-mondays-sunrise/",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "program_kind": "film",
         "raw": {
           "source_title": "Silent Movie Mondays – Sunrise: A Song of Two Humans (1927)",
@@ -2750,7 +2819,7 @@
         "source_program_id": "74314",
         "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
         "source_program_url": "https://www.stgpresents.org/events/silent-movie-mondays-the-adventures-of-prince-achmed/",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "program_kind": "film",
         "raw": {
           "source_title": "Silent Movie Mondays – The Adventures of Prince Achmed (1926)",
@@ -2766,7 +2835,7 @@
         "source_program_id": "74038",
         "source_title": "The Legend of Korra in Concert",
         "source_program_url": "https://www.stgpresents.org/events/the-legend-of-korra-in-concert/",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "program_kind": "film",
         "raw": {
           "source_title": "The Legend of Korra in Concert",
@@ -2779,6 +2848,25 @@
       {
         "contract_version": "1.0.0",
         "source": "stg",
+        "source_program_id": "78223",
+        "source_title": "Eric Andre",
+        "source_showtime_id": "78223",
+        "theater_id": "the-moore-theatre",
+        "local_date": "2027-05-21",
+        "local_time": "20:00",
+        "timezone": "America/Los_Angeles",
+        "source_occurrence_url": "https://www.stgpresents.org/events/eric-andre/",
+        "ticket_url": "https://www.ticketmaster.com/event/0F006550FBECF0F6?brand=mooreseattle",
+        "observed_at": "2026-10-20T15:20:14-07:00",
+        "raw": {
+          "theater_id": "the-moore-theatre",
+          "local_date": "2027-05-21",
+          "local_time": "20:00"
+        }
+      },
+      {
+        "contract_version": "1.0.0",
+        "source": "stg",
         "source_program_id": "76069",
         "source_title": "William Shakepeare’s Romeo + Juliet in Concert",
         "source_showtime_id": "76069",
@@ -2788,7 +2876,7 @@
         "timezone": "America/Los_Angeles",
         "source_occurrence_url": "https://www.stgpresents.org/events/william-shakepeares-romeo-juliet-in-concert/",
         "ticket_url": "https://www.ticketmaster.com/event/0F00652AB8E2AA34?brand=paramountseattle",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "raw": {
           "theater_id": "paramount-theatre",
           "local_date": "2027-02-13",
@@ -2807,7 +2895,7 @@
         "timezone": "America/Los_Angeles",
         "source_occurrence_url": "https://www.stgpresents.org/events/twilight-in-concert/",
         "ticket_url": "https://www.ticketmaster.com/artist/2651256?venueId=122980&brand=paramountseattle",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "raw": {
           "theater_id": "paramount-theatre",
           "local_date": "2027-03-27",
@@ -2826,7 +2914,7 @@
         "timezone": "America/Los_Angeles",
         "source_occurrence_url": "https://www.stgpresents.org/events/an-evening-with-peter-billingsley-and-a-christmas-story/",
         "ticket_url": "https://www.ticketmaster.com/event/0F00650CE5FEF159?brand=mooreseattle",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "raw": {
           "theater_id": "the-moore-theatre",
           "local_date": "2026-12-20",
@@ -2845,7 +2933,7 @@
         "timezone": "America/Los_Angeles",
         "source_occurrence_url": "https://www.stgpresents.org/events/silent-movie-mondays-the-kid-brother/",
         "ticket_url": "https://www.ticketmaster.com/artist/999234?venueId=122980&brand=paramountseattle",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "raw": {
           "theater_id": "paramount-theatre",
           "local_date": "2027-01-11",
@@ -2864,7 +2952,7 @@
         "timezone": "America/Los_Angeles",
         "source_occurrence_url": "https://www.stgpresents.org/events/silent-movie-mondays-sunrise/",
         "ticket_url": "https://www.ticketmaster.com/artist/999234?venueId=122980&brand=paramountseattle",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "raw": {
           "theater_id": "paramount-theatre",
           "local_date": "2027-04-12",
@@ -2883,7 +2971,7 @@
         "timezone": "America/Los_Angeles",
         "source_occurrence_url": "https://www.stgpresents.org/events/silent-movie-mondays-the-adventures-of-prince-achmed/",
         "ticket_url": "https://www.ticketmaster.com/artist/999234?venueId=122980&brand=paramountseattle",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "raw": {
           "theater_id": "paramount-theatre",
           "local_date": "2027-07-26",
@@ -2902,7 +2990,7 @@
         "timezone": "America/Los_Angeles",
         "source_occurrence_url": "https://www.stgpresents.org/events/the-legend-of-korra-in-concert/",
         "ticket_url": "https://www.ticketmaster.com/event/0F0064E9B9BA9BE6?brand=the5th",
-        "observed_at": "2026-10-20T03:45:50-07:00",
+        "observed_at": "2026-10-20T15:20:14-07:00",
         "raw": {
           "theater_id": "the-5th-avenue-theatre",
           "local_date": "2027-01-20",

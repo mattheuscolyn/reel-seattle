@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-20T03:46:59-07:00",
+  "generated_at": "2026-10-20T15:21:32-07:00",
   "status": "success",
   "window": {
     "start_date": "2026-10-20",
@@ -9,8 +9,8 @@
   "sources": {
     "amc": {
       "status": "success",
-      "showtime_count": 6051,
-      "film_count": 105,
+      "showtime_count": 7354,
+      "film_count": 112,
       "theater_count": 7,
       "last_successful_run": "2026-10-20",
       "warnings": [
@@ -20,8 +20,8 @@
     },
     "siff": {
       "status": "success",
-      "showtime_count": 161,
-      "film_count": 61,
+      "showtime_count": 203,
+      "film_count": 64,
       "theater_count": 3,
       "last_successful_run": "2026-10-20",
       "warnings": [
@@ -78,7 +78,7 @@
     },
     "tasveer": {
       "status": "success",
-      "showtime_count": 30,
+      "showtime_count": 32,
       "film_count": 6,
       "theater_count": 1,
       "last_successful_run": "2026-10-20",
@@ -87,7 +87,7 @@
     },
     "anderson_school": {
       "status": "success",
-      "showtime_count": 38,
+      "showtime_count": 37,
       "film_count": 2,
       "theater_count": 1,
       "last_successful_run": "2026-10-20",
@@ -101,6 +101,9 @@
       "theater_count": 3,
       "last_successful_run": "2026-10-07",
       "warnings": [
+        "non_film_event: STG event 78215 (Daniel Donato) deny: non_screening_event",
+        "non_film_event: STG event 78204 (Bruce Cockburn) deny: non_screening_event",
+        "ambiguous_film_event: STG event 78231 (Faun) ambiguous: insufficient_screening_evidence",
         "unparsed_schedule: STG event 78310 (Youth Musical Theatre with Katy Tabb) has no parsable excerpt date or time",
         "non_film_event: STG event 78301 (Broadway Inclusion Program @ Kerry Hall – The Sound of Music) deny: non_screening_event",
         "non_film_event: STG event 78292 (Broadway Inclusion Program @ Northshore – The Sound of Music) deny: non_screening_event",
@@ -341,7 +344,7 @@
         "unparsed_schedule: STG event 6390 (Free Moore Tour) has no parsable excerpt date or time",
         "unparsed_schedule: STG event 6373 (Free Paramount Tour) has no parsable excerpt date or time",
         "unparsed_schedule: STG event 6280 (Seattle Theatre Group Archive) has no parsable excerpt date or time",
-        "STG scrape partial: 4 of 349 program pages parsed; retained prior future rows."
+        "STG scrape partial: 4 of 353 program pages parsed; retained prior future rows."
       ],
       "errors": []
     },
@@ -356,8 +359,8 @@
     }
   },
   "totals": {
-    "showtime_count": 6537,
-    "film_count": 260,
+    "showtime_count": 7883,
+    "film_count": 269,
     "theater_count": 19
   },
   "messages": [],
@@ -370,15 +373,15 @@
     "outcome": "promoted",
     "artifacts_written_this_run": true,
     "artifacts_retained_from_prior": false,
-    "reported_at": "2026-10-20T03:57:32-07:00",
-    "last_successful_build_at": "2026-10-20T03:55:38-07:00",
+    "reported_at": "2026-10-20T15:33:28-07:00",
+    "last_successful_build_at": "2026-10-20T15:31:27-07:00",
     "message": "AMC source catalog: promoted",
     "warnings": [],
     "errors": [],
     "refresh": {
-      "active_ids": 105,
-      "selected": 105,
-      "success": 105,
+      "active_ids": 112,
+      "selected": 112,
+      "success": 112,
       "failed": 0,
       "invalid": 0
     },
@@ -389,8 +392,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-10-20T03:55:38-07:00",
-        "record_count": 390,
+        "generated_at": "2026-10-20T15:31:27-07:00",
+        "record_count": 397,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -402,8 +405,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-10-20T03:55:38-07:00",
-        "record_count": 345,
+        "generated_at": "2026-10-20T15:31:27-07:00",
+        "record_count": 350,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -411,42 +414,42 @@
       }
     },
     "products_summary": {
-      "total": 390,
-      "active": 105,
+      "total": 397,
+      "active": 112,
       "inactive": 285,
-      "with_release_id": 381,
+      "with_release_id": 388,
       "without_release_id": 9,
       "refresh_pending": 0,
-      "refresh_success": 390,
+      "refresh_success": 397,
       "refresh_stale": 0,
       "refresh_failed": 0,
       "refresh_invalid": 0,
       "refresh_status_missing": 0,
       "stored_stats": {
-        "products": 390,
-        "active_products": 105,
+        "products": 397,
+        "active_products": 112,
         "inactive_products": 285,
-        "with_release_id": 381,
+        "with_release_id": 388,
         "without_release_id": 9,
         "refresh_pending": 0,
-        "refresh_success": 390,
+        "refresh_success": 397,
         "refresh_stale": 0,
         "refresh_failed": 0,
         "refresh_invalid": 0,
-        "special_presentations": 189
+        "special_presentations": 194
       }
     },
     "releases_summary": {
-      "total": 345,
-      "singleton_groups": 326,
-      "multi_product_groups": 19,
-      "membership_references": 381,
+      "total": 350,
+      "singleton_groups": 330,
+      "multi_product_groups": 20,
+      "membership_references": 388,
       "unresolved_member_references": 0,
       "stored_stats": {
-        "release_observations": 345,
-        "singleton_groups": 326,
-        "multi_product_groups": 19,
-        "largest_group": 15
+        "release_observations": 350,
+        "singleton_groups": 330,
+        "multi_product_groups": 20,
+        "largest_group": 16
       }
     }
   }

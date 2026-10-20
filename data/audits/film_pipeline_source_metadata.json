@@ -1,48 +1,48 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-20T03:57:33-07:00",
+  "generated_at": "2026-10-20T15:33:28-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-20_amc.json",
-      "generated_at": "2026-10-20T03:46:17-07:00",
-      "record_count": 6055,
+      "generated_at": "2026-10-20T15:20:48-07:00",
+      "record_count": 7359,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 105,
-      "eligible_feature_count": 91,
+      "source_identity_count": 112,
+      "eligible_feature_count": 97,
       "title": {
-        "with_title": 105,
+        "with_title": 112,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 91,
+        "eligible_features_with_runtime": 97,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 91,
+        "eligible_features_missing_year": 97,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
           "Forgotten Island",
+          "Disney's Hexed",
           "The Odyssey",
           "The Cat in the Hat",
           "Dune: Part Three",
           "Street Fighter",
           "Spider-Man: Brand New Day",
-          "Digger",
-          "Resident Evil"
+          "Digger"
         ]
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 33,
+        "matcher_cleaned_identity_count": 37,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -124,8 +124,8 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 11,
-        "feature_film": 91,
-        "mystery_screening": 2,
+        "feature_film": 97,
+        "mystery_screening": 3,
         "unknown_program": 1
       },
       "identities": [
@@ -168,6 +168,22 @@
           "matcher_title": "Forgotten Island",
           "program_series": null,
           "runtime_min": 109,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:72478",
+          "source_title": "Disney's Hexed",
+          "adapter_identity_title": null,
+          "matcher_title": "Disney's Hexed",
+          "program_series": null,
+          "runtime_min": 110,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1075,6 +1091,22 @@
           ]
         },
         {
+          "source_identity_key": "id:84566",
+          "source_title": "418",
+          "adapter_identity_title": null,
+          "matcher_title": "418",
+          "program_series": null,
+          "runtime_min": 157,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:84602",
           "source_title": "George Michael: The Faith Tour",
           "adapter_identity_title": null,
@@ -1492,6 +1524,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85179",
+          "source_title": "Disney's Hexed: Sensory Friendly Screening",
+          "adapter_identity_title": null,
+          "matcher_title": "Disney's Hexed",
+          "program_series": null,
+          "runtime_min": 99,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_segment"
+          ]
+        },
+        {
           "source_identity_key": "id:85190",
           "source_title": "Dive in Wonderland",
           "adapter_identity_title": null,
@@ -1669,6 +1717,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85233",
+          "source_title": "AMC Screen Unseen: November 2",
+          "adapter_identity_title": null,
+          "matcher_title": "AMC Screen Unseen: November 2",
+          "program_series": null,
+          "runtime_min": 135,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "mystery_screening",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:85254",
           "source_title": "AMC Scream Unseen: October 26",
           "adapter_identity_title": null,
@@ -1812,31 +1876,79 @@
           "normalization_rules": [
             "normalized_source_fallback"
           ]
+        },
+        {
+          "source_identity_key": "id:85431",
+          "source_title": "RBO - Nutcracker (2026)",
+          "adapter_identity_title": null,
+          "matcher_title": "RBO - Nutcracker",
+          "program_series": null,
+          "runtime_min": 130,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "film_year_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:85434",
+          "source_title": "RBO - Swan Lake (2027)",
+          "adapter_identity_title": null,
+          "matcher_title": "RBO - Swan Lake",
+          "program_series": null,
+          "runtime_min": 205,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "film_year_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:85436",
+          "source_title": "RBO - Alice's Adventures In Wonderland (2027)",
+          "adapter_identity_title": null,
+          "matcher_title": "RBO - Alice's Adventures In Wonderland",
+          "program_series": null,
+          "runtime_min": 170,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "film_year_paren"
+          ]
         }
       ]
     },
     "siff": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-20_siff.json",
-      "generated_at": "2026-10-20T03:45:50-07:00",
-      "record_count": 161,
+      "generated_at": "2026-10-20T15:20:14-07:00",
+      "record_count": 203,
       "malformed_record_count": 0,
       "warning_count": 12,
       "error_count": 0,
-      "source_identity_count": 61,
-      "eligible_feature_count": 59,
+      "source_identity_count": 64,
+      "eligible_feature_count": 62,
       "title": {
-        "with_title": 61,
+        "with_title": 64,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 59,
+        "eligible_features_with_runtime": 62,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 59,
+        "eligible_features_with_year": 62,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -2007,7 +2119,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 59,
+        "feature_film": 62,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2093,6 +2205,22 @@
           ]
         },
         {
+          "source_identity_key": "id:cinema/in-theaters/dune-part-three",
+          "source_title": "Dune: Part Three",
+          "adapter_identity_title": null,
+          "matcher_title": "Dune: Part Three",
+          "program_series": null,
+          "runtime_min": 150,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:cinema/in-theaters/glen-canyon-institutes-what-the-river-knows",
           "source_title": "Glen Canyon Institute's What the River Knows",
           "adapter_identity_title": null,
@@ -2138,6 +2266,22 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "exact_alias:ken-russells-the-devils"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/kwaidan",
+          "source_title": "Kwaidan",
+          "adapter_identity_title": null,
+          "matcher_title": "Kwaidan",
+          "program_series": null,
+          "runtime_min": 183,
+          "release_year": 1965,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
           ]
         },
         {
@@ -2388,6 +2532,22 @@
           "program_series": null,
           "runtime_min": 101,
           "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/the-shining",
+          "source_title": "The Shining",
+          "adapter_identity_title": null,
+          "matcher_title": "The Shining",
+          "program_series": null,
+          "runtime_min": 144,
+          "release_year": 1980,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -2999,7 +3159,7 @@
     "beacon": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-20_beacon.json",
-      "generated_at": "2026-10-20T03:45:50-07:00",
+      "generated_at": "2026-10-20T15:20:14-07:00",
       "record_count": 26,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -3380,7 +3540,7 @@
     "nwff": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-20_nwff.json",
-      "generated_at": "2026-10-20T03:44:35-07:00",
+      "generated_at": "2026-10-20T15:19:17-07:00",
       "record_count": 103,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4258,7 +4418,7 @@
     "central_cinema": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-20_central_cinema.json",
-      "generated_at": "2026-10-20T03:44:52-07:00",
+      "generated_at": "2026-10-20T15:19:30-07:00",
       "record_count": 50,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4621,7 +4781,7 @@
     "grand_illusion": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-20_grand_illusion.json",
-      "generated_at": "2026-10-20T03:45:38-07:00",
+      "generated_at": "2026-10-20T15:20:03-07:00",
       "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4797,8 +4957,8 @@
     "tasveer": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-20_tasveer.json",
-      "generated_at": "2026-10-20T03:45:39-07:00",
-      "record_count": 30,
+      "generated_at": "2026-10-20T15:20:04-07:00",
+      "record_count": 32,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4948,44 +5108,39 @@
     "anderson_school": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-20_anderson_school.json",
-      "generated_at": "2026-10-20T03:45:40-07:00",
-      "record_count": 38,
+      "generated_at": "2026-10-20T15:20:06-07:00",
+      "record_count": 37,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 4,
-      "eligible_feature_count": 4,
+      "source_identity_count": 3,
+      "eligible_feature_count": 3,
       "title": {
-        "with_title": 4,
+        "with_title": 3,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 4,
+        "eligible_features_with_runtime": 3,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 4,
+        "eligible_features_missing_year": 3,
         "missing_feature_samples": [
           "Wildwood",
           "Wildwood (OCAP)",
-          "The Social Reckoning",
-          "The Social Reckoning OCAP"
+          "The Social Reckoning"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 2,
+        "adapter_cleaned_identity_count": 1,
         "matcher_cleaned_identity_count": 0,
         "adapter_cleanup_samples": [
           {
             "source_title": "Wildwood (OCAP)",
             "identity_title": "Wildwood"
-          },
-          {
-            "source_title": "The Social Reckoning OCAP",
-            "identity_title": "The Social Reckoning"
           }
         ],
         "matcher_cleanup_samples": []
@@ -4995,7 +5150,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 4
+        "feature_film": 3
       },
       "identities": [
         {
@@ -5045,52 +5200,38 @@
           "normalization_rules": [
             "normalized_source_fallback"
           ]
-        },
-        {
-          "source_identity_key": "id:ST00003308",
-          "source_title": "The Social Reckoning OCAP",
-          "adapter_identity_title": "The Social Reckoning",
-          "matcher_title": "The Social Reckoning OCAP",
-          "program_series": null,
-          "runtime_min": 112,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
         }
       ]
     },
     "stg": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-20_stg.json",
-      "generated_at": "2026-10-20T03:45:50-07:00",
-      "record_count": 7,
+      "generated_at": "2026-10-20T15:20:14-07:00",
+      "record_count": 8,
       "malformed_record_count": 0,
-      "warning_count": 240,
+      "warning_count": 243,
       "error_count": 0,
-      "source_identity_count": 7,
-      "eligible_feature_count": 4,
+      "source_identity_count": 8,
+      "eligible_feature_count": 5,
       "title": {
-        "with_title": 7,
+        "with_title": 8,
         "missing": 0
       },
       "runtime": {
         "eligible_features_with_runtime": 3,
-        "eligible_features_missing_runtime": 1,
+        "eligible_features_missing_runtime": 2,
         "missing_feature_samples": [
-          "An Evening with Peter Billingsley and a Christmas Story"
+          "An Evening with Peter Billingsley and a Christmas Story",
+          "Eric Andre"
         ]
       },
       "release_year": {
         "strategy": "source_title_or_page_when_published",
         "eligible_features_with_year": 3,
-        "eligible_features_missing_year": 1,
+        "eligible_features_missing_year": 2,
         "missing_feature_samples": [
-          "An Evening with Peter Billingsley and a Christmas Story"
+          "An Evening with Peter Billingsley and a Christmas Story",
+          "Eric Andre"
         ]
       },
       "cleanup": {
@@ -5163,7 +5304,7 @@
       },
       "entity_kind_counts": {
         "composite_event": 1,
-        "feature_film": 4,
+        "feature_film": 5,
         "live_event": 2
       },
       "identities": [
@@ -5281,13 +5422,29 @@
           "normalization_rules": [
             "normalized_source_fallback"
           ]
+        },
+        {
+          "source_identity_key": "id:78223",
+          "source_title": "Eric Andre",
+          "adapter_identity_title": null,
+          "matcher_title": "Eric Andre",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
         }
       ]
     },
     "majestic_bay": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-20_majestic_bay.json",
-      "generated_at": "2026-10-20T03:45:50-07:00",
+      "generated_at": "2026-10-20T15:20:14-07:00",
       "record_count": 65,
       "malformed_record_count": 0,
       "warning_count": 0,
