@@ -10,6 +10,11 @@ from reel_seattle.analysis.remaining_run_shadow import (
     horizon_friday,
     probabilities_from_serialized,
     publication_status,
+    snapshot_coverage,
+    holdout_gap_impact,
+    within_reference,
+    REFERENCE_HOLDOUT,
+    run_shadow_forecast,
     selected_feature_names,
     serialize_hazard,
     write_shadow_outputs,
@@ -161,3 +166,50 @@ def test_ledgers_append_without_rewriting_or_touching_production(tmp_path):
     assert not (tmp_path / "public" / "data" / "leaving_soon_current.json").exists()
     assert (tmp_path / "data" / "models" / "remaining_run_shadow" / "current.json").exists()
     assert "research_shadow_not_production" in (tmp_path / "data" / "models" / "remaining_run_shadow" / "current.json").read_text(encoding="utf-8")
+
+
+def test_missing_amc_snapshot_days_are_reported_not_imputed(tmp_path):
+    import json
+
+    status = tmp_path / "data/history/screening_snapshot_status.jsonl"
+    status.parent.mkdir(parents=True)
+    rows = [
+        {"source": "amc", "snapshot_date": day, "completeness": "complete", "record_count": 100}
+        for day in ("2026-10-12", "2026-10-19", "2026-10-20")
+    ]
+    rows.append({"source": "siff", "snapshot_date": "2026-10-13", "completeness": "complete"})
+    status.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
+    coverage = snapshot_coverage(tmp_path, since=date(2026, 10, 12))
+    assert coverage["observed_days"] == 3
+    assert coverage["missing_dates"] == [
+        f"2026-10-{day:02d}" for day in range(13, 19)
+    ]
+    assert coverage["incomplete_dates"] == []
+    assert coverage["expected_days"] == 9
+
+
+def test_gap_affected_outcomes_are_excluded_from_clean_cohort():
+    coverage = {
+        "missing_dates": ["2026-10-13", "2026-10-14"],
+        "incomplete_dates": [],
+    }
+    rows = [
+        {"observation_date": "2026-09-10", "upcoming_friday": "2026-09-18", "censored": 0},
+        {"observation_date": "2026-10-12", "upcoming_friday": "2026-10-16", "censored": 0},
+        {"observation_date": "2026-10-12", "upcoming_friday": "2026-10-16", "censored": 1},
+    ]
+    impact = holdout_gap_impact(rows, coverage)
+    assert impact["rows_potentially_affected"] == 2
+    assert impact["rows_unaffected"] == 1
+    assert impact["resolved_potentially_affected"] == 1
+    assert impact["resolved_unaffected"] == 1
+    assert impact["unaffected_rows"] == [rows[0]]
+
+
+def test_frozen_benchmark_is_strict_and_requires_checkout(tmp_path):
+    import pytest
+
+    assert within_reference(REFERENCE_HOLDOUT)
+    assert not within_reference({"log_loss": 0.8544765324517669})
+    with pytest.raises(RuntimeError, match="Frozen research checkout required"):
+        run_shadow_forecast(tmp_path)
