@@ -6,6 +6,11 @@ on:
   schedule:
     - cron: "0 9 * * *"
   workflow_dispatch:
+  # Exercise workflow repairs once, without running after every data commit.
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/remaining_run_shadow.yml'
 
 permissions:
   contents: write
