@@ -47,3 +47,24 @@ def test_shadow_subset_only_exports_valid_probabilities():
     assert len(doc["market"])==1
     assert doc["market"][0]["sourceFilmId"]=="123"
     assert "private" not in str(doc)
+
+
+def test_degraded_shadow_forecast_keeps_last_known_good_file(tmp_path, monkeypatch):
+    import json
+    import sys
+    from scripts.build_a_list_forecast import main
+
+    source = tmp_path / "shadow.json"
+    output = tmp_path / "a_list_run_forecast_current.json"
+    source.write_text(json.dumps({
+        "modelVersion": "remaining_run_shadow_v1",
+        "asOf": "2026-10-20",
+        "qualityState": "degraded_observation_history",
+        "market": [{"sourceFilmId": "123", "pFinalWeek": 0.6, "pPlus1Week": 0.3,
+                    "pPlus2Weeks": 0.1, "pPlus3PlusWeeks": 0.0}],
+    }), encoding="utf-8")
+    output.write_text('{"kept":true}\n', encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["build_a_list_forecast.py", "--source", str(source),
+                                     "--output", str(output)])
+    assert main() == 0
+    assert json.loads(output.read_text(encoding="utf-8")) == {"kept": True}
