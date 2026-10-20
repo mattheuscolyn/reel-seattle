@@ -12,6 +12,11 @@ on:
     types: [completed]
     branches: [main]
 
+# Prevent a slower, older build from overwriting newer published data.
+concurrency:
+  group: reel-seattle-pages-deploy
+  cancel-in-progress: true
+
 jobs:
   build-and-deploy:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
