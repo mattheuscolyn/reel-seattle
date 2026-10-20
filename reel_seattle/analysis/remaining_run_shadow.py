@@ -35,7 +35,7 @@ from reel_seattle.analysis.leaving_soon_prepublication_survival import (
     build_observations,
     distribution_from_hazards,
 )
-from reel_seattle.analysis.leaving_soon_scheduling_assumptions import programming_week_friday
+from reel_seattle.analysis.leaving_soon_scheduling_assumptions import load_snapshot_infos, programming_week_friday
 from reel_seattle.analysis.leaving_soon_survival import NORMAL_FIRST_RUN, make_observation
 from reel_seattle.analysis.tmdb_weekly_snapshot import append_jsonl_gz, estimate_tmdb_cost
 
@@ -240,6 +240,61 @@ def within_reference(metrics: Mapping[str, Any], *, log_loss_tolerance: float = 
     if not isinstance(loss, float):
         return False
     return abs(loss - REFERENCE_HOLDOUT["log_loss"]) <= log_loss_tolerance
+
+
+def snapshot_coverage(root: Path, *, since: date = date(2026, 9, 3)) -> dict[str, Any]:
+    """Audit actual AMC snapshot dates; a missing day is never a negative label."""
+    info = load_snapshot_infos(root / "data/history/screening_snapshot_status.jsonl")
+    if not info:
+        raise RuntimeError("No AMC snapshot status available")
+    latest = max(item.snapshot_date for item in info)
+    by_date = {item.snapshot_date: item for item in info if item.snapshot_date >= since}
+    missing = []
+    incomplete = []
+    current = since
+    while current <= latest:
+        item = by_date.get(current)
+        if item is None:
+            missing.append(current.isoformat())
+        elif item.completeness != "complete":
+            incomplete.append({"date": current.isoformat(), "state": item.completeness})
+        current += timedelta(days=1)
+    return {
+        "since": since.isoformat(),
+        "through": latest.isoformat(),
+        "expected_days": (latest - since).days + 1,
+        "observed_days": len(by_date),
+        "missing_dates": missing,
+        "incomplete_dates": incomplete,
+        "missing_count": len(missing),
+        "incomplete_count": len(incomplete),
+    }
+
+
+def holdout_gap_impact(
+    holdout: Sequence[Mapping[str, Any]], coverage: Mapping[str, Any]
+) -> dict[str, Any]:
+    """Separate holdouts whose potential three-week outcome crosses unobserved days.
+
+    This is a conservative *potential* impact marker, not an imputed exit or
+    a claim that a missing snapshot actually changed the outcome.
+    """
+    missing = [date.fromisoformat(item) for item in coverage["missing_dates"]]
+    missing.extend(date.fromisoformat(item["date"]) for item in coverage["incomplete_dates"])
+    affected = []
+    unaffected = []
+    for row in holdout:
+        observed = date.fromisoformat(row["observation_date"])
+        horizon_end = date.fromisoformat(row["upcoming_friday"]) + timedelta(days=20)
+        (affected if any(observed <= day <= horizon_end for day in missing) else unaffected).append(row)
+    return {
+        "rows_total": len(holdout),
+        "rows_potentially_affected": len(affected),
+        "rows_unaffected": len(unaffected),
+        "resolved_potentially_affected": sum(not row["censored"] for row in affected),
+        "resolved_unaffected": sum(not row["censored"] for row in unaffected),
+        "unaffected_rows": unaffected,
+    }
 
 
 def fit_shadow_models(primary: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
@@ -629,12 +684,42 @@ def playing_tmdb_films(root: Path, theater_rows: Sequence[Mapping[str, Any]]) ->
     return films
 
 
-def run_shadow_forecast(root: Path, *, generated_at: str | None = None) -> dict[str, Any]:
+def run_shadow_forecast(
+    root: Path, *, generated_at: str | None = None, reference_root: Path | None = None
+) -> dict[str, Any]:
     generated_at = generated_at or datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    # PR #141 is a fixed point-in-time research benchmark. Reproducing it on
+    # the growing current ledger changes the holdout population and labels.
+    if reference_root is None or not (reference_root / "data/history/screening_lifecycle.jsonl.gz").is_file():
+        raise RuntimeError("Frozen research checkout required (--reference-root); refusing moving benchmark")
+    frozen = reproduce_selected_model(reference_root)
+    reference_metrics = frozen["theater"]
+    if reference_metrics.get("n") != 405 or not within_reference(reference_metrics):
+        raise RuntimeError(
+            f"Frozen PR #141 reference failed: n={reference_metrics.get('n')}, "
+            f"log loss={reference_metrics.get('log_loss')}"
+        )
     reproduced = reproduce_selected_model(root)
-    metrics = reproduced["theater"]
-    if not within_reference(metrics):
-        raise RuntimeError(f"selected model log loss {metrics.get('log_loss')} is outside the PR #141 reference")
+    rolling_metrics = reproduced["theater"]
+    coverage = snapshot_coverage(root)
+    partition = _split(reproduced["primary"])
+    impact = holdout_gap_impact(partition["holdout"], coverage)
+    unaffected = impact.pop("unaffected_rows")
+    if impact["resolved_unaffected"]:
+        unaffected_metrics, _ = _score(partition["train"], unaffected, selected_feature_names())
+    else:
+        unaffected_metrics = {"n": 0}
+    recent_start = date.fromisoformat(coverage["through"]) - timedelta(days=27)
+    recent_missing = [
+        day for day in coverage["missing_dates"]
+        if date.fromisoformat(day) >= recent_start
+    ] + [
+        entry["date"] for entry in coverage["incomplete_dates"]
+        if date.fromisoformat(entry["date"]) >= recent_start
+    ]
+    # Rolling score is diagnostic, not a reproduced research experiment.
+    # Recent incomplete observation history makes new public predictions unsafe.
+    quality_state = "degraded_observation_history" if recent_missing else "research_shadow_unverified"
     fitted = fit_shadow_models(reproduced["primary"])
     spec_theater = serialize_hazard(fitted["theater"])
     spec_market = serialize_hazard(fitted["market"])
@@ -680,8 +765,16 @@ def run_shadow_forecast(root: Path, *, generated_at: str | None = None) -> dict[
         "market_method": "direct hazard on the film x week row, not an independence combination of theaters",
         "training_window": "all pre-publication rows available at generation, including censored rows only through their known survival periods",
         "verification_split": "train through 2026-08-16, holdout after 2026-09-06",
-        "verification_holdout": {key: metrics.get(key) for key in REFERENCE_HOLDOUT},
+        "verification_holdout": {**{"n": reference_metrics["n"]}, **{key: reference_metrics.get(key) for key in REFERENCE_HOLDOUT}},
         "verification_reference": REFERENCE_HOLDOUT,
+        "verification_reference_commit": "95ae5725e74176b94f982cf4454f6b8d0b4b634e",
+        "rolling_holdout": {key: rolling_metrics.get(key) for key in ("n", *REFERENCE_HOLDOUT)},
+        "rolling_unaffected_holdout": {key: unaffected_metrics.get(key) for key in ("n", *REFERENCE_HOLDOUT)},
+        "snapshot_coverage": coverage,
+        "holdout_gap_impact": impact,
+        "recent_missing_snapshot_dates": sorted(recent_missing),
+        "quality_state": quality_state,
+        "metric_comparability": "rolling holdout changes as new outcomes resolve; not directly comparable to frozen benchmark",
         "market_holdout_pr140_features": {key: reproduced["market"].get(key) for key in ("n", "log_loss", "brier", "pr_auc_final_week")},
         "theater_model": spec_theater,
         "market_model": spec_market,
@@ -700,6 +793,11 @@ def write_shadow_outputs(root: Path, result: Mapping[str, Any]) -> dict[str, Pat
     prediction_dir.mkdir(parents=True, exist_ok=True)
     current = {
         "generatedAt": result["generated_at"],
+        "qualityState": result["manifest"].get("quality_state", "research_shadow_unverified"),
+        "snapshotCoverage": {
+            key: result["manifest"]["snapshot_coverage"].get(key)
+            for key in ("since", "through", "missing_count", "incomplete_count")
+        } if "snapshot_coverage" in result["manifest"] else None,
         "modelVersion": MODEL_VERSION,
         "asOf": live["as_of"],
         "upcomingFriday": live["upcoming_friday"],
