@@ -42,7 +42,15 @@ def main() -> int:
     parser.add_argument("--source",type=Path,default=SOURCE)
     parser.add_argument("--output",type=Path,default=TARGET)
     args=parser.parse_args()
-    output=build_public_forecast(json.loads(args.source.read_text(encoding="utf-8")))
+    snapshot=json.loads(args.source.read_text(encoding="utf-8"))
+    # Only publish a new experimental forecast after the current rolling
+    # model has been explicitly validated on comparable, complete cohorts.
+    # Preserve the prior freshness-gated artifact while research is degraded.
+    quality=snapshot.get("qualityState")
+    if quality != "validated":
+        print(f"Withholding experimental A-List forecast: qualityState={quality!r}; preserving previous public artifact")
+        return 0
+    output=build_public_forecast(snapshot)
     if not output["market"]:raise ValueError("No market forecast rows to export")
     args.output.parent.mkdir(parents=True,exist_ok=True)
     tmp=args.output.with_suffix(".tmp")
