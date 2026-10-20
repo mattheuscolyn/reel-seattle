@@ -743,6 +743,44 @@ def test_tmdb_evidence_on_amc_announced_film_stays_visible():
     assert entry["evidence"]["amc_coming_soon_catalog"] is True
 
 
+def test_tmdb_only_with_amc_date_outside_window_is_valid_analysis():
+    # AMC catalog membership isn't an in-window AMC announcement.
+    # TMDB's release date is within the 90-day window, one day before AMC's.
+    public, analysis = _bundle(
+        amc_catalog=_amc_catalog(
+            _catalog_movie(release_date_utc="2026-12-15T00:00:00Z")
+        ),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Announced Film", 700001, "2026-12-14")
+        ),
+    )
+    assert public["entries"] == []
+    entry = _entry_by_title(analysis, "Announced Film")
+    assert entry is not None
+    assert entry["classification"] == CLASSIFICATION_TMDB_ONLY
+    assert entry["evidence"]["amc_coming_soon_catalog"] is True
+    assert entry["evidence"]["tmdb_us_theatrical"] is True
+    assert entry["amc_catalog_release_date"] == "2026-12-15"
+    assert entry["user_visible"] is False
+    validate_coming_soon_candidates(analysis)
+
+
+def test_tmdb_only_rejects_in_window_amc_catalog_release():
+    _public, analysis = _bundle(
+        amc_catalog=_amc_catalog(_catalog_movie()),
+        tmdb_candidates_artifact=_tmdb_artifact(
+            _tmdb_for_title("Announced Film", 700001, "2026-11-20")
+        ),
+    )
+    entry = _entry_by_title(analysis, "Announced Film")
+    assert entry is not None
+    entry["classification"] = CLASSIFICATION_TMDB_ONLY
+    entry["user_visible"] = False
+    entry["visibility_reason"] = "test_inconsistent_classification"
+    with pytest.raises(ValueError, match="in-window AMC catalog"):
+        validate_coming_soon_candidates(analysis)
+
+
 def test_window_uses_ninety_days_and_excludes_beyond_horizon():
     inside = (TODAY + timedelta(days=89)).isoformat() + "T00:00:00Z"
     outside = (TODAY + timedelta(days=120)).isoformat() + "T00:00:00Z"
