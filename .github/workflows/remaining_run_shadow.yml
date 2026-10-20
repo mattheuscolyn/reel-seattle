@@ -20,6 +20,12 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v5
+      - name: Checkout immutable PR 141 research inputs
+        uses: actions/checkout@v5
+        with:
+          ref: 95ae5725e74176b94f982cf4454f6b8d0b4b634e
+          path: shadow-reference-pr141
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -32,7 +38,10 @@ jobs:
         env:
           TMDB_READ_ACCESS_TOKEN: ${{ secrets.TMDB_READ_ACCESS_TOKEN }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
-        run: python scripts/run_remaining_run_shadow.py --with-tmdb
+        run: python scripts/run_remaining_run_shadow.py --reference-root shadow-reference-pr141 --with-tmdb
+      - name: Remove ephemeral frozen reference checkout
+        if: always()
+        run: rm -rf shadow-reference-pr141
       - name: Export redacted experimental A-List forecast
         run: python scripts/build_a_list_forecast.py
       - name: Commit research and redacted A-List artifact
