@@ -6,6 +6,7 @@ and runs only when --with-tmdb is passed and credentials exist.
 
 from __future__ import annotations
 
+import argparse
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -47,15 +48,28 @@ def _collect_tmdb(films) -> tuple[int, int]:
 
 
 def main() -> None:
-    result = run_shadow_forecast(PROJECT_ROOT)
-    paths = write_shadow_outputs(PROJECT_ROOT, result)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--reference-root", type=Path, required=True, help="Immutable PR #141 research checkout")
+    parser.add_argument("--with-tmdb", action="store_true")
+    args = parser.parse_args()
+    reference_root = args.reference_root.resolve()
+    result = run_shadow_forecast(PROJECT_ROOT, reference_root=reference_root)
     metrics = result["manifest"]["verification_holdout"]
-    live = result["live"]
+    rolling = result["manifest"]["rolling_holdout"]
+    gap = result["manifest"]["holdout_gap_impact"]
+    quality = result["manifest"]["quality_state"]
     print(
-        f"holdout log loss {metrics.get('log_loss')} final {metrics.get('pr_auc_final_week')}; "
-        f"theaters {len(live['theaters'])} market {len(live['market'])}; wrote {paths['current']}"
+        f"frozen PR141 holdout n={metrics.get('n')} log_loss={metrics.get('log_loss')}; "
+        f"rolling n={rolling.get('n')} log_loss={rolling.get('log_loss')}; "
+        f"potentially gap-affected={gap['rows_potentially_affected']}/{gap['rows_total']}; "
+        f"quality={quality}"
     )
-    if "--with-tmdb" in sys.argv:
+    paths = write_shadow_outputs(PROJECT_ROOT, result)
+    live = result["live"]
+    print(f"theaters {len(live['theaters'])} market {len(live['market'])}; wrote {paths['current']}")
+    # The public feed is separately gated by build_a_list_forecast; never
+    # confuse a valid frozen reference with a validated rolling live model.
+    if args.with_tmdb:
         _collect_tmdb(result["tmdb_films"])
 
 
