@@ -6,9 +6,15 @@ on:
   workflow_dispatch:  # Allow manual triggering
   push:
     branches: [ main ]
+  # A data commit using GITHUB_TOKEN does not trigger push workflows.
+  workflow_run:
+    workflows: [Daily Showtime Scraping]
+    types: [completed]
+    branches: [main]
 
 jobs:
   build-and-deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
 
     steps:
