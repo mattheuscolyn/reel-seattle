@@ -27,6 +27,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/daily_scraping.yml'
+      # Refresh the derived Coming Soon artifact when its input rules change.
+      - 'reel_seattle/validate.py'
+      - 'reel_seattle/emit/coming_soon.py'
   schedule:
     # Run daily at 6 AM UTC (10 PM PST)
     - cron: '0 6 * * *'
