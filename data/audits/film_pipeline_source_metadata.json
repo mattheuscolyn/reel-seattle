@@ -1,21 +1,21 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-19T15:46:39-07:00",
+  "generated_at": "2026-10-20T03:57:33-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-19_amc.json",
-      "generated_at": "2026-10-19T15:33:45-07:00",
-      "record_count": 5917,
+      "latest_log": "data/daily_logs/2026-10-20_amc.json",
+      "generated_at": "2026-10-20T03:46:17-07:00",
+      "record_count": 6055,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 107,
+      "source_identity_count": 105,
       "eligible_feature_count": 91,
       "title": {
-        "with_title": 107,
+        "with_title": 105,
         "missing": 0
       },
       "runtime": {
@@ -125,8 +125,8 @@
       "entity_kind_counts": {
         "broadcast_event": 11,
         "feature_film": 91,
-        "mystery_screening": 3,
-        "unknown_program": 2
+        "mystery_screening": 2,
+        "unknown_program": 1
       },
       "identities": [
         {
@@ -915,6 +915,22 @@
           ]
         },
         {
+          "source_identity_key": "id:84311",
+          "source_title": "Fjord",
+          "adapter_identity_title": null,
+          "matcher_title": "Fjord",
+          "program_series": null,
+          "runtime_min": 146,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:84326",
           "source_title": "Sight & Sound Presents: Joshua Live!",
           "adapter_identity_title": null,
@@ -1172,22 +1188,6 @@
           ]
         },
         {
-          "source_identity_key": "id:84735",
-          "source_title": "Yuri!!! on ICE 10th Anniversary",
-          "adapter_identity_title": null,
-          "matcher_title": "Yuri!!! on ICE",
-          "program_series": null,
-          "runtime_min": 119,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "unknown_program",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_trailing_atoms"
-          ]
-        },
-        {
           "source_identity_key": "id:84750",
           "source_title": "Ken Russell's The Devils",
           "adapter_identity_title": null,
@@ -1409,22 +1409,6 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "presentation_trailing_atoms"
-          ]
-        },
-        {
-          "source_identity_key": "id:85063",
-          "source_title": "WILDWOOD Fan First Screening",
-          "adapter_identity_title": null,
-          "matcher_title": "WILDWOOD Fan First Screening",
-          "program_series": null,
-          "runtime_min": 135,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
           ]
         },
         {
@@ -1653,22 +1637,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85223",
-          "source_title": "#VYMARA",
-          "adapter_identity_title": null,
-          "matcher_title": "#Vymara",
-          "program_series": null,
-          "runtime_min": 82,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85227",
           "source_title": "Doctor Who: The Satan Pit",
           "adapter_identity_title": null,
@@ -1678,22 +1646,6 @@
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:85231",
-          "source_title": "AMC Screen Unseen: October 19",
-          "adapter_identity_title": null,
-          "matcher_title": "AMC Screen Unseen: October 19",
-          "program_series": null,
-          "runtime_min": 95,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "mystery_screening",
           "adapter_cleanup": false,
           "matcher_cleanup": false,
           "normalization_rules": [
@@ -1746,6 +1698,22 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:85315",
+          "source_title": "Street Fighter: Sensory Friendly Screening",
+          "adapter_identity_title": null,
+          "matcher_title": "Street Fighter",
+          "program_series": null,
+          "runtime_min": 119,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_segment"
           ]
         },
         {
@@ -1849,32 +1817,32 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-19_siff.json",
-      "generated_at": "2026-10-19T15:33:16-07:00",
-      "record_count": 156,
+      "latest_log": "data/daily_logs/2026-10-20_siff.json",
+      "generated_at": "2026-10-20T03:45:50-07:00",
+      "record_count": 161,
       "malformed_record_count": 0,
-      "warning_count": 11,
+      "warning_count": 12,
       "error_count": 0,
-      "source_identity_count": 62,
-      "eligible_feature_count": 60,
+      "source_identity_count": 61,
+      "eligible_feature_count": 59,
       "title": {
-        "with_title": 62,
+        "with_title": 61,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 60,
+        "eligible_features_with_runtime": 59,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 60,
+        "eligible_features_with_year": 59,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 27,
-        "matcher_cleaned_identity_count": 25,
+        "matcher_cleaned_identity_count": 24,
         "adapter_cleanup_samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
@@ -1954,13 +1922,6 @@
             ]
           },
           {
-            "source_title": "Community Screening: Singin’ In the Rain",
-            "matcher_title": "Singin’ In the Rain",
-            "rules": [
-              "program_series:community-screening"
-            ]
-          },
-          {
             "source_title": "Nouvelles Femmes: A Man and a Woman (60th Anniversary)",
             "matcher_title": "A Man and a Woman",
             "rules": [
@@ -1989,11 +1950,19 @@
               "program_series:nouvelles-femmes",
               "format_or_accessibility_paren"
             ]
+          },
+          {
+            "source_title": "Nouvelles Femmes: Stolen Kisses (35mm)",
+            "matcher_title": "Stolen Kisses",
+            "rules": [
+              "program_series:nouvelles-femmes",
+              "format_or_accessibility_paren"
+            ]
           }
         ]
       },
       "series": {
-        "identity_count": 35,
+        "identity_count": 34,
         "samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
@@ -2020,10 +1989,6 @@
             "program_series": "Community Screenings"
           },
           {
-            "source_title": "Community Screening: Singin’ In the Rain",
-            "program_series": "Holiday Favorites"
-          },
-          {
             "source_title": "Nouvelles Femmes: A Man and a Woman (60th Anniversary)",
             "program_series": "Nouvelles Femmes"
           },
@@ -2034,11 +1999,15 @@
           {
             "source_title": "Nouvelles Femmes: My Night at Maud’s",
             "program_series": "Nouvelles Femmes"
+          },
+          {
+            "source_title": "Nouvelles Femmes: Pierrot le Fou (35mm)",
+            "program_series": "Nouvelles Femmes"
           }
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 60,
+        "feature_film": 59,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2572,22 +2541,6 @@
           ]
         },
         {
-          "source_identity_key": "id:programs-and-events/holiday-favorites/singin-in-the-rain",
-          "source_title": "Community Screening: Singin’ In the Rain",
-          "adapter_identity_title": null,
-          "matcher_title": "Singin’ In the Rain",
-          "program_series": "Holiday Favorites",
-          "runtime_min": 103,
-          "release_year": 1952,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:community-screening"
-          ]
-        },
-        {
           "source_identity_key": "id:programs-and-events/nouvelles-femmes/a-man-and-a-woman",
           "source_title": "Nouvelles Femmes: A Man and a Woman (60th Anniversary)",
           "adapter_identity_title": "A Man and a Woman (60th Anniversary)",
@@ -3045,9 +2998,9 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-19_beacon.json",
-      "generated_at": "2026-10-19T15:33:16-07:00",
-      "record_count": 28,
+      "latest_log": "data/daily_logs/2026-10-20_beacon.json",
+      "generated_at": "2026-10-20T03:45:50-07:00",
+      "record_count": 26,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -3426,29 +3379,27 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-19_nwff.json",
-      "generated_at": "2026-10-19T15:32:20-07:00",
-      "record_count": 96,
+      "latest_log": "data/daily_logs/2026-10-20_nwff.json",
+      "generated_at": "2026-10-20T03:44:35-07:00",
+      "record_count": 103,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 41,
+      "source_identity_count": 42,
       "eligible_feature_count": 41,
       "title": {
-        "with_title": 41,
+        "with_title": 42,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 40,
-        "eligible_features_missing_runtime": 1,
-        "missing_feature_samples": [
-          "Members Only Mystery Preview - November 2026"
-        ]
+        "eligible_features_with_runtime": 41,
+        "eligible_features_missing_runtime": 0,
+        "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 32,
-        "eligible_features_missing_year": 9,
+        "eligible_features_with_year": 33,
+        "eligible_features_missing_year": 8,
         "missing_feature_samples": [
           "Engauge 2026 – Beyond Borders",
           "Engauge 2026 – Expanded Cinema Performance and Film",
@@ -3457,7 +3408,6 @@
           "Engauge 2026 – Tactility and Memory",
           "Engauge 2026 – Tainted",
           "Engauge 2026 – We Are All Together",
-          "Members Only Mystery Preview - November 2026",
           "Seattle Film Society Presents Locals Only: October 2026"
         ]
       },
@@ -3626,7 +3576,8 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 41
+        "feature_film": 41,
+        "mystery_screening": 1
       },
       "identities": [
         {
@@ -3823,14 +3774,14 @@
         },
         {
           "source_identity_key": "id:members-mystery-preview-november-2026",
-          "source_title": "Members Only Mystery Preview - November 2026",
+          "source_title": "Members Only Mystery Movie - November 2026",
           "adapter_identity_title": null,
-          "matcher_title": "Members Only Mystery Preview - November 2026",
+          "matcher_title": "Members Only Mystery Movie - November 2026",
           "program_series": null,
           "runtime_min": null,
           "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
+          "eligibility": "non_film",
+          "entity_kind": "mystery_screening",
           "adapter_cleanup": false,
           "matcher_cleanup": false,
           "normalization_rules": [
@@ -3990,6 +3941,22 @@
           "program_series": null,
           "runtime_min": 88,
           "release_year": 2014,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:the-day-she-returns",
+          "source_title": "The Day She Returns",
+          "adapter_identity_title": null,
+          "matcher_title": "The Day She Returns",
+          "program_series": null,
+          "runtime_min": 84,
+          "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -4290,9 +4257,9 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-19_central_cinema.json",
-      "generated_at": "2026-10-19T15:32:33-07:00",
-      "record_count": 53,
+      "latest_log": "data/daily_logs/2026-10-20_central_cinema.json",
+      "generated_at": "2026-10-20T03:44:52-07:00",
+      "record_count": 50,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4653,8 +4620,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-19_grand_illusion.json",
-      "generated_at": "2026-10-19T15:33:04-07:00",
+      "latest_log": "data/daily_logs/2026-10-20_grand_illusion.json",
+      "generated_at": "2026-10-20T03:45:38-07:00",
       "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4829,28 +4796,29 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-19_tasveer.json",
-      "generated_at": "2026-10-19T15:33:04-07:00",
-      "record_count": 27,
+      "latest_log": "data/daily_logs/2026-10-20_tasveer.json",
+      "generated_at": "2026-10-20T03:45:39-07:00",
+      "record_count": 30,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 5,
-      "eligible_feature_count": 5,
+      "source_identity_count": 6,
+      "eligible_feature_count": 6,
       "title": {
-        "with_title": 5,
+        "with_title": 6,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 5,
+        "eligible_features_with_runtime": 6,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_when_present",
         "eligible_features_with_year": 2,
-        "eligible_features_missing_year": 3,
+        "eligible_features_missing_year": 4,
         "missing_feature_samples": [
+          "The Gymnasts of Fisherman Colony",
           "Tenzing",
           "Wildwood",
           "Your Mother Your Mother Your Mother"
@@ -4876,9 +4844,25 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 5
+        "feature_film": 6
       },
       "identities": [
+        {
+          "source_identity_key": "id:154546",
+          "source_title": "The Gymnasts of Fisherman Colony",
+          "adapter_identity_title": null,
+          "matcher_title": "The Gymnasts of Fisherman Colony",
+          "program_series": null,
+          "runtime_min": 92,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
         {
           "source_identity_key": "id:154662",
           "source_title": "Tenzing",
@@ -4963,9 +4947,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-19_anderson_school.json",
-      "generated_at": "2026-10-19T15:33:06-07:00",
-      "record_count": 39,
+      "latest_log": "data/daily_logs/2026-10-20_anderson_school.json",
+      "generated_at": "2026-10-20T03:45:40-07:00",
+      "record_count": 38,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5082,11 +5066,11 @@
     },
     "stg": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-19_stg.json",
-      "generated_at": "2026-10-19T15:33:15-07:00",
+      "latest_log": "data/daily_logs/2026-10-20_stg.json",
+      "generated_at": "2026-10-20T03:45:50-07:00",
       "record_count": 7,
       "malformed_record_count": 0,
-      "warning_count": 233,
+      "warning_count": 240,
       "error_count": 0,
       "source_identity_count": 7,
       "eligible_feature_count": 4,
@@ -5302,9 +5286,9 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-19_majestic_bay.json",
-      "generated_at": "2026-10-19T15:33:16-07:00",
-      "record_count": 71,
+      "latest_log": "data/daily_logs/2026-10-20_majestic_bay.json",
+      "generated_at": "2026-10-20T03:45:50-07:00",
+      "record_count": 65,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5772,7 +5756,6 @@
   "findings": {
     "missing_logs": [],
     "sources_with_feature_runtime_gaps": [
-      "nwff",
       "stg"
     ],
     "sources_with_feature_year_gaps_requiring_review": [
