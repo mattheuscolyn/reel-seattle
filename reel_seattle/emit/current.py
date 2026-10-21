@@ -26,6 +26,7 @@ from reel_seattle.normalize import (
     showtime_film_key,
 )
 from reel_seattle.source_freshness import (
+    PAUSED_SOURCES,
     build_sources_metadata,
     resolve_history_row_source,
     update_history_evidence,
