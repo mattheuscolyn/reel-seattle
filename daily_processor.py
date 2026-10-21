@@ -9,6 +9,7 @@ from reel_seattle.history_keys import enrich_history_row_keys, load_theater_inde
 from reel_seattle.history_nulls import normalize_history_optional_fields
 from reel_seattle.history_times import enrich_history_row_time
 from reel_seattle.normalize import resolve_theater
+from reel_seattle.source_freshness import PAUSED_SOURCES
 from reel_seattle.adapters.scrape_log import (
     DEFAULT_DAILY_LOGS_DIR,
     ScrapeLogError,
