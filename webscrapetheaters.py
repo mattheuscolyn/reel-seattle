@@ -124,6 +124,10 @@ def collect_indie_showtimes(context):
 
     added_results = {}
     for source_key, label, fetch_name in _NEW_OPTION_C:
+        if source_key in PAUSED_SOURCES:
+            print(f"{label}: intentionally paused; skipping collection")
+            added_results[source_key] = None
+            continue
         result = None
         fetch = globals()[fetch_name]
         try:
