@@ -1,6 +1,6 @@
 {
   "schema_version": "1.4.0",
-  "generated_at": "2026-10-21T04:08:50-07:00",
+  "generated_at": "2026-10-21T16:09:45-07:00",
   "timezone": "America/Los_Angeles",
   "window": {
     "start_date": "2026-10-21",
@@ -17,19 +17,19 @@
   "sources": {
     "amc_coming_soon_catalog": {
       "available": true,
-      "generated_at": "2026-10-21T04:08:46-07:00",
+      "generated_at": "2026-10-21T16:09:41-07:00",
       "fetch_status": "success",
-      "movies": 362
+      "movies": 381
     },
     "tmdb_us_theatrical": {
       "available": true,
-      "generated_at": "2026-10-21T04:08:46-07:00",
+      "generated_at": "2026-10-21T16:09:41-07:00",
       "fetch_status": "success",
-      "candidates": 242
+      "candidates": 248
     },
     "reel_seattle_showtimes": {
       "available": true,
-      "generated_at": "2026-10-21T03:57:46-07:00",
+      "generated_at": "2026-10-21T15:59:06-07:00",
       "published_window_end": "2027-10-20"
     },
     "amc_theater_bookings": {
@@ -38,75 +38,75 @@
     }
   },
   "stats": {
-    "entry_count": 268,
-    "user_visible_count": 268,
+    "entry_count": 294,
+    "user_visible_count": 294,
     "hidden_count": 0,
     "classification_counts": {
-      "confirmed_local": 93,
-      "amc_announced": 175
+      "confirmed_local": 115,
+      "amc_announced": 179
     },
     "relevance_tier_counts": {
-      "confirmed_local": 93,
+      "confirmed_local": 115,
       "locally_announced": 0,
-      "strongly_expected": 33,
-      "weak_national_only": 142
+      "strongly_expected": 32,
+      "weak_national_only": 147
     },
     "evidence_counts": {
-      "amc_coming_soon_catalog": 204,
-      "amc_theater_booking": 27,
+      "amc_coming_soon_catalog": 211,
+      "amc_theater_booking": 29,
       "tmdb_us_theatrical": 91,
-      "reel_seattle_scheduled": 93
+      "reel_seattle_scheduled": 115
     },
     "presentation_kind_counts": {
-      "film": 264,
-      "rerelease": 4
+      "film": 291,
+      "rerelease": 3
     },
     "presentation_source_counts": {
-      "amc_catalog": 143,
+      "amc_catalog": 153,
       "confirmed_enrichment": 15,
-      "fallback": 65,
-      "inferred_tmdb": 45
+      "fallback": 84,
+      "inferred_tmdb": 42
     },
-    "entries_with_poster": 138,
-    "engagement_count": 42,
-    "synthetic_film_group_count": 21,
+    "entries_with_poster": 141,
+    "engagement_count": 43,
+    "synthetic_film_group_count": 22,
     "horizon_counts": {
-      "30_days": 178,
-      "60_days": 242,
-      "90_days": 268
+      "30_days": 199,
+      "60_days": 266,
+      "90_days": 294
     },
     "earliest_expected_release_date": "2026-10-22",
-    "latest_expected_release_date": "2027-01-15",
+    "latest_expected_release_date": "2027-01-19",
     "entries_with_confirmed_film_id": 15,
-    "entries_without_confirmed_film_id": 253,
+    "entries_without_confirmed_film_id": 279,
     "entries_with_tmdb_id": 95,
     "ambiguous_identity_count": 0,
     "duplicate_film_id_count": 0,
     "duplicate_join_key_count": 0,
-    "merged_candidate_count": 648,
+    "merged_candidate_count": 685,
     "collapsed_event_variants": 0,
     "excluded_counts": {
       "currently_available": 100,
-      "expected_release_date_outside_window": 86,
+      "expected_release_date_outside_window": 88,
       "no_expected_release_date": 0,
       "insufficient_evidence": 0,
-      "presentation_filter": 13
+      "presentation_filter": 16
     },
-    "recommended_count": 126,
-    "all_releases_count": 268,
+    "recommended_count": 147,
+    "all_releases_count": 294,
     "analysis": {
       "path": "data/audits/coming_soon_candidates_current.json",
-      "entry_count": 462,
-      "tmdb_only_count": 137,
-      "weak_national_only_count": 162,
-      "low_relevance_no_local_evidence_count": 41,
+      "entry_count": 497,
+      "tmdb_only_count": 143,
+      "weak_national_only_count": 169,
+      "low_relevance_no_local_evidence_count": 40,
       "popularity_threshold": 5.0,
-      "presentation_filtered_count": 13,
-      "local_programming_excluded_count": 26,
+      "presentation_filtered_count": 16,
+      "local_programming_excluded_count": 27,
       "local_booking_kind_counts": {
-        "release_like": 31,
-        "local_programming": 26,
-        "ambiguous_retained": 62
+        "release_like": 34,
+        "local_programming": 27,
+        "ambiguous_retained": 81
       }
     }
   },
@@ -957,105 +957,6 @@
     },
     {
       "film_id": null,
-      "title": "Fatherland",
-      "join_key": "fatherland",
-      "parent_film_keys": [
-        "fatherland"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1437696,
-      "amc_movie_id": "84055",
-      "amc_movie_ids": [
-        "84055"
-      ],
-      "expected_release_date": "2026-10-23",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-10-23",
-      "tmdb_us_release_date": "2026-10-23",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "strongly_expected",
-      "user_visible": true,
-      "tmdb_popularity": 15.969,
-      "local_evidence_strength": "proxy",
-      "relevance_reason": "amc_tmdb_proxy_meets_popularity",
-      "popularity_threshold_applied": 5.0,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788606416/amc-cdn/production/2/movies/84100/84055/Poster/400933R1.jpg",
-        "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1788606415/amc-cdn/production/2/movies/84100/84055/MovieStills/400933R6.jpg",
-        "backdrop_path": null,
-        "overview": "FATHERLAND centres on the relationship between the Nobel Prize-winning writer Thomas Mann (Hanns Zischler) and his daughter Erika (Sandra Huller) - actress, writer and rally driver. In the summer of 1949, at the height of the Cold War, father and daughter embark on a challenging and emotional road trip in a black Buick taking them across a Germany in ruins - from US dominated Frankfurt to Soviet controlled Weimar. Returning home after sixteen years of exile in the US,\nThomas Mann has to face not only a divided fatherland, but also a deep fracture within his own family.\n\nWith FATHERLAND, Pawlikowski picks up where he left off with his award-winning Ida and ColdWar, exploring -- in his elliptic, distilled style - the themes of identity, family, love and guilt amid the turmoil and confusion of post-war Europe.",
-        "runtime_minutes": 82,
-        "rating": "NR",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Fatherland"
-        ],
-        "contributing_sources": [
-          "amc_catalog",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "84055",
-          "source_title": "Fatherland",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-10-23T05:00:00Z",
-          "earliest_showing_utc": "2026-10-22T19:20:00Z",
-          "runtime_min": 82,
-          "mpaa_rating": "NR",
-          "genre": "DRAMA",
-          "slug": "fatherland-84055",
-          "synopsis": "FATHERLAND centres on the relationship between the Nobel Prize-winning writer Thomas Mann (Hanns Zischler) and his daughter Erika (Sandra Huller) - actress, writer and rally driver. In the summer of 1949, at the height of the Cold War, father and daughter embark on a challenging and emotional road trip in a black Buick taking them across a Germany in ruins - from US dominated Frankfurt to Soviet controlled Weimar. Returning home after sixteen years of exile in the US,\nThomas Mann has to face not only a divided fatherland, but also a deep fracture within his own family.\n\nWith FATHERLAND, Pawlikowski picks up where he left off with his award-winning Ida and ColdWar, exploring -- in his elliptic, distilled style - the themes of identity, family, love and guilt amid the turmoil and confusion of post-war Europe.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1788606416/amc-cdn/production/2/movies/84100/84055/Poster/400933R1.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788606415/amc-cdn/production/2/movies/84100/84055/MovieStills/400933R6.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788606415/amc-cdn/production/2/movies/84100/84055/MovieStills/400933R6.jpg",
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": {
-          "tmdb_id": 1437696,
-          "original_title": "Ojczyzna",
-          "original_language": "pl",
-          "popularity": 15.969,
-          "vote_count": 45,
-          "poster_path": "/oNejN1l69nBF8LdQwy5FkAQZT44.jpg",
-          "backdrop_path": null,
-          "overview": "In 1949, German writer Thomas Mann and his daughter Erika embark on a road trip across a Germany in ruins, from US-dominated Frankfurt to Soviet-controlled Weimar.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": []
-        }
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
       "title": "Udta Teer",
       "join_key": "udta-teer",
       "parent_film_keys": [
@@ -1587,6 +1488,92 @@
           "genre": "CLASSICAL CONCERT",
           "slug": "charlebois-symphonique-85260",
           "synopsis": "CHARLEBOIS symphonique is a grandiose celebration of this musical legend's 80th birthday! It's a concert recording in which Robert Charlebois revisits his greatest songs in symphonic versions, including Ordinaire, Lindberg, Je reviendrai a Montreal, and a few hidden treasures! Under the direction of conductor Jacques Lacombe and with symphonic arrangements by Hugo Begin, the musicians of the Orchestre symphonique de Montreal perform songs from Charlebois' impressive repertoire. On stage, 70musicians are accompanied by the OSM Chorus, as well as contralto Rose Naggar-Tremblay and tenor Frederic Antoun, who perform some duets with Charlebois. An exceptional, powerful and moving concert, now available for the big screen.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Damru",
+      "join_key": "damru",
+      "parent_film_keys": [
+        "damru"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85493",
+      "amc_movie_ids": [
+        "85493"
+      ],
+      "expected_release_date": "2026-10-23",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-10-23",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "Damru, Vijay and Raj work as bell boys at a luxury resort. While Damru and Vijay are driven by personal compulsions, Raj's true purpose remains a mystery. As guests arrive with hidden agendas, dark secrets begin to unravel.",
+        "runtime_minutes": null,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Damru"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85493",
+          "source_title": "Damru",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-10-23T05:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": null,
+          "mpaa_rating": "NR",
+          "genre": "COMEDY",
+          "slug": "damru-85493",
+          "synopsis": "Damru, Vijay and Raj work as bell boys at a luxury resort. While Damru and Vijay are driven by personal compulsions, Raj's true purpose remains a mystery. As guests arrive with hidden agendas, dark secrets begin to unravel.",
           "poster_url": null,
           "hero_desktop_url": null,
           "hero_mobile_url": null,
@@ -3695,7 +3682,7 @@
           "original_title": "En el camino",
           "original_language": "es",
           "popularity": 4.741,
-          "vote_count": 74,
+          "vote_count": 75,
           "poster_path": "/u169hcLX3OsM9eRs4wtIzi0ymGZ.jpg",
           "backdrop_path": null,
           "overview": "Veneno, a rebellious young drifter, frequents roadside diners where he sleeps with truck drivers. Urgently needing a ride, he meets Muñeco, a hard-edged driver who keeps to himself. He convinces Muñeco to take him deep into the hyper-masculine world of long-haul trucking across the north of Mexico. As they travel together and an unexpected intimacy builds between them, shadows from Veneno’s past resurface, putting both their lives at risk.",
@@ -3753,7 +3740,7 @@
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "The lone survivor of an onslaught of flesh-possessing spirits holes up in a cabin with a group of strangers while the demons continue their attack.",
-        "runtime_minutes": null,
+        "runtime_minutes": 84,
         "rating": "NR",
         "release_year": 2026
       },
@@ -3777,7 +3764,7 @@
           "has_scheduled_showtimes": false,
           "online_ticket_availability_date_utc": "2026-10-28T05:00:00Z",
           "earliest_showing_utc": null,
-          "runtime_min": null,
+          "runtime_min": 84,
           "mpaa_rating": "NR",
           "genre": "HORROR",
           "slug": "popcorn-reef-evil-dead-2-85484",
@@ -3833,10 +3820,10 @@
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/xDHvu4ILIe40OZ8d2kqMA1Gn568.jpg",
-        "poster_path": "/xDHvu4ILIe40OZ8d2kqMA1Gn568.jpg",
-        "backdrop_url": null,
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792599209/amc-cdn/content/general/todn1avk8eul3f4atjpp.png",
+        "poster_path": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1792599242/amc-cdn/content/general/hzrvinabgazrb2bst5sp.jpg",
         "backdrop_path": null,
         "overview": "From Executive Producers Barack and Michelle Obama and Oscar-winning documentarian Ben Proudfoot, THE EYES OF GHANA follows 93-year-old filmmaker Chris Hesse, personal cinematographer to Kwame Nkrumah, as he races against blindness and time to rescue more than 1,000 lost films documenting the birth of African independence. Hidden for decades, these incredible images could reshape our understanding of Ghana, Africa, and modern world history.",
         "runtime_minutes": 90,
@@ -3861,17 +3848,17 @@
         "amc": {
           "amc_movie_id": "85298",
           "source_title": "The Eyes of Ghana",
-          "has_scheduled_showtimes": false,
+          "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-10-28T05:00:00Z",
-          "earliest_showing_utc": null,
+          "earliest_showing_utc": "2026-10-28T12:30:00Z",
           "runtime_min": 90,
           "mpaa_rating": "NR",
           "genre": "DOCUMENTARY",
           "slug": "the-eyes-of-ghana-85298",
           "synopsis": "From Executive Producers Barack and Michelle Obama and Oscar-winning documentarian Ben Proudfoot, THE EYES OF GHANA follows 93-year-old filmmaker Chris Hesse, personal cinematographer to Kwame Nkrumah, as he races against blindness and time to rescue more than 1,000 lost films documenting the birth of African independence. Hidden for decades, these incredible images could reshape our understanding of Ghana, Africa, and modern world history.",
-          "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792599209/amc-cdn/content/general/todn1avk8eul3f4atjpp.png",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1792599242/amc-cdn/content/general/hzrvinabgazrb2bst5sp.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1792599242/amc-cdn/content/general/hzrvinabgazrb2bst5sp.jpg",
           "presentation_category": "concert_or_event",
           "is_special_presentation": true
         },
@@ -3967,6 +3954,116 @@
       "source_metadata": {
         "amc": null,
         "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Christmas at the Kringles",
+      "join_key": "christmas-at-the-kringles",
+      "parent_film_keys": [
+        "christmas-at-the-kringles"
+      ],
+      "showtime_film_keys": [
+        "christmas-at-the-kringles"
+      ],
+      "tmdb_id": 939541,
+      "amc_movie_id": "84131",
+      "amc_movie_ids": [
+        "84131"
+      ],
+      "expected_release_date": "2026-10-29",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": "2026-10-30",
+      "tmdb_us_release_date": "2026-10-30",
+      "first_local_screening_date": "2026-10-29",
+      "first_local_screening_source": "amc_theater_booking",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "amc-alderwood-mall-16"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 8,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": true,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": 3.222,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_release_like",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "release_like",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792086233/amc-cdn/content/general/toqubgxj0xqbeop6ip6e.jpg",
+        "poster_path": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1790075629/amc-cdn/production/2/movies/84100/84131/MovieStills/417870R5.jpg",
+        "backdrop_path": null,
+        "overview": "Ron Livingston and Rachel Bilson star as the Seversons, a couple initially charmed by their next door neighbors the Kringles (Thomas Lennon and Arden Myrin), a Hallmark-esque family who celebrate Christmas year-round. When the Kringles turn out to be part of a sinister Christmas cult with plans to kidnap and indoctrinate them, they must rely on the help of a washed-up alcoholic Mall Santa (Rob Riggle) and their other neighbor Daryl (Donald Faison) to save the day.",
+        "runtime_minutes": 100,
+        "rating": "R",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Christmas at the Kringles"
+        ],
+        "contributing_sources": [
+          "amc_booking",
+          "amc_catalog",
+          "reel_seattle",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84131",
+          "source_title": "Christmas at the Kringles",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-10-30T05:00:00Z",
+          "earliest_showing_utc": "2026-10-29T14:00:00Z",
+          "runtime_min": 100,
+          "mpaa_rating": "R",
+          "genre": "COMEDY",
+          "slug": "christmas-at-the-kringles-84131",
+          "synopsis": "Ron Livingston and Rachel Bilson star as the Seversons, a couple initially charmed by their next door neighbors the Kringles (Thomas Lennon and Arden Myrin), a Hallmark-esque family who celebrate Christmas year-round. When the Kringles turn out to be part of a sinister Christmas cult with plans to kidnap and indoctrinate them, they must rely on the help of a washed-up alcoholic Mall Santa (Rob Riggle) and their other neighbor Daryl (Donald Faison) to save the day.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792086233/amc-cdn/content/general/toqubgxj0xqbeop6ip6e.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075629/amc-cdn/production/2/movies/84100/84131/MovieStills/417870R5.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075629/amc-cdn/production/2/movies/84100/84131/MovieStills/417870R5.jpg",
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": {
+          "tmdb_id": 939541,
+          "original_title": "Christmas at the Kringles",
+          "original_language": "en",
+          "popularity": 3.222,
+          "vote_count": 0,
+          "poster_path": "/oVxkhheRVWSacimUZBuMemQX85E.jpg",
+          "backdrop_path": null,
+          "overview": "The Severson family move to a suburban neighborhood where their next-door neighbors, the Kringles, celebrate Christmas year-round. But when their son becomes increasingly attached to the unusual family, Mark and Julie begin to suspect that their neighbors aren't quite what they seem.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
+        }
       },
       "in_recommended": true
     },
@@ -4078,6 +4175,115 @@
           "poster_path": "/2m9ts8LfjG8d4xcUtx66aApngJL.jpg",
           "backdrop_path": null,
           "overview": "An intimate portrait of two people bound by love, ambition, and the pursuit of the impossible. Elite ski mountaineers Jim Morrison and Hilaree Nelson fell deeply in love while reaching the pinnacle of their sport. Their drive sharpened into a shared dream: to climb and ski the direct North Face of Mount Everest—the most difficult and dangerous climb on the mountain and the most coveted ski line on Earth—something only a handful have ever achieved, and no one has successfully skied down.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
+        }
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Fatherland",
+      "join_key": "fatherland",
+      "parent_film_keys": [
+        "fatherland"
+      ],
+      "showtime_film_keys": [
+        "fatherland"
+      ],
+      "tmdb_id": 1437696,
+      "amc_movie_id": "84055",
+      "amc_movie_ids": [
+        "84055"
+      ],
+      "expected_release_date": "2026-10-29",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": "2026-10-23",
+      "tmdb_us_release_date": "2026-10-23",
+      "first_local_screening_date": "2026-10-29",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": 15.969,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_release_like",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "release_like",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1788606416/amc-cdn/production/2/movies/84100/84055/Poster/400933R1.jpg",
+        "poster_path": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1788606415/amc-cdn/production/2/movies/84100/84055/MovieStills/400933R6.jpg",
+        "backdrop_path": null,
+        "overview": "FATHERLAND centres on the relationship between the Nobel Prize-winning writer Thomas Mann (Hanns Zischler) and his daughter Erika (Sandra Huller) - actress, writer and rally driver. In the summer of 1949, at the height of the Cold War, father and daughter embark on a challenging and emotional road trip in a black Buick taking them across a Germany in ruins - from US dominated Frankfurt to Soviet controlled Weimar. Returning home after sixteen years of exile in the US,\nThomas Mann has to face not only a divided fatherland, but also a deep fracture within his own family.\n\nWith FATHERLAND, Pawlikowski picks up where he left off with his award-winning Ida and ColdWar, exploring -- in his elliptic, distilled style - the themes of identity, family, love and guilt amid the turmoil and confusion of post-war Europe.",
+        "runtime_minutes": 82,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Fatherland"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "reel_seattle",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84055",
+          "source_title": "Fatherland",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-10-23T05:00:00Z",
+          "earliest_showing_utc": "2026-10-22T19:20:00Z",
+          "runtime_min": 82,
+          "mpaa_rating": "NR",
+          "genre": "DRAMA",
+          "slug": "fatherland-84055",
+          "synopsis": "FATHERLAND centres on the relationship between the Nobel Prize-winning writer Thomas Mann (Hanns Zischler) and his daughter Erika (Sandra Huller) - actress, writer and rally driver. In the summer of 1949, at the height of the Cold War, father and daughter embark on a challenging and emotional road trip in a black Buick taking them across a Germany in ruins - from US dominated Frankfurt to Soviet controlled Weimar. Returning home after sixteen years of exile in the US,\nThomas Mann has to face not only a divided fatherland, but also a deep fracture within his own family.\n\nWith FATHERLAND, Pawlikowski picks up where he left off with his award-winning Ida and ColdWar, exploring -- in his elliptic, distilled style - the themes of identity, family, love and guilt amid the turmoil and confusion of post-war Europe.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1788606416/amc-cdn/production/2/movies/84100/84055/Poster/400933R1.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1788606415/amc-cdn/production/2/movies/84100/84055/MovieStills/400933R6.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1788606415/amc-cdn/production/2/movies/84100/84055/MovieStills/400933R6.jpg",
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": {
+          "tmdb_id": 1437696,
+          "original_title": "Ojczyzna",
+          "original_language": "pl",
+          "popularity": 15.969,
+          "vote_count": 46,
+          "poster_path": "/oNejN1l69nBF8LdQwy5FkAQZT44.jpg",
+          "backdrop_path": null,
+          "overview": "In 1949, German writer Thomas Mann and his daughter Erika embark on a road trip across a Germany in ruins, from US-dominated Frankfurt to Soviet-controlled Weimar.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []
@@ -4819,8 +5025,8 @@
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "Witness the first installment in the ultra-gory TERRIFIER franchise for the first time in theatres.  A maniacal clown named Art terrorizes three young women on Halloween night and everyone else who stands in his way.",
-        "runtime_minutes": null,
-        "rating": null,
+        "runtime_minutes": 138,
+        "rating": "R",
         "release_year": 2026
       },
       "identity": {
@@ -4843,8 +5049,8 @@
           "has_scheduled_showtimes": false,
           "online_ticket_availability_date_utc": "2026-10-29T05:00:00Z",
           "earliest_showing_utc": null,
-          "runtime_min": null,
-          "mpaa_rating": null,
+          "runtime_min": 138,
+          "mpaa_rating": "R",
           "genre": "HORROR",
           "slug": "terrifier-presented-by-dead-by-daylight-85444",
           "synopsis": "Witness the first installment in the ultra-gory TERRIFIER franchise for the first time in theatres.  A maniacal clown named Art terrorizes three young women on Halloween night and everyone else who stands in his way.",
@@ -5054,7 +5260,7 @@
         }
       ],
       "local_theater_count": 3,
-      "local_showtime_count": 27,
+      "local_showtime_count": 25,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -5685,7 +5891,7 @@
     },
     {
       "film_id": null,
-      "title": "Aadarsha Kutumbam - House No. 47",
+      "title": "Aadarsha Kutumbam House No: 47",
       "join_key": "aadarsha-kutumbam-house-no-47",
       "parent_film_keys": [
         "aadarsha-kutumbam-house-no-47"
@@ -5694,7 +5900,8 @@
       "tmdb_id": null,
       "amc_movie_id": "85090",
       "amc_movie_ids": [
-        "85090"
+        "85090",
+        "85349"
       ],
       "expected_release_date": "2026-10-30",
       "expected_release_date_source": "amc_catalog_release_date",
@@ -5741,7 +5948,8 @@
         "ambiguous": false,
         "synthetic_film_group": false,
         "variant_titles": [
-          "Aadarsha Kutumbam - House No. 47"
+          "Aadarsha Kutumbam - House No. 47",
+          "Aadarsha Kutumbam House No: 47"
         ],
         "contributing_sources": [
           "amc_catalog"
@@ -5938,105 +6146,6 @@
           "is_special_presentation": false
         },
         "tmdb": null
-      },
-      "in_recommended": false
-    },
-    {
-      "film_id": null,
-      "title": "Christmas at the Kringles",
-      "join_key": "christmas-at-the-kringles",
-      "parent_film_keys": [
-        "christmas-at-the-kringles"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 939541,
-      "amc_movie_id": "84131",
-      "amc_movie_ids": [
-        "84131"
-      ],
-      "expected_release_date": "2026-10-30",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-10-30",
-      "tmdb_us_release_date": "2026-10-30",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": true,
-      "tmdb_popularity": 3.222,
-      "local_evidence_strength": "proxy",
-      "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
-      "popularity_threshold_applied": 5.0,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792086233/amc-cdn/content/general/toqubgxj0xqbeop6ip6e.jpg",
-        "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1790075629/amc-cdn/production/2/movies/84100/84131/MovieStills/417870R5.jpg",
-        "backdrop_path": null,
-        "overview": "Ron Livingston and Rachel Bilson star as the Seversons, a couple initially charmed by their next door neighbors the Kringles (Thomas Lennon and Arden Myrin), a Hallmark-esque family who celebrate Christmas year-round. When the Kringles turn out to be part of a sinister Christmas cult with plans to kidnap and indoctrinate them, they must rely on the help of a washed-up alcoholic Mall Santa (Rob Riggle) and their other neighbor Daryl (Donald Faison) to save the day.",
-        "runtime_minutes": 100,
-        "rating": "R",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Christmas at the Kringles"
-        ],
-        "contributing_sources": [
-          "amc_catalog",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "84131",
-          "source_title": "Christmas at the Kringles",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-10-30T05:00:00Z",
-          "earliest_showing_utc": "2026-10-29T14:00:00Z",
-          "runtime_min": 100,
-          "mpaa_rating": "R",
-          "genre": "COMEDY",
-          "slug": "christmas-at-the-kringles-84131",
-          "synopsis": "Ron Livingston and Rachel Bilson star as the Seversons, a couple initially charmed by their next door neighbors the Kringles (Thomas Lennon and Arden Myrin), a Hallmark-esque family who celebrate Christmas year-round. When the Kringles turn out to be part of a sinister Christmas cult with plans to kidnap and indoctrinate them, they must rely on the help of a washed-up alcoholic Mall Santa (Rob Riggle) and their other neighbor Daryl (Donald Faison) to save the day.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792086233/amc-cdn/content/general/toqubgxj0xqbeop6ip6e.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075629/amc-cdn/production/2/movies/84100/84131/MovieStills/417870R5.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075629/amc-cdn/production/2/movies/84100/84131/MovieStills/417870R5.jpg",
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": {
-          "tmdb_id": 939541,
-          "original_title": "Christmas at the Kringles",
-          "original_language": "en",
-          "popularity": 3.222,
-          "vote_count": 0,
-          "poster_path": "/oVxkhheRVWSacimUZBuMemQX85E.jpg",
-          "backdrop_path": null,
-          "overview": "The Severson family move to a suburban neighborhood where their next-door neighbors, the Kringles, celebrate Christmas year-round. But when their son becomes increasingly attached to the unusual family, Mark and Julie begin to suspect that their neighbors aren't quite what they seem.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": []
-        }
       },
       "in_recommended": false
     },
@@ -6300,6 +6409,92 @@
     },
     {
       "film_id": null,
+      "title": "Karaoke Murder",
+      "join_key": "karaoke-murder",
+      "parent_film_keys": [
+        "karaoke-murder"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85509",
+      "amc_movie_ids": [
+        "85509"
+      ],
+      "expected_release_date": "2026-10-30",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-10-30",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "During a remote mountain pilgrimage with a group of neighbors, a former journalist is forced to reclaim her investigative instincts when a detested tycoon with an obsessive penchant for karaoke is forever silenced in the dark of the night. Stranded with nothing to feed on but paranoia, no one escapes becoming the prime suspect in this riveting murder mystery. Directed by Hoang Le, produced by 89s Group and F35 Studio, with an international release by 3388 Films.",
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Karaoke Murder"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85509",
+          "source_title": "Karaoke Murder",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-10-30T05:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": null,
+          "mpaa_rating": null,
+          "genre": "SUSPENSE",
+          "slug": "karaoke-murder-85509",
+          "synopsis": "During a remote mountain pilgrimage with a group of neighbors, a former journalist is forced to reclaim her investigative instincts when a detested tycoon with an obsessive penchant for karaoke is forever silenced in the dark of the night. Stranded with nothing to feed on but paranoia, no one escapes becoming the prime suspect in this riveting murder mystery. Directed by Hoang Le, produced by 89s Group and F35 Studio, with an international release by 3388 Films.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
       "title": "Paging Hezbollah",
       "join_key": "paging-hezbollah",
       "parent_film_keys": [
@@ -6339,9 +6534,9 @@
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/CCFiWX5MFh7UukM5oMoBe2VpNg.jpg",
-        "poster_path": "/CCFiWX5MFh7UukM5oMoBe2VpNg.jpg",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792599093/amc-cdn/content/general/wgm1ogh1bxmajtds18rb.jpg",
+        "poster_path": null,
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "PAGING HEZBOLLAH reveals how Israel pulled off one of the most audacious intelligence operations in history - engineering, marketing, and smuggling a modern-day Trojan Horse into Hezbollah's command network before destroying it with a single beep. Told by those who lived and planned it, this is the little-known story of ingenuity, deception and an operation decades in the making.",
@@ -6375,7 +6570,7 @@
           "genre": "DOCUMENTARY",
           "slug": "paging-hezbollah-85115",
           "synopsis": "PAGING HEZBOLLAH reveals how Israel pulled off one of the most audacious intelligence operations in history - engineering, marketing, and smuggling a modern-day Trojan Horse into Hezbollah's command network before destroying it with a single beep. Told by those who lived and planned it, this is the little-known story of ingenuity, deception and an operation decades in the making.",
-          "poster_url": null,
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792599093/amc-cdn/content/general/wgm1ogh1bxmajtds18rb.jpg",
           "hero_desktop_url": null,
           "hero_mobile_url": null,
           "presentation_category": "standard",
@@ -6581,6 +6776,92 @@
           "has_overview": true,
           "quality_flags": []
         }
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Terrifier 2 presented by Dead by Daylight",
+      "join_key": "terrifier-2-presented-by-dead-by-daylight",
+      "parent_film_keys": [
+        "terrifier-2-presented-by-dead-by-daylight"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85501",
+      "amc_movie_ids": [
+        "85501"
+      ],
+      "expected_release_date": "2026-10-30",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-10-30",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "After being resurrected by a sinister entity, Art the Clown returns to the timid town of Miles County where he begins to target a teenage girl and her younger brother on Halloween.",
+        "runtime_minutes": null,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Terrifier 2 presented by Dead by Daylight"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85501",
+          "source_title": "Terrifier 2 presented by Dead by Daylight",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-10-30T05:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": null,
+          "mpaa_rating": "NR",
+          "genre": "HORROR",
+          "slug": "terrifier-2-presented-by-dead-by-daylight-85501",
+          "synopsis": "After being resurrected by a sinister entity, Art the Clown returns to the timid town of Miles County where he begins to target a teenage girl and her younger brother on Halloween.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
       },
       "in_recommended": false
     },
@@ -7102,6 +7383,92 @@
           "genre": "DOCUMENTARY",
           "slug": "true-north-85455",
           "synopsis": "A documentary on the 1969 Black student protests against racism at Montreal's Concordia University, highlighting their role in Black liberation movements.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Wala Kan Ala El-Bal",
+      "join_key": "wala-kan-ala-el-bal",
+      "parent_film_keys": [
+        "wala-kan-ala-el-bal"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85499",
+      "amc_movie_ids": [
+        "85499"
+      ],
+      "expected_release_date": "2026-10-30",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-10-30",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "A young tour guide in Luxor accepts an unusual deal from a wealthy businessman: win over his daughter and help her forget her ex. But when things don't go quite as planned, Hassan finds himself caught in a comical series of unexpected situations, and into a love story he never saw coming.",
+        "runtime_minutes": null,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Wala Kan Ala El-Bal"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85499",
+          "source_title": "Wala Kan Ala El-Bal",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-10-30T05:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": null,
+          "mpaa_rating": "NR",
+          "genre": "ROMANTIC COMEDY",
+          "slug": "wala-kan-ala-el-bal-85499",
+          "synopsis": "A young tour guide in Luxor accepts an unusual deal from a wealthy businessman: win over his daughter and help her forget her ex. But when things don't go quite as planned, Hassan finds himself caught in a comical series of unexpected situations, and into a love story he never saw coming.",
           "poster_url": null,
           "hero_desktop_url": null,
           "hero_mobile_url": null,
@@ -7684,92 +8051,6 @@
           "slug": "iles-de-guadeloupe-les-aventuriers-voyageurs-84381",
           "synopsis": "Seeking freedom after years spent at the intense pace of the morning show Salut Bonjour, Gino Chouinard offers himself a complete immersion in the heart of the Guadeloupe Islands, a destination where lush nature, the sweetness of life and the Creole soul intertwine with strength.",
           "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": null
-      },
-      "in_recommended": false
-    },
-    {
-      "film_id": null,
-      "title": "Summer Holidays",
-      "join_key": "summer-holidays",
-      "parent_film_keys": [
-        "summer-holidays"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": null,
-      "amc_movie_id": "85252",
-      "amc_movie_ids": [
-        "85252"
-      ],
-      "expected_release_date": "2026-10-31",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-10-31",
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "weak",
-      "relevance_reason": "national_amc_without_tmdb",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791025804/amc-cdn/production/2/movies/85300/85252/Poster/426544R1.jpg",
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A city boy's summer at his grandparents' Godavari village transforms when he befriends a spirited local paper boy. Together they explore rural life through adventures that forge an unforgettable childhood bond",
-        "runtime_minutes": 144,
-        "rating": "NR",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Summer Holidays"
-        ],
-        "contributing_sources": [
-          "amc_catalog"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85252",
-          "source_title": "Summer Holidays",
-          "has_scheduled_showtimes": false,
-          "online_ticket_availability_date_utc": "2026-10-31T05:00:00Z",
-          "earliest_showing_utc": null,
-          "runtime_min": 144,
-          "mpaa_rating": "NR",
-          "genre": "COMEDY",
-          "slug": "summer-holidays-85252",
-          "synopsis": "A city boy's summer at his grandparents' Godavari village transforms when he befriends a spirited local paper boy. Together they explore rural life through adventures that forge an unforgettable childhood bond",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1791025804/amc-cdn/production/2/movies/85300/85252/Poster/426544R1.jpg",
           "hero_desktop_url": null,
           "hero_mobile_url": null,
           "presentation_category": "standard",
@@ -8861,7 +9142,7 @@
         }
       ],
       "local_theater_count": 3,
-      "local_showtime_count": 12,
+      "local_showtime_count": 15,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -9142,11 +9423,11 @@
       "presentation": {
         "kind": "film",
         "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790607757/amc-cdn/content/general/vbsgtuccm7xbb4zr85sp.jpg",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792618580/amc-cdn/content/general/o8leq041bkddotpu35dx.jpg",
         "poster_path": null,
         "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1791889826/amc-cdn/production/2/movies/85000/84991/MovieStills/395593R5.jpg",
         "backdrop_path": null,
-        "overview": "Hindi with English Subtitles. RAMAYANA is based on an ancient Epic still celebrated by billions across the globe. RAMA, a prince bound by duty and sacrifice, must confront RAVANA, an immortal ruler driven by pride and vengeance. Directed by Nitesh Tiwari, with music and score by Hans Zimmer and A.R. Rahman.",
+        "overview": "Hindi with English Subtitles. Based on the celebrated ancient epic known to billions, Namit Malhotra's Ramayana: Rise of a Legend tells the story of Rama, a prince bound by sacrifice; Ravana, an immortal king driven by vengeance; and the prophecy that binds their fates together. It stars Ranbir Kapoor, Yash and Sai Pallavi. \n\nThe film is produced by acclaimed filmmaker Namit Malhotra, whose Academy Award®-winning visual effects company DNEG has worked on films including The Odyssey, Dune, Interstellar, and Inception; directed by Nitesh Tiwari, whose film Dangal remains the highest-grossing Indian film worldwide; and scored by Academy Award® winners Hans Zimmer and A.R. Rahman. Namit Malhotra's Ramayana: Rise of a Legend will be released globally in theaters in time for Diwali on November 5.",
         "runtime_minutes": 195,
         "rating": "PG13",
         "release_year": 2026
@@ -9177,8 +9458,8 @@
           "mpaa_rating": "PG13",
           "genre": "ACTION",
           "slug": "ramayana-84991",
-          "synopsis": "Hindi with English Subtitles. RAMAYANA is based on an ancient Epic still celebrated by billions across the globe. RAMA, a prince bound by duty and sacrifice, must confront RAVANA, an immortal ruler driven by pride and vengeance. Directed by Nitesh Tiwari, with music and score by Hans Zimmer and A.R. Rahman.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1790607757/amc-cdn/content/general/vbsgtuccm7xbb4zr85sp.jpg",
+          "synopsis": "Hindi with English Subtitles. Based on the celebrated ancient epic known to billions, Namit Malhotra's Ramayana: Rise of a Legend tells the story of Rama, a prince bound by sacrifice; Ravana, an immortal king driven by vengeance; and the prophecy that binds their fates together. It stars Ranbir Kapoor, Yash and Sai Pallavi. \n\nThe film is produced by acclaimed filmmaker Namit Malhotra, whose Academy Award®-winning visual effects company DNEG has worked on films including The Odyssey, Dune, Interstellar, and Inception; directed by Nitesh Tiwari, whose film Dangal remains the highest-grossing Indian film worldwide; and scored by Academy Award® winners Hans Zimmer and A.R. Rahman. Namit Malhotra's Ramayana: Rise of a Legend will be released globally in theaters in time for Diwali on November 5.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792618580/amc-cdn/content/general/o8leq041bkddotpu35dx.jpg",
           "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791889826/amc-cdn/production/2/movies/85000/84991/MovieStills/395593R5.jpg",
           "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791889826/amc-cdn/production/2/movies/85000/84991/MovieStills/395593R5.jpg",
           "presentation_category": "standard",
@@ -9364,7 +9645,7 @@
           "original_language": "en",
           "popularity": 3.732,
           "vote_count": 0,
-          "poster_path": "/cRgOlibhyVgQPsI9764D46ropJY.jpg",
+          "poster_path": "/dS2EUbnMyfv1bWsGa6GBgzwp5cF.jpg",
           "backdrop_path": null,
           "overview": "Now working as a field agent for the CIA, Becky is sent undercover to Poland to infiltrate a family of innkeepers running a tourist venture at The Wolf's Lair, Hitler's WWII bunker. After learning that the father, Wilhelm Reuss, is on a mission to bring about the Fourth Reich, Becky takes matters into her own hands.",
           "has_poster": true,
@@ -10306,12 +10587,12 @@
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/hX94xNPYwazKOVGGqL1GiwMSNuY.jpg",
-        "poster_path": "/hX94xNPYwazKOVGGqL1GiwMSNuY.jpg",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792618095/amc-cdn/content/general/ouwuapufehx98dypumui.jpg",
+        "poster_path": null,
         "backdrop_url": null,
         "backdrop_path": null,
-        "overview": "RAMAYANA is based on an ancient Epic still celebrated by billions across the globe. RAMA, a prince bound by duty and sacrifice, must confront RAVANA, an immortal ruler driven by pride and vengeance. Directed by Nitesh Tiwari, with music and score by Hans Zimmer and A.R. Rahman.",
+        "overview": "Based on the celebrated ancient epic known to billions, Namit Malhotra's Ramayana: Rise of a Legend tells the story of Rama, a prince bound by sacrifice; Ravana, an immortal king driven by vengeance; and the prophecy that binds their fates together. It stars Ranbir Kapoor, Yash and Sai Pallavi. \n\nThe film is produced by acclaimed filmmaker Namit Malhotra, whose Academy Award®-winning visual effects company DNEG has worked on films including The Odyssey, Dune, Interstellar, and Inception; directed by Nitesh Tiwari, whose film Dangal remains the highest-grossing Indian film worldwide; and scored by Academy Award® winners Hans Zimmer and A.R. Rahman. Namit Malhotra's Ramayana: Rise of a Legend will be released globally in theaters in time for Diwali on November 5.",
         "runtime_minutes": 165,
         "rating": "PG13",
         "release_year": 2026
@@ -10341,8 +10622,8 @@
           "mpaa_rating": "PG13",
           "genre": "ACTION",
           "slug": "ramayana-rise-of-a-legend-85456",
-          "synopsis": "RAMAYANA is based on an ancient Epic still celebrated by billions across the globe. RAMA, a prince bound by duty and sacrifice, must confront RAVANA, an immortal ruler driven by pride and vengeance. Directed by Nitesh Tiwari, with music and score by Hans Zimmer and A.R. Rahman.",
-          "poster_url": null,
+          "synopsis": "Based on the celebrated ancient epic known to billions, Namit Malhotra's Ramayana: Rise of a Legend tells the story of Rama, a prince bound by sacrifice; Ravana, an immortal king driven by vengeance; and the prophecy that binds their fates together. It stars Ranbir Kapoor, Yash and Sai Pallavi. \n\nThe film is produced by acclaimed filmmaker Namit Malhotra, whose Academy Award®-winning visual effects company DNEG has worked on films including The Odyssey, Dune, Interstellar, and Inception; directed by Nitesh Tiwari, whose film Dangal remains the highest-grossing Indian film worldwide; and scored by Academy Award® winners Hans Zimmer and A.R. Rahman. Namit Malhotra's Ramayana: Rise of a Legend will be released globally in theaters in time for Diwali on November 5.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792618095/amc-cdn/content/general/ouwuapufehx98dypumui.jpg",
           "hero_desktop_url": null,
           "hero_mobile_url": null,
           "presentation_category": "standard",
@@ -10821,6 +11102,184 @@
     },
     {
       "film_id": null,
+      "title": "Club Kid with",
+      "join_key": "club-kid-with",
+      "parent_film_keys": [
+        "club-kid-with"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85513",
+      "amc_movie_ids": [
+        "85513"
+      ],
+      "expected_release_date": "2026-11-06",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-11-06",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [
+        {
+          "kind": "q_and_a",
+          "title": "Club Kid with Q&A",
+          "amc_movie_id": "85513"
+        }
+      ],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792615505/amc-cdn/content/general/eb8uh4ejl14kxipxmdmb.avif",
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "Club Kid with Q&A.",
+        "runtime_minutes": 152,
+        "rating": "R",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": true,
+        "variant_titles": [
+          "Club Kid with Q&A"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85513",
+          "source_title": "Club Kid with Q&A",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
+          "earliest_showing_utc": "2026-11-06T17:00:00Z",
+          "runtime_min": 152,
+          "mpaa_rating": "R",
+          "genre": null,
+          "slug": "club-kid-with-q-a-85513",
+          "synopsis": "Club Kid with Q&A.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792615505/amc-cdn/content/general/eb8uh4ejl14kxipxmdmb.avif",
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "q_and_a",
+          "is_special_presentation": true
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Club Kid with Intro",
+      "join_key": "club-kid-with-intro",
+      "parent_film_keys": [
+        "club-kid-with-intro"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85514",
+      "amc_movie_ids": [
+        "85514"
+      ],
+      "expected_release_date": "2026-11-06",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-11-06",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792615551/amc-cdn/content/general/vbaq3xv7bvwtxjbgv99n.avif",
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "Club Kid with Intro.",
+        "runtime_minutes": 122,
+        "rating": "R",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Club Kid with Intro"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85514",
+          "source_title": "Club Kid with Intro",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
+          "earliest_showing_utc": "2026-11-06T20:15:00Z",
+          "runtime_min": 122,
+          "mpaa_rating": "R",
+          "genre": null,
+          "slug": "club-kid-with-intro-85514",
+          "synopsis": "Club Kid with Intro.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792615551/amc-cdn/content/general/vbaq3xv7bvwtxjbgv99n.avif",
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "special_introduction",
+          "is_special_presentation": true
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
       "title": "Mookuthi Amman 2- Maha Sakthi",
       "join_key": "mookuthi-amman-2-maha-sakthi",
       "parent_film_keys": [
@@ -11255,6 +11714,92 @@
           "slug": "scene-85413",
           "synopsis": null,
           "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Summer Holidays",
+      "join_key": "summer-holidays",
+      "parent_film_keys": [
+        "summer-holidays"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85252",
+      "amc_movie_ids": [
+        "85252"
+      ],
+      "expected_release_date": "2026-11-06",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-11-06",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791025804/amc-cdn/production/2/movies/85300/85252/Poster/426544R1.jpg",
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "A city boy's summer at his grandparents' Godavari village transforms when he befriends a spirited local paper boy. Together they explore rural life through adventures that forge an unforgettable childhood bond",
+        "runtime_minutes": 144,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Summer Holidays"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85252",
+          "source_title": "Summer Holidays",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 144,
+          "mpaa_rating": "NR",
+          "genre": "COMEDY",
+          "slug": "summer-holidays-85252",
+          "synopsis": "A city boy's summer at his grandparents' Godavari village transforms when he befriends a spirited local paper boy. Together they explore rural life through adventures that forge an unforgettable childhood bond",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1791025804/amc-cdn/production/2/movies/85300/85252/Poster/426544R1.jpg",
           "hero_desktop_url": null,
           "hero_mobile_url": null,
           "presentation_category": "standard",
@@ -12737,6 +13282,83 @@
     },
     {
       "film_id": null,
+      "title": "Romanian Film Festival Seattle: 3 Days in September",
+      "join_key": "romanian-film-festival-seattle-3-days-in-september",
+      "parent_film_keys": [
+        "romanian-film-festival-seattle-3-days-in-september"
+      ],
+      "showtime_film_keys": [
+        "romanian-film-festival-seattle-3-days-in-september"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-13",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-13",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Romanian Film Festival Seattle: 3 Days in September"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
       "title": "Bitter Christmas",
       "join_key": "bitter-christmas",
       "parent_film_keys": [
@@ -12777,7 +13399,7 @@
       "presentation": {
         "kind": "film",
         "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792235131/amc-cdn/production/2/movies/84600/84564/Poster/394229R1.jpg",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792616641/amc-cdn/content/general/lonlcesteppkff1sx3uz.jpg",
         "poster_path": null,
         "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1792235131/amc-cdn/production/2/movies/84600/84564/MovieStills/394229R9.jpg",
         "backdrop_path": null,
@@ -12812,7 +13434,7 @@
           "genre": "DRAMA",
           "slug": "bitter-christmas-84564",
           "synopsis": "BITTER CHRISTMAS tells two alternating stories, one starring Elsa, an advertising director, in 2004, during a long weekend in December. The second takes place in 2026 and stars Raul, a screenwriter and director who is writing a script that we soon discover is the story of Elsa, her boyfriend Bonifacio, and her friends Patricia and Natalia. Mixed with fiction, Elsa is, in a way, Raul's alter ego, who, like him, resorts to autofiction as a solution to a long period of creative drought. He looks inside himself, and he can't help but also look at the people who make up his most intimate universe: his partner and his assistant.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792235131/amc-cdn/production/2/movies/84600/84564/Poster/394229R1.jpg",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792616641/amc-cdn/content/general/lonlcesteppkff1sx3uz.jpg",
           "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1792235131/amc-cdn/production/2/movies/84600/84564/MovieStills/394229R9.jpg",
           "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1792235131/amc-cdn/production/2/movies/84600/84564/MovieStills/394229R9.jpg",
           "presentation_category": "standard",
@@ -12931,7 +13553,7 @@
           "original_language": "en",
           "popularity": 13.402,
           "vote_count": 0,
-          "poster_path": "/6H2N59jJW1hZEzn2ZdrMvJw5vNI.jpg",
+          "poster_path": "/bmemRcNQgljyRNNM9kPeqmt8HNO.jpg",
           "backdrop_path": null,
           "overview": "An elderly miser embarks on a supernatural journey after visits from the ghost of his former business partner and the Spirits of Christmas Past, Present, and Yet to Come force him to confront his past and fight for a second chance at happiness.",
           "has_poster": true,
@@ -13333,6 +13955,92 @@
           "slug": "donga-naa-koduku-84697",
           "synopsis": "A robbery crime comedy centered around a jewellery shop heist that goes hilariously wrong.",
           "poster_url": "https://amc-theatres-res.cloudinary.com/v1791889894/amc-cdn/production/2/movies/84700/84697/Poster/423534R1.jpg",
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Ek Onkar",
+      "join_key": "ek-onkar",
+      "parent_film_keys": [
+        "ek-onkar"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85497",
+      "amc_movie_ids": [
+        "85497"
+      ],
+      "expected_release_date": "2026-11-13",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-11-13",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "Set against the backdrop of the 2012 Sikh Temple shooting in Oak Creek, Wisconsin, EK ONKAR weaves a story of intertwined fates and faiths. The film follows three lives: a former Marine who becomes a white supremacist, a seasoned police officer, and a troubled young Sikh man. As their paths collide, each grapples with personal trauma, strained relationships, and the search for purpose. A tragic event will ultimately shape their destinies. This powerful drama explores redemption, resilience, family, and the transformative power of faith and human connection.",
+        "runtime_minutes": 106,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Ek Onkar"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85497",
+          "source_title": "Ek Onkar",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-11-13T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 106,
+          "mpaa_rating": "NR",
+          "genre": "DRAMA",
+          "slug": "ek-onkar-85497",
+          "synopsis": "Set against the backdrop of the 2012 Sikh Temple shooting in Oak Creek, Wisconsin, EK ONKAR weaves a story of intertwined fates and faiths. The film follows three lives: a former Marine who becomes a white supremacist, a seasoned police officer, and a troubled young Sikh man. As their paths collide, each grapples with personal trauma, strained relationships, and the search for purpose. A tragic event will ultimately shape their destinies. This powerful drama explores redemption, resilience, family, and the transformative power of faith and human connection.",
+          "poster_url": null,
           "hero_desktop_url": null,
           "hero_mobile_url": null,
           "presentation_category": "standard",
@@ -13789,98 +14497,6 @@
     },
     {
       "film_id": null,
-      "title": "The Angry Birds Movie: 10th Anniversary",
-      "join_key": "angry-birds-movie",
-      "parent_film_keys": [
-        "angry-birds-movie"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": null,
-      "amc_movie_id": "83382",
-      "amc_movie_ids": [
-        "83382"
-      ],
-      "expected_release_date": "2026-11-13",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-11-13",
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "weak",
-      "relevance_reason": "national_amc_without_tmdb",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [
-        {
-          "kind": "other_engagement",
-          "title": "The Angry Birds Movie: 10th Anniversary",
-          "amc_movie_id": "83382"
-        }
-      ],
-      "presentation": {
-        "kind": "rerelease",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792015584/amc-cdn/content/general/flpicxrs45kkj9cgplr0.jpg",
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Celebrate the 10th anniversary of The Angry Birds Movie. A proven family hit filled with action, humor, and fan-favorite characters, this special anniversary re-release brings audiences back to Bird Island for a big-screen experience the whole family will enjoy.",
-        "runtime_minutes": 97,
-        "rating": "PG",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": true,
-        "variant_titles": [
-          "The Angry Birds Movie: 10th Anniversary"
-        ],
-        "contributing_sources": [
-          "amc_catalog"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "83382",
-          "source_title": "The Angry Birds Movie: 10th Anniversary",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-11-13T06:00:00Z",
-          "earliest_showing_utc": "2026-11-13T10:00:00Z",
-          "runtime_min": 97,
-          "mpaa_rating": "PG",
-          "genre": "Family",
-          "slug": "the-angry-birds-movie-10th-anniversary-83382",
-          "synopsis": "Celebrate the 10th anniversary of The Angry Birds Movie. A proven family hit filled with action, humor, and fan-favorite characters, this special anniversary re-release brings audiences back to Bird Island for a big-screen experience the whole family will enjoy.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792015584/amc-cdn/content/general/flpicxrs45kkj9cgplr0.jpg",
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "concert_or_event",
-          "is_special_presentation": true
-        },
-        "tmdb": null
-      },
-      "in_recommended": false
-    },
-    {
-      "film_id": null,
       "title": "TheyDream",
       "join_key": "theydream",
       "parent_film_keys": [
@@ -14242,6 +14858,108 @@
     },
     {
       "film_id": null,
+      "title": "League of Legends Worlds 26 - Finals in Cinema",
+      "join_key": "league-of-legends-worlds-26-finals-in-cinema",
+      "parent_film_keys": [
+        "league-of-legends-worlds-26-finals-in-cinema"
+      ],
+      "showtime_film_keys": [
+        "league-of-legends-worlds-26-finals-in-cinema"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": "85347",
+      "amc_movie_ids": [
+        "85347"
+      ],
+      "expected_release_date": "2026-11-14",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": "2026-11-14",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-14",
+      "first_local_screening_source": "amc_theater_booking",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "amc-alderwood-mall-16",
+        "amc-southcenter-16"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "name": "AMC Southcenter 16"
+        }
+      ],
+      "local_theater_count": 2,
+      "local_showtime_count": 2,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": true,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_release_like",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "release_like",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792593745/amc-cdn/content/general/znkoizlcgju5bjtzbxdm.jpg",
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "The League of Legends World Championship Finals are back on the big screen! In this 2026 edition, 19 teams from around the world will compete for the title of World Champion, with the grand final broadcast live in theatres.",
+        "runtime_minutes": 300,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "League of Legends Worlds 26 - Finals in Cinema"
+        ],
+        "contributing_sources": [
+          "amc_booking",
+          "amc_catalog",
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85347",
+          "source_title": "League of Legends Worlds 26 - Finals in Cinema",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
+          "earliest_showing_utc": "2026-11-14T11:00:00Z",
+          "runtime_min": 300,
+          "mpaa_rating": "NR",
+          "genre": "SPECIAL EVENTS",
+          "slug": "league-of-legends-worlds-26-finals-in-cinema-85347",
+          "synopsis": "The League of Legends World Championship Finals are back on the big screen! In this 2026 edition, 19 teams from around the world will compete for the title of World Champion, with the grand final broadcast live in theatres.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792593745/amc-cdn/content/general/znkoizlcgju5bjtzbxdm.jpg",
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "concert_or_event",
+          "is_special_presentation": true
+        },
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
       "title": "PNW Awards: Again Again",
       "join_key": "pnw-awards-again-again",
       "parent_film_keys": [
@@ -14396,6 +15114,314 @@
     },
     {
       "film_id": null,
+      "title": "Romanian Film Festival Seattle: Kontinental '25",
+      "join_key": "romanian-film-festival-seattle-kontinental-25",
+      "parent_film_keys": [
+        "romanian-film-festival-seattle-kontinental-25"
+      ],
+      "showtime_film_keys": [
+        "romanian-film-festival-seattle-kontinental-25"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-14",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-14",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Romanian Film Festival Seattle: Kontinental '25"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Romanian Film Festival Seattle: R.M.N.",
+      "join_key": "romanian-film-festival-seattle-r-m-n",
+      "parent_film_keys": [
+        "romanian-film-festival-seattle-r-m-n"
+      ],
+      "showtime_film_keys": [
+        "romanian-film-festival-seattle-r-m-n"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-14",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-14",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Romanian Film Festival Seattle: R.M.N."
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Romanian Film Festival Seattle: The Last Transhumance",
+      "join_key": "romanian-film-festival-seattle-the-last-transhumance",
+      "parent_film_keys": [
+        "romanian-film-festival-seattle-the-last-transhumance"
+      ],
+      "showtime_film_keys": [
+        "romanian-film-festival-seattle-the-last-transhumance"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-14",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-14",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Romanian Film Festival Seattle: The Last Transhumance"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Romanian Film Festival Seattle: Traffic",
+      "join_key": "romanian-film-festival-seattle-traffic",
+      "parent_film_keys": [
+        "romanian-film-festival-seattle-traffic"
+      ],
+      "showtime_film_keys": [
+        "romanian-film-festival-seattle-traffic"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-14",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-14",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Romanian Film Festival Seattle: Traffic"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
       "title": "Autre, L'",
       "join_key": "autre-l",
       "parent_film_keys": [
@@ -14475,92 +15501,6 @@
           "hero_mobile_url": null,
           "presentation_category": "standard",
           "is_special_presentation": false
-        },
-        "tmdb": null
-      },
-      "in_recommended": false
-    },
-    {
-      "film_id": null,
-      "title": "League of Legends Worlds 26 - Finals in Cinema",
-      "join_key": "league-of-legends-worlds-26-finals-in-cinema",
-      "parent_film_keys": [
-        "league-of-legends-worlds-26-finals-in-cinema"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": null,
-      "amc_movie_id": "85347",
-      "amc_movie_ids": [
-        "85347"
-      ],
-      "expected_release_date": "2026-11-14",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-11-14",
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "weak",
-      "relevance_reason": "national_amc_without_tmdb",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "The League of Legends World Championship Finals are back on the big screen! In this 2026 edition, 19 teams from around the world will compete for the title of World Champion, with the grand final broadcast live in theatres.",
-        "runtime_minutes": 300,
-        "rating": "NR",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "League of Legends Worlds 26 - Finals in Cinema"
-        ],
-        "contributing_sources": [
-          "amc_catalog"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85347",
-          "source_title": "League of Legends Worlds 26 - Finals in Cinema",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
-          "earliest_showing_utc": "2026-11-14T11:00:00Z",
-          "runtime_min": 300,
-          "mpaa_rating": "NR",
-          "genre": "SPECIAL EVENTS",
-          "slug": "league-of-legends-worlds-26-finals-in-cinema-85347",
-          "synopsis": "The League of Legends World Championship Finals are back on the big screen! In this 2026 edition, 19 teams from around the world will compete for the title of World Champion, with the grand final broadcast live in theatres.",
-          "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "concert_or_event",
-          "is_special_presentation": true
         },
         "tmdb": null
       },
@@ -14709,6 +15649,314 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "PNW Awards: The Life We Leave"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Romanian Film Festival Seattle: Atlas of the Universe",
+      "join_key": "romanian-film-festival-seattle-atlas-of-the-universe",
+      "parent_film_keys": [
+        "romanian-film-festival-seattle-atlas-of-the-universe"
+      ],
+      "showtime_film_keys": [
+        "romanian-film-festival-seattle-atlas-of-the-universe"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-15",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-15",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Romanian Film Festival Seattle: Atlas of the Universe"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Romanian Film Festival Seattle: Blindsight",
+      "join_key": "romanian-film-festival-seattle-blindsight",
+      "parent_film_keys": [
+        "romanian-film-festival-seattle-blindsight"
+      ],
+      "showtime_film_keys": [
+        "romanian-film-festival-seattle-blindsight"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-15",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-15",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Romanian Film Festival Seattle: Blindsight"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Romanian Film Festival Seattle: The Wall",
+      "join_key": "romanian-film-festival-seattle-the-wall",
+      "parent_film_keys": [
+        "romanian-film-festival-seattle-the-wall"
+      ],
+      "showtime_film_keys": [
+        "romanian-film-festival-seattle-the-wall"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-15",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-15",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Romanian Film Festival Seattle: The Wall"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Romanian Film Festival Seattle: The Yellow Tie",
+      "join_key": "romanian-film-festival-seattle-the-yellow-tie",
+      "parent_film_keys": [
+        "romanian-film-festival-seattle-the-yellow-tie"
+      ],
+      "showtime_film_keys": [
+        "romanian-film-festival-seattle-the-yellow-tie"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-15",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-15",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Romanian Film Festival Seattle: The Yellow Tie"
         ],
         "contributing_sources": [
           "reel_seattle"
@@ -15132,6 +16380,89 @@
     },
     {
       "film_id": null,
+      "title": "Sweetheart",
+      "join_key": "sweetheart",
+      "parent_film_keys": [
+        "sweetheart-film-party"
+      ],
+      "showtime_film_keys": [
+        "sweetheart-opening-night-film-party"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-18",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-18",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [
+        {
+          "kind": "other_engagement",
+          "title": "Sweetheart - Opening Night Film + Party",
+          "amc_movie_id": null
+        }
+      ],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": true,
+        "variant_titles": [
+          "Sweetheart - Opening Night Film + Party"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
       "title": "Hunger Games: Sunrise on the Reaping",
       "join_key": "hunger-games-sunrise-on-the-reaping",
       "parent_film_keys": [
@@ -15432,6 +16763,160 @@
     },
     {
       "film_id": null,
+      "title": "A Year of School",
+      "join_key": "year-of-school",
+      "parent_film_keys": [
+        "year-of-school"
+      ],
+      "showtime_film_keys": [
+        "year-of-school"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-19",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-19",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "A Year of School"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Elisa",
+      "join_key": "elisa",
+      "parent_film_keys": [
+        "elisa"
+      ],
+      "showtime_film_keys": [
+        "elisa"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-19",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-19",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Elisa"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
       "title": "The Witch",
       "join_key": "witch",
       "parent_film_keys": [
@@ -15509,6 +16994,160 @@
     },
     {
       "film_id": null,
+      "title": "Brunello: The Gracious Visionary",
+      "join_key": "brunello-the-gracious-visionary",
+      "parent_film_keys": [
+        "brunello-the-gracious-visionary"
+      ],
+      "showtime_film_keys": [
+        "brunello-the-gracious-visionary"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-20",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-20",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Brunello: The Gracious Visionary"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Gioia",
+      "join_key": "gioia",
+      "parent_film_keys": [
+        "gioia"
+      ],
+      "showtime_film_keys": [
+        "gioia"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-20",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-20",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Gioia"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
       "title": "Love Streams",
       "join_key": "love-streams",
       "parent_film_keys": [
@@ -15573,6 +17212,83 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "Love Streams"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "The Last One for the Road",
+      "join_key": "last-one-for-the-road",
+      "parent_film_keys": [
+        "last-one-for-the-road"
+      ],
+      "showtime_film_keys": [
+        "last-one-for-the-road"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-20",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-20",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "The Last One for the Road"
         ],
         "contributing_sources": [
           "reel_seattle"
@@ -15771,7 +17487,7 @@
           "original_title": "Minotaure",
           "original_language": "fr",
           "popularity": 12.402,
-          "vote_count": 19,
+          "vote_count": 20,
           "poster_path": "/bM37B5CuMWrPyGPpNsKzTGict4Q.jpg",
           "backdrop_path": null,
           "overview": "When Gleb, a successful company director, finds himself under siege from mounting corporate pressures, an increasingly unstable world, and the discovery of his wife's affair, the collapse of his carefully ordered life accelerates toward violence.",
@@ -16354,6 +18070,237 @@
     },
     {
       "film_id": null,
+      "title": "Love Fits Everything",
+      "join_key": "love-fits-everything",
+      "parent_film_keys": [
+        "love-fits-everything"
+      ],
+      "showtime_film_keys": [
+        "love-fits-everything"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-21",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-21",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Love Fits Everything"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "The Kidnapping of Arabella",
+      "join_key": "kidnapping-of-arabella",
+      "parent_film_keys": [
+        "kidnapping-of-arabella"
+      ],
+      "showtime_film_keys": [
+        "kidnapping-of-arabella"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-21",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-21",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "The Kidnapping of Arabella"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "The Spiral",
+      "join_key": "spiral",
+      "parent_film_keys": [
+        "spiral"
+      ],
+      "showtime_film_keys": [
+        "spiral"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-21",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-21",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "The Spiral"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
       "title": "Danemark et les Iles Feroe - Les aventuriers voyageurs",
       "join_key": "danemark-et-les-iles-feroe-les-aventuriers-voyageurs",
       "parent_film_keys": [
@@ -16615,6 +18562,237 @@
         "tmdb": null
       },
       "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Beloved",
+      "join_key": "beloved",
+      "parent_film_keys": [
+        "beloved"
+      ],
+      "showtime_film_keys": [
+        "beloved"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-22",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-22",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Beloved"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "God Forgives Everyone",
+      "join_key": "god-forgives-everyone",
+      "parent_film_keys": [
+        "god-forgives-everyone"
+      ],
+      "showtime_film_keys": [
+        "god-forgives-everyone"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-22",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-22",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "God Forgives Everyone"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
+    },
+    {
+      "film_id": null,
+      "title": "Journey to Italy",
+      "join_key": "journey-to-italy",
+      "parent_film_keys": [
+        "journey-to-italy"
+      ],
+      "showtime_film_keys": [
+        "journey-to-italy"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-11-22",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-11-22",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-cinema-uptown"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-cinema-uptown",
+          "name": "SIFF Cinema Uptown"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Journey to Italy"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      },
+      "in_recommended": true
     },
     {
       "film_id": null,
@@ -17452,7 +19630,7 @@
         "ambiguous": false,
         "synthetic_film_group": false,
         "variant_titles": [
-          "Focker-In-Law",
+          "Focker In-Law",
           "Focker-in-Law"
         ],
         "contributing_sources": [
@@ -17463,7 +19641,7 @@
       "source_metadata": {
         "amc": {
           "amc_movie_id": "79564",
-          "source_title": "Focker-In-Law",
+          "source_title": "Focker In-Law",
           "has_scheduled_showtimes": false,
           "online_ticket_availability_date_utc": "2026-11-25T06:00:00Z",
           "earliest_showing_utc": null,
@@ -19112,92 +21290,6 @@
     },
     {
       "film_id": null,
-      "title": "Athi Manoharam",
-      "join_key": "athi-manoharam",
-      "parent_film_keys": [
-        "athi-manoharam"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": null,
-      "amc_movie_id": "85441",
-      "amc_movie_ids": [
-        "85441"
-      ],
-      "expected_release_date": "2026-12-04",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-12-04",
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "weak",
-      "relevance_reason": "national_amc_without_tmdb",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": 160,
-        "rating": "NR",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Athi Manoharam"
-        ],
-        "contributing_sources": [
-          "amc_catalog"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85441",
-          "source_title": "Athi Manoharam",
-          "has_scheduled_showtimes": false,
-          "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-          "earliest_showing_utc": null,
-          "runtime_min": 160,
-          "mpaa_rating": "NR",
-          "genre": "COMEDY",
-          "slug": "athi-manoharam-85441",
-          "synopsis": null,
-          "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": null
-      },
-      "in_recommended": false
-    },
-    {
-      "film_id": null,
       "title": "Bad Santa",
       "join_key": "bad-santa",
       "parent_film_keys": [
@@ -19444,92 +21536,6 @@
           "genre": null,
           "slug": "elf-85072",
           "synopsis": "A human baby raised as an elf. A city where no one remembers the true meaning of Christmas. Will Ferrell (Saturday Night Live, Superstar) stars as Buddy, a human raised in the North Pole to be an elf. After wreaking havoc in the elf community due to his size, Buddy heads to New York City to find his place in the world, and track down his father. But life in the big city is not all sugarplums and candy canes. His father is a 'Scrooge' and his eight-year-old stepbrother doesn't believe in Santa. Even the snowmen aren't friendly in New York. In fact, they don't even speak. Worst of all, everyone has forgotten the true meaning of Christmas, and it's up to Buddy and his simple elf ways to win over his family, realize his destiny and, ultimately, save Christmas for New York and the world. Directed by John Favreau (Swingers), Elf is a warm-hearted Christmas comedy written by David Berenbaum.",
-          "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": null
-      },
-      "in_recommended": false
-    },
-    {
-      "film_id": null,
-      "title": "Everybody Digs Bill Evans",
-      "join_key": "everybody-digs-bill-evans",
-      "parent_film_keys": [
-        "everybody-digs-bill-evans"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": null,
-      "amc_movie_id": "84989",
-      "amc_movie_ids": [
-        "84989"
-      ],
-      "expected_release_date": "2026-12-04",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-12-04",
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "weak",
-      "relevance_reason": "national_amc_without_tmdb",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "June 1961, New York. Legendary jazz pianist Bill Evans has found his musical voice and created the perfect trio, including bass player Scott LaFaro, his musical soulmate. A residency at New York's Village Vanguard culminates in the live taping of two of the greatest jazz records of all time in one day. Days later, LaFaro dies tragically in a car crash. Numb with grief, Evans stops playing for the first time since childhood. This is the story of what happened next for one of the most influential and gifted figures in 20th Century music. Grant Gee won Best Director at the 2026 Berlin International Film Festival.",
-        "runtime_minutes": 102,
-        "rating": "NR",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Everybody Digs Bill Evans"
-        ],
-        "contributing_sources": [
-          "amc_catalog"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "84989",
-          "source_title": "Everybody Digs Bill Evans",
-          "has_scheduled_showtimes": false,
-          "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-          "earliest_showing_utc": null,
-          "runtime_min": 102,
-          "mpaa_rating": "NR",
-          "genre": "DRAMA",
-          "slug": "everybody-digs-bill-evans-84989",
-          "synopsis": "June 1961, New York. Legendary jazz pianist Bill Evans has found his musical voice and created the perfect trio, including bass player Scott LaFaro, his musical soulmate. A residency at New York's Village Vanguard culminates in the live taping of two of the greatest jazz records of all time in one day. Days later, LaFaro dies tragically in a car crash. Numb with grief, Evans stops playing for the first time since childhood. This is the story of what happened next for one of the most influential and gifted figures in 20th Century music. Grant Gee won Best Director at the 2026 Berlin International Film Festival.",
           "poster_url": null,
           "hero_desktop_url": null,
           "hero_mobile_url": null,
@@ -20167,105 +22173,6 @@
           "is_special_presentation": false
         },
         "tmdb": null
-      },
-      "in_recommended": false
-    },
-    {
-      "film_id": null,
-      "title": "Tender Loving Care",
-      "join_key": "tender-loving-care",
-      "parent_film_keys": [
-        "tender-loving-care"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1370191,
-      "amc_movie_id": "84501",
-      "amc_movie_ids": [
-        "84501"
-      ],
-      "expected_release_date": "2026-12-04",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-12-04",
-      "tmdb_us_release_date": "2026-12-04",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": true,
-      "tmdb_popularity": 3.76,
-      "local_evidence_strength": "proxy",
-      "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
-      "popularity_threshold_applied": 5.0,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/fgiGqeaBXfCM29xAUhmURCTyN2X.jpg",
-        "poster_path": "/fgiGqeaBXfCM29xAUhmURCTyN2X.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Palme d'Or winner and Academy Award nominee Mike Leigh returns with his next feature film, continuing his insightful exploration of the contemporary world. With his distinctive cinematic voice, he once again delves into themes that challenge and resonate with modern audiences.",
-        "runtime_minutes": 107,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Tender Loving Care"
-        ],
-        "contributing_sources": [
-          "amc_catalog",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "84501",
-          "source_title": "Tender Loving Care",
-          "has_scheduled_showtimes": false,
-          "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-          "earliest_showing_utc": null,
-          "runtime_min": 107,
-          "mpaa_rating": null,
-          "genre": "DRAMA",
-          "slug": "tender-loving-care-84501",
-          "synopsis": "Palme d'Or winner and Academy Award nominee Mike Leigh returns with his next feature film, continuing his insightful exploration of the contemporary world. With his distinctive cinematic voice, he once again delves into themes that challenge and resonate with modern audiences.",
-          "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": {
-          "tmdb_id": 1370191,
-          "original_title": "Tender Loving Care",
-          "original_language": "en",
-          "popularity": 3.76,
-          "vote_count": 0,
-          "poster_path": "/fgiGqeaBXfCM29xAUhmURCTyN2X.jpg",
-          "backdrop_path": null,
-          "overview": "Amy, a government child protection worker, moves back with her upbeat best friend Rosie, a social services officer facing daily anger and resentment. Amy's aging parents worry about her happiness while dealing with their own crisis.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": []
-        }
       },
       "in_recommended": false
     },
@@ -20942,7 +22849,7 @@
     },
     {
       "film_id": null,
-      "title": "Zero A.D: The Birth of Christ",
+      "title": "Zero A.D.: The Birth of Christ",
       "join_key": "zero-a-d-the-birth-of-christ",
       "parent_film_keys": [
         "zero-a-d-the-birth-of-christ"
@@ -21008,7 +22915,7 @@
         "synthetic_film_group": false,
         "variant_titles": [
           "ZERO A.D.: The Birth of Christ",
-          "Zero A.D: The Birth of Christ"
+          "Zero A.D.: The Birth of Christ"
         ],
         "contributing_sources": [
           "amc_booking",
@@ -21037,7 +22944,7 @@
         },
         "tmdb": {
           "tmdb_id": 1408207,
-          "original_title": "Zero A.D: The Birth of Christ",
+          "original_title": "Zero A.D.: The Birth of Christ",
           "original_language": "en",
           "popularity": 4.523,
           "vote_count": 0,
@@ -21353,7 +23260,7 @@
           "original_title": "Rose",
           "original_language": "de",
           "popularity": 6.852,
-          "vote_count": 55,
+          "vote_count": 56,
           "poster_path": "/4k3ph6BoeZr7IMiQx8ioEV8d9cJ.jpg",
           "backdrop_path": null,
           "overview": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers’ suspicions about his identity grow and they force a reckoning.",
@@ -21742,6 +23649,105 @@
     },
     {
       "film_id": null,
+      "title": "Tender Loving Care",
+      "join_key": "tender-loving-care",
+      "parent_film_keys": [
+        "tender-loving-care"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1370191,
+      "amc_movie_id": "84501",
+      "amc_movie_ids": [
+        "84501"
+      ],
+      "expected_release_date": "2026-12-11",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-12-11",
+      "tmdb_us_release_date": "2026-12-04",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": 3.76,
+      "local_evidence_strength": "proxy",
+      "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
+      "popularity_threshold_applied": 5.0,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "inferred_tmdb",
+        "poster_url": "https://image.tmdb.org/t/p/w500/fgiGqeaBXfCM29xAUhmURCTyN2X.jpg",
+        "poster_path": "/fgiGqeaBXfCM29xAUhmURCTyN2X.jpg",
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "Palme d'Or winner and Academy Award nominee Mike Leigh returns with his next feature film, continuing his insightful exploration of the contemporary world. With his distinctive cinematic voice, he once again delves into themes that challenge and resonate with modern audiences.",
+        "runtime_minutes": 107,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Tender Loving Care"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84501",
+          "source_title": "Tender Loving Care",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-12-11T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 107,
+          "mpaa_rating": null,
+          "genre": "DRAMA",
+          "slug": "tender-loving-care-84501",
+          "synopsis": "Palme d'Or winner and Academy Award nominee Mike Leigh returns with his next feature film, continuing his insightful exploration of the contemporary world. With his distinctive cinematic voice, he once again delves into themes that challenge and resonate with modern audiences.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": {
+          "tmdb_id": 1370191,
+          "original_title": "Tender Loving Care",
+          "original_language": "en",
+          "popularity": 3.76,
+          "vote_count": 0,
+          "poster_path": "/fgiGqeaBXfCM29xAUhmURCTyN2X.jpg",
+          "backdrop_path": null,
+          "overview": "Amy, a government child protection worker, moves back with her upbeat best friend Rosie, a social services officer facing daily anger and resentment. Amy's aging parents worry about her happiness while dealing with their own crisis.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
+        }
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
       "title": "The Holiday - 20th Anniversary",
       "join_key": "holiday",
       "parent_film_keys": [
@@ -21788,7 +23794,7 @@
       "presentation": {
         "kind": "rerelease",
         "source": "amc_catalog",
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792605982/amc-cdn/content/general/buipcg6vftsxuq7v7iwk.jpg",
         "poster_path": null,
         "backdrop_url": null,
         "backdrop_path": null,
@@ -21822,7 +23828,7 @@
           "genre": null,
           "slug": "the-holiday-20th-anniversary-85358",
           "synopsis": "Iris (Kate Winslet) is in love with a man who is about to marry another woman. Across the globe, Amanda (Cameron Diaz), realizes the man she lives with has been unfaithful. Two women who have never met and live 6000 miles apart, find themselves in the exact same place. They meet online at a home exchange website and impulsively switch homes for the holiday. Iris moves into Amanda's L.A. house in sunny California as Amanda arrives in the snow covered English countryside. Shortly after arriving at their destinations, both women find the last thing either wants or expects: a new romance. Amanda is charmed by Iris' handsome brother Graham (Jude Law) and Iris, with inspiration provided by legendary screenwriter Arthur (Eli Wallach), mends her heart when she meets film composer Miles (Jack Black).",
-          "poster_url": null,
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1792605982/amc-cdn/content/general/buipcg6vftsxuq7v7iwk.jpg",
           "hero_desktop_url": null,
           "hero_mobile_url": null,
           "presentation_category": "anniversary_or_rerelease",
@@ -21991,7 +23997,7 @@
         }
       ],
       "local_theater_count": 7,
-      "local_showtime_count": 1811,
+      "local_showtime_count": 1808,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -22257,80 +24263,89 @@
     },
     {
       "film_id": null,
-      "title": "An Evening with Peter Billingsley and a Christmas Story",
-      "join_key": "evening-with-peter-billingsley-and-a-christmas-story",
+      "title": "Athimanoharam",
+      "join_key": "athimanoharam",
       "parent_film_keys": [
-        "evening-with-peter-billingsley-and-a-christmas-story"
+        "athimanoharam"
       ],
-      "showtime_film_keys": [
-        "evening-with-peter-billingsley-and-a-christmas-story"
-      ],
+      "showtime_film_keys": [],
       "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-12-20",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
+      "amc_movie_id": "85441",
+      "amc_movie_ids": [
+        "85441"
+      ],
+      "expected_release_date": "2026-12-24",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-12-24",
       "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-12-20",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "the-moore-theatre"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "the-moore-theatre",
-          "name": "The Moore Theatre"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 1,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
       "evidence": {
-        "amc_coming_soon_catalog": false,
+        "amc_coming_soon_catalog": true,
         "amc_theater_booking": false,
         "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
+        "reel_seattle_scheduled": false
       },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
       "user_visible": true,
       "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
       "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
+      "local_booking_kind": null,
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "fallback",
+        "source": "amc_catalog",
         "poster_url": null,
         "poster_path": null,
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
+        "runtime_minutes": 160,
+        "rating": "NR",
         "release_year": 2026
       },
       "identity": {
-        "method": "join_key",
+        "method": "amc_movie_id",
         "film_id_confirmed": false,
         "tmdb_id_inferred": false,
         "ambiguous": false,
         "synthetic_film_group": false,
         "variant_titles": [
-          "An Evening with Peter Billingsley and a Christmas Story"
+          "Athimanoharam"
         ],
         "contributing_sources": [
-          "reel_seattle"
+          "amc_catalog"
         ]
       },
       "source_metadata": {
-        "amc": null,
+        "amc": {
+          "amc_movie_id": "85441",
+          "source_title": "Athimanoharam",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-12-24T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 160,
+          "mpaa_rating": "NR",
+          "genre": "COMEDY",
+          "slug": "athimanoharam-85441",
+          "synopsis": null,
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
         "tmdb": null
       },
-      "in_recommended": true
+      "in_recommended": false
     },
     {
       "film_id": null,
@@ -22595,7 +24610,7 @@
           "vote_count": 3,
           "poster_path": "/jhBDAdVy7qPglzcBsPDMJXQ9Cls.jpg",
           "backdrop_path": null,
-          "overview": "Pierre, a young Belgian soldier, wants to prove himself on the battlefield during the First World War. Behind the frontlines, he meets Francis, who is asked to find a way to boost morale.",
+          "overview": "Surrounded by brutality but bound by tenderness, two World War I soldiers find a fragile sanctuary of love and art amid the shadows of the Belgian trenches.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []
@@ -23087,7 +25102,7 @@
           "original_title": "ルックバック",
           "original_language": "ja",
           "popularity": 5.654,
-          "vote_count": 19,
+          "vote_count": 20,
           "poster_path": "/sxiJhMNTBRvQgMnB9H4VIVdQfW9.jpg",
           "backdrop_path": null,
           "overview": "Popular, outgoing Fujino is celebrated by her classmates for her funny comics in the class newspaper. One day, her teacher asks her to share the space with Kyomoto, a truant recluse whose beautiful artwork sparks a competitive fervor in Fujino. What starts as jealousy transforms when Fujino realizes their shared passion for drawing.",
@@ -23518,6 +25533,92 @@
     },
     {
       "film_id": null,
+      "title": "Everybody Digs Bill Evans",
+      "join_key": "everybody-digs-bill-evans",
+      "parent_film_keys": [
+        "everybody-digs-bill-evans"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "84989",
+      "amc_movie_ids": [
+        "84989"
+      ],
+      "expected_release_date": "2027-01-08",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2027-01-08",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "June 1961, New York. Legendary jazz pianist Bill Evans has found his musical voice and created the perfect trio, including bass player Scott LaFaro, his musical soulmate. A residency at New York's Village Vanguard culminates in the live taping of two of the greatest jazz records of all time in one day. Days later, LaFaro dies tragically in a car crash. Numb with grief, Evans stops playing for the first time since childhood. This is the story of what happened next for one of the most influential and gifted figures in 20th Century music. Grant Gee won Best Director at the 2026 Berlin International Film Festival.",
+        "runtime_minutes": 102,
+        "rating": "NR",
+        "release_year": 2027
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Everybody Digs Bill Evans"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84989",
+          "source_title": "Everybody Digs Bill Evans",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2027-01-08T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 102,
+          "mpaa_rating": "NR",
+          "genre": "DRAMA",
+          "slug": "everybody-digs-bill-evans-84989",
+          "synopsis": "June 1961, New York. Legendary jazz pianist Bill Evans has found his musical voice and created the perfect trio, including bass player Scott LaFaro, his musical soulmate. A residency at New York's Village Vanguard culminates in the live taping of two of the greatest jazz records of all time in one day. Days later, LaFaro dies tragically in a car crash. Numb with grief, Evans stops playing for the first time since childhood. This is the story of what happened next for one of the most influential and gifted figures in 20th Century music. Grant Gee won Best Director at the 2026 Berlin International Film Festival.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
       "title": "Hurricanna",
       "join_key": "hurricanna",
       "parent_film_keys": [
@@ -23896,83 +25997,6 @@
     },
     {
       "film_id": null,
-      "title": "The Kid Brother",
-      "join_key": "kid-brother",
-      "parent_film_keys": [
-        "kid-brother"
-      ],
-      "showtime_film_keys": [
-        "kid-brother"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2027-01-11",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2027-01-11",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "paramount-theatre"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "paramount-theatre",
-          "name": "Paramount Theatre"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 1,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2027
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "The Kid Brother"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
       "title": "January 12 Vidudala",
       "join_key": "january-12-vidudala",
       "parent_film_keys": [
@@ -24172,7 +26196,7 @@
       "expected_release_date": "2027-01-15",
       "expected_release_date_source": "amc_catalog_release_date",
       "amc_catalog_release_date": "2027-01-15",
-      "tmdb_us_release_date": "2027-01-15",
+      "tmdb_us_release_date": "2026-12-11",
       "first_local_screening_date": null,
       "first_local_screening_source": null,
       "local_status": "not_announced",
@@ -24571,7 +26595,7 @@
       "expected_release_date": "2027-01-15",
       "expected_release_date_source": "amc_catalog_release_date",
       "amc_catalog_release_date": "2027-01-15",
-      "tmdb_us_release_date": "2026-11-26",
+      "tmdb_us_release_date": "2027-01-15",
       "first_local_screening_date": null,
       "first_local_screening_source": null,
       "local_status": "not_announced",
@@ -24730,6 +26754,92 @@
           "genre": "DOCUMENTARY",
           "slug": "the-choice-84341",
           "synopsis": "THE CHOICE is a documentary about survival, grief, forgiveness, and the extraordinary human capacity to choose hope in the face of devastation.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Exhibition on Screen: Renoir & Love",
+      "join_key": "exhibition-on-screen-renoir-love",
+      "parent_film_keys": [
+        "exhibition-on-screen-renoir-love"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85489",
+      "amc_movie_ids": [
+        "85489"
+      ],
+      "expected_release_date": "2027-01-19",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2027-01-19",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "Pierre-Auguste Renoir is one of the world's favourite artists; a founding member of the Impressionist movement and a constantly evolving artist, he is unmatched at depicting human connection. The National Gallery's blockbuster exhibition brings together vibrant masterpieces which explore love in all its forms, bringing colour and warmth into the cold winter months.\n\nWith exclusive access to this exciting new show, Exhibition on Screen will bring these world class works to cinema audiences, with close examination of the art and leading experts exploring the immense skill and influence of this master of colour and connection. Be transported back to a Parisian summer of love through the eyes of a true visionary. An unmissable opportunity to fall in love with Renoir this winter.",
+        "runtime_minutes": 90,
+        "rating": "NR",
+        "release_year": 2027
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Exhibition on Screen: Renoir & Love"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85489",
+          "source_title": "Exhibition on Screen: Renoir & Love",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2027-01-19T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 90,
+          "mpaa_rating": "NR",
+          "genre": "DOCUMENTARY",
+          "slug": "exhibition-on-screen-renoir-love-85489",
+          "synopsis": "Pierre-Auguste Renoir is one of the world's favourite artists; a founding member of the Impressionist movement and a constantly evolving artist, he is unmatched at depicting human connection. The National Gallery's blockbuster exhibition brings together vibrant masterpieces which explore love in all its forms, bringing colour and warmth into the cold winter months.\n\nWith exclusive access to this exciting new show, Exhibition on Screen will bring these world class works to cinema audiences, with close examination of the art and leading experts exploring the immense skill and influence of this master of colour and connection. Be transported back to a Parisian summer of love through the eyes of a true visionary. An unmissable opportunity to fall in love with Renoir this winter.",
           "poster_url": null,
           "hero_desktop_url": null,
           "hero_mobile_url": null,

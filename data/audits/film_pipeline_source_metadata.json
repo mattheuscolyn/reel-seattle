@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-21T04:08:46-07:00",
+  "generated_at": "2026-10-21T16:09:40-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-21_amc.json",
-      "generated_at": "2026-10-21T03:57:02-07:00",
-      "record_count": 7418,
+      "generated_at": "2026-10-21T15:58:24-07:00",
+      "record_count": 7524,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 111,
-      "eligible_feature_count": 96,
+      "source_identity_count": 114,
+      "eligible_feature_count": 99,
       "title": {
-        "with_title": 111,
+        "with_title": 114,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 96,
+        "eligible_features_with_runtime": 99,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 96,
+        "eligible_features_missing_year": 99,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -42,7 +42,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 36,
+        "matcher_cleaned_identity_count": 37,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -64,6 +64,13 @@
             "matcher_title": "It's a Wonderful Life",
             "rules": [
               "presentation_trailing_atoms"
+            ]
+          },
+          {
+            "source_title": "The Angry Birds Movie: 10th Anniversary",
+            "matcher_title": "The Angry Birds Movie",
+            "rules": [
+              "presentation_segment"
             ]
           },
           {
@@ -108,13 +115,6 @@
             "rules": [
               "film_year_paren"
             ]
-          },
-          {
-            "source_title": "MET Opera: Otello (2027)",
-            "matcher_title": "MET Opera: Otello",
-            "rules": [
-              "film_year_paren"
-            ]
           }
         ]
       },
@@ -124,7 +124,7 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 11,
-        "feature_film": 96,
+        "feature_film": 99,
         "mystery_screening": 3,
         "unknown_program": 1
       },
@@ -455,7 +455,7 @@
           "adapter_identity_title": null,
           "matcher_title": "Wildwood",
           "program_series": null,
-          "runtime_min": 132,
+          "runtime_min": 130,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -559,6 +559,22 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:83382",
+          "source_title": "The Angry Birds Movie: 10th Anniversary",
+          "adapter_identity_title": null,
+          "matcher_title": "The Angry Birds Movie",
+          "program_series": null,
+          "runtime_min": 97,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_segment"
           ]
         },
         {
@@ -697,6 +713,22 @@
           "matcher_title": "Your Mother Your Mother Your Mother",
           "program_series": null,
           "runtime_min": 112,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:84131",
+          "source_title": "Christmas at the Kringles",
+          "adapter_identity_title": null,
+          "matcher_title": "Christmas at the Kringles",
+          "program_series": null,
+          "runtime_min": 100,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1798,6 +1830,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85347",
+          "source_title": "League of Legends Worlds 26 - Finals in Cinema",
+          "adapter_identity_title": null,
+          "matcher_title": "League of Legends Worlds 26 - Finals in Cinema",
+          "program_series": null,
+          "runtime_min": 300,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:85359",
           "source_title": "Wild Horse Nine: Early Access Screening",
           "adapter_identity_title": null,
@@ -1914,30 +1962,30 @@
     "siff": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-21_siff.json",
-      "generated_at": "2026-10-21T03:56:37-07:00",
-      "record_count": 196,
+      "generated_at": "2026-10-21T15:57:35-07:00",
+      "record_count": 217,
       "malformed_record_count": 0,
       "warning_count": 13,
       "error_count": 0,
-      "source_identity_count": 63,
-      "eligible_feature_count": 61,
+      "source_identity_count": 85,
+      "eligible_feature_count": 83,
       "title": {
-        "with_title": 63,
+        "with_title": 85,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 61,
+        "eligible_features_with_runtime": 83,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 61,
+        "eligible_features_with_year": 83,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 27,
+        "adapter_cleaned_identity_count": 39,
         "matcher_cleaned_identity_count": 24,
         "adapter_cleanup_samples": [
           {
@@ -1957,28 +2005,28 @@
             "identity_title": "The Wedding"
           },
           {
-            "source_title": "Nouvelles Femmes: A Man and a Woman (60th Anniversary)",
-            "identity_title": "A Man and a Woman (60th Anniversary)"
+            "source_title": "Cinema Italian Style 2026: A Year of School",
+            "identity_title": "A Year of School"
           },
           {
-            "source_title": "Nouvelles Femmes: Band of Outsiders",
-            "identity_title": "Band of Outsiders"
+            "source_title": "Cinema Italian Style 2026: Beloved",
+            "identity_title": "Beloved"
           },
           {
-            "source_title": "Nouvelles Femmes: My Night at Maud’s",
-            "identity_title": "My Night at Maud’s"
+            "source_title": "Cinema Italian Style 2026: Brunello: The Gracious Visionary",
+            "identity_title": "Brunello: The Gracious Visionary"
           },
           {
-            "source_title": "Nouvelles Femmes: Pierrot le Fou (35mm)",
-            "identity_title": "Pierrot le Fou (35mm)"
+            "source_title": "Cinema Italian Style: Elisa",
+            "identity_title": "Elisa"
           },
           {
-            "source_title": "Nouvelles Femmes: Stolen Kisses (35mm)",
-            "identity_title": "Stolen Kisses (35mm)"
+            "source_title": "Cinema Italian Style 2026: Gioia",
+            "identity_title": "Gioia"
           },
           {
-            "source_title": "Scarecrowber: Invasion of the Body Snatchers",
-            "identity_title": "Invasion of the Body Snatchers"
+            "source_title": "Cinema Italian Style 2026: God Forgives Everyone",
+            "identity_title": "God Forgives Everyone"
           }
         ],
         "matcher_cleanup_samples": [
@@ -2058,7 +2106,7 @@
         ]
       },
       "series": {
-        "identity_count": 34,
+        "identity_count": 46,
         "samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
@@ -2077,33 +2125,33 @@
             "program_series": "The Films of Andrzej Wajda"
           },
           {
-            "source_title": "Community Screening: Auntie Mame",
-            "program_series": "Community Screenings"
+            "source_title": "Cinema Italian Style 2026: A Year of School",
+            "program_series": "Cinema Italian Style 2026"
           },
           {
-            "source_title": "Community Screening: Singin’ In the Rain",
-            "program_series": "Community Screenings"
+            "source_title": "Cinema Italian Style 2026: Beloved",
+            "program_series": "Cinema Italian Style 2026"
           },
           {
-            "source_title": "Nouvelles Femmes: A Man and a Woman (60th Anniversary)",
-            "program_series": "Nouvelles Femmes"
+            "source_title": "Cinema Italian Style 2026: Brunello: The Gracious Visionary",
+            "program_series": "Cinema Italian Style 2026"
           },
           {
-            "source_title": "Nouvelles Femmes: Band of Outsiders",
-            "program_series": "Nouvelles Femmes"
+            "source_title": "Cinema Italian Style: Elisa",
+            "program_series": "Cinema Italian Style"
           },
           {
-            "source_title": "Nouvelles Femmes: My Night at Maud’s",
-            "program_series": "Nouvelles Femmes"
+            "source_title": "Cinema Italian Style 2026: Gioia",
+            "program_series": "Cinema Italian Style 2026"
           },
           {
-            "source_title": "Nouvelles Femmes: Pierrot le Fou (35mm)",
-            "program_series": "Nouvelles Femmes"
+            "source_title": "Cinema Italian Style 2026: God Forgives Everyone",
+            "program_series": "Cinema Italian Style 2026"
           }
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 61,
+        "feature_film": 83,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2195,6 +2243,22 @@
           "matcher_title": "Dune: Part Three",
           "program_series": null,
           "runtime_min": 150,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/fatherland",
+          "source_title": "Fatherland",
+          "adapter_identity_title": null,
+          "matcher_title": "Fatherland",
+          "program_series": null,
+          "runtime_min": 82,
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -2308,6 +2372,150 @@
           "program_series": null,
           "runtime_min": 80,
           "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/3-days-in-september",
+          "source_title": "Romanian Film Festival Seattle: 3 Days in September",
+          "adapter_identity_title": null,
+          "matcher_title": "Romanian Film Festival Seattle: 3 Days in September",
+          "program_series": null,
+          "runtime_min": 75,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/atlas-of-the-universe",
+          "source_title": "Romanian Film Festival Seattle: Atlas of the Universe",
+          "adapter_identity_title": null,
+          "matcher_title": "Romanian Film Festival Seattle: Atlas of the Universe",
+          "program_series": null,
+          "runtime_min": 85,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/blindsight",
+          "source_title": "Romanian Film Festival Seattle: Blindsight",
+          "adapter_identity_title": null,
+          "matcher_title": "Romanian Film Festival Seattle: Blindsight",
+          "program_series": null,
+          "runtime_min": 91,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/kontinental-25",
+          "source_title": "Romanian Film Festival Seattle: Kontinental '25",
+          "adapter_identity_title": null,
+          "matcher_title": "Romanian Film Festival Seattle: Kontinental '25",
+          "program_series": null,
+          "runtime_min": 109,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/rmn",
+          "source_title": "Romanian Film Festival Seattle: R.M.N.",
+          "adapter_identity_title": null,
+          "matcher_title": "Romanian Film Festival Seattle: R.M.N.",
+          "program_series": null,
+          "runtime_min": 128,
+          "release_year": 2022,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/the-last-transhumance",
+          "source_title": "Romanian Film Festival Seattle: The Last Transhumance",
+          "adapter_identity_title": null,
+          "matcher_title": "Romanian Film Festival Seattle: The Last Transhumance",
+          "program_series": null,
+          "runtime_min": 90,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/the-wall",
+          "source_title": "Romanian Film Festival Seattle: The Wall",
+          "adapter_identity_title": null,
+          "matcher_title": "Romanian Film Festival Seattle: The Wall",
+          "program_series": null,
+          "runtime_min": 96,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/the-yellow-tie",
+          "source_title": "Romanian Film Festival Seattle: The Yellow Tie",
+          "adapter_identity_title": null,
+          "matcher_title": "Romanian Film Festival Seattle: The Yellow Tie",
+          "program_series": null,
+          "runtime_min": 145,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/traffic",
+          "source_title": "Romanian Film Festival Seattle: Traffic",
+          "adapter_identity_title": null,
+          "matcher_title": "Romanian Film Festival Seattle: Traffic",
+          "program_series": null,
+          "runtime_min": 119,
+          "release_year": 2024,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -2628,6 +2836,198 @@
           "program_series": "The Films of Andrzej Wajda",
           "runtime_min": 103,
           "release_year": 1972,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/a-year-of-school",
+          "source_title": "Cinema Italian Style 2026: A Year of School",
+          "adapter_identity_title": "A Year of School",
+          "matcher_title": "Cinema Italian Style 2026: A Year of School",
+          "program_series": "Cinema Italian Style 2026",
+          "runtime_min": 102,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/beloved",
+          "source_title": "Cinema Italian Style 2026: Beloved",
+          "adapter_identity_title": "Beloved",
+          "matcher_title": "Cinema Italian Style 2026: Beloved",
+          "program_series": "Cinema Italian Style 2026",
+          "runtime_min": 100,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/brunello-the-gracious-visionary",
+          "source_title": "Cinema Italian Style 2026: Brunello: The Gracious Visionary",
+          "adapter_identity_title": "Brunello: The Gracious Visionary",
+          "matcher_title": "Cinema Italian Style 2026: Brunello: The Gracious Visionary",
+          "program_series": "Cinema Italian Style 2026",
+          "runtime_min": 120,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/elisa",
+          "source_title": "Cinema Italian Style: Elisa",
+          "adapter_identity_title": "Elisa",
+          "matcher_title": "Cinema Italian Style: Elisa",
+          "program_series": "Cinema Italian Style",
+          "runtime_min": 105,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/gioia",
+          "source_title": "Cinema Italian Style 2026: Gioia",
+          "adapter_identity_title": "Gioia",
+          "matcher_title": "Cinema Italian Style 2026: Gioia",
+          "program_series": "Cinema Italian Style 2026",
+          "runtime_min": 108,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/god-forgives-everyone",
+          "source_title": "Cinema Italian Style 2026: God Forgives Everyone",
+          "adapter_identity_title": "God Forgives Everyone",
+          "matcher_title": "Cinema Italian Style 2026: God Forgives Everyone",
+          "program_series": "Cinema Italian Style 2026",
+          "runtime_min": 113,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/journey-to-italy",
+          "source_title": "Cinema Italian Style 2026: Journey to Italy",
+          "adapter_identity_title": "Journey to Italy",
+          "matcher_title": "Cinema Italian Style 2026: Journey to Italy",
+          "program_series": "Cinema Italian Style 2026",
+          "runtime_min": 97,
+          "release_year": 1954,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/love-fits-everything",
+          "source_title": "Cinema Italian Style 2026: Love Fits Everything",
+          "adapter_identity_title": "Love Fits Everything",
+          "matcher_title": "Cinema Italian Style 2026: Love Fits Everything",
+          "program_series": "Cinema Italian Style 2026",
+          "runtime_min": 96,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/sweetheart",
+          "source_title": "Cinema Italian Style: Sweetheart - Opening Night Film + Party",
+          "adapter_identity_title": "Sweetheart - Opening Night Film + Party",
+          "matcher_title": "Cinema Italian Style: Sweetheart - Opening Night Film + Party",
+          "program_series": "Cinema Italian Style",
+          "runtime_min": 92,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/the-kidnapping-of-arabella",
+          "source_title": "Cinema Italian Style: The Kidnapping of Arabella",
+          "adapter_identity_title": "The Kidnapping of Arabella",
+          "matcher_title": "Cinema Italian Style: The Kidnapping of Arabella",
+          "program_series": "Cinema Italian Style",
+          "runtime_min": 107,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/the-last-one-for-the-road",
+          "source_title": "Cinema Italian Style 2026: The Last One for the Road",
+          "adapter_identity_title": "The Last One for the Road",
+          "matcher_title": "Cinema Italian Style 2026: The Last One for the Road",
+          "program_series": "Cinema Italian Style 2026",
+          "runtime_min": 98,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/the-spiral",
+          "source_title": "Cinema Italian Style 2026: The Spiral",
+          "adapter_identity_title": "The Spiral",
+          "matcher_title": "Cinema Italian Style 2026: The Spiral",
+          "program_series": "Cinema Italian Style 2026",
+          "runtime_min": 115,
+          "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": true,
@@ -3127,7 +3527,7 @@
     "beacon": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-21_beacon.json",
-      "generated_at": "2026-10-21T03:56:37-07:00",
+      "generated_at": "2026-10-21T15:57:35-07:00",
       "record_count": 25,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -3509,7 +3909,7 @@
     "nwff": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-21_nwff.json",
-      "generated_at": "2026-10-21T03:55:35-07:00",
+      "generated_at": "2026-10-21T15:56:39-07:00",
       "record_count": 123,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4372,7 +4772,7 @@
     "central_cinema": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-21_central_cinema.json",
-      "generated_at": "2026-10-21T03:55:50-07:00",
+      "generated_at": "2026-10-21T15:56:55-07:00",
       "record_count": 47,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4719,7 +5119,7 @@
     "grand_illusion": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-21_grand_illusion.json",
-      "generated_at": "2026-10-21T03:56:26-07:00",
+      "generated_at": "2026-10-21T15:57:33-07:00",
       "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4889,7 +5289,7 @@
     "tasveer": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-21_tasveer.json",
-      "generated_at": "2026-10-21T03:56:27-07:00",
+      "generated_at": "2026-10-21T15:57:33-07:00",
       "record_count": 31,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -5040,8 +5440,8 @@
     "anderson_school": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-21_anderson_school.json",
-      "generated_at": "2026-10-21T03:56:29-07:00",
-      "record_count": 36,
+      "generated_at": "2026-10-21T15:57:35-07:00",
+      "record_count": 35,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5376,26 +5776,26 @@
     "majestic_bay": {
       "status": "ok",
       "latest_log": "data/daily_logs/2026-10-21_majestic_bay.json",
-      "generated_at": "2026-10-21T03:56:37-07:00",
-      "record_count": 59,
+      "generated_at": "2026-10-21T15:57:35-07:00",
+      "record_count": 60,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 26,
-      "eligible_feature_count": 26,
+      "source_identity_count": 27,
+      "eligible_feature_count": 27,
       "title": {
-        "with_title": 26,
+        "with_title": 27,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 26,
+        "eligible_features_with_runtime": 27,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 26,
+        "eligible_features_missing_year": 27,
         "missing_feature_samples": [
           "DoubleFeature: Singin in the Rain/Majestic Bay Doc",
           "Night of the Living Dead",
@@ -5420,7 +5820,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 26
+        "feature_film": 27
       },
       "identities": [
         {
@@ -5825,6 +6225,22 @@
         },
         {
           "source_identity_key": "id:36487",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36528",
           "source_title": "Wicker",
           "adapter_identity_title": null,
           "matcher_title": "Wicker",
