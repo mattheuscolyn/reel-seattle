@@ -41,6 +41,7 @@ from reel_seattle.normalize import (
     showtime_film_key,
 )
 from reel_seattle.source_identity import source_film_id_from_history_row
+from reel_seattle.source_freshness import PAUSED_SOURCES, resolve_history_row_source
 from reel_seattle.validate import validate_opening_this_week_current
 
 OPENING_THIS_WEEK_SCHEMA_VERSION = "1.1.0"
@@ -480,6 +481,10 @@ def build_opening_this_week_current(
     # (show_date, theater_id, film_key, title, source_film_id, source)
 
     for row in history_rows:
+        # Paused sources remain in the immutable history but must not contribute
+        # to new opening classifications, even if a future showtime was retained.
+        if resolve_history_row_source(row, theater_index) in PAUSED_SOURCES:
+            continue
         if normalize_bool_string(row.get("isCanceled"), default=False):
             continue
 
