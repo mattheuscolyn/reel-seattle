@@ -490,7 +490,7 @@ def test_ambiguous_schedule_does_not_block_a_parsed_film():
     assert any(item["code"] == "unmapped_venue" for item in result.contract["rejected_observations"])
 
 
-def test_processor_emits_all_four_sources(tmp_path):
+def test_processor_skips_paused_stg_but_keeps_other_sources(tmp_path):
     tasveer = fetch_tasveer(
         START,
         END,
@@ -603,12 +603,13 @@ def test_processor_emits_all_four_sources(tmp_path):
         by_source.setdefault(row["source"], []).append(row)
     assert {row["theater_id"] for row in by_source["tasveer"]} == {"tasveer-film-center"}
     assert {row["theater_id"] for row in by_source["anderson_school"]} == {"anderson-school-theater"}
-    assert {row["theater_id"] for row in by_source["stg"]} == {"paramount-theatre"}
+    assert "stg" not in by_source
+    assert not any(row["source"] == "stg" for row in history)
     assert {row["theater_id"] for row in by_source["majestic_bay"]} == {"majestic-bay"}
     films = {film["title"] for film in artifact["films"]}
     assert "Wildwood" in films
     assert "Wildwood (OCAP)" not in films
-    assert "Metropolis" in films
+    assert "Metropolis" not in films
     assert not any("Silent Movie Mondays" in title for title in films)
     assert not any("Wizard" in title for title in films)
     wildwood_keys = {
@@ -709,5 +710,5 @@ def test_one_new_source_failure_does_not_suppress_the_others(monkeypatch):
     _siff, _beacon, _nwff, _central, _gi, added = collect_indie_showtimes(context)
     assert added["tasveer"] is None
     assert added["anderson_school"] is not None
-    assert added["stg"] is not None
+    assert added["stg"] is None
     assert added["majestic_bay"] is not None
