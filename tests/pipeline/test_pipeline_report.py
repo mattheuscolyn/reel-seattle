@@ -277,8 +277,11 @@ def test_load_daily_scrape_diagnostics_warns_on_missing_log(tmp_path):
     assert len(diagnostics) == len(KNOWN_SOURCES)
     for source in KNOWN_SOURCES:
         assert len(diagnostics[source].warnings) == 1
-        assert "No daily scrape log found" in diagnostics[source].warnings[0]
-        assert source in diagnostics[source].warnings[0]
+        if source == "stg":
+            assert "intentionally paused" in diagnostics[source].warnings[0]
+        else:
+            assert "No daily scrape log found" in diagnostics[source].warnings[0]
+            assert source in diagnostics[source].warnings[0]
         assert diagnostics[source].errors == ()
 
 
