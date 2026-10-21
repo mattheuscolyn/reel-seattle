@@ -10,7 +10,7 @@ from typing import Any, Mapping
 
 from reel_seattle.adapters.scrape_log import DEFAULT_DAILY_LOGS_DIR, daily_log_path
 from reel_seattle.adapters.indie_completeness import derived_indie_completeness_warnings
-from reel_seattle.source_freshness import KNOWN_SOURCES
+from reel_seattle.source_freshness import KNOWN_SOURCES, PAUSED_SOURCES
 from reel_seattle.validate import validate_pipeline_report
 
 PIPELINE_REPORT_SCHEMA_VERSION = "1.0.0"
