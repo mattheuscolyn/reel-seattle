@@ -72,7 +72,8 @@ jobs:
         # Indie collection (SIFF, Beacon, NWFF, Central Cinema, Grand Illusion,
         # Tasveer, Anderson School, Majestic Bay) runs inside
         # webscrapetheaters.py via run_daily_scraping.py. Option C logs land in
-        # data/daily_logs/. No private Veezi API token is required.
+        # data/daily_logs/. STG is intentionally paused via PAUSED_SOURCES.
+        # No private Veezi API token is required.
         # daily_processor → write_showtimes_current → attach_public_film_ids.
         run: python run_daily_scraping.py
 
