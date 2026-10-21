@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-20T15:33:28-07:00",
+  "generated_at": "2026-10-21T04:08:46-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-20_amc.json",
-      "generated_at": "2026-10-20T15:20:48-07:00",
-      "record_count": 7359,
+      "latest_log": "data/daily_logs/2026-10-21_amc.json",
+      "generated_at": "2026-10-21T03:57:02-07:00",
+      "record_count": 7418,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 112,
-      "eligible_feature_count": 97,
+      "source_identity_count": 111,
+      "eligible_feature_count": 96,
       "title": {
-        "with_title": 112,
+        "with_title": 111,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 97,
+        "eligible_features_with_runtime": 96,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 97,
+        "eligible_features_missing_year": 96,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -42,7 +42,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 37,
+        "matcher_cleaned_identity_count": 36,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -124,7 +124,7 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 11,
-        "feature_film": 97,
+        "feature_film": 96,
         "mystery_screening": 3,
         "unknown_program": 1
       },
@@ -1268,22 +1268,6 @@
           ]
         },
         {
-          "source_identity_key": "id:84829",
-          "source_title": "American Psycho - Welcome to Horrorwood Series",
-          "adapter_identity_title": null,
-          "matcher_title": "American Psycho",
-          "program_series": null,
-          "runtime_min": 106,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_segment"
-          ]
-        },
-        {
           "source_identity_key": "id:84830",
           "source_title": "Pet Sematary  - Welcome to Horrorwood Series",
           "adapter_identity_title": null,
@@ -1929,26 +1913,26 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-20_siff.json",
-      "generated_at": "2026-10-20T15:20:14-07:00",
-      "record_count": 203,
+      "latest_log": "data/daily_logs/2026-10-21_siff.json",
+      "generated_at": "2026-10-21T03:56:37-07:00",
+      "record_count": 196,
       "malformed_record_count": 0,
-      "warning_count": 12,
+      "warning_count": 13,
       "error_count": 0,
-      "source_identity_count": 64,
-      "eligible_feature_count": 62,
+      "source_identity_count": 63,
+      "eligible_feature_count": 61,
       "title": {
-        "with_title": 64,
+        "with_title": 63,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 62,
+        "eligible_features_with_runtime": 61,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 62,
+        "eligible_features_with_year": 61,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -2119,7 +2103,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 62,
+        "feature_film": 61,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2291,22 +2275,6 @@
           "matcher_title": "Land of the Dead: it's for the gays",
           "program_series": null,
           "runtime_min": 16,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/matchstick-productions-presents-the-way-out-2026-ski-film",
-          "source_title": "Matchstick Productions Presents, \"The Way Out\" 2026 Ski Film",
-          "adapter_identity_title": null,
-          "matcher_title": "Matchstick Productions Presents, \"The Way Out\" 2026 Ski Film",
-          "program_series": null,
-          "runtime_min": 60,
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -3158,26 +3126,26 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-20_beacon.json",
-      "generated_at": "2026-10-20T15:20:14-07:00",
-      "record_count": 26,
+      "latest_log": "data/daily_logs/2026-10-21_beacon.json",
+      "generated_at": "2026-10-21T03:56:37-07:00",
+      "record_count": 25,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
       "source_identity_count": 19,
-      "eligible_feature_count": 15,
+      "eligible_feature_count": 14,
       "title": {
         "with_title": 19,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 15,
+        "eligible_features_with_runtime": 14,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 15,
+        "eligible_features_with_year": 14,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -3226,27 +3194,12 @@
       },
       "entity_kind_counts": {
         "double_feature": 1,
-        "feature_film": 15,
+        "feature_film": 14,
         "multi_feature_program": 1,
-        "mystery_screening": 2
+        "mystery_screening": 2,
+        "shorts_program": 1
       },
       "identities": [
-        {
-          "source_identity_key": "id:begotten",
-          "source_title": "BEGOTTEN",
-          "adapter_identity_title": null,
-          "matcher_title": "Begotten",
-          "program_series": null,
-          "runtime_min": 72,
-          "release_year": 1989,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
         {
           "source_identity_key": "id:dracula-of-exarcheia",
           "source_title": "DRACULA OF EXARCHEIA",
@@ -3408,6 +3361,22 @@
           ]
         },
         {
+          "source_identity_key": "id:puerto-rican-short-film-night",
+          "source_title": "PUERTO RICAN SHORT FILM NIGHT",
+          "adapter_identity_title": null,
+          "matcher_title": "Puerto Rican Short Film Night",
+          "program_series": null,
+          "runtime_min": 75,
+          "release_year": 2026,
+          "eligibility": "non_film",
+          "entity_kind": "shorts_program",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:rider-of-the-skulls",
           "source_title": "RIDER OF THE SKULLS",
           "adapter_identity_title": null,
@@ -3539,26 +3508,26 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-20_nwff.json",
-      "generated_at": "2026-10-20T15:19:17-07:00",
-      "record_count": 103,
+      "latest_log": "data/daily_logs/2026-10-21_nwff.json",
+      "generated_at": "2026-10-21T03:55:35-07:00",
+      "record_count": 123,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 42,
-      "eligible_feature_count": 41,
+      "source_identity_count": 41,
+      "eligible_feature_count": 39,
       "title": {
-        "with_title": 42,
+        "with_title": 41,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 41,
+        "eligible_features_with_runtime": 39,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 33,
+        "eligible_features_with_year": 31,
         "eligible_features_missing_year": 8,
         "missing_feature_samples": [
           "Engauge 2026 – Beyond Borders",
@@ -3736,20 +3705,21 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 41,
-        "mystery_screening": 1
+        "feature_film": 39,
+        "mystery_screening": 1,
+        "shorts_program": 1
       },
       "identities": [
         {
-          "source_identity_key": "id:a-rimbaud",
-          "source_title": "A. Rimbaud",
+          "source_identity_key": "id:2026-sundance-film-festival-short-film-tour",
+          "source_title": "2026 Sundance Film Festival Short Film Tour",
           "adapter_identity_title": null,
-          "matcher_title": "A. Rimbaud",
+          "matcher_title": "2026 Sundance Film Festival Short Film Tour",
           "program_series": null,
-          "runtime_min": 175,
+          "runtime_min": 99,
           "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
+          "eligibility": "non_film",
+          "entity_kind": "shorts_program",
           "adapter_cleanup": false,
           "matcher_cleanup": false,
           "normalization_rules": [
@@ -4286,22 +4256,6 @@
           ]
         },
         {
-          "source_identity_key": "id:who-moves-america",
-          "source_title": "Who Moves America",
-          "adapter_identity_title": null,
-          "matcher_title": "Who Moves America",
-          "program_series": null,
-          "runtime_min": 87,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:wtf-with-stuff-fresh-kill",
           "source_title": "WTF with STUFF - Fresh Kill",
           "adapter_identity_title": "Fresh Kill",
@@ -4417,38 +4371,38 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-20_central_cinema.json",
-      "generated_at": "2026-10-20T15:19:30-07:00",
-      "record_count": 50,
+      "latest_log": "data/daily_logs/2026-10-21_central_cinema.json",
+      "generated_at": "2026-10-21T03:55:50-07:00",
+      "record_count": 47,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 16,
-      "eligible_feature_count": 11,
+      "source_identity_count": 15,
+      "eligible_feature_count": 10,
       "title": {
-        "with_title": 16,
+        "with_title": 15,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 11,
+        "eligible_features_with_runtime": 10,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 11,
+        "eligible_features_missing_year": 10,
         "missing_feature_samples": [
           "A Nightmare on Elm Street",
           "Camp Napalm presents: Basic Instinct",
           "Cinemancy: Train to Busan",
           "Frankenstein (1931)",
           "Fright Night",
-          "Grosse Pointe Blank",
           "Hausu (House)",
           "Hocus Pocus",
           "Night of the Vamp-Friars",
-          "Seattle Scare Society presents: Hausu"
+          "Seattle Scare Society presents: Hausu",
+          "The Room"
         ]
       },
       "cleanup": {
@@ -4516,7 +4470,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 11,
+        "feature_film": 10,
         "unknown_program": 5
       },
       "identities": [
@@ -4626,22 +4580,6 @@
           "release_year": null,
           "eligibility": "non_film",
           "entity_kind": "unknown_program",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:grosse-pointe-blank",
-          "source_title": "Grosse Pointe Blank",
-          "adapter_identity_title": null,
-          "matcher_title": "Grosse Pointe Blank",
-          "program_series": null,
-          "runtime_min": 107,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
           "adapter_cleanup": false,
           "matcher_cleanup": false,
           "normalization_rules": [
@@ -4780,41 +4718,34 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-20_grand_illusion.json",
-      "generated_at": "2026-10-20T15:20:03-07:00",
+      "latest_log": "data/daily_logs/2026-10-21_grand_illusion.json",
+      "generated_at": "2026-10-21T03:56:26-07:00",
       "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
       "source_identity_count": 7,
-      "eligible_feature_count": 6,
+      "eligible_feature_count": 5,
       "title": {
         "with_title": 7,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 6,
+        "eligible_features_with_runtime": 5,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 6,
+        "eligible_features_with_year": 5,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 3,
+        "matcher_cleaned_identity_count": 2,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
-          {
-            "source_title": "A Chinese Ghost Story – New 4K Restoration",
-            "matcher_title": "A Chinese Ghost Story",
-            "rules": [
-              "presentation_segment"
-            ]
-          },
           {
             "source_title": "Marie Antoinette – New 4K Restoration",
             "matcher_title": "Marie Antoinette",
@@ -4836,26 +4767,11 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 6,
+        "double_feature": 1,
+        "feature_film": 5,
         "shorts_program": 1
       },
       "identities": [
-        {
-          "source_identity_key": "id:a-chinese-ghost-story-new-4k-restoration",
-          "source_title": "A Chinese Ghost Story – New 4K Restoration",
-          "adapter_identity_title": null,
-          "matcher_title": "A Chinese Ghost Story",
-          "program_series": null,
-          "runtime_min": 96,
-          "release_year": 1987,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_segment"
-          ]
-        },
         {
           "source_identity_key": "id:making-marie-antoinette",
           "source_title": "Making Marie Antoinette",
@@ -4937,6 +4853,22 @@
           ]
         },
         {
+          "source_identity_key": "id:velocipastor",
+          "source_title": "The VelociPastor and The VelociPastor 2 (double feature)",
+          "adapter_identity_title": null,
+          "matcher_title": "The VelociPastor and The VelociPastor 2 (double feature)",
+          "program_series": null,
+          "runtime_min": 162,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "double_feature",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:withdrawal",
           "source_title": "Withdrawal",
           "adapter_identity_title": null,
@@ -4956,9 +4888,9 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-20_tasveer.json",
-      "generated_at": "2026-10-20T15:20:04-07:00",
-      "record_count": 32,
+      "latest_log": "data/daily_logs/2026-10-21_tasveer.json",
+      "generated_at": "2026-10-21T03:56:27-07:00",
+      "record_count": 31,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5107,9 +5039,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-20_anderson_school.json",
-      "generated_at": "2026-10-20T15:20:06-07:00",
-      "record_count": 37,
+      "latest_log": "data/daily_logs/2026-10-21_anderson_school.json",
+      "generated_at": "2026-10-21T03:56:29-07:00",
+      "record_count": 36,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5205,11 +5137,11 @@
     },
     "stg": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-20_stg.json",
-      "generated_at": "2026-10-20T15:20:14-07:00",
+      "latest_log": "data/daily_logs/2026-10-21_stg.json",
+      "generated_at": "2026-10-21T03:56:37-07:00",
       "record_count": 8,
       "malformed_record_count": 0,
-      "warning_count": 243,
+      "warning_count": 240,
       "error_count": 0,
       "source_identity_count": 8,
       "eligible_feature_count": 5,
@@ -5443,9 +5375,9 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-20_majestic_bay.json",
-      "generated_at": "2026-10-20T15:20:14-07:00",
-      "record_count": 65,
+      "latest_log": "data/daily_logs/2026-10-21_majestic_bay.json",
+      "generated_at": "2026-10-21T03:56:37-07:00",
+      "record_count": 59,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
