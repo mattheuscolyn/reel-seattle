@@ -361,6 +361,11 @@ def process_indie_csv_data(
     run_date_iso = run_date_iso or today
 
     for source in INDIE_RESTATE_SOURCES:
+        if source in PAUSED_SOURCES:
+            # Historical observations remain intact; public emission hides this
+            # intentionally paused source regardless of stale retention.
+            print(f"  {source}: intentionally paused; skipping restatement")
+            continue
         current_data, input_label, input_kind, scrape_stats = resolve_indie_source_scrape_rows(
             source,
             run_date_iso,
