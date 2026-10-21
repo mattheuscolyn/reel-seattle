@@ -551,3 +551,52 @@ def test_emit_source_rejects_legacy_indie_and_garbage(theaters_registry):
     assert artifact["sources"]["grand_illusion"]["status"] == "stale"
     assert artifact["sources"]["siff"]["showtime_count"] == 0
 
+
+
+def test_paused_stg_source_is_not_emitted_but_history_is_unchanged(theaters_registry):
+    """A failed STG scrape must not keep old source showtimes publicly live."""
+    stg = _history_row(
+        REFERENCE + timedelta(days=2),
+        film="Silent Movie Mondays: A Classic",
+        theater="Paramount Theatre",
+        source="stg",
+    )
+    amc = _history_row(REFERENCE + timedelta(days=2), film="Current AMC Film")
+    rows = [stg, amc]
+    artifact = build_showtimes_current(
+        rows,
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    assert rows == [stg, amc]
+    assert not any(row["source"] == "stg" for row in artifact["showtimes"])
+    assert artifact["sources"]["stg"]["showtime_count"] == 0
+    assert artifact["sources"]["stg"]["status"] == "stale"
+    assert {row["film_title"] for row in artifact["showtimes"]} == {"Current AMC Film"}
+
+
+def test_other_presenters_at_stg_venue_remain_eligible(theaters_registry):
+    """Pausing the STG source must not hide unrelated venue presenters."""
+    rows = [
+        _history_row(
+            REFERENCE,
+            film="STG Film",
+            theater="Paramount Theatre",
+            source="stg",
+        ),
+        _history_row(
+            REFERENCE,
+            film="Other Presenter",
+            theater="Paramount Theatre",
+            source="grand_illusion",
+        ),
+    ]
+    artifact = build_showtimes_current(
+        rows,
+        registry=theaters_registry,
+        reference_date=REFERENCE,
+        generated_at=GENERATED_AT,
+    )
+    assert not any(row["film_title"] == "STG Film" for row in artifact["showtimes"])
+    assert any(row["film_title"] == "Other Presenter" for row in artifact["showtimes"])
