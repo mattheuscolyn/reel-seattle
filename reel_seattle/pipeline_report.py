@@ -87,6 +87,11 @@ def load_daily_scrape_diagnostics(
     diagnostics: dict[str, SourceScrapeDiagnostics] = {}
 
     for source in expected_sources:
+        if source in PAUSED_SOURCES:
+            diagnostics[source] = SourceScrapeDiagnostics(
+                ("Source intentionally paused; scraping and publication disabled.",), ()
+            )
+            continue
         warnings: list[str] = []
         errors: list[str] = []
         log_path = daily_log_path(run_date, source, logs_dir=logs_path)
