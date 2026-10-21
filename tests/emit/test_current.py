@@ -590,7 +590,12 @@ def test_other_presenters_at_stg_venue_remain_eligible(theaters_registry):
             film="Other Presenter",
             theater="Paramount Theatre",
             source="grand_illusion",
-        ),
+        )
+        | {
+            # GI-only fallback requires durable program and occurrence identity.
+            "source_film_id": "other-presenter-program",
+            "source_showtime_id": "other-presenter-occurrence",
+        },
     ]
     artifact = build_showtimes_current(
         rows,
