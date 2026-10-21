@@ -28,6 +28,10 @@ KNOWN_SOURCES: tuple[str, ...] = (
 )
 SOURCE_STATUSES: tuple[str, ...] = ("success", "stale", "empty", "failed")
 
+# Operational pause: keep historical observations and the adapter intact.
+# Restore this source and its theater registry entries to resume collection.
+PAUSED_SOURCES: frozenset[str] = frozenset({"stg"})
+
 
 @dataclass
 class HistorySourceEvidence:
