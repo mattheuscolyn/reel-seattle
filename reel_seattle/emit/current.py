@@ -26,6 +26,7 @@ from reel_seattle.normalize import (
     showtime_film_key,
 )
 from reel_seattle.source_freshness import (
+    PAUSED_SOURCES,
     build_sources_metadata,
     resolve_history_row_source,
     update_history_evidence,
@@ -213,6 +214,10 @@ def build_showtimes_current(
                 row,
                 reference_date=ref,
             )
+        if resolved_source in PAUSED_SOURCES:
+            # Keep historical evidence but do not publish retained future
+            # showtimes from an intentionally paused source.
+            continue
 
         if normalize_bool_string(row.get("isCanceled"), default=False):
             continue

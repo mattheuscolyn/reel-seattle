@@ -9,6 +9,7 @@ from reel_seattle.history_keys import enrich_history_row_keys, load_theater_inde
 from reel_seattle.history_nulls import normalize_history_optional_fields
 from reel_seattle.history_times import enrich_history_row_time
 from reel_seattle.normalize import resolve_theater
+from reel_seattle.source_freshness import PAUSED_SOURCES
 from reel_seattle.adapters.scrape_log import (
     DEFAULT_DAILY_LOGS_DIR,
     ScrapeLogError,
@@ -360,6 +361,11 @@ def process_indie_csv_data(
     run_date_iso = run_date_iso or today
 
     for source in INDIE_RESTATE_SOURCES:
+        if source in PAUSED_SOURCES:
+            # Historical observations remain intact; public emission hides this
+            # intentionally paused source regardless of stale retention.
+            print(f"  {source}: intentionally paused; skipping restatement")
+            continue
         current_data, input_label, input_kind, scrape_stats = resolve_indie_source_scrape_rows(
             source,
             run_date_iso,

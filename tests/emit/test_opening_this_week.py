@@ -714,3 +714,22 @@ def test_schema_rejects_non_monday_week(registry):
     broken["week"]["end_date"] = "2026-06-29"
     with pytest.raises(ValueError, match="Monday"):
         validate_opening_this_week_current(broken)
+
+
+def test_paused_stg_rows_do_not_create_openings(registry):
+    """A retained STG screening must not appear in Opening This Week."""
+    history = [
+        _mature_filler(),
+        _row(
+            WEEK_START + timedelta(days=1),
+            film="STG Paused Opening",
+            theater="Paramount Theatre",
+            theater_id="paramount-theatre",
+            source="stg",
+        ),
+        _row(WEEK_START + timedelta(days=2), film="Active Opening"),
+    ]
+    artifact = _build(history, registry=registry)
+    assert "stg-paused-opening" not in _keys(artifact)
+    assert "stg-paused-opening" not in _low_keys(artifact)
+    assert "active-opening" in _keys(artifact)

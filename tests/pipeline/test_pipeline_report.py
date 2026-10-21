@@ -277,8 +277,11 @@ def test_load_daily_scrape_diagnostics_warns_on_missing_log(tmp_path):
     assert len(diagnostics) == len(KNOWN_SOURCES)
     for source in KNOWN_SOURCES:
         assert len(diagnostics[source].warnings) == 1
-        assert "No daily scrape log found" in diagnostics[source].warnings[0]
-        assert source in diagnostics[source].warnings[0]
+        if source == "stg":
+            assert "intentionally paused" in diagnostics[source].warnings[0]
+        else:
+            assert "No daily scrape log found" in diagnostics[source].warnings[0]
+            assert source in diagnostics[source].warnings[0]
         assert diagnostics[source].errors == ()
 
 
@@ -381,4 +384,22 @@ def test_write_pipeline_report_with_run_date_loads_logs(
 
     assert report["sources"]["amc"]["warnings"] == ["loaded warning"]
     assert "No daily scrape log found" in report["sources"]["siff"]["warnings"][0]
+    validate_pipeline_report(report)
+
+
+def test_paused_stg_is_identified_in_pipeline_report(theaters_registry):
+    history = [
+        _history_row(
+            REFERENCE,
+            film="STG Paused Film",
+            theater="Paramount Theatre",
+            source="stg",
+        )
+    ]
+    artifact = _build_artifact(history, theaters_registry)
+    diagnostics = load_daily_scrape_diagnostics("2026-06-26", logs_dir=Path("/nonexistent"))
+    report = build_pipeline_report(artifact, scrape_diagnostics=diagnostics)
+    assert report["sources"]["stg"]["status"] == "stale"
+    assert report["sources"]["stg"]["showtime_count"] == 0
+    assert "intentionally paused" in " ".join(report["sources"]["stg"]["warnings"])
     validate_pipeline_report(report)
