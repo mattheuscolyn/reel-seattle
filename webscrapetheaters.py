@@ -40,6 +40,7 @@ from reel_seattle.adapters.scrape_log import (
 from reel_seattle.adapters.siff import fetch_siff_showtimes
 from reel_seattle.adapters.stg import fetch_stg
 from reel_seattle.adapters.tasveer import fetch_tasveer
+from reel_seattle.source_freshness import PAUSED_SOURCES
 
 CSV_FILENAME = str(DEFAULT_INDIE_CSV_PATH)
 
