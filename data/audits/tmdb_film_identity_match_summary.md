@@ -1,34 +1,33 @@
 # Film identity live match summary
 
 - schema_version: `1.0.0`
-- generated_at: `2026-10-21T12:31:04+00:00`
-- total_unique_source_identities: **297**
-- confirmed_automatic: **147**
-- confirmed_manual: **42**
-- review_required: **31**
-- unmatched: **45**
-- non_film: **32**
+- generated_at: `2026-10-22T12:35:07+00:00`
+- total_unique_source_identities: **315**
+- confirmed_automatic: **166**
+- confirmed_manual: **35**
+- review_required: **26**
+- unmatched: **57**
+- non_film: **31**
 - deferred: **0**
 - rejected: **0**
 - errors: **0**
-- fallback_usage: **108**
-- review_queue_size: **31**
+- fallback_usage: **114**
+- review_queue_size: **26**
 - tmdb_auth_mode: `bearer`
 
 ## Coverage by source
 
 | source | total | auto | manual | review | unmatched | non_film | errors |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| amc | 111 | 40 | 20 | 22 | 14 | 15 | 0 |
-| anderson_school | 3 | 2 | 0 | 1 | 0 | 0 | 0 |
-| beacon | 19 | 9 | 4 | 0 | 1 | 5 | 0 |
-| central_cinema | 15 | 5 | 2 | 2 | 1 | 5 | 0 |
+| amc | 104 | 38 | 18 | 19 | 14 | 15 | 0 |
+| anderson_school | 2 | 2 | 0 | 0 | 0 | 0 | 0 |
+| beacon | 23 | 11 | 4 | 0 | 3 | 5 | 0 |
+| central_cinema | 13 | 5 | 1 | 2 | 0 | 5 | 0 |
 | grand_illusion | 6 | 4 | 1 | 0 | 0 | 1 | 0 |
-| majestic_bay | 26 | 24 | 1 | 1 | 0 | 0 | 0 |
-| nwff | 41 | 23 | 3 | 3 | 10 | 2 | 0 |
-| siff | 63 | 32 | 9 | 1 | 18 | 3 | 0 |
-| stg | 7 | 3 | 2 | 1 | 0 | 1 | 0 |
-| tasveer | 6 | 5 | 0 | 0 | 1 | 0 | 0 |
+| majestic_bay | 39 | 39 | 0 | 0 | 0 | 0 | 0 |
+| nwff | 40 | 22 | 3 | 3 | 10 | 2 | 0 |
+| siff | 83 | 41 | 8 | 2 | 29 | 3 | 0 |
+| tasveer | 5 | 4 | 0 | 0 | 1 | 0 | 0 |
 
 ## Generated path changes
 
