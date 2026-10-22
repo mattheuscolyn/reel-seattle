@@ -6,9 +6,14 @@ on:
   workflow_dispatch:  # Allow manual triggering
   push:
     branches: [ main ]
-  # A data commit using GITHUB_TOKEN does not trigger push workflows.
+  # GITHUB_TOKEN data commits do not trigger ordinary push workflows.
+  # Redeploy after each successful downstream data-producing workflow so
+  # film IDs and TMDB enrichment do not wait for the next scheduled build.
   workflow_run:
-    workflows: [Daily Showtime Scraping]
+    workflows:
+      - Daily Showtime Scraping
+      - Film Identity — Live TMDB Match
+      - Film Enrichment — TMDB Public Artifact
     types: [completed]
     branches: [main]
 
