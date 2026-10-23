@@ -6,8 +6,10 @@ on:
     paths:
       - "scripts/audit_leaving_soon_phase2_evidence.py"
       - "scripts/audit_leaving_soon_run_endings.py"
+      - "scripts/reconstruct_remaining_run_labels.py"
       - "tests/analysis/test_leaving_soon_phase2_evidence.py"
       - "tests/analysis/test_leaving_soon_run_endings.py"
+      - "tests/analysis/test_reconstruct_remaining_run_labels.py"
       - "docs/leaving-soon-phase2-evidence-audit.md"
       - ".github/workflows/leaving_soon_phase2_audit.yml"
   workflow_dispatch:
@@ -32,7 +34,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
       - name: Test deterministic provenance and lookahead cases
-        run: python -m pytest -q tests/analysis/test_leaving_soon_phase2_evidence.py tests/analysis/test_leaving_soon_run_endings.py
+        run: python -m pytest -q tests/analysis/test_leaving_soon_phase2_evidence.py tests/analysis/test_leaving_soon_run_endings.py tests/analysis/test_reconstruct_remaining_run_labels.py
       - name: Reconstruct historical observations and print evidence counts
         run: |
           mkdir -p data/audits
@@ -46,6 +48,12 @@ jobs:
             --output data/audits/leaving_soon_run_endings.json \
             --csv data/audits/leaving_soon_run_endings_rows.csv \
             | tee data/audits/leaving_soon_run_endings_summary.log
+      - name: Reconstruct historical training labels with strict and provisional evidence
+        run: |
+          python -m scripts.reconstruct_remaining_run_labels \
+            --output data/audits/leaving_soon_reconstructed_labels.json \
+            --csv data/audits/leaving_soon_reconstructed_labels_rows.csv \
+            | tee data/audits/leaving_soon_reconstructed_labels_summary.log
       - name: Preserve machine-readable evidence for inspection
         if: always()
         uses: actions/upload-artifact@v4
@@ -59,5 +67,8 @@ jobs:
             data/audits/leaving_soon_run_endings_rows.csv
             data/audits/leaving_soon_distinct_run_endings_rows.csv
             data/audits/leaving_soon_run_endings_summary.log
+            data/audits/leaving_soon_reconstructed_labels.json
+            data/audits/leaving_soon_reconstructed_labels_rows.csv
+            data/audits/leaving_soon_reconstructed_labels_summary.log
           if-no-files-found: warn
           retention-days: 14
