@@ -1,30 +1,32 @@
 {
   "by_source": {
     "amc": {
-      "confirmed_automatic": 38,
+      "confirmed_automatic": 36,
       "confirmed_manual": 18,
       "non_film": 15,
-      "review_required": 19,
+      "review_required": 18,
       "total": 104,
-      "unmatched": 14
+      "unmatched": 17
     },
     "anderson_school": {
       "confirmed_automatic": 2,
       "total": 2
     },
     "beacon": {
-      "confirmed_automatic": 11,
-      "confirmed_manual": 4,
+      "confirmed_automatic": 20,
+      "confirmed_manual": 3,
       "non_film": 5,
-      "total": 23,
+      "review_required": 2,
+      "total": 33,
       "unmatched": 3
     },
     "central_cinema": {
-      "confirmed_automatic": 5,
+      "confirmed_automatic": 9,
       "confirmed_manual": 1,
       "non_film": 5,
-      "review_required": 2,
-      "total": 13
+      "review_required": 3,
+      "total": 19,
+      "unmatched": 1
     },
     "grand_illusion": {
       "confirmed_automatic": 4,
@@ -33,24 +35,24 @@
       "total": 6
     },
     "majestic_bay": {
-      "confirmed_automatic": 39,
-      "total": 39
+      "confirmed_automatic": 37,
+      "total": 37
     },
     "nwff": {
       "confirmed_automatic": 22,
       "confirmed_manual": 3,
       "non_film": 2,
       "review_required": 3,
-      "total": 40,
-      "unmatched": 10
+      "total": 39,
+      "unmatched": 9
     },
     "siff": {
-      "confirmed_automatic": 41,
+      "confirmed_automatic": 39,
       "confirmed_manual": 8,
       "non_film": 3,
       "review_required": 2,
-      "total": 83,
-      "unmatched": 29
+      "total": 90,
+      "unmatched": 38
     },
     "tasveer": {
       "confirmed_automatic": 4,
@@ -59,82 +61,82 @@
     }
   },
   "by_status": {
-    "confirmed_automatic": 166,
-    "confirmed_manual": 35,
+    "confirmed_automatic": 173,
+    "confirmed_manual": 34,
     "non_film": 31,
-    "review_required": 26,
-    "unmatched": 57
+    "review_required": 28,
+    "unmatched": 69
   },
   "calibration": {
     "anniversary_derived_years": 7,
     "auto_confirm_blocked_by_ambiguity": 6,
-    "auto_confirm_blocked_by_hard_conflict": 13,
-    "director_comparisons": 45,
-    "director_unavailable": 156,
+    "auto_confirm_blocked_by_hard_conflict": 15,
+    "director_comparisons": 42,
+    "director_unavailable": 169,
     "event_year_titles": 16,
-    "normalized_title_exact_matches": 192,
-    "review_required_sparse_evidence": 6,
+    "normalized_title_exact_matches": 200,
+    "review_required_sparse_evidence": 8,
     "top_candidate_margin_buckets": {
       "0.00-0.07": 10,
-      "0.08-0.19": 6,
-      "0.20+": 90,
-      "none": 209
+      "0.08-0.19": 5,
+      "0.20+": 89,
+      "none": 231
     }
   },
   "common_warning_categories": {
     "anniversary_year_derived": 5,
-    "director_conflict": 2,
-    "director_unavailable": 57,
+    "director_unavailable": 62,
     "event_year_not_canonical": 14,
-    "festival_presentation": 19,
+    "festival_presentation": 24,
     "live_or_broadcast_event": 11,
-    "missing_year_supported_by_other_evidence": 101,
+    "missing_year_supported_by_other_evidence": 100,
     "mystery_or_unannounced": 6,
-    "product_year_weak_evidence": 51,
+    "product_year_weak_evidence": 52,
     "program_entity_not_tmdb_movie": 26,
-    "runtime_soft_penalty": 15,
+    "runtime_conflict": 3,
+    "runtime_soft_penalty": 16,
     "same_title_remake_ambiguity": 6,
     "shorts_or_festival_program": 4,
     "source_non_film_program": 6,
-    "title_conflict": 8,
-    "used_collection_identity_title_candidate": 34,
-    "weak_title_only_match": 6,
+    "title_conflict": 9,
+    "used_collection_identity_title_candidate": 33,
+    "weak_title_only_match": 8,
     "year_conflict": 6,
-    "year_evidence_absent": 104,
+    "year_evidence_absent": 106,
     "year_proximity": 5
   },
   "confidence_distribution": {
-    "0.00-0.54": 9,
-    "0.55-0.79": 9,
+    "0.00-0.54": 10,
+    "0.55-0.79": 11,
     "0.80-0.91": 4,
-    "0.92-1.00": 214
+    "0.92-1.00": 220
   },
-  "confirmed_automatic": 166,
-  "confirmed_manual": 35,
+  "confirmed_automatic": 173,
+  "confirmed_manual": 34,
   "deferred": 0,
   "duplicate_merge_counts": {
-    "distinct_tmdb_ids": 150,
+    "distinct_tmdb_ids": 158,
     "note": "Cross-source merges only via shared confirmed tmdb_id; not auto-merged in T-FILMID-01"
   },
-  "eligible_movie_like": 286,
+  "eligible_movie_like": 306,
   "entity_kind_counts": {
     "broadcast_event": 11,
     "double_feature": 1,
-    "feature_film": 285,
+    "feature_film": 305,
     "multi_feature_program": 2,
     "mystery_screening": 6,
     "shorts_program": 4,
     "unknown_program": 6
   },
   "errors": 0,
-  "fallback_usage": 114,
-  "generated_at": "2026-10-22T12:35:07+00:00",
+  "fallback_usage": 128,
+  "generated_at": "2026-10-23T12:14:19+00:00",
   "multiple_shorts": 0,
   "non_film": 31,
   "rejected": 0,
-  "review_queue_size": 26,
-  "review_required": 26,
+  "review_queue_size": 28,
+  "review_required": 28,
   "schema_version": "1.0.0",
-  "total_unique_source_identities": 315,
-  "unmatched": 57
+  "total_unique_source_identities": 335,
+  "unmatched": 69
 }
