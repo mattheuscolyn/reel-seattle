@@ -86,7 +86,7 @@ def test_retrospective_baseline_can_change_publication_snapshot():
         screenings.extend(_show(friday, i, first_seen=friday - timedelta(days=3)) for i in range(10))
     for friday in (date(2026, 10, 23), date(2026, 10, 30), date(2026, 11, 6)):
         screenings.extend(_show(friday, i, first_seen=friday - timedelta(days=3)) for i in range(100))
-    screenings.extend(_show(date(2026, 10, 16), i, first_seen=date(2026, 10, 13)) for i in range(50))
+    screenings.extend(_show(date(2026, 10, 16), i, first_seen=date(2026, 10, 13)) for i in range(30))
 
     snaps = [date(2026, 10, day) for day in range(8, 16)]
     still_listed = lambda show, on: show.first_snapshot <= on
@@ -104,6 +104,9 @@ def test_retrospective_baseline_can_change_publication_snapshot():
     assert result["cycles_with_later_fridays_available_to_original"] == 1
     assert result["cycles_with_changed_past_only_baseline"] == 1
     assert result["cycles_with_changed_80pct_publication_date"] == 1
+    assert result["cycles_with_changed_prepublication_snapshot"] == 1
+    assert result["examples"][0]["original_prepublication_snapshot"] == ""
+    assert result["examples"][0]["past_only_prepublication_snapshot"] == "2026-10-12"
     example = result["examples"][0]
     assert example["past_only_baseline"] == 10.0
     assert example["past_only_date_80"] == "2026-10-13"
