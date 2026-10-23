@@ -4,7 +4,7 @@ from datetime import date
 from types import SimpleNamespace
 
 from scripts.audit_remaining_run_feature_pit import (
-    _equal, audit_feature_invariance, audit_market_as_of,
+    _equal, audit_feature_invariance, audit_hindsight_history, audit_market_as_of,
     synchronized_market_features,
 )
 
@@ -99,3 +99,29 @@ def test_historical_removal_preserves_earlier_visibility():
 def test_numeric_feature_comparison_preserves_nan_equivalence():
     assert _equal(float("nan"), float("nan"))
     assert not _equal(1, 2)
+
+
+def test_late_discovered_historical_show_inflates_theater_baseline():
+    shows = [
+        show("film", "amc-a", "2026-09-26", "2026-09-20"),
+        show("other", "amc-a", "2026-10-02", "2026-10-11"),
+        show("other2", "amc-a", "2026-10-03", "2026-10-11"),
+        show("other3", "amc-a", "2026-10-04", "2026-10-11"),
+        show("film", "amc-a", "2026-10-12", "2026-10-09"),
+    ]
+    engagement = SimpleNamespace(
+        start_date=date(2026, 9, 26), end_date=date(2026, 10, 12),
+        screening_count=2, screenings=(shows[0], shows[-1]),
+    )
+    bundle = SimpleNamespace(
+        screenings=shows, film_theater=[engagement],
+        as_of=date(2026, 10, 23),
+    )
+    engagement.film_id = "film"
+    engagement.theater_id = "amc-a"
+    report = audit_hindsight_history(
+        bundle, [row("film", "amc-a", "2026-10-10", market_count=1, market_shows=1)],
+    )
+    assert report["counts"]["observations_with_later_discovered_historical_showtimes"] == 1
+    assert report["counts"]["observations_with_hindsight_theater_baseline_change"] == 1
+    assert report["examples"][0]["full_history_baseline"] != report["examples"][0]["asof_baseline"]
