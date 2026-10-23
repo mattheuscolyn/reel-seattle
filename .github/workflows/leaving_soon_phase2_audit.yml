@@ -43,6 +43,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: leaving-soon-phase2-evidence
-          path: data/audits/
+          path: |
+            data/audits/leaving_soon_phase2_evidence.json
+            data/audits/leaving_soon_phase2_rows.csv
+            data/audits/leaving_soon_phase2_summary.log
           if-no-files-found: warn
           retention-days: 14
