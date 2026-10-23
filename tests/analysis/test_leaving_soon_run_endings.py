@@ -23,7 +23,7 @@ def show(film: str, day: date, *, theater="amc-a", seen=None):
 
 def engagement(last, screenings, *, status="confirmed_complete", theater="amc-a", film="film-a"):
     return SimpleNamespace(
-        film_id=film, theater_id=theater, screenings=screenings,
+        film_id=film, title="Test Film", theater_id=theater, screenings=screenings,
         sequence=1, start_date=min(s.show_date for s in screenings),
         end_date=last, last_occurred=last, end_status=status,
     )
