@@ -174,6 +174,7 @@ def audit_booking_cycle_baselines(
             friday_shows[(show.theater_id, show.show_date)].append(show)
 
     examples = []
+    counterfactual_cycles = []
     count_changed_baseline = 0
     count_changed_publication = 0
     count_changed_feature_snapshot = 0
@@ -217,6 +218,15 @@ def audit_booking_cycle_baselines(
         changed_features = counterfactual_pre_iso != (cycle.get("prepublication_snapshot") or "")
         if changed_features:
             count_changed_feature_snapshot += 1
+        chronological = dict(cycle)
+        chronological.update({
+            "typical_friday_volume": round(past_typical, 2),
+            "date_50": counterfactual_50,
+            "date_80": counterfactual_80,
+            "publication_snapshot": counterfactual_pub,
+            "prepublication_snapshot": counterfactual_pre_iso,
+        })
+        counterfactual_cycles.append(chronological)
         if (changed_baseline or changed_publication or changed_features) and len(examples) < 100:
             examples.append({
                 "theater_id": theater_id,
@@ -231,6 +241,7 @@ def audit_booking_cycle_baselines(
             })
     return {
         "cycles": len(cycles),
+        "counterfactual_cycles": counterfactual_cycles,
         "cycles_with_later_fridays_available_to_original": cycles_with_future_fridays,
         "cycles_with_changed_past_only_baseline": count_changed_baseline,
         "cycles_with_changed_80pct_publication_date": count_changed_publication,
@@ -240,6 +251,54 @@ def audit_booking_cycle_baselines(
             "A changed historical publication date is point-in-time contamination "
             "of the booking-cycle selection procedure, not proof a particular "
             "film's outcome label was wrong. Do not change the frozen benchmark."
+        ),
+    }
+
+def compare_historical_samples(
+    original: Sequence[Mapping[str, Any]],
+    chronological: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Quantify real model-row churn when selecting point-in-time cycles."""
+    def index(rows):
+        return {
+            (str(row["theater_id"]), str(row["upcoming_friday"]), str(row["film_id"])): row
+            for row in rows
+        }
+
+    original_index = index(original)
+    chronological_index = index(chronological)
+    common = original_index.keys() & chronological_index.keys()
+    changed_snapshot = [
+        key for key in common
+        if original_index[key]["observation_date"] != chronological_index[key]["observation_date"]
+    ]
+    changed_label = [
+        key for key in common
+        if (original_index[key].get("bucket"), original_index[key].get("censored"))
+        != (chronological_index[key].get("bucket"), chronological_index[key].get("censored"))
+    ]
+    return {
+        "original_rows": len(original),
+        "chronological_rows": len(chronological),
+        "common_film_theater_week_rows": len(common),
+        "original_only_rows": len(original_index.keys() - chronological_index.keys()),
+        "chronological_only_rows": len(chronological_index.keys() - original_index.keys()),
+        "rows_with_changed_feature_snapshot": len(changed_snapshot),
+        "rows_with_changed_outcome_label": len(changed_label),
+        "changed_snapshot_examples": [
+            {
+                "theater_id": key[0],
+                "upcoming_friday": key[1],
+                "film_id": key[2],
+                "original_observation": original_index[key]["observation_date"],
+                "chronological_observation": chronological_index[key]["observation_date"],
+            }
+            for key in sorted(changed_snapshot)[:12]
+        ],
+        "caveat": (
+            "This comparison changes only publication-snapshot selection. "
+            "It does not repair engagement/cancellation lineage, "
+            "historical partial coverage, or labels."
         ),
     }
 
@@ -282,6 +341,9 @@ def main() -> int:
         cycles, bundle.screenings, bundle.snapshot_dates,
         as_of=bundle.as_of, still_listed=still_listed,
     )
+    chronological_cycles = retrospective.pop("counterfactual_cycles")
+    chronological_rows = build_observations(bundle, chronological_cycles, kind="before_80")
+    population_delta = compare_historical_samples(primary, chronological_rows)
     report = {
         "schema_version": 1,
         "source": "AMC screening lifecycle + AMC snapshot statuses",
@@ -289,6 +351,7 @@ def main() -> int:
         "snapshot_coverage": {k: v for k, v in coverage.items() if k != "snapshot_dates"},
         "labels": classified["summary"],
         "booking_cycle_point_in_time_audit": retrospective,
+        "historical_row_population_delta": population_delta,
         "effect_on_production": "none; read-only research",
         "decision": "Do not retrain, relabel, or promote a model on the basis of this audit alone.",
     }
@@ -312,6 +375,7 @@ def main() -> int:
         "booking_cycle_point_in_time_audit": {
             k: v for k, v in retrospective.items() if k != "examples"
         },
+        "historical_row_population_delta": population_delta,
         "changed_feature_snapshot_examples": [
             item for item in retrospective["examples"]
             if item["original_prepublication_snapshot"] != item["past_only_prepublication_snapshot"]
