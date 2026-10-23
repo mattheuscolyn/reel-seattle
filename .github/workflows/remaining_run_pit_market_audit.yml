@@ -1,0 +1,60 @@
+name: Remaining Run PIT and Market Research Audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/audit_remaining_run_feature_pit.py"
+      - "scripts/evaluate_market_snapshot_sync.py"
+      - "tests/analysis/test_remaining_run_feature_pit.py"
+      - "tests/analysis/test_evaluate_market_snapshot_sync.py"
+      - ".github/workflows/remaining_run_pit_market_audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Historical PIT invariance and market synchrony
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+      - name: Test invariance and matched market cohorts
+        run: |
+          python -m pytest -q \
+            tests/analysis/test_remaining_run_feature_pit.py \
+            tests/analysis/test_evaluate_market_snapshot_sync.py
+      - name: Audit historical feature provenance
+        run: |
+          mkdir -p data/audits
+          python -m scripts.audit_remaining_run_feature_pit \
+            --output data/audits/remaining_run_feature_pit_audit.json \
+            | tee data/audits/remaining_run_feature_pit_audit.log
+      - name: Ablate synchronized market features on the same holdout
+        run: |
+          python -m scripts.evaluate_market_snapshot_sync \
+            --output data/audits/remaining_run_market_snapshot_sync_evaluation.json \
+            | tee data/audits/remaining_run_market_snapshot_sync_evaluation.log
+      - name: Retain research evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: remaining-run-pit-market-audit
+          path: |
+            data/audits/remaining_run_feature_pit_audit.json
+            data/audits/remaining_run_feature_pit_audit.log
+            data/audits/remaining_run_market_snapshot_sync_evaluation.json
+            data/audits/remaining_run_market_snapshot_sync_evaluation.log
+          if-no-files-found: warn
+          retention-days: 14
