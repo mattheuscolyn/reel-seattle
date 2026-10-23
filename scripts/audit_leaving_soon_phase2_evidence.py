@@ -176,6 +176,7 @@ def audit_booking_cycle_baselines(
     examples = []
     count_changed_baseline = 0
     count_changed_publication = 0
+    count_changed_feature_snapshot = 0
     cycles_with_future_fridays = 0
     first_snapshot = min(snapshots) if snapshots else as_of
     for cycle in cycles:
@@ -194,18 +195,29 @@ def audit_booking_cycle_baselines(
             count_changed_baseline += 1
         window = [d for d in snapshots
                   if max(first_snapshot, upcoming - timedelta(days=8)) <= d < upcoming]
+        counterfactual_50 = ""
         counterfactual_80 = ""
         if past_typical:
             for snap in window:
                 count = sum(still_listed(show, snap) for show in friday_shows[(theater_id, upcoming)])
-                if count >= 0.8 * past_typical:
+                if not counterfactual_50 and count >= 0.50 * past_typical:
+                    counterfactual_50 = snap.isoformat()
+                if not counterfactual_80 and count >= 0.80 * past_typical:
                     counterfactual_80 = snap.isoformat()
-                    break
         original_80 = str(cycle.get("date_80") or "")
         changed_publication = counterfactual_80 != original_80
         if changed_publication:
             count_changed_publication += 1
-        if (changed_baseline or changed_publication) and len(examples) < 100:
+        counterfactual_pub = counterfactual_80 or counterfactual_50
+        counterfactual_pre = max(
+            (snap for snap in snapshots if snap < date.fromisoformat(counterfactual_pub)),
+            default=None,
+        ) if counterfactual_pub else None
+        counterfactual_pre_iso = counterfactual_pre.isoformat() if counterfactual_pre else ""
+        changed_features = counterfactual_pre_iso != (cycle.get("prepublication_snapshot") or "")
+        if changed_features:
+            count_changed_feature_snapshot += 1
+        if (changed_baseline or changed_publication or changed_features) and len(examples) < 100:
             examples.append({
                 "theater_id": theater_id,
                 "upcoming_friday": upcoming.isoformat(),
@@ -214,12 +226,15 @@ def audit_booking_cycle_baselines(
                 "future_fridays_used_by_original": len(future),
                 "original_date_80": original_80,
                 "past_only_date_80": counterfactual_80,
+                "original_prepublication_snapshot": cycle.get("prepublication_snapshot") or "",
+                "past_only_prepublication_snapshot": counterfactual_pre_iso,
             })
     return {
         "cycles": len(cycles),
         "cycles_with_later_fridays_available_to_original": cycles_with_future_fridays,
         "cycles_with_changed_past_only_baseline": count_changed_baseline,
         "cycles_with_changed_80pct_publication_date": count_changed_publication,
+        "cycles_with_changed_prepublication_snapshot": count_changed_feature_snapshot,
         "examples": examples,
         "caveat": (
             "A changed historical publication date is point-in-time contamination "
@@ -247,7 +262,7 @@ def main() -> int:
 
     root = args.root.resolve()
     bundle = load_bundle(root)
-    coverage = snapshot_coverage(root)
+    coverage = snapshot_coverage(root, since=bundle.dataset_start)
     # Use only source=amc and completeness=complete dates as valid evidence.
     from reel_seattle.analysis.leaving_soon_scheduling_assumptions import load_snapshot_infos
     statuses = load_snapshot_infos(root / "data/history/screening_snapshot_status.jsonl")
