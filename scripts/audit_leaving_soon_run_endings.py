@@ -404,9 +404,9 @@ def verify_distinct_runs(bundle, statuses) -> dict[str, Any]:
                     "observation_date": eng.last_occurred.isoformat(),
                     "upcoming_friday": first_absent_week.isoformat(),
                     "bucket": 0,
-                    "censored": 0 if eng.confirmed else 1,
+                    "censored": 0 if eng.end_status == CONFIRMED else 1,
                     "market_bucket": 0,
-                    "market_censored": 0 if eng.confirmed else 1,
+                    "market_censored": 0 if eng.end_status == CONFIRMED else 1,
                 }
                 result = _end_evidence(
                     synthetic, eng, schedule, incomplete, as_of=bundle.as_of,
