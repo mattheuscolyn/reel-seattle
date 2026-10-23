@@ -5,7 +5,9 @@ on:
     branches: [main]
     paths:
       - "scripts/audit_leaving_soon_phase2_evidence.py"
+      - "scripts/audit_leaving_soon_run_endings.py"
       - "tests/analysis/test_leaving_soon_phase2_evidence.py"
+      - "tests/analysis/test_leaving_soon_run_endings.py"
       - "docs/leaving-soon-phase2-evidence-audit.md"
       - ".github/workflows/leaving_soon_phase2_audit.yml"
   workflow_dispatch:
@@ -30,7 +32,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
       - name: Test deterministic provenance and lookahead cases
-        run: python -m pytest -q tests/analysis/test_leaving_soon_phase2_evidence.py
+        run: python -m pytest -q tests/analysis/test_leaving_soon_phase2_evidence.py tests/analysis/test_leaving_soon_run_endings.py
       - name: Reconstruct historical observations and print evidence counts
         run: |
           mkdir -p data/audits
@@ -38,6 +40,12 @@ jobs:
             --output data/audits/leaving_soon_phase2_evidence.json \
             --csv data/audits/leaving_soon_phase2_rows.csv \
             | tee data/audits/leaving_soon_phase2_summary.log
+      - name: Verify individual run endings against the historical AMC schedule
+        run: |
+          python -m scripts.audit_leaving_soon_run_endings \
+            --output data/audits/leaving_soon_run_endings.json \
+            --csv data/audits/leaving_soon_run_endings_rows.csv \
+            | tee data/audits/leaving_soon_run_endings_summary.log
       - name: Preserve machine-readable evidence for inspection
         if: always()
         uses: actions/upload-artifact@v4
@@ -47,5 +55,8 @@ jobs:
             data/audits/leaving_soon_phase2_evidence.json
             data/audits/leaving_soon_phase2_rows.csv
             data/audits/leaving_soon_phase2_summary.log
+            data/audits/leaving_soon_run_endings.json
+            data/audits/leaving_soon_run_endings_rows.csv
+            data/audits/leaving_soon_run_endings_summary.log
           if-no-files-found: warn
           retention-days: 14
