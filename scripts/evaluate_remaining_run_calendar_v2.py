@@ -26,7 +26,7 @@ from reel_seattle.analysis.leaving_soon_prepublication_survival import (
     build_booking_cycles, build_observations,
 )
 from reel_seattle.analysis.leaving_soon_scheduling_assumptions import load_snapshot_infos
-from reel_seattle.analysis.remaining_run_shadow import serialize_hazard
+from reel_seattle.analysis.remaining_run_shadow import serialize_hazard, probabilities_from_serialized
 from scripts.audit_leaving_soon_phase2_evidence import audit_booking_cycle_baselines
 from scripts.reconstruct_remaining_run_labels import (
     _engagement_index, _find, eligible_legacy_days, reconstruct_one,
@@ -211,6 +211,17 @@ def _evaluate_grain(rows: Sequence[Mapping[str, Any]], *, grain: str):
         raise RuntimeError(f"{grain}: no model fitted")
     score_new = _score_for(new_model, strict)
     score_old = _score_for(legacy_model, strict)
+    # A research artifact is only meaningful if its serialized probabilities
+    # reproduce the model used in scoring. Fail the audit otherwise.
+    candidate_spec = serialize_hazard(new_model)
+    for direct in score_new[:min(len(score_new), 50)]:
+        reloaded = probabilities_from_serialized(candidate_spec, direct)
+        for key, attr in (
+            ("p_final_week", "p0"), ("p_plus_1_week", "p1"),
+            ("p_plus_2_weeks", "p2"), ("p_plus_3_plus", "p3"),
+        ):
+            if abs(reloaded[key] - direct[attr]) > 1e-8:
+                raise RuntimeError(f"{grain}: serialized challenger mismatch on {key}")
     score_frequency = _predict_constant(usable, strict)
     val_strict = [r for r in val if r["label_tier"] == "strict" and not r["censored"]]
     # Early validation is provisional. Evaluate train-only to diagnose drift,
@@ -243,9 +254,10 @@ def _evaluate_grain(rows: Sequence[Mapping[str, Any]], *, grain: str):
             "training_prior_baseline": _metrics(score_frequency),
             "paired_film_bootstrap": _paired_bootstrap(score_old, score_new),
             "candidate_by_segment": _by_segment(score_new),
+            "old_control_by_segment": _by_segment(score_old),
         },
         "provisional_validation": validation,
-        "candidate_model_serialized": serialize_hazard(new_model),
+        "candidate_model_serialized": candidate_spec,
     }
 
 
