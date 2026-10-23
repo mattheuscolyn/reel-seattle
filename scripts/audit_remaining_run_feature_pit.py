@@ -12,6 +12,8 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import gzip
+from dataclasses import replace
 from collections import Counter, defaultdict
 from datetime import date, timedelta
 from pathlib import Path
@@ -232,6 +234,106 @@ def audit_hindsight_history(bundle, rows: Sequence[Mapping[str, Any]]) -> dict[s
     }
 
 
+
+def load_cancellation_dates(root: Path) -> dict[str, date]:
+    """Restore the dated cancellation events discarded by the Screening loader."""
+    path = root / "data/history/screening_lifecycle.jsonl.gz"
+    dates: dict[str, date] = {}
+    with gzip.open(path, "rt", encoding="utf-8") as fh:
+        next(fh)  # header
+        for line in fh:
+            item = json.loads(line)
+            if item.get("source") != "amc" or not item.get("cancelled_at"):
+                continue
+            when = str(item["cancelled_at"])[:10]
+            try:
+                dates[str(item["screening_id"])] = date.fromisoformat(when)
+            except ValueError:
+                continue
+    return dates
+
+
+def audit_cancelled_after_forecast(
+    bundle,
+    rows: Sequence[Mapping[str, Any]],
+    cancellations: Mapping[str, date],
+) -> dict[str, Any]:
+    """Prove whether eventual canceled flags alter earlier direct features.
+
+    Restoring only a *later-dated* cancellation is safe, unless a separate
+    known earlier removal remains. This is distinct from future-first-seen
+    screening censoring and demonstrates source-event lookahead.
+    """
+    pairs = defaultdict(list)
+    for show in bundle.screenings:
+        pairs[(show.film_id, show.theater_id)].append(show)
+    impacted = Counter()
+    changed_features = Counter()
+    examples = []
+    for row in rows:
+        when = date.fromisoformat(row["observation_date"])
+        restored = 0
+        replay_shows = []
+        original = pairs[(row["film_id"], row["theater_id"])]
+        for show in original:
+            canceled_at = cancellations.get(show.screening_id)
+            if (
+                show.canceled and canceled_at is not None
+                and show.first_snapshot <= when < canceled_at
+                and not (show.removed_at is not None and show.removed_at <= when)
+            ):
+                replay_shows.append(replace(
+                    show, canceled=False, removed_before_show=False,
+                ))
+                restored += 1
+            else:
+                replay_shows.append(show)
+        if not restored:
+            continue
+        impacted["film_theater_forecasts_with_future_cancellation"] += 1
+        impacted["later_canceled_screening_exposures"] += restored
+        anchor = date.fromisoformat(row["visible_friday"])
+        upcoming = date.fromisoformat(row["upcoming_friday"])
+        kw = dict(
+            snapshot=when, visible_friday=anchor,
+            next_friday=upcoming,
+            first_show=when - timedelta(days=max(0, int(row["days_since_first_show"]))),
+            dataset_start=bundle.dataset_start,
+            left_truncated=bool(row["left_truncated"]),
+            theater_total=1, rank=1, theater_baseline=1.0, peers=(),
+        )
+        before = _film_features(original, **kw)
+        after = _film_features(replay_shows, **kw)
+        diffs = [
+            key for key in sorted(INVARIANT) if key in before and not _equal(before[key], after[key])
+        ]
+        if diffs:
+            impacted["forecasts_with_changed_direct_model_features"] += 1
+            for key in diffs:
+                changed_features[key] += 1
+            if len(examples) < 25:
+                examples.append({
+                    "film": row["title"], "theater": row["theater_id"],
+                    "date": row["observation_date"],
+                    "later_cancelled_showtimes": restored,
+                    "changed_features": diffs,
+                    "before_current_week_screenings": before["current_week_screenings"],
+                    "after_current_week_screenings": after["current_week_screenings"],
+                })
+    return {
+        "source_ledger_cancelled_show_ids": len(cancellations),
+        "counts": dict(impacted),
+        "changed_model_feature_counts": dict(changed_features),
+        "examples": examples,
+        "limitation": (
+            "This reverses only cancellations explicitly dated AFTER the "
+            "forecast and not already removed before it; multiple-stage "
+            "status transitions or undated per-theater feed failures remain "
+            "unverifiable from final lifecycle rows alone."
+        ),
+    }
+
+
 def audit_market_as_of(bundle, rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     by_week = defaultdict(list)
     for row in rows:
@@ -307,16 +409,20 @@ def main() -> int:
     direct = audit_feature_invariance(bundle, rows)
     market = audit_market_as_of(bundle, rows)
     hindsight = audit_hindsight_history(bundle, rows)
+    cancellation = audit_cancelled_after_forecast(
+        bundle, rows, load_cancellation_dates(root),
+    )
     market.pop("paired_market_feature_corrections")
     result = {
         "audit_version": PROVENANCE_VERSION,
         "as_of": bundle.as_of.isoformat(),
         "direct_local": direct, "historical_origin_and_baselines": hindsight,
+        "future_cancellation": cancellation,
         "market": market,
         "proven_pit_safe": False,
         "known_uncertainties": [
             "Engagement origin, left truncation and film segment are reconstructed using eventual runs.",
-            "Global canceled flag has no cancellation timestamp; historical pre-cancellation visibility cannot be certified.",
+            "Global Screening.canceled loses the source ledger cancelled_at timestamp; dated source cancellations require time-aware reconstruction.",
             "AMC older complete-status metadata is unknown for early training snapshots.",
             "Market aggregation previously mixes theaters with different forecast observation dates.",
             "Historical week totals and historical snapshot denominators require separate visibility checks.",
