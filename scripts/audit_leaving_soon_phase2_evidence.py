@@ -312,6 +312,10 @@ def main() -> int:
         "booking_cycle_point_in_time_audit": {
             k: v for k, v in retrospective.items() if k != "examples"
         },
+        "changed_feature_snapshot_examples": [
+            item for item in retrospective["examples"]
+            if item["original_prepublication_snapshot"] != item["past_only_prepublication_snapshot"]
+        ][:12],
         "report": str(out),
         "row_level_csv": str(csv_out),
     }, indent=2))
