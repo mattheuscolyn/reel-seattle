@@ -152,6 +152,86 @@ def audit_feature_invariance(bundle, rows: Sequence[Mapping[str, Any]]) -> dict[
     }
 
 
+
+def audit_hindsight_history(bundle, rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Test direct historical maturity and theater baseline leakage.
+
+    build_observations computes theater historical-week counts from the final
+    lifecycle without conditioning on screening.first_snapshot <= observation.
+    Its engagement origin also comes from the eventual segmented calendar.
+    """
+    by_theater = defaultdict(list)
+    by_pair = defaultdict(list)
+    for show in bundle.screenings:
+        by_theater[show.theater_id].append(show)
+        by_pair[(show.film_id, show.theater_id)].append(show)
+    from reel_seattle.analysis.leaving_soon_scheduling_assumptions import programming_week_friday
+    from reel_seattle.analysis.leaving_soon_prepublication_survival import _cover
+    engagement_pairs = defaultdict(list)
+    for engagement in bundle.film_theater:
+        engagement_pairs[(engagement.film_id, engagement.theater_id)].append(engagement)
+    counters = Counter()
+    examples = []
+    for row in rows:
+        when = date.fromisoformat(row["observation_date"])
+        visible = date.fromisoformat(row["visible_friday"])
+        friday_baseline_before = defaultdict(int)
+        friday_baseline_asof = defaultdict(int)
+        late_history = 0
+        for show in by_theater[row["theater_id"]]:
+            if show.canceled or show.removed_before_show or show.show_date >= visible or show.show_date >= bundle.as_of:
+                continue
+            friday_week = programming_week_friday(show.show_date)
+            friday_baseline_before[friday_week] += 1
+            if show.first_snapshot <= when:
+                friday_baseline_asof[friday_week] += 1
+            else:
+                late_history += 1
+        import statistics
+        before = float(statistics.median(friday_baseline_before.values())) if friday_baseline_before else 0.0
+        after = float(statistics.median(friday_baseline_asof.values())) if friday_baseline_asof else 0.0
+        if late_history:
+            counters["observations_with_later_discovered_historical_showtimes"] += 1
+            counters["later_discovered_past_showtime_exposures"] += late_history
+        if not _equal(before, after):
+            counters["observations_with_hindsight_theater_baseline_change"] += 1
+            if len(examples) < 20:
+                examples.append({
+                    "type": "historical_theater_baseline", "film": row["title"],
+                    "theater": row["theater_id"], "forecast_date": row["observation_date"],
+                    "full_history_baseline": before, "asof_baseline": after,
+                    "late_discovered_past_showtimes": late_history,
+                })
+        engagement = _cover(
+            engagement_pairs.get((row["film_id"], row["theater_id"]), ()),
+            visible, visible + timedelta(days=6),
+        )
+        if engagement is not None:
+            visible_dates = [
+                show.show_date
+                for show in engagement.screenings if still_listed(show, when)
+            ]
+            if visible_dates and engagement.start_date < min(visible_dates):
+                counters["observations_with_unwitnessed_eventual_run_start"] += 1
+                if len(examples) < 30:
+                    examples.append({
+                        "type": "eventual_run_start",
+                        "film": row["title"], "theater": row["theater_id"],
+                        "forecast_date": row["observation_date"],
+                        "eventual_run_start": engagement.start_date.isoformat(),
+                        "earliest_show_visible_then": min(visible_dates).isoformat(),
+                    })
+    return {
+        "rows": len(rows), "counts": dict(counters), "examples": examples,
+        "interpretation": (
+            "A changed historical theater baseline is direct lookahead in "
+            "theater_week_vs_baseline, which is in the selected feature list. "
+            "An unwitnessed run start is a provenance gap in maturity features; "
+            "it may be a late source backfill rather than a false event date."
+        ),
+    }
+
+
 def audit_market_as_of(bundle, rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     by_week = defaultdict(list)
     for row in rows:
@@ -226,11 +306,13 @@ def main() -> int:
     bundle, rows = _point_in_time_rows(root)
     direct = audit_feature_invariance(bundle, rows)
     market = audit_market_as_of(bundle, rows)
+    hindsight = audit_hindsight_history(bundle, rows)
     market.pop("paired_market_feature_corrections")
     result = {
         "audit_version": PROVENANCE_VERSION,
         "as_of": bundle.as_of.isoformat(),
-        "direct_local": direct, "market": market,
+        "direct_local": direct, "historical_origin_and_baselines": hindsight,
+        "market": market,
         "proven_pit_safe": False,
         "known_uncertainties": [
             "Engagement origin, left truncation and film segment are reconstructed using eventual runs.",
