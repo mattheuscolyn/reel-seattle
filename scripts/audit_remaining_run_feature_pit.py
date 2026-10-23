@@ -334,6 +334,40 @@ def audit_cancelled_after_forecast(
     }
 
 
+
+def audit_source_identity_splits(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Flag same-title/Friday source-ID splits without assuming equivalence.
+
+    These can be legitimate different AMC products (e.g. event screenings).
+    A source ID is not automatically a canonical film ID for market scope.
+    """
+    groups = defaultdict(dict)
+    for row in rows:
+        title = " ".join(str(row["title"]).casefold().split())
+        key = (title, row["upcoming_friday"])
+        groups[key].setdefault(str(row["film_id"]), row)
+    splits = [(key, ids) for key, ids in groups.items() if len(ids) > 1]
+    return {
+        "title_friday_groups": len(groups),
+        "multi_source_id_title_friday_groups": len(splits),
+        "additional_source_ids_in_splits": sum(len(ids) - 1 for _, ids in splits),
+        "examples": [
+            {
+                "title": key[0], "upcoming_friday": key[1],
+                "source_ids": list(ids),
+                "segments": [r.get("segment") for r in ids.values()],
+                "theaters_represented": [r.get("market_theater_count") for r in ids.values()],
+            }
+            for key, ids in splits[:25]
+        ],
+        "limitation": (
+            "These are title collisions requiring canonical-identity and "
+            "event-product review. Do not merge automatically: screenings "
+            "of separate products can legitimately share a title."
+        ),
+    }
+
+
 def audit_market_as_of(bundle, rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     by_week = defaultdict(list)
     for row in rows:
@@ -408,6 +442,7 @@ def main() -> int:
     bundle, rows = _point_in_time_rows(root)
     direct = audit_feature_invariance(bundle, rows)
     market = audit_market_as_of(bundle, rows)
+    identity = audit_source_identity_splits(rows)
     hindsight = audit_hindsight_history(bundle, rows)
     cancellation = audit_cancelled_after_forecast(
         bundle, rows, load_cancellation_dates(root),
@@ -418,7 +453,7 @@ def main() -> int:
         "as_of": bundle.as_of.isoformat(),
         "direct_local": direct, "historical_origin_and_baselines": hindsight,
         "future_cancellation": cancellation,
-        "market": market,
+        "market": market, "potential_market_identity_splits": identity,
         "proven_pit_safe": False,
         "known_uncertainties": [
             "Engagement origin, left truncation and film segment are reconstructed using eventual runs.",
