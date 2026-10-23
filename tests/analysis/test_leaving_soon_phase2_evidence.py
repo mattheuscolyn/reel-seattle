@@ -8,6 +8,7 @@ from types import SimpleNamespace
 from scripts.audit_leaving_soon_phase2_evidence import (
     audit_booking_cycle_baselines,
     audit_label_cohorts,
+    compare_historical_samples,
     provenance_row,
 )
 from reel_seattle.analysis.leaving_soon_prepublication_survival import build_booking_cycles
@@ -128,3 +129,26 @@ def test_no_future_fridays_does_not_invent_a_new_baseline():
     )
     assert result["cycles_with_changed_past_only_baseline"] == 0
     assert result["cycles_with_changed_80pct_publication_date"] == 0
+
+
+def test_chronological_replay_compares_model_row_selection_without_relabeling():
+    def row(film_id, observed, bucket=1):
+        return {
+            "theater_id": "amc-a",
+            "upcoming_friday": "2026-10-23",
+            "film_id": film_id,
+            "observation_date": observed,
+            "bucket": bucket,
+            "censored": 0,
+        }
+
+    original = [row("same-film", "2026-10-12"), row("old-only", "2026-10-12")]
+    chronological = [row("same-film", "2026-10-19"), row("new-only", "2026-10-19")]
+    result = compare_historical_samples(original, chronological)
+    assert result["original_rows"] == 2
+    assert result["chronological_rows"] == 2
+    assert result["common_film_theater_week_rows"] == 1
+    assert result["original_only_rows"] == 1
+    assert result["chronological_only_rows"] == 1
+    assert result["rows_with_changed_feature_snapshot"] == 1
+    assert result["rows_with_changed_outcome_label"] == 0
