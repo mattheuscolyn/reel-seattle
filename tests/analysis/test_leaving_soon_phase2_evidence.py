@@ -152,3 +152,27 @@ def test_chronological_replay_compares_model_row_selection_without_relabeling():
     assert result["chronological_only_rows"] == 1
     assert result["rows_with_changed_feature_snapshot"] == 1
     assert result["rows_with_changed_outcome_label"] == 0
+
+
+def test_withdrawn_friday_shows_count_when_they_were_still_visible():
+    prior = [_show(date(2026, 10, 9), i, first_seen=date(2026, 10, 6)) for i in range(10)]
+    scheduled = [_show(date(2026, 10, 16), i, first_seen=date(2026, 10, 13)) for i in range(8)]
+    for show in scheduled:
+        show.removed_before_show = True
+        show.removed_at = date(2026, 10, 14)
+    shows = prior + scheduled
+    snapshots = [date(2026, 10, day) for day in range(8, 16)]
+
+    def listed(show, snap):
+        return show.first_snapshot <= snap and (
+            not show.removed_before_show or show.removed_at > snap
+        )
+
+    cycles = build_booking_cycles(shows, snapshots, {"amc-a": "AMC A"}, as_of=date(2026, 10, 22))
+    target = next(c for c in cycles if c["upcoming_friday"] == "2026-10-16")
+    assert target["date_80"] == "2026-10-13"
+    audit = audit_booking_cycle_baselines(
+        [target], shows, snapshots, as_of=date(2026, 10, 22), still_listed=listed
+    )
+    assert audit["cycles_with_changed_80pct_publication_date"] == 0
+    assert audit["cycles_with_changed_prepublication_snapshot"] == 0
