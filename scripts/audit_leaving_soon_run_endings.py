@@ -374,11 +374,95 @@ def verify_endings(
     }
 
 
+
+def verify_distinct_runs(bundle, statuses) -> dict[str, Any]:
+    """One row per underlying engagement, independently of model cohort selection.
+
+    The model examples above are observations and can reference the same run
+    many times. This inventory prevents them from being misread as unique ends.
+    """
+    from reel_seattle.analysis.leaving_soon_scheduling_assumptions import (
+        next_programming_friday,
+    )
+
+    schedule = ScheduleEvidence(bundle.screenings, _valid_complete_dates(statuses, bundle.as_of))
+    incomplete = _missing_or_incomplete_dates(statuses, bundle.dataset_start, bundle.as_of)
+    run_rows = []
+    for level, engagements in (("theater", bundle.film_theater), ("market", bundle.market)):
+        for eng in engagements:
+            if eng.last_occurred is None:
+                result = {
+                    "verdict": "unresolved_future_only",
+                    "reason": "No elapsed film screening",
+                }
+                first_absent_week = None
+            else:
+                first_absent_week = next_programming_friday(eng.last_occurred)
+                synthetic = {
+                    "film_id": eng.film_id,
+                    "theater_id": eng.theater_id,
+                    "observation_date": eng.last_occurred.isoformat(),
+                    "upcoming_friday": first_absent_week.isoformat(),
+                    "bucket": 0,
+                    "censored": 0 if eng.confirmed else 1,
+                    "market_bucket": 0,
+                    "market_censored": 0 if eng.confirmed else 1,
+                }
+                result = _end_evidence(
+                    synthetic, eng, schedule, incomplete, as_of=bundle.as_of,
+                    market=(level == "market"),
+                )
+            schedule_meta = result.get("schedule") or {}
+            run_rows.append({
+                "level": level,
+                "film_id": eng.film_id,
+                "film_title": eng.title,
+                "theater_id": eng.theater_id,
+                "run_sequence": eng.sequence,
+                "run_start": eng.start_date.isoformat(),
+                "last_show": _iso(eng.last_occurred),
+                "last_scheduled": eng.end_date.isoformat(),
+                "original_end_status": eng.end_status,
+                "first_absent_week": _iso(first_absent_week),
+                "end_verdict": result["verdict"],
+                "reason": result["reason"],
+                "terminal_show_observed_complete": result.get("last_observed_on") or "",
+                "post_end_schedule_snapshot": schedule_meta.get("snapshot") or "",
+                "post_end_schedule_showtimes": schedule_meta.get("screenings") or "",
+                "post_end_schedule_days": schedule_meta.get("days") or "",
+                "post_end_schedule_other_films": schedule_meta.get("other_films") or "",
+                "evidence_missing_dates": ";".join(result.get("bad_dates", ())),
+                "contradicting_show_dates": ";".join(result.get("contradictions", ())),
+                "next_engagement_show": result.get("next_engagement_show") or "",
+                "theaters_checked": result.get("theaters_checked", 0),
+                "theaters_supported": result.get("theaters_supported", 0),
+            })
+
+    return {
+        "rows": run_rows,
+        "summary": {
+            "as_of": bundle.as_of.isoformat(),
+            "distinct_engagements": len(run_rows),
+            "by_grain": {
+                level: {
+                    "runs": len(group),
+                    "original_confirmed": sum(item["original_end_status"] == CONFIRMED for item in group),
+                    "verdicts": dict(Counter(item["end_verdict"] for item in group)),
+                }
+                for level in ("theater", "market")
+                for group in [[item for item in run_rows if item["level"] == level]]
+            },
+            "scope": "Distinct film-theater and film-market engagements from the existing 14-day gap segmentation; schedule-corroborated, not AMC-certified closure.",
+        },
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--output", type=Path, default=Path("data/audits/leaving_soon_run_endings.json"))
     parser.add_argument("--csv", type=Path, default=Path("data/audits/leaving_soon_run_endings_rows.csv"))
+    parser.add_argument("--distinct-csv", type=Path, default=Path("data/audits/leaving_soon_distinct_run_endings_rows.csv"))
     args = parser.parse_args()
     root = args.root.resolve()
     bundle = load_bundle(root)
@@ -391,6 +475,8 @@ def main() -> int:
         for row in group:
             samples.append({**row, "_audit_cohort": cohort})
     result = verify_endings(samples, bundle, statuses)
+    distinct = verify_distinct_runs(bundle, statuses)
+    result["summary"]["distinct_run_verification"] = distinct["summary"]
     output = (root / args.output).resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result["summary"], indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -400,9 +486,17 @@ def main() -> int:
         writer = csv.DictWriter(fh, fieldnames=AUDIT_COLUMNS)
         writer.writeheader()
         writer.writerows(result["rows"])
+    distinct_csv = (root / args.distinct_csv).resolve()
+    distinct_csv.parent.mkdir(parents=True, exist_ok=True)
+    with distinct_csv.open("w", newline="", encoding="utf-8") as fh:
+        names = tuple(distinct["rows"][0]) if distinct["rows"] else ()
+        writer = csv.DictWriter(fh, fieldnames=names)
+        writer.writeheader()
+        writer.writerows(distinct["rows"])
     print(json.dumps({
         **result["summary"],
         "report": str(output), "row_level_csv": str(out_csv),
+        "distinct_run_csv": str(distinct_csv),
         "examples_contested": [
             {key: item[key] for key in (
                 "film_title", "theater_id", "upcoming_friday", "last_show",
