@@ -1,0 +1,47 @@
+name: Leaving Soon Phase 2 evidence audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/audit_leaving_soon_phase2_evidence.py"
+      - "tests/analysis/test_leaving_soon_phase2_evidence.py"
+      - "docs/leaving-soon-phase2-evidence-audit.md"
+      - ".github/workflows/leaving_soon_phase2_audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Read-only AMC model evidence audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+      - name: Test deterministic provenance and lookahead cases
+        run: python -m pytest -q tests/analysis/test_leaving_soon_phase2_evidence.py
+      - name: Reconstruct historical observations and print evidence counts
+        run: |
+          python -m scripts.audit_leaving_soon_phase2_evidence \
+            --output data/audits/leaving_soon_phase2_evidence.json \
+            --csv data/audits/leaving_soon_phase2_rows.csv \
+            | tee data/audits/leaving_soon_phase2_summary.log
+      - name: Preserve machine-readable evidence for inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: leaving-soon-phase2-evidence
+          path: data/audits/
+          if-no-files-found: warn
+          retention-days: 14
