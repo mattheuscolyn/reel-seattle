@@ -6,7 +6,7 @@ from types import SimpleNamespace
 
 from scripts.audit_remaining_run_feature_pit import (
     _equal, audit_feature_invariance, audit_hindsight_history, audit_market_as_of,
-    audit_cancelled_after_forecast,
+    audit_cancelled_after_forecast, audit_source_identity_splits,
     synchronized_market_features,
 )
 
@@ -170,3 +170,15 @@ def test_a_later_cancellation_cannot_rewrite_earlier_observed_showtimes():
         {"cancel-later": date(2026, 10, 9)},
     )
     assert no_leak["counts"] == {}
+
+
+def test_same_title_different_source_products_are_flagged_not_merged():
+    a = row("amc-product-a", "amc-a", "2026-10-10", market_count=1, market_shows=1)
+    b = row("amc-product-b", "amc-b", "2026-10-10", market_count=1, market_shows=1)
+    a["title"] = b["title"] = "One Film"
+    a["segment"] = "ordinary"
+    b["segment"] = "special_event"
+    flagged = audit_source_identity_splits([a, b])
+    assert flagged["multi_source_id_title_friday_groups"] == 1
+    assert flagged["additional_source_ids_in_splits"] == 1
+    assert set(flagged["examples"][0]["segments"]) == {"ordinary", "special_event"}
