@@ -33,6 +33,7 @@ jobs:
         run: python -m pytest -q tests/analysis/test_leaving_soon_phase2_evidence.py
       - name: Reconstruct historical observations and print evidence counts
         run: |
+          mkdir -p data/audits
           python -m scripts.audit_leaving_soon_phase2_evidence \
             --output data/audits/leaving_soon_phase2_evidence.json \
             --csv data/audits/leaving_soon_phase2_rows.csv \
