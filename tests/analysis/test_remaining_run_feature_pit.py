@@ -33,6 +33,9 @@ def row(film, theater, observed, *, market_count, market_shows):
         "theater_count_wow": 0.0,
         "market_screenings_wow": 0.0,
         "days_since_first_show": 4.0,
+        "current_week_screenings": 1.0,
+        "distinct_show_dates": 1.0,
+        "screenings_per_show_date": 1.0,
         "left_truncated": 0.0,
     }
 
@@ -80,6 +83,7 @@ def test_market_as_of_does_not_include_theater_first_observed_after_forecast():
     assert report["counts"]["mixed_snapshot_film_weeks"] == 1
     assert report["counts"]["as_of_market_footprint_differs"] == 1
     assert report["original_vs_single_snapshot_mismatch"]["market_screenings"] == 1
+    assert report["market_rate_and_count_semantic_mismatches"]["market_total_incompatible_with_local_per_date_rate"] == 1
     assert report["paired_market_feature_corrections"][("film", "2026-10-16")]["market_screenings"] == 1
 
 
