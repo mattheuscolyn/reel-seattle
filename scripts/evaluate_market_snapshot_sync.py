@@ -15,13 +15,14 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-from reel_seattle.analysis.leaving_soon_prepublication_survival import _market_rows
+from reel_seattle.analysis.leaving_soon_prepublication_survival import _market_rows, _fit_hazard, _split
 from reel_seattle.analysis.leaving_soon_scheduling_assumptions import load_snapshot_infos
 from scripts.audit_remaining_run_feature_pit import (
     audit_market_as_of, synchronized_market_features,
 )
 from scripts.evaluate_remaining_run_calendar_v2 import (
     _candidate_rows, _evaluate_grain, _point_in_time_rows,
+    _score_for, _paired_bootstrap, FEATURES,
 )
 
 VERSION = "remaining_run_market_snapshot_sync_ablation_v1"
@@ -97,6 +98,29 @@ def main() -> int:
     _ids_match(control, synchronized)
     before = _evaluate_grain(control, grain="market_original_mixed_date")
     after = _evaluate_grain(synchronized, grain="market_synchronized_date")
+    # Paired comparison of changed features only (calendar-v2 labels constant).
+    original_parts = _split(control)
+    synced_parts = _split(synchronized)
+    original_fit = _fit_hazard(
+        [row for row in [*original_parts["train"], *original_parts["validation"]]
+         if row["label_tier"] in {"strict", "provisional_legacy"}],
+        FEATURES,
+    )
+    synced_fit = _fit_hazard(
+        [row for row in [*synced_parts["train"], *synced_parts["validation"]]
+         if row["label_tier"] in {"strict", "provisional_legacy"}],
+        FEATURES,
+    )
+    old_strict = [row for row in original_parts["holdout"]
+                  if row["label_tier"] == "strict" and not row["censored"]]
+    new_strict = [row for row in synced_parts["holdout"]
+                  if row["label_tier"] == "strict" and not row["censored"]]
+    if original_fit is None or synced_fit is None or len(old_strict) != len(new_strict):
+        raise RuntimeError("synchronized ablation cannot fit matching strict holdout")
+    paired_market_feature_effect = _paired_bootstrap(
+        _score_for(original_fit, old_strict),
+        _score_for(synced_fit, new_strict),
+    )
     for entry in (before, after):
         entry.pop("candidate_model_serialized", None)
     result = {
@@ -105,6 +129,7 @@ def main() -> int:
         "n_market_film_week_rows": len(control),
         "same_film_week_cohorts_and_labels": True,
         "changed_features": changes,
+        "paired_market_feature_effect": paired_market_feature_effect,
         "original_mixed_date": before,
         "synchronized_market_footprint": after,
         "interpretation_guard": (
@@ -126,6 +151,7 @@ def main() -> int:
     print(json.dumps({
         "version": VERSION, "as_of": result["as_of"],
         "same_cohorts": True, "changed_features": changes,
+        "paired_market_feature_effect": paired_market_feature_effect,
         "original": compact(before), "synchronized": compact(after),
         "output": str(out),
     }, indent=2))
