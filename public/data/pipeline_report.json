@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-22T03:58:38-07:00",
+  "generated_at": "2026-10-23T03:49:40-07:00",
   "status": "success",
   "window": {
-    "start_date": "2026-10-22",
-    "end_date": "2027-10-21"
+    "start_date": "2026-10-23",
+    "end_date": "2027-10-22"
   },
   "sources": {
     "amc": {
       "status": "success",
-      "showtime_count": 7222,
+      "showtime_count": 6918,
       "film_count": 104,
       "theater_count": 7,
-      "last_successful_run": "2026-10-22",
+      "last_successful_run": "2026-10-23",
       "warnings": [
         "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
       ],
@@ -20,10 +20,10 @@
     },
     "siff": {
       "status": "success",
-      "showtime_count": 209,
-      "film_count": 83,
+      "showtime_count": 210,
+      "film_count": 90,
       "theater_count": 3,
-      "last_successful_run": "2026-10-22",
+      "last_successful_run": "2026-10-23",
       "warnings": [
         "SIFF parent/series page with no direct showtimes: programs-and-events/andrzej-wajda",
         "SIFF parent/series page with no direct showtimes: programs-and-events/celluloid-screenings",
@@ -43,28 +43,30 @@
     },
     "beacon": {
       "status": "success",
-      "showtime_count": 40,
-      "film_count": 23,
+      "showtime_count": 60,
+      "film_count": 33,
       "theater_count": 1,
-      "last_successful_run": "2026-10-22",
+      "last_successful_run": "2026-10-23",
       "warnings": [],
       "errors": []
     },
     "nwff": {
       "status": "success",
-      "showtime_count": 121,
-      "film_count": 40,
+      "showtime_count": 120,
+      "film_count": 39,
       "theater_count": 1,
       "last_successful_run": "2026-10-22",
-      "warnings": [],
+      "warnings": [
+        "NWFF scrape incomplete or unsafe (scrape_status=partial_failure); retained prior future rows."
+      ],
       "errors": []
     },
     "central_cinema": {
       "status": "success",
-      "showtime_count": 45,
-      "film_count": 13,
+      "showtime_count": 82,
+      "film_count": 19,
       "theater_count": 1,
-      "last_successful_run": "2026-10-22",
+      "last_successful_run": "2026-10-23",
       "warnings": [],
       "errors": []
     },
@@ -73,7 +75,7 @@
       "showtime_count": 6,
       "film_count": 6,
       "theater_count": 2,
-      "last_successful_run": "2026-10-22",
+      "last_successful_run": "2026-10-23",
       "warnings": [],
       "errors": []
     },
@@ -82,16 +84,16 @@
       "showtime_count": 37,
       "film_count": 5,
       "theater_count": 1,
-      "last_successful_run": "2026-10-22",
+      "last_successful_run": "2026-10-23",
       "warnings": [],
       "errors": []
     },
     "anderson_school": {
       "status": "success",
-      "showtime_count": 34,
+      "showtime_count": 32,
       "film_count": 1,
       "theater_count": 1,
-      "last_successful_run": "2026-10-22",
+      "last_successful_run": "2026-10-23",
       "warnings": [],
       "errors": []
     },
@@ -108,17 +110,17 @@
     },
     "majestic_bay": {
       "status": "success",
-      "showtime_count": 115,
+      "showtime_count": 109,
       "film_count": 9,
       "theater_count": 1,
-      "last_successful_run": "2026-10-22",
+      "last_successful_run": "2026-10-23",
       "warnings": [],
       "errors": []
     }
   },
   "totals": {
-    "showtime_count": 7829,
-    "film_count": 269,
+    "showtime_count": 7574,
+    "film_count": 291,
     "theater_count": 16
   },
   "messages": [],
@@ -131,8 +133,8 @@
     "outcome": "promoted",
     "artifacts_written_this_run": true,
     "artifacts_retained_from_prior": false,
-    "reported_at": "2026-10-22T04:10:08-07:00",
-    "last_successful_build_at": "2026-10-22T04:08:19-07:00",
+    "reported_at": "2026-10-23T04:00:04-07:00",
+    "last_successful_build_at": "2026-10-23T03:58:13-07:00",
     "message": "AMC source catalog: promoted",
     "warnings": [],
     "errors": [],
@@ -150,8 +152,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-10-22T04:08:19-07:00",
-        "record_count": 400,
+        "generated_at": "2026-10-23T03:58:13-07:00",
+        "record_count": 403,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -163,8 +165,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-10-22T04:08:19-07:00",
-        "record_count": 353,
+        "generated_at": "2026-10-23T03:58:13-07:00",
+        "record_count": 356,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -172,40 +174,40 @@
       }
     },
     "products_summary": {
-      "total": 400,
+      "total": 403,
       "active": 104,
-      "inactive": 296,
-      "with_release_id": 391,
+      "inactive": 299,
+      "with_release_id": 394,
       "without_release_id": 9,
       "refresh_pending": 0,
-      "refresh_success": 400,
+      "refresh_success": 403,
       "refresh_stale": 0,
       "refresh_failed": 0,
       "refresh_invalid": 0,
       "refresh_status_missing": 0,
       "stored_stats": {
-        "products": 400,
+        "products": 403,
         "active_products": 104,
-        "inactive_products": 296,
-        "with_release_id": 391,
+        "inactive_products": 299,
+        "with_release_id": 394,
         "without_release_id": 9,
         "refresh_pending": 0,
-        "refresh_success": 400,
+        "refresh_success": 403,
         "refresh_stale": 0,
         "refresh_failed": 0,
         "refresh_invalid": 0,
-        "special_presentations": 196
+        "special_presentations": 199
       }
     },
     "releases_summary": {
-      "total": 353,
-      "singleton_groups": 333,
+      "total": 356,
+      "singleton_groups": 336,
       "multi_product_groups": 20,
-      "membership_references": 391,
+      "membership_references": 394,
       "unresolved_member_references": 0,
       "stored_stats": {
-        "release_observations": 353,
-        "singleton_groups": 333,
+        "release_observations": 356,
+        "singleton_groups": 336,
         "multi_product_groups": 20,
         "largest_group": 16
       }

@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-22T04:10:08-07:00",
+  "generated_at": "2026-10-23T04:00:04-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-22_amc.json",
-      "generated_at": "2026-10-22T03:57:58-07:00",
-      "record_count": 7228,
+      "latest_log": "data/daily_logs/2026-10-23_amc.json",
+      "generated_at": "2026-10-23T03:49:00-07:00",
+      "record_count": 6924,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -32,12 +32,12 @@
           "Clayface",
           "Forgotten Island",
           "Disney's Hexed",
-          "The Odyssey",
           "The Cat in the Hat",
           "Dune: Part Three",
           "Street Fighter",
           "Resident Evil",
-          "Verity"
+          "Verity",
+          "ZERO A.D.: The Birth of Christ"
         ]
       },
       "cleanup": {
@@ -183,22 +183,6 @@
           "matcher_title": "Disney's Hexed",
           "program_series": null,
           "runtime_min": 110,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:76238",
-          "source_title": "The Odyssey",
-          "adapter_identity_title": null,
-          "matcher_title": "The Odyssey",
-          "program_series": null,
-          "runtime_min": 172,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -567,22 +551,6 @@
           "matcher_title": "Hershey",
           "program_series": null,
           "runtime_min": 110,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:83864",
-          "source_title": "Crawlers",
-          "adapter_identity_title": null,
-          "matcher_title": "Crawlers",
-          "program_series": null,
-          "runtime_min": 86,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1015,22 +983,6 @@
           "matcher_title": "George Michael: The Faith Tour",
           "program_series": null,
           "runtime_min": 113,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:84605",
-          "source_title": "Primetime",
-          "adapter_identity_title": null,
-          "matcher_title": "Primetime",
-          "program_series": null,
-          "runtime_min": 110,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1794,37 +1746,85 @@
           "normalization_rules": [
             "film_year_paren"
           ]
+        },
+        {
+          "source_identity_key": "id:85457",
+          "source_title": "Heated Rivalry: Episode 1 & 2",
+          "adapter_identity_title": null,
+          "matcher_title": "Heated Rivalry: Episode 1 & 2",
+          "program_series": null,
+          "runtime_min": 93,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:85458",
+          "source_title": "Heated Rivalry: Episode 3 & 4",
+          "adapter_identity_title": null,
+          "matcher_title": "Heated Rivalry: Episode 3 & 4",
+          "program_series": null,
+          "runtime_min": 91,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:85459",
+          "source_title": "Heated Rivalry: Episode 5 & 6",
+          "adapter_identity_title": null,
+          "matcher_title": "Heated Rivalry: Episode 5 & 6",
+          "program_series": null,
+          "runtime_min": 107,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
         }
       ]
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-22_siff.json",
-      "generated_at": "2026-10-22T03:57:27-07:00",
-      "record_count": 209,
+      "latest_log": "data/daily_logs/2026-10-23_siff.json",
+      "generated_at": "2026-10-23T03:48:32-07:00",
+      "record_count": 210,
       "malformed_record_count": 0,
       "warning_count": 13,
       "error_count": 0,
-      "source_identity_count": 83,
-      "eligible_feature_count": 81,
+      "source_identity_count": 90,
+      "eligible_feature_count": 88,
       "title": {
-        "with_title": 83,
+        "with_title": 90,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 81,
+        "eligible_features_with_runtime": 88,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 81,
+        "eligible_features_with_year": 88,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 37,
-        "matcher_cleaned_identity_count": 23,
+        "adapter_cleaned_identity_count": 36,
+        "matcher_cleaned_identity_count": 22,
         "adapter_cleanup_samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
@@ -1944,7 +1944,7 @@
         ]
       },
       "series": {
-        "identity_count": 44,
+        "identity_count": 43,
         "samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
@@ -1989,7 +1989,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 81,
+        "feature_film": 88,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2107,13 +2107,13 @@
           ]
         },
         {
-          "source_identity_key": "id:cinema/in-theaters/glen-canyon-institutes-what-the-river-knows",
-          "source_title": "Glen Canyon Institute's What the River Knows",
+          "source_identity_key": "id:cinema/in-theaters/godzilla-minus-zero",
+          "source_title": "Godzilla Minus Zero",
           "adapter_identity_title": null,
-          "matcher_title": "Glen Canyon Institute's What the River Knows",
+          "matcher_title": "Godzilla Minus Zero",
           "program_series": null,
-          "runtime_min": 34,
-          "release_year": 2025,
+          "runtime_min": 135,
+          "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -2123,12 +2123,12 @@
           ]
         },
         {
-          "source_identity_key": "id:cinema/in-theaters/godzilla-minus-zero",
-          "source_title": "Godzilla Minus Zero",
+          "source_identity_key": "id:cinema/in-theaters/her-song",
+          "source_title": "Her Song",
           "adapter_identity_title": null,
-          "matcher_title": "Godzilla Minus Zero",
+          "matcher_title": "Her Song",
           "program_series": null,
-          "runtime_min": 135,
+          "runtime_min": 105,
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -2196,22 +2196,6 @@
           "release_year": 2026,
           "eligibility": "non_film",
           "entity_kind": "multi_feature_program",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/naza",
-          "source_title": "NAZA",
-          "adapter_identity_title": null,
-          "matcher_title": "NAZA",
-          "program_series": null,
-          "runtime_min": 80,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
           "adapter_cleanup": false,
           "matcher_cleanup": false,
           "normalization_rules": [
@@ -2527,6 +2511,150 @@
           "source_title": "Seattle Polish Film Festival: Wild, Wild East",
           "adapter_identity_title": null,
           "matcher_title": "Seattle Polish Film Festival: Wild, Wild East",
+          "program_series": null,
+          "runtime_min": 120,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/seattle-turkish-film-festival-dump-of-untitled-pieces",
+          "source_title": "Seattle Turkish Film Festival: Dump of Untitled Pieces",
+          "adapter_identity_title": null,
+          "matcher_title": "Seattle Turkish Film Festival: Dump of Untitled Pieces",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/seattle-turkish-film-festival-gala-film-party",
+          "source_title": "Seattle Turkish Film Festival: Yellow Letters Gala Film + Party",
+          "adapter_identity_title": null,
+          "matcher_title": "Seattle Turkish Film Festival: Yellow Letters Gala Film + Party",
+          "program_series": null,
+          "runtime_min": 127,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/seattle-turkish-film-festival-salvation",
+          "source_title": "Seattle Turkish Film Festival: Salvation",
+          "adapter_identity_title": null,
+          "matcher_title": "Seattle Turkish Film Festival: Salvation",
+          "program_series": null,
+          "runtime_min": 117,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/seattle-turkish-film-festival-those-who-whistle-after-dark",
+          "source_title": "Seattle Turkish Film Festival: Those Who Whistle After Dark",
+          "adapter_identity_title": null,
+          "matcher_title": "Seattle Turkish Film Festival: Those Who Whistle After Dark",
+          "program_series": null,
+          "runtime_min": 107,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/sevda",
+          "source_title": "Seattle Turkish Film Festival: Sevda",
+          "adapter_identity_title": null,
+          "matcher_title": "Seattle Turkish Film Festival: Sevda",
+          "program_series": null,
+          "runtime_min": 100,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/stffshorts-documentary-selection",
+          "source_title": "STFFShorts - Documentary Selection",
+          "adapter_identity_title": null,
+          "matcher_title": "STFFShorts - Documentary Selection",
+          "program_series": null,
+          "runtime_min": 95,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/stffshorts-narrative-selection-1",
+          "source_title": "STFFShorts - Narrative Selection 1",
+          "adapter_identity_title": null,
+          "matcher_title": "STFFShorts - Narrative Selection 1",
+          "program_series": null,
+          "runtime_min": 100,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/stffshorts-narrative-selection-2",
+          "source_title": "STFFShorts - Narrative Selection 2",
+          "adapter_identity_title": null,
+          "matcher_title": "STFFShorts - Narrative Selection 2",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/the-backcourt-documentary-basketballs-best-kept-secret",
+          "source_title": "The Backcourt Documentary - Basketball's Best Kept Secret",
+          "adapter_identity_title": null,
+          "matcher_title": "The Backcourt Documentary - Basketball's Best Kept Secret",
           "program_series": null,
           "runtime_min": 120,
           "release_year": 2026,
@@ -2859,12 +2987,12 @@
           ]
         },
         {
-          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/the-spiral",
-          "source_title": "Cinema Italian Style 2026: The Spiral",
-          "adapter_identity_title": "The Spiral",
-          "matcher_title": "Cinema Italian Style 2026: The Spiral",
+          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/where-is-the-fiesta",
+          "source_title": "Cinema Italian Style 2026: Where Is the Fiesta?",
+          "adapter_identity_title": "Where Is the Fiesta?",
+          "matcher_title": "Cinema Italian Style 2026: Where Is the Fiesta?",
           "program_series": "Cinema Italian Style 2026",
-          "runtime_min": 115,
+          "runtime_min": 102,
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -3297,22 +3425,6 @@
           ]
         },
         {
-          "source_identity_key": "id:programs-and-events/the-open-road/wagon-master",
-          "source_title": "The Open Road: Wagon Master (35mm)",
-          "adapter_identity_title": "Wagon Master (35mm)",
-          "matcher_title": "The Open Road: Wagon Master",
-          "program_series": "The Open Road",
-          "runtime_min": 86,
-          "release_year": 1950,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "format_or_accessibility_paren"
-          ]
-        },
-        {
           "source_identity_key": "id:programs-and-events/the-open-road/wild-boys-of-the-road",
           "source_title": "The Open Road: Wild Boys of the Road (35mm)",
           "adapter_identity_title": "Wild Boys of the Road (35mm)",
@@ -3332,20 +3444,20 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-22_beacon.json",
-      "generated_at": "2026-10-22T03:57:27-07:00",
-      "record_count": 40,
+      "latest_log": "data/daily_logs/2026-10-23_beacon.json",
+      "generated_at": "2026-10-23T03:48:32-07:00",
+      "record_count": 60,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 23,
-      "eligible_feature_count": 19,
+      "source_identity_count": 33,
+      "eligible_feature_count": 29,
       "title": {
-        "with_title": 23,
+        "with_title": 33,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 17,
+        "eligible_features_with_runtime": 27,
         "eligible_features_missing_runtime": 2,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -3354,10 +3466,11 @@
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 18,
-        "eligible_features_missing_year": 1,
+        "eligible_features_with_year": 27,
+        "eligible_features_missing_year": 2,
         "missing_feature_samples": [
-          "?????? CINEMA"
+          "?????? CINEMA",
+          "FIVE MINUTES TO LIVE!"
         ]
       },
       "cleanup": {
@@ -3411,12 +3524,28 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 19,
+        "feature_film": 29,
         "multi_feature_program": 1,
         "mystery_screening": 2,
         "shorts_program": 1
       },
       "identities": [
+        {
+          "source_identity_key": "id:all-i-desire",
+          "source_title": "ALL I DESIRE",
+          "adapter_identity_title": null,
+          "matcher_title": "All I Desire",
+          "program_series": null,
+          "runtime_min": 80,
+          "release_year": 1953,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
         {
           "source_identity_key": "id:artists-and-models",
           "source_title": "ARTISTS AND MODELS",
@@ -3466,6 +3595,54 @@
           ]
         },
         {
+          "source_identity_key": "id:breathless",
+          "source_title": "BREATHLESS",
+          "adapter_identity_title": null,
+          "matcher_title": "Breathless",
+          "program_series": null,
+          "runtime_min": 97,
+          "release_year": 1983,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:buffalo-66",
+          "source_title": "BUFFALO '66",
+          "adapter_identity_title": null,
+          "matcher_title": "Buffalo '66",
+          "program_series": null,
+          "runtime_min": 110,
+          "release_year": 1998,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:clash-by-ight",
+          "source_title": "CLASH BY NIGHT",
+          "adapter_identity_title": null,
+          "matcher_title": "Clash By Night",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": 1952,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:dracula-of-exarcheia",
           "source_title": "DRACULA OF EXARCHEIA",
           "adapter_identity_title": null,
@@ -3498,13 +3675,13 @@
           ]
         },
         {
-          "source_identity_key": "id:flying-embers-and-a-fortress",
-          "source_title": "FLYING EMBERS AND A FORTRESS",
+          "source_identity_key": "id:five-minutes-to-live",
+          "source_title": "FIVE MINUTES TO LIVE!",
           "adapter_identity_title": null,
-          "matcher_title": "Flying Embers And A Fortress",
+          "matcher_title": "Five Minutes To Live!",
           "program_series": null,
-          "runtime_min": 96,
-          "release_year": 2024,
+          "runtime_min": 120,
+          "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3578,6 +3755,22 @@
           ]
         },
         {
+          "source_identity_key": "id:natural-born-killers",
+          "source_title": "NATURAL BORN KILLERS",
+          "adapter_identity_title": null,
+          "matcher_title": "Natural Born Killers",
+          "program_series": null,
+          "runtime_min": 119,
+          "release_year": 1994,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:necropolis",
           "source_title": "NECROPOLIS",
           "adapter_identity_title": null,
@@ -3610,6 +3803,38 @@
           ]
         },
         {
+          "source_identity_key": "id:perdita-durango",
+          "source_title": "PERDITA DURANGO",
+          "adapter_identity_title": null,
+          "matcher_title": "Perdita Durango",
+          "program_series": null,
+          "runtime_min": 126,
+          "release_year": 1997,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:pretty-poison",
+          "source_title": "PRETTY POISON",
+          "adapter_identity_title": null,
+          "matcher_title": "Pretty Poison",
+          "program_series": null,
+          "runtime_min": 89,
+          "release_year": 1968,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:puerto-rican-short-film-night",
           "source_title": "PUERTO RICAN SHORT FILM NIGHT",
           "adapter_identity_title": null,
@@ -3626,13 +3851,13 @@
           ]
         },
         {
-          "source_identity_key": "id:rider-of-the-skulls",
-          "source_title": "RIDER OF THE SKULLS",
+          "source_identity_key": "id:raise-the-red-lantern",
+          "source_title": "RAISE THE RED LANTERN",
           "adapter_identity_title": null,
-          "matcher_title": "Rider Of The Skulls",
+          "matcher_title": "Raise The Red Lantern",
           "program_series": null,
-          "runtime_min": 79,
-          "release_year": 1965,
+          "runtime_min": 125,
+          "release_year": 1991,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3706,6 +3931,22 @@
           ]
         },
         {
+          "source_identity_key": "id:the-honeymoon-killers",
+          "source_title": "THE HONEYMOON KILLERS",
+          "adapter_identity_title": null,
+          "matcher_title": "The Honeymoon Killers",
+          "program_series": null,
+          "runtime_min": 108,
+          "release_year": 1970,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:the-leopard-man",
           "source_title": "THE LEOPARD MAN",
           "adapter_identity_title": null,
@@ -3713,6 +3954,38 @@
           "program_series": null,
           "runtime_min": 66,
           "release_year": 1943,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:the-living-end",
+          "source_title": "THE LIVING END",
+          "adapter_identity_title": null,
+          "matcher_title": "The Living End",
+          "program_series": null,
+          "runtime_min": 84,
+          "release_year": 1992,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:the-strange-love-of-martha-ivers",
+          "source_title": "THE STRANGE LOVE OF MARTHA IVERS",
+          "adapter_identity_title": null,
+          "matcher_title": "The Strange Love Of Martha Ivers",
+          "program_series": null,
+          "runtime_min": 116,
+          "release_year": 1946,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3789,26 +4062,26 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-22_nwff.json",
-      "generated_at": "2026-10-22T03:56:40-07:00",
-      "record_count": 121,
+      "latest_log": "data/daily_logs/2026-10-23_nwff.json",
+      "generated_at": "2026-10-23T03:47:36-07:00",
+      "record_count": 120,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 40,
-      "eligible_feature_count": 38,
+      "source_identity_count": 39,
+      "eligible_feature_count": 37,
       "title": {
-        "with_title": 40,
+        "with_title": 39,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 38,
+        "eligible_features_with_runtime": 37,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 30,
+        "eligible_features_with_year": 29,
         "eligible_features_missing_year": 8,
         "missing_feature_samples": [
           "Engauge 2026 – Beyond Borders",
@@ -3846,8 +4119,8 @@
             "identity_title": "The Daytrippers"
           },
           {
-            "source_title": "TRAUMA BOND: A Serbian Film (2026 Extended Cut)",
-            "identity_title": "A Serbian Film (2026 Extended Cut)"
+            "source_title": "TRAUMA BOND: A Serbian Film",
+            "identity_title": "A Serbian Film"
           },
           {
             "source_title": "Truth To Fiction: Cameraperson",
@@ -3918,8 +4191,8 @@
             ]
           },
           {
-            "source_title": "TRAUMA BOND: A Serbian Film (2026 Extended Cut)",
-            "matcher_title": "A Serbian Film (2026 Extended Cut)",
+            "source_title": "TRAUMA BOND: A Serbian Film",
+            "matcher_title": "A Serbian Film",
             "rules": [
               "program_series:trauma-bond"
             ]
@@ -3964,7 +4237,7 @@
             "program_series": "Staff Selects"
           },
           {
-            "source_title": "TRAUMA BOND: A Serbian Film (2026 Extended Cut)",
+            "source_title": "TRAUMA BOND: A Serbian Film",
             "program_series": "TRAUMA BOND"
           },
           {
@@ -3986,7 +4259,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 38,
+        "feature_film": 37,
         "mystery_screening": 1,
         "shorts_program": 1
       },
@@ -4345,22 +4618,6 @@
           ]
         },
         {
-          "source_identity_key": "id:the-case-of-the-three-sided-dream",
-          "source_title": "Earshot Jazz Presents: The Case of The Three Sided Dream",
-          "adapter_identity_title": null,
-          "matcher_title": "Earshot Jazz Presents: The Case of The Three Sided Dream",
-          "program_series": null,
-          "runtime_min": 88,
-          "release_year": 2014,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:the-day-she-returns",
           "source_title": "The Day She Returns",
           "adapter_identity_title": null,
@@ -4409,10 +4666,10 @@
           ]
         },
         {
-          "source_identity_key": "id:trauma-bond-a-serbian-film-2026-extended-cut",
-          "source_title": "TRAUMA BOND: A Serbian Film (2026 Extended Cut)",
-          "adapter_identity_title": "A Serbian Film (2026 Extended Cut)",
-          "matcher_title": "A Serbian Film (2026 Extended Cut)",
+          "source_identity_key": "id:trauma-bond-a-serbian-film",
+          "source_title": "TRAUMA BOND: A Serbian Film",
+          "adapter_identity_title": "A Serbian Film",
+          "matcher_title": "A Serbian Film",
           "program_series": "TRAUMA BOND",
           "runtime_min": 104,
           "release_year": 2010,
@@ -4636,41 +4893,43 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-22_central_cinema.json",
-      "generated_at": "2026-10-22T03:56:51-07:00",
-      "record_count": 45,
+      "latest_log": "data/daily_logs/2026-10-23_central_cinema.json",
+      "generated_at": "2026-10-23T03:47:51-07:00",
+      "record_count": 82,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 13,
-      "eligible_feature_count": 8,
+      "source_identity_count": 19,
+      "eligible_feature_count": 14,
       "title": {
-        "with_title": 13,
+        "with_title": 19,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 8,
+        "eligible_features_with_runtime": 14,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 8,
+        "eligible_features_missing_year": 14,
         "missing_feature_samples": [
           "A Nightmare on Elm Street",
           "Camp Napalm presents: Basic Instinct",
           "Cinemancy: Train to Busan",
+          "Delicatessen",
           "Frankenstein (1931)",
           "Fright Night",
           "Hocus Pocus",
+          "My Neighbor Totoro",
           "Night of the Vamp-Friars",
-          "The Room"
+          "Tampopo"
         ]
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 2,
-        "matcher_cleaned_identity_count": 4,
+        "matcher_cleaned_identity_count": 5,
         "adapter_cleanup_samples": [
           {
             "source_title": "Camp Napalm presents: Basic Instinct",
@@ -4709,6 +4968,13 @@
             "rules": [
               "presentation_trailing_atoms"
             ]
+          },
+          {
+            "source_title": "Totally 80's Sing Along",
+            "matcher_title": "Totally 80's",
+            "rules": [
+              "presentation_trailing_atoms"
+            ]
           }
         ]
       },
@@ -4726,7 +4992,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 8,
+        "feature_film": 14,
         "unknown_program": 5
       },
       "identities": [
@@ -4792,6 +5058,22 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "program_series:cinemancy"
+          ]
+        },
+        {
+          "source_identity_key": "id:delicatessen",
+          "source_title": "Delicatessen",
+          "adapter_identity_title": null,
+          "matcher_title": "Delicatessen",
+          "program_series": null,
+          "runtime_min": 99,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
           ]
         },
         {
@@ -4875,6 +5157,22 @@
           ]
         },
         {
+          "source_identity_key": "id:my-neighbor-totoro",
+          "source_title": "My Neighbor Totoro",
+          "adapter_identity_title": null,
+          "matcher_title": "My Neighbor Totoro",
+          "program_series": null,
+          "runtime_min": 95,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:night-of-the-vamp-friars",
           "source_title": "Night of the Vamp-Friars",
           "adapter_identity_title": null,
@@ -4907,10 +5205,42 @@
           ]
         },
         {
+          "source_identity_key": "id:tampopo",
+          "source_title": "Tampopo",
+          "adapter_identity_title": null,
+          "matcher_title": "Tampopo",
+          "program_series": null,
+          "runtime_min": 115,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:the-room",
           "source_title": "The Room",
           "adapter_identity_title": null,
           "matcher_title": "The Room",
+          "program_series": null,
+          "runtime_min": 100,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:the-texas-chainsaw-massacre-part-2",
+          "source_title": "The Texas Chainsaw Massacre Part 2",
+          "adapter_identity_title": null,
+          "matcher_title": "The Texas Chainsaw Massacre Part 2",
           "program_series": null,
           "runtime_min": 100,
           "release_year": null,
@@ -4937,13 +5267,45 @@
           "normalization_rules": [
             "presentation_trailing_atoms"
           ]
+        },
+        {
+          "source_identity_key": "id:totally-80s-sing-along",
+          "source_title": "Totally 80's Sing Along",
+          "adapter_identity_title": null,
+          "matcher_title": "Totally 80's",
+          "program_series": null,
+          "runtime_min": 150,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_trailing_atoms"
+          ]
+        },
+        {
+          "source_identity_key": "id:true-stories",
+          "source_title": "True Stories",
+          "adapter_identity_title": null,
+          "matcher_title": "True Stories",
+          "program_series": null,
+          "runtime_min": 89,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
         }
       ]
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-22_grand_illusion.json",
-      "generated_at": "2026-10-22T03:57:24-07:00",
+      "latest_log": "data/daily_logs/2026-10-23_grand_illusion.json",
+      "generated_at": "2026-10-23T03:48:29-07:00",
       "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -5112,8 +5474,8 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-22_tasveer.json",
-      "generated_at": "2026-10-22T03:57:25-07:00",
+      "latest_log": "data/daily_logs/2026-10-23_tasveer.json",
+      "generated_at": "2026-10-23T03:48:30-07:00",
       "record_count": 37,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -5246,9 +5608,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-22_anderson_school.json",
-      "generated_at": "2026-10-22T03:57:26-07:00",
-      "record_count": 34,
+      "latest_log": "data/daily_logs/2026-10-23_anderson_school.json",
+      "generated_at": "2026-10-23T03:48:32-07:00",
+      "record_count": 32,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5565,27 +5927,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-22_majestic_bay.json",
-      "generated_at": "2026-10-22T03:57:27-07:00",
-      "record_count": 115,
+      "latest_log": "data/daily_logs/2026-10-23_majestic_bay.json",
+      "generated_at": "2026-10-23T03:48:32-07:00",
+      "record_count": 109,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 39,
-      "eligible_feature_count": 39,
+      "source_identity_count": 37,
+      "eligible_feature_count": 37,
       "title": {
-        "with_title": 39,
+        "with_title": 37,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 39,
+        "eligible_features_with_runtime": 37,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 39,
+        "eligible_features_missing_year": 37,
         "missing_feature_samples": [
           "Wildwood",
           "The Ring",
@@ -5610,7 +5972,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 39
+        "feature_film": 37
       },
       "identities": [
         {
@@ -5619,7 +5981,7 @@
           "adapter_identity_title": null,
           "matcher_title": "Wildwood",
           "program_series": null,
-          "runtime_min": 139,
+          "runtime_min": 132,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -5732,38 +6094,6 @@
           "matcher_title": "You Can See Everything",
           "program_series": null,
           "runtime_min": 174,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36446",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36449",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
