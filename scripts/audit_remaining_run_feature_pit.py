@@ -379,6 +379,7 @@ def audit_market_as_of(bundle, rows: Sequence[Mapping[str, Any]]) -> dict[str, A
     count = Counter()
     time_gaps = Counter()
     differences = Counter()
+    feature_incoherence = Counter()
     examples = []
     by_row = {}
     all_anchors = []
@@ -390,6 +391,16 @@ def audit_market_as_of(bundle, rows: Sequence[Mapping[str, Any]]) -> dict[str, A
             time_gaps[str((date.fromisoformat(unique_snapshots[-1]) - date.fromisoformat(anchor)).days)] += 1
         count["market_film_weeks"] += 1
         selected = next(row for row in peers if row["observation_date"] == anchor)
+        local_current = float(selected["current_week_screenings"])
+        local_distinct = float(selected["distinct_show_dates"])
+        local_per_date = float(selected["screenings_per_show_date"])
+        expected_local = local_distinct * local_per_date
+        if float(selected["market_theater_count"]) > 1:
+            feature_incoherence["multi_theater_market_rows"] += 1
+            if abs(float(selected["market_screenings"]) - expected_local) > 1e-6:
+                feature_incoherence["market_total_incompatible_with_local_per_date_rate"] += 1
+            if abs(float(selected["market_screenings"]) - local_current) > 1e-6:
+                feature_incoherence["market_total_exceeds_selected_theater_count"] += 1
         actual = synchronized_market_features(
             by_film[film], film, date.fromisoformat(friday), date.fromisoformat(anchor),
             theater_ids=tuple(bundle.theater_names),
@@ -422,6 +433,7 @@ def audit_market_as_of(bundle, rows: Sequence[Mapping[str, Any]]) -> dict[str, A
         "counts": dict(count),
         "mixed_snapshot_day_spreads": dict(time_gaps),
         "original_vs_single_snapshot_mismatch": dict(differences),
+        "market_rate_and_count_semantic_mismatches": dict(feature_incoherence),
         "examples": examples,
         "paired_market_feature_corrections": by_row,
         "caveat": (
