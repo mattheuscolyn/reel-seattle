@@ -1,10 +1,12 @@
 """Synthetic temporal-invariance and asynchronous-market regression checks."""
 
 from datetime import date
+from dataclasses import dataclass
 from types import SimpleNamespace
 
 from scripts.audit_remaining_run_feature_pit import (
     _equal, audit_feature_invariance, audit_hindsight_history, audit_market_as_of,
+    audit_cancelled_after_forecast,
     synchronized_market_features,
 )
 
@@ -125,3 +127,46 @@ def test_late_discovered_historical_show_inflates_theater_baseline():
     assert report["counts"]["observations_with_later_discovered_historical_showtimes"] == 1
     assert report["counts"]["observations_with_hindsight_theater_baseline_change"] == 1
     assert report["examples"][0]["full_history_baseline"] != report["examples"][0]["asof_baseline"]
+
+
+@dataclass(frozen=True)
+class CanceledScreening:
+    screening_id: str
+    film_id: str
+    theater_id: str
+    show_date: date
+    first_snapshot: date
+    canceled: bool
+    removed_before_show: bool = False
+    removed_at: date | None = None
+    minutes: int = 1110
+    premium: bool = False
+
+def test_a_later_cancellation_cannot_rewrite_earlier_observed_showtimes():
+    active = CanceledScreening(
+        "ok", "film", "amc-a", date(2026, 10, 12),
+        date(2026, 10, 9), canceled=False,
+    )
+    later_canceled = CanceledScreening(
+        "cancel-later", "film", "amc-a", date(2026, 10, 13),
+        date(2026, 10, 9), canceled=True,
+    )
+    bundle = SimpleNamespace(
+        screenings=[active, later_canceled],
+        dataset_start=date(2026, 9, 3),
+    )
+    result = audit_cancelled_after_forecast(
+        bundle,
+        [row("film", "amc-a", "2026-10-10", market_count=1, market_shows=1)],
+        {"cancel-later": date(2026, 10, 11)},
+    )
+    assert result["counts"]["forecasts_with_changed_direct_model_features"] == 1
+    assert result["changed_model_feature_counts"]["current_week_screenings"] == 1
+    assert result["examples"][0]["before_current_week_screenings"] == 1
+    assert result["examples"][0]["after_current_week_screenings"] == 2
+    no_leak = audit_cancelled_after_forecast(
+        bundle,
+        [row("film", "amc-a", "2026-10-10", market_count=1, market_shows=1)],
+        {"cancel-later": date(2026, 10, 9)},
+    )
+    assert no_leak["counts"] == {}
