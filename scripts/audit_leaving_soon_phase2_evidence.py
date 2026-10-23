@@ -166,9 +166,12 @@ def audit_booking_cycle_baselines(
     played: dict[tuple[str, date], int] = defaultdict(int)
     friday_shows: dict[tuple[str, date], list[Any]] = defaultdict(list)
     for show in screenings:
-        if show.canceled or show.removed_before_show:
+        if show.canceled:
             continue
-        if show.show_date.weekday() == 4 and show.show_date < as_of:
+        # Match build_booking_cycles exactly: past actual volumes exclude
+        # withdrawn screenings, but a scheduled show later withdrawn must
+        # remain visible at earlier snapshots until its removal timestamp.
+        if not show.removed_before_show and show.show_date.weekday() == 4 and show.show_date < as_of:
             played[(show.theater_id, show.show_date)] += 1
         if show.show_date.weekday() == 4:
             friday_shows[(show.theater_id, show.show_date)].append(show)
@@ -178,6 +181,8 @@ def audit_booking_cycle_baselines(
     count_changed_baseline = 0
     count_changed_publication = 0
     count_changed_feature_snapshot = 0
+    count_changed_feature_snapshot_with_history = 0
+    cold_start_cycles = 0
     cycles_with_future_fridays = 0
     first_snapshot = min(snapshots) if snapshots else as_of
     for cycle in cycles:
@@ -190,6 +195,8 @@ def audit_booking_cycle_baselines(
         if future:
             cycles_with_future_fridays += 1
         past_typical = float(statistics.median(past)) if past else 0.0
+        if not past:
+            cold_start_cycles += 1
         historical_typical = float(cycle.get("typical_friday_volume") or 0.0)
         changed_baseline = abs(past_typical - historical_typical) > 0.055
         if changed_baseline:
@@ -218,6 +225,8 @@ def audit_booking_cycle_baselines(
         changed_features = counterfactual_pre_iso != (cycle.get("prepublication_snapshot") or "")
         if changed_features:
             count_changed_feature_snapshot += 1
+            if past:
+                count_changed_feature_snapshot_with_history += 1
         chronological = dict(cycle)
         chronological.update({
             "typical_friday_volume": round(past_typical, 2),
@@ -246,6 +255,8 @@ def audit_booking_cycle_baselines(
         "cycles_with_changed_past_only_baseline": count_changed_baseline,
         "cycles_with_changed_80pct_publication_date": count_changed_publication,
         "cycles_with_changed_prepublication_snapshot": count_changed_feature_snapshot,
+        "cycles_with_changed_prepublication_snapshot_and_prior_friday": count_changed_feature_snapshot_with_history,
+        "cold_start_cycles_without_prior_friday": cold_start_cycles,
         "examples": examples,
         "caveat": (
             "A changed historical publication date is point-in-time contamination "
