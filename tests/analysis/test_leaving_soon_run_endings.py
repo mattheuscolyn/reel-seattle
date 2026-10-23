@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import date, timedelta
 from types import SimpleNamespace
 
-from scripts.audit_leaving_soon_run_endings import ScheduleEvidence, _end_evidence
+from scripts.audit_leaving_soon_run_endings import ScheduleEvidence, _end_evidence, verify_distinct_runs
 
 
 def show(film: str, day: date, *, theater="amc-a", seen=None):
@@ -145,3 +145,27 @@ def test_market_requires_covered_schedule_at_all_engaged_theaters():
     assert result["verdict"] == "unresolved_unpublished_week"
     assert result["theaters_checked"] == 2
     assert result["theaters_supported"] == 1
+
+
+def test_distinct_run_report_does_not_duplicate_each_weekly_training_example():
+    last = date(2026, 10, 7)
+    film, evidence_table = evidence()
+    theater = engagement(last, [film], theater="amc-a")
+    market = engagement(last, [film], theater="")
+    statuses = [
+        SimpleNamespace(snapshot_date=date(2026, 10, day), completeness="complete")
+        for day in range(5, 23)
+    ]
+    bundle = SimpleNamespace(
+        screenings=[film, *after_end_schedule()],
+        film_theater=[theater],
+        market=[market],
+        dataset_start=date(2026, 10, 5),
+        as_of=date(2026, 10, 23),
+    )
+    report = verify_distinct_runs(bundle, statuses)
+    assert report["summary"]["distinct_engagements"] == 2
+    assert report["summary"]["by_grain"]["theater"]["runs"] == 1
+    assert report["summary"]["by_grain"]["market"]["runs"] == 1
+    assert report["summary"]["by_grain"]["theater"]["verdicts"]["supported_exit"] == 1
+    assert report["summary"]["by_grain"]["market"]["verdicts"]["supported_exit"] == 1
