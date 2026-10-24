@@ -32,7 +32,7 @@ def test_legacy_is_default_without_registry(tmp_path):
 
 def test_promotion_cannot_skip_independent_prospective_certificate(tmp_path):
     model_hash=candidate(tmp_path)
-    with pytest.raises(RuntimeError,match="locked prospective promotion criteria"):
+    with pytest.raises(RuntimeError,match="Locked prospective promotion criteria"):
         transition(tmp_path,action="promote",
                    approval="PROMOTE_MARKET_V3",model_hash=model_hash)
     state=tmp_path / ROUTING
