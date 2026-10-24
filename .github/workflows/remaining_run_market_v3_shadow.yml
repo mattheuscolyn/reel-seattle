@@ -93,18 +93,20 @@ jobs:
       - name: Preserve frozen candidate, immutable forecasts and verified settlements
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
-          git add \
-            data/models/remaining_run_shadow/market_v3_candidate.json \
-            data/model_predictions/remaining_run_market_v3/current.json \
-            data/history/remaining_run_market_v3_predictions.jsonl.gz \
-            data/history/remaining_run_market_v3_outcomes.jsonl.gz \
-            data/audits/remaining_run_market_v3_prospective.json \\
-            public/data/a_list_run_forecast_current.json
+          # A new prospective cohort has no resolved-outcome file yet.
+          # Explicitly stage only existing files; an absent path is normal.
+          for file in data/models/remaining_run_shadow/market_v3_candidate.json \
+                      data/model_predictions/remaining_run_market_v3/current.json \
+                      data/history/remaining_run_market_v3_predictions.jsonl.gz \
+                      data/history/remaining_run_market_v3_outcomes.jsonl.gz \
+                      data/audits/remaining_run_market_v3_prospective.json \
+                      public/data/a_list_run_forecast_current.json; do
+            if [ -f "$file" ]; then git add -- "$file"; fi
+          done
           if git diff --cached --quiet; then
             echo "No new forecast or outcome evidence"
             exit 0
           fi
-          git -c user.name="reel-seattle-shadow" -c user.email="shadow@users.noreply.github.com" \
-            commit -m "Archive Market v3 prospective shadow evidence"
+          git -c user.name="reel-seattle-shadow" -c user.email="shadow@users.noreply.github.com" commit -m "Archive Market v3 prospective shadow evidence"
           git pull --rebase origin main
           git push origin HEAD:main
