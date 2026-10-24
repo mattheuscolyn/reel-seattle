@@ -16,6 +16,7 @@ from reel_seattle.analysis.leaving_soon_prepublication_survival import (
     _market_rows, _feature_names, _fit_hazard, _split,
 )
 from reel_seattle.analysis.leaving_soon_scheduling_assumptions import load_snapshot_infos
+from reel_seattle.analysis.remaining_run_shadow import serialize_hazard, probabilities_from_serialized
 from scripts.evaluate_remaining_run_calendar_v2 import (
     _point_in_time_rows, _candidate_rows, _metrics, _score_for,
     _paired_bootstrap, _by_segment,
@@ -101,6 +102,13 @@ def evaluate(original, candidate):
     eval_after = [row for row in after["holdout"] if row["label_tier"] == "strict" and not row["censored"]]
     scores_before = _score_for(model_before, eval_before)
     scores_after = _score_for(model_after, eval_after)
+    model_spec = serialize_hazard(model_after)
+    for row in scores_after[:50]:
+        restored = probabilities_from_serialized(model_spec, row)
+        for key, old in (("p_final_week", "p0"), ("p_plus_1_week", "p1"),
+                         ("p_plus_2_weeks", "p2"), ("p_plus_3_plus", "p3")):
+            if abs(restored[key] - row[old]) > 1e-8:
+                raise RuntimeError(f"Market v3 serialized model mismatch for {key}")
     paired = _paired_bootstrap(scores_before, scores_after)
     return {
         "training_examples": len(fit_before),
@@ -112,6 +120,7 @@ def evaluate(original, candidate):
         "by_segment_hybrid": _by_segment(scores_before),
         "by_segment_market_v3": _by_segment(scores_after),
         "columns": list(FEATURES),
+        "research_only_candidate_model": model_spec,
     }
 
 
@@ -145,7 +154,8 @@ def main():
     print(json.dumps({
         "version": result["version"], "as_of": result["as_of"],
         "matched_film_weeks": result["matched_film_weeks"],
-        "evaluation": result["evaluation"],
+        "evaluation": {key: value for key, value in result["evaluation"].items()
+                       if key != "research_only_candidate_model"},
         "file": str(output),
     }, indent=2))
     return 0
