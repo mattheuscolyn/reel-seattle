@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 from pathlib import Path
 
 SOURCE=Path("data/model_predictions/remaining_run_shadow/current.json")
@@ -42,6 +43,9 @@ def main() -> int:
     parser.add_argument("--source",type=Path,default=SOURCE)
     parser.add_argument("--output",type=Path,default=TARGET)
     args=parser.parse_args()
+    project_root = str(Path(__file__).resolve().parent.parent)
+    if project_root not in sys.path:
+        sys.path.insert(0, project_root)
     from scripts.market_v3_public_adapter import ROUTING, VERSION, routed_market_v3
     routing_path = ROUTING
     state = json.loads(routing_path.read_text(encoding="utf-8")) if routing_path.is_file() else {}
