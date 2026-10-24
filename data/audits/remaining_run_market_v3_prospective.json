@@ -1,0 +1,53 @@
+{
+  "by_segment": {},
+  "clean": {
+    "n": 0
+  },
+  "diagnostics": {
+    "important": "Performance is not a causal evaluation of actual A-List decisions; eligibility, interest, scheduling, and the four-credit reset still need an offline replay",
+    "quality_degraded_resolved": 0,
+    "unresolved_or_censored": 44
+  },
+  "generated_at": "2026-10-24T04:10:09.321126+00:00",
+  "model_sha256": "f3376368dad1a01b920a19933b84c99b986cc230c94ecabc2eb6263b7c99f498",
+  "model_version": "remaining_run_market_v3_prospective_1",
+  "newly_verified": 0,
+  "overall": {
+    "n": 0
+  },
+  "promotion": {
+    "checks": {
+      "a_list_eligibility_and_credit_replay": false,
+      "baseline_noninferiority_bootstrap": false,
+      "four_bucket_log_loss": false,
+      "frozen_candidate_integrity": true,
+      "independent_label_audit": false,
+      "minimum_eight_independent_weeks": false,
+      "minimum_eighty_unique_films": false,
+      "thursday_top_four_capture": false
+    },
+    "decision": "not_promotable",
+    "eligible": false,
+    "policy": {
+      "explicit_human_approval_required": true,
+      "max_log_loss": 1.25,
+      "min_top_four_final_week_precision": 0.5,
+      "min_unique_films": 80,
+      "min_weeks": 8,
+      "must_pass_independent_audit": true,
+      "rollback_required": true
+    }
+  },
+  "recommendation_proxy": {
+    "note": "No eligible Thursday cohorts",
+    "precision_at_four": null,
+    "weeks": 0
+  },
+  "saved_forecasts": 44,
+  "strict_clean": 0,
+  "strict_resolved": 0,
+  "thursday": {
+    "n": 0
+  },
+  "valid_postfreeze_forecasts": 44
+}
