@@ -21,6 +21,7 @@ from reel_seattle.analysis.remaining_run_shadow import horizon_friday, probabili
 from reel_seattle.analysis.tmdb_weekly_snapshot import append_jsonl_gz, read_jsonl_gz
 from scripts.bootstrap_remaining_run_market_v3 import OUTPUT, VERSION
 
+COHORT_VERSION = "market_started_engagements_v1"
 LEDGER = Path("data/history/remaining_run_market_v3_predictions.jsonl.gz")
 SNAPSHOT = Path("data/model_predictions/remaining_run_market_v3/current.json")
 
@@ -38,6 +39,13 @@ def _model(root: Path) -> dict:
     if manifest["feature_version"] != "market_features_v3_research":
         raise RuntimeError("Model and feature generator versions disagree")
     return manifest
+
+
+def split_started_market_rows(rows):
+    """Never forecast run termination for a film not yet first screened."""
+    started = [r for r in rows if isinstance(r.get("days_since_first_show"), (int, float))
+               and r["days_since_first_show"] >= 0]
+    return started, len(rows) - len(started)
 
 
 def build_predictions(bundle, statuses, manifest: dict, *, generated_at: str) -> dict:
@@ -67,8 +75,12 @@ def build_predictions(bundle, statuses, manifest: dict, *, generated_at: str) ->
             bundle.screenings, snapshot=observation, upcoming_friday=upcoming,
             dataset_start=bundle.dataset_start, theater_ids=tuple(bundle.theater_names),
         )
+    # A forecast of *remaining* run cannot be assigned to a movie that has
+    # never screened by this observation date. Preserve the excluded count
+    # for auditing, but do not score these future-only bookings.
+    eligible_rows, excluded_future_only = split_started_market_rows(market_rows)
     forecasts = []
-    for row in market_rows:
+    for row in eligible_rows:
         if row["feature_version"] != manifest["feature_version"]:
             raise RuntimeError("Feature version mismatch")
         probs = probabilities_from_serialized(manifest["candidate_hazard"], row)
@@ -81,6 +93,7 @@ def build_predictions(bundle, statuses, manifest: dict, *, generated_at: str) ->
             "model_version": manifest["model_version"],
             "model_sha256": manifest["model_sha256"],
             "feature_version": row["feature_version"],
+            "cohort_version": COHORT_VERSION,
             "selector_version": selected["selector_version"],
             "observation_date": row["observation_date"],
             "upcoming_friday": row["upcoming_friday"],
@@ -113,6 +126,8 @@ def build_predictions(bundle, statuses, manifest: dict, *, generated_at: str) ->
         "model_version": manifest["model_version"],
         "model_sha256": manifest["model_sha256"],
         "feature_version": manifest["feature_version"],
+        "cohort_version": COHORT_VERSION,
+        "excluded_future_only_engagements": excluded_future_only,
         "generated_at": generated_at,
         "as_of": latest.isoformat(),
         "upcoming_friday": upcoming.isoformat(),
