@@ -5,6 +5,8 @@ name: Market V3 prospective shadow (isolated)
 on:
   schedule:
     - cron: "0 12 * * *"
+    # Friday UTC is Thursday 23:30 PDT / 22:30 PST, after AMC 06:00 UTC scrape.
+    - cron: "30 6 * * 5"
   workflow_dispatch:
   pull_request:
     branches: [main, research/remaining-run-market-features-v3]
