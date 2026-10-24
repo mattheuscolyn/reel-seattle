@@ -41,6 +41,13 @@ def _model(root: Path) -> dict:
     return manifest
 
 
+def split_started_market_rows(rows):
+    """Never forecast run termination for a film not yet first screened."""
+    started = [r for r in rows if isinstance(r.get("days_since_first_show"), (int, float))
+               and r["days_since_first_show"] >= 0]
+    return started, len(rows) - len(started)
+
+
 def build_predictions(bundle, statuses, manifest: dict, *, generated_at: str) -> dict:
     latest = max(bundle.snapshot_dates)
     upcoming = horizon_friday(latest)
@@ -71,8 +78,7 @@ def build_predictions(bundle, statuses, manifest: dict, *, generated_at: str) ->
     # A forecast of *remaining* run cannot be assigned to a movie that has
     # never screened by this observation date. Preserve the excluded count
     # for auditing, but do not score these future-only bookings.
-    future_only = [r for r in market_rows if float(r.get("days_since_first_show", -1)) < 0]
-    eligible_rows = [r for r in market_rows if float(r.get("days_since_first_show", -1)) >= 0]
+    eligible_rows, excluded_future_only = split_started_market_rows(market_rows)
     forecasts = []
     for row in eligible_rows:
         if row["feature_version"] != manifest["feature_version"]:
@@ -121,7 +127,7 @@ def build_predictions(bundle, statuses, manifest: dict, *, generated_at: str) ->
         "model_sha256": manifest["model_sha256"],
         "feature_version": manifest["feature_version"],
         "cohort_version": COHORT_VERSION,
-        "excluded_future_only_engagements": len(future_only),
+        "excluded_future_only_engagements": excluded_future_only,
         "generated_at": generated_at,
         "as_of": latest.isoformat(),
         "upcoming_friday": upcoming.isoformat(),
