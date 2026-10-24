@@ -148,9 +148,10 @@ def metrics(pairs):
                 if (ya == 0) == (yb == 0):
                     continue
                 comparisons += 1
-                wins += (a["p_final_week"] > b["p_final_week"]) == (ya == 0)
                 if a["p_final_week"] == b["p_final_week"]:
-                    wins -= 0.5
+                    wins += 0.5
+                else:
+                    wins += float((a["p_final_week"] > b["p_final_week"]) == (ya == 0))
     return {
         "n": len(pairs),
         "unique_films": len({r["film_id"] for r, _ in pairs}),
