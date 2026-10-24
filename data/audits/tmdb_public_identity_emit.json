@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5670103092783505,
-  "generated_at": "2026-10-23T12:15:30+00:00",
+  "coverage_rate": 0.5674740484429066,
+  "generated_at": "2026-10-24T10:06:35+00:00",
   "index_size": 207,
   "invalid_identities": 0,
-  "mapping_misses": 126,
-  "non_null_film_id": 165,
+  "mapping_misses": 125,
+  "non_null_film_id": 164,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,12 +14,12 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 126,
+  "null_film_id": 125,
   "per_source": {
     "amc": {
-      "films": 104,
-      "null_film_id": 48,
-      "with_film_id": 56
+      "films": 107,
+      "null_film_id": 50,
+      "with_film_id": 57
     },
     "anderson_school": {
       "films": 1,
@@ -47,13 +47,13 @@
       "with_film_id": 9
     },
     "nwff": {
-      "films": 39,
+      "films": 38,
       "null_film_id": 14,
-      "with_film_id": 25
+      "with_film_id": 24
     },
     "siff": {
-      "films": 90,
-      "null_film_id": 43,
+      "films": 87,
+      "null_film_id": 40,
       "with_film_id": 47
     },
     "tasveer": {
@@ -62,12 +62,21 @@
       "with_film_id": 4
     }
   },
+  "performance_identity": {
+    "ambiguous": 0,
+    "inherited_from_registry": 7,
+    "matched": 0,
+    "registry_path": "data/performance_identity/performance_identity_current.json",
+    "registry_persisted": false,
+    "registry_upserts": 0,
+    "unmatched_gi": 6
+  },
   "repeated_canonical_across_films": 7,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
-  "total_public_films": 291,
-  "unique_tmdb_ids": 158,
+  "total_public_films": 289,
+  "unique_tmdb_ids": 157,
   "warning_count": 0,
   "warnings": []
 }

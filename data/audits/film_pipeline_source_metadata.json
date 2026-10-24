@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-23T04:00:04-07:00",
+  "generated_at": "2026-10-24T03:18:07-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-23_amc.json",
-      "generated_at": "2026-10-23T03:49:00-07:00",
-      "record_count": 6924,
+      "latest_log": "data/daily_logs/2026-10-24_amc.json",
+      "generated_at": "2026-10-24T03:05:50-07:00",
+      "record_count": 6745,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 104,
-      "eligible_feature_count": 89,
+      "source_identity_count": 107,
+      "eligible_feature_count": 92,
       "title": {
-        "with_title": 104,
+        "with_title": 107,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 89,
+        "eligible_features_with_runtime": 92,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 89,
+        "eligible_features_missing_year": 92,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -123,7 +123,7 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 11,
-        "feature_film": 89,
+        "feature_film": 92,
         "mystery_screening": 3,
         "unknown_program": 1
       },
@@ -1571,6 +1571,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85305",
+          "source_title": "The Host (2007) (re)",
+          "adapter_identity_title": null,
+          "matcher_title": "The Host (2007) (re)",
+          "program_series": null,
+          "runtime_min": 120,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:85315",
           "source_title": "Street Fighter: Sensory Friendly Screening",
           "adapter_identity_title": null,
@@ -1700,6 +1716,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85402",
+          "source_title": "The Last Temptation of Becky",
+          "adapter_identity_title": null,
+          "matcher_title": "The Last Temptation of Becky",
+          "program_series": null,
+          "runtime_min": 89,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:85431",
           "source_title": "RBO - Nutcracker (2026)",
           "adapter_identity_title": null,
@@ -1794,31 +1826,47 @@
           "normalization_rules": [
             "normalized_source_fallback"
           ]
+        },
+        {
+          "source_identity_key": "id:85539",
+          "source_title": "JIMMY - Early Bird Sneak",
+          "adapter_identity_title": null,
+          "matcher_title": "JIMMY - Early Bird Sneak",
+          "program_series": null,
+          "runtime_min": 120,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
         }
       ]
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-23_siff.json",
-      "generated_at": "2026-10-23T03:48:32-07:00",
-      "record_count": 210,
+      "latest_log": "data/daily_logs/2026-10-24_siff.json",
+      "generated_at": "2026-10-24T03:05:22-07:00",
+      "record_count": 200,
       "malformed_record_count": 0,
       "warning_count": 13,
       "error_count": 0,
-      "source_identity_count": 90,
-      "eligible_feature_count": 88,
+      "source_identity_count": 87,
+      "eligible_feature_count": 86,
       "title": {
-        "with_title": 90,
+        "with_title": 87,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 88,
+        "eligible_features_with_runtime": 86,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 88,
+        "eligible_features_with_year": 86,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -1989,9 +2037,8 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 88,
-        "multi_feature_program": 1,
-        "shorts_program": 1
+        "feature_film": 86,
+        "multi_feature_program": 1
       },
       "identities": [
         {
@@ -2379,22 +2426,6 @@
           ]
         },
         {
-          "source_identity_key": "id:cinema/in-theaters/seattle-polish-film-festival-2026/erupcja",
-          "source_title": "Seattle Polish Film Festival: Erupcja",
-          "adapter_identity_title": null,
-          "matcher_title": "Seattle Polish Film Festival: Erupcja",
-          "program_series": null,
-          "runtime_min": 71,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:cinema/in-theaters/seattle-polish-film-festival-2026/gorky-resort",
           "source_title": "Seattle Polish Film Festival: Gorky Resort",
           "adapter_identity_title": null,
@@ -2404,22 +2435,6 @@
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/seattle-polish-film-festival-2026/gsf-shorts",
-          "source_title": "Seattle Polish Film Festival: GSF Shorts",
-          "adapter_identity_title": null,
-          "matcher_title": "Seattle Polish Film Festival: GSF Shorts",
-          "program_series": null,
-          "runtime_min": 75,
-          "release_year": 2025,
-          "eligibility": "non_film",
-          "entity_kind": "shorts_program",
           "adapter_cleanup": false,
           "matcher_cleanup": false,
           "normalization_rules": [
@@ -2482,22 +2497,6 @@
           "program_series": null,
           "runtime_min": 95,
           "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/seattle-polish-film-festival-2026/the-altar-boys",
-          "source_title": "Seattle Polish Film Festival: The Altar Boys",
-          "adapter_identity_title": null,
-          "matcher_title": "Seattle Polish Film Festival: The Altar Boys",
-          "program_series": null,
-          "runtime_min": 110,
-          "release_year": 2025,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3444,9 +3443,9 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-23_beacon.json",
-      "generated_at": "2026-10-23T03:48:32-07:00",
-      "record_count": 60,
+      "latest_log": "data/daily_logs/2026-10-24_beacon.json",
+      "generated_at": "2026-10-24T03:05:22-07:00",
+      "record_count": 59,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -3474,13 +3473,9 @@
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 2,
-        "matcher_cleaned_identity_count": 3,
+        "adapter_cleaned_identity_count": 1,
+        "matcher_cleaned_identity_count": 2,
         "adapter_cleanup_samples": [
-          {
-            "source_title": "SECS FEST PRESENTS DRILLER",
-            "identity_title": "DRILLER"
-          },
           {
             "source_title": "TV PARTY: DOOMED OCCULT DETECTIVES",
             "identity_title": "DOOMED OCCULT DETECTIVES"
@@ -3495,13 +3490,6 @@
             ]
           },
           {
-            "source_title": "SECS FEST PRESENTS DRILLER",
-            "matcher_title": "Driller",
-            "rules": [
-              "program_series:secs-fest-presents"
-            ]
-          },
-          {
             "source_title": "TV PARTY: DOOMED OCCULT DETECTIVES",
             "matcher_title": "Doomed Occult Detectives",
             "rules": [
@@ -3511,12 +3499,8 @@
         ]
       },
       "series": {
-        "identity_count": 2,
+        "identity_count": 1,
         "samples": [
-          {
-            "source_title": "SECS FEST PRESENTS DRILLER",
-            "program_series": "Secs Fest Presents"
-          },
           {
             "source_title": "TV PARTY: DOOMED OCCULT DETECTIVES",
             "program_series": "TV PARTY"
@@ -3883,22 +3867,6 @@
           ]
         },
         {
-          "source_identity_key": "id:secs-fest-presents-driller",
-          "source_title": "SECS FEST PRESENTS DRILLER",
-          "adapter_identity_title": "DRILLER",
-          "matcher_title": "Driller",
-          "program_series": "Secs Fest Presents",
-          "runtime_min": 60,
-          "release_year": 1984,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:secs-fest-presents"
-          ]
-        },
-        {
           "source_identity_key": "id:spookies",
           "source_title": "SPOOKIES",
           "adapter_identity_title": null,
@@ -3906,6 +3874,22 @@
           "program_series": null,
           "runtime_min": 85,
           "release_year": 1986,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:the-burning-of-moses-seattle-unrecognized",
+          "source_title": "THE BURNING OF MOSES SEATTLE + UNRECOGNIZED",
+          "adapter_identity_title": null,
+          "matcher_title": "The Burning Of Moses Seattle + Unrecognized",
+          "program_series": null,
+          "runtime_min": 60,
+          "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -4062,26 +4046,26 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-23_nwff.json",
-      "generated_at": "2026-10-23T03:47:36-07:00",
-      "record_count": 120,
+      "latest_log": "data/daily_logs/2026-10-24_nwff.json",
+      "generated_at": "2026-10-24T03:04:25-07:00",
+      "record_count": 119,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 39,
-      "eligible_feature_count": 37,
+      "source_identity_count": 38,
+      "eligible_feature_count": 36,
       "title": {
-        "with_title": 39,
+        "with_title": 38,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 37,
+        "eligible_features_with_runtime": 36,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 29,
+        "eligible_features_with_year": 28,
         "eligible_features_missing_year": 8,
         "missing_feature_samples": [
           "Engauge 2026 – Beyond Borders",
@@ -4095,8 +4079,8 @@
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 14,
-        "matcher_cleaned_identity_count": 16,
+        "adapter_cleaned_identity_count": 13,
+        "matcher_cleaned_identity_count": 15,
         "adapter_cleanup_samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Elvira: Mistress of the Dark",
@@ -4119,10 +4103,6 @@
             "identity_title": "The Daytrippers"
           },
           {
-            "source_title": "TRAUMA BOND: A Serbian Film",
-            "identity_title": "A Serbian Film"
-          },
-          {
             "source_title": "Truth To Fiction: Cameraperson",
             "identity_title": "Cameraperson"
           },
@@ -4137,6 +4117,10 @@
           {
             "source_title": "Unstreamable - Love Streams",
             "identity_title": "Love Streams"
+          },
+          {
+            "source_title": "Unstreamable - Mod Fuck Explosion",
+            "identity_title": "Mod Fuck Explosion"
           }
         ],
         "matcher_cleanup_samples": [
@@ -4191,13 +4175,6 @@
             ]
           },
           {
-            "source_title": "TRAUMA BOND: A Serbian Film",
-            "matcher_title": "A Serbian Film",
-            "rules": [
-              "program_series:trauma-bond"
-            ]
-          },
-          {
             "source_title": "Truth To Fiction: Cameraperson",
             "matcher_title": "Cameraperson",
             "rules": [
@@ -4210,11 +4187,18 @@
             "rules": [
               "program_series:truth-to-fiction"
             ]
+          },
+          {
+            "source_title": "Truth To Fiction: The Store",
+            "matcher_title": "The Store",
+            "rules": [
+              "program_series:truth-to-fiction"
+            ]
           }
         ]
       },
       "series": {
-        "identity_count": 14,
+        "identity_count": 13,
         "samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Elvira: Mistress of the Dark",
@@ -4237,10 +4221,6 @@
             "program_series": "Staff Selects"
           },
           {
-            "source_title": "TRAUMA BOND: A Serbian Film",
-            "program_series": "TRAUMA BOND"
-          },
-          {
             "source_title": "Truth To Fiction: Cameraperson",
             "program_series": "Truth To Fiction"
           },
@@ -4255,11 +4235,15 @@
           {
             "source_title": "Unstreamable - Love Streams",
             "program_series": "Unstreamable"
+          },
+          {
+            "source_title": "Unstreamable - Mod Fuck Explosion",
+            "program_series": "Unstreamable"
           }
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 37,
+        "feature_film": 36,
         "mystery_screening": 1,
         "shorts_program": 1
       },
@@ -4666,22 +4650,6 @@
           ]
         },
         {
-          "source_identity_key": "id:trauma-bond-a-serbian-film",
-          "source_title": "TRAUMA BOND: A Serbian Film",
-          "adapter_identity_title": "A Serbian Film",
-          "matcher_title": "A Serbian Film",
-          "program_series": "TRAUMA BOND",
-          "runtime_min": 104,
-          "release_year": 2010,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:trauma-bond"
-          ]
-        },
-        {
           "source_identity_key": "id:truth-to-fiction-cameraperson",
           "source_title": "Truth To Fiction: Cameraperson",
           "adapter_identity_title": "Cameraperson",
@@ -4893,8 +4861,8 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-23_central_cinema.json",
-      "generated_at": "2026-10-23T03:47:51-07:00",
+      "latest_log": "data/daily_logs/2026-10-24_central_cinema.json",
+      "generated_at": "2026-10-24T03:04:38-07:00",
       "record_count": 82,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -5304,8 +5272,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-23_grand_illusion.json",
-      "generated_at": "2026-10-23T03:48:29-07:00",
+      "latest_log": "data/daily_logs/2026-10-24_grand_illusion.json",
+      "generated_at": "2026-10-24T03:05:19-07:00",
       "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -5474,9 +5442,9 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-23_tasveer.json",
-      "generated_at": "2026-10-23T03:48:30-07:00",
-      "record_count": 37,
+      "latest_log": "data/daily_logs/2026-10-24_tasveer.json",
+      "generated_at": "2026-10-24T03:05:20-07:00",
+      "record_count": 35,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5608,9 +5576,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-23_anderson_school.json",
-      "generated_at": "2026-10-23T03:48:32-07:00",
-      "record_count": 32,
+      "latest_log": "data/daily_logs/2026-10-24_anderson_school.json",
+      "generated_at": "2026-10-24T03:05:21-07:00",
+      "record_count": 30,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5927,27 +5895,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-23_majestic_bay.json",
-      "generated_at": "2026-10-23T03:48:32-07:00",
-      "record_count": 109,
+      "latest_log": "data/daily_logs/2026-10-24_majestic_bay.json",
+      "generated_at": "2026-10-24T03:05:22-07:00",
+      "record_count": 103,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 37,
-      "eligible_feature_count": 37,
+      "source_identity_count": 35,
+      "eligible_feature_count": 35,
       "title": {
-        "with_title": 37,
+        "with_title": 35,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 37,
+        "eligible_features_with_runtime": 35,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 37,
+        "eligible_features_missing_year": 35,
         "missing_feature_samples": [
           "Wildwood",
           "The Ring",
@@ -5972,7 +5940,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 37
+        "feature_film": 35
       },
       "identities": [
         {
@@ -6137,38 +6105,6 @@
         },
         {
           "source_identity_key": "id:36455",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36458",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36459",
           "source_title": "Wicker",
           "adapter_identity_title": null,
           "matcher_title": "Wicker",

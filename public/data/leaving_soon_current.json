@@ -1,13 +1,13 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-10-23T03:53:49-07:00",
+  "generated_at": "2026-10-24T03:11:04-07:00",
   "source": "amc",
   "model_version": "amc_remaining_run_survival_v1",
   "published": true,
   "skipped_reason": null,
   "window": {
-    "start_date": "2026-10-23",
-    "end_date": "2027-10-22"
+    "start_date": "2026-10-24",
+    "end_date": "2027-10-23"
   },
   "method": {
     "name": "amc_remaining_run_survival_v1",
@@ -23,27 +23,27 @@
     "fourteen_day_calibration": "unchanged_v1_platt"
   },
   "stats": {
-    "candidate_film_count": 24,
-    "flagged_film_count": 11,
-    "last_chance_count": 0,
+    "candidate_film_count": 29,
+    "flagged_film_count": 12,
+    "last_chance_count": 1,
     "leaving_soon_count": 11
   },
   "items": [
     {
       "film_key": "social-reckoning",
       "film_title": "The Social Reckoning",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "81643",
       "run_id": "81643#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 1,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-10-23",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
       "max_show_date": "2026-10-28",
-      "total_visible_showtimes": 8,
+      "total_visible_showtimes": 7,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -52,7 +52,6 @@
         }
       ],
       "show_dates": [
-        "2026-10-23",
         "2026-10-24",
         "2026-10-25",
         "2026-10-26",
@@ -63,10 +62,10 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789066324/amc-cdn/content/general/stsrssxkzjqv0dp75xow.jpg",
       "runtime_min": 112,
-      "prediction_as_of": "2026-10-23",
-      "predicted_end_date": null,
-      "timing_confidence": "low",
-      "timing_mode": "horizon_only",
+      "prediction_as_of": "2026-10-24",
+      "predicted_end_date": "2026-10-28",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
       "prediction_scope": "amc"
     },
     {
@@ -80,10 +79,10 @@
       "run_id": "84566#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 2,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-10-23",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
       "max_show_date": "2026-10-28",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -92,7 +91,6 @@
         }
       ],
       "show_dates": [
-        "2026-10-23",
         "2026-10-24",
         "2026-10-25",
         "2026-10-26",
@@ -103,7 +101,46 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1784977674/amc-cdn/production/2/movies/84600/84566/Poster/422369R1.jpg",
       "runtime_min": 157,
-      "prediction_as_of": "2026-10-23",
+      "prediction_as_of": "2026-10-24",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "history-of-concrete",
+      "film_title": "The History of Concrete",
+      "risk_level": "elevated",
+      "reason": "This theatrical run may be winding down soon.",
+      "leaving_soon_bucket": "leaving_soon",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84174",
+      "run_id": "84174#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 3,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
+      "max_show_date": "2026-10-28",
+      "total_visible_showtimes": 5,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-10-24",
+        "2026-10-25",
+        "2026-10-26",
+        "2026-10-27",
+        "2026-10-28"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1788001556/amc-cdn/production/2/movies/84200/84174/Poster/408194R1.jpg",
+      "runtime_min": 100,
+      "prediction_as_of": "2026-10-24",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -119,11 +156,11 @@
       "source_film_id": "79853",
       "run_id": "79853#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 3,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-10-23",
+      "sort_rank": 4,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
       "max_show_date": "2026-10-28",
-      "total_visible_showtimes": 29,
+      "total_visible_showtimes": 24,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -140,7 +177,6 @@
         }
       ],
       "show_dates": [
-        "2026-10-23",
         "2026-10-24",
         "2026-10-25",
         "2026-10-26",
@@ -151,47 +187,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1788888013/amc-cdn/content/general/jfgvxretdi3pgqmcbsdj.jpg",
       "runtime_min": 115,
-      "prediction_as_of": "2026-10-23",
-      "predicted_end_date": null,
-      "timing_confidence": "low",
-      "timing_mode": "horizon_only",
-      "prediction_scope": "amc"
-    },
-    {
-      "film_key": "history-of-concrete",
-      "film_title": "The History of Concrete",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84174",
-      "run_id": "84174#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 4,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-10-23",
-      "max_show_date": "2026-10-28",
-      "total_visible_showtimes": 6,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-10-23",
-        "2026-10-24",
-        "2026-10-25",
-        "2026-10-26",
-        "2026-10-27",
-        "2026-10-28"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1788001556/amc-cdn/production/2/movies/84200/84174/Poster/408194R1.jpg",
-      "runtime_min": 100,
-      "prediction_as_of": "2026-10-23",
+      "prediction_as_of": "2026-10-24",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -208,10 +204,10 @@
       "run_id": "84750#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 5,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-10-23",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
       "max_show_date": "2026-10-28",
-      "total_visible_showtimes": 38,
+      "total_visible_showtimes": 31,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -224,7 +220,6 @@
         }
       ],
       "show_dates": [
-        "2026-10-23",
         "2026-10-24",
         "2026-10-25",
         "2026-10-26",
@@ -235,7 +230,50 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789580038/amc-cdn/content/general/z7xwbgzkreb0bttfhy9y.jpg",
       "runtime_min": 114,
-      "prediction_as_of": "2026-10-23",
+      "prediction_as_of": "2026-10-24",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "kung-fu-soccer",
+      "film_title": "Kung Fu Soccer",
+      "risk_level": "elevated",
+      "reason": "This theatrical run may be winding down soon.",
+      "leaving_soon_bucket": "leaving_soon",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84999",
+      "run_id": "84999#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 6,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
+      "max_show_date": "2026-10-28",
+      "total_visible_showtimes": 11,
+      "total_visible_theaters": 2,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-10-24",
+        "2026-10-25",
+        "2026-10-26",
+        "2026-10-27",
+        "2026-10-28"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1792148935/amc-cdn/production/2/movies/85000/84999/Poster/035779R1.jpg",
+      "runtime_min": 106,
+      "prediction_as_of": "2026-10-24",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -251,11 +289,11 @@
       "source_film_id": "82707",
       "run_id": "82707#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 6,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-10-23",
+      "sort_rank": 7,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
       "max_show_date": "2026-10-28",
-      "total_visible_showtimes": 34,
+      "total_visible_showtimes": 27,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -272,7 +310,6 @@
         }
       ],
       "show_dates": [
-        "2026-10-23",
         "2026-10-24",
         "2026-10-25",
         "2026-10-26",
@@ -283,51 +320,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782817423/amc-cdn/production/2/movies/82700/82707/Poster/358931R1.jpg",
       "runtime_min": 101,
-      "prediction_as_of": "2026-10-23",
-      "predicted_end_date": null,
-      "timing_confidence": "low",
-      "timing_mode": "horizon_only",
-      "prediction_scope": "amc"
-    },
-    {
-      "film_key": "kung-fu-soccer",
-      "film_title": "Kung Fu Soccer",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84999",
-      "run_id": "84999#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 7,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-10-23",
-      "max_show_date": "2026-10-28",
-      "total_visible_showtimes": 13,
-      "total_visible_theaters": 2,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        },
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-10-23",
-        "2026-10-24",
-        "2026-10-25",
-        "2026-10-26",
-        "2026-10-27",
-        "2026-10-28"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1792148935/amc-cdn/production/2/movies/85000/84999/Poster/035779R1.jpg",
-      "runtime_min": 106,
-      "prediction_as_of": "2026-10-23",
+      "prediction_as_of": "2026-10-24",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -344,10 +337,10 @@
       "run_id": "85262#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 8,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-10-23",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
       "max_show_date": "2026-10-28",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -356,7 +349,6 @@
         }
       ],
       "show_dates": [
-        "2026-10-23",
         "2026-10-24",
         "2026-10-25",
         "2026-10-26",
@@ -367,7 +359,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1790870307/amc-cdn/content/general/pweqk6qz4fbo1p2fzu4j.jpg",
       "runtime_min": 185,
-      "prediction_as_of": "2026-10-23",
+      "prediction_as_of": "2026-10-24",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -384,10 +376,10 @@
       "run_id": "84071#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 9,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-10-23",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
       "max_show_date": "2026-10-28",
-      "total_visible_showtimes": 34,
+      "total_visible_showtimes": 28,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -408,7 +400,6 @@
         }
       ],
       "show_dates": [
-        "2026-10-23",
         "2026-10-24",
         "2026-10-25",
         "2026-10-26",
@@ -419,7 +410,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1785775787/amc-cdn/content/general/fvtw5wvasaqffkdzap5h.jpg",
       "runtime_min": 112,
-      "prediction_as_of": "2026-10-23",
+      "prediction_as_of": "2026-10-24",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -436,10 +427,10 @@
       "run_id": "71470#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 10,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-10-23",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
       "max_show_date": "2026-10-28",
-      "total_visible_showtimes": 48,
+      "total_visible_showtimes": 39,
       "total_visible_theaters": 4,
       "theaters": [
         {
@@ -460,7 +451,6 @@
         }
       ],
       "show_dates": [
-        "2026-10-23",
         "2026-10-24",
         "2026-10-25",
         "2026-10-26",
@@ -471,7 +461,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782224198/amc-cdn/content/general/yogoy3nb7hwcrzsjzapd.jpg",
       "runtime_min": 109,
-      "prediction_as_of": "2026-10-23",
+      "prediction_as_of": "2026-10-24",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -488,10 +478,10 @@
       "run_id": "84492#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 11,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-10-23",
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
       "max_show_date": "2026-10-28",
-      "total_visible_showtimes": 73,
+      "total_visible_showtimes": 61,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -508,7 +498,6 @@
         }
       ],
       "show_dates": [
-        "2026-10-23",
         "2026-10-24",
         "2026-10-25",
         "2026-10-26",
@@ -519,7 +508,66 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789677322/amc-cdn/content/general/j2dxvpvie0mspmb4rkcf.jpg",
       "runtime_min": 106,
-      "prediction_as_of": "2026-10-23",
+      "prediction_as_of": "2026-10-24",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "other-mommy",
+      "film_title": "Other Mommy",
+      "risk_level": "elevated",
+      "reason": "This theatrical run may be winding down soon.",
+      "leaving_soon_bucket": "leaving_soon",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "80303",
+      "run_id": "80303#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 12,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-10-24",
+      "max_show_date": "2026-10-28",
+      "total_visible_showtimes": 48,
+      "total_visible_theaters": 6,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-10-24",
+        "2026-10-25",
+        "2026-10-26",
+        "2026-10-27",
+        "2026-10-28"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1789756562/amc-cdn/content/general/vrq0ukic012f72bpzbey.jpg",
+      "runtime_min": 93,
+      "prediction_as_of": "2026-10-24",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
