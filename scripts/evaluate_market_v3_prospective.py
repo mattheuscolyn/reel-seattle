@@ -35,7 +35,8 @@ def _prediction_valid(row, model):
         return False
     if row.get("cohort_version") != COHORT_VERSION:
         return False
-    if float((row.get("features") or {}).get("days_since_first_show", -1)) < 0:
+    first = (row.get("features") or {}).get("days_since_first_show")
+    if not isinstance(first, (int, float)) or not math.isfinite(first) or first < 0:
         return False
     if row.get("model_version") != model["model_version"]:
         return False
