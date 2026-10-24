@@ -18,7 +18,7 @@ from reel_seattle.analysis.leaving_soon_feature_value import load_bundle
 from reel_seattle.analysis.leaving_soon_scheduling_assumptions import load_snapshot_infos
 from reel_seattle.analysis.tmdb_weekly_snapshot import read_jsonl_gz, append_jsonl_gz
 from scripts.evaluate_remaining_run_calendar_v2 import _candidate_rows
-from scripts.run_market_v3_shadow import LEDGER, _model
+from scripts.run_market_v3_shadow import LEDGER, COHORT_VERSION, _model
 
 OUTCOMES = Path("data/history/remaining_run_market_v3_outcomes.jsonl.gz")
 REPORT = Path("data/audits/remaining_run_market_v3_prospective.json")
@@ -32,6 +32,10 @@ PACIFIC = ZoneInfo("America/Los_Angeles")
 
 def _prediction_valid(row, model):
     if row.get("model_sha256") != model["model_sha256"]:
+        return False
+    if row.get("cohort_version") != COHORT_VERSION:
+        return False
+    if float((row.get("features") or {}).get("days_since_first_show", -1)) < 0:
         return False
     if row.get("model_version") != model["model_version"]:
         return False
