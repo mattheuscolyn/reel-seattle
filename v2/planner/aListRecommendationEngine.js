@@ -75,7 +75,7 @@ function importance(row) {
 }
 
 function readyForecast(forecasts, row, week, now) {
-  if (!forecasts || forecasts.modelVersion !== 'remaining_run_shadow_v1') return null;
+  if (!forecasts || !['remaining_run_shadow_v1', 'remaining_run_market_v3_prospective_1'].includes(forecasts.modelVersion)) return null;
   const asOfMs = isoTimeMs(forecasts.asOf + 'T12:00:00Z');
   const today = new Date(pacificDateString(now) + 'T12:00:00Z');
   if (asOfMs == null || (today.getTime() - asOfMs) / MS_DAY > MAX_FRESH_DAYS || asOfMs > today.getTime() + MS_DAY) return null;
