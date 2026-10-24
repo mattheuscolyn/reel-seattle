@@ -1,0 +1,53 @@
+name: Remaining Run Market V3 Research
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "reel_seattle/analysis/remaining_run_market_features.py"
+      - "scripts/evaluate_remaining_run_market_v3.py"
+      - "tests/analysis/test_remaining_run_market_features.py"
+      - "tests/analysis/test_evaluate_remaining_run_market_v3.py"
+      - ".github/workflows/remaining_run_market_v3.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    name: Market V3 source replay and strict holdout
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+      - name: Run temporal, units and identity tests
+        run: |
+          python -m pytest -q \
+            tests/analysis/test_remaining_run_market_features.py \
+            tests/analysis/test_evaluate_remaining_run_market_v3.py
+      - name: Rebuild market history and compare unchanged strict outcome cohort
+        run: |
+          mkdir -p data/audits
+          python -m scripts.evaluate_remaining_run_market_v3 \
+            --output data/audits/remaining_run_market_v3_backtest.json \
+            | tee data/audits/remaining_run_market_v3_backtest.log
+      - name: Upload research output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: remaining-run-market-v3-research
+          path: |
+            data/audits/remaining_run_market_v3_backtest.json
+            data/audits/remaining_run_market_v3_backtest.log
+          retention-days: 14
+          if-no-files-found: warn
