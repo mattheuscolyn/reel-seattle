@@ -93,12 +93,16 @@ def test_prospective_rejects_trained_cohort_and_late_generated_forecasts():
     }
     row = {
         "model_sha256": "hash", "model_version": "v3",
+        "cohort_version": "market_started_engagements_v1",
+        "features": {"days_since_first_show": 2},
         "generated_at": "2026-10-24T04:00:00+00:00",
         "observation_date": "2026-10-23", "upcoming_friday": "2026-10-30",
         "p_final_week": 0.4, "p_plus_1_week": 0.3,
         "p_plus_2_weeks": 0.2, "p_plus_3_plus": 0.1,
     }
     assert _prediction_valid(row, candidate)
+    assert not _prediction_valid({**row, "features": {"days_since_first_show": -1}}, candidate)
+    assert not _prediction_valid({**row, "cohort_version": None}, candidate)
     assert not _prediction_valid({**row, "observation_date": "2026-08-20"}, candidate)
     assert not _prediction_valid({**row, "generated_at": "2026-10-30T20:00:00+00:00"}, candidate)
 
@@ -136,3 +140,17 @@ def test_stale_source_is_not_scored_even_if_last_snapshot_was_complete():
     assert result["quality"]["quality_status"] == "stale_source_snapshot"
     assert result["market"] == []
     assert result["forecast_count"] == 0
+
+def test_unstarted_market_engagement_is_excluded_before_prediction():
+    from scripts.run_market_v3_shadow import COHORT_VERSION, split_started_market_rows
+    assert COHORT_VERSION == "market_started_engagements_v1"
+    rows = [
+        {"film_id": "started", "days_since_first_show": 5},
+        {"film_id": "today", "days_since_first_show": 0},
+        {"film_id": "unseen", "days_since_first_show": -1},
+        {"film_id": "future", "days_since_first_show": -6},
+        {"film_id": "bad", "days_since_first_show": None},
+    ]
+    eligible, excluded = split_started_market_rows(rows)
+    assert [row["film_id"] for row in eligible] == ["started", "today"]
+    assert excluded == 3
