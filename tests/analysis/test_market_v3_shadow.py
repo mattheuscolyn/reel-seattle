@@ -118,3 +118,21 @@ def test_thursday_decision_is_only_available_from_complete_october_29_snapshot()
     assert selected["thursday_snapshot_available"] is True
     assert selected["observation_date"] == "2026-10-29"
     assert selected["thursday_decision_snapshot"] == "2026-10-29"
+
+def test_stale_source_is_not_scored_even_if_last_snapshot_was_complete():
+    from scripts.run_market_v3_shadow import build_predictions
+    from types import SimpleNamespace
+    records, statuses, upcoming = context()
+    bundle = SimpleNamespace(
+        screenings=records, snapshot_dates=[date(2026, 10, 23)],
+        theater_names={"a": "A", "b": "B"}, dataset_start=date(2026, 9, 3),
+    )
+    result = build_predictions(
+        bundle, statuses, {"model_version": "v3", "model_sha256": "sha",
+                          "feature_version": "market_features_v3_research"},
+        generated_at="2026-10-27T04:00:00+00:00",  # Oct 26 Pacific; 3 days stale
+    )
+    assert result["quality"]["source_age_days"] == 3
+    assert result["quality"]["quality_status"] == "stale_source_snapshot"
+    assert result["market"] == []
+    assert result["forecast_count"] == 0
