@@ -9,7 +9,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timezone, timedelta
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 from reel_seattle.analysis.leaving_soon_feature_value import load_bundle
@@ -46,9 +47,21 @@ def build_predictions(bundle, statuses, manifest: dict, *, generated_at: str) ->
         bundle.screenings, statuses, as_of=latest, upcoming_friday=upcoming,
         theater_ids=tuple(bundle.theater_names), dataset_start=bundle.dataset_start,
     )
+    # A complete *old* snapshot is still stale if ingestion stops. The AMC
+    # scrape runs late Pacific evening, so allow one Pacific calendar day lag.
+    utc_time = datetime.fromisoformat(generated_at)
+    if utc_time.tzinfo is None:
+        raise ValueError("generated_at must have a timezone")
+    pacific_date = utc_time.astimezone(ZoneInfo("America/Los_Angeles")).date()
+    source_age = (pacific_date - latest).days
+    selected["source_age_days"] = source_age
+    if source_age < 0:
+        selected["quality_status"] = "future_dated_source_snapshot"
+    elif source_age > 1:
+        selected["quality_status"] = "stale_source_snapshot"
     quality = selected["quality_status"]
     market_rows = []
-    if selected["observation_date"] and quality not in {"no_complete_snapshot", "insufficient_baseline", "stale_snapshot"}:
+    if selected["observation_date"] and quality not in {"no_complete_snapshot", "insufficient_baseline", "stale_snapshot", "stale_source_snapshot", "future_dated_source_snapshot"}:
         observation = date.fromisoformat(selected["observation_date"])
         market_rows = build_market_snapshot(
             bundle.screenings, snapshot=observation, upcoming_friday=upcoming,
@@ -84,7 +97,7 @@ def build_predictions(bundle, statuses, manifest: dict, *, generated_at: str) ->
             "publication_snapshot": selected["publication_snapshot"],
             "publication_completeness": selected["publication_completeness"],
             "snapshot_lag_days": selected["snapshot_lag_days"],
-            "is_thursday_decision": date.fromisoformat(row["observation_date"]) == upcoming - __import__("datetime").timedelta(days=1),
+            "is_thursday_decision": date.fromisoformat(row["observation_date"]) == upcoming - timedelta(days=1),
             "probabilities": values,
             **probs,
             "features": {key: (None if isinstance(value,float) and (value != value or abs(value)==float("inf")) else value) for key, value in row.items() if key in manifest["candidate_hazard"]["columns"]},
