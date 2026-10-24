@@ -16,6 +16,11 @@ on:
       - "scripts/run_market_v3_shadow.py"
       - "scripts/evaluate_market_v3_prospective.py"
       - "tests/analysis/test_market_v3_shadow.py"
+      - "tests/analysis/test_market_v3_promotion.py"
+      - "scripts/market_v3_public_adapter.py"
+      - "scripts/manage_market_v3_promotion.py"
+      - "scripts/build_a_list_forecast.py"
+      - "v2/planner/aListRecommendationEngine.js"
   push:
     branches: [main]
     paths:
@@ -47,7 +52,9 @@ jobs:
           pip install -r requirements-dev.txt
       - name: Test market model, selector, provenance, and immutable ledger
         run: |
-          python -m pytest -q tests/analysis/test_remaining_run_market_features.py tests/analysis/test_evaluate_remaining_run_market_v3.py tests/analysis/test_market_v3_shadow.py
+          python -m pytest -q tests/analysis/test_remaining_run_market_features.py tests/analysis/test_evaluate_remaining_run_market_v3.py tests/analysis/test_market_v3_shadow.py tests/analysis/test_market_v3_promotion.py tests/test_a_list_public_feeds.py
+      - name: Check experimental A-List recommendation compatibility
+        run: node --test tests/frontend/v2AListRecommendationEngine.test.mjs
       - name: Freeze challenger only when no pinned candidate exists
         run: |
           if [ ! -f data/models/remaining_run_shadow/market_v3_candidate.json ]; then
@@ -57,6 +64,19 @@ jobs:
         run: python -m scripts.run_market_v3_shadow
       - name: Resolve matured forecasts against independently complete AMC evidence
         run: python -m scripts.evaluate_market_v3_prospective
+      - name: Publish redacted Market V3 only when manually activated
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+          pointer = Path("data/models/remaining_run_shadow/market_routing.json")
+          state = json.loads(pointer.read_text()) if pointer.exists() else {}
+          if state.get("active_model") == "remaining_run_market_v3_prospective_1":
+              subprocess.run(["python", "scripts/build_a_list_forecast.py"], check=True)
+          else:
+              print("Shadow only; public A-List forecast unchanged")
+          PY
       - name: Upload diagnostic forecast and promotion gate
         if: always()
         uses: actions/upload-artifact@v4
@@ -76,7 +96,8 @@ jobs:
             data/model_predictions/remaining_run_market_v3/current.json \
             data/history/remaining_run_market_v3_predictions.jsonl.gz \
             data/history/remaining_run_market_v3_outcomes.jsonl.gz \
-            data/audits/remaining_run_market_v3_prospective.json
+            data/audits/remaining_run_market_v3_prospective.json \\
+            public/data/a_list_run_forecast_current.json
           if git diff --cached --quiet; then
             echo "No new forecast or outcome evidence"
             exit 0
