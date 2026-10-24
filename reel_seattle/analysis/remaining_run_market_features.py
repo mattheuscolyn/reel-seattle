@@ -116,3 +116,45 @@ def build_market_snapshot(
             **base, **_segment_flags(segment),
         })
     return out
+
+
+def build_historical_market_rows(
+    screenings: Sequence[Any],
+    theater_observations: Sequence[Mapping[str, Any]],
+    *,
+    dataset_start: date,
+    theater_ids: Sequence[str] | None = None,
+    approved_product_aliases: Mapping[str, str] | None = None,
+) -> list[dict[str, Any]]:
+    """Recreate original cohort selection using direct market-level features.
+
+    The early theater forecast date becomes a common film/week snapshot. It
+    is used only as a study anchor; no theater-derived feature is copied.
+    Absent films are omitted rather than being backfilled with future data.
+    """
+    aliases = approved_product_aliases or {}
+    anchors: dict[tuple[str, str], date] = {}
+    for row in theater_observations:
+        film = aliases.get(str(row["film_id"]), str(row["film_id"]))
+        key = (film, str(row["upcoming_friday"]))
+        observation = date.fromisoformat(row["observation_date"])
+        anchors[key] = min(observation, anchors.get(key, observation))
+    cache: dict[tuple[date, date], dict[str, dict[str, Any]]] = {}
+    output = []
+    for (film, friday_text), snapshot in sorted(anchors.items()):
+        upcoming = date.fromisoformat(friday_text)
+        key = (snapshot, upcoming)
+        if key not in cache:
+            cache[key] = {
+                entry["film_id"]: entry
+                for entry in build_market_snapshot(
+                    screenings, snapshot=snapshot,
+                    upcoming_friday=upcoming, dataset_start=dataset_start,
+                    theater_ids=theater_ids,
+                    approved_product_aliases=aliases,
+                )
+            }
+        row = cache[key].get(film)
+        if row is not None:
+            output.append(row)
+    return output
