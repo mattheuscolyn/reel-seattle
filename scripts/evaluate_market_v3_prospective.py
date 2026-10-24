@@ -105,6 +105,8 @@ def resolve(root: Path, saved: list[dict], model: dict) -> dict:
     clean = [(r, y) for r, y in resolved if r["data_quality_status"] == "complete"]
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
+        "model_version": model["model_version"],
+        "model_sha256": model["model_sha256"],
         "saved_forecasts": len(saved),
         "valid_postfreeze_forecasts": len(valid),
         "newly_verified": appended,
