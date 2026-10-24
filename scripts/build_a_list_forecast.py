@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 from pathlib import Path
 
 SOURCE=Path("data/model_predictions/remaining_run_shadow/current.json")
@@ -42,6 +43,26 @@ def main() -> int:
     parser.add_argument("--source",type=Path,default=SOURCE)
     parser.add_argument("--output",type=Path,default=TARGET)
     args=parser.parse_args()
+    project_root = str(Path(__file__).resolve().parent.parent)
+    if project_root not in sys.path:
+        sys.path.insert(0, project_root)
+    from scripts.market_v3_public_adapter import ROUTING, VERSION, routed_market_v3
+    routing_path = ROUTING
+    state = json.loads(routing_path.read_text(encoding="utf-8")) if routing_path.is_file() else {}
+    if state.get("active_model") == VERSION:
+        try:
+            output = routed_market_v3()
+        except (OSError, ValueError, KeyError) as exc:
+            print(f"Withholding Market V3 public forecast: {exc}; preserving existing feed")
+            return 0
+        if not output:
+            return 0
+        args.output.parent.mkdir(parents=True,exist_ok=True)
+        tmp=args.output.with_suffix(".tmp")
+        tmp.write_text(json.dumps(output,indent=2)+"\n",encoding="utf-8")
+        tmp.replace(args.output)
+        print(f"Published {len(output['market'])} validated Market V3 A-List rows")
+        return 0
     snapshot=json.loads(args.source.read_text(encoding="utf-8"))
     # Only publish a new experimental forecast after the current rolling
     # model has been explicitly validated on comparable, complete cohorts.
