@@ -22,6 +22,7 @@ from scripts.run_market_v3_shadow import LEDGER, _model
 
 OUTCOMES = Path("data/history/remaining_run_market_v3_outcomes.jsonl.gz")
 REPORT = Path("data/audits/remaining_run_market_v3_prospective.json")
+REVIEW = Path("data/models/remaining_run_shadow/market_v3_review.json")
 MIN_STRICT_WEEKS = 8
 MIN_STRICT_FILMS = 80
 MAX_LOG_LOSS = 1.25
@@ -54,6 +55,8 @@ def _prediction_valid(row, model):
 
 
 def resolve(root: Path, saved: list[dict], model: dict) -> dict:
+    review_path = root / REVIEW
+    review = json.loads(review_path.read_text(encoding="utf-8")) if review_path.is_file() else None
     bundle = load_bundle(root)
     statuses = load_snapshot_infos(root / "data/history/screening_snapshot_status.jsonl")
     valid = [r for r in saved if _prediction_valid(r, model)]
@@ -112,7 +115,7 @@ def resolve(root: Path, saved: list[dict], model: dict) -> dict:
         "by_segment": {segment: metrics([(r, y) for r, y in clean if r["segment"] == segment]) for segment in sorted({r["segment"] for r, _ in clean})},
         "thursday": metrics([(r, y) for r, y in clean if r.get("is_thursday_decision")]),
         "recommendation_proxy": allocation_proxy(clean),
-        "promotion": promotion_gate(clean, model),
+        "promotion": promotion_gate(clean, model, review),
         "diagnostics": {
             "quality_degraded_resolved": len(resolved) - len(clean),
             "unresolved_or_censored": len(valid) - len(resolved),
@@ -189,7 +192,15 @@ def allocation_proxy(pairs):
     }
 
 
-def promotion_gate(clean, model):
+def promotion_gate(clean, model, review=None):
+    # Evidence attested in a separate reviewed change; never from the holdout.
+    def certified(key):
+        if not isinstance(review, dict) or review.get("model_sha256") != model.get("model_sha256"):
+            return False
+        item = review.get(key)
+        return (isinstance(item, dict) and item.get("passed") is True
+                and str(item.get("evidence_url", "")).startswith("https://")
+                and bool(review.get("reviewed_by")) and bool(review.get("reviewed_at")))
     scored = metrics(clean)
     proxy = allocation_proxy(clean)
     checks = {
@@ -199,9 +210,9 @@ def promotion_gate(clean, model):
         "four_bucket_log_loss": scored["n"] > 0 and scored["log_loss"] <= MAX_LOG_LOSS,
         "thursday_top_four_capture": proxy["weeks"] >= MIN_STRICT_WEEKS and proxy["precision_at_four"] >= MIN_FINAL_WEEK_PRECISION_AT_FOUR,
         # Remain unpassed until independent human/CI reference review.
-        "independent_label_audit": False,
-        "a_list_eligibility_and_credit_replay": False,
-        "baseline_noninferiority_bootstrap": False,
+        "independent_label_audit": certified("independent_label_audit"),
+        "a_list_eligibility_and_credit_replay": certified("a_list_eligibility_and_credit_replay"),
+        "baseline_noninferiority_bootstrap": certified("baseline_noninferiority_bootstrap"),
     }
     return {
         "eligible": all(checks.values()),
