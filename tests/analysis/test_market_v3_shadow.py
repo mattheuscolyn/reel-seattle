@@ -46,10 +46,10 @@ def test_market_complete_snapshot_is_not_earliest_theater_milestone():
     assert selected["typical_market_friday_volume"] == 1
     assert selected["publication_completeness"] == 2
     assert selected["forecast_state"] == "market_ready"
-    assert selected["thursday_snapshot_available"] is True
+    assert selected["thursday_snapshot_available"] is False  # Decision Thursday is Oct 29; today is Oct 23.
     assert selected["publication_snapshot"] == "2026-10-22"
 
-def test_incomplete_thursday_is_not_treated_as_complete():
+def test_incomplete_latest_day_is_not_treated_as_complete():
     records, statuses, upcoming = context(complete_thursday=False)
     statuses.append(status("2026-10-23", "incomplete"))
     selected = choose(records, statuses, upcoming)
@@ -109,3 +109,12 @@ def test_gate_cannot_promote_from_small_or_unreviewed_cohort():
     assert report["checks"]["independent_label_audit"] is False
     assert report["checks"]["a_list_eligibility_and_credit_replay"] is False
     assert report["checks"]["baseline_noninferiority_bootstrap"] is False
+
+
+def test_thursday_decision_is_only_available_from_complete_october_29_snapshot():
+    records, statuses, upcoming = context()
+    statuses.append(status("2026-10-29"))
+    selected = choose(records, statuses, upcoming, asof="2026-10-29")
+    assert selected["thursday_snapshot_available"] is True
+    assert selected["observation_date"] == "2026-10-29"
+    assert selected["thursday_decision_snapshot"] == "2026-10-29"
