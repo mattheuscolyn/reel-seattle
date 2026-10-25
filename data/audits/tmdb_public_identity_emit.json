@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5674740484429066,
-  "generated_at": "2026-10-24T11:42:45+00:00",
+  "coverage_rate": 0.575,
+  "generated_at": "2026-10-25T10:31:21+00:00",
   "index_size": 205,
   "invalid_identities": 0,
-  "mapping_misses": 125,
-  "non_null_film_id": 164,
+  "mapping_misses": 119,
+  "non_null_film_id": 161,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,12 +14,12 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 125,
+  "null_film_id": 119,
   "per_source": {
     "amc": {
-      "films": 107,
+      "films": 106,
       "null_film_id": 50,
-      "with_film_id": 57
+      "with_film_id": 56
     },
     "anderson_school": {
       "films": 1,
@@ -27,13 +27,13 @@
       "with_film_id": 1
     },
     "beacon": {
-      "films": 33,
-      "null_film_id": 10,
-      "with_film_id": 23
+      "films": 31,
+      "null_film_id": 9,
+      "with_film_id": 22
     },
     "central_cinema": {
-      "films": 19,
-      "null_film_id": 9,
+      "films": 18,
+      "null_film_id": 8,
       "with_film_id": 10
     },
     "grand_illusion": {
@@ -47,13 +47,13 @@
       "with_film_id": 9
     },
     "nwff": {
-      "films": 38,
+      "films": 37,
       "null_film_id": 14,
-      "with_film_id": 24
+      "with_film_id": 23
     },
     "siff": {
-      "films": 87,
-      "null_film_id": 40,
+      "films": 83,
+      "null_film_id": 36,
       "with_film_id": 47
     },
     "tasveer": {
@@ -62,12 +62,21 @@
       "with_film_id": 4
     }
   },
-  "repeated_canonical_across_films": 7,
+  "performance_identity": {
+    "ambiguous": 0,
+    "inherited_from_registry": 7,
+    "matched": 0,
+    "registry_path": "data/performance_identity/performance_identity_current.json",
+    "registry_persisted": false,
+    "registry_upserts": 0,
+    "unmatched_gi": 6
+  },
+  "repeated_canonical_across_films": 6,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
-  "total_public_films": 289,
-  "unique_tmdb_ids": 157,
+  "total_public_films": 280,
+  "unique_tmdb_ids": 155,
   "warning_count": 0,
   "warnings": []
 }
