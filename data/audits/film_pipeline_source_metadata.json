@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-25T03:41:10-07:00",
+  "generated_at": "2026-10-26T05:10:16-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-25_amc.json",
-      "generated_at": "2026-10-25T03:30:37-07:00",
-      "record_count": 6378,
+      "latest_log": "data/daily_logs/2026-10-26_amc.json",
+      "generated_at": "2026-10-26T04:59:51-07:00",
+      "record_count": 6031,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 106,
-      "eligible_feature_count": 91,
+      "source_identity_count": 103,
+      "eligible_feature_count": 88,
       "title": {
-        "with_title": 106,
+        "with_title": 103,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 91,
+        "eligible_features_with_runtime": 88,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 91,
+        "eligible_features_missing_year": 88,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -42,7 +42,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 33,
+        "matcher_cleaned_identity_count": 32,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -123,7 +123,7 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 11,
-        "feature_film": 91,
+        "feature_film": 88,
         "mystery_screening": 3,
         "unknown_program": 1
       },
@@ -311,22 +311,6 @@
           "matcher_title": "Whalefall",
           "program_series": null,
           "runtime_min": 106,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:80621",
-          "source_title": "Ali G: Who Iz I?",
-          "adapter_identity_title": null,
-          "matcher_title": "Ali G: Who Iz I?",
-          "program_series": null,
-          "runtime_min": 89,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -881,22 +865,6 @@
           ]
         },
         {
-          "source_identity_key": "id:84428",
-          "source_title": "Fallen Angels by Noël Coward",
-          "adapter_identity_title": null,
-          "matcher_title": "Fallen Angels",
-          "program_series": null,
-          "runtime_min": 110,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "exact_alias:fallen-angels-noel-coward"
-          ]
-        },
-        {
           "source_identity_key": "id:84430",
           "source_title": "Festive Fun with Peppa Cinema Experience",
           "adapter_identity_title": null,
@@ -917,22 +885,6 @@
           "source_title": "BTS WORLD TOUR 'ARIRANG' IN SAO PAULO: LIVE VIEWING",
           "adapter_identity_title": null,
           "matcher_title": "Bts World Tour 'Arirang' In Sao Paulo: Live Viewing",
-          "program_series": null,
-          "runtime_min": 195,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:84443",
-          "source_title": "BTS WORLD TOUR 'ARIRANG' IN BUENOS AIRES: LIVE VIEWING",
-          "adapter_identity_title": null,
-          "matcher_title": "Bts World Tour 'Arirang' In Buenos Aires: Live Viewing",
           "program_series": null,
           "runtime_min": 195,
           "release_year": null,
@@ -1831,26 +1783,26 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-25_siff.json",
-      "generated_at": "2026-10-25T03:29:54-07:00",
-      "record_count": 184,
+      "latest_log": "data/daily_logs/2026-10-26_siff.json",
+      "generated_at": "2026-10-26T04:59:12-07:00",
+      "record_count": 170,
       "malformed_record_count": 0,
       "warning_count": 13,
       "error_count": 0,
-      "source_identity_count": 83,
-      "eligible_feature_count": 82,
+      "source_identity_count": 79,
+      "eligible_feature_count": 78,
       "title": {
-        "with_title": 83,
+        "with_title": 79,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 82,
+        "eligible_features_with_runtime": 78,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 82,
+        "eligible_features_with_year": 78,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -2021,26 +1973,10 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 82,
+        "feature_film": 78,
         "multi_feature_program": 1
       },
       "identities": [
-        {
-          "source_identity_key": "id:cinema/in-theaters/bernsteins-wall",
-          "source_title": "Bernstein's Wall",
-          "adapter_identity_title": null,
-          "matcher_title": "Bernstein's Wall",
-          "program_series": null,
-          "runtime_min": 100,
-          "release_year": 2021,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
         {
           "source_identity_key": "id:cinema/in-theaters/beware-the-devils-wrath-special-screening-qanda",
           "source_title": "Beware! The Devil’s Wrath - Special Screening + Q&A",
@@ -2384,54 +2320,6 @@
           "matcher_title": "Seattle 48 Hour Horror Film Project",
           "program_series": null,
           "runtime_min": 100,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/seattle-polish-film-festival-2026/gorky-resort",
-          "source_title": "Seattle Polish Film Festival: Gorky Resort",
-          "adapter_identity_title": null,
-          "matcher_title": "Seattle Polish Film Festival: Gorky Resort",
-          "program_series": null,
-          "runtime_min": 113,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/seattle-polish-film-festival-2026/larp",
-          "source_title": "Seattle Polish Film Festival: Larp",
-          "adapter_identity_title": null,
-          "matcher_title": "Seattle Polish Film Festival: Larp",
-          "program_series": null,
-          "runtime_min": 100,
-          "release_year": 2025,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/seattle-polish-film-festival-2026/wild-wild-east",
-          "source_title": "Seattle Polish Film Festival: Wild, Wild East",
-          "adapter_identity_title": null,
-          "matcher_title": "Seattle Polish Film Festival: Wild, Wild East",
-          "program_series": null,
-          "runtime_min": 120,
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -3363,20 +3251,20 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-25_beacon.json",
-      "generated_at": "2026-10-25T03:29:54-07:00",
-      "record_count": 57,
+      "latest_log": "data/daily_logs/2026-10-26_beacon.json",
+      "generated_at": "2026-10-26T04:59:12-07:00",
+      "record_count": 55,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 31,
-      "eligible_feature_count": 28,
+      "source_identity_count": 30,
+      "eligible_feature_count": 27,
       "title": {
-        "with_title": 31,
+        "with_title": 30,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 26,
+        "eligible_features_with_runtime": 25,
         "eligible_features_missing_runtime": 2,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -3385,7 +3273,7 @@
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 26,
+        "eligible_features_with_year": 25,
         "eligible_features_missing_year": 2,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -3428,7 +3316,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 28,
+        "feature_film": 27,
         "multi_feature_program": 1,
         "mystery_screening": 1,
         "shorts_program": 1
@@ -3618,22 +3506,6 @@
           "program_series": null,
           "runtime_min": 92,
           "release_year": 1999,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:landscape-in-the-mist",
-          "source_title": "LANDSCAPE IN THE MIST",
-          "adapter_identity_title": null,
-          "matcher_title": "Landscape In The Mist",
-          "program_series": null,
-          "runtime_min": 126,
-          "release_year": 1988,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3934,9 +3806,9 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-25_nwff.json",
-      "generated_at": "2026-10-25T03:29:02-07:00",
-      "record_count": 114,
+      "latest_log": "data/daily_logs/2026-10-26_nwff.json",
+      "generated_at": "2026-10-26T04:58:20-07:00",
+      "record_count": 109,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4733,9 +4605,9 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-25_central_cinema.json",
-      "generated_at": "2026-10-25T03:29:15-07:00",
-      "record_count": 79,
+      "latest_log": "data/daily_logs/2026-10-26_central_cinema.json",
+      "generated_at": "2026-10-26T04:58:36-07:00",
+      "record_count": 73,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5121,8 +4993,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-25_grand_illusion.json",
-      "generated_at": "2026-10-25T03:29:52-07:00",
+      "latest_log": "data/daily_logs/2026-10-26_grand_illusion.json",
+      "generated_at": "2026-10-26T04:59:10-07:00",
       "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -5291,26 +5163,26 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-25_tasveer.json",
-      "generated_at": "2026-10-25T03:29:52-07:00",
-      "record_count": 29,
+      "latest_log": "data/daily_logs/2026-10-26_tasveer.json",
+      "generated_at": "2026-10-26T04:59:10-07:00",
+      "record_count": 23,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 5,
-      "eligible_feature_count": 5,
+      "source_identity_count": 4,
+      "eligible_feature_count": 4,
       "title": {
-        "with_title": 5,
+        "with_title": 4,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 5,
+        "eligible_features_with_runtime": 4,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_when_present",
-        "eligible_features_with_year": 2,
+        "eligible_features_with_year": 1,
         "eligible_features_missing_year": 3,
         "missing_feature_samples": [
           "Tenzing",
@@ -5319,16 +5191,12 @@
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 2,
+        "adapter_cleaned_identity_count": 1,
         "matcher_cleaned_identity_count": 0,
         "adapter_cleanup_samples": [
           {
             "source_title": "You Can See Everything (2026, USA)",
             "identity_title": "You Can See Everything"
-          },
-          {
-            "source_title": "NAGARKIRTAN (নগরকীর্তন, Bengali, 2017))",
-            "identity_title": "NAGARKIRTAN"
           }
         ],
         "matcher_cleanup_samples": []
@@ -5338,7 +5206,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 5
+        "feature_film": 4
       },
       "identities": [
         {
@@ -5365,22 +5233,6 @@
           "program_series": null,
           "runtime_min": 174,
           "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:155990",
-          "source_title": "NAGARKIRTAN (নগরকীর্তন, Bengali, 2017))",
-          "adapter_identity_title": "NAGARKIRTAN",
-          "matcher_title": "NAGARKIRTAN (নগরকীর্তন, Bengali, 2017))",
-          "program_series": null,
-          "runtime_min": 114,
-          "release_year": 2017,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": true,
@@ -5425,9 +5277,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-25_anderson_school.json",
-      "generated_at": "2026-10-25T03:29:53-07:00",
-      "record_count": 27,
+      "latest_log": "data/daily_logs/2026-10-26_anderson_school.json",
+      "generated_at": "2026-10-26T04:59:12-07:00",
+      "record_count": 24,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5744,27 +5596,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-25_majestic_bay.json",
-      "generated_at": "2026-10-25T03:29:54-07:00",
-      "record_count": 94,
+      "latest_log": "data/daily_logs/2026-10-26_majestic_bay.json",
+      "generated_at": "2026-10-26T04:59:12-07:00",
+      "record_count": 85,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 32,
-      "eligible_feature_count": 32,
+      "source_identity_count": 29,
+      "eligible_feature_count": 29,
       "title": {
-        "with_title": 32,
+        "with_title": 29,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 32,
+        "eligible_features_with_runtime": 29,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 32,
+        "eligible_features_missing_year": 29,
         "missing_feature_samples": [
           "Wildwood",
           "The Ring",
@@ -5789,7 +5641,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 32
+        "feature_film": 29
       },
       "identities": [
         {
@@ -5911,54 +5763,6 @@
           "matcher_title": "You Can See Everything",
           "program_series": null,
           "runtime_min": 174,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36472",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36476",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36477",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
