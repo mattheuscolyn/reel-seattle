@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5661764705882353,
-  "generated_at": "2026-10-27T11:23:15+00:00",
-  "index_size": 192,
+  "coverage_rate": 0.5735294117647058,
+  "generated_at": "2026-10-27T12:50:50+00:00",
+  "index_size": 189,
   "invalid_identities": 0,
-  "mapping_misses": 118,
-  "non_null_film_id": 154,
+  "mapping_misses": 116,
+  "non_null_film_id": 156,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,7 +14,7 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 118,
+  "null_film_id": 116,
   "per_source": {
     "amc": {
       "films": 103,
@@ -38,8 +38,8 @@
     },
     "grand_illusion": {
       "films": 7,
-      "null_film_id": 2,
-      "with_film_id": 5
+      "null_film_id": 1,
+      "with_film_id": 6
     },
     "majestic_bay": {
       "films": 9,
@@ -53,8 +53,8 @@
     },
     "siff": {
       "films": 81,
-      "null_film_id": 35,
-      "with_film_id": 46
+      "null_film_id": 34,
+      "with_film_id": 47
     },
     "tasveer": {
       "films": 3,
@@ -62,21 +62,12 @@
       "with_film_id": 3
     }
   },
-  "performance_identity": {
-    "ambiguous": 0,
-    "inherited_from_registry": 7,
-    "matched": 0,
-    "registry_path": "data/performance_identity/performance_identity_current.json",
-    "registry_persisted": true,
-    "registry_upserts": 1,
-    "unmatched_gi": 7
-  },
   "repeated_canonical_across_films": 6,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
   "total_public_films": 272,
-  "unique_tmdb_ids": 148,
+  "unique_tmdb_ids": 150,
   "warning_count": 0,
   "warnings": []
 }
