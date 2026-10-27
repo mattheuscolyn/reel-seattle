@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-26T05:10:16-07:00",
+  "generated_at": "2026-10-27T04:33:06-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-26_amc.json",
-      "generated_at": "2026-10-26T04:59:51-07:00",
-      "record_count": 6031,
+      "latest_log": "data/daily_logs/2026-10-27_amc.json",
+      "generated_at": "2026-10-27T04:22:29-07:00",
+      "record_count": 6714,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
       "source_identity_count": 103,
-      "eligible_feature_count": 88,
+      "eligible_feature_count": 90,
       "title": {
         "with_title": 103,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 88,
+        "eligible_features_with_runtime": 90,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 88,
+        "eligible_features_missing_year": 90,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -42,7 +42,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 32,
+        "matcher_cleaned_identity_count": 33,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -123,8 +123,8 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 11,
-        "feature_film": 88,
-        "mystery_screening": 3,
+        "feature_film": 90,
+        "mystery_screening": 1,
         "unknown_program": 1
       },
       "identities": [
@@ -327,6 +327,22 @@
           "matcher_title": "The Social Reckoning",
           "program_series": null,
           "runtime_min": 112,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:81938",
+          "source_title": "Ebenezer",
+          "adapter_identity_title": null,
+          "matcher_title": "Ebenezer",
+          "program_series": null,
+          "runtime_min": 120,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1298,6 +1314,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85177",
+          "source_title": "Ebenezer: Sensory Friendly Screening",
+          "adapter_identity_title": null,
+          "matcher_title": "Ebenezer",
+          "program_series": null,
+          "runtime_min": 120,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_segment"
+          ]
+        },
+        {
           "source_identity_key": "id:85179",
           "source_title": "Disney's Hexed: Sensory Friendly Screening",
           "adapter_identity_title": null,
@@ -1459,44 +1491,12 @@
           ]
         },
         {
-          "source_identity_key": "id:85232",
-          "source_title": "AMC Screen Unseen: October 26",
-          "adapter_identity_title": null,
-          "matcher_title": "AMC Screen Unseen: October 26",
-          "program_series": null,
-          "runtime_min": 100,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "mystery_screening",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85233",
           "source_title": "AMC Screen Unseen: November 2",
           "adapter_identity_title": null,
           "matcher_title": "AMC Screen Unseen: November 2",
           "program_series": null,
           "runtime_min": 135,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "mystery_screening",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:85254",
-          "source_title": "AMC Scream Unseen: October 26",
-          "adapter_identity_title": null,
-          "matcher_title": "AMC Scream Unseen: October 26",
-          "program_series": null,
-          "runtime_min": 100,
           "release_year": null,
           "eligibility": "non_film",
           "entity_kind": "mystery_screening",
@@ -1783,32 +1783,32 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-26_siff.json",
-      "generated_at": "2026-10-26T04:59:12-07:00",
-      "record_count": 170,
+      "latest_log": "data/daily_logs/2026-10-27_siff.json",
+      "generated_at": "2026-10-27T04:21:52-07:00",
+      "record_count": 205,
       "malformed_record_count": 0,
       "warning_count": 13,
       "error_count": 0,
-      "source_identity_count": 79,
-      "eligible_feature_count": 78,
+      "source_identity_count": 81,
+      "eligible_feature_count": 79,
       "title": {
-        "with_title": 79,
+        "with_title": 81,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 78,
+        "eligible_features_with_runtime": 79,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 78,
+        "eligible_features_with_year": 79,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 36,
-        "matcher_cleaned_identity_count": 22,
+        "matcher_cleaned_identity_count": 23,
         "adapter_cleanup_samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
@@ -1874,6 +1874,13 @@
             ]
           },
           {
+            "source_title": "The Heart of the Game (20th anniversary)",
+            "matcher_title": "The Heart of the Game",
+            "rules": [
+              "format_or_accessibility_paren"
+            ]
+          },
+          {
             "source_title": "Community Screening: Auntie Mame",
             "matcher_title": "Auntie Mame",
             "rules": [
@@ -1917,18 +1924,11 @@
               "program_series:nouvelles-femmes",
               "format_or_accessibility_paren"
             ]
-          },
-          {
-            "source_title": "SIFF Book Club: Twilight (35mm)",
-            "matcher_title": "SIFF Book Club: Twilight",
-            "rules": [
-              "format_or_accessibility_paren"
-            ]
           }
         ]
       },
       "series": {
-        "identity_count": 43,
+        "identity_count": 44,
         "samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
@@ -1973,8 +1973,9 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 78,
-        "multi_feature_program": 1
+        "feature_film": 79,
+        "multi_feature_program": 1,
+        "shorts_program": 1
       },
       "identities": [
         {
@@ -2471,6 +2472,22 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/the-heart-of-the-game",
+          "source_title": "The Heart of the Game (20th anniversary)",
+          "adapter_identity_title": null,
+          "matcher_title": "The Heart of the Game",
+          "program_series": null,
+          "runtime_min": 97,
+          "release_year": 2005,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "format_or_accessibility_paren"
           ]
         },
         {
@@ -2973,6 +2990,22 @@
           ]
         },
         {
+          "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/short-film-nominee-showcase",
+          "source_title": "PNW Awards: Short Film Nominee Showcase",
+          "adapter_identity_title": null,
+          "matcher_title": "PNW Awards: Short Film Nominee Showcase",
+          "program_series": "Seattle Film Critics Society Pnw Awards",
+          "runtime_min": 86,
+          "release_year": 2026,
+          "eligibility": "non_film",
+          "entity_kind": "shorts_program",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/the-joyless-economy",
           "source_title": "PNW Awards: The Joyless Economy",
           "adapter_identity_title": null,
@@ -3251,9 +3284,9 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-26_beacon.json",
-      "generated_at": "2026-10-26T04:59:12-07:00",
-      "record_count": 55,
+      "latest_log": "data/daily_logs/2026-10-27_beacon.json",
+      "generated_at": "2026-10-27T04:21:52-07:00",
+      "record_count": 53,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -3806,9 +3839,9 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-26_nwff.json",
-      "generated_at": "2026-10-26T04:58:20-07:00",
-      "record_count": 109,
+      "latest_log": "data/daily_logs/2026-10-27_nwff.json",
+      "generated_at": "2026-10-27T04:20:56-07:00",
+      "record_count": 108,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -3825,8 +3858,8 @@
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 27,
-        "eligible_features_missing_year": 8,
+        "eligible_features_with_year": 26,
+        "eligible_features_missing_year": 9,
         "missing_feature_samples": [
           "Engauge 2026 – Beyond Borders",
           "Engauge 2026 – Expanded Cinema Performance and Film",
@@ -3835,12 +3868,13 @@
           "Engauge 2026 – Tactility and Memory",
           "Engauge 2026 – Tainted",
           "Engauge 2026 – We Are All Together",
-          "Seattle Film Society Presents Locals Only: October 2026"
+          "Seattle Film Society Presents Locals Only: October 2026",
+          "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 12,
-        "matcher_cleaned_identity_count": 14,
+        "adapter_cleaned_identity_count": 11,
+        "matcher_cleaned_identity_count": 13,
         "adapter_cleanup_samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Showgirls Annual Screenings",
@@ -3853,10 +3887,6 @@
           {
             "source_title": "SFCS at 10: The Witch",
             "identity_title": "The Witch"
-          },
-          {
-            "source_title": "Staff Selects - The Daytrippers",
-            "identity_title": "The Daytrippers"
           },
           {
             "source_title": "Truth To Fiction: Cameraperson",
@@ -3881,6 +3911,10 @@
           {
             "source_title": "Unstreamable - The Taste of Tea",
             "identity_title": "The Taste of Tea"
+          },
+          {
+            "source_title": "WTF with STUFF - Fresh Kill",
+            "identity_title": "Fresh Kill"
           }
         ],
         "matcher_cleanup_samples": [
@@ -3921,13 +3955,6 @@
             ]
           },
           {
-            "source_title": "Staff Selects - The Daytrippers",
-            "matcher_title": "The Daytrippers",
-            "rules": [
-              "program_series:staff-selects"
-            ]
-          },
-          {
             "source_title": "Truth To Fiction: Cameraperson",
             "matcher_title": "Cameraperson",
             "rules": [
@@ -3954,11 +3981,18 @@
             "rules": [
               "program_series:unstreamable"
             ]
+          },
+          {
+            "source_title": "Unstreamable - Mod Fuck Explosion",
+            "matcher_title": "Mod Fuck Explosion",
+            "rules": [
+              "program_series:unstreamable"
+            ]
           }
         ]
       },
       "series": {
-        "identity_count": 12,
+        "identity_count": 11,
         "samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Showgirls Annual Screenings",
@@ -3971,10 +4005,6 @@
           {
             "source_title": "SFCS at 10: The Witch",
             "program_series": "SFCS at 10"
-          },
-          {
-            "source_title": "Staff Selects - The Daytrippers",
-            "program_series": "Staff Selects"
           },
           {
             "source_title": "Truth To Fiction: Cameraperson",
@@ -3999,6 +4029,10 @@
           {
             "source_title": "Unstreamable - The Taste of Tea",
             "program_series": "Unstreamable"
+          },
+          {
+            "source_title": "WTF with STUFF - Fresh Kill",
+            "program_series": "WTF with STUFF"
           }
         ]
       },
@@ -4330,22 +4364,6 @@
           ]
         },
         {
-          "source_identity_key": "id:staff-selects-the-daytrippers",
-          "source_title": "Staff Selects - The Daytrippers",
-          "adapter_identity_title": "The Daytrippers",
-          "matcher_title": "The Daytrippers",
-          "program_series": "Staff Selects",
-          "runtime_min": 87,
-          "release_year": 1996,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:staff-selects"
-          ]
-        },
-        {
           "source_identity_key": "id:the-day-she-returns",
           "source_title": "The Day She Returns",
           "adapter_identity_title": null,
@@ -4506,6 +4524,22 @@
           ]
         },
         {
+          "source_identity_key": "id:veronica-project-space-presents-four-by-jean-vigo",
+          "source_title": "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo",
+          "adapter_identity_title": null,
+          "matcher_title": "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo",
+          "program_series": null,
+          "runtime_min": 165,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:wtf-with-stuff-fresh-kill",
           "source_title": "WTF with STUFF - Fresh Kill",
           "adapter_identity_title": "Fresh Kill",
@@ -4605,30 +4639,29 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-26_central_cinema.json",
-      "generated_at": "2026-10-26T04:58:36-07:00",
-      "record_count": 73,
+      "latest_log": "data/daily_logs/2026-10-27_central_cinema.json",
+      "generated_at": "2026-10-27T04:21:09-07:00",
+      "record_count": 71,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 18,
-      "eligible_feature_count": 14,
+      "source_identity_count": 17,
+      "eligible_feature_count": 13,
       "title": {
-        "with_title": 18,
+        "with_title": 17,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 14,
+        "eligible_features_with_runtime": 13,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 14,
+        "eligible_features_missing_year": 13,
         "missing_feature_samples": [
           "A Nightmare on Elm Street",
-          "Camp Napalm presents: Basic Instinct",
           "Cinemancy: Train to Busan",
           "Delicatessen",
           "Frankenstein (1931)",
@@ -4636,30 +4669,20 @@
           "Hocus Pocus",
           "My Neighbor Totoro",
           "Night of the Vamp-Friars",
-          "Tampopo"
+          "Tampopo",
+          "The Room"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 2,
-        "matcher_cleaned_identity_count": 4,
+        "adapter_cleaned_identity_count": 1,
+        "matcher_cleaned_identity_count": 3,
         "adapter_cleanup_samples": [
-          {
-            "source_title": "Camp Napalm presents: Basic Instinct",
-            "identity_title": "Basic Instinct"
-          },
           {
             "source_title": "Cinemancy: Train to Busan",
             "identity_title": "Train to Busan"
           }
         ],
         "matcher_cleanup_samples": [
-          {
-            "source_title": "Camp Napalm presents: Basic Instinct",
-            "matcher_title": "Basic Instinct",
-            "rules": [
-              "program_series:camp-napalm-presents"
-            ]
-          },
           {
             "source_title": "Cinemancy: Train to Busan",
             "matcher_title": "Train to Busan",
@@ -4684,12 +4707,8 @@
         ]
       },
       "series": {
-        "identity_count": 2,
+        "identity_count": 1,
         "samples": [
-          {
-            "source_title": "Camp Napalm presents: Basic Instinct",
-            "program_series": "Camp Napalm presents"
-          },
           {
             "source_title": "Cinemancy: Train to Busan",
             "program_series": "Cinemancy"
@@ -4697,7 +4716,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 14,
+        "feature_film": 13,
         "unknown_program": 4
       },
       "identities": [
@@ -4715,22 +4734,6 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:camp-napalm-presents-basic-instinct",
-          "source_title": "Camp Napalm presents: Basic Instinct",
-          "adapter_identity_title": "Basic Instinct",
-          "matcher_title": "Basic Instinct",
-          "program_series": "Camp Napalm presents",
-          "runtime_min": 128,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:camp-napalm-presents"
           ]
         },
         {
@@ -4993,26 +4996,26 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-26_grand_illusion.json",
-      "generated_at": "2026-10-26T04:59:10-07:00",
-      "record_count": 7,
+      "latest_log": "data/daily_logs/2026-10-27_grand_illusion.json",
+      "generated_at": "2026-10-27T04:21:50-07:00",
+      "record_count": 8,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 7,
-      "eligible_feature_count": 5,
+      "source_identity_count": 8,
+      "eligible_feature_count": 6,
       "title": {
-        "with_title": 7,
+        "with_title": 8,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 5,
+        "eligible_features_with_runtime": 6,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 5,
+        "eligible_features_with_year": 6,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -5043,7 +5046,7 @@
       },
       "entity_kind_counts": {
         "double_feature": 1,
-        "feature_film": 5,
+        "feature_film": 6,
         "shorts_program": 1
       },
       "identities": [
@@ -5087,6 +5090,22 @@
           "program_series": null,
           "runtime_min": 78,
           "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:shaolin-soccer",
+          "source_title": "Shaolin Soccer",
+          "adapter_identity_title": null,
+          "matcher_title": "Shaolin Soccer",
+          "program_series": null,
+          "runtime_min": 112,
+          "release_year": 2001,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -5163,29 +5182,28 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-26_tasveer.json",
-      "generated_at": "2026-10-26T04:59:10-07:00",
-      "record_count": 23,
+      "latest_log": "data/daily_logs/2026-10-27_tasveer.json",
+      "generated_at": "2026-10-27T04:21:50-07:00",
+      "record_count": 16,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 4,
-      "eligible_feature_count": 4,
+      "source_identity_count": 3,
+      "eligible_feature_count": 3,
       "title": {
-        "with_title": 4,
+        "with_title": 3,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 4,
+        "eligible_features_with_runtime": 3,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_when_present",
         "eligible_features_with_year": 1,
-        "eligible_features_missing_year": 3,
+        "eligible_features_missing_year": 2,
         "missing_feature_samples": [
-          "Tenzing",
           "Wildwood",
           "Your Mother Your Mother Your Mother"
         ]
@@ -5206,25 +5224,9 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 4
+        "feature_film": 3
       },
       "identities": [
-        {
-          "source_identity_key": "id:154662",
-          "source_title": "Tenzing",
-          "adapter_identity_title": null,
-          "matcher_title": "Tenzing",
-          "program_series": null,
-          "runtime_min": 126,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
         {
           "source_identity_key": "id:155989",
           "source_title": "You Can See Everything (2026, USA)",
@@ -5277,9 +5279,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-26_anderson_school.json",
-      "generated_at": "2026-10-26T04:59:12-07:00",
-      "record_count": 24,
+      "latest_log": "data/daily_logs/2026-10-27_anderson_school.json",
+      "generated_at": "2026-10-27T04:21:52-07:00",
+      "record_count": 22,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5596,27 +5598,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-26_majestic_bay.json",
-      "generated_at": "2026-10-26T04:59:12-07:00",
-      "record_count": 85,
+      "latest_log": "data/daily_logs/2026-10-27_majestic_bay.json",
+      "generated_at": "2026-10-27T04:21:52-07:00",
+      "record_count": 79,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 29,
-      "eligible_feature_count": 29,
+      "source_identity_count": 27,
+      "eligible_feature_count": 27,
       "title": {
-        "with_title": 29,
+        "with_title": 27,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 29,
+        "eligible_features_with_runtime": 27,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 29,
+        "eligible_features_missing_year": 27,
         "missing_feature_samples": [
           "Wildwood",
           "The Ring",
@@ -5641,7 +5643,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 29
+        "feature_film": 27
       },
       "identities": [
         {
@@ -5763,38 +5765,6 @@
           "matcher_title": "You Can See Everything",
           "program_series": null,
           "runtime_min": 174,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36480",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36481",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
