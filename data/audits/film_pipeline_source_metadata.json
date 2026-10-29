@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-28T05:09:47-07:00",
+  "generated_at": "2026-10-29T05:16:23-07:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-28_amc.json",
-      "generated_at": "2026-10-28T04:57:10-07:00",
-      "record_count": 7972,
+      "latest_log": "data/daily_logs/2026-10-29_amc.json",
+      "generated_at": "2026-10-29T05:03:46-07:00",
+      "record_count": 8760,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 110,
-      "eligible_feature_count": 96,
+      "source_identity_count": 112,
+      "eligible_feature_count": 98,
       "title": {
-        "with_title": 110,
+        "with_title": 112,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 96,
+        "eligible_features_with_runtime": 98,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 96,
+        "eligible_features_missing_year": 98,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -34,10 +34,10 @@
           "Disney's Hexed",
           "The Cat in the Hat",
           "Dune: Part Three",
+          "Hunger Games: Sunrise on the Reaping",
           "Street Fighter",
           "Resident Evil",
-          "Verity",
-          "ZERO A.D.: The Birth of Christ"
+          "Verity"
         ]
       },
       "cleanup": {
@@ -123,7 +123,7 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 11,
-        "feature_film": 96,
+        "feature_film": 98,
         "mystery_screening": 2,
         "unknown_program": 1
       },
@@ -225,6 +225,22 @@
           ]
         },
         {
+          "source_identity_key": "id:77249",
+          "source_title": "Hunger Games: Sunrise on the Reaping",
+          "adapter_identity_title": null,
+          "matcher_title": "Hunger Games: Sunrise on the Reaping",
+          "program_series": null,
+          "runtime_min": 158,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:77447",
           "source_title": "Street Fighter",
           "adapter_identity_title": null,
@@ -279,6 +295,22 @@
           "matcher_title": "ZERO A.D.: The Birth of Christ",
           "program_series": null,
           "runtime_min": 115,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:80290",
+          "source_title": "How to Rob a Bank",
+          "adapter_identity_title": null,
+          "matcher_title": "How to Rob a Bank",
+          "program_series": null,
+          "runtime_min": 122,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -977,22 +1009,6 @@
           ]
         },
         {
-          "source_identity_key": "id:84566",
-          "source_title": "418",
-          "adapter_identity_title": null,
-          "matcher_title": "418",
-          "program_series": null,
-          "runtime_min": 157,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:84602",
           "source_title": "George Michael: The Faith Tour",
           "adapter_identity_title": null,
@@ -1202,22 +1218,6 @@
           ]
         },
         {
-          "source_identity_key": "id:84988",
-          "source_title": "Marie Antoinette (20th Anniversary)",
-          "adapter_identity_title": null,
-          "matcher_title": "Marie Antoinette",
-          "program_series": null,
-          "runtime_min": 123,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "format_or_accessibility_paren"
-          ]
-        },
-        {
           "source_identity_key": "id:84991",
           "source_title": "Ramayana",
           "adapter_identity_title": null,
@@ -1394,6 +1394,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85176",
+          "source_title": "Hunger Games: Sunrise on the Reaping: Sensory Friendly Screening",
+          "adapter_identity_title": null,
+          "matcher_title": "Hunger Games: Sunrise on the Reaping",
+          "program_series": null,
+          "runtime_min": 158,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_segment"
+          ]
+        },
+        {
           "source_identity_key": "id:85177",
           "source_title": "Ebenezer: Sensory Friendly Screening",
           "adapter_identity_title": null,
@@ -1506,22 +1522,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85200",
-          "source_title": "ENHYPEN WORLD TOUR 'BLOOD SAGA'",
-          "adapter_identity_title": null,
-          "matcher_title": "Enhypen World Tour 'Blood Saga'",
-          "program_series": null,
-          "runtime_min": 101,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85219",
           "source_title": "Godzilla Minus Zero - Godzilla Day IMAX Early Access",
           "adapter_identity_title": null,
@@ -1587,22 +1587,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85262",
-          "source_title": "Jailer 2",
-          "adapter_identity_title": null,
-          "matcher_title": "Jailer 2",
-          "program_series": null,
-          "runtime_min": 185,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85305",
           "source_title": "The Host (2007) (re)",
           "adapter_identity_title": null,
@@ -1616,22 +1600,6 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:85315",
-          "source_title": "Street Fighter: Sensory Friendly Screening",
-          "adapter_identity_title": null,
-          "matcher_title": "Street Fighter",
-          "program_series": null,
-          "runtime_min": 119,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_segment"
           ]
         },
         {
@@ -1764,6 +1732,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85429",
+          "source_title": "How to Rob a Bank: Early Access Screening",
+          "adapter_identity_title": null,
+          "matcher_title": "How to Rob a Bank: Early Access Screening",
+          "program_series": null,
+          "runtime_min": 122,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:85431",
           "source_title": "RBO - Nutcracker (2026)",
           "adapter_identity_title": null,
@@ -1809,6 +1793,38 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "film_year_paren"
+          ]
+        },
+        {
+          "source_identity_key": "id:85446",
+          "source_title": "Hunger Games: Sunrise on the Reaping Early Access",
+          "adapter_identity_title": null,
+          "matcher_title": "Hunger Games: Sunrise on the Reaping",
+          "program_series": null,
+          "runtime_min": 158,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "event_suffix"
+          ]
+        },
+        {
+          "source_identity_key": "id:85447",
+          "source_title": "American Sniper",
+          "adapter_identity_title": null,
+          "matcher_title": "American Sniper",
+          "program_series": null,
+          "runtime_min": 134,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
           ]
         },
         {
@@ -1860,6 +1876,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85483",
+          "source_title": "#CULT",
+          "adapter_identity_title": null,
+          "matcher_title": "#Cult",
+          "program_series": null,
+          "runtime_min": 150,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:85509",
           "source_title": "Karaoke Murder",
           "adapter_identity_title": null,
@@ -1895,32 +1927,32 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-28_siff.json",
-      "generated_at": "2026-10-28T04:56:31-07:00",
-      "record_count": 216,
+      "latest_log": "data/daily_logs/2026-10-29_siff.json",
+      "generated_at": "2026-10-29T05:03:14-07:00",
+      "record_count": 231,
       "malformed_record_count": 0,
       "warning_count": 13,
       "error_count": 0,
-      "source_identity_count": 82,
-      "eligible_feature_count": 80,
+      "source_identity_count": 79,
+      "eligible_feature_count": 77,
       "title": {
-        "with_title": 82,
+        "with_title": 79,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 80,
+        "eligible_features_with_runtime": 77,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 80,
+        "eligible_features_with_year": 77,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 36,
-        "matcher_cleaned_identity_count": 23,
+        "adapter_cleaned_identity_count": 34,
+        "matcher_cleaned_identity_count": 22,
         "adapter_cleanup_samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
@@ -2030,17 +2062,16 @@
             ]
           },
           {
-            "source_title": "Nouvelles Femmes: Stolen Kisses (35mm)",
-            "matcher_title": "Stolen Kisses",
+            "source_title": "SIFF Book Club: Twilight (35mm)",
+            "matcher_title": "SIFF Book Club: Twilight",
             "rules": [
-              "program_series:nouvelles-femmes",
               "format_or_accessibility_paren"
             ]
           }
         ]
       },
       "series": {
-        "identity_count": 44,
+        "identity_count": 42,
         "samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
@@ -2085,7 +2116,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 80,
+        "feature_film": 77,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2418,22 +2449,6 @@
           "program_series": null,
           "runtime_min": 119,
           "release_year": 2024,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/seattle-48-hour-horror-film-project-2026",
-          "source_title": "Seattle 48 Hour Horror Film Project",
-          "adapter_identity_title": null,
-          "matcher_title": "Seattle 48 Hour Horror Film Project",
-          "program_series": null,
-          "runtime_min": 100,
-          "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3037,39 +3052,6 @@
           ]
         },
         {
-          "source_identity_key": "id:programs-and-events/nouvelles-femmes/stolen-kisses",
-          "source_title": "Nouvelles Femmes: Stolen Kisses (35mm)",
-          "adapter_identity_title": "Stolen Kisses (35mm)",
-          "matcher_title": "Stolen Kisses",
-          "program_series": "Nouvelles Femmes",
-          "runtime_min": 91,
-          "release_year": 1968,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:nouvelles-femmes",
-            "format_or_accessibility_paren"
-          ]
-        },
-        {
-          "source_identity_key": "id:programs-and-events/scarecrowber-2026/invasion-of-the-body-snatchers",
-          "source_title": "Scarecrowber: Invasion of the Body Snatchers",
-          "adapter_identity_title": "Invasion of the Body Snatchers",
-          "matcher_title": "Scarecrowber: Invasion of the Body Snatchers",
-          "program_series": "Scarecrowber",
-          "runtime_min": 115,
-          "release_year": 1978,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/a-simple-machine",
           "source_title": "PNW Awards: A Simple Machine",
           "adapter_identity_title": null,
@@ -3412,20 +3394,20 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-28_beacon.json",
-      "generated_at": "2026-10-28T04:56:31-07:00",
-      "record_count": 52,
+      "latest_log": "data/daily_logs/2026-10-29_beacon.json",
+      "generated_at": "2026-10-29T05:03:14-07:00",
+      "record_count": 64,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 29,
-      "eligible_feature_count": 27,
+      "source_identity_count": 35,
+      "eligible_feature_count": 33,
       "title": {
-        "with_title": 29,
+        "with_title": 35,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 25,
+        "eligible_features_with_runtime": 31,
         "eligible_features_missing_runtime": 2,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -3434,11 +3416,13 @@
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 25,
-        "eligible_features_missing_year": 2,
+        "eligible_features_with_year": 29,
+        "eligible_features_missing_year": 4,
         "missing_feature_samples": [
           "?????? CINEMA",
-          "FIVE MINUTES TO LIVE!"
+          "FIVE MINUTES TO LIVE!",
+          "GHOST STORIES FOR CHRISTMAS",
+          "SURPLUS OPERATIONS AND INSTRUMENTS: EXPERIMENTS IN CINÉMA VÉRITÉ AND PSYCHODRAMA"
         ]
       },
       "cleanup": {
@@ -3467,7 +3451,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 27,
+        "feature_film": 33,
         "mystery_screening": 1,
         "shorts_program": 1
       },
@@ -3633,13 +3617,13 @@
           ]
         },
         {
-          "source_identity_key": "id:i-walked-with-a-zombie",
-          "source_title": "I WALKED WITH A ZOMBIE",
+          "source_identity_key": "id:ghost-stories-for-christmas",
+          "source_title": "GHOST STORIES FOR CHRISTMAS",
           "adapter_identity_title": null,
-          "matcher_title": "I Walked With A Zombie",
+          "matcher_title": "Ghost Stories For Christmas",
           "program_series": null,
-          "runtime_min": 69,
-          "release_year": 1943,
+          "runtime_min": 85,
+          "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3665,6 +3649,22 @@
           ]
         },
         {
+          "source_identity_key": "id:junior-boys-the-gore",
+          "source_title": "JUNIOR BOYS – THE GORE",
+          "adapter_identity_title": null,
+          "matcher_title": "Junior Boys – The Gore",
+          "program_series": null,
+          "runtime_min": 120,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:mad-monster-party",
           "source_title": "MAD MONSTER PARTY?",
           "adapter_identity_title": null,
@@ -3672,6 +3672,22 @@
           "program_series": null,
           "runtime_min": 95,
           "release_year": 1967,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:nationtime",
+          "source_title": "NATIONTIME",
+          "adapter_identity_title": null,
+          "matcher_title": "Nationtime",
+          "program_series": null,
+          "runtime_min": 80,
+          "release_year": 1972,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3713,6 +3729,22 @@
           ]
         },
         {
+          "source_identity_key": "id:once-upon-a-time-in-harlem",
+          "source_title": "ONCE UPON A TIME IN HARLEM",
+          "adapter_identity_title": null,
+          "matcher_title": "Once Upon A Time In Harlem",
+          "program_series": null,
+          "runtime_min": 100,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:perdita-durango",
           "source_title": "PERDITA DURANGO",
           "adapter_identity_title": null,
@@ -3720,6 +3752,22 @@
           "program_series": null,
           "runtime_min": 126,
           "release_year": 1997,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:peregrine-falcon",
+          "source_title": "PEREGRINE FALCON",
+          "adapter_identity_title": null,
+          "matcher_title": "Peregrine Falcon",
+          "program_series": null,
+          "runtime_min": 75,
+          "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3800,6 +3848,38 @@
           "program_series": null,
           "runtime_min": 85,
           "release_year": 1986,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:surplus-operations-and-instruments-experiments-in-cin-ma-v-rit-and-psychodrama",
+          "source_title": "SURPLUS OPERATIONS AND INSTRUMENTS: EXPERIMENTS IN CINÉMA VÉRITÉ AND PSYCHODRAMA",
+          "adapter_identity_title": null,
+          "matcher_title": "Surplus Operations And Instruments: Experiments In Cinéma Vérité And Psychodrama",
+          "program_series": null,
+          "runtime_min": 82,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:symbiopsychotaxiplasm-take-one",
+          "source_title": "SYMBIOPSYCHO-TAXIPLASM: TAKE ONE",
+          "adapter_identity_title": null,
+          "matcher_title": "Symbiopsycho-Taxiplasm: Take One",
+          "program_series": null,
+          "runtime_min": 75,
+          "release_year": 1971,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3940,26 +4020,26 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-28_nwff.json",
-      "generated_at": "2026-10-28T04:55:46-07:00",
-      "record_count": 107,
+      "latest_log": "data/daily_logs/2026-10-29_nwff.json",
+      "generated_at": "2026-10-29T05:02:32-07:00",
+      "record_count": 106,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 37,
-      "eligible_feature_count": 35,
+      "source_identity_count": 36,
+      "eligible_feature_count": 34,
       "title": {
-        "with_title": 37,
+        "with_title": 36,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 35,
+        "eligible_features_with_runtime": 34,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 26,
+        "eligible_features_with_year": 25,
         "eligible_features_missing_year": 9,
         "missing_feature_samples": [
           "Engauge 2026 – Beyond Borders",
@@ -3975,7 +4055,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 11,
-        "matcher_cleaned_identity_count": 14,
+        "matcher_cleaned_identity_count": 13,
         "adapter_cleanup_samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Showgirls Annual Screenings",
@@ -4019,13 +4099,6 @@
           }
         ],
         "matcher_cleanup_samples": [
-          {
-            "source_title": "Begotten (4K Restoration)",
-            "matcher_title": "Begotten",
-            "rules": [
-              "format_or_accessibility_paren"
-            ]
-          },
           {
             "source_title": "Go Fish (4K Restoration)",
             "matcher_title": "Go Fish",
@@ -4089,6 +4162,13 @@
             "rules": [
               "program_series:unstreamable"
             ]
+          },
+          {
+            "source_title": "Unstreamable - Mod Fuck Explosion",
+            "matcher_title": "Mod Fuck Explosion",
+            "rules": [
+              "program_series:unstreamable"
+            ]
           }
         ]
       },
@@ -4138,7 +4218,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 35,
+        "feature_film": 34,
         "mystery_screening": 1,
         "shorts_program": 1
       },
@@ -4157,22 +4237,6 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:begotten-4k-restoration",
-          "source_title": "Begotten (4K Restoration)",
-          "adapter_identity_title": null,
-          "matcher_title": "Begotten",
-          "program_series": null,
-          "runtime_min": 72,
-          "release_year": 1989,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "format_or_accessibility_paren"
           ]
         },
         {
@@ -4740,8 +4804,8 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-28_central_cinema.json",
-      "generated_at": "2026-10-28T04:55:58-07:00",
+      "latest_log": "data/daily_logs/2026-10-29_central_cinema.json",
+      "generated_at": "2026-10-29T05:02:44-07:00",
       "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4778,8 +4842,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-28_grand_illusion.json",
-      "generated_at": "2026-10-28T04:56:29-07:00",
+      "latest_log": "data/daily_logs/2026-10-29_grand_illusion.json",
+      "generated_at": "2026-10-29T05:03:12-07:00",
       "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4940,9 +5004,9 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-28_tasveer.json",
-      "generated_at": "2026-10-28T04:56:30-07:00",
-      "record_count": 39,
+      "latest_log": "data/daily_logs/2026-10-29_tasveer.json",
+      "generated_at": "2026-10-29T05:03:12-07:00",
+      "record_count": 36,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5071,9 +5135,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-28_anderson_school.json",
-      "generated_at": "2026-10-28T04:56:31-07:00",
-      "record_count": 19,
+      "latest_log": "data/daily_logs/2026-10-29_anderson_school.json",
+      "generated_at": "2026-10-29T05:03:13-07:00",
+      "record_count": 17,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5390,36 +5454,36 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-28_majestic_bay.json",
-      "generated_at": "2026-10-28T04:56:31-07:00",
-      "record_count": 73,
+      "latest_log": "data/daily_logs/2026-10-29_majestic_bay.json",
+      "generated_at": "2026-10-29T05:03:14-07:00",
+      "record_count": 67,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 25,
-      "eligible_feature_count": 25,
+      "source_identity_count": 23,
+      "eligible_feature_count": 23,
       "title": {
-        "with_title": 25,
+        "with_title": 23,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 25,
+        "eligible_features_with_runtime": 23,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 25,
+        "eligible_features_missing_year": 23,
         "missing_feature_samples": [
           "Wildwood",
-          "The Ring",
           "Star Trek IV: The Voyage Home",
           "Star Trek III: The Search for Spock",
           "Star Trek II: The Wrath of Khan",
           "Star Trek: The Motion Picture",
           "Godzilla Minus Zero",
           "You Can See Everything",
+          "Wicker",
           "Wicker",
           "Wicker"
         ]
@@ -5435,7 +5499,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 25
+        "feature_film": 23
       },
       "identities": [
         {
@@ -5445,22 +5509,6 @@
           "matcher_title": "Wildwood",
           "program_series": null,
           "runtime_min": 132,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:0000001741",
-          "source_title": "The Ring",
-          "adapter_identity_title": null,
-          "matcher_title": "The Ring",
-          "program_series": null,
-          "runtime_min": 115,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -5557,22 +5605,6 @@
           "matcher_title": "You Can See Everything",
           "program_series": null,
           "runtime_min": 174,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36487",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",

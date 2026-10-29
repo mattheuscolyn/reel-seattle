@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-10-28T05:02:46-07:00",
+  "generated_at": "2026-10-29T05:09:18-07:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-10-26",
@@ -12,14 +12,14 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 50,
+    "entry_count": 51,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-10-26",
     "latest_opening_date": "2026-11-01",
     "opening_type_counts": {
       "repertory": 6,
-      "theatrical": 18,
+      "theatrical": 19,
       "event": 5,
       "limited": 21
     }
@@ -28,7 +28,7 @@
     {
       "showtime_film_key": "necropolis",
       "parent_film_key": "necropolis",
-      "film_id": "tmdb:201604",
+      "film_id": null,
       "film_title": "Necropolis",
       "opening_date": "2026-10-26",
       "theaters_on_opening_date": [
@@ -41,7 +41,7 @@
       "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "necropolis"
         ],
@@ -66,7 +66,7 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 3,
       "historical_screening_count": 5,
       "opening_type": "theatrical",
@@ -98,7 +98,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 8,
+      "visible_showtime_count": 4,
       "engagement_days": 3,
       "historical_screening_count": 6,
       "opening_type": "event",
@@ -161,7 +161,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 70,
+      "visible_showtime_count": 66,
       "engagement_days": 9,
       "historical_screening_count": 36,
       "opening_type": "theatrical",
@@ -218,7 +218,7 @@
     {
       "showtime_film_key": "jennifer-s-body",
       "parent_film_key": "jennifer-s-body",
-      "film_id": "tmdb:19994",
+      "film_id": null,
       "film_title": "Jennifer's Body",
       "opening_date": "2026-10-27",
       "theaters_on_opening_date": [
@@ -231,7 +231,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "jennifer-s-body"
         ],
@@ -280,7 +280,7 @@
     {
       "showtime_film_key": "train-to-busan",
       "parent_film_key": "train-to-busan",
-      "film_id": "tmdb:396535",
+      "film_id": null,
       "film_title": "Train to Busan",
       "opening_date": "2026-10-27",
       "theaters_on_opening_date": [
@@ -293,7 +293,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "train-to-busan"
         ],
@@ -318,7 +318,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -349,7 +349,7 @@
         "siff-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -381,7 +381,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 8,
+      "visible_showtime_count": 4,
       "engagement_days": 2,
       "historical_screening_count": 4,
       "opening_type": "theatrical",
@@ -413,7 +413,7 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -444,7 +444,7 @@
         "majestic-bay"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -580,9 +580,9 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 28,
+      "visible_showtime_count": 38,
       "engagement_days": 8,
-      "historical_screening_count": 14,
+      "historical_screening_count": 19,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -614,9 +614,9 @@
         "amc-pacific-place-11"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 128,
+      "visible_showtime_count": 130,
       "engagement_days": 7,
-      "historical_screening_count": 64,
+      "historical_screening_count": 65,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -736,7 +736,7 @@
     {
       "showtime_film_key": "paging-hezbollah",
       "parent_film_key": "paging-hezbollah",
-      "film_id": null,
+      "film_id": "tmdb:1756268",
       "film_title": "Paging Hezbollah",
       "opening_date": "2026-10-29",
       "theaters_on_opening_date": [
@@ -750,7 +750,7 @@
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "paging-hezbollah"
         ],
@@ -833,7 +833,7 @@
     {
       "showtime_film_key": "mongoose",
       "parent_film_key": "mongoose",
-      "film_id": null,
+      "film_id": "tmdb:1294189",
       "film_title": "The Mongoose",
       "opening_date": "2026-10-29",
       "theaters_on_opening_date": [
@@ -846,7 +846,7 @@
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "mongoose"
         ],
@@ -972,6 +972,37 @@
         "sources": [
           "amc",
           "tasveer"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "cult",
+      "parent_film_key": "cult",
+      "film_id": null,
+      "film_title": "#Cult",
+      "opening_date": "2026-10-30",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 12,
+      "engagement_days": 6,
+      "historical_screening_count": 6,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "cult"
+        ],
+        "distinct_scheduled_dates": 6,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
         ]
       },
       "override": null
@@ -1251,9 +1282,9 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 324,
+      "visible_showtime_count": 328,
       "engagement_days": 15,
-      "historical_screening_count": 163,
+      "historical_screening_count": 165,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
