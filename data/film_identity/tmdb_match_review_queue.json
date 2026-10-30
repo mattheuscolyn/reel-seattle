@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T13:48:37+00:00",
+  "generated_at": "2026-10-30T13:41:43+00:00",
   "items": [
     {
       "auto_confirm_blocked_reason": "below_auto_threshold",
@@ -8071,6 +8071,187 @@
         "year_confidence": "product",
         "year_evidence": "derived_or_explicit",
         "year_mismatch_relaxed": true
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
+          "director": "Ingmar Bergman",
+          "original_title": "Fanny och Alexander",
+          "overview_excerpt": "As children in the loving Ekdahl family, Fanny and Alexander enjoy a happy life with their parents, who run a theater company. After their father dies unexpectedly, however, the siblings end up in a joyless home when th…",
+          "popularity": 5.1831,
+          "poster_path": "/q8jlA3Wc1Z987hNKRFA44g5OugC.jpg",
+          "release_year": 1982,
+          "runtime_min": 188,
+          "score": 0.7917,
+          "search_query": "Fanny And Alexander",
+          "search_query_reason": "normalized_title_year",
+          "search_year_used": 1983,
+          "signals": {
+            "available_weight": 0.72,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "near",
+                "matched": true,
+                "weight": 0.12
+              }
+            },
+            "director_candidate_normalized": [
+              "ingmar bergman"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.57,
+            "original_title_exact": false,
+            "popularity": 5.1831,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 124,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Fanny And Alexander",
+            "search_query_reason": "normalized_title_year",
+            "search_year_used": 1983,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": false,
+            "year_near": true,
+            "year_status": "near"
+          },
+          "title": "Fanny and Alexander",
+          "tmdb_id": 5961,
+          "warnings": [
+            "year_proximity",
+            "runtime_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:beacon:fanny-and-alexander",
+      "match_confidence": 0.7917,
+      "match_status": "review_required",
+      "normalized_title": "Fanny And Alexander",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 5961,
+      "queue_id": "beacon:fanny-and-alexander",
+      "runtime_min": 312,
+      "showtime_film_key": "fanny-and-alexander",
+      "signals": {
+        "available_weight": 0.72,
+        "contributions": {
+          "runtime": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "near",
+            "matched": true,
+            "weight": 0.12
+          }
+        },
+        "director_candidate_normalized": [
+          "ingmar bergman"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.57,
+        "original_title_exact": false,
+        "popularity": 5.1831,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": true,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 124,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "conflict",
+        "search_query": "Fanny And Alexander",
+        "search_query_reason": "normalized_title_year",
+        "search_year_used": 1983,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": false,
+        "year_near": true,
+        "year_status": "near"
+      },
+      "source": "beacon",
+      "source_film_id": "fanny-and-alexander",
+      "source_title": "FANNY AND ALEXANDER",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_proximity",
+        "runtime_conflict"
+      ],
+      "year_hint": 1983,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Fanny And Alexander",
+        "canonical_year_candidate": 1983,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 1983,
+        "search_abbreviation": null,
+        "search_year": 1983,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "explicit",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
       }
     },
     {
