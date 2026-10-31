@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5464285714285714,
-  "generated_at": "2026-10-31T11:32:18+00:00",
-  "index_size": 182,
+  "coverage_rate": 0.55,
+  "generated_at": "2026-10-31T13:11:13+00:00",
+  "index_size": 181,
   "invalid_identities": 0,
-  "mapping_misses": 127,
-  "non_null_film_id": 153,
+  "mapping_misses": 126,
+  "non_null_film_id": 154,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,7 +14,7 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 127,
+  "null_film_id": 126,
   "per_source": {
     "amc": {
       "films": 110,
@@ -38,8 +38,8 @@
     },
     "grand_illusion": {
       "films": 7,
-      "null_film_id": 2,
-      "with_film_id": 5
+      "null_film_id": 1,
+      "with_film_id": 6
     },
     "majestic_bay": {
       "films": 8,
@@ -62,21 +62,12 @@
       "with_film_id": 3
     }
   },
-  "performance_identity": {
-    "ambiguous": 0,
-    "inherited_from_registry": 6,
-    "matched": 0,
-    "registry_path": "data/performance_identity/performance_identity_current.json",
-    "registry_persisted": true,
-    "registry_upserts": 1,
-    "unmatched_gi": 7
-  },
   "repeated_canonical_across_films": 6,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
   "total_public_films": 280,
-  "unique_tmdb_ids": 146,
+  "unique_tmdb_ids": 147,
   "warning_count": 0,
   "warnings": []
 }
