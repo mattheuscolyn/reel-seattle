@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-31T04:44:12-07:00",
+  "generated_at": "2026-11-01T04:37:35-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-31_amc.json",
-      "generated_at": "2026-10-31T04:31:32-07:00",
-      "record_count": 8176,
+      "latest_log": "data/daily_logs/2026-11-01_amc.json",
+      "generated_at": "2026-11-01T04:26:43-08:00",
+      "record_count": 7833,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 110,
-      "eligible_feature_count": 95,
+      "source_identity_count": 106,
+      "eligible_feature_count": 92,
       "title": {
-        "with_title": 110,
+        "with_title": 106,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 95,
+        "eligible_features_with_runtime": 92,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 95,
+        "eligible_features_missing_year": 92,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -42,7 +42,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 36,
+        "matcher_cleaned_identity_count": 35,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -124,9 +124,8 @@
       "entity_kind_counts": {
         "broadcast_event": 11,
         "double_feature": 1,
-        "feature_film": 95,
-        "mystery_screening": 2,
-        "unknown_program": 1
+        "feature_film": 92,
+        "mystery_screening": 2
       },
       "identities": [
         {
@@ -930,22 +929,6 @@
           ]
         },
         {
-          "source_identity_key": "id:84437",
-          "source_title": "BTS WORLD TOUR 'ARIRANG' IN SAO PAULO: LIVE VIEWING",
-          "adapter_identity_title": null,
-          "matcher_title": "Bts World Tour 'Arirang' In Sao Paulo: Live Viewing",
-          "program_series": null,
-          "runtime_min": 195,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:84493",
           "source_title": "Club Kid",
           "adapter_identity_title": null,
@@ -1088,22 +1071,6 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:84831",
-          "source_title": "The Crow - Welcome to Horrorwood Series",
-          "adapter_identity_title": null,
-          "matcher_title": "The Crow",
-          "program_series": null,
-          "runtime_min": 107,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_segment"
           ]
         },
         {
@@ -1390,38 +1357,6 @@
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
           "matcher_cleanup": true,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:85198",
-          "source_title": "SEVENTEEN WORLD TOUR 'NEW_'",
-          "adapter_identity_title": null,
-          "matcher_title": "Seventeen World Tour 'New_'",
-          "program_series": null,
-          "runtime_min": 102,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:85199",
-          "source_title": "HYBE CHEERING PARTY",
-          "adapter_identity_title": null,
-          "matcher_title": "Hybe Cheering Party",
-          "program_series": null,
-          "runtime_min": 60,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "unknown_program",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
           ]
@@ -1896,31 +1831,31 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-31_siff.json",
-      "generated_at": "2026-10-31T04:30:55-07:00",
-      "record_count": 215,
+      "latest_log": "data/daily_logs/2026-11-01_siff.json",
+      "generated_at": "2026-11-01T04:26:02-08:00",
+      "record_count": 213,
       "malformed_record_count": 0,
       "warning_count": 13,
       "error_count": 0,
-      "source_identity_count": 74,
-      "eligible_feature_count": 72,
+      "source_identity_count": 73,
+      "eligible_feature_count": 71,
       "title": {
-        "with_title": 74,
+        "with_title": 73,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 72,
+        "eligible_features_with_runtime": 71,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 72,
+        "eligible_features_with_year": 71,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 33,
+        "adapter_cleaned_identity_count": 32,
         "matcher_cleaned_identity_count": 21,
         "adapter_cleanup_samples": [
           {
@@ -1934,10 +1869,6 @@
           {
             "source_title": "The Films of Andrzej Wajda: The Promised Land",
             "identity_title": "The Promised Land"
-          },
-          {
-            "source_title": "The Films of Andrzej Wajda: The Wedding",
-            "identity_title": "The Wedding"
           },
           {
             "source_title": "Cinema Italian Style 2026: A Year of School",
@@ -1962,6 +1893,10 @@
           {
             "source_title": "Cinema Italian Style 2026: God Forgives Everyone",
             "identity_title": "God Forgives Everyone"
+          },
+          {
+            "source_title": "Cinema Italian Style 2026: Journey to Italy",
+            "identity_title": "Journey to Italy"
           }
         ],
         "matcher_cleanup_samples": [
@@ -2040,7 +1975,7 @@
         ]
       },
       "series": {
-        "identity_count": 41,
+        "identity_count": 40,
         "samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
@@ -2052,10 +1987,6 @@
           },
           {
             "source_title": "The Films of Andrzej Wajda: The Promised Land",
-            "program_series": "The Films of Andrzej Wajda"
-          },
-          {
-            "source_title": "The Films of Andrzej Wajda: The Wedding",
             "program_series": "The Films of Andrzej Wajda"
           },
           {
@@ -2081,11 +2012,15 @@
           {
             "source_title": "Cinema Italian Style 2026: God Forgives Everyone",
             "program_series": "Cinema Italian Style 2026"
+          },
+          {
+            "source_title": "Cinema Italian Style 2026: Journey to Italy",
+            "program_series": "Cinema Italian Style 2026"
           }
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 72,
+        "feature_film": 71,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2658,22 +2593,6 @@
           "program_series": "The Films of Andrzej Wajda",
           "runtime_min": 169,
           "release_year": 1974,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:programs-and-events/andrzej-wajda/the-wedding",
-          "source_title": "The Films of Andrzej Wajda: The Wedding",
-          "adapter_identity_title": "The Wedding",
-          "matcher_title": "The Films of Andrzej Wajda: The Wedding",
-          "program_series": "The Films of Andrzej Wajda",
-          "runtime_min": 103,
-          "release_year": 1972,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": true,
@@ -3283,20 +3202,20 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-31_beacon.json",
-      "generated_at": "2026-10-31T04:30:55-07:00",
-      "record_count": 75,
+      "latest_log": "data/daily_logs/2026-11-01_beacon.json",
+      "generated_at": "2026-11-01T04:26:02-08:00",
+      "record_count": 73,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 40,
-      "eligible_feature_count": 38,
+      "source_identity_count": 38,
+      "eligible_feature_count": 37,
       "title": {
-        "with_title": 40,
+        "with_title": 38,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 36,
+        "eligible_features_with_runtime": 35,
         "eligible_features_missing_runtime": 2,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -3305,7 +3224,7 @@
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 34,
+        "eligible_features_with_year": 33,
         "eligible_features_missing_year": 4,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -3340,8 +3259,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 38,
-        "mystery_screening": 1,
+        "feature_film": 37,
         "shorts_program": 1
       },
       "identities": [
@@ -3554,22 +3472,6 @@
           ]
         },
         {
-          "source_identity_key": "id:five-minutes-to-die",
-          "source_title": "FIVE MINUTES TO DIE!",
-          "adapter_identity_title": null,
-          "matcher_title": "Five Minutes To Die!",
-          "program_series": null,
-          "runtime_min": null,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "mystery_screening",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:five-minutes-to-live",
           "source_title": "FIVE MINUTES TO LIVE!",
           "adapter_identity_title": null,
@@ -3625,22 +3527,6 @@
           "program_series": null,
           "runtime_min": 120,
           "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:mad-monster-party",
-          "source_title": "MAD MONSTER PARTY?",
-          "adapter_identity_title": null,
-          "matcher_title": "Mad Monster Party?",
-          "program_series": null,
-          "runtime_min": 95,
-          "release_year": 1967,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3989,8 +3875,8 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-31_nwff.json",
-      "generated_at": "2026-10-31T04:30:10-07:00",
+      "latest_log": "data/daily_logs/2026-11-01_nwff.json",
+      "generated_at": "2026-11-01T04:25:13-08:00",
       "record_count": 110,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4804,8 +4690,8 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-31_central_cinema.json",
-      "generated_at": "2026-10-31T04:30:21-07:00",
+      "latest_log": "data/daily_logs/2026-11-01_central_cinema.json",
+      "generated_at": "2026-11-01T04:25:23-08:00",
       "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4842,8 +4728,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-31_grand_illusion.json",
-      "generated_at": "2026-10-31T04:30:53-07:00",
+      "latest_log": "data/daily_logs/2026-11-01_grand_illusion.json",
+      "generated_at": "2026-11-01T04:26:00-08:00",
       "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -5004,39 +4890,52 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-31_tasveer.json",
-      "generated_at": "2026-10-31T04:30:53-07:00",
-      "record_count": 28,
+      "latest_log": "data/daily_logs/2026-11-01_tasveer.json",
+      "generated_at": "2026-11-01T04:26:00-08:00",
+      "record_count": 48,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 3,
-      "eligible_feature_count": 3,
+      "source_identity_count": 5,
+      "eligible_feature_count": 5,
       "title": {
-        "with_title": 3,
+        "with_title": 5,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 3,
+        "eligible_features_with_runtime": 5,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_when_present",
-        "eligible_features_with_year": 1,
-        "eligible_features_missing_year": 2,
-        "missing_feature_samples": [
-          "The Only Living Pickpocket in New York",
-          "Wicker"
-        ]
+        "eligible_features_with_year": 5,
+        "eligible_features_missing_year": 0,
+        "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 1,
+        "adapter_cleaned_identity_count": 5,
         "matcher_cleaned_identity_count": 0,
         "adapter_cleanup_samples": [
           {
-            "source_title": "You Can See Everything (2026, USA)",
-            "identity_title": "You Can See Everything"
+            "source_title": "The Only Living Pickpocket in New York (2026, US, English)",
+            "identity_title": "The Only Living Pickpocket in New York"
+          },
+          {
+            "source_title": "La Bola Negra (2026, Spain, Spanish)",
+            "identity_title": "La Bola Negra"
+          },
+          {
+            "source_title": "Wicker (2026, UK, English)",
+            "identity_title": "Wicker"
+          },
+          {
+            "source_title": "Fjord (2026, Romania, English/Norwegian)",
+            "identity_title": "Fjord"
+          },
+          {
+            "source_title": "Lakadbaggha 2 (2026, India, Hindi)",
+            "identity_title": "Lakadbaggha 2"
           }
         ],
         "matcher_cleanup_samples": []
@@ -5046,16 +4945,16 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 3
+        "feature_film": 5
       },
       "identities": [
         {
-          "source_identity_key": "id:155989",
-          "source_title": "You Can See Everything (2026, USA)",
-          "adapter_identity_title": "You Can See Everything",
-          "matcher_title": "You Can See Everything (2026, USA)",
+          "source_identity_key": "id:161333",
+          "source_title": "The Only Living Pickpocket in New York (2026, US, English)",
+          "adapter_identity_title": "The Only Living Pickpocket in New York",
+          "matcher_title": "The Only Living Pickpocket in New York (2026, US, English)",
           "program_series": null,
-          "runtime_min": 174,
+          "runtime_min": 88,
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -5066,16 +4965,16 @@
           ]
         },
         {
-          "source_identity_key": "id:161333",
-          "source_title": "The Only Living Pickpocket in New York",
-          "adapter_identity_title": null,
-          "matcher_title": "The Only Living Pickpocket in New York",
+          "source_identity_key": "id:161445",
+          "source_title": "La Bola Negra (2026, Spain, Spanish)",
+          "adapter_identity_title": "La Bola Negra",
+          "matcher_title": "La Bola Negra (2026, Spain, Spanish)",
           "program_series": null,
-          "runtime_min": 88,
-          "release_year": null,
+          "runtime_min": 155,
+          "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
-          "adapter_cleanup": false,
+          "adapter_cleanup": true,
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
@@ -5083,15 +4982,47 @@
         },
         {
           "source_identity_key": "id:162587",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
+          "source_title": "Wicker (2026, UK, English)",
+          "adapter_identity_title": "Wicker",
+          "matcher_title": "Wicker (2026, UK, English)",
           "program_series": null,
           "runtime_min": 105,
-          "release_year": null,
+          "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
-          "adapter_cleanup": false,
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:163545",
+          "source_title": "Fjord (2026, Romania, English/Norwegian)",
+          "adapter_identity_title": "Fjord",
+          "matcher_title": "Fjord (2026, Romania, English/Norwegian)",
+          "program_series": null,
+          "runtime_min": 146,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:163550",
+          "source_title": "Lakadbaggha 2 (2026, India, Hindi)",
+          "adapter_identity_title": "Lakadbaggha 2",
+          "matcher_title": "Lakadbaggha 2 (2026, India, Hindi)",
+          "program_series": null,
+          "runtime_min": 115,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
@@ -5101,9 +5032,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-31_anderson_school.json",
-      "generated_at": "2026-10-31T04:30:55-07:00",
-      "record_count": 13,
+      "latest_log": "data/daily_logs/2026-11-01_anderson_school.json",
+      "generated_at": "2026-11-01T04:26:01-08:00",
+      "record_count": 10,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5420,27 +5351,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-10-31_majestic_bay.json",
-      "generated_at": "2026-10-31T04:30:55-07:00",
-      "record_count": 55,
+      "latest_log": "data/daily_logs/2026-11-01_majestic_bay.json",
+      "generated_at": "2026-11-01T04:26:02-08:00",
+      "record_count": 46,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 19,
-      "eligible_feature_count": 19,
+      "source_identity_count": 16,
+      "eligible_feature_count": 16,
       "title": {
-        "with_title": 19,
+        "with_title": 16,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 19,
+        "eligible_features_with_runtime": 16,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 19,
+        "eligible_features_missing_year": 16,
         "missing_feature_samples": [
           "Wildwood",
           "Star Trek IV: The Voyage Home",
@@ -5465,7 +5396,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 19
+        "feature_film": 16
       },
       "identities": [
         {
@@ -5571,54 +5502,6 @@
           "matcher_title": "You Can See Everything",
           "program_series": null,
           "runtime_min": 174,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36576",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36577",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36578",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -5784,7 +5667,6 @@
     "sources_with_feature_year_gaps_requiring_review": [
       "beacon",
       "nwff",
-      "tasveer",
       "stg"
     ],
     "sources_where_listing_does_not_expose_release_year": [
