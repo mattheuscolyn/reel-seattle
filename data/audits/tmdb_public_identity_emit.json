@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.550561797752809,
-  "generated_at": "2026-11-02T16:40:43+00:00",
+  "coverage_rate": 0.5454545454545454,
+  "generated_at": "2026-11-03T13:24:06+00:00",
   "index_size": 168,
   "invalid_identities": 0,
   "mapping_misses": 120,
-  "non_null_film_id": 147,
+  "non_null_film_id": 144,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -18,8 +18,8 @@
   "per_source": {
     "amc": {
       "films": 105,
-      "null_film_id": 52,
-      "with_film_id": 53
+      "null_film_id": 53,
+      "with_film_id": 52
     },
     "anderson_school": {
       "films": 1,
@@ -27,9 +27,9 @@
       "with_film_id": 1
     },
     "beacon": {
-      "films": 37,
+      "films": 36,
       "null_film_id": 14,
-      "with_film_id": 23
+      "with_film_id": 22
     },
     "central_cinema": {
       "films": 14,
@@ -47,27 +47,36 @@
       "with_film_id": 8
     },
     "nwff": {
-      "films": 37,
-      "null_film_id": 15,
+      "films": 36,
+      "null_film_id": 14,
       "with_film_id": 22
     },
     "siff": {
-      "films": 72,
+      "films": 71,
       "null_film_id": 30,
-      "with_film_id": 42
+      "with_film_id": 41
     },
     "tasveer": {
-      "films": 4,
+      "films": 5,
       "null_film_id": 1,
-      "with_film_id": 3
+      "with_film_id": 4
     }
+  },
+  "performance_identity": {
+    "ambiguous": 0,
+    "inherited_from_registry": 5,
+    "matched": 0,
+    "registry_path": "data/performance_identity/performance_identity_current.json",
+    "registry_persisted": false,
+    "registry_upserts": 0,
+    "unmatched_gi": 5
   },
   "repeated_canonical_across_films": 6,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
-  "total_public_films": 267,
-  "unique_tmdb_ids": 140,
+  "total_public_films": 264,
+  "unique_tmdb_ids": 137,
   "warning_count": 0,
   "warnings": []
 }

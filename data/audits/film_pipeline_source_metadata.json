@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-02T06:34:05-08:00",
+  "generated_at": "2026-11-03T05:34:47-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-02_amc.json",
-      "generated_at": "2026-11-02T06:22:25-08:00",
-      "record_count": 7637,
+      "latest_log": "data/daily_logs/2026-11-03_amc.json",
+      "generated_at": "2026-11-03T05:23:20-08:00",
+      "record_count": 7854,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
       "source_identity_count": 105,
-      "eligible_feature_count": 91,
+      "eligible_feature_count": 92,
       "title": {
         "with_title": 105,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 91,
+        "eligible_features_with_runtime": 92,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 91,
+        "eligible_features_missing_year": 92,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -42,7 +42,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 34,
+        "matcher_cleaned_identity_count": 33,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -124,8 +124,8 @@
       "entity_kind_counts": {
         "broadcast_event": 11,
         "double_feature": 1,
-        "feature_film": 91,
-        "mystery_screening": 2
+        "feature_film": 92,
+        "mystery_screening": 1
       },
       "identities": [
         {
@@ -423,6 +423,22 @@
           "matcher_title": "Heart of the Beast",
           "program_series": null,
           "runtime_min": 101,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:82739",
+          "source_title": "I Play Rocky",
+          "adapter_identity_title": null,
+          "matcher_title": "I Play Rocky",
+          "program_series": null,
+          "runtime_min": 128,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1411,22 +1427,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85233",
-          "source_title": "AMC Screen Unseen: November 2",
-          "adapter_identity_title": null,
-          "matcher_title": "AMC Screen Unseen: November 2",
-          "program_series": null,
-          "runtime_min": 135,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "mystery_screening",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85305",
           "source_title": "The Host (2007) (re)",
           "adapter_identity_title": null,
@@ -1492,22 +1492,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85372",
-          "source_title": "Once Upon a Time… in Hollywood",
-          "adapter_identity_title": null,
-          "matcher_title": "Once Upon a Time... in Hollywood",
-          "program_series": null,
-          "runtime_min": 162,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85376",
           "source_title": "ZERO A.D.: The Birth of Christ Early Access Event",
           "adapter_identity_title": null,
@@ -1530,6 +1514,22 @@
           "matcher_title": "The Last Temptation of Becky",
           "program_series": null,
           "runtime_min": 89,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:85413",
+          "source_title": "Scene",
+          "adapter_identity_title": null,
+          "matcher_title": "Scene",
+          "program_series": null,
+          "runtime_min": 150,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1815,26 +1815,26 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-02_siff.json",
-      "generated_at": "2026-11-02T06:21:56-08:00",
-      "record_count": 199,
+      "latest_log": "data/daily_logs/2026-11-03_siff.json",
+      "generated_at": "2026-11-03T05:22:50-08:00",
+      "record_count": 191,
       "malformed_record_count": 0,
       "warning_count": 13,
       "error_count": 0,
-      "source_identity_count": 72,
-      "eligible_feature_count": 70,
+      "source_identity_count": 71,
+      "eligible_feature_count": 69,
       "title": {
-        "with_title": 72,
+        "with_title": 71,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 70,
+        "eligible_features_with_runtime": 69,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 70,
+        "eligible_features_with_year": 69,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -2004,7 +2004,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 70,
+        "feature_film": 69,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2135,22 +2135,6 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "exact_alias:ken-russells-the-devils"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/kwaidan",
-          "source_title": "Kwaidan",
-          "adapter_identity_title": null,
-          "matcher_title": "Kwaidan",
-          "program_series": null,
-          "runtime_min": 183,
-          "release_year": 1965,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
           ]
         },
         {
@@ -3170,20 +3154,20 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-02_beacon.json",
-      "generated_at": "2026-11-02T06:21:56-08:00",
-      "record_count": 71,
+      "latest_log": "data/daily_logs/2026-11-03_beacon.json",
+      "generated_at": "2026-11-03T05:22:50-08:00",
+      "record_count": 69,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 37,
-      "eligible_feature_count": 37,
+      "source_identity_count": 36,
+      "eligible_feature_count": 36,
       "title": {
-        "with_title": 37,
+        "with_title": 36,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 35,
+        "eligible_features_with_runtime": 34,
         "eligible_features_missing_runtime": 2,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -3192,7 +3176,7 @@
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 33,
+        "eligible_features_with_year": 32,
         "eligible_features_missing_year": 4,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -3227,7 +3211,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 37
+        "feature_film": 36
       },
       "identities": [
         {
@@ -3727,22 +3711,6 @@
           ]
         },
         {
-          "source_identity_key": "id:the-leopard-man",
-          "source_title": "THE LEOPARD MAN",
-          "adapter_identity_title": null,
-          "matcher_title": "The Leopard Man",
-          "program_series": null,
-          "runtime_min": 66,
-          "release_year": 1943,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:the-living-end",
           "source_title": "THE LIVING END",
           "adapter_identity_title": null,
@@ -3826,26 +3794,26 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-02_nwff.json",
-      "generated_at": "2026-11-02T06:21:10-08:00",
-      "record_count": 106,
+      "latest_log": "data/daily_logs/2026-11-03_nwff.json",
+      "generated_at": "2026-11-03T05:21:54-08:00",
+      "record_count": 104,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 37,
-      "eligible_feature_count": 35,
+      "source_identity_count": 36,
+      "eligible_feature_count": 34,
       "title": {
-        "with_title": 37,
+        "with_title": 36,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 35,
+        "eligible_features_with_runtime": 34,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 27,
+        "eligible_features_with_year": 26,
         "eligible_features_missing_year": 8,
         "missing_feature_samples": [
           "Engauge 2026 – Beyond Borders",
@@ -4023,7 +3991,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 35,
+        "feature_film": 34,
         "mystery_screening": 1,
         "shorts_program": 1
       },
@@ -4267,22 +4235,6 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "format_or_accessibility_paren"
-          ]
-        },
-        {
-          "source_identity_key": "id:palestine-cinema-days-2026-foragers",
-          "source_title": "Palestine Cinema Days 2026: Foragers",
-          "adapter_identity_title": null,
-          "matcher_title": "Palestine Cinema Days 2026: Foragers",
-          "program_series": null,
-          "runtime_min": 65,
-          "release_year": 2022,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
           ]
         },
         {
@@ -4625,8 +4577,8 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-02_central_cinema.json",
-      "generated_at": "2026-11-02T06:21:22-08:00",
+      "latest_log": "data/daily_logs/2026-11-03_central_cinema.json",
+      "generated_at": "2026-11-03T05:22:12-08:00",
       "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4663,8 +4615,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-02_grand_illusion.json",
-      "generated_at": "2026-11-02T06:21:54-08:00",
+      "latest_log": "data/daily_logs/2026-11-03_grand_illusion.json",
+      "generated_at": "2026-11-03T05:22:48-08:00",
       "record_count": 5,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4785,31 +4737,31 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-02_tasveer.json",
-      "generated_at": "2026-11-02T06:21:54-08:00",
-      "record_count": 37,
+      "latest_log": "data/daily_logs/2026-11-03_tasveer.json",
+      "generated_at": "2026-11-03T05:22:48-08:00",
+      "record_count": 41,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 4,
-      "eligible_feature_count": 4,
+      "source_identity_count": 5,
+      "eligible_feature_count": 5,
       "title": {
-        "with_title": 4,
+        "with_title": 5,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 4,
+        "eligible_features_with_runtime": 5,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_when_present",
-        "eligible_features_with_year": 4,
+        "eligible_features_with_year": 5,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 4,
+        "adapter_cleaned_identity_count": 5,
         "matcher_cleaned_identity_count": 0,
         "adapter_cleanup_samples": [
           {
@@ -4825,6 +4777,10 @@
             "identity_title": "Wicker"
           },
           {
+            "source_title": "Fjord (2026, Romania, English/Norwegian)",
+            "identity_title": "Fjord"
+          },
+          {
             "source_title": "Lakadbaggha 2 (2026, India, Hindi)",
             "identity_title": "Lakadbaggha 2"
           }
@@ -4836,7 +4792,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 4
+        "feature_film": 5
       },
       "identities": [
         {
@@ -4888,6 +4844,22 @@
           ]
         },
         {
+          "source_identity_key": "id:163545",
+          "source_title": "Fjord (2026, Romania, English/Norwegian)",
+          "adapter_identity_title": "Fjord",
+          "matcher_title": "Fjord (2026, Romania, English/Norwegian)",
+          "program_series": null,
+          "runtime_min": 146,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:163550",
           "source_title": "Lakadbaggha 2 (2026, India, Hindi)",
           "adapter_identity_title": "Lakadbaggha 2",
@@ -4907,9 +4879,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-02_anderson_school.json",
-      "generated_at": "2026-11-02T06:21:55-08:00",
-      "record_count": 7,
+      "latest_log": "data/daily_logs/2026-11-03_anderson_school.json",
+      "generated_at": "2026-11-03T05:22:49-08:00",
+      "record_count": 5,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5226,27 +5198,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-02_majestic_bay.json",
-      "generated_at": "2026-11-02T06:21:56-08:00",
-      "record_count": 37,
+      "latest_log": "data/daily_logs/2026-11-03_majestic_bay.json",
+      "generated_at": "2026-11-03T05:22:50-08:00",
+      "record_count": 63,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 13,
-      "eligible_feature_count": 13,
+      "source_identity_count": 18,
+      "eligible_feature_count": 18,
       "title": {
-        "with_title": 13,
+        "with_title": 18,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 13,
+        "eligible_features_with_runtime": 18,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 13,
+        "eligible_features_missing_year": 18,
         "missing_feature_samples": [
           "Wildwood",
           "Star Trek IV: The Voyage Home",
@@ -5271,7 +5243,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 13
+        "feature_film": 18
       },
       "identities": [
         {
@@ -5387,23 +5359,7 @@
           ]
         },
         {
-          "source_identity_key": "id:36591",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36594",
+          "source_identity_key": "id:36567",
           "source_title": "Wicker",
           "adapter_identity_title": null,
           "matcher_title": "Wicker",
@@ -5468,6 +5424,102 @@
         },
         {
           "source_identity_key": "id:36605",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36626",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36654",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36659",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36663",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36674",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36675",
           "source_title": "Wicker",
           "adapter_identity_title": null,
           "matcher_title": "Wicker",
