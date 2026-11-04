@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-03T05:34:48-08:00",
+  "generated_at": "2026-11-04T05:44:49-08:00",
   "source": "amc",
   "fetch": {
     "endpoint": "/movies/views/coming-soon",
@@ -8,7 +8,7 @@
     "status": "success",
     "page_size": 100,
     "pages_fetched": 4,
-    "reported_total": 335,
+    "reported_total": 343,
     "exhausted": true,
     "next_link_observed": true,
     "duplicate_ids_skipped": 0,
@@ -16,15 +16,15 @@
     "errors": []
   },
   "stats": {
-    "movies": 335,
-    "with_release_date": 335,
+    "movies": 343,
+    "with_release_date": 343,
     "without_release_date": 0,
-    "earliest_release_date": "2026-11-03",
+    "earliest_release_date": "2026-11-04",
     "latest_release_date": "2027-04-30",
-    "with_scheduled_showtimes": 124,
-    "without_scheduled_showtimes": 211,
+    "with_scheduled_showtimes": 134,
+    "without_scheduled_showtimes": 209,
     "scheduled_showtimes_unknown": 0,
-    "special_presentations": 97
+    "special_presentations": 106
   },
   "movies": [
     {
@@ -255,7 +255,7 @@
       "source_release_id": "358485",
       "runtime_min": 114,
       "release_date_utc": "2026-11-06T06:00:00Z",
-      "earliest_showing_utc": "2026-11-05T14:00:00Z",
+      "earliest_showing_utc": "2026-11-05T12:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ANIMATION",
@@ -280,6 +280,7 @@
         "DOLBYCINEMAATAMCPRIME",
         "GDX",
         "GXL",
+        "MOMMYME",
         "OPENCAPTION",
         "PRIME3D",
         "PRIVATE",
@@ -844,6 +845,7 @@
       "attribute_codes": [
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
+        "OPENCAPTION",
         "PRIVATE",
         "REALD3D",
         "XL"
@@ -1430,7 +1432,16 @@
       "slug": "star-wars-a-new-hope-50th-anniversary-81078",
       "website_url": "https://www.amctheatres.com/movies/star-wars-a-new-hope-50th-anniversary-81078",
       "showtimes_url": "https://www.amctheatres.com/movies/star-wars-a-new-hope-50th-anniversary-81078/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "AMCPRIME",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
+        "IMAX",
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -1803,7 +1814,7 @@
         "XL"
       ],
       "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1783350124/amc-cdn/content/general/spuyyos6lxjgftqomv5w.jpg",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793726956/amc-cdn/content/general/db4oeu0yqlt8jtmvyi3y.jpg",
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1784113448/amc-cdn/production/2/movies/82600/82570/MovieStills/379219R9.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1784113448/amc-cdn/production/2/movies/82600/82570/MovieStills/379219R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6400786712112.mp4",
@@ -3305,7 +3316,9 @@
       "slug": "slayground-84173",
       "website_url": "https://www.amctheatres.com/movies/slayground-84173",
       "showtimes_url": "https://www.amctheatres.com/movies/slayground-84173/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -4298,6 +4311,7 @@
       "website_url": "https://www.amctheatres.com/movies/ene-repeat-84334",
       "showtimes_url": "https://www.amctheatres.com/movies/ene-repeat-84334/showtimes",
       "attribute_codes": [
+        "AMCPRIME",
         "INTFILMS",
         "XL"
       ],
@@ -4602,7 +4616,7 @@
       "source_release_id": "420072",
       "runtime_min": 104,
       "release_date_utc": "2026-11-05T06:00:00Z",
-      "earliest_showing_utc": "2026-11-05T14:00:00Z",
+      "earliest_showing_utc": "2026-11-05T12:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-05T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -4882,11 +4896,11 @@
       "source_release_id": "392089",
       "runtime_min": 196,
       "release_date_utc": "2026-11-25T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-12-03T14:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-25T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "DRAMA",
-      "mpaa_rating": null,
+      "mpaa_rating": "NR",
       "starring_actors_raw": "TAO OKAMOTO, Virginie Efira",
       "directors_raw": "RYUSUKE HAMAGUCHI",
       "synopsis": "Two scholars exchange letters about chance and risk. As the philosopher falls ill, their academic correspondence evolves into intimate discussions about mortality and a deeper connection forms between them.",
@@ -4898,6 +4912,7 @@
       "website_url": "https://www.amctheatres.com/movies/all-of-a-sudden-84512",
       "showtimes_url": "https://www.amctheatres.com/movies/all-of-a-sudden-84512/showtimes",
       "attribute_codes": [
+        "INTFILMS",
         "PRIVATE",
         "XL"
       ],
@@ -5488,6 +5503,7 @@
       "website_url": "https://www.amctheatres.com/movies/donga-naa-koduku-84697",
       "showtimes_url": "https://www.amctheatres.com/movies/donga-naa-koduku-84697/showtimes",
       "attribute_codes": [
+        "AMCPRIME",
         "INTFILMS",
         "XL"
       ],
@@ -5534,43 +5550,6 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1789579598/amc-cdn/content/general/xahggwnuwnhccmd2rbm6.jpg",
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789579789/amc-cdn/content/general/bvn7h1vc0fdfb01p1wnx.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789579789/amc-cdn/content/general/bvn7h1vc0fdfb01p1wnx.jpg",
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "84718",
-      "source_title": "King",
-      "sortable_title": "King",
-      "source_release_id": null,
-      "runtime_min": 165,
-      "release_date_utc": "2026-12-24T06:00:00Z",
-      "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-12-24T06:00:00Z",
-      "has_scheduled_showtimes": false,
-      "genre": "ACTION",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "Shah Rukh Khan",
-      "directors_raw": "SIDDHARTH ANAND",
-      "synopsis": "Mentor and disciple embark on a perilous journey, pushing their survival skills to the limit against overwhelming odds and unforgiving environments.",
-      "distributor_id": null,
-      "distributor_code": null,
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "king-84718",
-      "website_url": "https://www.amctheatres.com/movies/king-84718",
-      "showtimes_url": "https://www.amctheatres.com/movies/king-84718/showtimes",
-      "attribute_codes": [],
-      "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -5631,7 +5610,7 @@
       "source_release_id": "425430",
       "runtime_min": 110,
       "release_date_utc": "2026-11-04T06:00:00Z",
-      "earliest_showing_utc": "2026-11-04T16:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-04T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ROCK/POP CONCERT",
@@ -6349,7 +6328,7 @@
       "source_release_id": "373739",
       "runtime_min": 114,
       "release_date_utc": "2026-11-20T06:00:00Z",
-      "earliest_showing_utc": "2026-12-03T17:00:00Z",
+      "earliest_showing_utc": "2026-11-19T17:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -6391,7 +6370,7 @@
       "source_release_id": "358485",
       "runtime_min": 114,
       "release_date_utc": "2026-11-06T06:00:00Z",
-      "earliest_showing_utc": "2026-11-06T14:00:00Z",
+      "earliest_showing_utc": "2026-11-06T12:20:00Z",
       "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -6748,8 +6727,8 @@
       "starring_actors_raw": "CARO BRAUN, Sandra Huller",
       "directors_raw": "Markus Schleinzer",
       "synopsis": "In the turmoil of the Thirty-Years' War, a mysterious soldier appears in a secluded Protestant village claiming to be heir to a long-abandoned manor. His quest for recognition and acceptance are complicated by his secret: under a false identity, false name, and pretense of a false gender, he has made his way to the village. But to achieve her goals, Rose, as the soldier is actually called, will stop at nothing.",
-      "distributor_id": null,
-      "distributor_code": null,
+      "distributor_id": "3454",
+      "distributor_code": "MUB",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
       "slug": "rose-84997",
@@ -6757,9 +6736,9 @@
       "showtimes_url": "https://www.amctheatres.com/movies/rose-84997/showtimes",
       "attribute_codes": [],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793720159/amc-cdn/content/general/hrulpgmilh50kanapmdt.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793720203/amc-cdn/content/general/iaa6sdfms3ss2jsvw1p9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793720203/amc-cdn/content/general/iaa6sdfms3ss2jsvw1p9.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -6777,7 +6756,7 @@
       "source_release_id": "423098",
       "runtime_min": 132,
       "release_date_utc": "2026-11-07T06:00:00Z",
-      "earliest_showing_utc": "2026-11-07T11:00:00Z",
+      "earliest_showing_utc": "2026-11-07T10:05:00Z",
       "online_ticket_availability_date_utc": "2026-11-07T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -7024,7 +7003,7 @@
       "source_release_id": "42160",
       "runtime_min": 100,
       "release_date_utc": "2026-12-04T06:00:00Z",
-      "earliest_showing_utc": "2026-12-05T16:00:00Z",
+      "earliest_showing_utc": "2026-12-05T15:45:00Z",
       "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -7465,7 +7444,7 @@
         "EVENT"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793723766/amc-cdn/content/general/jwwccganln2nzfu9xno9.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -7598,7 +7577,7 @@
       "source_release_id": "379219",
       "runtime_min": 135,
       "release_date_utc": "2026-11-11T06:00:00Z",
-      "earliest_showing_utc": "2026-11-11T14:00:00Z",
+      "earliest_showing_utc": "2026-11-11T11:15:00Z",
       "online_ticket_availability_date_utc": "2026-11-11T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -7731,7 +7710,7 @@
       "mpaa_rating": "PG13",
       "starring_actors_raw": null,
       "directors_raw": null,
-      "synopsis": "This November, Johnny Depp is Ebenezer Scrooge. The name you know, the story you don?t. From Ti West, EBENEZER also stars Rupert Grint, Andrea Riseborough, Sam Claflin, Daisy Ridley, Arthur Conti, Ellie Bamber, Henry Lloyd-Hughes, Charlie Murphy, with Tramell Tillman and Ian McKellen.",
+      "synopsis": "This November, prepare to be ghosted. Johnny Depp is the deliciously unpleasant Ebenezer Scrooge in a thrilling reimagining of the most iconic ghost story of all time. On one unforgettable Christmas Eve, Ebenezer collides with his past, present, and future on a supernatural journey that will decide his ultimate fate. If you think you know his story, think again. Directed by Ti West and with a screenplay by Nathaniel Halpern, Ebenezer also stars Rupert Grint, Andrea Riseborough, Sam Claflin, Daisy Ridley, Arthur Conti, Ellie Bamber, Henry Lloyd-Hughes, Charlie Murphy, with Tramell Tillman and Ian McKellen.",
       "distributor_id": "2337",
       "distributor_code": "PAR",
       "preferred_media_type": "Theatrical",
@@ -7918,52 +7897,15 @@
     },
     {
       "source": "amc",
-      "source_film_id": "85209",
-      "source_title": "67 Bombs To Enid",
-      "sortable_title": "67 Bombs To Enid",
-      "source_release_id": null,
-      "runtime_min": 88,
-      "release_date_utc": "2026-11-04T06:00:00Z",
-      "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-11-04T06:00:00Z",
-      "has_scheduled_showtimes": false,
-      "genre": "DOCUMENTARY",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": null,
-      "directors_raw": "KEVIN FORD, TY MCMAHAN",
-      "synopsis": "From executive producer Errol Morris, 67 Bombs to Enid is an intimate, character-driven documentary about survivors of nuclear weapons testing in the Marshall Islands who relocated to rural America, and the generational effects of that testing on the communities it touched.",
-      "distributor_id": null,
-      "distributor_code": null,
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "67-bombs-to-enid-85209",
-      "website_url": "https://www.amctheatres.com/movies/67-bombs-to-enid-85209",
-      "showtimes_url": "https://www.amctheatres.com/movies/67-bombs-to-enid-85209/showtimes",
-      "attribute_codes": [],
-      "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "85213",
       "source_title": "Search Party: Where's PawPaw?",
       "sortable_title": "Search Party: Where's PawPaw?",
       "source_release_id": "424563",
       "runtime_min": 102,
       "release_date_utc": "2026-11-13T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-11-13T16:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-13T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "ADVENTURE",
       "mpaa_rating": "NR",
       "starring_actors_raw": "TICHINA ARNOLD, TOMMY DAVIDSON, VICTORIA MONAI RICHARDS",
@@ -7998,7 +7940,7 @@
       "source_release_id": "414290",
       "runtime_min": 101,
       "release_date_utc": "2026-11-06T06:00:00Z",
-      "earliest_showing_utc": "2026-11-05T22:00:00Z",
+      "earliest_showing_utc": "2026-11-05T18:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "SUSPENSE",
@@ -8023,46 +7965,6 @@
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791025603/amc-cdn/production/2/movies/85200/85215/MovieStills/414290R6.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85219",
-      "source_title": "Godzilla Minus Zero - Godzilla Day IMAX Early Access",
-      "sortable_title": "Godzilla Minus Zero - Godzilla Day IMAX Early Access",
-      "source_release_id": "379219",
-      "runtime_min": 135,
-      "release_date_utc": "2026-11-03T06:00:00Z",
-      "earliest_showing_utc": "1900-01-01T00:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-03T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "R",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "War reduced Japan to zero, and Godzilla plunged it into minus. Two years have passed since then, and the country has faced agonizing struggles to achieve recovery and finally reclaim its daily life.\n\nJust as humanity managed to cling to a hard-won peace, a new threat strikes, crushing hope in an instant.\n \nThere is no third time. Everything ends here.",
-      "distributor_id": "2388",
-      "distributor_code": "GKI",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "godzilla-minus-zero-godzilla-day-imax-early-access-85219",
-      "website_url": "https://www.amctheatres.com/movies/godzilla-minus-zero-godzilla-day-imax-early-access-85219",
-      "showtimes_url": "https://www.amctheatres.com/movies/godzilla-minus-zero-godzilla-day-imax-early-access-85219/showtimes",
-      "attribute_codes": [
-        "AMCARTISANFILMS",
-        "IMAX"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791948266/amc-cdn/content/general/layxmyj22gojzgwtlzs7.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791902433/amc-cdn/content/general/xkkmgjquy9zlr9dk3ert.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791902433/amc-cdn/content/general/xkkmgjquy9zlr9dk3ert.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405872335112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405872335112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -8222,7 +8124,8 @@
       "website_url": "https://www.amctheatres.com/movies/dada-85251",
       "showtimes_url": "https://www.amctheatres.com/movies/dada-85251/showtimes",
       "attribute_codes": [
-        "INTFILMS"
+        "INTFILMS",
+        "XL"
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793386898/amc-cdn/content/general/ppxtqvhy54ep0rx8yeew.jpg",
@@ -9093,11 +8996,11 @@
         "AMCARTISANFILMS"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793726628/amc-cdn/content/general/w7fwhvmovd6edkukhghj.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793727088/amc-cdn/content/general/af3zreog6qdw5tpp1k2z.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793727088/amc-cdn/content/general/af3zreog6qdw5tpp1k2z.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407858236112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407858236112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -9330,7 +9233,9 @@
       "slug": "bunker-85387",
       "website_url": "https://www.amctheatres.com/movies/bunker-85387",
       "showtimes_url": "https://www.amctheatres.com/movies/bunker-85387/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -9533,49 +9438,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "85402",
-      "source_title": "The Last Temptation of Becky",
-      "sortable_title": "Last Temptation of Becky, The",
-      "source_release_id": "412681",
-      "runtime_min": 89,
-      "release_date_utc": "2026-11-04T06:00:00Z",
-      "earliest_showing_utc": "2026-11-04T12:20:00Z",
-      "online_ticket_availability_date_utc": "2026-11-04T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "ACTION",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "KATE SIEGEL, Lulu Wilson, Neil Patrick Harris",
-      "directors_raw": "JENN WEXLER",
-      "synopsis": "Now a CIA field agent, Becky goes undercover in Poland to infiltrate a family running an inn at The Wolf's Lair, one of Hitler's WWII bunkers. When she learns the father, Wilhelm Reuss, plans to spark the Fourth Reich, Becky must stop him.",
-      "distributor_id": "2229",
-      "distributor_code": "VAR",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "the-last-temptation-of-becky-85402",
-      "website_url": "https://www.amctheatres.com/movies/the-last-temptation-of-becky-85402",
-      "showtimes_url": "https://www.amctheatres.com/movies/the-last-temptation-of-becky-85402/showtimes",
-      "attribute_codes": [
-        "ALTERNATIVECONTENT",
-        "CLOSEDCAPTION",
-        "EVENT",
-        "PRIVATE",
-        "TREATASR"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792494679/amc-cdn/production/2/movies/85400/85402/Poster/412681R1.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1792667303/amc-cdn/production/2/movies/85400/85402/MovieStills/412681R7.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1792667303/amc-cdn/production/2/movies/85400/85402/MovieStills/412681R7.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407227114112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407227114112.mp4"
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "85403",
       "source_title": "Mookuthi Amman 2- Maha Sakthi",
       "sortable_title": "Mookuthi Amman 2- Maha Sakthi",
@@ -9660,14 +9522,14 @@
       "source_release_id": "425609",
       "runtime_min": 150,
       "release_date_utc": "2026-11-06T06:00:00Z",
-      "earliest_showing_utc": "2026-11-05T17:00:00Z",
+      "earliest_showing_utc": "2026-11-05T15:15:00Z",
       "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ACTION",
       "mpaa_rating": "NR",
       "starring_actors_raw": "LAL, NAZRIYA NAZIM, SURIYA",
       "directors_raw": "JITHU MADHAVAN",
-      "synopsis": "Follows an eccentric police officer and his quirky team whose lives take an unexpected turn after they are assigned a new mission.",
+      "synopsis": "The story is set in the high-stakes, unpredictable criminal underbelly and revolves around DSP Inbaraj, an eccentric, rule-breaking, and borderline 'psycho' police officer. Holding a notorious track record of over 900 criminal arrests, Inbaraj is famous for bypassing standard law enforcement protocols to handle suspects in chaotic, deeply unconventional, and darkly humorous ways",
       "distributor_id": "2481",
       "distributor_code": "PTI",
       "preferred_media_type": "Theatrical",
@@ -9804,7 +9666,9 @@
       "slug": "in-a-violent-nature-part-2-85433",
       "website_url": "https://www.amctheatres.com/movies/in-a-violent-nature-part-2-85433",
       "showtimes_url": "https://www.amctheatres.com/movies/in-a-violent-nature-part-2-85433/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -10071,7 +9935,7 @@
       "source_release_id": "189728",
       "runtime_min": 134,
       "release_date_utc": "2026-11-11T06:00:00Z",
-      "earliest_showing_utc": "2026-11-11T12:45:00Z",
+      "earliest_showing_utc": "2026-11-11T13:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-11T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -10400,7 +10264,7 @@
       "source_release_id": "407981",
       "runtime_min": 116,
       "release_date_utc": "2026-11-13T06:00:00Z",
-      "earliest_showing_utc": "2026-11-13T20:00:00Z",
+      "earliest_showing_utc": "2026-11-13T14:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-13T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -10470,43 +10334,6 @@
       "presentation": {
         "category": "q_and_a",
         "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85478",
-      "source_title": "Trauma or, Monsters All",
-      "sortable_title": "Trauma or, Monsters All",
-      "source_release_id": null,
-      "runtime_min": 119,
-      "release_date_utc": "2026-11-04T06:00:00Z",
-      "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-11-04T06:00:00Z",
-      "has_scheduled_showtimes": false,
-      "genre": null,
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "Addison Timlin, AITANA DOYLE, LAETITIA HOLLARD",
-      "directors_raw": "Larry Fessenden",
-      "synopsis": "TRAUMA OR, MONSTERS ALL is the story of Cassandra who comes to the small Upstate town of Talbot Falls to write a book on George Washington Carver while working a day job at the library with her new local friend, Agnes. Their lives change when Cassandra writes an article for the local paper exposing the dark history of the town: are there monsters among them? Speculation bubbles into conflict as a werewolf, a vampire and a Frankenstein creation emerge into the light and reveal deep suppressed trauma in the inhabitants of the town. Fessenden blends social commentary with archetypes of horror into a reflection of our times through a gothic lens.",
-      "distributor_id": null,
-      "distributor_code": null,
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "trauma-or-monsters-all-85478",
-      "website_url": "https://www.amctheatres.com/movies/trauma-or-monsters-all-85478",
-      "showtimes_url": "https://www.amctheatres.com/movies/trauma-or-monsters-all-85478/showtimes",
-      "attribute_codes": [],
-      "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
         "classifier_version": "1.0.0"
       }
     },
@@ -10982,7 +10809,9 @@
       "slug": "the-prestige-20th-anniversary-85502",
       "website_url": "https://www.amctheatres.com/movies/the-prestige-20th-anniversary-85502",
       "showtimes_url": "https://www.amctheatres.com/movies/the-prestige-20th-anniversary-85502/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -11191,8 +11020,8 @@
     {
       "source": "amc",
       "source_film_id": "85513",
-      "source_title": "Club Kid with Q&A",
-      "sortable_title": "Club Kid with Q&A",
+      "source_title": "Club Kid Special Q&A with Saturn Risin9",
+      "sortable_title": "Club Kid Special Q&A with Saturn Risin9",
       "source_release_id": "407678",
       "runtime_min": 152,
       "release_date_utc": "2026-11-06T06:00:00Z",
@@ -11203,7 +11032,7 @@
       "mpaa_rating": "R",
       "starring_actors_raw": null,
       "directors_raw": null,
-      "synopsis": "Club Kid with Q&A.",
+      "synopsis": "Club Kid Special Q&A with Saturn Risin9",
       "distributor_id": "2289",
       "distributor_code": "A24",
       "preferred_media_type": "Theatrical",
@@ -11240,7 +11069,7 @@
       "source_release_id": "407678",
       "runtime_min": 122,
       "release_date_utc": "2026-11-06T06:00:00Z",
-      "earliest_showing_utc": "2026-11-06T23:15:00Z",
+      "earliest_showing_utc": "2026-11-07T14:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -11883,7 +11712,7 @@
       "source_release_id": "415960",
       "runtime_min": 129,
       "release_date_utc": "2026-11-07T06:00:00Z",
-      "earliest_showing_utc": "2026-11-07T16:00:00Z",
+      "earliest_showing_utc": "2026-11-07T15:45:00Z",
       "online_ticket_availability_date_utc": "2026-11-07T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -11924,7 +11753,7 @@
       "source_release_id": "427176",
       "runtime_min": 155,
       "release_date_utc": "2026-11-06T06:00:00Z",
-      "earliest_showing_utc": "2026-11-06T10:30:00Z",
+      "earliest_showing_utc": "2026-11-06T10:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ACTION",
@@ -12169,7 +11998,8 @@
       "website_url": "https://www.amctheatres.com/movies/bouma-85553",
       "showtimes_url": "https://www.amctheatres.com/movies/bouma-85553/showtimes",
       "attribute_codes": [
-        "INTFILMS"
+        "INTFILMS",
+        "XL"
       ],
       "media": {
         "poster_url": null,
@@ -12249,7 +12079,8 @@
       "website_url": "https://www.amctheatres.com/movies/john-doe-85555",
       "showtimes_url": "https://www.amctheatres.com/movies/john-doe-85555/showtimes",
       "attribute_codes": [
-        "INTFILMS"
+        "INTFILMS",
+        "XL"
       ],
       "media": {
         "poster_url": null,
@@ -12368,7 +12199,8 @@
       "attribute_codes": [
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
-        "IMAX"
+        "IMAX",
+        "PRIVATE"
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793380125/amc-cdn/content/general/bf0qh4h9jf9zjrcbqsu8.png",
@@ -12409,7 +12241,8 @@
       "attribute_codes": [
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
-        "IMAX"
+        "IMAX",
+        "PRIVATE"
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793380295/amc-cdn/content/general/ymgdyf6paxwpmmjtgprq.png",
@@ -12553,7 +12386,7 @@
       "source_release_id": "427597",
       "runtime_min": 101,
       "release_date_utc": "2026-11-13T06:00:00Z",
-      "earliest_showing_utc": "2026-11-13T16:25:00Z",
+      "earliest_showing_utc": "2026-11-13T15:30:00Z",
       "online_ticket_availability_date_utc": "2026-11-13T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "Family",
@@ -12932,7 +12765,9 @@
       "slug": "maserati-the-brothers-85594",
       "website_url": "https://www.amctheatres.com/movies/maserati-the-brothers-85594",
       "showtimes_url": "https://www.amctheatres.com/movies/maserati-the-brothers-85594/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -13049,7 +12884,9 @@
       "website_url": "https://www.amctheatres.com/movies/dark-chocolate-85599",
       "showtimes_url": "https://www.amctheatres.com/movies/dark-chocolate-85599/showtimes",
       "attribute_codes": [
-        "INTFILMS"
+        "AMCPRIME",
+        "INTFILMS",
+        "XL"
       ],
       "media": {
         "poster_url": null,
@@ -13106,10 +12943,10 @@
       "source_film_id": "85602",
       "source_title": "PAPER TIGER Early Access Q&A with Filmmaker James Gray",
       "sortable_title": "PAPER TIGER Early Access Q&A with Filmmaker James Gray",
-      "source_release_id": null,
+      "source_release_id": "379340",
       "runtime_min": 144,
       "release_date_utc": "2026-11-11T06:00:00Z",
-      "earliest_showing_utc": "2026-11-11T18:45:00Z",
+      "earliest_showing_utc": "2026-11-09T18:30:00Z",
       "online_ticket_availability_date_utc": "2026-11-11T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -13127,7 +12964,8 @@
       "attribute_codes": [
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
-        "INPERSNQA"
+        "INPERSNQA",
+        "XL"
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793399834/amc-cdn/content/general/akdhk9xrtiwexxrljmew.avif",
@@ -13431,11 +13269,11 @@
         "INPERSNQA"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793727287/amc-cdn/content/general/ha61qxlllvpsegpqe9ko.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793727690/amc-cdn/content/general/d1nf0pmji2gvhwjduuma.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793727690/amc-cdn/content/general/d1nf0pmji2gvhwjduuma.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407858714112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407858714112.mp4"
       },
       "presentation": {
         "category": "q_and_a",
@@ -13451,9 +13289,9 @@
       "source_release_id": null,
       "runtime_min": 132,
       "release_date_utc": "2026-11-23T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-11-23T18:30:00Z",
       "online_ticket_availability_date_utc": "2026-11-23T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": null,
       "mpaa_rating": "R",
       "starring_actors_raw": null,
@@ -13471,11 +13309,11 @@
         "INPERSNQA"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793727240/amc-cdn/content/general/psn3w6vovhfx4fxamhly.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793727831/amc-cdn/content/general/cwizxmt7csemv0vzbbaa.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793727831/amc-cdn/content/general/cwizxmt7csemv0vzbbaa.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407860671112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407860671112.mp4"
       },
       "presentation": {
         "category": "q_and_a",
@@ -13569,9 +13407,9 @@
       "source_release_id": null,
       "runtime_min": 129,
       "release_date_utc": "2026-11-07T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-11-07T16:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-07T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": null,
       "mpaa_rating": "PG13",
       "starring_actors_raw": null,
@@ -13588,6 +13426,336 @@
         "INPERSNINT"
       ],
       "media": {
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793723483/amc-cdn/content/general/d9yiszubiz240ngx8gbf.avif",
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "special_introduction",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85618",
+      "source_title": "Batulo Jun",
+      "sortable_title": "Batulo Jun",
+      "source_release_id": null,
+      "runtime_min": 150,
+      "release_date_utc": "2026-11-13T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-11-13T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "DRAMA",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "ANMOL K.C., PRINCY KHATIWADA",
+      "directors_raw": "BHUWAN K.C.",
+      "synopsis": "Set in the traditional social and cultural landscape of Nepal during the 2040s B.S., Batulo Jun tells an emotional love story between two individuals from different economic backgrounds. Their relationship faces challenges arising from social inequality, family expectations, traditional values, and circumstances beyond their control. The film explores love, sacrifice, longing, and the conflict between personal desires and societal expectations.",
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "batulo-jun-85618",
+      "website_url": "https://www.amctheatres.com/movies/batulo-jun-85618",
+      "showtimes_url": "https://www.amctheatres.com/movies/batulo-jun-85618/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85621",
+      "source_title": "threeASFOUR: FULL CIRCLE",
+      "sortable_title": "threeASFOUR: FULL CIRCLE",
+      "source_release_id": null,
+      "runtime_min": 95,
+      "release_date_utc": "2026-11-13T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-11-13T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "DOCUMENTARY",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": null,
+      "directors_raw": "SEAN ONO LENNON",
+      "synopsis": "For more than 25 years, the designers behind the avant-garde fashion collective threeASFOUR-- Gabi Asfour (Lebanese-Palestinian), Angela Donhauser (German-Tajikistani), and Adi Gil (Israeli) -- have created clothing with uncompromising vision. Drawing inspiration from natural forms and pioneering techniques, they have continually pushed the boundaries of what fashion can be, earning them a cult following, global museum exhibitions, and fans like Bjork and Chloe Sevigny. Yet behind the acclaim lies an ongoing challenge to survive in an industry driven by commerce. The film is a moving portrait of three iconoclasts daring to center creativity and cross-cultural collaboration over money and profit.",
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "threeasfour-full-circle-85621",
+      "website_url": "https://www.amctheatres.com/movies/threeasfour-full-circle-85621",
+      "showtimes_url": "https://www.amctheatres.com/movies/threeasfour-full-circle-85621/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85622",
+      "source_title": "Josephine: Early Access Screening",
+      "sortable_title": "Josephine: Early Access Screening",
+      "source_release_id": null,
+      "runtime_min": 114,
+      "release_date_utc": "2026-11-17T06:00:00Z",
+      "earliest_showing_utc": "2026-11-17T19:00:00Z",
+      "online_ticket_availability_date_utc": "2026-11-17T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "After 8-year-old Josephine accidentally witnesses a crime in Golden Gate Park, she acts out in search of a way to regain control of her safety, while adults are helpless to console her.",
+      "distributor_id": "2229",
+      "distributor_code": "VAR",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "josephine-early-access-screening-85622",
+      "website_url": "https://www.amctheatres.com/movies/josephine-early-access-screening-85622",
+      "showtimes_url": "https://www.amctheatres.com/movies/josephine-early-access-screening-85622/showtimes",
+      "attribute_codes": [
+        "AMCARTISANFILMS",
+        "CLOSEDCAPTION",
+        "EVENT"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "concert_or_event",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85623",
+      "source_title": "Jordan Firstman, Diego Calva, Saturn Risin9, Miss Benny",
+      "sortable_title": "Club Kid Special Q&A with Jordan Firstman, Diego Calva, Saturn Risin9, Miss Benny",
+      "source_release_id": null,
+      "runtime_min": 152,
+      "release_date_utc": "2026-11-06T06:00:00Z",
+      "earliest_showing_utc": "2026-11-06T20:15:00Z",
+      "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Club Kid Special Q&A with Jordan Firstman, Diego Calva, Saturn Risin9, Miss Benny.",
+      "distributor_id": "2289",
+      "distributor_code": "A24",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "jordan-firstman-diego-calva-saturn-risin9-miss-benny-85623",
+      "website_url": "https://www.amctheatres.com/movies/jordan-firstman-diego-calva-saturn-risin9-miss-benny-85623",
+      "showtimes_url": "https://www.amctheatres.com/movies/jordan-firstman-diego-calva-saturn-risin9-miss-benny-85623/showtimes",
+      "attribute_codes": [
+        "AMCARTISANFILMS",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "INPERSNQA",
+        "XL"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85624",
+      "source_title": "Club Kid Special Q&A with Eldar Isgandarov",
+      "sortable_title": "Club Kid Special Q&A with Eldar Isgandarov",
+      "source_release_id": null,
+      "runtime_min": 152,
+      "release_date_utc": "2026-11-06T06:00:00Z",
+      "earliest_showing_utc": "2026-11-06T18:00:00Z",
+      "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Club Kid Special Q&A with Eldar Isgandarov",
+      "distributor_id": "2289",
+      "distributor_code": "A24",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "club-kid-special-q-a-with-eldar-isgandarov-alaska-riley-85624",
+      "website_url": "https://www.amctheatres.com/movies/club-kid-special-q-a-with-eldar-isgandarov-alaska-riley-85624",
+      "showtimes_url": "https://www.amctheatres.com/movies/club-kid-special-q-a-with-eldar-isgandarov-alaska-riley-85624/showtimes",
+      "attribute_codes": [
+        "AMCARTISANFILMS",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "INPERSNQA"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "q_and_a",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85625",
+      "source_title": "Club Kid Special Q&A with Jordan Firstman",
+      "sortable_title": "Club Kid Special Q&A with Jordan Firstman",
+      "source_release_id": null,
+      "runtime_min": 152,
+      "release_date_utc": "2026-11-07T06:00:00Z",
+      "earliest_showing_utc": "2026-11-07T17:15:00Z",
+      "online_ticket_availability_date_utc": "2026-11-07T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Club Kid Special Q&A with Jordan Firstman",
+      "distributor_id": "2289",
+      "distributor_code": "A24",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "club-kid-special-q-a-with-jordan-firstman-85625",
+      "website_url": "https://www.amctheatres.com/movies/club-kid-special-q-a-with-jordan-firstman-85625",
+      "showtimes_url": "https://www.amctheatres.com/movies/club-kid-special-q-a-with-jordan-firstman-85625/showtimes",
+      "attribute_codes": [
+        "AMCARTISANFILMS",
+        "AMCPRIME",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "INPERSNQA",
+        "XL"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "q_and_a",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85626",
+      "source_title": "Club Kid Special Q&A with Jordan Firstman",
+      "sortable_title": "Club Kid Special Q&A with Jordan Firstman",
+      "source_release_id": null,
+      "runtime_min": 152,
+      "release_date_utc": "2026-11-08T06:00:00Z",
+      "earliest_showing_utc": "2026-11-08T17:00:00Z",
+      "online_ticket_availability_date_utc": "2026-11-08T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Club Kid Special Q&A with Jordan Firstman.",
+      "distributor_id": "2289",
+      "distributor_code": "A24",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "club-kid-special-q-a-with-jordan-firstman-85626",
+      "website_url": "https://www.amctheatres.com/movies/club-kid-special-q-a-with-jordan-firstman-85626",
+      "showtimes_url": "https://www.amctheatres.com/movies/club-kid-special-q-a-with-jordan-firstman-85626/showtimes",
+      "attribute_codes": [
+        "AMCARTISANFILMS",
+        "AMCPRIME",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "INPERSNQA",
+        "XL"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "q_and_a",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85627",
+      "source_title": "Club Kid Special Intro with Jordan Firstman, Diego Calva, Saturn Risin9, Miss Benny",
+      "sortable_title": "Club Kid Special Intro with Jordan Firstman, Diego Calva, Saturn Risin9, Miss Benny",
+      "source_release_id": null,
+      "runtime_min": 122,
+      "release_date_utc": "2026-11-06T06:00:00Z",
+      "earliest_showing_utc": "2026-11-06T23:15:00Z",
+      "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Club Kid Special Intro with Jordan Firstman, Diego Calva, Saturn Risin9, Miss Benny.",
+      "distributor_id": "2289",
+      "distributor_code": "A24",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "club-kid-special-intro-with-jordan-firstman-diego-calva-saturn-risin9-miss-benny-85627",
+      "website_url": "https://www.amctheatres.com/movies/club-kid-special-intro-with-jordan-firstman-diego-calva-saturn-risin9-miss-benny-85627",
+      "showtimes_url": "https://www.amctheatres.com/movies/club-kid-special-intro-with-jordan-firstman-diego-calva-saturn-risin9-miss-benny-85627/showtimes",
+      "attribute_codes": [
+        "AMCARTISANFILMS",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "INPERSNINT"
+      ],
+      "media": {
         "poster_url": null,
         "hero_desktop_url": null,
         "hero_mobile_url": null,
@@ -13596,6 +13764,215 @@
       },
       "presentation": {
         "category": "special_introduction",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85628",
+      "source_title": "Club Kid Special Intro with Jordan Firstman & Saturn Risin9",
+      "sortable_title": "Club Kid Special Intro with Jordan Firstman & Saturn Risin9",
+      "source_release_id": null,
+      "runtime_min": 122,
+      "release_date_utc": "2026-11-07T06:00:00Z",
+      "earliest_showing_utc": "2026-11-07T20:15:00Z",
+      "online_ticket_availability_date_utc": "2026-11-07T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Club Kid Special Intro with Jordan Firstman & Saturn Risin9",
+      "distributor_id": "2289",
+      "distributor_code": "A24",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "club-kid-special-intro-with-jordan-firstman-saturn-risin9-85628",
+      "website_url": "https://www.amctheatres.com/movies/club-kid-special-intro-with-jordan-firstman-saturn-risin9-85628",
+      "showtimes_url": "https://www.amctheatres.com/movies/club-kid-special-intro-with-jordan-firstman-saturn-risin9-85628/showtimes",
+      "attribute_codes": [
+        "AMCARTISANFILMS",
+        "AMCPRIME",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "INPERSNINT",
+        "XL"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "special_introduction",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85629",
+      "source_title": "Club Kid Special Intro with Jordan Firstman",
+      "sortable_title": "Club Kid Special Intro with Jordan Firstman",
+      "source_release_id": null,
+      "runtime_min": 122,
+      "release_date_utc": "2026-11-08T06:00:00Z",
+      "earliest_showing_utc": "2026-11-08T20:00:00Z",
+      "online_ticket_availability_date_utc": "2026-11-08T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Club Kid Special Intro with Jordan Firstman",
+      "distributor_id": "2289",
+      "distributor_code": "A24",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "club-kid-special-intro-with-jordan-firstman-85629",
+      "website_url": "https://www.amctheatres.com/movies/club-kid-special-intro-with-jordan-firstman-85629",
+      "showtimes_url": "https://www.amctheatres.com/movies/club-kid-special-intro-with-jordan-firstman-85629/showtimes",
+      "attribute_codes": [
+        "AMCARTISANFILMS",
+        "AMCPRIME",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "INPERSNINT",
+        "XL"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "special_introduction",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85630",
+      "source_title": "The Departed: 20th Anniversary",
+      "sortable_title": "Departed: 20th Anniversary, The",
+      "source_release_id": null,
+      "runtime_min": 152,
+      "release_date_utc": "2026-12-04T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "THE DEPARTED is set in South Boston, where the state police force is waging war on organized crime.  Young undercover cop Billy Costigan (Leonardo DiCaprio) is assigned to infiltrate the mob syndicate run by gangland chief Costello (Jack Nicholson).   While Billy is quickly gaining Costello's confidence, Colin Sullivan (Matt Damon), a hardened young criminal who has infiltrated the police department as an informer for the syndicate, is rising to a position of power in the Special Investigation Unit.  Each man becomes deeply consumed by his double life, gathering information about the plans and counter-plans of the operations he has penetrated.  But when it becomes clear to both the gangsters and the police that there's a mole in their midst, Billy and Colin are suddenly in danger of being caught and exposed to the enemy - and each must race to uncover the identity of the other man in time to save himself.",
+      "distributor_id": "2429",
+      "distributor_code": "WB",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "the-departed-20th-anniversary-85630",
+      "website_url": "https://www.amctheatres.com/movies/the-departed-20th-anniversary-85630",
+      "showtimes_url": "https://www.amctheatres.com/movies/the-departed-20th-anniversary-85630/showtimes",
+      "attribute_codes": [
+        "XL"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "anniversary_or_rerelease",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85631",
+      "source_title": "JOSEPHINE With In-Person Q&A Featuring Filmmaker Beth de Araújo",
+      "sortable_title": "JOSEPHINE With In-Person Q&A Featuring Filmmaker Beth de Araújo",
+      "source_release_id": null,
+      "runtime_min": 144,
+      "release_date_utc": "2026-11-12T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-11-12T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "JOSEPHINE With In-Person Q&A Featuring Filmmaker Beth de Araújo. After 8-year-old Josephine accidentally witnesses a crime in Golden Gate Park, she acts out in search of a way to regain control of her safety, while adults are helpless to console her.",
+      "distributor_id": "2229",
+      "distributor_code": "VAR",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "josephine-with-in-person-q-a-featuring-filmmaker-beth-de-araujo-85631",
+      "website_url": "https://www.amctheatres.com/movies/josephine-with-in-person-q-a-featuring-filmmaker-beth-de-araujo-85631",
+      "showtimes_url": "https://www.amctheatres.com/movies/josephine-with-in-person-q-a-featuring-filmmaker-beth-de-araujo-85631/showtimes",
+      "attribute_codes": [
+        "AMCARTISANFILMS",
+        "CLOSEDCAPTION",
+        "INPERSNQA"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "q_and_a",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85632",
+      "source_title": "JOSEPHINE With In-Person Q&A Featuring Gemma Chan",
+      "sortable_title": "JOSEPHINE With In-Person Q&A Featuring Gemma Chan",
+      "source_release_id": null,
+      "runtime_min": 144,
+      "release_date_utc": "2026-11-19T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-11-19T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": null,
+      "mpaa_rating": "R",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "JOSEPHINE With In-Person Q&A Featuring Gemma Chan. After 8-year-old Josephine accidentally witnesses a crime in Golden Gate Park, she acts out in search of a way to regain control of her safety, while adults are helpless to console her.",
+      "distributor_id": "2229",
+      "distributor_code": "VAR",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "josephine-with-in-person-q-a-featuring-gemma-chan-85632",
+      "website_url": "https://www.amctheatres.com/movies/josephine-with-in-person-q-a-featuring-gemma-chan-85632",
+      "showtimes_url": "https://www.amctheatres.com/movies/josephine-with-in-person-q-a-featuring-gemma-chan-85632/showtimes",
+      "attribute_codes": [
+        "AMCARTISANFILMS",
+        "CLOSEDCAPTION",
+        "INPERSNQA"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "q_and_a",
         "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
