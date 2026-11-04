@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5330882352941176,
-  "generated_at": "2026-11-04T13:35:29+00:00",
-  "index_size": 173,
+  "coverage_rate": 0.5404411764705882,
+  "generated_at": "2026-11-04T14:57:45+00:00",
+  "index_size": 171,
   "invalid_identities": 0,
-  "mapping_misses": 127,
-  "non_null_film_id": 145,
+  "mapping_misses": 125,
+  "non_null_film_id": 147,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,17 +14,17 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 127,
+  "null_film_id": 125,
   "per_source": {
     "amc": {
       "films": 111,
-      "null_film_id": 57,
-      "with_film_id": 54
+      "null_film_id": 56,
+      "with_film_id": 55
     },
     "anderson_school": {
       "films": 2,
-      "null_film_id": 0,
-      "with_film_id": 2
+      "null_film_id": 1,
+      "with_film_id": 1
     },
     "beacon": {
       "films": 36,
@@ -43,8 +43,8 @@
     },
     "majestic_bay": {
       "films": 10,
-      "null_film_id": 2,
-      "with_film_id": 8
+      "null_film_id": 1,
+      "with_film_id": 9
     },
     "nwff": {
       "films": 37,
@@ -62,21 +62,12 @@
       "with_film_id": 4
     }
   },
-  "performance_identity": {
-    "ambiguous": 0,
-    "inherited_from_registry": 4,
-    "matched": 0,
-    "registry_path": "data/performance_identity/performance_identity_current.json",
-    "registry_persisted": false,
-    "registry_upserts": 0,
-    "unmatched_gi": 4
-  },
-  "repeated_canonical_across_films": 6,
+  "repeated_canonical_across_films": 5,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
   "total_public_films": 272,
-  "unique_tmdb_ids": 138,
+  "unique_tmdb_ids": 141,
   "warning_count": 0,
   "warnings": []
 }
