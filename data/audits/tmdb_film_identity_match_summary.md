@@ -1,17 +1,17 @@
 # Film identity live match summary
 
 - schema_version: `1.0.0`
-- generated_at: `2026-11-04T14:56:13+00:00`
-- total_unique_source_identities: **299**
-- confirmed_automatic: **152**
+- generated_at: `2026-11-05T15:00:47+00:00`
+- total_unique_source_identities: **304**
+- confirmed_automatic: **153**
 - confirmed_manual: **19**
 - review_required: **36**
-- unmatched: **69**
-- non_film: **23**
+- unmatched: **71**
+- non_film: **25**
 - deferred: **0**
 - rejected: **0**
 - errors: **0**
-- fallback_usage: **128**
+- fallback_usage: **132**
 - review_queue_size: **36**
 - tmdb_auth_mode: `bearer`
 
@@ -19,15 +19,15 @@
 
 | source | total | auto | manual | review | unmatched | non_film | errors |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| amc | 111 | 42 | 12 | 23 | 20 | 14 | 0 |
-| anderson_school | 3 | 1 | 0 | 2 | 0 | 0 | 0 |
-| beacon | 36 | 22 | 0 | 3 | 10 | 1 | 0 |
-| central_cinema | 14 | 6 | 1 | 3 | 1 | 3 | 0 |
-| grand_illusion | 4 | 3 | 0 | 0 | 0 | 1 | 0 |
-| majestic_bay | 18 | 17 | 0 | 1 | 0 | 0 | 0 |
-| nwff | 37 | 22 | 0 | 2 | 11 | 2 | 0 |
-| siff | 71 | 35 | 6 | 2 | 26 | 2 | 0 |
-| tasveer | 5 | 4 | 0 | 0 | 1 | 0 | 0 |
+| amc | 111 | 40 | 12 | 23 | 21 | 15 | 0 |
+| anderson_school | 2 | 0 | 0 | 2 | 0 | 0 | 0 |
+| beacon | 46 | 30 | 0 | 4 | 10 | 2 | 0 |
+| central_cinema | 12 | 5 | 1 | 2 | 1 | 3 | 0 |
+| grand_illusion | 3 | 2 | 0 | 0 | 0 | 1 | 0 |
+| majestic_bay | 15 | 14 | 0 | 1 | 0 | 0 | 0 |
+| nwff | 36 | 22 | 0 | 2 | 10 | 2 | 0 |
+| siff | 72 | 34 | 6 | 2 | 28 | 2 | 0 |
+| tasveer | 7 | 6 | 0 | 0 | 1 | 0 | 0 |
 
 ## Generated path changes
 
