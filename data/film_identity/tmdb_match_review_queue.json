@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T15:00:47+00:00",
+  "generated_at": "2026-11-06T14:40:50+00:00",
   "items": [
     {
       "auto_confirm_blocked_reason": "below_auto_threshold",
@@ -12,7 +12,7 @@
           "poster_path": "/mWN6knIVJ2o7eGwSm7mOgSCwNUc.jpg",
           "release_year": 2026,
           "runtime_min": 114,
-          "score": 0.8127,
+          "score": 0.9168,
           "search_query": "The Cat in the Hat",
           "search_query_reason": "normalized_title",
           "search_year_used": null,
@@ -25,8 +25,10 @@
                 "weight": 0.2
               },
               "runtime": {
-                "kind": "miss",
-                "matched": false,
+                "delta_minutes": 7,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.0833,
                 "weight": 0.15
               },
               "title_exact": {
@@ -54,17 +56,17 @@
             "event_year_relaxed": true,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.65,
+            "matched_weight": 0.7333,
             "original_title_exact": false,
             "popularity": 16.1225,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 23,
+            "runtime_delta_minutes": 7,
             "runtime_near": false,
-            "runtime_soft": false,
+            "runtime_soft": true,
             "runtime_soft_max": 12,
-            "runtime_status": "miss",
+            "runtime_status": "soft",
             "search_query": "The Cat in the Hat",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
@@ -81,7 +83,7 @@
           "tmdb_id": 1117898,
           "warnings": [
             "year_evidence_absent",
-            "runtime_mismatch",
+            "runtime_soft_penalty",
             "missing_year_supported_by_other_evidence"
           ]
         },
@@ -93,7 +95,7 @@
           "poster_path": "/uYYLz67e5xEQMsY858VSSCDsLU6.jpg",
           "release_year": 2003,
           "runtime_min": 82,
-          "score": 0.6252,
+          "score": 0.5627,
           "search_query": "The Cat in the Hat",
           "search_query_reason": "normalized_title",
           "search_year_used": null,
@@ -106,10 +108,8 @@
                 "weight": 0.2
               },
               "runtime": {
-                "delta_minutes": 9,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.05,
+                "kind": "conflict",
+                "matched": false,
                 "weight": 0.15
               },
               "title_exact": {
@@ -136,18 +136,18 @@
             "director_weak_overlap": false,
             "event_year_relaxed": true,
             "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.5,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
             "original_title_exact": false,
             "popularity": 22.0745,
             "runtime_compatible_max": 3,
-            "runtime_conflict": false,
+            "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 9,
+            "runtime_delta_minutes": 25,
             "runtime_near": false,
-            "runtime_soft": true,
+            "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "soft",
+            "runtime_status": "conflict",
             "search_query": "The Cat in the Hat",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
@@ -164,7 +164,7 @@
           "tmdb_id": 10588,
           "warnings": [
             "year_evidence_absent",
-            "runtime_soft_penalty",
+            "runtime_conflict",
             "director_conflict",
             "weak_title_only_match"
           ]
@@ -225,7 +225,7 @@
             "runtime_compatible_max": 3,
             "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 67,
+            "runtime_delta_minutes": 83,
             "runtime_near": false,
             "runtime_soft": false,
             "runtime_soft_max": 12,
@@ -307,7 +307,7 @@
             "runtime_compatible_max": 3,
             "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 66,
+            "runtime_delta_minutes": 82,
             "runtime_near": false,
             "runtime_soft": false,
             "runtime_soft_max": 12,
@@ -613,13 +613,13 @@
       "directors_raw": "Alessandro Carloni, ERICA RIVINOJA",
       "entity_kind": "feature_film",
       "film_id_fallback": "source:amc:76536",
-      "match_confidence": 0.8127,
+      "match_confidence": 0.9168,
       "match_status": "review_required",
       "normalized_title": "The Cat in the Hat",
       "presentation_labels": [],
       "proposed_tmdb_id": 1117898,
       "queue_id": "amc:76536",
-      "runtime_min": 91,
+      "runtime_min": 107,
       "showtime_film_key": "cat-in-the-hat",
       "signals": {
         "available_weight": 0.8,
@@ -630,8 +630,10 @@
             "weight": 0.2
           },
           "runtime": {
-            "kind": "miss",
-            "matched": false,
+            "delta_minutes": 7,
+            "kind": "soft",
+            "matched": true,
+            "soft_weight": 0.0833,
             "weight": 0.15
           },
           "title_exact": {
@@ -659,17 +661,17 @@
         "event_year_relaxed": true,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.65,
+        "matched_weight": 0.7333,
         "original_title_exact": false,
         "popularity": 16.1225,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 23,
+        "runtime_delta_minutes": 7,
         "runtime_near": false,
-        "runtime_soft": false,
+        "runtime_soft": true,
         "runtime_soft_max": 12,
-        "runtime_status": "miss",
+        "runtime_status": "soft",
         "search_query": "The Cat in the Hat",
         "search_query_reason": "normalized_title",
         "search_year_used": null,
@@ -685,10 +687,10 @@
       "source": "amc",
       "source_film_id": "76536",
       "source_title": "The Cat in the Hat",
-      "top_candidate_margin": 0.1875,
+      "top_candidate_margin": 0.3541,
       "warnings": [
         "year_evidence_absent",
-        "runtime_mismatch",
+        "runtime_soft_penalty",
         "missing_year_supported_by_other_evidence"
       ],
       "year_hint": 2026,
@@ -1096,211 +1098,6 @@
           "normalized_source_fallback"
         ],
         "base_title": "ZERO A.D.: The Birth of Christ",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": 2026,
-        "product_year_weak": true,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [
-          "product_year_weak_evidence"
-        ],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": true
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": "below_auto_threshold",
-      "candidates": [
-        {
-          "director": "Brian Duffield",
-          "original_title": null,
-          "overview_excerpt": "Following the death of his father, Jay Gardiner goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of o…",
-          "popularity": 13.2923,
-          "poster_path": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg",
-          "release_year": 2026,
-          "runtime_min": 98,
-          "score": 0.896,
-          "search_query": "Whalefall",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.8,
-            "contributions": {
-              "director": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.2
-              },
-              "runtime": {
-                "delta_minutes": 8,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.0667,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "brian duffield"
-            ],
-            "director_conflict": false,
-            "director_overlap": true,
-            "director_source_normalized": [
-              "brian duffield"
-            ],
-            "director_status": "match",
-            "director_weak_overlap": false,
-            "event_year_relaxed": true,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.7167,
-            "original_title_exact": false,
-            "popularity": 13.2923,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 8,
-            "runtime_near": false,
-            "runtime_soft": true,
-            "runtime_soft_max": 12,
-            "runtime_status": "soft",
-            "search_query": "Whalefall",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "uncertain_rerelease_restoration",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Whalefall",
-          "tmdb_id": 1255833,
-          "warnings": [
-            "year_evidence_absent",
-            "runtime_soft_penalty",
-            "missing_year_supported_by_other_evidence"
-          ]
-        }
-      ],
-      "directors_normalized": [
-        "brian duffield"
-      ],
-      "directors_raw": "BRIAN DUFFIELD",
-      "entity_kind": "feature_film",
-      "film_id_fallback": "source:amc:80471",
-      "match_confidence": 0.896,
-      "match_status": "review_required",
-      "normalized_title": "Whalefall",
-      "presentation_labels": [],
-      "proposed_tmdb_id": 1255833,
-      "queue_id": "amc:80471",
-      "runtime_min": 106,
-      "showtime_film_key": "whalefall",
-      "signals": {
-        "available_weight": 0.8,
-        "contributions": {
-          "director": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.2
-          },
-          "runtime": {
-            "delta_minutes": 8,
-            "kind": "soft",
-            "matched": true,
-            "soft_weight": 0.0667,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "brian duffield"
-        ],
-        "director_conflict": false,
-        "director_overlap": true,
-        "director_source_normalized": [
-          "brian duffield"
-        ],
-        "director_status": "match",
-        "director_weak_overlap": false,
-        "event_year_relaxed": true,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.7167,
-        "original_title_exact": false,
-        "popularity": 13.2923,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 8,
-        "runtime_near": false,
-        "runtime_soft": true,
-        "runtime_soft_max": 12,
-        "runtime_status": "soft",
-        "search_query": "Whalefall",
-        "search_query_reason": "normalized_title",
-        "search_year_used": null,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "uncertain_rerelease_restoration",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source": "amc",
-      "source_film_id": "80471",
-      "source_title": "Whalefall",
-      "top_candidate_margin": null,
-      "warnings": [
-        "year_evidence_absent",
-        "runtime_soft_penalty",
-        "missing_year_supported_by_other_evidence"
-      ],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Whalefall",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -4791,6 +4588,736 @@
           "normalized_source_fallback"
         ],
         "base_title": "Club Kid",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": true,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [
+          "product_year_weak_evidence"
+        ],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": true
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "below_auto_threshold",
+      "candidates": [
+        {
+          "director": "Simon Stone",
+          "original_title": null,
+          "overview_excerpt": "The deeply emotional and inspirational true story of Ian Charleson, a gifted actor whose greatest challenge becomes his greatest triumph. Facing his own mortality with unflinching honesty, wit, and grace, Charleson deli…",
+          "popularity": 5.6624,
+          "poster_path": "/kohUtEueIVyDXC30MaOdi36aAwn.jpg",
+          "release_year": 2026,
+          "runtime_min": 111,
+          "score": 0.9167,
+          "search_query": "Elsinore",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
+              "runtime": {
+                "delta_minutes": 7,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.0833,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "simon stone"
+            ],
+            "director_conflict": false,
+            "director_overlap": true,
+            "director_source_normalized": [
+              "simon stone"
+            ],
+            "director_status": "match",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.7333,
+            "original_title_exact": false,
+            "popularity": 5.6624,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 7,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "search_query": "Elsinore",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Elsinore",
+          "tmdb_id": 1599230,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "missing_year_supported_by_other_evidence"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Czar Nikolai II's Ankomst til Helsingør",
+          "overview_excerpt": "Nikolai II (1868-1918), the last Russian czar, son of Alexander III and Dagmar. He had been in Denmark on vacation with his parents several times. The royal houses usually met in September to celebrate Queen Louise's bi…",
+          "popularity": 0.7256,
+          "poster_path": null,
+          "release_year": 1902,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Elsinore",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "simon stone"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.7256,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Elsinore",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Emperor of Russia's Arrival in Elsinore",
+          "tmdb_id": 195699,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Kejserinde Dagmars ankomst til Helsingør",
+          "overview_excerpt": "Maria Feodorovna (1847-1928), born Dagmar, daughter of King Christian IX was in 1866 married to Alexander III (1845-1894), Czar of Russia (1881-1894). The couple often visited Denmark, where the czar found a safe harbou…",
+          "popularity": 0.2362,
+          "poster_path": null,
+          "release_year": 1900,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Elsinore",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "simon stone"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.2362,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Elsinore",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Empress Dagmar's Arrival in Elsinore",
+          "tmdb_id": 231776,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent"
+          ]
+        },
+        {
+          "director": "Philip Saville",
+          "original_title": null,
+          "overview_excerpt": "The ghost of the King of Denmark tells his son Hamlet to avenge his murder by killing the new king, Hamlet's uncle. Hamlet feigns madness, contemplates life and death, and seeks revenge. His uncle, fearing for his life,…",
+          "popularity": 0.7708,
+          "poster_path": "/ooCVHKpAcVuYDo31coESbK0r0FX.jpg",
+          "release_year": 1964,
+          "runtime_min": 170,
+          "score": 0.0,
+          "search_query": "Elsinore",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "philip saville"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "simon stone"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.7708,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 66,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Elsinore",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Hamlet at Elsinore",
+          "tmdb_id": 261439,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_conflict"
+          ]
+        },
+        {
+          "director": "Roy Lockwood",
+          "original_title": null,
+          "overview_excerpt": "The story of a surly crew, an honest God-fearing captain, a hardboiled-but-loyal Scotch mate, a scoundrelly second-mate, and then a mutiny, the fight and the final voyage to a safe harbor. But not before the Captain has…",
+          "popularity": 0.86,
+          "poster_path": "/4myqvyyCYXiqLjZzMya6w0drIiP.jpg",
+          "release_year": 1938,
+          "runtime_min": 73,
+          "score": 0.0,
+          "search_query": "Elsinore",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "roy lockwood"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "simon stone"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.86,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 31,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Elsinore",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Mutiny Of The Elsinore",
+          "tmdb_id": 298878,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": "Les mutinés de l'Elseneur",
+          "overview_excerpt": "A journalist takes command of a ship after the crew mutiny against the brutal captain. It was an adaptation of the novel The Mutiny of the Elsinore by Jack London.",
+          "popularity": 0.8019,
+          "poster_path": "/3nzPEgL2ym33JAQjHRqqpKdlEwt.jpg",
+          "release_year": 1936,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Elsinore",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "simon stone"
+            ],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.8019,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Elsinore",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Mutineers of Elsinore",
+          "tmdb_id": 442273,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent"
+          ]
+        },
+        {
+          "director": "Yakov Smorgonskiy",
+          "original_title": "Külastage Helsingöri",
+          "overview_excerpt": "A poetic fantasy on the theme of \"Hamlet\", the heroes of which are the passengers of a tourist bus that stopped in Elsinore.",
+          "popularity": 0.7567,
+          "poster_path": "/uCsGfJOQ3p0oMBVIC65ezrVv337.jpg",
+          "release_year": 1978,
+          "runtime_min": 15,
+          "score": 0.0,
+          "search_query": "Elsinore",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "yakov smorgonskiy"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "simon stone"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.7567,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 89,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Elsinore",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Visit the Elsinore",
+          "tmdb_id": 1388864,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_conflict"
+          ]
+        },
+        {
+          "director": "Edward Sloman",
+          "original_title": null,
+          "overview_excerpt": "When Captain Nathaniel Somers is killed during an attack by thugs, his loyal first mate Pike promises to care for the captain's son Dick. Pike, aware that Dick has squandered his life on having a good time, sequesters t…",
+          "popularity": 1.505,
+          "poster_path": "/i3xFl3VTbIeWcyePyKBoXHsyXdi.jpg",
+          "release_year": 1920,
+          "runtime_min": 60,
+          "score": 0.0,
+          "search_query": "Elsinore",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "edward sloman"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "simon stone"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 1.505,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 44,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Elsinore",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "The Mutiny of the Elsinore",
+          "tmdb_id": 1623715,
+          "warnings": [
+            "title_conflict",
+            "year_evidence_absent",
+            "runtime_conflict",
+            "director_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [
+        "simon stone"
+      ],
+      "directors_raw": "SIMON STONE",
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:amc:84636",
+      "match_confidence": 0.9167,
+      "match_status": "review_required",
+      "normalized_title": "Elsinore",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 1599230,
+      "queue_id": "amc:84636",
+      "runtime_min": 104,
+      "showtime_film_key": "elsinore",
+      "signals": {
+        "available_weight": 0.8,
+        "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
+          "runtime": {
+            "delta_minutes": 7,
+            "kind": "soft",
+            "matched": true,
+            "soft_weight": 0.0833,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "simon stone"
+        ],
+        "director_conflict": false,
+        "director_overlap": true,
+        "director_source_normalized": [
+          "simon stone"
+        ],
+        "director_status": "match",
+        "director_weak_overlap": false,
+        "event_year_relaxed": true,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.7333,
+        "original_title_exact": false,
+        "popularity": 5.6624,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 7,
+        "runtime_near": false,
+        "runtime_soft": true,
+        "runtime_soft_max": 12,
+        "runtime_status": "soft",
+        "search_query": "Elsinore",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "amc",
+      "source_film_id": "84636",
+      "source_title": "Elsinore",
+      "top_candidate_margin": 0.9167,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_soft_penalty",
+        "missing_year_supported_by_other_evidence"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Elsinore",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -11926,7 +12453,7 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "auto_confirm_blocked_reason": "hard_conflict",
       "candidates": [
         {
           "director": "Bo Welch",
@@ -11944,10 +12471,8 @@
             "available_weight": 0.6,
             "contributions": {
               "runtime": {
-                "delta_minutes": 9,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.05,
+                "kind": "conflict",
+                "matched": false,
                 "weight": 0.15
               },
               "title_exact": {
@@ -11971,18 +12496,18 @@
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.5,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
             "original_title_exact": false,
             "popularity": 22.0745,
             "runtime_compatible_max": 3,
-            "runtime_conflict": false,
+            "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 9,
+            "runtime_delta_minutes": 25,
             "runtime_near": false,
-            "runtime_soft": true,
+            "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "soft",
+            "runtime_status": "conflict",
             "search_query": "The Cat in the Hat",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
@@ -11999,7 +12524,7 @@
           "tmdb_id": 10588,
           "warnings": [
             "year_evidence_absent",
-            "runtime_soft_penalty",
+            "runtime_conflict",
             "weak_title_only_match",
             "director_unavailable"
           ]
@@ -12052,7 +12577,7 @@
             "runtime_compatible_max": 3,
             "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 67,
+            "runtime_delta_minutes": 83,
             "runtime_near": false,
             "runtime_soft": false,
             "runtime_soft_max": 12,
@@ -12094,8 +12619,10 @@
             "available_weight": 0.6,
             "contributions": {
               "runtime": {
-                "kind": "miss",
-                "matched": false,
+                "delta_minutes": 7,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.0833,
                 "weight": 0.15
               },
               "title_exact": {
@@ -12120,17 +12647,17 @@
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.45,
+            "matched_weight": 0.5333,
             "original_title_exact": false,
             "popularity": 16.1225,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 23,
+            "runtime_delta_minutes": 7,
             "runtime_near": false,
-            "runtime_soft": false,
+            "runtime_soft": true,
             "runtime_soft_max": 12,
-            "runtime_status": "miss",
+            "runtime_status": "soft",
             "search_query": "The Cat in the Hat",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
@@ -12147,7 +12674,7 @@
           "tmdb_id": 1117898,
           "warnings": [
             "year_evidence_absent",
-            "runtime_mismatch",
+            "runtime_soft_penalty",
             "weak_title_only_match",
             "director_unavailable"
           ]
@@ -12200,7 +12727,7 @@
             "runtime_compatible_max": 3,
             "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 66,
+            "runtime_delta_minutes": 82,
             "runtime_near": false,
             "runtime_soft": false,
             "runtime_soft_max": 12,
@@ -12501,16 +13028,14 @@
       "presentation_labels": [],
       "proposed_tmdb_id": 10588,
       "queue_id": "anderson_school:ST00003310",
-      "runtime_min": 91,
+      "runtime_min": 107,
       "showtime_film_key": "cat-in-the-hat",
       "signals": {
         "available_weight": 0.6,
         "contributions": {
           "runtime": {
-            "delta_minutes": 9,
-            "kind": "soft",
-            "matched": true,
-            "soft_weight": 0.05,
+            "kind": "conflict",
+            "matched": false,
             "weight": 0.15
           },
           "title_exact": {
@@ -12534,18 +13059,18 @@
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.5,
+        "hard_conflict": true,
+        "matched_weight": 0.45,
         "original_title_exact": false,
         "popularity": 22.0745,
         "runtime_compatible_max": 3,
-        "runtime_conflict": false,
+        "runtime_conflict": true,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 9,
+        "runtime_delta_minutes": 25,
         "runtime_near": false,
-        "runtime_soft": true,
+        "runtime_soft": false,
         "runtime_soft_max": 12,
-        "runtime_status": "soft",
+        "runtime_status": "conflict",
         "search_query": "The Cat in the Hat",
         "search_query_reason": "normalized_title",
         "search_year_used": null,
@@ -12564,7 +13089,7 @@
       "top_candidate_margin": 0.0,
       "warnings": [
         "year_evidence_absent",
-        "runtime_soft_penalty",
+        "runtime_conflict",
         "weak_title_only_match",
         "director_unavailable"
       ],
@@ -12601,7 +13126,7 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "auto_confirm_blocked_reason": "hard_conflict",
       "candidates": [
         {
           "director": "Bo Welch",
@@ -12619,10 +13144,8 @@
             "available_weight": 0.6,
             "contributions": {
               "runtime": {
-                "delta_minutes": 9,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.05,
+                "kind": "conflict",
+                "matched": false,
                 "weight": 0.15
               },
               "title_exact": {
@@ -12646,18 +13169,18 @@
             "director_weak_overlap": false,
             "event_year_relaxed": false,
             "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.5,
+            "hard_conflict": true,
+            "matched_weight": 0.45,
             "original_title_exact": false,
             "popularity": 22.0745,
             "runtime_compatible_max": 3,
-            "runtime_conflict": false,
+            "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 9,
+            "runtime_delta_minutes": 25,
             "runtime_near": false,
-            "runtime_soft": true,
+            "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "soft",
+            "runtime_status": "conflict",
             "search_query": "The Cat in the Hat",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
@@ -12674,7 +13197,7 @@
           "tmdb_id": 10588,
           "warnings": [
             "year_evidence_absent",
-            "runtime_soft_penalty",
+            "runtime_conflict",
             "weak_title_only_match",
             "director_unavailable"
           ]
@@ -12727,7 +13250,7 @@
             "runtime_compatible_max": 3,
             "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 67,
+            "runtime_delta_minutes": 83,
             "runtime_near": false,
             "runtime_soft": false,
             "runtime_soft_max": 12,
@@ -12769,8 +13292,10 @@
             "available_weight": 0.6,
             "contributions": {
               "runtime": {
-                "kind": "miss",
-                "matched": false,
+                "delta_minutes": 7,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.0833,
                 "weight": 0.15
               },
               "title_exact": {
@@ -12795,17 +13320,17 @@
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.45,
+            "matched_weight": 0.5333,
             "original_title_exact": false,
             "popularity": 16.1225,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 23,
+            "runtime_delta_minutes": 7,
             "runtime_near": false,
-            "runtime_soft": false,
+            "runtime_soft": true,
             "runtime_soft_max": 12,
-            "runtime_status": "miss",
+            "runtime_status": "soft",
             "search_query": "The Cat in the Hat",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
@@ -12822,7 +13347,7 @@
           "tmdb_id": 1117898,
           "warnings": [
             "year_evidence_absent",
-            "runtime_mismatch",
+            "runtime_soft_penalty",
             "weak_title_only_match",
             "director_unavailable"
           ]
@@ -12875,7 +13400,7 @@
             "runtime_compatible_max": 3,
             "runtime_conflict": true,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 66,
+            "runtime_delta_minutes": 82,
             "runtime_near": false,
             "runtime_soft": false,
             "runtime_soft_max": 12,
@@ -13176,16 +13701,14 @@
       "presentation_labels": [],
       "proposed_tmdb_id": 10588,
       "queue_id": "anderson_school:ST00003312",
-      "runtime_min": 91,
+      "runtime_min": 107,
       "showtime_film_key": "cat-in-the-hat",
       "signals": {
         "available_weight": 0.6,
         "contributions": {
           "runtime": {
-            "delta_minutes": 9,
-            "kind": "soft",
-            "matched": true,
-            "soft_weight": 0.05,
+            "kind": "conflict",
+            "matched": false,
             "weight": 0.15
           },
           "title_exact": {
@@ -13209,18 +13732,18 @@
         "director_weak_overlap": false,
         "event_year_relaxed": false,
         "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.5,
+        "hard_conflict": true,
+        "matched_weight": 0.45,
         "original_title_exact": false,
         "popularity": 22.0745,
         "runtime_compatible_max": 3,
-        "runtime_conflict": false,
+        "runtime_conflict": true,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 9,
+        "runtime_delta_minutes": 25,
         "runtime_near": false,
-        "runtime_soft": true,
+        "runtime_soft": false,
         "runtime_soft_max": 12,
-        "runtime_status": "soft",
+        "runtime_status": "conflict",
         "search_query": "The Cat in the Hat",
         "search_query_reason": "normalized_title",
         "search_year_used": null,
@@ -13239,7 +13762,7 @@
       "top_candidate_margin": 0.0,
       "warnings": [
         "year_evidence_absent",
-        "runtime_soft_penalty",
+        "runtime_conflict",
         "weak_title_only_match",
         "director_unavailable"
       ],
@@ -15600,6 +16123,195 @@
           "normalized_source_fallback"
         ],
         "base_title": "Dune",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Denis Villeneuve",
+          "original_title": null,
+          "overview_excerpt": "Emperor Paul Atreides faces the fallout from his ascent to power as political plots and a galaxy-wide holy war endanger the future only he can see.",
+          "popularity": 16.9646,
+          "poster_path": "/d43fvHQsIMa4kpyhKXw0haEJIvI.jpg",
+          "release_year": 2026,
+          "runtime_min": 140,
+          "score": 0.75,
+          "search_query": "Dune: Part Three",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 10,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.0333,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "denis villeneuve"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.4833,
+            "original_title_exact": false,
+            "popularity": 16.9646,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 10,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "search_query": "Dune: Part Three",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Dune: Part Three",
+          "tmdb_id": 1170608,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_soft_penalty",
+            "weak_title_only_match",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:majestic_bay:0000001805",
+      "match_confidence": 0.75,
+      "match_status": "review_required",
+      "normalized_title": "Dune: Part Three",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 1170608,
+      "queue_id": "majestic_bay:0000001805",
+      "runtime_min": 150,
+      "showtime_film_key": "dune-part-three",
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "delta_minutes": 10,
+            "kind": "soft",
+            "matched": true,
+            "soft_weight": 0.0333,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "denis villeneuve"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.4833,
+        "original_title_exact": false,
+        "popularity": 16.9646,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 10,
+        "runtime_near": false,
+        "runtime_soft": true,
+        "runtime_soft_max": 12,
+        "runtime_status": "soft",
+        "search_query": "Dune: Part Three",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "majestic_bay",
+      "source_film_id": "0000001805",
+      "source_title": "Dune: Part Three",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_soft_penalty",
+        "weak_title_only_match",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Dune: Part Three",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
