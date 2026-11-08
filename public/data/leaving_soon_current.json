@@ -1,12 +1,12 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-11-07T04:18:26-08:00",
+  "generated_at": "2026-11-08T04:37:43-08:00",
   "source": "amc",
   "model_version": "amc_remaining_run_survival_v1",
   "published": true,
   "skipped_reason": null,
   "window": {
-    "start_date": "2026-11-07",
+    "start_date": "2026-11-08",
     "end_date": "2027-10-26"
   },
   "method": {
@@ -23,50 +23,12 @@
     "fourteen_day_calibration": "unchanged_v1_platt"
   },
   "stats": {
-    "candidate_film_count": 33,
-    "flagged_film_count": 19,
-    "last_chance_count": 7,
-    "leaving_soon_count": 12
+    "candidate_film_count": 31,
+    "flagged_film_count": 20,
+    "last_chance_count": 13,
+    "leaving_soon_count": 7
   },
   "items": [
-    {
-      "film_key": "other-mommy",
-      "film_title": "Other Mommy",
-      "risk_level": "high",
-      "reason": "This theatrical run looks likely to end this week.",
-      "leaving_soon_bucket": "last_chance",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "80303",
-      "run_id": "80303#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 1,
-      "visible_show_date_count": 4,
-      "min_show_date": "2026-11-07",
-      "max_show_date": "2026-11-10",
-      "total_visible_showtimes": 5,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-kent-station-14",
-          "theater_name": "AMC Kent Station 14"
-        }
-      ],
-      "show_dates": [
-        "2026-11-07",
-        "2026-11-08",
-        "2026-11-09",
-        "2026-11-10"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1789756562/amc-cdn/content/general/vrq0ukic012f72bpzbey.jpg",
-      "runtime_min": 93,
-      "prediction_as_of": "2026-11-07",
-      "predicted_end_date": "2026-11-10",
-      "timing_confidence": "high",
-      "timing_mode": "likely_around",
-      "prediction_scope": "amc"
-    },
     {
       "film_key": "jimmy",
       "film_title": "JIMMY",
@@ -77,11 +39,11 @@
       "source_film_id": "83023",
       "run_id": "83023#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 2,
-      "visible_show_date_count": 6,
-      "min_show_date": "2026-11-07",
+      "sort_rank": 1,
+      "visible_show_date_count": 5,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-12",
-      "total_visible_showtimes": 28,
+      "total_visible_showtimes": 21,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -98,7 +60,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -109,10 +70,47 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1787915267/amc-cdn/production/2/movies/83000/83023/Poster/397954R1.jpg",
       "runtime_min": 120,
-      "prediction_as_of": "2026-11-07",
+      "prediction_as_of": "2026-11-08",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "other-mommy",
+      "film_title": "Other Mommy",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "80303",
+      "run_id": "80303#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 2,
+      "visible_show_date_count": 3,
+      "min_show_date": "2026-11-08",
+      "max_show_date": "2026-11-10",
+      "total_visible_showtimes": 3,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        }
+      ],
+      "show_dates": [
+        "2026-11-08",
+        "2026-11-09",
+        "2026-11-10"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1789756562/amc-cdn/content/general/vrq0ukic012f72bpzbey.jpg",
+      "runtime_min": 93,
+      "prediction_as_of": "2026-11-08",
+      "predicted_end_date": "2026-11-10",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
       "prediction_scope": "amc"
     },
     {
@@ -126,10 +124,10 @@
       "run_id": "71470#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 3,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 6,
+      "total_visible_showtimes": 5,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -138,7 +136,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -148,46 +145,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782224198/amc-cdn/content/general/yogoy3nb7hwcrzsjzapd.jpg",
       "runtime_min": 109,
-      "prediction_as_of": "2026-11-07",
-      "predicted_end_date": "2026-11-11",
-      "timing_confidence": "high",
-      "timing_mode": "likely_around",
-      "prediction_scope": "amc"
-    },
-    {
-      "film_key": "fjord",
-      "film_title": "Fjord",
-      "risk_level": "high",
-      "reason": "This theatrical run looks likely to end this week.",
-      "leaving_soon_bucket": "last_chance",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "84311",
-      "run_id": "84311#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 4,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
-      "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 5,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-pacific-place-11",
-          "theater_name": "AMC Pacific Place 11"
-        }
-      ],
-      "show_dates": [
-        "2026-11-07",
-        "2026-11-08",
-        "2026-11-09",
-        "2026-11-10",
-        "2026-11-11"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1790952664/amc-cdn/content/general/xwjjamliupfo9hjwlfpf.jpg",
-      "runtime_min": 146,
-      "prediction_as_of": "2026-11-07",
+      "prediction_as_of": "2026-11-08",
       "predicted_end_date": "2026-11-11",
       "timing_confidence": "high",
       "timing_mode": "likely_around",
@@ -203,7 +161,7 @@
       "source_film_id": "82707",
       "run_id": "82707#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 5,
+      "sort_rank": 4,
       "visible_show_date_count": 1,
       "min_show_date": "2026-11-11",
       "max_show_date": "2026-11-11",
@@ -230,7 +188,7 @@
       "has_weekend_show": false,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782817423/amc-cdn/production/2/movies/82700/82707/Poster/358931R1.jpg",
       "runtime_min": 101,
-      "prediction_as_of": "2026-11-07",
+      "prediction_as_of": "2026-11-08",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -246,11 +204,11 @@
       "source_film_id": "84366",
       "run_id": "84366#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 6,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "sort_rank": 5,
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 36,
+      "total_visible_showtimes": 27,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -263,7 +221,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -273,7 +230,45 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1790622162/amc-cdn/content/general/mke6nbxbakpkjpkibnai.jpg",
       "runtime_min": 159,
-      "prediction_as_of": "2026-11-07",
+      "prediction_as_of": "2026-11-08",
+      "predicted_end_date": "2026-11-11",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "fjord",
+      "film_title": "Fjord",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84311",
+      "run_id": "84311#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 6,
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
+      "max_show_date": "2026-11-11",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        }
+      ],
+      "show_dates": [
+        "2026-11-08",
+        "2026-11-09",
+        "2026-11-10",
+        "2026-11-11"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1790952664/amc-cdn/content/general/xwjjamliupfo9hjwlfpf.jpg",
+      "runtime_min": 146,
+      "prediction_as_of": "2026-11-08",
       "predicted_end_date": "2026-11-11",
       "timing_confidence": "high",
       "timing_mode": "likely_around",
@@ -290,10 +285,10 @@
       "run_id": "85066#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 7,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 5,
+      "total_visible_showtimes": 4,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -302,7 +297,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -312,105 +306,27 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1793028520/amc-cdn/content/general/cslv84rzb2gbaqv31hej.jpg",
       "runtime_min": 97,
-      "prediction_as_of": "2026-11-07",
+      "prediction_as_of": "2026-11-08",
       "predicted_end_date": "2026-11-11",
       "timing_confidence": "high",
       "timing_mode": "likely_around",
       "prediction_scope": "amc"
     },
     {
-      "film_key": "paradise-lost",
-      "film_title": "Paradise Lost",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "85215",
-      "run_id": "85215#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 8,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
-      "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 5,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        }
-      ],
-      "show_dates": [
-        "2026-11-07",
-        "2026-11-08",
-        "2026-11-09",
-        "2026-11-10",
-        "2026-11-11"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1791025604/amc-cdn/production/2/movies/85200/85215/Poster/414290R1.jpg",
-      "runtime_min": 101,
-      "prediction_as_of": "2026-11-07",
-      "predicted_end_date": null,
-      "timing_confidence": "low",
-      "timing_mode": "horizon_only",
-      "prediction_scope": "amc"
-    },
-    {
-      "film_key": "summer-holidays",
-      "film_title": "Summer Holidays",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "85252",
-      "run_id": "85252#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 9,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
-      "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 5,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-alderwood-mall-16",
-          "theater_name": "AMC Alderwood Mall 16"
-        }
-      ],
-      "show_dates": [
-        "2026-11-07",
-        "2026-11-08",
-        "2026-11-09",
-        "2026-11-10",
-        "2026-11-11"
-      ],
-      "has_primetime": false,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1791025804/amc-cdn/production/2/movies/85300/85252/Poster/426544R1.jpg",
-      "runtime_min": 128,
-      "prediction_as_of": "2026-11-07",
-      "predicted_end_date": null,
-      "timing_confidence": "low",
-      "timing_mode": "horizon_only",
-      "prediction_scope": "amc"
-    },
-    {
       "film_key": "mosquito-bowl",
       "film_title": "The Mosquito Bowl",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "84970",
       "run_id": "84970#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 10,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "sort_rank": 8,
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 12,
+      "total_visible_showtimes": 6,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -423,7 +339,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -433,27 +348,141 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1788887932/amc-cdn/content/general/bsa22crggqpntcnubhla.jpg",
       "runtime_min": 127,
-      "prediction_as_of": "2026-11-07",
-      "predicted_end_date": null,
-      "timing_confidence": "low",
-      "timing_mode": "horizon_only",
+      "prediction_as_of": "2026-11-08",
+      "predicted_end_date": "2026-11-12",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "paradise-lost",
+      "film_title": "Paradise Lost",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "85215",
+      "run_id": "85215#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 9,
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
+      "max_show_date": "2026-11-11",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-11-08",
+        "2026-11-09",
+        "2026-11-10",
+        "2026-11-11"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1791025604/amc-cdn/production/2/movies/85200/85215/Poster/414290R1.jpg",
+      "runtime_min": 101,
+      "prediction_as_of": "2026-11-08",
+      "predicted_end_date": "2026-11-12",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "summer-holidays",
+      "film_title": "Summer Holidays",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "85252",
+      "run_id": "85252#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 10,
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
+      "max_show_date": "2026-11-11",
+      "total_visible_showtimes": 4,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        }
+      ],
+      "show_dates": [
+        "2026-11-08",
+        "2026-11-09",
+        "2026-11-10",
+        "2026-11-11"
+      ],
+      "has_primetime": false,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1791025804/amc-cdn/production/2/movies/85300/85252/Poster/426544R1.jpg",
+      "runtime_min": 128,
+      "prediction_as_of": "2026-11-08",
+      "predicted_end_date": "2026-11-12",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "scene",
+      "film_title": "Scene",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "85413",
+      "run_id": "85413#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 11,
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
+      "max_show_date": "2026-11-11",
+      "total_visible_showtimes": 5,
+      "total_visible_theaters": 1,
+      "theaters": [
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        }
+      ],
+      "show_dates": [
+        "2026-11-08",
+        "2026-11-09",
+        "2026-11-10",
+        "2026-11-11"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1793387460/amc-cdn/content/general/cb78pdkczewnrpan37hb.jpg",
+      "runtime_min": 150,
+      "prediction_as_of": "2026-11-08",
+      "predicted_end_date": "2026-11-12",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
       "prediction_scope": "amc"
     },
     {
       "film_key": "sense-and-sensibility",
       "film_title": "Sense and Sensibility",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "82178",
       "run_id": "82178#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 11,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "sort_rank": 12,
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 15,
+      "total_visible_showtimes": 13,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -466,7 +495,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -476,27 +504,27 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1790953648/amc-cdn/content/general/wuxta5xd1ybvsuj8rhap.jpg",
       "runtime_min": 131,
-      "prediction_as_of": "2026-11-07",
-      "predicted_end_date": null,
-      "timing_confidence": "low",
-      "timing_mode": "horizon_only",
+      "prediction_as_of": "2026-11-08",
+      "predicted_end_date": "2026-11-12",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
       "prediction_scope": "amc"
     },
     {
       "film_key": "karaoke-murder",
       "film_title": "Karaoke Murder",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
+      "risk_level": "high",
+      "reason": "This theatrical run looks likely to end this week.",
+      "leaving_soon_bucket": "last_chance",
       "model_version": "amc_remaining_run_survival_v1",
       "source_film_id": "85509",
       "run_id": "85509#01",
       "run_type": "probable_normal_first_run",
-      "sort_rank": 12,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "sort_rank": 13,
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 5,
+      "total_visible_showtimes": 4,
       "total_visible_theaters": 1,
       "theaters": [
         {
@@ -505,7 +533,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -515,49 +542,10 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1793125163/amc-cdn/content/general/pdtz9ub9ojszzreo9fdd.jpg",
       "runtime_min": 96,
-      "prediction_as_of": "2026-11-07",
-      "predicted_end_date": null,
-      "timing_confidence": "low",
-      "timing_mode": "horizon_only",
-      "prediction_scope": "amc"
-    },
-    {
-      "film_key": "scene",
-      "film_title": "Scene",
-      "risk_level": "elevated",
-      "reason": "This theatrical run may be winding down soon.",
-      "leaving_soon_bucket": "leaving_soon",
-      "model_version": "amc_remaining_run_survival_v1",
-      "source_film_id": "85413",
-      "run_id": "85413#01",
-      "run_type": "probable_normal_first_run",
-      "sort_rank": 13,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
-      "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 6,
-      "total_visible_theaters": 1,
-      "theaters": [
-        {
-          "theater_id": "amc-southcenter-16",
-          "theater_name": "AMC Southcenter 16"
-        }
-      ],
-      "show_dates": [
-        "2026-11-07",
-        "2026-11-08",
-        "2026-11-09",
-        "2026-11-10",
-        "2026-11-11"
-      ],
-      "has_primetime": true,
-      "has_weekend_show": true,
-      "poster_url": "https://amc-theatres-res.cloudinary.com/v1793387460/amc-cdn/content/general/cb78pdkczewnrpan37hb.jpg",
-      "runtime_min": 150,
-      "prediction_as_of": "2026-11-07",
-      "predicted_end_date": null,
-      "timing_confidence": "low",
-      "timing_mode": "horizon_only",
+      "prediction_as_of": "2026-11-08",
+      "predicted_end_date": "2026-11-12",
+      "timing_confidence": "high",
+      "timing_mode": "likely_around",
       "prediction_scope": "amc"
     },
     {
@@ -571,10 +559,10 @@
       "run_id": "84620#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 14,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 18,
+      "total_visible_showtimes": 14,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -587,7 +575,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -597,7 +584,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1788834949/amc-cdn/content/general/ezo3ytzoxecv18uzsdfx.jpg",
       "runtime_min": 115,
-      "prediction_as_of": "2026-11-07",
+      "prediction_as_of": "2026-11-08",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -614,10 +601,10 @@
       "run_id": "84370#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 15,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 16,
+      "total_visible_showtimes": 13,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -634,7 +621,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -644,7 +630,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789485255/amc-cdn/content/general/gcvdnwo5prhwlufye7rb.jpg",
       "runtime_min": 88,
-      "prediction_as_of": "2026-11-07",
+      "prediction_as_of": "2026-11-08",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -661,10 +647,10 @@
       "run_id": "79697#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 16,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 18,
+      "total_visible_showtimes": 12,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -681,7 +667,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -691,7 +676,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1779390469/amc-cdn/content/general/hangbvqrl0awcqkalr3h.jpg",
       "runtime_min": 94,
-      "prediction_as_of": "2026-11-07",
+      "prediction_as_of": "2026-11-08",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -708,10 +693,10 @@
       "run_id": "84142#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 17,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 37,
+      "total_visible_showtimes": 29,
       "total_visible_theaters": 2,
       "theaters": [
         {
@@ -724,7 +709,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -734,7 +718,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1789731085/amc-cdn/content/general/yqtok9rsxofslxelaexl.jpg",
       "runtime_min": 100,
-      "prediction_as_of": "2026-11-07",
+      "prediction_as_of": "2026-11-08",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -751,10 +735,10 @@
       "run_id": "77447#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 18,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 64,
+      "total_visible_showtimes": 50,
       "total_visible_theaters": 3,
       "theaters": [
         {
@@ -771,7 +755,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -781,7 +764,7 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1782818026/amc-cdn/production/2/movies/77400/77447/Poster/400224R1.jpg",
       "runtime_min": 119,
-      "prediction_as_of": "2026-11-07",
+      "prediction_as_of": "2026-11-08",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",
@@ -798,10 +781,10 @@
       "run_id": "83723#01",
       "run_type": "probable_normal_first_run",
       "sort_rank": 19,
-      "visible_show_date_count": 5,
-      "min_show_date": "2026-11-07",
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
       "max_show_date": "2026-11-11",
-      "total_visible_showtimes": 114,
+      "total_visible_showtimes": 91,
       "total_visible_theaters": 7,
       "theaters": [
         {
@@ -834,7 +817,6 @@
         }
       ],
       "show_dates": [
-        "2026-11-07",
         "2026-11-08",
         "2026-11-09",
         "2026-11-10",
@@ -844,7 +826,65 @@
       "has_weekend_show": true,
       "poster_url": "https://amc-theatres-res.cloudinary.com/v1792774376/amc-cdn/content/general/glha1cncuts5wgfxkwxg.jpg",
       "runtime_min": 129,
-      "prediction_as_of": "2026-11-07",
+      "prediction_as_of": "2026-11-08",
+      "predicted_end_date": null,
+      "timing_confidence": "low",
+      "timing_mode": "horizon_only",
+      "prediction_scope": "amc"
+    },
+    {
+      "film_key": "ramayana",
+      "film_title": "Ramayana",
+      "risk_level": "elevated",
+      "reason": "This theatrical run may be winding down soon.",
+      "leaving_soon_bucket": "leaving_soon",
+      "model_version": "amc_remaining_run_survival_v1",
+      "source_film_id": "84991",
+      "run_id": "84991#01",
+      "run_type": "probable_normal_first_run",
+      "sort_rank": 20,
+      "visible_show_date_count": 4,
+      "min_show_date": "2026-11-08",
+      "max_show_date": "2026-11-11",
+      "total_visible_showtimes": 48,
+      "total_visible_theaters": 6,
+      "theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "theater_name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-factoria-8",
+          "theater_name": "AMC Factoria 8"
+        },
+        {
+          "theater_id": "amc-kent-station-14",
+          "theater_name": "AMC Kent Station 14"
+        },
+        {
+          "theater_id": "amc-pacific-place-11",
+          "theater_name": "AMC Pacific Place 11"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "theater_name": "AMC Southcenter 16"
+        },
+        {
+          "theater_id": "amc-woodinville-12",
+          "theater_name": "AMC Woodinville 12"
+        }
+      ],
+      "show_dates": [
+        "2026-11-08",
+        "2026-11-09",
+        "2026-11-10",
+        "2026-11-11"
+      ],
+      "has_primetime": true,
+      "has_weekend_show": true,
+      "poster_url": "https://amc-theatres-res.cloudinary.com/v1793808154/amc-cdn/content/general/vbu72j3oodvcfrpuagjn.jpg",
+      "runtime_min": 195,
+      "prediction_as_of": "2026-11-08",
       "predicted_end_date": null,
       "timing_confidence": "low",
       "timing_mode": "horizon_only",

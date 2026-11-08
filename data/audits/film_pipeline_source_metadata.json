@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-07T04:25:11-08:00",
+  "generated_at": "2026-11-08T04:43:49-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-07_amc.json",
-      "generated_at": "2026-11-07T04:13:19-08:00",
-      "record_count": 8408,
+      "latest_log": "data/daily_logs/2026-11-08_amc.json",
+      "generated_at": "2026-11-08T04:33:24-08:00",
+      "record_count": 8041,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 113,
-      "eligible_feature_count": 97,
+      "source_identity_count": 111,
+      "eligible_feature_count": 95,
       "title": {
-        "with_title": 113,
+        "with_title": 111,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 97,
+        "eligible_features_with_runtime": 95,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 97,
+        "eligible_features_missing_year": 95,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -124,7 +124,7 @@
       "entity_kind_counts": {
         "broadcast_event": 11,
         "double_feature": 1,
-        "feature_film": 97,
+        "feature_film": 95,
         "live_event": 2,
         "mystery_screening": 2
       },
@@ -1011,42 +1011,10 @@
           ]
         },
         {
-          "source_identity_key": "id:84726",
-          "source_title": "Rammstein - Live in Mexico City",
-          "adapter_identity_title": null,
-          "matcher_title": "Rammstein - Live in Mexico City",
-          "program_series": null,
-          "runtime_min": 110,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:84728",
           "source_title": "BTS WORLD TOUR 'ARIRANG' IN KAOHSIUNG: LIVE VIEWING",
           "adapter_identity_title": null,
           "matcher_title": "Bts World Tour 'Arirang' In Kaohsiung: Live Viewing",
-          "program_series": null,
-          "runtime_min": 195,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:84732",
-          "source_title": "Stray Kids World Tour 'RUN IT' LIVE VIEWING",
-          "adapter_identity_title": null,
-          "matcher_title": "Stray Kids World Tour 'RUN IT' LIVE VIEWING",
           "program_series": null,
           "runtime_min": 195,
           "release_year": null,
@@ -1943,20 +1911,20 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-07_siff.json",
-      "generated_at": "2026-11-07T04:12:40-08:00",
-      "record_count": 259,
+      "latest_log": "data/daily_logs/2026-11-08_siff.json",
+      "generated_at": "2026-11-08T04:32:36-08:00",
+      "record_count": 243,
       "malformed_record_count": 0,
       "warning_count": 8,
       "error_count": 0,
-      "source_identity_count": 73,
-      "eligible_feature_count": 71,
+      "source_identity_count": 68,
+      "eligible_feature_count": 66,
       "title": {
-        "with_title": 73,
+        "with_title": 68,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 70,
+        "eligible_features_with_runtime": 65,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "Elsinore"
@@ -1964,21 +1932,17 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 71,
+        "eligible_features_with_year": 66,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 31,
+        "adapter_cleaned_identity_count": 30,
         "matcher_cleaned_identity_count": 22,
         "adapter_cleanup_samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
             "identity_title": "Man of Marble"
-          },
-          {
-            "source_title": "The Films of Andrzej Wajda: The Promised Land",
-            "identity_title": "The Promised Land"
           },
           {
             "source_title": "Cinema Italian Style 2026: A Year of School",
@@ -2011,6 +1975,10 @@
           {
             "source_title": "Cinema Italian Style 2026: Love Fits Everything",
             "identity_title": "Love Fits Everything"
+          },
+          {
+            "source_title": "Cinema Italian Style: Sweetheart - Opening Night Film + Party",
+            "identity_title": "Sweetheart - Opening Night Film + Party"
           }
         ],
         "matcher_cleanup_samples": [
@@ -2087,14 +2055,10 @@
         ]
       },
       "series": {
-        "identity_count": 40,
+        "identity_count": 39,
         "samples": [
           {
             "source_title": "The Films of Andrzej Wajda: Man of Marble",
-            "program_series": "The Films of Andrzej Wajda"
-          },
-          {
-            "source_title": "The Films of Andrzej Wajda: The Promised Land",
             "program_series": "The Films of Andrzej Wajda"
           },
           {
@@ -2128,11 +2092,15 @@
           {
             "source_title": "Cinema Italian Style 2026: Love Fits Everything",
             "program_series": "Cinema Italian Style 2026"
+          },
+          {
+            "source_title": "Cinema Italian Style: Sweetheart - Opening Night Film + Party",
+            "program_series": "Cinema Italian Style"
           }
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 71,
+        "feature_film": 66,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2458,22 +2426,6 @@
           ]
         },
         {
-          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/seattle-turkish-film-festival-gala-film-party",
-          "source_title": "Seattle Turkish Film Festival: Yellow Letters Gala Film + Party",
-          "adapter_identity_title": null,
-          "matcher_title": "Seattle Turkish Film Festival: Yellow Letters Gala Film + Party",
-          "program_series": null,
-          "runtime_min": 127,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/seattle-turkish-film-festival-salvation",
           "source_title": "Seattle Turkish Film Festival: Salvation",
           "adapter_identity_title": null,
@@ -2506,60 +2458,12 @@
           ]
         },
         {
-          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/sevda",
-          "source_title": "Seattle Turkish Film Festival: Sevda",
-          "adapter_identity_title": null,
-          "matcher_title": "Seattle Turkish Film Festival: Sevda",
-          "program_series": null,
-          "runtime_min": 100,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/stffshorts-documentary-selection",
           "source_title": "STFFShorts - Documentary Selection",
           "adapter_identity_title": null,
           "matcher_title": "STFFShorts - Documentary Selection",
           "program_series": null,
           "runtime_min": 95,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/stffshorts-narrative-selection-1",
-          "source_title": "STFFShorts - Narrative Selection 1",
-          "adapter_identity_title": null,
-          "matcher_title": "STFFShorts - Narrative Selection 1",
-          "program_series": null,
-          "runtime_min": 100,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/seattle-turkish-film-festival-2026/stffshorts-narrative-selection-2",
-          "source_title": "STFFShorts - Narrative Selection 2",
-          "adapter_identity_title": null,
-          "matcher_title": "STFFShorts - Narrative Selection 2",
-          "program_series": null,
-          "runtime_min": 105,
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -2673,22 +2577,6 @@
           "program_series": "The Films of Andrzej Wajda",
           "runtime_min": 161,
           "release_year": 1976,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:programs-and-events/andrzej-wajda/the-promised-land",
-          "source_title": "The Films of Andrzej Wajda: The Promised Land",
-          "adapter_identity_title": "The Promised Land",
-          "matcher_title": "The Films of Andrzej Wajda: The Promised Land",
-          "program_series": "The Films of Andrzej Wajda",
-          "runtime_min": 169,
-          "release_year": 1974,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": true,
@@ -3313,9 +3201,9 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-07_beacon.json",
-      "generated_at": "2026-11-07T04:12:40-08:00",
-      "record_count": 94,
+      "latest_log": "data/daily_logs/2026-11-08_beacon.json",
+      "generated_at": "2026-11-08T04:32:36-08:00",
+      "record_count": 91,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4213,31 +4101,28 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-07_nwff.json",
-      "generated_at": "2026-11-07T04:11:56-08:00",
-      "record_count": 99,
+      "latest_log": "data/daily_logs/2026-11-08_nwff.json",
+      "generated_at": "2026-11-08T04:31:51-08:00",
+      "record_count": 94,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 33,
-      "eligible_feature_count": 31,
+      "source_identity_count": 30,
+      "eligible_feature_count": 28,
       "title": {
-        "with_title": 33,
+        "with_title": 30,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 31,
+        "eligible_features_with_runtime": 28,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
         "eligible_features_with_year": 26,
-        "eligible_features_missing_year": 5,
+        "eligible_features_missing_year": 2,
         "missing_feature_samples": [
-          "Engauge 2026 – Pattern and Place",
-          "Engauge 2026 – Rankin Renwick Solo Show",
-          "Engauge 2026 – We Are All Together",
           "Seattle Film Society Presents Locals Only: November 2026",
           "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo"
         ]
@@ -4407,7 +4292,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 31,
+        "feature_film": 28,
         "mystery_screening": 1,
         "shorts_program": 1
       },
@@ -4456,54 +4341,6 @@
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
           "matcher_cleanup": true,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:engauge-2026-pattern-place",
-          "source_title": "Engauge 2026 – Pattern and Place",
-          "adapter_identity_title": null,
-          "matcher_title": "Engauge 2026 – Pattern and Place",
-          "program_series": null,
-          "runtime_min": 86,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:engauge-2026-rankin-renwick-solo-show",
-          "source_title": "Engauge 2026 – Rankin Renwick Solo Show",
-          "adapter_identity_title": null,
-          "matcher_title": "Engauge 2026 – Rankin Renwick Solo Show",
-          "program_series": null,
-          "runtime_min": 60,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:engauge-2026-we-are-all-together",
-          "source_title": "Engauge 2026 – We Are All Together",
-          "adapter_identity_title": null,
-          "matcher_title": "Engauge 2026 – We Are All Together",
-          "program_series": null,
-          "runtime_min": 81,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
           ]
@@ -4945,8 +4782,8 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-07_central_cinema.json",
-      "generated_at": "2026-11-07T04:12:14-08:00",
+      "latest_log": "data/daily_logs/2026-11-08_central_cinema.json",
+      "generated_at": "2026-11-08T04:32:11-08:00",
       "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4983,8 +4820,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-07_grand_illusion.json",
-      "generated_at": "2026-11-07T04:12:38-08:00",
+      "latest_log": "data/daily_logs/2026-11-08_grand_illusion.json",
+      "generated_at": "2026-11-08T04:32:34-08:00",
       "record_count": 2,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -5056,9 +4893,9 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-07_tasveer.json",
-      "generated_at": "2026-11-07T04:12:39-08:00",
-      "record_count": 53,
+      "latest_log": "data/daily_logs/2026-11-08_tasveer.json",
+      "generated_at": "2026-11-08T04:32:35-08:00",
+      "record_count": 49,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5213,9 +5050,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-07_anderson_school.json",
-      "generated_at": "2026-11-07T04:12:40-08:00",
-      "record_count": 30,
+      "latest_log": "data/daily_logs/2026-11-08_anderson_school.json",
+      "generated_at": "2026-11-08T04:32:36-08:00",
+      "record_count": 27,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5532,27 +5369,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-07_majestic_bay.json",
-      "generated_at": "2026-11-07T04:12:40-08:00",
-      "record_count": 65,
+      "latest_log": "data/daily_logs/2026-11-08_majestic_bay.json",
+      "generated_at": "2026-11-08T04:32:36-08:00",
+      "record_count": 57,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 16,
-      "eligible_feature_count": 16,
+      "source_identity_count": 15,
+      "eligible_feature_count": 15,
       "title": {
-        "with_title": 16,
+        "with_title": 15,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 16,
+        "eligible_features_with_runtime": 15,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 16,
+        "eligible_features_missing_year": 15,
         "missing_feature_samples": [
           "Wildwood",
           "Star Trek IV: The Voyage Home",
@@ -5577,7 +5414,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 16
+        "feature_film": 15
       },
       "identities": [
         {
@@ -5790,22 +5627,6 @@
         },
         {
           "source_identity_key": "id:36663",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36674",
           "source_title": "Wicker",
           "adapter_identity_title": null,
           "matcher_title": "Wicker",

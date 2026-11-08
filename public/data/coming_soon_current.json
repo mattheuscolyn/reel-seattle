@@ -1,12 +1,12 @@
 {
   "schema_version": "1.4.0",
-  "generated_at": "2026-11-07T04:25:14-08:00",
+  "generated_at": "2026-11-08T04:43:53-08:00",
   "timezone": "America/Los_Angeles",
   "window": {
-    "start_date": "2026-11-07",
-    "end_date": "2027-02-05",
+    "start_date": "2026-11-08",
+    "end_date": "2027-02-06",
     "days": 90,
-    "current_availability_cutoff": "2026-11-14",
+    "current_availability_cutoff": "2026-11-15",
     "current_availability_days": 7
   },
   "method": {
@@ -17,464 +17,100 @@
   "sources": {
     "amc_coming_soon_catalog": {
       "available": true,
-      "generated_at": "2026-11-07T04:25:11-08:00",
+      "generated_at": "2026-11-08T04:43:50-08:00",
       "fetch_status": "success",
-      "movies": 331
+      "movies": 328
     },
     "tmdb_us_theatrical": {
       "available": true,
-      "generated_at": "2026-11-07T04:25:11-08:00",
+      "generated_at": "2026-11-08T04:43:50-08:00",
       "fetch_status": "success",
-      "candidates": 180
+      "candidates": 182
     },
     "reel_seattle_showtimes": {
       "available": true,
-      "generated_at": "2026-11-07T04:13:54-08:00",
+      "generated_at": "2026-11-08T04:33:57-08:00",
       "published_window_end": "2027-10-26"
     },
     "amc_theater_bookings": {
       "available": true,
-      "scrape_log": "data/daily_logs/2026-11-07_amc.json"
+      "scrape_log": "data/daily_logs/2026-11-08_amc.json"
     }
   },
   "stats": {
-    "entry_count": 269,
-    "user_visible_count": 269,
+    "entry_count": 259,
+    "user_visible_count": 259,
     "hidden_count": 0,
     "classification_counts": {
-      "confirmed_local": 123,
-      "amc_announced": 146
+      "confirmed_local": 114,
+      "amc_announced": 145
     },
     "relevance_tier_counts": {
-      "confirmed_local": 123,
+      "confirmed_local": 114,
       "locally_announced": 0,
-      "strongly_expected": 12,
-      "weak_national_only": 134
+      "strongly_expected": 8,
+      "weak_national_only": 137
     },
     "evidence_counts": {
-      "amc_coming_soon_catalog": 172,
+      "amc_coming_soon_catalog": 171,
       "amc_theater_booking": 26,
-      "tmdb_us_theatrical": 67,
-      "reel_seattle_scheduled": 123
+      "tmdb_us_theatrical": 68,
+      "reel_seattle_scheduled": 114
     },
     "presentation_kind_counts": {
-      "film": 265,
+      "film": 255,
       "rerelease": 4
     },
     "presentation_source_counts": {
-      "amc_catalog": 133,
-      "confirmed_enrichment": 7,
-      "fallback": 96,
-      "inferred_tmdb": 33
+      "amc_catalog": 126,
+      "confirmed_enrichment": 12,
+      "fallback": 87,
+      "inferred_tmdb": 34
     },
-    "entries_with_poster": 105,
-    "engagement_count": 39,
-    "synthetic_film_group_count": 20,
+    "entries_with_poster": 102,
+    "engagement_count": 37,
+    "synthetic_film_group_count": 19,
     "horizon_counts": {
-      "30_days": 167,
-      "60_days": 228,
-      "90_days": 269
+      "30_days": 157,
+      "60_days": 220,
+      "90_days": 259
     },
-    "earliest_expected_release_date": "2026-11-08",
+    "earliest_expected_release_date": "2026-11-09",
     "latest_expected_release_date": "2027-02-05",
-    "entries_with_confirmed_film_id": 7,
-    "entries_without_confirmed_film_id": 262,
-    "entries_with_tmdb_id": 68,
+    "entries_with_confirmed_film_id": 12,
+    "entries_without_confirmed_film_id": 247,
+    "entries_with_tmdb_id": 74,
     "ambiguous_identity_count": 0,
     "duplicate_film_id_count": 0,
     "duplicate_join_key_count": 0,
-    "merged_candidate_count": 599,
+    "merged_candidate_count": 588,
     "collapsed_event_variants": 0,
     "excluded_counts": {
-      "currently_available": 100,
+      "currently_available": 101,
       "expected_release_date_outside_window": 83,
       "no_expected_release_date": 0,
       "insufficient_evidence": 0,
-      "presentation_filter": 13
+      "presentation_filter": 12
     },
-    "recommended_count": 135,
-    "all_releases_count": 269,
+    "recommended_count": 122,
+    "all_releases_count": 259,
     "analysis": {
       "path": "data/audits/coming_soon_candidates_current.json",
-      "entry_count": 416,
-      "tmdb_only_count": 101,
-      "weak_national_only_count": 151,
-      "low_relevance_no_local_evidence_count": 43,
+      "entry_count": 404,
+      "tmdb_only_count": 102,
+      "weak_national_only_count": 153,
+      "low_relevance_no_local_evidence_count": 48,
       "popularity_threshold": 5.0,
-      "presentation_filtered_count": 13,
-      "local_programming_excluded_count": 21,
+      "presentation_filtered_count": 12,
+      "local_programming_excluded_count": 19,
       "local_booking_kind_counts": {
         "release_like": 28,
-        "local_programming": 21,
-        "ambiguous_retained": 95
+        "local_programming": 19,
+        "ambiguous_retained": 86
       }
     }
   },
   "entries": [
-    {
-      "film_id": null,
-      "title": "Club Kid Special",
-      "join_key": "club-kid-special",
-      "parent_film_keys": [
-        "club-kid-special"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": null,
-      "amc_movie_id": "85640",
-      "amc_movie_ids": [
-        "85640",
-        "85641",
-        "85642"
-      ],
-      "expected_release_date": "2026-11-08",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-11-08",
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "weak",
-      "relevance_reason": "national_amc_without_tmdb",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [
-        {
-          "kind": "q_and_a",
-          "title": "Club Kid Special Q&A with Jordan Firstman and Amelia Dimoldenberg",
-          "amc_movie_id": "85641"
-        },
-        {
-          "kind": "q_and_a",
-          "title": "Club Kid Special Q&A with Jordan Firstman, Miss Benny and Hannah Einbinder",
-          "amc_movie_id": "85640"
-        },
-        {
-          "kind": "q_and_a",
-          "title": "Club Kid Special Q&A with Jordan Firstman, Miss Benny and Rachel Sennott",
-          "amc_movie_id": "85642"
-        }
-      ],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793830004/amc-cdn/content/general/m3i377gtwtzy81yaxhzp.avif",
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Club Kid Special Q&A with Jordan Firstman, Miss Benny and Hannah Einbinder",
-        "runtime_minutes": 152,
-        "rating": "R",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": true,
-        "variant_titles": [
-          "Club Kid Special Q&A with Jordan Firstman and Amelia Dimoldenberg",
-          "Club Kid Special Q&A with Jordan Firstman, Miss Benny and Hannah Einbinder",
-          "Club Kid Special Q&A with Jordan Firstman, Miss Benny and Rachel Sennott"
-        ],
-        "contributing_sources": [
-          "amc_catalog"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85640",
-          "source_title": "Club Kid Special Q&A with Jordan Firstman, Miss Benny and Hannah Einbinder",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-11-08T06:00:00Z",
-          "earliest_showing_utc": "2026-11-08T11:00:00Z",
-          "runtime_min": 152,
-          "mpaa_rating": "R",
-          "genre": null,
-          "slug": "club-kid-special-q-a-with-jordan-firstman-miss-benny-and-hannah-einbinder-85640",
-          "synopsis": "Club Kid Special Q&A with Jordan Firstman, Miss Benny and Hannah Einbinder",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1793830004/amc-cdn/content/general/m3i377gtwtzy81yaxhzp.avif",
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "q_and_a",
-          "is_special_presentation": true
-        },
-        "tmdb": null
-      },
-      "in_recommended": false
-    },
-    {
-      "film_id": null,
-      "title": "Club Kid Special Intro with Jordan Firstman and Amelia Dimoldenberg",
-      "join_key": "club-kid-special-intro-with-jordan-firstman-and-amelia-dimoldenberg",
-      "parent_film_keys": [
-        "club-kid-special-intro-with-jordan-firstman-and-amelia-dimoldenberg"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": null,
-      "amc_movie_id": "85644",
-      "amc_movie_ids": [
-        "85644"
-      ],
-      "expected_release_date": "2026-11-08",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-11-08",
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "weak",
-      "relevance_reason": "national_amc_without_tmdb",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793830367/amc-cdn/content/general/agxghbgnmbmt0vyxnnls.avif",
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Club Kid Special Intro with Jordan Firstman and Amelia Dimoldenberg",
-        "runtime_minutes": 122,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Club Kid Special Intro with Jordan Firstman and Amelia Dimoldenberg"
-        ],
-        "contributing_sources": [
-          "amc_catalog"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85644",
-          "source_title": "Club Kid Special Intro with Jordan Firstman and Amelia Dimoldenberg",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-11-08T06:00:00Z",
-          "earliest_showing_utc": "2026-11-08T20:00:00Z",
-          "runtime_min": 122,
-          "mpaa_rating": null,
-          "genre": null,
-          "slug": "club-kid-special-intro-with-jordan-firstman-and-amelia-dimoldenberg-85644",
-          "synopsis": "Club Kid Special Intro with Jordan Firstman and Amelia Dimoldenberg",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1793830367/amc-cdn/content/general/agxghbgnmbmt0vyxnnls.avif",
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "special_introduction",
-          "is_special_presentation": true
-        },
-        "tmdb": null
-      },
-      "in_recommended": false
-    },
-    {
-      "film_id": null,
-      "title": "Club Kid Special Intro with Jordan Firstman, Miss Benny and Hannah Einbinder",
-      "join_key": "club-kid-special-intro-with-jordan-firstman-miss-benny-and-hannah-einbinder",
-      "parent_film_keys": [
-        "club-kid-special-intro-with-jordan-firstman-miss-benny-and-hannah-einbinder"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": null,
-      "amc_movie_id": "85643",
-      "amc_movie_ids": [
-        "85643"
-      ],
-      "expected_release_date": "2026-11-08",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-11-08",
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "weak",
-      "relevance_reason": "national_amc_without_tmdb",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793830103/amc-cdn/content/general/vd4ovqfzzzyqgsquakui.avif",
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Club Kid Special Intro with Jordan Firstman, Miss Benny and Hannah Einbinder",
-        "runtime_minutes": 122,
-        "rating": "R",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Club Kid Special Intro with Jordan Firstman, Miss Benny and Hannah Einbinder"
-        ],
-        "contributing_sources": [
-          "amc_catalog"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85643",
-          "source_title": "Club Kid Special Intro with Jordan Firstman, Miss Benny and Hannah Einbinder",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-11-08T06:00:00Z",
-          "earliest_showing_utc": "2026-11-08T14:00:00Z",
-          "runtime_min": 122,
-          "mpaa_rating": "R",
-          "genre": null,
-          "slug": "club-kid-special-intro-with-jordan-firstman-miss-benny-and-hannah-einbinder-85643",
-          "synopsis": "Club Kid Special Intro with Jordan Firstman, Miss Benny and Hannah Einbinder",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1793830103/amc-cdn/content/general/vd4ovqfzzzyqgsquakui.avif",
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "special_introduction",
-          "is_special_presentation": true
-        },
-        "tmdb": null
-      },
-      "in_recommended": false
-    },
-    {
-      "film_id": null,
-      "title": "Club Kid Special Intro with Jordan Firstman, Miss Benny and Rachel Sennott",
-      "join_key": "club-kid-special-intro-with-jordan-firstman-miss-benny-and-rachel-sennott",
-      "parent_film_keys": [
-        "club-kid-special-intro-with-jordan-firstman-miss-benny-and-rachel-sennott"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": null,
-      "amc_movie_id": "85645",
-      "amc_movie_ids": [
-        "85645"
-      ],
-      "expected_release_date": "2026-11-08",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-11-08",
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "weak",
-      "relevance_reason": "national_amc_without_tmdb",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793830066/amc-cdn/content/general/hfhwtz4kan8uuvsw65j1.avif",
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Club Kid Special Intro with Jordan Firstman, Miss Benny and Rachel Sennott",
-        "runtime_minutes": 122,
-        "rating": "R",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Club Kid Special Intro with Jordan Firstman, Miss Benny and Rachel Sennott"
-        ],
-        "contributing_sources": [
-          "amc_catalog"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85645",
-          "source_title": "Club Kid Special Intro with Jordan Firstman, Miss Benny and Rachel Sennott",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-11-08T06:00:00Z",
-          "earliest_showing_utc": "2026-11-08T22:15:00Z",
-          "runtime_min": 122,
-          "mpaa_rating": "R",
-          "genre": null,
-          "slug": "club-kid-special-intro-with-jordan-firstman-miss-benny-and-rachel-sennott-85645",
-          "synopsis": "Club Kid Special Intro with Jordan Firstman, Miss Benny and Rachel Sennott",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1793830066/amc-cdn/content/general/hfhwtz4kan8uuvsw65j1.avif",
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "special_introduction",
-          "is_special_presentation": true
-        },
-        "tmdb": null
-      },
-      "in_recommended": false
-    },
     {
       "film_id": null,
       "title": "Being Heumann",
@@ -1032,7 +668,7 @@
       "classification": "amc_announced",
       "relevance_tier": "strongly_expected",
       "user_visible": true,
-      "tmdb_popularity": 7.812,
+      "tmdb_popularity": 8.354,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_meets_popularity",
       "popularity_threshold_applied": 5.0,
@@ -1099,7 +735,7 @@
           "tmdb_id": 1476614,
           "original_title": "急に具合が悪くなる",
           "original_language": "ja",
-          "popularity": 7.812,
+          "popularity": 8.354,
           "vote_count": 73,
           "poster_path": "/fgxhBo4elwt89J5k9wzhHSXGQmY.jpg",
           "backdrop_path": null,
@@ -1316,7 +952,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 4.928,
+      "tmdb_popularity": 4.603,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -1370,7 +1006,7 @@
           "tmdb_id": 1088548,
           "original_title": "Amarga Navidad",
           "original_language": "es",
-          "popularity": 4.928,
+          "popularity": 4.603,
           "vote_count": 159,
           "poster_path": "/kiPGcHX0YT49nrab76G0bqw3gHW.jpg",
           "backdrop_path": null,
@@ -1502,7 +1138,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.237,
+      "tmdb_popularity": 1.261,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -1563,7 +1199,7 @@
           "tmdb_id": 1505424,
           "original_title": "Dead of Night",
           "original_language": "en",
-          "popularity": 1.237,
+          "popularity": 1.261,
           "vote_count": 0,
           "poster_path": "/uyaSdkCnGDWnb0YQP36s6WQe1J7.jpg",
           "backdrop_path": null,
@@ -2298,7 +1934,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 0.488,
+      "tmdb_popularity": 0.637,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -2352,7 +1988,7 @@
           "tmdb_id": 1756787,
           "original_title": "Search Party: Where's PawPaw?",
           "original_language": "en",
-          "popularity": 0.488,
+          "popularity": 0.637,
           "vote_count": 0,
           "poster_path": "/5nqQ3waPLLMVdNKtVgp4QPNbvGS.jpg",
           "backdrop_path": null,
@@ -2891,699 +2527,6 @@
     },
     {
       "film_id": null,
-      "title": "PNW Awards: The Joyless Economy",
-      "join_key": "pnw-awards-the-joyless-economy",
-      "parent_film_keys": [
-        "pnw-awards-the-joyless-economy"
-      ],
-      "showtime_film_keys": [
-        "pnw-awards-the-joyless-economy"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-11-15",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-11-15",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "siff-film-center"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "siff-film-center",
-          "name": "SIFF Film Center"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 1,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "PNW Awards: The Joyless Economy"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
-      "title": "PNW Awards: The Life We Leave",
-      "join_key": "pnw-awards-the-life-we-leave",
-      "parent_film_keys": [
-        "pnw-awards-the-life-we-leave"
-      ],
-      "showtime_film_keys": [
-        "pnw-awards-the-life-we-leave"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-11-15",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-11-15",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "siff-film-center"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "siff-film-center",
-          "name": "SIFF Film Center"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 1,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "PNW Awards: The Life We Leave"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
-      "title": "Romanian Film Festival Seattle: Atlas of the Universe",
-      "join_key": "romanian-film-festival-seattle-atlas-of-the-universe",
-      "parent_film_keys": [
-        "romanian-film-festival-seattle-atlas-of-the-universe"
-      ],
-      "showtime_film_keys": [
-        "romanian-film-festival-seattle-atlas-of-the-universe"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-11-15",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-11-15",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "siff-cinema-uptown"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "siff-cinema-uptown",
-          "name": "SIFF Cinema Uptown"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 1,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Romanian Film Festival Seattle: Atlas of the Universe"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
-      "title": "Romanian Film Festival Seattle: Blindsight",
-      "join_key": "romanian-film-festival-seattle-blindsight",
-      "parent_film_keys": [
-        "romanian-film-festival-seattle-blindsight"
-      ],
-      "showtime_film_keys": [
-        "romanian-film-festival-seattle-blindsight"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-11-15",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-11-15",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "siff-cinema-uptown"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "siff-cinema-uptown",
-          "name": "SIFF Cinema Uptown"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 1,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Romanian Film Festival Seattle: Blindsight"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
-      "title": "Romanian Film Festival Seattle: The Wall",
-      "join_key": "romanian-film-festival-seattle-the-wall",
-      "parent_film_keys": [
-        "romanian-film-festival-seattle-the-wall"
-      ],
-      "showtime_film_keys": [
-        "romanian-film-festival-seattle-the-wall"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-11-15",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-11-15",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "siff-cinema-uptown"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "siff-cinema-uptown",
-          "name": "SIFF Cinema Uptown"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 1,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Romanian Film Festival Seattle: The Wall"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
-      "title": "Romanian Film Festival Seattle: The Yellow Tie",
-      "join_key": "romanian-film-festival-seattle-the-yellow-tie",
-      "parent_film_keys": [
-        "romanian-film-festival-seattle-the-yellow-tie"
-      ],
-      "showtime_film_keys": [
-        "romanian-film-festival-seattle-the-yellow-tie"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-11-15",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-11-15",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "siff-cinema-uptown"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "siff-cinema-uptown",
-          "name": "SIFF Cinema Uptown"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 1,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Romanian Film Festival Seattle: The Yellow Tie"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
-      "title": "Shaolin Soccer",
-      "join_key": "shaolin-soccer",
-      "parent_film_keys": [
-        "shaolin-soccer"
-      ],
-      "showtime_film_keys": [
-        "shaolin-soccer"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-11-15",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-11-15",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "siff-film-center"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "siff-film-center",
-          "name": "SIFF Film Center"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 1,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Shaolin Soccer"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
-      "title": "The Strange Love Of Martha Ivers",
-      "join_key": "strange-love-of-martha-ivers",
-      "parent_film_keys": [
-        "strange-love-of-martha-ivers"
-      ],
-      "showtime_film_keys": [
-        "strange-love-of-martha-ivers"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-11-15",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-11-15",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "the-beacon"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "the-beacon",
-          "name": "The Beacon"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 2,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "The Strange Love Of Martha Ivers"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
-      "title": "You Sorta Know It's Gonna End",
-      "join_key": "you-sorta-know-it-s-gonna-end",
-      "parent_film_keys": [
-        "you-sorta-know-it-s-gonna-end"
-      ],
-      "showtime_film_keys": [
-        "you-sorta-know-it-s-gonna-end"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-11-15",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-11-15",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "northwest-film-forum"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "northwest-film-forum",
-          "name": "Northwest Film Forum"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 4,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_ambiguous_retained",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "ambiguous_retained",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "You Sorta Know It's Gonna End"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": null
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
       "title": "Dive in Wonderland",
       "join_key": "dive-in-wonderland",
       "parent_film_keys": [
@@ -3805,7 +2748,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 3.745,
+      "tmdb_popularity": 3.724,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -3868,7 +2811,7 @@
           "tmdb_id": 1299329,
           "original_title": "Josephine",
           "original_language": "en",
-          "popularity": 3.745,
+          "popularity": 3.724,
           "vote_count": 0,
           "poster_path": "/8KTcbsdz2PcyA58puJMA3CUnZeA.jpg",
           "backdrop_path": null,
@@ -4522,7 +3465,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 37.857,
+      "tmdb_popularity": 38.39,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -4591,7 +3534,7 @@
           "tmdb_id": 1300968,
           "original_title": "The Hunger Games: Sunrise on the Reaping",
           "original_language": "en",
-          "popularity": 37.857,
+          "popularity": 38.39,
           "vote_count": 0,
           "poster_path": "/jNcZH8yplxttRlf0wwqfGGMKHxX.jpg",
           "backdrop_path": null,
@@ -4636,7 +3579,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 4.884,
+      "tmdb_popularity": 4.231,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -4690,7 +3633,7 @@
           "tmdb_id": 1131943,
           "original_title": "Madden",
           "original_language": "en",
-          "popularity": 4.884,
+          "popularity": 4.231,
           "vote_count": 0,
           "poster_path": "/bRa83oPFFPqaAF3wrpVWPqqfFel.jpg",
           "backdrop_path": null,
@@ -5437,7 +4380,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.889,
+      "tmdb_popularity": 2.272,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -5498,7 +4441,7 @@
           "tmdb_id": 1287520,
           "original_title": "November 1963",
           "original_language": "en",
-          "popularity": 2.889,
+          "popularity": 2.272,
           "vote_count": 0,
           "poster_path": "/ujp2aHu1lWMjAGoletnsmv3mcMn.jpg",
           "backdrop_path": null,
@@ -5930,7 +4873,7 @@
       "classification": "amc_announced",
       "relevance_tier": "strongly_expected",
       "user_visible": true,
-      "tmdb_popularity": 6.588,
+      "tmdb_popularity": 6.803,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_meets_popularity",
       "popularity_threshold_applied": 5.0,
@@ -5984,7 +4927,7 @@
           "tmdb_id": 848700,
           "original_title": "Minotaure",
           "original_language": "fr",
-          "popularity": 6.588,
+          "popularity": 6.803,
           "vote_count": 39,
           "poster_path": "/bM37B5CuMWrPyGPpNsKzTGict4Q.jpg",
           "backdrop_path": null,
@@ -6170,6 +5113,92 @@
     },
     {
       "film_id": null,
+      "title": "Appakutty",
+      "join_key": "appakutty",
+      "parent_film_keys": [
+        "appakutty"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85674",
+      "amc_movie_ids": [
+        "85674"
+      ],
+      "expected_release_date": "2026-11-20",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-11-20",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "A father who, in the absence of a mother, steps into that role to raise his beloved daughter. His daughter longs for a mother but hides her feelings so she won't hurt her father. A young woman comes to love them both and hopes to become part of their lives. Just as the three of them start to come together, a sudden, devastating event strikes. APPAKUTTY is the story of their struggle to overcome this adversity and reclaim their lives.",
+        "runtime_minutes": 134,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Appakutty"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85674",
+          "source_title": "Appakutty",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 134,
+          "mpaa_rating": "NR",
+          "genre": "DRAMA",
+          "slug": "appakutty-85674",
+          "synopsis": "A father who, in the absence of a mother, steps into that role to raise his beloved daughter. His daughter longs for a mother but hides her feelings so she won't hurt her father. A young woman comes to love them both and hopes to become part of their lives. Just as the three of them start to come together, a sudden, devastating event strikes. APPAKUTTY is the story of their struggle to overcome this adversity and reclaim their lives.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
       "title": "Ash and Crayons",
       "join_key": "ash-and-crayons",
       "parent_film_keys": [
@@ -6201,7 +5230,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.518,
+      "tmdb_popularity": 1.254,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -6255,7 +5284,7 @@
           "tmdb_id": 1752150,
           "original_title": "Ash and Crayons",
           "original_language": "uk",
-          "popularity": 1.518,
+          "popularity": 1.254,
           "vote_count": 0,
           "poster_path": "/9ay4eosyvRT6HfWKQwHiBRVvxj2.jpg",
           "backdrop_path": null,
@@ -6431,6 +5460,92 @@
           "genre": "ACTION",
           "slug": "om-chapter-1-udhiram-85543",
           "synopsis": "Follows a man who saves 20 Tamil woodcutters arrested by police in a forest in Tiruvannamalai.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Rate It X (1986) (re)",
+      "join_key": "rate-it-x-1986-re-1986",
+      "parent_film_keys": [
+        "amc-movie-85675"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85675",
+      "amc_movie_ids": [
+        "85675"
+      ],
+      "expected_release_date": "2026-11-20",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-11-20",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "First released in 1985, RATE IT X stunned audiences and critics alike with its unflinching look at how sexism and sexual exploitation are embedded in American media and culture. Directors Lucy Winer and Paula de Koenigsberg traveled across the United States interviewing men who profited from--and helped perpetuate--stereotyped and sexualized images of women. Advertising executives describe how sex is used to sell products. Hustler magazine's creator of the notorious 'Chester the Molester' cartoon proudly displays drawings depicting a predatory adult man entrapping young girls. A fundamentalist minister tells us that Adam shirked his responsibility by allowing Eve to lead. The flamboyant producer of a popular cable show roams the streets of New York City in a silver lame jumpsuit, video camera in hand, asking young women, \"Would you like to flex into a hallway and pose nude?\"\n\nApplauded for its keen humor, Rate It X is now digitally restored and rereleased, remaining as provocative and relevant as ever. Despite decades of hard-fought victories in the women's movement, women's rights continue to face renewed challenges, and many of the cultural attitudes the film exposes remain deeply embedded. At a moment when political battles over sex discrimination and civil liberties intensify, the film's confrontational lens feels newly urgent. As public demands grow for greater transparency and accountability surrounding the sexual abuse and exploitation of minors, RATE IT X stands as a powerful reminder of why exposing these dynamics--and questioning the culture that sustains them--remains essential.",
+        "runtime_minutes": 93,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Rate It X (1986) (re)"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85675",
+          "source_title": "Rate It X (1986) (re)",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 93,
+          "mpaa_rating": "NR",
+          "genre": "DOCUMENTARY",
+          "slug": "rate-it-x-1986-re-85675",
+          "synopsis": "First released in 1985, RATE IT X stunned audiences and critics alike with its unflinching look at how sexism and sexual exploitation are embedded in American media and culture. Directors Lucy Winer and Paula de Koenigsberg traveled across the United States interviewing men who profited from--and helped perpetuate--stereotyped and sexualized images of women. Advertising executives describe how sex is used to sell products. Hustler magazine's creator of the notorious 'Chester the Molester' cartoon proudly displays drawings depicting a predatory adult man entrapping young girls. A fundamentalist minister tells us that Adam shirked his responsibility by allowing Eve to lead. The flamboyant producer of a popular cable show roams the streets of New York City in a silver lame jumpsuit, video camera in hand, asking young women, \"Would you like to flex into a hallway and pose nude?\"\n\nApplauded for its keen humor, Rate It X is now digitally restored and rereleased, remaining as provocative and relevant as ever. Despite decades of hard-fought victories in the women's movement, women's rights continue to face renewed challenges, and many of the cultural attitudes the film exposes remain deeply embedded. At a moment when political battles over sex discrimination and civil liberties intensify, the film's confrontational lens feels newly urgent. As public demands grow for greater transparency and accountability surrounding the sexual abuse and exploitation of minors, RATE IT X stands as a powerful reminder of why exposing these dynamics--and questioning the culture that sustains them--remains essential.",
           "poster_url": null,
           "hero_desktop_url": null,
           "hero_mobile_url": null,
@@ -7887,7 +7002,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 3.0,
+      "tmdb_popularity": 2.504,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -7954,7 +7069,7 @@
           "tmdb_id": 1316999,
           "original_title": "Tangles",
           "original_language": "en",
-          "popularity": 3.0,
+          "popularity": 2.504,
           "vote_count": 0,
           "poster_path": "/agQGw5Cux2CYaxI8UHlLbta2bgw.jpg",
           "backdrop_path": null,
@@ -8328,7 +7443,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 5.358,
+      "tmdb_popularity": 4.999,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -8397,7 +7512,7 @@
           "tmdb_id": 1599230,
           "original_title": "Elsinore",
           "original_language": "en",
-          "popularity": 5.358,
+          "popularity": 4.999,
           "vote_count": 0,
           "poster_path": "/kohUtEueIVyDXC30MaOdi36aAwn.jpg",
           "backdrop_path": null,
@@ -8466,7 +7581,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 3.359,
+      "tmdb_popularity": 3.472,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -8522,11 +7637,11 @@
           "tmdb_id": 1461490,
           "original_title": "Hershey",
           "original_language": "en",
-          "popularity": 3.359,
+          "popularity": 3.472,
           "vote_count": 0,
           "poster_path": "/ojd8Gu2bPsOzdMz6Ip5AYDu4Vki.jpg",
           "backdrop_path": null,
-          "overview": "Based on the life of Milton Hershey, founder of the iconic Hershey chocolate company.  Milton's grit and determination to conquer the world of candy-making propel him from bankruptcy to monumental success, and the love of his life, Kitty, helps him build a legacy sweeter than any candy bar. But when Kitty falls ill, Milton’s wild optimism teeters on the edge of destruction, and she sparks an even bolder dream: to leave their fortune in the hands of America’s children in need.",
+          "overview": "Based on the life of Milton Hershey, founder of the iconic Hershey chocolate company. Milton's grit and determination to conquer the world of candy-making propel him from bankruptcy to monumental success, and the love of his life, Kitty, helps him build a legacy sweeter than any candy bar. But when Kitty falls ill, Milton’s wild optimism teeters on the edge of destruction, and she sparks an even bolder dream: to leave their fortune in the hands of America’s children in need.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": []
@@ -8583,7 +7698,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 6.304,
+      "tmdb_popularity": 6.435,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -8652,7 +7767,7 @@
           "tmdb_id": 1381273,
           "original_title": "Paper Tiger",
           "original_language": "en",
-          "popularity": 6.304,
+          "popularity": 6.435,
           "vote_count": 0,
           "poster_path": "/p6oLmq5KmuWY6uRXBQBL2q30jia.jpg",
           "backdrop_path": null,
@@ -8889,7 +8004,7 @@
         }
       ],
       "local_theater_count": 7,
-      "local_showtime_count": 490,
+      "local_showtime_count": 489,
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": true,
@@ -8899,7 +8014,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 11.911,
+      "tmdb_popularity": 11.983,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -8956,7 +8071,7 @@
           "tmdb_id": 1400336,
           "original_title": "Focker-in-Law",
           "original_language": "en",
-          "popularity": 11.911,
+          "popularity": 11.983,
           "vote_count": 0,
           "poster_path": "/gPdzdeehaoaYqxH2rA6yayEDSsS.jpg",
           "backdrop_path": null,
@@ -9097,7 +8212,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 13.146,
+      "tmdb_popularity": 12.694,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -9153,7 +8268,7 @@
           "tmdb_id": 1457866,
           "original_title": "THE FURTHER MIS-ADVENTURES OF CLIFF BOOTH",
           "original_language": "en",
-          "popularity": 13.146,
+          "popularity": 12.694,
           "vote_count": 0,
           "poster_path": "/5jO6rhfethzH7xdWl6KCOxCNCzQ.jpg",
           "backdrop_path": null,
@@ -9625,7 +8740,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.426,
+      "tmdb_popularity": 2.082,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -9679,7 +8794,7 @@
           "tmdb_id": 947502,
           "original_title": "In Waves",
           "original_language": "fr",
-          "popularity": 2.426,
+          "popularity": 2.082,
           "vote_count": 39,
           "poster_path": "/ry9Kj3maM9WllIe9T6C7EnS5kxI.jpg",
           "backdrop_path": null,
@@ -9810,7 +8925,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.29,
+      "tmdb_popularity": 1.234,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -9864,7 +8979,7 @@
           "tmdb_id": 1504630,
           "original_title": "మైసా",
           "original_language": "te",
-          "popularity": 1.29,
+          "popularity": 1.234,
           "vote_count": 0,
           "poster_path": "/rJa7VbffwJcGatv7bFISTlma5FQ.jpg",
           "backdrop_path": null,
@@ -11513,7 +10628,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.35,
+      "tmdb_popularity": 1.198,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -11567,7 +10682,7 @@
           "tmdb_id": 951018,
           "original_title": "روباه و ماه صورتی",
           "original_language": "fa",
-          "popularity": 1.35,
+          "popularity": 1.198,
           "vote_count": 0,
           "poster_path": "/67hNnsOQmC6DDYf7SuZc3ReldsB.jpg",
           "backdrop_path": null,
@@ -11691,7 +10806,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.758,
+      "tmdb_popularity": 2.279,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -11745,7 +10860,7 @@
           "tmdb_id": 947493,
           "original_title": "Le Corset",
           "original_language": "fr",
-          "popularity": 2.758,
+          "popularity": 2.279,
           "vote_count": 43,
           "poster_path": "/ltn7a7pfb7bXTEg1YEwVeAHs9GY.jpg",
           "backdrop_path": null,
@@ -11876,7 +10991,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.309,
+      "tmdb_popularity": 1.027,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -11930,7 +11045,7 @@
           "tmdb_id": 1666864,
           "original_title": "تمرین‌هایی برای یک انقلاب",
           "original_language": "fa",
-          "popularity": 1.309,
+          "popularity": 1.027,
           "vote_count": 0,
           "poster_path": "/mzocxy2wpTGoStwUlqcfHaNSxm2.jpg",
           "backdrop_path": null,
@@ -11945,7 +11060,7 @@
       "in_recommended": false
     },
     {
-      "film_id": null,
+      "film_id": "tmdb:10147",
       "title": "Bad Santa",
       "join_key": "bad-santa",
       "parent_film_keys": [
@@ -11954,7 +11069,7 @@
       "showtime_film_keys": [
         "bad-santa"
       ],
-      "tmdb_id": null,
+      "tmdb_id": 10147,
       "amc_movie_id": "85076",
       "amc_movie_ids": [
         "85076"
@@ -11994,19 +11109,19 @@
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793898244/amc-cdn/content/general/kvfufu3guwwj35wxjx4w.jpg",
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Two con men masquerade as Santa Claus and an elf, knocking off shopping malls. But then they meet an 8-year-old boy, who unintentionally reminds them about the true meaning of Christmas.",
-        "runtime_minutes": 93,
+        "source": "confirmed_enrichment",
+        "poster_url": "https://image.tmdb.org/t/p/w500/rfClLIyeHqpMofmrPY8DaLe4z9x.jpg",
+        "poster_path": "/rfClLIyeHqpMofmrPY8DaLe4z9x.jpg",
+        "backdrop_url": "https://image.tmdb.org/t/p/w780/tbmNzJIc7R1MuEweCOThpTzglyx.jpg",
+        "backdrop_path": "/tbmNzJIc7R1MuEweCOThpTzglyx.jpg",
+        "overview": "You'd better watch out - Willie T. Soke is coming to town, and he doesn't care if you've been naughty or nice. Willie's favorite holiday tradition is to fill his sacks with loot lifted from shopping malls across the country. But this year his plot gets derailed by a wisecracking store detective, a sexy bartender, and a kid who's convinced Willie is the real Santa Claus.",
+        "runtime_minutes": 92,
         "rating": "R",
-        "release_year": 2026
+        "release_year": 2003
       },
       "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
+        "method": "film_id",
+        "film_id_confirmed": true,
         "tmdb_id_inferred": false,
         "ambiguous": false,
         "synthetic_film_group": false,
@@ -12197,311 +11312,6 @@
     },
     {
       "film_id": null,
-      "title": "Behemoth!",
-      "join_key": "behemoth",
-      "parent_film_keys": [
-        "behemoth"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1452168,
-      "amc_movie_id": "84505",
-      "amc_movie_ids": [
-        "84505"
-      ],
-      "expected_release_date": "2026-12-04",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-12-04",
-      "tmdb_us_release_date": "2026-12-04",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "strongly_expected",
-      "user_visible": true,
-      "tmdb_popularity": 5.244,
-      "local_evidence_strength": "proxy",
-      "relevance_reason": "amc_tmdb_proxy_meets_popularity",
-      "popularity_threshold_applied": 5.0,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793293158/amc-cdn/content/general/wzkectt20asjjilfwzsg.jpg",
-        "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1789556784/amc-cdn/production/2/movies/84500/84505/MovieStills/389075R7.jpg",
-        "backdrop_path": null,
-        "overview": "A gifted cellist, Alex Serian (Pedro Pascal), returns home to Los Angeles after 20 years on the road.  Music, which has been the constant, all-consuming river of his life, begins to carry Alex on an adventure that will change him forever.",
-        "runtime_minutes": 127,
-        "rating": "R",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Behemoth!"
-        ],
-        "contributing_sources": [
-          "amc_catalog",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "84505",
-          "source_title": "Behemoth!",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-          "earliest_showing_utc": "2026-12-03T14:00:00Z",
-          "runtime_min": 127,
-          "mpaa_rating": "R",
-          "genre": "DRAMA",
-          "slug": "behemoth-84505",
-          "synopsis": "A gifted cellist, Alex Serian (Pedro Pascal), returns home to Los Angeles after 20 years on the road.  Music, which has been the constant, all-consuming river of his life, begins to carry Alex on an adventure that will change him forever.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1793293158/amc-cdn/content/general/wzkectt20asjjilfwzsg.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789556784/amc-cdn/production/2/movies/84500/84505/MovieStills/389075R7.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789556784/amc-cdn/production/2/movies/84500/84505/MovieStills/389075R7.jpg",
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": {
-          "tmdb_id": 1452168,
-          "original_title": "Behemoth!",
-          "original_language": "en",
-          "popularity": 5.244,
-          "vote_count": 0,
-          "poster_path": "/bcyGYWfcXr0GnXewaE5gkvYy1iQ.jpg",
-          "backdrop_path": null,
-          "overview": "Gifted cellist Alex Serian returns home to Los Angeles after 20 years on the road. Music, which has been the constant, all-consuming river of his life, begins to carry Alex on an adventure that will change him forever.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": []
-        }
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
-      "title": "The Gallerist",
-      "join_key": "gallerist",
-      "parent_film_keys": [
-        "gallerist"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1379537,
-      "amc_movie_id": "85318",
-      "amc_movie_ids": [
-        "85318"
-      ],
-      "expected_release_date": "2026-12-04",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-12-04",
-      "tmdb_us_release_date": "2026-12-04",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "strongly_expected",
-      "user_visible": true,
-      "tmdb_popularity": 5.076,
-      "local_evidence_strength": "proxy",
-      "relevance_reason": "amc_tmdb_proxy_meets_popularity",
-      "popularity_threshold_applied": 5.0,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/UkZG7Gv06cBTP60Frt4r5HZNCj.jpg",
-        "poster_path": "/UkZG7Gv06cBTP60Frt4r5HZNCj.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A gallerist, driven by a desperate desire for success, hatches a scheme to cover up a dead man as an extraordinary art piece at a pretentious Miami art fair.",
-        "runtime_minutes": 94,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "The Gallerist"
-        ],
-        "contributing_sources": [
-          "amc_catalog",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85318",
-          "source_title": "The Gallerist",
-          "has_scheduled_showtimes": false,
-          "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-          "earliest_showing_utc": null,
-          "runtime_min": 94,
-          "mpaa_rating": null,
-          "genre": "COMEDY",
-          "slug": "the-gallerist-85318",
-          "synopsis": "A gallerist, driven by a desperate desire for success, hatches a scheme to cover up a dead man as an extraordinary art piece at a pretentious Miami art fair.",
-          "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": {
-          "tmdb_id": 1379537,
-          "original_title": "The Gallerist",
-          "original_language": "en",
-          "popularity": 5.076,
-          "vote_count": 0,
-          "poster_path": "/UkZG7Gv06cBTP60Frt4r5HZNCj.jpg",
-          "backdrop_path": null,
-          "overview": "A desperate gallerist conspires to sell a dead body at Art Basel Miami.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": []
-        }
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
-      "title": "Violent Night 2",
-      "join_key": "violent-night-2",
-      "parent_film_keys": [
-        "violent-night-2"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1078446,
-      "amc_movie_id": "77282",
-      "amc_movie_ids": [
-        "77282",
-        "85178"
-      ],
-      "expected_release_date": "2026-12-04",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-12-04",
-      "tmdb_us_release_date": "2026-12-04",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "strongly_expected",
-      "user_visible": true,
-      "tmdb_popularity": 5.064,
-      "local_evidence_strength": "proxy",
-      "relevance_reason": "amc_tmdb_proxy_meets_popularity",
-      "popularity_threshold_applied": 5.0,
-      "local_booking_kind": null,
-      "engagements": [
-        {
-          "kind": "other_engagement",
-          "title": "Violent Night 2: Sensory Friendly Screening",
-          "amc_movie_id": "85178"
-        }
-      ],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1785856288/amc-cdn/content/general/qrs01kirjviebcjocv0n.jpg",
-        "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1786532812/amc-cdn/production/2/movies/77300/77282/MovieStills/394392R3.jpg",
-        "backdrop_path": null,
-        "overview": "If you're nice, you get presents from the Big Guy. If you're naughty, you get justice.\n\nDavid Harbour reprises his role as Santa Claus in a propulsive new chapter in yuletide mayhem from 87North--the powerhouse producers of Bullet Train, John Wick, The Fall Guy, Atomic Blonde and the Nobody franchise--and returning action director Tommy Wirkola.\n\nIn 2022's bare-knuckle holiday sensation, VIOLENT NIGHT, an embittered Santa, armed with lethal combat skills, took out a team of mercenaries to rescue a girl and her family. Now, not-so-jolly Saint Nick suits up again to take on a ruthless gangster (Emmy and Golden Globe nominee Jared Harris) terrorizing the merchants of the Silver Bell Mall.\n\nBut when Santa forgets the true meaning of Christmas, he finds himself in the heart of a lively mall community in desperate need of his help. Sapped of his magic, he'll need another way to take on the goons threatening the mall, and time is running out. Santa has to rediscover his faith in goodness and call in some last-minute reinforcements from the one person no baddie wants to tangle with: Mrs. Claus (Emmy and Golden Globe nominee Kristen Bell). \n\nAlong with David Harbour, Jared Harris and Kristen Bell, the dynamic cast includes Emmy winning screen legend Joe Pantoliano (The Last of Us, The Sopranos), Daniela Melchior (Fast X, Guardians of the Galaxy Vol. 3), Andrew Bachelor (Greenland, The Walking Dead), and AEW professional wrestler Maxwell Friedman (The Iron Claw, Happy Gilmore 2).\n\nVIOLENT NIGHT 2 is directed by returning filmmaker Tommy Wirkola and produced again by 87North founders Kelly McCormick and David Leitch. The film's returning screenwriters are Pat Casey and Josh Miller. Violent Night 2 will be released by Universal Pictures.",
-        "runtime_minutes": 110,
-        "rating": "R",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Violent Night 2",
-          "Violent Night 2: Sensory Friendly Screening"
-        ],
-        "contributing_sources": [
-          "amc_catalog",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "77282",
-          "source_title": "Violent Night 2",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-          "earliest_showing_utc": "2026-12-03T14:00:00Z",
-          "runtime_min": 110,
-          "mpaa_rating": "R",
-          "genre": "ACTION",
-          "slug": "violent-night-2-77282",
-          "synopsis": "If you're nice, you get presents from the Big Guy. If you're naughty, you get justice.\n\nDavid Harbour reprises his role as Santa Claus in a propulsive new chapter in yuletide mayhem from 87North--the powerhouse producers of Bullet Train, John Wick, The Fall Guy, Atomic Blonde and the Nobody franchise--and returning action director Tommy Wirkola.\n\nIn 2022's bare-knuckle holiday sensation, VIOLENT NIGHT, an embittered Santa, armed with lethal combat skills, took out a team of mercenaries to rescue a girl and her family. Now, not-so-jolly Saint Nick suits up again to take on a ruthless gangster (Emmy and Golden Globe nominee Jared Harris) terrorizing the merchants of the Silver Bell Mall.\n\nBut when Santa forgets the true meaning of Christmas, he finds himself in the heart of a lively mall community in desperate need of his help. Sapped of his magic, he'll need another way to take on the goons threatening the mall, and time is running out. Santa has to rediscover his faith in goodness and call in some last-minute reinforcements from the one person no baddie wants to tangle with: Mrs. Claus (Emmy and Golden Globe nominee Kristen Bell). \n\nAlong with David Harbour, Jared Harris and Kristen Bell, the dynamic cast includes Emmy winning screen legend Joe Pantoliano (The Last of Us, The Sopranos), Daniela Melchior (Fast X, Guardians of the Galaxy Vol. 3), Andrew Bachelor (Greenland, The Walking Dead), and AEW professional wrestler Maxwell Friedman (The Iron Claw, Happy Gilmore 2).\n\nVIOLENT NIGHT 2 is directed by returning filmmaker Tommy Wirkola and produced again by 87North founders Kelly McCormick and David Leitch. The film's returning screenwriters are Pat Casey and Josh Miller. Violent Night 2 will be released by Universal Pictures.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1785856288/amc-cdn/content/general/qrs01kirjviebcjocv0n.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1786532812/amc-cdn/production/2/movies/77300/77282/MovieStills/394392R3.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1786532812/amc-cdn/production/2/movies/77300/77282/MovieStills/394392R3.jpg",
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": {
-          "tmdb_id": 1078446,
-          "original_title": "Violent Night 2",
-          "original_language": "en",
-          "popularity": 5.064,
-          "vote_count": 0,
-          "poster_path": "/7HPvgItDw9NgW3iy4tFRRuGNbuN.jpg",
-          "backdrop_path": null,
-          "overview": "When Santa forgets the true meaning of Christmas, he finds himself in the heart of a lively mall community in desperate need of his help. Sapped of his magic, he’ll need another way to take on the goons threatening the mall, and time is running out. Santa has to rediscover his faith in goodness and call in some last-minute reinforcements from the one person no baddie wants to tangle with: Mrs. Claus.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": []
-        }
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
       "title": "A Little Dream of Me",
       "join_key": "little-dream-of-me",
       "parent_film_keys": [
@@ -12619,7 +11429,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.185,
+      "tmdb_popularity": 2.019,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -12673,7 +11483,7 @@
           "tmdb_id": 1198746,
           "original_title": "Above the Below",
           "original_language": "en",
-          "popularity": 2.185,
+          "popularity": 2.019,
           "vote_count": 0,
           "poster_path": "/ytUoQYt0m7vbpnNqMrDJ7Prp0Aj.jpg",
           "backdrop_path": null,
@@ -12720,7 +11530,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 0.863,
+      "tmdb_popularity": 0.673,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -12774,7 +11584,7 @@
           "tmdb_id": 1713050,
           "original_title": "అలియాస్ రుక్మిణీ",
           "original_language": "te",
-          "popularity": 0.863,
+          "popularity": 0.673,
           "vote_count": 0,
           "poster_path": "/uPjaz6v4Ti8GZQQFihK1rjrFH3A.jpg",
           "backdrop_path": null,
@@ -12785,6 +11595,105 @@
             "very_low_popularity",
             "no_votes_and_low_popularity"
           ]
+        }
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Behemoth!",
+      "join_key": "behemoth",
+      "parent_film_keys": [
+        "behemoth"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1452168,
+      "amc_movie_id": "84505",
+      "amc_movie_ids": [
+        "84505"
+      ],
+      "expected_release_date": "2026-12-04",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-12-04",
+      "tmdb_us_release_date": "2026-12-04",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": 4.838,
+      "local_evidence_strength": "proxy",
+      "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
+      "popularity_threshold_applied": 5.0,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793293158/amc-cdn/content/general/wzkectt20asjjilfwzsg.jpg",
+        "poster_path": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1789556784/amc-cdn/production/2/movies/84500/84505/MovieStills/389075R7.jpg",
+        "backdrop_path": null,
+        "overview": "A gifted cellist, Alex Serian (Pedro Pascal), returns home to Los Angeles after 20 years on the road.  Music, which has been the constant, all-consuming river of his life, begins to carry Alex on an adventure that will change him forever.",
+        "runtime_minutes": 127,
+        "rating": "R",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Behemoth!"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84505",
+          "source_title": "Behemoth!",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
+          "earliest_showing_utc": "2026-12-03T14:00:00Z",
+          "runtime_min": 127,
+          "mpaa_rating": "R",
+          "genre": "DRAMA",
+          "slug": "behemoth-84505",
+          "synopsis": "A gifted cellist, Alex Serian (Pedro Pascal), returns home to Los Angeles after 20 years on the road.  Music, which has been the constant, all-consuming river of his life, begins to carry Alex on an adventure that will change him forever.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1793293158/amc-cdn/content/general/wzkectt20asjjilfwzsg.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789556784/amc-cdn/production/2/movies/84500/84505/MovieStills/389075R7.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789556784/amc-cdn/production/2/movies/84500/84505/MovieStills/389075R7.jpg",
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": {
+          "tmdb_id": 1452168,
+          "original_title": "Behemoth!",
+          "original_language": "en",
+          "popularity": 4.838,
+          "vote_count": 0,
+          "poster_path": "/bcyGYWfcXr0GnXewaE5gkvYy1iQ.jpg",
+          "backdrop_path": null,
+          "overview": "Gifted cellist Alex Serian returns home to Los Angeles after 20 years on the road. Music, which has been the constant, all-consuming river of his life, begins to carry Alex on an adventure that will change him forever.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
         }
       },
       "in_recommended": false
@@ -13080,7 +11989,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.938,
+      "tmdb_popularity": 1.75,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -13134,16 +12043,14 @@
           "tmdb_id": 1125822,
           "original_title": "Eternal Return",
           "original_language": "en",
-          "popularity": 1.938,
-          "vote_count": 0,
+          "popularity": 1.75,
+          "vote_count": 1,
           "poster_path": "/aRPeGH99uVY3q5KUBbDbPKv8E0o.jpg",
           "backdrop_path": null,
           "overview": "Cass has come to a personal point of emotional invulnerability, until she meets Virgil, a cartographer. Along with his partner Malcolm, they attempt to travel back in time to awaken Cass to love again.",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": [
-            "no_votes_and_low_popularity"
-          ]
+          "quality_flags": []
         }
       },
       "in_recommended": false
@@ -13353,7 +12260,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.656,
+      "tmdb_popularity": 1.426,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -13407,7 +12314,7 @@
           "tmdb_id": 1736335,
           "original_title": "Gods Don't Give Gifts",
           "original_language": "en",
-          "popularity": 1.656,
+          "popularity": 1.426,
           "vote_count": 0,
           "poster_path": "/okncenYPZPIYjXEuuC4FSMtgR0o.jpg",
           "backdrop_path": null,
@@ -13976,7 +12883,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.694,
+      "tmdb_popularity": 1.342,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -14030,7 +12937,7 @@
           "tmdb_id": 1596282,
           "original_title": "The Friend's House is Here",
           "original_language": "en",
-          "popularity": 1.694,
+          "popularity": 1.342,
           "vote_count": 0,
           "poster_path": "/zo4rofwJQqdQPrjzA3bA4UVXCIK.jpg",
           "backdrop_path": null,
@@ -14040,6 +12947,212 @@
           "quality_flags": [
             "no_votes_and_low_popularity"
           ]
+        }
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "The Gallerist",
+      "join_key": "gallerist",
+      "parent_film_keys": [
+        "gallerist"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1379537,
+      "amc_movie_id": "85318",
+      "amc_movie_ids": [
+        "85318"
+      ],
+      "expected_release_date": "2026-12-04",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-12-04",
+      "tmdb_us_release_date": "2026-12-04",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": 3.952,
+      "local_evidence_strength": "proxy",
+      "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
+      "popularity_threshold_applied": 5.0,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "inferred_tmdb",
+        "poster_url": "https://image.tmdb.org/t/p/w500/UkZG7Gv06cBTP60Frt4r5HZNCj.jpg",
+        "poster_path": "/UkZG7Gv06cBTP60Frt4r5HZNCj.jpg",
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "A gallerist, driven by a desperate desire for success, hatches a scheme to cover up a dead man as an extraordinary art piece at a pretentious Miami art fair.",
+        "runtime_minutes": 94,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "The Gallerist"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85318",
+          "source_title": "The Gallerist",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 94,
+          "mpaa_rating": null,
+          "genre": "COMEDY",
+          "slug": "the-gallerist-85318",
+          "synopsis": "A gallerist, driven by a desperate desire for success, hatches a scheme to cover up a dead man as an extraordinary art piece at a pretentious Miami art fair.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": {
+          "tmdb_id": 1379537,
+          "original_title": "The Gallerist",
+          "original_language": "en",
+          "popularity": 3.952,
+          "vote_count": 0,
+          "poster_path": "/UkZG7Gv06cBTP60Frt4r5HZNCj.jpg",
+          "backdrop_path": null,
+          "overview": "A desperate gallerist conspires to sell a dead body at Art Basel Miami.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
+        }
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Violent Night 2",
+      "join_key": "violent-night-2",
+      "parent_film_keys": [
+        "violent-night-2"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1078446,
+      "amc_movie_id": "77282",
+      "amc_movie_ids": [
+        "77282",
+        "85178"
+      ],
+      "expected_release_date": "2026-12-04",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-12-04",
+      "tmdb_us_release_date": "2026-12-04",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": 4.932,
+      "local_evidence_strength": "proxy",
+      "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
+      "popularity_threshold_applied": 5.0,
+      "local_booking_kind": null,
+      "engagements": [
+        {
+          "kind": "other_engagement",
+          "title": "Violent Night 2: Sensory Friendly Screening",
+          "amc_movie_id": "85178"
+        }
+      ],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1785856288/amc-cdn/content/general/qrs01kirjviebcjocv0n.jpg",
+        "poster_path": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1786532812/amc-cdn/production/2/movies/77300/77282/MovieStills/394392R3.jpg",
+        "backdrop_path": null,
+        "overview": "If you're nice, you get presents from the Big Guy. If you're naughty, you get justice.\n\nDavid Harbour reprises his role as Santa Claus in a propulsive new chapter in yuletide mayhem from 87North--the powerhouse producers of Bullet Train, John Wick, The Fall Guy, Atomic Blonde and the Nobody franchise--and returning action director Tommy Wirkola.\n\nIn 2022's bare-knuckle holiday sensation, VIOLENT NIGHT, an embittered Santa, armed with lethal combat skills, took out a team of mercenaries to rescue a girl and her family. Now, not-so-jolly Saint Nick suits up again to take on a ruthless gangster (Emmy and Golden Globe nominee Jared Harris) terrorizing the merchants of the Silver Bell Mall.\n\nBut when Santa forgets the true meaning of Christmas, he finds himself in the heart of a lively mall community in desperate need of his help. Sapped of his magic, he'll need another way to take on the goons threatening the mall, and time is running out. Santa has to rediscover his faith in goodness and call in some last-minute reinforcements from the one person no baddie wants to tangle with: Mrs. Claus (Emmy and Golden Globe nominee Kristen Bell). \n\nAlong with David Harbour, Jared Harris and Kristen Bell, the dynamic cast includes Emmy winning screen legend Joe Pantoliano (The Last of Us, The Sopranos), Daniela Melchior (Fast X, Guardians of the Galaxy Vol. 3), Andrew Bachelor (Greenland, The Walking Dead), and AEW professional wrestler Maxwell Friedman (The Iron Claw, Happy Gilmore 2).\n\nVIOLENT NIGHT 2 is directed by returning filmmaker Tommy Wirkola and produced again by 87North founders Kelly McCormick and David Leitch. The film's returning screenwriters are Pat Casey and Josh Miller. Violent Night 2 will be released by Universal Pictures.",
+        "runtime_minutes": 110,
+        "rating": "R",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Violent Night 2",
+          "Violent Night 2: Sensory Friendly Screening"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "77282",
+          "source_title": "Violent Night 2",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
+          "earliest_showing_utc": "2026-12-03T14:00:00Z",
+          "runtime_min": 110,
+          "mpaa_rating": "R",
+          "genre": "ACTION",
+          "slug": "violent-night-2-77282",
+          "synopsis": "If you're nice, you get presents from the Big Guy. If you're naughty, you get justice.\n\nDavid Harbour reprises his role as Santa Claus in a propulsive new chapter in yuletide mayhem from 87North--the powerhouse producers of Bullet Train, John Wick, The Fall Guy, Atomic Blonde and the Nobody franchise--and returning action director Tommy Wirkola.\n\nIn 2022's bare-knuckle holiday sensation, VIOLENT NIGHT, an embittered Santa, armed with lethal combat skills, took out a team of mercenaries to rescue a girl and her family. Now, not-so-jolly Saint Nick suits up again to take on a ruthless gangster (Emmy and Golden Globe nominee Jared Harris) terrorizing the merchants of the Silver Bell Mall.\n\nBut when Santa forgets the true meaning of Christmas, he finds himself in the heart of a lively mall community in desperate need of his help. Sapped of his magic, he'll need another way to take on the goons threatening the mall, and time is running out. Santa has to rediscover his faith in goodness and call in some last-minute reinforcements from the one person no baddie wants to tangle with: Mrs. Claus (Emmy and Golden Globe nominee Kristen Bell). \n\nAlong with David Harbour, Jared Harris and Kristen Bell, the dynamic cast includes Emmy winning screen legend Joe Pantoliano (The Last of Us, The Sopranos), Daniela Melchior (Fast X, Guardians of the Galaxy Vol. 3), Andrew Bachelor (Greenland, The Walking Dead), and AEW professional wrestler Maxwell Friedman (The Iron Claw, Happy Gilmore 2).\n\nVIOLENT NIGHT 2 is directed by returning filmmaker Tommy Wirkola and produced again by 87North founders Kelly McCormick and David Leitch. The film's returning screenwriters are Pat Casey and Josh Miller. Violent Night 2 will be released by Universal Pictures.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1785856288/amc-cdn/content/general/qrs01kirjviebcjocv0n.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1786532812/amc-cdn/production/2/movies/77300/77282/MovieStills/394392R3.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1786532812/amc-cdn/production/2/movies/77300/77282/MovieStills/394392R3.jpg",
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": {
+          "tmdb_id": 1078446,
+          "original_title": "Violent Night 2",
+          "original_language": "en",
+          "popularity": 4.932,
+          "vote_count": 0,
+          "poster_path": "/7HPvgItDw9NgW3iy4tFRRuGNbuN.jpg",
+          "backdrop_path": null,
+          "overview": "When Santa forgets the true meaning of Christmas, he finds himself in the heart of a lively mall community in desperate need of his help. Sapped of his magic, he’ll need another way to take on the goons threatening the mall, and time is running out. Santa has to rediscover his faith in goodness and call in some last-minute reinforcements from the one person no baddie wants to tangle with: Mrs. Claus.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
         }
       },
       "in_recommended": false
@@ -14131,7 +13244,7 @@
       "in_recommended": false
     },
     {
-      "film_id": null,
+      "film_id": "tmdb:5255",
       "title": "The Polar Express",
       "join_key": "polar-express",
       "parent_film_keys": [
@@ -14140,7 +13253,7 @@
       "showtime_film_keys": [
         "polar-express"
       ],
-      "tmdb_id": null,
+      "tmdb_id": 5255,
       "amc_movie_id": "85073",
       "amc_movie_ids": [
         "85073"
@@ -14180,19 +13293,19 @@
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793898402/amc-cdn/content/general/wrjavegugvlr7s8tjoda.jpg",
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "On Christmas Eve, a young boy embarks on a magical adventure to the North Pole on the Polar Express, while learning about friendship, bravery, and the spirit of Christmas.",
+        "source": "confirmed_enrichment",
+        "poster_url": "https://image.tmdb.org/t/p/w500/eOoCzH0MqeGr2taUZO4SwG416PF.jpg",
+        "poster_path": "/eOoCzH0MqeGr2taUZO4SwG416PF.jpg",
+        "backdrop_url": "https://image.tmdb.org/t/p/w780/jtOvTVlkF8TlaOq94oNXRc9u2yp.jpg",
+        "backdrop_path": "/jtOvTVlkF8TlaOq94oNXRc9u2yp.jpg",
+        "overview": "When a doubting young boy takes an extraordinary train ride to the North Pole, he embarks on a journey of self-discovery that shows him that the wonder of life never fades for those who believe.",
         "runtime_minutes": 100,
         "rating": "G",
-        "release_year": 2026
+        "release_year": 2004
       },
       "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
+        "method": "film_id",
+        "film_id_confirmed": true,
         "tmdb_id_inferred": false,
         "ambiguous": false,
         "synthetic_film_group": false,
@@ -14751,7 +13864,7 @@
       "in_recommended": true
     },
     {
-      "film_id": null,
+      "film_id": "tmdb:927",
       "title": "Gremlins",
       "join_key": "gremlins",
       "parent_film_keys": [
@@ -14760,7 +13873,7 @@
       "showtime_film_keys": [
         "gremlins"
       ],
-      "tmdb_id": null,
+      "tmdb_id": 927,
       "amc_movie_id": "85077",
       "amc_movie_ids": [
         "85077"
@@ -14800,19 +13913,19 @@
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793898197/amc-cdn/content/general/ajeyd5ghiipsohdzbpaq.jpg",
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "With its Christmas lights and dusting of snow, Kingston Falls is an idyllic small town--until the gremlins take over. A father returns from Chinatown with an unusual pet, a Mogwai--a gift for his son. The rules are simple: Keep your Mogwai away from water, bright lights and, most importantly, never--never--feed him after midnight. But the rules are inadvertently broken, and the consequences multiply at an alarming rate.",
+        "source": "confirmed_enrichment",
+        "poster_url": "https://image.tmdb.org/t/p/w500/6m0F7fsXjQvUbCZrPWcJNrjvIui.jpg",
+        "poster_path": "/6m0F7fsXjQvUbCZrPWcJNrjvIui.jpg",
+        "backdrop_url": "https://image.tmdb.org/t/p/w780/5UX6M0aEphiW6Xmy5rpYX75glbo.jpg",
+        "backdrop_path": "/5UX6M0aEphiW6Xmy5rpYX75glbo.jpg",
+        "overview": "After receiving an exotic small animal as a Christmas gift, a young man inadvertently breaks three important rules concerning his new pet, which unleashes a horde of malevolently mischievous creatures on a small town.",
         "runtime_minutes": 106,
         "rating": "PG",
-        "release_year": 2026
+        "release_year": 1984
       },
       "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
+        "method": "film_id",
+        "film_id_confirmed": true,
         "tmdb_id_inferred": false,
         "ambiguous": false,
         "synthetic_film_group": false,
@@ -14881,7 +13994,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 4.479,
+      "tmdb_popularity": 4.228,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -14942,7 +14055,7 @@
           "tmdb_id": 1492198,
           "original_title": "Artificial",
           "original_language": "en",
-          "popularity": 4.479,
+          "popularity": 4.228,
           "vote_count": 0,
           "poster_path": "/2bz0HPE8OFOqnyvl8sCdVDIg1KX.jpg",
           "backdrop_path": null,
@@ -14955,7 +14068,7 @@
       "in_recommended": false
     },
     {
-      "film_id": null,
+      "film_id": "tmdb:10719",
       "title": "Elf",
       "join_key": "elf",
       "parent_film_keys": [
@@ -14964,7 +14077,7 @@
       "showtime_film_keys": [
         "elf"
       ],
-      "tmdb_id": null,
+      "tmdb_id": 10719,
       "amc_movie_id": "85072",
       "amc_movie_ids": [
         "85072"
@@ -15004,19 +14117,19 @@
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793898308/amc-cdn/content/general/kmeptjz5az8kojirehff.jpg",
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A human baby raised as an elf. A city where no one remembers the true meaning of Christmas. Will Ferrell (Saturday Night Live, Superstar) stars as Buddy, a human raised in the North Pole to be an elf. After wreaking havoc in the elf community due to his size, Buddy heads to New York City to find his place in the world, and track down his father. But life in the big city is not all sugarplums and candy canes. His father is a 'Scrooge' and his eight-year-old stepbrother doesn't believe in Santa. Even the snowmen aren't friendly in New York. In fact, they don't even speak. Worst of all, everyone has forgotten the true meaning of Christmas, and it's up to Buddy and his simple elf ways to win over his family, realize his destiny and, ultimately, save Christmas for New York and the world. Directed by John Favreau (Swingers), Elf is a warm-hearted Christmas comedy written by David Berenbaum.",
-        "runtime_minutes": 100,
+        "source": "confirmed_enrichment",
+        "poster_url": "https://image.tmdb.org/t/p/w500/oOleziEempUPu96jkGs0Pj6tKxj.jpg",
+        "poster_path": "/oOleziEempUPu96jkGs0Pj6tKxj.jpg",
+        "backdrop_url": "https://image.tmdb.org/t/p/w780/5nhp41gx49vXjwXuDXJwQrRFsng.jpg",
+        "backdrop_path": "/5nhp41gx49vXjwXuDXJwQrRFsng.jpg",
+        "overview": "When young Buddy falls into Santa's gift sack on Christmas Eve, he's transported back to the North Pole and raised as a toy-making elf by Santa's helpers. But as he grows into adulthood, he can't shake the nagging feeling that he doesn't belong. Buddy vows to visit Manhattan and find his real dad, a workaholic.",
+        "runtime_minutes": 97,
         "rating": "PG",
-        "release_year": 2026
+        "release_year": 2003
       },
       "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
+        "method": "film_id",
+        "film_id_confirmed": true,
         "tmdb_id_inferred": false,
         "ambiguous": false,
         "synthetic_film_group": false,
@@ -15035,7 +14148,7 @@
           "source_title": "Elf",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-          "earliest_showing_utc": "2026-12-08T16:00:00Z",
+          "earliest_showing_utc": "2026-12-04T16:45:00Z",
           "runtime_min": 100,
           "mpaa_rating": "PG",
           "genre": null,
@@ -15319,7 +14432,7 @@
       "in_recommended": true
     },
     {
-      "film_id": null,
+      "film_id": "tmdb:9647",
       "title": "Scrooged",
       "join_key": "scrooged",
       "parent_film_keys": [
@@ -15328,7 +14441,7 @@
       "showtime_film_keys": [
         "scrooged"
       ],
-      "tmdb_id": null,
+      "tmdb_id": 9647,
       "amc_movie_id": "85078",
       "amc_movie_ids": [
         "85078"
@@ -15368,19 +14481,19 @@
       "engagements": [],
       "presentation": {
         "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793898282/amc-cdn/content/general/a9abj1dwalxsix04izcw.jpg",
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "High-spirited high jinks on Christmas Eve put Frank Cross (Bill Murray) in a ghostly time warp in this hilarious take-off of Charles Dickens' A Christmas Carol. Cross, who has made the meteoric rise from the depths of the mail room to TV network president, is mean, nasty, uncaring, unforgiving and has a sadistic sense of humor - perfect qualities for a modern-day Scrooge. Before the night is over, he'll be visited by a maniacal New York cab driver from the past, a present-day fairy who’s into pratfalls and, finally, a ghoulish, seven-foot headless messenger from the future.",
+        "source": "confirmed_enrichment",
+        "poster_url": "https://image.tmdb.org/t/p/w500/uO0znfB2ZzTXA1IS7jkrjNbpkYK.jpg",
+        "poster_path": "/uO0znfB2ZzTXA1IS7jkrjNbpkYK.jpg",
+        "backdrop_url": "https://image.tmdb.org/t/p/w780/6Cld2xtKYfWnWK3w3gfJRRA82vd.jpg",
+        "backdrop_path": "/6Cld2xtKYfWnWK3w3gfJRRA82vd.jpg",
+        "overview": "Frank Cross is a wildly successful television executive whose cold ambition and curmudgeonly nature has driven away the love of his life. But after firing a staff member on Christmas Eve, Frank is visited by a series of ghosts who give him a chance to re-evaluate his actions and right the wrongs of his past.",
         "runtime_minutes": 101,
-        "rating": "PG13",
-        "release_year": 2026
+        "rating": "PG-13",
+        "release_year": 1988
       },
       "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
+        "method": "film_id",
+        "film_id_confirmed": true,
         "tmdb_id_inferred": false,
         "ambiguous": false,
         "synthetic_film_group": false,
@@ -15631,7 +14744,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 3.389,
+      "tmdb_popularity": 3.54,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -15688,7 +14801,7 @@
           "tmdb_id": 1408207,
           "original_title": "Zero A.D.: The Birth of Christ",
           "original_language": "en",
-          "popularity": 3.389,
+          "popularity": 3.54,
           "vote_count": 0,
           "poster_path": "/dUeEofJFpp04OjRr2hatZGCFrlR.jpg",
           "backdrop_path": null,
@@ -15747,7 +14860,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 4.809,
+      "tmdb_popularity": 4.247,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -15803,7 +14916,7 @@
           "tmdb_id": 1649403,
           "original_title": "George Michael: The Faith Tour",
           "original_language": "en",
-          "popularity": 4.809,
+          "popularity": 4.247,
           "vote_count": 3,
           "poster_path": "/LXqHnaJ4ffkcx5YCuJN1noxkhr.jpg",
           "backdrop_path": null,
@@ -16002,7 +15115,7 @@
       "classification": "amc_announced",
       "relevance_tier": "strongly_expected",
       "user_visible": true,
-      "tmdb_popularity": 6.317,
+      "tmdb_popularity": 5.459,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_meets_popularity",
       "popularity_threshold_applied": 5.0,
@@ -16056,7 +15169,7 @@
           "tmdb_id": 1391239,
           "original_title": "The Debut",
           "original_language": "en",
-          "popularity": 6.317,
+          "popularity": 5.459,
           "vote_count": 0,
           "poster_path": "/5CZdxLiBpYMBXwo0rur6YzZTVP4.jpg",
           "backdrop_path": null,
@@ -16149,6 +15262,92 @@
           "hero_mobile_url": null,
           "presentation_category": "concert_or_event",
           "is_special_presentation": true
+        },
+        "tmdb": null
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Gursheed Moahamad Singh",
+      "join_key": "gursheed-moahamad-singh",
+      "parent_film_keys": [
+        "gursheed-moahamad-singh"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85673",
+      "amc_movie_ids": [
+        "85673"
+      ],
+      "expected_release_date": "2026-12-11",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-12-11",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "Set during the 1947 Partition of India, the film shows a time when people faced fear, violence and the pain of leaving their homes. As communities were divided, some people chose to stand together and help one another. Through the lives of its characters, the film explores family, faith, identity and human relationships. It highlights how kindness and compassion can bring people together, even in the most difficult situations. Gursheed Mohamad Singh is a story about humanity, love and the message that people should always come before religion.",
+        "runtime_minutes": 140,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Gursheed Moahamad Singh"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85673",
+          "source_title": "Gursheed Moahamad Singh",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-12-11T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": 140,
+          "mpaa_rating": "NR",
+          "genre": "DRAMA",
+          "slug": "gursheed-moahamad-singh-85673",
+          "synopsis": "Set during the 1947 Partition of India, the film shows a time when people faced fear, violence and the pain of leaving their homes. As communities were divided, some people chose to stand together and help one another. Through the lives of its characters, the film explores family, faith, identity and human relationships. It highlights how kindness and compassion can bring people together, even in the most difficult situations. Gursheed Mohamad Singh is a story about humanity, love and the message that people should always come before religion.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
         },
         "tmdb": null
       },
@@ -16273,7 +15472,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 3.446,
+      "tmdb_popularity": 3.337,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -16327,7 +15526,7 @@
           "tmdb_id": 1532610,
           "original_title": "Ink",
           "original_language": "en",
-          "popularity": 3.446,
+          "popularity": 3.337,
           "vote_count": 0,
           "poster_path": "/aZECpoGsveEXtxogaz0GMiyVB6n.jpg",
           "backdrop_path": null,
@@ -16630,7 +15829,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 3.877,
+      "tmdb_popularity": 3.516,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -16684,7 +15883,7 @@
           "tmdb_id": 1176962,
           "original_title": "Rose",
           "original_language": "de",
-          "popularity": 3.877,
+          "popularity": 3.516,
           "vote_count": 65,
           "poster_path": "/4k3ph6BoeZr7IMiQx8ioEV8d9cJ.jpg",
           "backdrop_path": null,
@@ -16704,7 +15903,7 @@
         "secrets-of-baba-segi-s-wives"
       ],
       "showtime_film_keys": [],
-      "tmdb_id": null,
+      "tmdb_id": 1744003,
       "amc_movie_id": "85086",
       "amc_movie_ids": [
         "85086"
@@ -16712,7 +15911,7 @@
       "expected_release_date": "2026-12-11",
       "expected_release_date_source": "amc_catalog_release_date",
       "amc_catalog_release_date": "2026-12-11",
-      "tmdb_us_release_date": null,
+      "tmdb_us_release_date": "2026-12-11",
       "first_local_screening_date": null,
       "first_local_screening_source": null,
       "local_status": "not_announced",
@@ -16723,29 +15922,34 @@
       "evidence": {
         "amc_coming_soon_catalog": true,
         "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
+        "tmdb_us_theatrical": true,
         "reel_seattle_scheduled": false
       },
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": null,
-      "local_evidence_strength": "weak",
-      "relevance_reason": "national_amc_without_tmdb",
-      "popularity_threshold_applied": null,
+      "tmdb_popularity": 1.317,
+      "local_evidence_strength": "proxy",
+      "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
+      "popularity_threshold_applied": 5.0,
       "local_booking_kind": null,
       "engagements": [
         {
           "kind": "other_engagement",
           "title": "Secret Lives of Baba Segi's Wives",
           "amc_movie_id": "85086"
+        },
+        {
+          "kind": "other_engagement",
+          "title": "The Secret Lives of Baba Segi's Wives",
+          "amc_movie_id": "85086"
         }
       ],
       "presentation": {
         "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": null,
-        "poster_path": null,
+        "source": "inferred_tmdb",
+        "poster_url": "https://image.tmdb.org/t/p/w500/7qdPexxBHG8XWbyqGmYzxDIJqp8.jpg",
+        "poster_path": "/7qdPexxBHG8XWbyqGmYzxDIJqp8.jpg",
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "A rich patriarch's delicate family falls apart when his youngest of four wives cannot have a child.",
@@ -16756,14 +15960,16 @@
       "identity": {
         "method": "amc_movie_id",
         "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
+        "tmdb_id_inferred": true,
         "ambiguous": false,
         "synthetic_film_group": true,
         "variant_titles": [
-          "Secret Lives of Baba Segi's Wives"
+          "Secret Lives of Baba Segi's Wives",
+          "The Secret Lives of Baba Segi's Wives"
         ],
         "contributing_sources": [
-          "amc_catalog"
+          "amc_catalog",
+          "tmdb"
         ]
       },
       "source_metadata": {
@@ -16784,7 +15990,21 @@
           "presentation_category": "standard",
           "is_special_presentation": false
         },
-        "tmdb": null
+        "tmdb": {
+          "tmdb_id": 1744003,
+          "original_title": "The Secret Lives of Baba Segi's Wives",
+          "original_language": "yo",
+          "popularity": 1.317,
+          "vote_count": 0,
+          "poster_path": "/7qdPexxBHG8XWbyqGmYzxDIJqp8.jpg",
+          "backdrop_path": null,
+          "overview": "A rich patriarch's delicate family falls apart when his youngest of four wives cannot have a child.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
+        }
       },
       "in_recommended": false
     },
@@ -16907,7 +16127,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.91,
+      "tmdb_popularity": 2.842,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -16961,7 +16181,7 @@
           "tmdb_id": 1370191,
           "original_title": "Tender Loving Care",
           "original_language": "en",
-          "popularity": 2.91,
+          "popularity": 2.842,
           "vote_count": 0,
           "poster_path": "/ritUkpIiQU1IofeQdG4RFMrSu9J.jpg",
           "backdrop_path": null,
@@ -17051,7 +16271,7 @@
           "source_title": "The Holiday - 20th Anniversary",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-12-11T06:00:00Z",
-          "earliest_showing_utc": "2026-12-11T12:40:00Z",
+          "earliest_showing_utc": "2026-12-11T12:00:00Z",
           "runtime_min": 136,
           "mpaa_rating": "PG13",
           "genre": null,
@@ -17811,7 +17031,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 96.543,
+      "tmdb_popularity": 88.873,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -17875,9 +17095,9 @@
           "tmdb_id": 1003596,
           "original_title": "Avengers: Doomsday",
           "original_language": "en",
-          "popularity": 96.543,
+          "popularity": 88.873,
           "vote_count": 0,
-          "poster_path": "/9jlZ59UALLLOE279HMT19rP9XQs.jpg",
+          "poster_path": "/jzPwsojjFStf5lR5Nm07w2hH56G.jpg",
           "backdrop_path": null,
           "overview": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
           "has_poster": true,
@@ -18244,7 +17464,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 1.579,
+      "tmdb_popularity": 1.515,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -18282,7 +17502,7 @@
           "tmdb_id": 1708599,
           "original_title": "Christmas Pop-Up",
           "original_language": "en",
-          "popularity": 1.579,
+          "popularity": 1.515,
           "vote_count": 0,
           "poster_path": "/wcIA2CjRWyWAfhTSU57YZ2IRePe.jpg",
           "backdrop_path": null,
@@ -18954,7 +18174,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.341,
+      "tmdb_popularity": 1.092,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -19008,7 +18228,7 @@
           "tmdb_id": 1494621,
           "original_title": "దాదా",
           "original_language": "te",
-          "popularity": 1.341,
+          "popularity": 1.092,
           "vote_count": 0,
           "poster_path": "/qrxrHMOzgaHHVUYyT3jYCYHBwwz.jpg",
           "backdrop_path": null,
@@ -19055,7 +18275,7 @@
       "classification": "amc_announced",
       "relevance_tier": "strongly_expected",
       "user_visible": true,
-      "tmdb_popularity": 9.92,
+      "tmdb_popularity": 9.659,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_meets_popularity",
       "popularity_threshold_applied": 5.0,
@@ -19109,7 +18329,7 @@
           "tmdb_id": 1260649,
           "original_title": "Jumanji: Open World",
           "original_language": "en",
-          "popularity": 9.92,
+          "popularity": 9.659,
           "vote_count": 0,
           "poster_path": "/ntjF2gemedf3ZcWzARGt6cuZlnJ.jpg",
           "backdrop_path": null,
@@ -19154,7 +18374,7 @@
       "classification": "amc_announced",
       "relevance_tier": "strongly_expected",
       "user_visible": true,
-      "tmdb_popularity": 6.086,
+      "tmdb_popularity": 5.634,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_meets_popularity",
       "popularity_threshold_applied": 5.0,
@@ -19208,7 +18428,7 @@
           "tmdb_id": 1421903,
           "original_title": "Werwulf",
           "original_language": "en",
-          "popularity": 6.086,
+          "popularity": 5.634,
           "vote_count": 0,
           "poster_path": "/imnkSt4PSQpxIuyiRpJCiLk3SZz.jpg",
           "backdrop_path": null,
@@ -19253,7 +18473,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 4.82,
+      "tmdb_popularity": 4.757,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -19307,7 +18527,7 @@
           "tmdb_id": 1437981,
           "original_title": "Coward",
           "original_language": "fr",
-          "popularity": 4.82,
+          "popularity": 4.757,
           "vote_count": 10,
           "poster_path": "/l05jDisMYVVpyAH3zgx1bUqPocZ.jpg",
           "backdrop_path": null,
@@ -19352,7 +18572,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 3.927,
+      "tmdb_popularity": 3.344,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -19406,7 +18626,7 @@
           "tmdb_id": 1372443,
           "original_title": "Mr. Irrelevant",
           "original_language": "en",
-          "popularity": 3.927,
+          "popularity": 3.344,
           "vote_count": 0,
           "poster_path": "/v9xESDLVKXw9CqzbzA7MNWs1ROT.jpg",
           "backdrop_path": null,
@@ -19922,7 +19142,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 4.389,
+      "tmdb_popularity": 3.845,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -19976,7 +19196,7 @@
           "tmdb_id": 1591675,
           "original_title": "ルックバック",
           "original_language": "ja",
-          "popularity": 4.389,
+          "popularity": 3.845,
           "vote_count": 23,
           "poster_path": "/sxiJhMNTBRvQgMnB9H4VIVdQfW9.jpg",
           "backdrop_path": null,
@@ -20021,7 +19241,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.18,
+      "tmdb_popularity": 2.042,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -20075,7 +19295,7 @@
           "tmdb_id": 1380163,
           "original_title": "Pendulum",
           "original_language": "en",
-          "popularity": 2.18,
+          "popularity": 2.042,
           "vote_count": 0,
           "poster_path": "/shu3m0eShymGekTJW3X5ffEhlLB.jpg",
           "backdrop_path": null,
@@ -20292,7 +19512,7 @@
       "classification": "confirmed_local",
       "relevance_tier": "confirmed_local",
       "user_visible": true,
-      "tmdb_popularity": 2.001,
+      "tmdb_popularity": 1.521,
       "local_evidence_strength": "strong",
       "relevance_reason": "confirmed_local_release_like",
       "popularity_threshold_applied": null,
@@ -20330,7 +19550,7 @@
           "tmdb_id": 1498915,
           "original_title": "그녀가 돌아온 날",
           "original_language": "ko",
-          "popularity": 2.001,
+          "popularity": 1.521,
           "vote_count": 8,
           "poster_path": "/18Ba4BbB9AgDVBTAPw0DNXSJXTr.jpg",
           "backdrop_path": null,
@@ -20710,7 +19930,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 0.921,
+      "tmdb_popularity": 0.762,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -20764,7 +19984,7 @@
           "tmdb_id": 1091227,
           "original_title": "Hurricanna",
           "original_language": "en",
-          "popularity": 0.921,
+          "popularity": 0.762,
           "vote_count": 0,
           "poster_path": "/3mU7o2dWusSVoTi3NhMg7MlPDWi.jpg",
           "backdrop_path": null,
@@ -20975,7 +20195,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 0.98,
+      "tmdb_popularity": 0.643,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -21029,7 +20249,7 @@
           "tmdb_id": 1632665,
           "original_title": "జనవరి 12 విడుదల",
           "original_language": "te",
-          "popularity": 0.98,
+          "popularity": 0.643,
           "vote_count": 0,
           "poster_path": null,
           "backdrop_path": null,
@@ -21078,7 +20298,7 @@
       "classification": "amc_announced",
       "relevance_tier": "strongly_expected",
       "user_visible": true,
-      "tmdb_popularity": 7.268,
+      "tmdb_popularity": 7.826,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_meets_popularity",
       "popularity_threshold_applied": 5.0,
@@ -21132,7 +20352,7 @@
           "tmdb_id": 1440769,
           "original_title": "The Beekeeper 2",
           "original_language": "en",
-          "popularity": 7.268,
+          "popularity": 7.826,
           "vote_count": 0,
           "poster_path": "/xlutnD8qZkrZmaDVyzIRCJlrUPp.jpg",
           "backdrop_path": null,
@@ -21177,7 +20397,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 3.211,
+      "tmdb_popularity": 2.545,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -21231,14 +20451,16 @@
           "tmdb_id": 1473784,
           "original_title": "Bunker",
           "original_language": "fr",
-          "popularity": 3.211,
+          "popularity": 2.545,
           "vote_count": 0,
           "poster_path": "/gPo96q7vKzoCiZlLH4T78FYStk0.jpg",
           "backdrop_path": null,
           "overview": "When an architect accepts a morally ambiguous project — building a survivalist bunker for a tech billionaire — his wife of 17 years begins to question their relationship.",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": []
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
         }
       },
       "in_recommended": false
@@ -21276,7 +20498,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.973,
+      "tmdb_popularity": 2.769,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -21330,7 +20552,7 @@
           "tmdb_id": 621304,
           "original_title": "Children of Blood and Bone",
           "original_language": "en",
-          "popularity": 2.973,
+          "popularity": 2.769,
           "vote_count": 0,
           "poster_path": "/qxUPu92DF5Bo6jcCDhnMTHFPEEc.jpg",
           "backdrop_path": null,
@@ -21377,7 +20599,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.776,
+      "tmdb_popularity": 1.223,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -21431,7 +20653,7 @@
           "tmdb_id": 1450980,
           "original_title": "FING!",
           "original_language": "en",
-          "popularity": 1.776,
+          "popularity": 1.223,
           "vote_count": 0,
           "poster_path": "/4YB91INfnD8Nu7OPDD7f9T0hd7u.jpg",
           "backdrop_path": null,
@@ -21478,7 +20700,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 3.013,
+      "tmdb_popularity": 2.966,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -21532,14 +20754,16 @@
           "tmdb_id": 1520592,
           "original_title": "River",
           "original_language": "en",
-          "popularity": 3.013,
+          "popularity": 2.966,
           "vote_count": 0,
           "poster_path": "/xe9V5utoUjyb92g5eBWbro1MSKd.jpg",
           "backdrop_path": null,
           "overview": "After the death of their father, three siblings take a boat trip to spread their dad's ashes. However, they discover they have inadvertently stumbled onto the hunting grounds of a strange pair of masked killers, and must fight for their lives on a busted motorboat.",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": []
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
         }
       },
       "in_recommended": false
@@ -21964,105 +21188,6 @@
     },
     {
       "film_id": null,
-      "title": "Lords of War",
-      "join_key": "lords-of-war",
-      "parent_film_keys": [
-        "lords-of-war"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1124006,
-      "amc_movie_id": "84029",
-      "amc_movie_ids": [
-        "84029"
-      ],
-      "expected_release_date": "2027-01-22",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2027-01-22",
-      "tmdb_us_release_date": "2027-01-22",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "strongly_expected",
-      "user_visible": true,
-      "tmdb_popularity": 5.256,
-      "local_evidence_strength": "proxy",
-      "relevance_reason": "amc_tmdb_proxy_meets_popularity",
-      "popularity_threshold_applied": 5.0,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/66mWiwl4sbg0mV0sxdR7XV5oUOw.jpg",
-        "poster_path": "/66mWiwl4sbg0mV0sxdR7XV5oUOw.jpg",
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1793816420/amc-cdn/content/general/ese4tunm1vwcknc0rtuh.jpg",
-        "backdrop_path": null,
-        "overview": "Nicolas Cage reprises his role as Yuri Orlov, the world's most notorious arms dealer, who discovers he has a son, a ruthless mercenary bent on surpassing his father by building a private army and exploiting America's wars in the Middle East. Thrust into a deadly battle for legacy, their fierce rivalry is fueled by power, ambition, and betrayal - with the global arms trade hanging in the balance.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2027
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Lords of War"
-        ],
-        "contributing_sources": [
-          "amc_catalog",
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "84029",
-          "source_title": "Lords of War",
-          "has_scheduled_showtimes": false,
-          "online_ticket_availability_date_utc": "2027-01-22T06:00:00Z",
-          "earliest_showing_utc": null,
-          "runtime_min": null,
-          "mpaa_rating": null,
-          "genre": "ACTION",
-          "slug": "lords-of-war-84029",
-          "synopsis": "Nicolas Cage reprises his role as Yuri Orlov, the world's most notorious arms dealer, who discovers he has a son, a ruthless mercenary bent on surpassing his father by building a private army and exploiting America's wars in the Middle East. Thrust into a deadly battle for legacy, their fierce rivalry is fueled by power, ambition, and betrayal - with the global arms trade hanging in the balance.",
-          "poster_url": null,
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793816420/amc-cdn/content/general/ese4tunm1vwcknc0rtuh.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793816420/amc-cdn/content/general/ese4tunm1vwcknc0rtuh.jpg",
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": {
-          "tmdb_id": 1124006,
-          "original_title": "Lords of War",
-          "original_language": "en",
-          "popularity": 5.256,
-          "vote_count": 0,
-          "poster_path": "/66mWiwl4sbg0mV0sxdR7XV5oUOw.jpg",
-          "backdrop_path": null,
-          "overview": "Yuri Orlov, the world's most famous arms dealer, discovers that he has a son, Anton who is trying to outdo his father by raising an army of mercenaries to fight in America's Middle Eastern conflicts, triggering a father-son rivalry.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": []
-        }
-      },
-      "in_recommended": true
-    },
-    {
-      "film_id": null,
       "title": "A Long Winter",
       "join_key": "long-winter",
       "parent_film_keys": [
@@ -22094,7 +21219,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.137,
+      "tmdb_popularity": 1.883,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -22148,7 +21273,7 @@
           "tmdb_id": 1534221,
           "original_title": "A Long Winter",
           "original_language": "en",
-          "popularity": 2.137,
+          "popularity": 1.883,
           "vote_count": 0,
           "poster_path": "/wj4CICdz6ikL37KzFG3D5MNk4LC.jpg",
           "backdrop_path": null,
@@ -22195,7 +21320,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.633,
+      "tmdb_popularity": 1.246,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -22249,7 +21374,7 @@
           "tmdb_id": 1518403,
           "original_title": "Air Bud Returns",
           "original_language": "en",
-          "popularity": 1.633,
+          "popularity": 1.246,
           "vote_count": 0,
           "poster_path": "/jn9IycsqyLsLluBPVkcHDyWHdGb.jpg",
           "backdrop_path": null,
@@ -22296,7 +21421,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.818,
+      "tmdb_popularity": 2.357,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -22350,7 +21475,7 @@
           "tmdb_id": 1115030,
           "original_title": "Animal Friends",
           "original_language": "en",
-          "popularity": 2.818,
+          "popularity": 2.357,
           "vote_count": 0,
           "poster_path": "/AfJldsj8a42yeg9Ued3MdgbfWnC.jpg",
           "backdrop_path": null,
@@ -22397,7 +21522,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.191,
+      "tmdb_popularity": 1.885,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -22451,7 +21576,7 @@
           "tmdb_id": 1630464,
           "original_title": "Clarissa",
           "original_language": "en",
-          "popularity": 2.191,
+          "popularity": 1.885,
           "vote_count": 0,
           "poster_path": "/9qS8heXhQdLoyGsqZHHb3HkrK62.jpg",
           "backdrop_path": null,
@@ -22461,6 +21586,105 @@
           "quality_flags": [
             "no_votes_and_low_popularity"
           ]
+        }
+      },
+      "in_recommended": false
+    },
+    {
+      "film_id": null,
+      "title": "Lords of War",
+      "join_key": "lords-of-war",
+      "parent_film_keys": [
+        "lords-of-war"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": 1124006,
+      "amc_movie_id": "84029",
+      "amc_movie_ids": [
+        "84029"
+      ],
+      "expected_release_date": "2027-01-22",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2027-01-22",
+      "tmdb_us_release_date": "2027-01-22",
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": true,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": true,
+      "tmdb_popularity": 4.72,
+      "local_evidence_strength": "proxy",
+      "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
+      "popularity_threshold_applied": 5.0,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "inferred_tmdb",
+        "poster_url": "https://image.tmdb.org/t/p/w500/66mWiwl4sbg0mV0sxdR7XV5oUOw.jpg",
+        "poster_path": "/66mWiwl4sbg0mV0sxdR7XV5oUOw.jpg",
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1793816420/amc-cdn/content/general/ese4tunm1vwcknc0rtuh.jpg",
+        "backdrop_path": null,
+        "overview": "Nicolas Cage reprises his role as Yuri Orlov, the world's most notorious arms dealer, who discovers he has a son, a ruthless mercenary bent on surpassing his father by building a private army and exploiting America's wars in the Middle East. Thrust into a deadly battle for legacy, their fierce rivalry is fueled by power, ambition, and betrayal - with the global arms trade hanging in the balance.",
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2027
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": true,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Lords of War"
+        ],
+        "contributing_sources": [
+          "amc_catalog",
+          "tmdb"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "84029",
+          "source_title": "Lords of War",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2027-01-22T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": null,
+          "mpaa_rating": null,
+          "genre": "ACTION",
+          "slug": "lords-of-war-84029",
+          "synopsis": "Nicolas Cage reprises his role as Yuri Orlov, the world's most notorious arms dealer, who discovers he has a son, a ruthless mercenary bent on surpassing his father by building a private army and exploiting America's wars in the Middle East. Thrust into a deadly battle for legacy, their fierce rivalry is fueled by power, ambition, and betrayal - with the global arms trade hanging in the balance.",
+          "poster_url": null,
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793816420/amc-cdn/content/general/ese4tunm1vwcknc0rtuh.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793816420/amc-cdn/content/general/ese4tunm1vwcknc0rtuh.jpg",
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": {
+          "tmdb_id": 1124006,
+          "original_title": "Lords of War",
+          "original_language": "en",
+          "popularity": 4.72,
+          "vote_count": 0,
+          "poster_path": "/66mWiwl4sbg0mV0sxdR7XV5oUOw.jpg",
+          "backdrop_path": null,
+          "overview": "Yuri Orlov, the world's most famous arms dealer, discovers that he has a son, Anton who is trying to outdo his father by raising an army of mercenaries to fight in America's Middle Eastern conflicts, triggering a father-son rivalry.",
+          "has_poster": true,
+          "has_overview": true,
+          "quality_flags": []
         }
       },
       "in_recommended": false
@@ -22584,7 +21808,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.422,
+      "tmdb_popularity": 1.186,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -22638,7 +21862,7 @@
           "tmdb_id": 1206628,
           "original_title": "The Third Parent",
           "original_language": "en",
-          "popularity": 1.422,
+          "popularity": 1.186,
           "vote_count": 0,
           "poster_path": "/uYvh9huLAfWphuFLSl9HlAxWkIv.jpg",
           "backdrop_path": null,
@@ -22934,7 +22158,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.277,
+      "tmdb_popularity": 1.881,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -22988,7 +22212,7 @@
           "tmdb_id": 1451238,
           "original_title": "Drag",
           "original_language": "en",
-          "popularity": 2.277,
+          "popularity": 1.881,
           "vote_count": 0,
           "poster_path": "/38jCspfdHx1VbJmMQc2NhOPibyo.jpg",
           "backdrop_path": null,
@@ -23121,7 +22345,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 3.205,
+      "tmdb_popularity": 2.955,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -23175,14 +22399,16 @@
           "tmdb_id": 1442761,
           "original_title": "Slayground",
           "original_language": "en",
-          "popularity": 3.205,
+          "popularity": 2.955,
           "vote_count": 0,
           "poster_path": "/tWeXlQQAQ9GQkZsOW8qxVv6Ki4M.jpg",
           "backdrop_path": null,
           "overview": "Scare-actor \"Metal Mike\" Graves wakes up in a haunted attraction surrounded by the dead bodies of his co-workers with no memory of how they got there. As a state-wide manhunt closes in, he races to uncover the truth — even if the trail leads straight back to himself.",
           "has_poster": true,
           "has_overview": true,
-          "quality_flags": []
+          "quality_flags": [
+            "no_votes_and_low_popularity"
+          ]
         }
       },
       "in_recommended": false
@@ -23312,7 +22538,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.068,
+      "tmdb_popularity": 2.082,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -23366,7 +22592,7 @@
           "tmdb_id": 1425472,
           "original_title": "The Rescue",
           "original_language": "en",
-          "popularity": 2.068,
+          "popularity": 2.082,
           "vote_count": 0,
           "poster_path": "/nb7NUk2fOqeA8FLlRqG2LqKezPW.jpg",
           "backdrop_path": null,
@@ -23413,7 +22639,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 2.083,
+      "tmdb_popularity": 2.3,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -23467,7 +22693,7 @@
           "tmdb_id": 920167,
           "original_title": "魔法使いの夜",
           "original_language": "ja",
-          "popularity": 2.083,
+          "popularity": 2.3,
           "vote_count": 0,
           "poster_path": "/xKpYIt7T6nJ8oqzV52yLtZdC0YB.jpg",
           "backdrop_path": null,
@@ -23591,7 +22817,7 @@
       "classification": "amc_announced",
       "relevance_tier": "strongly_expected",
       "user_visible": true,
-      "tmdb_popularity": 8.44,
+      "tmdb_popularity": 9.239,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_meets_popularity",
       "popularity_threshold_applied": 5.0,
@@ -23645,7 +22871,7 @@
           "tmdb_id": 1384758,
           "original_title": "Ice Age: Boiling Point",
           "original_language": "en",
-          "popularity": 8.44,
+          "popularity": 9.239,
           "vote_count": 0,
           "poster_path": "/mPhAreyZLLcZ9pl4KRyEaqSu1Zv.jpg",
           "backdrop_path": null,
@@ -23691,7 +22917,7 @@
       "classification": "amc_announced",
       "relevance_tier": "strongly_expected",
       "user_visible": true,
-      "tmdb_popularity": 6.881,
+      "tmdb_popularity": 5.891,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_meets_popularity",
       "popularity_threshold_applied": 5.0,
@@ -23746,7 +22972,7 @@
           "tmdb_id": 1340208,
           "original_title": "Karōshi",
           "original_language": "en",
-          "popularity": 6.881,
+          "popularity": 5.891,
           "vote_count": 0,
           "poster_path": "/xOwetUoCyca3yYlqZ5rlElgXiTV.jpg",
           "backdrop_path": null,
@@ -23877,7 +23103,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 3.613,
+      "tmdb_popularity": 3.406,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -23931,7 +23157,7 @@
           "tmdb_id": 1425859,
           "original_title": "Remain",
           "original_language": "en",
-          "popularity": 3.613,
+          "popularity": 3.406,
           "vote_count": 0,
           "poster_path": "/5hPNq5h2y8Ux6nPBRMEwZ8npVTp.jpg",
           "backdrop_path": null,
@@ -23976,7 +23202,7 @@
       "classification": "amc_announced",
       "relevance_tier": "weak_national_only",
       "user_visible": true,
-      "tmdb_popularity": 1.942,
+      "tmdb_popularity": 1.569,
       "local_evidence_strength": "proxy",
       "relevance_reason": "amc_tmdb_proxy_below_popularity_threshold",
       "popularity_threshold_applied": 5.0,
@@ -24030,7 +23256,7 @@
           "tmdb_id": 1466228,
           "original_title": "The Comeback King",
           "original_language": "en",
-          "popularity": 1.942,
+          "popularity": 1.569,
           "vote_count": 0,
           "poster_path": "/37ii02yqhWAbNYS3VxXYPp9wDGD.jpg",
           "backdrop_path": null,
