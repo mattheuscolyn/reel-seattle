@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-11-08T04:37:43-08:00",
+  "generated_at": "2026-11-09T06:53:48-08:00",
   "timezone": "America/Los_Angeles",
   "week": {
-    "start_date": "2026-11-02",
-    "end_date": "2026-11-08"
+    "start_date": "2026-11-09",
+    "end_date": "2026-11-15"
   },
   "method": {
     "name": "citywide_earliest_scheduled_date",
@@ -12,30 +12,30 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 48,
+    "entry_count": 54,
     "low_confidence_count": 0,
     "override_applied_count": 0,
-    "earliest_opening_date": "2026-11-02",
-    "latest_opening_date": "2026-11-08",
+    "earliest_opening_date": "2026-11-09",
+    "latest_opening_date": "2026-11-15",
     "opening_type_counts": {
-      "repertory": 7,
-      "limited": 20,
-      "theatrical": 16,
+      "repertory": 10,
+      "limited": 28,
+      "theatrical": 11,
       "event": 5
     }
   },
   "entries": [
     {
-      "showtime_film_key": "artists-and-models",
-      "parent_film_key": "artists-and-models",
+      "showtime_film_key": "symbiopsycho-taxiplasm-take-one",
+      "parent_film_key": "symbiopsycho-taxiplasm-take-one",
       "film_id": null,
-      "film_title": "Artists And Models",
-      "opening_date": "2026-11-02",
+      "film_title": "Symbiopsycho-Taxiplasm: Take One",
+      "opening_date": "2026-11-09",
       "theaters_on_opening_date": [
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
+      "visible_showtime_count": 6,
       "engagement_days": 3,
       "historical_screening_count": 3,
       "opening_type": "repertory",
@@ -43,7 +43,7 @@
       "evidence": {
         "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
-          "artists-and-models"
+          "symbiopsycho-taxiplasm-take-one"
         ],
         "distinct_scheduled_dates": 3,
         "bootstrap_theater_ids": [],
@@ -57,225 +57,24 @@
       "override": null
     },
     {
-      "showtime_film_key": "palestine-cinema-days-2026-foragers-2026",
-      "parent_film_key": "amc-movie-palestine-cinema-days-2026-foragers",
-      "film_id": null,
-      "film_title": "Palestine Cinema Days 2026: Foragers",
-      "opening_date": "2026-11-02",
-      "theaters_on_opening_date": [
-        "northwest-film-forum"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "parent_film_key",
-        "variant_showtime_film_keys": [
-          "palestine-cinema-days-2026-foragers-2026"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "northwest-film-forum"
-        ],
-        "sources": [
-          "nwff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "two-lane-blacktop-35mm",
-      "parent_film_key": "two-lane-blacktop-35mm",
-      "film_id": null,
-      "film_title": "Two-Lane Blacktop (35mm)",
-      "opening_date": "2026-11-02",
-      "theaters_on_opening_date": [
-        "siff-film-center"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 2,
-      "historical_screening_count": 2,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "two-lane-blacktop-35mm"
-        ],
-        "distinct_scheduled_dates": 2,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-film-center"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "godzilla-minus-zero",
-      "parent_film_key": "godzilla-minus-zero",
-      "film_id": "tmdb:1381071",
-      "film_title": "Godzilla Minus Zero",
-      "opening_date": "2026-11-03",
-      "theaters_on_opening_date": [
-        "siff-cinema-downtown"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 475,
-      "engagement_days": 21,
-      "historical_screening_count": 387,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "film_id",
-        "variant_showtime_film_keys": [
-          "godzilla-minus-zero",
-          "godzilla-minus-zero-sensory-friendly-screening"
-        ],
-        "distinct_scheduled_dates": 21,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "amc-factoria-8",
-          "amc-kent-station-14",
-          "amc-oak-tree-6",
-          "amc-pacific-place-11",
-          "amc-southcenter-16",
-          "amc-woodinville-12",
-          "majestic-bay",
-          "siff-cinema-downtown"
-        ],
-        "sources": [
-          "amc",
-          "majestic_bay",
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "godzilla-minus-zero-godzilla-day-imax-early-access",
-      "parent_film_key": "godzilla-minus-zero-godzilla-day",
-      "film_id": null,
-      "film_title": "Godzilla Minus Zero - Godzilla Day",
-      "opening_date": "2026-11-03",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16",
-        "amc-kent-station-14",
-        "amc-southcenter-16"
-      ],
-      "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 0,
-      "engagement_days": 2,
-      "historical_screening_count": 18,
-      "opening_type": "event",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "parent_film_key",
-        "variant_showtime_film_keys": [
-          "godzilla-minus-zero-godzilla-day-imax-early-access"
-        ],
-        "distinct_scheduled_dates": 2,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "amc-kent-station-14",
-          "amc-southcenter-16"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "girl-can-t-help-it",
-      "parent_film_key": "girl-can-t-help-it",
-      "film_id": null,
-      "film_title": "The Girl Can'T Help It",
-      "opening_date": "2026-11-03",
-      "theaters_on_opening_date": [
-        "the-beacon"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 2,
-      "historical_screening_count": 2,
-      "opening_type": "repertory",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "girl-can-t-help-it"
-        ],
-        "distinct_scheduled_dates": 2,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "the-beacon"
-        ],
-        "sources": [
-          "beacon"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "withdrawal",
-      "parent_film_key": "withdrawal",
-      "film_id": null,
-      "film_title": "Withdrawal",
-      "opening_date": "2026-11-03",
-      "theaters_on_opening_date": [
-        "siff-film-center"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "withdrawal"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-film-center"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "man-and-a-woman-60th-anniversary",
-      "parent_film_key": "man-and-a-woman-60th-anniversary",
-      "film_id": null,
-      "film_title": "A Man and a Woman (60th Anniversary)",
-      "opening_date": "2026-11-04",
+      "showtime_film_key": "discreet-charm-of-the-bourgeoisie",
+      "parent_film_key": "discreet-charm-of-the-bourgeoisie",
+      "film_id": "tmdb:4593",
+      "film_title": "The Discreet Charm of the Bourgeoisie",
+      "opening_date": "2026-11-09",
       "theaters_on_opening_date": [
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
+      "visible_showtime_count": 2,
       "engagement_days": 1,
       "historical_screening_count": 1,
-      "opening_type": "repertory",
+      "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "man-and-a-woman-60th-anniversary"
+          "discreet-charm-of-the-bourgeoisie"
         ],
         "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [],
@@ -289,24 +88,230 @@
       "override": null
     },
     {
-      "showtime_film_key": "engauge-2026-tactility-and-memory-2026",
-      "parent_film_key": "amc-movie-engauge-2026-tactility-and-memory",
-      "film_id": null,
-      "film_title": "Engauge 2026 – Tactility and Memory",
-      "opening_date": "2026-11-04",
+      "showtime_film_key": "ghost-soldier",
+      "parent_film_key": "ghost-soldier",
+      "film_id": "tmdb:1562642",
+      "film_title": "Ghost Soldier",
+      "opening_date": "2026-11-10",
       "theaters_on_opening_date": [
-        "northwest-film-forum"
+        "amc-alderwood-mall-16",
+        "amc-factoria-8",
+        "amc-kent-station-14",
+        "amc-southcenter-16",
+        "amc-woodinville-12"
+      ],
+      "theater_count_on_opening_date": 5,
+      "visible_showtime_count": 406,
+      "engagement_days": 10,
+      "historical_screening_count": 203,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "ghost-soldier"
+        ],
+        "distinct_scheduled_dates": 10,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16",
+          "amc-factoria-8",
+          "amc-kent-station-14",
+          "amc-southcenter-16",
+          "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "lakadbaggha-2",
+      "parent_film_key": "lakadbaggha-2",
+      "film_id": null,
+      "film_title": "Lakadbaggha 2",
+      "opening_date": "2026-11-10",
+      "theaters_on_opening_date": [
+        "tasveer-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
+      "visible_showtime_count": 2,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "lakadbaggha-2"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "tasveer-film-center"
+        ],
+        "sources": [
+          "tasveer"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "pierrot-le-fou-35mm",
+      "parent_film_key": "pierrot-le-fou-35mm",
+      "film_id": "tmdb:2786",
+      "film_title": "Pierrot le Fou (35mm)",
+      "opening_date": "2026-11-10",
+      "theaters_on_opening_date": [
+        "siff-cinema-uptown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "pierrot-le-fou-35mm"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "surplus-operations-and-instruments-experiments-in-cin-ma-v-rit-and-psychodrama",
+      "parent_film_key": "surplus-operations-and-instruments-experiments-in-cin-ma-v-rit-and-psychodrama",
+      "film_id": null,
+      "film_title": "Surplus Operations And Instruments: Experiments In Cinéma Vérité And Psychodrama",
+      "opening_date": "2026-11-10",
+      "theaters_on_opening_date": [
+        "the-beacon"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 4,
+      "engagement_days": 2,
+      "historical_screening_count": 2,
+      "opening_type": "repertory",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "surplus-operations-and-instruments-experiments-in-cin-ma-v-rit-and-psychodrama"
+        ],
+        "distinct_scheduled_dates": 2,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "the-beacon"
+        ],
+        "sources": [
+          "beacon"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "american-sniper",
+      "parent_film_key": "american-sniper",
+      "film_id": "tmdb:190859",
+      "film_title": "American Sniper",
+      "opening_date": "2026-11-11",
+      "theaters_on_opening_date": [
+        "amc-kent-station-14",
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 2,
+      "visible_showtime_count": 8,
+      "engagement_days": 1,
+      "historical_screening_count": 4,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "american-sniper"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-kent-station-14",
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "how-to-rob-a-bank",
+      "parent_film_key": "how-to-rob-a-bank",
+      "film_id": "tmdb:1437511",
+      "film_title": "How to Rob a Bank",
+      "opening_date": "2026-11-11",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16",
+        "amc-kent-station-14",
+        "amc-southcenter-16",
+        "amc-woodinville-12"
+      ],
+      "theater_count_on_opening_date": 4,
+      "visible_showtime_count": 698,
+      "engagement_days": 14,
+      "historical_screening_count": 351,
+      "opening_type": "event",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "how-to-rob-a-bank",
+          "how-to-rob-a-bank-early-access-screening"
+        ],
+        "distinct_scheduled_dates": 14,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16",
+          "amc-factoria-8",
+          "amc-kent-station-14",
+          "amc-oak-tree-6",
+          "amc-pacific-place-11",
+          "amc-southcenter-16",
+          "amc-woodinville-12"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "members-only-mystery-movie-november-2026",
+      "parent_film_key": "amc-movie-members-mystery-preview-november-2026",
+      "film_id": null,
+      "film_title": "Members Only Mystery Movie - November 2026",
+      "opening_date": "2026-11-11",
+      "theaters_on_opening_date": [
+        "northwest-film-forum"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 1,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "event",
+      "confidence": "high",
+      "evidence": {
         "identity_method": "parent_film_key",
         "variant_showtime_film_keys": [
-          "engauge-2026-tactility-and-memory-2026"
+          "members-only-mystery-movie-november-2026"
         ],
         "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [],
@@ -320,70 +325,31 @@
       "override": null
     },
     {
-      "showtime_film_key": "ramayana",
-      "parent_film_key": "ramayana",
-      "film_id": null,
-      "film_title": "Ramayana",
-      "opening_date": "2026-11-04",
+      "showtime_film_key": "soul-patrol",
+      "parent_film_key": "soul-patrol",
+      "film_id": "tmdb:1591604",
+      "film_title": "Soul Patrol",
+      "opening_date": "2026-11-11",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
-        "amc-factoria-8",
-        "amc-kent-station-14",
-        "amc-pacific-place-11",
-        "amc-southcenter-16",
-        "amc-woodinville-12"
+        "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 6,
-      "visible_showtime_count": 96,
-      "engagement_days": 8,
-      "historical_screening_count": 108,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "ramayana"
-        ],
-        "distinct_scheduled_dates": 8,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "amc-factoria-8",
-          "amc-kent-station-14",
-          "amc-pacific-place-11",
-          "amc-southcenter-16",
-          "amc-woodinville-12"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "rammstein-live-in-mexico-city",
-      "parent_film_key": "rammstein-in-mexico-city",
-      "film_id": "tmdb:1753205",
-      "film_title": "Rammstein - in Mexico City",
-      "opening_date": "2026-11-04",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 2,
+      "theater_count_on_opening_date": 2,
+      "visible_showtime_count": 4,
+      "engagement_days": 1,
       "historical_screening_count": 2,
-      "opening_type": "theatrical",
+      "opening_type": "limited",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "rammstein-live-in-mexico-city"
+          "soul-patrol"
         ],
-        "distinct_scheduled_dates": 2,
+        "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
-          "amc-alderwood-mall-16"
+          "amc-alderwood-mall-16",
+          "amc-southcenter-16"
         ],
         "sources": [
           "amc"
@@ -392,24 +358,24 @@
       "override": null
     },
     {
-      "showtime_film_key": "star-trek-the-motion-picture",
-      "parent_film_key": "star-trek-the-motion-picture",
-      "film_id": null,
-      "film_title": "Star Trek: The Motion Picture",
-      "opening_date": "2026-11-04",
+      "showtime_film_key": "star-trek-ii-the-wrath-of-khan",
+      "parent_film_key": "star-trek-ii-the-wrath-of-khan",
+      "film_id": "tmdb:154",
+      "film_title": "Star Trek II: The Wrath of Khan",
+      "opening_date": "2026-11-11",
       "theaters_on_opening_date": [
         "majestic-bay"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
+      "visible_showtime_count": 2,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "star-trek-the-motion-picture"
+          "star-trek-ii-the-wrath-of-khan"
         ],
         "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [],
@@ -423,95 +389,64 @@
       "override": null
     },
     {
-      "showtime_film_key": "last-temptation-of-becky",
-      "parent_film_key": "last-temptation-of-becky",
-      "film_id": null,
-      "film_title": "The Last Temptation of Becky",
-      "opening_date": "2026-11-04",
+      "showtime_film_key": "candy-mountain-35mm",
+      "parent_film_key": "candy-mountain-35mm",
+      "film_id": "tmdb:65604",
+      "film_title": "Candy Mountain (35mm)",
+      "opening_date": "2026-11-12",
       "theaters_on_opening_date": [
-        "amc-alderwood-mall-16",
         "siff-film-center"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 0,
-      "engagement_days": 2,
-      "historical_screening_count": 3,
-      "opening_type": "theatrical",
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "last-temptation-of-becky"
+          "candy-mountain-35mm"
         ],
-        "distinct_scheduled_dates": 2,
+        "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
-          "amc-alderwood-mall-16",
           "siff-film-center"
         ],
         "sources": [
-          "amc",
           "siff"
         ]
       },
       "override": null
     },
     {
-      "showtime_film_key": "cameraperson",
-      "parent_film_key": "cameraperson",
+      "showtime_film_key": "ebenezer",
+      "parent_film_key": "ebenezer",
       "film_id": null,
-      "film_title": "Cameraperson",
-      "opening_date": "2026-11-05",
-      "theaters_on_opening_date": [
-        "northwest-film-forum"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "cameraperson"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "northwest-film-forum"
-        ],
-        "sources": [
-          "nwff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "drummer-boy",
-      "parent_film_key": "drummer-boy",
-      "film_id": "tmdb:1697911",
-      "film_title": "Drummer Boy",
-      "opening_date": "2026-11-05",
+      "film_title": "Ebenezer",
+      "opening_date": "2026-11-12",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
         "amc-factoria-8",
         "amc-kent-station-14",
+        "amc-oak-tree-6",
+        "amc-pacific-place-11",
         "amc-southcenter-16",
         "amc-woodinville-12"
       ],
-      "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 182,
-      "engagement_days": 7,
-      "historical_screening_count": 157,
+      "theater_count_on_opening_date": 7,
+      "visible_showtime_count": 739,
+      "engagement_days": 16,
+      "historical_screening_count": 370,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
-          "drummer-boy"
+          "ebenezer",
+          "ebenezer-sensory-friendly-screening"
         ],
-        "distinct_scheduled_dates": 7,
+        "distinct_scheduled_dates": 16,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
@@ -529,24 +464,86 @@
       "override": null
     },
     {
-      "showtime_film_key": "engauge-2026-beyond-borders-2026",
-      "parent_film_key": "amc-movie-engauge-2026-beyond-borders",
+      "showtime_film_key": "mouse",
+      "parent_film_key": "mouse",
+      "film_id": "tmdb:1241052",
+      "film_title": "Mouse",
+      "opening_date": "2026-11-12",
+      "theaters_on_opening_date": [
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 14,
+      "engagement_days": 7,
+      "historical_screening_count": 7,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "mouse"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "space-cadet",
+      "parent_film_key": "space-cadet",
       "film_id": null,
-      "film_title": "Engauge 2026 – Beyond Borders",
-      "opening_date": "2026-11-05",
+      "film_title": "Space Cadet",
+      "opening_date": "2026-11-12",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 14,
+      "engagement_days": 7,
+      "historical_screening_count": 7,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "space-cadet"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "parallax-view",
+      "parent_film_key": "parallax-view",
+      "film_id": "tmdb:17365",
+      "film_title": "The Parallax View",
+      "opening_date": "2026-11-12",
       "theaters_on_opening_date": [
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
+      "visible_showtime_count": 2,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "parent_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "engauge-2026-beyond-borders-2026"
+          "parallax-view"
         ],
         "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [],
@@ -560,137 +557,65 @@
       "override": null
     },
     {
-      "showtime_film_key": "jimmy",
-      "parent_film_key": "jimmy",
-      "film_id": "tmdb:1241478",
-      "film_title": "Jimmy",
-      "opening_date": "2026-11-05",
+      "showtime_film_key": "texas-chainsaw-massacre-part-2",
+      "parent_film_key": "texas-chainsaw-massacre-part-2",
+      "film_id": "tmdb:16337",
+      "film_title": "The Texas Chainsaw Massacre Part 2",
+      "opening_date": "2026-11-12",
+      "theaters_on_opening_date": [
+        "central-cinema"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "texas-chainsaw-massacre-part-2"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "central-cinema"
+        ],
+        "sources": [
+          "central_cinema"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "victorian-psycho",
+      "parent_film_key": "victorian-psycho",
+      "film_id": "tmdb:1379486",
+      "film_title": "Victorian Psycho",
+      "opening_date": "2026-11-12",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
         "amc-kent-station-14",
-        "amc-southcenter-16"
+        "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 42,
+      "visible_showtime_count": 152,
       "engagement_days": 8,
-      "historical_screening_count": 39,
+      "historical_screening_count": 76,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "jimmy"
+          "victorian-psycho"
         ],
         "distinct_scheduled_dates": 8,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-kent-station-14",
-          "amc-southcenter-16"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "la-bola-negra",
-      "parent_film_key": "la-bola-negra",
-      "film_id": "tmdb:1422041",
-      "film_title": "La Bola Negra",
-      "opening_date": "2026-11-05",
-      "theaters_on_opening_date": [
-        "amc-pacific-place-11",
-        "amc-southcenter-16"
-      ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 80,
-      "engagement_days": 11,
-      "historical_screening_count": 69,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "film_id",
-        "variant_showtime_film_keys": [
-          "la-bola-negra"
-        ],
-        "distinct_scheduled_dates": 11,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-pacific-place-11",
           "amc-southcenter-16",
-          "northwest-film-forum",
-          "tasveer-film-center"
-        ],
-        "sources": [
-          "amc",
-          "nwff",
-          "tasveer"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "once-upon-a-time-in-harlem",
-      "parent_film_key": "once-upon-a-time-in-harlem",
-      "film_id": "tmdb:1596300",
-      "film_title": "Once Upon a Time in Harlem",
-      "opening_date": "2026-11-05",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 94,
-      "engagement_days": 18,
-      "historical_screening_count": 65,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "film_id",
-        "variant_showtime_film_keys": [
-          "once-upon-a-time-in-harlem"
-        ],
-        "distinct_scheduled_dates": 18,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "amc-pacific-place-11",
-          "tasveer-film-center",
-          "the-beacon"
-        ],
-        "sources": [
-          "amc",
-          "beacon",
-          "tasveer"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "paradise-lost",
-      "parent_film_key": "paradise-lost",
-      "film_id": null,
-      "film_title": "Paradise Lost",
-      "opening_date": "2026-11-05",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 8,
-      "engagement_days": 7,
-      "historical_screening_count": 7,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "paradise-lost"
-        ],
-        "distinct_scheduled_dates": 7,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16"
+          "amc-woodinville-12"
         ],
         "sources": [
           "amc"
@@ -699,348 +624,47 @@
       "override": null
     },
     {
-      "showtime_film_key": "scene",
-      "parent_film_key": "scene",
-      "film_id": "tmdb:1402181",
-      "film_title": "Scene",
-      "opening_date": "2026-11-05",
-      "theaters_on_opening_date": [
-        "amc-southcenter-16"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 10,
-      "engagement_days": 7,
-      "historical_screening_count": 8,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "film_id",
-        "variant_showtime_film_keys": [
-          "scene"
-        ],
-        "distinct_scheduled_dates": 7,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-southcenter-16"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "summer-holidays",
-      "parent_film_key": "summer-holidays",
-      "film_id": null,
-      "film_title": "Summer Holidays",
-      "opening_date": "2026-11-05",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 8,
-      "engagement_days": 7,
-      "historical_screening_count": 7,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "summer-holidays"
-        ],
-        "distinct_scheduled_dates": 7,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "cat-in-the-hat",
-      "parent_film_key": "cat-in-the-hat",
-      "film_id": "tmdb:1117898",
-      "film_title": "The Cat in the Hat",
-      "opening_date": "2026-11-05",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16",
-        "amc-factoria-8",
-        "amc-kent-station-14",
-        "amc-oak-tree-6",
-        "amc-pacific-place-11",
-        "amc-southcenter-16",
-        "amc-woodinville-12",
-        "anderson-school-theater"
-      ],
-      "theater_count_on_opening_date": 8,
-      "visible_showtime_count": 816,
-      "engagement_days": 20,
-      "historical_screening_count": 520,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "film_id",
-        "variant_showtime_film_keys": [
-          "cat-in-the-hat",
-          "cat-in-the-hat-sensory-friendly-screening"
-        ],
-        "distinct_scheduled_dates": 20,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "amc-factoria-8",
-          "amc-kent-station-14",
-          "amc-oak-tree-6",
-          "amc-pacific-place-11",
-          "amc-southcenter-16",
-          "amc-woodinville-12",
-          "anderson-school-theater"
-        ],
-        "sources": [
-          "amc",
-          "anderson_school"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "velocipastor-and-the-velocipastor-2-double-feature",
-      "parent_film_key": "velocipastor-and-the-velocipastor-2-double-feature",
-      "film_id": null,
-      "film_title": "The VelociPastor and The VelociPastor 2 (double feature)",
-      "opening_date": "2026-11-05",
-      "theaters_on_opening_date": [
-        "siff-cinema-uptown"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "event",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "velocipastor-and-the-velocipastor-2-double-feature"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-cinema-uptown"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "engauge-2026-expanded-cinema-performance-and-film-2026",
-      "parent_film_key": "amc-movie-engauge-2026-expanded-cinema-performance-and-film",
-      "film_id": null,
-      "film_title": "Engauge 2026 – Expanded Cinema Performance and Film",
-      "opening_date": "2026-11-06",
+      "showtime_film_key": "zi",
+      "parent_film_key": "zi",
+      "film_id": "tmdb:1595346",
+      "film_title": "Zi",
+      "opening_date": "2026-11-12",
       "theaters_on_opening_date": [
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "parent_film_key",
-        "variant_showtime_film_keys": [
-          "engauge-2026-expanded-cinema-performance-and-film-2026"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "northwest-film-forum"
-        ],
-        "sources": [
-          "nwff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "engauge-2026-tainted-2026",
-      "parent_film_key": "amc-movie-engauge-2026-tainted",
-      "film_id": null,
-      "film_title": "Engauge 2026 – Tainted",
-      "opening_date": "2026-11-06",
-      "theaters_on_opening_date": [
-        "northwest-film-forum"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "parent_film_key",
-        "variant_showtime_film_keys": [
-          "engauge-2026-tainted-2026"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "northwest-film-forum"
-        ],
-        "sources": [
-          "nwff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "heated-rivalry-episode-1-2",
-      "parent_film_key": "heated-rivalry-episode-1-2",
-      "film_id": null,
-      "film_title": "Heated Rivalry: Episode 1 & 2",
-      "opening_date": "2026-11-06",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16",
-        "amc-southcenter-16"
-      ],
-      "theater_count_on_opening_date": 2,
       "visible_showtime_count": 12,
       "engagement_days": 5,
-      "historical_screening_count": 12,
-      "opening_type": "theatrical",
+      "historical_screening_count": 6,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "heated-rivalry-episode-1-2"
+          "zi"
         ],
         "distinct_scheduled_dates": 5,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "amc-southcenter-16"
+          "northwest-film-forum"
         ],
         "sources": [
-          "amc"
+          "nwff"
         ]
       },
       "override": null
     },
     {
-      "showtime_film_key": "heated-rivalry-episode-3-4",
-      "parent_film_key": "heated-rivalry-episode-3-4",
-      "film_id": null,
-      "film_title": "Heated Rivalry: Episode 3 & 4",
-      "opening_date": "2026-11-06",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16",
-        "amc-southcenter-16"
-      ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 12,
-      "engagement_days": 6,
-      "historical_screening_count": 11,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "heated-rivalry-episode-3-4"
-        ],
-        "distinct_scheduled_dates": 6,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "amc-southcenter-16"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "heated-rivalry-episode-5-6",
-      "parent_film_key": "heated-rivalry-episode-5-6",
-      "film_id": null,
-      "film_title": "Heated Rivalry: Episode 5 & 6",
-      "opening_date": "2026-11-06",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16",
-        "amc-southcenter-16"
-      ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 16,
-      "engagement_days": 6,
-      "historical_screening_count": 12,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "heated-rivalry-episode-5-6"
-        ],
-        "distinct_scheduled_dates": 6,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "amc-southcenter-16"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "secs-fest-2026",
-      "parent_film_key": "amc-movie-secs-fest-2026",
-      "film_id": null,
-      "film_title": "Secs Fest 2026",
-      "opening_date": "2026-11-06",
-      "theaters_on_opening_date": [
-        "the-beacon"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
-      "engagement_days": 3,
-      "historical_screening_count": 7,
-      "opening_type": "repertory",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "parent_film_key",
-        "variant_showtime_film_keys": [
-          "secs-fest-2026"
-        ],
-        "distinct_scheduled_dates": 3,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "the-beacon"
-        ],
-        "sources": [
-          "beacon"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "tampopo",
-      "parent_film_key": "tampopo",
-      "film_id": "tmdb:11830",
-      "film_title": "Tampopo",
-      "opening_date": "2026-11-06",
+      "showtime_film_key": "delicatessen",
+      "parent_film_key": "delicatessen",
+      "film_id": "tmdb:892",
+      "film_title": "Delicatessen",
+      "opening_date": "2026-11-13",
       "theaters_on_opening_date": [
         "central-cinema"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 6,
+      "visible_showtime_count": 10,
       "engagement_days": 5,
       "historical_screening_count": 5,
       "opening_type": "repertory",
@@ -1048,7 +672,7 @@
       "evidence": {
         "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "tampopo"
+          "delicatessen"
         ],
         "distinct_scheduled_dates": 5,
         "bootstrap_theater_ids": [],
@@ -1062,129 +686,219 @@
       "override": null
     },
     {
-      "showtime_film_key": "engauge-2026-pattern-and-place-2026",
-      "parent_film_key": "amc-movie-engauge-2026-pattern-place",
+      "showtime_film_key": "dune-part-one-dune-part-two-double-feature",
+      "parent_film_key": "dune-part-one-dune-part-two-double-feature",
       "film_id": null,
-      "film_title": "Engauge 2026 – Pattern and Place",
-      "opening_date": "2026-11-07",
-      "theaters_on_opening_date": [
-        "northwest-film-forum"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "parent_film_key",
-        "variant_showtime_film_keys": [
-          "engauge-2026-pattern-and-place-2026"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "northwest-film-forum"
-        ],
-        "sources": [
-          "nwff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "engauge-2026-rankin-renwick-solo-show-2026",
-      "parent_film_key": "amc-movie-engauge-2026-rankin-renwick-solo-show",
-      "film_id": null,
-      "film_title": "Engauge 2026 – Rankin Renwick Solo Show",
-      "opening_date": "2026-11-07",
-      "theaters_on_opening_date": [
-        "northwest-film-forum"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "parent_film_key",
-        "variant_showtime_film_keys": [
-          "engauge-2026-rankin-renwick-solo-show-2026"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "northwest-film-forum"
-        ],
-        "sources": [
-          "nwff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "engauge-2026-we-are-all-together-2026",
-      "parent_film_key": "amc-movie-engauge-2026-we-are-all-together",
-      "film_id": null,
-      "film_title": "Engauge 2026 – We Are All Together",
-      "opening_date": "2026-11-07",
-      "theaters_on_opening_date": [
-        "northwest-film-forum"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "parent_film_key",
-        "variant_showtime_film_keys": [
-          "engauge-2026-we-are-all-together-2026"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "northwest-film-forum"
-        ],
-        "sources": [
-          "nwff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "rocky-50th-anniversary",
-      "parent_film_key": "rocky",
-      "film_id": "tmdb:1366",
-      "film_title": "Rocky",
-      "opening_date": "2026-11-07",
+      "film_title": "Dune: Part One & Dune: Part Two Double Feature",
+      "opening_date": "2026-11-13",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
         "amc-kent-station-14",
-        "amc-southcenter-16",
-        "amc-woodinville-12"
+        "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 8,
-      "engagement_days": 4,
+      "theater_count_on_opening_date": 3,
+      "visible_showtime_count": 6,
+      "engagement_days": 1,
+      "historical_screening_count": 3,
+      "opening_type": "event",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "dune-part-one-dune-part-two-double-feature"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16",
+          "amc-kent-station-14",
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "god-with-us",
+      "parent_film_key": "god-with-us",
+      "film_id": null,
+      "film_title": "God with Us",
+      "opening_date": "2026-11-13",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 6,
+      "engagement_days": 3,
+      "historical_screening_count": 3,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "god-with-us"
+        ],
+        "distinct_scheduled_dates": 3,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "my-neighbor-totoro",
+      "parent_film_key": "my-neighbor-totoro",
+      "film_id": null,
+      "film_title": "My Neighbor Totoro",
+      "opening_date": "2026-11-13",
+      "theaters_on_opening_date": [
+        "central-cinema"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 22,
+      "engagement_days": 6,
+      "historical_screening_count": 11,
+      "opening_type": "repertory",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "my-neighbor-totoro"
+        ],
+        "distinct_scheduled_dates": 6,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "central-cinema"
+        ],
+        "sources": [
+          "central_cinema"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "pnw-awards-a-simple-machine",
+      "parent_film_key": "pnw-awards-a-simple-machine",
+      "film_id": null,
+      "film_title": "PNW Awards: A Simple Machine",
+      "opening_date": "2026-11-13",
+      "theaters_on_opening_date": [
+        "siff-film-center"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "pnw-awards-a-simple-machine"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-film-center"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "remember",
+      "parent_film_key": "remember",
+      "film_id": null,
+      "film_title": "Remember",
+      "opening_date": "2026-11-13",
+      "theaters_on_opening_date": [
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 12,
+      "engagement_days": 6,
+      "historical_screening_count": 6,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "remember"
+        ],
+        "distinct_scheduled_dates": 6,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "romanian-film-festival-seattle-3-days-in-september",
+      "parent_film_key": "romanian-film-festival-seattle-3-days-in-september",
+      "film_id": null,
+      "film_title": "Romanian Film Festival Seattle: 3 Days in September",
+      "opening_date": "2026-11-13",
+      "theaters_on_opening_date": [
+        "siff-cinema-uptown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "romanian-film-festival-seattle-3-days-in-september"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "angry-birds-movie-10th-anniversary",
+      "parent_film_key": "angry-birds-movie",
+      "film_id": "tmdb:153518",
+      "film_title": "The Angry Birds Movie",
+      "opening_date": "2026-11-13",
+      "theaters_on_opening_date": [
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 12,
+      "engagement_days": 6,
       "historical_screening_count": 12,
       "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "rocky-50th-anniversary"
+          "angry-birds-movie-10th-anniversary"
         ],
-        "distinct_scheduled_dates": 4,
+        "distinct_scheduled_dates": 6,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "amc-kent-station-14",
-          "amc-pacific-place-11",
-          "amc-southcenter-16",
-          "amc-woodinville-12"
+          "amc-southcenter-16"
         ],
         "sources": [
           "amc"
@@ -1193,360 +907,42 @@
       "override": null
     },
     {
-      "showtime_film_key": "seattle-turkish-film-festival-sevda",
-      "parent_film_key": "seattle-turkish-film-festival-sevda",
-      "film_id": null,
-      "film_title": "Seattle Turkish Film Festival: Sevda",
-      "opening_date": "2026-11-07",
+      "showtime_film_key": "traces-of-justice",
+      "parent_film_key": "traces-of-justice",
+      "film_id": "tmdb:1439171",
+      "film_title": "Traces of Justice",
+      "opening_date": "2026-11-13",
       "theaters_on_opening_date": [
-        "siff-cinema-uptown"
+        "amc-pacific-place-11"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "seattle-turkish-film-festival-sevda"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-cinema-uptown"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "seattle-turkish-film-festival-yellow-letters-gala-film-party",
-      "parent_film_key": "seattle-turkish-film-festival-yellow-letters-gala-film-party",
-      "film_id": null,
-      "film_title": "Seattle Turkish Film Festival: Yellow Letters Gala Film + Party",
-      "opening_date": "2026-11-07",
-      "theaters_on_opening_date": [
-        "siff-cinema-uptown"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "event",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "seattle-turkish-film-festival-yellow-letters-gala-film-party"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-cinema-uptown"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "stffshorts-narrative-selection-1",
-      "parent_film_key": "stffshorts-narrative-selection-1",
-      "film_id": null,
-      "film_title": "STFFShorts - Narrative Selection 1",
-      "opening_date": "2026-11-07",
-      "theaters_on_opening_date": [
-        "siff-cinema-uptown"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "stffshorts-narrative-selection-1"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-cinema-uptown"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "stffshorts-narrative-selection-2",
-      "parent_film_key": "stffshorts-narrative-selection-2",
-      "film_id": null,
-      "film_title": "STFFShorts - Narrative Selection 2",
-      "opening_date": "2026-11-07",
-      "theaters_on_opening_date": [
-        "siff-cinema-uptown"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "stffshorts-narrative-selection-2"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-cinema-uptown"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "stray-kids-world-tour-run-it-live-viewing",
-      "parent_film_key": "stray-kids-world-tour-run-it-viewing",
-      "film_id": null,
-      "film_title": "Stray Kids World Tour 'RUN IT' VIEWING",
-      "opening_date": "2026-11-07",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16",
-        "amc-kent-station-14",
-        "amc-pacific-place-11",
-        "amc-southcenter-16",
-        "amc-woodinville-12"
-      ],
-      "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 10,
-      "opening_type": "event",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "parent_film_key",
-        "variant_showtime_film_keys": [
-          "stray-kids-world-tour-run-it-live-viewing"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "amc-kent-station-14",
-          "amc-pacific-place-11",
-          "amc-southcenter-16",
-          "amc-woodinville-12"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "promised-land",
-      "parent_film_key": "promised-land",
-      "film_id": "tmdb:511",
-      "film_title": "The Promised Land",
-      "opening_date": "2026-11-07",
-      "theaters_on_opening_date": [
-        "siff-film-center"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 0,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
+      "visible_showtime_count": 12,
+      "engagement_days": 6,
+      "historical_screening_count": 6,
+      "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
         "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "promised-land"
+          "traces-of-justice"
         ],
-        "distinct_scheduled_dates": 1,
+        "distinct_scheduled_dates": 6,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
-          "siff-film-center"
+          "amc-pacific-place-11"
         ],
         "sources": [
-          "siff"
+          "amc"
         ]
       },
       "override": null
     },
     {
-      "showtime_film_key": "man-of-marble",
-      "parent_film_key": "man-of-marble",
+      "showtime_film_key": "veronica-project-space-presents-dessiller-les-yeux-four-by-jean-vigo",
+      "parent_film_key": "veronica-project-space-presents-dessiller-les-yeux-four-by-jean-vigo",
       "film_id": null,
-      "film_title": "Man of Marble",
-      "opening_date": "2026-11-08",
-      "theaters_on_opening_date": [
-        "siff-film-center"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "man-of-marble"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-film-center"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "seattle-turkish-film-festival-dump-of-untitled-pieces",
-      "parent_film_key": "seattle-turkish-film-festival-dump-of-untitled-pieces",
-      "film_id": null,
-      "film_title": "Seattle Turkish Film Festival: Dump of Untitled Pieces",
-      "opening_date": "2026-11-08",
-      "theaters_on_opening_date": [
-        "siff-cinema-uptown"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "seattle-turkish-film-festival-dump-of-untitled-pieces"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-cinema-uptown"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "seattle-turkish-film-festival-salvation",
-      "parent_film_key": "seattle-turkish-film-festival-salvation",
-      "film_id": null,
-      "film_title": "Seattle Turkish Film Festival: Salvation",
-      "opening_date": "2026-11-08",
-      "theaters_on_opening_date": [
-        "siff-cinema-uptown"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "seattle-turkish-film-festival-salvation"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-cinema-uptown"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "seattle-turkish-film-festival-those-who-whistle-after-dark",
-      "parent_film_key": "seattle-turkish-film-festival-those-who-whistle-after-dark",
-      "film_id": null,
-      "film_title": "Seattle Turkish Film Festival: Those Who Whistle After Dark",
-      "opening_date": "2026-11-08",
-      "theaters_on_opening_date": [
-        "siff-cinema-uptown"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "seattle-turkish-film-festival-those-who-whistle-after-dark"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-cinema-uptown"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "stffshorts-documentary-selection",
-      "parent_film_key": "stffshorts-documentary-selection",
-      "film_id": null,
-      "film_title": "STFFShorts - Documentary Selection",
-      "opening_date": "2026-11-08",
-      "theaters_on_opening_date": [
-        "siff-cinema-uptown"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "stffshorts-documentary-selection"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-cinema-uptown"
-        ],
-        "sources": [
-          "siff"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "three-dollar-bill-cinema-presents-two-eyes",
-      "parent_film_key": "three-dollar-bill-cinema-presents-two-eyes",
-      "film_id": null,
-      "film_title": "Three Dollar Bill Cinema Presents: Two Eyes",
-      "opening_date": "2026-11-08",
+      "film_title": "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo",
+      "opening_date": "2026-11-13",
       "theaters_on_opening_date": [
         "northwest-film-forum"
       ],
@@ -1554,12 +950,12 @@
       "visible_showtime_count": 2,
       "engagement_days": 1,
       "historical_screening_count": 1,
-      "opening_type": "event",
+      "opening_type": "limited",
       "confidence": "high",
       "evidence": {
         "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
-          "three-dollar-bill-cinema-presents-two-eyes"
+          "veronica-project-space-presents-dessiller-les-yeux-four-by-jean-vigo"
         ],
         "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [],
@@ -1573,13 +969,13 @@
       "override": null
     },
     {
-      "showtime_film_key": "vagabond",
-      "parent_film_key": "vagabond",
-      "film_id": "tmdb:44018",
-      "film_title": "Vagabond",
-      "opening_date": "2026-11-08",
+      "showtime_film_key": "will-success-spoil-rock-hunter",
+      "parent_film_key": "will-success-spoil-rock-hunter",
+      "film_id": "tmdb:37124",
+      "film_title": "Will Success Spoil Rock Hunter?",
+      "opening_date": "2026-11-13",
       "theaters_on_opening_date": [
-        "northwest-film-forum"
+        "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
       "visible_showtime_count": 6,
@@ -1590,9 +986,769 @@
       "evidence": {
         "identity_method": "film_id",
         "variant_showtime_film_keys": [
-          "vagabond"
+          "will-success-spoil-rock-hunter"
         ],
         "distinct_scheduled_dates": 3,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "the-beacon"
+        ],
+        "sources": [
+          "beacon"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "dune-part-one-reissue-2026",
+      "parent_film_key": "amc-movie-85561",
+      "film_id": null,
+      "film_title": "Dune: Part One Reissue (2026)",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16",
+        "amc-kent-station-14",
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 3,
+      "visible_showtime_count": 11,
+      "engagement_days": 4,
+      "historical_screening_count": 11,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "parent_film_key",
+        "variant_showtime_film_keys": [
+          "dune-part-one-reissue-2026"
+        ],
+        "distinct_scheduled_dates": 4,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16",
+          "amc-kent-station-14",
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "dune-part-two-reissue-2026",
+      "parent_film_key": "amc-movie-85562",
+      "film_id": null,
+      "film_title": "Dune: Part Two Reissue (2026)",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16",
+        "amc-kent-station-14",
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 3,
+      "visible_showtime_count": 11,
+      "engagement_days": 4,
+      "historical_screening_count": 11,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "parent_film_key",
+        "variant_showtime_film_keys": [
+          "dune-part-two-reissue-2026"
+        ],
+        "distinct_scheduled_dates": 4,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16",
+          "amc-kent-station-14",
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "festive-fun-with-peppa-cinema-experience",
+      "parent_film_key": "festive-fun-with-peppa-cinema-experience",
+      "film_id": null,
+      "film_title": "Festive Fun with Peppa Cinema Experience",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 8,
+      "engagement_days": 4,
+      "historical_screening_count": 4,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "festive-fun-with-peppa-cinema-experience"
+        ],
+        "distinct_scheduled_dates": 4,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "league-of-legends-worlds-26-finals-in-cinema",
+      "parent_film_key": "league-of-legends-worlds-26-finals-in-cinema",
+      "film_id": null,
+      "film_title": "League of Legends Worlds 26 - Finals in Cinema",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16",
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 2,
+      "visible_showtime_count": 4,
+      "engagement_days": 1,
+      "historical_screening_count": 2,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "league-of-legends-worlds-26-finals-in-cinema"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16",
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "met-opera-carmen-2026-encore-2026",
+      "parent_film_key": "met-opera-carmen-2026",
+      "film_id": null,
+      "film_title": "MET Opera: Carmen (2026)",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16",
+        "amc-kent-station-14",
+        "amc-oak-tree-6",
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 4,
+      "visible_showtime_count": 4,
+      "engagement_days": 1,
+      "historical_screening_count": 4,
+      "opening_type": "event",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "parent_film_key",
+        "variant_showtime_film_keys": [
+          "met-opera-carmen-2026-encore-2026"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16",
+          "amc-kent-station-14",
+          "amc-oak-tree-6",
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "pnw-awards-again-again",
+      "parent_film_key": "pnw-awards-again-again",
+      "film_id": null,
+      "film_title": "PNW Awards: Again Again",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "siff-film-center"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "pnw-awards-again-again"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-film-center"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "pnw-awards-powwow-people",
+      "parent_film_key": "pnw-awards-powwow-people",
+      "film_id": null,
+      "film_title": "PNW Awards: Powwow People",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "siff-film-center"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "pnw-awards-powwow-people"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-film-center"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "pnw-awards-short-film-nominee-showcase",
+      "parent_film_key": "pnw-awards-short-film-nominee-showcase",
+      "film_id": null,
+      "film_title": "PNW Awards: Short Film Nominee Showcase",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "siff-film-center"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "pnw-awards-short-film-nominee-showcase"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-film-center"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "romanian-film-festival-seattle-kontinental-25",
+      "parent_film_key": "romanian-film-festival-seattle-kontinental-25",
+      "film_id": null,
+      "film_title": "Romanian Film Festival Seattle: Kontinental '25",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "siff-cinema-uptown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "romanian-film-festival-seattle-kontinental-25"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "romanian-film-festival-seattle-r-m-n",
+      "parent_film_key": "romanian-film-festival-seattle-r-m-n",
+      "film_id": null,
+      "film_title": "Romanian Film Festival Seattle: R.M.N.",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "siff-cinema-uptown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "romanian-film-festival-seattle-r-m-n"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "romanian-film-festival-seattle-the-last-transhumance",
+      "parent_film_key": "romanian-film-festival-seattle-the-last-transhumance",
+      "film_id": null,
+      "film_title": "Romanian Film Festival Seattle: The Last Transhumance",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "siff-cinema-uptown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "romanian-film-festival-seattle-the-last-transhumance"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "romanian-film-festival-seattle-traffic",
+      "parent_film_key": "romanian-film-festival-seattle-traffic",
+      "film_id": null,
+      "film_title": "Romanian Film Festival Seattle: Traffic",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "siff-cinema-uptown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "romanian-film-festival-seattle-traffic"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "ufc-334-gane-vs-hokit",
+      "parent_film_key": "ufc-334-gane-vs-hokit",
+      "film_id": null,
+      "film_title": "UFC 334: Gane vs. Hokit",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "event",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "ufc-334-gane-vs-hokit"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "community-screening-auntie-mame",
+      "parent_film_key": "community-screening-auntie-mame",
+      "film_id": "tmdb:16347",
+      "film_title": "Community Screening: Auntie Mame",
+      "opening_date": "2026-11-15",
+      "theaters_on_opening_date": [
+        "siff-cinema-downtown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "community-screening-auntie-mame"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-downtown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "pnw-awards-the-joyless-economy",
+      "parent_film_key": "pnw-awards-the-joyless-economy",
+      "film_id": null,
+      "film_title": "PNW Awards: The Joyless Economy",
+      "opening_date": "2026-11-15",
+      "theaters_on_opening_date": [
+        "siff-film-center"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "pnw-awards-the-joyless-economy"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-film-center"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "pnw-awards-the-life-we-leave",
+      "parent_film_key": "pnw-awards-the-life-we-leave",
+      "film_id": null,
+      "film_title": "PNW Awards: The Life We Leave",
+      "opening_date": "2026-11-15",
+      "theaters_on_opening_date": [
+        "siff-film-center"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "pnw-awards-the-life-we-leave"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-film-center"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "romanian-film-festival-seattle-atlas-of-the-universe",
+      "parent_film_key": "romanian-film-festival-seattle-atlas-of-the-universe",
+      "film_id": null,
+      "film_title": "Romanian Film Festival Seattle: Atlas of the Universe",
+      "opening_date": "2026-11-15",
+      "theaters_on_opening_date": [
+        "siff-cinema-uptown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "romanian-film-festival-seattle-atlas-of-the-universe"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "romanian-film-festival-seattle-blindsight",
+      "parent_film_key": "romanian-film-festival-seattle-blindsight",
+      "film_id": null,
+      "film_title": "Romanian Film Festival Seattle: Blindsight",
+      "opening_date": "2026-11-15",
+      "theaters_on_opening_date": [
+        "siff-cinema-uptown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "romanian-film-festival-seattle-blindsight"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "romanian-film-festival-seattle-the-wall",
+      "parent_film_key": "romanian-film-festival-seattle-the-wall",
+      "film_id": null,
+      "film_title": "Romanian Film Festival Seattle: The Wall",
+      "opening_date": "2026-11-15",
+      "theaters_on_opening_date": [
+        "siff-cinema-uptown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "romanian-film-festival-seattle-the-wall"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "romanian-film-festival-seattle-the-yellow-tie",
+      "parent_film_key": "romanian-film-festival-seattle-the-yellow-tie",
+      "film_id": null,
+      "film_title": "Romanian Film Festival Seattle: The Yellow Tie",
+      "opening_date": "2026-11-15",
+      "theaters_on_opening_date": [
+        "siff-cinema-uptown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "romanian-film-festival-seattle-the-yellow-tie"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "shaolin-soccer",
+      "parent_film_key": "shaolin-soccer",
+      "film_id": null,
+      "film_title": "Shaolin Soccer",
+      "opening_date": "2026-11-15",
+      "theaters_on_opening_date": [
+        "siff-film-center"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "shaolin-soccer"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-film-center"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "heart-of-the-game-20th-anniversary",
+      "parent_film_key": "heart-of-the-game-20th-anniversary",
+      "film_id": "tmdb:14274",
+      "film_title": "The Heart of the Game (20th anniversary)",
+      "opening_date": "2026-11-15",
+      "theaters_on_opening_date": [
+        "siff-cinema-uptown"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "repertory",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "heart-of-the-game-20th-anniversary"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "siff-cinema-uptown"
+        ],
+        "sources": [
+          "siff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "strange-love-of-martha-ivers",
+      "parent_film_key": "strange-love-of-martha-ivers",
+      "film_id": "tmdb:27033",
+      "film_title": "The Strange Love Of Martha Ivers",
+      "opening_date": "2026-11-15",
+      "theaters_on_opening_date": [
+        "the-beacon"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 4,
+      "engagement_days": 2,
+      "historical_screening_count": 2,
+      "opening_type": "repertory",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "strange-love-of-martha-ivers"
+        ],
+        "distinct_scheduled_dates": 2,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "the-beacon"
+        ],
+        "sources": [
+          "beacon"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "you-sorta-know-it-s-gonna-end",
+      "parent_film_key": "you-sorta-know-it-s-gonna-end",
+      "film_id": "tmdb:1549077",
+      "film_title": "You Sorta Know It's Gonna End",
+      "opening_date": "2026-11-15",
+      "theaters_on_opening_date": [
+        "northwest-film-forum"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 8,
+      "engagement_days": 2,
+      "historical_screening_count": 4,
+      "opening_type": "repertory",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "film_id",
+        "variant_showtime_film_keys": [
+          "you-sorta-know-it-s-gonna-end"
+        ],
+        "distinct_scheduled_dates": 2,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "northwest-film-forum"
