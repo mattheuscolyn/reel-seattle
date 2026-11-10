@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-11-09T06:53:48-08:00",
+  "generated_at": "2026-11-10T06:08:19-08:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-11-09",
@@ -12,14 +12,14 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 54,
+    "entry_count": 55,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-11-09",
     "latest_opening_date": "2026-11-15",
     "opening_type_counts": {
       "repertory": 10,
-      "limited": 28,
+      "limited": 29,
       "theatrical": 11,
       "event": 5
     }
@@ -35,7 +35,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 6,
+      "visible_showtime_count": 4,
       "engagement_days": 3,
       "historical_screening_count": 3,
       "opening_type": "repertory",
@@ -66,7 +66,7 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -101,9 +101,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 406,
+      "visible_showtime_count": 420,
       "engagement_days": 10,
-      "historical_screening_count": 203,
+      "historical_screening_count": 210,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -230,9 +230,9 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 8,
+      "visible_showtime_count": 4,
       "engagement_days": 1,
-      "historical_screening_count": 4,
+      "historical_screening_count": 2,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -265,9 +265,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 698,
+      "visible_showtime_count": 668,
       "engagement_days": 14,
-      "historical_screening_count": 351,
+      "historical_screening_count": 336,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
@@ -331,13 +331,12 @@
       "film_title": "Soul Patrol",
       "opening_date": "2026-11-11",
       "theaters_on_opening_date": [
-        "amc-alderwood-mall-16",
         "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 4,
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
       "engagement_days": 1,
-      "historical_screening_count": 2,
+      "historical_screening_count": 1,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
@@ -348,7 +347,6 @@
         "distinct_scheduled_dates": 1,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
-          "amc-alderwood-mall-16",
           "amc-southcenter-16"
         ],
         "sources": [
@@ -435,9 +433,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 739,
+      "visible_showtime_count": 811,
       "engagement_days": 16,
-      "historical_screening_count": 370,
+      "historical_screening_count": 406,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -470,12 +468,13 @@
       "film_title": "Mouse",
       "opening_date": "2026-11-12",
       "theaters_on_opening_date": [
+        "amc-kent-station-14",
         "amc-southcenter-16"
       ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 14,
+      "theater_count_on_opening_date": 2,
+      "visible_showtime_count": 28,
       "engagement_days": 7,
-      "historical_screening_count": 7,
+      "historical_screening_count": 14,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -486,6 +485,7 @@
         "distinct_scheduled_dates": 7,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
+          "amc-kent-station-14",
           "amc-southcenter-16"
         ],
         "sources": [
@@ -596,12 +596,13 @@
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
         "amc-kent-station-14",
+        "amc-southcenter-16",
         "amc-woodinville-12"
       ],
-      "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 152,
+      "theater_count_on_opening_date": 4,
+      "visible_showtime_count": 198,
       "engagement_days": 8,
-      "historical_screening_count": 76,
+      "historical_screening_count": 99,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -814,6 +815,37 @@
       "override": null
     },
     {
+      "showtime_film_key": "queen-at-sea",
+      "parent_film_key": "queen-at-sea",
+      "film_id": null,
+      "film_title": "Queen at Sea",
+      "opening_date": "2026-11-13",
+      "theaters_on_opening_date": [
+        "amc-pacific-place-11"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "queen-at-sea"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-pacific-place-11"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
       "showtime_film_key": "remember",
       "parent_film_key": "remember",
       "film_id": null,
@@ -823,9 +855,9 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 12,
+      "visible_showtime_count": 20,
       "engagement_days": 6,
-      "historical_screening_count": 6,
+      "historical_screening_count": 10,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -885,9 +917,9 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 12,
+      "visible_showtime_count": 11,
       "engagement_days": 6,
-      "historical_screening_count": 12,
+      "historical_screening_count": 11,
       "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
@@ -1046,9 +1078,9 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 11,
-      "engagement_days": 4,
-      "historical_screening_count": 11,
+      "visible_showtime_count": 12,
+      "engagement_days": 5,
+      "historical_screening_count": 12,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -1056,7 +1088,7 @@
         "variant_showtime_film_keys": [
           "dune-part-two-reissue-2026"
         ],
-        "distinct_scheduled_dates": 4,
+        "distinct_scheduled_dates": 5,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",

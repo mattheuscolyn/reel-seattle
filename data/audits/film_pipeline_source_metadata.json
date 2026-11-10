@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-09T07:00:35-08:00",
+  "generated_at": "2026-11-10T06:15:04-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-09_amc.json",
-      "generated_at": "2026-11-09T06:49:15-08:00",
-      "record_count": 7883,
+      "latest_log": "data/daily_logs/2026-11-10_amc.json",
+      "generated_at": "2026-11-10T06:03:45-08:00",
+      "record_count": 8259,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 112,
-      "eligible_feature_count": 96,
+      "source_identity_count": 113,
+      "eligible_feature_count": 98,
       "title": {
-        "with_title": 112,
+        "with_title": 113,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 96,
+        "eligible_features_with_runtime": 98,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 96,
+        "eligible_features_missing_year": 98,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -124,9 +124,9 @@
       "entity_kind_counts": {
         "broadcast_event": 11,
         "double_feature": 1,
-        "feature_film": 96,
+        "feature_film": 98,
         "live_event": 2,
-        "mystery_screening": 2
+        "mystery_screening": 1
       },
       "identities": [
         {
@@ -1010,6 +1010,22 @@
           ]
         },
         {
+          "source_identity_key": "id:84637",
+          "source_title": "Queen at Sea",
+          "adapter_identity_title": null,
+          "matcher_title": "Queen at Sea",
+          "program_series": null,
+          "runtime_min": 121,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:84722",
           "source_title": "Avengers: Doomsday RealD 3D Fan Event",
           "adapter_identity_title": null,
@@ -1524,22 +1540,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85345",
-          "source_title": "AMC Screen Unseen: November 9",
-          "adapter_identity_title": null,
-          "matcher_title": "AMC Screen Unseen: November 9",
-          "program_series": null,
-          "runtime_min": 120,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "mystery_screening",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85347",
           "source_title": "League of Legends Worlds 26 - Finals in Cinema",
           "adapter_identity_title": null,
@@ -1922,25 +1922,41 @@
           "normalization_rules": [
             "normalized_source_fallback"
           ]
+        },
+        {
+          "source_identity_key": "id:85653",
+          "source_title": "End Of The Century: The Story of the Ramones",
+          "adapter_identity_title": null,
+          "matcher_title": "End Of The Century: The Story of the Ramones",
+          "program_series": null,
+          "runtime_min": 90,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
         }
       ]
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-09_siff.json",
-      "generated_at": "2026-11-09T06:48:26-08:00",
-      "record_count": 227,
+      "latest_log": "data/daily_logs/2026-11-10_siff.json",
+      "generated_at": "2026-11-10T06:02:50-08:00",
+      "record_count": 217,
       "malformed_record_count": 0,
-      "warning_count": 8,
+      "warning_count": 7,
       "error_count": 0,
-      "source_identity_count": 63,
-      "eligible_feature_count": 61,
+      "source_identity_count": 62,
+      "eligible_feature_count": 60,
       "title": {
-        "with_title": 63,
+        "with_title": 62,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 60,
+        "eligible_features_with_runtime": 59,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "Elsinore"
@@ -1948,13 +1964,13 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 61,
+        "eligible_features_with_year": 60,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 29,
-        "matcher_cleaned_identity_count": 22,
+        "adapter_cleaned_identity_count": 28,
+        "matcher_cleaned_identity_count": 21,
         "adapter_cleanup_samples": [
           {
             "source_title": "Cinema Italian Style 2026: A Year of School",
@@ -2071,7 +2087,7 @@
         ]
       },
       "series": {
-        "identity_count": 38,
+        "identity_count": 37,
         "samples": [
           {
             "source_title": "Cinema Italian Style 2026: A Year of School",
@@ -2116,7 +2132,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 61,
+        "feature_film": 60,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -3021,22 +3037,6 @@
           ]
         },
         {
-          "source_identity_key": "id:programs-and-events/siff-movie-club/the-discreet-charm-of-the-bourgeoisie",
-          "source_title": "SIFF Movie Club: The Discreet Charm of the Bourgeoisie",
-          "adapter_identity_title": "The Discreet Charm of the Bourgeoisie",
-          "matcher_title": "The Discreet Charm of the Bourgeoisie",
-          "program_series": "SIFF Movie Club",
-          "runtime_min": 102,
-          "release_year": 1972,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:siff-movie-club"
-          ]
-        },
-        {
           "source_identity_key": "id:programs-and-events/siff-movie-club/the-love-witch",
           "source_title": "SIFF Movie Club: The Love Witch (35mm)",
           "adapter_identity_title": "The Love Witch (35mm)",
@@ -3137,9 +3137,9 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-09_beacon.json",
-      "generated_at": "2026-11-09T06:48:26-08:00",
-      "record_count": 89,
+      "latest_log": "data/daily_logs/2026-11-10_beacon.json",
+      "generated_at": "2026-11-10T06:02:50-08:00",
+      "record_count": 88,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4013,35 +4013,36 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-09_nwff.json",
-      "generated_at": "2026-11-09T06:47:42-08:00",
-      "record_count": 90,
+      "latest_log": "data/daily_logs/2026-11-10_nwff.json",
+      "generated_at": "2026-11-10T06:01:53-08:00",
+      "record_count": 92,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 28,
-      "eligible_feature_count": 26,
+      "source_identity_count": 31,
+      "eligible_feature_count": 29,
       "title": {
-        "with_title": 28,
+        "with_title": 31,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 26,
+        "eligible_features_with_runtime": 29,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 24,
-        "eligible_features_missing_year": 2,
+        "eligible_features_with_year": 26,
+        "eligible_features_missing_year": 3,
         "missing_feature_samples": [
           "Seattle Film Society Presents Locals Only: November 2026",
+          "Truth To Fiction: Vittorio De Seta's Lost World",
           "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 10,
-        "matcher_cleaned_identity_count": 13,
+        "adapter_cleaned_identity_count": 13,
+        "matcher_cleaned_identity_count": 16,
         "adapter_cleanup_samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Showgirls Annual Screenings",
@@ -4056,6 +4057,14 @@
             "identity_title": "The Witch"
           },
           {
+            "source_title": "Truth To Fiction: F For Fake",
+            "identity_title": "F For Fake"
+          },
+          {
+            "source_title": "Truth To Fiction: Newtok",
+            "identity_title": "Newtok"
+          },
+          {
             "source_title": "Truth To Fiction: Seeds",
             "identity_title": "Seeds"
           },
@@ -4064,24 +4073,16 @@
             "identity_title": "The Store"
           },
           {
+            "source_title": "Truth To Fiction: Vittorio De Seta's Lost World",
+            "identity_title": "Vittorio De Seta's Lost World"
+          },
+          {
             "source_title": "Unstreamable - Love Streams",
             "identity_title": "Love Streams"
           },
           {
             "source_title": "Unstreamable - Mod Fuck Explosion",
             "identity_title": "Mod Fuck Explosion"
-          },
-          {
-            "source_title": "Unstreamable - The Taste of Tea",
-            "identity_title": "The Taste of Tea"
-          },
-          {
-            "source_title": "WTF with STUFF - Fresh Kill",
-            "identity_title": "Fresh Kill"
-          },
-          {
-            "source_title": "WTF with STUFF - Kokomo City",
-            "identity_title": "Kokomo City"
           }
         ],
         "matcher_cleanup_samples": [
@@ -4129,6 +4130,20 @@
             ]
           },
           {
+            "source_title": "Truth To Fiction: F For Fake",
+            "matcher_title": "F For Fake",
+            "rules": [
+              "program_series:truth-to-fiction"
+            ]
+          },
+          {
+            "source_title": "Truth To Fiction: Newtok",
+            "matcher_title": "Newtok",
+            "rules": [
+              "program_series:truth-to-fiction"
+            ]
+          },
+          {
             "source_title": "Truth To Fiction: Seeds",
             "matcher_title": "Seeds",
             "rules": [
@@ -4141,25 +4156,11 @@
             "rules": [
               "program_series:truth-to-fiction"
             ]
-          },
-          {
-            "source_title": "Unstreamable - Love Streams",
-            "matcher_title": "Love Streams",
-            "rules": [
-              "program_series:unstreamable"
-            ]
-          },
-          {
-            "source_title": "Unstreamable - Mod Fuck Explosion",
-            "matcher_title": "Mod Fuck Explosion",
-            "rules": [
-              "program_series:unstreamable"
-            ]
           }
         ]
       },
       "series": {
-        "identity_count": 10,
+        "identity_count": 13,
         "samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Showgirls Annual Screenings",
@@ -4174,11 +4175,23 @@
             "program_series": "SFCS at 10"
           },
           {
+            "source_title": "Truth To Fiction: F For Fake",
+            "program_series": "Truth To Fiction"
+          },
+          {
+            "source_title": "Truth To Fiction: Newtok",
+            "program_series": "Truth To Fiction"
+          },
+          {
             "source_title": "Truth To Fiction: Seeds",
             "program_series": "Truth To Fiction"
           },
           {
             "source_title": "Truth To Fiction: The Store",
+            "program_series": "Truth To Fiction"
+          },
+          {
+            "source_title": "Truth To Fiction: Vittorio De Seta's Lost World",
             "program_series": "Truth To Fiction"
           },
           {
@@ -4188,23 +4201,11 @@
           {
             "source_title": "Unstreamable - Mod Fuck Explosion",
             "program_series": "Unstreamable"
-          },
-          {
-            "source_title": "Unstreamable - The Taste of Tea",
-            "program_series": "Unstreamable"
-          },
-          {
-            "source_title": "WTF with STUFF - Fresh Kill",
-            "program_series": "WTF with STUFF"
-          },
-          {
-            "source_title": "WTF with STUFF - Kokomo City",
-            "program_series": "WTF with STUFF"
           }
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 26,
+        "feature_film": 29,
         "mystery_screening": 1,
         "shorts_program": 1
       },
@@ -4451,6 +4452,38 @@
           ]
         },
         {
+          "source_identity_key": "id:truth-to-fiction-f-for-fake",
+          "source_title": "Truth To Fiction: F For Fake",
+          "adapter_identity_title": "F For Fake",
+          "matcher_title": "F For Fake",
+          "program_series": "Truth To Fiction",
+          "runtime_min": 88,
+          "release_year": 1975,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "program_series:truth-to-fiction"
+          ]
+        },
+        {
+          "source_identity_key": "id:truth-to-fiction-newtok",
+          "source_title": "Truth To Fiction: Newtok",
+          "adapter_identity_title": "Newtok",
+          "matcher_title": "Newtok",
+          "program_series": "Truth To Fiction",
+          "runtime_min": 93,
+          "release_year": 2021,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "program_series:truth-to-fiction"
+          ]
+        },
+        {
           "source_identity_key": "id:truth-to-fiction-seeds",
           "source_title": "Truth To Fiction: Seeds",
           "adapter_identity_title": "Seeds",
@@ -4474,6 +4507,22 @@
           "program_series": "Truth To Fiction",
           "runtime_min": 118,
           "release_year": 1983,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "program_series:truth-to-fiction"
+          ]
+        },
+        {
+          "source_identity_key": "id:truth-to-fiction-vittorio-de-setas-lost-world",
+          "source_title": "Truth To Fiction: Vittorio De Seta's Lost World",
+          "adapter_identity_title": "Vittorio De Seta's Lost World",
+          "matcher_title": "Vittorio De Seta's Lost World",
+          "program_series": "Truth To Fiction",
+          "runtime_min": 118,
+          "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": true,
@@ -4662,8 +4711,8 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-09_central_cinema.json",
-      "generated_at": "2026-11-09T06:47:59-08:00",
+      "latest_log": "data/daily_logs/2026-11-10_central_cinema.json",
+      "generated_at": "2026-11-10T06:02:10-08:00",
       "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4700,43 +4749,83 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-09_grand_illusion.json",
-      "generated_at": "2026-11-09T06:48:24-08:00",
-      "record_count": 2,
+      "latest_log": "data/daily_logs/2026-11-10_grand_illusion.json",
+      "generated_at": "2026-11-10T06:02:48-08:00",
+      "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 2,
-      "eligible_feature_count": 2,
+      "source_identity_count": 6,
+      "eligible_feature_count": 6,
       "title": {
-        "with_title": 2,
+        "with_title": 6,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 2,
+        "eligible_features_with_runtime": 6,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 2,
+        "eligible_features_with_year": 6,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 0,
+        "matcher_cleaned_identity_count": 1,
         "adapter_cleanup_samples": [],
-        "matcher_cleanup_samples": []
+        "matcher_cleanup_samples": [
+          {
+            "source_title": "The Girl with the Dragon Tattoo in 35mm",
+            "matcher_title": "The Girl with the Dragon Tattoo in",
+            "rules": [
+              "presentation_trailing_atoms"
+            ]
+          }
+        ]
       },
       "series": {
         "identity_count": 0,
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 2
+        "feature_film": 6
       },
       "identities": [
+        {
+          "source_identity_key": "id:best-pancakes-in-the-county",
+          "source_title": "Best Pancakes in the County",
+          "adapter_identity_title": null,
+          "matcher_title": "Best Pancakes in the County",
+          "program_series": null,
+          "runtime_min": 98,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:hundreds-of-beavers-at-central-cinema",
+          "source_title": "Hundreds of Beavers",
+          "adapter_identity_title": null,
+          "matcher_title": "Hundreds of Beavers",
+          "program_series": null,
+          "runtime_min": 108,
+          "release_year": 2024,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
         {
           "source_identity_key": "id:reel-injun",
           "source_title": "Reel Injun",
@@ -4745,6 +4834,22 @@
           "program_series": null,
           "runtime_min": 86,
           "release_year": 2009,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:romancing-in-thin-air",
+          "source_title": "Romancing in Thin Air",
+          "adapter_identity_title": null,
+          "matcher_title": "Romancing in Thin Air",
+          "program_series": null,
+          "runtime_min": 112,
+          "release_year": 2012,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -4768,14 +4873,30 @@
           "normalization_rules": [
             "normalized_source_fallback"
           ]
+        },
+        {
+          "source_identity_key": "id:the-girl-with-the-dragon-tattoo-in-35mm",
+          "source_title": "The Girl with the Dragon Tattoo in 35mm",
+          "adapter_identity_title": null,
+          "matcher_title": "The Girl with the Dragon Tattoo in",
+          "program_series": null,
+          "runtime_min": 158,
+          "release_year": 2011,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_trailing_atoms"
+          ]
         }
       ]
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-09_tasveer.json",
-      "generated_at": "2026-11-09T06:48:24-08:00",
-      "record_count": 45,
+      "latest_log": "data/daily_logs/2026-11-10_tasveer.json",
+      "generated_at": "2026-11-10T06:02:49-08:00",
+      "record_count": 48,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4930,9 +5051,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-09_anderson_school.json",
-      "generated_at": "2026-11-09T06:48:25-08:00",
-      "record_count": 24,
+      "latest_log": "data/daily_logs/2026-11-10_anderson_school.json",
+      "generated_at": "2026-11-10T06:02:50-08:00",
+      "record_count": 22,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5249,27 +5370,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-09_majestic_bay.json",
-      "generated_at": "2026-11-09T06:48:26-08:00",
-      "record_count": 48,
+      "latest_log": "data/daily_logs/2026-11-10_majestic_bay.json",
+      "generated_at": "2026-11-10T06:02:50-08:00",
+      "record_count": 96,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 14,
-      "eligible_feature_count": 14,
+      "source_identity_count": 23,
+      "eligible_feature_count": 23,
       "title": {
-        "with_title": 14,
+        "with_title": 23,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 14,
+        "eligible_features_with_runtime": 23,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 14,
+        "eligible_features_missing_year": 23,
         "missing_feature_samples": [
           "Wildwood",
           "Star Trek IV: The Voyage Home",
@@ -5277,10 +5398,10 @@
           "Star Trek II: The Wrath of Khan",
           "Godzilla Minus Zero",
           "You Can See Everything",
+          "Hexed",
           "The Hunger Games: Sunrise on the Reaping",
           "Avengers: Doomsday",
-          "Star Trek: First Contact",
-          "Dune"
+          "Star Trek: First Contact"
         ]
       },
       "cleanup": {
@@ -5294,7 +5415,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 14
+        "feature_film": 23
       },
       "identities": [
         {
@@ -5394,6 +5515,22 @@
           ]
         },
         {
+          "source_identity_key": "id:0000001783",
+          "source_title": "Hexed",
+          "adapter_identity_title": null,
+          "matcher_title": "Hexed",
+          "program_series": null,
+          "runtime_min": 109,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:0000001787",
           "source_title": "The Hunger Games: Sunrise on the Reaping",
           "adapter_identity_title": null,
@@ -5474,22 +5611,6 @@
           ]
         },
         {
-          "source_identity_key": "id:36626",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:36659",
           "source_title": "Wicker",
           "adapter_identity_title": null,
@@ -5507,6 +5628,150 @@
         },
         {
           "source_identity_key": "id:36663",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36718",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36787",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36794",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36796",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36805",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36807",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36808",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36818",
+          "source_title": "Wicker",
+          "adapter_identity_title": null,
+          "matcher_title": "Wicker",
+          "program_series": null,
+          "runtime_min": 105,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:36819",
           "source_title": "Wicker",
           "adapter_identity_title": null,
           "matcher_title": "Wicker",
