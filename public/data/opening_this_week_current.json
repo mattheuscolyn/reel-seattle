@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-11-10T06:08:19-08:00",
+  "generated_at": "2026-11-11T05:25:22-08:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-11-09",
@@ -12,15 +12,15 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 55,
+    "entry_count": 56,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-11-09",
     "latest_opening_date": "2026-11-15",
     "opening_type_counts": {
       "repertory": 10,
-      "limited": 29,
-      "theatrical": 11,
+      "limited": 28,
+      "theatrical": 13,
       "event": 5
     }
   },
@@ -35,7 +35,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 3,
       "historical_screening_count": 3,
       "opening_type": "repertory",
@@ -59,7 +59,7 @@
     {
       "showtime_film_key": "discreet-charm-of-the-bourgeoisie",
       "parent_film_key": "discreet-charm-of-the-bourgeoisie",
-      "film_id": "tmdb:4593",
+      "film_id": null,
       "film_title": "The Discreet Charm of the Bourgeoisie",
       "opening_date": "2026-11-09",
       "theaters_on_opening_date": [
@@ -72,7 +72,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "discreet-charm-of-the-bourgeoisie"
         ],
@@ -101,9 +101,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 420,
+      "visible_showtime_count": 398,
       "engagement_days": 10,
-      "historical_screening_count": 210,
+      "historical_screening_count": 218,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -136,7 +136,7 @@
         "tasveer-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -167,7 +167,7 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -198,7 +198,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -265,9 +265,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 668,
+      "visible_showtime_count": 654,
       "engagement_days": 14,
-      "historical_screening_count": 336,
+      "historical_screening_count": 329,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
@@ -282,7 +282,6 @@
           "amc-alderwood-mall-16",
           "amc-factoria-8",
           "amc-kent-station-14",
-          "amc-oak-tree-6",
           "amc-pacific-place-11",
           "amc-southcenter-16",
           "amc-woodinville-12"
@@ -418,6 +417,37 @@
       "override": null
     },
     {
+      "showtime_film_key": "donga-naa-koduku",
+      "parent_film_key": "donga-naa-koduku",
+      "film_id": null,
+      "film_title": "Donga Naa Koduku",
+      "opening_date": "2026-11-12",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 22,
+      "engagement_days": 7,
+      "historical_screening_count": 11,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "donga-naa-koduku"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
       "showtime_film_key": "ebenezer",
       "parent_film_key": "ebenezer",
       "film_id": null,
@@ -433,9 +463,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 811,
+      "visible_showtime_count": 915,
       "engagement_days": 16,
-      "historical_screening_count": 406,
+      "historical_screening_count": 458,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -600,9 +630,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 198,
+      "visible_showtime_count": 228,
       "engagement_days": 8,
-      "historical_screening_count": 99,
+      "historical_screening_count": 114,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -817,24 +847,24 @@
     {
       "showtime_film_key": "queen-at-sea",
       "parent_film_key": "queen-at-sea",
-      "film_id": null,
+      "film_id": "tmdb:1021848",
       "film_title": "Queen at Sea",
       "opening_date": "2026-11-13",
       "theaters_on_opening_date": [
         "amc-pacific-place-11"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
+      "visible_showtime_count": 12,
+      "engagement_days": 6,
+      "historical_screening_count": 6,
+      "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "queen-at-sea"
         ],
-        "distinct_scheduled_dates": 1,
+        "distinct_scheduled_dates": 6,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-pacific-place-11"
@@ -1043,9 +1073,9 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 11,
-      "engagement_days": 4,
-      "historical_screening_count": 11,
+      "visible_showtime_count": 12,
+      "engagement_days": 5,
+      "historical_screening_count": 12,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -1053,7 +1083,7 @@
         "variant_showtime_film_keys": [
           "dune-part-one-reissue-2026"
         ],
-        "distinct_scheduled_dates": 4,
+        "distinct_scheduled_dates": 5,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",

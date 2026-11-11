@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-10T06:15:04-08:00",
+  "generated_at": "2026-11-11T05:31:37-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-10_amc.json",
-      "generated_at": "2026-11-10T06:03:45-08:00",
-      "record_count": 8259,
+      "latest_log": "data/daily_logs/2026-11-11_amc.json",
+      "generated_at": "2026-11-11T05:20:53-08:00",
+      "record_count": 8743,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 113,
-      "eligible_feature_count": 98,
+      "source_identity_count": 115,
+      "eligible_feature_count": 100,
       "title": {
-        "with_title": 113,
+        "with_title": 115,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 98,
+        "eligible_features_with_runtime": 100,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 98,
+        "eligible_features_missing_year": 100,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -124,7 +124,7 @@
       "entity_kind_counts": {
         "broadcast_event": 11,
         "double_feature": 1,
-        "feature_film": 98,
+        "feature_film": 100,
         "live_event": 2,
         "mystery_screening": 1
       },
@@ -312,22 +312,6 @@
           "matcher_title": "How to Rob a Bank",
           "program_series": null,
           "runtime_min": 122,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:80303",
-          "source_title": "Other Mommy",
-          "adapter_identity_title": null,
-          "matcher_title": "Other Mommy",
-          "program_series": null,
-          "runtime_min": 93,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -882,6 +866,22 @@
           ]
         },
         {
+          "source_identity_key": "id:84334",
+          "source_title": "ENE Repeat",
+          "adapter_identity_title": null,
+          "matcher_title": "ENE Repeat",
+          "program_series": null,
+          "runtime_min": 155,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:84366",
           "source_title": "La Bola Negra",
           "adapter_identity_title": null,
@@ -962,6 +962,22 @@
           ]
         },
         {
+          "source_identity_key": "id:84564",
+          "source_title": "Bitter Christmas",
+          "adapter_identity_title": null,
+          "matcher_title": "Bitter Christmas",
+          "program_series": null,
+          "runtime_min": 111,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:84602",
           "source_title": "George Michael: The Faith Tour",
           "adapter_identity_title": null,
@@ -1016,6 +1032,22 @@
           "matcher_title": "Queen at Sea",
           "program_series": null,
           "runtime_min": 121,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:84697",
+          "source_title": "Donga Naa Koduku",
+          "adapter_identity_title": null,
+          "matcher_title": "Donga Naa Koduku",
+          "program_series": null,
+          "runtime_min": 137,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1943,20 +1975,20 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-10_siff.json",
-      "generated_at": "2026-11-10T06:02:50-08:00",
-      "record_count": 217,
+      "latest_log": "data/daily_logs/2026-11-11_siff.json",
+      "generated_at": "2026-11-11T05:20:08-08:00",
+      "record_count": 206,
       "malformed_record_count": 0,
       "warning_count": 7,
       "error_count": 0,
-      "source_identity_count": 62,
-      "eligible_feature_count": 60,
+      "source_identity_count": 61,
+      "eligible_feature_count": 59,
       "title": {
-        "with_title": 62,
+        "with_title": 61,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 59,
+        "eligible_features_with_runtime": 58,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "Elsinore"
@@ -1964,13 +1996,13 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 60,
+        "eligible_features_with_year": 59,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 28,
-        "matcher_cleaned_identity_count": 21,
+        "adapter_cleaned_identity_count": 27,
+        "matcher_cleaned_identity_count": 20,
         "adapter_cleanup_samples": [
           {
             "source_title": "Cinema Italian Style 2026: A Year of School",
@@ -2087,7 +2119,7 @@
         ]
       },
       "series": {
-        "identity_count": 37,
+        "identity_count": 36,
         "samples": [
           {
             "source_title": "Cinema Italian Style 2026: A Year of School",
@@ -2132,7 +2164,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 60,
+        "feature_film": 59,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -2826,23 +2858,6 @@
           ]
         },
         {
-          "source_identity_key": "id:programs-and-events/nouvelles-femmes/pierrot-le-fou",
-          "source_title": "Nouvelles Femmes: Pierrot le Fou (35mm)",
-          "adapter_identity_title": "Pierrot le Fou (35mm)",
-          "matcher_title": "Pierrot le Fou",
-          "program_series": "Nouvelles Femmes",
-          "runtime_min": 110,
-          "release_year": 1965,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:nouvelles-femmes",
-            "format_or_accessibility_paren"
-          ]
-        },
-        {
           "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/a-simple-machine",
           "source_title": "PNW Awards: A Simple Machine",
           "adapter_identity_title": null,
@@ -3123,7 +3138,7 @@
           "adapter_identity_title": "Wild Boys of the Road (35mm)",
           "matcher_title": "The Open Road: Wild Boys of the Road",
           "program_series": "The Open Road",
-          "runtime_min": 86,
+          "runtime_min": 67,
           "release_year": 1933,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -3137,9 +3152,9 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-10_beacon.json",
-      "generated_at": "2026-11-10T06:02:50-08:00",
-      "record_count": 88,
+      "latest_log": "data/daily_logs/2026-11-11_beacon.json",
+      "generated_at": "2026-11-11T05:20:08-08:00",
+      "record_count": 86,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4013,26 +4028,26 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-10_nwff.json",
-      "generated_at": "2026-11-10T06:01:53-08:00",
-      "record_count": 92,
+      "latest_log": "data/daily_logs/2026-11-11_nwff.json",
+      "generated_at": "2026-11-11T05:18:58-08:00",
+      "record_count": 91,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 31,
-      "eligible_feature_count": 29,
+      "source_identity_count": 30,
+      "eligible_feature_count": 28,
       "title": {
-        "with_title": 31,
+        "with_title": 30,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 29,
+        "eligible_features_with_runtime": 28,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 26,
+        "eligible_features_with_year": 25,
         "eligible_features_missing_year": 3,
         "missing_feature_samples": [
           "Seattle Film Society Presents Locals Only: November 2026",
@@ -4205,7 +4220,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 29,
+        "feature_film": 28,
         "mystery_screening": 1,
         "shorts_program": 1
       },
@@ -4580,22 +4595,6 @@
           ]
         },
         {
-          "source_identity_key": "id:vagabond",
-          "source_title": "Vagabond",
-          "adapter_identity_title": null,
-          "matcher_title": "Vagabond",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": 1985,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:veronica-project-space-presents-four-by-jean-vigo",
           "source_title": "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo",
           "adapter_identity_title": null,
@@ -4711,8 +4710,8 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-10_central_cinema.json",
-      "generated_at": "2026-11-10T06:02:10-08:00",
+      "latest_log": "data/daily_logs/2026-11-11_central_cinema.json",
+      "generated_at": "2026-11-11T05:19:18-08:00",
       "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4749,34 +4748,50 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-10_grand_illusion.json",
-      "generated_at": "2026-11-10T06:02:48-08:00",
-      "record_count": 7,
+      "latest_log": "data/daily_logs/2026-11-11_grand_illusion.json",
+      "generated_at": "2026-11-11T05:20:05-08:00",
+      "record_count": 10,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 6,
-      "eligible_feature_count": 6,
+      "source_identity_count": 8,
+      "eligible_feature_count": 8,
       "title": {
-        "with_title": 6,
+        "with_title": 8,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 6,
+        "eligible_features_with_runtime": 8,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 6,
-        "eligible_features_missing_year": 0,
-        "missing_feature_samples": []
+        "eligible_features_with_year": 7,
+        "eligible_features_missing_year": 1,
+        "missing_feature_samples": [
+          "Miami Vice: The Director’s Final Cut – New 4K Restoration"
+        ]
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 1,
+        "matcher_cleaned_identity_count": 3,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
+          {
+            "source_title": "Miami Vice: The Director’s Final Cut – New 4K Restoration",
+            "matcher_title": "Miami Vice: The Director’s Final Cut",
+            "rules": [
+              "presentation_segment"
+            ]
+          },
+          {
+            "source_title": "Rex: A Dinosaur’s Story – New Restoration",
+            "matcher_title": "Rex: A Dinosaur’s Story",
+            "rules": [
+              "presentation_segment"
+            ]
+          },
           {
             "source_title": "The Girl with the Dragon Tattoo in 35mm",
             "matcher_title": "The Girl with the Dragon Tattoo in",
@@ -4791,7 +4806,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 6
+        "feature_film": 8
       },
       "identities": [
         {
@@ -4827,6 +4842,22 @@
           ]
         },
         {
+          "source_identity_key": "id:miami-vice-the-directors-final-cut-new-4k-restoration",
+          "source_title": "Miami Vice: The Director’s Final Cut – New 4K Restoration",
+          "adapter_identity_title": null,
+          "matcher_title": "Miami Vice: The Director’s Final Cut",
+          "program_series": null,
+          "runtime_min": 133,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_segment"
+          ]
+        },
+        {
           "source_identity_key": "id:reel-injun",
           "source_title": "Reel Injun",
           "adapter_identity_title": null,
@@ -4840,6 +4871,22 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:rex-a-dinosaurs-story-new-restoration",
+          "source_title": "Rex: A Dinosaur’s Story – New Restoration",
+          "adapter_identity_title": null,
+          "matcher_title": "Rex: A Dinosaur’s Story",
+          "program_series": null,
+          "runtime_min": 106,
+          "release_year": 1993,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "presentation_segment"
           ]
         },
         {
@@ -4894,26 +4941,26 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-10_tasveer.json",
-      "generated_at": "2026-11-10T06:02:49-08:00",
-      "record_count": 48,
+      "latest_log": "data/daily_logs/2026-11-11_tasveer.json",
+      "generated_at": "2026-11-11T05:20:06-08:00",
+      "record_count": 43,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 6,
-      "eligible_feature_count": 6,
+      "source_identity_count": 5,
+      "eligible_feature_count": 5,
       "title": {
-        "with_title": 6,
+        "with_title": 5,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 6,
+        "eligible_features_with_runtime": 5,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_when_present",
-        "eligible_features_with_year": 4,
+        "eligible_features_with_year": 3,
         "eligible_features_missing_year": 2,
         "missing_feature_samples": [
           "Wild Horse Nine",
@@ -4921,7 +4968,7 @@
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 4,
+        "adapter_cleaned_identity_count": 3,
         "matcher_cleaned_identity_count": 0,
         "adapter_cleanup_samples": [
           {
@@ -4935,10 +4982,6 @@
           {
             "source_title": "Fjord (2026, Romania, English/Norwegian)",
             "identity_title": "Fjord"
-          },
-          {
-            "source_title": "Lakadbaggha 2 (2026, India, Hindi)",
-            "identity_title": "Lakadbaggha 2"
           }
         ],
         "matcher_cleanup_samples": []
@@ -4948,7 +4991,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 6
+        "feature_film": 5
       },
       "identities": [
         {
@@ -5030,30 +5073,14 @@
           "normalization_rules": [
             "normalized_source_fallback"
           ]
-        },
-        {
-          "source_identity_key": "id:163550",
-          "source_title": "Lakadbaggha 2 (2026, India, Hindi)",
-          "adapter_identity_title": "Lakadbaggha 2",
-          "matcher_title": "Lakadbaggha 2 (2026, India, Hindi)",
-          "program_series": null,
-          "runtime_min": 115,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
         }
       ]
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-10_anderson_school.json",
-      "generated_at": "2026-11-10T06:02:50-08:00",
-      "record_count": 22,
+      "latest_log": "data/daily_logs/2026-11-11_anderson_school.json",
+      "generated_at": "2026-11-11T05:20:07-08:00",
+      "record_count": 19,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5370,27 +5397,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-10_majestic_bay.json",
-      "generated_at": "2026-11-10T06:02:50-08:00",
-      "record_count": 96,
+      "latest_log": "data/daily_logs/2026-11-11_majestic_bay.json",
+      "generated_at": "2026-11-11T05:20:08-08:00",
+      "record_count": 90,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 23,
-      "eligible_feature_count": 23,
+      "source_identity_count": 22,
+      "eligible_feature_count": 22,
       "title": {
-        "with_title": 23,
+        "with_title": 22,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 23,
+        "eligible_features_with_runtime": 22,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 23,
+        "eligible_features_missing_year": 22,
         "missing_feature_samples": [
           "Wildwood",
           "Star Trek IV: The Voyage Home",
@@ -5415,7 +5442,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 23
+        "feature_film": 22
       },
       "identities": [
         {
@@ -5627,22 +5654,6 @@
           ]
         },
         {
-          "source_identity_key": "id:36663",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:36718",
           "source_title": "Wicker",
           "adapter_identity_title": null,
@@ -5799,6 +5810,7 @@
     "sources_with_feature_year_gaps_requiring_review": [
       "beacon",
       "nwff",
+      "grand_illusion",
       "tasveer",
       "stg"
     ],
