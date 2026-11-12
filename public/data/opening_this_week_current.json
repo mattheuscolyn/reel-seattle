@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-11-11T05:25:22-08:00",
+  "generated_at": "2026-11-12T06:29:36-08:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-11-09",
@@ -35,7 +35,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 3,
       "historical_screening_count": 3,
       "opening_type": "repertory",
@@ -101,7 +101,7 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 398,
+      "visible_showtime_count": 350,
       "engagement_days": 10,
       "historical_screening_count": 218,
       "opening_type": "theatrical",
@@ -160,7 +160,7 @@
     {
       "showtime_film_key": "pierrot-le-fou-35mm",
       "parent_film_key": "pierrot-le-fou-35mm",
-      "film_id": "tmdb:2786",
+      "film_id": null,
       "film_title": "Pierrot le Fou (35mm)",
       "opening_date": "2026-11-10",
       "theaters_on_opening_date": [
@@ -173,7 +173,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "pierrot-le-fou-35mm"
         ],
@@ -198,7 +198,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -230,7 +230,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 2,
       "opening_type": "limited",
@@ -265,7 +265,7 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 654,
+      "visible_showtime_count": 650,
       "engagement_days": 14,
       "historical_screening_count": 329,
       "opening_type": "event",
@@ -302,7 +302,7 @@
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 1,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "event",
@@ -333,7 +333,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -364,7 +364,7 @@
         "majestic-bay"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -752,37 +752,6 @@
       "override": null
     },
     {
-      "showtime_film_key": "god-with-us",
-      "parent_film_key": "god-with-us",
-      "film_id": null,
-      "film_title": "God with Us",
-      "opening_date": "2026-11-13",
-      "theaters_on_opening_date": [
-        "amc-alderwood-mall-16"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 6,
-      "engagement_days": 3,
-      "historical_screening_count": 3,
-      "opening_type": "theatrical",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "god-with-us"
-        ],
-        "distinct_scheduled_dates": 3,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "amc-alderwood-mall-16"
-        ],
-        "sources": [
-          "amc"
-        ]
-      },
-      "override": null
-    },
-    {
       "showtime_film_key": "my-neighbor-totoro",
       "parent_film_key": "my-neighbor-totoro",
       "film_id": null,
@@ -978,9 +947,9 @@
         "amc-pacific-place-11"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 12,
-      "engagement_days": 6,
-      "historical_screening_count": 6,
+      "visible_showtime_count": 10,
+      "engagement_days": 5,
+      "historical_screening_count": 5,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -988,7 +957,7 @@
         "variant_showtime_film_keys": [
           "traces-of-justice"
         ],
-        "distinct_scheduled_dates": 6,
+        "distinct_scheduled_dates": 5,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-pacific-place-11"
@@ -1152,6 +1121,37 @@
           "festive-fun-with-peppa-cinema-experience"
         ],
         "distinct_scheduled_dates": 4,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "god-with-us",
+      "parent_film_key": "god-with-us",
+      "film_id": null,
+      "film_title": "God with Us",
+      "opening_date": "2026-11-14",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 4,
+      "engagement_days": 2,
+      "historical_screening_count": 2,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "god-with-us"
+        ],
+        "distinct_scheduled_dates": 2,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16"

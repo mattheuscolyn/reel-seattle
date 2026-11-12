@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5661764705882353,
-  "generated_at": "2026-11-11T14:48:18+00:00",
+  "coverage_rate": 0.5475285171102662,
+  "generated_at": "2026-11-12T14:25:29+00:00",
   "index_size": 180,
   "invalid_identities": 0,
-  "mapping_misses": 118,
-  "non_null_film_id": 154,
+  "mapping_misses": 119,
+  "non_null_film_id": 144,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,60 +14,69 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 118,
+  "null_film_id": 119,
   "per_source": {
     "amc": {
-      "films": 115,
+      "films": 107,
       "null_film_id": 59,
-      "with_film_id": 56
+      "with_film_id": 48
     },
     "anderson_school": {
-      "films": 1,
+      "films": 2,
       "null_film_id": 1,
-      "with_film_id": 0
+      "with_film_id": 1
     },
     "beacon": {
-      "films": 49,
-      "null_film_id": 16,
+      "films": 48,
+      "null_film_id": 15,
       "with_film_id": 33
     },
     "central_cinema": {
-      "films": 11,
+      "films": 9,
       "null_film_id": 6,
-      "with_film_id": 5
+      "with_film_id": 3
     },
     "grand_illusion": {
-      "films": 8,
-      "null_film_id": 2,
+      "films": 11,
+      "null_film_id": 5,
       "with_film_id": 6
     },
     "majestic_bay": {
-      "films": 13,
+      "films": 12,
       "null_film_id": 2,
-      "with_film_id": 11
+      "with_film_id": 10
     },
     "nwff": {
-      "films": 30,
-      "null_film_id": 10,
+      "films": 29,
+      "null_film_id": 9,
       "with_film_id": 20
     },
     "siff": {
-      "films": 61,
+      "films": 60,
       "null_film_id": 23,
-      "with_film_id": 38
+      "with_film_id": 37
     },
     "tasveer": {
-      "films": 5,
+      "films": 2,
       "null_film_id": 0,
-      "with_film_id": 5
+      "with_film_id": 2
     }
   },
-  "repeated_canonical_across_films": 6,
+  "performance_identity": {
+    "ambiguous": 0,
+    "inherited_from_registry": 10,
+    "matched": 0,
+    "registry_path": "data/performance_identity/performance_identity_current.json",
+    "registry_persisted": true,
+    "registry_upserts": 4,
+    "unmatched_gi": 14
+  },
+  "repeated_canonical_across_films": 5,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
-  "total_public_films": 272,
-  "unique_tmdb_ids": 147,
+  "total_public_films": 263,
+  "unique_tmdb_ids": 138,
   "warning_count": 0,
   "warnings": []
 }
